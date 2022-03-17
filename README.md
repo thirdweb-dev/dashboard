@@ -1,14 +1,31 @@
-# console (thirdweb.com)
+## IMPORTANT NOTICE
 
-## Running locally
+The code in this repo powers v1.thirdweb.com, our version 1 dashboard. This is no longer maintained except for critical bugs and or security updates.
 
-`yarn dev`
+# thirdweb.com
 
-## Building locally
+This repo contains the full source for all of thirdweb.com and the thirdweb dashboard.
 
-```bash
-$ yarn run build:local
+## Building
+
+### Install dependencies
+
+We use `yarn`.
+
+```sh
+yarn install
 ```
 
-That allows you to skip the Sentry sourcemap uploading process.
+### Starting local dev server.
 
+_Make sure to set up a valid .env file, as this is not checked into github!, you can use `.env.example` for the keys you will need._
+
+```sh
+yarn dev
+```
+
+### Building for production
+
+```sh
+yarn build
+```
