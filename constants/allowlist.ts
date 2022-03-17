@@ -1,0 +1,17 @@
+export const ALLOW_LIST: string[] = [""].map((s) => s.toLowerCase());
+
+export const ALLOW_LIST_MAINNET: string[] = [
+  // jonas
+  "0x00eb009e9ECDF9753a5624e19742FB79217c713C",
+  // jake
+  "0xbC0895f9d50dDcAD909f7089Fc642E59006a9460",
+  // furqan
+  "0xF73d650e5523914f0915B81df1e3D8091a0D34F5",
+  "0x3c738E6FB5d7061f662Fc6A7A693372aAaef28ec",
+  "0x36d1fA4FA8143453565e93d435cF417b7E081895",
+  "0x050d868DaD6D73CA0042455E2A42faeB05e6c01F",
+  // abe
+  "0xE79ee09bD47F4F5381dbbACaCff2040f2FbC5803",
+  // cathy
+  "0xa6E13Ea6150eC8528a8aC118D4700eB9d746DE9B",
+].map((s) => s.toLowerCase());
