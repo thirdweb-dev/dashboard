@@ -118,7 +118,7 @@ export function useDropBatchMint(contract?: NFTDrop) {
   );
 }
 
-export function useResetClaimEligibilityMutation(contract?: NFTDrop) {
+export function useDropResetClaimEligibilityMutation(contract?: NFTDrop) {
   return useMutationWithInvalidate(async () => {
     invariant(contract, "contract is required");
     const claimConditions = await contract.claimConditions.getAll();
