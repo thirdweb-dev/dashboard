@@ -38,6 +38,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { Card } from "components/layout/Card";
 import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
@@ -53,6 +54,10 @@ interface DropPhases {
 
 export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const mutation = useResetEligibilityMutation(contract, tokenId);
+  const txNotifications = useTxNotifications(
+    "Succesfully reset claim eligibility",
+    "Failed to reset claim eligibility",
+  );
 
   return (
     <Stack spacing={8}>
@@ -93,7 +98,7 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
               type="submit"
               isLoading={mutation.isLoading}
               onClick={() => {
-                mutation.mutate();
+                mutation.mutate(undefined, txNotifications);
               }}
               loadingText="Resetting..."
               size="md"

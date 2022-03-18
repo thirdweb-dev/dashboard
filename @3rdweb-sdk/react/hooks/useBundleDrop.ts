@@ -28,7 +28,7 @@ export function useBundleDropResetClaimEligibilityMutation(
     const claimConditions = await contract.claimConditions.getAll(tokenId);
     const cleaned = claimConditions.map((c) => ({
       ...c,
-      price: c.price.toString(),
+      price: c.currencyMetadata.displayValue,
     }));
 
     return await contract.claimConditions.set(tokenId, cleaned, true);
