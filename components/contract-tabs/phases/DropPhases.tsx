@@ -92,7 +92,9 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
               transactionCount={1}
               type="submit"
               isLoading={mutation.isLoading}
-              onClick={mutation.mutate}
+              onClick={() => {
+                mutation.mutate();
+              }}
               loadingText="Resetting..."
               size="md"
               borderRadius="xl"
