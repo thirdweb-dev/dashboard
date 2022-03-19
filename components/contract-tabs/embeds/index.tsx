@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -10,7 +15,9 @@ import {
   Heading,
   Input,
   Link,
+  SimpleGrid,
   Stack,
+  Switch,
   useClipboard,
 } from "@chakra-ui/react";
 import {
@@ -56,6 +63,11 @@ interface IframeSrcOptions {
   tokenId?: number;
   listingId?: number;
   relayUrl?: string;
+  name?: string;
+  description?: string;
+  darkMode?: boolean;
+  hideInventory?: boolean;
+  hideWallet?: boolean;
 }
 
 const buildIframeSrc = (
@@ -67,8 +79,18 @@ const buildIframeSrc = (
     return "";
   }
 
-  const { rpcUrl, ipfsGateway, chainId, tokenId, listingId, relayUrl } =
-    options;
+  const {
+    rpcUrl,
+    ipfsGateway,
+    chainId,
+    tokenId,
+    listingId,
+    relayUrl,
+    name,
+    darkMode,
+    hideInventory,
+    hideWallet,
+  } = options;
 
   let queryParams = `?contract=${contract?.getAddress()}&chainId=${chainId}`;
   if (tokenId !== undefined && contract instanceof EditionDrop) {
@@ -82,6 +104,18 @@ const buildIframeSrc = (
   }
   if (relayUrl) {
     queryParams += `&relayUrl=${relayUrl}`;
+  }
+  if (name) {
+    queryParams += `&name=${name}`;
+  }
+  if (darkMode) {
+    queryParams += `&darkMode=${darkMode}`;
+  }
+  if (hideInventory) {
+    queryParams += `&showInventory=${!hideInventory}`;
+  }
+  if (hideWallet) {
+    queryParams += `&showWallet=${!hideWallet}`;
   }
 
   if (
@@ -106,6 +140,10 @@ export const WidgetSetup: React.FC<WidgetSetupProps> = ({ contract }) => {
   const [relayUrl, setRelayUrl] = useState("");
   const [tokenId, setTokenId] = useState(0);
   const [listingId, setListingId] = useState(0);
+  const [name, setName] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+  const [hideWallet, setHideWallet] = useState(false);
+  const [hideInventory, setHideInventory] = useState(false);
 
   const chainId = getChainIdFromNetwork(useSingleQueryParam("network"));
 
@@ -116,6 +154,10 @@ export const WidgetSetup: React.FC<WidgetSetupProps> = ({ contract }) => {
     tokenId,
     listingId,
     relayUrl,
+    name,
+    darkMode,
+    hideWallet,
+    hideInventory,
   });
 
   const embedCode = `<iframe
@@ -204,6 +246,52 @@ export const WidgetSetup: React.FC<WidgetSetupProps> = ({ contract }) => {
                 </Link>
               </FormHelperText>
             </FormControl>
+          )}
+
+          {contract instanceof EditionDrop && (
+            <Accordion allowToggle>
+              <AccordionItem mt="24px">
+                <AccordionButton px={0} justifyContent="space-between">
+                  <Heading size="label.lg">Customize Embed</Heading>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel px={0} as={Stack} spacing={6}>
+                  <FormControl>
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <FormHelperText>
+                      If a name is unspecified, it will default to your NFTs
+                      name.
+                    </FormHelperText>
+                  </FormControl>
+                  <FormControl as={SimpleGrid} columns={4}>
+                    <FormLabel>Dark Mode</FormLabel>
+                    <Switch
+                      size="md"
+                      checked={darkMode}
+                      onChange={(e) => setDarkMode(e.target.checked)}
+                    />
+
+                    <FormLabel>Hide Inventory</FormLabel>
+                    <Switch
+                      size="md"
+                      checked={hideInventory}
+                      onChange={(e) => setHideInventory(e.target.checked)}
+                    />
+
+                    <FormLabel>Hide Wallet</FormLabel>
+                    <Switch
+                      size="md"
+                      checked={hideWallet}
+                      onChange={(e) => setHideWallet(e.target.checked)}
+                    />
+                  </FormControl>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           )}
         </Stack>
         <Stack as={Card} w={{ base: "100%", md: "50%" }}>
