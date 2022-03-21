@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
 import { useSplit, useToken } from "@thirdweb-dev/react";
 import { CURRENCIES } from "constants/currencies";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { parseErrorToMessage } from "utils/errorParser";
 import { SUPPORTED_CHAIN_ID } from "utils/network";
@@ -78,8 +78,6 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
   }, [contractAddress, chainId]);
 
   const getBalances = useCallback(async () => {
-    setLoading(true);
-
     const currencies = await getCurrencies();
 
     const formatted = await Promise.all(
@@ -107,65 +105,73 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
       }),
     );
 
-    setBalances(formatted);
-    setLoading(false);
+    return formatted;
   }, [address, splitsContract, getCurrencies]);
 
   useEffect(() => {
+    const updateBalances = async () => {
+      setLoading(true);
+      const formatted = await getBalances();
+      setBalances(formatted);
+      setLoading(false);
+    };
+
     if (address) {
-      getBalances();
+      updateBalances();
     }
   }, [address, getBalances]);
 
   const distributeFunds = async () => {
     setDistributeLoading(true);
-    const currencies = await getCurrencies();
+    const formatted = await getBalances();
 
-    const distributions = currencies?.map(async (currency: any) => {
-      if (isAddressZero(currency.token_address)) {
-        await splitsContract
-          ?.distribute()
-          .then(() => {
-            toast({
-              title: `Success`,
-              description: `Succesfully distributed ${currency.name}`,
-              status: "success",
-              duration: 5000,
-              isClosable: true,
+    const distributions = formatted
+      .filter((token) => parseFloat(token.balance) > 0)
+      ?.map(async (currency: any) => {
+        if (isAddressZero(currency.token_address)) {
+          await splitsContract
+            ?.distribute()
+            .then(() => {
+              toast({
+                title: `Success`,
+                description: `Succesfully distributed ${currency.name}`,
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+            })
+            .catch((err: unknown) => {
+              toast({
+                title: `Error distributing ${currency.name}`,
+                description: parseErrorToMessage(err),
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
             });
-          })
-          .catch((err: unknown) => {
-            toast({
-              title: `Error distributing ${currency.name}`,
-              description: parseErrorToMessage(err),
-              status: "error",
-              duration: 9000,
-              isClosable: true,
+        } else {
+          await splitsContract
+            ?.distributeToken(currency.token_address)
+            .then(() => {
+              toast({
+                title: `Success`,
+                description: `Succesfully distributed ${currency.name}`,
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+            })
+            .catch((err: unknown) => {
+              toast({
+                title: `Error distributing ${currency.name}`,
+                description: parseErrorToMessage(err),
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
             });
-          });
-      } else {
-        await splitsContract
-          ?.distributeToken(currency.token_address)
-          .then(() => {
-            toast({
-              title: `Success`,
-              description: `Succesfully distributed ${currency.name}`,
-              status: "success",
-              duration: 5000,
-              isClosable: true,
-            });
-          })
-          .catch((err: unknown) => {
-            toast({
-              title: `Error distributing ${currency.name}`,
-              description: parseErrorToMessage(err),
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-            });
-          });
-      }
-    });
+        }
+      });
 
     await Promise.all(distributions);
     getBalances();
