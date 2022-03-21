@@ -1,5 +1,5 @@
 import { IContractActionButtonProps } from "./types";
-import { useActiveChainId } from "@3rdweb-sdk/react";
+import { useActiveChainId, useWeb3 } from "@3rdweb-sdk/react";
 import { ListerOnly } from "@3rdweb-sdk/react/components/roles/lister-only";
 import { Flex, Icon, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ChainId } from "@thirdweb-dev/react";
@@ -16,6 +16,7 @@ export const ListButton: React.FC<IListButtonProps> = ({
   contract,
   ...restButtonProps
 }) => {
+  const { chainId } = useWeb3();
   const activeChainId = useActiveChainId();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -23,9 +24,12 @@ export const ListButton: React.FC<IListButtonProps> = ({
     return (
       <ListerOnly contract={contract}>
         <Tooltip
-          label={`
+          label={
+            chainId === activeChainId &&
+            `
             Creating a listing from the dashboard isn't supported on this network. 
-            You can create listings with the SDK instead. See the code tab for more info.`}
+            You can create listings with the SDK instead. See the code tab for more info.`
+          }
           hasArrow
         >
           <Flex>
