@@ -46,9 +46,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
   const [balances, setBalances] = useState<IBalance[]>([]);
   const [nonZeroBalances, setNonZeroBalances] = useState<IBalance[]>([]);
 
-  const getBalances = useCallback(async () => {
-    setLoading(true);
-
+  const getCurrencies = useCallback(async () => {
     const res = await fetch("/api/moralis/balances", {
       method: "POST",
       headers: {
@@ -61,6 +59,14 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
     });
 
     const data = await res.json();
+
+    return data;
+  }, [contractAddress, chainId]);
+
+  const getBalances = useCallback(async () => {
+    setLoading(true);
+
+    const data = await getCurrencies();
 
     const currencies = data.map((token: any) => {
       if (isAddressZero(token.token_address)) {
@@ -105,7 +111,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
 
     setBalances(formatted);
     setLoading(false);
-  }, [chainId, contractAddress, address, splitsContract]);
+  }, [chainId, address, splitsContract, getCurrencies]);
 
   useEffect(() => {
     if (address) {
@@ -115,14 +121,16 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
 
   const distributeFunds = async () => {
     setDistributeLoading(true);
-    const distributions = nonZeroBalances?.map(async (balance: IBalance) => {
-      if (balance.address === AddressZero) {
+    const currencies = await getCurrencies();
+
+    const distributions = currencies?.map(async (currency: any) => {
+      if (isAddressZero(currency.token_address)) {
         await splitsContract
           ?.distribute()
           .then(() => {
             toast({
               title: `Success`,
-              description: `Succesfully distributed ${balance.name}`,
+              description: `Succesfully distributed ${currency.name}`,
               status: "success",
               duration: 5000,
               isClosable: true,
@@ -130,7 +138,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
           })
           .catch((err: unknown) => {
             toast({
-              title: `Error distributing ${balance.name}`,
+              title: `Error distributing ${currency.name}`,
               description: parseErrorToMessage(err),
               status: "error",
               duration: 9000,
@@ -139,11 +147,11 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
           });
       } else {
         await splitsContract
-          ?.distributeToken(balance.address)
+          ?.distributeToken(currency.token_address)
           .then(() => {
             toast({
               title: `Success`,
-              description: `Succesfully distributed ${balance.name}`,
+              description: `Succesfully distributed ${currency.name}`,
               status: "success",
               duration: 5000,
               isClosable: true,
@@ -151,7 +159,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
           })
           .catch((err: unknown) => {
             toast({
-              title: `Error distributing ${balance.name}`,
+              title: `Error distributing ${currency.name}`,
               description: parseErrorToMessage(err),
               status: "error",
               duration: 9000,
