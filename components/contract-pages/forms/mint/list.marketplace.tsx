@@ -35,6 +35,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FaImage } from "react-icons/fa";
+import { ChainId } from "utils/network";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 const LIST_FORM_ID = "marketplace-list-form";
@@ -53,10 +54,12 @@ interface ListForm {
   listingDurationInSeconds: string;
 }
 
+const UNSUPPORTED_CHAINS = [ChainId.Avalanche, ChainId.Fantom];
+
 export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
   contract,
 }) => {
-  const { data: nfts } = useWalletNFTs();
+  const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
   const modalContext = useModalContext();
   const { onSuccess, onError } = useTxNotifications(
     "Succesfully created listing",
@@ -155,7 +158,11 @@ export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
             <FormHelperText mb="8px">
               Select the NFTs you want to list for sale
             </FormHelperText>
-            {nfts?.length ? (
+            {nftsLoading ? (
+              <Center height="60px">
+                <Spinner />
+              </Center>
+            ) : nfts?.length ? (
               <Flex gap={2} flexWrap="wrap">
                 {nfts.map((nft, id) => {
                   if (nft.image) {
@@ -292,7 +299,7 @@ export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
               </Flex>
             ) : (
               <Center height="60px">
-                <Spinner />
+                <Text>There are no NFTs owned by this wallet</Text>
               </Center>
             )}
           </FormControl>
