@@ -1,16 +1,16 @@
-import { useWeb3 } from "@3rdweb-sdk/react";
-import { useToast } from "@chakra-ui/react";
-import { AddressZero } from "@ethersproject/constants";
-import { CURRENCIES } from "constants/currencies";
-import { formatEther, formatUnits } from "ethers/lib/utils";
-import { useCallback, useEffect, useState } from "react";
-import { parseErrorToMessage } from "utils/errorParser";
-import { SUPPORTED_CHAIN_ID } from "utils/network";
-import { isAddressZero, OtherAddressZero } from "utils/zeroAddress";
 import { useActiveChainId, useContractMetadata } from ".";
 import { splitsKeys } from "..";
 import { useQueryWithNetwork } from "./query/useQueryWithNetwork";
+import { useWeb3 } from "@3rdweb-sdk/react";
+import { useToast } from "@chakra-ui/react";
+import { AddressZero } from "@ethersproject/constants";
 import { useSplit, useToken } from "@thirdweb-dev/react";
+import { CURRENCIES } from "constants/currencies";
+import { ethers } from "ethers";
+import { useCallback, useEffect, useState } from "react";
+import { parseErrorToMessage } from "utils/errorParser";
+import { SUPPORTED_CHAIN_ID } from "utils/network";
+import { isAddressZero } from "utils/zeroAddress";
 
 export function useSplitsContractMetadata(contractAddres?: string) {
   return useContractMetadata(useToken(contractAddres));
@@ -39,7 +39,6 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
   const { address } = useWeb3();
   const toast = useToast();
   const chainId = useActiveChainId();
-  // const appAddress = useSingleQueryParam("app");
   const splitsContract = useSplit(contractAddress);
   const [loading, setLoading] = useState(true);
   const [distributeLoading, setDistributeLoading] = useState(false);
@@ -49,88 +48,64 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
 
   const getBalances = useCallback(async () => {
     setLoading(true);
-    // const customCurrencyBalances = currencies?.map(async (currency) => {
-    //   const fullBalance = await splitsContract?.balanceOfToken(
-    //     address as string,
-    //     currency.address,
-    //   );
 
-    //   const balance = formatUnits(
-    //     fullBalance?.value.toString() || "0",
-    //     fullBalance?.decimals,
-    //   );
+    const res = await fetch("/api/moralis/balances", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chain: `0x${chainId?.toString(16)}` as any,
+        address: contractAddress,
+      }),
+    });
 
-    //   return {
-    //     address: currency.address,
-    //     name: currency.metadata?.name as string,
-    //     symbol: currency.metadata?.symbol as string,
-    //     balance: balance as string,
-    //   };
-    // });
+    const data = await res.json();
 
-    const currencyBalances = CURRENCIES[chainId as SUPPORTED_CHAIN_ID]
-      ?.filter((currency) => currency.address !== OtherAddressZero)
-      .map(async (currency) => {
-        const balance =
-          currency.address === AddressZero
-            ? formatEther(
-                (
-                  await splitsContract?.balanceOf(address as string)
-                )?.toString() || "0",
-              )
-            : formatUnits(
-                (
-                  await splitsContract?.balanceOfToken(
-                    address as string,
-                    currency.address,
-                  )
-                )?.value.toString() || "0",
-                (
-                  await splitsContract?.balanceOfToken(
-                    address as string,
-                    currency.address,
-                  )
-                )?.decimals,
-              );
+    const currencies = data.map((token: any) => {
+      if (isAddressZero(token.token_address)) {
+        const native = CURRENCIES[chainId as SUPPORTED_CHAIN_ID].find((c) =>
+          isAddressZero(c.address),
+        );
 
         return {
-          address: currency.address,
-          name: currency.name,
-          symbol: currency.symbol,
+          token_address: AddressZero,
+          name: native?.name,
+          symbol: native?.symbol,
+        };
+      } else {
+        return token;
+      }
+    });
+
+    const formatted = await Promise.all(
+      currencies.map(async (currency: any) => {
+        const balance = isAddressZero(currency.token_address)
+          ? ethers.utils.formatEther(
+              (
+                await splitsContract?.balanceOf(address as string)
+              )?.toString() || "0",
+            )
+          : ethers.utils.formatUnits(
+              (
+                await splitsContract?.balanceOfToken(
+                  address as string,
+                  currency.token_address,
+                )
+              )?.value.toString() || "0",
+              currency.decimals,
+            );
+
+        return {
+          ...currency,
           balance: balance as string,
         };
-      });
+      }),
+    );
 
-    const allBalances = await Promise.all([
-      // ...(customCurrencyBalances || []),
-      ...currencyBalances,
-    ]);
-
-    const nonZeBalances = allBalances.filter((balance: IBalance) => {
-      return parseFloat(balance.balance) > 0;
-    });
-
-    const displayBalances = allBalances.filter((balance: IBalance) => {
-      return (
-        parseFloat(balance.balance) > 0 ||
-        isAddressZero(balance.address) ||
-        balance.symbol === "USDC" ||
-        balance.symbol === "USDT"
-      );
-    });
-
-    setNoBalance(nonZeBalances.length === 0);
-    setNonZeroBalances(nonZeBalances);
-    setBalances(displayBalances as unknown as IBalance[]);
+    setBalances(formatted);
     setLoading(false);
-    // }, [address, chainId, currencies, splitsContract]);
-  }, [address, chainId, splitsContract]);
-
-  // useEffect(() => {
-  //   if (address && currencies) {
-  //     getBalances();
-  //   }
-  // }, [currencies, address, getBalances]);
+  }, [chainId, contractAddress, address, splitsContract]);
 
   useEffect(() => {
     if (address) {
