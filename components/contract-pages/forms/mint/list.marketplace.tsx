@@ -1,4 +1,5 @@
 import {
+  useActiveChainId,
   useMarketplaceAuctionListMutation,
   useMarketplaceDirectListMutation,
 } from "@3rdweb-sdk/react";
@@ -35,7 +36,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FaImage } from "react-icons/fa";
-import { ChainId } from "utils/network";
+import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 const LIST_FORM_ID = "marketplace-list-form";
@@ -53,8 +54,6 @@ interface ListForm {
   startTimeInSeconds: string;
   listingDurationInSeconds: string;
 }
-
-const UNSUPPORTED_CHAINS = [ChainId.Avalanche, ChainId.Fantom];
 
 export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
   contract,
