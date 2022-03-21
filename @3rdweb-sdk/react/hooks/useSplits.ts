@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
 import { useSplit, useToken } from "@thirdweb-dev/react";
 import { CURRENCIES } from "constants/currencies";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { parseErrorToMessage } from "utils/errorParser";
 import { SUPPORTED_CHAIN_ID } from "utils/network";
@@ -43,6 +43,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
   const [loading, setLoading] = useState(true);
   const [distributeLoading, setDistributeLoading] = useState(false);
   const [balances, setBalances] = useState<IBalance[]>([]);
+  const [numTransactions, setNumTransactions] = useState(1);
 
   const getCurrencies = useCallback(async () => {
     const res = await fetch("/api/moralis/balances", {
@@ -108,6 +109,16 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
     return formatted;
   }, [address, splitsContract, getCurrencies]);
 
+  const getNumberTransactions = useCallback(async () => {
+    const formatted = await getBalances();
+
+    const distributions = formatted.filter(
+      (token) => parseFloat(token.balance) > 0,
+    );
+
+    setNumTransactions(distributions.length);
+  }, [getBalances]);
+
   useEffect(() => {
     const updateBalances = async () => {
       setLoading(true);
@@ -120,6 +131,12 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
       updateBalances();
     }
   }, [address, getBalances]);
+
+  useEffect(() => {
+    if (address) {
+      getNumberTransactions();
+    }
+  }, [address, balances, splitsContract, getNumberTransactions]);
 
   const distributeFunds = async () => {
     setDistributeLoading(true);
@@ -183,5 +200,6 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
     distributeLoading,
     balances,
     distributeFunds,
+    numTransactions,
   };
 }
