@@ -3,17 +3,15 @@ import { ContractType } from "@thirdweb-dev/sdk";
 export class AnalyticsEvents {
   static ContractDeployed = "App-ContractDeployed";
 
-  // TODO update these events to v2 events
-  // for now we will be using v1 events to keep them compatible with v1 dashboards
   static DeploymentEvents: Record<ContractType, string> = {
-    token: "App-CurrencyContractDeployed",
-    "nft-collection": "App-NftContractDeployed",
-    edition: "App-NftCollectionContractDeployed",
-    marketplace: "App-MarketContractDeployed",
+    token: "App-TokenContractDeployed",
+    "nft-collection": "App-NFTCollectionContractDeployed",
+    edition: "App-EditionContractDeployed",
+    marketplace: "App-MarketplaceContractDeployed",
     pack: "App-PackContractDeployed",
-    "nft-drop": "App-DropContractDeployed",
-    "edition-drop": "App-BundleDropContractDeployed",
-    split: "App-SplitsContractDeployed",
+    "nft-drop": "App-NFTDropContractDeployed",
+    "edition-drop": "App-EditionDropContractDeployed",
+    split: "App-SplitContractDeployed",
     vote: "App-VoteContractDeployed",
   };
 }
