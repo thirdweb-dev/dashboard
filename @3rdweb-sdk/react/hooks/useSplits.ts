@@ -42,9 +42,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
   const splitsContract = useSplit(contractAddress);
   const [loading, setLoading] = useState(true);
   const [distributeLoading, setDistributeLoading] = useState(false);
-  const [noBalance, setNoBalance] = useState(true);
   const [balances, setBalances] = useState<IBalance[]>([]);
-  const [nonZeroBalances, setNonZeroBalances] = useState<IBalance[]>([]);
 
   const getCurrencies = useCallback(async () => {
     const res = await fetch("/api/moralis/balances", {
@@ -59,14 +57,6 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
     });
 
     const data = await res.json();
-
-    return data;
-  }, [contractAddress, chainId]);
-
-  const getBalances = useCallback(async () => {
-    setLoading(true);
-
-    const data = await getCurrencies();
 
     const currencies = data.map((token: any) => {
       if (isAddressZero(token.token_address)) {
@@ -83,6 +73,14 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
         return token;
       }
     });
+
+    return currencies;
+  }, [contractAddress, chainId]);
+
+  const getBalances = useCallback(async () => {
+    setLoading(true);
+
+    const currencies = await getCurrencies();
 
     const formatted = await Promise.all(
       currencies.map(async (currency: any) => {
@@ -111,7 +109,7 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
 
     setBalances(formatted);
     setLoading(false);
-  }, [chainId, address, splitsContract, getCurrencies]);
+  }, [address, splitsContract, getCurrencies]);
 
   useEffect(() => {
     if (address) {
@@ -177,8 +175,6 @@ export function useSplitsBalanceAndDistribute(contractAddress?: string) {
   return {
     loading,
     distributeLoading,
-    noBalance,
-    nonZeroBalances,
     balances,
     distributeFunds,
   };

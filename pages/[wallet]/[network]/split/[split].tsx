@@ -33,7 +33,7 @@ const SplitsPage: ConsolePage = () => {
   const splitsAddress = useSingleQueryParam("split");
   const contract = useSplit(splitsAddress);
   const metadata = useSplitsContractMetadata(splitsAddress);
-  const { loading, balances, noBalance, distributeFunds, distributeLoading } =
+  const { loading, balances, distributeFunds, distributeLoading } =
     useSplitsBalanceAndDistribute(splitsAddress);
   const data = useSplitsData(splitsAddress);
 
@@ -63,9 +63,7 @@ const SplitsPage: ConsolePage = () => {
               </Text>
               <Text mb="12px">
                 This section displays your split of the funds in this contract.
-                {!loading &&
-                  noBalance &&
-                  " There are currently no funds in the contract yet to distribute."}
+                This contract can hold funds in the native token or any ERC20.
               </Text>
               {loading ? (
                 <Stack align="center">

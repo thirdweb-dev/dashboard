@@ -6,8 +6,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: "invalid method" });
   }
 
-  console.log("fetching...");
-
   const { chain, address } = req.body;
   const tokenBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${address}/erc20?chain=${chain}`;
   const nativeBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${address}/balance?chain=${chain}`;
