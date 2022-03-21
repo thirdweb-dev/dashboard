@@ -31,6 +31,9 @@ export function useDeploy<TContract extends ValidContractClass>(
           contractType,
         });
         if (contractType) {
+          posthog.capture(AnalyticsEvents.ContractDeployed, {
+            contractAddress,
+          });
           posthog.capture(AnalyticsEvents.DeploymentEvents[contractType], {
             contractAddress,
           });
