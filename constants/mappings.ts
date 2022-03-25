@@ -136,6 +136,52 @@ export const FeatureCardMap: Record<ContractType, FeatureCard> = {
   },
 };
 
+export interface GasPrice {
+  deployContract: number;
+  setClaimPhase?: number;
+  batchUpload?: number;
+  mint?: number;
+  claim?: number;
+}
+
+export const GasEstimatorMap: Record<ContractType, GasPrice> = {
+  [NFTDrop.contractType]: {
+    deployContract: 785405,
+    setClaimPhase: 187999,
+    batchUpload: 169832,
+    claim: 277449,
+  },
+  [EditionDrop.contractType]: {
+    deployContract: 746515,
+    setClaimPhase: 168589,
+    batchUpload: 168483,
+    claim: 186485,
+  },
+  [NFTCollection.contractType]: {
+    deployContract: 928006,
+    mint: 208102,
+  },
+  [Edition.contractType]: {
+    deployContract: 793195,
+    mint: 160173,
+  },
+  [Marketplace.contractType]: {
+    deployContract: 0,
+  },
+  [Token.contractType]: {
+    deployContract: 837345,
+  },
+  [Pack.contractType]: {
+    deployContract: 0,
+  },
+  [Split.contractType]: {
+    deployContract: 594540,
+  },
+  [Vote.contractType]: {
+    deployContract: 454740,
+  },
+};
+
 interface ContractDeploy {
   title: ValueOf<typeof CONTRACT_TYPE_NAME_MAP>;
   subtitle: string;
