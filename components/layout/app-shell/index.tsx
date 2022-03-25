@@ -17,6 +17,7 @@ import React from "react";
 import { RiGasStationFill } from "react-icons/ri";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
 
+
 export const AppShell: React.FC = ({ children }) => {
   const { pathname } = useRouter();
   const { trackEvent } = useTrack();

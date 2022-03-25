@@ -1,6 +1,29 @@
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalProps, Text } from "@chakra-ui/react";
-import { ContractType, Edition, EditionDrop, NFTCollection, NFTDrop, Split, Token, Vote } from "@thirdweb-dev/sdk";
-import { CONTRACT_TYPE_NAME_MAP, GasEstimatorMap, GasPrice } from "constants/mappings";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ModalProps,
+  Text,
+} from "@chakra-ui/react";
+import {
+  ContractType,
+  Edition,
+  EditionDrop,
+  NFTCollection,
+  NFTDrop,
+  Split,
+  Token,
+  Vote,
+} from "@thirdweb-dev/sdk";
+import {
+  CONTRACT_TYPE_NAME_MAP,
+  GasEstimatorMap,
+  GasPrice,
+} from "constants/mappings";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
@@ -20,19 +43,31 @@ const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({ contractType }) => {
         `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_KEY}`,
       );
       const data = await res.json();
-      console.log(data.result.ProposeGasPrice);
       const gasNumber = Number(data.result.ProposeGasPrice);
       setGasPrice(gasNumber ? gasNumber : 30);
     };
     fetchData();
   }, []);
 
+  /*   useEffect(() => {
+    const fetchTokenInfo = async () => {
+      const res = await fetch(
+        `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_KEY}`,
+      );
+      console.log(res);
+      const data = await res.json();
+      console.log("--------------------");
+      console.log(data);
+      console.log("--------------------");
+    };
+    fetchTokenInfo();
+  }, []); */
+
   const formatPrice = (price: number) => {
     if (price) {
-      return `${ethers.utils.formatUnits(
-        `${(gasPrice as number) * price}`,
-        "gwei",
-      )} ETH`;
+      return `${Number(
+        ethers.utils.formatUnits(`${(gasPrice as number) * price}`, "gwei"),
+      ).toFixed(4)} ETH`;
     }
   };
 
