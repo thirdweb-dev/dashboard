@@ -1,8 +1,8 @@
 import { chakra } from "@chakra-ui/react";
-import { MediaRenderer } from "@thirdweb-dev/react";
+import { ThirdwebNftMedia } from "@thirdweb-dev/react";
 import { NFTMetadata } from "@thirdweb-dev/sdk";
 
-const ChakraMediaRenderer = chakra(MediaRenderer);
+const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
 
 interface MediaCellProps {
   cell: {
@@ -13,10 +13,8 @@ interface MediaCellProps {
 export const MediaCell: React.VFC<MediaCellProps> = ({ cell }) => {
   const nftMetadata = cell.value;
   return (
-    <ChakraMediaRenderer
-      src={nftMetadata.animation_url || nftMetadata.image}
-      poster={nftMetadata.image}
-      alt={nftMetadata.name}
+    <ChakraThirdwebNftMedia
+      metadata={nftMetadata}
       requireInteraction
       flexShrink={0}
       boxSize={24}
