@@ -19,7 +19,6 @@ import {
   SimpleGrid,
   Text,
   Textarea,
-  Tooltip,
   useToast,
 } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
@@ -42,7 +41,6 @@ import {
   TYPE_CONTRACT_MAP,
   UrlMap,
 } from "constants/mappings";
-import { BigNumber } from "ethers";
 import { isAddress } from "ethers/lib/utils";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -157,7 +155,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const network = useSingleQueryParam("network");
   const { push } = useRouter();
-  const { address, balance } = useWeb3();
+  const { address } = useWeb3();
   const deployMutation = useDeploy(contract.contractType);
   const form = useDeployForm(contract.schema.deploy);
   const {
@@ -710,7 +708,6 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
           transactionCount={1}
           isDisabled={
             !Object.keys(formState.touchedFields).length ||
-            !BigNumber.from(balance?.data?.value || 0)?.gt(0) ||
             TYPE_CONTRACT_MAP[type as keyof typeof TYPE_CONTRACT_MAP].find(
               (c) => c.contractType === contractType,
             )?.comingSoon
