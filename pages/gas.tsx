@@ -1,3 +1,4 @@
+import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
 import { Flex, Heading, Icon, SimpleGrid, Switch } from "@chakra-ui/react";
 import {
   Edition,
@@ -20,9 +21,11 @@ import { SiEthereum } from "react-icons/si";
 
 const GasPage: ConsolePage = () => {
   const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("eth");
+  const { data } = useGas();
   const { Track } = useTrack({
     page: "gas-estimator",
   });
+  console.log(data);
 
   return (
     <Track>
@@ -42,37 +45,45 @@ const GasPage: ConsolePage = () => {
         <GasEstimatorBox
           contractType={NFTDrop.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
           borderTopLeftRadius="xl"
         />
         <GasEstimatorBox
           contractType={EditionDrop.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
         />
         <GasEstimatorBox
           contractType={NFTCollection.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
         />
         <GasEstimatorBox
           contractType={Edition.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
           borderTopRightRadius="xl"
         />
         <GasEstimatorBox
           contractType={Token.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
           borderBottomLeftRadius="xl"
         />
         <GasEstimatorBox
           contractType={Split.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
         />
         <GasEstimatorBox
           contractType={Marketplace.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
         />
         <GasEstimatorBox
           contractType={Vote.contractType}
           ethOrUsd={ethOrUsd}
+          data={data}
           borderBottomRightRadius="xl"
         />
       </SimpleGrid>

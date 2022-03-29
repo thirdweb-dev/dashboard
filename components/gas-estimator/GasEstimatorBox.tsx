@@ -1,4 +1,3 @@
-import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
 import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
 import {
@@ -23,11 +22,13 @@ const PriceLine: React.FC<PriceLineProps> = ({ gasPrice, children }) => {
 interface GasEstimatorBoxProps extends BoxProps {
   contractType: ContractType;
   ethOrUsd: "eth" | "usd";
+  data: { gasPrice: number; ethPrice: number };
 }
 
 export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
   contractType,
   ethOrUsd,
+  data,
   ...props
 }) => {
   const {
@@ -38,13 +39,12 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
     claim,
     distributeFunds,
   }: GasPrice = GasEstimatorMap[contractType];
-  const { data } = useGas();
 
   const formatPrice = (price: number) => {
     if (price && ethOrUsd === "eth") {
       return `~${Number(
         ethers.utils.formatUnits(
-          `${(data?.gasPrice as number || 30) * price}`,
+          `${((data?.gasPrice as number) || 30) * price}`,
           "gwei",
         ),
       ).toFixed(4)} ETH`;
@@ -52,7 +52,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
       return `~$${(
         Number(
           ethers.utils.formatUnits(
-            `${(data?.gasPrice as number || 30) * price}`,
+            `${((data?.gasPrice as number) || 30) * price}`,
             "gwei",
           ),
         ) * data?.ethPrice || 3400
