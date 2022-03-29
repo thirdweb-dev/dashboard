@@ -55,7 +55,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
             `${(data?.gasPrice as number || 30) * price}`,
             "gwei",
           ),
-        ) * data?.ethPrice || 3400
+        ) * (data?.ethPrice || 3400)
       ).toFixed(2)}`;
     }
   };
