@@ -44,7 +44,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
     if (price && ethOrUsd === "eth") {
       return `~${Number(
         ethers.utils.formatUnits(
-          `${(data?.gasPrice as number || 30) * price}`,
+          `${((data?.gasPrice as number) || 30) * price}`,
           "gwei",
         ),
       ).toFixed(4)} ETH`;
@@ -52,7 +52,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
       return `~$${(
         Number(
           ethers.utils.formatUnits(
-            `${(data?.gasPrice as number || 30) * price}`,
+            `${((data?.gasPrice as number) || 30) * price}`,
             "gwei",
           ),
         ) * (data?.ethPrice || 3400)
