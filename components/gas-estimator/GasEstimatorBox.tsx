@@ -1,3 +1,4 @@
+import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
 import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
 import {
@@ -6,7 +7,6 @@ import {
   GasPrice,
 } from "constants/mappings";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
 
 interface PriceLineProps {
   gasPrice: number;
@@ -38,32 +38,24 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
     claim,
     distributeFunds,
   }: GasPrice = GasEstimatorMap[contractType];
-
-  const [gasPrice, setGasPrice] = useState<number>(30);
-  const [ethPrice, setEthPrice] = useState<number>(3000);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(`/api/gas`);
-      const data = await res.json();
-      const gasNumber = Number(data.gas);
-      const ethNumber = Number(data.ethPrice);
-      setGasPrice(gasNumber);
-      setEthPrice(ethNumber);
-    };
-    fetchData();
-  }, []);
+  const { data } = useGas();
 
   const formatPrice = (price: number) => {
     if (price && ethOrUsd === "eth") {
-      return `${Number(
-        ethers.utils.formatUnits(`${(gasPrice as number) * price}`, "gwei"),
+      return `~${Number(
+        ethers.utils.formatUnits(
+          `${(data.gasPrice as number) * price}`,
+          "gwei",
+        ),
       ).toFixed(4)} ETH`;
     } else if (price && ethOrUsd === "usd") {
-      return `$${(
+      return `~$${(
         Number(
-          ethers.utils.formatUnits(`${(gasPrice as number) * price}`, "gwei"),
-        ) * ethPrice
+          ethers.utils.formatUnits(
+            `${(data.gasPrice as number) * price}`,
+            "gwei",
+          ),
+        ) * data.ethPrice
       ).toFixed(2)}`;
     }
   };

@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const ethPriceRes = await ethPrice.json();
 
   const fullResponse = {
-    gas: gasPriceRes.result.SafeGasPrice || "30",
+    gasPrice: gasPriceRes.result.SafeGasPrice || "30",
     ethPrice: ethPriceRes.result.ethusd || "3000",
   };
 
