@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  SimpleGrid,
-  Switch,
-} from "@chakra-ui/react";
+import { Flex, Heading, Icon, SimpleGrid, Switch } from "@chakra-ui/react";
 import {
   Edition,
   EditionDrop,
@@ -78,7 +70,11 @@ const GasPage: ConsolePage = () => {
           contractType={Marketplace.contractType}
           ethOrUsd={ethOrUsd}
         />
-        <GasEstimatorBox contractType={Vote.contractType} ethOrUsd={ethOrUsd} />
+        <GasEstimatorBox
+          contractType={Vote.contractType}
+          ethOrUsd={ethOrUsd}
+          borderBottomRightRadius="xl"
+        />
       </SimpleGrid>
     </Track>
   );
