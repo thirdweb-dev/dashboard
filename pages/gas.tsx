@@ -25,7 +25,6 @@ const GasPage: ConsolePage = () => {
   const { Track } = useTrack({
     page: "gas-estimator",
   });
-  console.log(data);
 
   return (
     <Track>

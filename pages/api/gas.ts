@@ -8,28 +8,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const gasEndpoint = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.ETHERSCAN_KEY}`;
   const ethPriceEndpoint = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.ETHERSCAN_KEY}`;
 
-  const gasPrice = await fetch(gasEndpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const gasPrice = fetch(gasEndpoint);
+  const ethPrice = fetch(ethPriceEndpoint);
 
-  const gasPriceRes = await gasPrice.json();
+  try {
+    const [gasPriceRes, ethPriceRes] = await Promise.all([gasPrice, ethPrice]);
+    const gasData = await gasPriceRes.json();
+    const ethPriceData = await ethPriceRes.json();
 
-  const ethPrice = await fetch(ethPriceEndpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+    if (gasData.status !== "1") {
+      return res.status(500).json({ error: "Failed to fetch gas price" });
+    }
 
-  const ethPriceRes = await ethPrice.json();
+    if (ethPriceData.status !== "1") {
+      return res.status(500).json({ error: "Failed to fetch ETH price" });
+    }
 
-  const fullResponse = {
-    gasPrice: gasPriceRes.result.SafeGasPrice || "30",
-    ethPrice: ethPriceRes.result.ethusd || "3000",
-  };
-
-  return res.status(200).json(fullResponse);
+    return res.status(200).json({
+      gasPrice: gasData.result.ProposeGasPrice,
+      ethPrice: ethPriceData.result.ethusd,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
