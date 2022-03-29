@@ -1,10 +1,21 @@
 import { Breadcrumbs } from "./Breadcrumbs";
 import { FeedbackModal } from "./FeedbackModal";
 import { ConnectWallet } from "@3rdweb-sdk/react";
-import { Box, ButtonGroup, Container, Divider, Flex, Icon, IconButton, Link, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  ButtonGroup,
+  Container,
+  Divider,
+  Flex,
+  Icon,
+  IconButton,
+  Link,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { EarlyAccessBanner } from "components/banners/early-access";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
-import { GasEstimatorModal } from "components/gas-estimator";
 import { Logo } from "components/logo";
 import { InsufficientFunds } from "components/notices/InsufficientFunds";
 import { NetworkMismatchNotice } from "components/notices/NetworkMismatch";
@@ -16,7 +27,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import { RiGasStationFill } from "react-icons/ri";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-
 
 export const AppShell: React.FC = ({ children }) => {
   const { pathname } = useRouter();
@@ -134,22 +144,21 @@ export const AppShell: React.FC = ({ children }) => {
                     })
                   }
                 />
-                <GasEstimatorModal
-                  isOpen={gasEstimator.isOpen}
-                  onClose={gasEstimator.onClose}
-                />
 
                 <IconButton
+                  as={LinkButton}
+                  noIcon
+                  href="/gas"
+                  bg="transparent"
                   aria-label="gas-estimator"
                   icon={<Icon boxSize="1rem" as={RiGasStationFill} />}
-                  onClick={() => {
+                  onClick={() =>
                     trackEvent({
                       category: "header",
                       action: "click",
                       label: "gas-estimator",
-                    });
-                    gasEstimator.onOpen();
-                  }}
+                    })
+                  }
                 />
               </ButtonGroup>
               <ColorModeToggle />

@@ -143,6 +143,7 @@ export interface GasPrice {
   batchUpload?: number;
   mint?: number;
   claim?: number;
+  distributeFunds?: number;
 }
 
 export const GasEstimatorMap: Record<ContractType, GasPrice> = {
@@ -177,6 +178,7 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
   },
   [Split.contractType]: {
     deployContract: 594540,
+    distributeFunds: 153078,
   },
   [Vote.contractType]: {
     deployContract: 454740,

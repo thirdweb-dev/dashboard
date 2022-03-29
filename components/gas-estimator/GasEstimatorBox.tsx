@@ -1,24 +1,5 @@
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  ModalProps,
-  Text,
-} from "@chakra-ui/react";
-import {
-  ContractType,
-  Edition,
-  EditionDrop,
-  NFTCollection,
-  NFTDrop,
-  Split,
-  Token,
-  Vote,
-} from "@thirdweb-dev/sdk";
+import { Text } from "@chakra-ui/react";
+import { ContractType } from "@thirdweb-dev/sdk";
 import {
   CONTRACT_TYPE_NAME_MAP,
   GasEstimatorMap,
@@ -31,9 +12,17 @@ interface GasEstimatorBoxProps {
   contractType: ContractType;
 }
 
-const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({ contractType }) => {
-  const { deployContract, setClaimPhase, batchUpload, mint, claim }: GasPrice =
-    GasEstimatorMap[contractType];
+export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
+  contractType,
+}) => {
+  const {
+    deployContract,
+    setClaimPhase,
+    batchUpload,
+    mint,
+    claim,
+    distributeFunds,
+  }: GasPrice = GasEstimatorMap[contractType];
 
   const [gasPrice, setGasPrice] = useState<number>(30);
 
@@ -49,7 +38,7 @@ const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({ contractType }) => {
     fetchData();
   }, []);
 
-  /*   useEffect(() => {
+  /* useEffect(() => {
     const fetchTokenInfo = async () => {
       const res = await fetch(
         `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_KEY}`,
@@ -83,34 +72,9 @@ const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({ contractType }) => {
       {batchUpload && <Text>Batch Upload: {formatPrice(batchUpload)}</Text>}
       {mint && <Text>Mint: {formatPrice(mint)}</Text>}
       {claim && <Text>Claim: {formatPrice(claim)}</Text>}
+      {distributeFunds && (
+        <Text>Distribute funds: {formatPrice(distributeFunds)}</Text>
+      )}
     </div>
-  );
-};
-
-interface GasEstimatorModalProps extends ModalProps {}
-
-export const GasEstimatorModal: React.FC<Partial<GasEstimatorModalProps>> = ({
-  isOpen,
-  onClose,
-}) => {
-  return (
-    <Modal isOpen={isOpen as boolean} onClose={onClose as () => void}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Gas Estimator</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <GasEstimatorBox contractType={NFTDrop.contractType} />
-          <GasEstimatorBox contractType={EditionDrop.contractType} />
-          <GasEstimatorBox contractType={NFTCollection.contractType} />
-          <GasEstimatorBox contractType={Edition.contractType} />
-          <GasEstimatorBox contractType={Token.contractType} />
-          <GasEstimatorBox contractType={Split.contractType} />
-          <GasEstimatorBox contractType={Vote.contractType} />
-        </ModalBody>
-
-        <ModalFooter></ModalFooter>
-      </ModalContent>
-    </Modal>
   );
 };
