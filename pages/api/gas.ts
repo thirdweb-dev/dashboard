@@ -5,10 +5,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: "invalid method" });
   }
 
-  const gasEndpoint = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.ETHERSCAN_KEY}`;
+  const gasPriceEndpoint = `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.ETHERSCAN_KEY}`;
   const ethPriceEndpoint = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.ETHERSCAN_KEY}`;
 
-  const gasPrice = fetch(gasEndpoint);
+  const gasPrice = fetch(gasPriceEndpoint);
   const ethPrice = fetch(ethPriceEndpoint);
 
   try {
