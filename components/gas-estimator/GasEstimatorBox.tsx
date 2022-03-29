@@ -25,32 +25,19 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
   }: GasPrice = GasEstimatorMap[contractType];
 
   const [gasPrice, setGasPrice] = useState<number>(30);
+  const [ethPrice, setEthPrice] = useState<number>(3000);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
-        `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_KEY}`,
-      );
+      const res = await fetch(`/api/gas`);
       const data = await res.json();
-      const gasNumber = Number(data.result.ProposeGasPrice);
-      setGasPrice(gasNumber ? gasNumber : 30);
+      const gasNumber = Number(data.gas);
+      const ethNumber = Number(data.ethPrice);
+      setGasPrice(gasNumber);
+      setEthPrice(ethNumber);
     };
     fetchData();
   }, []);
-
-  /* useEffect(() => {
-    const fetchTokenInfo = async () => {
-      const res = await fetch(
-        `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.NEXT_PUBLIC_ETHERSCAN_KEY}`,
-      );
-      console.log(res);
-      const data = await res.json();
-      console.log("--------------------");
-      console.log(data);
-      console.log("--------------------");
-    };
-    fetchTokenInfo();
-  }, []); */
 
   const formatPrice = (price: number) => {
     if (price) {
