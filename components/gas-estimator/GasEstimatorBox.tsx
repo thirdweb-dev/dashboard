@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 
 interface GasEstimatorBoxProps {
   contractType: ContractType;
+  ethOrUsd: "eth" | "usd";
 }
 
 export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
   contractType,
+  ethOrUsd,
 }) => {
   const {
     deployContract,
@@ -23,7 +25,6 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
 
   const [gasPrice, setGasPrice] = useState<number>(30);
   const [ethPrice, setEthPrice] = useState<number>(3000);
-  const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("usd");
 
   useEffect(() => {
     const fetchData = async () => {
