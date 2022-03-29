@@ -17,7 +17,7 @@ import { BiDollar } from "react-icons/bi";
 import { SiEthereum } from "react-icons/si";
 
 const GasPage: ConsolePage = () => {
-  const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("usd");
+  const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("eth");
   const { Track } = useTrack({
     page: "gas-estimator",
   });
