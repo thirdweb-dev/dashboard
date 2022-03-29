@@ -1,7 +1,16 @@
-import { Flex, Heading, Icon, IconButton, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  SimpleGrid,
+  Switch,
+} from "@chakra-ui/react";
 import {
   Edition,
   EditionDrop,
+  Marketplace,
   NFTCollection,
   NFTDrop,
   Split,
@@ -10,6 +19,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { GasEstimatorBox } from "components/gas-estimator/GasEstimatorBox";
+import { Card } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ConsolePage } from "pages/_app";
 import { useState } from "react";
@@ -24,27 +34,23 @@ const GasPage: ConsolePage = () => {
 
   return (
     <Track>
-      <Flex>
-        <Heading mb={6} mr={3}>
-          Gas Estimator
-        </Heading>
-        <IconButton
-          aria-label="twitter"
-          icon={
-            <Icon
-              boxSize="1.5rem"
-              as={ethOrUsd === "eth" ? SiEthereum : BiDollar}
-            />
-          }
-          onClick={() =>
-            setEthOrUsd((prevState) => (prevState === "eth" ? "usd" : "eth"))
-          }
-        />
+      <Flex mb={4}>
+        <Heading mr={3}>Gas Estimator</Heading>
+        <Flex justifyContent="center" alignItems="center">
+          <Icon boxSize={6} as={SiEthereum} />
+          <Switch
+            size="lg"
+            mx={1}
+            onChange={() => setEthOrUsd(ethOrUsd === "eth" ? "usd" : "eth")}
+          />
+          <Icon boxSize={6} as={BiDollar} />
+        </Flex>
       </Flex>
-      <SimpleGrid columns={{ base: 1, md: 4 }} gap={6}>
+      <SimpleGrid as={Card} p={0} columns={{ base: 1, md: 4 }}>
         <GasEstimatorBox
           contractType={NFTDrop.contractType}
           ethOrUsd={ethOrUsd}
+          borderTopLeftRadius="xl"
         />
         <GasEstimatorBox
           contractType={EditionDrop.contractType}
@@ -57,13 +63,19 @@ const GasPage: ConsolePage = () => {
         <GasEstimatorBox
           contractType={Edition.contractType}
           ethOrUsd={ethOrUsd}
+          borderTopRightRadius="xl"
         />
         <GasEstimatorBox
           contractType={Token.contractType}
           ethOrUsd={ethOrUsd}
+          borderBottomLeftRadius="xl"
         />
         <GasEstimatorBox
           contractType={Split.contractType}
+          ethOrUsd={ethOrUsd}
+        />
+        <GasEstimatorBox
+          contractType={Marketplace.contractType}
           ethOrUsd={ethOrUsd}
         />
         <GasEstimatorBox contractType={Vote.contractType} ethOrUsd={ethOrUsd} />

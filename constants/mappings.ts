@@ -168,7 +168,7 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
     mint: 160173,
   },
   [Marketplace.contractType]: {
-    deployContract: 0,
+    deployContract: 785536,
   },
   [Token.contractType]: {
     deployContract: 837345,
