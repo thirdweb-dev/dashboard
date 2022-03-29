@@ -32,7 +32,6 @@ export const AppShell: React.FC = ({ children }) => {
   const { pathname } = useRouter();
   const { trackEvent } = useTrack();
   const feedback = useDisclosure();
-  const gasEstimator = useDisclosure();
 
   return (
     <Flex

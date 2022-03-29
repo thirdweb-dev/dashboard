@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  SimpleGrid,
-  Switch,
-} from "@chakra-ui/react";
+import { Flex, Heading, Icon, IconButton, SimpleGrid } from "@chakra-ui/react";
 import {
   Edition,
   EditionDrop,

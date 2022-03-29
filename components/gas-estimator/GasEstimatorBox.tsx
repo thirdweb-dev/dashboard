@@ -1,9 +1,12 @@
 import { Text } from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
-import { CONTRACT_TYPE_NAME_MAP, GasEstimatorMap, GasPrice } from "constants/mappings";
+import {
+  CONTRACT_TYPE_NAME_MAP,
+  GasEstimatorMap,
+  GasPrice,
+} from "constants/mappings";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-
 
 interface GasEstimatorBoxProps {
   contractType: ContractType;
