@@ -1,12 +1,9 @@
 import { Text } from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
-import {
-  CONTRACT_TYPE_NAME_MAP,
-  GasEstimatorMap,
-  GasPrice,
-} from "constants/mappings";
+import { CONTRACT_TYPE_NAME_MAP, GasEstimatorMap, GasPrice } from "constants/mappings";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
+
 
 interface GasEstimatorBoxProps {
   contractType: ContractType;
@@ -26,6 +23,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
 
   const [gasPrice, setGasPrice] = useState<number>(30);
   const [ethPrice, setEthPrice] = useState<number>(3000);
+  const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("usd");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,10 +38,16 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
   }, []);
 
   const formatPrice = (price: number) => {
-    if (price) {
+    if (price && ethOrUsd === "eth") {
       return `${Number(
         ethers.utils.formatUnits(`${(gasPrice as number) * price}`, "gwei"),
       ).toFixed(4)} ETH`;
+    } else if (price && ethOrUsd === "usd") {
+      return `$${(
+        Number(
+          ethers.utils.formatUnits(`${(gasPrice as number) * price}`, "gwei"),
+        ) * ethPrice
+      ).toFixed(2)}`;
     }
   };
 
