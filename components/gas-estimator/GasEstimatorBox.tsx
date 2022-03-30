@@ -89,7 +89,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
   };
 
   return (
-    <Box p={6} border="1px solid" borderColor="gray.50" {...props}>
+    <Box p={6} border="1px solid" borderColor="borderColor" {...props}>
       <NextLink
         href={`https://portal.thirdweb.com/contracts/${contractType}`}
         isExternal
