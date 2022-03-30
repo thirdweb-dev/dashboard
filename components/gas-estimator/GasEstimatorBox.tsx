@@ -16,6 +16,7 @@ import {
 } from "constants/mappings";
 import { ethers } from "ethers";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { FiExternalLink } from "react-icons/fi";
 
 interface PriceLineProps {
   title: string;
@@ -93,8 +94,9 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
         href={`https://portal.thirdweb.com/contracts/${contractType}`}
         isExternal
       >
-        <Heading size="title.sm" mb={1}>
+        <Heading size="title.sm" mb={1} mr={1} as={Flex} alignItems="center">
           {CONTRACT_TYPE_NAME_MAP[contractType]}
+          <Icon as={FiExternalLink} ml={1} boxSize={4} />
         </Heading>
       </NextLink>
       <PriceLine
