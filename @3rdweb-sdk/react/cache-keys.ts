@@ -25,7 +25,6 @@ export const dashboardKeys = {
   all: ["dashboard"] as const,
   lists: () => [...dashboardKeys.all, "list"] as const,
   list: (address = AddressZero) => [...dashboardKeys.lists(), address] as const,
-  gas: () => [...dashboardKeys.all, "gas"] as const,
 };
 export const bundleKeys = {
   all: ["bundle"] as const,
