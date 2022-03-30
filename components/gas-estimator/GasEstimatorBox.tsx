@@ -1,4 +1,12 @@
-import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Flex,
+  Heading,
+  Icon,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
 import { NextLink } from "components/shared/NextLink";
 import {
@@ -7,15 +15,33 @@ import {
   GasPrice,
 } from "constants/mappings";
 import { ethers } from "ethers";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 interface PriceLineProps {
+  title: string;
+  label: string;
   gasPrice?: number;
 }
 
-const PriceLine: React.FC<PriceLineProps> = ({ gasPrice, children }) => {
+const PriceLine: React.FC<PriceLineProps> = ({
+  title,
+  label,
+  gasPrice,
+  children,
+}) => {
   return (
     <>
-      {gasPrice ? <Flex justifyContent="space-between">{children}</Flex> : null}
+      {gasPrice ? (
+        <Flex justifyContent="space-between">
+          <Tooltip label={label}>
+            <Flex justifyContent="center" alignItems="center">
+              <Text mr={1}>{title}:</Text>
+              <Icon as={AiOutlineInfoCircle} boxSize={4} />
+            </Flex>
+          </Tooltip>
+          <Text>{children}</Text>
+        </Flex>
+      ) : null}
     </>
   );
 };
@@ -71,29 +97,47 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
           {CONTRACT_TYPE_NAME_MAP[contractType]}
         </Heading>
       </NextLink>
-      <PriceLine gasPrice={deployContract}>
-        <Text>Deploy Contract:</Text>
-        <Text>{formatPrice(deployContract)}</Text>
+      <PriceLine
+        title="Contract creation"
+        label="The price to deploy this smart contract"
+        gasPrice={deployContract}
+      >
+        {formatPrice(deployContract)}
       </PriceLine>
-      <PriceLine gasPrice={setClaimPhase}>
-        <Text>Set Claim Phase:</Text>
-        <Text>{formatPrice(setClaimPhase)}</Text>
+      <PriceLine
+        title="Set Claim Phases"
+        label="The price to set the drop claim phases"
+        gasPrice={setClaimPhase}
+      >
+        {formatPrice(setClaimPhase)}
       </PriceLine>
-      <PriceLine gasPrice={batchUpload}>
-        <Text>Batch Upload:</Text>
-        <Text>{formatPrice(batchUpload)}</Text>
+      <PriceLine
+        title="Batch Upload"
+        label="This price is the same for any amount of NFTs uploaded"
+        gasPrice={batchUpload}
+      >
+        {formatPrice(batchUpload)}
       </PriceLine>
-      <PriceLine gasPrice={mint}>
-        <Text>Mint:</Text>
-        <Text>{formatPrice(mint)}</Text>
+      <PriceLine
+        title="Mint"
+        label="The price you pay to mint one NFT"
+        gasPrice={mint}
+      >
+        {formatPrice(mint)}
       </PriceLine>
-      <PriceLine gasPrice={claim}>
-        <Text>Claim:</Text>
-        <Text>{formatPrice(claim)}</Text>
+      <PriceLine
+        title="Claim"
+        label="The price your audience pays to claim one previouly uploaded NFT"
+        gasPrice={claim}
+      >
+        {formatPrice(claim)}
       </PriceLine>
-      <PriceLine gasPrice={distributeFunds}>
-        <Text>Distribute funds:</Text>
-        <Text>{formatPrice(distributeFunds)}</Text>
+      <PriceLine
+        title="Distribute funds"
+        label="The price to distribute funds to two different wallets (More wallets, higher price)"
+        gasPrice={distributeFunds}
+      >
+        {formatPrice(distributeFunds)}
       </PriceLine>
     </Box>
   );
