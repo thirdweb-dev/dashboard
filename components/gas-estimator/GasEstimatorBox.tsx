@@ -113,7 +113,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
       </PriceLine>
       <PriceLine
         title="Batch Upload"
-        label="This price is the same for any amount of NFTs uploaded"
+        label="The price to create the NFTs. This price is the same for any amount of NFTs created"
         gasPrice={batchUpload}
       >
         {formatPrice(batchUpload)}
@@ -127,7 +127,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
       </PriceLine>
       <PriceLine
         title="Claim"
-        label="The price your audience pays to claim one previouly uploaded NFT"
+        label="The price your audience pays to claim one previously created NFT"
         gasPrice={claim}
       >
         {formatPrice(claim)}

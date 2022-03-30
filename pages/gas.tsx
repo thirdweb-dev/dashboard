@@ -1,5 +1,12 @@
 import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
-import { Flex, Heading, Icon, SimpleGrid, Switch } from "@chakra-ui/react";
+import {
+  Flex,
+  Heading,
+  Icon,
+  SimpleGrid,
+  Switch,
+  Text,
+} from "@chakra-ui/react";
 import {
   Edition,
   EditionDrop,
@@ -46,6 +53,7 @@ const GasPage: ConsolePage = () => {
           ethOrUsd={ethOrUsd}
           data={data}
           borderTopLeftRadius="xl"
+          borderTopRightRadius={{ base: "xl", md: "0" }}
         />
         <GasEstimatorBox
           contractType={EditionDrop.contractType}
@@ -61,13 +69,13 @@ const GasPage: ConsolePage = () => {
           contractType={Edition.contractType}
           ethOrUsd={ethOrUsd}
           data={data}
-          borderTopRightRadius="xl"
+          borderTopRightRadius={{ base: "0", md: "xl" }}
         />
         <GasEstimatorBox
           contractType={Token.contractType}
           ethOrUsd={ethOrUsd}
           data={data}
-          borderBottomLeftRadius="xl"
+          borderBottomLeftRadius={{ base: "0", md: "xl" }}
         />
         <GasEstimatorBox
           contractType={Split.contractType}
@@ -84,8 +92,14 @@ const GasPage: ConsolePage = () => {
           ethOrUsd={ethOrUsd}
           data={data}
           borderBottomRightRadius="xl"
+          borderBottomLeftRadius={{ base: "xl", md: "0" }}
         />
       </SimpleGrid>
+      <Text mt={4} textAlign="center">
+        Estimates calculated at {data?.gasPrice} gwei and the ETH price of $
+        {data?.ethPrice}. These estimates are only intended to use for contracts
+        deployed with thirdweb. Updated every 10 seconds.
+      </Text>
     </Track>
   );
 };
