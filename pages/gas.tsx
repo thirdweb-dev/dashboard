@@ -1,8 +1,8 @@
 import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
 import {
+  Badge,
   Flex,
   Heading,
-  Icon,
   SimpleGrid,
   Switch,
   Text,
@@ -23,8 +23,6 @@ import { Card } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ConsolePage } from "pages/_app";
 import { useState } from "react";
-import { BiDollar } from "react-icons/bi";
-import { SiEthereum } from "react-icons/si";
 
 const GasPage: ConsolePage = () => {
   const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("eth");
@@ -38,13 +36,23 @@ const GasPage: ConsolePage = () => {
       <Flex mb={4}>
         <Heading mr={3}>Gas Estimator</Heading>
         <Flex justifyContent="center" alignItems="center">
-          <Icon boxSize={6} as={SiEthereum} />
+          <Badge
+            size="lg"
+            colorScheme="green"
+            borderRadius="lg"
+            px={1}
+            py={0.5}
+            mr={3}
+          >
+            Ethereum
+          </Badge>
+          <Heading size="subtitle.sm">ETH</Heading>
           <Switch
             size="lg"
-            mx={1}
+            mx={1.5}
             onChange={() => setEthOrUsd(ethOrUsd === "eth" ? "usd" : "eth")}
           />
-          <Icon boxSize={6} as={BiDollar} />
+          <Heading size="subtitle.sm">USD</Heading>
         </Flex>
       </Flex>
       <SimpleGrid as={Card} p={0} columns={{ base: 1, md: 4 }}>
