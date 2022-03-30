@@ -16,12 +16,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const gasData = await gasPriceRes.json();
     const ethPriceData = await ethPriceRes.json();
 
-    if (gasData.status !== "1") {
-      return res.status(500).json({ error: "Failed to fetch gas price" });
+    if (!gasData?.result) {
+      return res.status(400).json({ error: "Failed to fetch gas price" });
     }
 
-    if (ethPriceData.status !== "1") {
-      return res.status(500).json({ error: "Failed to fetch ETH price" });
+    if (!ethPriceData?.result) {
+      return res.status(400).json({ error: "Failed to fetch ETH price" });
     }
 
     return res.status(200).json({
@@ -30,6 +30,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(502).json({ error: "Invalid response" });
   }
 };
