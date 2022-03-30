@@ -48,7 +48,6 @@ const GasPage: ConsolePage = () => {
           </Badge>
           <Heading size="subtitle.sm">ETH</Heading>
           <Switch
-            size="lg"
             mx={1.5}
             onChange={() => setEthOrUsd(ethOrUsd === "eth" ? "usd" : "eth")}
           />
