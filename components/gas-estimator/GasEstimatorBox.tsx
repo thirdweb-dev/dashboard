@@ -1,5 +1,6 @@
 import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
+import { NextLink } from "components/shared/NextLink";
 import {
   CONTRACT_TYPE_NAME_MAP,
   GasEstimatorMap,
@@ -62,9 +63,14 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
 
   return (
     <Box p={6} border="1px solid" borderColor="gray.50" {...props}>
-      <Heading size="title.sm" mb={1}>
-        {CONTRACT_TYPE_NAME_MAP[contractType]}
-      </Heading>
+      <NextLink
+        href={`https://portal.thirdweb.com/contracts/${contractType}`}
+        isExternal
+      >
+        <Heading size="title.sm" mb={1}>
+          {CONTRACT_TYPE_NAME_MAP[contractType]}
+        </Heading>
+      </NextLink>
       <PriceLine gasPrice={deployContract}>
         <Text>Deploy Contract:</Text>
         <Text>{formatPrice(deployContract)}</Text>
