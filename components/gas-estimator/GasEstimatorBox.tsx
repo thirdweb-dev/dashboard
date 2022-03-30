@@ -8,7 +8,7 @@ import {
 import { ethers } from "ethers";
 
 interface PriceLineProps {
-  gasPrice: number;
+  gasPrice?: number;
 }
 
 const PriceLine: React.FC<PriceLineProps> = ({ gasPrice, children }) => {
@@ -40,7 +40,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
     distributeFunds,
   }: GasPrice = GasEstimatorMap[contractType];
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (price: number | undefined) => {
     if (price && ethOrUsd === "eth") {
       return `~${Number(
         ethers.utils.formatUnits(
@@ -65,29 +65,29 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
       <Heading size="title.sm" mb={1}>
         {CONTRACT_TYPE_NAME_MAP[contractType]}
       </Heading>
-      <PriceLine gasPrice={deployContract as number}>
+      <PriceLine gasPrice={deployContract}>
         <Text>Deploy Contract:</Text>
-        <Text>{formatPrice(deployContract as number)}</Text>
+        <Text>{formatPrice(deployContract)}</Text>
       </PriceLine>
-      <PriceLine gasPrice={setClaimPhase as number}>
+      <PriceLine gasPrice={setClaimPhase}>
         <Text>Set Claim Phase:</Text>
-        <Text>{formatPrice(setClaimPhase as number)}</Text>
+        <Text>{formatPrice(setClaimPhase)}</Text>
       </PriceLine>
-      <PriceLine gasPrice={batchUpload as number}>
+      <PriceLine gasPrice={batchUpload}>
         <Text>Batch Upload:</Text>
-        <Text>{formatPrice(batchUpload as number)}</Text>
+        <Text>{formatPrice(batchUpload)}</Text>
       </PriceLine>
-      <PriceLine gasPrice={mint as number}>
+      <PriceLine gasPrice={mint}>
         <Text>Mint:</Text>
-        <Text>{formatPrice(mint as number)}</Text>
+        <Text>{formatPrice(mint)}</Text>
       </PriceLine>
-      <PriceLine gasPrice={claim as number}>
+      <PriceLine gasPrice={claim}>
         <Text>Claim:</Text>
-        <Text>{formatPrice(claim as number)}</Text>
+        <Text>{formatPrice(claim)}</Text>
       </PriceLine>
-      <PriceLine gasPrice={distributeFunds as number}>
+      <PriceLine gasPrice={distributeFunds}>
         <Text>Distribute funds:</Text>
-        <Text>{formatPrice(distributeFunds as number)}</Text>
+        <Text>{formatPrice(distributeFunds)}</Text>
       </PriceLine>
     </Box>
   );
