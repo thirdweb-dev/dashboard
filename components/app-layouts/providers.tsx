@@ -33,6 +33,7 @@ function replacer(_key: string, value: any) {
   ) {
     return BigNumber.from(value).toString();
   }
+
   return value;
 }
 
