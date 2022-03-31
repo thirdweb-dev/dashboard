@@ -61,7 +61,11 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
 
   const onReaderLoad = (event: any) => {
     const obj = JSON.parse(event.target.result);
-    setJsonData(obj);
+    if (obj.length > 0) {
+      setJsonData(obj);
+    } else {
+      setNoFile(true);
+    }
   };
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
@@ -153,7 +157,7 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
                           <Box ref={paginationPortalRef} />
                           <Flex gap={2} align="center">
                             <Button
-                              size="md"
+                              borderRadius="md"
                               isDisabled={!csvData && !jsonData}
                               onClick={() => {
                                 reset();
@@ -162,8 +166,8 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
                               Reset
                             </Button>
                             <Button
-                              size="lg"
-                              colorScheme="blue"
+                              borderRadius="md"
+                              colorScheme="primary"
                               isDisabled={!csvData && !jsonData}
                               onClick={() => setStep(1)}
                             >

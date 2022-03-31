@@ -137,6 +137,54 @@ export const FeatureCardMap: Record<ContractType, FeatureCard> = {
   },
 };
 
+export interface GasPrice {
+  deployContract: number;
+  setClaimPhase?: number;
+  batchUpload?: number;
+  mint?: number;
+  claim?: number;
+  distributeFunds?: number;
+}
+
+export const GasEstimatorMap: Record<ContractType, GasPrice> = {
+  [NFTDrop.contractType]: {
+    deployContract: 785405,
+    setClaimPhase: 187999,
+    batchUpload: 169832,
+    claim: 277449,
+  },
+  [EditionDrop.contractType]: {
+    deployContract: 746515,
+    setClaimPhase: 168589,
+    batchUpload: 168483,
+    claim: 186485,
+  },
+  [NFTCollection.contractType]: {
+    deployContract: 928006,
+    mint: 208102,
+  },
+  [Edition.contractType]: {
+    deployContract: 793195,
+    mint: 160173,
+  },
+  [Marketplace.contractType]: {
+    deployContract: 785536,
+  },
+  [Token.contractType]: {
+    deployContract: 837345,
+  },
+  [Pack.contractType]: {
+    deployContract: 0,
+  },
+  [Split.contractType]: {
+    deployContract: 594540,
+    distributeFunds: 153078,
+  },
+  [Vote.contractType]: {
+    deployContract: 454740,
+  },
+};
+
 interface ContractDeploy {
   title: ValueOf<typeof CONTRACT_TYPE_NAME_MAP>;
   subtitle: string;
@@ -228,11 +276,11 @@ export const TYPE_CONTRACT_MAP: ContractDeployMap = {
 
 export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
   admin:
-    "Determine who can modify contract settings and granting and revoke roles.",
-  minter: "Determine who can mint new tokens on this contract.",
+    "Determine who can grant or revoke roles and modify settings on this contract.",
+  minter: "Determine who can create new tokens on this contract.",
   pauser:
     "Determine who can pause (and unpause) all external calls made to this contract's contract.",
-  transfer: "Determine who can transfer this contract's tokens.",
+  transfer: "Determine who can transfer tokens on this contract.",
   lister: "Determine who can create new listings on this contract.",
   editor: "NOT IMPLEMENTED",
   asset: "Determine which assets can be listed on this marketplace.",
