@@ -1668,10 +1668,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.2.tgz#b7f7c3f43fb3d8823ed9272ca109d17eb5016716"
   integrity sha512-lNFCK0r86qpuo9ysVfcV8SeAD7Ds12IAO/oD+wsCbvlMu8ObPHXk1Lx3Fi6JFJ/8uisZlEYgXskrfT7sae9Uag==
 
-"@thirdweb-dev/contracts@2.1.6":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.1.6.tgz#6c984a162a8b0380614711959a89473b37be6a81"
-  integrity sha512-lI3hC6r+zONLgjKYdz747cuk1biZZT8kAw+g4jGGkE3Tc8EIH6sCbBexqWmObHX2iptsdf42LqOClfnmhg1u0A==
+"@thirdweb-dev/contracts@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.1.7.tgz#433afa8541e0d696a93bc8654e67eccd6c9f88d3"
+  integrity sha512-QR4LtpopyCSdIhH4rdmXCrbeli0VaZ/hvkysetZqLRBAsuDjchqIS17vkAWwKQ903sK73RnZuEVQ4HAFkxzfqg==
 
 "@thirdweb-dev/react@^2.0.3":
   version "2.0.3"
@@ -1685,10 +1685,10 @@
     tiny-invariant "^1.2.0"
     wagmi "0.2.21"
 
-"@thirdweb-dev/sdk@^2.0.17":
-  version "2.0.20"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.0.20.tgz#bdd0bde389b6da6834992d78af052de568410c47"
-  integrity sha512-sS+CcwIoldC5xtTNLPheHF/6UJtELdtPfaivpLwxN4KrGJ0ropF0o1H57vQfBW/gRzdQ8vrzeg6zVED7kXmYrQ==
+"@thirdweb-dev/sdk@^2.0.22":
+  version "2.0.22"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.0.22.tgz#e9431b6b3855fdea854a1c26b420dd81e51279fb"
+  integrity sha512-9NAKQvSS4sW0keBxpvSwLnPkeIcpN5Cifmwaf0/Km7ITFXVfu5FxaTauYaLPKvmsjBUSQWvYEkvQ+LtBLscgzw==
   dependencies:
     "@ethersproject/bignumber" "^5.5.0"
     "@ethersproject/bytes" "^5.4.0"
@@ -1696,7 +1696,7 @@
     "@ethersproject/contracts" "^5.5.0"
     "@ethersproject/providers" "^5.5.0"
     "@ethersproject/units" "^5.5.0"
-    "@thirdweb-dev/contracts" "2.1.6"
+    "@thirdweb-dev/contracts" "2.1.7"
     "@web-std/file" "^3.0.0"
     cross-fetch "^3.1.5"
     deep-equal "^2.0.5"
@@ -2373,7 +2373,7 @@ array-flatten@1.1.1:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
 
-array-includes@^3.1.3, array-includes@^3.1.4:
+array-includes@^3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/array-includes/-/array-includes-3.1.4.tgz#f5b493162c760f3539631f005ba2bb46acb45ba9"
   integrity sha512-ZTNSQkmWumEbiHO2GF4GmWxYVTiQyJy2XOTa15sdQSrvKn7l+180egQMqlrMOUMCyLMD7pmyQe4mMDUT6Behrw==
@@ -5699,11 +5699,11 @@ jsprim@^1.2.2:
     verror "1.10.0"
 
 "jsx-ast-utils@^2.4.1 || ^3.0.0", jsx-ast-utils@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-3.2.1.tgz#720b97bfe7d901b927d87c3773637ae8ea48781b"
-  integrity sha512-uP5vu8xfy2F9A6LGC22KO7e2/vGTS1MhP+18f++ZNlf0Ohaxbc9nIEwHAsejlJKyzfZzU5UIhe5ItYkitcZnZA==
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-3.2.2.tgz#6ab1e52c71dfc0c0707008a91729a9491fe9f76c"
+  integrity sha512-HDAyJ4MNQBboGpUnHAVUNJs6X0lh058s6FuixsFGP7MgJYpD6Vasd6nzSG5iIfXu1zAYlHJ/zsOKNlrenTUBnw==
   dependencies:
-    array-includes "^3.1.3"
+    array-includes "^3.1.4"
     object.assign "^4.1.2"
 
 keccak256@^1.0.6:
@@ -6246,9 +6246,9 @@ node-fetch@2.6.7, node-fetch@^2.6.1, node-fetch@~2.6.0:
     whatwg-url "^5.0.0"
 
 node-gyp-build@^4.2.0, node-gyp-build@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.3.0.tgz#9f256b03e5826150be39c764bf51e993946d71a3"
-  integrity sha512-iWjXZvmboq0ja1pUGULQBexmxq8CV4xBhX7VDOTbL7ZR4FOowwY/VOtRxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.4.0.tgz#42e99687ce87ddeaf3a10b99dc06abc11021f3f4"
+  integrity sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==
 
 node-releases@^2.0.2:
   version "2.0.2"
@@ -6657,9 +6657,9 @@ postcss@^8.1.7:
     source-map-js "^1.0.2"
 
 posthog-js@^1.14.4:
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.20.1.tgz#4dc438230643cf387718f626c3d33f9fe8fce399"
-  integrity sha512-Dm+illvBhg7W859/Crx3tvDo8eZ4bbWl4bqY3Dod4jLvcaE3iweOn9r7IKamo6OxmhrNNtBMGPD6+jusBnJYtw==
+  version "1.20.2"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.20.2.tgz#f9debdc955ffe8e03e1004ded20df731affc3832"
+  integrity sha512-0HxG2aVObhGz6I98+N/tTZ0Azkus6vYPDS+TiDFO1UWx88QVzflcTAhybsBdhG0xfmghuC6jvFui73hjdimZeg==
   dependencies:
     "@sentry/types" "^6.11.0"
     fflate "^0.4.1"

@@ -11,6 +11,7 @@ import {
   Role,
   Split,
   Token,
+  TokenDrop,
   Vote,
 } from "@thirdweb-dev/sdk";
 import { SUPPORTED_CHAIN_ID } from "utils/network";
@@ -243,4 +244,5 @@ export const CacheKeyMap: Record<ContractType, any> = {
   [Marketplace.contractType]: marketplaceKeys,
   [Pack.contractType]: packKeys,
   [Split.contractType]: splitsKeys,
+  [TokenDrop.contractType]: null,
 };
