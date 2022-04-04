@@ -18,30 +18,28 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const tokenBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${_address}/erc20?chain=${_chain}`;
   const nativeBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${_address}/balance?chain=${_chain}`;
 
-  const tokenBalance = await fetch(tokenBalanceEndpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.MORALIS_API_KEY || "",
-    },
-  });
+  const [tokenBalances, nativeBalance] = await Promise.all([
+    fetch(tokenBalanceEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.MORALIS_API_KEY || "",
+      },
+    }).then((tRes) => tRes.json()),
+    fetch(nativeBalanceEndpoint, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.MORALIS_API_KEY || "",
+      },
+    }).then((nRes) => nRes.json()),
+  ]);
 
-  const tokenBalances = await tokenBalance.json();
-
-  const nativeBalance = await fetch(nativeBalanceEndpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": process.env.MORALIS_API_KEY || "",
-    },
-  });
-
-  const { balance } = await nativeBalance.json();
   const balances = [
     ...tokenBalances,
     {
       token_address: AddressZero,
-      balance,
+      balance: nativeBalance.balance,
     },
   ];
 
