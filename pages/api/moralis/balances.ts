@@ -1,4 +1,5 @@
 import { AddressZero } from "@ethersproject/constants";
+import { isAddress } from "ethers/lib/utils";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -7,8 +8,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { chain, address } = req.body;
-  const tokenBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${address}/erc20?chain=${chain}`;
-  const nativeBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${address}/balance?chain=${chain}`;
+  if (!isAddress(address)) {
+    return res.status(400).json({ error: "invalid address" });
+  }
+
+  const _chain = encodeURIComponent(chain);
+  const _address = encodeURIComponent(address);
+
+  const tokenBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${_address}/erc20?chain=${_chain}`;
+  const nativeBalanceEndpoint = `https://deep-index.moralis.io/api/v2/${_address}/balance?chain=${_chain}`;
 
   const tokenBalance = await fetch(tokenBalanceEndpoint, {
     method: "GET",
