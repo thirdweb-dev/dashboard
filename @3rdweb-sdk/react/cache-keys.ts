@@ -170,6 +170,11 @@ export const splitsKeys = {
   all: ["splits"] as const,
   lists: () => [...splitsKeys.all, "list"] as const,
   list: (address = AddressZero) => [...splitsKeys.lists(), address] as const,
+  detail: (address = AddressZero) => [...splitsKeys.all, address] as const,
+  currencies: (address = AddressZero) =>
+    [...splitsKeys.detail(address), "currencies"] as const,
+  balances: (address = AddressZero) =>
+    [...splitsKeys.detail(address), "balances"] as const,
 };
 
 export const voteKeys = {
@@ -244,5 +249,5 @@ export const CacheKeyMap: Record<ContractType, any> = {
   [Marketplace.contractType]: marketplaceKeys,
   [Pack.contractType]: packKeys,
   [Split.contractType]: splitsKeys,
-  [TokenDrop.contractType]: null,
+  [TokenDrop.contractType]: {},
 };
