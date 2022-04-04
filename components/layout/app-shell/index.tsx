@@ -29,6 +29,9 @@ export const AppShell: React.FC = ({ children }) => {
   const { pathname } = useRouter();
   const { trackEvent } = useTrack();
 
+  const isCustomContractLayout =
+    pathname === "/[wallet]/[network]/[...customContract]";
+
   return (
     <Flex
       h="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
@@ -52,13 +55,14 @@ export const AppShell: React.FC = ({ children }) => {
         flexShrink={0}
         flexDir="column"
         overflowY="auto"
+        id="tw-scroll-container"
       >
         <Box
           background="backgroundHighlight"
           zIndex="banner"
-          shadow="sm"
-          position="sticky"
-          top={0}
+          shadow={isCustomContractLayout ? undefined : "sm"}
+          position={isCustomContractLayout ? undefined : "sticky"}
+          top={isCustomContractLayout ? undefined : 0}
         >
           <Container
             maxW="container.page"
@@ -161,11 +165,19 @@ export const AppShell: React.FC = ({ children }) => {
             </Stack>
           </Container>
         </Box>
-        <EarlyAccessBanner />
-        <Container flexGrow={1} as="main" maxW="container.page" py={8}>
-          <Breadcrumbs />
-          {children}
-        </Container>
+        {isCustomContractLayout ? (
+          <Box as="main" flexGrow={1}>
+            {children}
+          </Box>
+        ) : (
+          <>
+            <EarlyAccessBanner />
+            <Container flexGrow={1} as="main" maxW="container.page" py={8}>
+              <Breadcrumbs />
+              {children}
+            </Container>
+          </>
+        )}
         <Divider />
         <Container as="footer" maxW="container.page" w="100%" py={4}>
           <Stack>
