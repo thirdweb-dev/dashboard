@@ -83,9 +83,9 @@ export const ContractRoyalties = <TContract extends RoyaltyContract>({
         )}
         direction="column"
         gap={8}
-        pt={10}
+        pt={{ base: 6, md: 10 }}
       >
-        <Flex direction="column" gap={2} px={10}>
+        <Flex direction="column" gap={2} px={{ base: 6, md: 10 }}>
           <Heading size="title.sm">Royalties</Heading>
           <Text size="body.md" fontStyle="italic">
             Determine the address that should receive the revenue from royalties

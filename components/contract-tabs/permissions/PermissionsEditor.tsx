@@ -106,7 +106,6 @@ export const PermissionEditor: React.FC<IPermissionEditor> = ({
                   icon={<ImPaste />}
                   _hover={{ borderColor: "blue.500" }}
                   borderWidth="1px"
-                  // bg="gray.200"
                   onClick={() => {
                     navigator.clipboard
                       .readText()

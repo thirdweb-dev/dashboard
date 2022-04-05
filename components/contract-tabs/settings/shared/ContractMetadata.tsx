@@ -58,7 +58,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
 
   return (
     <Card p={0}>
-      <Box pt={10}>
+      <Box pt={{ base: 6, md: 10 }}>
         <Flex
           as="form"
           onSubmit={handleSubmit((d) => {
@@ -86,7 +86,12 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
           direction="column"
           gap={8}
         >
-          <Flex px={10} as="section" direction="column" gap={4}>
+          <Flex
+            px={{ base: 6, md: 10 }}
+            as="section"
+            direction="column"
+            gap={4}
+          >
             <Flex direction="column">
               <Heading size="title.md">General Settings</Heading>
               <Text size="body.md" fontStyle="italic">

@@ -77,9 +77,9 @@ export const ContractPrimarySale = <TContract extends RecipientContract>({
         )}
         direction="column"
         gap={8}
-        pt={10}
+        pt={{ base: 6, md: 10 }}
       >
-        <Flex direction="column" gap={2} px={10}>
+        <Flex direction="column" gap={2} px={{ base: 6, md: 10 }}>
           <Heading size="title.sm">Primary Sales</Heading>
           <Text size="body.md" fontStyle="italic">
             Determine the address that should receive the revenue from initial
