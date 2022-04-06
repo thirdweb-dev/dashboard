@@ -7,11 +7,13 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  Checkbox,
   Code,
   Container,
   Divider,
   Flex,
   Heading,
+  SimpleGrid,
   Skeleton,
   Text,
 } from "@chakra-ui/react";
@@ -22,7 +24,7 @@ import { Card } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
 function usePublishMetadataQuery(uri?: string) {
@@ -49,20 +51,50 @@ const PublishPage: ConsolePage = () => {
     return uri ? (Array.isArray(uri) ? uri : [uri]) : [];
   }, [router.query]);
 
+  const [urisToPublish, setUrisToPublish] = useState(() => uris);
+
+  useEffect(() => {
+    setUrisToPublish(uris);
+  }, [uris]);
+
+  const toggleUriPublish = useCallback((uri: string) => {
+    setUrisToPublish((_prevUris) => {
+      if (_prevUris.includes(uri)) {
+        return _prevUris.filter((u) => u !== uri);
+      }
+      return [..._prevUris, uri];
+    });
+  }, []);
+
   return (
     <Track>
       <Container maxW="xl">
         <Flex flexDirection="column" gap={6}>
           <Heading size="title.md">Publish your contracts</Heading>
-
-          {uris.map((uri) => (
-            <PublishMetadata uri={uri} key={uri} />
-          ))}
+          <SimpleGrid
+            columns={{
+              base: 1,
+              sm: Math.min(uris.length, 2),
+              md: Math.min(uris.length, 3),
+              lg: Math.min(uris.length, 4),
+            }}
+          >
+            {uris.map((uri) => (
+              <Flex w="100%" direction="row" key={uri} gap={2}>
+                <Checkbox
+                  isChecked={urisToPublish.includes(uri)}
+                  onChange={() => toggleUriPublish(uri)}
+                />
+                <PublishMetadata uri={uri} />
+              </Flex>
+            ))}
+          </SimpleGrid>
 
           <TransactionButton
             width="full"
             colorScheme="primary"
-            transactionCount={1}
+            isDisabled={urisToPublish.length === 0}
+            transactionCount={urisToPublish.length}
           >
             Publish
           </TransactionButton>
@@ -84,7 +116,7 @@ const PublishMetadata: React.VFC<PublishMetadataProps> = ({ uri }) => {
   const metadataQuery = usePublishMetadataQuery(uri);
 
   return (
-    <Card px={0}>
+    <Card px={0} flexGrow={1}>
       {metadataQuery.isError ? (
         <Alert status="error">
           <AlertIcon />
