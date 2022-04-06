@@ -10,7 +10,7 @@ export interface IContractEmptyState {
 }
 
 export const ContractEmptyState: React.FC<IContractEmptyState> = ({
-  title = "There's nothing here to see yet!",
+  title = "There is nothing here.",
   contract,
 }) => {
   const contractType =
