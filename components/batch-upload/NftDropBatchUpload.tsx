@@ -60,15 +60,6 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
     onClose();
   }, [onClose, setStep, reset]);
 
-  const onReaderLoad = (event: any) => {
-    const obj = JSON.parse(event.target.result);
-    if (obj.length > 0) {
-      setJsonData(obj);
-    } else {
-      setNoFile(true);
-    }
-  };
-
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
       setNoFile(false);
@@ -87,8 +78,6 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
       } else {
         setNoFile(true);
       }
-
-      console.log({ jsonProcessed });
 
       const { csv, json, images, videos } = getAcceptedFiles(acceptedFiles);
 
