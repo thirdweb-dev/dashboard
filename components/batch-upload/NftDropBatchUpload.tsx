@@ -82,12 +82,13 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
           jsonProcessed.push(JSON.parse(await f.text()));
         }
       } else if (jsonFiles.length === 1) {
-        jsonProcessed = JSON.parse(await jsonFiles[0].text());
+        const temp = JSON.parse(await jsonFiles[0].text());
+        jsonProcessed = Array.isArray(temp) ? temp : [temp];
       } else {
         setNoFile(true);
       }
 
-      console.log({ jsonFiles });
+      console.log({ jsonProcessed });
 
       const { csv, json, images, videos } = getAcceptedFiles(acceptedFiles);
 
@@ -110,7 +111,7 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
             setCSVData(validResults);
           },
         });
-      } else if (jsonProcessed.length) {
+      } else if (jsonProcessed.length > 0) {
         setJsonData(jsonProcessed);
       } else if (json) {
         setJsonData(json);
