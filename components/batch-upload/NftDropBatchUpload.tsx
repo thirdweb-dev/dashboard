@@ -23,6 +23,7 @@ import { IoChevronBack } from "react-icons/io5";
 import {
   CSVData,
   getAcceptedFiles,
+  jsonMimeTypes,
   transformHeader,
   useMergedData,
 } from "utils/batch";
@@ -72,6 +73,17 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
     async (acceptedFiles) => {
       setNoFile(false);
 
+      const postProcessed: File[] = [];
+      if (
+        acceptedFiles.filter(
+          (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
+        ).length > 1
+      ) {
+        for (const f of acceptedFiles) {
+          postProcessed.push(JSON.parse(await f.text()));
+        }
+      }
+
       const { csv, json, images, videos } = getAcceptedFiles(acceptedFiles);
 
       if (csv) {
@@ -93,6 +105,8 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
             setCSVData(validResults);
           },
         });
+      } else if (postProcessed.length) {
+        setJsonData(postProcessed);
       } else if (json) {
         const reader = new FileReader();
         reader.onload = onReaderLoad;
