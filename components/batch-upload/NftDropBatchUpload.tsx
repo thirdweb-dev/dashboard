@@ -23,7 +23,6 @@ import { IoChevronBack } from "react-icons/io5";
 import {
   CSVData,
   getAcceptedFiles,
-  jsonMimeTypes,
   transformHeader,
   useMergedData,
 } from "utils/batch";
@@ -64,22 +63,9 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
     async (acceptedFiles) => {
       setNoFile(false);
 
-      const jsonFiles = acceptedFiles.filter(
-        (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
+      const { csv, json, images, videos } = await getAcceptedFiles(
+        acceptedFiles,
       );
-      let jsonProcessed: any = [];
-      if (jsonFiles.length > 1) {
-        for (const f of acceptedFiles) {
-          jsonProcessed.push(JSON.parse(await f.text()));
-        }
-      } else if (jsonFiles.length === 1) {
-        const temp = JSON.parse(await jsonFiles[0].text());
-        jsonProcessed = Array.isArray(temp) ? temp : [temp];
-      } else {
-        setNoFile(true);
-      }
-
-      const { csv, json, images, videos } = getAcceptedFiles(acceptedFiles);
 
       if (csv) {
         Papa.parse<CSVData>(csv, {
@@ -100,9 +86,7 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
             setCSVData(validResults);
           },
         });
-      } else if (jsonProcessed.length > 0) {
-        setJsonData(jsonProcessed);
-      } else if (json) {
+      } else if (json?.length > 0) {
         setJsonData(json);
       } else {
         console.error("No CSV or JSON found");
