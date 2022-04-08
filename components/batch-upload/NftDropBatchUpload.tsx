@@ -73,16 +73,21 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
     async (acceptedFiles) => {
       setNoFile(false);
 
-      const postProcessed: File[] = [];
-      if (
-        acceptedFiles.filter(
-          (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
-        ).length > 1
-      ) {
+      const jsonFiles = acceptedFiles.filter(
+        (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
+      );
+      let postProcessed: any = [];
+      if (jsonFiles.length > 1) {
         for (const f of acceptedFiles) {
           postProcessed.push(JSON.parse(await f.text()));
         }
+      } else if (jsonFiles.length === 1) {
+        postProcessed = JSON.parse(await jsonFiles[0].text());
+      } else {
+        setNoFile(true);
       }
+
+      console.log({ jsonFiles });
 
       const { csv, json, images, videos } = getAcceptedFiles(acceptedFiles);
 
@@ -108,9 +113,7 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
       } else if (postProcessed.length) {
         setJsonData(postProcessed);
       } else if (json) {
-        const reader = new FileReader();
-        reader.onload = onReaderLoad;
-        reader.readAsText(json);
+        setJsonData(json);
       } else {
         console.error("No CSV or JSON found");
         setNoFile(true);
