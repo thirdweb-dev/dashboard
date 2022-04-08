@@ -79,6 +79,7 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
 
   // TODO FIXME
   const onSubmit = (data: any) => {
+    console.log(data);
     mint.mutate(data, { onSuccess, onError });
   };
 
