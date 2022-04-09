@@ -51,7 +51,7 @@ export const getAcceptedFiles = async (acceptedFiles: File[]) => {
   );
   let json: any = [];
   if (jsonFiles.length > 1) {
-    for (const f of acceptedFiles) {
+    for (const f of jsonFiles) {
       json.push(JSON.parse(await f.text()));
     }
   } else if (jsonFiles.length === 1) {
