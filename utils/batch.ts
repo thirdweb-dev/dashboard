@@ -49,7 +49,7 @@ export const getAcceptedFiles = async (acceptedFiles: File[]) => {
   const jsonFiles = acceptedFiles.filter(
     (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
   );
-  let json: any = [];
+  let json: File[] = [];
   if (jsonFiles.length > 1) {
     for (const f of jsonFiles) {
       json.push(JSON.parse(await f.text()));
