@@ -59,6 +59,8 @@ export const getAcceptedFiles = async (acceptedFiles: File[]) => {
     json = Array.isArray(temp) ? temp : [temp];
   }
 
+  json = json.sort((a, b) => parseInt(a.name) - parseInt(b.name));
+
   const csv = acceptedFiles.find(
     (f) => csvMimeTypes.includes(f.type) || f.name.endsWith(".csv"),
   );
