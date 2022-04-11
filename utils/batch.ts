@@ -46,9 +46,10 @@ export const transformHeader = (h: string) => {
 };
 
 export const getAcceptedFiles = async (acceptedFiles: File[]) => {
-  const jsonFiles = acceptedFiles.filter(
-    (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
-  );
+  const jsonFiles = acceptedFiles
+    .filter((f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"))
+    .sort((a, b) => parseInt(a.name) - parseInt(b.name));
+
   let json: File[] = [];
   if (jsonFiles.length > 1) {
     for (const f of jsonFiles) {
@@ -58,8 +59,6 @@ export const getAcceptedFiles = async (acceptedFiles: File[]) => {
     const temp = JSON.parse(await jsonFiles[0].text());
     json = Array.isArray(temp) ? temp : [temp];
   }
-
-  json = json.sort((a, b) => parseInt(a.name) - parseInt(b.name));
 
   const csv = acceptedFiles.find(
     (f) => csvMimeTypes.includes(f.type) || f.name.endsWith(".csv"),
