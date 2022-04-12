@@ -765,7 +765,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
         },
       },
       {
-        Header: "Address",
+        Header: "Project Address",
         accessor: (row) => row.address,
         Cell: (cell: Cell<typeof projects[number], "address">) => {
           return <AddressCopyButton address={cell.row.original.address} />;
