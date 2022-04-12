@@ -385,7 +385,11 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                           ).invalid
                         }
                       >
-                        <Heading as={FormLabel} size="label.md">
+                        <Heading
+                          as={FormLabel}
+                          size="label.md"
+                          maxWidth={{ base: "50%", md: "100%" }}
+                        >
                           What currency do you want to use?
                         </Heading>
                         <CurrencySelector
