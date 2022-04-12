@@ -1,4 +1,4 @@
-import { dropKeys } from "../cache-keys";
+import { NFTDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -21,7 +21,7 @@ export function useNFTDropContractMetadata(contractAddress?: string) {
 export function useNFTDropSupply(contractAddress?: string) {
   const dropContract = useNFTDrop(contractAddress);
   return useQueryWithNetwork(
-    dropKeys.supply(contractAddress),
+    NFTDropKeys.supply(contractAddress),
     async () => {
       return {
         totalSupply: (await dropContract?.totalSupply())?.toNumber() || 0,
@@ -40,7 +40,7 @@ export function useNFTDropSupply(contractAddress?: string) {
 export function useNFTDropActiveClaimCondition(contractAddress?: string) {
   const dropContract = useNFTDrop(contractAddress);
   return useQueryWithNetwork(
-    dropKeys.activeClaimCondition(contractAddress),
+    NFTDropKeys.activeClaimCondition(contractAddress),
     async () => {
       return await dropContract?.claimConditions.getActive();
     },
@@ -54,7 +54,7 @@ export function useNFTDropBalance(contractAddress?: string) {
   const dropContract = useNFTDrop(contractAddress);
   const { address } = useWeb3();
   return useQueryWithNetwork(
-    dropKeys.balanceOf(contractAddress, address),
+    NFTDropKeys.balanceOf(contractAddress, address),
     async () => {
       return await dropContract?.balanceOf(address || "");
     },
@@ -68,7 +68,7 @@ export function useBatchesToReveal(contractAddress?: string) {
   const dropContract = useNFTDrop(contractAddress);
   const { address } = useWeb3();
   return useQueryWithNetwork(
-    dropKeys.batchesToReveal(contractAddress),
+    NFTDropKeys.batchesToReveal(contractAddress),
     async () => {
       return await dropContract?.revealer.getBatchesToReveal();
     },
@@ -93,7 +93,7 @@ export function useNFTDropMintMutation(contract?: NFTDrop) {
         return invalidate([
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
-          dropKeys.supply(contract?.getAddress()),
+          NFTDropKeys.supply(contract?.getAddress()),
         ]);
       },
     },
@@ -111,7 +111,7 @@ export function useNFTDropBatchMint(contract?: NFTDrop) {
         return invalidate([
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
-          dropKeys.supply(contract?.getAddress()),
+          NFTDropKeys.supply(contract?.getAddress()),
         ]);
       },
     },
@@ -143,7 +143,7 @@ export function useNFTDropClaimConditionMutation(contract?: NFTDrop) {
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
         return invalidate([
-          dropKeys.activeClaimCondition(contract?.getAddress()),
+          NFTDropKeys.activeClaimCondition(contract?.getAddress()),
         ]);
       },
     },
@@ -171,8 +171,8 @@ export function useNFTDropDelayedRevealBatchMint(contract?: NFTDrop) {
         return invalidate([
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
-          dropKeys.supply(contract?.getAddress()),
-          dropKeys.batchesToReveal(contract?.getAddress()),
+          NFTDropKeys.supply(contract?.getAddress()),
+          NFTDropKeys.batchesToReveal(contract?.getAddress()),
         ]);
       },
     },
@@ -195,8 +195,8 @@ export function useNFTDropRevealMutation(contract?: NFTDrop) {
       onSuccess: (_data, _variables, _options, invalidate) => {
         return invalidate([
           getAllQueryKey(contract),
-          dropKeys.detail(contract?.getAddress()),
-          dropKeys.batchesToReveal(contract?.getAddress()),
+          NFTDropKeys.detail(contract?.getAddress()),
+          NFTDropKeys.batchesToReveal(contract?.getAddress()),
         ]);
       },
     },

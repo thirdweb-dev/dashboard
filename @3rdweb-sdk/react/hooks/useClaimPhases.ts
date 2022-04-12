@@ -1,4 +1,4 @@
-import { bundleDropKeys, dropKeys } from "../cache-keys";
+import { NFTDropKeys, editionDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -23,7 +23,7 @@ export function useClaimPhases(
 
 function useNFTDropClaimPhases(contract?: NFTDrop) {
   return useQueryWithNetwork(
-    dropKeys.claimPhases(contract?.getAddress()),
+    NFTDropKeys.claimPhases(contract?.getAddress()),
     () => contract?.claimConditions.getAll(),
     {
       enabled: !!contract,
@@ -33,7 +33,7 @@ function useNFTDropClaimPhases(contract?: NFTDrop) {
 
 function useEditionDropClaimPhases(contract?: EditionDrop, tokenId?: string) {
   return useQueryWithNetwork(
-    bundleDropKeys.claimPhases(contract?.getAddress(), tokenId),
+    editionDropKeys.claimPhases(contract?.getAddress(), tokenId),
     () => contract?.claimConditions.getAll(tokenId as string),
     {
       enabled: !!contract && !!tokenId,
@@ -76,13 +76,16 @@ function useNFTDropPhasesMutation(contract?: NFTDrop) {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([dropKeys.claimPhases(contract?.getAddress())]);
+        return invalidate([NFTDropKeys.claimPhases(contract?.getAddress())]);
       },
     },
   );
 }
 
-function useEditionDropPhasesMutation(contract?: EditionDrop, tokenId?: string) {
+function useEditionDropPhasesMutation(
+  contract?: EditionDrop,
+  tokenId?: string,
+) {
   return useMutationWithInvalidate(
     async (phases: ClaimConditionInput[]) => {
       invariant(contract, "contract is required");
@@ -93,7 +96,7 @@ function useEditionDropPhasesMutation(contract?: EditionDrop, tokenId?: string) 
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
         return invalidate([
-          bundleDropKeys.claimPhases(contract?.getAddress(), tokenId),
+          editionDropKeys.claimPhases(contract?.getAddress(), tokenId),
         ]);
       },
     },

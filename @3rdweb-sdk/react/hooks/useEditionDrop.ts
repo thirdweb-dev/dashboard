@@ -1,4 +1,4 @@
-import { bundleDropKeys } from "../cache-keys";
+import { editionDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -43,7 +43,7 @@ export function useEditionDropActiveClaimCondition(
 ) {
   const dropContract = useEditionDrop(contractAddress);
   return useQueryWithNetwork(
-    bundleDropKeys.activeClaimCondition(contractAddress, tokenId),
+    editionDropKeys.activeClaimCondition(contractAddress, tokenId),
     async () => {
       return await dropContract?.claimConditions.getActive(tokenId as string);
     },
@@ -60,7 +60,7 @@ export function useEditionDropBalance(
   const dropContract = useEditionDrop(contractAddress);
   const { address } = useWeb3();
   return useQueryWithNetwork(
-    bundleDropKeys.balanceOf(contractAddress, address, tokenId),
+    editionDropKeys.balanceOf(contractAddress, address, tokenId),
     async () => {
       return await dropContract?.balanceOf(address || "", tokenId || "");
     },
@@ -120,7 +120,7 @@ export function useEditionDropClaimMutation(
       onSuccess: (_data, _variables, _options, invalidate) => {
         return invalidate([
           getAllQueryKey(contract),
-          bundleDropKeys.detail(contract?.getAddress()),
+          editionDropKeys.detail(contract?.getAddress()),
         ]);
       },
     },
@@ -139,7 +139,7 @@ export function useEditionDropClaimConditionMutation(
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([bundleDropKeys.detail(contract?.getAddress())]);
+        return invalidate([editionDropKeys.detail(contract?.getAddress())]);
       },
     },
   );
