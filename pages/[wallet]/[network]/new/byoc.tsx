@@ -106,10 +106,11 @@ const BYOCDeployPage: ConsolePage = () => {
           isLoading={deploy.isLoading}
           onClick={() =>
             deploy.mutate(contractParams, {
-              onSuccess: () => {
+              onSuccess: (data) => {
+                console.log("contract deployed:", data);
                 toast({
                   title: "Success",
-                  description: "Successfully deployed BYOC!",
+                  description: `Successfully deployed BYOC with address: ${data}!`,
                   status: "success",
                   duration: 5000,
                   isClosable: true,
