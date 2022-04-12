@@ -1,6 +1,6 @@
 import { PropertiesFormControl } from "../properties.shared";
 import { IMintFormProps } from "./types";
-import { useEditionDropMintMutation } from "@3rdweb-sdk/react";
+import { useEditionCreateAndMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -22,7 +22,7 @@ import {
   useModalContext,
   useToast,
 } from "@chakra-ui/react";
-import { EditionDrop } from "@thirdweb-dev/sdk";
+import { Edition } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { Button } from "components/buttons/Button";
 import { MismatchButton } from "components/buttons/MismatchButton";
@@ -33,13 +33,12 @@ import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
 
-const MINT_FORM_ID = "drop-mint-form";
-interface IDropMintForm extends IMintFormProps {
-  contract: EditionDrop;
+const MINT_FORM_ID = "collection-mint-form";
+interface IEditionMintForm extends IMintFormProps {
+  contract: Edition;
 }
-
-export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
-  const mint = useEditionDropMintMutation(contract);
+export const EditionMintForm: React.FC<IEditionMintForm> = ({ contract }) => {
+  const mint = useEditionCreateAndMintMutation(contract);
   const {
     setValue,
     control,
@@ -47,11 +46,7 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    // resolver: zodResolver(),
-  });
-
-  const imageUrl = useImageFileOrUrl(watch("image"));
+  } = useForm();
 
   const modalContext = useModalContext();
   const toast = useToast();
@@ -59,7 +54,7 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
   const onSuccess = () => {
     toast({
       title: "Success",
-      description: "Bundledrop created successfully",
+      description: "Minted!",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -69,25 +64,19 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
 
   const onError = (error: unknown) => {
     toast({
-      title: "Error",
+      title: "Error minting",
       description: parseErrorToMessage(error),
       status: "error",
       duration: 9000,
       isClosable: true,
     });
   };
-
-  // TODO FIXME
-  const onSubmit = (data: any) => {
-    mint.mutate(data, { onSuccess, onError });
-  };
-
   const setFile = (file: File) => {
     if (file.type.includes("image")) {
       // image files
       setValue("image", file);
-      if (watch("external_url") instanceof File) {
-        setValue("external_url", undefined);
+      if (watch("external_link") instanceof File) {
+        setValue("external_link", undefined);
       }
       if (watch("animation_url") instanceof File) {
         setValue("animation_url", undefined);
@@ -116,6 +105,7 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
     }
   };
 
+  const imageUrl = useImageFileOrUrl(watch("image"));
   const mediaFileUrl =
     watch("animation_url") instanceof File
       ? watch("animation_url")
@@ -135,7 +125,6 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
       : undefined;
 
   const externalUrl = watch("external_url");
-
   const externalIsTextFile =
     externalUrl instanceof File &&
     (externalUrl.type.includes("text") || externalUrl.type.includes("pdf"));
@@ -151,7 +140,9 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
           spacing={6}
           as="form"
           id={MINT_FORM_ID}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((d: any) =>
+            mint.mutate(d, { onSuccess, onError }),
+          )}
         >
           <Stack>
             <Heading size="subtitle.md">Metadata</Heading>
@@ -202,11 +193,20 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
               <FormErrorMessage>{errors?.image?.message}</FormErrorMessage>
             </FormControl>
           )}
-
           <FormControl isInvalid={!!errors.description}>
             <FormLabel>Description</FormLabel>
             <Textarea {...register("description")} />
             <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isRequired isInvalid={!!errors.supply}>
+            <FormLabel>Initial Supply</FormLabel>
+            <Input
+              type="number"
+              step="1"
+              pattern="[0-9]"
+              {...register("supply")}
+            />
+            <FormErrorMessage>{errors?.supply?.message}</FormErrorMessage>
           </FormControl>
           <PropertiesFormControl
             watch={watch}
@@ -276,7 +276,7 @@ export const BundleDropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
           type="submit"
           colorScheme="primary"
         >
-          Create Edition Drop
+          Create NFTs
         </MismatchButton>
       </DrawerFooter>
     </>

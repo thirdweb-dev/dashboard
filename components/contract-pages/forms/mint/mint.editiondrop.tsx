@@ -1,6 +1,6 @@
 import { PropertiesFormControl } from "../properties.shared";
 import { IMintFormProps } from "./types";
-import { useNFTCollectionMintMutation } from "@3rdweb-sdk/react";
+import { useEditionDropMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -22,7 +22,7 @@ import {
   useModalContext,
   useToast,
 } from "@chakra-ui/react";
-import { NFTCollection } from "@thirdweb-dev/sdk";
+import { EditionDrop } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { Button } from "components/buttons/Button";
 import { MismatchButton } from "components/buttons/MismatchButton";
@@ -33,13 +33,15 @@ import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
 
-const MINT_FORM_ID = "nft-mint-form";
-interface INFTMintForm extends IMintFormProps {
-  contract: NFTCollection;
+const MINT_FORM_ID = "edition-drop-mint-form";
+interface INFTDropMintForm extends IMintFormProps {
+  contract: EditionDrop;
 }
 
-export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
-  const mint = useNFTCollectionMintMutation(contract);
+export const EditionNFTDropMintForm: React.FC<INFTDropMintForm> = ({
+  contract,
+}) => {
+  const mint = useEditionDropMintMutation(contract);
   const {
     setValue,
     control,
@@ -48,8 +50,10 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: zodResolver(NftTokenSchema),
+    // resolver: zodResolver(),
   });
+
+  const imageUrl = useImageFileOrUrl(watch("image"));
 
   const modalContext = useModalContext();
   const toast = useToast();
@@ -57,7 +61,7 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
   const onSuccess = () => {
     toast({
       title: "Success",
-      description: "NFT minted successfully",
+      description: "Edition Drop created successfully",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -67,7 +71,7 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
 
   const onError = (error: unknown) => {
     toast({
-      title: "Error minting NFT",
+      title: "Error",
       description: parseErrorToMessage(error),
       status: "error",
       duration: 9000,
@@ -114,7 +118,6 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
     }
   };
 
-  const imageUrl = useImageFileOrUrl(watch("image"));
   const mediaFileUrl =
     watch("animation_url") instanceof File
       ? watch("animation_url")
@@ -134,6 +137,7 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
       : undefined;
 
   const externalUrl = watch("external_url");
+
   const externalIsTextFile =
     externalUrl instanceof File &&
     (externalUrl.type.includes("text") || externalUrl.type.includes("pdf"));
@@ -200,6 +204,7 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
               <FormErrorMessage>{errors?.image?.message}</FormErrorMessage>
             </FormControl>
           )}
+
           <FormControl isInvalid={!!errors.description}>
             <FormLabel>Description</FormLabel>
             <Textarea {...register("description")} />
@@ -273,7 +278,7 @@ export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
           type="submit"
           colorScheme="primary"
         >
-          Mint NFT
+          Create Edition Drop
         </MismatchButton>
       </DrawerFooter>
     </>

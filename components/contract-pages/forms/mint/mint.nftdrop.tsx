@@ -33,12 +33,12 @@ import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
 
-const MINT_FORM_ID = "drop-mint-form";
-interface IDropMintForm extends IMintFormProps {
+const MINT_FORM_ID = "nft-drop-mint-form";
+interface INFTDropMintForm extends IMintFormProps {
   contract: NFTDrop;
 }
 
-export const DropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
+export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
   const mint = useNFTDropMintMutation(contract);
   const {
     setValue,
@@ -59,7 +59,7 @@ export const DropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
   const onSuccess = () => {
     toast({
       title: "Success",
-      description: "Drop created successfully",
+      description: "NFT Drop created successfully",
       status: "success",
       duration: 5000,
       isClosable: true,
