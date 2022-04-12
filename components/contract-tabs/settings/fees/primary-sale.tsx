@@ -5,8 +5,6 @@ import {
   useSetSaleRecipientMutation,
 } from "@3rdweb-sdk/react";
 import {
-  Box,
-  Divider,
   Flex,
   FormControl,
   FormErrorMessage,

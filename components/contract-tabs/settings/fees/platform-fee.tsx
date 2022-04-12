@@ -3,12 +3,8 @@ import {
   PlatformFeeContract,
   useContractPlatformFee,
   useContractPlatformFeeMutation,
-  useContractRoyalty,
-  useContractRoyaltyMutation,
 } from "@3rdweb-sdk/react";
 import {
-  Box,
-  Divider,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -19,10 +15,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CommonPlatformFeeSchema,
-  CommonRoyaltySchema,
-} from "@thirdweb-dev/sdk";
+import { CommonPlatformFeeSchema } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { Card } from "components/layout/Card";
