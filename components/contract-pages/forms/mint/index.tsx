@@ -45,7 +45,7 @@ export const MintForm: React.FC<IMintFormProps> = ({ contract }) => {
       </>
     );
   }
-  // if its a bundle drop contract
+  // if its a edition drop contract
   if (contract instanceof EditionDrop) {
     return (
       <>
@@ -56,7 +56,7 @@ export const MintForm: React.FC<IMintFormProps> = ({ contract }) => {
       </>
     );
   }
-  // if its a bundle contract
+  // if its a edition contract
   if (contract instanceof Edition) {
     return (
       <>
