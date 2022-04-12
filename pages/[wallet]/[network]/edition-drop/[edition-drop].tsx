@@ -21,12 +21,12 @@ const EditionDropPage: ConsolePage = () => {
     onClose: onBatchClose,
   } = useDisclosure();
 
-  const bundleDropAddress = useSingleQueryParam("edition-drop");
-  const contract = useEditionDrop(bundleDropAddress);
-  const metadata = useEditionDropContractMetadata(bundleDropAddress);
+  const editionDropAddress = useSingleQueryParam("edition-drop");
+  const contract = useEditionDrop(editionDropAddress);
+  const metadata = useEditionDropContractMetadata(editionDropAddress);
   const { Track } = useTrack({
     page: "bundle-drop",
-    drop: bundleDropAddress,
+    drop: editionDropAddress,
   });
 
   return (

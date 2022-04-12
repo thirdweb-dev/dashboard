@@ -10,13 +10,13 @@ import { ConsolePage } from "pages/_app";
 import React from "react";
 
 const EditionPage: ConsolePage = () => {
-  const bundleAddress = useSingleQueryParam("edition");
-  const contract = useEdition(bundleAddress);
+  const editionAddress = useSingleQueryParam("edition");
+  const contract = useEdition(editionAddress);
   const metadata = useContractMetadata(contract);
 
   const { Track } = useTrack({
     page: "bundle",
-    bundle: bundleAddress,
+    bundle: editionAddress,
   });
 
   return (
