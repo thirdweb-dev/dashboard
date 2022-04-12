@@ -11,7 +11,9 @@ import {
   IconButton,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputLeftElement,
+  InputRightAddon,
   InputRightElement,
   Stack,
   Text,
@@ -97,7 +99,7 @@ export const PermissionEditor: React.FC<IPermissionEditor> = ({
           isInvalid={address && isDisabled}
         >
           <InputGroup>
-            <InputLeftElement>
+            <InputLeftElement p={0}>
               <Tooltip label="Paste address from clipboard">
                 <IconButton
                   size="sm"
@@ -126,20 +128,27 @@ export const PermissionEditor: React.FC<IPermissionEditor> = ({
               onChange={(e) => setAddress(e.target.value)}
               placeholder={AddressZero}
             />
-            <InputRightElement width="120px">
-              <Button
-                leftIcon={<Icon as={FiPlus} boxSize={3} />}
-                size="sm"
-                width="120px"
-                colorScheme="blue"
-                borderRadius="md"
-                isDisabled={isDisabled}
-                onClick={addAddress}
-                mr="3px"
-              >
-                Add Address
-              </Button>
-            </InputRightElement>
+            <InputRightAddon
+              p={0}
+              border="none"
+              children={
+                <Button
+                  leftIcon={<Icon as={FiPlus} boxSize={4} />}
+                  size="sm"
+                  borderLeftRadius="none"
+                  borderRightRadius="md"
+                  colorScheme="blue"
+                  isDisabled={isDisabled}
+                  onClick={addAddress}
+                  height="100%"
+                  width="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  Add Address
+                </Button>
+              }
+            />
           </InputGroup>
           <FormErrorMessage>
             {members.includes(address)
@@ -185,7 +194,46 @@ const PermissionAddress: React.FC<IPermissionAddress> = ({
 
   return (
     <Flex gap={0} align="center">
-      <Flex
+      <InputGroup>
+        <InputLeftElement p={0}>
+          <Tooltip label="Copy address to clipboard">
+            <IconButton
+              size="sm"
+              borderRadius="md"
+              aria-label="copy address"
+              icon={<ImCopy />}
+              _hover={{ borderColor: "blue.500" }}
+              borderWidth="1px"
+              onClick={handleCopy}
+            />
+          </Tooltip>
+        </InputLeftElement>
+        <Input variant="filled" fontFamily="mono" value={member} />
+        <AdminOrSelfOnly contract={contract} self={member}>
+          <InputRightAddon
+            p={0}
+            border="none"
+            children={
+              <Button
+                leftIcon={<Icon as={FiTrash} boxSize={3} />}
+                size="sm"
+                borderLeftRadius="none"
+                borderRightRadius="md"
+                colorScheme="red"
+                isDisabled={isSubmitting}
+                onClick={removeAddress}
+                height="100%"
+                width="100%"
+                justifyContent="center"
+                alignItems="center"
+              >
+                Remove
+              </Button>
+            }
+          />
+        </AdminOrSelfOnly>
+      </InputGroup>
+      {/* <Flex
         height="40px"
         flexGrow={1}
         bg="inputBg"
@@ -224,7 +272,7 @@ const PermissionAddress: React.FC<IPermissionAddress> = ({
             Remove
           </Button>
         </AdminOrSelfOnly>
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 };
