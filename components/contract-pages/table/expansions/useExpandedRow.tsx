@@ -1,5 +1,5 @@
 import { useTableContext } from "../table-context";
-import { EditionDropTokenSettingsSection } from "./BundleDropTokenSettings";
+import { EditionDropTokenSettingsSection } from "./EditionDropTokenSettings";
 import { TransferSection } from "./TransferSection";
 import { EditionDrop, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { useCallback } from "react";

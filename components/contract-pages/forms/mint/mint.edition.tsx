@@ -33,7 +33,7 @@ import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
 
-const MINT_FORM_ID = "collection-mint-form";
+const MINT_FORM_ID = "edition-mint-form";
 interface IEditionMintForm extends IMintFormProps {
   contract: Edition;
 }
