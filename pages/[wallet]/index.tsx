@@ -425,7 +425,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
         },
       },
       {
-        Header: "Address",
+        Header: "Contract Address",
         accessor: (row) => row.address,
         Cell: (cell: Cell<typeof combinedList[number], "address">) => {
           return <AddressCopyButton address={cell.row.original.address} />;
