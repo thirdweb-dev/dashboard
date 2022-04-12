@@ -10,7 +10,7 @@ import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
 
 interface IVoteButton {
-  contract: ValidContractInstance;
+  contract?: ValidContractInstance;
 }
 
 export const ProposalButton: React.FC<IVoteButton> = ({ contract }) => {

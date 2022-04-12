@@ -1,3 +1,5 @@
+import { PublishMetadata } from "../publish";
+import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
   Box,
   Container,
@@ -6,19 +8,37 @@ import {
   IconButton,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { Card } from "components/layout/Card";
 import { LinkCard } from "components/link-card";
+import { LinkButton } from "components/shared/LinkButton";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import React from "react";
 import { FiChevronLeft } from "react-icons/fi";
 
+function usePublishedContractsQuery() {
+  const sdk = useSDK();
+  const address = useAddress();
+  return useQueryWithNetwork(
+    ["byoc-list", address],
+    () => {
+      return address && sdk ? sdk.publisher.getAll(address) : [];
+    },
+    {
+      enabled: !!address && !!sdk,
+    },
+  );
+}
+
 const DeployContract: ConsolePage = () => {
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const network = useSingleQueryParam("network");
   const router = useRouter();
+  const publishedContracts = usePublishedContractsQuery();
+
   return (
     <Card p={10}>
       <Flex direction="column" gap={8}>
@@ -76,6 +96,31 @@ const DeployContract: ConsolePage = () => {
             />
           </SimpleGrid>
         </Container>
+        <Flex direction="column" gap={4}>
+          <Heading textAlign="center" size="subtitle.sm">
+            BYOC published contracts
+          </Heading>
+          <SimpleGrid columns={2} gap={5}>
+            {publishedContracts.data?.map((contract) => (
+              <Flex
+                key={`${contract.id}_${contract.metadataUri}`}
+                direction="column"
+                gap={1}
+              >
+                <PublishMetadata
+                  uri={contract.metadataUri}
+                  bg="backgroundCardHighlight"
+                />
+                <LinkButton
+                  href={`/${wallet}/${network}/new/byoc?uri=${contract.metadataUri}`}
+                  colorScheme="primary"
+                >
+                  Deploy
+                </LinkButton>
+              </Flex>
+            ))}
+          </SimpleGrid>
+        </Flex>
       </Flex>
     </Card>
   );

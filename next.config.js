@@ -47,6 +47,11 @@ const moduleExports = {
         destination: "https://portal.thirdweb.com/:match*",
         permanent: true,
       },
+      {
+        source: "/dashboard/publish/:path*",
+        destination: "/dashboard/mumbai/publish/:path*",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {

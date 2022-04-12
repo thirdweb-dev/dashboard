@@ -40,7 +40,7 @@ const LazyNFTListPage: ConsolePage = () => {
       <ContractLayout
         contract={contract}
         metadata={metadata}
-        primaryAction={MintButton}
+        primaryAction={<MintButton contract={contract} />}
         secondaryAction={
           <MinterOnly contract={contract}>
             <MismatchButton

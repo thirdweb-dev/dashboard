@@ -71,7 +71,13 @@ const VotePage: ConsolePage = () => {
         contract={contract}
         metadata={metadata}
         data={data}
-        primaryAction={delegated ? ProposalButton : DelegateButton}
+        primaryAction={
+          delegated ? (
+            <ProposalButton contract={contract} />
+          ) : (
+            <DelegateButton contract={contract} />
+          )
+        }
       >
         <Stack spacing={4}>
           {!isDelegatedLoading && !delegated && (

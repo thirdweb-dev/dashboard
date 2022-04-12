@@ -41,7 +41,7 @@ const SplitsPage: ConsolePage = () => {
         contract={contract}
         metadata={metadata}
         data={data}
-        primaryAction={DistributeButton}
+        primaryAction={<DistributeButton contract={contract} />}
       >
         <Stack spacing={3}>
           {address && (

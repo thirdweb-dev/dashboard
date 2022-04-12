@@ -24,7 +24,7 @@ const MarketPage: ConsolePage = () => {
       <ContractLayout
         contract={contract}
         metadata={metadata}
-        primaryAction={ListButton}
+        primaryAction={<ListButton contract={contract} />}
       >
         <ContractItemsTable
           contract={contract}

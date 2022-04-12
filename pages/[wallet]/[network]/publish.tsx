@@ -16,27 +16,41 @@ import {
   SimpleGrid,
   Skeleton,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+import { useSDK } from "@thirdweb-dev/react";
+import { fetchContractMetadata } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { Card } from "components/layout/Card";
+import { Card, CardProps } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import invariant from "tiny-invariant";
+import { parseErrorToMessage } from "utils/errorParser";
 
 function usePublishMetadataQuery(uri?: string) {
   return useQuery(
     ["publish-metadata", uri],
     () => {
-      return uri ? StorageSingleton.get(uri) : undefined;
+      return uri ? fetchContractMetadata(uri, StorageSingleton) : undefined;
     },
     {
       enabled: !!uri,
     },
   );
+}
+
+function usePublishMutation() {
+  const sdk = useSDK();
+  return useMutation((uris: string[]) => {
+    invariant(sdk && "publisher" in sdk, "sdk is undefined");
+    return Promise.all(uris.map((uri) => sdk.publisher.publish(uri)));
+  });
 }
 
 const PublishPage: ConsolePage = () => {
@@ -66,9 +80,13 @@ const PublishPage: ConsolePage = () => {
     });
   }, []);
 
+  const publishMutation = usePublishMutation();
+  const toast = useToast();
+  const wallet = useSingleQueryParam("wallet") || "dashboard";
+
   return (
     <Track>
-      <Container maxW="xl">
+      <Container maxW="container.page">
         <Flex flexDirection="column" gap={6}>
           <Heading size="title.md">Publish your contracts</Heading>
           <SimpleGrid
@@ -78,6 +96,7 @@ const PublishPage: ConsolePage = () => {
               md: Math.min(uris.length, 3),
               lg: Math.min(uris.length, 4),
             }}
+            gap={8}
           >
             {uris.map((uri) => (
               <Flex w="100%" direction="row" key={uri} gap={2}>
@@ -95,6 +114,30 @@ const PublishPage: ConsolePage = () => {
             colorScheme="primary"
             isDisabled={urisToPublish.length === 0}
             transactionCount={urisToPublish.length}
+            isLoading={publishMutation.isLoading}
+            onClick={() =>
+              publishMutation.mutate(urisToPublish, {
+                onSuccess: () => {
+                  toast({
+                    title: "Success",
+                    description: "Successfully published contracts",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                  router.push(`/${wallet}/mumbai/new`);
+                },
+                onError: (err) => {
+                  toast({
+                    title: "Failed to publish",
+                    description: parseErrorToMessage(err),
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                },
+              })
+            }
           >
             Publish
           </TransactionButton>
@@ -108,15 +151,18 @@ PublishPage.Layout = AppLayout;
 
 export default PublishPage;
 
-interface PublishMetadataProps {
+interface PublishMetadataProps extends CardProps {
   uri: string;
 }
 
-const PublishMetadata: React.VFC<PublishMetadataProps> = ({ uri }) => {
+export const PublishMetadata: React.VFC<PublishMetadataProps> = ({
+  uri,
+  ...restCardProps
+}) => {
   const metadataQuery = usePublishMetadataQuery(uri);
 
   return (
-    <Card px={0} flexGrow={1}>
+    <Card px={0} flexGrow={1} {...restCardProps}>
       {metadataQuery.isError ? (
         <Alert status="error">
           <AlertIcon />
@@ -132,7 +178,7 @@ const PublishMetadata: React.VFC<PublishMetadataProps> = ({ uri }) => {
               <Text>{metadataQuery.data?.name || "No name"}</Text>
             </Skeleton>
           </Flex>
-          <Divider borderColor="borderColor" />
+          {/* <Divider borderColor="borderColor" />
           <Flex px={4} gap={1} direction="column">
             <Heading size="label.sm">Description</Heading>
             <Skeleton isLoaded={metadataQuery.isSuccess}>
@@ -152,7 +198,7 @@ const PublishMetadata: React.VFC<PublishMetadataProps> = ({ uri }) => {
             <Skeleton isLoaded={metadataQuery.isSuccess}>
               <Text>{metadataQuery.data?.version ?? "Unversioned"}</Text>
             </Skeleton>
-          </Flex>
+          </Flex> */}
           <Divider borderColor="borderColor" />
 
           <Accordion allowToggle allowMultiple>

@@ -24,7 +24,7 @@ const NFTCollectionPage: ConsolePage = () => {
       <ContractLayout
         contract={contract}
         metadata={metadata}
-        primaryAction={MintButton}
+        primaryAction={<MintButton contract={contract} />}
         emptyState={{
           title:
             "You have not minted any NFTs yet, let's mint one to get you started!",
