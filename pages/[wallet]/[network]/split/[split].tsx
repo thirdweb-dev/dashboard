@@ -21,7 +21,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
 
-const SplitsPage: ConsolePage = () => {
+const SplitPage: ConsolePage = () => {
   const address = useAddress();
   const splitsAddress = useSingleQueryParam("split");
   const contract = useSplit(splitsAddress);
@@ -96,6 +96,6 @@ const SplitsPage: ConsolePage = () => {
   );
 };
 
-SplitsPage.Layout = AppLayout;
+SplitPage.Layout = AppLayout;
 
-export default SplitsPage;
+export default SplitPage;

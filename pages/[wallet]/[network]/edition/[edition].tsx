@@ -9,7 +9,7 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
 import React from "react";
 
-const BundleListPage: ConsolePage = () => {
+const EditionPage: ConsolePage = () => {
   const bundleAddress = useSingleQueryParam("edition");
   const contract = useEdition(bundleAddress);
   const metadata = useContractMetadata(contract);
@@ -42,6 +42,6 @@ const BundleListPage: ConsolePage = () => {
   );
 };
 
-BundleListPage.Layout = AppLayout;
+EditionPage.Layout = AppLayout;
 
-export default BundleListPage;
+export default EditionPage;

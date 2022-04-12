@@ -14,7 +14,7 @@ import { ConsolePage } from "pages/_app";
 import React from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 
-const LazyNFTListPage: ConsolePage = () => {
+const EditionDropPage: ConsolePage = () => {
   const {
     isOpen: isBatchOpen,
     onOpen: onBatchOpen,
@@ -70,6 +70,6 @@ const LazyNFTListPage: ConsolePage = () => {
   );
 };
 
-export default LazyNFTListPage;
+export default EditionDropPage;
 
-LazyNFTListPage.Layout = AppLayout;
+EditionDropPage.Layout = AppLayout;
