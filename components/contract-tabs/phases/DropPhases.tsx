@@ -491,7 +491,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       </FormErrorMessage>
                     </FormControl>
-                    <Flex gap={4} direction="row">
+                    <Flex gap={4} direction={{ base: "column", md: "row" }}>
                       <FormControl
                         isInvalid={
                           form.getFieldState(
