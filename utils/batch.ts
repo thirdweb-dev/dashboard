@@ -45,12 +45,23 @@ export const transformHeader = (h: string) => {
   return h.trim();
 };
 
-export const getAcceptedFiles = (acceptedFiles: File[]) => {
+export const getAcceptedFiles = async (acceptedFiles: File[]) => {
+  const jsonFiles = acceptedFiles
+    .filter((f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"))
+    .sort((a, b) => parseInt(a.name) - parseInt(b.name));
+
+  let json: File[] = [];
+  if (jsonFiles.length > 1) {
+    for (const f of jsonFiles) {
+      json.push(JSON.parse(await f.text()));
+    }
+  } else if (jsonFiles.length === 1) {
+    const temp = JSON.parse(await jsonFiles[0].text());
+    json = Array.isArray(temp) ? temp : [temp];
+  }
+
   const csv = acceptedFiles.find(
     (f) => csvMimeTypes.includes(f.type) || f.name.endsWith(".csv"),
-  );
-  const json = acceptedFiles.find(
-    (f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"),
   );
   const images = acceptedFiles
     .filter((f) => f.type.includes("image/"))
@@ -99,7 +110,7 @@ export const useMergedData = (
           external_url,
           background_color,
           youtube_url,
-          properties: removeEmptyKeysFromObject(properties),
+          attributes: removeEmptyKeysFromObject(properties),
           image: imageFiles[index] || image || undefined,
           animation_url: videoFiles[index] || animation_url || undefined,
         });
@@ -107,17 +118,6 @@ export const useMergedData = (
     } else if (Array.isArray(jsonData)) {
       return jsonData.map((nft: any, index: number) => ({
         ...nft,
-        properties: (nft?.attributes || nft?.properties || []).map(
-          (attribute: any) => ({
-            key: attribute.key || attribute.trait_type,
-            value:
-              typeof attribute.value === "string"
-                ? attribute.value.trim() === "None"
-                  ? ""
-                  : attribute.value.trim()
-                : attribute.value || "",
-          }),
-        ),
         image: imageFiles[index] || nft.image || nft.file_url || undefined,
         animation_url: videoFiles[index] || nft.animation_url || undefined,
       }));

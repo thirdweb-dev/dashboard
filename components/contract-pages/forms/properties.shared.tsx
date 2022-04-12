@@ -34,7 +34,7 @@ import { FiPlus, FiSlash, FiTrash, FiUpload, FiX } from "react-icons/fi";
 import { z } from "zod";
 
 interface IPropertyFieldValues extends FieldValues {
-  properties?: z.input<typeof OptionalPropertiesInput>;
+  attributes?: z.input<typeof OptionalPropertiesInput>;
 }
 
 interface IPropertiesFormControlProps<
@@ -58,11 +58,11 @@ export const PropertiesFormControl = <
 }: React.PropsWithChildren<IPropertiesFormControlProps<TFieldValues>>) => {
   const { fields, append, remove, replace } = useFieldArray({
     control,
-    name: "properties" as ArrayPath<TFieldValues>,
+    name: "attributes" as ArrayPath<TFieldValues>,
   });
 
   useEffect(() => {
-    append({ key: "", value: "" } as any, { shouldFocus: false });
+    append({ trait_type: "", value: "" } as any, { shouldFocus: false });
     // should only run on mount to set a first property
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -76,14 +76,14 @@ export const PropertiesFormControl = <
           variant="outline"
           colorScheme="red"
           size="xs"
-          onClick={() => replace([{ key: "", value: "" } as any])}
+          onClick={() => replace([{ trait_type: "", value: "" } as any])}
         >
           Reset
         </Button>
       </Flex>
       {fields.map((field, index) => {
-        const keyError = errors?.properties?.[index]?.key?.message;
-        const valueError = errors?.properties?.[index]?.value?.message;
+        const keyError = errors?.attributes?.[index]?.trait_type?.message;
+        const valueError = errors?.attributes?.[index]?.value?.message;
         const isInvalid = !!(keyError || valueError);
 
         return (
@@ -96,20 +96,22 @@ export const PropertiesFormControl = <
             >
               <FormControl isInvalid={!!keyError}>
                 <Input
-                  {...register(`properties.${index}.key` as Path<TFieldValues>)}
-                  placeholder="key"
+                  {...register(
+                    `attributes.${index}.trait_type` as Path<TFieldValues>,
+                  )}
+                  placeholder="trait_type"
                 ></Input>
                 <FormErrorMessage>{keyError}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!valueError}>
                 {watch(
-                  `properties.${index}.value` as unknown as WatchObserver<TFieldValues>,
+                  `attributes.${index}.value` as unknown as WatchObserver<TFieldValues>,
                 ) instanceof File ? (
                   <InputGroup>
                     <Input
                       isDisabled
                       value={
-                        watch(`properties.${index}.value` as Path<TFieldValues>)
+                        watch(`attributes.${index}.value` as Path<TFieldValues>)
                           .name
                       }
                     />
@@ -121,7 +123,7 @@ export const PropertiesFormControl = <
                         _hover={{ color: "red.200" }}
                         onClick={() =>
                           setValue(
-                            `properties.${index}.value` as Path<TFieldValues>,
+                            `attributes.${index}.value` as Path<TFieldValues>,
                             "" as UnpackNestedValue<
                               PathValue<TFieldValues, Path<TFieldValues>>
                             >,
@@ -134,7 +136,7 @@ export const PropertiesFormControl = <
                   <InputGroup>
                     <Input
                       {...register(
-                        `properties.${index}.value` as Path<TFieldValues>,
+                        `attributes.${index}.value` as Path<TFieldValues>,
                       )}
                       placeholder="value"
                     />
@@ -143,7 +145,7 @@ export const PropertiesFormControl = <
                         <FileInput
                           setValue={(file) => {
                             setValue(
-                              `properties.${index}.value` as Path<TFieldValues>,
+                              `attributes.${index}.value` as Path<TFieldValues>,
                               file as UnpackNestedValue<
                                 PathValue<TFieldValues, Path<TFieldValues>>
                               >,
@@ -179,7 +181,9 @@ export const PropertiesFormControl = <
           leftIcon={<Icon as={FiPlus} />}
           colorScheme="purple"
           size="sm"
-          onClick={() => append({ key: undefined, value: undefined } as any)}
+          onClick={() =>
+            append({ trait_type: undefined, value: undefined } as any)
+          }
         >
           Add Row
         </Button>
