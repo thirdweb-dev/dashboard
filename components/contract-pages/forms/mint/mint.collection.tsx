@@ -1,6 +1,6 @@
 import { PropertiesFormControl } from "../properties.shared";
 import { IMintFormProps } from "./types";
-import { useCollectionCreateAndMintMutation } from "@3rdweb-sdk/react";
+import { useEditionCreateAndMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -40,7 +40,7 @@ interface ICollectionMintForm extends IMintFormProps {
 export const CollectionMintForm: React.FC<ICollectionMintForm> = ({
   contract,
 }) => {
-  const mint = useCollectionCreateAndMintMutation(contract);
+  const mint = useEditionCreateAndMintMutation(contract);
   const {
     setValue,
     control,

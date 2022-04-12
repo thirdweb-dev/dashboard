@@ -1,6 +1,6 @@
 import { BatchTable } from "./BatchTable";
 import { UploadStep } from "./UploadStep";
-import { useBundleDropBatchMint } from "@3rdweb-sdk/react";
+import { useEditionDropBatchMint } from "@3rdweb-sdk/react";
 import {
   Box,
   Container,
@@ -17,7 +17,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { Logo } from "components/logo";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";
-import { DropzoneOptions, useDropzone } from "react-dropzone";
+import { DropzoneOptions, useNFTDropzone } from "react-dropzone";
 import { getAcceptedFiles, transformHeader, useMergedData } from "utils/batch";
 
 interface EditionDropBatchUploadProps {
@@ -45,7 +45,7 @@ export const EditionDropBatchUpload: React.FC<EditionDropBatchUploadProps> = ({
   const [videoFiles, setVideoFiles] = useState<File[]>([]);
   const [noFile, setNoFile] = useState(false);
 
-  const mintBatch = useBundleDropBatchMint(contract);
+  const mintBatch = useEditionDropBatchMint(contract);
 
   const reset = useCallback(() => {
     setCSVData(undefined);
@@ -102,7 +102,9 @@ export const EditionDropBatchUpload: React.FC<EditionDropBatchUploadProps> = ({
 
   const mergedData = useMergedData(csvData, jsonData, imageFiles, videoFiles);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useNFTDropzone({
+    onDrop,
+  });
   const paginationPortalRef = useRef<HTMLDivElement>(null);
   return (
     <Drawer

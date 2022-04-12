@@ -1,8 +1,8 @@
 import {
   MinterOnly,
   useBatchesToReveal,
-  useDropContractMetadata,
-  useDropSupply,
+  useNFTDropContractMetadata,
+  useNFTDropSupply,
 } from "@3rdweb-sdk/react";
 import { useClaimPhases } from "@3rdweb-sdk/react/hooks/useClaimPhases";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -52,10 +52,10 @@ const LazyNFTListPage: ConsolePage = () => {
   const dropAddress = useSingleQueryParam("nft-drop");
   const contract = useNFTDrop(dropAddress);
   const claimPhases = useClaimPhases(contract);
-  const metadata = useDropContractMetadata(dropAddress);
+  const metadata = useNFTDropContractMetadata(dropAddress);
   const batchesToReveal = useBatchesToReveal(dropAddress);
 
-  const { data: supplyData } = useDropSupply(dropAddress);
+  const { data: supplyData } = useNFTDropSupply(dropAddress);
   const { Track } = useTrack({
     page: "drop",
     drop: dropAddress,

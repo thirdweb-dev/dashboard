@@ -13,7 +13,7 @@ import {
 import { Button } from "components/buttons/Button";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import React, { useCallback } from "react";
-import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
+import { DropEvent, FileRejection, useNFTDropzone } from "react-dropzone";
 import { AiFillEye, AiOutlineFileAdd } from "react-icons/ai";
 import { FiImage, FiUpload } from "react-icons/fi";
 
@@ -50,7 +50,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
     },
     [setValue],
   );
-  const { getRootProps, getInputProps, open } = useDropzone({
+  const { getRootProps, getInputProps, open } = useNFTDropzone({
     onDrop,
     accept,
   });

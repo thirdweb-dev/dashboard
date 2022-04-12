@@ -18,7 +18,7 @@ import { Button } from "components/buttons/Button";
 import { Card } from "components/layout/Card";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";
-import { DropzoneOptions, useDropzone } from "react-dropzone";
+import { DropzoneOptions, useNFTDropzone } from "react-dropzone";
 import { IoChevronBack } from "react-icons/io5";
 import {
   CSVData,
@@ -101,7 +101,9 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
 
   const mergedData = useMergedData(csvData, jsonData, imageFiles, videoFiles);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useNFTDropzone({
+    onDrop,
+  });
   const paginationPortalRef = useRef<HTMLDivElement>(null);
   return (
     <Drawer

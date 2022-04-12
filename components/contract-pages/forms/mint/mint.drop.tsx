@@ -1,6 +1,6 @@
 import { PropertiesFormControl } from "../properties.shared";
 import { IMintFormProps } from "./types";
-import { useDropMintMutation } from "@3rdweb-sdk/react";
+import { useNFTDropMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -39,7 +39,7 @@ interface IDropMintForm extends IMintFormProps {
 }
 
 export const DropMintForm: React.FC<IDropMintForm> = ({ contract }) => {
-  const mint = useDropMintMutation(contract);
+  const mint = useNFTDropMintMutation(contract);
   const {
     setValue,
     control,

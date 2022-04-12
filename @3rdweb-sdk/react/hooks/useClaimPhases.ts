@@ -3,8 +3,8 @@ import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
-import { useBundleDropResetClaimEligibilityMutation } from "./useBundleDrop";
-import { useDropResetClaimEligibilityMutation } from "./useDrop";
+import { useEditionDropResetClaimEligibilityMutation } from "./useEditionDrop";
+import { useNFTDropResetClaimEligibilityMutation } from "./useNFTDrop";
 import { ClaimConditionInput, EditionDrop, NFTDrop } from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
 
@@ -14,14 +14,14 @@ export function useClaimPhases(
 ) {
   if (contract instanceof NFTDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useDropClaimPhases(contract);
+    return useNFTDropClaimPhases(contract);
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useBundleDropClaimPhases(contract, tokenId);
+    return useEditionDropClaimPhases(contract, tokenId);
   }
 }
 
-function useDropClaimPhases(contract?: NFTDrop) {
+function useNFTDropClaimPhases(contract?: NFTDrop) {
   return useQueryWithNetwork(
     dropKeys.claimPhases(contract?.getAddress()),
     () => contract?.claimConditions.getAll(),
@@ -31,7 +31,7 @@ function useDropClaimPhases(contract?: NFTDrop) {
   );
 }
 
-function useBundleDropClaimPhases(contract?: EditionDrop, tokenId?: string) {
+function useEditionDropClaimPhases(contract?: EditionDrop, tokenId?: string) {
   return useQueryWithNetwork(
     bundleDropKeys.claimPhases(contract?.getAddress(), tokenId),
     () => contract?.claimConditions.getAll(tokenId as string),
@@ -47,10 +47,10 @@ export function useClaimPhasesMutation(
 ) {
   if (contract instanceof NFTDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useDropPhasesMutation(contract);
+    return useNFTDropPhasesMutation(contract);
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useBundleDropPhasesMutation(contract, tokenId);
+    return useEditionDropPhasesMutation(contract, tokenId);
   }
 }
 
@@ -60,14 +60,14 @@ export function useResetEligibilityMutation(
 ) {
   if (contract instanceof NFTDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useDropResetClaimEligibilityMutation(contract);
+    return useNFTDropResetClaimEligibilityMutation(contract);
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useBundleDropResetClaimEligibilityMutation(contract, tokenId);
+    return useEditionDropResetClaimEligibilityMutation(contract, tokenId);
   }
 }
 
-function useDropPhasesMutation(contract?: NFTDrop) {
+function useNFTDropPhasesMutation(contract?: NFTDrop) {
   return useMutationWithInvalidate(
     async (phases: ClaimConditionInput[]) => {
       invariant(contract, "contract is required");
@@ -82,7 +82,7 @@ function useDropPhasesMutation(contract?: NFTDrop) {
   );
 }
 
-function useBundleDropPhasesMutation(contract?: EditionDrop, tokenId?: string) {
+function useEditionDropPhasesMutation(contract?: EditionDrop, tokenId?: string) {
   return useMutationWithInvalidate(
     async (phases: ClaimConditionInput[]) => {
       invariant(contract, "contract is required");

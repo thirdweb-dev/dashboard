@@ -1,4 +1,4 @@
-import { MinterOnly, useBundleDropContractMetadata } from "@3rdweb-sdk/react";
+import { MinterOnly, useEditionDropContractMetadata } from "@3rdweb-sdk/react";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Icon } from "@chakra-ui/react";
 import { useEditionDrop } from "@thirdweb-dev/react";
@@ -23,7 +23,7 @@ const LazyNFTListPage: ConsolePage = () => {
 
   const bundleDropAddress = useSingleQueryParam("edition-drop");
   const contract = useEditionDrop(bundleDropAddress);
-  const metadata = useBundleDropContractMetadata(bundleDropAddress);
+  const metadata = useEditionDropContractMetadata(bundleDropAddress);
   const { Track } = useTrack({
     page: "bundle-drop",
     drop: bundleDropAddress,

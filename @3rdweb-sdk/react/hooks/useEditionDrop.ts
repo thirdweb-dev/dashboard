@@ -14,11 +14,11 @@ import {
 } from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
 
-export function useBundleDropContractMetadata(contractAddress?: string) {
+export function useEditionDropContractMetadata(contractAddress?: string) {
   return useContractMetadata(useEditionDrop(contractAddress));
 }
 
-export function useBundleDropResetClaimEligibilityMutation(
+export function useEditionDropResetClaimEligibilityMutation(
   contract?: EditionDrop,
   tokenId?: string,
 ) {
@@ -37,7 +37,7 @@ export function useBundleDropResetClaimEligibilityMutation(
   });
 }
 
-export function useBundleDropActiveClaimCondition(
+export function useEditionDropActiveClaimCondition(
   contractAddress?: string,
   tokenId?: string,
 ) {
@@ -53,7 +53,7 @@ export function useBundleDropActiveClaimCondition(
   );
 }
 
-export function useBundleDropBalance(
+export function useEditionDropBalance(
   contractAddress?: string,
   tokenId?: string,
 ) {
@@ -78,7 +78,7 @@ export function useBundleDropBalance(
 // Mutations
 // ----------------------------------------------------------------
 
-export function useBundleDropMintMutation(contract?: EditionDrop) {
+export function useEditionDropMintMutation(contract?: EditionDrop) {
   return useMutationWithInvalidate(
     async (data: NFTMetadataInput) => {
       invariant(contract, "contract is required");
@@ -92,7 +92,7 @@ export function useBundleDropMintMutation(contract?: EditionDrop) {
   );
 }
 
-export function useBundleDropBatchMint(contract?: EditionDrop) {
+export function useEditionDropBatchMint(contract?: EditionDrop) {
   return useMutationWithInvalidate(
     async (data: NFTMetadataInput[]) => {
       invariant(contract, "contract is required");
@@ -106,7 +106,7 @@ export function useBundleDropBatchMint(contract?: EditionDrop) {
   );
 }
 
-export function useBundleDropClaimMutation(
+export function useEditionDropClaimMutation(
   contract?: EditionDrop,
   tokenId?: string,
 ) {
@@ -127,7 +127,7 @@ export function useBundleDropClaimMutation(
   );
 }
 
-export function useBundleDropClaimConditionMutation(
+export function useEditionDropClaimConditionMutation(
   contract?: EditionDrop,
   tokenId?: string,
 ) {

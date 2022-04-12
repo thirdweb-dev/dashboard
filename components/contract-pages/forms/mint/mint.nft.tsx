@@ -1,6 +1,6 @@
 import { PropertiesFormControl } from "../properties.shared";
 import { IMintFormProps } from "./types";
-import { useNftMintMutation } from "@3rdweb-sdk/react";
+import { useNFTCollectionMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -39,7 +39,7 @@ interface INFTMintForm extends IMintFormProps {
 }
 
 export const NFTMintForm: React.FC<INFTMintForm> = ({ contract }) => {
-  const mint = useNftMintMutation(contract);
+  const mint = useNFTCollectionMintMutation(contract);
   const {
     setValue,
     control,
