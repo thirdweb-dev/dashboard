@@ -33,7 +33,7 @@ import { Logo } from "components/logo";
 import { isAddress } from "ethers/lib/utils";
 import Papa from "papaparse";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { DropzoneOptions, useNFTDropzone } from "react-dropzone";
+import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import {
   MdFirstPage,
@@ -120,7 +120,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
     return ordered.map((address) => ({ address }));
   }, [validAddresses]);
 
-  const { getRootProps, getInputProps, isDragActive } = useNFTDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
   });
 

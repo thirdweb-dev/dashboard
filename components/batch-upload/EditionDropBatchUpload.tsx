@@ -17,7 +17,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { Logo } from "components/logo";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";
-import { DropzoneOptions, useNFTDropzone } from "react-dropzone";
+import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { getAcceptedFiles, transformHeader, useMergedData } from "utils/batch";
 
 interface EditionDropBatchUploadProps {
@@ -102,9 +102,7 @@ export const EditionDropBatchUpload: React.FC<EditionDropBatchUploadProps> = ({
 
   const mergedData = useMergedData(csvData, jsonData, imageFiles, videoFiles);
 
-  const { getRootProps, getInputProps, isDragActive } = useNFTDropzone({
-    onDrop,
-  });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   const paginationPortalRef = useRef<HTMLDivElement>(null);
   return (
     <Drawer
