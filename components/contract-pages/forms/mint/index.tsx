@@ -23,7 +23,7 @@ export interface IMintFormProps {
 }
 
 export const MintForm: React.FC<IMintFormProps> = ({ contract }) => {
-  // if its an nft collection contract
+  // if its an NFT Collection contract
   if (contract instanceof NFTCollection) {
     return (
       <>
