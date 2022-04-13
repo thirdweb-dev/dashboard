@@ -42,7 +42,7 @@ const DeployContract: ConsolePage = () => {
   const publishedContracts = usePublishedContractsQuery();
 
   return (
-    <Card p={10}>
+    <Card px={{ base: 4, md: 10 }} py={{ base: 6, md: 10 }}>
       <Flex direction="column" gap={8}>
         <Flex align="center" justify="space-between">
           <IconButton
@@ -55,7 +55,7 @@ const DeployContract: ConsolePage = () => {
           <Box />
         </Flex>
         <Container maxW="container.md">
-          <SimpleGrid columns={2} gap={5}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: 3, md: 5 }}>
             <LinkCard
               largeIcon
               bg="backgroundCardHighlight"
