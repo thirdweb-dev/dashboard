@@ -1676,10 +1676,10 @@
     tiny-invariant "^1.2.0"
     wagmi "0.2.24"
 
-"@thirdweb-dev/sdk@^2.1.0-3":
-  version "2.1.0-3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.1.0-3.tgz#962a1e6e35747e72e2f7aadfcd2b48be3c955116"
-  integrity sha512-5RlIUuTZpGq6a20Z8W0LI9O4eDxOnWNOEpqBXxQVFz1GUEK5TQcabmIMmwtlxQrBMJOMDZ2sscBZ/W3yJ54KcA==
+"@thirdweb-dev/sdk@^2.1.0-4":
+  version "2.1.0-4"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.1.0-4.tgz#107cc6f4a419d7735472aafe41e478f8222e9402"
+  integrity sha512-ER6LxRk4Hq0JrIyydZtXJ42LhNb28OuOHCkrE7hmw3GqPAMPJyLKRN2zAQXm6xypMemDaXPa+KNQ9/fdIAhdyg==
   dependencies:
     "@ethersproject/bignumber" "^5.6.0"
     "@ethersproject/bytes" "^5.6.1"
