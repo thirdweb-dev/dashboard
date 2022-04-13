@@ -1,6 +1,6 @@
 import { MarketplaceListForm } from "./list.marketplace";
 import { EditionMintForm } from "./mint.edition";
-import { EditionNFTDropMintForm } from "./mint.editiondrop";
+import { EditionDropMintForm } from "./mint.editiondrop";
 import { NFTCollectionMintForm } from "./mint.nftcollection";
 import { NFTDropMintForm } from "./mint.nftdrop";
 import { TokenMintForm } from "./mint.token";
@@ -52,7 +52,7 @@ export const MintForm: React.FC<IMintFormProps> = ({ contract }) => {
         <DrawerHeader>
           <Heading>Create new Edition Drop</Heading>
         </DrawerHeader>
-        <EditionNFTDropMintForm contract={contract} />
+        <EditionDropMintForm contract={contract} />
       </>
     );
   }

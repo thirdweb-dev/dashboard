@@ -38,7 +38,7 @@ interface INFTDropMintForm extends IMintFormProps {
   contract: EditionDrop;
 }
 
-export const EditionNFTDropMintForm: React.FC<INFTDropMintForm> = ({
+export const EditionDropMintForm: React.FC<INFTDropMintForm> = ({
   contract,
 }) => {
   const mint = useEditionDropMintMutation(contract);
