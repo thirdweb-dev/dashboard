@@ -7,6 +7,7 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  Box,
   Checkbox,
   Code,
   Container,
@@ -99,13 +100,14 @@ const PublishPage: ConsolePage = () => {
             gap={8}
           >
             {uris.map((uri) => (
-              <Flex w="100%" direction="row" key={uri} gap={2}>
+              <Box w="100%" key={uri} gap={2}>
                 <Checkbox
+                  aria-label="Publish"
                   isChecked={urisToPublish.includes(uri)}
                   onChange={() => toggleUriPublish(uri)}
                 />
-                <PublishMetadata uri={uri} />
-              </Flex>
+                <PublishMetadata maxW="100%" flexGrow={1} uri={uri} />
+              </Box>
             ))}
           </SimpleGrid>
 
@@ -152,7 +154,7 @@ PublishPage.Layout = AppLayout;
 export default PublishPage;
 
 interface PublishMetadataProps extends CardProps {
-  uri: string;
+  uri?: string;
 }
 
 export const PublishMetadata: React.VFC<PublishMetadataProps> = ({
@@ -201,7 +203,7 @@ export const PublishMetadata: React.VFC<PublishMetadataProps> = ({
           </Flex> */}
           <Divider borderColor="borderColor" />
 
-          <Accordion allowToggle allowMultiple>
+          <Accordion allowToggle allowMultiple maxW="full">
             <AccordionItem border="none">
               <AccordionButton>
                 <Flex flex={1} textAlign="left" direction="column">
@@ -227,14 +229,14 @@ export const PublishMetadata: React.VFC<PublishMetadataProps> = ({
               </AccordionPanel>
             </AccordionItem>
             <Divider my={3} borderColor="borderColor" />
-            <AccordionItem border="none">
+            <AccordionItem border="none" maxW="full">
               <AccordionButton>
                 <Flex flex={1} textAlign="left" direction="column">
                   <Heading size="label.sm">ByteCode</Heading>
                 </Flex>
                 <AccordionIcon />
               </AccordionButton>
-              <AccordionPanel>
+              <AccordionPanel maxW="full">
                 <Skeleton isLoaded={metadataQuery.isSuccess}>
                   <Code
                     maxH="66vh"

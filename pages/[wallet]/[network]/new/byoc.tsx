@@ -17,10 +17,10 @@ import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { Card } from "components/layout/Card";
+import { BigNumberish } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
 import React, { useCallback, useState } from "react";
-import invariant from "tiny-invariant";
 import { parseErrorToMessage } from "utils/errorParser";
 
 function useConstructorParamsQuery(uri?: string) {
@@ -36,38 +36,53 @@ function useConstructorParamsQuery(uri?: string) {
   );
 }
 
-function usePublishedContractQuery(uri?: string) {
+function usePublishedContractQuery(groupId?: string) {
   const sdk = useSDK();
   const address = useAddress();
   return useQueryWithNetwork(
-    ["byoc", "get", uri],
+    ["byoc", "get", { publisherAddress: address, groupId }],
     () => {
-      return address && uri && sdk
-        ? sdk.publisher.get(address, uri)
+      return address && groupId && sdk
+        ? sdk.publisher.getLatest(address, groupId)
         : undefined;
     },
     {
-      enabled: !!uri && !!sdk && !!address,
+      enabled: !!groupId && !!sdk && !!address,
     },
   );
 }
 
-function useBYOCDeployMutation(uri?: string) {
+function useBYOCDeployMutation() {
   const sdk = useSDK();
-  const contract = usePublishedContractQuery(uri);
-  return useMutationWithInvalidate(async (constructorValues: unknown[]) => {
-    invariant(contract.data, "contract data is not defined");
-    return await sdk?.publisher.deployCustomContract(
-      contract.data,
+
+  return useMutationWithInvalidate(
+    async ({
+      publisherAddress,
+      contractId,
       constructorValues,
-    );
-  });
+    }: {
+      publisherAddress: string;
+      contractId: BigNumberish;
+      constructorValues: unknown[];
+    }) => {
+      return sdk?.publisher.deployCustomContract(
+        publisherAddress,
+        contractId,
+        constructorValues,
+      );
+    },
+  );
 }
 
 const BYOCDeployPage: ConsolePage = () => {
-  const uri = useSingleQueryParam("uri");
-  const constuctorParams = useConstructorParamsQuery(uri);
-  const deploy = useBYOCDeployMutation(uri);
+  const address = useAddress();
+  const groupId = useSingleQueryParam("groupId");
+  const publishedContract = usePublishedContractQuery(groupId);
+  const constuctorParams = useConstructorParamsQuery(
+    publishedContract.data?.metadataUri,
+  );
+  const deploy = useBYOCDeployMutation();
+
   const [contractParams, _setContractParams] = useState<any[]>([]);
   const setContractParams = useCallback((idx: number, value: any) => {
     _setContractParams((prev) => {
@@ -81,7 +96,10 @@ const BYOCDeployPage: ConsolePage = () => {
   return (
     <Card p={10}>
       <Flex direction="column" gap={4}>
-        <PublishMetadata bg="backgroundCardHighlight" uri={uri as string} />
+        <PublishMetadata
+          bg="backgroundCardHighlight"
+          uri={publishedContract.data?.metadataUri}
+        />
         <Flex as={Card} bg="backgroundCardHighlight" direction="column" gap={3}>
           <Heading size="subtitle.md">Contract params</Heading>
           {constuctorParams.data?.length ? (
@@ -104,29 +122,40 @@ const BYOCDeployPage: ConsolePage = () => {
         </Flex>
         <TransactionButton
           isLoading={deploy.isLoading}
-          onClick={() =>
-            deploy.mutate(contractParams, {
-              onSuccess: (data) => {
-                console.log("contract deployed:", data);
-                toast({
-                  title: "Success",
-                  description: `Successfully deployed BYOC with address: ${data}!`,
-                  status: "success",
-                  duration: 5000,
-                  isClosable: true,
-                });
+          isDisabled={!address || !publishedContract.data}
+          onClick={() => {
+            if (!address || !publishedContract.data) {
+              return;
+            }
+            deploy.mutate(
+              {
+                contractId: publishedContract.data.id,
+                publisherAddress: address,
+                constructorValues: contractParams,
               },
-              onError: (err) => {
-                toast({
-                  title: "Failed to deploy",
-                  description: parseErrorToMessage(err),
-                  status: "error",
-                  duration: 5000,
-                  isClosable: true,
-                });
+              {
+                onSuccess: (data) => {
+                  console.log("contract deployed:", data);
+                  toast({
+                    title: "Success",
+                    description: `Successfully deployed BYOC with address: ${data}!`,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                },
+                onError: (err) => {
+                  toast({
+                    title: "Failed to deploy",
+                    description: parseErrorToMessage(err),
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                },
               },
-            })
-          }
+            );
+          }}
           colorScheme="primary"
           transactionCount={1}
         >
