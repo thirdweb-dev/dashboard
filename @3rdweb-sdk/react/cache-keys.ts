@@ -60,28 +60,29 @@ export const NFTDropKeys = {
 
 export const editionDropKeys = {
   all: ["edition-drop"] as const,
-  lists: () => [...NFTDropKeys.all, "list"] as const,
-  list: (address = AddressZero) => [...NFTDropKeys.lists(), address] as const,
-  details: () => [...NFTDropKeys.all, "detail"] as const,
+  lists: () => [...editionDropKeys.all, "list"] as const,
+  list: (address = AddressZero) =>
+    [...editionDropKeys.lists(), address] as const,
+  details: () => [...editionDropKeys.all, "detail"] as const,
   detail: (address = AddressZero) =>
-    [...NFTDropKeys.details(), address] as const,
+    [...editionDropKeys.details(), address] as const,
   activeClaimCondition: (address = AddressZero, tokenId = "-1") =>
     [
-      ...NFTDropKeys.detail(address),
+      ...editionDropKeys.detail(address),
       "activeClaimCondition",
       { tokenId },
     ] as const,
   claimPhases: (address = AddressZero, tokenId = "-1") =>
-    [...NFTDropKeys.detail(address), "claimPhases", { tokenId }] as const,
+    [...editionDropKeys.detail(address), "claimPhases", { tokenId }] as const,
   owned: (address = AddressZero, ownerAddress = AddressZero) =>
-    [...NFTDropKeys.detail(address), "owned", { ownerAddress }] as const,
+    [...editionDropKeys.detail(address), "owned", { ownerAddress }] as const,
   balanceOf: (
     address = AddressZero,
     userAddress = AddressZero,
     tokenId = "-1",
   ) =>
     [
-      ...NFTDropKeys.detail(address),
+      ...editionDropKeys.detail(address),
       "balanceOf",
       { address: userAddress, tokenId },
     ] as const,
