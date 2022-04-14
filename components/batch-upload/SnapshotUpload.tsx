@@ -42,6 +42,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Column, usePagination, useTable } from "react-table";
+import { csvMimeTypes } from "utils/batch";
 
 interface SnapshotUploadProps {
   setAddresses: (addresses: string[]) => void;
@@ -75,18 +76,6 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     (acceptedFiles) => {
       setNoCsv(false);
-
-      const csvMimeTypes = [
-        "text/csv",
-        "text/plain",
-        "text/x-csv",
-        "application/vnd.ms-excel",
-        "application/csv",
-        "application/x-csv",
-        "text/comma-separated-values",
-        "text/x-comma-separated-values",
-        "text/tab-separated-values",
-      ];
 
       const csv = acceptedFiles.find(
         (f) => csvMimeTypes.includes(f.type) || f.name.endsWith(".csv"),

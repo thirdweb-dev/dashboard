@@ -1,4 +1,4 @@
-import { SnapshotUpload } from "../settings/shared/SnapshotUpload";
+import { SnapshotUpload } from "../../batch-upload/SnapshotUpload";
 import { AdminOnly } from "@3rdweb-sdk/react";
 import {
   useClaimPhases,
