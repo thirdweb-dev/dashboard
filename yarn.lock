@@ -1665,10 +1665,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.2.1-6.tgz#864a9a9578526edc16afba7904f37c8f78f5757f"
   integrity sha512-5x9Ah76T0cQV4qdS69YJlLmAuFbeB+tQe3qFiycwRMj6lOxXb9nMRcYPYS2yx51GMKLgaFfy4paqMS6Y9LeCvQ==
 
-"@thirdweb-dev/react@^2.0.5-0":
-  version "2.0.5-0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.5-0.tgz#d47cb942c1c9dd2fdde5632b3a9e9d1baea1e67a"
-  integrity sha512-ZOoYee7dPA/sV1QQnm6il7dnzdjHKFucVQifn88Y/VXVF8TXtrRFf+VScL8RLOeaoakK3jYucBbgevGuJ5XMzQ==
+"@thirdweb-dev/react@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.5.tgz#c032cca88230a76d2b0b12fe8771276b5923a7e4"
+  integrity sha512-25wY5EGEqA8d/puoyWXZ36SSqmfcteGX45Yz0ZjiknNLnaxS4esjvs5jt4JdFl+Zaq5pe6fiaRBuvgPF45KdUA==
   dependencies:
     mime "^3.0.0"
     react-cool-dimensions "^2.0.7"
