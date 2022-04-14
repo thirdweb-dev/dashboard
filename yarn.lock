@@ -1665,16 +1665,16 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.2.1-6.tgz#864a9a9578526edc16afba7904f37c8f78f5757f"
   integrity sha512-5x9Ah76T0cQV4qdS69YJlLmAuFbeB+tQe3qFiycwRMj6lOxXb9nMRcYPYS2yx51GMKLgaFfy4paqMS6Y9LeCvQ==
 
-"@thirdweb-dev/react@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.4.tgz#9041717cd348e567fa83ef3fb3720a43034e0bb0"
-  integrity sha512-cDgum5HdJZJVvctGhuqOz1b+m2iCOVL8yMYsj8vFH89j/onSqMYsWTc1D96Gv3ErSw7hrFxasJbNklxfDciu4g==
+"@thirdweb-dev/react@^2.0.5-0":
+  version "2.0.5-0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.5-0.tgz#d47cb942c1c9dd2fdde5632b3a9e9d1baea1e67a"
+  integrity sha512-ZOoYee7dPA/sV1QQnm6il7dnzdjHKFucVQifn88Y/VXVF8TXtrRFf+VScL8RLOeaoakK3jYucBbgevGuJ5XMzQ==
   dependencies:
     mime "^3.0.0"
     react-cool-dimensions "^2.0.7"
     swr "^1.2.2"
     tiny-invariant "^1.2.0"
-    wagmi "0.2.24"
+    wagmi "0.2.26"
 
 "@thirdweb-dev/sdk@^2.1.0-6":
   version "2.1.0-6"
@@ -8181,22 +8181,22 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-wagmi-core@0.1.18:
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/wagmi-core/-/wagmi-core-0.1.18.tgz#c1835a1fb18f471ee9e8e427f515e74452b52eeb"
-  integrity sha512-83hFh9YbIBYxStzbUdpahQbwvXUAeMJl5ChUNX9QpqjyDjJt0HbGKQ39FWHGre168Pcm4fYh6Ud99PN+x44gDw==
+wagmi-core@0.1.20:
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/wagmi-core/-/wagmi-core-0.1.20.tgz#b4feaaf78a951a4af67e4d3e96410b3ee7a319d5"
+  integrity sha512-Q9BNtXXma64v8SMq84xk3W5ilGci0nnOIu1OF2w7T9MuGk2gShAqbVp38rJ2far5cMf3fCD46xcrdj5AuIk35g==
   dependencies:
     "@ethersproject/providers" "^5.5.1"
     eventemitter3 "^4.0.7"
 
-wagmi@0.2.24:
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/wagmi/-/wagmi-0.2.24.tgz#cb19bb64cce81a2d8a8367d724941cd23d1d0e7e"
-  integrity sha512-iTs37Fewu4vu4sGHWKsy36vkfT797/gsheY7b0ufcQdghoOMbDb06cBZfOuvlwgVSHgekt6cUU9x1q8Z3NUC+w==
+wagmi@0.2.26:
+  version "0.2.26"
+  resolved "https://registry.yarnpkg.com/wagmi/-/wagmi-0.2.26.tgz#d884151e6444da78a395decec0ef1812cf56c6fc"
+  integrity sha512-tl9oXImDef6c932x55kh7WpZScuDFzpOd3GBPttn3NPINu+dueuntZuOErXPIc2hwrYP8Lm6U0r3XJqpR9qK1A==
   dependencies:
     "@ethersproject/providers" "^5.5.1"
     "@walletconnect/ethereum-provider" "1.7.5"
-    wagmi-core "0.1.18"
+    wagmi-core "0.1.20"
     walletlink "^2.5.0"
 
 walkdir@^0.4.1:

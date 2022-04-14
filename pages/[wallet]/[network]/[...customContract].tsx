@@ -1,5 +1,4 @@
 import type { ConsolePage } from "../../_app";
-import { useContractTypeOfContract } from "@3rdweb-sdk/react";
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
   Box,
@@ -9,17 +8,17 @@ import {
   Heading,
   Image,
   Skeleton,
-  Spinner,
   Text,
   useBreakpointValue,
   usePrevious,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import { useContract, useSDK } from "@thirdweb-dev/react";
+import { useSDK } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { Logo } from "components/logo";
 import { LinkButton } from "components/shared/LinkButton";
+import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import { FeatureIconMap } from "constants/mappings";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { LinkProps } from "next/link";
@@ -27,25 +26,35 @@ import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import { isBrowser } from "utils/isBrowser";
 
-function useContractTypeResolver(contractAddress?: string) {
+export function useResolvedContract(contractAddress?: string) {
   const sdk = useSDK();
+
   return useQueryWithNetwork(
-    ["contractType", contractAddress],
-    () =>
-      contractAddress ? sdk?.resolveContractType(contractAddress) : undefined,
+    ["contract", contractAddress],
+    async () => {
+      if (!contractAddress || !sdk) {
+        return undefined;
+      }
+
+      try {
+        const contractType = await sdk.resolveContractType(contractAddress);
+        return {
+          contractType,
+          contract: sdk.getContract(contractAddress, contractType),
+        };
+      } catch (err) {
+        console.info("failed to load contract type, custom contract");
+      }
+      const contract = await sdk.unstable_getCustomContract(contractAddress);
+      return {
+        contractType: "custom" as const,
+        contract,
+      };
+    },
     {
-      enabled: !!contractAddress && !!sdk,
+      enabled: !!sdk && !!contractAddress,
     },
   );
-}
-
-export function useResolvedContract(contractAddress?: string) {
-  const resolvedContractType = useContractTypeResolver(contractAddress);
-
-  return {
-    ...resolvedContractType,
-    data: useContract(resolvedContractType.data, contractAddress),
-  };
 }
 
 const CustomContractPage: ConsolePage = () => {
@@ -53,8 +62,6 @@ const CustomContractPage: ConsolePage = () => {
   const query = router.query.customContract || [];
   const contractAddress = query[0];
   const activeTab = query[1] || "";
-
-  const contract = useResolvedContract(contractAddress);
 
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,11 +91,6 @@ const CustomContractPage: ConsolePage = () => {
     scrollContainerRef,
   );
 
-  if (!contract.data && contract.isLoading) {
-    return <Spinner />;
-  }
-
-  // console.log("*** contract", contract);
   return (
     <Flex direction="column" ref={scrollRef}>
       {/* sub-header-nav */}
@@ -101,7 +103,6 @@ const CustomContractPage: ConsolePage = () => {
         flexShrink={0}
         w="full"
         as="nav"
-        zIndex="overlay"
       >
         <Container maxW="container.page">
           <Flex direction="row" align="center">
@@ -133,7 +134,10 @@ const CustomContractPage: ConsolePage = () => {
                     }) * -1),0,0)`
               }
             >
-              <ContractSubnav contractQuery={contract} activeTab={activeTab} />
+              <ContractSubnav
+                contractAddress={contractAddress}
+                activeTab={activeTab}
+              />
             </Box>
           </Flex>
         </Container>
@@ -148,12 +152,19 @@ const CustomContractPage: ConsolePage = () => {
         py={6}
       >
         <Container maxW="container.page">
-          <ContractMetadata contractAddress={contractAddress} />
+          <Flex justify="space-between" align="center" direction="row">
+            <ContractMetadata contractAddress={contractAddress} />
+            <AddressCopyButton address={contractAddress} />
+          </Flex>
         </Container>
       </Box>
       {/* main content */}
       <Container maxW="container.page">
-        <Box height="300vh">content goes here</Box>
+        <Box height="300vh" py={8}>
+          {activeTab === ""
+            ? "Contract overview here"
+            : "Contract settings here"}
+        </Box>
       </Container>
     </Flex>
   );
@@ -169,13 +180,12 @@ function useContractMetadataQuery(
   return useQueryWithNetwork(
     ["contract", contractAddress, "metadata"],
     () => {
-      if (contractQuery.data) {
-        return contractQuery.data.metadata.get();
-      }
-      return undefined;
+      return contractQuery.data?.contract.metadata.get();
     },
     {
-      enabled: !!contractQuery.data && "metadata" in contractQuery.data,
+      enabled:
+        !!contractQuery.data?.contract.metadata &&
+        !!("get" in contractQuery.data.contract.metadata),
     },
   );
 }
@@ -192,16 +202,21 @@ const ContractMetadata: React.VFC<ContractMetadataProps> = ({
     contractAddress,
     contractQuery,
   );
-  // const isLoading = metadataQuery.isLoading || contractQuery.isLoading;
+
   const isError = metadataQuery.isError || contractQuery.isError;
   const isSuccess = metadataQuery.isSuccess;
 
-  const contractType = useContractTypeOfContract(contractQuery.data);
-  const contractTypeImage = contractType && FeatureIconMap[contractType];
+  const contractType = contractQuery.data?.contractType;
+  const contractTypeImage =
+    (contractType &&
+      contractType !== "custom" &&
+      FeatureIconMap[contractType]) ||
+    FeatureIconMap["vote"];
 
   if (isError) {
-    return <Box>Error</Box>;
+    return <Box>Failed to load contract metadata</Box>;
   }
+
   return (
     <Flex align="center" gap={2}>
       <Skeleton isLoaded={isSuccess}>
@@ -220,15 +235,15 @@ const ContractMetadata: React.VFC<ContractMetadataProps> = ({
           />
         ) : null}
       </Skeleton>
-      <Flex direction="column">
+      <Flex direction="column" gap={1}>
         <Skeleton isLoaded={isSuccess}>
           <Heading size="title.md">
-            {metadataQuery.data?.name || "testing testing testing"}
+            {isSuccess ? metadataQuery.data?.name : "testing testing testing"}
           </Heading>
         </Skeleton>
         <Skeleton isLoaded={isSuccess}>
           <Text size="body.md">
-            {metadataQuery.data?.description || "foo bar baz"}
+            {isSuccess ? metadataQuery.data?.description : "foo bar baz"}
           </Text>
         </Skeleton>
       </Flex>
@@ -237,19 +252,18 @@ const ContractMetadata: React.VFC<ContractMetadataProps> = ({
 };
 
 interface ContractSubnavProps {
-  contractQuery: ReturnType<typeof useResolvedContract>;
   activeTab: string;
+  contractAddress?: string;
 }
 const ContractSubnav: React.VFC<ContractSubnavProps> = ({
-  contractQuery,
   activeTab,
+  contractAddress,
 }) => {
   const [hoveredEl, setHoveredEl] = useState<EventTarget & HTMLButtonElement>();
   const previousEl = usePrevious(hoveredEl);
   const isMouseOver = useRef(false);
 
   const router = useRouter();
-  const contractAddress = contractQuery.data?.getAddress() || "";
 
   return (
     <Flex
@@ -287,7 +301,7 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
           pathname: router.pathname,
           query: {
             ...router.query,
-            customContract: [contractAddress, ""],
+            customContract: [contractAddress || "", ""],
           },
         }}
       >
@@ -300,7 +314,7 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
           pathname: router.pathname,
           query: {
             ...router.query,
-            customContract: [contractAddress, "settings"],
+            customContract: [contractAddress || "", "settings"],
           },
         }}
       >
