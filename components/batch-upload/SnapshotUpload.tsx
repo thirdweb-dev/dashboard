@@ -32,7 +32,7 @@ import { Button } from "components/buttons/Button";
 import { Logo } from "components/logo";
 import { isAddress } from "ethers/lib/utils";
 import Papa from "papaparse";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import {
@@ -44,28 +44,34 @@ import {
 import { Column, usePagination, useTable } from "react-table";
 import { csvMimeTypes } from "utils/batch";
 
+export interface SnapshotAddressInput {
+  address: string;
+  maxClaimable?: string;
+}
 interface SnapshotUploadProps {
-  setAddresses: (addresses: string[]) => void;
+  setSnapshot: (snapshot: any) => void;
   isOpen: boolean;
   onClose: () => void;
-  value: ClaimCondition["snapshot"];
+  value?: ClaimCondition["snapshot"];
 }
 
 export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
-  setAddresses,
+  setSnapshot,
   isOpen,
   onClose,
   value,
 }) => {
-  const initialValue = useMemo(() => {
+  /*   const initialValue = useMemo(() => {
     return Array.isArray(value) ? value.map((v) => v.address) : [];
-  }, [value]);
+  }, [value]); */
 
-  const [validAddresses, setValidAddresses] = useState<string[]>(initialValue);
+  const [validSnapshot, setValidSnapshot] = useState<SnapshotAddressInput[]>(
+    value || [],
+  );
   const [noCsv, setNoCsv] = useState(false);
 
   const reset = useCallback(() => {
-    setValidAddresses([]);
+    setValidSnapshot([]);
     setNoCsv(false);
   }, []);
 
@@ -89,13 +95,23 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
       Papa.parse(csv, {
         header: true,
         complete: (results) => {
-          const addresses: string[] = [
+          /*           console.log({ results: results.data });
+          const csvValidSnapshot = results.data.filter(({ address }) => address !== ""}))
+          const csvValidSnapshot: any[] = results.data.filter(
+            ({ address }) => address !== "",
+          ); */
+          /*           const addresses: string[] = [
             ...new Set(
               results.data.map((r) => Object.values(r as string[])).flat(),
             ),
-          ].filter((address) => address !== "");
+          ].filter((address) => address !== ""); */
 
-          setValidAddresses(addresses);
+          const data: SnapshotAddressInput[] =
+            results.data as SnapshotAddressInput[];
+
+          console.log(data);
+
+          setValidSnapshot(data);
         },
       });
     },
@@ -103,11 +119,13 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   );
 
   const data = useMemo(() => {
-    const valid = validAddresses.filter((address) => isAddress(address));
-    const invalid = validAddresses.filter((address) => !isAddress(address));
+    console.log(validSnapshot);
+    const valid = validSnapshot.filter(({ address }) => isAddress(address));
+    const invalid = validSnapshot.filter(({ address }) => !isAddress(address));
     const ordered = [...invalid, ...valid];
-    return ordered.map((address) => ({ address }));
-  }, [validAddresses]);
+    console.log({ ordered });
+    return ordered;
+  }, [validSnapshot]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -116,7 +134,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   const paginationPortalRef = useRef<HTMLDivElement>(null);
 
   const onSave = () => {
-    setAddresses(validAddresses);
+    setSnapshot(validSnapshot);
     onClose();
   };
 
@@ -137,7 +155,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                 <Flex gap={2}>
                   <Logo hideWordmark />
                   <Heading size="title.md">
-                    {validAddresses.length ? "Edit" : "Upload"} Snapshot
+                    {validSnapshot.length ? "Edit" : "Upload"} Snapshot
                   </Heading>
                 </Flex>
                 <DrawerCloseButton position="relative" right={0} top={0} />
@@ -145,7 +163,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             </Container>
           </Flex>
 
-          {validAddresses.length > 0 ? (
+          {validSnapshot.length > 0 ? (
             <SnapshotTable portalRef={paginationPortalRef} data={data} />
           ) : (
             <Flex flexGrow={1} align="center" overflow="auto">
@@ -213,7 +231,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                 >
                   <Button
                     borderRadius="md"
-                    disabled={validAddresses.length === 0}
+                    disabled={validSnapshot.length === 0}
                     onClick={() => {
                       reset();
                     }}
@@ -240,7 +258,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
 };
 
 interface SnapshotTableProps {
-  data: { address: string }[];
+  data: SnapshotAddressInput[];
   portalRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -248,7 +266,7 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({ data, portalRef }) => {
   const columns = useMemo(() => {
     return [
       {
-        Header: "Addresses",
+        Header: "Address",
         accessor: ({ address }) => {
           if (isAddress(address)) {
             return address;
@@ -278,7 +296,13 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({ data, portalRef }) => {
           }
         },
       },
-    ] as Column<{ address: string }>[];
+      {
+        Header: "Max claimable per transaction",
+        accessor: ({ maxClaimable }) => {
+          return maxClaimable || "Default";
+        },
+      },
+    ] as Column<SnapshotAddressInput>[];
   }, []);
 
   const {
