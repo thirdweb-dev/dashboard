@@ -177,17 +177,6 @@ const Home: ConsolePage = () => {
                 <SupportedChain type="solana" />
                 <SupportedChain type="flow" />
               </SimpleGrid>
-              <LinkButton
-                w="auto"
-                flexGrow={0}
-                size="lg"
-                fontSize={{ base: "md", md: "lg" }}
-                colorScheme="primary"
-                borderRadius="full"
-                href="https://portal.thirdweb.com"
-              >
-                Learn more
-              </LinkButton>
             </Stack>
           </HomepageSection>
 
