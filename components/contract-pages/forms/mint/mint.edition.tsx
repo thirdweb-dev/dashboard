@@ -32,6 +32,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
+import { parseAttributes } from "utils/parseAttributes";
 
 const MINT_FORM_ID = "edition-mint-form";
 interface IEditionMintForm extends IMintFormProps {
@@ -71,6 +72,13 @@ export const EditionMintForm: React.FC<IEditionMintForm> = ({ contract }) => {
       isClosable: true,
     });
   };
+
+  // TODO FIXME
+  const onSubmit = (data: any) => {
+    const attributes = parseAttributes(data.attributes);
+    mint.mutate({ ...data, attributes }, { onSuccess, onError });
+  };
+
   const setFile = (file: File) => {
     if (file.type.includes("image")) {
       // image files
@@ -140,9 +148,7 @@ export const EditionMintForm: React.FC<IEditionMintForm> = ({ contract }) => {
           spacing={6}
           as="form"
           id={MINT_FORM_ID}
-          onSubmit={handleSubmit((d: any) =>
-            mint.mutate(d, { onSuccess, onError }),
-          )}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Stack>
             <Heading size="subtitle.md">Metadata</Heading>

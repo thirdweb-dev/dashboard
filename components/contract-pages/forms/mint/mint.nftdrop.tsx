@@ -32,6 +32,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
+import { parseAttributes } from "utils/parseAttributes";
 
 const MINT_FORM_ID = "nft-drop-mint-form";
 interface INFTDropMintForm extends IMintFormProps {
@@ -77,27 +78,9 @@ export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
     });
   };
 
-  const parseAttributes = (
-    attributes: {
-      trait_type: string;
-      value: string;
-    }[],
-  ) => {
-    const parsedAttributes = attributes
-      .filter(({ value }) => value !== "")
-      .map(({ value, trait_type }) => ({
-        value,
-        ...(!!trait_type && { trait_type }),
-      }));
-
-    return parsedAttributes.length === 0 ? undefined : parsedAttributes;
-  };
-
   // TODO FIXME
   const onSubmit = (data: any) => {
-    console.log(data);
     const attributes = parseAttributes(data.attributes);
-    console.log({ ...data, attributes });
     mint.mutate({ ...data, attributes }, { onSuccess, onError });
   };
 

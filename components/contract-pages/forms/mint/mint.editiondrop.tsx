@@ -32,6 +32,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { parseErrorToMessage } from "utils/errorParser";
+import { parseAttributes } from "utils/parseAttributes";
 
 const MINT_FORM_ID = "edition-drop-mint-form";
 interface INFTDropMintForm extends IMintFormProps {
@@ -81,7 +82,8 @@ export const EditionDropMintForm: React.FC<INFTDropMintForm> = ({
 
   // TODO FIXME
   const onSubmit = (data: any) => {
-    mint.mutate(data, { onSuccess, onError });
+    const attributes = parseAttributes(data.attributes);
+    mint.mutate({ ...data, attributes }, { onSuccess, onError });
   };
 
   const setFile = (file: File) => {
