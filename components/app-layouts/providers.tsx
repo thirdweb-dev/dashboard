@@ -45,7 +45,7 @@ export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.Rinkeby]: `https://eth-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
   [ChainId.Goerli]: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
   [ChainId.Fantom]: "https://rpc.ftm.tools",
-  [ChainId.Avalanche]: "https://rpc.ankr.com/avalanche",
+  [ChainId.Avalanche]: `${process.env.NEXT_PUBLIC_AVALANCHE_CHAINSTACK_URL}`,
   [ChainId.Polygon]: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
   [ChainId.Mumbai]: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
 };
