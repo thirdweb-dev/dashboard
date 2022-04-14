@@ -77,9 +77,23 @@ export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
     });
   };
 
+  const parseAttributes = (
+    attributes: {
+      trait_type: string;
+      value: string;
+    }[],
+  ) => {
+    const parsedAttributes = attributes.filter(({ value }) => value !== "");
+    console.log(parsedAttributes);
+    return parsedAttributes.length === 0 ? undefined : parsedAttributes;
+  };
+
   // TODO FIXME
   const onSubmit = (data: any) => {
-    mint.mutate(data, { onSuccess, onError });
+    console.log(data);
+    const attributes = parseAttributes(data.attributes);
+    console.log({ ...data, attributes });
+    /*     mint.mutate({ ...data, attributes }, { onSuccess, onError }); */
   };
 
   const setFile = (file: File) => {
