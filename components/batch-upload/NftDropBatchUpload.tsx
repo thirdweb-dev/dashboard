@@ -1,6 +1,7 @@
 import { BatchTable } from "./BatchTable";
 import { SelectReveal } from "./SelectReveal";
 import { UploadStep } from "./UploadStep";
+import { useNFTDropSupply } from "@3rdweb-sdk/react/hooks/useNFTDrop";
 import {
   Box,
   Container,
@@ -38,6 +39,7 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { data: supplyData } = useNFTDropSupply(contract?.getAddress());
   const [step, setStep] = useState(0);
   const [csvData, setCSVData] = useState<Papa.ParseResult<CSVData>>();
   const [jsonData, setJsonData] = useState<any>();
@@ -140,6 +142,7 @@ export const NftDropBatchUpload: React.FC<NftDropBatchUploadProps> = ({
                       <BatchTable
                         portalRef={paginationPortalRef}
                         data={mergedData}
+                        nextTokenIdToMint={supplyData?.totalSupply}
                       />
                     ) : (
                       <UploadStep
