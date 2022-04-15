@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { useSDK } from "@thirdweb-dev/react";
+import { ContractType } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { Logo } from "components/logo";
@@ -36,8 +37,8 @@ export function useResolvedContract(contractAddress?: string) {
         return undefined;
       }
 
-      const contractType = await sdk.resolveContractType(contractAddress);
       try {
+        const contractType = await sdk.resolveContractType(contractAddress);
         return {
           contractType,
           contract: sdk.getContract(contractAddress, contractType),
@@ -47,7 +48,7 @@ export function useResolvedContract(contractAddress?: string) {
       }
       const contract = await sdk.unstable_getCustomContract(contractAddress);
       return {
-        contractType,
+        contractType: "custom",
         contract,
       };
     },
