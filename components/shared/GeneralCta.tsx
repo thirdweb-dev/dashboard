@@ -21,6 +21,8 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
           bgColor="primary.500"
           color="white"
           _hover={{ bgColor: "primary.400" }}
+          _focus={{ bgColor: "primary.400" }}
+          _active={{ bgColor: "primary.400" }}
           px={12}
           onClick={() =>
             trackEvent({
@@ -38,9 +40,11 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
       ) : (
         <LinkButton
           leftIcon={<Icon as={IoRocketOutline} />}
-          bgColor="purple.500"
+          bgGradient="linear(to-r, #CC25B3 0%, #418DFF 101.52%)"
           color="white"
-          _hover={{ bgColor: "purple.600" }}
+          _hover={{ opacity: 0.8 }}
+          _focus={{ bgColor: "purple.600" }}
+          _active={{ bgColor: "purple.600" }}
           px={12}
           onClick={() =>
             trackEvent({
