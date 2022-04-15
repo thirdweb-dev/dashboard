@@ -48,7 +48,7 @@ export function useResolvedContract(contractAddress?: string) {
       }
       const contract = await sdk.unstable_getCustomContract(contractAddress);
       return {
-        contractType: "custom",
+        contractType: "custom" as ContractType,
         contract,
       };
     },
