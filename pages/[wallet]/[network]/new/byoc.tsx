@@ -70,7 +70,7 @@ function useBYOCDeployMutation() {
       contractMetadata,
     }: {
       publisherAddress: string;
-      contractId: BigNumberish;
+      contractId: string;
       constructorValues: unknown[];
       contractMetadata?: CustomContractMetadata;
     }) => {

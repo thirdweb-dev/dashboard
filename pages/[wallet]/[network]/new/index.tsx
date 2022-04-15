@@ -26,7 +26,7 @@ function usePublishedContractsQuery() {
     ["byoc-list", address],
     async () => {
       return address && sdk
-        ? (await sdk.publisher.getAll(address)).filter((c) => c.groupId)
+        ? (await sdk.publisher.getAll(address)).filter((c) => c.id)
         : [];
     },
     {
@@ -114,7 +114,7 @@ const DeployContract: ConsolePage = () => {
                   bg="backgroundCardHighlight"
                 />
                 <LinkButton
-                  href={`/${wallet}/${network}/new/byoc?groupId=${contract.groupId}`}
+                  href={`/${wallet}/${network}/new/byoc?groupId=${contract.id}`}
                   colorScheme="primary"
                 >
                   Deploy

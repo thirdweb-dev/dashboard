@@ -1,5 +1,6 @@
 import {
   ContractType,
+  CustomContract,
   Edition,
   EditionDrop,
   Marketplace,
@@ -27,6 +28,7 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   [Pack.contractType]: require("public/assets/tw-icons/pack.png"),
   [Split.contractType]: require("public/assets/tw-icons/splits.png"),
   [TokenDrop.contractType]: require("public/assets/tw-icons/token.png"),
+  [CustomContract.contractType]: require("public/assets/tw-icons/token.png"), // TODO (byoc) icon for custom contract
 };
 
 export const UrlMap: Record<ContractType, string> = {
@@ -40,6 +42,7 @@ export const UrlMap: Record<ContractType, string> = {
   [Pack.contractType]: "pack",
   [Split.contractType]: "split",
   [TokenDrop.contractType]: "token-drop",
+  [CustomContract.contractType]: "", // TODO (byoc)
 };
 
 interface FeatureCard {
@@ -144,6 +147,13 @@ export const FeatureCardMap: Record<ContractType, FeatureCard> = {
     icon: FeatureIconMap[TokenDrop.contractType],
     bg: "#400B31",
   },
+
+  [CustomContract.contractType]: {
+    title: "NOT IMPLEMENTED",
+    description: "NOT IMPLEMENTED",
+    icon: FeatureIconMap[TokenDrop.contractType],
+    bg: "#400B31",
+  },
 };
 
 export interface GasPrice {
@@ -195,6 +205,9 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
   [TokenDrop.contractType]: {
     deployContract: 0,
   },
+  [CustomContract.contractType]: {
+    deployContract: 0,
+  },
 };
 
 interface ContractDeploy {
@@ -220,6 +233,8 @@ export const CONTRACT_TYPE_NAME_MAP = {
   [Marketplace.contractType]: "Marketplace" as const,
   [Pack.contractType]: "Pack" as const,
   [Split.contractType]: "Split" as const,
+
+  [CustomContract.contractType]: "Custom" as const,
 } as const;
 
 interface ContractDeployMap {
