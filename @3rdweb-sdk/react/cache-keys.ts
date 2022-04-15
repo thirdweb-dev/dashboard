@@ -264,4 +264,5 @@ export const CacheKeyMap: Record<ContractType, any> = {
   [Split.contractType]: splitsKeys,
   [CustomContract.contractType]: {},
   [TokenDrop.contractType]: {},
+  [CustomContract.contractType]: {},
 };

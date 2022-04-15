@@ -36,8 +36,8 @@ export function useResolvedContract(contractAddress?: string) {
         return undefined;
       }
 
+      const contractType = await sdk.resolveContractType(contractAddress);
       try {
-        const contractType = await sdk.resolveContractType(contractAddress);
         return {
           contractType,
           contract: sdk.getContract(contractAddress, contractType),
@@ -47,7 +47,7 @@ export function useResolvedContract(contractAddress?: string) {
       }
       const contract = await sdk.unstable_getCustomContract(contractAddress);
       return {
-        contractType: "custom" as const,
+        contractType,
         contract,
       };
     },

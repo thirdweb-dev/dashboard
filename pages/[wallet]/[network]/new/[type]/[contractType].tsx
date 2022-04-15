@@ -24,8 +24,8 @@ import {
 import { AddressZero } from "@ethersproject/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  CONTRACTS_MAP,
   ContractType,
+  KNOWN_CONTRACTS_MAP,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
@@ -64,7 +64,9 @@ const DeployContractContract: ConsolePage = () => {
   const contractType = useSingleQueryParam("contractType") as
     | ContractType
     | undefined;
-  const contract = CONTRACTS_MAP[contractType as keyof typeof CONTRACTS_MAP];
+  // TODO (byoc) - this should be able to handle CustomContract but typescript does not like it
+  const contract =
+    KNOWN_CONTRACTS_MAP[contractType as keyof typeof KNOWN_CONTRACTS_MAP];
 
   return (
     <Card p={0}>

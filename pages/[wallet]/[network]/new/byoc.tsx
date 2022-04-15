@@ -22,7 +22,6 @@ import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { Card } from "components/layout/Card";
 import { FileInput } from "components/shared/FileInput";
-import { BigNumberish } from "ethers";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
