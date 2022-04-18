@@ -1680,7 +1680,6 @@
   version "2.1.0-11"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.1.0-11.tgz#f9ce1c51491c30bb4bb3360b96c432c638ed9311"
   integrity sha512-1MAeupWy4yzKpe5+VqUSaij3wvg7GJd6eT7UXM2euHtHAsO8owE3p/Cy4/YZ3+Sn234V91y4DrdvWWSjoTyU4Q==
-
   dependencies:
     "@ethersproject/bignumber" "^5.6.0"
     "@ethersproject/bytes" "^5.6.1"
