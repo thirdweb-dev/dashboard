@@ -63,7 +63,17 @@ const PublishPage: ConsolePage = () => {
 
   const uris = useMemo(() => {
     const uri = router.query.uri;
-    return uri ? (Array.isArray(uri) ? uri : [uri]) : [];
+    const ipfs = router.query.ipfs;
+    let array: string[] = [];
+    // handle both ipfs and uri
+    if (ipfs) {
+      array = (Array.isArray(ipfs) ? ipfs : [ipfs]).map(
+        (hash) => `ipfs://${hash}`,
+      );
+    } else if (uri) {
+      array = Array.isArray(uri) ? uri : [uri];
+    }
+    return array;
   }, [router.query]);
 
   const [urisToPublish, setUrisToPublish] = useState(() => uris);
