@@ -49,8 +49,11 @@ function usePublishMetadataQuery(uri?: string) {
 function usePublishMutation() {
   const sdk = useSDK();
   return useMutation((uris: string[]) => {
-    invariant(sdk && "publisher" in sdk, "sdk is undefined");
-    return Promise.all(uris.map((uri) => sdk.publisher.publish(uri)));
+    invariant(
+      sdk && "publisher" in sdk,
+      "sdk is not ready or does not support publishing",
+    );
+    return sdk.publisher.publishBatch(uris);
   });
 }
 
