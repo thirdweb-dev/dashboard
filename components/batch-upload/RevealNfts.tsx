@@ -52,32 +52,32 @@ export const RevealNftsModal: React.FC<RevealNftsModalProps> = ({
     onClose();
   };
 
-  // TODO FIXME
-  const onSubmit = (data: any) => {
-    reveal.mutate(
-      {
-        batchId: batch.batchId,
-        password: data.password,
-      },
-      {
-        onSuccess,
-        onError: (error) => {
-          toast({
-            title: "Error revealing batch upload",
-            description: parseErrorToMessage(error),
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        },
-      },
-    );
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+      <ModalContent
+        as="form"
+        onSubmit={handleSubmit((data) =>
+          reveal.mutate(
+            {
+              batchId: batch.batchId,
+              password: data.password,
+            },
+            {
+              onSuccess,
+              onError: (error) => {
+                toast({
+                  title: "Error revealing batch upload",
+                  description: parseErrorToMessage(error),
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                });
+              },
+            },
+          ),
+        )}
+      >
         <ModalHeader>
           Reveal Password for {batch?.placeholderMetadata?.name}
         </ModalHeader>

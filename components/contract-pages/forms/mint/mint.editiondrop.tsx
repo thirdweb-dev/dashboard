@@ -80,12 +80,6 @@ export const EditionDropMintForm: React.FC<INFTDropMintForm> = ({
     });
   };
 
-  // TODO FIXME
-  const onSubmit = (data: any) => {
-    const attributes = parseAttributes(data.attributes);
-    mint.mutate({ ...data, attributes }, { onSuccess, onError });
-  };
-
   const setFile = (file: File) => {
     if (file.type.includes("image")) {
       // image files
@@ -155,7 +149,10 @@ export const EditionDropMintForm: React.FC<INFTDropMintForm> = ({
           spacing={6}
           as="form"
           id={MINT_FORM_ID}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data: any) => {
+            const attributes = parseAttributes(data.attributes);
+            mint.mutate({ ...data, attributes }, { onSuccess, onError });
+          })}
         >
           <Stack>
             <Heading size="subtitle.md">Metadata</Heading>

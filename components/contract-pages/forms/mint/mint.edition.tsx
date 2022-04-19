@@ -22,7 +22,7 @@ import {
   useModalContext,
   useToast,
 } from "@chakra-ui/react";
-import { Edition } from "@thirdweb-dev/sdk";
+import { Edition, EditionMetadataInput } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { Button } from "components/buttons/Button";
 import { MismatchButton } from "components/buttons/MismatchButton";
@@ -71,12 +71,6 @@ export const EditionMintForm: React.FC<IEditionMintForm> = ({ contract }) => {
       duration: 9000,
       isClosable: true,
     });
-  };
-
-  // TODO FIXME
-  const onSubmit = (data: any) => {
-    const attributes = parseAttributes(data.attributes);
-    mint.mutate({ ...data, attributes }, { onSuccess, onError });
   };
 
   const setFile = (file: File) => {
@@ -148,7 +142,10 @@ export const EditionMintForm: React.FC<IEditionMintForm> = ({ contract }) => {
           spacing={6}
           as="form"
           id={MINT_FORM_ID}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit((data: any) => {
+            const attributes = parseAttributes(data.attributes);
+            mint.mutate({ ...data, attributes }, { onSuccess, onError });
+          })}
         >
           <Stack>
             <Heading size="subtitle.md">Metadata</Heading>
