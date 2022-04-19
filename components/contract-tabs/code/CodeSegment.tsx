@@ -1,6 +1,5 @@
 import { CodeSnippet, Environment, SupportedEnvironment } from "./types";
 import {
-  Box,
   ButtonGroup,
   Flex,
   Heading,
@@ -8,8 +7,8 @@ import {
   Stack,
   useClipboard,
 } from "@chakra-ui/react";
-import Editor from "@monaco-editor/react";
 import { Button } from "components/buttons/Button";
+import { CodeBlock } from "components/code-block/code-block";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { ImCopy } from "react-icons/im";
 import { SiJavascript, SiTypescript } from "react-icons/si";
@@ -89,29 +88,7 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         </Button>
       </Flex>
 
-      <Box
-        borderRadius="md"
-        overflow="hidden"
-        height={`${lines.length * 19 + 16}px`}
-        w="100%"
-      >
-        <Editor
-          theme="vs-dark"
-          options={{
-            padding: {
-              top: 8,
-              bottom: 8,
-            },
-            contextmenu: false,
-            codeLens: false,
-            readOnly: true,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: 0,
-          }}
-          value={code}
-          defaultLanguage="javascript"
-        />
-      </Box>
+      <CodeBlock px={4} py={2} borderRadius="md" code={code} w="100%" />
     </Stack>
   );
 };
@@ -132,7 +109,6 @@ const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
 }) => {
   return (
     <Button
-      colorScheme="yellow"
       variant={active ? "solid" : "outline"}
       onClick={onClick}
       leftIcon={icon}

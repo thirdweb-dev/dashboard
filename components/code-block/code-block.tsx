@@ -1,6 +1,7 @@
-import { Code, CodeProps } from "@chakra-ui/react";
+import { Code, CodeProps, useColorModeValue } from "@chakra-ui/react";
 import Highlight, { Language, defaultProps } from "prism-react-renderer";
-import theme from "prism-react-renderer/themes/nightOwl";
+import darkTheme from "prism-react-renderer/themes/oceanicNext";
+import lightTheme from "prism-react-renderer/themes/vsLight";
 
 interface CodeBlockProps extends CodeProps {
   code: string;
@@ -12,11 +13,18 @@ export const CodeBlock: React.VFC<CodeBlockProps> = ({
   language = "javascript",
   ...restCodeProps
 }) => {
+  const theme = useColorModeValue(lightTheme, darkTheme);
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         // eslint-disable-next-line react/forbid-dom-props
-        <Code {...restCodeProps} className={className} style={style}>
+        <Code
+          {...restCodeProps}
+          className={className}
+          style={style}
+          borderWidth="1px"
+          borderColor="borderColor"
+        >
           {tokens.map((line, i) => (
             // eslint-disable-next-line react/jsx-key
             <div {...getLineProps({ line, key: i })}>

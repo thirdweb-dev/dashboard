@@ -7,21 +7,12 @@ import {
   SnippetSchema,
 } from "./types";
 import { useContractName, useWeb3 } from "@3rdweb-sdk/react";
-import {
-  Code,
-  Flex,
-  Heading,
-  IconButton,
-  Spinner,
-  Stack,
-  Text,
-  useClipboard,
-} from "@chakra-ui/react";
+import { Flex, Heading, Spinner, Stack, Text } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
+import { CodeBlock } from "components/code-block/code-block";
 import { Card } from "components/layout/Card";
 import { LinkButton } from "components/shared/LinkButton";
 import { useCallback, useMemo, useState } from "react";
-import { ImCheckmark, ImCopy } from "react-icons/im";
 import { IoDocumentOutline } from "react-icons/io5";
 import { useQuery } from "react-query";
 
@@ -71,9 +62,6 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
       replaceVariablesInCodeSnippet(snip, contract?.getAddress(), address),
     [address, contract],
   );
-
-  const { onCopy, hasCopied } = useClipboard(NPM_INSTALL_COMMAND);
-
   if (isLoading) {
     return (
       <Card>
@@ -130,21 +118,14 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
         <Stack spacing={3}>
           <Heading size="title.sm">Getting Started</Heading>
           <Text>First, install the latest version of the SDK.</Text>
-          <Code borderRadius="md" py={2} px={4} variant="subtle" bg="#1e1e1e">
-            <Flex justify="space-between" align="center">
-              <Text color="#d4d4d4">
-                {">"} {NPM_INSTALL_COMMAND}
-              </Text>
-              <IconButton
-                onClick={onCopy}
-                size="xs"
-                colorScheme="purple"
-                variant="solid"
-                aria-label="copy"
-                icon={hasCopied ? <ImCheckmark /> : <ImCopy />}
-              />
-            </Flex>
-          </Code>
+          <CodeBlock
+            borderRadius="md"
+            py={2}
+            px={4}
+            language="bash"
+            code={NPM_INSTALL_COMMAND}
+          />
+
           <Text>
             Follow along below to get started using this contract in your code.
           </Text>
