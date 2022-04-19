@@ -105,6 +105,7 @@ const CustomContractPage: ConsolePage = () => {
         flexShrink={0}
         w="full"
         as="nav"
+        zIndex={1}
       >
         <Container maxW="container.page">
           <Flex direction="row" align="center">
