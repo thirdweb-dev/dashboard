@@ -18,7 +18,6 @@ import { useSDK } from "@thirdweb-dev/react";
 import { ContractType, CustomContract } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { Logo } from "components/logo";
 import { LinkButton } from "components/shared/LinkButton";
 import { AddressCopyButton } from "components/web3/AddressCopyButton";
@@ -251,13 +250,13 @@ const ContentOverview: React.VFC<ContentOverviewProps> = ({
       {isSuccess
         ? functions?.map((signature, index) => (
             <Box
+              key={index}
               borderRadius="md"
               overflow="hidden"
               height={`${19 + 16}px`}
               w="100%"
             >
               <Editor
-                key={index}
                 theme="vs-dark"
                 options={{
                   padding: {
