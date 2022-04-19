@@ -12,11 +12,13 @@ import {
   useBreakpointValue,
   usePrevious,
 } from "@chakra-ui/react";
+import Editor from "@monaco-editor/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { useSDK } from "@thirdweb-dev/react";
-import { ContractType } from "@thirdweb-dev/sdk";
+import { ContractType, CustomContract } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
+import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { Logo } from "components/logo";
 import { LinkButton } from "components/shared/LinkButton";
 import { AddressCopyButton } from "components/web3/AddressCopyButton";
@@ -162,9 +164,11 @@ const CustomContractPage: ConsolePage = () => {
       {/* main content */}
       <Container maxW="container.page">
         <Box height="300vh" py={8}>
-          {activeTab === ""
-            ? "Contract overview here"
-            : "Contract settings here"}
+          {activeTab === "" ? (
+            <ContentOverview contractAddress={contractAddress} />
+          ) : (
+            "Contract settings here"
+          )}
         </Box>
       </Container>
     </Flex>
@@ -174,6 +178,111 @@ const CustomContractPage: ConsolePage = () => {
 export default CustomContractPage;
 
 CustomContractPage.Layout = AppLayout;
+
+function useContractFunctionsQuery(
+  contractAddress: string,
+  contractQuery: ReturnType<typeof useResolvedContract>,
+) {
+  return useQueryWithNetwork(
+    ["contract", contractAddress, "publishedMetadata"],
+    () => {
+      // TODO (byoc) cleanup
+      return (
+        contractQuery.data?.contract as CustomContract
+      )?.publishedMetadata?.extractFunctions();
+    },
+    {
+      enabled:
+        !!contractQuery.data?.contract &&
+        !!("publishedMetadata" in contractQuery.data.contract) &&
+        !!("extractFunctions" in contractQuery.data.contract.publishedMetadata),
+    },
+  );
+}
+
+interface ContentOverviewProps {
+  contractAddress: string;
+}
+
+const ContentOverview: React.VFC<ContentOverviewProps> = ({
+  contractAddress,
+}) => {
+  const contractQuery = useResolvedContract(contractAddress);
+  const metadataQuery = useContractFunctionsQuery(
+    contractAddress,
+    contractQuery,
+  );
+
+  const isError = metadataQuery.isError || contractQuery.isError;
+  const isSuccess = metadataQuery.isSuccess;
+
+  const functions = metadataQuery.data?.map((f) => f.signature);
+
+  if (isError) {
+    return <Box>Failed to load contract metadata</Box>;
+  }
+
+  // TODO (byoc) jonas make this pretty pls
+  return (
+    <Flex align="left" gap={2} direction="column">
+      <Heading size="xl">Use your contract with the thirdweb SDK</Heading>
+      <Box borderRadius="md" overflow="hidden" height={`${19 + 16}px`} w="100%">
+        <Editor
+          theme="vs-dark"
+          options={{
+            padding: {
+              top: 8,
+              bottom: 8,
+            },
+            contextmenu: false,
+            codeLens: false,
+            readOnly: true,
+            minimap: { enabled: false },
+            scrollBeyondLastLine: 0,
+            lineNumbers: "off",
+            renderIndentGuides: false,
+            renderLineHighlight: "none",
+          }}
+          value={`const contract = sdk.getCustomContract("${contractAddress}");`}
+          defaultLanguage="javascript"
+        />
+      </Box>
+      <Heading size="xl">Contract functions</Heading>
+      {isSuccess
+        ? functions?.map((signature, index) => (
+            <Box
+              borderRadius="md"
+              overflow="hidden"
+              height={`${19 + 16}px`}
+              w="100%"
+            >
+              <Editor
+                key={index}
+                theme="vs-dark"
+                options={{
+                  padding: {
+                    top: 8,
+                    bottom: 8,
+                  },
+                  contextmenu: false,
+                  codeLens: false,
+                  readOnly: true,
+                  minimap: { enabled: false },
+                  scrollBeyondLastLine: 0,
+                  lineNumbers: "off",
+                  renderIndentGuides: false,
+                  renderLineHighlight: "none",
+                }}
+                value={signature}
+                defaultLanguage="javascript"
+              />
+            </Box>
+          ))
+        : ""}
+    </Flex>
+  );
+};
+
 function useContractMetadataQuery(
   contractAddress: string,
   contractQuery: ReturnType<typeof useResolvedContract>,
