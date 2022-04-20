@@ -256,6 +256,12 @@ export const TYPE_CONTRACT_MAP: ContractDeployMap = {
       subtitle: "Claimable drop of N-of-one NFTs",
       contractType: EditionDrop.contractType,
     },
+    {
+      title: CONTRACT_TYPE_NAME_MAP[TokenDrop.contractType],
+      subtitle: "Claimable drop of ERC20 tokens",
+      contractType: TokenDrop.contractType,
+      comingSoon: true,
+    },
   ],
   token: [
     {
@@ -285,7 +291,6 @@ export const TYPE_CONTRACT_MAP: ContractDeployMap = {
       title: CONTRACT_TYPE_NAME_MAP[Marketplace.contractType],
       subtitle: "Your very own marketplace",
       contractType: Marketplace.contractType,
-      comingSoon: true,
     },
   ],
   governance: [
