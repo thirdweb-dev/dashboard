@@ -1,9 +1,8 @@
 import { useTableContext } from "../../table-context";
-import { useEditionDropBalance, useWeb3 } from "@3rdweb-sdk/react";
+import { useWeb3 } from "@3rdweb-sdk/react";
 import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { NFTMetadataOwner } from "@thirdweb-dev/sdk";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import React from "react";
 import { MdDriveFileMoveOutline } from "react-icons/md";
 import { Row } from "react-table";

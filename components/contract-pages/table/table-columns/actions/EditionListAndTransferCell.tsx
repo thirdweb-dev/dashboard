@@ -1,5 +1,5 @@
 import { useTableContext } from "../../table-context";
-import { useEditionDropBalance, useWeb3 } from "@3rdweb-sdk/react";
+import { useEditionDropBalance } from "@3rdweb-sdk/react";
 import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { EditionMetadata } from "@thirdweb-dev/sdk";
