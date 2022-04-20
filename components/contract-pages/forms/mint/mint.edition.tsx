@@ -21,7 +21,7 @@ import {
   Textarea,
   useModalContext,
 } from "@chakra-ui/react";
-import { Edition, EditionMetadataInput } from "@thirdweb-dev/sdk";
+import { Edition } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { Button } from "components/buttons/Button";
 import { MismatchButton } from "components/buttons/MismatchButton";
