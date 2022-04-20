@@ -262,7 +262,6 @@ export const CacheKeyMap: Record<ContractType, any> = {
   [Marketplace.contractType]: marketplaceKeys,
   [Pack.contractType]: packKeys,
   [Split.contractType]: splitsKeys,
-  [CustomContract.contractType]: {},
   [TokenDrop.contractType]: {},
   [CustomContract.contractType]: {},
 };
