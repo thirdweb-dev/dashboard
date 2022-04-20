@@ -24,7 +24,7 @@ export function useClaimPhases(
 function useNFTDropClaimPhases(contract?: NFTDrop) {
   return useQueryWithNetwork(
     NFTDropKeys.claimPhases(contract?.getAddress()),
-    () => contract?.claimConditions.getAll(),
+    async () => await contract?.claimConditions.getAll(),
     {
       enabled: !!contract,
     },
@@ -34,7 +34,7 @@ function useNFTDropClaimPhases(contract?: NFTDrop) {
 function useEditionDropClaimPhases(contract?: EditionDrop, tokenId?: string) {
   return useQueryWithNetwork(
     editionDropKeys.claimPhases(contract?.getAddress(), tokenId),
-    () => contract?.claimConditions.getAll(tokenId as string),
+    async () => await contract?.claimConditions.getAll(tokenId as string),
     {
       enabled: !!contract && !!tokenId,
     },

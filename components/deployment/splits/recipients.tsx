@@ -79,8 +79,8 @@ export const RecipientForm: React.FC = () => {
               >
                 <FormControl
                   isInvalid={
-                    getFieldState(`recipients.${index}.address`, formState)
-                      .invalid
+                    !!getFieldState(`recipients.${index}.address`, formState)
+                      .error
                   }
                 >
                   <Input
@@ -97,8 +97,8 @@ export const RecipientForm: React.FC = () => {
                 </FormControl>
                 <FormControl
                   isInvalid={
-                    getFieldState(`recipients.${index}.sharesBps`, formState)
-                      .invalid
+                    !!getFieldState(`recipients.${index}.sharesBps`, formState)
+                      .error
                   }
                 >
                   <BasisPointsInput

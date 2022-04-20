@@ -79,7 +79,7 @@ export const ContractRoyalties = <TContract extends RoyaltyContract>({
           <Flex gap={4} direction={{ base: "column", md: "row" }}>
             <FormControl
               isDisabled={isDisabled}
-              isInvalid={!!getFieldState("fee_recipient", formState).invalid}
+              isInvalid={!!getFieldState("fee_recipient", formState).error}
             >
               <FormLabel>Recipient Address</FormLabel>
               <Input variant="filled" {...register("fee_recipient")} />
@@ -91,7 +91,7 @@ export const ContractRoyalties = <TContract extends RoyaltyContract>({
               isDisabled={isDisabled}
               maxW={{ base: "100%", md: "200px" }}
               isInvalid={
-                !!getFieldState("seller_fee_basis_points", formState).invalid
+                !!getFieldState("seller_fee_basis_points", formState).error
               }
             >
               <FormLabel>Percentage</FormLabel>

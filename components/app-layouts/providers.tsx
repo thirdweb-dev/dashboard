@@ -1,4 +1,3 @@
-/* eslint-disable line-comment-position */
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { IpfsStorage } from "@thirdweb-dev/sdk";
@@ -6,8 +5,8 @@ import { BigNumber } from "ethers";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import React, { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
-import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createWebStoragePersister } from "react-query/createWebStoragePersister";
+import { persistQueryClient } from "react-query/persistQueryClient";
 import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
 
 const __CACHE_BUSTER = "tw_v2.0.0-nightly.3";
@@ -70,7 +69,7 @@ export const Providers: React.FC = ({ children }) => {
     persistQueryClient({
       queryClient,
       buster: __CACHE_BUSTER,
-      persistor: createWebStoragePersistor({
+      persister: createWebStoragePersister({
         storage: window.localStorage,
         serialize: (data) => JSON.stringify(data, replacer),
       }),

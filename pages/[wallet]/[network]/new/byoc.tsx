@@ -34,9 +34,7 @@ function useConstructorParamsQuery(uri?: string) {
   const sdk = useSDK();
   return useQueryWithNetwork(
     ["byoc", "constructor-params", uri],
-    () => {
-      return uri ? sdk?.publisher.extractConstructorParams(uri) : [];
-    },
+    async () => await (uri ? sdk?.publisher.extractConstructorParams(uri) : []),
     {
       enabled: !!uri && !!sdk,
     },
@@ -48,11 +46,10 @@ function usePublishedContractQuery(groupId?: string) {
   const address = useAddress();
   return useQueryWithNetwork(
     ["byoc", "get", { publisherAddress: address, groupId }],
-    () => {
-      return address && groupId && sdk
+    async () =>
+      await (address && groupId && sdk
         ? sdk.publisher.getLatest(address, groupId)
-        : undefined;
-    },
+        : undefined),
     {
       enabled: !!groupId && !!sdk && !!address,
     },
@@ -174,9 +171,7 @@ const BYOCDeployPage: ConsolePage = () => {
               <FormControl
                 display="flex"
                 flexDirection="column"
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                isInvalid={getFieldState("image", formState).invalid}
+                isInvalid={!!getFieldState("image", formState).error}
               >
                 <FormLabel>Image</FormLabel>
                 <FileInput
@@ -205,7 +200,7 @@ const BYOCDeployPage: ConsolePage = () => {
               <Flex gap={4} direction={{ base: "column", md: "row" }}>
                 <FormControl
                   isRequired
-                  isInvalid={getFieldState("name", formState).invalid}
+                  isInvalid={!!getFieldState("name", formState).error}
                 >
                   <FormLabel>Name</FormLabel>
                   <Input autoFocus variant="filled" {...register("name")} />
@@ -216,7 +211,7 @@ const BYOCDeployPage: ConsolePage = () => {
               </Flex>
 
               <FormControl
-                isInvalid={getFieldState("description", formState).invalid}
+                isInvalid={!!getFieldState("description", formState).error}
               >
                 <FormLabel>Description</FormLabel>
                 <Textarea variant="filled" {...register("description")} />

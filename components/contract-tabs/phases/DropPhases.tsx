@@ -273,10 +273,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                     <Flex direction={{ base: "column", md: "row" }} gap={4}>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.startTime`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -307,10 +307,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.maxQuantity`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -341,10 +341,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                     <Flex direction={{ base: "column", md: "row" }} gap={4}>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.price`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -368,10 +368,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.currencyAddress`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading
@@ -403,10 +403,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
                     <FormControl
                       isInvalid={
-                        form.getFieldState(
+                        !!form.getFieldState(
                           `phases.${index}.snapshot`,
                           form.formState,
-                        ).invalid
+                        ).error
                       }
                     >
                       <Heading as={FormLabel} size="label.md">
@@ -487,10 +487,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                     <Flex gap={4} direction={{ base: "column", md: "row" }}>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.quantityLimitPerTransaction`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -519,10 +519,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       </FormControl>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.waitInSeconds`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">

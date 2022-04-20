@@ -77,6 +77,7 @@ import {
   SUPPORTED_CHAIN_IDS,
   getNetworkFromChainId,
 } from "utils/network";
+import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
 const Dashboard: ConsolePage = () => {
@@ -577,7 +578,7 @@ const AsyncContractCell: React.FC<AsyncContractCellProps> = ({ cell }) => {
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {metadataQuery.data?.name || "Loading ..."}
+            {metadataQuery.data?.name || shortenIfAddress(cell.address)}
           </Text>
         </Link>
       </OriginalNextLink>
@@ -659,7 +660,7 @@ const ProjectCell: React.FC<IProjectCellProps> = ({
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {name || "Loading ..."}
+            {name || shortenIfAddress(address)}
           </Text>
         </Link>
       </OriginalNextLink>

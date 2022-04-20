@@ -26,7 +26,7 @@ export const TWInput = (props: TextFieldProps) => {
 
   return (
     <FormControl
-      isInvalid={fieldState.invalid}
+      isInvalid={!!fieldState.error}
       isRequired={isRequired && isRequired(name)}
       key={key}
     >

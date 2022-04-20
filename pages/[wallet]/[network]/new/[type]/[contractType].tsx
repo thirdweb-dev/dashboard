@@ -295,7 +295,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                 display="flex"
                 flexDirection="column"
                 isRequired={isRequired("image")}
-                isInvalid={getFieldState("image", formState).invalid}
+                isInvalid={!!getFieldState("image", formState).error}
               >
                 <FormLabel>Image</FormLabel>
                 <FileInput
@@ -324,7 +324,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
               <Flex gap={4} direction={{ base: "column", md: "row" }}>
                 <FormControl
                   isRequired={isRequired("name")}
-                  isInvalid={getFieldState("name", formState).invalid}
+                  isInvalid={!!getFieldState("name", formState).error}
                 >
                   <FormLabel>Name</FormLabel>
                   <Input autoFocus variant="filled" {...register("name")} />
@@ -336,7 +336,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                   <FormControl
                     maxW={{ base: "100%", md: "200px" }}
                     isRequired={isRequired("symbol")}
-                    isInvalid={getFieldState("symbol", formState).invalid}
+                    isInvalid={!!getFieldState("symbol", formState).error}
                   >
                     <FormLabel>Symbol</FormLabel>
                     <Input variant="filled" {...register("symbol")} />
@@ -349,7 +349,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
 
               <FormControl
                 isRequired={isRequired("description")}
-                isInvalid={getFieldState("description", formState).invalid}
+                isInvalid={!!getFieldState("description", formState).error}
               >
                 <FormLabel>Description</FormLabel>
                 <Textarea variant="filled" {...register("description")} />
@@ -389,8 +389,8 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                     <FormControl
                       isRequired={isRequired("primary_sale_recipient")}
                       isInvalid={
-                        getFieldState("primary_sale_recipient", formState)
-                          .invalid
+                        !!getFieldState("primary_sale_recipient", formState)
+                          .error
                       }
                     >
                       <FormLabel>Recipient Address</FormLabel>
@@ -420,7 +420,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                     <FormControl
                       isRequired={isRequired("fee_recipient")}
                       isInvalid={
-                        !!getFieldState("fee_recipient", formState).invalid
+                        !!getFieldState("fee_recipient", formState).error
                       }
                     >
                       <FormLabel>Recipient Address</FormLabel>
@@ -437,7 +437,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                       isRequired={isRequired("seller_fee_basis_points")}
                       isInvalid={
                         !!getFieldState("seller_fee_basis_points", formState)
-                          .invalid
+                          .error
                       }
                     >
                       <FormLabel>Percentage</FormLabel>
@@ -467,8 +467,8 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                     <FormControl
                       isRequired={isRequired("platform_fee_recipient")}
                       isInvalid={
-                        getFieldState("platform_fee_recipient", formState)
-                          .invalid
+                        !!getFieldState("platform_fee_recipient", formState)
+                          .error
                       }
                     >
                       <FormLabel>Recipient Address</FormLabel>
@@ -487,8 +487,8 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                       maxW={{ base: "100%", md: "200px" }}
                       isRequired={isRequired("platform_fee_basis_points")}
                       isInvalid={
-                        getFieldState("platform_fee_basis_points", formState)
-                          .invalid
+                        !!getFieldState("platform_fee_basis_points", formState)
+                          .error
                       }
                     >
                       <FormLabel>Percentage</FormLabel>
@@ -536,7 +536,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                 <FormControl
                   isRequired={isRequired("voting_token_address")}
                   isInvalid={
-                    getFieldState("voting_token_address", formState).invalid ||
+                    !!getFieldState("voting_token_address", formState).error ||
                     (watch("voting_token_address")
                       ? !isAddress(watch("voting_token_address"))
                       : false)
@@ -563,7 +563,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                 <FormControl
                   isRequired={isRequired("proposal_token_threshold")}
                   isInvalid={
-                    getFieldState("proposal_token_threshold", formState).invalid
+                    !!getFieldState("proposal_token_threshold", formState).error
                   }
                 >
                   <FormLabel>Proposal Token Threshold</FormLabel>
@@ -599,7 +599,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                 <FormControl
                   isRequired={isRequired("voting_delay_in_blocks")}
                   isInvalid={
-                    getFieldState("voting_delay_in_blocks", formState).invalid
+                    !!getFieldState("voting_delay_in_blocks", formState).error
                   }
                 >
                   <FormLabel>Voting Delay</FormLabel>
@@ -636,7 +636,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                 <FormControl
                   isRequired={isRequired("voting_period_in_blocks")}
                   isInvalid={
-                    getFieldState("voting_period_in_blocks", formState).invalid
+                    !!getFieldState("voting_period_in_blocks", formState).error
                   }
                 >
                   <FormLabel>Voting Period</FormLabel>
@@ -673,7 +673,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
                 <FormControl
                   isRequired={isRequired("voting_quorum_fraction")}
                   isInvalid={
-                    getFieldState("voting_quorum_fraction", formState).invalid
+                    !!getFieldState("voting_quorum_fraction", formState).error
                   }
                 >
                   <FormLabel>Voting Quorum</FormLabel>

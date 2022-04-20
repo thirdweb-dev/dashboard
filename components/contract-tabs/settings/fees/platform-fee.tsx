@@ -80,7 +80,7 @@ export const ContractPlatformFee = <TContract extends PlatformFeeContract>({
             <FormControl
               isDisabled={isDisabled}
               isInvalid={
-                !!getFieldState("platform_fee_recipient", formState).invalid
+                !!getFieldState("platform_fee_recipient", formState).error
               }
             >
               <FormLabel>Recipient Address</FormLabel>
@@ -96,7 +96,7 @@ export const ContractPlatformFee = <TContract extends PlatformFeeContract>({
               isDisabled={isDisabled}
               maxW={{ base: "100%", md: "200px" }}
               isInvalid={
-                !!getFieldState("platform_fee_basis_points", formState).invalid
+                !!getFieldState("platform_fee_basis_points", formState).error
               }
             >
               <FormLabel>Percentage</FormLabel>

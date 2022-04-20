@@ -74,7 +74,7 @@ export const ContractPrimarySale = <TContract extends RecipientContract>({
             <FormControl
               isDisabled={mutation.isLoading || isDisabled}
               isInvalid={
-                getFieldState("primary_sale_recipient", formState).invalid
+                !!getFieldState("primary_sale_recipient", formState).error
               }
             >
               <FormLabel>Recipient Address</FormLabel>

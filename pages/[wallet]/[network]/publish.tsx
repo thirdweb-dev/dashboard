@@ -37,9 +37,8 @@ import { parseErrorToMessage } from "utils/errorParser";
 function usePublishMetadataQuery(uri?: string) {
   return useQuery(
     ["publish-metadata", uri],
-    () => {
-      return uri ? fetchContractMetadata(uri, StorageSingleton) : undefined;
-    },
+    async () =>
+      await (uri ? fetchContractMetadata(uri, StorageSingleton) : undefined),
     {
       enabled: !!uri,
     },

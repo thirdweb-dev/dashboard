@@ -89,7 +89,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                 isDisabled={
                   metadata.isLoading || metadataMutation.isLoading || isDisabled
                 }
-                isInvalid={getFieldState("image", formState).invalid}
+                isInvalid={!!getFieldState("image", formState).error}
               >
                 <FormLabel>Image</FormLabel>
                 <FileInput
@@ -127,7 +127,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                     metadataMutation.isLoading ||
                     isDisabled
                   }
-                  isInvalid={getFieldState("name", formState).invalid}
+                  isInvalid={!!getFieldState("name", formState).error}
                 >
                   <FormLabel>Name</FormLabel>
                   <Input variant="filled" {...register("name")} />
@@ -141,7 +141,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                 isDisabled={
                   metadata.isLoading || metadataMutation.isLoading || isDisabled
                 }
-                isInvalid={getFieldState("description", formState).invalid}
+                isInvalid={!!getFieldState("description", formState).error}
               >
                 <FormLabel>Description</FormLabel>
                 <Textarea variant="filled" {...register("description")} />

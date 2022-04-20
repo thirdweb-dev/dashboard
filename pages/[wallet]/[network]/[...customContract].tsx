@@ -187,9 +187,7 @@ function useContractMetadataQuery(
 ) {
   return useQueryWithNetwork(
     ["contract", contractAddress, "metadata"],
-    () => {
-      return contractQuery.data?.contract.metadata.get();
-    },
+    async () => await contractQuery.data?.contract.metadata.get(),
     {
       enabled:
         !!contractQuery.data?.contract.metadata &&
