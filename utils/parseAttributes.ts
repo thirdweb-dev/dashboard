@@ -16,7 +16,13 @@ function removeEmptyValues(data: NFTMetadataInput["attributes"]) {
     return data;
   }
   if (Array.isArray(data)) {
-    return data.filter(({ value }) => value !== "");
+    const parsedArray = data
+      .filter(({ value }) => value !== "")
+      .map(({ value, trait_type }) => ({
+        value,
+        ...(!!trait_type && { trait_type }),
+      }));
+    return parsedArray.length === 0 ? undefined : parsedArray;
   }
   return Object.entries(data).reduce((acc, [key, value]) => {
     if (value !== "") {
