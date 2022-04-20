@@ -77,44 +77,34 @@ export const ErrorProvider: ComponentWithChildren = ({ children }) => {
             overflow="hidden"
             borderTopRadius={{ base: "lg", md: "none" }}
           >
-            <DrawerCloseButton color="whiteAlpha.900" />
-            <DrawerBody py={{ base: 4, md: 0 }} bg="red.900">
+            <DrawerCloseButton />
+            <DrawerBody py={{ base: 4 }}>
               <Flex direction="column" gap={4}>
-                <Heading color="whiteAlpha.900" size="subtitle.md">
+                <Heading size="subtitle.md">
                   Error: Failed to send transaction
                 </Heading>
                 <Flex direction="column" gap={2}>
-                  <Heading color="whiteAlpha.900" size="label.md">
-                    Sender
-                  </Heading>
+                  <Heading size="label.md">Sender</Heading>
                   <AddressCopyButton address={currentError?.from} />
                 </Flex>
                 <Flex direction="column" gap={2}>
-                  <Heading color="whiteAlpha.900" size="label.md">
-                    Recipient
-                  </Heading>
+                  <Heading size="label.md">Recipient</Heading>
                   <AddressCopyButton address={currentError?.to} />
                 </Flex>
                 <Flex direction="column" gap={2}>
-                  <Heading color="whiteAlpha.900" size="label.md">
-                    Network / Chain
-                  </Heading>
+                  <Heading size="label.md">Network / Chain</Heading>
                   <Text color="gray.500">
                     {currentError?.chain.name} ({currentError?.chain.chainId})
                   </Text>
                 </Flex>
                 <Flex direction="column" gap={2}>
-                  <Heading color="whiteAlpha.900" size="label.md">
-                    Data
-                  </Heading>
+                  <Heading size="label.md">Data</Heading>
                   <Code px={4} py={2} borderRadius="md" whiteSpace="pre-wrap">
                     {currentError?.data}
                   </Code>
                 </Flex>
                 <Divider my={2} borderColor="borderColor" />
-                <Heading color="whiteAlpha.900" size="subtitle.md">
-                  Need help with this error?
-                </Heading>
+                <Heading size="subtitle.md">Need help with this error?</Heading>
                 <LinkButton
                   colorScheme="discord"
                   isExternal

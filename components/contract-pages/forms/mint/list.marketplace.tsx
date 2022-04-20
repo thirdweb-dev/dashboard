@@ -31,7 +31,6 @@ import { Marketplace, NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 import { Button } from "components/buttons/Button";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { CurrencySelector } from "components/shared/CurrencySelector";
-import { useErrorHandler } from "contexts/error-handler";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -60,11 +59,11 @@ export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
 }) => {
   const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
   const modalContext = useModalContext();
-  const { onSuccess } = useTxNotifications(
+  const { onSuccess, onError } = useTxNotifications(
     "Succesfully created listing",
     "Error creating listing",
   );
-  const { onError } = useErrorHandler();
+
   const directList = useMarketplaceDirectListMutation(contract.getAddress());
   const auctionList = useMarketplaceAuctionListMutation(contract.getAddress());
   const { watch, register, setValue, handleSubmit } = useForm<ListForm>({
@@ -75,8 +74,7 @@ export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
       buyoutPricePerToken: "0",
       listingType: "direct",
       reservePricePerToken: "0",
-      // Math.floor(Date.now() / 1000).toString(),
-      startTimeInSeconds: "0",
+      startTimeInSeconds: Math.floor(Date.now() / 1000).toString(),
       listingDurationInSeconds: (60 * 60 * 24).toString(),
     },
   });
@@ -117,7 +115,7 @@ export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
             onSuccess();
             modalContext.onClose();
           },
-          onError: (err) => onError(err, "Failed to create listing"),
+          onError,
         },
       );
     } else {
@@ -137,7 +135,7 @@ export const MarketplaceListForm: React.FC<IMarketplaceListForm> = ({
             onSuccess();
             modalContext.onClose();
           },
-          onError: (err) => onError(err, "Failed to create listing"),
+          onError,
         },
       );
     }
