@@ -153,8 +153,7 @@ const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
 
   function connect() {
-    console.log("EMAIL: ", email);
-    connectMagic(email);
+    connectMagic({ email });
     onClose();
   }
 
