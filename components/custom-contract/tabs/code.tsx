@@ -24,7 +24,17 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
   return (
     <Flex gap={4} direction="column">
       <Card as={Flex} gap={2} flexDirection="column">
-        <Heading size="subtitle.sm">
+        <Heading size="subtitle.md">Install the thirdweb SDK</Heading>
+        <CodeBlock
+          px={4}
+          py={2}
+          borderRadius="md"
+          language="bash"
+          code={`npm install @thirdweb/sdk@dev`}
+        />
+      </Card>
+      <Card as={Flex} gap={2} flexDirection="column">
+        <Heading size="subtitle.md">
           Use your contract with the thirdweb SDK
         </Heading>
         <CodeBlock
@@ -34,11 +44,11 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
           code={`import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
           const sdk = new ThirdwebSDK();
-          const contract = sdk.getCustomContract("${contractAddress}");`}
+          const contract = await sdk.getCustomContract("${contractAddress}");`}
         />
       </Card>
       <Card as={Flex} gap={2} flexDirection="column">
-        <Heading size="subtitle.sm">Contract functions</Heading>
+        <Heading size="subtitle.md">Contract functions</Heading>
         {isSuccess
           ? functions?.map((signature) => (
               <CodeBlock

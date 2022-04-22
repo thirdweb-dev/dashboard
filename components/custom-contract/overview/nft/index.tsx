@@ -46,9 +46,7 @@ const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
               );
             }}
           >
-            {contractSupportsMinting
-              ? "Mint Additional"
-              : "Minting not supported"}
+            {contractSupportsMinting ? "Mint" : "Minting not supported"}
           </MismatchButton>
         </ButtonGroup>
       </Flex>

@@ -20,6 +20,7 @@ import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { CustomContractOverviewPage } from "components/custom-contract/overview";
 import { CustomContractCodeTab } from "components/custom-contract/tabs/code";
+import { Card } from "components/layout/Card";
 import { Logo } from "components/logo";
 import { LinkButton } from "components/shared/LinkButton";
 import { AddressCopyButton } from "components/web3/AddressCopyButton";
@@ -140,7 +141,10 @@ const CustomContractPage: ConsolePage = () => {
           ) : activeTab === "code" ? (
             <CustomContractCodeTab contractAddress={contractAddress} />
           ) : (
-            "Contract settings here"
+            <Card as={Flex} flexDirection="column" gap={2}>
+              <Heading size="subtitle.md">Contract settings</Heading>
+              <Text>coming soon</Text>
+            </Card>
           )}
         </Box>
       </Container>

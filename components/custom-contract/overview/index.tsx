@@ -1,7 +1,11 @@
+import { Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { detectErc721Instance, useResolvedContract } from "@thirdweb-dev/react";
+import { Card } from "components/layout/Card";
 import dynamic from "next/dynamic";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 
-const NftOverviewTable = dynamic(() => import("./nft"));
+const NftOverview = dynamic(() => import("./nft"));
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -10,6 +14,7 @@ interface CustomContractOverviewPageProps {
 export const CustomContractOverviewPage: React.VFC<
   CustomContractOverviewPageProps
 > = ({ contractAddress }) => {
+  const router = useRouter();
   const contractQuery = useResolvedContract(contractAddress);
 
   if (!contractQuery || contractQuery?.isLoading) {
@@ -20,8 +25,29 @@ export const CustomContractOverviewPage: React.VFC<
 
   if (nftContract) {
     // nft overview page
-
-    return <NftOverviewTable contract={nftContract} />;
+    return <NftOverview contract={nftContract} />;
   }
-  return <div>contract overview page: {contractAddress}</div>;
+  return (
+    <Card as={Flex} flexDirection="column" gap={2}>
+      <Heading size="subtitle.md">Custom Contract</Heading>
+      <Text>
+        Go to the{" "}
+        <NextLink
+          passHref
+          href={{
+            pathname: router.pathname,
+            query: {
+              ...router.query,
+              customContract: [contractAddress || "", "code"],
+            },
+          }}
+        >
+          <Link fontWeight="bold" colorScheme="primary" color="primary.500">
+            Code
+          </Link>
+        </NextLink>{" "}
+        tab to learn how to integrate with the sdk.
+      </Text>
+    </Card>
+  );
 };
