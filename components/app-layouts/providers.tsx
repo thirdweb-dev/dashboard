@@ -65,6 +65,7 @@ export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
 
 export const Providers: React.FC = ({ children }) => {
   useNativeColorMode();
+
   useEffect(() => {
     persistQueryClient({
       queryClient,
@@ -80,6 +81,7 @@ export const Providers: React.FC = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThirdwebProvider
+        queryClient={queryClient}
         dAppMeta={{
           name: "thirdweb",
           logoUrl: "https://thirdweb.com/favicon.ico",

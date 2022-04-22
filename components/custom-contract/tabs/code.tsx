@@ -1,30 +1,7 @@
-import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import { Box, Flex, Heading } from "@chakra-ui/react";
-import { CustomContract } from "@thirdweb-dev/sdk";
+import { useContractFunctionsQuery } from "@thirdweb-dev/react";
 import { CodeBlock } from "components/code-block/code-block";
 import { Card } from "components/layout/Card";
-import { useResolvedContract } from "pages/[wallet]/[network]/[...customContract]";
-
-function useContractFunctionsQuery(
-  contractAddress: string,
-  contractQuery: ReturnType<typeof useResolvedContract>,
-) {
-  return useQueryWithNetwork(
-    ["contract", contractAddress, "publishedMetadata", "extractFunctions"],
-    () => {
-      // TODO (byoc) cleanup
-      return (
-        contractQuery.data?.contract as CustomContract
-      )?.publishedMetadata?.extractFunctions();
-    },
-    {
-      enabled:
-        !!contractQuery.data?.contract &&
-        !!("publishedMetadata" in contractQuery.data.contract) &&
-        !!("extractFunctions" in contractQuery.data.contract.publishedMetadata),
-    },
-  );
-}
 
 interface ContentOverviewProps {
   contractAddress: string;
@@ -33,22 +10,17 @@ interface ContentOverviewProps {
 export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
   contractAddress,
 }) => {
-  const contractQuery = useResolvedContract(contractAddress);
-  const metadataQuery = useContractFunctionsQuery(
-    contractAddress,
-    contractQuery,
-  );
+  const metadataQuery = useContractFunctionsQuery(contractAddress);
 
-  const isError = metadataQuery.isError || contractQuery.isError;
+  const isError = metadataQuery.isError;
   const isSuccess = metadataQuery.isSuccess;
 
   const functions = metadataQuery.data?.map((f) => f.signature);
 
   if (isError) {
-    return <Box>Failed to load contract metadata</Box>;
+    return <Box>Contract does not support generated functions</Box>;
   }
 
-  // TODO (byoc) jonas make this pretty pls
   return (
     <Flex gap={4} direction="column">
       <Card as={Flex} gap={2} flexDirection="column">

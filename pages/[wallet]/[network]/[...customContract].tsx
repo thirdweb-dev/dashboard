@@ -1,5 +1,4 @@
 import type { ConsolePage } from "../../_app";
-import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
   Box,
   Button,
@@ -13,10 +12,13 @@ import {
   usePrevious,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import { useSDK } from "@thirdweb-dev/react";
-import { ContractType } from "@thirdweb-dev/sdk";
+import {
+  useContractMetadata,
+  useResolvedContractType,
+} from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
+import { CustomContractOverviewPage } from "components/custom-contract/overview";
 import { CustomContractCodeTab } from "components/custom-contract/tabs/code";
 import { Logo } from "components/logo";
 import { LinkButton } from "components/shared/LinkButton";
@@ -27,37 +29,6 @@ import { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import { isBrowser } from "utils/isBrowser";
-
-export function useResolvedContract(contractAddress?: string) {
-  const sdk = useSDK();
-
-  return useQueryWithNetwork(
-    ["contract", contractAddress],
-    async () => {
-      if (!contractAddress || !sdk) {
-        return undefined;
-      }
-
-      try {
-        const contractType = await sdk.resolveContractType(contractAddress);
-        return {
-          contractType,
-          contract: sdk.getContract(contractAddress, contractType),
-        };
-      } catch (err) {
-        console.info("failed to load contract type, custom contract");
-      }
-      const contract = await sdk.unstable_getCustomContract(contractAddress);
-      return {
-        contractType: "custom" as ContractType,
-        contract,
-      };
-    },
-    {
-      enabled: !!sdk && !!contractAddress,
-    },
-  );
-}
 
 const CustomContractPage: ConsolePage = () => {
   const router = useRouter();
@@ -165,7 +136,7 @@ const CustomContractPage: ConsolePage = () => {
       <Container maxW="container.page">
         <Box py={8}>
           {activeTab === "" ? (
-            "Contract overview here"
+            <CustomContractOverviewPage contractAddress={contractAddress} />
           ) : activeTab === "code" ? (
             <CustomContractCodeTab contractAddress={contractAddress} />
           ) : (
@@ -181,21 +152,6 @@ export default CustomContractPage;
 
 CustomContractPage.Layout = AppLayout;
 
-function useContractMetadataQuery(
-  contractAddress: string,
-  contractQuery: ReturnType<typeof useResolvedContract>,
-) {
-  return useQueryWithNetwork(
-    ["contract", contractAddress, "metadata"],
-    async () => await contractQuery.data?.contract.metadata.get(),
-    {
-      enabled:
-        !!contractQuery.data?.contract.metadata &&
-        !!("get" in contractQuery.data.contract.metadata),
-    },
-  );
-}
-
 interface ContractMetadataProps {
   contractAddress: string;
 }
@@ -203,29 +159,22 @@ interface ContractMetadataProps {
 const ContractMetadata: React.VFC<ContractMetadataProps> = ({
   contractAddress,
 }) => {
-  const contractQuery = useResolvedContract(contractAddress);
-  const metadataQuery = useContractMetadataQuery(
-    contractAddress,
-    contractQuery,
-  );
+  const metadataQuery = useContractMetadata(contractAddress);
+  const contractType = useResolvedContractType(contractAddress);
 
-  const isError = metadataQuery.isError || contractQuery.isError;
-  const isSuccess = metadataQuery.isSuccess;
-
-  const contractType = contractQuery.data?.contractType;
   const contractTypeImage =
-    (contractType &&
-      contractType !== "custom" &&
-      FeatureIconMap[contractType]) ||
+    (contractType.data &&
+      contractType.data !== "custom" &&
+      FeatureIconMap[contractType.data]) ||
     FeatureIconMap["vote"];
 
-  if (isError) {
+  if (metadataQuery.isError) {
     return <Box>Failed to load contract metadata</Box>;
   }
 
   return (
     <Flex align="center" gap={2}>
-      <Skeleton isLoaded={isSuccess}>
+      <Skeleton isLoaded={metadataQuery.isSuccess}>
         {metadataQuery.data?.image ? (
           <Image
             objectFit="contain"
@@ -242,14 +191,18 @@ const ContractMetadata: React.VFC<ContractMetadataProps> = ({
         ) : null}
       </Skeleton>
       <Flex direction="column" gap={1}>
-        <Skeleton isLoaded={isSuccess}>
+        <Skeleton isLoaded={metadataQuery.isSuccess}>
           <Heading size="title.md">
-            {isSuccess ? metadataQuery.data?.name : "testing testing testing"}
+            {metadataQuery.isSuccess
+              ? metadataQuery.data?.name
+              : "testing testing testing"}
           </Heading>
         </Skeleton>
-        <Skeleton isLoaded={isSuccess}>
+        <Skeleton isLoaded={metadataQuery.isSuccess}>
           <Text size="body.md">
-            {isSuccess ? metadataQuery.data?.description : "foo bar baz"}
+            {metadataQuery.isSuccess
+              ? metadataQuery.data?.description
+              : "foo bar baz"}
           </Text>
         </Skeleton>
       </Flex>
