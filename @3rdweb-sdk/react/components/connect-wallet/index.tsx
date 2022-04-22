@@ -24,6 +24,7 @@ import {
 import { useConnect, useDisconnect, useMagic } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { Button } from "components/buttons/Button";
+import { StaticImageData } from "next/image";
 import React, { useState } from "react";
 import { AiOutlineDisconnect } from "react-icons/ai";
 import { FiCheck } from "react-icons/fi";
@@ -31,11 +32,11 @@ import { ImCopy } from "react-icons/im";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { Connector } from "wagmi-core";
 
-const connectorIdToImageUrl: Record<string, any> = {
-  MetaMask: "/logos/metamask-fox.svg",
-  WalletConnect: "/logos/walletconnect-logo.svg",
-  "Coinbase Wallet": "/logos/coinbase-wallet-logo.svg",
-  Magic: "/logos/magic-logo.svg",
+const connectorIdToImageUrl: Record<string, StaticImageData> = {
+  MetaMask: require("public/logos/metamask-fox.svg"),
+  WalletConnect: require("public/logos/walletconnect-logo.svg"),
+  "Coinbase Wallet": require("public/logos/coinbase-wallet-logo.svg"),
+  Magic: require("public/logos/magic-logo.svg"),
 };
 
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
