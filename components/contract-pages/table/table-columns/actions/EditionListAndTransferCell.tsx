@@ -25,23 +25,21 @@ export const EditionListAndTransferCell: React.FC<
     row.original.metadata.id.toString(),
   );
 
-  if (BigNumber.from(balance || 0).gt(0)) {
+  if (BigNumber.from(balance || 0).lt(1)) {
     return null;
   }
 
   return (
-    <>
-      <Button
-        onClick={() =>
-          tableContext.expandRow({
-            tokenId: row.original.metadata.id.toString(),
-            type: "transfer",
-          })
-        }
-        leftIcon={<Icon as={MdDriveFileMoveOutline} />}
-      >
-        Transfer
-      </Button>
-    </>
+    <Button
+      onClick={() =>
+        tableContext.expandRow({
+          tokenId: row.original.metadata.id.toString(),
+          type: "transfer",
+        })
+      }
+      leftIcon={<Icon as={MdDriveFileMoveOutline} />}
+    >
+      Transfer
+    </Button>
   );
 };
