@@ -61,10 +61,6 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   onClose,
   value,
 }) => {
-  /*   const initialValue = useMemo(() => {
-    return Array.isArray(value) ? value.map((v) => v.address) : [];
-  }, [value]); */
-
   const [validSnapshot, setValidSnapshot] = useState<SnapshotAddressInput[]>(
     value || [],
   );
