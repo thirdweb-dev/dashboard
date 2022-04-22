@@ -97,27 +97,24 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
       Papa.parse(csv, {
         header: true,
         complete: (results) => {
-          /*           console.log({ results: results.data });
-          const csvValidSnapshot = results.data.filter(({ address }) => address !== ""}))
-          const csvValidSnapshot: any[] = results.data.filter(
-            ({ address }) => address !== "",
-          ); */
-          /*           const addresses: string[] = [
-            ...new Set(
-              results.data.map((r) => Object.values(r as string[])).flat(),
-            ),
-          ].filter((address) => address !== ""); */
-
           const data: SnapshotAddressInput[] = (
             results.data as SnapshotAddressInput[]
           ).filter(({ address }) => address !== "");
+
+          // Filter out address duplicates
+          const seen = new Set();
+          const filteredData = data.filter((el) => {
+            const duplicate = seen.has(el.address);
+            seen.add(el.address);
+            return !duplicate;
+          });
 
           if (!data[0].address) {
             setNoCsv(true);
             return;
           }
 
-          setValidSnapshot(data);
+          setValidSnapshot(filteredData);
         },
       });
     },
@@ -125,11 +122,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   );
 
   const data = useMemo(() => {
-    console.log(validSnapshot);
     const valid = validSnapshot.filter(({ address }) => isAddress(address));
     const invalid = validSnapshot.filter(({ address }) => !isAddress(address));
     const ordered = [...invalid, ...valid];
-    console.log({ ordered });
     return ordered;
   }, [validSnapshot]);
 
