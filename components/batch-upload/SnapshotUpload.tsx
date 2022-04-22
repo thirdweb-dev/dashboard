@@ -27,7 +27,7 @@ import {
   Tr,
   UnorderedList,
 } from "@chakra-ui/react";
-import { ClaimCondition } from "@thirdweb-dev/sdk";
+import { ClaimCondition, SnapshotAddressInput } from "@thirdweb-dev/sdk";
 import { Button } from "components/buttons/Button";
 import { Logo } from "components/logo";
 import { isAddress } from "ethers/lib/utils";
@@ -87,7 +87,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
         (f) => csvMimeTypes.includes(f.type) || f.name.endsWith(".csv"),
       );
       if (!csv) {
-        console.error("No CSV file found");
+        console.error(
+          "No valid CSV file found, make sure you have an addresss column.",
+        );
         setNoCsv(true);
         return;
       }
@@ -106,8 +108,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             ),
           ].filter((address) => address !== ""); */
 
-          const data: SnapshotAddressInput[] =
-            results.data as SnapshotAddressInput[];
+          const data: SnapshotAddressInput[] = (
+            results.data as SnapshotAddressInput[]
+          ).filter(({ address }) => address !== "");
 
           console.log(data);
 
