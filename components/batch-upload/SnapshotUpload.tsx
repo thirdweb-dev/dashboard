@@ -88,7 +88,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
       );
       if (!csv) {
         console.error(
-          "No valid CSV file found, make sure you have an addresss column.",
+          "No valid CSV file found, make sure you have an address column.",
         );
         setNoCsv(true);
         return;
@@ -112,7 +112,10 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             results.data as SnapshotAddressInput[]
           ).filter(({ address }) => address !== "");
 
-          console.log(data);
+          if (!data[0].address) {
+            setNoCsv(true);
+            return;
+          }
 
           setValidSnapshot(data);
         },
@@ -193,7 +196,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                       ) : (
                         <Heading as={Text} size="label.md">
                           {noCsv
-                            ? "No CSV file found, please try again"
+                            ? "No valid CSV file found, make sure you have an address column."
                             : "Drag & Drop a CSV file here"}
                         </Heading>
                       )}
