@@ -2,11 +2,10 @@
 # yarn lockfile v1
 
 
-
-"@alch/alchemy-web3@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@alch/alchemy-web3/-/alchemy-web3-1.3.0.tgz#e7fb986f14bda9b4781352479078efdfbd88dcd8"
-  integrity sha512-PJ3roFke9atQpv8UdFtiOcUOivRqS5LY5x2niuUvqvw10N1BqNC1bYTnB3ZIoCSTfD5aTOjwSMH/I9bALKie5g==
+"@alch/alchemy-web3@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@alch/alchemy-web3/-/alchemy-web3-1.4.1.tgz#3a3d09924ad6cc8816c7ed265dcd412384983294"
+  integrity sha512-xu1TLU8XxWxmdFfRZalmkGcwmN0OcuA/UoCB9WZvnNQaWqCUSRpMqe0JFidfLv2+ExToa/FeSwg85qz1gLMXjw==
   dependencies:
     "@types/web3" "^1.2.2"
     assert-never "^1.2.0"
@@ -1671,8 +1670,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.3.0-5.tgz#c86541750247e8221e04751035bacd33fd92b26c"
   integrity sha512-1vzs/MnhdFn42+QLIQ9eZke1Dc32vyWnqgGBCUBodCWcOtql0/K52Vfo5EnlTRgGrZdrckELftWxKySWtf2f2g==
 
-"@thirdweb-dev/react@file:.yalc/@thirdweb-dev/react":
-  version "2.0.5"
+"@thirdweb-dev/react@^2.1.0-0":
+  version "2.1.0-0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.1.0-0.tgz#e48ddef9cc892be38008c81263e39783b4bd431f"
+  integrity sha512-zORnzofh5bbKwUPWendMxTlCVZQgnqvGDTDHK/z5gxdNMM4BKQfTEJ//8mrONlM7JuMmQmAjf+F5RnHyC88EeQ==
   dependencies:
     mime "^3.0.0"
     react-cool-dimensions "^2.0.7"

@@ -17,7 +17,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { BigNumber } from "@ethersproject/bignumber";
-import { useGetAll, useGetTotalSupply } from "@thirdweb-dev/react";
+import { useNFTList, useNFTSupply } from "@thirdweb-dev/react";
 import { Erc721, Json, NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { Card } from "components/layout/Card";
@@ -69,8 +69,8 @@ const ContractOverviewNftGetAll: React.VFC<ContractOverviewNftGetAllProps> = ({
   contract,
 }) => {
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
-  const getAllQueryResult = useGetAll(contract, queryParams);
-  const totalSupply = useGetTotalSupply(contract);
+  const getAllQueryResult = useNFTList(contract, queryParams);
+  const totalSupply = useNFTSupply(contract);
   const {
     getTableProps,
     getTableBodyProps,
