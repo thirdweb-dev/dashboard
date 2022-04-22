@@ -14,6 +14,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
   Skeleton,
   Stack,
@@ -172,7 +173,7 @@ const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent padding="20px" pt="32px">
+      <ModalContent p={{ base: 5, md: 7 }} mx={{ base: 4, md: 0 }}>
         <ModalCloseButton />
         <ModalBody as="form" onSubmit={connect}>
           <Stack spacing={5}>

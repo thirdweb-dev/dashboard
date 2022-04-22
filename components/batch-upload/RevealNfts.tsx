@@ -46,6 +46,7 @@ export const RevealNftsModal: React.FC<RevealNftsModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent
+        mx={{ base: 4, md: 0 }}
         as="form"
         onSubmit={handleSubmit((data) =>
           reveal.mutate(
