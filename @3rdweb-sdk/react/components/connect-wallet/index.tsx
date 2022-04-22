@@ -127,6 +127,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                 icon={
                   <Image
                     maxWidth={4}
+                    borderRadius="md"
                     src={connectorIdToImageUrl[_connector.name]}
                     alt=""
                   />
