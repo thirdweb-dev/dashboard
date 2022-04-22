@@ -24,7 +24,7 @@
     "@hookform/resolvers": "^2.8.0",
     "@n8tb1t/use-scroll-position": "^2.0.3",
     "@thirdweb-dev/chain-icons": "^1.0.2",
-    "@thirdweb-dev/react": "^2.1.0-0",
+    "@thirdweb-dev/react": "^2.1.0-1",
     "@thirdweb-dev/sdk": "^2.1.0-18",
     "color": "^4.0.1",
     "date-fns": "^2.28.0",
