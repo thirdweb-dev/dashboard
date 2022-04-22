@@ -4,7 +4,6 @@ import {
   ButtonProps,
   Flex,
   Icon,
-  Image,
   Input,
   Menu,
   MenuButton,
@@ -23,6 +22,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useConnect, useDisconnect, useMagic } from "@thirdweb-dev/react";
+import { ChakraNextImage } from "components/Image";
 import { Button } from "components/buttons/Button";
 import React, { useState } from "react";
 import { AiOutlineDisconnect } from "react-icons/ai";
@@ -37,6 +37,7 @@ const connectorIdToImageUrl: Record<string, any> = {
   "Coinbase Wallet": "/logos/coinbase-wallet-logo.svg",
   Magic: "/logos/magic-logo.svg",
 };
+
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const [connector, connect] = useConnect();
   const { balance, address, chainId, getNetworkMetadata } = useWeb3();
@@ -125,10 +126,11 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
               <MenuItem
                 key={_connector.name}
                 icon={
-                  <Image
-                    maxWidth={4}
+                  <ChakraNextImage
+                    boxSize={4}
                     borderRadius="md"
                     src={connectorIdToImageUrl[_connector.name]}
+                    placeholder="empty"
                     alt=""
                   />
                 }
