@@ -31,11 +31,11 @@ import { ImCopy } from "react-icons/im";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { Connector } from "wagmi-core";
 
-const connectorIdToImageUrl: Record<string, string> = {
-  MetaMask: "https://thirdweb.com/logos/metamask-fox.svg",
-  WalletConnect: "https://thirdweb.com/logos/walletconnect-logo.svg",
-  "Coinbase Wallet": "https://thirdweb.com/logos/coinbase-wallet-logo.svg",
-  Magic: "https://thirdweb.com/logos/magic-logo.svg",
+const connectorIdToImageUrl: Record<string, any> = {
+  MetaMask: "/logos/metamask-fox.svg",
+  WalletConnect: "/logos/walletconnect-logo.svg",
+  "Coinbase Wallet": "/logos/coinbase-wallet-logo.svg",
+  Magic: "/logos/magic-logo.svg",
 };
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const [connector, connect] = useConnect();
