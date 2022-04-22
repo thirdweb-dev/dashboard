@@ -174,16 +174,18 @@ const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
       <ModalOverlay />
       <ModalContent padding="20px" pt="32px">
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody as="form" onSubmit={connect}>
           <Stack spacing={5}>
             <Input
               placeholder="name@example.com"
+              autoFocus
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Button
               isLoading={isConnecting}
-              onClick={() => connect()}
+              type="submit"
               borderRadius="md"
               colorScheme="primary"
             >
