@@ -4,7 +4,6 @@ import {
   ButtonProps,
   Flex,
   Icon,
-  Image,
   Input,
   Menu,
   MenuButton,
@@ -23,7 +22,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useConnect, useDisconnect, useMagic } from "@thirdweb-dev/react";
+import { ChakraNextImage } from "components/Image";
 import { Button } from "components/buttons/Button";
+import { StaticImageData } from "next/image";
 import React, { useState } from "react";
 import { AiOutlineDisconnect } from "react-icons/ai";
 import { FiCheck } from "react-icons/fi";
@@ -31,11 +32,11 @@ import { ImCopy } from "react-icons/im";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { Connector } from "wagmi-core";
 
-const connectorIdToImageUrl: Record<string, string> = {
-  MetaMask: "https://thirdweb.com/logos/metamask-fox.svg",
-  WalletConnect: "https://thirdweb.com/logos/walletconnect-logo.svg",
-  "Coinbase Wallet": "https://thirdweb.com/logos/coinbase-wallet-logo.svg",
-  Magic: "https://thirdweb.com/logos/magic-logo.svg",
+const connectorIdToImageUrl: Record<string, StaticImageData> = {
+  MetaMask: require("public/logos/metamask-fox.svg"),
+  WalletConnect: require("public/logos/walletconnect-logo.svg"),
+  "Coinbase Wallet": require("public/logos/coinbase-wallet-logo.svg"),
+  Magic: require("public/logos/magic-logo.svg"),
 };
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const [connector, connect] = useConnect();
@@ -125,10 +126,11 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
               <MenuItem
                 key={_connector.name}
                 icon={
-                  <Image
-                    maxWidth={4}
+                  <ChakraNextImage
+                    boxSize={4}
                     borderRadius="md"
                     src={connectorIdToImageUrl[_connector.name]}
+                    placeholder="empty"
                     alt=""
                   />
                 }

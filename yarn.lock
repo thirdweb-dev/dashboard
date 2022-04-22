@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@alch/alchemy-web3@^1.2.5":
+"@alch/alchemy-web3@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@alch/alchemy-web3/-/alchemy-web3-1.4.1.tgz#3a3d09924ad6cc8816c7ed265dcd412384983294"
   integrity sha512-xu1TLU8XxWxmdFfRZalmkGcwmN0OcuA/UoCB9WZvnNQaWqCUSRpMqe0JFidfLv2+ExToa/FeSwg85qz1gLMXjw==
