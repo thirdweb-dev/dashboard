@@ -49,7 +49,7 @@ export interface SnapshotAddressInput {
   maxClaimable?: string;
 }
 interface SnapshotUploadProps {
-  setSnapshot: (snapshot: any) => void;
+  setSnapshot: (snapshot: SnapshotAddressInput[]) => void;
   isOpen: boolean;
   onClose: () => void;
   value?: ClaimCondition["snapshot"];
