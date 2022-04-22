@@ -46,6 +46,10 @@ const tableColumns: Column<NFTMetadataOwner>[] = [
     Cell: MediaCell,
   },
   {
+    Header: "Name",
+    accessor: (row) => row.metadata.name,
+  },
+  {
     Header: "Description",
     accessor: (row) => row.metadata.description,
   },

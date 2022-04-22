@@ -1,7 +1,7 @@
 import { detectErc721Instance, useResolvedContract } from "@thirdweb-dev/react";
 import dynamic from "next/dynamic";
 
-const NftOverviewTable = dynamic(() => import("./nft/overview-table"));
+const NftOverviewTable = dynamic(() => import("./nft"));
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -20,9 +20,8 @@ export const CustomContractOverviewPage: React.VFC<
 
   if (nftContract) {
     // nft overview page
-    if (nftContract.query?.all) {
-      return <NftOverviewTable contract={nftContract} />;
-    }
+
+    return <NftOverviewTable contract={nftContract} />;
   }
   return <div>contract overview page: {contractAddress}</div>;
 };
