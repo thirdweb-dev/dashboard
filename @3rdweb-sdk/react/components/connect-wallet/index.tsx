@@ -151,10 +151,18 @@ interface IMagicModal {
 const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
   const connectMagic = useMagic();
   const [email, setEmail] = useState("");
+  const [isConnecting, setIsConnecting] = useState(false);
 
-  function connect() {
-    connectMagic({ email });
-    onClose();
+  async function connect() {
+    setIsConnecting(true);
+    try {
+      await connectMagic({ email });
+      onClose();
+    } catch (err) {
+      console.error("failed to connect", err);
+    } finally {
+      setIsConnecting(false);
+    }
   }
 
   return (
@@ -170,6 +178,7 @@ const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <Button
+              isLoading={isConnecting}
               onClick={() => connect()}
               borderRadius="md"
               colorScheme="primary"
