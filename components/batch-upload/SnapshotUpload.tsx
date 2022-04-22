@@ -203,7 +203,20 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                         Files <em>must</em> contain one .csv file with a list of
                         addresses. -{" "}
                         <Link download color="blue.500" href="/snapshot.csv">
-                          Download an example csv
+                          Download an example CSV
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        You can also add a column &quot;maxClaimable&quot; to
+                        specify how many NFTs can be claimed by that specific
+                        address per transaction, if not specified, the default
+                        value is the one you have set on your claim phase. -{" "}
+                        <Link
+                          download
+                          color="blue.500"
+                          href="/snapshot-with-maxclaimable.csv"
+                        >
+                          Download an example CSV with maxClaimable
                         </Link>
                       </ListItem>
                     </UnorderedList>
@@ -273,13 +286,7 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({ data, portalRef }) => {
           } else {
             return (
               <Flex>
-                <Tooltip
-                  label={
-                    address.endsWith(".eth")
-                      ? "ENS address are not currently supported. Please use hex addresses only."
-                      : "This is not a valid address"
-                  }
-                >
+                <Tooltip>
                   <Stack direction="row" align="center">
                     <Icon
                       as={IoAlertCircleOutline}
