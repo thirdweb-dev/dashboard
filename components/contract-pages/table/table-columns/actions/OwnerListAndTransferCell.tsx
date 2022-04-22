@@ -16,11 +16,14 @@ export const OwnerListAndTransferCell: React.FC<
 > = ({ row }) => {
   const { address } = useWeb3();
   const tableContext = useTableContext();
+
   const isOwner =
     "owner" in row.original ? row.original.owner === address : false;
+
   if (!isOwner) {
     return null;
   }
+
   return (
     <>
       <Button
