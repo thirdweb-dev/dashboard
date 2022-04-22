@@ -17,7 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useAddress, useSDK } from "@thirdweb-dev/react";
-import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/schema/contracts/custom";
+import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { Card } from "components/layout/Card";

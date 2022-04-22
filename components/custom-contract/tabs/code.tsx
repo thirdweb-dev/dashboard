@@ -1,5 +1,5 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
-import { useContractFunctionsQuery } from "@thirdweb-dev/react";
+import { useContractFunctions } from "@thirdweb-dev/react";
 import { CodeBlock } from "components/code-block/code-block";
 import { Card } from "components/layout/Card";
 
@@ -10,7 +10,7 @@ interface ContentOverviewProps {
 export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
   contractAddress,
 }) => {
-  const metadataQuery = useContractFunctionsQuery(contractAddress);
+  const metadataQuery = useContractFunctions(contractAddress);
 
   const isError = metadataQuery.isError;
   const isSuccess = metadataQuery.isSuccess;

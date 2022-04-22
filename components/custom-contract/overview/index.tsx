@@ -1,5 +1,5 @@
 import { Flex, Heading, Link, Text } from "@chakra-ui/react";
-import { detectErc721Instance, useResolvedContract } from "@thirdweb-dev/react";
+import { detectErc721Instance, useCustomContract } from "@thirdweb-dev/react";
 import { Card } from "components/layout/Card";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
@@ -15,7 +15,7 @@ export const CustomContractOverviewPage: React.VFC<
   CustomContractOverviewPageProps
 > = ({ contractAddress }) => {
   const router = useRouter();
-  const contractQuery = useResolvedContract(contractAddress);
+  const contractQuery = useCustomContract(contractAddress);
 
   if (!contractQuery || contractQuery?.isLoading) {
     return <div>Loading...</div>;

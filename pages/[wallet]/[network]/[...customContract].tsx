@@ -12,10 +12,7 @@ import {
   usePrevious,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import {
-  useContractMetadata,
-  useResolvedContractType,
-} from "@thirdweb-dev/react";
+import { useContractMetadata, useContractType } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { CustomContractOverviewPage } from "components/custom-contract/overview";
@@ -164,7 +161,7 @@ const ContractMetadata: React.VFC<ContractMetadataProps> = ({
   contractAddress,
 }) => {
   const metadataQuery = useContractMetadata(contractAddress);
-  const contractType = useResolvedContractType(contractAddress);
+  const contractType = useContractType(contractAddress);
 
   const contractTypeImage =
     (contractType.data &&
