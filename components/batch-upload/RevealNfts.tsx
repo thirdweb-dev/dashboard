@@ -10,13 +10,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useToast,
 } from "@chakra-ui/react";
 import { BatchToReveal, NFTDrop } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { parseErrorToMessage } from "utils/errorParser";
 
 interface RevealNftsModalProps {
   contract?: NFTDrop;
@@ -35,49 +34,35 @@ export const RevealNftsModal: React.FC<RevealNftsModalProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<{ password: string }>();
+
+  const { onSuccess, onError } = useTxNotifications(
+    "Batch revealed successfully",
+    "Error revealing batch upload",
+  );
 
   const reveal = useNFTDropRevealMutation(contract);
-
-  const toast = useToast();
-
-  const onSuccess = (): void => {
-    toast({
-      title: "Success",
-      description: "Batch revealed successfully",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    onClose();
-  };
-
-  // TODO FIXME
-  const onSubmit = (data: any) => {
-    reveal.mutate(
-      {
-        batchId: batch.batchId,
-        password: data.password,
-      },
-      {
-        onSuccess,
-        onError: (error) => {
-          toast({
-            title: "Error revealing batch upload",
-            description: parseErrorToMessage(error),
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        },
-      },
-    );
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+      <ModalContent
+        as="form"
+        onSubmit={handleSubmit((data) =>
+          reveal.mutate(
+            {
+              batchId: batch.batchId,
+              password: data.password,
+            },
+            {
+              onSuccess: () => {
+                onSuccess();
+                onClose();
+              },
+              onError,
+            },
+          ),
+        )}
+      >
         <ModalHeader>
           Reveal Password for {batch?.placeholderMetadata?.name}
         </ModalHeader>

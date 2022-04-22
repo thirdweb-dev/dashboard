@@ -1,3 +1,4 @@
+/* eslint-disable line-comment-position */
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { IpfsStorage } from "@thirdweb-dev/sdk";
@@ -41,13 +42,25 @@ export const StorageSingleton = new IpfsStorage(
 );
 
 export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
-  [ChainId.Mainnet]: `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Rinkeby]: `https://eth-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Goerli]: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Fantom]: "https://rpc.ftm.tools",
-  [ChainId.Avalanche]: "https://rpc.ankr.com/avalanche",
-  [ChainId.Polygon]: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Mumbai]: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.Mainnet]:
+    process.env.NEXT_PUBLIC_RPC_MAINNET ||
+    `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.Rinkeby]:
+    process.env.NEXT_PUBLIC_RPC_RINKEBY ||
+    `https://eth-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.Goerli]:
+    process.env.NEXT_PUBLIC_RPC_GOERLI ||
+    `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.Fantom]:
+    process.env.NEXT_PUBLIC_RPC_FANTOM || "https://rpc.ftm.tools",
+  [ChainId.Avalanche]:
+    process.env.NEXT_PUBLIC_RPC_AVALANCHE || "https://rpc.ankr.com/avalanche",
+  [ChainId.Polygon]:
+    process.env.NEXT_PUBLIC_RPC_POLYGON ||
+    `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.Mumbai]:
+    process.env.NEXT_PUBLIC_RPC_MUMBAI ||
+    `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
 };
 
 export const Providers: React.FC = ({ children }) => {

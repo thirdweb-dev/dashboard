@@ -1,7 +1,9 @@
 import { LinkButton } from "./LinkButton";
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import { IoRocketOutline } from "react-icons/io5";
+import { VscDashboard } from "react-icons/vsc";
 
 interface GeneralCtaProps {
   size?: string;
@@ -15,9 +17,12 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
     <Flex w="100%" justifyContent="center">
       {address ? (
         <LinkButton
+          leftIcon={<Icon as={VscDashboard} />}
           bgColor="primary.500"
           color="white"
           _hover={{ bgColor: "primary.400" }}
+          _focus={{ bgColor: "primary.400" }}
+          _active={{ bgColor: "primary.400" }}
           px={12}
           onClick={() =>
             trackEvent({
@@ -34,9 +39,12 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
         </LinkButton>
       ) : (
         <LinkButton
-          bgColor="primary.500"
+          leftIcon={<Icon as={IoRocketOutline} />}
+          bgGradient="linear(to-r, #CC25B3 0%, #418DFF 101.52%)"
           color="white"
-          _hover={{ bgColor: "primary.400" }}
+          _hover={{ opacity: 0.8 }}
+          _focus={{ bgColor: "purple.600" }}
+          _active={{ bgColor: "purple.600" }}
           px={12}
           onClick={() =>
             trackEvent({
