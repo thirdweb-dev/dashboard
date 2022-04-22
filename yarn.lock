@@ -1727,10 +1727,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.2.1-8.tgz#840850c42a69eb78462d9c140c9828df79a8ffc5"
   integrity sha512-9Lvgm7yHN0ExQg13ESm4Pzm0kOmpl9iLpt93/arRO7PbeRjWxrhV5hfGxS4+MvXaP69yQEk+uIPaKlKBaqVaxg==
 
-"@thirdweb-dev/react@^2.0.6-3":
-  version "2.0.6-3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.6-3.tgz#70dce1d1508d5dd00f84cba9eb8a739e90fdb557"
-  integrity sha512-X8rtImTPNgTWMddn4ky+SPpeLWp6z3aOs1bNrWhe+7kFUdvvbHxvEQMsibtstUitT5ionKKkHiaIEb3idb6B/Q==
+"@thirdweb-dev/react@^2.0.6-4":
+  version "2.0.6-4"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.6-4.tgz#ae9d3f4a53454db2f47663640f7d02af38fcc8c8"
+  integrity sha512-VpLKSn/Hf3gz5UVf9fKfLotGf1X1jU0vMi19mlVUF1xbtQ4PnMZ1Fc72evCV1kTGW9mkAAzUn8mEkDZUuiSdIQ==
   dependencies:
     "@gnosis.pm/safe-apps-provider" "^0.11.0"
     "@gnosis.pm/safe-apps-sdk" "^7.3.0"

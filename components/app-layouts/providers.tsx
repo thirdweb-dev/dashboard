@@ -106,6 +106,7 @@ export const Providers: React.FC = ({ children }) => {
             name: "magic",
             options: {
               apiKey: "pk_live_57F2A51F451FC150",
+              rpcUrls: alchemyUrlMap,
             },
           },
         ]}
