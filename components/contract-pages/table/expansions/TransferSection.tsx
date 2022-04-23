@@ -1,6 +1,6 @@
 import { useTableContext } from "../table-context";
 import { useTransferMutation } from "@3rdweb-sdk/react";
-import { Heading, Stack } from "@chakra-ui/layout";
+import { Stack } from "@chakra-ui/layout";
 import {
   FormControl,
   FormErrorMessage,
