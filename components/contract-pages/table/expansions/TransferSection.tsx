@@ -66,8 +66,7 @@ export const TransferSection: React.FC<ITransferSection> = ({
     contract instanceof Edition || contract instanceof EditionDrop;
 
   return (
-    <Stack>
-      <Heading size="md">Transfer</Heading>
+    <Stack pt={3}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack align="center">
           <Stack spacing={6} w="100%" direction={{ base: "column", md: "row" }}>
