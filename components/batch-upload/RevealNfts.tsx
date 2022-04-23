@@ -72,6 +72,7 @@ export const RevealNftsModal: React.FC<RevealNftsModalProps> = ({
           <FormControl isRequired isInvalid={!!errors.password} mr={4}>
             <Input
               {...register("password")}
+              autoFocus
               placeholder="Password you previously used to batch upload"
               type="password"
             />
