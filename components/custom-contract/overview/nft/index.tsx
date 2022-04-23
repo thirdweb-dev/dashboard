@@ -1,5 +1,5 @@
 import { ButtonGroup, Flex, Heading, Icon } from "@chakra-ui/react";
-import { useNFTMintToSelf } from "@thirdweb-dev/react";
+import { useNFTMint } from "@thirdweb-dev/react";
 import type { Erc721 } from "@thirdweb-dev/sdk";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -18,7 +18,7 @@ const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
     "Successfully minted",
     "Failed to mint",
   );
-  const { mutate, isLoading } = useNFTMintToSelf(contract);
+  const { mutate, isLoading } = useNFTMint(contract);
 
   const contractSupportsMinting = useMemo(() => {
     return !!contract.mint?.toSelf;

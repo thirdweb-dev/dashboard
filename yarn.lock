@@ -1713,9 +1713,9 @@
   integrity sha512-fgXm6KT6ydF5yysbA/3u/MLNfoGVYA4J47zzOqqX5JvjK1KvzZawf4y5T1OY7qxgT7cmvXTD5BomIw5Bcv5xYw==
 
 "@thirdweb-dev/react@^2.1.0-4":
-  version "2.1.0-5"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.1.0-5.tgz#afeefa88f95aa567f358b7b91fb38984aba9ba91"
-  integrity sha512-L90rhEv7JMZY/BhSusxfL3cuYEwuYkWP5MbdytOIBDAN+PrMiwA9DU98NBNYuJ1Kzqo+nCC388xa/4zw24y99Q==
+  version "2.1.0-6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.1.0-6.tgz#8fa0eb963372543cbd8327c122ba4cea3e831214"
+  integrity sha512-wIo+lXVgG5o5cLN5tbdg8jmcL0FSWVpQ9tfrxahIsi0dWWax84aj18VSCAxTpMvyCzHhy2GH09QGC6voUgI/pA==
   dependencies:
     "@gnosis.pm/safe-apps-provider" "^0.11.0"
     "@gnosis.pm/safe-apps-sdk" "^7.3.0"
