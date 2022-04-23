@@ -56,7 +56,7 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
                 py={2}
                 borderRadius="md"
                 key={signature}
-                code={signature}
+                code={`contract.functions.${signature}`}
                 language="typescript"
               />
             ))
