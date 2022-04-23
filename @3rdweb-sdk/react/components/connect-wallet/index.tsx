@@ -27,7 +27,6 @@ import { useConnect, useDisconnect, useMagic } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { Button } from "components/buttons/Button";
 import { StaticImageData } from "next/image";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineDisconnect } from "react-icons/ai";
 import { FiCheck } from "react-icons/fi";
@@ -157,12 +156,12 @@ interface IMagicModal {
 
 const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
   const connectMagic = useMagic();
-  const [isConnecting, setIsConnecting] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<{ email: string }>();
 
   return (
@@ -173,14 +172,15 @@ const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
         <ModalBody
           as="form"
           onSubmit={handleSubmit(async ({ email }) => {
-            setIsConnecting(true);
             try {
               await connectMagic({ email });
               onClose();
             } catch (err) {
               console.error("failed to connect", err);
-            } finally {
-              setIsConnecting(false);
+              setError("email", {
+                message:
+                  err instanceof Error ? err.message : "Something went wrong",
+              });
             }
           })}
         >
@@ -195,7 +195,7 @@ const MagicModal: React.FC<IMagicModal> = ({ isOpen, onClose }) => {
               <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
             </FormControl>
             <Button
-              isLoading={isConnecting}
+              isLoading={isSubmitting}
               type="submit"
               borderRadius="md"
               colorScheme="primary"
