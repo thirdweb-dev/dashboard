@@ -22,6 +22,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { Card } from "components/layout/Card";
 import { FileInput } from "components/shared/FileInput";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
@@ -81,6 +82,9 @@ function useBYOCDeployMutation() {
 }
 
 const BYOCDeployPage: ConsolePage = () => {
+  const { Track, trackEvent } = useTrack({
+    page: "byoc-deploy",
+  });
   const address = useAddress();
   const groupId = useSingleQueryParam("groupId");
   const publishedContract = usePublishedContractQuery(groupId);
@@ -108,21 +112,27 @@ const BYOCDeployPage: ConsolePage = () => {
     form;
 
   return (
-    <Card
-      p={10}
-      as="form"
-      onSubmit={handleSubmit((d) => {
-        if (!address || !publishedContract.data) {
-          return;
-        }
-        deploy.mutate(
-          {
+    <Track>
+      <Card
+        p={10}
+        as="form"
+        onSubmit={handleSubmit((d) => {
+          if (!address || !publishedContract.data) {
+            return;
+          }
+          const deployData = {
             contractId: publishedContract.data.id,
             publisherAddress: address,
             constructorValues: contractParams,
             contractMetadata: d,
-          },
-          {
+          };
+          trackEvent({
+            category: "custom-contract",
+            action: "deploy",
+            label: "attempt",
+            deployData,
+          });
+          deploy.mutate(deployData, {
             onSuccess: (data) => {
               console.info("contract deployed:", data);
               toast({
@@ -131,6 +141,13 @@ const BYOCDeployPage: ConsolePage = () => {
                 status: "success",
                 duration: 5000,
                 isClosable: true,
+              });
+              trackEvent({
+                category: "custom-contract",
+                action: "deploy",
+                label: "success",
+                deployData,
+                contractAddress: data,
               });
               router.push(`/${wallet}/mumbai/${data}`);
             },
@@ -142,123 +159,135 @@ const BYOCDeployPage: ConsolePage = () => {
                 duration: 5000,
                 isClosable: true,
               });
+              trackEvent({
+                category: "custom-contract",
+                action: "deploy",
+                label: "error",
+                deployData,
+                error: err,
+              });
             },
-          },
-        );
-      })}
-    >
-      <Flex direction="column" gap={8}>
-        <Heading size="title.lg">Deploy new contract</Heading>
-        <PublishMetadata
-          bg="backgroundCardHighlight"
-          uri={publishedContract.data?.metadataUri}
-        />
-        <Divider borderColor="borderColor" />
-        <Flex as={Card} bg="backgroundCardHighlight" direction="column" gap={3}>
-          <Flex direction="column">
-            <Heading size="title.md">Contract Metadata</Heading>
-            <Text size="body.md" fontStyle="italic">
-              Settings to organize and distinguish between your different
-              contracts.
-            </Text>
-          </Flex>
-          <Flex gap={4} direction={{ base: "column", md: "row" }}>
-            <Flex
-              flexShrink={0}
-              flexGrow={1}
-              maxW={{ base: "100%", md: "160px" }}
-            >
-              <FormControl
-                display="flex"
-                flexDirection="column"
-                isInvalid={!!getFieldState("image", formState).error}
-              >
-                <FormLabel>Image</FormLabel>
-                <FileInput
-                  accept="image/*"
-                  value={useImageFileOrUrl(watch("image"))}
-                  setValue={(file) =>
-                    setValue("image", file, { shouldTouch: true })
-                  }
-                  border="1px solid"
-                  borderColor="gray.200"
-                  borderRadius="md"
-                  transition="all 200ms ease"
-                />
-                <FormErrorMessage>
-                  {getFieldState("image", formState).error?.message}
-                </FormErrorMessage>
-              </FormControl>
+          });
+        })}
+      >
+        <Flex direction="column" gap={8}>
+          <Heading size="title.lg">Deploy new contract</Heading>
+          <PublishMetadata
+            bg="backgroundCardHighlight"
+            uri={publishedContract.data?.metadataUri}
+          />
+          <Divider borderColor="borderColor" />
+          <Flex
+            as={Card}
+            bg="backgroundCardHighlight"
+            direction="column"
+            gap={3}
+          >
+            <Flex direction="column">
+              <Heading size="title.md">Contract Metadata</Heading>
+              <Text size="body.md" fontStyle="italic">
+                Settings to organize and distinguish between your different
+                contracts.
+              </Text>
             </Flex>
-
-            <Flex
-              direction="column"
-              gap={4}
-              flexGrow={1}
-              justify="space-between"
-            >
-              <Flex gap={4} direction={{ base: "column", md: "row" }}>
+            <Flex gap={4} direction={{ base: "column", md: "row" }}>
+              <Flex
+                flexShrink={0}
+                flexGrow={1}
+                maxW={{ base: "100%", md: "160px" }}
+              >
                 <FormControl
-                  isRequired
-                  isInvalid={!!getFieldState("name", formState).error}
+                  display="flex"
+                  flexDirection="column"
+                  isInvalid={!!getFieldState("image", formState).error}
                 >
-                  <FormLabel>Name</FormLabel>
-                  <Input autoFocus variant="filled" {...register("name")} />
+                  <FormLabel>Image</FormLabel>
+                  <FileInput
+                    accept="image/*"
+                    value={useImageFileOrUrl(watch("image"))}
+                    setValue={(file) =>
+                      setValue("image", file, { shouldTouch: true })
+                    }
+                    border="1px solid"
+                    borderColor="gray.200"
+                    borderRadius="md"
+                    transition="all 200ms ease"
+                  />
                   <FormErrorMessage>
-                    {getFieldState("name", formState).error?.message}
+                    {getFieldState("image", formState).error?.message}
                   </FormErrorMessage>
                 </FormControl>
               </Flex>
 
-              <FormControl
-                isInvalid={!!getFieldState("description", formState).error}
+              <Flex
+                direction="column"
+                gap={4}
+                flexGrow={1}
+                justify="space-between"
               >
-                <FormLabel>Description</FormLabel>
-                <Textarea variant="filled" {...register("description")} />
-                <FormErrorMessage>
-                  {getFieldState("description", formState).error?.message}
-                </FormErrorMessage>
-              </FormControl>
-            </Flex>
-          </Flex>
-          {constuctorParams.data?.length ? (
-            <>
-              <Divider my={4} borderColor="borderColor" />
-              <Flex direction="column">
-                <Heading size="title.md">Contract Parameters</Heading>
-                <Text size="body.md" fontStyle="italic">
-                  Parameters the contract specifies to be passed in during
-                  deployment.
-                </Text>
-              </Flex>
+                <Flex gap={4} direction={{ base: "column", md: "row" }}>
+                  <FormControl
+                    isRequired
+                    isInvalid={!!getFieldState("name", formState).error}
+                  >
+                    <FormLabel>Name</FormLabel>
+                    <Input autoFocus variant="filled" {...register("name")} />
+                    <FormErrorMessage>
+                      {getFieldState("name", formState).error?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </Flex>
 
-              {constuctorParams.data.map((param, idx) => (
-                <FormControl isRequired key={param.name}>
-                  <FormLabel>{param.name}</FormLabel>
-                  <Input
-                    value={contractParams[idx]}
-                    onChange={(e) =>
-                      setContractParams(idx, e.currentTarget.value)
-                    }
-                    type="text"
-                  />
-                  <FormHelperText>{param.type}</FormHelperText>
+                <FormControl
+                  isInvalid={!!getFieldState("description", formState).error}
+                >
+                  <FormLabel>Description</FormLabel>
+                  <Textarea variant="filled" {...register("description")} />
+                  <FormErrorMessage>
+                    {getFieldState("description", formState).error?.message}
+                  </FormErrorMessage>
                 </FormControl>
-              ))}
-            </>
-          ) : null}
+              </Flex>
+            </Flex>
+            {constuctorParams.data?.length ? (
+              <>
+                <Divider my={4} borderColor="borderColor" />
+                <Flex direction="column">
+                  <Heading size="title.md">Contract Parameters</Heading>
+                  <Text size="body.md" fontStyle="italic">
+                    Parameters the contract specifies to be passed in during
+                    deployment.
+                  </Text>
+                </Flex>
+
+                {constuctorParams.data.map((param, idx) => (
+                  <FormControl isRequired key={param.name}>
+                    <FormLabel>{param.name}</FormLabel>
+                    <Input
+                      value={contractParams[idx]}
+                      onChange={(e) =>
+                        setContractParams(idx, e.currentTarget.value)
+                      }
+                      type="text"
+                    />
+                    <FormHelperText>{param.type}</FormHelperText>
+                  </FormControl>
+                ))}
+              </>
+            ) : null}
+          </Flex>
+          <TransactionButton
+            type="submit"
+            isLoading={deploy.isLoading}
+            isDisabled={!address || !publishedContract.data}
+            colorScheme="primary"
+            transactionCount={1}
+          >
+            Deploy
+          </TransactionButton>
         </Flex>
-        <TransactionButton
-          type="submit"
-          isLoading={deploy.isLoading}
-          isDisabled={!address || !publishedContract.data}
-          colorScheme="primary"
-          transactionCount={1}
-        >
-          Deploy
-        </TransactionButton>
-      </Flex>
-    </Card>
+      </Card>
+    </Track>
   );
 };
 

@@ -23,6 +23,7 @@ import { LinkButton } from "components/shared/LinkButton";
 import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import { FeatureIconMap } from "constants/mappings";
 import { useIsomorphicLayoutEffect } from "framer-motion";
+import { useTrack } from "hooks/analytics/useTrack";
 import { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
@@ -62,90 +63,102 @@ const CustomContractPage: ConsolePage = () => {
     scrollContainerRef,
   );
 
+  const { Track: RootTrack } = useTrack({
+    page: "custom-contract",
+  });
+
+  const { Track: PageTrack } = useTrack({
+    page: activeTab ? activeTab : "overview",
+  });
+
   return (
-    <Flex direction="column" ref={scrollRef}>
-      {/* sub-header-nav */}
-      <Box
-        position="sticky"
-        top={0}
-        borderBottomColor="borderColor"
-        borderBottomWidth={1}
-        bg="backgroundHighlight"
-        flexShrink={0}
-        w="full"
-        as="nav"
-        zIndex={1}
-      >
-        <Container maxW="container.page">
-          <Flex direction="row" align="center">
-            <Button
-              borderRadius="none"
-              variant="unstyled"
-              transition="all .25s ease"
-              transform={
-                isScrolled ? "translateZ(0px)" : "translate3d(0,-20px,0)"
-              }
-              opacity={isScrolled ? 1 : 0}
-              visibility={isScrolled ? "visible" : "hidden"}
-              onClick={() =>
-                scrollContainerRef.current?.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                })
-              }
-            >
-              <Logo hideWordmark />
-            </Button>
-            <Box
-              transition="all .25s ease"
-              transform={
-                isScrolled
-                  ? "translate3d(18px,0,0)"
-                  : `translate3d(calc(var(--chakra-sizes-${
-                      isMobile ? "9" : "10"
-                    }) * -1),0,0)`
-              }
-            >
-              <ContractSubnav
-                contractAddress={contractAddress}
-                activeTab={activeTab}
-              />
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
-      {/* sub-header */}
-      <Box
-        borderBottomColor="borderColor"
-        borderBottomWidth={1}
-        bg="backgroundHighlight"
-        w="full"
-        as="aside"
-        py={6}
-      >
-        <Container maxW="container.page">
-          <Flex justify="space-between" align="center" direction="row">
-            <ContractMetadata contractAddress={contractAddress} />
-            <AddressCopyButton address={contractAddress} />
-          </Flex>
-        </Container>
-      </Box>
-      {/* main content */}
-      <Container maxW="container.page">
-        <Box py={8}>
-          {activeTab === "" ? (
-            <CustomContractOverviewPage contractAddress={contractAddress} />
-          ) : activeTab === "code" ? (
-            <CustomContractCodeTab contractAddress={contractAddress} />
-          ) : (
-            <Card as={Flex} flexDirection="column" gap={2}>
-              <Heading size="subtitle.md">Contract settings</Heading>
-              <Text>coming soon</Text>
-            </Card>
-          )}
+    <RootTrack>
+      <Flex direction="column" ref={scrollRef}>
+        {/* sub-header-nav */}
+        <Box
+          position="sticky"
+          top={0}
+          borderBottomColor="borderColor"
+          borderBottomWidth={1}
+          bg="backgroundHighlight"
+          flexShrink={0}
+          w="full"
+          as="nav"
+          zIndex={1}
+        >
+          <Container maxW="container.page">
+            <Flex direction="row" align="center">
+              <Button
+                borderRadius="none"
+                variant="unstyled"
+                transition="all .25s ease"
+                transform={
+                  isScrolled ? "translateZ(0px)" : "translate3d(0,-20px,0)"
+                }
+                opacity={isScrolled ? 1 : 0}
+                visibility={isScrolled ? "visible" : "hidden"}
+                onClick={() =>
+                  scrollContainerRef.current?.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <Logo hideWordmark />
+              </Button>
+              <Box
+                transition="all .25s ease"
+                transform={
+                  isScrolled
+                    ? "translate3d(18px,0,0)"
+                    : `translate3d(calc(var(--chakra-sizes-${
+                        isMobile ? "9" : "10"
+                      }) * -1),0,0)`
+                }
+              >
+                <ContractSubnav
+                  contractAddress={contractAddress}
+                  activeTab={activeTab}
+                />
+              </Box>
+            </Flex>
+          </Container>
         </Box>
-      </Container>
-    </Flex>
+        {/* sub-header */}
+        <Box
+          borderBottomColor="borderColor"
+          borderBottomWidth={1}
+          bg="backgroundHighlight"
+          w="full"
+          as="aside"
+          py={6}
+        >
+          <Container maxW="container.page">
+            <Flex justify="space-between" align="center" direction="row">
+              <ContractMetadata contractAddress={contractAddress} />
+              <AddressCopyButton address={contractAddress} />
+            </Flex>
+          </Container>
+        </Box>
+        {/* main content */}
+        <Container maxW="container.page">
+          <PageTrack>
+            <Box py={8}>
+              {activeTab === "" ? (
+                <CustomContractOverviewPage contractAddress={contractAddress} />
+              ) : activeTab === "code" ? (
+                <CustomContractCodeTab contractAddress={contractAddress} />
+              ) : (
+                <Card as={Flex} flexDirection="column" gap={2}>
+                  <Heading size="subtitle.md">Contract settings</Heading>
+                  <Text>coming soon</Text>
+                </Card>
+              )}
+            </Box>
+          </PageTrack>
+        </Container>
+      </Flex>
+    </RootTrack>
   );
 };
 
@@ -224,7 +237,6 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
   const isMouseOver = useRef(false);
 
   const router = useRouter();
-
   return (
     <Flex
       direction="row"
@@ -255,6 +267,7 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
         borderRadius="md"
       />
       <ContractSubNavLinkButton
+        label="Overview"
         onHover={setHoveredEl}
         isActive={activeTab === ""}
         href={{
@@ -264,10 +277,10 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
             customContract: [contractAddress || "", ""],
           },
         }}
-      >
-        Overview
-      </ContractSubNavLinkButton>
+      />
+
       <ContractSubNavLinkButton
+        label="Code"
         onHover={setHoveredEl}
         isActive={activeTab === "code"}
         href={{
@@ -277,10 +290,9 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
             customContract: [contractAddress || "", "code"],
           },
         }}
-      >
-        Code
-      </ContractSubNavLinkButton>
+      />
       <ContractSubNavLinkButton
+        label="Settings"
         onHover={setHoveredEl}
         isActive={activeTab === "settings"}
         href={{
@@ -290,22 +302,28 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
             customContract: [contractAddress || "", "settings"],
           },
         }}
-      >
-        Settings
-      </ContractSubNavLinkButton>
+      />
     </Flex>
   );
 };
+
 interface ContractSubNavLinkButton {
-  href: string | LinkProps["href"];
+  href: LinkProps["href"];
   onHover: (event: EventTarget & HTMLButtonElement) => void;
   isActive: boolean;
+  label: string;
 }
 
-const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
+const ContractSubNavLinkButton: React.VFC<ContractSubNavLinkButton> = (
   props,
 ) => {
+  const { trackEvent } = useTrack();
   const onClick = useCallback(() => {
+    trackEvent({
+      category: "subnav-link",
+      action: "click",
+      label: props.label,
+    });
     if (isBrowser()) {
       document.getElementById("tw-scroll-container")?.scrollTo({
         top: 0,
@@ -313,7 +331,8 @@ const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
         behavior: "smooth",
       });
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.label]);
   return (
     <LinkButton
       _focus={{
@@ -342,7 +361,7 @@ const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
       href={props.href}
       onClick={onClick}
     >
-      {props.children}
+      {props.label}
     </LinkButton>
   );
 };

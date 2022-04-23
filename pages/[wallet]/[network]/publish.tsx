@@ -57,7 +57,7 @@ function usePublishMutation() {
 }
 
 const PublishPage: ConsolePage = () => {
-  const { Track } = useTrack({
+  const { Track, trackEvent } = useTrack({
     page: "publish",
   });
 
@@ -87,10 +87,17 @@ const PublishPage: ConsolePage = () => {
   const toggleUriPublish = useCallback((uri: string) => {
     setUrisToPublish((_prevUris) => {
       if (_prevUris.includes(uri)) {
+        trackEvent({
+          category: "checkbox",
+          action: "toggle",
+          label: "remove",
+        });
         return _prevUris.filter((u) => u !== uri);
       }
+      trackEvent({ category: "checkbox", action: "toggle", label: "add" });
       return [..._prevUris, uri];
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const publishMutation = usePublishMutation();
@@ -129,7 +136,13 @@ const PublishPage: ConsolePage = () => {
             isDisabled={urisToPublish.length === 0}
             transactionCount={urisToPublish.length}
             isLoading={publishMutation.isLoading}
-            onClick={() =>
+            onClick={() => {
+              trackEvent({
+                category: "publish",
+                action: "click",
+                label: "attempt",
+                uris: urisToPublish,
+              });
               publishMutation.mutate(urisToPublish, {
                 onSuccess: () => {
                   toast({
@@ -138,6 +151,12 @@ const PublishPage: ConsolePage = () => {
                     status: "success",
                     duration: 5000,
                     isClosable: true,
+                  });
+                  trackEvent({
+                    category: "publish",
+                    action: "click",
+                    label: "success",
+                    uris: urisToPublish,
                   });
                   router.push(`/${wallet}/mumbai/new`);
                 },
@@ -149,9 +168,15 @@ const PublishPage: ConsolePage = () => {
                     duration: 5000,
                     isClosable: true,
                   });
+                  trackEvent({
+                    category: "publish",
+                    action: "click",
+                    label: "error",
+                    error: err,
+                  });
                 },
-              })
-            }
+              });
+            }}
           >
             Publish
           </TransactionButton>
