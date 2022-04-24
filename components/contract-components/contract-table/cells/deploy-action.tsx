@@ -21,9 +21,10 @@ export const ContractDeployActionCell: React.VFC<
     { contractAddress: string; chainId: SUPPORTED_CHAIN_ID } | undefined
   >(undefined);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
-      <ThirdwebDrawer size="lg" isOpen={isOpen} onClose={onClose}>
+      <ThirdwebDrawer size="xl" isOpen={isOpen} onClose={onClose}>
         <ContractDeployForm
           contractId={value}
           onDeploySuccess={(contractAddress, chainId) => {
@@ -45,13 +46,19 @@ export const ContractDeployActionCell: React.VFC<
         </LinkButton>
       ) : (
         <Button
+          isDisabled={publishMetadata.data?.deployDisabled}
           onClick={onOpen}
           isLoading={publishMetadata.isLoading}
           colorScheme="purple"
+          variant={publishMetadata.data?.deployDisabled ? "outline" : "solid"}
           size="sm"
-          rightIcon={<Icon as={IoRocketOutline} />}
+          rightIcon={
+            !publishMetadata.data?.deployDisabled ? (
+              <Icon as={IoRocketOutline} />
+            ) : undefined
+          }
         >
-          Deploy Now
+          {publishMetadata.data?.deployDisabled ? "Coming Soon" : "Deploy Now"}
         </Button>
       )}
     </>

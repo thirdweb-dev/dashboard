@@ -54,7 +54,7 @@ export const ContractAbiCell: React.VFC<
         size="sm"
         variant="outline"
       >
-        {publishMetadata.data?.abi ? "Show ABI" : "ABI not available"}
+        {publishMetadata.data?.abi ? "Show ABI" : "Not available"}
       </Button>
     </>
   );

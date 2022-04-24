@@ -4,7 +4,8 @@ import { ContractBytecodeCell } from "./cells/bytecode";
 import { ContractDeployActionCell } from "./cells/deploy-action";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
-import { Checkbox, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Checkbox } from "components/checkbox";
 import React, { useMemo } from "react";
 import { Cell, Column, useTable } from "react-table";
 
@@ -61,6 +62,7 @@ export const DeployableContractTable: React.VFC<
               selectedContractIds.length !== contractIds.length;
             return (
               <Checkbox
+                colorScheme="primary"
                 isChecked={isChecked}
                 isIndeterminate={isIndeterminate}
                 onChange={() => {
@@ -79,6 +81,7 @@ export const DeployableContractTable: React.VFC<
             const isChecked = selectedContractIds.includes(value);
             return (
               <Checkbox
+                colorScheme="primary"
                 onChange={() => {
                   if (isChecked) {
                     selectable.onChange(

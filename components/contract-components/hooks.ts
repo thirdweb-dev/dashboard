@@ -9,7 +9,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
-import { FeatureCardMap, FeatureIconMap } from "constants/mappings";
+import { BuiltinContractMap, FeatureIconMap } from "constants/mappings";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -18,8 +18,10 @@ import invariant from "tiny-invariant";
 interface ContractPublishMetadata {
   image: string | StaticImageData;
   name: string;
+  description?: string;
   abi?: unknown;
   bytecode?: string;
+  deployDisabled?: boolean;
 }
 
 export function useContractPublishMetadataFromURI(contractId: ContractId) {
@@ -28,10 +30,14 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
     ["publish-metadata", contractId],
     async () => {
       if (isContractIdBuiltInContract(contractId)) {
-        const details = FeatureCardMap[contractIdIpfsHash as ContractType];
+        const details = BuiltinContractMap[contractIdIpfsHash as ContractType];
         return {
           image: details.icon,
           name: details.title,
+          abi: details.abi,
+          bytecode: details.bytecode,
+          deployDisabled: details.comingSoon,
+          description: details.description,
         };
       }
       const resolved = await fetchContractMetadata(
@@ -116,6 +122,22 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
           ...contractKeys.list(walletAddress),
         ]);
       },
+    },
+  );
+}
+
+export function usePublishedContractsQuery() {
+  const sdk = useSDK();
+  const address = useAddress();
+  return useQuery(
+    ["published-contracts", address],
+    async () => {
+      return address && sdk
+        ? (await sdk.publisher.getAll(address)).filter((c) => c.id)
+        : [];
+    },
+    {
+      enabled: !!address && !!sdk,
     },
   );
 }

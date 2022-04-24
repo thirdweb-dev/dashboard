@@ -19,8 +19,6 @@ import {
   Link,
   Menu,
   MenuButton,
-  MenuGroup,
-  MenuItem,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
@@ -47,9 +45,8 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { Button } from "components/buttons/Button";
 import { Card } from "components/layout/Card";
-import { NextLink } from "components/shared/NextLink";
+import { LinkButton } from "components/shared/LinkButton";
 import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import {
   CONTRACT_TYPE_NAME_MAP,
@@ -155,9 +152,21 @@ const Dashboard: ConsolePage = () => {
   return (
     <Flex direction="column" gap={8}>
       {!!combinedList.length && (
-        <Flex justifyContent="space-between" alignItems="center">
-          <Heading size="title.md">Your contracts</Heading>
-          <CreateContractButton />
+        <Flex justify="space-between" align="top">
+          <Flex gap={2} direction="column">
+            <Heading size="title.md">Deployed contracts</Heading>
+            <Text fontStyle="italic" maxW="container.md">
+              The list of contract instances that you have deployed with
+              thirdweb across all networks.
+            </Text>
+          </Flex>
+          <LinkButton
+            leftIcon={<FiPlus />}
+            colorScheme="primary"
+            href="/contracts"
+          >
+            Deploy new contract
+          </LinkButton>
         </Flex>
       )}
       {projects && projects.length ? (
@@ -185,76 +194,6 @@ const Dashboard: ConsolePage = () => {
 Dashboard.Layout = AppLayout;
 
 export default Dashboard;
-
-const CreateContractButton: React.FC = () => {
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
-  const { getNetworkMetadata } = useWeb3();
-
-  const testnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.filter((chainId) => chainId !== ChainId.Goerli)
-      .map((supportedChain) => {
-        return getNetworkMetadata(supportedChain);
-      })
-      .filter((n) => n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  const mainnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-      return getNetworkMetadata(supportedChain);
-    }).filter((n) => !n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  return (
-    <Flex direction="row" justify="flex-end" zIndex={10}>
-      <Menu>
-        <MenuButton as={Button} leftIcon={<FiPlus />} colorScheme="primary">
-          Create new contract
-        </MenuButton>
-        <MenuList>
-          <MenuGroup title="Mainnets">
-            {mainnets.map((n) => (
-              <MenuItem
-                _hover={{
-                  textDecor: "none",
-                }}
-                href={`/${wallet}/${n.chainName.toLowerCase()}/new`}
-                key={n.chainName}
-                as={NextLink}
-                icon={
-                  <Flex>
-                    <Icon as={n.icon} boxSize={5} />
-                  </Flex>
-                }
-              >
-                {n.chainName}
-              </MenuItem>
-            ))}
-          </MenuGroup>
-          <MenuGroup title="Testnets">
-            {testnets.map((n) => (
-              <MenuItem
-                _hover={{
-                  textDecor: "none",
-                }}
-                href={`/${wallet}/${n.chainName.toLowerCase()}/new`}
-                key={n.chainName}
-                as={NextLink}
-                icon={
-                  <Flex>
-                    <Icon as={n.icon} boxSize={5} />
-                  </Flex>
-                }
-              >
-                {n.chainName}
-              </MenuItem>
-            ))}
-          </MenuGroup>
-        </MenuList>
-      </Menu>
-    </Flex>
-  );
-};
-
 interface ContractTableProps {
   combinedList: {
     chainId: ChainId;
@@ -602,7 +541,13 @@ const NoContracts: React.FC = () => {
             You don&apos;t have any contracts
           </Heading>
           <Text size="subtitle.lg">Deploy a contract to get started</Text>
-          <CreateContractButton />
+          <LinkButton
+            leftIcon={<FiPlus />}
+            colorScheme="primary"
+            href="/contracts"
+          >
+            Deploy New Contract
+          </LinkButton>
         </Stack>
       </Container>
     </Center>

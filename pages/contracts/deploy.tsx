@@ -1,4 +1,4 @@
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { Badge } from "components/badges/badge";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
@@ -22,8 +22,16 @@ const ContractsDeployPage: ConsolePage = () => {
               beta
             </Badge>
           </Heading>
-          <Text>
-            Welcome to the thirdweb contract publishing & deployment flow.
+          <Text fontStyle="italic" maxW="container.md">
+            Welcome to the new thirdweb contract deployment flow.
+            <br />
+            <Link
+              color="primary.500"
+              isExternal
+              href="https://www.notion.so/thirdweb/Alpha-Custom-Contract-74d81faa569b418f9ed718645fd7df2c"
+            >
+              Learn more about deploying custom contracts.
+            </Link>
           </Text>
         </Flex>
         <Card>

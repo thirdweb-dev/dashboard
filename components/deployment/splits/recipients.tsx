@@ -30,7 +30,7 @@ export const RecipientForm: React.FC = () => {
   });
   useEffect(() => {
     if (fields.length === 0) {
-      append({ address: "", sharesBps: 10000 });
+      append({ address: "", sharesBps: 10000 }, { shouldFocus: false });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -56,9 +56,7 @@ export const ContractBytecodeCell: React.VFC<
         size="sm"
         variant="outline"
       >
-        {publishMetadata.data?.bytecode
-          ? "Show Bytecode"
-          : "Bytecode not available"}
+        {publishMetadata.data?.bytecode ? "Show Bytecode" : "Not available"}
       </Button>
     </>
   );

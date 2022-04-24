@@ -1,7 +1,7 @@
-import { useActiveChainId, useDeploy, useWeb3 } from "@3rdweb-sdk/react";
+import { ContractIdImage } from "../contract-table/cells/image";
+import { useContractPublishMetadataFromURI } from "../hooks";
+import { useDeploy, useWeb3 } from "@3rdweb-sdk/react";
 import {
-  AspectRatio,
-  Box,
   Divider,
   Flex,
   FormControl,
@@ -9,44 +9,39 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
-  IconButton,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Select,
   SimpleGrid,
+  Skeleton,
   Text,
   Textarea,
 } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAddress } from "@thirdweb-dev/react";
 import {
+  ChainId,
   ContractType,
   KNOWN_CONTRACTS_MAP,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
-import { ChakraNextImage } from "components/Image";
-import { AppLayout } from "components/app-layouts/app";
+import { Badge } from "components/badges/badge";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
-import { Card } from "components/layout/Card";
 import { FileInput } from "components/shared/FileInput";
-import {
-  CONTRACT_TYPE_NAME_MAP,
-  FeatureIconMap,
-  TYPE_CONTRACT_MAP,
-  UrlMap,
-} from "constants/mappings";
+import { UrlMap } from "constants/mappings";
 import { isAddress } from "ethers/lib/utils";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
-import { ConsolePage } from "pages/_app";
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import {
   FieldPath,
   FormProvider,
@@ -54,67 +49,13 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { FiChevronLeft } from "react-icons/fi";
-import { NetworkToBlockTimeMap } from "utils/network";
+import {
+  NetworkToBlockTimeMap,
+  SUPPORTED_CHAIN_ID,
+  SUPPORTED_CHAIN_IDS,
+  SupportedChainIdToNetworkMap,
+} from "utils/network";
 import { z } from "zod";
-
-const DeployContractContract: ConsolePage = () => {
-  const router = useRouter();
-  const contractType = useSingleQueryParam("contractType") as
-    | ContractType
-    | undefined;
-  // TODO (byoc) - this should be able to handle CustomContract but typescript does not like it
-  const contract =
-    KNOWN_CONTRACTS_MAP[contractType as keyof typeof KNOWN_CONTRACTS_MAP];
-
-  return (
-    <Card p={0}>
-      <Flex
-        direction="column"
-        gap={8}
-        px={{ base: 4, md: 10 }}
-        py={{ base: 6, md: 10 }}
-      >
-        <Flex align="center" justify="space-between" gap={4}>
-          <IconButton
-            onClick={() => router.back()}
-            size="sm"
-            aria-label="back"
-            icon={<FiChevronLeft />}
-          />
-          {contractType && (
-            <Flex gap={2} align="center">
-              <AspectRatio ratio={1} w="50px" flexShrink={0}>
-                <Box>
-                  <ChakraNextImage
-                    src={FeatureIconMap[contractType]}
-                    alt={contractType}
-                    w="100%"
-                  />
-                </Box>
-              </AspectRatio>
-
-              <Heading size="title.lg">
-                Deploy new {CONTRACT_TYPE_NAME_MAP[contractType]} contract
-              </Heading>
-            </Flex>
-          )}
-          <Box />
-        </Flex>
-      </Flex>
-      <Divider />
-      <Box pt={{ base: 6, md: 10 }}>
-        {contract && contractType ? (
-          <ContractDeployForm contract={contract} contractType={contractType} />
-        ) : null}
-      </Box>
-    </Card>
-  );
-};
-
-DeployContractContract.Layout = AppLayout;
-
-export default DeployContractContract;
 
 function useDeployForm<TContract extends ValidContractClass>(
   deploySchema: TContract["schema"]["deploy"],
@@ -149,35 +90,57 @@ function stripNullishKeys<T extends object>(obj: T) {
   }, {} as T);
 }
 
-const ContractDeployForm = <TContract extends ValidContractClass>({
-  contract,
-  contractType,
-}: {
-  contract: TContract;
+interface BuiltinContractFormProps {
   contractType: ContractType;
+  selectedChain: SUPPORTED_CHAIN_ID | undefined;
+  onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
+}
+
+const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
+  contractType,
+  selectedChain,
+  onChainSelect,
 }) => {
-  const activeChainId = useActiveChainId();
-  const type = useSingleQueryParam("type");
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
-  const network = useSingleQueryParam("network");
-  const { push } = useRouter();
-  const { address } = useWeb3();
-  const deployMutation = useDeploy(contract.contractType);
+  const publishMetadata = useContractPublishMetadataFromURI(contractType);
+
+  const { getNetworkMetadata } = useWeb3();
+
+  const testnets = useMemo(() => {
+    return SUPPORTED_CHAIN_IDS.filter((chainId) => chainId !== ChainId.Goerli)
+      .map((supportedChain) => {
+        return getNetworkMetadata(supportedChain);
+      })
+      .filter((n) => n.isTestnet);
+  }, [getNetworkMetadata]);
+
+  const mainnets = useMemo(() => {
+    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
+      return getNetworkMetadata(supportedChain);
+    }).filter((n) => !n.isTestnet);
+  }, [getNetworkMetadata]);
+
+  const contract =
+    KNOWN_CONTRACTS_MAP[contractType as keyof typeof KNOWN_CONTRACTS_MAP];
+
   const form = useDeployForm(contract.schema.deploy);
+
   const {
-    getFieldState,
-    watch,
-    setValue,
-    register,
     handleSubmit,
-    resetField,
+    getFieldState,
     formState,
+    watch,
+    register,
+    setValue,
+    resetField,
   } = form;
+
+  const address = useAddress();
 
   const hasPrimarySaleMechanic = useMemo(
     () => "primary_sale_recipient" in contract.schema.deploy.shape,
     [contract],
   );
+
   const hasPlatformFeeMechanic = useMemo(
     () =>
       "platform_fee_recipient" in contract.schema.deploy.shape &&
@@ -194,6 +157,16 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
 
   const hasSymbol = useMemo(
     () => "symbol" in contract.schema.deploy.shape,
+    [contract],
+  );
+
+  const hasVoteMechanic = useMemo(
+    () => "voting_token_address" in contract.schema.deploy.shape,
+    [contract],
+  );
+
+  const hasSplitsMechanic = useMemo(
+    () => "recipients" in contract.schema.deploy.shape,
     [contract],
   );
 
@@ -241,146 +214,192 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
       : true;
   }
 
-  const hasVoteMechanic = useMemo(
-    () => "voting_token_address" in contract.schema.deploy.shape,
-    [contract],
-  );
+  const seconds = selectedChain && NetworkToBlockTimeMap[selectedChain];
 
-  const hasSplitsMechanic = useMemo(
-    () => "recipients" in contract.schema.deploy.shape,
-    [contract],
-  );
-
-  const seconds = activeChainId && NetworkToBlockTimeMap[activeChainId];
+  const deploy = useDeploy(contract.contractType);
 
   const { onSuccess, onError } = useTxNotifications(
     "Succesfully deployed contract",
     "Failed to deploy contract",
   );
 
+  const { trackEvent } = useTrack();
+  const router = useRouter();
+
   return (
     <FormProvider {...form}>
       <Flex
-        borderColor="inherit"
-        as="form"
-        onSubmit={handleSubmit((d) => {
-          deployMutation.mutate(d, {
-            onSuccess: ({ contractAddress }) => {
-              onSuccess();
-              push(
-                `/${wallet}/${network}/${UrlMap[contractType]}/${contractAddress}`,
-              );
-            },
-            onError,
-          });
-        })}
+        gap={4}
         direction="column"
-        gap={8}
+        as="form"
+        onSubmit={handleSubmit(
+          (d) => {
+            if (!selectedChain) {
+              return;
+            }
+            const deployData = {
+              contractType,
+              contractMetadata: d,
+              publishMetadata: publishMetadata.data,
+              chainId: selectedChain,
+            };
+            trackEvent({
+              category: "builtin-contract",
+              action: "deploy",
+              label: "attempt",
+              deployData,
+            });
+            deploy.mutate(d, {
+              onSuccess: ({ contractAddress }) => {
+                console.info("contract deployed:", {
+                  chainId: selectedChain,
+                  address: contractAddress,
+                });
+                trackEvent({
+                  category: "builtin-contract",
+                  action: "deploy",
+                  label: "success",
+                  deployData,
+                  contractAddress,
+                });
+                onSuccess();
+                router.push(
+                  `/dashboard/${SupportedChainIdToNetworkMap[selectedChain]}/${UrlMap[contractType]}/${contractAddress}`,
+                );
+              },
+              onError: (err) => {
+                trackEvent({
+                  category: "builtin-contract",
+                  action: "deploy",
+                  label: "error",
+                  deployData,
+                  error: err,
+                });
+                onError(err);
+              },
+            });
+          },
+          (invalid) => console.log("*** invalid", invalid),
+        )}
       >
-        <Flex px={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
-          <Flex direction="column">
-            <Heading size="title.md">General Settings</Heading>
-            <Text size="body.md" fontStyle="italic">
-              Settings to organize and distinguish between your different
-              contracts.
-            </Text>
+        <Flex gap={4} align="center">
+          <ContractIdImage boxSize={12} contractId={contractType} />
+          <Flex gap={0.5} direction="column">
+            <Skeleton isLoaded={publishMetadata.isSuccess}>
+              <Heading minW="60px" size="subtitle.lg">
+                {publishMetadata.data?.name}
+              </Heading>
+            </Skeleton>
+            <Skeleton isLoaded={publishMetadata.isSuccess}>
+              <Text maxW="xs" fontStyle="italic" noOfLines={2}>
+                {publishMetadata.data?.description || "No description"}
+              </Text>
+            </Skeleton>
           </Flex>
-          <Flex gap={4} direction={{ base: "column", md: "row" }}>
-            <Flex
-              flexShrink={0}
-              flexGrow={1}
-              maxW={{ base: "100%", md: "160px" }}
+          <Badge
+            display={{ base: "none", md: "inherit" }}
+            colorScheme="purple"
+            variant="outline"
+          >
+            Built-in Contract
+          </Badge>
+        </Flex>
+        <Divider borderColor="borderColor" />
+        <Flex direction="column">
+          <Heading size="subtitle.md">Contract Metadata</Heading>
+          <Text size="body.md" fontStyle="italic">
+            Settings to organize and distinguish between your different
+            contracts.
+          </Text>
+        </Flex>
+        <Flex gap={4} direction={{ base: "column", md: "row" }}>
+          <Flex
+            flexShrink={0}
+            flexGrow={1}
+            maxW={{ base: "100%", md: "160px" }}
+          >
+            <FormControl
+              isRequired={isRequired("image")}
+              isDisabled={!publishMetadata.isSuccess}
+              display="flex"
+              flexDirection="column"
+              isInvalid={!!getFieldState("image", formState).error}
             >
+              <FormLabel>Image</FormLabel>
+              <FileInput
+                accept="image/*"
+                value={useImageFileOrUrl(watch("image"))}
+                setValue={(file) =>
+                  setValue("image", file, { shouldTouch: true })
+                }
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="md"
+                transition="all 200ms ease"
+              />
+              <FormErrorMessage>
+                {getFieldState("image", formState).error?.message}
+              </FormErrorMessage>
+            </FormControl>
+          </Flex>
+
+          <Flex direction="column" gap={4} flexGrow={1} justify="space-between">
+            <Flex gap={4} direction={{ base: "column", md: "row" }}>
               <FormControl
-                display="flex"
-                flexDirection="column"
-                isRequired={isRequired("image")}
-                isInvalid={!!getFieldState("image", formState).error}
+                isDisabled={!publishMetadata.isSuccess}
+                isRequired={isRequired("name")}
+                isInvalid={!!getFieldState("name", formState).error}
               >
-                <FormLabel>Image</FormLabel>
-                <FileInput
-                  accept="image/*"
-                  value={useImageFileOrUrl(watch("image"))}
-                  setValue={(file) =>
-                    setValue("image", file, { shouldTouch: true })
-                  }
-                  border="1px solid"
-                  borderColor="gray.200"
-                  borderRadius="md"
-                  transition="all 200ms ease"
-                />
+                <FormLabel>Name</FormLabel>
+                <Input autoFocus variant="filled" {...register("name")} />
                 <FormErrorMessage>
-                  {getFieldState("image", formState).error?.message}
+                  {getFieldState("name", formState).error?.message}
                 </FormErrorMessage>
               </FormControl>
-            </Flex>
-
-            <Flex
-              direction="column"
-              gap={4}
-              flexGrow={1}
-              justify="space-between"
-            >
-              <Flex gap={4} direction={{ base: "column", md: "row" }}>
+              {hasSymbol && (
                 <FormControl
-                  isRequired={isRequired("name")}
-                  isInvalid={!!getFieldState("name", formState).error}
+                  maxW={{ base: "100%", md: "200px" }}
+                  isRequired={isRequired("symbol")}
+                  isInvalid={!!getFieldState("symbol", formState).error}
                 >
-                  <FormLabel>Name</FormLabel>
-                  <Input autoFocus variant="filled" {...register("name")} />
+                  <FormLabel>Symbol</FormLabel>
+                  <Input variant="filled" {...register("symbol")} />
                   <FormErrorMessage>
-                    {getFieldState("name", formState).error?.message}
+                    {getFieldState("symbol", formState).error?.message}
                   </FormErrorMessage>
                 </FormControl>
-                {hasSymbol && (
-                  <FormControl
-                    maxW={{ base: "100%", md: "200px" }}
-                    isRequired={isRequired("symbol")}
-                    isInvalid={!!getFieldState("symbol", formState).error}
-                  >
-                    <FormLabel>Symbol</FormLabel>
-                    <Input variant="filled" {...register("symbol")} />
-                    <FormErrorMessage>
-                      {getFieldState("symbol", formState).error?.message}
-                    </FormErrorMessage>
-                  </FormControl>
-                )}
-              </Flex>
-
-              <FormControl
-                isRequired={isRequired("description")}
-                isInvalid={!!getFieldState("description", formState).error}
-              >
-                <FormLabel>Description</FormLabel>
-                <Textarea variant="filled" {...register("description")} />
-                <FormErrorMessage>
-                  {getFieldState("description", formState).error?.message}
-                </FormErrorMessage>
-              </FormControl>
+              )}
             </Flex>
+
+            <FormControl
+              isRequired={isRequired("description")}
+              isDisabled={!publishMetadata.isSuccess}
+              isInvalid={!!getFieldState("description", formState).error}
+            >
+              <FormLabel>Description</FormLabel>
+              <Textarea variant="filled" {...register("description")} />
+              <FormErrorMessage>
+                {getFieldState("description", formState).error?.message}
+              </FormErrorMessage>
+            </FormControl>
           </Flex>
         </Flex>
-
+        {/* payout settings */}
         {(hasPrimarySaleMechanic ||
           hasPlatformFeeMechanic ||
           hasRoyaltyMechanic) && (
           <>
-            <Divider />
-            <Flex
-              px={{ base: 6, md: 10 }}
-              as="section"
-              direction="column"
-              gap={4}
-            >
+            <Divider borderColor="borderColor" />
+            <Flex as="section" direction="column" gap={4}>
               <Flex direction="column">
-                <Heading size="title.md">Payout Settings</Heading>
+                <Heading size="subtitle.md">Payout Settings</Heading>
                 <Text size="body.md" fontStyle="italic">
                   Where should any funds generated by this contract flow to.
                 </Text>
               </Flex>
               {hasPrimarySaleMechanic && (
                 <Flex pb={4} direction="column" gap={2}>
-                  <Heading size="title.sm">Primary Sales</Heading>
+                  <Heading size="label.lg">Primary Sales</Heading>
                   <Text size="body.md" fontStyle="italic">
                     Determine the address that should receive the revenue from
                     initial sales of the assets.
@@ -411,7 +430,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
 
               {hasRoyaltyMechanic && (
                 <Flex pb={4} direction="column" gap={2}>
-                  <Heading size="title.sm">Royalties</Heading>
+                  <Heading size="label.lg">Royalties</Heading>
                   <Text size="body.md" fontStyle="italic">
                     Determine the address that should receive the revenue from
                     royalties earned from secondary sales of the assets.
@@ -462,7 +481,7 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
               )}
               {hasPlatformFeeMechanic && (
                 <Flex pb={4} direction="column" gap={2}>
-                  <Heading size="title.sm">Platform fees</Heading>
+                  <Heading size="label.lg">Platform fees</Heading>
                   <Flex gap={4} direction={{ base: "column", md: "row" }}>
                     <FormControl
                       isRequired={isRequired("platform_fee_recipient")}
@@ -514,17 +533,14 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
             </Flex>
           </>
         )}
+        {/* payout settings end */}
+        {/* vote settings start */}
         {hasVoteMechanic && (
           <>
             <Divider />
-            <Flex
-              px={{ base: 6, md: 10 }}
-              as="section"
-              direction="column"
-              gap={4}
-            >
+            <Flex as="section" direction="column" gap={4}>
               <Flex direction="column">
-                <Heading size="title.md">Vote Settings</Heading>
+                <Heading size="subtitle.md">Vote Settings</Heading>
                 <Text size="body.md" fontStyle="italic">
                   These settings will determine the voting process of this
                   contract. Once you create this contract, you won&apos;t be
@@ -713,28 +729,61 @@ const ContractDeployForm = <TContract extends ValidContractClass>({
             </Flex>
           </>
         )}
+        {/* vote settings end */}
+        {/* splits start */}
         {hasSplitsMechanic && <RecipientForm />}
-
-        <TransactionButton
-          colorScheme="primary"
-          transactionCount={1}
-          isDisabled={
-            !Object.keys(formState.touchedFields).length ||
-            TYPE_CONTRACT_MAP[type as keyof typeof TYPE_CONTRACT_MAP].find(
-              (c) => c.contractType === contractType,
-            )?.comingSoon
-          }
-          type="submit"
-          isLoading={deployMutation.isLoading}
-          loadingText="Deploying Contract..."
-          size="lg"
-          borderRadius="xl"
-          borderTopLeftRadius="0"
-          borderTopRightRadius="0"
-        >
-          Deploy now
-        </TransactionButton>
+        {/* splits end */}
+        <Divider borderColor="borderColor" />
+        <Flex direction="column">
+          <Heading size="subtitle.md">Network / Chain</Heading>
+          <Text size="body.md" fontStyle="italic">
+            Select which network to deploy this contract on.
+          </Text>
+        </Flex>
+        <Flex gap={4} direction={{ base: "column", md: "row" }}>
+          <FormControl>
+            <Select
+              isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
+              value={selectedChain || -1}
+              onChange={(e) =>
+                onChainSelect(
+                  parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
+                )
+              }
+            >
+              <option disabled value={-1}>
+                Select Network
+              </option>
+              <optgroup label="Mainnets">
+                {mainnets.map((mn) => (
+                  <option key={mn.chainId} value={mn.chainId}>
+                    {mn.chainName} ({mn.symbol})
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Testnets">
+                {testnets.map((tn) => (
+                  <option key={tn.chainId} value={tn.chainId}>
+                    {tn.chainName} ({tn.symbol} Testnet)
+                  </option>
+                ))}
+              </optgroup>
+            </Select>
+          </FormControl>
+          <TransactionButton
+            flexShrink={0}
+            type="submit"
+            isLoading={deploy.isLoading}
+            isDisabled={!publishMetadata.isSuccess || !selectedChain}
+            colorScheme="primary"
+            transactionCount={1}
+          >
+            Deploy Now
+          </TransactionButton>
+        </Flex>
       </Flex>
     </FormProvider>
   );
 };
+
+export default BuiltinContractForm;

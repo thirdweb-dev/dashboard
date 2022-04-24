@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-export const Badge = forwardRef<BadgeProps, "button">(
+export const Badge = forwardRef<BadgeProps, "span">(
   ({ py = 0.5, ...props }, ref) => {
     if (props.colorScheme) {
       return (

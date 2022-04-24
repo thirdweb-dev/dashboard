@@ -7,6 +7,7 @@ import { useState } from "react";
 import { SUPPORTED_CHAIN_ID } from "utils/network";
 
 const CustomContractForm = dynamic(() => import("./custom-contract"));
+const BuiltinContractForm = dynamic(() => import("./built-in-contract"));
 
 interface ContractDeployFormProps {
   contractId: ContractId;
@@ -25,23 +26,30 @@ export const ContractDeployForm: React.VFC<ContractDeployFormProps> = ({
   const [selectedChain, setSelectedChain] = useState<
     SUPPORTED_CHAIN_ID | undefined
   >(undefined);
+  if (!contractId) {
+    return null;
+  }
   if (contractId === "custom") {
     return <div>Invalid attempt to deploy &quot;custom&quot; contract.</div>;
   }
-  if (isContractIdBuiltInContract(contractId)) {
-    return (
-      <div>Built-in contracts cannot be deployed though this flow yet.</div>
-    );
-  }
+
   return (
     <CustomSDKContext desiredChainId={selectedChain}>
-      <CustomContractForm
-        ipfsHash={contractId}
-        selectedChain={selectedChain}
-        onChainSelect={setSelectedChain}
-        shouldRedirect={shouldRedirect}
-        onDeploySuccess={onDeploySuccess}
-      />
+      {isContractIdBuiltInContract(contractId) ? (
+        <BuiltinContractForm
+          contractType={contractId}
+          selectedChain={selectedChain}
+          onChainSelect={setSelectedChain}
+        />
+      ) : (
+        <CustomContractForm
+          ipfsHash={contractId}
+          selectedChain={selectedChain}
+          onChainSelect={setSelectedChain}
+          shouldRedirect={shouldRedirect}
+          onDeploySuccess={onDeploySuccess}
+        />
+      )}
       <NetworkMismatchNotice />
     </CustomSDKContext>
   );

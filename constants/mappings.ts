@@ -47,6 +47,77 @@ export const UrlMap: Record<ContractType, string> = {
   [CustomContract.contractType]: "",
 };
 
+interface BuiltinContractDetails {
+  title: string;
+  description: string;
+  icon: StaticImageData;
+  abi?: unknown;
+  bytecode?: string;
+  comingSoon?: boolean;
+}
+
+export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
+  {
+    [NFTDrop.contractType]: {
+      title: "NFT Drop",
+      description: "Claimable drop of one-of-one NFTs",
+      icon: FeatureIconMap[NFTDrop.contractType],
+    },
+    [NFTCollection.contractType]: {
+      title: "NFT Collection",
+      description: "A collection of one-of-one NFTs",
+      icon: FeatureIconMap[NFTCollection.contractType],
+    },
+    [Marketplace.contractType]: {
+      title: "Marketplace",
+      description: "Your very own marketplace",
+      icon: FeatureIconMap[Marketplace.contractType],
+    },
+    [Token.contractType]: {
+      title: "Token",
+      description: "Your own ERC20 token",
+      icon: FeatureIconMap[Token.contractType],
+    },
+    [Pack.contractType]: {
+      title: "Pack",
+      description: "Randomized rewards (loot boxes)",
+      icon: FeatureIconMap[Pack.contractType],
+      comingSoon: true,
+    },
+    [Split.contractType]: {
+      title: "Split",
+      description: "Fee splitting for your revenue",
+      icon: FeatureIconMap[Split.contractType],
+    },
+    [EditionDrop.contractType]: {
+      title: "Edition Drop",
+      description: "Claimable drop of N-of-one NFTs",
+      icon: FeatureIconMap[EditionDrop.contractType],
+    },
+    [Edition.contractType]: {
+      title: "Edition",
+      description: "A collection of N-of-one NFTs",
+      icon: FeatureIconMap[Edition.contractType],
+    },
+    [Vote.contractType]: {
+      title: "Vote",
+      description: "ERC20 based voting",
+      icon: FeatureIconMap[Vote.contractType],
+    },
+    [TokenDrop.contractType]: {
+      title: "Token Drop",
+      description: "Claimable drop of ERC20 tokens",
+      icon: FeatureIconMap[TokenDrop.contractType],
+      comingSoon: true,
+    },
+
+    [CustomContract.contractType]: {
+      title: "NOT IMPLEMENTED",
+      description: "NOT IMPLEMENTED",
+      icon: FeatureIconMap[TokenDrop.contractType],
+    },
+  };
+
 interface FeatureCard {
   title: string;
   description: string;
@@ -126,25 +197,25 @@ export const FeatureCardMap: Record<ContractType, FeatureCard> = {
 
   // below is unused so far but added for completeness
   [EditionDrop.contractType]: {
-    title: "NOT IMPLEMENTED",
+    title: "Edition Drop",
     description: "NOT IMPLEMENTED",
     icon: FeatureIconMap[EditionDrop.contractType],
     bg: "#400B31",
   },
   [Edition.contractType]: {
-    title: "NOT IMPLEMENTED",
+    title: "Edition",
     description: "NOT IMPLEMENTED",
     icon: FeatureIconMap[Edition.contractType],
     bg: "#400B31",
   },
   [Vote.contractType]: {
-    title: "NOT IMPLEMENTED",
+    title: "Vote",
     description: "NOT IMPLEMENTED",
     icon: FeatureIconMap[Vote.contractType],
     bg: "#400B31",
   },
   [TokenDrop.contractType]: {
-    title: "NOT IMPLEMENTED",
+    title: "Token Drop",
     description: "NOT IMPLEMENTED",
     icon: FeatureIconMap[TokenDrop.contractType],
     bg: "#400B31",
@@ -245,69 +316,6 @@ interface ContractDeployMap {
   [Marketplace.contractType]: ContractDeploy[];
   governance: ContractDeploy[];
 }
-
-export const TYPE_CONTRACT_MAP: ContractDeployMap = {
-  drop: [
-    {
-      title: CONTRACT_TYPE_NAME_MAP[NFTDrop.contractType],
-      subtitle: "Claimable drop of one-of-one NFTs",
-      contractType: NFTDrop.contractType,
-    },
-    {
-      title: CONTRACT_TYPE_NAME_MAP[EditionDrop.contractType],
-      subtitle: "Claimable drop of N-of-one NFTs",
-      contractType: EditionDrop.contractType,
-    },
-    {
-      title: CONTRACT_TYPE_NAME_MAP[TokenDrop.contractType],
-      subtitle: "Claimable drop of ERC20 tokens",
-      contractType: TokenDrop.contractType,
-      comingSoon: true,
-    },
-  ],
-  token: [
-    {
-      title: CONTRACT_TYPE_NAME_MAP[Token.contractType],
-      subtitle: "Your own ERC20 token",
-      contractType: Token.contractType,
-    },
-    {
-      title: CONTRACT_TYPE_NAME_MAP[NFTCollection.contractType],
-      subtitle: "A collection of one-of-one NFTs",
-      contractType: NFTCollection.contractType,
-    },
-    {
-      title: CONTRACT_TYPE_NAME_MAP[Edition.contractType],
-      subtitle: "A collection of N-of-one NFTs",
-      contractType: Edition.contractType,
-    },
-    {
-      title: CONTRACT_TYPE_NAME_MAP[Pack.contractType],
-      subtitle: "Randomized rewards (loot boxes)",
-      contractType: Pack.contractType,
-      comingSoon: true,
-    },
-  ],
-  [Marketplace.contractType]: [
-    {
-      title: CONTRACT_TYPE_NAME_MAP[Marketplace.contractType],
-      subtitle: "Your very own marketplace",
-      contractType: Marketplace.contractType,
-    },
-  ],
-  governance: [
-    {
-      title: CONTRACT_TYPE_NAME_MAP[Vote.contractType],
-      subtitle: "ERC20 based voting",
-      contractType: Vote.contractType,
-    },
-    {
-      title: CONTRACT_TYPE_NAME_MAP[Split.contractType],
-      subtitle: "Fee splitting for your revenue",
-      contractType: Split.contractType,
-    },
-  ],
-};
 
 export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
   admin:

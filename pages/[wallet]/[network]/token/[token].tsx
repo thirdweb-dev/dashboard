@@ -40,7 +40,7 @@ const TokenPage: ConsolePage = () => {
         contract={contract}
         metadata={metadata}
         data={data}
-        primaryAction={<MintButton contract={contract} />}
+        primaryAction={<MintButton colorScheme="primary" contract={contract} />}
         secondaryAction={
           data.data?.ownedBalance &&
           data.data?.ownedBalance !== true &&

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { Badge } from "components/badges/badge";
@@ -14,7 +14,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const ContractsPublishPageWrapped: React.VFC = () => {
   const { Track, trackEvent } = useTrack({
@@ -41,6 +41,10 @@ const ContractsPublishPageWrapped: React.VFC = () => {
   const [selectedContractIds, setSelectedContractIds] = useState<ContractId[]>(
     [],
   );
+
+  useEffect(() => {
+    setSelectedContractIds(ipfsHashes);
+  }, [ipfsHashes]);
 
   const publishContractNo = selectedContractIds.length;
 
@@ -70,8 +74,19 @@ const ContractsPublishPageWrapped: React.VFC = () => {
               beta
             </Badge>
           </Heading>
-          <Text>
-            Welcome to the thirdweb contract publishing & deployment flow.
+          <Text fontStyle="italic" maxW="container.md">
+            Publishing contracts lets you make your contracts available to be
+            deployed later, across multiple chains. You can even share your
+            published contracts with others, letting them deploy instances of
+            your contracts.
+            <br />
+            <Link
+              color="primary.500"
+              isExternal
+              href="https://www.notion.so/thirdweb/Alpha-Custom-Contract-74d81faa569b418f9ed718645fd7df2c"
+            >
+              Learn more about publishing contracts
+            </Link>
           </Text>
         </Flex>
         <Card overflowX="auto">
@@ -106,7 +121,7 @@ const ContractsPublishPageWrapped: React.VFC = () => {
                     label: "success",
                     uris,
                   });
-                  router.push(`/dashboard/mumbai/new`);
+                  router.push(`/contracts`);
                 },
                 onError: (err) => {
                   onError(err);
