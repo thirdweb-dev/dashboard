@@ -8,7 +8,7 @@ import { SUPPORTED_CHAIN_ID } from "utils/network";
 import { useProvider } from "wagmi";
 
 export const CustomSDKContext: ComponentWithChildren<{
-  desiredChainId: SUPPORTED_CHAIN_ID;
+  desiredChainId?: SUPPORTED_CHAIN_ID;
 }> = ({ desiredChainId, children }) => {
   const signer = useSigner();
   const provider = useProvider();
@@ -21,10 +21,12 @@ export const CustomSDKContext: ComponentWithChildren<{
         gasSettings: {
           maxPriceInGwei: 650,
         },
-        readonlySettings: {
-          chainId: desiredChainId,
-          rpcUrl: alchemyUrlMap[desiredChainId],
-        },
+        readonlySettings: desiredChainId
+          ? {
+              chainId: desiredChainId,
+              rpcUrl: alchemyUrlMap[desiredChainId],
+            }
+          : undefined,
       }}
       storageInterface={StorageSingleton}
     >

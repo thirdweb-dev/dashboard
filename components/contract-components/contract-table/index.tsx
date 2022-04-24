@@ -1,9 +1,9 @@
+import { ContractId } from "../types";
 import { ContractAbiCell } from "./cells/abi";
 import { ContractBytecodeCell } from "./cells/bytecode";
 import { ContractDeployActionCell } from "./cells/deploy-action";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
-import { ContractId } from "./types";
 import { Checkbox, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { Cell, Column, useTable } from "react-table";

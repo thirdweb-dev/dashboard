@@ -4,6 +4,7 @@ import {
   Container,
   Heading,
   Icon,
+  Portal,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -91,49 +92,59 @@ export const NetworkMismatchNotice: React.FC = () => {
     .join("");
 
   return (
-    <Card zIndex="sticky" pb={6} position="fixed" m={4} bottom={0} right={0}>
-      <Container as={Stack} spacing={4}>
-        <Heading size="label.2xl">
-          <Stack direction="row" align="center">
-            <Icon boxSize={6} as={AiOutlineWarning} />
-            <span>Network Mismatch</span>
-          </Stack>
-        </Heading>
+    <Portal>
+      <Card
+        backgroundColor="backgroundHighlight"
+        zIndex="popover"
+        pb={6}
+        position="fixed"
+        m={4}
+        bottom={0}
+        right={0}
+      >
+        <Container as={Stack} spacing={4}>
+          <Heading size="label.2xl">
+            <Stack direction="row" align="center">
+              <Icon boxSize={6} as={AiOutlineWarning} />
+              <span>Network Mismatch</span>
+            </Stack>
+          </Heading>
 
-        <Text>
-          You are connected to the <strong>{walletNetwork}</strong> network but
-          you are exploring the dashboard on the <strong>{twNetwork}</strong>{" "}
-          network. They need to match if you want to interact with the
-          dashboard.
-        </Text>
-        <ButtonGroup size="sm">
-          <Button
-            onClick={onSwitchWallet}
-            isLoading={network.loading}
-            isDisabled={!actuallyCanAttemptSwitch}
-            colorScheme="orange"
-          >
-            Switch wallet to {twNetwork}
-          </Button>
-          {signerNetworkIsSupported && (
-            <Button
-              isLoading={network.loading}
-              variant="outline"
-              colorScheme="orange"
-              onClick={() => setDismissedForChain(true)}
-            >
-              Dismiss warning
-            </Button>
-          )}
-        </ButtonGroup>
-        {!actuallyCanAttemptSwitch && (
-          <Text size="body.sm" fontStyle="italic">
-            Your connected wallet does not support programatic switching.
-            <br />
-            Please manually switch the network in your wallet.
+          <Text>
+            You are connected to the <strong>{walletNetwork}</strong> network
+            but you are exploring the dashboard on the{" "}
+            <strong>{twNetwork}</strong> network. They need to match if you want
+            to interact with the dashboard.
           </Text>
-        )}
-      </Container>
-    </Card>
+          <ButtonGroup size="sm">
+            <Button
+              onClick={onSwitchWallet}
+              isLoading={network.loading}
+              isDisabled={!actuallyCanAttemptSwitch}
+              colorScheme="orange"
+            >
+              Switch wallet to {twNetwork}
+            </Button>
+            {signerNetworkIsSupported && (
+              <Button
+                isLoading={network.loading}
+                variant="outline"
+                colorScheme="orange"
+                onClick={() => setDismissedForChain(true)}
+              >
+                Dismiss warning
+              </Button>
+            )}
+          </ButtonGroup>
+          {!actuallyCanAttemptSwitch && (
+            <Text size="body.sm" fontStyle="italic">
+              Your connected wallet does not support programatic switching.
+              <br />
+              Please manually switch the network in your wallet.
+            </Text>
+          )}
+        </Container>
+      </Card>
+    </Portal>
   );
 };

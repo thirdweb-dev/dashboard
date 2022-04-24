@@ -1,30 +1,44 @@
-import { useContractPublishMetadataFromURI } from "../hooks";
-import { DeployableContractContractCellProps } from "../types";
+import { useContractPublishMetadataFromURI } from "../../hooks";
+import { ContractId, DeployableContractContractCellProps } from "../../types";
 import { Image, Skeleton } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
-import { FeatureIconMap } from "constants/mappings";
+import { ChakraNextImage, ChakraNextImageProps } from "components/Image";
 
 export const ContractImageCell: React.VFC<
   DeployableContractContractCellProps
 > = ({ cell: { value } }) => {
-  const publishMetadata = useContractPublishMetadataFromURI(value);
+  return <ContractIdImage contractId={value} />;
+};
 
-  const imgWithDefault = publishMetadata.data?.image || FeatureIconMap.custom;
+interface ContractIdImageProps
+  extends Omit<ChakraNextImageProps, "src" | "alt"> {
+  contractId: ContractId;
+}
 
-  const isStaticImage = typeof imgWithDefault !== "string";
+export const ContractIdImage: React.VFC<ContractIdImageProps> = ({
+  contractId,
+  boxSize = 8,
+  ...imgProps
+}) => {
+  const publishMetadata = useContractPublishMetadataFromURI(contractId);
+
+  const img = publishMetadata.data?.image;
+
+  const isStaticImage = img && typeof img !== "string";
 
   return (
     <Skeleton isLoaded={publishMetadata.isSuccess}>
       {isStaticImage ? (
         <ChakraNextImage
-          boxSize={8}
-          src={imgWithDefault}
+          {...imgProps}
+          boxSize={boxSize}
+          src={img}
           alt={publishMetadata.data?.name || "Contract Image"}
         />
       ) : (
         <Image
-          boxSize={8}
-          src={imgWithDefault}
+          {...imgProps}
+          boxSize={boxSize}
+          src={img}
           alt={publishMetadata.data?.name || "Contract Image"}
         />
       )}

@@ -6,15 +6,17 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-export const Badge = forwardRef<BadgeProps, "button">((props, ref) => {
-  if (props.colorScheme) {
-    return (
-      <LightMode>
-        <ChakraBadge {...props} ref={ref} />
-      </LightMode>
-    );
-  }
-  return <ChakraBadge {...props} ref={ref} />;
-});
+export const Badge = forwardRef<BadgeProps, "button">(
+  ({ py = 0.5, ...props }, ref) => {
+    if (props.colorScheme) {
+      return (
+        <LightMode>
+          <ChakraBadge py={py} {...props} ref={ref} />
+        </LightMode>
+      );
+    }
+    return <ChakraBadge py={py} {...props} ref={ref} />;
+  },
+);
 
 Badge.displayName = "Badge";

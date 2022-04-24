@@ -14,7 +14,7 @@ import {
   Skeleton,
   Text,
 } from "@chakra-ui/react";
-import { useContractPublishMetadataFromURI } from "components/contract-components/contract-table/hooks";
+import { useContractPublishMetadataFromURI } from "components/contract-components/hooks";
 import { Card, CardProps } from "components/layout/Card";
 
 interface PublishMetadataProps extends CardProps {

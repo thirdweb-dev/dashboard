@@ -98,31 +98,36 @@ const DeployContract: ConsolePage = () => {
             />
           </SimpleGrid>
         </Container>
-        <Flex direction="column" gap={4}>
-          <Heading textAlign="center" size="subtitle.sm">
-            BYOC published contracts
-          </Heading>
-          <SimpleGrid columns={2} gap={5}>
-            {publishedContracts.data?.map((contract) => (
-              <Flex
-                key={`${contract.id}_${contract.metadataUri}`}
-                direction="column"
-                gap={1}
-              >
-                <PublishMetadata
-                  uri={contract.metadataUri}
-                  bg="backgroundCardHighlight"
-                />
-                <LinkButton
-                  href={`/${wallet}/${network}/new/byoc?groupId=${contract.id}`}
-                  colorScheme="primary"
+        {publishedContracts.data?.length ? (
+          <Flex direction="column" gap={4}>
+            <Heading textAlign="center" size="subtitle.sm">
+              Published contracts
+            </Heading>
+            <SimpleGrid columns={2} gap={5}>
+              {publishedContracts.data?.map((contract) => (
+                <Flex
+                  key={`${contract.id}_${contract.metadataUri}`}
+                  direction="column"
+                  gap={1}
                 >
-                  Deploy
-                </LinkButton>
-              </Flex>
-            ))}
-          </SimpleGrid>
-        </Flex>
+                  <PublishMetadata
+                    uri={contract.metadataUri}
+                    bg="backgroundCardHighlight"
+                  />
+                  <LinkButton
+                    href={`/contracts/deploy?contract=${contract.metadataUri.replace(
+                      "ipfs://",
+                      "",
+                    )}`}
+                    colorScheme="primary"
+                  >
+                    Deploy
+                  </LinkButton>
+                </Flex>
+              ))}
+            </SimpleGrid>
+          </Flex>
+        ) : null}
       </Flex>
     </Card>
   );

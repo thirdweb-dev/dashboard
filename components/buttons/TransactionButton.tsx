@@ -4,7 +4,7 @@ import React from "react";
 import useDimensions from "react-cool-dimensions";
 import { BiTransferAlt } from "react-icons/bi";
 
-interface TransactionButtonProps extends ButtonProps {
+export interface TransactionButtonProps extends ButtonProps {
   transactionCount: number;
 }
 

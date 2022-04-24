@@ -1,5 +1,5 @@
-import { useContractPublishMetadataFromURI } from "../hooks";
-import { DeployableContractContractCellProps } from "../types";
+import { useContractPublishMetadataFromURI } from "../../hooks";
+import { DeployableContractContractCellProps } from "../../types";
 import { Heading, Icon, useClipboard, useDisclosure } from "@chakra-ui/react";
 import { Button } from "components/buttons/Button";
 import { CodeBlock } from "components/code-block/code-block";

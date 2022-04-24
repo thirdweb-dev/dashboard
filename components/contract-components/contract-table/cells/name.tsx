@@ -1,5 +1,5 @@
-import { useContractPublishMetadataFromURI } from "../hooks";
-import { DeployableContractContractCellProps } from "../types";
+import { useContractPublishMetadataFromURI } from "../../hooks";
+import { DeployableContractContractCellProps } from "../../types";
 import { Skeleton, Text } from "@chakra-ui/react";
 
 export const ContractNameCell: React.VFC<
