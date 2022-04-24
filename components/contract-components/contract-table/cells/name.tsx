@@ -9,7 +9,7 @@ export const ContractNameCell: React.VFC<
 
   return (
     <Skeleton isLoaded={publishMetadata.isSuccess}>
-      <Text>{publishMetadata.data?.name}</Text>
+      <Text size="label.md">{publishMetadata.data?.name}</Text>
     </Skeleton>
   );
 };

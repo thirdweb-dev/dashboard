@@ -66,7 +66,7 @@ export const InsufficientFunds: React.FC = () => {
   }
 
   // if we're on the dashboard overview page do not show the warning, as it is confusing
-  if (router.pathname === "/[wallet]") {
+  if (router.pathname === "/[wallet]" || router.pathname === "/contracts") {
     return null;
   }
 

@@ -229,6 +229,8 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
   return (
     <FormProvider {...form}>
       <Flex
+        flexGrow={1}
+        minH="full"
         gap={4}
         direction="column"
         as="form"
@@ -733,7 +735,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
         {/* splits start */}
         {hasSplitsMechanic && <RecipientForm />}
         {/* splits end */}
-        <Divider borderColor="borderColor" />
+        <Divider borderColor="borderColor" mt="auto" />
         <Flex direction="column">
           <Heading size="subtitle.md">Network / Chain</Heading>
           <Text size="body.md" fontStyle="italic">

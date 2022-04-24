@@ -101,6 +101,8 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
 
   return (
     <Flex
+      flexGrow={1}
+      minH="full"
       gap={4}
       direction="column"
       as="form"
@@ -261,7 +263,7 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
           ))}
         </>
       ) : null}
-      <Divider borderColor="borderColor" />
+      <Divider borderColor="borderColor" mt="auto" />
       <Flex direction="column">
         <Heading size="subtitle.md">Network / Chain</Heading>
         <Text size="body.md" fontStyle="italic">
