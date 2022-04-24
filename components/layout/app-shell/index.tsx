@@ -24,11 +24,11 @@ import { useRouter } from "next/router";
 import React from "react";
 import { RiGasStationFill } from "react-icons/ri";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
+import { ComponentWithChildren } from "types/component-with-children";
 
-export const AppShell: React.FC = ({ children }) => {
+export const AppShell: ComponentWithChildren = ({ children }) => {
   const { pathname } = useRouter();
   const { trackEvent } = useTrack();
-
   return (
     <Flex
       h="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"

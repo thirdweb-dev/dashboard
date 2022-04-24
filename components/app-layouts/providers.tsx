@@ -8,6 +8,7 @@ import React, { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { ComponentWithChildren } from "types/component-with-children";
 import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
 
 const __CACHE_BUSTER = "tw_v2.0.0-nightly.3";
@@ -78,7 +79,7 @@ if (process.env.NEXT_PUBLIC_MAGIC_KEY) {
   });
 }
 
-export const Providers: React.FC = ({ children }) => {
+export const Providers: ComponentWithChildren = ({ children }) => {
   useNativeColorMode();
   useEffect(() => {
     persistQueryClient({

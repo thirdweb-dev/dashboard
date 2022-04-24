@@ -1,16 +1,17 @@
 import {
+  isContractWithRoles,
   useIsAccountRole,
   useWeb3,
-  isContractWithRoles,
 } from "@3rdweb-sdk/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface AdminOnlyProps {
   contract?: ValidContractInstance;
   fallback?: JSX.Element;
 }
 
-export const AdminOnly: React.FC<AdminOnlyProps> = ({
+export const AdminOnly: ComponentWithChildren<AdminOnlyProps> = ({
   children,
   contract,
   fallback,
@@ -35,7 +36,7 @@ interface AdminOrSelfOnlyProps extends AdminOnlyProps {
   self: string;
 }
 
-export const AdminOrSelfOnly: React.FC<AdminOrSelfOnlyProps> = ({
+export const AdminOrSelfOnly: ComponentWithChildren<AdminOrSelfOnlyProps> = ({
   children,
   self,
   fallback,

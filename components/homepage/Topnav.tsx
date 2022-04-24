@@ -151,7 +151,10 @@ export const HomepageTopNav: React.FC<{}> = () => {
               />
             </Flex>
           </Stack>
-          {isMobile ? <LandingMenu /> : null}
+          <LandingMenu
+            aria-label="Homepage Menu"
+            display={{ base: "inherit", md: "none" }}
+          />
         </Container>
       </Box>
       <Box h="35px" w="100%" display={["block", "block", "none"]} />

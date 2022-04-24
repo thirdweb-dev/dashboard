@@ -10,7 +10,7 @@ import {
 import { Button } from "components/buttons/Button";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React, { useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
 import { FiUpload } from "react-icons/fi";
@@ -41,30 +41,30 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
     "Error transferring",
   );
 
-  const onSubmit = useCallback(
-    (data) => {
-      airdrop.mutate(
-        {
-          tokenId,
-          addresses: data.addresses,
-        },
-        {
-          onError,
-          onSuccess: () => {
-            onSuccess();
-            closeAllRows();
-          },
-        },
-      );
-    },
-    [airdrop, tokenId, onError, onSuccess, closeAllRows],
-  );
-
   const addresses = watch("addresses");
 
   return (
     <Stack pt={3}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          airdrop.mutate(
+            {
+              tokenId,
+              addresses: data.addresses.map((address) => ({
+                ...address,
+                quantity: address.quantity || "1",
+              })),
+            },
+            {
+              onError,
+              onSuccess: () => {
+                onSuccess();
+                closeAllRows();
+              },
+            },
+          );
+        })}
+      >
         <Stack align="center">
           <Stack
             spacing={6}

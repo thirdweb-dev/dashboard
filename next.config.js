@@ -29,8 +29,6 @@ const securityHeaders = [
 
 const moduleExports = {
   reactStrictMode: true,
-  outputFileTracing: false,
-  swcMinify: false,
   async headers() {
     return [
       {

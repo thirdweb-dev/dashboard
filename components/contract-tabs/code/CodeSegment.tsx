@@ -13,6 +13,7 @@ import { Button } from "components/buttons/Button";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { ImCopy } from "react-icons/im";
 import { SiJavascript, SiTypescript } from "react-icons/si";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface ICodeSegment {
   snippet: CodeSnippet;
@@ -123,13 +124,9 @@ interface ISupportedEnvironment {
   onClick: () => void;
 }
 
-const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
-  active,
-  icon,
-  onClick,
-  children,
-  isDisabled,
-}) => {
+const SupportedEnvironmentButton: ComponentWithChildren<
+  ISupportedEnvironment
+> = ({ active, icon, onClick, children, isDisabled }) => {
   return (
     <Button
       colorScheme="yellow"

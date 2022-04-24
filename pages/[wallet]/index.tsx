@@ -64,13 +64,7 @@ import * as React from "react";
 import { useEffect, useMemo } from "react";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
-import {
-  Cell,
-  Column,
-  useFilters,
-  useGlobalFilter,
-  useTable,
-} from "react-table";
+import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
@@ -273,32 +267,45 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       {
         Header: "Name",
         accessor: (row) => row.metadata,
-        Cell: (cell: Cell<typeof combinedList[number], "metadata">) => {
+        Cell: (cell: any) => {
           return <AsyncContractCell cell={cell.row.original} />;
         },
       },
       {
         Header: "Contract Type",
         accessor: (row) => row.contractType,
-        Cell: (cell: Cell<typeof combinedList[number], "contractType">) => {
-          const src = FeatureIconMap[cell.row.original.contractType];
+        Cell: (cell: any) => {
+          const src =
+            FeatureIconMap[cell.row.original.contractType as ContractType];
           return (
             <Flex align="center" gap={2}>
               {src ? (
                 <ChakraNextImage
                   boxSize={8}
                   src={src}
-                  alt={CONTRACT_TYPE_NAME_MAP[cell.row.original.contractType]}
+                  alt={
+                    CONTRACT_TYPE_NAME_MAP[
+                      cell.row.original.contractType as ContractType
+                    ]
+                  }
                 />
               ) : (
                 <Image
                   boxSize={8}
                   src=""
-                  alt={CONTRACT_TYPE_NAME_MAP[cell.row.original.contractType]}
+                  alt={
+                    CONTRACT_TYPE_NAME_MAP[
+                      cell.row.original.contractType as ContractType
+                    ]
+                  }
                 />
               )}
               <Text size="label.md">
-                {CONTRACT_TYPE_NAME_MAP[cell.row.original.contractType]}
+                {
+                  CONTRACT_TYPE_NAME_MAP[
+                    cell.row.original.contractType as ContractType
+                  ]
+                }
               </Text>
             </Flex>
           );
@@ -355,7 +362,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       {
         Header: "Network",
         accessor: (row) => row.chainId,
-        Cell: (cell: Cell<typeof combinedList[number], "chainId">) => {
+        Cell: (cell: any) => {
           const data = getNetworkMetadata(
             cell.row.original.chainId as SUPPORTED_CHAIN_ID,
           );
@@ -429,7 +436,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       {
         Header: "Contract Address",
         accessor: (row) => row.address,
-        Cell: (cell: Cell<typeof combinedList[number], "address">) => {
+        Cell: (cell: any) => {
           return <AddressCopyButton address={cell.row.original.address} />;
         },
       },
@@ -682,7 +689,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
     () => [
       {
         Header: "Name",
-        Cell: (cell: Cell<typeof projects[number], "metadata">) => {
+        Cell: (cell: any) => {
           return (
             <ProjectCell
               name={cell.row.original.name}
@@ -695,7 +702,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
       {
         Header: "Network",
         accessor: (row) => row.chainId,
-        Cell: (cell: Cell<typeof projects[number], "chainId">) => {
+        Cell: (cell: any) => {
           const data = getNetworkMetadata(
             cell.row.original.chainId as SUPPORTED_CHAIN_ID,
           );
@@ -769,7 +776,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
       {
         Header: "Project Address",
         accessor: (row) => row.address,
-        Cell: (cell: Cell<typeof projects[number], "address">) => {
+        Cell: (cell: any) => {
           return <AddressCopyButton address={cell.row.original.address} />;
         },
       },

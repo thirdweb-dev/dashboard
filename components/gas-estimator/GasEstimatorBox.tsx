@@ -18,6 +18,7 @@ import { ethers } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FiExternalLink } from "react-icons/fi";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface PriceLineProps {
   title: string;
@@ -25,7 +26,7 @@ interface PriceLineProps {
   gasPrice?: number;
 }
 
-const PriceLine: React.FC<PriceLineProps> = ({
+const PriceLine: ComponentWithChildren<PriceLineProps> = ({
   title,
   label,
   gasPrice,

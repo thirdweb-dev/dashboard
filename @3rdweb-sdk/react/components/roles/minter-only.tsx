@@ -1,15 +1,16 @@
 import {
+  isContractWithRoles,
   useIsAccountRole,
   useWeb3,
-  isContractWithRoles,
 } from "@3rdweb-sdk/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface IMinterOnlyProps {
   contract?: ValidContractInstance;
 }
 
-export const MinterOnly: React.FC<IMinterOnlyProps> = ({
+export const MinterOnly: ComponentWithChildren<IMinterOnlyProps> = ({
   children,
   contract,
 }) => {

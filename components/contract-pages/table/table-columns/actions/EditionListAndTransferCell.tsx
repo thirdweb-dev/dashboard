@@ -1,9 +1,9 @@
 import { useTableContext } from "../../table-context";
 import { useEditionDropBalance } from "@3rdweb-sdk/react";
-import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { Box, Tooltip } from "@chakra-ui/react";
 import { EditionMetadata } from "@thirdweb-dev/sdk";
+import { Button } from "components/buttons/Button";
 import { BigNumber } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import React from "react";
@@ -35,7 +35,6 @@ export const EditionListAndTransferCell: React.FC<
     >
       <Box>
         <Button
-          isFullWidth
           isDisabled={!ownsAtLeastOne}
           onClick={() =>
             tableContext.expandRow({

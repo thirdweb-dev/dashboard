@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/layout";
 import { Flex, useBreakpointValue } from "@chakra-ui/react";
 import React, { useMemo } from "react";
+import { ComponentWithChildren } from "types/component-with-children";
 
 type GradientType = "animated" | "static";
 
@@ -40,7 +41,7 @@ const gradientMap: Record<
   static: StaticGradient,
 };
 
-export const HomepageSection: React.FC<IHomepageSection> = ({
+export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   childrenOnRightSide,
   title,
   subtitle,

@@ -319,71 +319,72 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
-"@chakra-ui/accordion@1.4.11":
-  version "1.4.11"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/accordion/-/accordion-1.4.11.tgz#31c0f17cd7b7c92f784307b87de73d8a8c4cf9f7"
-  integrity sha512-d/gvSgGwcZaJXxXqGmecpAgko/tUYb5vR0E0B2/V/z9AVbS8ei//fbiO9+8Ouyl/K46oWHWYj5vt8iTadlZleg==
+"@chakra-ui/accordion@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/accordion/-/accordion-2.0.0-next.1.tgz#48686395178a5e1c6f5b017324b38ad194508290"
+  integrity sha512-ejY5YJn9p9LmVtWD919SIakla/xb0hgdgGokTUIwb5fVfuZqiLF+8bw6ZZVPB+vCB2Z1WsHIiWRq08PBb5NS4A==
   dependencies:
-    "@chakra-ui/descendant" "2.1.3"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/transition" "1.4.8"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/descendant" "3.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/transition" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/alert@1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/alert/-/alert-1.3.7.tgz#f36020ffc3b2c26be67025c56bccbf0639a81a67"
-  integrity sha512-fFpJYBpHOIK/BX4BVl/xafYiDBUW+Bq/gUYDOo4iAiO4vHgxo74oa+yOwSRNlNjAgIX7pi2ridsYQALKyWyxxQ==
+"@chakra-ui/alert@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/alert/-/alert-2.0.0-next.1.tgz#827f767bb20e0b53310050358714a9ca4d441c1e"
+  integrity sha512-JUjh9lWjcDKKS+43UfjkmdbtAENAQ3Z1d4fN2BTt7PgpiQ4Q2QG4jMFjgaWhwsucVa50xEfX1pWE7Ks3q2cimQ==
   dependencies:
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/spinner" "^2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/anatomy@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/anatomy/-/anatomy-1.3.0.tgz#38a40dd6f2bb076fe8bebe8fb8e4769ea005e03d"
-  integrity sha512-vj/lcHkCuq/dtbl69DkNsftZTnrGEegB90ODs1B6rxw8iVMdDSYkthPPFAkqzNs4ppv1y2IBjELuVzpeta1OHA==
+"@chakra-ui/anatomy@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/anatomy/-/anatomy-2.0.0-next.1.tgz#723ba5bb38529429c9a0f9c7588bc1dcec47be2e"
+  integrity sha512-MLeiueUL6GumWcmD5v62VzA/SQKbIiAetpZWNgYDANUXvdCwkP33AKJwRNNedeJTU66tbDR1Mj0jZpH7nHPWPA==
   dependencies:
-    "@chakra-ui/theme-tools" "^1.3.6"
+    "@chakra-ui/theme-tools" "^2.0.0-next.1"
 
-"@chakra-ui/avatar@1.3.11":
-  version "1.3.11"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/avatar/-/avatar-1.3.11.tgz#abd8ffa9ad54756e549730f984fdae621ae51baa"
-  integrity sha512-/eRRK48Er92/QWAfWhxsJIN0gZBBvk+ew4Hglo+pxt3/NDnfTF2yPE7ZN29Dl6daPNbyTOpoksMwaU2mZIqLgA==
+"@chakra-ui/avatar@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/avatar/-/avatar-2.0.0-next.1.tgz#efe5c21a6a6059f1b6cbce930034912b1f4191b5"
+  integrity sha512-fqX6QKgSgEmSVfcu0ewulwg4VT5Zbv1eam2NT3QL69ibtp7DIJIxHyRbOogetHFXdvqTQz2IOou9HwuVN51YJw==
   dependencies:
-    "@chakra-ui/image" "1.1.10"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/image" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/breadcrumb@1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/breadcrumb/-/breadcrumb-1.3.6.tgz#fe22e162c37add5830bd1292172bb11d859c6f35"
-  integrity sha512-iXxienBO6RUnJEcDvyDWyRt+mzPyl7/b6N8i0vrjGKGLpgtayJFvIdo33tFcvx6TCy7V9hiE3HTtZnNomWdR6A==
+"@chakra-ui/breadcrumb@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/breadcrumb/-/breadcrumb-2.0.0-next.1.tgz#af3b7d34a2445497a19a1512a98eaefdd0f552b8"
+  integrity sha512-C9+NuwJzbUkEfM08+xDB0RQwdHu9xEZHzrzbwCOstpf2OLnvnbtF+6fgp/5E3/iWfgV+sNUndwtKcs71C5m4FQ==
   dependencies:
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/button@1.5.10":
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/button/-/button-1.5.10.tgz#c339f78197b6bd63f109003177fd640ae6e6a632"
-  integrity sha512-IVEOrleI378CckAa3b3CTUHMPZRfpy6LPwn1Mx3sMpHEkDTKu8zJcjgEvCE8HYzNC1KbwBsa1PfTgk40ui6EtA==
+"@chakra-ui/button@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/button/-/button-2.0.0-next.1.tgz#7f2f1c73077b18c875b137a9aa6d18992f409a55"
+  integrity sha512-XyWU6UAlzxC+gnFfnH/SvDZjWX83uFHx1+WrDqXdbo/Dqn6L3i2n7Y9LS/mBb4r305LB3ulR552hV0sACXqgxg==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/spinner" "1.2.6"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/spinner" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/checkbox@1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/checkbox/-/checkbox-1.7.1.tgz#cd733f177d88c477ae5ece228b81cddc67b70c0e"
-  integrity sha512-9Io97yn8OrdaIynCj+3Z/neJV7lTT1MtcdYh3BKMd7WnoJDkRY/GlBM8zsdgC5Wvm+ZQ1M83t0YvRPKLLzusyA==
+"@chakra-ui/checkbox@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/checkbox/-/checkbox-2.0.0-next.1.tgz#6bf6bbfcd564fdcac237903e11b29c1e03dde589"
+  integrity sha512-zLT9E1L16yIO9W+18C1UwShUcia44steJEMKqusOWH9O2t6WAC1y2sEiBvk1/93hEX19q14ft1+NzhpEp5tIxg==
   dependencies:
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
-    "@chakra-ui/visually-hidden" "1.1.6"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    "@chakra-ui/visually-hidden" "2.0.0-next.1"
 
 "@chakra-ui/cli@^1.5.3":
   version "1.9.0"
@@ -403,21 +404,21 @@
     tsconfig-paths "^3.11.0"
     update-notifier "^5.0.1"
 
-"@chakra-ui/clickable@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/clickable/-/clickable-1.2.6.tgz#7f3deef71580acf47c2395cac2c1734f43418a3f"
-  integrity sha512-89SsrQwwwAadcl/bN8nZqqaaVhVNFdBXqQnxVy1t07DL5ezubmNb5SgFh9LDznkm9YYPQhaGr3W6HFro7iAHMg==
+"@chakra-ui/clickable@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/clickable/-/clickable-2.0.0-next.1.tgz#07186a2a10b5589f7913964a6bdb0920f811a383"
+  integrity sha512-7t6w4lyMtgt5uJOJibREjl8wgbzPIV6mNYJobi/v5JoVw7/pCw6T+Ma8RhIy++GuWC4dtFDj53X1mXxFpNxWKA==
   dependencies:
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/close-button@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/close-button/-/close-button-1.2.7.tgz#6f3073618ae777d7e36a80fb17bc00aaa790e7a5"
-  integrity sha512-cYTxfgrIlPU4IZm1sehZXxx/TNQBk9c3LBPvTpywEM8GVRGINh4YLq8WiMaPtO+TDNBnKoWS/jS4IHnR+abADw==
+"@chakra-ui/close-button@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/close-button/-/close-button-2.0.0-next.1.tgz#a2d56ef34af92461abfb91893ec72f1b66aaa680"
+  integrity sha512-twmFX8MdWgFYjzPVXKv868fG2yasw4pD9f+QSr18v9Bc9AvikgukdoDxuu8nJcAnmm49/eMxZGKN1pYu6bbtHQ==
   dependencies:
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
 "@chakra-ui/color-mode@1.4.8":
   version "1.4.8"
@@ -428,59 +429,68 @@
     "@chakra-ui/react-env" "1.1.6"
     "@chakra-ui/utils" "1.10.4"
 
-"@chakra-ui/control-box@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/control-box/-/control-box-1.1.6.tgz#15a40a2cab525799988ae53948b61eed81a7f177"
-  integrity sha512-EUcq5f854puG6ZA6wAWl4107OPl8+bj4MMHJCa48BB0qec0U8HCEtxQGnFwJmaYLalIAjMfHuY3OwO2A3Hi9hA==
+"@chakra-ui/color-mode@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/color-mode/-/color-mode-2.0.0-next.1.tgz#38869d2641205691a899443c50735d9e0442c7df"
+  integrity sha512-iVl9r83VW3NmukL+gI7W5CFfi8p8m7GMYysHyWwizyemIZY0iYfCVe47mdEzc/WI6t37UYLnMNJmTmv4LN/1uA==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-env" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/counter@1.2.10":
-  version "1.2.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/counter/-/counter-1.2.10.tgz#544de1f53b783e8577cc74208ae1b0ca74385834"
-  integrity sha512-HQd09IuJ4z8M8vWajH+99jBWWSHDesQZmnN95jUg3HKOuNleLaipf2JFdrqbO1uWQyHobn2PM6u+B+JCAh2nig==
+"@chakra-ui/control-box@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/control-box/-/control-box-2.0.0-next.1.tgz#5cad71d0dbf7050070752446551a86a6557a9002"
+  integrity sha512-u3nC6cBsavjeYsByFhrjAWxGc9r2leY//kCTh2/+zjxmXygCVoTUcL6ymZCED2vutGjcV+jL7Zst/gUIuLwT/w==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/css-reset@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/css-reset/-/css-reset-1.1.3.tgz#da65507ea1d69ed309bc34619881e23b5004ec7d"
-  integrity sha512-AgfrE7bRTJvNi/4zIfacI/kBHmHmHEIeQtHwCvk/0qM9V2gK1VM3ctYlnibf7BTh17F/UszweOGRb1lHSPfWjw==
-
-"@chakra-ui/descendant@2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/descendant/-/descendant-2.1.3.tgz#6198ccce207b3d8697dedefff6886f18ca13b5ce"
-  integrity sha512-aNYNv99gEPENCdw2N5y3FvL5wgBVcLiOzJ2TxSwb4EVYszbgBZ8Ry1pf7lkoSfysdxD0scgy2cVyxO8TsYTU4g==
+"@chakra-ui/counter@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/counter/-/counter-2.0.0-next.1.tgz#daec7bff38bf53aedbd5aaa530f22711066118af"
+  integrity sha512-S/yMds5IQRdZWPw1O1xs5GzfId2qn/PQGE6CjN9HZtc6usnf+qixlnHtMe8u8oF3tFIzUKJRq0bjH8kb6KHmvw==
   dependencies:
-    "@chakra-ui/react-utils" "^1.2.3"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/editable@1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/editable/-/editable-1.4.2.tgz#92d5266e737d52df1edc91c21a05c0a6048f881f"
-  integrity sha512-a5zKghA/IvG7yNkmFl7Z9c2KSsf0FgyijsNPTg/4S5jxyz13QJtoTg40tdpyaxHHCT25y25iUcV4FYCj6Jd01w==
-  dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+"@chakra-ui/css-reset@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/css-reset/-/css-reset-2.0.0-next.1.tgz#699e4f86594fd81f6b46ce6832895a74ba308449"
+  integrity sha512-0qtFbkazQoYmsLmJnqIcDwzDb6sw9NsdkmRVJSjvUzBp+ZZJ8HYJIzw8q+QjkhavroD6Wy08V6LY2oMQmJcCPw==
 
-"@chakra-ui/focus-lock@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/focus-lock/-/focus-lock-1.2.6.tgz#ecdc9688651c55c67f9059720f0885ea7c02b979"
-  integrity sha512-ZJNE1oNdUM1aGWuCJ+bxFa/d3EwxzfMWzTKzSvKDK50GWoUQQ10xFTT9nY/yFpkcwhBvx1KavxKf44mIhIbSog==
+"@chakra-ui/descendant@3.0.0-next.1":
+  version "3.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/descendant/-/descendant-3.0.0-next.1.tgz#b55f2cdcfb31600dbe9f9da8d5cc9959ff8841a2"
+  integrity sha512-0VNyz+YHTusQ8OIlytH7luI0ar1/96Tk2iK7KXZEPlY8BKUpSXR7vB5qwHogGal84NGPdlVgMr3EP2MmnxS3eg==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/react-utils" "^2.0.0-next.1"
+
+"@chakra-ui/editable@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/editable/-/editable-2.0.0-next.1.tgz#34b5660735587f9928b853a5ed159405c4aeddbb"
+  integrity sha512-1MrM4jqCJSIYS8zXsbqSfECyt1noCV1lApXDi8YG7w631nL4F5Io4r002mPFouqZNZgvlcKkmiNf7LQZ8zdkEg==
+  dependencies:
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+
+"@chakra-ui/focus-lock@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/focus-lock/-/focus-lock-2.0.0-next.1.tgz#a2fe73e293545e47e2a47e77be6a771a2d8290a5"
+  integrity sha512-kFt2yydwaReeUk/ke8KSIbqumkQw3P0ZNDyrgJCLtUZiUofjJdsNkvxggIPHOBLjJLXNSheBqVwJt+/QF4qX5A==
+  dependencies:
+    "@chakra-ui/utils" "2.0.0-next.1"
     react-focus-lock "2.5.2"
 
-"@chakra-ui/form-control@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/form-control/-/form-control-1.6.0.tgz#a2a7b82a385f75fababf3947d39e227b4d073929"
-  integrity sha512-MtUE98aocP2QTgvyyJ/ABuG33mhT3Ox56phKreG3HzbUKByMwrbQSm1QcAgyYdqSZ9eKB2tXx+qgGNh+avAfDA==
+"@chakra-ui/form-control@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/form-control/-/form-control-2.0.0-next.1.tgz#04c59e25317f15dae913a9febf03f2eeadc9493f"
+  integrity sha512-X+EHrGI4hxQbWq5gO+xWtU5XeRYC5GgTQfwoaSsAC2sgM94FynrZxOV0mimShTtc9QaxqCxCUmD8I9MAFae4Jw==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
 "@chakra-ui/hooks@1.9.1":
   version "1.9.1"
@@ -492,12 +502,29 @@
     compute-scroll-into-view "1.0.14"
     copy-to-clipboard "3.3.1"
 
+"@chakra-ui/hooks@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/hooks/-/hooks-2.0.0-next.1.tgz#eeb708d4bbd90c98cc63466825731e748ab870c2"
+  integrity sha512-1QxL1GGf3n3VHAZwiIh1GkcXL96XVVutUDtj34TlmQ72wLPJF+v40W7Q7UJE64Ph+3lhw+cAFKOXxMIxXZC3kA==
+  dependencies:
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    compute-scroll-into-view "1.0.14"
+    copy-to-clipboard "3.3.1"
+
 "@chakra-ui/icon@2.0.5":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@chakra-ui/icon/-/icon-2.0.5.tgz#d57f53e6a2c7ae1bae7292a1778fd466c02e2e29"
   integrity sha512-ZrqRvCCIxGr4qFd/r1pmtd9tobRmv8KAxV7ygFoc/t4vOSKTcVIjhE12gsI3FzgvXM15ZFVwsxa1zodwgo5neQ==
   dependencies:
     "@chakra-ui/utils" "1.10.4"
+
+"@chakra-ui/icon@3.0.0-next.1":
+  version "3.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/icon/-/icon-3.0.0-next.1.tgz#b245154ac541a6327ee52a2b575b1ac442fd86ed"
+  integrity sha512-DBTuPQL4lSAc4ceT/tFvsoh6t+A7P9h6OEPvTVB9m2/kC0/HpW6/lPLi0vEfsheRNx6t/UinJZBzCaAb8hbH7w==
+  dependencies:
+    "@chakra-ui/utils" "2.0.0-next.1"
 
 "@chakra-ui/icons@^1.0.16":
   version "1.1.7"
@@ -507,155 +534,154 @@
     "@chakra-ui/icon" "2.0.5"
     "@types/react" "^17.0.15"
 
-"@chakra-ui/image@1.1.10":
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/image/-/image-1.1.10.tgz#65bae4086559937d25c728660ae743bce9360cb2"
-  integrity sha512-PJZmhQ/R1PgdMyCRjALfoyq1FNh/WzMAw70sliHLtLcb9hBXniwQZuckYfUshCkUoFBj/ow9d4byn9Culdpk7Q==
+"@chakra-ui/image@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/image/-/image-2.0.0-next.1.tgz#ea349767568b8c4d09c75077f07dc23c0dc555d4"
+  integrity sha512-E6kAFT1sgYZOBJei1itoI5lCypN4us1RzdZQAAkM3qJGQVHShBasW9dBLSUzQ9a0Tc3xc2kMhxJFABeTf8142w==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/input@1.4.6":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/input/-/input-1.4.6.tgz#455f24e7a3f401ef10b50b68d9b0537676fbfec5"
-  integrity sha512-Ljy/NbOhh9cNQxKTWQRsT4aQiXs2vVya+Cj5NpMAz08NFFjPZovsTawhI7m6ejT5Vsh76QYjh2rOLLI3fWqQQw==
+"@chakra-ui/input@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/input/-/input-2.0.0-next.1.tgz#9193c9a07ec2414df272b1b257eadc7f985449ee"
+  integrity sha512-1YYXbH1qV1TYH/ATtDT2wYNcTPfy+nK2hgk3CHmrFzetzqkSQn5lv46gvGAacWvhuZvd18bi5ZODsvnT8MRXrg==
   dependencies:
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/layout@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/layout/-/layout-1.8.0.tgz#f95e78168644b45ac7327e4e0cfb1f0e6f7c3b4d"
-  integrity sha512-GJtEKez5AZu0XQTxI6a6jwA/hMDD36pP0HBxBOGuHP1hWCebDzMjraiMfWiP9w7hKERFE4j19kocHxIXyocfJA==
+"@chakra-ui/layout@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/layout/-/layout-2.0.0-next.1.tgz#502953b203be42c5ed115dc52e4d712b9c6d7af0"
+  integrity sha512-LkUzIkQ7ugGjK4plVK76Ajm9lXCykbmBsw9numQSD22Dibc8pbGBxLjoK9Oqsiy0fL+WCuN0xKCCYErnUOXcLQ==
   dependencies:
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/live-region@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/live-region/-/live-region-1.1.6.tgz#135461a19ae2d479eefb012376ffa0f500b83b16"
-  integrity sha512-9gPQHXf7oW0jXyT5R/JzyDMfJ3hF70TqhN8bRH4fMyfNr2Se+SjztMBqCrv5FS5rPjcCeua+e0eArpoB3ROuWQ==
+"@chakra-ui/live-region@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/live-region/-/live-region-2.0.0-next.1.tgz#23e935c743e22261166db4b26a24859b369570d2"
+  integrity sha512-oEbLe+ZsyzT4s5ZetQDtDPOUFu4SOFSfYn0hazGXOqxIMqL23bYGY05ZlVlCzw0oHS6YtOe2UyveZgkr3j8DMA==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/media-query@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/media-query/-/media-query-2.0.4.tgz#25e8074a19613d4ccce880a1f92c8e733708b079"
-  integrity sha512-kn6g/L0IFFUHz2v4yiCsBnhg9jUeA7525Z+AWl+BPtvryi7i9J+AJ27y/QAge7vUGy4dwDeFyxOZTs2oZ9/BsA==
+"@chakra-ui/media-query@3.0.0-next.1":
+  version "3.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/media-query/-/media-query-3.0.0-next.1.tgz#1b2e1bd83daed45ed01144f945a186a1a12f1782"
+  integrity sha512-bzkchto+sbIQRhk1LpwECpaZKa4OscY4dAXGTJ0gsSXo5vMw93/gmsOL2VRA2OfCk8l2EXSGqONQvZPUdJLYLA==
   dependencies:
-    "@chakra-ui/react-env" "1.1.6"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/react-env" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/menu@1.8.11":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/menu/-/menu-1.8.11.tgz#a9508db5dd346f9ec02492536d93b7ab8db54319"
-  integrity sha512-8K65xItPsdMvSfuGWYIGigOF/QMcy7+D48UIEO/Hu0u0ckd11/JXbpSIFPddH5fYedclJ18PGRohTne487OVjQ==
+"@chakra-ui/menu@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/menu/-/menu-2.0.0-next.1.tgz#20917d4c40853f5b817f13178bdf21e176992c37"
+  integrity sha512-RLHRLRkETY1iC3z4QrdUY6550ILHDSAoISymcOdA4GKE8JNfHcewXKQ3iXo0KX5+5FmZNrcp20CBME38+ncPHw==
   dependencies:
-    "@chakra-ui/clickable" "1.2.6"
-    "@chakra-ui/descendant" "2.1.3"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/popper" "2.4.3"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/transition" "1.4.8"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/clickable" "2.0.0-next.1"
+    "@chakra-ui/descendant" "3.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/popper" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/transition" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/modal@1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/modal/-/modal-1.11.1.tgz#fedd757726cbc7ec3b614e1b0c7b46c7244f988e"
-  integrity sha512-B2BBDonHb04vbPLAWgko1JYBwgW8ZNSLyhTJK+rbrCsRSgazuLTcwq4hdyJqrYNWtaQEfSwpAXqJ7joMZdv59A==
+"@chakra-ui/modal@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/modal/-/modal-2.0.0-next.1.tgz#02dff2f7b63c22cf1941c0f08e39ac8d0758b9a8"
+  integrity sha512-cPFXpAmCsmQEL+KtEgxqk0qac0cptKx/+GuQ7bixk0mBPsWDrFu+RbpKCApulcW6fZWGJbPngY2sDdSacM8HMQ==
   dependencies:
-    "@chakra-ui/close-button" "1.2.7"
-    "@chakra-ui/focus-lock" "1.2.6"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/portal" "1.3.10"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/transition" "1.4.8"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/close-button" "2.0.0-next.1"
+    "@chakra-ui/focus-lock" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/portal" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/transition" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
     aria-hidden "^1.1.1"
     react-remove-scroll "2.4.1"
 
-"@chakra-ui/number-input@1.4.7":
-  version "1.4.7"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/number-input/-/number-input-1.4.7.tgz#9d150c20a7d301e2ffe600251e68d9b6f70fcce0"
-  integrity sha512-LorGRZFMipom8vCUEbLi2s7bTHF2Fgiu766W0jTbzMje+8Z1ZoRQunH9OZWQnxnWQTUfUM2KBW8KwToYh1ojfQ==
+"@chakra-ui/number-input@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/number-input/-/number-input-2.0.0-next.1.tgz#7273737a5cc401b3ffb30f92465f58096e29b0ef"
+  integrity sha512-rscIG6QLVDlblavg026bwdcA1ycTCMuUpjwwmMNYfV7f8lxc5BQh2nT5TAkmQUzvmVW6vlCxfwxEgaue8plebg==
   dependencies:
-    "@chakra-ui/counter" "1.2.10"
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/counter" "2.0.0-next.1"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/pin-input@1.7.10":
-  version "1.7.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/pin-input/-/pin-input-1.7.10.tgz#833bab2c0a283d835997e9db8b615f46865d5385"
-  integrity sha512-Uz5vFK+ZevQtdYHBkddSFCrY44bweXLanpSv9X/D0pWpdML09qfPiKX4ydGzfRoS2u4L8NUtN86IcvdOQLhHQg==
+"@chakra-ui/pin-input@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/pin-input/-/pin-input-2.0.0-next.1.tgz#78d7156072651ad21b6ec8d2ed39821ca3c5cbeb"
+  integrity sha512-vGFzzb9NPsV7uNOAgrFaUe3gD+WBxzOr2sS9CRDpR9Oh7Y01xXKOIB6Snqgd+vtsA3++KFpF7Pu67bL14q36Cg==
   dependencies:
-    "@chakra-ui/descendant" "2.1.3"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/descendant" "3.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/popover@1.11.9":
-  version "1.11.9"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/popover/-/popover-1.11.9.tgz#283a52c969f27ee7119774c255b786af6c9b2766"
-  integrity sha512-hJ1/Lwukox3ryTN7W1wnj+nE44utfLwQYvfUSdatt5dznnh8k0P6Wx7Hmjm1cYffRavBhqzwua/QZDWjJN9N0g==
+"@chakra-ui/popover@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/popover/-/popover-2.0.0-next.1.tgz#7df46fb638bd40a7f3023083aac2aa5e294978ae"
+  integrity sha512-sn7q3SZ6394Jx2qTSoXS3clp++BHF1oEG8vpK8e4Z1C6aaD1S+XHETHG6vMed8z2tEiQBujJ5ianKGsir4pFow==
   dependencies:
-    "@chakra-ui/close-button" "1.2.7"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/popper" "2.4.3"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/close-button" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/popper" "3.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/popper@2.4.3":
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/popper/-/popper-2.4.3.tgz#fcdc917d13a56b9d44868c78a009e4dd692697a2"
-  integrity sha512-TGzFnYt3mtIVkIejtYIAu4Ka9DaYLzMR4NgcqI6EtaTvgK7Xep+6RTiY/Nq+ZT3l/eaNUwqHRFoNrDUg1XYasA==
+"@chakra-ui/popper@3.0.0-next.1":
+  version "3.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/popper/-/popper-3.0.0-next.1.tgz#356adb8b1c037b96a39348d5f32a4a6d2e0e5b9e"
+  integrity sha512-cErpS0favcGI0cPR9PTVQeS1XIfYjS6FvtOzI/0XRyJovCix9XlFnfV5lS97Ikuvjg0+lBXS1wwOvNZMP+Hl7w==
   dependencies:
-    "@chakra-ui/react-utils" "1.2.3"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
     "@popperjs/core" "^2.9.3"
 
-"@chakra-ui/portal@1.3.10":
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/portal/-/portal-1.3.10.tgz#d85b2cf1a8b3e2eca260d8e3ad485da0ee29856b"
-  integrity sha512-t2KQ6MXbyf1qFYxWw/bs//CnwD+Clq7mbsP1Y7g+THCz2FvlLlMj45BWocLB30NoNyA8WCS2zyMBszW2/qvDiA==
+"@chakra-ui/portal@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/portal/-/portal-2.0.0-next.1.tgz#8f44cb567393c2b4e6e1de5f6cb123fbf027353b"
+  integrity sha512-xBpvl9zoCzxsxKKLVs52EYerBHq/NNuQfXkvKNyDeylf5sPFWwIm0tIhos3XI3SBO8NlYxEktlVNc1lHhX8iVg==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/progress@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/progress/-/progress-1.2.6.tgz#4a3a40e826c8c72160d3c8ff411e86244e280ebc"
-  integrity sha512-thaHRIYTVktgV78vJMNwzfCX+ickhSpn2bun6FtGVUphFx4tjV+ggz+IGohm6AH2hapskoR1mQU2iNZb6BK0hQ==
+"@chakra-ui/progress@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/progress/-/progress-2.0.0-next.1.tgz#38d8b8d5b11c4f103ed1b536dd3ccad444bdd643"
+  integrity sha512-mq9LxToYBwYmKiBbtBiyOtBdxsTcrIThluZjZ8RlfGnyayPNCs+KwMiGi0jc+8dZ6fZltHQcfVmhZLZ0HWdlBw==
   dependencies:
-    "@chakra-ui/theme-tools" "1.3.6"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/theme-tools" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/provider@1.7.14":
-  version "1.7.14"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/provider/-/provider-1.7.14.tgz#74d19e3066ab02f2c14fa32d22dc12f8367b56f7"
-  integrity sha512-FCA33CZy/jFzExglKMioeri8sr9NtDTcNVPnx95ZJiA7WpfFo0xuZ6/fMC4DwIQPkJKbSIZBXYLZ3U10Ntylrw==
+"@chakra-ui/provider@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/provider/-/provider-2.0.0-next.1.tgz#3ede0c6c77bfd1c1c7736c56091ed7079ec39569"
+  integrity sha512-m14sN/AviAIpKxoveCs4QRNTS8Mlf7v6Y/u4mQcpsgBPxyaGNesLq6eb7fHvmEAxSeWfyinE6WnIHCpCr1DDwA==
   dependencies:
-    "@chakra-ui/css-reset" "1.1.3"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/portal" "1.3.10"
-    "@chakra-ui/react-env" "1.1.6"
-    "@chakra-ui/system" "1.12.1"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/css-reset" "2.0.0-next.1"
+    "@chakra-ui/portal" "2.0.0-next.1"
+    "@chakra-ui/react-env" "2.0.0-next.1"
+    "@chakra-ui/system" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/radio@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/radio/-/radio-1.5.1.tgz#d2b691fde944c20eb594873f72eb61dfb84b15da"
-  integrity sha512-zO5eShz+j68A7935jJ2q5u3brX/bjPEGh9Pj2+bnKbmC9Vva6jEzBSJsAx9n4WbkAzR3xDMGWsbpivFp8X1tJw==
+"@chakra-ui/radio@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/radio/-/radio-2.0.0-next.1.tgz#e5a63d9fa544121a5690336ff03fc1154ac9b990"
+  integrity sha512-hI6tp0SuH8RRkPQV2dkJcj4qdxFnXRpj2Vf+vjoU9dFYm0wUjyRoyWfHwpTVeyg2nYApXE6/lcue+vfjpbTlTw==
   dependencies:
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
-    "@chakra-ui/visually-hidden" "1.1.6"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    "@chakra-ui/visually-hidden" "2.0.0-next.1"
 
 "@chakra-ui/react-env@1.1.6":
   version "1.1.6"
@@ -664,109 +690,123 @@
   dependencies:
     "@chakra-ui/utils" "1.10.4"
 
-"@chakra-ui/react-utils@1.2.3", "@chakra-ui/react-utils@^1.2.3":
+"@chakra-ui/react-env@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/react-env/-/react-env-2.0.0-next.1.tgz#e7a2af1ced628b92bb489fd74dd499441c871ad4"
+  integrity sha512-dbplpNkR+XDKDUNE2pQtm7kamGCMqBOKRBuYXn5oKYTo266dn6ppvPdkIj90s6rpr6lW67HPnfn7u3W1CtKjfw==
+  dependencies:
+    "@chakra-ui/utils" "2.0.0-next.1"
+
+"@chakra-ui/react-utils@1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@chakra-ui/react-utils/-/react-utils-1.2.3.tgz#3356c9299bc8faada8fac6c5886ca65ec95bb5be"
   integrity sha512-r8pUwCVVB7UPhb0AiRa9ZzSp4xkMz64yIeJ4O4aGy4WMw7TRH4j4QkbkE1YC9tQitrXrliOlvx4WWJR4VyiGpw==
   dependencies:
     "@chakra-ui/utils" "^1.10.4"
 
-"@chakra-ui/react@^1.8.0":
-  version "1.8.8"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-1.8.8.tgz#ca697dea94d94138043ef6fd62836b39107b4abd"
-  integrity sha512-/XqL25J0i0h+usAXBngn/RTG2u1oQRzbhHe9tNHwFyNbx/izIADhQW/6ji06QU0KtaRIU77XvgSAyTtMJY1KmA==
+"@chakra-ui/react-utils@2.0.0-next.1", "@chakra-ui/react-utils@^2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/react-utils/-/react-utils-2.0.0-next.1.tgz#17f75c5148395a3c1b12af8f199603fb2dfdec9f"
+  integrity sha512-mLB418z7sczz0CVyqD+bQ3L1x4bUPkqRjnRC4xZJWgRzIsJtcgyIXbIM+aNBaPhiO6pzNTDBAFASK0/62tp7LA==
   dependencies:
-    "@chakra-ui/accordion" "1.4.11"
-    "@chakra-ui/alert" "1.3.7"
-    "@chakra-ui/avatar" "1.3.11"
-    "@chakra-ui/breadcrumb" "1.3.6"
-    "@chakra-ui/button" "1.5.10"
-    "@chakra-ui/checkbox" "1.7.1"
-    "@chakra-ui/close-button" "1.2.7"
-    "@chakra-ui/control-box" "1.1.6"
-    "@chakra-ui/counter" "1.2.10"
-    "@chakra-ui/css-reset" "1.1.3"
-    "@chakra-ui/editable" "1.4.2"
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/image" "1.1.10"
-    "@chakra-ui/input" "1.4.6"
-    "@chakra-ui/layout" "1.8.0"
-    "@chakra-ui/live-region" "1.1.6"
-    "@chakra-ui/media-query" "2.0.4"
-    "@chakra-ui/menu" "1.8.11"
-    "@chakra-ui/modal" "1.11.1"
-    "@chakra-ui/number-input" "1.4.7"
-    "@chakra-ui/pin-input" "1.7.10"
-    "@chakra-ui/popover" "1.11.9"
-    "@chakra-ui/popper" "2.4.3"
-    "@chakra-ui/portal" "1.3.10"
-    "@chakra-ui/progress" "1.2.6"
-    "@chakra-ui/provider" "1.7.14"
-    "@chakra-ui/radio" "1.5.1"
-    "@chakra-ui/react-env" "1.1.6"
-    "@chakra-ui/select" "1.2.11"
-    "@chakra-ui/skeleton" "1.2.14"
-    "@chakra-ui/slider" "1.5.11"
-    "@chakra-ui/spinner" "1.2.6"
-    "@chakra-ui/stat" "1.2.7"
-    "@chakra-ui/switch" "1.3.10"
-    "@chakra-ui/system" "1.12.1"
-    "@chakra-ui/table" "1.3.6"
-    "@chakra-ui/tabs" "1.6.10"
-    "@chakra-ui/tag" "1.2.7"
-    "@chakra-ui/textarea" "1.2.11"
-    "@chakra-ui/theme" "1.14.1"
-    "@chakra-ui/toast" "1.5.9"
-    "@chakra-ui/tooltip" "1.5.1"
-    "@chakra-ui/transition" "1.4.8"
-    "@chakra-ui/utils" "1.10.4"
-    "@chakra-ui/visually-hidden" "1.1.6"
+    "@chakra-ui/utils" "^2.0.0-next.1"
 
-"@chakra-ui/select@1.2.11":
-  version "1.2.11"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/select/-/select-1.2.11.tgz#7762f2b7974a4587b4eb9536eb93b2295381aa9f"
-  integrity sha512-6Tis1+ZrRjQeWhQfziQn3ZdPphV5ccafpZOhiPdTcM2J1XcXOlII+9rHxvaW+jx7zQ5ly5o8kd7iXzalDgl5wA==
+"@chakra-ui/react@^2.0.0-next.2":
+  version "2.0.0-next.2"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/react/-/react-2.0.0-next.2.tgz#71efce71659eeb6073781c9996488fd29a77d3c6"
+  integrity sha512-zgZxr61DCISjwJdzLOrpD7+/qt+eT+qlNksouEoxhwkLQKMEzjOaRWevFu5A3/qE44Q5IrR2LeCH2ZcLzJj6bw==
   dependencies:
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/accordion" "2.0.0-next.1"
+    "@chakra-ui/alert" "2.0.0-next.1"
+    "@chakra-ui/avatar" "2.0.0-next.1"
+    "@chakra-ui/breadcrumb" "2.0.0-next.1"
+    "@chakra-ui/button" "2.0.0-next.1"
+    "@chakra-ui/checkbox" "2.0.0-next.1"
+    "@chakra-ui/close-button" "2.0.0-next.1"
+    "@chakra-ui/control-box" "2.0.0-next.1"
+    "@chakra-ui/counter" "2.0.0-next.1"
+    "@chakra-ui/css-reset" "2.0.0-next.1"
+    "@chakra-ui/editable" "2.0.0-next.1"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/image" "2.0.0-next.1"
+    "@chakra-ui/input" "2.0.0-next.1"
+    "@chakra-ui/layout" "2.0.0-next.1"
+    "@chakra-ui/live-region" "2.0.0-next.1"
+    "@chakra-ui/media-query" "3.0.0-next.1"
+    "@chakra-ui/menu" "2.0.0-next.1"
+    "@chakra-ui/modal" "2.0.0-next.1"
+    "@chakra-ui/number-input" "2.0.0-next.1"
+    "@chakra-ui/pin-input" "2.0.0-next.1"
+    "@chakra-ui/popover" "2.0.0-next.1"
+    "@chakra-ui/popper" "3.0.0-next.1"
+    "@chakra-ui/portal" "2.0.0-next.1"
+    "@chakra-ui/progress" "2.0.0-next.1"
+    "@chakra-ui/provider" "2.0.0-next.1"
+    "@chakra-ui/radio" "2.0.0-next.1"
+    "@chakra-ui/react-env" "2.0.0-next.1"
+    "@chakra-ui/select" "2.0.0-next.1"
+    "@chakra-ui/skeleton" "2.0.0-next.1"
+    "@chakra-ui/slider" "2.0.0-next.1"
+    "@chakra-ui/spinner" "2.0.0-next.1"
+    "@chakra-ui/stat" "2.0.0-next.1"
+    "@chakra-ui/switch" "2.0.0-next.1"
+    "@chakra-ui/system" "2.0.0-next.1"
+    "@chakra-ui/table" "2.0.0-next.1"
+    "@chakra-ui/tabs" "2.0.0-next.1"
+    "@chakra-ui/tag" "2.0.0-next.1"
+    "@chakra-ui/textarea" "2.0.0-next.1"
+    "@chakra-ui/theme" "2.0.0-next.1"
+    "@chakra-ui/toast" "2.0.0-next.2"
+    "@chakra-ui/tooltip" "2.0.0-next.1"
+    "@chakra-ui/transition" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    "@chakra-ui/visually-hidden" "2.0.0-next.1"
 
-"@chakra-ui/skeleton@1.2.14":
-  version "1.2.14"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/skeleton/-/skeleton-1.2.14.tgz#c2028b03a975c76b13aaecdbbe168872079177b8"
-  integrity sha512-R0v4DfQ2yjXCJf9SzhTmDb2PLx5//LxsRbjjgRa8qJCR4MZaGswPrekp4dP8YjY8aEYzuZbvHU12T3vqZBk2GA==
+"@chakra-ui/select@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/select/-/select-2.0.0-next.1.tgz#4ff970cacc8a7ad1873644899d91ad9c4deb5317"
+  integrity sha512-Fxt19c43ddqhQuAbhgG7r5CO2hr9U1Qo/FLjzcOzRSWChFfwcWMqXWV43dnTAn/CP18IZ0ap05A05z0Q7y/GSw==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/media-query" "2.0.4"
-    "@chakra-ui/system" "1.12.1"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/slider@1.5.11":
-  version "1.5.11"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/slider/-/slider-1.5.11.tgz#e03585188547dad3dafdb4a4cbd64bfbf8a4025b"
-  integrity sha512-THkGU2BsA6XMosXcEVQkWVRftqUIAKCb+y4iEpR3C2ztqL7Fl/CbIGwyr5majhPhKc275rb8dfxwp8R0L0ZIiQ==
+"@chakra-ui/skeleton@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/skeleton/-/skeleton-2.0.0-next.1.tgz#1f39f6eed74e6bce35524da08c01e6aa9c0687b4"
+  integrity sha512-a3ufgLqwkd8MOwhzeftOjTGTxm+pvRDBIDvpFNdg6m3BiCxlxzTOv8uymg6XmEM6u8HtYmMCyinlods01toA9w==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/media-query" "3.0.0-next.1"
+    "@chakra-ui/system" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/spinner@1.2.6":
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/spinner/-/spinner-1.2.6.tgz#d85fb3d763a69d40570b591507c5087dba38e6c4"
-  integrity sha512-GoUCccN120fGRVgUtfuwcEjeoaxffB+XsgpxX7jhWloXf8b6lkqm68bsxX4Ybb2vGN1fANI98/45JmrnddZO/A==
+"@chakra-ui/slider@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/slider/-/slider-2.0.0-next.1.tgz#c166f2febb6cece1fb9150f7bfedf7a64bee210c"
+  integrity sha512-b+L4QFrnjjyLjvoEhAS1jzcRRhtFZlim39AyDC1sD0iSod1fJekIz3Lu139NCwtUelhHLUSWAiBqZqDg5r1R1w==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
-    "@chakra-ui/visually-hidden" "1.1.6"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/stat@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/stat/-/stat-1.2.7.tgz#e173171d80f9e756966604e620987bbd7590d291"
-  integrity sha512-m76jumFW1N+mCG4ytrUz9Mh09nZtS4OQcADEvOslfdI5StwwuzasTA1tueaelPzdhBioMwFUWL05Fr1fXbPJ/Q==
+"@chakra-ui/spinner@2.0.0-next.1", "@chakra-ui/spinner@^2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/spinner/-/spinner-2.0.0-next.1.tgz#ed4070c5635cfe4b984e2deb7e86f6da36db2e80"
+  integrity sha512-UEi0lHGy/HhCf1m4yGax5s8RO2Hy+finK/kPkalCCEOjqZouOPGk27/j/ZgrcXZ4GSEcMi7j+CSRQw9BWVOHtA==
   dependencies:
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/utils" "1.10.4"
-    "@chakra-ui/visually-hidden" "1.1.6"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    "@chakra-ui/visually-hidden" "2.0.0-next.1"
+
+"@chakra-ui/stat@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/stat/-/stat-2.0.0-next.1.tgz#4b784520f66c7cbf44c4cdccd69ca519c3a424dc"
+  integrity sha512-kdY8tkZdwjRzjHJslPaTfwlqZ1Gh77qIT/Qz1I5AI+98AEilmyh/tIW3XnzVpnVYX0r6htV6rjCzD2PvboffXw==
+  dependencies:
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    "@chakra-ui/visually-hidden" "2.0.0-next.1"
 
 "@chakra-ui/styled-system@1.19.0":
   version "1.19.0"
@@ -776,15 +816,34 @@
     "@chakra-ui/utils" "1.10.4"
     csstype "3.0.9"
 
-"@chakra-ui/switch@1.3.10":
-  version "1.3.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/switch/-/switch-1.3.10.tgz#6b0a3f199e6e654dbab6e01ccc762e1b29611c62"
-  integrity sha512-V6qDLY6oECCbPyu7alWWOAhSBI4+SAuT6XW/zEQbelkwuUOiGO1ax67rTXOmZ59A2AaV1gqQFxDh8AcbvwO5XQ==
+"@chakra-ui/styled-system@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/styled-system/-/styled-system-2.0.0-next.1.tgz#e84084dc0b60c4d28ebd3322ef5f325e3f4b5983"
+  integrity sha512-7OusLEFexBLyUu9rYDRwoUij22HrJC8XjW91Q4a1gvSK6nCq4vmLWAZCzNZxKFUMQ1K6rAhFP8Qxq2p3pq4GEQ==
   dependencies:
-    "@chakra-ui/checkbox" "1.7.1"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    csstype "3.0.9"
 
-"@chakra-ui/system@1.12.1", "@chakra-ui/system@^1.7.4":
+"@chakra-ui/switch@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/switch/-/switch-2.0.0-next.1.tgz#1bc0572d4a4216470ce4e7ee31cbc0c7127ab1fd"
+  integrity sha512-hFAII160V1vT5MymNBi5yo4bMuMm1qtcO8wvfU7n4D0Z/nkfSPZ3eALfqeLAxMBnDOo85gT6S8hJfiiljccyrw==
+  dependencies:
+    "@chakra-ui/checkbox" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+
+"@chakra-ui/system@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/system/-/system-2.0.0-next.1.tgz#20f55d5770471e135d6257d67ba5b0ca2e59258d"
+  integrity sha512-BNuk8qJrJ1o4FreFCdD5hV9RJ0fHjrC+VIzWWtxyfR0KNElGxqTp/lQt4NkSqJd5uR0VmqS/WloF8vsqTw9YMg==
+  dependencies:
+    "@chakra-ui/color-mode" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/styled-system" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    react-fast-compare "3.2.0"
+
+"@chakra-ui/system@^1.7.4":
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@chakra-ui/system/-/system-1.12.1.tgz#608655ef3f7cb82eedd8f20d2546458d90d77cce"
   integrity sha512-Rp09/rMuPA3hF38OJxeQciGO9N0Ie1GxwHRAw1AFA/TY3fVyK9pNI5oN+J/1cAxq7v9yKdIr1YfnruJTI9xfEg==
@@ -795,88 +854,90 @@
     "@chakra-ui/utils" "1.10.4"
     react-fast-compare "3.2.0"
 
-"@chakra-ui/table@1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/table/-/table-1.3.6.tgz#e271676dc03cd4c684e4041df2cf394d86a28510"
-  integrity sha512-7agZAgAeDFKviqStvixqnLAH54+setzhx67EztioZTr5Xu+6hQ4rotfJbu8L4i587pcbNg98kCEXEkidjw0XRQ==
+"@chakra-ui/table@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/table/-/table-2.0.0-next.1.tgz#ce647b0f2141c74444a9c21585f07ec2e2c02ee8"
+  integrity sha512-4ibOg90upszCllK2vnN2r3+SvA2dvTZRUrYUBHYurNuWM40oZHnDhLjhoXkHYeHEuf5d3F7bhtBS8Nfzbi7tCw==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/tabs@1.6.10":
-  version "1.6.10"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/tabs/-/tabs-1.6.10.tgz#503e528930f9ba467681279ee709c72ba24950b8"
-  integrity sha512-ClOOHT3Wnf3l9X4F2S6ysPsHMDgKSTgkXpB9Qe0odwpT49ZXNjSAYYaXzO16l+Eq/m2u1HzLkXVsL42HIeOiNQ==
+"@chakra-ui/tabs@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/tabs/-/tabs-2.0.0-next.1.tgz#4b95f33d22695d0b11f48785ad551085505f28d3"
+  integrity sha512-qRHlRPLB2VZ/Uek3r0vLSIwCXi72LHL+RQBj7HVTvAQH0WmZjHF1R3jaun+3ZrX9j3D1XRHE2Sf9+sj+xk+fdw==
   dependencies:
-    "@chakra-ui/clickable" "1.2.6"
-    "@chakra-ui/descendant" "2.1.3"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/clickable" "2.0.0-next.1"
+    "@chakra-ui/descendant" "3.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/tag@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/tag/-/tag-1.2.7.tgz#5861a92e83e63825f6fe563921d2704e921b585f"
-  integrity sha512-RKrKOol4i/CnpFfo3T9LMm1abaqM+5Bs0soQLbo1iJBbBACY09sWXrQYvveQ2GYzU/OrAUloHqqmKjyVGOlNtg==
+"@chakra-ui/tag@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/tag/-/tag-2.0.0-next.1.tgz#0412918b240da7f102a8cf89b381acc873ea518d"
+  integrity sha512-qiolQbypieEkN4kNd1AjlnpDk7QMjktiqW/ImKfbRkn+82KaeAGXvsaoIWCincbXiKhy063hOGsXaHUyldWZUQ==
   dependencies:
-    "@chakra-ui/icon" "2.0.5"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/icon" "3.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/textarea@1.2.11":
-  version "1.2.11"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/textarea/-/textarea-1.2.11.tgz#24209862cf9227d79228222b7cff2c50f7ff0add"
-  integrity sha512-RDWbMyC87/AFRX98EnVum5eig/7hhcvS1BrqW5lvmTgrpr7KVr80Dfa8hUj58Iq37Z7AqZijDPkBn/zg7bPdIg==
+"@chakra-ui/textarea@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/textarea/-/textarea-2.0.0-next.1.tgz#8c23c883061444da753ea24507cc5f5e6929ebdf"
+  integrity sha512-sG/t379PvivyOum8T8xWKtkklllSExlRTphGNoFdmY8BmiBlkiLxvhavnF7lDRnh+PWT6PMKmg8QuVI+yStc/Q==
   dependencies:
-    "@chakra-ui/form-control" "1.6.0"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/form-control" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/theme-tools@1.3.6", "@chakra-ui/theme-tools@^1.3.6":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-1.3.6.tgz#2e5b5c192efd685c158e940a5cedcb0eb51f8602"
-  integrity sha512-Wxz3XSJhPCU6OwCHEyH44EegEDQHwvlsx+KDkUDGevOjUU88YuNqOVkKtgTpgMLNQcsrYZ93oPWZUJqqCVNRew==
+"@chakra-ui/theme-tools@2.0.0-next.1", "@chakra-ui/theme-tools@^2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-2.0.0-next.1.tgz#1a4c5983e3df93c5b38964ae1cda4b5694d20189"
+  integrity sha512-1prfXtahBh27CcOOye9hZjSgIL8iirqwLXJmDLqUjw0egTlfqXvamibohj6fxlKKnXL0euXX57NjInuqyMoR1g==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/utils" "2.0.0-next.1"
     "@ctrl/tinycolor" "^3.4.0"
 
-"@chakra-ui/theme@1.14.1":
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/theme/-/theme-1.14.1.tgz#84ce1643d4d7c89509e714ac989bcf8acd5578b8"
-  integrity sha512-VeNZi+zD3yDwzvZm234Cy3vnalCzQ+dhAgpHdIYzGO1CYO8DPa+ROcQ70rUueL7dSvUz15KOiGTw6DAl7LXlGA==
+"@chakra-ui/theme@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme/-/theme-2.0.0-next.1.tgz#83f1f56bd5f5a21d778da4c49ad7f5aa67027c21"
+  integrity sha512-mk97QYHKVmseiHeoa5a3hfllaTbDi5eQZ2/kq5qIBsCNdCpC9k2tFS94TI2rAzcTFwz5CJZQC0lsCYIw5qMOxQ==
   dependencies:
-    "@chakra-ui/anatomy" "1.3.0"
-    "@chakra-ui/theme-tools" "1.3.6"
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/anatomy" "2.0.0-next.1"
+    "@chakra-ui/theme-tools" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/toast@1.5.9":
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/toast/-/toast-1.5.9.tgz#45521dc521186ce88aad07a3796545d15a6f9697"
-  integrity sha512-rns04bGdMcG7Ijg45L+PfuEW4rCd0Ycraix4EJQhcl9RXI18G9sphmlp9feidhZAkI6Ukafq1YvyvkBfkKnIzQ==
+"@chakra-ui/toast@2.0.0-next.2":
+  version "2.0.0-next.2"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/toast/-/toast-2.0.0-next.2.tgz#c5795aedc4ceedf6f3e81e2e5f62756eee0c80e9"
+  integrity sha512-/Y1QZLRV9rdYZh1Aw5PuMtTrSPG8sdzrajtER11wMU4FffuNYnr2YZgv1+qXK375ANeP5XTXSCqEsctaE5oOyw==
   dependencies:
-    "@chakra-ui/alert" "1.3.7"
-    "@chakra-ui/close-button" "1.2.7"
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/theme" "1.14.1"
-    "@chakra-ui/transition" "1.4.8"
-    "@chakra-ui/utils" "1.10.4"
-    "@reach/alert" "0.13.2"
+    "@chakra-ui/alert" "2.0.0-next.1"
+    "@chakra-ui/close-button" "2.0.0-next.1"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/portal" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/system" "2.0.0-next.1"
+    "@chakra-ui/theme" "2.0.0-next.1"
+    "@chakra-ui/transition" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
-"@chakra-ui/tooltip@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/tooltip/-/tooltip-1.5.1.tgz#c338476aa0f00fc89f6357bc22725329f90d8d5d"
-  integrity sha512-EUAlDdlCBt63VpEVtj/RkFjHQVN/xA9gEAumngQdi1Sp+OXPYCBM9GwSY0NwrM1RfKBnhPSH9wz7FwredJWeaw==
+"@chakra-ui/tooltip@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/tooltip/-/tooltip-2.0.0-next.1.tgz#2b4d4924e6ce9558db352a8aadd3dcc43ffd5b70"
+  integrity sha512-+naRcOqx+cpePFC+9A7D85lpWBH0gRhIw+OFQoIxIUYcN4a1ARfYtR6+a07q2HtbMsI+DPwqRMMc0PCT+IOIlQ==
   dependencies:
-    "@chakra-ui/hooks" "1.9.1"
-    "@chakra-ui/popper" "2.4.3"
-    "@chakra-ui/portal" "1.3.10"
-    "@chakra-ui/react-utils" "1.2.3"
-    "@chakra-ui/utils" "1.10.4"
-    "@chakra-ui/visually-hidden" "1.1.6"
+    "@chakra-ui/hooks" "2.0.0-next.1"
+    "@chakra-ui/popper" "3.0.0-next.1"
+    "@chakra-ui/portal" "2.0.0-next.1"
+    "@chakra-ui/react-utils" "2.0.0-next.1"
+    "@chakra-ui/utils" "2.0.0-next.1"
+    "@chakra-ui/visually-hidden" "2.0.0-next.1"
 
-"@chakra-ui/transition@1.4.8":
-  version "1.4.8"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/transition/-/transition-1.4.8.tgz#ac0f4675da929ae69fc9d6db6a1edf61e982772c"
-  integrity sha512-5uc8LEuCH7+0h++wqAav/EktTHOjbLDSTXQlU9fzPIlNNgyf2eXrHVN2AGMGKiMR9Z4gS7umQjZ54r0w/mZ/Fw==
+"@chakra-ui/transition@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/transition/-/transition-2.0.0-next.1.tgz#2b9938d4712b57eac4fe5e3b3be13118820f6e1d"
+  integrity sha512-w/+0YotLct76hxc+2HbVLWtm403P87YvO2ZzpzzhxHkUxk7uRtL5m/VqpdX9ud+NOi1pIpseSCal4+VKQEG/YA==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@chakra-ui/utils" "2.0.0-next.1"
 
 "@chakra-ui/utils@1.10.4", "@chakra-ui/utils@^1.10.4":
   version "1.10.4"
@@ -888,12 +949,22 @@
     framesync "5.3.0"
     lodash.mergewith "4.6.2"
 
-"@chakra-ui/visually-hidden@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/visually-hidden/-/visually-hidden-1.1.6.tgz#7a546a5aebe4779c8f18d65b1f0e56249720f28d"
-  integrity sha512-Xzy5bA0UA+IyMgwJizQYSEdgz8cC/tHdmFB3CniXzmpKTSK8mJddeEBl+cGbXHBzxEUhH7xF1eaS41O+0ezWEQ==
+"@chakra-ui/utils@2.0.0-next.1", "@chakra-ui/utils@^2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/utils/-/utils-2.0.0-next.1.tgz#8f085e669032adc9a19a506a570050d6c843b3e7"
+  integrity sha512-Y5zzEEkL46FY5I7GhWCkat+V/bb6URzU1LbIXhCIvcq2YjGhk6vMZNOIs4/SduZ1yMPI8ET+1E7IK0AqJjswOw==
   dependencies:
-    "@chakra-ui/utils" "1.10.4"
+    "@types/lodash.mergewith" "4.6.6"
+    css-box-model "1.2.1"
+    framesync "5.3.0"
+    lodash.mergewith "4.6.2"
+
+"@chakra-ui/visually-hidden@2.0.0-next.1":
+  version "2.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/visually-hidden/-/visually-hidden-2.0.0-next.1.tgz#b412bf0b6039dde8456a6f588802353806b8c704"
+  integrity sha512-VH10fyo3mVHmLgyCjclh8iAvg6/dJ5VY2zJICti3C8DdcXE3v+DbDJoTz7fxjijh5kivcxqXSsSl+tDq2s2P4A==
+  dependencies:
+    "@chakra-ui/utils" "2.0.0-next.1"
 
 "@coinbase/wallet-sdk@^3.0.8":
   version "3.0.8"
@@ -1479,9 +1550,9 @@
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
 "@jridgewell/resolve-uri@^3.0.3":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz#68eb521368db76d040a6315cdb24bf2483037b9c"
-  integrity sha512-VPeQ7+wH0itvQxnG+lIzWgkysKIr3L9sslimFW55rHMdGu/qCQ5z5h9zq4gI8uBtqkpHhsF4Z/OwExufUCThew==
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.6.tgz#4ac237f4dabc8dd93330386907b97591801f7352"
+  integrity sha512-R7xHtBSNm+9SyvpJkdQl+qrM3Hm2fea3Ef197M3mUug+v+yR+Rhfbs7PBtcBUVnIWJ4JcAdjvij+c8hXS9p5aw==
 
 "@jridgewell/sourcemap-codec@^1.4.10":
   version "1.4.11"
@@ -1545,19 +1616,19 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@monaco-editor/loader@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.3.0.tgz#659fbaf1d612ea67b2a0519a18612d1c4813e444"
-  integrity sha512-N3mGq1ktC3zh7WUx3NGO+PSDdNq9Vspk/41rEmRdrCqV9vNbBTRzAOplmUpNQsi+hmTs++ERMBobMERb8Kb+3g==
+"@monaco-editor/loader@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.3.1.tgz#35d198fb13a983dd49e9e448a172b6a9da309411"
+  integrity sha512-LfpAO6e54SZQW0nnI1sWKO4XtAlNx3WHXYZixeVy0HhZ4txGPOok4rs2u4dSi2+iRWeL198cZ2FlFQKr8mH+cw==
   dependencies:
     state-local "^1.0.6"
 
 "@monaco-editor/react@^4.3.1":
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.4.2.tgz#e2848643e4b713138ae1a92a8d2671a13aa69661"
-  integrity sha512-QwQKkP5zXK8oA6uMpZcyQqYKQbMFUIE1Z9gPhYajk4qXdt/kGCu3RvO9SGKGlS9MSciCyd3WjEksVMDoyxQk4w==
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.4.4.tgz#8d6b0ac144e2b673f85408e30f1facafff9b7aab"
+  integrity sha512-yQsYnVkgP5RC5ZMoRVCXSBn4D4hLUOgoQK+AZJpVY57NDXmEb57OVaaYKh8/RTzxkpuLV278hKNw5DnuzlgQwg==
   dependencies:
-    "@monaco-editor/loader" "^1.3.0"
+    "@monaco-editor/loader" "^1.3.1"
     prop-types "^15.7.2"
 
 "@n8tb1t/use-scroll-position@^2.0.3":
@@ -1668,33 +1739,6 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
   integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
 
-"@reach/alert@0.13.2":
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/@reach/alert/-/alert-0.13.2.tgz#71c4a848d51341f1d6d9eaae060975391c224870"
-  integrity sha512-LDz83AXCrClyq/MWe+0vaZfHp1Ytqn+kgL5VxG7rirUvmluWaj/snxzfNPWn0Ma4K2YENmXXRC/iHt5X95SqIg==
-  dependencies:
-    "@reach/utils" "0.13.2"
-    "@reach/visually-hidden" "0.13.2"
-    prop-types "^15.7.2"
-    tslib "^2.1.0"
-
-"@reach/utils@0.13.2":
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/@reach/utils/-/utils-0.13.2.tgz#87e8fef8ebfe583fa48250238a1a3ed03189fcc8"
-  integrity sha512-3ir6cN60zvUrwjOJu7C6jec/samqAeyAB12ZADK+qjnmQPdzSYldrFWwDVV5H0WkhbYXR3uh+eImu13hCetNPQ==
-  dependencies:
-    "@types/warning" "^3.0.0"
-    tslib "^2.1.0"
-    warning "^4.0.3"
-
-"@reach/visually-hidden@0.13.2":
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.13.2.tgz#ee21de376a7e57e60dc92d95a671073796caa17e"
-  integrity sha512-sPZwNS0/duOuG0mYwE5DmgEAzW9VhgU3aIt1+mrfT/xiT9Cdncqke+kRBQgU708q/Ttm9tWsoHni03nn/SuPTQ==
-  dependencies:
-    prop-types "^15.7.2"
-    tslib "^2.1.0"
-
 "@rushstack/eslint-patch@1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.0.8.tgz#be3e914e84eacf16dbebd311c0d0b44aa1174c64"
@@ -1728,9 +1772,9 @@
   integrity sha512-9Lvgm7yHN0ExQg13ESm4Pzm0kOmpl9iLpt93/arRO7PbeRjWxrhV5hfGxS4+MvXaP69yQEk+uIPaKlKBaqVaxg==
 
 "@thirdweb-dev/react@^2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.6.tgz#ded5bb3858b11cd400addcbc13b373ec0a5e91b4"
-  integrity sha512-XxBK0Gvb6IlmvDGbNKYr1ZnBZ0rEUDgiFv22NdWmJTew7+ohL0pXFa8FVogiGIAg733kXBjSoYy+e+k1xnapFg==
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.0.7.tgz#63019f1ddc95e8ae651ffd383e8fce3aa468bb72"
+  integrity sha512-77hnljk+58+vhJA+d0TMzzT6w5HBOlprgPP3BqpViV5xP9TtKz+wmiJYUKU//oWPbj0bGdncS9caeNqGYRowOQ==
   dependencies:
     "@gnosis.pm/safe-apps-provider" "^0.11.0"
     "@gnosis.pm/safe-apps-sdk" "^7.3.0"
@@ -1865,14 +1909,14 @@
   integrity sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==
 
 "@types/node@*":
-  version "17.0.25"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.25.tgz#527051f3c2f77aa52e5dc74e45a3da5fb2301448"
-  integrity sha512-wANk6fBrUwdpY4isjWrKTufkrXdu1D2YHCot2fD/DfWxF5sMrVSA+KN7ydckvaTCh0HiqX9IVl0L5/ZoXg5M7w==
+  version "17.0.26"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.26.tgz#1bbff9b23ee5a64f87b4f30c0c854b112ee2e635"
+  integrity sha512-z/FG/6DUO7pnze3AE3TBGIjGGKkvCcGcWINe1C7cADY8hKLJPDYpzsNE37uExQ4md5RFtTCvg+M8Mu1Enyeg2A==
 
 "@types/node@^12.12.6":
-  version "12.20.48"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.48.tgz#55f70bd432b6515828c0298689776861b90ca4fa"
-  integrity sha512-4kxzqkrpwYtn6okJUcb2lfUu9ilnb3yhUOH6qX3nug8D2DupZ2drIkff2yJzYcNJVl3begnlcaBJ7tqiTTzjnQ==
+  version "12.20.49"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.49.tgz#97897a33dd145490f514bbcbccefc178534e360f"
+  integrity sha512-5e6QNb9bkeh4Hni4ktLqUZuUqnGTX/kou2aZkXyxtuYaHXgBm+In1SHR9V+7kDzWzjB08KC2uqt2doDi7cuAAA==
 
 "@types/papaparse@^5.3.1":
   version "5.3.2"
@@ -1898,6 +1942,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
+"@types/react-dom@^18", "@types/react-dom@^18.0.2":
+  version "18.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.2.tgz#2d6b46557aa30257e87e67a6d952146d15979d79"
+  integrity sha512-UxeS+Wtj5bvLRREz9tIgsK4ntCuLDo0EcAcACgw3E+9wE8ePDr9uQpq53MfcyxyIS55xJ+0B6mDS8c4qkkHLBg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-table@^7.7.7":
   version "7.7.11"
   resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-7.7.11.tgz#0efbb69aabf5b4b9c26c4c027b1e1ceb0f342303"
@@ -1919,10 +1970,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17", "@types/react@^17.0.15", "@types/react@^17.0.30":
-  version "17.0.44"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.44.tgz#c3714bd34dd551ab20b8015d9d0dbec812a51ec7"
-  integrity sha512-Ye0nlw09GeMp2Suh8qoOv0odfgCoowfM/9MG6WeRD60Gq9wS90bdkdRtYbRkNhXOpG4H+YXGvj4wOWhAC0LJ1g==
+"@types/react@*", "@types/react@^17.0.15", "@types/react@^18", "@types/react@^18.0.6":
+  version "18.0.6"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.6.tgz#30206c3830af6ce8639b91ace5868bc2d3d1d96c"
+  integrity sha512-bPqwzJRzKtfI0mVYr5R+1o9BOE8UEXefwc1LwcBtfnaAn6OoqMhLa/91VA8aeWfDPJt1kHvYKI8RHcQybZLHHA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -1939,11 +1990,6 @@
   integrity sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==
   dependencies:
     "@types/node" "*"
-
-"@types/warning@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/warning/-/warning-3.0.0.tgz#0d2501268ad8f9962b740d387c4654f5f8e23e52"
-  integrity sha1-DSUBJorY+ZYrdA04fEZU9fjiPlI=
 
 "@types/web3@^1.2.2":
   version "1.2.2"
@@ -2819,14 +2865,14 @@ browserify-sign@^4.0.0:
     safe-buffer "^5.2.0"
 
 browserslist@^4.17.5, browserslist@^4.20.2:
-  version "4.20.2"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.20.2.tgz#567b41508757ecd904dab4d1c646c612cd3d4f88"
-  integrity sha512-CQOBCqp/9pDvDbx3xfMi+86pr4KXIf2FDkTTdeuYw8OxS9t898LA1Khq57gtufFILXpfgsSx5woNgsBgvGjpsA==
+  version "4.20.3"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.20.3.tgz#eb7572f49ec430e054f56d52ff0ebe9be915f8bf"
+  integrity sha512-NBhymBQl1zM0Y5dQT/O+xiLP9/rzOIQdKM/eMJBAq7yBgaB6krIYLGejrwVYnSHZdqjscB1SPuAjHwxjvN6Wdg==
   dependencies:
-    caniuse-lite "^1.0.30001317"
-    electron-to-chromium "^1.4.84"
+    caniuse-lite "^1.0.30001332"
+    electron-to-chromium "^1.4.118"
     escalade "^3.1.1"
-    node-releases "^2.0.2"
+    node-releases "^2.0.3"
     picocolors "^1.0.0"
 
 bs58@^4.0.0:
@@ -2952,7 +2998,7 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-lite@^1.0.30001283, caniuse-lite@^1.0.30001317:
+caniuse-lite@^1.0.30001283, caniuse-lite@^1.0.30001332:
   version "1.0.30001332"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001332.tgz#39476d3aa8d83ea76359c70302eafdd4a1d727dd"
   integrity sha512-10T30NYOEQtN6C11YGg411yebhvpnC6Z102+B95eAsN0oB6KUs01ivE8u+G6FMIRtIrVlYXhL+LUwQ3/hXwDWw==
@@ -3837,7 +3883,7 @@ eip1193-provider@1.0.1:
   dependencies:
     "@json-rpc-tools/provider" "^1.5.5"
 
-electron-to-chromium@^1.4.84:
+electron-to-chromium@^1.4.118:
   version "1.4.118"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.118.tgz#2d917c71712dac9652cc01af46c7d0bd51552974"
   integrity sha512-maZIKjnYDvF7Fs35nvVcyr44UcKNwybr93Oba2n3HkKDFAtk0svERkLN/HyczJDS3Fo4wU9th9fUQd09ZLtj1w==
@@ -6390,7 +6436,7 @@ node-gyp-build@^4.2.0, node-gyp-build@^4.3.0:
   resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.4.0.tgz#42e99687ce87ddeaf3a10b99dc06abc11021f3f4"
   integrity sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==
 
-node-releases@^2.0.2:
+node-releases@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.3.tgz#225ee7488e4a5e636da8da52854844f9d716ca96"
   integrity sha512-maHFz6OLqYxz+VQyCAtA3PTX4UP/53pa05fyDNc9CwjvJ0yEh6+xBwKsgCxMNhS8taUKBFYxfuiaD9U/55iFaw==
@@ -7095,14 +7141,13 @@ react-cool-dimensions@^2.0.7:
   resolved "https://registry.yarnpkg.com/react-cool-dimensions/-/react-cool-dimensions-2.0.7.tgz#2fe6657608f034cd7c89f149ed14e79cf1cb2d50"
   integrity sha512-z1VwkAAJ5d8QybDRuYIXTE41RxGr5GYsv1bQhbOBE8cMfoZQZpcF0odL64vdgrQVzat2jayedj1GoYi80FWcbA==
 
-react-dom@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
+react-dom@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.0.0.tgz#26b88534f8f1dbb80853e1eabe752f24100d8023"
+  integrity sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==
   dependencies:
     loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    scheduler "^0.20.2"
+    scheduler "^0.21.0"
 
 react-dropzone@^12.0.2:
   version "12.0.5"
@@ -7228,13 +7273,12 @@ react-vis@^1.11.7:
     prop-types "^15.5.8"
     react-motion "^0.5.2"
 
-react@17.0.2:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+react@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.0.0.tgz#b468736d1f4a5891f38585ba8e8fb29f91c3cb96"
+  integrity sha512-x+VL6wbT4JRVPm7EGxXhZ8w8LTROaxPXOqhlGyVSrv0sB1jkyFGgXxJ8LVoPRLvPR6/CIZGFmfzqUa2NYeMr2A==
   dependencies:
     loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 readable-stream@^2.0.1:
   version "2.3.7"
@@ -7467,13 +7511,12 @@ sass-lookup@^3.0.0:
   dependencies:
     commander "^2.16.0"
 
-scheduler@^0.20.2:
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
-  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
+scheduler@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.21.0.tgz#6fd2532ff5a6d877b6edb12f00d8ab7e8f308820"
+  integrity sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==
   dependencies:
     loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   version "3.0.1"
@@ -8326,13 +8369,6 @@ walletlink@^2.5.0:
     preact "^10.5.9"
     rxjs "^6.6.3"
     stream-browserify "^3.0.0"
-
-warning@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
-  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
-  dependencies:
-    loose-envify "^1.0.0"
 
 wcwidth@^1.0.1:
   version "1.0.1"
