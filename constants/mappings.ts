@@ -28,7 +28,8 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   [Pack.contractType]: require("public/assets/tw-icons/pack.png"),
   [Split.contractType]: require("public/assets/tw-icons/splits.png"),
   [TokenDrop.contractType]: require("public/assets/tw-icons/token.png"),
-  [CustomContract.contractType]: require("public/assets/tw-icons/token.png"), // TODO (byoc) icon for custom contract
+  // TODO (byoc) icon for custom contract
+  [CustomContract.contractType]: require("public/assets/tw-icons/general.png"),
 };
 
 export const UrlMap: Record<ContractType, string> = {
@@ -42,7 +43,8 @@ export const UrlMap: Record<ContractType, string> = {
   [Pack.contractType]: "pack",
   [Split.contractType]: "split",
   [TokenDrop.contractType]: "token-drop",
-  [CustomContract.contractType]: "", // TODO (byoc)
+  // TODO (byoc)
+  [CustomContract.contractType]: "",
 };
 
 interface FeatureCard {

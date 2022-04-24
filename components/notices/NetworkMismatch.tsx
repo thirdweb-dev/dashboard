@@ -1,4 +1,4 @@
-import { useActiveChainId, useWeb3 } from "@3rdweb-sdk/react";
+import { useWeb3 } from "@3rdweb-sdk/react";
 import {
   ButtonGroup,
   Container,
@@ -7,10 +7,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useNetwork } from "@thirdweb-dev/react";
+import {
+  useDesiredChainId,
+  useNetwork,
+  useNetworkMismatch,
+} from "@thirdweb-dev/react";
 import { Button } from "components/buttons/Button";
 import { Card } from "components/layout/Card";
-import { useNetworkMismatch } from "hooks/useNetworkMismatch";
 import React, { useCallback, useEffect, useState } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import {
@@ -21,7 +24,7 @@ import {
 
 export const NetworkMismatchNotice: React.FC = () => {
   const { chainId, getNetworkMetadata } = useWeb3();
-  const activeChainId = useActiveChainId();
+  const activeChainId = useDesiredChainId();
   const signerChainId = chainId as SUPPORTED_CHAIN_ID | undefined;
   const [network, switchNetwork] = useNetwork();
 
@@ -60,7 +63,6 @@ export const NetworkMismatchNotice: React.FC = () => {
       clearTimeout(t);
     };
   }, [misMatchExists]);
-
   if (!misMatchExists || !mismatchDelayExpired) {
     return null;
   }

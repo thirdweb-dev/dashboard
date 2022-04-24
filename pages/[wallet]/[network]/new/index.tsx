@@ -1,4 +1,3 @@
-import { PublishMetadata } from "../publish";
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
   Box,
@@ -10,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
+import { PublishMetadata } from "components/contract-components/publish-metdata-card";
 import { Card } from "components/layout/Card";
 import { LinkCard } from "components/link-card";
 import { LinkButton } from "components/shared/LinkButton";

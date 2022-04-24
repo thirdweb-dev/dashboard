@@ -1,7 +1,7 @@
 import { Button } from "./Button";
 import { ConnectWallet, useWeb3 } from "@3rdweb-sdk/react";
 import { ButtonProps, Tooltip } from "@chakra-ui/react";
-import { useNetworkMismatch } from "hooks/useNetworkMismatch";
+import { useNetworkMismatch } from "@thirdweb-dev/react";
 import React from "react";
 
 export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(

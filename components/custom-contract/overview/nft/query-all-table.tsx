@@ -143,26 +143,20 @@ const ContractOverviewNftGetAll: React.VFC<ContractOverviewNftGetAllProps> = ({
               prepareRow(row);
 
               return (
-                <React.Fragment key={`row_${row.id}`}>
-                  <Tr
-                    // shadow={expandedRow ? "md" : "none"}
-
-                    transition="all 0.1s"
-                    borderBottomWidth={1}
-                    _last={{ borderBottomWidth: 0 }}
-                    {...row.getRowProps()}
-                  >
-                    {row.cells.map((cell) => (
-                      // eslint-disable-next-line react/jsx-key
-                      <Td
-                        {...cell.getCellProps()}
-                        borderBottomWidth={"inherit"}
-                      >
-                        {cell.render("Cell")}
-                      </Td>
-                    ))}
-                  </Tr>
-                </React.Fragment>
+                // eslint-disable-next-line react/jsx-key
+                <Tr
+                  transition="all 0.1s"
+                  borderBottomWidth={1}
+                  _last={{ borderBottomWidth: 0 }}
+                  {...row.getRowProps()}
+                >
+                  {row.cells.map((cell) => (
+                    // eslint-disable-next-line react/jsx-key
+                    <Td {...cell.getCellProps()} borderBottomWidth={"inherit"}>
+                      {cell.render("Cell")}
+                    </Td>
+                  ))}
+                </Tr>
               );
             })}
             {getAllQueryResult.isPreviousData && (

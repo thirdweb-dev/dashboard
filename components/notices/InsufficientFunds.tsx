@@ -7,11 +7,11 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useNetworkMismatch } from "@thirdweb-dev/react";
 import { Button } from "components/buttons/Button";
 import { Card } from "components/layout/Card";
 import { LinkButton } from "components/shared/LinkButton";
 import { BigNumber } from "ethers";
-import { useNetworkMismatch } from "hooks/useNetworkMismatch";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AiOutlineWarning } from "react-icons/ai";

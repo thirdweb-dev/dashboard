@@ -11,7 +11,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { EarlyAccessBanner } from "components/banners/early-access";
+// import { EarlyAccessBanner } from "components/banners/early-access";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
 import { InsufficientFunds } from "components/notices/InsufficientFunds";
@@ -170,13 +170,10 @@ export const AppShell: React.FC = ({ children }) => {
             {children}
           </Box>
         ) : (
-          <>
-            <EarlyAccessBanner />
-            <Container flexGrow={1} as="main" maxW="container.page" py={8}>
-              <Breadcrumbs />
-              {children}
-            </Container>
-          </>
+          <Container flexGrow={1} as="main" maxW="container.page" py={8}>
+            <Breadcrumbs />
+            {children}
+          </Container>
         )}
         <Divider />
         <Container as="footer" maxW="container.page" w="100%" py={4}>

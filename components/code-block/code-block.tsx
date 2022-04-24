@@ -11,6 +11,10 @@ interface CodeBlockProps extends CodeProps {
 export const CodeBlock: React.VFC<CodeBlockProps> = ({
   code,
   language = "javascript",
+  px = 4,
+  py = 2,
+  w = "full",
+  borderRadius = "md",
   ...restCodeProps
 }) => {
   const theme = useColorModeValue(lightTheme, darkTheme);
@@ -19,6 +23,10 @@ export const CodeBlock: React.VFC<CodeBlockProps> = ({
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         // eslint-disable-next-line react/forbid-dom-props
         <Code
+          borderRadius={borderRadius}
+          py={py}
+          px={px}
+          w={w}
           {...restCodeProps}
           className={className}
           style={style}

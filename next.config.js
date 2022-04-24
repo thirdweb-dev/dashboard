@@ -49,7 +49,12 @@ const moduleExports = {
       },
       {
         source: "/dashboard/publish/:path*",
-        destination: "/dashboard/mumbai/publish/:path*",
+        destination: "/contracts/publish/:path*",
+        permanent: false,
+      },
+      {
+        source: "/dashboard/mumbai/publish/:path*",
+        destination: "/contracts/publish/:path*",
         permanent: false,
       },
     ];

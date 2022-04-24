@@ -1,4 +1,3 @@
-import { PublishMetadata } from "../publish";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -20,6 +19,7 @@ import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { PublishMetadata } from "components/contract-components/publish-metdata-card";
 import { Card } from "components/layout/Card";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -71,7 +71,7 @@ function useBYOCDeployMutation() {
       constructorValues: unknown[];
       contractMetadata?: CustomContractMetadata;
     }) => {
-      return sdk?.publisher.deployCustomContract(
+      return sdk?.publisher.deployPublishedContract(
         publisherAddress,
         contractId,
         constructorValues,

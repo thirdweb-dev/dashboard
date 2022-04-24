@@ -88,7 +88,7 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         </Button>
       </Flex>
 
-      <CodeBlock px={4} py={2} borderRadius="md" code={code} w="100%" />
+      <CodeBlock code={code} />
     </Stack>
   );
 };
