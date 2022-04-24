@@ -298,7 +298,8 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
                   value={tn.chainId}
                   disabled={tn.chainId !== ChainId.Mumbai}
                 >
-                  {tn.chainName} ({tn.symbol} Testnet) - coming soon
+                  {tn.chainName} ({tn.symbol} Testnet)
+                  {tn.chainId !== ChainId.Mumbai ? " - coming soon" : ""}
                 </option>
               ))}
             </optgroup>
