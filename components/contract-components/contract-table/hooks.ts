@@ -40,6 +40,9 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
         bytecode: resolved.bytecode,
       };
     },
+    {
+      enabled: !!contractId && !!sdk,
+    },
   );
 }
 
