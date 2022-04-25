@@ -117,7 +117,14 @@ const RawContractItemsTable = <TContract extends ContractWithGetAll>({
 
   return (
     <Stack spacing={4}>
-      <Card maxW="100%" as={Card} overflowX="auto" position="relative">
+      <Card
+        maxW="100%"
+        as={Card}
+        overflowX="auto"
+        position="relative"
+        px={0}
+        pt={0}
+      >
         {items.isFetching && (
           <Spinner
             color="primary"
