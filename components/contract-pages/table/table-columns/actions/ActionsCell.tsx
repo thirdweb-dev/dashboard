@@ -1,4 +1,5 @@
 import { AdminMintConditionCell } from "./AdminMintConditionCell";
+import { BurnCell } from "./BurnCell";
 import { EditionAirdropCell } from "./EditionAirdropCell";
 import { EditionTransferCell } from "./EditionTransferCell";
 import { OwnerTransferCell } from "./OwnerTransferCell";
@@ -27,6 +28,7 @@ export const EditionActionsCell: React.FC<IEditionActionsCell> = ({ row }) => {
     <Stack as={ButtonGroup} size="sm" variant="outline">
       <EditionTransferCell row={row} />
       <EditionAirdropCell row={row} />
+      <BurnCell row={row} />
     </Stack>
   );
 };
@@ -39,6 +41,7 @@ export const EditionDropActionsCell: React.FC<IEditionActionsCell> = ({
       <AdminMintConditionCell row={row} />
       <EditionTransferCell row={row} />
       <EditionAirdropCell row={row} />
+      <BurnCell row={row} />
     </Stack>
   );
 };
