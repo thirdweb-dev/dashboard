@@ -8,6 +8,7 @@ import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
+import { getAllQueryKey } from "./useGetAll";
 import {
   CommonPlatformFeeSchema,
   CommonRoyaltySchema,
@@ -429,9 +430,7 @@ export function useBurnMutation<TContract extends ValidContractInstance>(
           );
         }
 
-        return invalidate([
-          CacheKeyMap[contractType].list(contract?.getAddress()),
-        ]);
+        return invalidate([getAllQueryKey(contract)]);
       },
     },
   );
