@@ -1,13 +1,11 @@
 import { useContractPublishMetadataFromURI } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { Button } from "components/buttons/Button";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
-import { LinkButton } from "components/shared/LinkButton";
-import { ThirdwebDrawer } from "components/tw-drawer";
 import { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { IoRocketOutline } from "react-icons/io5";
+import { Button, Drawer, LinkButton } from "tw-components";
 import {
   SUPPORTED_CHAIN_ID,
   SupportedChainIdToNetworkMap,
@@ -24,7 +22,7 @@ export const ContractDeployActionCell: React.VFC<
 
   return (
     <>
-      <ThirdwebDrawer size="xl" isOpen={isOpen} onClose={onClose}>
+      <Drawer size="xl" isOpen={isOpen} onClose={onClose}>
         <ContractDeployForm
           contractId={value}
           onDeploySuccess={(contractAddress, chainId) => {
@@ -32,7 +30,7 @@ export const ContractDeployActionCell: React.VFC<
             onClose();
           }}
         />
-      </ThirdwebDrawer>
+      </Drawer>
       {deployData ? (
         <LinkButton
           href={`/dashboard/${

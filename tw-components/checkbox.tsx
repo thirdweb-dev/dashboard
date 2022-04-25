@@ -19,4 +19,4 @@ export const Checkbox = forwardRef<CheckboxProps, "input">(
   },
 );
 
-Checkbox.displayName = "Badge";
+Checkbox.displayName = "Checkbox";

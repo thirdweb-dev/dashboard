@@ -1,12 +1,10 @@
-import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Link } from "@chakra-ui/react";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
-import { Badge } from "components/badges/badge";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { DeployableContractTable } from "components/contract-components/contract-table";
 import { usePublishMutation } from "components/contract-components/hooks";
 import { ContractId } from "components/contract-components/types";
-import { Card } from "components/layout/Card";
 import { NetworkMismatchNotice } from "components/notices/NetworkMismatch";
 import { UrlMap } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
@@ -15,6 +13,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import { useEffect, useMemo, useState } from "react";
+import { Badge, Card, Heading, Text } from "tw-components";
 
 const ContractsPublishPageWrapped: React.VFC = () => {
   const { Track, trackEvent } = useTrack({
@@ -70,7 +69,7 @@ const ContractsPublishPageWrapped: React.VFC = () => {
         <Flex gap={2} direction="column">
           <Heading size="title.md">
             Publish Contracts{" "}
-            <Badge py={0.5} variant="outline" colorScheme="purple">
+            <Badge variant="outline" colorScheme="purple">
               beta
             </Badge>
           </Heading>

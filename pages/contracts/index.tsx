@@ -5,23 +5,18 @@ import {
   Box,
   Center,
   Flex,
-  Heading,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChainId, KNOWN_CONTRACTS_MAP } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
-import { Badge } from "components/badges/badge";
-import { Button } from "components/buttons/Button";
 import { DeployableContractTable } from "components/contract-components/contract-table";
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
-import { Card } from "components/layout/Card";
-import { LinkButton } from "components/shared/LinkButton";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ConsolePage } from "pages/_app";
 import { IoRefreshSharp } from "react-icons/io5";
+import { Badge, Button, Card, Heading, LinkButton, Text } from "tw-components";
 
 const ContractsHomepageWrapped: React.VFC = () => {
   const { Track } = useTrack({
@@ -40,7 +35,7 @@ const ContractsHomepageWrapped: React.VFC = () => {
             Contracts created by the thirdweb team that you can deploy
           </Text>
         </Flex>
-        <Card overflowX="auto">
+        <Card overflowX="auto" px={0} pt={0}>
           <DeployableContractTable
             contractIds={Object.keys(KNOWN_CONTRACTS_MAP)}
           />
@@ -49,7 +44,7 @@ const ContractsHomepageWrapped: React.VFC = () => {
         <Flex gap={2} direction="column">
           <Heading size="title.md">
             Custom contracts{" "}
-            <Badge py={0.5} variant="outline" colorScheme="purple">
+            <Badge variant="outline" colorScheme="purple">
               beta
             </Badge>
           </Heading>
@@ -57,7 +52,7 @@ const ContractsHomepageWrapped: React.VFC = () => {
             Contracts that you have published via the thirdweb cli
           </Text>
         </Flex>
-        <Card overflowX="auto" position="relative">
+        <Card overflowX="auto" position="relative" px={0} pt={0}>
           {publishedContracts.isFetching && (
             <Spinner
               color="primary"

@@ -7,12 +7,10 @@ import {
 } from "@3rdweb-sdk/react";
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import {
-  Badge,
   Box,
   Center,
   Container,
   Flex,
-  Heading,
   Icon,
   IconButton,
   Image,
@@ -32,7 +30,6 @@ import {
   Tabs,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
@@ -45,9 +42,6 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { Card } from "components/layout/Card";
-import { LinkButton } from "components/shared/LinkButton";
-import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import {
   CONTRACT_TYPE_NAME_MAP,
   FeatureIconMap,
@@ -68,6 +62,14 @@ import {
   useGlobalFilter,
   useTable,
 } from "react-table";
+import {
+  AddressCopyButton,
+  Badge,
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+} from "tw-components";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
@@ -263,6 +265,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 <MenuOptionGroup
                   defaultValue={contractFilterOptions}
                   title="Contract Types"
+                  fontSize={12}
                   type="checkbox"
                   value={filterVal}
                   onChange={(e) => props.setFilter(props.column.id, e)}
@@ -275,7 +278,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                           src={FeatureIconMap[contractType]}
                           alt={contractType}
                         />
-                        <Text size="label.sm">
+                        <Text size="label.md">
                           {CONTRACT_TYPE_NAME_MAP[contractType]}
                         </Text>
                       </Flex>
@@ -330,6 +333,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 <MenuOptionGroup
                   defaultValue={options}
                   title="Networks"
+                  fontSize={12}
                   type="checkbox"
                   value={props.filterValue}
                   onChange={(e) => props.setFilter(props.column.id, e)}
@@ -345,7 +349,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                             ).icon
                           }
                         />
-                        <Text size="label.sm">
+                        <Text size="label.md">
                           {
                             getNetworkMetadata(
                               parseInt(chainId) as SUPPORTED_CHAIN_ID,
@@ -430,7 +434,9 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 // eslint-disable-next-line react/jsx-key
                 <Th {...column.getHeaderProps()}>
                   <Flex align="center" gap={2}>
-                    {column.render("Header")}
+                    <Text as="label" size="label.md">
+                      {column.render("Header")}
+                    </Text>
                     {column.render("Filter")}
                   </Flex>
                 </Th>
@@ -502,14 +508,16 @@ const AsyncContractCell: React.FC<AsyncContractCellProps> = ({ cell }) => {
     cell.chainId,
   );
 
+  const contractTypeUrlSegment =
+    cell.contractType === "custom" ? "" : `/${UrlMap[cell.contractType]}`;
+
+  const href = `/${wallet}/${getNetworkFromChainId(
+    cell.chainId as SUPPORTED_CHAIN_ID,
+  )}${contractTypeUrlSegment}/${cell.address}`;
+
   return (
     <Skeleton isLoaded={!metadataQuery.isLoading}>
-      <OriginalNextLink
-        href={`/${wallet}/${getNetworkFromChainId(
-          cell.chainId as SUPPORTED_CHAIN_ID,
-        )}/${UrlMap[cell.contractType]}/${cell.address}`}
-        passHref
-      >
+      <OriginalNextLink href={href} passHref>
         <Link>
           <Text
             color="blue.700"
@@ -529,7 +537,7 @@ const NoContracts: React.FC = () => {
   return (
     <Center w="100%">
       <Container as={Card}>
-        <Stack py={7} align="center" spacing={7} w="100%">
+        <Stack py={7} align="center" spacing={6} w="100%">
           <ChakraNextImage
             src={require("public/assets/illustrations/listing.png")}
             alt="no apps"
@@ -537,10 +545,12 @@ const NoContracts: React.FC = () => {
             maxW="200px"
             mb={3}
           />
-          <Heading size="title.lg" textAlign="center">
-            You don&apos;t have any contracts
-          </Heading>
-          <Text size="subtitle.lg">Deploy a contract to get started</Text>
+          <Flex direction="column" gap={0.5} align="center">
+            <Heading size="title.md" textAlign="center">
+              You don&apos;t have any contracts
+            </Heading>
+            <Text size="body.lg">Deploy a contract to get started</Text>
+          </Flex>
           <LinkButton
             leftIcon={<FiPlus />}
             colorScheme="primary"
@@ -558,7 +568,7 @@ const NoWallet: React.FC = () => {
   return (
     <Center w="100%">
       <Container as={Card}>
-        <Stack py={7} align="center" spacing={7} w="100%">
+        <Stack py={7} align="center" spacing={6} w="100%">
           <ChakraNextImage
             src={require("public/assets/illustrations/wallet.png")}
             alt="no apps"
@@ -566,12 +576,12 @@ const NoWallet: React.FC = () => {
             maxW="200px"
             mb={3}
           />
-          <Heading size="title.lg" textAlign="center">
-            Connect your wallet
-          </Heading>
-          <Text size="subtitle.lg">
-            You need to connect your wallet to continue
-          </Text>
+          <Flex direction="column" gap={0.5} align="center">
+            <Heading size="title.md">Connect your wallet</Heading>
+            <Text size="body.lg">
+              You need to connect your wallet to continue
+            </Text>
+          </Flex>
           <ConnectWallet />
         </Stack>
       </Container>
@@ -676,6 +686,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
                 <MenuOptionGroup
                   defaultValue={options}
                   title="Networks"
+                  fontSize={12}
                   type="checkbox"
                   value={props.filterValue}
                   onChange={(e) => props.setFilter(props.column.id, e)}
@@ -691,7 +702,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
                             ).icon
                           }
                         />
-                        <Text size="label.sm">
+                        <Text size="label.md">
                           {
                             getNetworkMetadata(
                               parseInt(chainId) as SUPPORTED_CHAIN_ID,
@@ -774,7 +785,9 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
                 // eslint-disable-next-line react/jsx-key
                 <Th {...column.getHeaderProps()}>
                   <Flex align="center" gap={2}>
-                    {column.render("Header")}
+                    <Text as="label" size="label.md" color="inherit">
+                      {column.render("Header")}
+                    </Text>
                     {column.render("Filter")}
                   </Flex>
                 </Th>

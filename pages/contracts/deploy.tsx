@@ -1,11 +1,10 @@
-import { Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Flex, Link } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { Badge } from "components/badges/badge";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
-import { Card } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
+import { Badge, Card, Heading, Text } from "tw-components";
 
 const ContractsDeployPage: ConsolePage = () => {
   const { Track } = useTrack({
@@ -18,7 +17,7 @@ const ContractsDeployPage: ConsolePage = () => {
         <Flex gap={2} direction="column">
           <Heading size="title.md">
             Deploy Contract{" "}
-            <Badge py={0.5} variant="outline" colorScheme="purple">
+            <Badge variant="outline" colorScheme="purple">
               beta
             </Badge>
           </Heading>

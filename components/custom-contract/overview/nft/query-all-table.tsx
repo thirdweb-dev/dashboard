@@ -2,7 +2,6 @@ import {
   Center,
   Code,
   Flex,
-  Heading,
   Icon,
   IconButton,
   Select,
@@ -11,7 +10,6 @@ import {
   Table,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
@@ -20,8 +18,6 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { useNFTList, useNFTSupply } from "@thirdweb-dev/react";
 import { Erc721, Json, NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
-import { Card } from "components/layout/Card";
-import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import React, { useEffect, useState } from "react";
 import {
   MdFirstPage,
@@ -30,6 +26,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Cell, Column, usePagination, useTable } from "react-table";
+import { AddressCopyButton, Card, Heading, Text } from "tw-components";
 
 interface ContractOverviewNftGetAllProps {
   contract: Erc721<any>;
@@ -114,7 +111,7 @@ const ContractOverviewNftGetAll: React.VFC<ContractOverviewNftGetAllProps> = ({
   }, [pageIndex, pageSize]);
   return (
     <Flex gap={4} direction="column">
-      <Card maxW="100%" overflowX="auto" position="relative">
+      <Card maxW="100%" overflowX="auto" position="relative" px={0} pt={0}>
         {getAllQueryResult.isFetching && (
           <Spinner
             color="primary"
@@ -125,14 +122,16 @@ const ContractOverviewNftGetAll: React.VFC<ContractOverviewNftGetAllProps> = ({
           />
         )}
         <Table {...getTableProps()}>
-          <Thead>
+          <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
             {headerGroups.map((headerGroup) => (
               // eslint-disable-next-line react/jsx-key
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()}>
-                    {column.render("Header")}
+                  <Th {...column.getHeaderProps()} py={5}>
+                    <Text as="label" size="label.md">
+                      {column.render("Header")}
+                    </Text>
                   </Th>
                 ))}
               </Tr>

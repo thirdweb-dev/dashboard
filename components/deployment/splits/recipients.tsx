@@ -6,19 +6,17 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  Heading,
   IconButton,
   Input,
-  Text,
 } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
 import { Split } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SplitsPieChart } from "components/splits-chart/splits-chart";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
+import { Button, Heading, Text } from "tw-components";
 import { z } from "zod";
 
 export const RecipientForm: React.FC = () => {

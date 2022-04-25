@@ -1,13 +1,13 @@
 import {
+  Drawer as ChakraDrawer,
+  DrawerProps as ChakraDrawerProps,
   Divider,
-  Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  DrawerProps,
   ModalBodyProps,
   ModalFooterProps,
   ModalHeaderProps,
@@ -15,13 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { ComponentWithChildren } from "types/component-with-children";
 
-interface ThirdwebDrawerProps extends Omit<DrawerProps, "placement"> {
+export interface DrawerProps extends Omit<ChakraDrawerProps, "placement"> {
   header?: ModalHeaderProps;
   drawerBodyProps?: ModalBodyProps;
   footer?: ModalFooterProps;
 }
 
-export const ThirdwebDrawer: ComponentWithChildren<ThirdwebDrawerProps> = ({
+export const Drawer: ComponentWithChildren<DrawerProps> = ({
   children,
   header,
   drawerBodyProps,
@@ -30,9 +30,16 @@ export const ThirdwebDrawer: ComponentWithChildren<ThirdwebDrawerProps> = ({
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <Drawer {...restDrawerProps} placement={isMobile ? "bottom" : "right"}>
+    <ChakraDrawer
+      {...restDrawerProps}
+      allowPinchZoom
+      preserveScrollBarGap
+      placement={isMobile ? "bottom" : "right"}
+    >
       <DrawerOverlay zIndex="modal" />
       <DrawerContent
+        maxH="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
+        // maxW="calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right))"
         overflow="hidden"
         borderTopRadius={{ base: "lg", md: "none" }}
       >
@@ -53,6 +60,6 @@ export const ThirdwebDrawer: ComponentWithChildren<ThirdwebDrawerProps> = ({
           </>
         )}
       </DrawerContent>
-    </Drawer>
+    </ChakraDrawer>
   );
 };

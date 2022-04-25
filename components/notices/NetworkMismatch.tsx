@@ -1,22 +1,13 @@
 import { useWeb3 } from "@3rdweb-sdk/react";
-import {
-  ButtonGroup,
-  Container,
-  Heading,
-  Icon,
-  Portal,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { ButtonGroup, Container, Icon, Portal, Stack } from "@chakra-ui/react";
 import {
   useDesiredChainId,
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
-import { Button } from "components/buttons/Button";
-import { Card } from "components/layout/Card";
 import React, { useCallback, useEffect, useState } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
+import { Button, Card, Heading, Text } from "tw-components";
 import {
   SUPPORTED_CHAIN_ID,
   SupportedChainIdToNetworkMap,
@@ -103,7 +94,7 @@ export const NetworkMismatchNotice: React.FC = () => {
         right={0}
       >
         <Container as={Stack} spacing={4}>
-          <Heading size="label.2xl">
+          <Heading size="label.lg">
             <Stack direction="row" align="center">
               <Icon boxSize={6} as={AiOutlineWarning} />
               <span>Network Mismatch</span>

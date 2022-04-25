@@ -3,23 +3,16 @@ import {
   useSplitContractMetadata,
   useSplitData,
 } from "@3rdweb-sdk/react/hooks/useSplit";
-import {
-  Spinner,
-  Stack,
-  Stat,
-  StatLabel,
-  StatNumber,
-  Text,
-} from "@chakra-ui/react";
+import { Spinner, Stack, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
 import { useAddress, useSplit } from "@thirdweb-dev/react";
 import { SplitRecipient } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { DistributeButton } from "components/contract-pages/action-buttons/DistributeButton";
 import { ContractLayout } from "components/contract-pages/contract-layout";
-import { Card } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
+import { Card, Text } from "tw-components";
 
 const SplitPage: ConsolePage = () => {
   const address = useAddress();

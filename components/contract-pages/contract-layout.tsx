@@ -5,7 +5,6 @@ import {
   Center,
   Container,
   HStack,
-  Heading,
   Spinner,
   Stack,
   Tab,
@@ -13,7 +12,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@chakra-ui/react";
 import { ValidContractClass } from "@thirdweb-dev/sdk";
 import { ContractTab, useContractTabs } from "components/contract-tabs";
@@ -22,6 +20,7 @@ import { useRouter } from "next/router";
 import React, { PropsWithChildren, useMemo } from "react";
 import { UseQueryResult } from "react-query";
 import { C } from "ts-toolbelt";
+import { Heading, Text } from "tw-components";
 import { parseErrorToMessage } from "utils/errorParser";
 import { z } from "zod";
 
@@ -83,9 +82,7 @@ export const ContractLayout = <
     return (
       <Center>
         <Container>
-          <Heading as="h1" size="xl">
-            {parseErrorToMessage(metadata.error)}
-          </Heading>
+          <Heading as="h1">{parseErrorToMessage(metadata.error)}</Heading>
         </Container>
       </Center>
     );

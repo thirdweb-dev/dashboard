@@ -11,18 +11,14 @@ import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
-  FormLabel,
-  Heading,
   Input,
   Select,
   Skeleton,
-  Text,
   Textarea,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
-import { Badge } from "components/badges/badge";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -31,6 +27,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Badge, FormLabel, Heading, Text } from "tw-components";
 import {
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,

@@ -1,12 +1,10 @@
 import { useContractPublishMetadataFromURI } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
-import { Heading, Icon, useClipboard, useDisclosure } from "@chakra-ui/react";
-import { Button } from "components/buttons/Button";
-import { CodeBlock } from "components/code-block/code-block";
-import { ThirdwebDrawer } from "components/tw-drawer";
+import { Icon, useClipboard, useDisclosure } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { FiCheck } from "react-icons/fi";
 import { ImCopy } from "react-icons/im";
+import { Button, CodeBlock, Drawer, Heading } from "tw-components";
 
 export const ContractAbiCell: React.VFC<
   DeployableContractContractCellProps
@@ -26,7 +24,7 @@ export const ContractAbiCell: React.VFC<
 
   return (
     <>
-      <ThirdwebDrawer
+      <Drawer
         header={{
           children: <Heading size="subtitle.md">Contract ABI</Heading>,
         }}
@@ -46,7 +44,7 @@ export const ContractAbiCell: React.VFC<
         onClose={onClose}
       >
         <CodeBlock w="full" whiteSpace="pre-wrap" language="json" code={code} />
-      </ThirdwebDrawer>
+      </Drawer>
       <Button
         isDisabled={!publishMetadata.data?.abi}
         onClick={onOpen}

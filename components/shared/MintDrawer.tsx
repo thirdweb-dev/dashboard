@@ -1,11 +1,6 @@
-import {
-  Drawer,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-} from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { MintForm } from "components/contract-pages/forms/mint";
+import { Drawer } from "tw-components";
 
 interface IMintDrawer {
   contract?: ValidContractInstance;
@@ -26,11 +21,7 @@ export const MintDrawer: React.FC<IMintDrawer> = ({
       onClose={onClose}
       isOpen={isOpen}
     >
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <MintForm contract={contract} />
-      </DrawerContent>
+      <MintForm contract={contract} />
     </Drawer>
   );
 };

@@ -1,4 +1,4 @@
-import { ButtonGroup, Flex, Heading, Icon } from "@chakra-ui/react";
+import { ButtonGroup, Flex, Icon } from "@chakra-ui/react";
 import { useNFTMint } from "@thirdweb-dev/react";
 import type { Erc721 } from "@thirdweb-dev/sdk";
 import { MismatchButton } from "components/buttons/MismatchButton";
@@ -6,6 +6,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { FiPlus } from "react-icons/fi";
+import { Heading } from "tw-components";
 
 const QueryAllTable = dynamic(() => import("./query-all-table"));
 

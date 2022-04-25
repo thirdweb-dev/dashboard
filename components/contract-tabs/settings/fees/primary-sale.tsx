@@ -4,22 +4,14 @@ import {
   useSaleRecipient,
   useSetSaleRecipientMutation,
 } from "@3rdweb-sdk/react";
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Flex, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CommonPrimarySaleSchema } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { Card } from "components/layout/Card";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Card, FormLabel, Heading, Text } from "tw-components";
 import { z } from "zod";
 
 export const ContractPrimarySale = <TContract extends RecipientContract>({

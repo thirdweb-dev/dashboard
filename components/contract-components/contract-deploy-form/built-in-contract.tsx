@@ -7,8 +7,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
-  FormLabel,
-  Heading,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -18,7 +16,6 @@ import {
   Select,
   SimpleGrid,
   Skeleton,
-  Text,
   Textarea,
 } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
@@ -30,7 +27,6 @@ import {
   KNOWN_CONTRACTS_MAP,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
-import { Badge } from "components/badges/badge";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
@@ -49,6 +45,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
+import { Badge, FormLabel, Heading, Text } from "tw-components";
 import {
   NetworkToBlockTimeMap,
   SUPPORTED_CHAIN_ID,
@@ -286,7 +283,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
       >
         <Flex gap={4} align="center">
           <ContractIdImage boxSize={12} contractId={contractType} />
-          <Flex gap={0.5} direction="column">
+          <Flex direction="column">
             <Skeleton isLoaded={publishMetadata.isSuccess}>
               <Heading minW="60px" size="subtitle.lg">
                 {publishMetadata.data?.name}

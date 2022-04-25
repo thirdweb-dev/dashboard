@@ -86,12 +86,12 @@
     "include": [
       "components",
       "hooks",
-      "portal",
       "schema",
       "theme",
       "utils",
       "@3rdweb-sdk",
-      "constants"
+      "constants",
+      "tw-components"
     ],
     "exclude": [
       "node_modules",

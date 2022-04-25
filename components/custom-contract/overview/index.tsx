@@ -1,9 +1,9 @@
-import { Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Flex, Link } from "@chakra-ui/react";
 import { detectErc721Instance, useCustomContract } from "@thirdweb-dev/react";
-import { Card } from "components/layout/Card";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { Card, Heading, Text } from "tw-components";
 
 const NftOverview = dynamic(() => import("./nft"));
 

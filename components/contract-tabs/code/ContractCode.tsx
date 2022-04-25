@@ -7,14 +7,12 @@ import {
   SnippetSchema,
 } from "./types";
 import { useContractName, useWeb3 } from "@3rdweb-sdk/react";
-import { Flex, Heading, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Flex, Spinner, Stack } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
-import { CodeBlock } from "components/code-block/code-block";
-import { Card } from "components/layout/Card";
-import { LinkButton } from "components/shared/LinkButton";
 import { useCallback, useMemo, useState } from "react";
 import { IoDocumentOutline } from "react-icons/io5";
 import { useQuery } from "react-query";
+import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
 
 function replaceVariablesInCodeSnippet(
   snippet: CodeSnippet,
@@ -118,13 +116,7 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
         <Stack spacing={3}>
           <Heading size="title.sm">Getting Started</Heading>
           <Text>First, install the latest version of the SDK.</Text>
-          <CodeBlock
-            borderRadius="md"
-            py={2}
-            px={4}
-            language="bash"
-            code={NPM_INSTALL_COMMAND}
-          />
+          <CodeBlock language="bash" code={NPM_INSTALL_COMMAND} />
 
           <Text>
             Follow along below to get started using this contract in your code.

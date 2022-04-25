@@ -1,13 +1,10 @@
 import type { ConsolePage } from "../../_app";
 import {
   Box,
-  Button,
   Container,
   Flex,
-  Heading,
   Image,
   Skeleton,
-  Text,
   useBreakpointValue,
   usePrevious,
 } from "@chakra-ui/react";
@@ -17,16 +14,21 @@ import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { CustomContractOverviewPage } from "components/custom-contract/overview";
 import { CustomContractCodeTab } from "components/custom-contract/tabs/code";
-import { Card } from "components/layout/Card";
 import { Logo } from "components/logo";
-import { LinkButton } from "components/shared/LinkButton";
-import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import { FeatureIconMap } from "constants/mappings";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
 import { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
+import {
+  AddressCopyButton,
+  Button,
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+} from "tw-components";
 import { isBrowser } from "utils/isBrowser";
 
 const CustomContractPage: ConsolePage = () => {
@@ -136,7 +138,7 @@ const CustomContractPage: ConsolePage = () => {
           <Container maxW="container.page">
             <Flex justify="space-between" align="center" direction="row">
               <ContractMetadata contractAddress={contractAddress} />
-              <AddressCopyButton address={contractAddress} />
+              <AddressCopyButton colorScheme="gray" address={contractAddress} />
             </Flex>
           </Container>
         </Box>
@@ -235,7 +237,6 @@ const ContractSubnav: React.VFC<ContractSubnavProps> = ({
   const [hoveredEl, setHoveredEl] = useState<EventTarget & HTMLButtonElement>();
   const previousEl = usePrevious(hoveredEl);
   const isMouseOver = useRef(false);
-
   const router = useRouter();
   return (
     <Flex
@@ -340,7 +341,7 @@ const ContractSubNavLinkButton: React.VFC<ContractSubNavLinkButton> = (
       }}
       variant="unstyled"
       onMouseOverCapture={(e) => props.onHover(e.currentTarget)}
-      size="sm"
+      // size="sm"
       height="auto"
       p={3}
       color="heading"

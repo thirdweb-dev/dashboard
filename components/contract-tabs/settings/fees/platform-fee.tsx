@@ -4,23 +4,15 @@ import {
   useContractPlatformFee,
   useContractPlatformFeeMutation,
 } from "@3rdweb-sdk/react";
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Flex, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CommonPlatformFeeSchema } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
-import { Card } from "components/layout/Card";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Card, FormLabel, Heading, Text } from "tw-components";
 import { z } from "zod";
 
 export const ContractPlatformFee = <TContract extends PlatformFeeContract>({

@@ -5,9 +5,9 @@ import { ContractDeployActionCell } from "./cells/deploy-action";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-import { Checkbox } from "components/checkbox";
 import React, { useMemo } from "react";
 import { Cell, Column, useTable } from "react-table";
+import { Checkbox, Text } from "tw-components";
 
 interface DeployableContractTableProps {
   contractIds: ContractId[];
@@ -112,13 +112,17 @@ export const DeployableContractTable: React.VFC<
   );
   return (
     <Table {...tableInstance.getTableProps()}>
-      <Thead>
+      <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
         {tableInstance.headerGroups.map((headerGroup) => (
           // eslint-disable-next-line react/jsx-key
           <Tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               // eslint-disable-next-line react/jsx-key
-              <Th {...column.getHeaderProps()}>{column.render("Header")}</Th>
+              <Th {...column.getHeaderProps()} py={5}>
+                <Text as="label" size="label.md">
+                  {column.render("Header")}
+                </Text>
+              </Th>
             ))}
           </Tr>
         ))}
