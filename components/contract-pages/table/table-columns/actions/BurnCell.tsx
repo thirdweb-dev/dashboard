@@ -2,20 +2,20 @@ import { useTableContext } from "../../table-context";
 import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { Box, Tooltip } from "@chakra-ui/react";
-import { EditionMetadata } from "@thirdweb-dev/sdk";
+import { EditionMetadata, NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import React from "react";
 import { FaBurn } from "react-icons/fa";
 import { Row } from "react-table";
 
 interface IBurnCellProps {
-  row: Row<EditionMetadata>;
+  row?: Row<any>;
 }
 
 export const BurnCell: React.FC<IBurnCellProps> = ({ row }) => {
   const tableContext = useTableContext();
 
   return (
-    <Tooltip label={`You do not own this NFT.`} isDisabled={false}>
+    <Tooltip>
       <Box>
         <Button
           isFullWidth
