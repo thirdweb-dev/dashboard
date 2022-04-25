@@ -1,10 +1,11 @@
-import { ActionsCell } from "./actions/ActionsCell";
+import { NFTActionsCell } from "./actions/ActionsCell";
 import { MediaCell } from "./cells/media-cell";
 import { Code } from "@chakra-ui/react";
 import { NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import React from "react";
 import { Cell, Column } from "react-table";
+import { parseDescription } from "utils/parseDescription";
 
 export function generateNFTCollectionTableColumns() {
   return [
@@ -20,7 +21,7 @@ export function generateNFTCollectionTableColumns() {
     { Header: "Name", accessor: (row) => row.metadata.name },
     {
       Header: "Description",
-      accessor: (row) => row.metadata.description,
+      accessor: (row) => parseDescription(row.metadata.description),
     },
     {
       Header: "Properties",
@@ -39,7 +40,7 @@ export function generateNFTCollectionTableColumns() {
     {
       Header: "Actions",
       id: "actions",
-      Cell: ActionsCell || null,
+      Cell: NFTActionsCell || null,
     },
   ] as Column<NFTMetadataOwner>[];
 }
