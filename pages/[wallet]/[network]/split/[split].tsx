@@ -20,6 +20,7 @@ import { Card } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 const SplitPage: ConsolePage = () => {
   const address = useAddress();
@@ -29,6 +30,8 @@ const SplitPage: ConsolePage = () => {
   const data = useSplitData(splitsAddress);
 
   const balanceQuery = useSplitBalances(splitsAddress);
+
+  console.log("balancequery", balanceQuery.data);
 
   const { Track } = useTrack({
     page: "splits",
@@ -65,7 +68,10 @@ const SplitPage: ConsolePage = () => {
                       key={balance.token_address}
                       maxWidth="240px"
                     >
-                      <StatLabel>{balance.symbol}</StatLabel>
+                      <StatLabel>
+                        {balance.symbol ||
+                          shortenIfAddress(balance.token_address)}
+                      </StatLabel>
                       <StatNumber>{balance.balance}</StatNumber>
                     </Card>
                   ))}
