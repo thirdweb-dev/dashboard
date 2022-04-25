@@ -106,8 +106,6 @@ export const useMergedData = (
           external_url,
           background_color,
           youtube_url,
-          map_image,
-          map_animation_url,
           ...properties
         } = row;
 
@@ -119,12 +117,12 @@ export const useMergedData = (
           youtube_url,
           attributes: removeEmptyKeysFromObject(properties),
           image:
-            imageFiles.find((img) => img.name === map_image) ||
+            imageFiles.find((img) => img.name === image) ||
             imageFiles[index] ||
             image ||
             undefined,
           animation_url:
-            videoFiles.find((video) => video.name === map_animation_url) ||
+            videoFiles.find((video) => video.name === animation_url) ||
             videoFiles[index] ||
             animation_url ||
             undefined,
@@ -134,13 +132,13 @@ export const useMergedData = (
       return jsonData.map((nft: any, index: number) => ({
         ...nft,
         image:
-          imageFiles.find((img) => img.name === nft.map_image) ||
+          imageFiles.find((img) => img.name === nft.image) ||
           imageFiles[index] ||
           nft.image ||
           nft.file_url ||
           undefined,
         animation_url:
-          videoFiles.find((video) => video.name === nft.map_animation_url) ||
+          videoFiles.find((video) => video.name === nft.animation_url) ||
           videoFiles[index] ||
           nft.animation_url ||
           undefined,
