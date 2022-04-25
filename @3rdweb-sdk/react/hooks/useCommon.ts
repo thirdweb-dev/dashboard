@@ -431,7 +431,6 @@ export function useBurnMutation<TContract extends ValidContractInstance>(
 
         return invalidate([
           CacheKeyMap[contractType].list(contract?.getAddress()),
-          CacheKeyMap[contractType].supply(contract?.getAddress()),
         ]);
       },
     },
