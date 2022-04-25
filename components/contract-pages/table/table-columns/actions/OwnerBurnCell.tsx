@@ -4,7 +4,7 @@ import { Button } from "@chakra-ui/button";
 import Icon from "@chakra-ui/icon";
 import { NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import React from "react";
-import { MdDriveFileMoveOutline } from "react-icons/md";
+import { FaBurn } from "react-icons/fa";
 import { Row } from "react-table";
 
 interface IOwnerBurnCellProps {
@@ -31,7 +31,7 @@ export const OwnerBurnCell: React.FC<IOwnerBurnCellProps> = ({ row }) => {
             type: "burn",
           })
         }
-        leftIcon={<Icon as={MdDriveFileMoveOutline} />}
+        leftIcon={<Icon as={FaBurn} />}
       >
         Burn
       </Button>

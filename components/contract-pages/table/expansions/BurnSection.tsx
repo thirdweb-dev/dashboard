@@ -14,7 +14,7 @@ import { MismatchButton } from "components/buttons/MismatchButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { IoMdSend } from "react-icons/io";
+import { FaBurn } from "react-icons/fa";
 
 interface IBurnSection {
   contract?: ValidContractInstance;
@@ -80,7 +80,7 @@ export const BurnSection: React.FC<IBurnSection> = ({ contract, tokenId }) => {
             isLoading={burn.isLoading}
             type="submit"
             colorScheme="primary"
-            rightIcon={<Icon as={IoMdSend} />}
+            rightIcon={<Icon as={FaBurn} />}
           >
             Burn
           </MismatchButton>
