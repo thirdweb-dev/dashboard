@@ -1,7 +1,7 @@
 import { AdminMintConditionCell } from "./AdminMintConditionCell";
 import { EditionAirdropCell } from "./EditionAirdropCell";
 import { EditionTransferCell } from "./EditionTransferCell";
-import { OwnerListAndTransferCell } from "./OwnerListAndTransferCell";
+import { OwnerTransferCell } from "./OwnerTransferCell";
 import { ButtonGroup, Stack } from "@chakra-ui/react";
 import { EditionMetadata, NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import { Row } from "react-table";
@@ -13,7 +13,7 @@ interface IActionsCell {
 export const ActionsCell: React.FC<IActionsCell> = ({ row }) => {
   return (
     <Stack as={ButtonGroup} size="sm" variant="outline">
-      <OwnerListAndTransferCell row={row} />
+      <OwnerTransferCell row={row} />
     </Stack>
   );
 };
