@@ -31,8 +31,6 @@ const SplitPage: ConsolePage = () => {
 
   const balanceQuery = useSplitBalances(splitsAddress);
 
-  console.log("balancequery", balanceQuery.data);
-
   const { Track } = useTrack({
     page: "splits",
     splits: splitsAddress,
