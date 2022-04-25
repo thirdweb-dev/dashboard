@@ -10,13 +10,13 @@ import React from "react";
 import { MdDriveFileMoveOutline } from "react-icons/md";
 import { Row } from "react-table";
 
-interface IEditionListAndTransferCellProps {
+interface IEditionTransferCellProps {
   row: Row<EditionMetadata>;
 }
 
-export const EditionListAndTransferCell: React.FC<
-  IEditionListAndTransferCellProps
-> = ({ row }) => {
+export const EditionTransferCell: React.FC<IEditionTransferCellProps> = ({
+  row,
+}) => {
   const tableContext = useTableContext();
   const editionAddress = useSingleQueryParam("edition");
   const editionDropAddress = useSingleQueryParam("edition-drop");
