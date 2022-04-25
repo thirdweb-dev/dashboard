@@ -30,7 +30,9 @@ export const EditionTransferCell: React.FC<IEditionTransferCellProps> = ({
 
   return (
     <Tooltip
-      label={`You do not own at least 1 NFT. Your balance: ${balance?.toString()}`}
+      label={`You do not own at least 1 NFT. Your balance: ${
+        balance?.toString() || 0
+      }`}
       isDisabled={ownsAtLeastOne}
     >
       <Box>

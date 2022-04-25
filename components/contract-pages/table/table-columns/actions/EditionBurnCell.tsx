@@ -7,17 +7,16 @@ import { EditionMetadata } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import React from "react";
-import { RiDropLine } from "react-icons/ri";
+import { FaBurn } from "react-icons/fa";
 import { Row } from "react-table";
 
-interface IEditionAirdropCellProps {
+interface IEditionBurnCellProps {
   row: Row<EditionMetadata>;
 }
 
-export const EditionAirdropCell: React.FC<IEditionAirdropCellProps> = ({
-  row,
-}) => {
+export const EditionBurnCell: React.FC<IEditionBurnCellProps> = ({ row }) => {
   const tableContext = useTableContext();
+
   const editionAddress = useSingleQueryParam("edition");
   const editionDropAddress = useSingleQueryParam("edition-drop");
 
@@ -42,12 +41,12 @@ export const EditionAirdropCell: React.FC<IEditionAirdropCellProps> = ({
           onClick={() =>
             tableContext.expandRow({
               tokenId: row.original.metadata.id.toString(),
-              type: "airdrop",
+              type: "burn",
             })
           }
-          leftIcon={<Icon as={RiDropLine} />}
+          leftIcon={<Icon as={FaBurn} />}
         >
-          Airdrop
+          Burn
         </Button>
       </Box>
     </Tooltip>

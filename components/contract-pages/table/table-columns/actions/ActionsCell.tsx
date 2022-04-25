@@ -1,7 +1,8 @@
 import { AdminMintConditionCell } from "./AdminMintConditionCell";
-import { BurnCell } from "./BurnCell";
 import { EditionAirdropCell } from "./EditionAirdropCell";
+import { EditionBurnCell } from "./EditionBurnCell";
 import { EditionTransferCell } from "./EditionTransferCell";
+import { OwnerBurnCell } from "./OwnerBurnCell";
 import { OwnerTransferCell } from "./OwnerTransferCell";
 import { ButtonGroup, Stack } from "@chakra-ui/react";
 import { EditionMetadata, NFTMetadataOwner } from "@thirdweb-dev/sdk";
@@ -18,7 +19,7 @@ interface IEditionActionsCell {
 const ERC721Cell: React.FC<INFTActionsCell> = ({ row }) => (
   <>
     <OwnerTransferCell row={row} />
-    <BurnCell row={row} />
+    <OwnerBurnCell row={row} />
   </>
 );
 
@@ -26,7 +27,7 @@ const ERC1155Cell: React.FC<IEditionActionsCell> = ({ row }) => (
   <>
     <EditionTransferCell row={row} />
     <EditionAirdropCell row={row} />
-    <BurnCell row={row} />
+    <EditionBurnCell row={row} />
   </>
 );
 
