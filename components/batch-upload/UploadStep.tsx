@@ -114,15 +114,12 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                 </Link>
               </ListItem>
               <ListItem>
-                If you want to make your image files map to your NFTs, you can
-                add a <Code>map_image</Code> column with the name of the file as
-                the value.{" "}
-                <Link
-                  download
-                  color="blue.500"
-                  href="/example-with-map_image.csv"
-                >
-                  Download example-with-map_image.csv
+                If you want to make your media files map to your NFTs, you can
+                add a <Code>map_image</Code> and/or{" "}
+                <Code>map_animation_url</Code> column with the name of the file
+                as the value.{" "}
+                <Link download color="blue.500" href="/example-with-maps.csv">
+                  Download example-with-maps.csv
                 </Link>
               </ListItem>
             </UnorderedList>

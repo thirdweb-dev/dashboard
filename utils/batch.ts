@@ -107,6 +107,7 @@ export const useMergedData = (
           background_color,
           youtube_url,
           map_image,
+          map_animation_url,
           ...properties
         } = row;
 
@@ -122,7 +123,11 @@ export const useMergedData = (
             imageFiles[index] ||
             image ||
             undefined,
-          animation_url: videoFiles[index] || animation_url || undefined,
+          animation_url:
+            videoFiles.find((video) => video.name === map_animation_url) ||
+            videoFiles[index] ||
+            animation_url ||
+            undefined,
         });
       });
     } else if (Array.isArray(jsonData)) {
@@ -134,7 +139,11 @@ export const useMergedData = (
           nft.image ||
           nft.file_url ||
           undefined,
-        animation_url: videoFiles[index] || nft.animation_url || undefined,
+        animation_url:
+          videoFiles.find((video) => video.name === nft.map_animation_url) ||
+          videoFiles[index] ||
+          nft.animation_url ||
+          undefined,
       }));
     } else {
       return [];
