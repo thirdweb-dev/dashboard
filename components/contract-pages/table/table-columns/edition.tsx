@@ -5,7 +5,6 @@ import { EditionMetadata } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import React from "react";
 import { Cell, Column } from "react-table";
-import { parseDescription } from "utils/parseDescription";
 
 export function generateEditionTableColumns() {
   return [
@@ -21,7 +20,9 @@ export function generateEditionTableColumns() {
     { Header: "Name", accessor: (row) => row.metadata.name },
     {
       Header: "Description",
-      accessor: (row) => parseDescription(row.metadata.description),
+      accessor: (row) => (
+        <Text whiteSpace="pre-wrap">{row.metadata.description}</Text>
+      ),
     },
     {
       Header: "Properties",
