@@ -420,6 +420,9 @@ export function useBurnMutation<TContract extends ValidContractInstance>(
                 if ("list" in cacheKeys) {
                   return cacheKeys.list(contract?.getAddress());
                 }
+                if ("supply" in cacheKeys) {
+                  return cacheKeys.supply(contract?.getAddress());
+                }
                 return undefined as never;
               })
               .filter((fn) => !!fn),
@@ -428,6 +431,7 @@ export function useBurnMutation<TContract extends ValidContractInstance>(
 
         return invalidate([
           CacheKeyMap[contractType].list(contract?.getAddress()),
+          CacheKeyMap[contractType].supply(contract?.getAddress()),
         ]);
       },
     },
