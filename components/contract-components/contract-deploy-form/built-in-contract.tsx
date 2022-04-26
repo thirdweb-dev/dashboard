@@ -702,8 +702,8 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
                     }
                     defaultValue={0}
                     min={0}
-                    step={0.01}
-                    max={1}
+                    step={1}
+                    max={100}
                   >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -714,8 +714,9 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
                   <FormHelperText>
                     The fraction of the total voting power that is required for
                     a proposal to pass. A value of 0 indicates that no voting
-                    power is sufficient, whereas a value of 1 indicates that the
-                    entirety of voting power must vote for a proposal to pass.
+                    power is sufficient, whereas a value of 100 indicates that
+                    the entirety of voting power must vote for a proposal to
+                    pass.
                   </FormHelperText>
                   <FormErrorMessage>
                     {

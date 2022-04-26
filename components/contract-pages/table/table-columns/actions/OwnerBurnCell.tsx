@@ -3,17 +3,15 @@ import { useWeb3 } from "@3rdweb-sdk/react";
 import Icon from "@chakra-ui/icon";
 import { NFTMetadataOwner } from "@thirdweb-dev/sdk";
 import React from "react";
-import { MdDriveFileMoveOutline } from "react-icons/md";
+import { FaBurn } from "react-icons/fa";
 import { Row } from "react-table";
 import { Button } from "tw-components";
 
-interface IOwnerListAndTransferCellProps {
+interface IOwnerBurnCellProps {
   row: Row<NFTMetadataOwner>;
 }
 
-export const OwnerListAndTransferCell: React.FC<
-  IOwnerListAndTransferCellProps
-> = ({ row }) => {
+export const OwnerBurnCell: React.FC<IOwnerBurnCellProps> = ({ row }) => {
   const { address } = useWeb3();
   const tableContext = useTableContext();
 
@@ -29,12 +27,12 @@ export const OwnerListAndTransferCell: React.FC<
       onClick={() =>
         tableContext.expandRow({
           tokenId: row.original.metadata.id.toString(),
-          type: "transfer",
+          type: "burn",
         })
       }
-      leftIcon={<Icon as={MdDriveFileMoveOutline} />}
+      leftIcon={<Icon as={FaBurn} />}
     >
-      Transfer
+      Burn
     </Button>
   );
 };

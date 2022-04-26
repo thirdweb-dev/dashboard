@@ -6,6 +6,7 @@ import { BigNumber } from "ethers";
 import React from "react";
 import { Cell, Column } from "react-table";
 import { Text } from "tw-components";
+import { parseDescription } from "utils/parseDescription";
 
 export function generateEditionDropTableColumns() {
   return [
@@ -21,7 +22,7 @@ export function generateEditionDropTableColumns() {
     { Header: "Name", accessor: (row) => row.metadata.name },
     {
       Header: "Description",
-      accessor: (row) => row.metadata.description,
+      accessor: (row) => parseDescription(row.metadata.description),
     },
     {
       Header: "Properties",
