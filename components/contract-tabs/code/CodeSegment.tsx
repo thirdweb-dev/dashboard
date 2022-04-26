@@ -1,18 +1,8 @@
 import { CodeSnippet, Environment, SupportedEnvironment } from "./types";
-import {
-  Box,
-  ButtonGroup,
-  Flex,
-  Heading,
-  Icon,
-  Stack,
-  useClipboard,
-} from "@chakra-ui/react";
-import Editor from "@monaco-editor/react";
-import { Button } from "components/buttons/Button";
+import { ButtonGroup, Flex, Icon, Stack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useMemo } from "react";
-import { ImCopy } from "react-icons/im";
 import { SiJavascript, SiTypescript } from "react-icons/si";
+import { Button, CodeBlock, Heading } from "tw-components";
 
 interface ICodeSegment {
   snippet: CodeSnippet;
@@ -54,9 +44,6 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
   );
 
   const code = lines.join("\n");
-
-  const { onCopy, hasCopied } = useClipboard(code);
-
   const environments = Environments.filter((env) =>
     Object.keys(snippet).includes(env.environment),
   );
@@ -79,39 +66,9 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
             ))}
           </ButtonGroup>
         </Flex>
-        <Button
-          size="xs"
-          onClick={onCopy}
-          variant="outline"
-          leftIcon={<ImCopy />}
-        >
-          {hasCopied ? "Code copied" : "Copy code"}
-        </Button>
       </Flex>
 
-      <Box
-        borderRadius="md"
-        overflow="hidden"
-        height={`${lines.length * 19 + 16}px`}
-        w="100%"
-      >
-        <Editor
-          theme="vs-dark"
-          options={{
-            padding: {
-              top: 8,
-              bottom: 8,
-            },
-            contextmenu: false,
-            codeLens: false,
-            readOnly: true,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: 0,
-          }}
-          value={code}
-          defaultLanguage="javascript"
-        />
-      </Box>
+      <CodeBlock code={code} language={environment} />
     </Stack>
   );
 };
@@ -132,7 +89,6 @@ const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
 }) => {
   return (
     <Button
-      colorScheme="yellow"
       variant={active ? "solid" : "outline"}
       onClick={onClick}
       leftIcon={icon}

@@ -164,9 +164,7 @@ export function useSaleRecipient<TContract extends RecipientContract>(
     tokenId
       ? recipientKeys.token(contract?.getAddress(), tokenId)
       : recipientKeys.detail(contract?.getAddress()),
-    () => {
-      return contract?.primarySale.getRecipient();
-    },
+    async () => await contract?.primarySale.getRecipient(),
     {
       enabled: !!contract,
     },
@@ -206,7 +204,7 @@ export function useContractRoyalty<TContract extends RoyaltyContract>(
 ) {
   return useQueryWithNetwork(
     royaltyKeys.detail(contract?.getAddress()),
-    () => contract?.royalty.getDefaultRoyaltyInfo(),
+    async () => await contract?.royalty.getDefaultRoyaltyInfo(),
     {
       enabled: !!contract,
     },
@@ -248,7 +246,7 @@ export function useContractPlatformFee<TContract extends PlatformFeeContract>(
 ) {
   return useQueryWithNetwork(
     platformFeeKeys.detail(contract?.getAddress()),
-    () => contract?.platformFee.get(),
+    async () => await contract?.platformFee.get(),
     {
       enabled: !!contract,
     },

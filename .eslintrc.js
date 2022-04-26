@@ -98,6 +98,44 @@ module.exports = {
     "inclusive-language/use-inclusive-words": "error",
     // turn off deprecated things?
     "react/react-in-jsx-scope": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        paths: [
+          {
+            name: "@chakra-ui/react",
+            // these are provided by tw-components, so we don't want to import them from chakra directly
+            importNames: [
+              "Button",
+              "Checkbox",
+              "Badge",
+              "Drawer",
+              "Heading",
+              "Text",
+              "FormLabel",
+              // also the types
+              "ButtonProps",
+              "DrawerProps",
+              "HeadingProps",
+              "TextProps",
+              "FormLabelProps",
+            ],
+            message:
+              'Use the equivalent component from "tw-components" instead.',
+          },
+          {
+            name: "@chakra-ui/layout",
+            message:
+              "Import from `@chakra-ui/react` instead of `@chakra-ui/layout`.",
+          },
+          {
+            name: "@chakra-ui/button",
+            message:
+              "Import from `@chakra-ui/react` instead of `@chakra-ui/button`.",
+          },
+        ],
+      },
+    ],
   },
   parser: "@typescript-eslint/parser",
   plugins: [
@@ -123,18 +161,18 @@ module.exports = {
     },
   },
   overrides: [
+    // disable restricted imports in tw-components
+    {
+      files: "tw-components/*",
+      rules: {
+        "no-restricted-imports": ["off"],
+      },
+    },
     // enable rule specifically for TypeScript files
     {
       files: ["*.ts", "*.tsx"],
       rules: {
         "@typescript-eslint/explicit-module-boundary-types": ["off"],
-      },
-    },
-    // disable mandatory display-names in non-production code
-    {
-      files: ["package-examples/**", "prototyper/**"],
-      rules: {
-        "react/display-name": "off",
       },
     },
 
