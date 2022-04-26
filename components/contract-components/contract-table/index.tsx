@@ -104,7 +104,9 @@ export const DeployableContractTable: React.VFC<
     }
 
     return cols;
-  }, [contractIds, isPublish, selectable]);
+    // this is to avoid re-rendering of the table when the contractIds array changes (it will always be a string array, so we can just join it and compare the string output)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contractIds.join(), isPublish, selectable]);
 
   const tableInstance = useTable(
     {

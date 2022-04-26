@@ -146,6 +146,13 @@ const ContractsPublishPageWrapped: React.VFC = () => {
       <NetworkMismatchNotice />
     </Track>
   );
+};
+
+const ContractsPublishPage: ConsolePage = () => {
+  return (
+    <CustomSDKContext desiredChainId={ChainId.Mumbai}>
+      <ContractsPublishPageWrapped />
+    </CustomSDKContext>
   );
 };
 
