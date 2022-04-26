@@ -6,4 +6,5 @@ export interface DeployableContractContractCellProps {
   cell: {
     value: ContractId;
   };
+  isPublish?: boolean;
 }

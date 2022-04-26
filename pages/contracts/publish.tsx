@@ -90,6 +90,7 @@ const ContractsPublishPageWrapped: React.VFC = () => {
         </Flex>
         <Card overflowX="auto">
           <DeployableContractTable
+            isPublish
             contractIds={ipfsHashes}
             selectable={{
               selected: publishableContractIds,
