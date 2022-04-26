@@ -48,7 +48,9 @@ const ContractsPublishPageWrapped: React.VFC = () => {
   const publishContractNo = selectedContractIds.length;
 
   const { onSuccess, onError } = useTxNotifications(
-    `Successfully published ${publishContractNo} contract$publishContractNo === 1 ? "" : "s"`,
+    `Successfully published ${publishContractNo} contract${
+      publishContractNo === 1 ? "" : "s"
+    }`,
     "Failed to publish contracts",
   );
   const publishMutation = usePublishMutation();
@@ -144,13 +146,6 @@ const ContractsPublishPageWrapped: React.VFC = () => {
       <NetworkMismatchNotice />
     </Track>
   );
-};
-
-const ContractsPublishPage: ConsolePage = () => {
-  return (
-    <CustomSDKContext desiredChainId={ChainId.Mumbai}>
-      <ContractsPublishPageWrapped />
-    </CustomSDKContext>
   );
 };
 
