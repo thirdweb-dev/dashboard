@@ -76,6 +76,24 @@ export function useTokenDropActiveClaimCondition(contractAddress?: string) {
   );
 }
 
+export function useTokenDropResetClaimEligibilityMutation(
+  contract?: TokenDrop,
+) {
+  return useMutationWithInvalidate(async () => {
+    invariant(contract, "contract is required");
+    const claimConditions = await contract.claimConditions.getAll();
+
+    const cleaned = claimConditions.map((c) => ({
+      ...c,
+      price: c.currencyMetadata.displayValue,
+      maxQuantity: c.maxQuantity.toString(),
+      quantityLimitPerTransaction: c.quantityLimitPerTransaction.toString(),
+    }));
+
+    return await contract.claimConditions.set(cleaned, true);
+  });
+}
+
 // ----------------------------------------------------------------
 // Mutations
 // ----------------------------------------------------------------

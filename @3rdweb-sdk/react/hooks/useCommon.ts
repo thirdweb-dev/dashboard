@@ -44,6 +44,8 @@ export function useRealContract<T extends ValidContractInstance>(contract: T) {
     return contract as Vote;
   } else if (contract instanceof Split) {
     return contract as Split;
+  } else if (contract instanceof TokenDrop) {
+    return contract as TokenDrop;
   }
 
   throw new Error("Contract is not a valid contract");
@@ -68,6 +70,8 @@ export function useContractConstructor<T extends ValidContractInstance>(
     return Vote;
   } else if (contract instanceof Split) {
     return Split;
+  } else if (contract instanceof TokenDrop) {
+    return TokenDrop;
   }
 
   throw new Error("Contract is not a valid contract");
@@ -122,6 +126,8 @@ export function useContractName<T extends ValidContractInstance>(
     return "Vote";
   } else if (contract instanceof Split) {
     return "Split";
+  } else if (contract instanceof TokenDrop) {
+    return "TokenDrop";
   }
 
   throw new Error("Contract does not have a contractType");
@@ -148,7 +154,8 @@ export type TransferableContract =
   | Edition
   | Token
   | NFTDrop
-  | EditionDrop;
+  | EditionDrop
+  | TokenDrop;
 // | PackContract;
 
 export type RecipientContract = NFTDrop | EditionDrop;

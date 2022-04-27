@@ -27,6 +27,7 @@ import {
   EditionDrop,
   NATIVE_TOKEN_ADDRESS,
   NFTDrop,
+  TokenDrop,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BigNumberInput } from "components/shared/BigNumberInput";
@@ -42,7 +43,7 @@ import * as z from "zod";
 import { ZodError } from "zod";
 
 interface DropPhases {
-  contract?: NFTDrop | EditionDrop;
+  contract?: NFTDrop | EditionDrop | TokenDrop;
   tokenId?: string;
 }
 
