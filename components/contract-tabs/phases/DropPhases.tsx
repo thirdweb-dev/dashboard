@@ -297,8 +297,8 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                             ).error?.message
                           }
                         </FormErrorMessage>
-                        <FormHelperText>
-                          This time is in your timezone.
+                        <FormHelperText fontSize={12}>
+                          This time is in your local timezone.
                         </FormHelperText>
                       </FormControl>
 
@@ -538,7 +538,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                             )
                           }
                         />
-                        <FormHelperText>
+                        <FormHelperText fontSize={12}>
                           Set this to &quot;Unlimited&quot; to only allow one
                           claim transaction per wallet.
                         </FormHelperText>
