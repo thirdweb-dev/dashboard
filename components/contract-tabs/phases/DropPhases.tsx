@@ -46,13 +46,17 @@ interface DropPhases {
   contract?: NFTDrop | EditionDrop | TokenDrop;
   tokenId?: string;
 }
-
 export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const mutation = useResetEligibilityMutation(contract, tokenId);
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
   );
+
+  const nftsOrToken =
+    contract instanceof NFTDrop || contract instanceof EditionDrop
+      ? "NFTs"
+      : "tokens";
 
   return (
     <Stack spacing={8}>
@@ -67,8 +71,8 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
             <Flex direction="column">
               <Heading size="title.md">Claim Phases</Heading>
               <Text size="body.md" fontStyle="italic">
-                Add different phases to control when you drop your NFTs, how
-                much they cost, and more.
+                Add different phases to control when you drop your {nftsOrToken}
+                , how much they cost, and more.
               </Text>
             </Flex>
           </Flex>
@@ -88,10 +92,10 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
               <Heading size="title.md">Claim Eligibility</Heading>
               <Text size="body.md" fontStyle="italic">
                 This contracts claim eligibility stores who has already claimed
-                NFTs from this contract and carries across claim phases.
-                Resetting claim eligibility will reset this state permanently,
-                and people who have already claimed to their limit will be able
-                to claim again.
+                {nftsOrToken} from this contract and carries across claim
+                phases. Resetting claim eligibility will reset this state
+                permanently, and people who have already claimed to their limit
+                will be able to claim again.
               </Text>
             </Flex>
           </Flex>
@@ -126,6 +130,11 @@ const DropPhasesSchema = z.object({
 const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const query = useClaimPhases(contract, tokenId);
   const mutation = useClaimPhasesMutation(contract, tokenId);
+
+  const nftsOrToken =
+    contract instanceof NFTDrop || contract instanceof EditionDrop
+      ? "NFTs"
+      : "tokens";
 
   const form = useForm<z.input<typeof DropPhasesSchema>>({
     defaultValues: query.data
@@ -311,7 +320,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How many NFTs will you drop in this phase?
+                          How many {nftsOrToken} will you drop in this phase?
                         </Heading>
 
                         <BigNumberInput
@@ -346,7 +355,8 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How much do you want to charge to claim the NFTs?
+                          How much do you want to charge to claim the{" "}
+                          {nftsOrToken}?
                         </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
@@ -408,7 +418,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       }
                     >
                       <Heading as={FormLabel} size="label.md">
-                        Who can claim NFTs during this phase?
+                        Who can claim {nftsOrToken} during this phase?
                       </Heading>
                       <Flex direction={{ base: "column", md: "row" }} gap={4}>
                         <Select
@@ -492,7 +502,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How many NFTs can be claimed per transaction?
+                          How many {nftsOrToken} can be claimed per transaction?
                         </Heading>
                         <BigNumberInput
                           isRequired
