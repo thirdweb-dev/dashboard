@@ -695,7 +695,10 @@ export const QuantityInputWithUnlimited: React.FC<
         value={stringValue === "unlimited" ? "Unlimited" : stringValue}
         onChange={(e) => setStringValue(e.target.value)}
         onBlur={() => {
-          if (!isNaN(Number(value))) {
+          if (value === "unlimited") {
+            setStringValue("unlimited");
+            console.log({ stringValue });
+          } else if (!isNaN(Number(value))) {
             setStringValue(Number(Number(value).toFixed(decimals)).toString());
           } else {
             setStringValue("0");
