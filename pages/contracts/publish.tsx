@@ -48,7 +48,9 @@ const ContractsPublishPageWrapped: React.VFC = () => {
   const publishContractNo = selectedContractIds.length;
 
   const { onSuccess, onError } = useTxNotifications(
-    `Successfully published ${publishContractNo} contract$publishContractNo === 1 ? "" : "s"`,
+    `Successfully published ${publishContractNo} contract${
+      publishContractNo === 1 ? "" : "s"
+    }`,
     "Failed to publish contracts",
   );
   const publishMutation = usePublishMutation();
@@ -90,6 +92,7 @@ const ContractsPublishPageWrapped: React.VFC = () => {
         </Flex>
         <Card overflowX="auto">
           <DeployableContractTable
+            isPublish
             contractIds={ipfsHashes}
             selectable={{
               selected: publishableContractIds,

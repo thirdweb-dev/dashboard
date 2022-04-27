@@ -47,6 +47,7 @@ export const CodeBlock: React.VFC<CodeBlockProps> = ({
           borderColor="borderColor"
           position="relative"
           as={Code}
+          whiteSpace="pre"
         >
           {tokens.map((line, i) => (
             // eslint-disable-next-line react/jsx-key

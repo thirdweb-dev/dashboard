@@ -49,6 +49,7 @@ export const CodeExamples: React.FC = () => {
               _focus={{ bgColor: "purple.600" }}
               _active={{ bgColor: "purple.600" }}
               mt={12}
+              px={12}
               size="lg"
               onClick={() =>
                 trackEvent({

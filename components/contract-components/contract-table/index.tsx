@@ -15,11 +15,12 @@ interface DeployableContractTableProps {
     selected: ContractId[];
     onChange: (contractIds: ContractId[]) => void;
   };
+  isPublish?: true;
 }
 
 export const DeployableContractTable: React.VFC<
   DeployableContractTableProps
-> = ({ contractIds, selectable }) => {
+> = ({ contractIds, selectable, isPublish }) => {
   const tableColumns = useMemo(() => {
     const cols: Column<{ contractId: ContractId }>[] = [
       {
@@ -45,7 +46,9 @@ export const DeployableContractTable: React.VFC<
       {
         id: "deploy-action",
         accessor: (row) => row.contractId,
-        Cell: ContractDeployActionCell,
+        Cell: (cellProps: any) => (
+          <ContractDeployActionCell {...cellProps} isPublish={isPublish} />
+        ),
       },
     ];
 
@@ -101,7 +104,9 @@ export const DeployableContractTable: React.VFC<
     }
 
     return cols;
-  }, [contractIds, selectable]);
+    // this is to avoid re-rendering of the table when the contractIds array changes (it will always be a string array, so we can just join it and compare the string output)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contractIds.join(), isPublish, selectable]);
 
   const tableInstance = useTable(
     {

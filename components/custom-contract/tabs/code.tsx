@@ -14,7 +14,14 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
   const isError = metadataQuery.isError;
   const isSuccess = metadataQuery.isSuccess;
 
-  const functions = metadataQuery.data?.map((f) => f.signature);
+  const functions = metadataQuery.data
+    ?.filter(
+      (d) =>
+        d.name !== "contractURI" &&
+        d.name !== "setThirdwebInfo" &&
+        d.name !== "getPublishMetadataUri",
+    )
+    .map((f) => f.signature);
 
   if (isError) {
     return <Box>Contract does not support generated functions</Box>;
@@ -40,7 +47,8 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
           language="bash"
           code={`import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-          const sdk = new ThirdwebSDK();
+          const provider = ethers.Wallet.createRandom();
+          const sdk = new ThirdwebSDK(provider);
           const contract = await sdk.getCustomContract("${contractAddress}");`}
         />
       </Card>

@@ -13,7 +13,7 @@ import {
 
 export const ContractDeployActionCell: React.VFC<
   DeployableContractContractCellProps
-> = ({ cell: { value } }) => {
+> = ({ cell: { value }, isPublish }) => {
   const publishMetadata = useContractPublishMetadataFromURI(value);
   const [deployData, setDeployData] = useState<
     { contractAddress: string; chainId: SUPPORTED_CHAIN_ID } | undefined
@@ -24,6 +24,7 @@ export const ContractDeployActionCell: React.VFC<
     <>
       <Drawer size="xl" isOpen={isOpen} onClose={onClose}>
         <ContractDeployForm
+          shouldRedirect={!isPublish}
           contractId={value}
           onDeploySuccess={(contractAddress, chainId) => {
             setDeployData({ contractAddress, chainId });
@@ -31,7 +32,7 @@ export const ContractDeployActionCell: React.VFC<
           }}
         />
       </Drawer>
-      {deployData ? (
+      {deployData && !isPublish ? (
         <LinkButton
           href={`/dashboard/${
             SupportedChainIdToNetworkMap[deployData.chainId]
@@ -48,7 +49,11 @@ export const ContractDeployActionCell: React.VFC<
           onClick={onOpen}
           isLoading={publishMetadata.isLoading}
           colorScheme="purple"
-          variant={publishMetadata.data?.deployDisabled ? "outline" : "solid"}
+          variant={
+            isPublish || publishMetadata.data?.deployDisabled
+              ? "outline"
+              : "solid"
+          }
           size="sm"
           rightIcon={
             !publishMetadata.data?.deployDisabled ? (
