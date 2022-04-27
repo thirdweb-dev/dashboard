@@ -5,7 +5,7 @@ import { NFTCollectionMintForm } from "./mint.nftcollection";
 import { NFTDropMintForm } from "./mint.nftdrop";
 import { TokenMintForm } from "./mint.token";
 import { ProposalMintForm } from "./mint.vote";
-import { DrawerHeader, Heading } from "@chakra-ui/react";
+import { DrawerHeader } from "@chakra-ui/react";
 import {
   Edition,
   EditionDrop,
@@ -17,6 +17,7 @@ import {
   Vote,
 } from "@thirdweb-dev/sdk";
 import React from "react";
+import { Heading } from "tw-components";
 
 export interface IMintFormProps {
   contract?: ValidContractInstance;

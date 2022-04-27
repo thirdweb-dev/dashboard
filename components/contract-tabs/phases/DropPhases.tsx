@@ -12,8 +12,6 @@ import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
-  FormLabel,
-  Heading,
   Icon,
   Input,
   InputGroup,
@@ -21,7 +19,6 @@ import {
   Select,
   Spinner,
   Stack,
-  Text,
 } from "@chakra-ui/react";
 import { MaxUint256 } from "@ethersproject/constants";
 import {
@@ -31,9 +28,7 @@ import {
   NATIVE_TOKEN_ADDRESS,
   NFTDrop,
 } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { Card } from "components/layout/Card";
 import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -41,6 +36,7 @@ import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
 import { FiPlus, FiTrash, FiUpload } from "react-icons/fi";
+import { Button, Card, FormLabel, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
 import * as z from "zod";
 import { ZodError } from "zod";
@@ -273,10 +269,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                     <Flex direction={{ base: "column", md: "row" }} gap={4}>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.startTime`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -307,10 +303,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.maxQuantity`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -342,10 +338,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                     <Flex direction={{ base: "column", md: "row" }} gap={4}>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.price`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -369,10 +365,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.currencyAddress`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading
@@ -404,10 +400,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
                     <FormControl
                       isInvalid={
-                        form.getFieldState(
+                        !!form.getFieldState(
                           `phases.${index}.snapshot`,
                           form.formState,
-                        ).invalid
+                        ).error
                       }
                     >
                       <Heading as={FormLabel} size="label.md">
@@ -488,10 +484,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                     <Flex gap={4} direction={{ base: "column", md: "row" }}>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.quantityLimitPerTransaction`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
@@ -521,10 +517,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       </FormControl>
                       <FormControl
                         isInvalid={
-                          form.getFieldState(
+                          !!form.getFieldState(
                             `phases.${index}.waitInSeconds`,
                             form.formState,
-                          ).invalid
+                          ).error
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
