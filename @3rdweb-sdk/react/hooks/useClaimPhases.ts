@@ -5,7 +5,10 @@ import {
 } from "./query/useQueryWithNetwork";
 import { useEditionDropResetClaimEligibilityMutation } from "./useEditionDrop";
 import { useNFTDropResetClaimEligibilityMutation } from "./useNFTDrop";
-import { useTokenDropResetClaimEligibilityMutation } from "./useTokenDrop";
+import {
+  useTokenDropData,
+  useTokenDropResetClaimEligibilityMutation,
+} from "./useTokenDrop";
 import {
   ClaimConditionInput,
   EditionDrop,
@@ -13,6 +16,15 @@ import {
   TokenDrop,
 } from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
+
+export function useDecimals(contract?: NFTDrop | EditionDrop | TokenDrop) {
+  if (contract instanceof NFTDrop || contract instanceof EditionDrop) {
+    return 0;
+  } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useTokenDropData(contract?.getAddress()).data?.decimals;
+  }
+}
 
 export function useClaimPhases(
   contract?: NFTDrop | EditionDrop | TokenDrop,
