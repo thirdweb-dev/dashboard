@@ -20,6 +20,7 @@ import {
   NFTDrop,
   Split,
   Token,
+  TokenDrop,
   ValidContractInstance,
   Vote,
 } from "@thirdweb-dev/sdk";
@@ -93,6 +94,8 @@ export function useContractTypeOfContract<T extends ValidContractInstance>(
     return Vote.contractType;
   } else if (contract instanceof Split) {
     return Split.contractType;
+  } else if (contract instanceof TokenDrop) {
+    return TokenDrop.contractType;
   }
 
   throw new Error("Contract does not have a contractType");

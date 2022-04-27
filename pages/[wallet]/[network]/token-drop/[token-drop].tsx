@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import { useTokenDrop } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
-import { MintButton } from "components/contract-pages/action-buttons/MintButton";
 import { ContractLayout } from "components/contract-pages/contract-layout";
 import { TransferModal } from "components/currency/TransferModal";
 import { BigNumber } from "ethers";
@@ -24,7 +23,7 @@ import { FiSend } from "react-icons/fi";
 import { Button, Card } from "tw-components";
 
 const TokenDropPage: ConsolePage = () => {
-  const tokenDropAddress = useSingleQueryParam("tokenDrop");
+  const tokenDropAddress = useSingleQueryParam("token-drop");
   const contract = useTokenDrop(tokenDropAddress);
   const metadata = useTokenDropContractMetadata(tokenDropAddress);
   const data = useTokenDropData(tokenDropAddress);
@@ -42,8 +41,7 @@ const TokenDropPage: ConsolePage = () => {
         contract={contract}
         metadata={metadata}
         data={data}
-        /*         primaryAction={<MintButton colorScheme="primary" contract={contract} />} */
-        secondaryAction={
+        primaryAction={
           data.data?.ownedBalance &&
           data.data?.ownedBalance !== true &&
           BigNumber.from(data.data?.ownedBalance.value).gt(0) ? (
