@@ -1,8 +1,9 @@
 import { CodeSnippet, Environment, SupportedEnvironment } from "./types";
 import { ButtonGroup, Flex, Icon, Stack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useMemo } from "react";
-import { SiJavascript, SiTypescript } from "react-icons/si";
+import { SiJavascript, SiPython, SiReact, SiTypescript } from "react-icons/si";
 import { Button, CodeBlock, Heading } from "tw-components";
+
 
 interface ICodeSegment {
   snippet: CodeSnippet;
@@ -15,11 +16,25 @@ const Environments: SupportedEnvironment[] = [
     environment: "javascript",
     title: "JavaScript",
     icon: SiJavascript,
+    colorScheme: "yellow",
   },
   {
     environment: "typescript",
     title: "TypeScript",
     icon: SiTypescript,
+    colorScheme: "blue",
+  },
+  {
+    environment: "react",
+    title: "React",
+    icon: SiReact,
+    colorScheme: "purple",
+  },
+  {
+    environment: "python",
+    title: "Python",
+    icon: SiPython,
+    colorScheme: "blue",
   },
 ];
 
@@ -44,8 +59,10 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
   );
 
   const code = lines.join("\n");
-  const environments = Environments.filter((env) =>
-    Object.keys(snippet).includes(env.environment),
+  const environments = Environments.filter(
+    (env) =>
+      Object.keys(snippet).includes(env.environment) &&
+      snippet[env.environment],
   );
 
   return (
@@ -60,6 +77,7 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
                 icon={<Icon as={env.icon} />}
                 active={activeEnvironment === env.environment}
                 onClick={() => setEnvironment(env.environment)}
+                colorScheme={env.colorScheme}
               >
                 {env.title}
               </SupportedEnvironmentButton>
@@ -68,7 +86,15 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         </Flex>
       </Flex>
 
-      <CodeBlock code={code} language={environment} />
+
+      {activeEnvironment === "react" && (
+        <CodeBlock
+          code={`// Make sure to wrap your app in a <ThirdwebProvider>\nimport { ThirdwebProvider } from "@thirdweb/react";\n\nexport default function App() {\n  return (\n    <ThirdwebProvider>\n      <AppContent />\n    </ThirdwebProvider>\n  );\n}\n`}
+          language="javascript"
+         />
+      )}
+      <CodeBlock code={code} language={activeEnvironment === "python" ? "python" : "javascript"} />
+
     </Stack>
   );
 };
@@ -78,11 +104,13 @@ interface ISupportedEnvironment {
   icon?: JSX.Element;
   isDisabled?: boolean;
   onClick: () => void;
+  colorScheme?: string;
 }
 
 const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
   active,
   icon,
+  colorScheme,
   onClick,
   children,
   isDisabled,
