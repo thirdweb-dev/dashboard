@@ -657,7 +657,7 @@ export const PriceInput: React.FC<PriceInputProps> = ({
 interface QuantityInputWithUnlimitedProps
   extends Omit<InputProps, "onChange" | "value" | "onBlur" | "max" | "min"> {
   value: string;
-  onChange: (value: number) => void;
+  onChange: (value: string) => void;
   hideMaxButton?: true;
   decimals?: number;
 }
@@ -681,23 +681,26 @@ export const QuantityInputWithUnlimited: React.FC<
       setStringValue(value.toString());
     }
   }, [value]);
-  useEffect(() => {
-    const parsed = parseFloat(stringValue);
-    if (!isNaN(parsed)) {
-      onChange(parsed);
+
+  const updateValue = (_value: string) => {
+    if (_value === "") {
+      onChange(_value);
+      setStringValue(_value);
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stringValue]);
+
+    setStringValue(_value);
+    onChange(_value);
+  };
 
   return (
     <InputGroup {...restInputProps} isDisabled={decimals === undefined}>
       <Input
         value={stringValue === "unlimited" ? "Unlimited" : stringValue}
-        onChange={(e) => setStringValue(e.target.value)}
+        onChange={(e) => updateValue(e.currentTarget.value)}
         onBlur={() => {
           if (value === "unlimited") {
             setStringValue("unlimited");
-            console.log({ stringValue });
           } else if (!isNaN(Number(value))) {
             setStringValue(Number(Number(value).toFixed(decimals)).toString());
           } else {
@@ -714,7 +717,7 @@ export const QuantityInputWithUnlimited: React.FC<
             size="sm"
             mr={1}
             onClick={() => {
-              setStringValue("unlimited");
+              updateValue("unlimited");
             }}
           >
             Unlimited
