@@ -4,7 +4,6 @@ import { Dispatch, SetStateAction, useMemo } from "react";
 import { SiJavascript, SiPython, SiReact, SiTypescript } from "react-icons/si";
 import { Button, CodeBlock, Heading } from "tw-components";
 
-
 interface ICodeSegment {
   snippet: CodeSnippet;
   environment: Environment;
@@ -58,7 +57,8 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
     [activeSnippet],
   );
 
-  const code = lines.join("\n");
+  const code = lines.join("\n").trim();
+
   const environments = Environments.filter(
     (env) =>
       Object.keys(snippet).includes(env.environment) &&
@@ -70,14 +70,13 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
       <Flex justify="space-between" align="flex-end">
         <Flex direction="column" gap={4}>
           <Heading size="label.sm">Code Snippet</Heading>
-          <ButtonGroup isAttached size="xs" variant="outline">
+          <ButtonGroup isAttached size="sm" variant="outline">
             {environments.map((env) => (
               <SupportedEnvironmentButton
                 key={env.environment}
                 icon={<Icon as={env.icon} />}
                 active={activeEnvironment === env.environment}
                 onClick={() => setEnvironment(env.environment)}
-                colorScheme={env.colorScheme}
               >
                 {env.title}
               </SupportedEnvironmentButton>
@@ -86,15 +85,18 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         </Flex>
       </Flex>
 
-
       {activeEnvironment === "react" && (
         <CodeBlock
-          code={`// Make sure to wrap your app in a <ThirdwebProvider>\nimport { ThirdwebProvider } from "@thirdweb/react";\n\nexport default function App() {\n  return (\n    <ThirdwebProvider>\n      <AppContent />\n    </ThirdwebProvider>\n  );\n}\n`}
-          language="javascript"
-         />
+          code={
+            '// Make sure to wrap your app in a <ThirdwebProvider>\nimport { ThirdwebProvider } from "@thirdweb/react";\n\nexport default function App() {\n  return (\n    <ThirdwebProvider>\n      <AppContent />\n    </ThirdwebProvider>\n  );\n}'
+          }
+          language="jsx"
+        />
       )}
-      <CodeBlock code={code} language={activeEnvironment === "python" ? "python" : "javascript"} />
-
+      <CodeBlock
+        code={code}
+        language={activeEnvironment === "react" ? "jsx" : activeEnvironment}
+      />
     </Stack>
   );
 };
@@ -104,13 +106,11 @@ interface ISupportedEnvironment {
   icon?: JSX.Element;
   isDisabled?: boolean;
   onClick: () => void;
-  colorScheme?: string;
 }
 
 const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
   active,
   icon,
-  colorScheme,
   onClick,
   children,
   isDisabled,
@@ -120,6 +120,7 @@ const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
       variant={active ? "solid" : "outline"}
       onClick={onClick}
       leftIcon={icon}
+      fill={"red"}
       isDisabled={isDisabled}
     >
       {children}
