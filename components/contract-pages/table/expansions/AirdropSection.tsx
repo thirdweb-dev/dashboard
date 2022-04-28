@@ -45,47 +45,35 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
     "Error transferring",
   );
 
-  const onSubmit = useCallback(
-    (data) => {
-      airdrop.mutate(
-        {
-          tokenId,
-          addresses: data.addresses,
-        },
-        {
-          onError,
-          onSuccess: () => {
-            onSuccess();
-            trackEvent({
-              category: "airdrop",
-              action: "success",
-              label: "edition",
-              contractAddress: contract?.getAddress(),
-              tokenId,
-              path: asPath,
-            });
-            closeAllRows();
-          },
-        },
-      );
-    },
-    [
-      airdrop,
-      tokenId,
-      onError,
-      onSuccess,
-      trackEvent,
-      contract,
-      closeAllRows,
-      asPath,
-    ],
-  );
-
   const addresses = watch("addresses");
 
   return (
     <Stack pt={3}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          airdrop.mutate(
+            {
+              tokenId,
+              addresses: data.addresses,
+            },
+            {
+              onError,
+              onSuccess: () => {
+                onSuccess();
+                trackEvent({
+                  category: "airdrop",
+                  action: "success",
+                  label: "edition",
+                  contractAddress: contract?.getAddress(),
+                  tokenId,
+                  path: asPath,
+                });
+                closeAllRows();
+              },
+            },
+          );
+        })}
+      >
         <Stack align="center">
           <Stack
             spacing={6}
