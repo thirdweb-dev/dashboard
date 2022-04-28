@@ -102,7 +102,7 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
             return !duplicate;
           });
 
-          if (!data[0].address) {
+          if (!data[0]?.address) {
             setNoCsv(true);
             return;
           }
