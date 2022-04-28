@@ -12,7 +12,7 @@ import {
 import { Edition, EditionDrop, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React, { useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { FaBurn } from "react-icons/fa";
 
