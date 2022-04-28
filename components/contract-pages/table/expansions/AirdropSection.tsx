@@ -9,7 +9,9 @@ import {
 } from "components/batch-upload/AirdropUpload";
 import { Button } from "components/buttons/Button";
 import { MismatchButton } from "components/buttons/MismatchButton";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useRouter } from "next/router";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
@@ -30,6 +32,8 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
   }>({
     defaultValues: { addresses: [] },
   });
+  const { trackEvent } = useTrack();
+  const { asPath } = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -52,12 +56,20 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
           onError,
           onSuccess: () => {
             onSuccess();
+            trackEvent({
+              category: "airdrop",
+              action: "success",
+              label: "edition",
+              contractAddress: contract?.getAddress(),
+              tokenId,
+              path: asPath,
+            });
             closeAllRows();
           },
         },
       );
     },
-    [airdrop, tokenId, onError, onSuccess, closeAllRows],
+    [airdrop, tokenId, onError, onSuccess, trackEvent, contract, closeAllRows],
   );
 
   const addresses = watch("addresses");
