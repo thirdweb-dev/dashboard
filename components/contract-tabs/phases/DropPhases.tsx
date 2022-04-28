@@ -3,6 +3,7 @@ import { AdminOnly } from "@3rdweb-sdk/react";
 import {
   useClaimPhases,
   useClaimPhasesMutation,
+  useDecimals,
   useResetEligibilityMutation,
 } from "@3rdweb-sdk/react/hooks/useClaimPhases";
 import {
@@ -15,17 +16,18 @@ import {
   Input,
   InputGroup,
   InputProps,
+  InputRightElement,
   Select,
   Spinner,
   Stack,
 } from "@chakra-ui/react";
-import { MaxUint256 } from "@ethersproject/constants";
 import {
   ClaimConditionInput,
   ClaimConditionInputArray,
   EditionDrop,
   NATIVE_TOKEN_ADDRESS,
   NFTDrop,
+  TokenDrop,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BigNumberInput } from "components/shared/BigNumberInput";
@@ -48,16 +50,20 @@ import * as z from "zod";
 import { ZodError } from "zod";
 
 interface DropPhases {
-  contract?: NFTDrop | EditionDrop;
+  contract?: NFTDrop | EditionDrop | TokenDrop;
   tokenId?: string;
 }
-
 export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const mutation = useResetEligibilityMutation(contract, tokenId);
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
   );
+
+  const nftsOrToken =
+    contract instanceof NFTDrop || contract instanceof EditionDrop
+      ? "NFTs"
+      : "tokens";
 
   return (
     <Stack spacing={8}>
@@ -72,8 +78,8 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
             <Flex direction="column">
               <Heading size="title.md">Claim Phases</Heading>
               <Text size="body.md" fontStyle="italic">
-                Add different phases to control when you drop your NFTs, how
-                much they cost, and more.
+                Add different phases to control when you drop your {nftsOrToken}
+                , how much they cost, and more.
               </Text>
             </Flex>
           </Flex>
@@ -93,10 +99,10 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
               <Heading size="title.md">Claim Eligibility</Heading>
               <Text size="body.md" fontStyle="italic">
                 This contracts claim eligibility stores who has already claimed
-                NFTs from this contract and carries across claim phases.
-                Resetting claim eligibility will reset this state permanently,
-                and people who have already claimed to their limit will be able
-                to claim again.
+                {nftsOrToken} from this contract and carries across claim
+                phases. Resetting claim eligibility will reset this state
+                permanently, and people who have already claimed to their limit
+                will be able to claim again.
               </Text>
             </Flex>
           </Flex>
@@ -131,6 +137,12 @@ const DropPhasesSchema = z.object({
 const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const query = useClaimPhases(contract, tokenId);
   const mutation = useClaimPhasesMutation(contract, tokenId);
+  const decimals = useDecimals(contract);
+
+  const nftsOrToken =
+    contract instanceof NFTDrop || contract instanceof EditionDrop
+      ? "NFTs"
+      : "tokens";
 
   const form = useForm<z.input<typeof DropPhasesSchema>>({
     defaultValues: query.data
@@ -178,8 +190,8 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const addPhase = () => {
     append({
       startTime: new Date(),
-      maxQuantity: MaxUint256.toString(),
-      quantityLimitPerTransaction: MaxUint256.toString(),
+      maxQuantity: "unlimited",
+      quantityLimitPerTransaction: "unlimited",
       waitInSeconds: "0",
       price: 0,
       currencyAddress: NATIVE_TOKEN_ADDRESS,
@@ -303,7 +315,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                           }
                         </FormErrorMessage>
                         <FormHelperText>
-                          This time is in your timezone.
+                          This time is in your local timezone.
                         </FormHelperText>
                       </FormControl>
 
@@ -316,11 +328,12 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How many NFTs will you drop in this phase?
+                          How many {nftsOrToken} will you drop in this phase?
                         </Heading>
 
-                        <BigNumberInput
+                        <QuantityInputWithUnlimited
                           isRequired
+                          decimals={decimals}
                           value={field.maxQuantity?.toString() || "0"}
                           onChange={(value) =>
                             form.setValue(
@@ -351,7 +364,8 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How much do you want to charge to claim the NFTs?
+                          How much do you want to charge to claim the{" "}
+                          {nftsOrToken}?
                         </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
@@ -413,7 +427,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       }
                     >
                       <Heading as={FormLabel} size="label.md">
-                        Who can claim NFTs during this phase?
+                        Who can claim {nftsOrToken} during this phase?
                       </Heading>
                       <Flex direction={{ base: "column", md: "row" }} gap={4}>
                         <Select
@@ -497,10 +511,11 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How many NFTs can be claimed per transaction?
+                          How many {nftsOrToken} can be claimed per transaction?
                         </Heading>
-                        <BigNumberInput
+                        <QuantityInputWithUnlimited
                           isRequired
+                          decimals={decimals}
                           value={
                             field?.quantityLimitPerTransaction?.toString() ||
                             "0"
@@ -641,6 +656,80 @@ export const PriceInput: React.FC<PriceInputProps> = ({
           }
         }}
       />
+    </InputGroup>
+  );
+};
+
+interface QuantityInputWithUnlimitedProps
+  extends Omit<InputProps, "onChange" | "value" | "onBlur" | "max" | "min"> {
+  value: string;
+  onChange: (value: string) => void;
+  hideMaxButton?: true;
+  decimals?: number;
+}
+
+export const QuantityInputWithUnlimited: React.FC<
+  QuantityInputWithUnlimitedProps
+> = ({
+  value = "0",
+  onChange,
+  hideMaxButton,
+  isDisabled,
+  decimals,
+  ...restInputProps
+}) => {
+  const [stringValue, setStringValue] = useState<string>(
+    isNaN(Number(value)) ? "0" : value.toString(),
+  );
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setStringValue(value.toString());
+    }
+  }, [value]);
+
+  const updateValue = (_value: string) => {
+    if (_value === "") {
+      onChange(_value);
+      setStringValue(_value);
+      return;
+    }
+
+    setStringValue(_value);
+    onChange(_value);
+  };
+
+  return (
+    <InputGroup {...restInputProps} isDisabled={decimals === undefined}>
+      <Input
+        value={stringValue === "unlimited" ? "Unlimited" : stringValue}
+        onChange={(e) => updateValue(e.currentTarget.value)}
+        onBlur={() => {
+          if (value === "unlimited") {
+            setStringValue("unlimited");
+          } else if (!isNaN(Number(value))) {
+            setStringValue(Number(Number(value).toFixed(decimals)).toString());
+          } else {
+            setStringValue("0");
+          }
+        }}
+      />
+      {hideMaxButton ? null : (
+        <InputRightElement w="auto">
+          <Button
+            isDisabled={isDisabled}
+            colorScheme="primary"
+            variant="ghost"
+            size="sm"
+            mr={1}
+            onClick={() => {
+              updateValue("unlimited");
+            }}
+          >
+            Unlimited
+          </Button>
+        </InputRightElement>
+      )}
     </InputGroup>
   );
 };
