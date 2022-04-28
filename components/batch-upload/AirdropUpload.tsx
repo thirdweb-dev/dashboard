@@ -88,9 +88,11 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
       Papa.parse(csv, {
         header: true,
         complete: (results) => {
-          let data: AirdropAddressInput[] = (
+          const data: AirdropAddressInput[] = (
             results.data as AirdropAddressInput[]
-          ).filter(({ address }) => address !== "");
+          )
+            .map((a) => ({ ...a, address: (a.address || "").trim() }))
+            .filter(({ address }) => address !== "");
 
           // Filter out address duplicates
           const seen = new Set();
@@ -104,8 +106,6 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
             setNoCsv(true);
             return;
           }
-
-          data = data.map((a) => ({ ...a, address: a.address.trim() }));
 
           setValidAirdrop(filteredData);
         },

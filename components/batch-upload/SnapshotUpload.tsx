@@ -93,8 +93,11 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
       Papa.parse(csv, {
         header: true,
         complete: (results) => {
-          let data: SnapshotAddressInput[] =
-            results.data as SnapshotAddressInput[];
+          const data: SnapshotAddressInput[] = (
+            results.data as SnapshotAddressInput[]
+          )
+            .map((a) => ({ ...a, address: (a.address || "").trim() }))
+            .filter(({ address }) => address !== "");
 
           // Filter out address duplicates
           const seen = new Set();
@@ -108,8 +111,6 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             setNoCsv(true);
             return;
           }
-
-          data = data.map((a) => ({ ...a, address: a.address.trim() }));
 
           setValidSnapshot(filteredData);
         },
