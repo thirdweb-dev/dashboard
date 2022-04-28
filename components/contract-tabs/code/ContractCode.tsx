@@ -65,9 +65,6 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
     [address, contract],
   );
 
-
-  const { onCopy, hasCopied } = useClipboard(INSTALL_COMMANDS[environment]);
-
   if (isLoading) {
     return (
       <Card>

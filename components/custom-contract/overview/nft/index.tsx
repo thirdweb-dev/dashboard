@@ -17,7 +17,7 @@ const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const contractSupportsMinting = useMemo(() => {
-    return !!contract.mint?.toSelf;
+    return !!contract.mint?.to;
   }, [contract]);
 
   return (
