@@ -1,4 +1,3 @@
-import { useNFTCollection } from "@thirdweb-dev/react";
 import {
   ContractType,
   CustomContract,
@@ -313,17 +312,4 @@ export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
   lister: "Determine who can create new listings on this contract.",
   editor: "NOT IMPLEMENTED",
   asset: "Determine which assets can be listed on this marketplace.",
-};
-
-const NFTListComponent = () => {
-  const nftCollection = useNFTCollection("<NFT-COLLECTION-CONTRACT-ADDRESS>");
-  const { data: nfts, isLoading, error } = useNFTList(nftCollection);
-
-  return (
-    <ul>
-      {nfts.map((nft) => (
-        <li key={nft.metadata.id.toString()}>{nft.metadata.name}</li>
-      ))}
-    </ul>
-  );
 };
