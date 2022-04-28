@@ -1,9 +1,7 @@
 import { ButtonGroup, Flex, Icon, useDisclosure } from "@chakra-ui/react";
-import { useNFTMint } from "@thirdweb-dev/react";
 import type { Erc721 } from "@thirdweb-dev/sdk";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { MintDrawer } from "components/shared/MintDrawer";
-import { useTxNotifications } from "hooks/useTxNotifications";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { FiPlus } from "react-icons/fi";
@@ -16,11 +14,6 @@ interface NftOverviewPageProps {
 }
 
 const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
-  const { onSuccess, onError } = useTxNotifications(
-    "Successfully minted",
-    "Failed to mint",
-  );
-  const { mutate, isLoading } = useNFTMint(contract);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const contractSupportsMinting = useMemo(() => {
@@ -34,8 +27,6 @@ const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
         <ButtonGroup>
           <MismatchButton
             isDisabled={!contractSupportsMinting}
-            isLoading={isLoading}
-            loadingText="Minting..."
             leftIcon={<Icon as={FiPlus} />}
             colorScheme="primary"
             onClick={onOpen}
