@@ -1,6 +1,4 @@
 import { PropertiesFormControl } from "../properties.shared";
-import { IMintFormProps } from "./types";
-import { useNFTCollectionMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
