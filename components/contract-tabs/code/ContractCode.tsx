@@ -41,7 +41,12 @@ interface IContractCode {
   contract?: ValidContractInstance;
 }
 
-const NPM_INSTALL_COMMAND = `npm install @thirdweb-dev/sdk`;
+const INSTALL_COMMANDS = {
+  typescript: "npm install @thirdweb-dev/sdk",
+  javascript: "npm install @thirdweb-dev/sdk",
+  react: "npm install @thirdweb-dev/react",
+  python: "pip install thirdweb-sdk",
+};
 
 export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
   const { data, isLoading } = useContractCodeSnippetQuery();
@@ -59,6 +64,10 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
       replaceVariablesInCodeSnippet(snip, contract?.getAddress(), address),
     [address, contract],
   );
+
+
+  const { onCopy, hasCopied } = useClipboard(INSTALL_COMMANDS[environment]);
+
   if (isLoading) {
     return (
       <Card>
@@ -115,8 +124,7 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
         <Stack spacing={3}>
           <Heading size="title.sm">Getting Started</Heading>
           <Text>First, install the latest version of the SDK.</Text>
-          <CodeBlock language="bash" code={NPM_INSTALL_COMMAND} />
-
+          <CodeBlock language="bash" code={INSTALL_COMMANDS[environment]} />
           <Text>
             Follow along below to get started using this contract in your code.
           </Text>
