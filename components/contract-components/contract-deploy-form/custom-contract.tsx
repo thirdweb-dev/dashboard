@@ -10,7 +10,6 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Input,
   Select,
   Skeleton,
@@ -27,7 +26,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Badge, FormLabel, Heading, Text } from "tw-components";
+import { Badge, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 import {
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,

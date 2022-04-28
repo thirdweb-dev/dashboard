@@ -2,7 +2,6 @@ import { useVoteContractMetadata } from "@3rdweb-sdk/react/hooks/useVote";
 import {
   Flex,
   FormControl,
-  FormHelperText,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -15,7 +14,7 @@ import {
 import { Vote } from "@thirdweb-dev/sdk";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Card, FormLabel, Heading, Text } from "tw-components";
+import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 
 interface IVoteConfiguration {
   contract?: Vote;

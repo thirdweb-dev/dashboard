@@ -132,3 +132,10 @@ export type LabelBase = Exclude<
 >;
 
 export type LabelSizes = `${LabelBase}.${TypographySize}`;
+
+export type BodyBase = Exclude<
+  TypographyBase,
+  "display" | "title" | "subtitle" | "label"
+>;
+
+export type BodySizes = `${BodyBase}.${TypographySize}`;

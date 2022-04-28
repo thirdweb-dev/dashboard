@@ -1,12 +1,11 @@
 import {
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Input,
   InputProps,
 } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
-import { FormLabel } from "tw-components";
+import { FormHelperText, FormLabel } from "tw-components";
 
 interface TextFieldProps extends Omit<InputProps, "name"> {
   name: string;

@@ -113,12 +113,14 @@ module.exports = {
               "Heading",
               "Text",
               "FormLabel",
+              "FormHelperText",
               // also the types
               "ButtonProps",
               "DrawerProps",
               "HeadingProps",
               "TextProps",
               "FormLabelProps",
+              "HelpTextProps",
             ],
             message:
               'Use the equivalent component from "tw-components" instead.',

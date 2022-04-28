@@ -12,7 +12,6 @@ import {
   DrawerFooter,
   Flex,
   FormControl,
-  FormHelperText,
   Icon,
   Image,
   Input,
@@ -37,7 +36,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FaImage } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
-import { Button, FormLabel, Heading, Text } from "tw-components";
+import {
+  Button,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 const LIST_FORM_ID = "marketplace-list-form";

@@ -5,7 +5,6 @@ import {
   AlertTitle,
   Flex,
   FormControl,
-  FormHelperText,
   Input,
   Link,
   Stack,
@@ -21,7 +20,14 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
-import { Button, Card, CodeBlock, FormLabel, Heading } from "tw-components";
+import {
+  Button,
+  Card,
+  CodeBlock,
+  FormHelperText,
+  FormLabel,
+  Heading,
+} from "tw-components";
 import { getChainIdFromNetwork } from "utils/network";
 
 interface EmbedSetupProps {

@@ -3,7 +3,6 @@ import { useTransferMutation } from "@3rdweb-sdk/react";
 import {
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Icon,
   Input,
   Stack,
@@ -15,7 +14,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdSend } from "react-icons/io";
-import { FormLabel } from "tw-components";
+import { FormHelperText, FormLabel } from "tw-components";
 
 interface ITransferSection {
   contract?: ValidContractInstance;

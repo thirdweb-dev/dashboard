@@ -6,7 +6,6 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -45,7 +44,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { Badge, FormLabel, Heading, Text } from "tw-components";
+import { Badge, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 import {
   NetworkToBlockTimeMap,
   SUPPORTED_CHAIN_ID,
