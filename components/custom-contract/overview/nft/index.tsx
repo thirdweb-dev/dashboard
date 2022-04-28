@@ -1,7 +1,8 @@
-import { ButtonGroup, Flex, Icon } from "@chakra-ui/react";
+import { ButtonGroup, Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { useNFTMint } from "@thirdweb-dev/react";
 import type { Erc721 } from "@thirdweb-dev/sdk";
 import { MismatchButton } from "components/buttons/MismatchButton";
+import { MintDrawer } from "components/shared/MintDrawer";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
@@ -20,6 +21,7 @@ const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
     "Failed to mint",
   );
   const { mutate, isLoading } = useNFTMint(contract);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const contractSupportsMinting = useMemo(() => {
     return !!contract.mint?.toSelf;
@@ -36,19 +38,11 @@ const NftOverviewPage: React.VFC<NftOverviewPageProps> = ({ contract }) => {
             loadingText="Minting..."
             leftIcon={<Icon as={FiPlus} />}
             colorScheme="primary"
-            onClick={() => {
-              mutate(
-                {
-                  name: "test mint!",
-                  image:
-                    "ipfs://QmfCbqqDLJqH1YncGP4Ci4Mm6s4Pf1qwTBWYSTGvM6PBeL/0.png",
-                },
-                { onSuccess, onError },
-              );
-            }}
+            onClick={onOpen}
           >
             {contractSupportsMinting ? "Mint" : "Minting not supported"}
           </MismatchButton>
+          <MintDrawer isOpen={isOpen} onClose={onClose} contract={contract} />
         </ButtonGroup>
       </Flex>
       {contract.query?.all ? <QueryAllTable contract={contract} /> : null}
