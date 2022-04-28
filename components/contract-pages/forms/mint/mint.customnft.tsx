@@ -1,6 +1,4 @@
 import { PropertiesFormControl } from "../properties.shared";
-import { IMintFormProps } from "./types";
-import { useNFTCollectionMintMutation } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -18,7 +16,8 @@ import {
   Textarea,
   useModalContext,
 } from "@chakra-ui/react";
-import { NFTCollection } from "@thirdweb-dev/sdk";
+import { useNFTMint } from "@thirdweb-dev/react";
+import { Erc721 } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { FileInput } from "components/shared/FileInput";
@@ -31,14 +30,14 @@ import { Button, FormHelperText, FormLabel, Heading } from "tw-components";
 import { NFTMetadataInputLimited } from "types/modified-types";
 
 const MINT_FORM_ID = "nft-collection-mint-form";
-interface INFTCollectionMintForm extends IMintFormProps {
-  contract: NFTCollection;
+interface CustomNFTMintForm {
+  contract: Erc721<any>;
 }
 
-export const NFTCollectionMintForm: React.FC<INFTCollectionMintForm> = ({
+export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
   contract,
 }) => {
-  const mint = useNFTCollectionMintMutation(contract);
+  const { mutate, isLoading } = useNFTMint(contract);
   const {
     setValue,
     control,
@@ -125,7 +124,7 @@ export const NFTCollectionMintForm: React.FC<INFTCollectionMintForm> = ({
           as="form"
           id={MINT_FORM_ID}
           onSubmit={handleSubmit((data) => {
-            mint.mutate(data, {
+            mutate(data, {
               onSuccess: () => {
                 onSuccess();
                 modalContext.onClose();
@@ -242,7 +241,7 @@ export const NFTCollectionMintForm: React.FC<INFTCollectionMintForm> = ({
       </DrawerBody>
       <DrawerFooter>
         <Button
-          isDisabled={mint.isLoading}
+          isDisabled={isLoading}
           variant="outline"
           mr={3}
           onClick={modalContext.onClose}
@@ -250,7 +249,7 @@ export const NFTCollectionMintForm: React.FC<INFTCollectionMintForm> = ({
           Cancel
         </Button>
         <MismatchButton
-          isLoading={mint.isLoading}
+          isLoading={isLoading}
           leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"

@@ -1,9 +1,9 @@
-import { ValidContractInstance } from "@thirdweb-dev/sdk";
+import { Erc721, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { MintForm } from "components/contract-pages/forms/mint";
 import { Drawer } from "tw-components";
 
 interface IMintDrawer {
-  contract?: ValidContractInstance;
+  contract?: ValidContractInstance | Erc721<any>;
   isOpen: boolean;
   onClose: () => void;
 }

@@ -5,7 +5,6 @@ import {
   AlertTitle,
   Flex,
   FormControl,
-  FormHelperText,
   Input,
   Link,
   Stack,
@@ -21,14 +20,21 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
-import { Button, Card, CodeBlock, FormLabel, Heading } from "tw-components";
+import {
+  Button,
+  Card,
+  CodeBlock,
+  FormHelperText,
+  FormLabel,
+  Heading,
+} from "tw-components";
 import { getChainIdFromNetwork } from "utils/network";
 
 interface EmbedSetupProps {
   contract?: ValidContractInstance;
 }
 
-const IPFS_URI = "ipfs://Qmbmie8xBZs3YFmqSHwX9d36dUt1x8KoNH8KNTRzRYFcgb";
+const IPFS_URI = "ipfs://QmchGLcpfPcYtLkVytFX4tcb7pY5ZnjJpQkgZYWSaoWgDS";
 
 const getContractEmbedHash = (contract?: ValidContractInstance) => {
   if (contract instanceof NFTDrop) {

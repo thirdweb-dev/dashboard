@@ -9,7 +9,6 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Icon,
   Input,
   InputGroup,
@@ -27,7 +26,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { Card, FormLabel, Heading, Text } from "tw-components";
+import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 import z from "zod";
 
 interface SelectRevealOptionProps {
