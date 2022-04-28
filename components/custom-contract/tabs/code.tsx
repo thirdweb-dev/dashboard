@@ -36,7 +36,7 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
           py={2}
           borderRadius="md"
           language="bash"
-          code={`npm install @thirdweb-dev/sdk@dev`}
+          code={`npm install @thirdweb-dev/sdk`}
         />
       </Card>
       <Card as={Flex} gap={2} flexDirection="column">

@@ -1,3 +1,4 @@
+import { useNFTCollection } from "@thirdweb-dev/react";
 import {
   ContractType,
   CustomContract,
@@ -15,7 +16,6 @@ import {
 } from "@thirdweb-dev/sdk";
 import * as CSS from "csstype";
 import { StaticImageData } from "next/image";
-import { ValueOf } from "utils/network";
 
 export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   [NFTDrop.contractType]: require("public/assets/tw-icons/drop.png"),
@@ -283,13 +283,6 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
   },
 };
 
-interface ContractDeploy {
-  title: ValueOf<typeof CONTRACT_TYPE_NAME_MAP>;
-  subtitle: string;
-  contractType: ContractType;
-  comingSoon?: true;
-}
-
 export const CONTRACT_TYPE_NAME_MAP = {
   // drop
   [NFTDrop.contractType]: "NFT Drop" as const,
@@ -310,13 +303,6 @@ export const CONTRACT_TYPE_NAME_MAP = {
   [CustomContract.contractType]: "Custom" as const,
 } as const;
 
-interface ContractDeployMap {
-  drop: ContractDeploy[];
-  token: ContractDeploy[];
-  [Marketplace.contractType]: ContractDeploy[];
-  governance: ContractDeploy[];
-}
-
 export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
   admin:
     "Determine who can grant or revoke roles and modify settings on this contract.",
@@ -327,4 +313,17 @@ export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
   lister: "Determine who can create new listings on this contract.",
   editor: "NOT IMPLEMENTED",
   asset: "Determine which assets can be listed on this marketplace.",
+};
+
+const NFTListComponent = () => {
+  const nftCollection = useNFTCollection("<NFT-COLLECTION-CONTRACT-ADDRESS>");
+  const { data: nfts, isLoading, error } = useNFTList(nftCollection);
+
+  return (
+    <ul>
+      {nfts.map((nft) => (
+        <li key={nft.metadata.id.toString()}>{nft.metadata.name}</li>
+      ))}
+    </ul>
+  );
 };
