@@ -69,7 +69,16 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
         },
       );
     },
-    [airdrop, tokenId, onError, onSuccess, trackEvent, contract, closeAllRows],
+    [
+      airdrop,
+      tokenId,
+      onError,
+      onSuccess,
+      trackEvent,
+      contract,
+      closeAllRows,
+      asPath,
+    ],
   );
 
   const addresses = watch("addresses");
