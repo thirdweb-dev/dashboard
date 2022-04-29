@@ -11,17 +11,10 @@ const BuiltinContractForm = dynamic(() => import("./built-in-contract"));
 
 interface ContractDeployFormProps {
   contractId: ContractId;
-  shouldRedirect?: boolean;
-  onDeploySuccess?: (
-    contractAddress: string,
-    chainId: SUPPORTED_CHAIN_ID,
-  ) => void;
 }
 
 export const ContractDeployForm: React.VFC<ContractDeployFormProps> = ({
   contractId,
-  shouldRedirect,
-  onDeploySuccess,
 }) => {
   const [selectedChain, setSelectedChain] = useState<
     SUPPORTED_CHAIN_ID | undefined
@@ -46,8 +39,6 @@ export const ContractDeployForm: React.VFC<ContractDeployFormProps> = ({
           ipfsHash={contractId}
           selectedChain={selectedChain}
           onChainSelect={setSelectedChain}
-          shouldRedirect={shouldRedirect}
-          onDeploySuccess={onDeploySuccess}
         />
       )}
       <NetworkMismatchNotice />

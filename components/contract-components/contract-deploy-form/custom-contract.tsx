@@ -34,22 +34,15 @@ import {
 } from "utils/network";
 
 interface CustomContractFormProps {
-  shouldRedirect?: boolean;
   ipfsHash: string;
   selectedChain: SUPPORTED_CHAIN_ID | undefined;
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
-  onDeploySuccess?: (
-    contractAddress: string,
-    chainId: SUPPORTED_CHAIN_ID,
-  ) => void;
 }
 
 const CustomContractForm: React.VFC<CustomContractFormProps> = ({
   ipfsHash,
   selectedChain,
   onChainSelect,
-  shouldRedirect,
-  onDeploySuccess,
 }) => {
   const { trackEvent } = useTrack();
   const publishMetadata = useContractPublishMetadataFromURI(ipfsHash);
@@ -135,14 +128,10 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
                 contractAddress: deployedContractAddress,
               });
               onSuccess();
-              if (onDeploySuccess) {
-                onDeploySuccess(deployedContractAddress, selectedChain);
-              }
-              if (shouldRedirect) {
-                router.push(
-                  `/${walletAddress}/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
-                );
-              }
+
+              router.push(
+                `/${walletAddress}/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
+              );
             },
             onError: (err) => {
               trackEvent({

@@ -37,6 +37,7 @@ const ContractsHomepageWrapped: React.VFC = () => {
         </Flex>
         <Card overflowX="auto" px={0} pt={0}>
           <DeployableContractTable
+            hasDescription
             contractIds={Object.keys(KNOWN_CONTRACTS_MAP)}
           />
         </Card>

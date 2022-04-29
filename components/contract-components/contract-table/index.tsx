@@ -2,6 +2,7 @@ import { ContractId } from "../types";
 import { ContractAbiCell } from "./cells/abi";
 import { ContractBytecodeCell } from "./cells/bytecode";
 import { ContractDeployActionCell } from "./cells/deploy-action";
+import { ContractDescriptionCell } from "./cells/description";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
@@ -16,13 +17,14 @@ interface DeployableContractTableProps {
     onChange: (contractIds: ContractId[]) => void;
   };
   isPublish?: true;
+  hasDescription?: true;
 }
 
 export const DeployableContractTable: React.VFC<
   DeployableContractTableProps
-> = ({ contractIds, selectable, isPublish }) => {
-  const tableColumns = useMemo(() => {
-    const cols: Column<{ contractId: ContractId }>[] = [
+> = ({ contractIds, selectable, isPublish, hasDescription }) => {
+  const tableColumns: Column<{ contractId: ContractId }>[] = useMemo(() => {
+    let cols: Column<{ contractId: ContractId }>[] = [
       {
         Header: "Icon",
         accessor: (row) => row.contractId,
@@ -33,28 +35,46 @@ export const DeployableContractTable: React.VFC<
         accessor: (row) => row.contractId,
         Cell: ContractNameCell,
       },
-      {
-        Header: "ABI",
-        accessor: (row) => row.contractId,
-        Cell: ContractAbiCell,
-      },
-      {
-        Header: "Bytecode",
-        accessor: (row) => row.contractId,
-        Cell: ContractBytecodeCell,
-      },
-      {
-        id: "deploy-action",
-        accessor: (row) => row.contractId,
-        Cell: (cellProps: any) => (
-          <ContractDeployActionCell {...cellProps} isPublish={isPublish} />
-        ),
-      },
     ];
+
+    if (hasDescription) {
+      cols = [
+        ...cols,
+        {
+          Header: "Description",
+          accessor: (row) => row.contractId,
+          Cell: ContractDescriptionCell,
+        },
+      ];
+    } else {
+      cols = [
+        ...cols,
+        {
+          Header: "ABI",
+          accessor: (row) => row.contractId,
+          Cell: ContractAbiCell,
+        },
+        {
+          Header: "Bytecode",
+          accessor: (row) => row.contractId,
+          Cell: ContractBytecodeCell,
+        },
+      ];
+    }
+    if (!isPublish) {
+      cols = [
+        ...cols,
+        {
+          id: "deploy-action",
+          accessor: (row) => row.contractId,
+          Cell: ContractDeployActionCell,
+        },
+      ];
+    }
 
     if (selectable) {
       const selectedContractIds = selectable.selected;
-      return [
+      cols = [
         {
           id: "selection",
           accessor: (row) => row.contractId,
@@ -100,13 +120,15 @@ export const DeployableContractTable: React.VFC<
           },
         },
         ...cols,
-      ] as Column<{ contractId: ContractId }>[];
+      ];
+
+      return cols as Column<{ contractId: ContractId }>[];
     }
 
     return cols;
     // this is to avoid re-rendering of the table when the contractIds array changes (it will always be a string array, so we can just join it and compare the string output)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contractIds.join(), isPublish, selectable]);
+  }, [contractIds.join(), isPublish, selectable, hasDescription]);
 
   const tableInstance = useTable(
     {

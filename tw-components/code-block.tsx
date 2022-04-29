@@ -27,7 +27,6 @@ export const CodeBlock: React.VFC<CodeBlockProps> = ({
   w = "full",
   borderRadius = "md",
   canCopy = true,
-
   ...restCodeProps
 }) => {
   const theme = useColorModeValue(lightTheme, darkTheme);
@@ -47,7 +46,7 @@ export const CodeBlock: React.VFC<CodeBlockProps> = ({
           borderColor="borderColor"
           position="relative"
           as={Code}
-          whiteSpace="pre"
+          whiteSpace="pre-wrap"
         >
           {tokens.map((line, i) => (
             // eslint-disable-next-line react/jsx-key
