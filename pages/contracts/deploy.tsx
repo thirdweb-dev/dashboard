@@ -34,7 +34,7 @@ const ContractsDeployPage: ConsolePage = () => {
           </Text>
         </Flex>
         <Card>
-          <ContractDeployForm shouldRedirect contractId={contract || ""} />
+          <ContractDeployForm contractId={contract || ""} />
         </Card>
       </Flex>
     </Track>
