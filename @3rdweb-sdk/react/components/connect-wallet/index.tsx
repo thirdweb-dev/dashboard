@@ -28,7 +28,6 @@ import {
   useDisconnect,
   useGnosis,
   useMagic,
-  useSigner,
 } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { isAddress } from "ethers/lib/utils";
@@ -158,7 +157,11 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
             )}
             <MenuDivider my={0} />
             <MenuItem icon={<AiOutlineDisconnect />} onClick={disconnect}>
-              <Text size="label.md">Disconnect Wallet</Text>
+              <Text size="label.md">
+                {isGnosisConnectorConnected
+                  ? "Disconnect from Gnosis Safe"
+                  : "Disconnect Wallet"}
+              </Text>
             </MenuItem>
           </MenuList>
         </Menu>
@@ -225,7 +228,6 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const signer = useSigner();
   const connectGnosis = useGnosis();
   const { chainId: signerChainId, getNetworkMetadata } = useWeb3();
 
@@ -294,12 +296,8 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
         <ModalBody
           as="form"
           onSubmit={handleSubmit(async (d) => {
-            if (!signer) {
-              return;
-            }
-
             try {
-              await connectGnosis(signer, {
+              await connectGnosis({
                 ...d,
                 safeChainId: parseInt(d.safeChainId),
               });
