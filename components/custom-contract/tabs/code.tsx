@@ -44,12 +44,12 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
           Use your contract with the thirdweb SDK
         </Heading>
         <CodeBlock
-          language="bash"
+          language="typescript"
           code={`import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-          const provider = ethers.Wallet.createRandom();
-          const sdk = new ThirdwebSDK(provider);
-          const contract = await sdk.getCustomContract("${contractAddress}");`}
+const provider = ethers.Wallet.createRandom();
+const sdk = new ThirdwebSDK(provider);
+const contract = await sdk.getCustomContract("${contractAddress}");`}
         />
       </Card>
       <Card as={Flex} gap={2} flexDirection="column">
