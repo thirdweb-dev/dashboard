@@ -7,7 +7,6 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  FormErrorMessage,
   Icon,
   Stack,
   Textarea,
@@ -19,7 +18,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
-import { Button, FormLabel } from "tw-components";
+import { Button, FormErrorMessage, FormLabel } from "tw-components";
 
 const MINT_FORM_ID = "proposal-mint-form";
 interface IProposalMintForm extends IMintFormProps {

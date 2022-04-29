@@ -11,7 +11,6 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  FormErrorMessage,
   Icon,
   Input,
   Stack,
@@ -27,7 +26,13 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
-import { Button, FormHelperText, FormLabel, Heading } from "tw-components";
+import {
+  Button,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Heading,
+} from "tw-components";
 import { NFTMetadataInputLimited } from "types/modified-types";
 
 const MINT_FORM_ID = "nft-drop-mint-form";

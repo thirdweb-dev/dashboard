@@ -4,7 +4,6 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  FormErrorMessage,
   Icon,
   Input,
   Stack,
@@ -16,7 +15,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
-import { Button, FormLabel } from "tw-components";
+import { Button, FormErrorMessage, FormLabel } from "tw-components";
 
 const MINT_FORM_ID = "token-mint-form";
 interface ITokenMintForm extends IMintFormProps {

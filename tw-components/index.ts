@@ -9,3 +9,4 @@ export * from "./heading";
 export * from "./text";
 export * from "./form-label";
 export * from "./form-helper-text";
+export * from "./form-error-message";

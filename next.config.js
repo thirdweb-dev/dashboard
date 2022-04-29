@@ -29,6 +29,20 @@ const securityHeaders = [
 
 const moduleExports = {
   reactStrictMode: true,
+  webpack: (config) => {
+    config.resolve.fallback = {
+      fs: require.resolve("browserify-fs"),
+      os: require.resolve("os-browserify/browser"),
+      path: require.resolve("path-browserify"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      assert: false,
+      https: false,
+      http: false,
+      querystring: false,
+    };
+    return config;
+  },
   async headers() {
     return [
       {

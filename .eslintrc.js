@@ -114,6 +114,7 @@ module.exports = {
               "Text",
               "FormLabel",
               "FormHelperText",
+              "FormErrorMessage",
               // also the types
               "ButtonProps",
               "DrawerProps",
