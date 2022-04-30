@@ -166,7 +166,7 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
             rightIcon={<FiSend />}
             isDisabled={!watch("to") || !watch("amount")}
           >
-            Send Transfer
+            Transfer
           </TransactionButton>
         </ModalFooter>
       </ModalContent>

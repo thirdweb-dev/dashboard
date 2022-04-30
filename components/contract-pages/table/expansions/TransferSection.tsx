@@ -93,7 +93,7 @@ export const TransferSection: React.FC<ITransferSection> = ({
             colorScheme="primary"
             rightIcon={<Icon as={IoMdSend} />}
           >
-            Send
+            Transfer
           </TransactionButton>
         </Stack>
       </form>
