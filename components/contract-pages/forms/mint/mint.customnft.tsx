@@ -19,7 +19,7 @@ import {
 import { useNFTMint } from "@thirdweb-dev/react";
 import { Erc721 } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -248,7 +248,8 @@ export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={isLoading}
           leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
@@ -256,7 +257,7 @@ export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
           colorScheme="primary"
         >
           Mint NFT
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );

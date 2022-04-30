@@ -1,14 +1,23 @@
 import { ConnectWallet, useWeb3 } from "@3rdweb-sdk/react";
-import { Flex, Icon, Tooltip } from "@chakra-ui/react";
+import {
+  Flex,
+  Icon,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  useDisclosure,
+} from "@chakra-ui/react";
 import {
   useDesiredChainId,
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
-import { Button, ButtonProps, Heading, Text } from "tw-components";
+import { Button, ButtonProps, Card, Heading, Text } from "tw-components";
 import {
   SUPPORTED_CHAIN_ID,
   SupportedChainIdToNetworkMap,
@@ -18,52 +27,64 @@ import {
 export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, isDisabled, onClick, loadingText, type, ...props }, ref) => {
     const { address } = useWeb3();
+
+    const initialFocusRef = useRef<HTMLButtonElement>(null);
+
     const networksMismatch = useNetworkMismatch();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     if (!address) {
       return (
         <ConnectWallet borderRadius="full" colorScheme="primary" {...props} />
       );
     }
 
-    if (networksMismatch) {
-    }
-
     return (
-      <Tooltip
-        portalProps={{ containerRef: ref || undefined }}
-        bg="backgroundHighlight"
-        p={4}
-        borderRadius="xl"
-        borderWidth="1px"
-        borderColor="borderColor"
-        mx={6}
-        isDisabled={!networksMismatch}
-        label={<MismatchNotice />}
-        hasArrow
-        shouldWrapChildren
-        // isOpen={stayOpen}
-        closeDelay={500}
-        pointerEvents="all"
+      <Popover
+        initialFocusRef={initialFocusRef}
+        isLazy
+        isOpen={isOpen}
+        onOpen={networksMismatch ? onOpen : undefined}
+        onClose={onClose}
       >
-        <Button
-          w="full"
-          {...props}
-          type={type}
-          loadingText={loadingText}
-          onClick={onClick}
-          ref={ref}
-          isDisabled={networksMismatch || isDisabled}
+        <PopoverTrigger>
+          <Button
+            {...props}
+            type={networksMismatch ? "button" : type}
+            loadingText={loadingText}
+            onClick={networksMismatch ? undefined : onClick}
+            ref={ref}
+            isDisabled={isDisabled}
+          >
+            {children}
+          </Button>
+        </PopoverTrigger>
+        <Card
+          as={PopoverContent}
+          bg="backgroundCardHighlight"
+          mx={6}
+          boxShadow="0px 0px 2px 0px var(--popper-arrow-shadow-color)"
         >
-          {children}
-        </Button>
-      </Tooltip>
+          <PopoverArrow bg="backgroundCardHighlight" />
+          <PopoverBody>
+            <MismatchNotice
+              initialFocusRef={initialFocusRef}
+              onClose={onClose}
+            />
+          </PopoverBody>
+        </Card>
+      </Popover>
     );
   },
 );
 
 MismatchButton.displayName = "MismatchButton";
 
-const MismatchNotice: React.VFC = () => {
+const MismatchNotice: React.VFC<{
+  initialFocusRef: React.RefObject<HTMLButtonElement>;
+  onClose: () => void;
+}> = ({ initialFocusRef, onClose }) => {
   const { chainId, getNetworkMetadata } = useWeb3();
   const activeChainId = useDesiredChainId();
   const signerChainId = chainId as SUPPORTED_CHAIN_ID;
@@ -88,11 +109,12 @@ const MismatchNotice: React.VFC = () => {
     .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
     .join("");
 
-  const onSwitchWallet = useCallback(() => {
+  const onSwitchWallet = useCallback(async () => {
     if (actuallyCanAttemptSwitch && activeChainId) {
-      switchNetwork(activeChainId);
+      await switchNetwork(activeChainId);
     }
-  }, [activeChainId, actuallyCanAttemptSwitch, switchNetwork]);
+    onClose();
+  }, [activeChainId, actuallyCanAttemptSwitch, onClose, switchNetwork]);
 
   return (
     <Flex direction="column" gap={4}>
@@ -109,6 +131,7 @@ const MismatchNotice: React.VFC = () => {
       </Text>
 
       <Button
+        ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
         leftIcon={<Icon as={VscDebugDisconnect} />}
         size="sm"
         onClick={onSwitchWallet}

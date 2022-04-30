@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { NFTDrop } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -250,7 +250,8 @@ export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={mint.isLoading}
           leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
@@ -258,7 +259,7 @@ export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
           colorScheme="primary"
         >
           Create Drop
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );

@@ -14,7 +14,7 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import { Vote } from "@thirdweb-dev/sdk";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -74,7 +74,8 @@ export const ProposalMintForm: React.FC<IProposalMintForm> = ({ contract }) => {
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={propose.isLoading}
           leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
@@ -82,7 +83,7 @@ export const ProposalMintForm: React.FC<IProposalMintForm> = ({ contract }) => {
           colorScheme="primary"
         >
           Submit Proposal
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );
