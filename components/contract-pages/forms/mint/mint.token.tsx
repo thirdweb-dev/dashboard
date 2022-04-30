@@ -5,7 +5,6 @@ import {
   DrawerFooter,
   FormControl,
   FormErrorMessage,
-  Icon,
   Input,
   Stack,
   useModalContext,
@@ -15,7 +14,6 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus } from "react-icons/fi";
 import { Button, FormLabel } from "tw-components";
 
 const MINT_FORM_ID = "token-mint-form";
@@ -78,7 +76,6 @@ export const TokenMintForm: React.FC<ITokenMintForm> = ({ contract }) => {
         <TransactionButton
           transactionCount={1}
           isLoading={mint.isLoading}
-          leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"

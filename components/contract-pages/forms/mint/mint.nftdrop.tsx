@@ -12,7 +12,6 @@ import {
   DrawerFooter,
   FormControl,
   FormErrorMessage,
-  Icon,
   Input,
   Stack,
   Textarea,
@@ -26,7 +25,6 @@ import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus } from "react-icons/fi";
 import { Button, FormHelperText, FormLabel, Heading } from "tw-components";
 import { NFTMetadataInputLimited } from "types/modified-types";
 
@@ -253,7 +251,6 @@ export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
         <TransactionButton
           transactionCount={1}
           isLoading={mint.isLoading}
-          leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
