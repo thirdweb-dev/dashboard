@@ -164,7 +164,7 @@ export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
               <FormLabel>Cover Image</FormLabel>
               <FileInput
                 maxContainerWidth={"200px"}
-                accept="image/*"
+                accept={{ "image/*": [] }}
                 value={imageUrl}
                 showUploadButton
                 setValue={(file) => setValue("image", file)}

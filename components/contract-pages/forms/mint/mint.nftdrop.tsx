@@ -165,7 +165,7 @@ export const NFTDropMintForm: React.FC<INFTDropMintForm> = ({ contract }) => {
               <FormLabel>Cover Image</FormLabel>
               <FileInput
                 maxContainerWidth={"200px"}
-                accept="image/*"
+                accept={{ "image/*": [] }}
                 value={imageUrl}
                 showUploadButton
                 setValue={(file) => setValue("image", file)}

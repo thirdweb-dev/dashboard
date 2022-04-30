@@ -167,7 +167,7 @@ export const EditionDropMintForm: React.FC<INFTDropMintForm> = ({
               <FormLabel>Cover Image</FormLabel>
               <FileInput
                 maxContainerWidth={"200px"}
-                accept="image/*"
+                accept={{ "image/*": [] }}
                 value={imageUrl}
                 showUploadButton
                 setValue={(file) => setValue("image", file)}

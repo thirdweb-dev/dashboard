@@ -5,7 +5,7 @@ import {
   useHasVotedOnProposal,
   useTokensDelegated,
 } from "@3rdweb-sdk/react/hooks/useVote";
-import { Flex, Icon, Stack } from "@chakra-ui/react";
+import { ButtonGroup, Flex, Icon } from "@chakra-ui/react";
 import {
   ProposalState,
   Proposal as ProposalType,
@@ -83,10 +83,13 @@ export const Proposal: React.FC<IProposal> = ({ proposal }) => {
   const { data: delegated } = useTokensDelegated(voteAddress);
   const { mutate: execute, isLoading: isExecuting } =
     useExecuteProposalMutation(proposal.proposalId.toString(), voteAddress);
-  const { mutate: vote, isLoading: isVoting } = useCastVoteMutation(
-    proposal.proposalId.toString(),
-    voteAddress,
-  );
+  const {
+    mutate: vote,
+    isLoading: isVoting,
+    variables,
+  } = useCastVoteMutation(proposal.proposalId.toString(), voteAddress);
+
+  console.log("*** data", { variables });
 
   const votes = useMemo(() => {
     return {
@@ -183,42 +186,38 @@ export const Proposal: React.FC<IProposal> = ({ proposal }) => {
       !hasVoted &&
       !hasVotedLoading &&
       delegated ? (
-        <Stack direction="row" spacing={2} mt="24px">
-          {isVoting ? (
-            <Button width="80px" size="sm" isLoading />
-          ) : (
-            <>
-              <Button
-                width="80px"
-                size="sm"
-                leftIcon={<Icon as={FiCheck} />}
-                onClick={() => castVote(1)}
-              >
-                For
-              </Button>
-              <Button
-                width="80px"
-                size="sm"
-                leftIcon={<Icon as={FiX} />}
-                onClick={() => castVote(0)}
-              >
-                Against
-              </Button>
-              <Button
-                width="80px"
-                size="sm"
-                leftIcon={<Icon as={FiMinus} />}
-                onClick={() => castVote(2)}
-              >
-                Abstain
-              </Button>
-            </>
-          )}
-        </Stack>
+        <ButtonGroup mt="24px" size="sm">
+          <Button
+            leftIcon={<Icon as={FiCheck} />}
+            onClick={() => castVote(1)}
+            colorScheme="green"
+            isDisabled={isVoting && variables?.voteType !== 1}
+            isLoading={isVoting && variables?.voteType === 1}
+          >
+            For
+          </Button>
+          <Button
+            leftIcon={<Icon as={FiX} />}
+            onClick={() => castVote(0)}
+            colorScheme="red"
+            isDisabled={isVoting && variables?.voteType !== 0}
+            isLoading={isVoting && variables?.voteType === 0}
+          >
+            Against
+          </Button>
+          <Button
+            leftIcon={<Icon as={FiMinus} />}
+            onClick={() => castVote(2)}
+            isDisabled={isVoting && variables?.voteType !== 2}
+            isLoading={isVoting && variables?.voteType === 2}
+          >
+            Abstain
+          </Button>
+        </ButtonGroup>
       ) : (
         canExecute && (
           <Button
-            colorScheme="blue"
+            colorScheme="primary"
             size="sm"
             leftIcon={<Icon as={FiCheck} />}
             onClick={executeProposal}
