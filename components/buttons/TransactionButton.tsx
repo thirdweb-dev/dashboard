@@ -5,7 +5,7 @@ import useDimensions from "react-cool-dimensions";
 import { BiTransferAlt } from "react-icons/bi";
 import { ButtonProps, Text } from "tw-components";
 
-export interface TransactionButtonProps extends ButtonProps {
+export interface TransactionButtonProps extends Omit<ButtonProps, "leftIcon"> {
   transactionCount: number;
 }
 
