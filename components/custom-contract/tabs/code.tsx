@@ -1,5 +1,12 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Tag } from "@chakra-ui/react";
+import { jsx } from "@emotion/react";
 import { useContractFunctions } from "@thirdweb-dev/react";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
+import {
+  useContractFeatures,
+  usePublishedMetadataQuery,
+} from "components/contract-components/hooks";
+import { ta } from "date-fns/locale";
 import { Card, CodeBlock, Heading } from "tw-components";
 
 interface ContentOverviewProps {
@@ -9,12 +16,14 @@ interface ContentOverviewProps {
 export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
   contractAddress,
 }) => {
-  const metadataQuery = useContractFunctions(contractAddress);
+  const functionsQuery = useContractFunctions(contractAddress);
+  const metadataQuery = usePublishedMetadataQuery(contractAddress);
+  const features = useContractFeatures(metadataQuery?.data?.abi);
 
-  const isError = metadataQuery.isError;
-  const isSuccess = metadataQuery.isSuccess;
+  const isError = functionsQuery.isError;
+  const isSuccess = functionsQuery.isSuccess;
 
-  const functions = metadataQuery.data
+  const functions = functionsQuery.data
     ?.filter(
       (d) =>
         d.name !== "contractURI" &&
@@ -23,9 +32,41 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
     )
     .map((f) => f.signature);
 
+  console.log(features);
+
   if (isError) {
     return <Box>Contract does not support generated functions</Box>;
   }
+
+  const generateTags = (
+    features: Record<string, FeatureWithEnabled> | undefined,
+    tags: JSX.Element[],
+  ) => {
+    features &&
+      Object.keys(features)
+        .map((f) => features[f])
+        .filter((f) => f.enabled)
+        .forEach((f) => {
+          tags.push(<Tag key={f.name}>{f.name}</Tag>);
+          generateTags(f.features, tags);
+        });
+  };
+
+  const tags: JSX.Element[] = [];
+  generateTags(features, tags);
+  const detectedFeaturesCard =
+    tags.length > 0 ? (
+      <>
+        <Card as={Flex} flexDirection="column" gap={2}>
+          <Heading size="subtitle.md">Detetcted Features</Heading>
+          <Flex gap={2} direction="row">
+            {tags}
+          </Flex>
+        </Card>
+      </>
+    ) : (
+      undefinedq
+    );
 
   return (
     <Flex gap={4} direction="column">
@@ -52,6 +93,7 @@ const sdk = new ThirdwebSDK(provider);
 const contract = await sdk.getCustomContract("${contractAddress}");`}
         />
       </Card>
+      {detectedFeaturesCard}
       <Card as={Flex} gap={2} flexDirection="column">
         <Heading size="subtitle.md">Contract functions</Heading>
         {isSuccess

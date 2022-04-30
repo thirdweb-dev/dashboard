@@ -1,9 +1,16 @@
 import { ContractId } from "./types";
 import { isContractIdBuiltInContract } from "./utils";
 import { contractKeys, networkKeys } from "@3rdweb-sdk/react";
-import { useAddress, useChainId, useSDK } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useChainId,
+  useCustomContract,
+  useSDK,
+} from "@thirdweb-dev/react";
 import {
   ContractType,
+  CustomContract,
+  detectFeatures,
   extractConstructorParamsFromAbi,
   fetchContractMetadata,
 } from "@thirdweb-dev/sdk";
@@ -140,4 +147,26 @@ export function usePublishedContractsQuery() {
       enabled: !!address && !!sdk,
     },
   );
+}
+
+export function usePublishedMetadataQuery(contractAddress: string) {
+  const contractQuery = useCustomContract(contractAddress);
+  return useQuery(
+    ["published-metadata", contractAddress],
+    async () => {
+      const contract = contractQuery?.contract as CustomContract;
+      return contractAddress && contract
+        ? await contract.publishedMetadata.get()
+        : undefined;
+    },
+    {
+      enabled: !!contractAddress && !!contractQuery?.contract,
+    },
+  );
+}
+
+export function useContractFeatures(abi?: any) {
+  return useMemo(() => {
+    return abi ? detectFeatures(abi) : undefined;
+  }, [abi]);
 }

@@ -1741,10 +1741,8 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.1.2":
+"@thirdweb-dev/sdk@file:.yalc/@thirdweb-dev/sdk":
   version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.1.2.tgz#1633bf512ad2c1eb0e316032cac318e1ecd5e64d"
-  integrity sha512-ebfi+0hNKp2ZjfUDwtucn1V/Ln9d6nHBq6sR5JzndCH8L9Cm5lQtG0ymwmXRXrusnbP8pXHpq/Cy+L4E1Ishjw==
   dependencies:
     "@ethersproject/bignumber" "^5.6.0"
     "@ethersproject/bytes" "^5.6.1"
