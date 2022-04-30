@@ -5,12 +5,13 @@ import {
   useHasVotedOnProposal,
   useTokensDelegated,
 } from "@3rdweb-sdk/react/hooks/useVote";
-import { ButtonGroup, Flex, Icon } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
 import {
   ProposalState,
   Proposal as ProposalType,
   VoteType,
 } from "@thirdweb-dev/sdk";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { ethers } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -186,34 +187,41 @@ export const Proposal: React.FC<IProposal> = ({ proposal }) => {
       !hasVoted &&
       !hasVotedLoading &&
       delegated ? (
-        <ButtonGroup mt="24px" size="sm">
-          <Button
-            leftIcon={<Icon as={FiCheck} />}
+        <Flex mt="24px" gap={2}>
+          <TransactionButton
+            size="sm"
+            transactionCount={1}
+            rightIcon={<Icon as={FiCheck} />}
             onClick={() => castVote(1)}
             colorScheme="green"
             isDisabled={isVoting && variables?.voteType !== 1}
             isLoading={isVoting && variables?.voteType === 1}
           >
-            For
-          </Button>
-          <Button
-            leftIcon={<Icon as={FiX} />}
+            Approve
+          </TransactionButton>
+          <TransactionButton
+            size="sm"
+            transactionCount={1}
+            rightIcon={<Icon as={FiX} />}
             onClick={() => castVote(0)}
             colorScheme="red"
             isDisabled={isVoting && variables?.voteType !== 0}
             isLoading={isVoting && variables?.voteType === 0}
           >
             Against
-          </Button>
-          <Button
-            leftIcon={<Icon as={FiMinus} />}
+          </TransactionButton>
+          <TransactionButton
+            colorScheme="blackAlpha"
+            size="sm"
+            transactionCount={1}
+            rightIcon={<Icon as={FiMinus} />}
             onClick={() => castVote(2)}
             isDisabled={isVoting && variables?.voteType !== 2}
             isLoading={isVoting && variables?.voteType === 2}
           >
             Abstain
-          </Button>
-        </ButtonGroup>
+          </TransactionButton>
+        </Flex>
       ) : (
         canExecute && (
           <Button

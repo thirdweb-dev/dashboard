@@ -64,7 +64,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
           top={0}
           bottom={0}
           left={0}
-          px={4}
+          px={size === "sm" ? 3 : size === "lg" ? 6 : size === "xs" ? 2 : 4}
         >
           <Flex
             as="span"
