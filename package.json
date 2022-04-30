@@ -12,7 +12,8 @@
     "gen:theme-typings": "chakra-cli tokens theme/index.ts",
     "postinstall": "yarn gen:theme-typings",
     "find:unused": "next-unused",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "build:analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
     "@alch/alchemy-web3": "^1.4.1",
@@ -60,6 +61,7 @@
     "@babel/core": "^7.15.5",
     "@chakra-ui/cli": "^1.5.3",
     "@chakra-ui/system": "^1.7.4",
+    "@next/bundle-analyzer": "^12.1.5",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/color": "^3.0.2",
     "@types/cors": "^2.8.12",
