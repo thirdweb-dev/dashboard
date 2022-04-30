@@ -11,7 +11,6 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  Icon,
   Input,
   Stack,
   Textarea,
@@ -19,13 +18,12 @@ import {
 } from "@chakra-ui/react";
 import { NFTCollection } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus } from "react-icons/fi";
 import {
   Button,
   FormErrorMessage,
@@ -172,7 +170,7 @@ export const NFTCollectionMintForm: React.FC<INFTCollectionMintForm> = ({
               <FormLabel>Cover Image</FormLabel>
               <FileInput
                 maxContainerWidth={"200px"}
-                accept="image/*"
+                accept={{ "image/*": [] }}
                 value={imageUrl}
                 showUploadButton
                 setValue={(file) => setValue("image", file)}
@@ -254,15 +252,15 @@ export const NFTCollectionMintForm: React.FC<INFTCollectionMintForm> = ({
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={mint.isLoading}
-          leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
         >
           Mint NFT
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );

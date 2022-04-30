@@ -9,7 +9,6 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  Icon,
   Input,
   Stack,
   Textarea,
@@ -18,13 +17,12 @@ import {
 import { useNFTMint } from "@thirdweb-dev/react";
 import { Erc721 } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus } from "react-icons/fi";
 import {
   Button,
   FormErrorMessage,
@@ -171,7 +169,7 @@ export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
               <FormLabel>Cover Image</FormLabel>
               <FileInput
                 maxContainerWidth={"200px"}
-                accept="image/*"
+                accept={{ "image/*": [] }}
                 value={imageUrl}
                 showUploadButton
                 setValue={(file) => setValue("image", file)}
@@ -253,15 +251,15 @@ export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={isLoading}
-          leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
         >
           Mint NFT
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );

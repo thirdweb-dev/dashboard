@@ -187,7 +187,7 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
           >
             <FormLabel>Image</FormLabel>
             <FileInput
-              accept="image/*"
+              accept={{ "image/*": [] }}
               value={useImageFileOrUrl(watch("image"))}
               setValue={(file) =>
                 setValue("image", file, { shouldTouch: true })

@@ -7,17 +7,15 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  Icon,
   Stack,
   Textarea,
   useModalContext,
 } from "@chakra-ui/react";
 import { Vote } from "@thirdweb-dev/sdk";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus } from "react-icons/fi";
 import { Button, FormErrorMessage, FormLabel } from "tw-components";
 
 const MINT_FORM_ID = "proposal-mint-form";
@@ -73,15 +71,15 @@ export const ProposalMintForm: React.FC<IProposalMintForm> = ({ contract }) => {
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={propose.isLoading}
-          leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
         >
           Submit Proposal
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );
