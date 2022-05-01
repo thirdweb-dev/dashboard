@@ -32,6 +32,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
+import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { isAddress } from "ethers/lib/utils";
 import { StaticImageData } from "next/image";
@@ -322,16 +323,6 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   );
 };
 
-const KNOWN_GNOSIS_NETWORKS_MAP = {
-  // supported mainnets
-  eth: ChainId.Mainnet,
-  matic: ChainId.Polygon,
-  avax: ChainId.Avalanche,
-  // supported testnets
-  rin: ChainId.Rinkeby,
-  gor: ChainId.Goerli,
-} as const;
-
 interface ConnectorModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -418,15 +409,15 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
                       // prevent the default (setting the data to the input) since we're about to handle it
                       if (
                         isAddress(gnosisSafeAddress) &&
-                        gnosisNetwork in KNOWN_GNOSIS_NETWORKS_MAP
+                        gnosisNetwork in GNOSIS_TO_CHAIN_ID
                       ) {
                         e.preventDefault();
                         // just re-set the form with the data we found
                         reset({
                           safeAddress: gnosisSafeAddress,
                           safeChainId:
-                            KNOWN_GNOSIS_NETWORKS_MAP[
-                              gnosisNetwork as keyof typeof KNOWN_GNOSIS_NETWORKS_MAP
+                            GNOSIS_TO_CHAIN_ID[
+                              gnosisNetwork as keyof typeof GNOSIS_TO_CHAIN_ID
                             ].toString(),
                         });
                       }
