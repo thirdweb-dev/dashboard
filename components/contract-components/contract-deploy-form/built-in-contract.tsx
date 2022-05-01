@@ -1,6 +1,6 @@
 import { ContractIdImage } from "../contract-table/cells/image";
 import { useContractPublishMetadataFromURI } from "../hooks";
-import { useDeploy, useWeb3 } from "@3rdweb-sdk/react";
+import { useDeploy } from "@3rdweb-sdk/react";
 import {
   Divider,
   Flex,
@@ -11,7 +11,6 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   SimpleGrid,
   Skeleton,
   Textarea,
@@ -20,7 +19,6 @@ import { AddressZero } from "@ethersproject/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddress } from "@thirdweb-dev/react";
 import {
-  ChainId,
   ContractType,
   KNOWN_CONTRACTS_MAP,
   ValidContractClass,
@@ -28,6 +26,7 @@ import {
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
+import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
 import { UrlMap } from "constants/mappings";
 import { isAddress } from "ethers/lib/utils";
@@ -54,7 +53,6 @@ import {
 import {
   NetworkToBlockTimeMap,
   SUPPORTED_CHAIN_ID,
-  SUPPORTED_CHAIN_IDS,
   SupportedChainIdToNetworkMap,
 } from "utils/network";
 import { z } from "zod";
@@ -104,22 +102,6 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
   onChainSelect,
 }) => {
   const publishMetadata = useContractPublishMetadataFromURI(contractType);
-
-  const { getNetworkMetadata } = useWeb3();
-
-  const testnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.filter((chainId) => chainId !== ChainId.Goerli)
-      .map((supportedChain) => {
-        return getNetworkMetadata(supportedChain);
-      })
-      .filter((n) => n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  const mainnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-      return getNetworkMetadata(supportedChain);
-    }).filter((n) => !n.isTestnet);
-  }, [getNetworkMetadata]);
 
   const contract =
     KNOWN_CONTRACTS_MAP[contractType as keyof typeof KNOWN_CONTRACTS_MAP];
@@ -747,7 +729,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
         </Flex>
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <FormControl>
-            <Select
+            <SupportedNetworkSelect
               isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
               value={selectedChain || -1}
               onChange={(e) =>
@@ -755,25 +737,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
                   parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
                 )
               }
-            >
-              <option disabled value={-1}>
-                Select Network
-              </option>
-              <optgroup label="Mainnets">
-                {mainnets.map((mn) => (
-                  <option key={mn.chainId} value={mn.chainId}>
-                    {mn.chainName} ({mn.symbol})
-                  </option>
-                ))}
-              </optgroup>
-              <optgroup label="Testnets">
-                {testnets.map((tn) => (
-                  <option key={tn.chainId} value={tn.chainId}>
-                    {tn.chainName} ({tn.symbol} Testnet)
-                  </option>
-                ))}
-              </optgroup>
-            </Select>
+            />
           </FormControl>
           <TransactionButton
             flexShrink={0}

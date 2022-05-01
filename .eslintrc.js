@@ -115,13 +115,18 @@ module.exports = {
               "FormLabel",
               "FormHelperText",
               "FormErrorMessage",
+              "MenuGroup",
+              "MenuItem",
               // also the types
               "ButtonProps",
+              "BadgeProps",
               "DrawerProps",
               "HeadingProps",
               "TextProps",
               "FormLabelProps",
               "HelpTextProps",
+              "MenuGroupProps",
+              "MenuItemProps",
             ],
             message:
               'Use the equivalent component from "tw-components" instead.',
@@ -135,6 +140,11 @@ module.exports = {
             name: "@chakra-ui/button",
             message:
               "Import from `@chakra-ui/react` instead of `@chakra-ui/button`.",
+          },
+          {
+            name: "@chakra-ui/menu",
+            message:
+              "Import from `@chakra-ui/react` instead of `@chakra-ui/menu`.",
           },
         ],
       },

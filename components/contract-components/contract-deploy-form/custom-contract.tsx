@@ -4,13 +4,11 @@ import {
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
 } from "../hooks";
-import { useWeb3 } from "@3rdweb-sdk/react";
 import {
   Divider,
   Flex,
   FormControl,
   Input,
-  Select,
   Skeleton,
   Textarea,
 } from "@chakra-ui/react";
@@ -18,12 +16,13 @@ import { useAddress } from "@thirdweb-dev/react";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Badge,
@@ -69,22 +68,6 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
       return newArr;
     });
   }, []);
-
-  const { getNetworkMetadata } = useWeb3();
-
-  const testnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.filter((chainId) => chainId !== ChainId.Goerli)
-      .map((supportedChain) => {
-        return getNetworkMetadata(supportedChain);
-      })
-      .filter((n) => n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  const mainnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-      return getNetworkMetadata(supportedChain);
-    }).filter((n) => !n.isTestnet);
-  }, [getNetworkMetadata]);
 
   const deploy = useCustomContractDeployMutation(ipfsHash);
   const walletAddress = useAddress();
@@ -263,7 +246,11 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
       </Flex>
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
-          <Select
+          <SupportedNetworkSelect
+            disabledChainIds={SUPPORTED_CHAIN_IDS.filter(
+              (c) => c === ChainId.Mumbai,
+            )}
+            disabledChainIdText="coming soon"
             isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
             value={selectedChain || -1}
             onChange={(e) =>
@@ -271,30 +258,7 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
                 parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
               )
             }
-          >
-            <option disabled value={-1}>
-              Select Network
-            </option>
-            <optgroup label="Mainnets">
-              {mainnets.map((mn) => (
-                <option key={mn.chainId} value={mn.chainId} disabled>
-                  {mn.chainName} ({mn.symbol}) - coming soon
-                </option>
-              ))}
-            </optgroup>
-            <optgroup label="Testnets">
-              {testnets.map((tn) => (
-                <option
-                  key={tn.chainId}
-                  value={tn.chainId}
-                  disabled={tn.chainId !== ChainId.Mumbai}
-                >
-                  {tn.chainName} ({tn.symbol} Testnet)
-                  {tn.chainId !== ChainId.Mumbai ? " - coming soon" : ""}
-                </option>
-              ))}
-            </optgroup>
-          </Select>
+          />
         </FormControl>
         <TransactionButton
           flexShrink={0}
