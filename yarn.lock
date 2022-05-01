@@ -1768,10 +1768,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.3.2.tgz#a057fdb21a40e20b14b0099d95d3a4f09e6e6850"
   integrity sha512-6G7eMTU2cAbeRsGHQ84ZWkRL1hOM7xeUoNh8PEY+PZQyTaeVxImFWXb8sS1QakhT9nE8LBesOb5iXfwBaOCEQw==
 
-"@thirdweb-dev/react@^2.2.0-3":
-  version "2.2.0-3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.2.0-3.tgz#3d7a4f74123cdd559a6c3aa0a5a81c70c736095a"
-  integrity sha512-0BUQ244mCaW7SCfwtlTIhbZqBafKdZwbhIEhEek2uu9PvOtXYgX+rEphEmpyFBb4LuONouL5QPu38zH8Xz13kg==
+"@thirdweb-dev/react@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.2.0.tgz#86edc5799cf4a1bfbddb5997339b635862de17dd"
+  integrity sha512-uqDZxwD04eOY+hNDgrDrwLXJVqXwxPOlyhdOpuFFkjn4MEWgVXtPwuyFmsFZjAoZ5eQLm52STlMb/hlp8nZisw==
   dependencies:
     "@gnosis.pm/safe-core-sdk" "^2.1.0"
     "@gnosis.pm/safe-ethers-adapters" "^0.1.0-alpha.9"
@@ -7335,10 +7335,10 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-dropzone@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-13.0.0.tgz#b29c331a1a7e9d21ac4d5666e7b763917f5f4b85"
-  integrity sha512-BwzHZlmwC2wFKtGbuWw6A+D+uUaJgUGuheALoVFwTNztwV+7NLzdUrHHUkF9mRkI9u5pJDivH3wo+BgSyYVoTQ==
+react-dropzone@^14.0.1:
+  version "14.0.1"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-14.0.1.tgz#15df003f07a1f9fb6a460db06ed367c2e62667be"
+  integrity sha512-FyRWrlMmM2+8TkM0aPdRwdZJ5HX3+4O1vWtHecJMFB36N89Bub1sIrk8HyOrjb9hwm1HXGRZ4Q+PW4G/MDFg1Q==
   dependencies:
     attr-accept "^2.2.2"
     file-selector "^0.5.0"

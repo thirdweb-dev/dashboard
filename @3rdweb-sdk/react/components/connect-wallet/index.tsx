@@ -172,8 +172,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                     }
                     onClick={onCopy}
                   >
-                    Copy {isGnosisConnectorConnected ? "safe" : "wallet"}{" "}
-                    address
+                    Copy wallet address
                   </MenuItem>
 
                   <MenuItem
@@ -257,8 +256,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                     }
                     onClick={onCopy}
                   >
-                    Copy {isGnosisConnectorConnected ? "safe" : "wallet"}{" "}
-                    address
+                    Copy wallet address
                   </MenuItem>
                   <MenuItem
                     icon={<AiOutlineDisconnect />}
