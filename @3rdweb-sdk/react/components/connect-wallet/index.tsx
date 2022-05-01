@@ -1,6 +1,7 @@
 import { useWeb3 } from "@3rdweb-sdk/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
+  Center,
   Flex,
   FormControl,
   Icon,
@@ -35,6 +36,7 @@ import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelec
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { isAddress } from "ethers/lib/utils";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -124,22 +126,24 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
               </Flex>
 
               {activeConnector && (
-                <ChakraNextImage
-                  boxSize={6}
-                  _dark={
-                    isGnosisConnectorConnected
-                      ? { filter: "invert(1)" }
-                      : undefined
-                  }
-                  borderRadius="md"
-                  src={
-                    isGnosisConnectorConnected
-                      ? connectorIdToImageUrl.Gnosis
-                      : connectorIdToImageUrl[activeConnector.name]
-                  }
-                  placeholder="empty"
-                  alt=""
-                />
+                <Center boxSize={6}>
+                  <ChakraNextImage
+                    w="100%"
+                    _dark={
+                      isGnosisConnectorConnected
+                        ? { filter: "invert(1)" }
+                        : undefined
+                    }
+                    borderRadius="md"
+                    src={
+                      isGnosisConnectorConnected
+                        ? connectorIdToImageUrl.Gnosis
+                        : connectorIdToImageUrl[activeConnector.name]
+                    }
+                    placeholder="empty"
+                    alt=""
+                  />
+                </Center>
               )}
             </Flex>
           </MenuButton>
@@ -366,6 +370,11 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
       clearErrors("safeAddress");
     }
   }, [clearErrors, formData.safeAddress, setError]);
+
+  const { onError } = useTxNotifications(
+    "Connected Gnosis Safe",
+    "Failed to connect Gnosis Safe",
+  );
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -383,13 +392,17 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
           as="form"
           onSubmit={handleSubmit(async (d) => {
             try {
-              await connectGnosis({
+              const response = await connectGnosis({
                 ...d,
                 safeChainId: parseInt(d.safeChainId),
               });
+              if (response.error) {
+                throw response.error;
+              }
               onClose();
             } catch (err) {
               console.error("failed to connect", err);
+              onError(err);
             }
           })}
         >
