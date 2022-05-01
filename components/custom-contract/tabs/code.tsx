@@ -1,13 +1,14 @@
-import { Box, Flex, Tag } from "@chakra-ui/react";
-import { jsx } from "@emotion/react";
+import { Box, Flex, Tag, TagLabel, TagRightIcon } from "@chakra-ui/react";
 import { useContractFunctions } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import {
   useContractFeatures,
   usePublishedMetadataQuery,
 } from "components/contract-components/hooks";
-import { ta } from "date-fns/locale";
-import { Card, CodeBlock, Heading } from "tw-components";
+import { useMemo, useState } from "react";
+import { IoMdCloseCircle } from "react-icons/io";
+import { MdCheckCircle } from "react-icons/md";
+import { Card, CodeBlock, Heading, LinkButton } from "tw-components";
 
 interface ContentOverviewProps {
   contractAddress: string;
@@ -18,7 +19,9 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
 }) => {
   const functionsQuery = useContractFunctions(contractAddress);
   const metadataQuery = usePublishedMetadataQuery(contractAddress);
-  const features = useContractFeatures(metadataQuery?.data?.abi);
+  const contractFeatures = useContractFeatures(metadataQuery?.data?.abi);
+  const [featureTags, setFeatureTags] = useState<JSX.Element[]>([]);
+  const [expandedFeature, setExpandedFeature] = useState<FeatureWithEnabled>();
 
   const isError = functionsQuery.isError;
   const isSuccess = functionsQuery.isSuccess;
@@ -32,41 +35,86 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
     )
     .map((f) => f.signature);
 
-  console.log(features);
+  useMemo(() => {
+    const generateTags = (
+      features: Record<string, FeatureWithEnabled> | undefined,
+      tags: JSX.Element[],
+    ) => {
+      if (features) {
+        Object.keys(features)
+          .map((f) => features[f])
+          .forEach((f) => {
+            tags.push(
+              <Tag
+                size="lg"
+                key={f.name}
+                borderRadius="full"
+                variant={f === expandedFeature ? "solid" : "subtle"}
+                colorScheme={f === expandedFeature ? "primary" : "gray"}
+                onClick={() => setExpandedFeature(f)}
+              >
+                <TagLabel>{f.name}</TagLabel>
+                <TagRightIcon
+                  as={f.enabled ? MdCheckCircle : IoMdCloseCircle}
+                  color={f.enabled ? "green.600" : "red.600"}
+                />
+              </Tag>,
+            );
+            // recurse to get nested features
+            generateTags(f.features, tags);
+          });
+      }
+    };
+    const tags: JSX.Element[] = [];
+    generateTags(contractFeatures, tags);
+    setFeatureTags(tags);
+  }, [contractFeatures, expandedFeature]);
 
   if (isError) {
     return <Box>Contract does not support generated functions</Box>;
   }
 
-  const generateTags = (
-    features: Record<string, FeatureWithEnabled> | undefined,
-    tags: JSX.Element[],
-  ) => {
-    features &&
-      Object.keys(features)
-        .map((f) => features[f])
-        .filter((f) => f.enabled)
-        .forEach((f) => {
-          tags.push(<Tag key={f.name}>{f.name}</Tag>);
-          generateTags(f.features, tags);
-        });
-  };
-
-  const tags: JSX.Element[] = [];
-  generateTags(features, tags);
   const detectedFeaturesCard =
-    tags.length > 0 ? (
+    featureTags.length > 0 ? (
       <>
         <Card as={Flex} flexDirection="column" gap={2}>
-          <Heading size="subtitle.md">Detetcted Features</Heading>
+          <Heading size="subtitle.md">Features</Heading>
           <Flex gap={2} direction="row">
-            {tags}
+            {featureTags}
           </Flex>
+          {expandedFeature ? (
+            <Card as={Flex} gap={2} flexDirection="column">
+              <CodeBlock
+                key={expandedFeature.name}
+                code={`// Built-in SDK functions
+contract.${expandedFeature.namespace}`}
+                language="typescript"
+              />
+              <Flex gap={2} direction="row">
+                <LinkButton
+                  href={`https://docs.thirdweb.com/typescript/${expandedFeature.docLinks.sdk}`}
+                  colorScheme="primary"
+                  variant="ghost"
+                  size="sm"
+                  isExternal
+                >
+                  SDK Docs
+                </LinkButton>
+                <LinkButton
+                  href={`https://docs.thirdweb.com/contracts/${expandedFeature.docLinks.contracts}`}
+                  colorScheme="primary"
+                  variant="ghost"
+                  size="sm"
+                  isExternal
+                >
+                  Contract Docs
+                </LinkButton>
+              </Flex>
+            </Card>
+          ) : undefined}
         </Card>
       </>
-    ) : (
-      undefinedq
-    );
+    ) : undefined;
 
   return (
     <Flex gap={4} direction="column">
