@@ -20,7 +20,6 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
   const functionsQuery = useContractFunctions(contractAddress);
   const metadataQuery = usePublishedMetadataQuery(contractAddress);
   const contractFeatures = useContractFeatures(metadataQuery?.data?.abi);
-  const [featureTags, setFeatureTags] = useState<JSX.Element[]>([]);
   const [expandedFeature, setExpandedFeature] = useState<FeatureWithEnabled>();
 
   const isError = functionsQuery.isError;
@@ -35,7 +34,7 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
     )
     .map((f) => f.signature);
 
-  useMemo(() => {
+  const featureTags = useMemo(() => {
     const generateTags = (
       features: Record<string, FeatureWithEnabled> | undefined,
       tags: JSX.Element[],
@@ -50,8 +49,11 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
                 key={f.name}
                 borderRadius="full"
                 variant={f === expandedFeature ? "solid" : "subtle"}
-                colorScheme={f === expandedFeature ? "primary" : "gray"}
+                colorScheme={
+                  f === expandedFeature ? (f.enabled ? "green" : "red") : "gray"
+                }
                 onClick={() => setExpandedFeature(f)}
+                cursor="pointer"
               >
                 <TagLabel>{f.name}</TagLabel>
                 <TagRightIcon
@@ -67,7 +69,7 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
     };
     const tags: JSX.Element[] = [];
     generateTags(contractFeatures, tags);
-    setFeatureTags(tags);
+    return tags;
   }, [contractFeatures, expandedFeature]);
 
   if (isError) {
@@ -86,10 +88,11 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
             <Card as={Flex} gap={2} flexDirection="column">
               <CodeBlock
                 key={expandedFeature.name}
-                code={`// Built-in SDK functions
+                code={`// Implementing '${expandedFeature.docLinks.contracts}' unlocks these built-in SDK functions
 contract.${expandedFeature.namespace}`}
                 language="typescript"
               />
+
               <Flex gap={2} direction="row">
                 <LinkButton
                   href={`https://docs.thirdweb.com/typescript/${expandedFeature.docLinks.sdk}`}
