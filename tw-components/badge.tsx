@@ -14,7 +14,7 @@ export interface BadgeProps extends ChakraBadgeProps {
 
 export const Badge = forwardRef<BadgeProps, "span">(
   ({ py = 1, children, size = "label.md", ...props }, ref) => {
-    if (props.colorScheme && props.variant && props.variant === "solid") {
+    if (props.colorScheme && props.variant && props.variant === "outline") {
       return (
         <LightMode>
           <ChakraBadge py={py} {...props} ref={ref}>
