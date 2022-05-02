@@ -4,12 +4,12 @@ import { contractKeys, networkKeys } from "@3rdweb-sdk/react";
 import {
   useAddress,
   useChainId,
-  useCustomContract,
+  useContract,
   useSDK,
 } from "@thirdweb-dev/react";
 import {
   ContractType,
-  CustomContract,
+  SmartContract,
   detectFeatures,
   extractConstructorParamsFromAbi,
   fetchContractMetadata,
@@ -152,11 +152,11 @@ export function usePublishedContractsQuery() {
 }
 
 export function usePublishedMetadataQuery(contractAddress: string) {
-  const contractQuery = useCustomContract(contractAddress);
+  const contractQuery = useContract(contractAddress);
   return useQuery(
     ["published-metadata", contractAddress],
     async () => {
-      const contract = contractQuery?.contract as CustomContract;
+      const contract = contractQuery?.contract as SmartContract;
       return contractAddress && contract
         ? await contract.publishedMetadata.get()
         : undefined;

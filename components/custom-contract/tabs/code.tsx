@@ -58,7 +58,13 @@ export const CustomContractCodeTab: React.VFC<ContentOverviewProps> = ({
                 <TagLabel>{f.name}</TagLabel>
                 <TagRightIcon
                   as={f.enabled ? MdCheckCircle : IoMdCloseCircle}
-                  color={f.enabled ? "green.600" : "red.600"}
+                  color={
+                    f === expandedFeature
+                      ? "white"
+                      : f.enabled
+                      ? "green.600"
+                      : "red.600"
+                  }
                 />
               </Tag>,
             );
