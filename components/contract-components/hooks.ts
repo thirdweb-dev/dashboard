@@ -89,12 +89,12 @@ export function useContractIdIpfsHash(contractId: ContractId) {
 export function usePublishMutation() {
   const sdk = useSDK();
 
-  return useMutation((uris: string[]) => {
+  return useMutation(async (uris: string[]) => {
     invariant(
-      sdk && "publisher" in sdk,
+      sdk && "getPublisher" in sdk,
       "sdk is not ready or does not support publishing",
     );
-    return sdk.publisher.publishBatch(uris);
+    return await (await sdk.getPublisher()).publishBatch(uris);
   });
 }
 
@@ -105,7 +105,7 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
   const chainId = useChainId();
 
   return useMutation(
-    ({
+    async ({
       metadata,
       constructorParams,
     }: {
@@ -113,10 +113,12 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
       constructorParams: unknown[];
     }) => {
       invariant(
-        sdk && "publisher" in sdk,
+        sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
-      return sdk.publisher.deployCustomContract(
+      return await (
+        await sdk.getPublisher()
+      ).deployContract(
         ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
         constructorParams,
         metadata,
@@ -140,7 +142,7 @@ export function usePublishedContractsQuery() {
     ["published-contracts", address],
     async () => {
       return address && sdk
-        ? (await sdk.publisher.getAll(address)).filter((c) => c.id)
+        ? (await (await sdk.getPublisher()).getAll(address)).filter((c) => c.id)
         : [];
     },
     {
