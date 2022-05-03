@@ -16,6 +16,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { feedback, rating, scope, address } = req.body as FeedbackPayload;
 
+  let _rating = rating;
+  // rating cannot be > 5
+  if (_rating > 5) {
+    _rating = 5;
+  }
+  // rating cannot be below 1
+  if (_rating < 1) {
+    _rating = 1;
+  }
+
   const payload = {
     embeds: [
       {
@@ -29,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           { name: "Product Scope", value: scope, inline: true },
           {
             name: "Rating",
-            value: `${Array(rating).fill("⭐️").join("")}`,
+            value: `${Array(_rating).fill("⭐️").join("")}`,
             inline: true,
           },
           { name: "Feedback", value: `\`\`\`${feedback || "N/A"}\`\`\`` },
