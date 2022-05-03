@@ -131,6 +131,7 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
                 render: () => (
                   <Card p={8} maxW="100vw" w="lg">
                     <FeedbackForm
+                      trackEvent={trackEvent}
                       wallet={address}
                       scope="thirdweb-deploy"
                       onClose={() => {

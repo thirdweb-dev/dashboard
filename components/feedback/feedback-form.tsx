@@ -1,11 +1,12 @@
 import {
   ButtonGroup,
+  CloseButton,
   Flex,
   FormControl,
   IconButton,
   Textarea,
 } from "@chakra-ui/react";
-import { useTrack } from "hooks/analytics/useTrack";
+import type { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
@@ -19,13 +20,14 @@ export interface FeedbackFormProps {
   wallet?: string;
   scope: keyof typeof FEEDBACK_PRODUCT_MAP;
   onClose?: () => void;
+  trackEvent: ReturnType<typeof useTrack>["trackEvent"];
 }
 export const FeedbackForm: React.VFC<FeedbackFormProps> = ({
   scope,
   wallet,
   onClose,
+  trackEvent,
 }) => {
-  const { trackEvent } = useTrack();
   const productName = FEEDBACK_PRODUCT_MAP[scope];
 
   const { register, watch, handleSubmit, setValue, setError, formState } =
@@ -40,6 +42,19 @@ export const FeedbackForm: React.VFC<FeedbackFormProps> = ({
     "Thank you for your feedback!",
     "Failed to submit feedback.",
   );
+
+  const _onClose =
+    onClose &&
+    (() => {
+      trackEvent({
+        category: "feedback",
+        action: "close",
+        label: scope,
+        data: { ...watch() },
+      });
+
+      onClose();
+    });
 
   return (
     <Flex
@@ -89,9 +104,12 @@ export const FeedbackForm: React.VFC<FeedbackFormProps> = ({
       direction="column"
       gap={6}
     >
-      <Heading size="subtitle.md" fontWeight={400}>
-        Provide feedback for <strong>{productName}</strong>
-      </Heading>
+      <Flex gap={4} align="center" justify="space-between">
+        <Heading size="subtitle.md" fontWeight={400}>
+          Provide feedback for <strong>{productName}</strong>
+        </Heading>
+        {_onClose && <CloseButton onClick={_onClose} />}
+      </Flex>
       <FormControl
         as={Flex}
         flexDirection="column"
