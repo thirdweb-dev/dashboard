@@ -1565,13 +1565,6 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@magic-ext/oauth@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-2.1.1.tgz#6591bca1c17a220372f67579240efac26a9a7bdc"
-  integrity sha512-JyHy8kUVFO8i5bN81MGf6wlrQ7jVC4sd890xeS3zj2QF/A4eTJxaxVOV68D+Yqr4r8xv1dq0dJknTA0WsHzATg==
-  dependencies:
-    "@magic-sdk/types" "^7.1.1"
-
 "@magic-sdk/commons@^4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@magic-sdk/commons/-/commons-4.1.1.tgz#16dc84a64cc7cafae50c4061acae46bb587c623d"
