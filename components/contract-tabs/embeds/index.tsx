@@ -34,7 +34,7 @@ interface EmbedSetupProps {
   contract?: ValidContractInstance;
 }
 
-const IPFS_URI = "ipfs://QmchGLcpfPcYtLkVytFX4tcb7pY5ZnjJpQkgZYWSaoWgDS";
+const IPFS_URI = "ipfs://QmbVViHUXUfGum5DMrj525DTKep9fLCJsCpHYVrCGBNAvL";
 
 const getContractEmbedHash = (contract?: ValidContractInstance) => {
   if (contract instanceof NFTDrop) {
@@ -117,12 +117,12 @@ export const WidgetSetup: React.FC<EmbedSetupProps> = ({ contract }) => {
   });
 
   const embedCode = `<iframe
-    src="${iframeSrc}"
-    width="600px"
-    height="600px"
-    style="max-width:100%;"
-    frameborder="0"
-  ></iframe>`;
+src="${iframeSrc}"
+width="600px"
+height="600px"
+style="max-width:100%;"
+frameborder="0"
+></iframe>`;
 
   const { hasCopied, onCopy } = useClipboard(embedCode, 3000);
 
