@@ -213,6 +213,8 @@ export const Method: React.VFC<MethodProps> = ({ method }) => {
       <Text fontStyle="italic">{method.remarks}</Text>
       {method.examples.javascript && (
         <CodeBlock
+          mt={1}
+          mb={4}
           language="javascript"
           code={replaceAddressesInCode(
             method.examples.javascript || "",
