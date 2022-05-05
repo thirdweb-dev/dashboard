@@ -1,4 +1,4 @@
-import { convertFeaturesMapToarray } from "./utils";
+import { convertFeaturesMapToarray, replaceAddressesInCode } from "./utils";
 import {
   Accordion,
   AccordionButton,
@@ -9,11 +9,13 @@ import {
   Flex,
   Icon,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import {
   SnippetApiResponse,
   SnippetSchema,
 } from "components/contract-tabs/code/types";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { useQuery } from "react-query";
@@ -185,26 +187,40 @@ interface MethodProps {
   method: SnippetSchema;
 }
 
-export const Method: React.VFC<MethodProps> = ({ method }) => (
-  <Flex key={method.name} direction="column" gap={1}>
-    <Heading size="label.md">
-      <Code py={1} px={2} borderRadius="md">
-        {method.reference.javascript ? (
-          <Link href={method?.reference?.javascript || ""} color="primary.500">
-            {method.name}
-          </Link>
-        ) : (
-          method.name
-        )}
-      </Code>{" "}
-      {method.summary}
-    </Heading>
-    <Text fontStyle="italic">{method.remarks}</Text>
-    {method.examples.javascript && (
-      <CodeBlock
-        language="javascript"
-        code={method.examples.javascript || ""}
-      />
-    )}
-  </Flex>
-);
+export const Method: React.VFC<MethodProps> = ({ method }) => {
+  const router = useRouter();
+  const query = router.query.customContract || [];
+  const contractAddress = query[0];
+  const address = useAddress();
+  return (
+    <Flex key={method.name} direction="column" gap={1}>
+      <Heading size="label.md">
+        <Code py={1} px={2} borderRadius="md">
+          {method.reference.javascript ? (
+            <Link
+              isExternal
+              href={method?.reference?.javascript || ""}
+              color="primary.500"
+            >
+              {method.name}
+            </Link>
+          ) : (
+            method.name
+          )}
+        </Code>{" "}
+        {method.summary}
+      </Heading>
+      <Text fontStyle="italic">{method.remarks}</Text>
+      {method.examples.javascript && (
+        <CodeBlock
+          language="javascript"
+          code={replaceAddressesInCode(
+            method.examples.javascript || "",
+            contractAddress,
+            address,
+          )}
+        />
+      )}
+    </Flex>
+  );
+};
