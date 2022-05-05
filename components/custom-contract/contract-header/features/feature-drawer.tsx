@@ -177,7 +177,7 @@ const FeatureDetails: React.VFC<FeatureDetailsProps> = ({ feature }) => {
 function useFeatureCodeSnippet() {
   return useQuery(["feature-snippets"], async () => {
     const res = await fetch(
-      `https://raw.githubusercontent.com/thirdweb-dev/typescript-sdk/joaquim/byoc_code_snippets/docs/feature_snippets.json`,
+      `https://raw.githubusercontent.com/thirdweb-dev/typescript-sdk/main/docs/feature_snippets.json`,
     );
     return (await res.json()) as SnippetApiResponse;
   });
