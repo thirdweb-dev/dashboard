@@ -6,7 +6,6 @@ import {
   ButtonProps,
   Drawer,
   Heading,
-  Link,
   LinkButton,
 } from "tw-components";
 
