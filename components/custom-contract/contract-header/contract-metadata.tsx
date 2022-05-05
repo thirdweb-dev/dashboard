@@ -3,7 +3,7 @@ import { useContractMetadata, useContractType } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { FeatureIconMap } from "constants/mappings";
 import { useMemo } from "react";
-import { Heading, Text } from "tw-components";
+import { AddressCopyButton, Heading, Text } from "tw-components";
 
 interface ContractMetadataProps {
   contractAddress: string;
@@ -46,7 +46,7 @@ export const ContractMetadata: React.VFC<ContractMetadataProps> = ({
           />
         ) : null}
       </Skeleton>
-      <Flex direction="column" gap={1}>
+      <Flex direction="column" gap={1} align="flex-start">
         <Skeleton isLoaded={metadataQuery.isSuccess}>
           <Heading size="title.md">
             {metadataQuery.isSuccess
@@ -61,6 +61,7 @@ export const ContractMetadata: React.VFC<ContractMetadataProps> = ({
               : "foo bar baz"}
           </Text>
         </Skeleton>
+        <AddressCopyButton size="xs" address={contractAddress} />
       </Flex>
     </Flex>
   );
