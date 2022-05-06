@@ -309,13 +309,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                 alt=""
               />
             }
-            onClick={async () => {
-              try {
-                await connectWithMetamask();
-              } catch (err) {
-                console.error("failed to connect with metamask");
-              }
-            }}
+            onClick={() => connectWithMetamask()}
           >
             MetaMask
           </MenuItem>
