@@ -29,7 +29,7 @@ import { Cell, Column, usePagination, useTable } from "react-table";
 import { AddressCopyButton, Card, Heading, Text } from "tw-components";
 
 interface ContractOverviewNftGetAllProps {
-  contract: Erc721<any>;
+  contract: Erc721;
 }
 
 const tableColumns: Column<NFTMetadataOwner>[] = [

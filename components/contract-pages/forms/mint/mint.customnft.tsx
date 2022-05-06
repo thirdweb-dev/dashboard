@@ -34,7 +34,7 @@ import { NFTMetadataInputLimited } from "types/modified-types";
 
 const MINT_FORM_ID = "nft-collection-mint-form";
 interface CustomNFTMintForm {
-  contract: Erc721<any>;
+  contract: Erc721;
 }
 
 export const CustomNFTMintForm: React.FC<CustomNFTMintForm> = ({
