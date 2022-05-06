@@ -298,10 +298,6 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
           {connector.data.connectors
             .filter((c) => c.id !== "gnosis")
             .map((_connector) => {
-              if (!_connector.ready) {
-                return null;
-              }
-
               return (
                 <MenuItem
                   py={3}
