@@ -6,9 +6,11 @@ import {
   useWeb3,
 } from "@3rdweb-sdk/react";
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
+import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
   Box,
   Center,
+  CheckboxGroup,
   Container,
   Flex,
   Icon,
@@ -32,6 +34,7 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
 } from "@chakra-ui/react";
 import {
@@ -53,6 +56,7 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
+import { FaMinus, FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
 import {
@@ -65,7 +69,9 @@ import {
 import {
   AddressCopyButton,
   Badge,
+  Button,
   Card,
+  Checkbox,
   Heading,
   LinkButton,
   Text,
@@ -216,6 +222,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
   combinedList,
 }) => {
   const { getNetworkMetadata } = useWeb3();
+  const { mutate: removeContract } = useRemoveContractMutation();
 
   const columns = useMemo(
     () => [
@@ -383,6 +390,41 @@ export const ContractTable: React.FC<ContractTableProps> = ({
         Cell: (cell: Cell<typeof combinedList[number], "address">) => {
           return <AddressCopyButton address={cell.row.original.address} />;
         },
+      },
+      {
+        Header: "Actions",
+        // accessor: (row) => ({ address: row.address, chainId: row.chainId }),
+        Cell: (cell: Cell<typeof combinedList[number]>) => (
+          <Tooltip
+            p={0}
+            bg="transparent"
+            boxShadow="none"
+            label={
+              <Card py={2} px={4}>
+                <Text size="label.sm">
+                  Remove this contract from the dashboard
+                </Text>
+              </Card>
+            }
+          >
+            <Button
+              size="sm"
+              borderRadius="md"
+              padding="0"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                removeContract({
+                  contractAddress: cell.row.original.address,
+                  chainId: cell.row.original.chainId,
+                });
+              }}
+              variant="outline"
+            >
+              <Icon as={FaTrash} boxSize={3} color="gray.600" />
+            </Button>
+          </Tooltip>
+        ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
