@@ -10,18 +10,22 @@ import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
   Box,
   Center,
-  CheckboxGroup,
   Container,
   Flex,
   Icon,
   IconButton,
   Image,
+  Input,
   Link,
   Menu,
   MenuButton,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  Popover,
+  PopoverAnchor,
+  PopoverBody,
+  PopoverContent,
   Skeleton,
   Stack,
   Tab,
@@ -36,7 +40,9 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { useNetwork } from "@thirdweb-dev/react";
 import {
   CONTRACTS_MAP,
   CommonContractOutputSchema,
@@ -56,9 +62,11 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
+import { AiOutlineWarning } from "react-icons/ai";
 import { FaMinus, FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
+import { VscDebugDisconnect } from "react-icons/vsc";
 import {
   Cell,
   Column,
@@ -80,6 +88,7 @@ import {
   ChainId,
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
+  SupportedChainIdToNetworkMap,
   getNetworkFromChainId,
 } from "utils/network";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -222,7 +231,6 @@ export const ContractTable: React.FC<ContractTableProps> = ({
   combinedList,
 }) => {
   const { getNetworkMetadata } = useWeb3();
-  const { mutate: removeContract } = useRemoveContractMutation();
 
   const columns = useMemo(
     () => [
@@ -395,35 +403,10 @@ export const ContractTable: React.FC<ContractTableProps> = ({
         Header: "Actions",
         // accessor: (row) => ({ address: row.address, chainId: row.chainId }),
         Cell: (cell: Cell<typeof combinedList[number]>) => (
-          <Tooltip
-            p={0}
-            bg="transparent"
-            boxShadow="none"
-            label={
-              <Card py={2} px={4}>
-                <Text size="label.sm">
-                  Remove this contract from the dashboard
-                </Text>
-              </Card>
-            }
-          >
-            <Button
-              size="sm"
-              borderRadius="md"
-              padding="0"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                removeContract({
-                  contractAddress: cell.row.original.address,
-                  chainId: cell.row.original.chainId,
-                });
-              }}
-              variant="outline"
-            >
-              <Icon as={FaTrash} boxSize={3} color="gray.600" />
-            </Button>
-          </Tooltip>
+          <RemoveContract
+            contractAddress={cell.row.original.address}
+            targetChainId={cell.row.original.chainId}
+          />
         ),
       },
     ],
@@ -889,5 +872,128 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
         </Tbody>
       </Table>
     </Box>
+  );
+};
+
+interface IRemoveContract {
+  contractAddress: string;
+  targetChainId: number;
+}
+
+const RemoveContract: React.FC<IRemoveContract> = ({
+  contractAddress,
+  targetChainId,
+}) => {
+  const { chainId, getNetworkMetadata } = useWeb3();
+  const { mutate, isLoading } = useRemoveContractMutation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const signerChainId = chainId as SUPPORTED_CHAIN_ID;
+  const [network, switchNetwork] = useNetwork();
+  const initialFocusRef = React.useRef<HTMLButtonElement>(null);
+
+  const actuallyCanAttemptSwitch = !!switchNetwork;
+
+  const signerNetworkIsSupported =
+    signerChainId in SupportedChainIdToNetworkMap;
+
+  const walletNetwork = (
+    signerNetworkIsSupported
+      ? getNetworkFromChainId(signerChainId)
+      : getNetworkMetadata(signerChainId as unknown as number).chainName
+  )
+    .split("")
+    .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
+    .join("");
+
+  const twNetwork = getNetworkFromChainId(targetChainId)
+    .split("")
+    .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
+    .join("");
+
+  const onSwitchWallet = React.useCallback(async () => {
+    if (actuallyCanAttemptSwitch && targetChainId) {
+      await switchNetwork(targetChainId);
+    }
+    onClose();
+  }, [targetChainId, actuallyCanAttemptSwitch, onClose, switchNetwork]);
+
+  return (
+    <Popover
+      initialFocusRef={initialFocusRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <PopoverAnchor>
+        <Tooltip
+          p={0}
+          bg="transparent"
+          boxShadow="none"
+          label={
+            <Card py={2} px={4}>
+              <Text size="label.sm">
+                Remove this contract from the dashboard
+              </Text>
+            </Card>
+          }
+        >
+          <Button
+            padding={0}
+            borderRadius="sm"
+            isLoading={isLoading}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              if (chainId === targetChainId) {
+                mutate({ contractAddress, chainId: targetChainId });
+              } else {
+                onOpen();
+              }
+            }}
+          >
+            <Icon as={FaTrash} boxSize={3} />
+          </Button>
+        </Tooltip>
+      </PopoverAnchor>
+
+      <PopoverContent>
+        <PopoverBody>
+          <Flex direction="column" gap={4}>
+            <Heading size="label.lg">
+              <Flex gap={2} align="center">
+                <Icon boxSize={6} as={AiOutlineWarning} />
+                <span>Network Mismatch</span>
+              </Flex>
+            </Heading>
+
+            <Text>
+              Your wallet is connected to the <strong>{walletNetwork}</strong>{" "}
+              network but this action requires you to connect to the{" "}
+              <strong>{twNetwork}</strong> network.
+            </Text>
+
+            <Button
+              ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
+              leftIcon={<Icon as={VscDebugDisconnect} />}
+              size="sm"
+              onClick={onSwitchWallet}
+              isLoading={network.loading}
+              isDisabled={!actuallyCanAttemptSwitch}
+              colorScheme="orange"
+            >
+              Switch wallet to {twNetwork}
+            </Button>
+
+            {!actuallyCanAttemptSwitch && (
+              <Text size="body.sm" fontStyle="italic">
+                Your connected wallet does not support programatic switching.
+                <br />
+                Please manually switch the network in your wallet.
+              </Text>
+            )}
+          </Flex>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
 };
