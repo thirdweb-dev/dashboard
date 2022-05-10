@@ -1,7 +1,7 @@
+import { pxToRem } from "../utils/pxFunctions";
 import { Theme } from "@chakra-ui/react";
 import { css } from "@emotion/react";
 import flatten from "flat";
-import { pxToRem } from "../utils/pxFunctions";
 
 type ThirdwebFontSizes = {
   display: {
