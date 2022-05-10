@@ -1,11 +1,12 @@
 import { AnimatedGradient } from "./AnimatedGradient";
 import { StaticGradient } from "./StaticGradient";
 import Icon from "@chakra-ui/icon";
-import { Box, Flex, Heading, SimpleGrid, Text } from "@chakra-ui/layout";
+import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import * as React from "react";
 import { IconType } from "react-icons";
+import { Heading, Text } from "tw-components";
 
 interface DashboardCardProps {
   headingTitle: string;
@@ -44,7 +45,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
           </Flex>
           <Heading size="title.lg">{title}</Heading>
         </Box>
-        <Text size="subtitle.sm" mt={{ base: 4, md: 0 }}>
+        <Text size="body.lg" mt={{ base: 4, md: 0 }}>
           {subtitle}
         </Text>
       </Flex>

@@ -1,7 +1,6 @@
 import { ConsolePage } from "./_app";
 import {
   Box,
-  Container,
   Flex,
   LightMode,
   List,
@@ -10,34 +9,17 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import {
-  Marketplace,
-  NFTCollection,
-  NFTDrop,
-  Pack,
-  Split,
-  Token,
-} from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
-import { CodeExamples } from "components/homepage/CodeExamples";
 import { DashboardCard } from "components/homepage/DashboardCard";
-import { HomepageFeatureCard } from "components/homepage/FeatureCard";
-import { HomepageFooter } from "components/homepage/Footer";
-import { OctopusCard } from "components/homepage/OctopusCard";
 import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
-import { UpcomingFeature } from "components/homepage/UpcomingFeatureCard";
-import { WhatCanYouBuild } from "components/homepage/WhatCanYouBuild";
 import { GeneralCta } from "components/shared/GeneralCta";
-import { FeaturesBackground } from "components/svgs/FeaturesBackground";
 import { useTrack } from "hooks/analytics/useTrack";
 import Analytics from "public/assets/landingpage/analytics.png";
 import Contracts from "public/assets/landingpage/contracts.png";
 // images
 import Hero from "public/assets/landingpage/hero.png";
-import Octopus from "public/assets/landingpage/octopus.png";
-import Scissors from "public/assets/landingpage/scissors.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 // end images
 import React from "react";
@@ -204,7 +186,7 @@ const Home: ConsolePage = () => {
           >
             <Box>
               <Text
-                size="title.lg"
+                size="body.lg"
                 textTransform="uppercase"
                 fontWeight="700"
                 color="gray.400"
@@ -224,7 +206,7 @@ const Home: ConsolePage = () => {
               </SimpleGrid>
 
               <Text
-                size="title.lg"
+                size="body.lg"
                 textTransform="uppercase"
                 fontWeight="700"
                 color="gray.400"
@@ -297,6 +279,7 @@ const Home: ConsolePage = () => {
                 alignItems="start"
                 textAlign="left"
                 color="gray.400"
+                mb={16}
               >
                 <ListItem>
                   <ListIcon as={FiCheck} color="green.500" />
@@ -316,11 +299,10 @@ const Home: ConsolePage = () => {
                 </ListItem>
               </List>
               <GeneralCta
-                w="100%"
                 title="Start building today"
-                mt={16}
                 size="lg"
                 py={8}
+                w="100%"
               />
             </Box>
           </HomepageSection>

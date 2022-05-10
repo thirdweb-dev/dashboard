@@ -5,7 +5,7 @@ import { BsLightningCharge } from "react-icons/bs";
 import { VscDashboard } from "react-icons/vsc";
 import { ButtonProps, LinkButton } from "tw-components";
 
-interface GeneralCtaProps {
+interface GeneralCtaProps extends ButtonProps {
   size?: ButtonProps["size"];
   title?: string;
 }
