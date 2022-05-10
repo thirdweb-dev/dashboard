@@ -1,21 +1,14 @@
 import { useTableContext } from "../table-context";
 import { useTransferMutation } from "@3rdweb-sdk/react";
-import { Heading, Stack } from "@chakra-ui/layout";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Icon,
-  Input,
-} from "@chakra-ui/react";
+import { FormControl, Icon, Input, Stack } from "@chakra-ui/react";
 import { AddressZero } from "@ethersproject/constants";
 import { Edition, EditionDrop, ValidContractInstance } from "@thirdweb-dev/sdk";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React, { useCallback } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { IoMdSend } from "react-icons/io";
+import { FormErrorMessage, FormHelperText, FormLabel } from "tw-components";
 
 interface ITransferSection {
   contract?: ValidContractInstance;
@@ -42,33 +35,29 @@ export const TransferSection: React.FC<ITransferSection> = ({
     "Error transferring",
   );
 
-  const onSubmit = useCallback(
-    (data) => {
-      transfer.mutate(
-        {
-          tokenId,
-          to: data.to,
-          amount: data.amount,
-        },
-        {
-          onError,
-          onSuccess: () => {
-            onSuccess();
-            closeAllRows();
-          },
-        },
-      );
-    },
-    [transfer, tokenId, onError, onSuccess, closeAllRows],
-  );
-
   const requiresAmount =
     contract instanceof Edition || contract instanceof EditionDrop;
 
   return (
-    <Stack>
-      <Heading size="md">Transfer</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Stack pt={3}>
+      <form
+        onSubmit={handleSubmit((data) => {
+          transfer.mutate(
+            {
+              tokenId,
+              to: data.to,
+              amount: data.amount,
+            },
+            {
+              onError,
+              onSuccess: () => {
+                onSuccess();
+                closeAllRows();
+              },
+            },
+          );
+        })}
+      >
         <Stack align="center">
           <Stack spacing={6} w="100%" direction={{ base: "column", md: "row" }}>
             <FormControl isRequired isInvalid={!!errors.to}>
@@ -88,14 +77,15 @@ export const TransferSection: React.FC<ITransferSection> = ({
               </FormControl>
             )}
           </Stack>
-          <MismatchButton
+          <TransactionButton
+            transactionCount={1}
             isLoading={transfer.isLoading}
             type="submit"
             colorScheme="primary"
             rightIcon={<Icon as={IoMdSend} />}
           >
-            Send
-          </MismatchButton>
+            Transfer
+          </TransactionButton>
         </Stack>
       </form>
     </Stack>

@@ -4,12 +4,12 @@ import {
   MutationFunction,
   QueryFunction,
   QueryKey,
-  useMutation,
   UseMutationOptions,
-  useQuery,
-  useQueryClient,
   UseQueryOptions,
   UseQueryResult,
+  useMutation,
+  useQuery,
+  useQueryClient,
 } from "react-query";
 
 export function useQueryWithNetwork<
@@ -38,6 +38,7 @@ export function useQueryWithNetwork<
   const combinedQueryKey = (
     networkKeys.chain(activeChainId) as readonly unknown[]
   ).concat(queryKey) as unknown as TQueryKey;
+
   return useQuery(combinedQueryKey, queryFn, mergedOptions);
 }
 export function useMutationWithInvalidate<

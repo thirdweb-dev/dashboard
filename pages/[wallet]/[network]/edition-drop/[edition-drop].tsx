@@ -4,7 +4,6 @@ import { Icon } from "@chakra-ui/react";
 import { useEditionDrop } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { EditionDropBatchUpload } from "components/batch-upload/EditionDropBatchUpload";
-import { MismatchButton } from "components/buttons/MismatchButton";
 import { MintButton } from "components/contract-pages/action-buttons/MintButton";
 import { ContractLayout } from "components/contract-pages/contract-layout";
 import { ContractItemsTable } from "components/contract-pages/table";
@@ -13,6 +12,7 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ConsolePage } from "pages/_app";
 import React from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
+import { Button } from "tw-components";
 
 const EditionDropPage: ConsolePage = () => {
   const {
@@ -40,17 +40,17 @@ const EditionDropPage: ConsolePage = () => {
       <ContractLayout
         contract={contract}
         metadata={metadata}
-        primaryAction={MintButton}
+        primaryAction={<MintButton colorScheme="primary" contract={contract} />}
         secondaryAction={
           <MinterOnly contract={contract}>
-            <MismatchButton
+            <Button
               leftIcon={<Icon as={RiCheckboxMultipleBlankLine} />}
               onClick={onBatchOpen}
               colorScheme="primary"
               variant="outline"
             >
               Batch Upload
-            </MismatchButton>
+            </Button>
           </MinterOnly>
         }
         emptyState={{

@@ -6,24 +6,26 @@ import {
   useWeb3,
 } from "@3rdweb-sdk/react";
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
+import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
-  Badge,
   Box,
   Center,
   Container,
   Flex,
-  Heading,
   Icon,
   IconButton,
   Image,
+  Input,
   Link,
   Menu,
   MenuButton,
-  MenuGroup,
-  MenuItem,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
+  Popover,
+  PopoverAnchor,
+  PopoverBody,
+  PopoverContent,
   Skeleton,
   Stack,
   Tab,
@@ -34,11 +36,13 @@ import {
   Tabs,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
+  Tooltip,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { useNetwork } from "@thirdweb-dev/react";
 import {
   CONTRACTS_MAP,
   CommonContractOutputSchema,
@@ -47,10 +51,6 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { Button } from "components/buttons/Button";
-import { Card } from "components/layout/Card";
-import { NextLink } from "components/shared/NextLink";
-import { AddressCopyButton } from "components/web3/AddressCopyButton";
 import {
   CONTRACT_TYPE_NAME_MAP,
   FeatureIconMap,
@@ -62,8 +62,11 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
+import { AiOutlineWarning } from "react-icons/ai";
+import { FaMinus, FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
+import { VscDebugDisconnect } from "react-icons/vsc";
 import {
   Cell,
   Column,
@@ -72,18 +75,32 @@ import {
   useTable,
 } from "react-table";
 import {
+  AddressCopyButton,
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Heading,
+  LinkButton,
+  Text,
+} from "tw-components";
+import {
   ChainId,
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
+  SupportedChainIdToNetworkMap,
   getNetworkFromChainId,
 } from "utils/network";
+import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
 const Dashboard: ConsolePage = () => {
   const router = useRouter();
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const { address } = useWeb3();
-  const { data: projects } = useProjects();
+  const { data: projects } = useProjects(
+    wallet === "dashboard" ? address : wallet,
+  );
 
   // redirect anything that is not a valid address or `/dashboard` to `/dashboard`
   useEffect(() => {
@@ -109,6 +126,7 @@ const Dashboard: ConsolePage = () => {
   const mumbaiQuery = useContractList(ChainId.Mumbai, dashboardAddress);
 
   const combinedList = useMemo(() => {
+    console.log(rinkebyQuery.data);
     return (
       mainnetQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mainnet })) || []
     )
@@ -154,9 +172,26 @@ const Dashboard: ConsolePage = () => {
   return (
     <Flex direction="column" gap={8}>
       {!!combinedList.length && (
-        <Flex justifyContent="space-between" alignItems="center">
-          <Heading size="title.md">Your contracts</Heading>
-          <CreateContractButton />
+        <Flex
+          justify="space-between"
+          align="top"
+          gap={4}
+          direction={{ base: "column", md: "row" }}
+        >
+          <Flex gap={2} direction="column">
+            <Heading size="title.md">Deployed contracts</Heading>
+            <Text fontStyle="italic" maxW="container.md">
+              The list of contract instances that you have deployed with
+              thirdweb across all networks.
+            </Text>
+          </Flex>
+          <LinkButton
+            leftIcon={<FiPlus />}
+            colorScheme="primary"
+            href="/contracts"
+          >
+            Deploy new contract
+          </LinkButton>
         </Flex>
       )}
       {projects && projects.length ? (
@@ -184,76 +219,6 @@ const Dashboard: ConsolePage = () => {
 Dashboard.Layout = AppLayout;
 
 export default Dashboard;
-
-const CreateContractButton: React.FC = () => {
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
-  const { getNetworkMetadata } = useWeb3();
-
-  const testnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.filter((chainId) => chainId !== ChainId.Goerli)
-      .map((supportedChain) => {
-        return getNetworkMetadata(supportedChain);
-      })
-      .filter((n) => n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  const mainnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-      return getNetworkMetadata(supportedChain);
-    }).filter((n) => !n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  return (
-    <Flex direction="row" justify="flex-end" zIndex={10}>
-      <Menu>
-        <MenuButton as={Button} leftIcon={<FiPlus />} colorScheme="primary">
-          Create new contract
-        </MenuButton>
-        <MenuList>
-          <MenuGroup title="Mainnets">
-            {mainnets.map((n) => (
-              <MenuItem
-                _hover={{
-                  textDecor: "none",
-                }}
-                href={`/${wallet}/${n.chainName.toLowerCase()}/new`}
-                key={n.chainName}
-                as={NextLink}
-                icon={
-                  <Flex>
-                    <Icon as={n.icon} boxSize={5} />
-                  </Flex>
-                }
-              >
-                {n.chainName}
-              </MenuItem>
-            ))}
-          </MenuGroup>
-          <MenuGroup title="Testnets">
-            {testnets.map((n) => (
-              <MenuItem
-                _hover={{
-                  textDecor: "none",
-                }}
-                href={`/${wallet}/${n.chainName.toLowerCase()}/new`}
-                key={n.chainName}
-                as={NextLink}
-                icon={
-                  <Flex>
-                    <Icon as={n.icon} boxSize={5} />
-                  </Flex>
-                }
-              >
-                {n.chainName}
-              </MenuItem>
-            ))}
-          </MenuGroup>
-        </MenuList>
-      </Menu>
-    </Flex>
-  );
-};
-
 interface ContractTableProps {
   combinedList: {
     chainId: ChainId;
@@ -266,7 +231,7 @@ interface ContractTableProps {
 export const ContractTable: React.FC<ContractTableProps> = ({
   combinedList,
 }) => {
-  const { getNetworkMetadata } = useWeb3();
+  const { address, getNetworkMetadata } = useWeb3();
 
   const columns = useMemo(
     () => [
@@ -323,6 +288,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 <MenuOptionGroup
                   defaultValue={contractFilterOptions}
                   title="Contract Types"
+                  fontSize={12}
                   type="checkbox"
                   value={filterVal}
                   onChange={(e) => props.setFilter(props.column.id, e)}
@@ -335,7 +301,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                           src={FeatureIconMap[contractType]}
                           alt={contractType}
                         />
-                        <Text size="label.sm">
+                        <Text size="label.md">
                           {CONTRACT_TYPE_NAME_MAP[contractType]}
                         </Text>
                       </Flex>
@@ -390,6 +356,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 <MenuOptionGroup
                   defaultValue={options}
                   title="Networks"
+                  fontSize={12}
                   type="checkbox"
                   value={props.filterValue}
                   onChange={(e) => props.setFilter(props.column.id, e)}
@@ -405,7 +372,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                             ).icon
                           }
                         />
-                        <Text size="label.sm">
+                        <Text size="label.md">
                           {
                             getNetworkMetadata(
                               parseInt(chainId) as SUPPORTED_CHAIN_ID,
@@ -432,6 +399,18 @@ export const ContractTable: React.FC<ContractTableProps> = ({
         Cell: (cell: Cell<typeof combinedList[number], "address">) => {
           return <AddressCopyButton address={cell.row.original.address} />;
         },
+      },
+      {
+        Header: "Actions",
+        Cell: (cell: Cell<typeof combinedList[number]>) =>
+          cell.row.original.contractType !== "custom" ? (
+            <RemoveContract
+              contractAddress={cell.row.original.address}
+              targetChainId={cell.row.original.chainId}
+            />
+          ) : (
+            <></>
+          ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -490,7 +469,9 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 // eslint-disable-next-line react/jsx-key
                 <Th {...column.getHeaderProps()}>
                   <Flex align="center" gap={2}>
-                    {column.render("Header")}
+                    <Text as="label" size="label.md">
+                      {column.render("Header")}
+                    </Text>
                     {column.render("Filter")}
                   </Flex>
                 </Th>
@@ -516,13 +497,16 @@ export const ContractTable: React.FC<ContractTableProps> = ({
                 // this is a hack to get around the fact that safari does not handle position: relative on table rows
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  router.push(
-                    `/${wallet}/${getNetworkFromChainId(
-                      row.original.chainId as SUPPORTED_CHAIN_ID,
-                    )}/${UrlMap[row.original.contractType]}/${
-                      row.original.address
-                    }`,
-                  );
+                  const contractTypeUrlSegment =
+                    row.original.contractType === "custom"
+                      ? ""
+                      : `/${UrlMap[row.original.contractType]}`;
+
+                  const href = `/${wallet}/${getNetworkFromChainId(
+                    row.original.chainId as SUPPORTED_CHAIN_ID,
+                  )}${contractTypeUrlSegment}/${row.original.address}`;
+
+                  router.push(href);
                 }}
                 // end hack
                 borderBottomWidth={1}
@@ -562,14 +546,16 @@ const AsyncContractCell: React.FC<AsyncContractCellProps> = ({ cell }) => {
     cell.chainId,
   );
 
+  const contractTypeUrlSegment =
+    cell.contractType === "custom" ? "" : `/${UrlMap[cell.contractType]}`;
+
+  const href = `/${wallet}/${getNetworkFromChainId(
+    cell.chainId as SUPPORTED_CHAIN_ID,
+  )}${contractTypeUrlSegment}/${cell.address}`;
+
   return (
     <Skeleton isLoaded={!metadataQuery.isLoading}>
-      <OriginalNextLink
-        href={`/${wallet}/${getNetworkFromChainId(
-          cell.chainId as SUPPORTED_CHAIN_ID,
-        )}/${UrlMap[cell.contractType]}/${cell.address}`}
-        passHref
-      >
+      <OriginalNextLink href={href} passHref>
         <Link>
           <Text
             color="blue.700"
@@ -577,7 +563,7 @@ const AsyncContractCell: React.FC<AsyncContractCellProps> = ({ cell }) => {
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {metadataQuery.data?.name || "Loading ..."}
+            {metadataQuery.data?.name || shortenIfAddress(cell.address)}
           </Text>
         </Link>
       </OriginalNextLink>
@@ -589,7 +575,7 @@ const NoContracts: React.FC = () => {
   return (
     <Center w="100%">
       <Container as={Card}>
-        <Stack py={7} align="center" spacing={7} w="100%">
+        <Stack py={7} align="center" spacing={6} w="100%">
           <ChakraNextImage
             src={require("public/assets/illustrations/listing.png")}
             alt="no apps"
@@ -597,11 +583,19 @@ const NoContracts: React.FC = () => {
             maxW="200px"
             mb={3}
           />
-          <Heading size="title.lg" textAlign="center">
-            You don&apos;t have any contracts
-          </Heading>
-          <Text size="subtitle.lg">Deploy a contract to get started</Text>
-          <CreateContractButton />
+          <Flex direction="column" gap={0.5} align="center">
+            <Heading size="title.md" textAlign="center">
+              You don&apos;t have any contracts
+            </Heading>
+            <Text size="body.lg">Deploy a contract to get started</Text>
+          </Flex>
+          <LinkButton
+            leftIcon={<FiPlus />}
+            colorScheme="primary"
+            href="/contracts"
+          >
+            Deploy new contract
+          </LinkButton>
         </Stack>
       </Container>
     </Center>
@@ -612,7 +606,7 @@ const NoWallet: React.FC = () => {
   return (
     <Center w="100%">
       <Container as={Card}>
-        <Stack py={7} align="center" spacing={7} w="100%">
+        <Stack py={7} align="center" spacing={6} w="100%">
           <ChakraNextImage
             src={require("public/assets/illustrations/wallet.png")}
             alt="no apps"
@@ -620,12 +614,12 @@ const NoWallet: React.FC = () => {
             maxW="200px"
             mb={3}
           />
-          <Heading size="title.lg" textAlign="center">
-            Connect your wallet
-          </Heading>
-          <Text size="subtitle.lg">
-            You need to connect your wallet to continue
-          </Text>
+          <Flex direction="column" gap={0.5} align="center">
+            <Heading size="title.md">Connect your wallet</Heading>
+            <Text size="body.lg">
+              You need to connect your wallet to continue
+            </Text>
+          </Flex>
           <ConnectWallet />
         </Stack>
       </Container>
@@ -659,7 +653,7 @@ const ProjectCell: React.FC<IProjectCellProps> = ({
             size="label.md"
             _groupHover={{ textDecor: "underline" }}
           >
-            {name || "Loading ..."}
+            {name || shortenIfAddress(address)}
           </Text>
         </Link>
       </OriginalNextLink>
@@ -730,6 +724,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
                 <MenuOptionGroup
                   defaultValue={options}
                   title="Networks"
+                  fontSize={12}
                   type="checkbox"
                   value={props.filterValue}
                   onChange={(e) => props.setFilter(props.column.id, e)}
@@ -745,7 +740,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
                             ).icon
                           }
                         />
-                        <Text size="label.sm">
+                        <Text size="label.md">
                           {
                             getNetworkMetadata(
                               parseInt(chainId) as SUPPORTED_CHAIN_ID,
@@ -828,7 +823,9 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
                 // eslint-disable-next-line react/jsx-key
                 <Th {...column.getHeaderProps()}>
                   <Flex align="center" gap={2}>
-                    {column.render("Header")}
+                    <Text as="label" size="label.md" color="inherit">
+                      {column.render("Header")}
+                    </Text>
                     {column.render("Filter")}
                   </Flex>
                 </Th>
@@ -878,5 +875,134 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
         </Tbody>
       </Table>
     </Box>
+  );
+};
+
+interface IRemoveContract {
+  contractAddress: string;
+  targetChainId: number;
+}
+
+const RemoveContract: React.FC<IRemoveContract> = ({
+  contractAddress,
+  targetChainId,
+}) => {
+  const { chainId, getNetworkMetadata } = useWeb3();
+  const { mutate, isLoading } = useRemoveContractMutation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const signerChainId = chainId as SUPPORTED_CHAIN_ID;
+  const [network, switchNetwork] = useNetwork();
+  const initialFocusRef = React.useRef<HTMLButtonElement>(null);
+
+  const actuallyCanAttemptSwitch = !!switchNetwork;
+
+  const signerNetworkIsSupported =
+    signerChainId in SupportedChainIdToNetworkMap;
+
+  const walletNetwork = (
+    signerNetworkIsSupported
+      ? getNetworkFromChainId(signerChainId)
+      : getNetworkMetadata(signerChainId as unknown as number).chainName
+  )
+    .split("")
+    .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
+    .join("");
+
+  const twNetwork = getNetworkFromChainId(targetChainId)
+    .split("")
+    .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
+    .join("");
+
+  const onSwitchWallet = React.useCallback(async () => {
+    if (actuallyCanAttemptSwitch && targetChainId) {
+      await switchNetwork(targetChainId);
+    }
+    onClose();
+  }, [targetChainId, actuallyCanAttemptSwitch, onClose, switchNetwork]);
+
+  return (
+    <Popover
+      initialFocusRef={initialFocusRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <PopoverAnchor>
+        <Tooltip
+          p={0}
+          bg="transparent"
+          boxShadow="none"
+          label={
+            <Card py={2} px={4}>
+              <Text size="label.sm">
+                Remove this contract from the dashboard
+              </Text>
+            </Card>
+          }
+        >
+          <Button
+            padding={0}
+            borderRadius="md"
+            variant="outline"
+            size="sm"
+            isLoading={isLoading}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              if (chainId === targetChainId) {
+                mutate({ contractAddress, chainId: targetChainId });
+              } else {
+                onOpen();
+              }
+            }}
+          >
+            <Icon as={FaTrash} boxSize={3} />
+          </Button>
+        </Tooltip>
+      </PopoverAnchor>
+
+      <PopoverContent>
+        <PopoverBody>
+          <Flex direction="column" gap={4}>
+            <Heading size="label.lg">
+              <Flex gap={2} align="center">
+                <Icon boxSize={6} as={AiOutlineWarning} />
+                <span>Network Mismatch</span>
+              </Flex>
+            </Heading>
+
+            <Text>
+              Your wallet is connected to the <strong>{walletNetwork}</strong>{" "}
+              network but this action requires you to connect to the{" "}
+              <strong>{twNetwork}</strong> network.
+            </Text>
+
+            <Button
+              ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
+              leftIcon={<Icon as={VscDebugDisconnect} />}
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onSwitchWallet();
+              }}
+              isLoading={network.loading}
+              isDisabled={!actuallyCanAttemptSwitch}
+              colorScheme="orange"
+            >
+              Switch wallet to {twNetwork}
+            </Button>
+
+            {!actuallyCanAttemptSwitch && (
+              <Text size="body.sm" fontStyle="italic">
+                Your connected wallet does not support programatic switching.
+                <br />
+                Please manually switch the network in your wallet.
+              </Text>
+            )}
+          </Flex>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
 };

@@ -4,20 +4,16 @@ import {
   DrawerBody,
   DrawerFooter,
   FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Icon,
   Input,
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
-import { Token } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import type { Token } from "@thirdweb-dev/sdk";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus } from "react-icons/fi";
+import { Button, FormErrorMessage, FormLabel } from "tw-components";
 
 const MINT_FORM_ID = "token-mint-form";
 interface ITokenMintForm extends IMintFormProps {
@@ -76,15 +72,15 @@ export const TokenMintForm: React.FC<ITokenMintForm> = ({ contract }) => {
         >
           Cancel
         </Button>
-        <MismatchButton
+        <TransactionButton
+          transactionCount={1}
           isLoading={mint.isLoading}
-          leftIcon={<Icon as={FiPlus} />}
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
         >
           Mint Tokens
-        </MismatchButton>
+        </TransactionButton>
       </DrawerFooter>
     </>
   );

@@ -1,12 +1,12 @@
-import { ILinkButtonProps, LinkButton } from "./LinkButton";
 import { useWeb3 } from "@3rdweb-sdk/react";
 import { Box, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { BsLightningCharge } from "react-icons/bs";
 import { VscDashboard } from "react-icons/vsc";
+import { ButtonProps, LinkButton } from "tw-components";
 
-interface GeneralCtaProps extends Partial<ILinkButtonProps> {
-  size?: string;
+interface GeneralCtaProps {
+  size?: ButtonProps["size"];
   title?: string;
 }
 

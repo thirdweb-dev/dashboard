@@ -1,7 +1,6 @@
 import { useNFTDropRevealMutation } from "@3rdweb-sdk/react";
 import {
   FormControl,
-  FormErrorMessage,
   Input,
   Modal,
   ModalBody,
@@ -16,6 +15,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { FormErrorMessage } from "tw-components";
 
 interface RevealNftsModalProps {
   contract?: NFTDrop;
@@ -46,6 +46,7 @@ export const RevealNftsModal: React.FC<RevealNftsModalProps> = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent
+        mx={{ base: 4, md: 0 }}
         as="form"
         onSubmit={handleSubmit((data) =>
           reveal.mutate(
@@ -71,6 +72,7 @@ export const RevealNftsModal: React.FC<RevealNftsModalProps> = ({
           <FormControl isRequired isInvalid={!!errors.password} mr={4}>
             <Input
               {...register("password")}
+              autoFocus
               placeholder="Password you previously used to batch upload"
               type="password"
             />

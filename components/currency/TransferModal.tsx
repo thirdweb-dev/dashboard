@@ -6,9 +6,6 @@ import {
 import {
   Divider,
   FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
   Input,
   InputGroup,
   Modal,
@@ -28,12 +25,13 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useToken } from "@thirdweb-dev/react";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
+import { FormErrorMessage, FormLabel, Heading, Text } from "tw-components";
 
 interface IMintModal {
   isOpen: boolean;
@@ -74,7 +72,7 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent mx={{ base: 4, md: 0 }}>
         <ModalHeader as={Heading}>Transfer Tokens</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -99,11 +97,7 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
                       To Address
                     </Heading>
                     <InputGroup>
-                      <Input
-                        fontFamily="mono"
-                        fontSize="body.md"
-                        {...register("to")}
-                      />
+                      <Input fontFamily="mono" {...register("to")} />
                     </InputGroup>
                     <FormErrorMessage>{errors?.to?.message}</FormErrorMessage>
                   </FormControl>
@@ -114,7 +108,6 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
                     </Heading>
                     <Input
                       fontFamily="mono"
-                      fontSize="body.md"
                       step="any"
                       type="number"
                       {...register("amount")}
@@ -132,8 +125,16 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
                 <TableCaption>Outcome of successful transfer</TableCaption>
                 <Thead>
                   <Tr>
-                    <Th isNumeric>Current Balance</Th>
-                    <Th isNumeric>New Balance</Th>
+                    <Th isNumeric>
+                      <Text as="label" size="label.md">
+                        Current Balance
+                      </Text>
+                    </Th>
+                    <Th isNumeric>
+                      <Text as="label" size="label.md">
+                        New Balance
+                      </Text>
+                    </Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -155,7 +156,8 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
         </ModalBody>
 
         <ModalFooter>
-          <MismatchButton
+          <TransactionButton
+            transactionCount={1}
             isLoading={mutation.isLoading}
             type="submit"
             form={FORM_ID}
@@ -163,8 +165,8 @@ export const TransferModal: React.FC<IMintModal> = ({ isOpen, onClose }) => {
             rightIcon={<FiSend />}
             isDisabled={!watch("to") || !watch("amount")}
           >
-            Send Transfer
-          </MismatchButton>
+            Transfer
+          </TransactionButton>
         </ModalFooter>
       </ModalContent>
     </Modal>

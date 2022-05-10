@@ -3,14 +3,12 @@ import {
   Box,
   Container,
   Flex,
-  Heading,
   LightMode,
   List,
   ListIcon,
   ListItem,
   SimpleGrid,
   Stack,
-  Text,
 } from "@chakra-ui/react";
 import {
   Marketplace,
@@ -47,6 +45,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
 import { MdOutlineAnalytics } from "react-icons/md";
+import { Heading, Text } from "tw-components";
 
 const Home: ConsolePage = () => {
   const { Track } = useTrack({ page: "home" });

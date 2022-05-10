@@ -1,9 +1,8 @@
-import { IconButton } from "@chakra-ui/button";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
-import { NextLink } from "components/shared/NextLink";
+import { IconButton, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useCallback } from "react";
+import { Link, MenuItem } from "tw-components";
 
 export const LandingMenu: React.FC = () => {
   const { trackEvent } = useTrack();
@@ -57,7 +56,7 @@ export const LandingMenu: React.FC = () => {
         >
           Pricing
         </MenuItem>
-        <NextLink
+        <Link
           href="https://portal.thirdweb.com"
           isExternal
           _focus={{ bgColor: "black" }}
@@ -65,8 +64,8 @@ export const LandingMenu: React.FC = () => {
           _active={{ bgColor: "black" }}
         >
           <MenuItem>Developer Portal</MenuItem>
-        </NextLink>
-        <NextLink href="/dashboard">
+        </Link>
+        <Link href="/dashboard">
           <MenuItem
             onClick={() =>
               trackEvent({
@@ -81,7 +80,7 @@ export const LandingMenu: React.FC = () => {
           >
             Start building
           </MenuItem>
-        </NextLink>
+        </Link>
       </MenuList>
     </Menu>
   );

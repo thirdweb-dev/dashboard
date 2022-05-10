@@ -3,12 +3,8 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  Code,
   Flex,
   FormControl,
-  FormHelperText,
-  FormLabel,
-  Heading,
   Input,
   Link,
   Stack,
@@ -20,18 +16,25 @@ import {
   NFTDrop,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
-import { Card } from "components/layout/Card";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useState } from "react";
 import { FiCopy } from "react-icons/fi";
+import { IoMdCheckmark } from "react-icons/io";
+import {
+  Button,
+  Card,
+  CodeBlock,
+  FormHelperText,
+  FormLabel,
+  Heading,
+} from "tw-components";
 import { getChainIdFromNetwork } from "utils/network";
 
 interface EmbedSetupProps {
   contract?: ValidContractInstance;
 }
 
-const IPFS_URI = "ipfs://QmQpHkDDWGJPBHFKkpX1DsfzvwZXQYNVoaW4R1Lhenp6T5";
+const IPFS_URI = "ipfs://Qmb7uH1FozWt9zG15fYzmrBM9AvzvfQGU43hinmY4sEQTv";
 
 const getContractEmbedHash = (contract?: ValidContractInstance) => {
   if (contract instanceof NFTDrop) {
@@ -114,12 +117,12 @@ export const WidgetSetup: React.FC<EmbedSetupProps> = ({ contract }) => {
   });
 
   const embedCode = `<iframe
-    src="${iframeSrc}"
-    width="600px"
-    height="600px"
-    style="max-width:100%;"
-    frameborder="0"
-  ></iframe>`;
+src="${iframeSrc}"
+width="600px"
+height="600px"
+style="max-width:100%;"
+frameborder="0"
+></iframe>`;
 
   const { hasCopied, onCopy } = useClipboard(embedCode, 3000);
 
@@ -203,15 +206,19 @@ export const WidgetSetup: React.FC<EmbedSetupProps> = ({ contract }) => {
         </Stack>
         <Stack as={Card} w={{ base: "100%", md: "50%" }}>
           <Heading size="title.sm">Embed Code</Heading>
-          <Code overflowX="auto" whiteSpace="pre" fontFamily="mono" p={2}>
-            {embedCode}
-          </Code>
+          <CodeBlock
+            canCopy={false}
+            whiteSpace="pre"
+            overflowX="auto"
+            code={embedCode}
+            language="markup"
+          />
           <Button
             colorScheme="purple"
             w="auto"
             variant="outline"
             onClick={onCopy}
-            rightIcon={<FiCopy />}
+            leftIcon={hasCopied ? <IoMdCheckmark /> : <FiCopy />}
           >
             {hasCopied ? "Copied!" : "Copy to clipboard"}
           </Button>

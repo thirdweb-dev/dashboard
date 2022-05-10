@@ -29,8 +29,6 @@ const securityHeaders = [
 
 const moduleExports = {
   reactStrictMode: true,
-  outputFileTracing: false,
-  swcMinify: false,
   async headers() {
     return [
       {
@@ -47,6 +45,26 @@ const moduleExports = {
         destination: "https://portal.thirdweb.com/:match*",
         permanent: true,
       },
+      {
+        source: "/dashboard/publish/:path*",
+        destination: "/contracts/publish/:path*",
+        permanent: false,
+      },
+      {
+        source: "/dashboard/mumbai/publish/:path*",
+        destination: "/contracts/publish/:path*",
+        permanent: false,
+      },
+      {
+        source: "/privacy",
+        destination: "/thirdweb_Privacy_Policy_May_2022.pdf",
+        permanent: false,
+      },
+      {
+        source: "/tos",
+        destination: "/Thirdweb_Terms_of_Service.pdf",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
@@ -62,4 +80,9 @@ const moduleExports = {
   },
 };
 
-module.exports = moduleExports;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(moduleExports);

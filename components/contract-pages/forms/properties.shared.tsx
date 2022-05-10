@@ -1,8 +1,6 @@
 import {
   Flex,
   FormControl,
-  FormErrorMessage,
-  FormLabel,
   Icon,
   IconButton,
   Input,
@@ -12,7 +10,6 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import type { OptionalPropertiesInput } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
 import { FileInput } from "components/shared/FileInput";
 import React, { useEffect } from "react";
 import {
@@ -30,6 +27,7 @@ import {
   useFieldArray,
 } from "react-hook-form";
 import { FiPlus, FiSlash, FiTrash, FiUpload, FiX } from "react-icons/fi";
+import { Button, FormErrorMessage, FormLabel } from "tw-components";
 // import { optionalProperties } from "schema/shared";
 import { z } from "zod";
 

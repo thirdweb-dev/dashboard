@@ -25,7 +25,12 @@ export function useNFTDropSupply(contractAddress?: string) {
     NFTDropKeys.supply(contractAddress),
     async () => {
       return {
-        totalSupply: (await dropContract?.totalSupply())?.toNumber() || 0,
+        totalSupply:
+          ((await dropContract?.totalClaimedSupply()) || BigNumber.from(0))
+            .add(
+              (await dropContract?.totalUnclaimedSupply()) || BigNumber.from(0),
+            )
+            ?.toNumber() || 0,
         totalClaimedSupply:
           (await dropContract?.totalClaimedSupply())?.toNumber() || 0,
         totalUnclaimedSupply:
@@ -134,7 +139,6 @@ export function useNFTDropResetClaimEligibilityMutation(contract?: NFTDrop) {
     return await contract.claimConditions.set(cleaned, true);
   });
 }
-
 export function useNFTDropClaimConditionMutation(contract?: NFTDrop) {
   return useMutationWithInvalidate(
     async (data: ClaimConditionInput[]) => {

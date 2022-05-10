@@ -12,11 +12,10 @@ import {
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Button } from "components/buttons/Button";
 import { Logo } from "components/logo";
-import { LinkButton } from "components/shared/LinkButton";
-import { NextLink } from "components/shared/NextLink";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useState } from "react";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
+import { LinkButton, NextLink } from "tw-components";
 
 export const HomepageTopNav: React.FC<{}> = () => {
   const { trackEvent } = useTrack();
@@ -85,7 +84,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
             <Link onClick={() => scrollToId("developers")}>Developers</Link>
             <Link onClick={() => scrollToId("fees")}>Pricing</Link>
             <NextLink
-              href="https://portal.thirdweb.com"
+              href="https://portal.thirdweb.com/guides"
               variant="link"
               color="inherit"
               fontWeight="inherit"

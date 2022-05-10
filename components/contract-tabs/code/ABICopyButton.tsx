@@ -1,9 +1,9 @@
 import { useContractConstructor } from "@3rdweb-sdk/react";
-import { ButtonProps, useClipboard } from "@chakra-ui/react";
+import { useClipboard } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
 import { useMemo } from "react";
-import { ImCopy } from "react-icons/im";
+import { FiCopy } from "react-icons/fi";
+import { Button, ButtonProps } from "tw-components";
 
 interface ABICopyButtonProps extends ButtonProps {
   contract: ValidContractInstance;
@@ -13,7 +13,7 @@ export const ABICopyButton: React.FC<ABICopyButtonProps> = ({
 }) => {
   const contractConstructor = useContractConstructor(restButtonProps.contract);
   const abi = useMemo(() => {
-    return contractConstructor ? contractConstructor.contractFactory.abi : null;
+    return contractConstructor ? contractConstructor.contractAbi : null;
   }, [contractConstructor]);
 
   const { onCopy, hasCopied, value } = useClipboard(
@@ -21,14 +21,14 @@ export const ABICopyButton: React.FC<ABICopyButtonProps> = ({
   );
   if (!value) {
     return (
-      <Button {...restButtonProps} leftIcon={<ImCopy />} isDisabled>
+      <Button {...restButtonProps} leftIcon={<FiCopy />} isDisabled>
         ABI not available
       </Button>
     );
   }
 
   return (
-    <Button {...restButtonProps} leftIcon={<ImCopy />} onClick={onCopy}>
+    <Button {...restButtonProps} leftIcon={<FiCopy />} onClick={onCopy}>
       {hasCopied ? "ABI Copied" : "Copy ABI"}
     </Button>
   );

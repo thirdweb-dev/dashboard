@@ -2,7 +2,7 @@ import { tokenKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useContractMetadata } from "./useContract";
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { useToken } from "@thirdweb-dev/react";
+import { useAddress, useToken } from "@thirdweb-dev/react";
 import { Token } from "@thirdweb-dev/sdk";
 import { isAddress } from "ethers/lib/utils";
 import { useQuery } from "react-query";
@@ -49,7 +49,7 @@ export function useTokenBalance(
   const addressToCheck = walletAddress || address;
   return useQuery(
     tokenKeys.balanceOf(contractAddress, addressToCheck),
-    () => tokenContract?.balanceOf(addressToCheck || ""),
+    async () => await tokenContract?.balanceOf(addressToCheck || ""),
     {
       enabled:
         !!contractAddress &&
@@ -65,10 +65,15 @@ export function useTokenBalance(
 // ----------------------------------------------------------------
 
 export function useTokenMintMutation(contract?: Token) {
+  const address = useAddress();
   return useMutationWithInvalidate(
     async (amount: string) => {
-      invariant(contract, "contract is required");
-      return await contract.mint(amount);
+      invariant(
+        contract?.mint?.to,
+        "contract does not support minting or is not ready yet",
+      );
+      invariant(address, "cannot mint without address");
+      return await contract.mint.to(address, amount);
     },
     {
       onSuccess: (_data, _options, _variables, invalidate) => {

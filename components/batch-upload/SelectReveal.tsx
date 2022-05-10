@@ -8,29 +8,31 @@ import {
   Box,
   Flex,
   FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Heading,
   Icon,
   Input,
   InputGroup,
   InputRightElement,
   Radio,
   Stack,
-  Text,
   Textarea,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NFTDrop, NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { Card } from "components/layout/Card";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import {
+  Card,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 import z from "zod";
 
 interface SelectRevealOptionProps {
@@ -132,27 +134,6 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     "Error uploading delayed reveal batch",
   );
 
-  const onSubmit = (data: DelayedRevealInput) => {
-    mintDelayedRevealBatch.mutate(
-      {
-        placeholder: {
-          name: data.name,
-          description: data.description || "",
-          image: data.image,
-        },
-        metadatas: mergedData,
-        password: data.password,
-      },
-      {
-        onSuccess: () => {
-          onSuccess();
-          onClose();
-        },
-        onError,
-      },
-    );
-  };
-
   return (
     <Flex flexDir="column">
       <Flex
@@ -199,7 +180,30 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
             </TransactionButton>
           </Flex>
         ) : selectedReveal === "delayed" ? (
-          <Stack spacing={6} as="form" onSubmit={handleSubmit(onSubmit)}>
+          <Stack
+            spacing={6}
+            as="form"
+            onSubmit={handleSubmit((data) => {
+              mintDelayedRevealBatch.mutate(
+                {
+                  placeholder: {
+                    name: data.name,
+                    description: data.description || "",
+                    image: data.image,
+                  },
+                  metadatas: mergedData,
+                  password: data.password,
+                },
+                {
+                  onSuccess: () => {
+                    onSuccess();
+                    onClose();
+                  },
+                  onError,
+                },
+              );
+            })}
+          >
             <Stack spacing={3}>
               <Heading size="title.sm">Let&apos;s set a password</Heading>
               <Alert status="warning" borderRadius="lg">
@@ -253,7 +257,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                 <FormLabel>Image</FormLabel>
                 <Box width={{ base: "auto", md: "350px" }}>
                   <FileInput
-                    accept="image/*"
+                    accept={{ "image/*": [] }}
                     value={imageUrl}
                     showUploadButton
                     setValue={(file) => setValue("image", file)}

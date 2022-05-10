@@ -8,6 +8,8 @@ import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
+// eslint-disable-next-line import/no-cycle
+import { getAllQueryKey } from "./useGetAll";
 import {
   CommonPlatformFeeSchema,
   CommonRoyaltySchema,
@@ -19,6 +21,7 @@ import {
   NFTDrop,
   Split,
   Token,
+  TokenDrop,
   ValidContractInstance,
   Vote,
 } from "@thirdweb-dev/sdk";
@@ -42,6 +45,8 @@ export function useRealContract<T extends ValidContractInstance>(contract: T) {
     return contract as Vote;
   } else if (contract instanceof Split) {
     return contract as Split;
+  } else if (contract instanceof TokenDrop) {
+    return contract as TokenDrop;
   }
 
   throw new Error("Contract is not a valid contract");
@@ -66,17 +71,15 @@ export function useContractConstructor<T extends ValidContractInstance>(
     return Vote;
   } else if (contract instanceof Split) {
     return Split;
+  } else if (contract instanceof TokenDrop) {
+    return TokenDrop;
   }
 
   throw new Error("Contract is not a valid contract");
 }
 
-export function useContractTypeOfContract<T extends ValidContractInstance>(
-  contract?: T,
-): ContractType | null {
-  if (!contract) {
-    return null;
-  } else if (contract instanceof NFTDrop) {
+export function contractTypeFromContract(contract: ValidContractInstance) {
+  if (contract instanceof NFTDrop) {
     return NFTDrop.contractType;
   } else if (contract instanceof EditionDrop) {
     return EditionDrop.contractType;
@@ -92,9 +95,20 @@ export function useContractTypeOfContract<T extends ValidContractInstance>(
     return Vote.contractType;
   } else if (contract instanceof Split) {
     return Split.contractType;
+  } else if (contract instanceof TokenDrop) {
+    return TokenDrop.contractType;
   }
 
   throw new Error("Contract does not have a contractType");
+}
+
+export function useContractTypeOfContract<T extends ValidContractInstance>(
+  contract?: T,
+): ContractType | null {
+  if (!contract) {
+    return null;
+  }
+  return contractTypeFromContract(contract);
 }
 
 export function useContractName<T extends ValidContractInstance>(
@@ -118,6 +132,8 @@ export function useContractName<T extends ValidContractInstance>(
     return "Vote";
   } else if (contract instanceof Split) {
     return "Split";
+  } else if (contract instanceof TokenDrop) {
+    return "TokenDrop";
   }
 
   throw new Error("Contract does not have a contractType");
@@ -129,12 +145,23 @@ interface ITransferInput {
   tokenId?: string;
 }
 
+interface IAirdropInput {
+  tokenId: string;
+  addresses: { address: string; quantity?: string }[];
+}
+
+interface IBurnInput {
+  tokenId: string;
+  amount?: string;
+}
+
 export type TransferableContract =
   | NFTCollection
   | Edition
   | Token
   | NFTDrop
-  | EditionDrop;
+  | EditionDrop
+  | TokenDrop;
 // | PackContract;
 
 export type RecipientContract = NFTDrop | EditionDrop;
@@ -153,9 +180,7 @@ export function useSaleRecipient<TContract extends RecipientContract>(
     tokenId
       ? recipientKeys.token(contract?.getAddress(), tokenId)
       : recipientKeys.detail(contract?.getAddress()),
-    () => {
-      return contract?.primarySale.getRecipient();
-    },
+    async () => await contract?.primarySale.getRecipient(),
     {
       enabled: !!contract,
     },
@@ -195,7 +220,7 @@ export function useContractRoyalty<TContract extends RoyaltyContract>(
 ) {
   return useQueryWithNetwork(
     royaltyKeys.detail(contract?.getAddress()),
-    () => contract?.royalty.getDefaultRoyaltyInfo(),
+    async () => await contract?.royalty.getDefaultRoyaltyInfo(),
     {
       enabled: !!contract,
     },
@@ -237,7 +262,7 @@ export function useContractPlatformFee<TContract extends PlatformFeeContract>(
 ) {
   return useQueryWithNetwork(
     platformFeeKeys.detail(contract?.getAddress()),
-    () => contract?.platformFee.get(),
+    async () => await contract?.platformFee.get(),
     {
       enabled: !!contract,
     },
@@ -273,7 +298,7 @@ export function useTransferMutation<TContract extends ValidContractInstance>(
       );
       invariant(
         "transfer" in contract,
-        "contract does not support transfer functionality",
+        "Contract does not support transfer functionality",
       );
       if (contract instanceof NFTCollection || contract instanceof NFTDrop) {
         invariant(transferData.tokenId, "tokenId is required");
@@ -299,7 +324,7 @@ export function useTransferMutation<TContract extends ValidContractInstance>(
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
         // this should not be possible, but we need to catch it in case it does
-        // if we don't know we just invalited everything.
+        // if we don't know we just invalidate everything.
         if (!contractType) {
           return invalidate(
             Object.keys(CacheKeyMap)
@@ -317,6 +342,106 @@ export function useTransferMutation<TContract extends ValidContractInstance>(
         return invalidate([
           CacheKeyMap[contractType].list(contract?.getAddress()),
         ]);
+      },
+    },
+  );
+}
+
+export function useAirdropMutation<TContract extends ValidContractInstance>(
+  contract?: TContract,
+) {
+  const contractType = useContractTypeOfContract(contract);
+
+  return useMutationWithInvalidate(
+    async (airdropData: IAirdropInput) => {
+      invariant(
+        contract,
+        "Contract is not a valid contract. Please use a valid contract",
+      );
+      invariant(
+        "airdrop" in contract,
+        "Contract does not support airdrop functionality",
+      );
+      if (contract instanceof Edition || contract instanceof EditionDrop) {
+        return await contract.airdrop(
+          airdropData.tokenId,
+          airdropData.addresses,
+        );
+      }
+      throw new Error("Contract is not a valid contract");
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        // this should not be possible, but we need to catch it in case it does
+        // if we don't know we just invalidate everything.
+        if (!contractType) {
+          return invalidate(
+            Object.keys(CacheKeyMap)
+              .map((key) => {
+                const cacheKeys = CacheKeyMap[key as keyof typeof CacheKeyMap];
+                if ("list" in cacheKeys) {
+                  return cacheKeys.list(contract?.getAddress());
+                }
+                return undefined as never;
+              })
+              .filter((fn) => !!fn),
+          );
+        }
+
+        return invalidate([
+          CacheKeyMap[contractType].list(contract?.getAddress()),
+        ]);
+      },
+    },
+  );
+}
+
+export function useBurnMutation<TContract extends ValidContractInstance>(
+  contract?: TContract,
+) {
+  const contractType = useContractTypeOfContract(contract);
+
+  return useMutationWithInvalidate(
+    async (burnData: IBurnInput) => {
+      invariant(
+        contract,
+        "Contract is not a valid contract. Please use a valid contract",
+      );
+      invariant(
+        "burn" in contract,
+        "Contract does not support burn functionality",
+      );
+      if (contract instanceof Edition || contract instanceof EditionDrop) {
+        return await contract.burn(burnData.tokenId, burnData.amount || 1);
+      } else if (
+        contract instanceof NFTCollection ||
+        contract instanceof NFTDrop
+      ) {
+        return await contract.burn(burnData.tokenId);
+      } else if (contract instanceof Token) {
+        return await contract.burn(burnData.amount || 0);
+      }
+      throw new Error("Contract is not a valid contract");
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        // this should not be possible, but we need to catch it in case it does
+        // if we don't know we just invalidate everything.
+        if (!contractType) {
+          return invalidate(
+            Object.keys(CacheKeyMap)
+              .map((key) => {
+                const cacheKeys = CacheKeyMap[key as keyof typeof CacheKeyMap];
+                if ("list" in cacheKeys) {
+                  return cacheKeys.list(contract?.getAddress());
+                }
+                return undefined as never;
+              })
+              .filter((fn) => !!fn),
+          );
+        }
+
+        return invalidate([getAllQueryKey(contract)]);
       },
     },
   );
