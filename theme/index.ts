@@ -9,6 +9,7 @@ import {
   lineHeights,
 } from "./typography";
 import { DeepPartial, Theme, extendTheme } from "@chakra-ui/react";
+import { getColor, mode } from "@chakra-ui/theme-tools";
 
 const chakraTheme: Theme = extendTheme(
   {
@@ -50,6 +51,35 @@ const chakraTheme: Theme = extendTheme(
       Button: {
         baseStyle: {
           borderRadius: "full",
+        },
+        variants: {
+          gradient: (props: any) => {
+            const { theme, fromColor, toColor } = props;
+            const lgFrom = getColor(theme, fromColor);
+            const lgTo = getColor(theme, toColor);
+            const bgColor = getColor(theme, mode("white", "gray.800")(props));
+
+            return {
+              border: "3px solid",
+              borderColor: "transparent",
+              borderRadius: "full",
+              background: `linear-gradient(${bgColor}, ${bgColor}) padding-box, 
+              linear-gradient(135deg, ${lgFrom}, ${lgTo}) border-box`,
+              "> *": {
+                background: `linear-gradient(135deg, ${lgFrom}, ${lgTo})`,
+                backgroundClip: "text",
+                textFillColor: "transparent",
+              },
+              _hover: {
+                background: `linear-gradient(${bgColor}, ${bgColor}) padding-box, 
+                linear-gradient(315deg, ${lgFrom}, ${lgTo}) border-box`,
+                "> *": {
+                  background: `linear-gradient(315deg, ${lgFrom}, ${lgTo})`,
+                  backgroundClip: "text",
+                },
+              },
+            };
+          },
         },
       },
       Modal: {

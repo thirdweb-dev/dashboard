@@ -25,6 +25,7 @@ interface IHomepageSection {
     forceBelow?: boolean;
   };
   leftAlignedTitle?: boolean;
+  leftAlignedSubtitle?: boolean;
   childrenOnRightSide?: true;
   hero?: true;
   subtitleMd?: boolean;
@@ -51,6 +52,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
   id,
   mainAction,
   leftAlignedTitle,
+  leftAlignedSubtitle,
   hero,
   subtitleMd,
   titleSm,
@@ -127,7 +129,11 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
               <Container maxW="container.lg" px={0}>
                 <Heading
                   as="h3"
-                  textAlign={MainActionButton && !isMobile ? "left" : "center"}
+                  textAlign={
+                    (MainActionButton && !isMobile) || leftAlignedSubtitle
+                      ? "left"
+                      : "center"
+                  }
                   color={
                     isDark
                       ? "rgba(242, 251, 255, 0.8)"

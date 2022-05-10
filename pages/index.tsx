@@ -52,21 +52,26 @@ const Home: ConsolePage = () => {
             title="Build web3 apps, easily."
             isDark
             subtitle={
-              <>
-                Smart contracts you control. Tools that accelerate your
-                workflow.
-                <Box display={{ base: "none", md: "block" }} /> Intuitive SDKs
-                and embeds for developers.
-              </>
+              <Box color="gray.400">
+                <Box mb={12}>
+                  Smart contracts you control.{" "}
+                  <Box display={{ base: "none", md: "block" }} /> Tools that
+                  accelerate your workflow.
+                  <Box display={{ base: "none", md: "block" }} /> Intuitive SDKs
+                  and embeds for developers.
+                </Box>
+                <GeneralCta size="lg" />
+              </Box>
             }
             bottomGradient="animated"
             paddingBottom
+            childrenOnRightSide
+            leftAlignedTitle
+            leftAlignedSubtitle
           >
-            <Stack w="100%" spacing={["64px", "64px", "100px"]} pb="30rem">
-              <GeneralCta size="lg" />
-            </Stack>
+            hello
           </HomepageSection>
-          <Flex
+          {/*           <Flex
             position="relative"
             zIndex={3}
             overflow="hidden"
@@ -100,7 +105,7 @@ const Home: ConsolePage = () => {
                 </SimpleGrid>
               </Stack>
             </Container>
-          </Flex>
+          </Flex> */}
 
           <WhatCanYouBuild />
 
