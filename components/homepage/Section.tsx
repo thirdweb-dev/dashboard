@@ -130,7 +130,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
                 <Heading
                   as="h3"
                   textAlign={
-                    (MainActionButton && !isMobile) || leftAlignedSubtitle
+                    (MainActionButton || leftAlignedSubtitle) && !isMobile
                       ? "left"
                       : "center"
                   }

@@ -1,9 +1,8 @@
 import { LinkButton } from "./LinkButton";
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { Box, Flex, Icon, Stack } from "@chakra-ui/react";
+import { Box, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { BsLightningCharge } from "react-icons/bs";
-import { IoRocketOutline } from "react-icons/io5";
 import { VscDashboard } from "react-icons/vsc";
 
 interface GeneralCtaProps {
@@ -15,7 +14,7 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
   const { trackEvent } = useTrack();
 
   return (
-    <Flex w="100%">
+    <>
       {address ? (
         <LinkButton
           leftIcon={<Icon as={VscDashboard} color="#1D64EF" />}
@@ -69,6 +68,6 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
           <Box>Start building</Box>
         </LinkButton>
       )}
-    </Flex>
+    </>
   );
 };
