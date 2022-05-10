@@ -3,6 +3,7 @@ import {
   Box,
   Container,
   Flex,
+  Heading,
   LightMode,
   List,
   ListIcon,
@@ -21,6 +22,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { CodeExamples } from "components/homepage/CodeExamples";
+import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFeatureCard } from "components/homepage/FeatureCard";
 import { HomepageFooter } from "components/homepage/Footer";
 import { OctopusCard } from "components/homepage/OctopusCard";
@@ -32,13 +34,19 @@ import { WhatCanYouBuild } from "components/homepage/WhatCanYouBuild";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { FeaturesBackground } from "components/svgs/FeaturesBackground";
 import { useTrack } from "hooks/analytics/useTrack";
+import Analytics from "public/assets/landingpage/analytics.png";
+import Contracts from "public/assets/landingpage/contracts.png";
 // images
 import Hero from "public/assets/landingpage/hero.png";
 import Octopus from "public/assets/landingpage/octopus.png";
 import Scissors from "public/assets/landingpage/scissors.png";
+import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 // end images
 import React from "react";
+import { AiOutlineTeam } from "react-icons/ai";
+import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
+import { MdOutlineAnalytics } from "react-icons/md";
 
 const Home: ConsolePage = () => {
   const { Track } = useTrack({ page: "home" });
@@ -121,56 +129,70 @@ const Home: ConsolePage = () => {
           <WhatCanYouBuild />
 
           <HomepageSection
-            id="permissions"
-            title="Permissions for your team"
-            subtitle={
-              <Box mt={-5}>
-                Each contract lets you finely tune permissions to control who
-                can
-                <br />
-                access your contracts and modify settings.
-              </Box>
-            }
+            id="dashboard"
+            title="Dedicated dashboard to control everything"
+            isDark
+            topGradient="static"
           >
-            <Flex flexDirection={{ base: "column", md: "row" }}>
-              <Stack spacing={{ base: 4, md: 20 }} mr={{ base: 0, md: 2 }}>
-                <OctopusCard
-                  title="admin"
-                  address="0x386...23c2"
-                  description="Has full permissions for your project"
-                />
-                <OctopusCard
-                  title="minter"
-                  address="0x4F5...61b3"
-                  description="Can mint new tokens on your contracts"
-                />
-              </Stack>
-              <ChakraNextImage
-                alt=""
-                maxW={96}
-                w={96}
-                mt={24}
-                display={{ base: "none", md: "block" }}
-                placeholder="empty"
-                src={Octopus}
+            <SimpleGrid flexDirection={{ base: "column", md: "row" }} gap={12}>
+              <DashboardCard
+                headingTitle="thirdweb teams"
+                headingIcon={AiOutlineTeam}
+                title={
+                  <>
+                    Deploy contracts with{" "}
+                    <Heading
+                      bgGradient="linear(to-l, #48BCA8, #A998FF)"
+                      bgClip="text"
+                      display="inline"
+                      size="title.lg"
+                    >
+                      connected wallets or team
+                    </Heading>
+                  </>
+                }
+                subtitle="Team up to move your app forward, faster. Get everyone on the same page."
+                rightImage={ThirdwebTeams}
               />
-              <Stack
-                spacing={{ base: 4, md: 14 }}
-                mt={{ base: 4, md: 0 }}
-                ml={{ base: 0, md: 2 }}
-              >
-                <OctopusCard
-                  title="pauser"
-                  address="0x27d...4Eb6"
-                  description="Can enable and disable external interaction with your contracts"
-                />
-                <OctopusCard
-                  title="transferrer"
-                  address="0x4gh...5692"
-                  description="Can transfer and receive assets through your contract"
-                />
-              </Stack>
-            </Flex>
+              <DashboardCard
+                headingTitle="Contract manager"
+                headingIcon={BsMenuButtonWide}
+                title={
+                  <>
+                    <Heading
+                      bgGradient="linear(to-l, #E483F4, #FAC588)"
+                      bgClip="text"
+                      display="inline"
+                      size="title.lg"
+                    >
+                      View and manage
+                    </Heading>{" "}
+                    all your contracts
+                  </>
+                }
+                subtitle="Team up to move your app forward, faster. Get everyone on the same page."
+                rightImage={Contracts}
+              />
+              <DashboardCard
+                headingTitle="thirdweb reports"
+                headingIcon={MdOutlineAnalytics}
+                title={
+                  <>
+                    <Heading
+                      bgGradient="linear(to-l, #585EE9, #E487D0)"
+                      bgClip="text"
+                      display="inline"
+                      size="title.lg"
+                    >
+                      Prebuilt reports
+                    </Heading>{" "}
+                    to learn about contracts usage
+                  </>
+                }
+                subtitle="Team up to move your app forward, faster. Get everyone on the same page."
+                rightImage={Analytics}
+              />
+            </SimpleGrid>
           </HomepageSection>
 
           <CodeExamples />
