@@ -10,12 +10,11 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import { Button } from "components/buttons/Button";
 import { Logo } from "components/logo";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useState } from "react";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-import { LinkButton, NextLink } from "tw-components";
+import { Button, LinkButton, NextLink } from "tw-components";
 
 export const HomepageTopNav: React.FC<{}> = () => {
   const { trackEvent } = useTrack();

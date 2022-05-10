@@ -82,10 +82,12 @@ export const Button = forwardRef<ButtonProps, "button">(
 
 Button.displayName = "Button";
 
-interface ILinkButtonProps extends ButtonProps {
+export interface ILinkButtonProps extends ButtonProps {
   href: string | LinkProps["href"];
   isExternal?: boolean;
   noIcon?: true;
+  fromColor?: string;
+  toColor?: string;
 }
 
 export const LinkButton = React.forwardRef<HTMLButtonElement, ILinkButtonProps>(
