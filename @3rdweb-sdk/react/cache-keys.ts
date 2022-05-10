@@ -280,6 +280,12 @@ export const linkBalanceKeys = {
     [...linkBalanceKeys.all, userAddress] as const,
 };
 
+export const analyticsKeys = {
+  all: ["analytics"] as const,
+  detail: (contractAddress = AddressZero) =>
+    [...analyticsKeys.all, contractAddress] as const,
+};
+
 export const CacheKeyMap: Record<ContractType, any> = {
   [NFTCollection.contractType]: nftCollectionKeys,
   [Edition.contractType]: editionKeys,

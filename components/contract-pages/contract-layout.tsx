@@ -14,6 +14,7 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import { ValidContractClass } from "@thirdweb-dev/sdk";
+import { ContractAnalytics } from "components/contract-components/contract-analytics";
 import { ContractTab, useContractTabs } from "components/contract-tabs";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
@@ -127,33 +128,42 @@ export const ContractLayout = <
 
         <TabPanels>
           <TabPanel px={0}>
-            <Box minH="50vh" position="relative">
-              {data && data.isRefetching && (
-                <Spinner
-                  color="primary"
-                  size="xs"
-                  position="absolute"
-                  top={2}
-                  right={4}
-                />
-              )}
-              {!data ? (
-                children
-              ) : data.isLoading ? (
-                <Center position="absolute" w="full" h="full" top={0} left={0}>
-                  <HStack>
-                    <Spinner size="sm" />
-                    <Text>Loading Contract Data...</Text>
-                  </HStack>
-                </Center>
-              ) : (!data.data ||
-                  (Array.isArray(data.data) && data.data.length === 0)) &&
-                emptyState ? (
-                <ContractEmptyState {...emptyState} />
-              ) : (
-                children
-              )}
-            </Box>
+            <Stack spacing={4}>
+              <ContractAnalytics contract={contract} />
+              <Box minH="50vh" position="relative">
+                {data && data.isRefetching && (
+                  <Spinner
+                    color="primary"
+                    size="xs"
+                    position="absolute"
+                    top={2}
+                    right={4}
+                  />
+                )}
+                {!data ? (
+                  children
+                ) : data.isLoading ? (
+                  <Center
+                    position="absolute"
+                    w="full"
+                    h="full"
+                    top={0}
+                    left={0}
+                  >
+                    <HStack>
+                      <Spinner size="sm" />
+                      <Text>Loading Contract Data...</Text>
+                    </HStack>
+                  </Center>
+                ) : (!data.data ||
+                    (Array.isArray(data.data) && data.data.length === 0)) &&
+                  emptyState ? (
+                  <ContractEmptyState {...emptyState} />
+                ) : (
+                  children
+                )}
+              </Box>
+            </Stack>
           </TabPanel>
           {tabs?.map((contractTab: ContractTab) => (
             <TabPanel px={0} key={contractTab.title}>
