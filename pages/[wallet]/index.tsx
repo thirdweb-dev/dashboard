@@ -126,6 +126,7 @@ const Dashboard: ConsolePage = () => {
   const mumbaiQuery = useContractList(ChainId.Mumbai, dashboardAddress);
 
   const combinedList = useMemo(() => {
+    console.log(rinkebyQuery.data);
     return (
       mainnetQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mainnet })) || []
     )
@@ -230,7 +231,7 @@ interface ContractTableProps {
 export const ContractTable: React.FC<ContractTableProps> = ({
   combinedList,
 }) => {
-  const { getNetworkMetadata } = useWeb3();
+  const { address, getNetworkMetadata } = useWeb3();
 
   const columns = useMemo(
     () => [
@@ -401,13 +402,15 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       },
       {
         Header: "Actions",
-        // accessor: (row) => ({ address: row.address, chainId: row.chainId }),
-        Cell: (cell: Cell<typeof combinedList[number]>) => (
-          <RemoveContract
-            contractAddress={cell.row.original.address}
-            targetChainId={cell.row.original.chainId}
-          />
-        ),
+        Cell: (cell: Cell<typeof combinedList[number]>) =>
+          cell.row.original.contractType !== "custom" ? (
+            <RemoveContract
+              contractAddress={cell.row.original.address}
+              targetChainId={cell.row.original.chainId}
+            />
+          ) : (
+            <></>
+          ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

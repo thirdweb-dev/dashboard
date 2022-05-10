@@ -26,6 +26,7 @@ export function useRemoveContractMutation() {
       sdk.updateSignerOrProvider(signer);
 
       const registry = await sdk?.deployer.getRegistry();
+      console.log(contractAddress);
       return await registry.removeContract(contractAddress);
     },
     {
