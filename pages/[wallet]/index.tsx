@@ -939,7 +939,9 @@ const RemoveContract: React.FC<IRemoveContract> = ({
         >
           <Button
             padding={0}
-            borderRadius="sm"
+            borderRadius="md"
+            variant="outline"
+            size="sm"
             isLoading={isLoading}
             onClick={(e) => {
               e.stopPropagation();
@@ -976,7 +978,11 @@ const RemoveContract: React.FC<IRemoveContract> = ({
               ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
               leftIcon={<Icon as={VscDebugDisconnect} />}
               size="sm"
-              onClick={onSwitchWallet}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                onSwitchWallet();
+              }}
               isLoading={network.loading}
               isDisabled={!actuallyCanAttemptSwitch}
               colorScheme="orange"
