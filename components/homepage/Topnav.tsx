@@ -76,7 +76,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
             display={["none", "none", "flex"]}
             direction="row"
             alignItems="center"
-            color="#fff"
+            color="gray.50"
             fontWeight="bold"
             spacing={10}
             as="nav"
@@ -104,7 +104,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 isExternal
                 noIcon
                 href="https://twitter.com/thirdweb_"
-                color="gray.500"
+                color="gray.50"
                 bg="transparent"
                 aria-label="twitter"
                 icon={<Icon boxSize="1rem" as={SiTwitter} />}
@@ -122,7 +122,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 noIcon
                 href="https://discord.gg/thirdweb"
                 bg="transparent"
-                color="gray.500"
+                color="gray.50"
                 aria-label="discord"
                 icon={<Icon boxSize="1rem" as={SiDiscord} />}
                 onClick={() =>
@@ -139,7 +139,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 noIcon
                 href="https://github.com/thirdweb-dev"
                 bg="transparent"
-                color="gray.500"
+                color="gray.50"
                 aria-label="github"
                 icon={<Icon boxSize="1rem" as={SiGithub} />}
                 onClick={() =>

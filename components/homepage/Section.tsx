@@ -110,7 +110,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
                     "100%",
                     MainActionButton && !childrenOnRightSide ? "50%" : "100%",
                   ]}
-                  color={isDark ? "#F2FBFF" : "#262A36"}
+                  color={isDark ? "gray.50" : "#262A36"}
                   textAlign={
                     (MainActionButton && !isMobile) || leftAlignedTitle
                       ? "left"

@@ -7,14 +7,14 @@ export const StaticGradient: React.FC<
 > = ({ ...props }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <AspectRatio ratio={1298 / 468} {...props}>
+    <AspectRatio ratio={300 / 468} {...props}>
       <Box
         overflow="visible!important"
-        bg="linear-gradient(180deg, #0098EE 0%, #FF1CCD 140.5%)"
-        opacity={[0.5, 0.5, 0.2]}
+        bgGradient="linear(to-r, #C200C6, #2D8EFF)"
+        opacity="0.4"
         filter={isMobile ? "blur(100px)" : "blur(200px)"}
         borderRadius="full"
-      ></Box>
+      />
     </AspectRatio>
   );
 };

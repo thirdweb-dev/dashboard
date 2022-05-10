@@ -64,21 +64,23 @@ const Home: ConsolePage = () => {
                 <GeneralCta size="lg" />
               </Box>
             }
-            bottomGradient="animated"
+            topGradient="static"
             paddingBottom
             childrenOnRightSide
             leftAlignedTitle
             leftAlignedSubtitle
           >
-            <ChakraNextImage
-              alt=""
-              maxW={96}
-              w={96}
-              mt={8}
-              display={{ base: "none", md: "block" }}
-              placeholder="empty"
-              src={Hero}
-            />
+            <Flex justifyContent="end" mr={12}>
+              <ChakraNextImage
+                alt=""
+                maxW={96}
+                w={96}
+                mt={8}
+                display={{ base: "none", md: "block" }}
+                placeholder="empty"
+                src={Hero}
+              />
+            </Flex>
           </HomepageSection>
           {/*           <Flex
             position="relative"
