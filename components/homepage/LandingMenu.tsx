@@ -27,14 +27,44 @@ export const LandingMenu: React.FC = () => {
         aria-label="Options"
         icon={<HamburgerIcon />}
         variant="outline"
-        color="black"
+        color="white"
+        _focus={{ bgColor: "black" }}
+        _hover={{ bgColor: "black" }}
+        _active={{ bgColor: "black" }}
       />
-      <MenuList bgColor="white" color="black">
-        <MenuItem onClick={() => scrollToId("features")}>Features</MenuItem>
-        <MenuItem onClick={() => scrollToId("developers")}>Developers</MenuItem>
-        <MenuItem onClick={() => scrollToId("fees")}>Pricing</MenuItem>
-        <NextLink href="https://portal.thirdweb.com" isExternal>
-          <MenuItem>Guides</MenuItem>
+      <MenuList bgColor="black" color="white">
+        <MenuItem
+          onClick={() => scrollToId("features")}
+          _focus={{ bgColor: "black" }}
+          _hover={{ bgColor: "black" }}
+          _active={{ bgColor: "black" }}
+        >
+          Features
+        </MenuItem>
+        <MenuItem
+          onClick={() => scrollToId("developers")}
+          _focus={{ bgColor: "black" }}
+          _hover={{ bgColor: "black" }}
+          _active={{ bgColor: "black" }}
+        >
+          Developers
+        </MenuItem>
+        <MenuItem
+          onClick={() => scrollToId("fees")}
+          _focus={{ bgColor: "black" }}
+          _hover={{ bgColor: "black" }}
+          _active={{ bgColor: "black" }}
+        >
+          Pricing
+        </MenuItem>
+        <NextLink
+          href="https://portal.thirdweb.com"
+          isExternal
+          _focus={{ bgColor: "black" }}
+          _hover={{ bgColor: "black" }}
+          _active={{ bgColor: "black" }}
+        >
+          <MenuItem>Developer Portal</MenuItem>
         </NextLink>
         <NextLink href="/dashboard">
           <MenuItem
@@ -45,6 +75,9 @@ export const LandingMenu: React.FC = () => {
                 label: "start",
               })
             }
+            _focus={{ bgColor: "black" }}
+            _hover={{ bgColor: "black" }}
+            _active={{ bgColor: "black" }}
           >
             Start building
           </MenuItem>

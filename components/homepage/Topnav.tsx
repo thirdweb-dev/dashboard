@@ -10,6 +10,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
+import { Button } from "components/buttons/Button";
 import { Logo } from "components/logo";
 import { LinkButton } from "components/shared/LinkButton";
 import { NextLink } from "components/shared/NextLink";
@@ -58,7 +59,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
         zIndex="overlay"
         as="header"
         boxShadow={isScrolled ? "md" : undefined}
-        bg={isScrolled ? "backgroundLight" : "transparent"}
+        bg={isScrolled ? "backgroundDark" : "transparent"}
       >
         <Container
           as={Flex}
@@ -69,13 +70,13 @@ export const HomepageTopNav: React.FC<{}> = () => {
           flexDir="row"
         >
           <Link onClick={() => scrollToId("home")}>
-            <Logo color="#262A36" />
+            <Logo color="#fff" />
           </Link>
           <Stack
             display={["none", "none", "flex"]}
             direction="row"
             alignItems="center"
-            color="#262A36"
+            color="#fff"
             fontWeight="bold"
             spacing={10}
             as="nav"
@@ -91,7 +92,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
               textDecoration={undefined}
               isExternal
             >
-              Guides
+              Developer Portal
             </NextLink>
             <Flex
               display={{ base: "none", lg: "flex" }}
@@ -151,6 +152,9 @@ export const HomepageTopNav: React.FC<{}> = () => {
               />
             </Flex>
           </Stack>
+          <Button colorScheme="primary" variant="outline">
+            Start building
+          </Button>
           {isMobile ? <LandingMenu /> : null}
         </Container>
       </Box>

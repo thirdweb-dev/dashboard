@@ -44,12 +44,13 @@ const Home: ConsolePage = () => {
   return (
     <LightMode>
       <Track>
-        <Flex justify="center" flexDir="column" as="main" bg="#fff">
+        <Flex justify="center" flexDir="column" as="main" bg="#000">
           <HomepageTopNav />
           <HomepageSection
             id="home"
             hero
             title="Build web3 apps, easily."
+            isDark
             subtitle={
               <>
                 Smart contracts you control. Tools that accelerate your
