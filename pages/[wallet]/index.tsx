@@ -402,15 +402,13 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       },
       {
         Header: "Actions",
-        Cell: (cell: Cell<typeof combinedList[number]>) =>
-          cell.row.original.contractType !== "custom" ? (
-            <RemoveContract
-              contractAddress={cell.row.original.address}
-              targetChainId={cell.row.original.chainId}
-            />
-          ) : (
-            <></>
-          ),
+        Cell: (cell: Cell<typeof combinedList[number]>) => (
+          <RemoveContract
+            contractType={cell.row.original.contractType}
+            contractAddress={cell.row.original.address}
+            targetChainId={cell.row.original.chainId}
+          />
+        ),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -880,11 +878,13 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
 
 interface IRemoveContract {
   contractAddress: string;
+  contractType: string;
   targetChainId: number;
 }
 
 const RemoveContract: React.FC<IRemoveContract> = ({
   contractAddress,
+  contractType,
   targetChainId,
 }) => {
   const { chainId, getNetworkMetadata } = useWeb3();
@@ -942,6 +942,7 @@ const RemoveContract: React.FC<IRemoveContract> = ({
         >
           <Button
             padding={0}
+            ml="16px"
             borderRadius="md"
             variant="outline"
             size="sm"
@@ -950,7 +951,11 @@ const RemoveContract: React.FC<IRemoveContract> = ({
               e.stopPropagation();
               e.preventDefault();
               if (chainId === targetChainId) {
-                mutate({ contractAddress, chainId: targetChainId });
+                mutate({
+                  contractAddress,
+                  contractType,
+                  chainId: targetChainId,
+                });
               } else {
                 onOpen();
               }
