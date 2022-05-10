@@ -126,7 +126,6 @@ const Dashboard: ConsolePage = () => {
   const mumbaiQuery = useContractList(ChainId.Mumbai, dashboardAddress);
 
   const combinedList = useMemo(() => {
-    console.log(rinkebyQuery.data);
     return (
       mainnetQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mainnet })) || []
     )

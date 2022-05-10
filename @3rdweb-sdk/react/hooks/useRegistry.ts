@@ -29,7 +29,6 @@ export function useRemoveContractMutation() {
       const registry = await sdk?.deployer.getRegistry();
 
       if (contractType === "custom") {
-        console.log(contractAddress);
         return await registry.removeCustomContract(contractAddress);
       }
 
