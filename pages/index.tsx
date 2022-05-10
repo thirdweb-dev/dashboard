@@ -73,7 +73,6 @@ const Home: ConsolePage = () => {
               </Box>
             }
             topGradient="static"
-            paddingBottom
             childrenOnRightSide
             leftAlignedTitle
             leftAlignedSubtitle
@@ -126,13 +125,13 @@ const Home: ConsolePage = () => {
             </Container>
           </Flex> */}
 
-          <WhatCanYouBuild />
+          {/* <WhatCanYouBuild /> */}
 
           <HomepageSection
             id="dashboard"
             title="Dedicated dashboard to control everything"
             isDark
-            middleGradient="static"
+            topGradient="static"
           >
             <SimpleGrid flexDirection={{ base: "column", md: "row" }} gap={12}>
               <DashboardCard
@@ -195,7 +194,7 @@ const Home: ConsolePage = () => {
             </SimpleGrid>
           </HomepageSection>
 
-          <CodeExamples />
+          {/*           <CodeExamples /> */}
 
           <HomepageSection
             id="networks"
@@ -246,7 +245,7 @@ const Home: ConsolePage = () => {
             </Box>
           </HomepageSection>
 
-          <HomepageSection
+          {/*           <HomepageSection
             title="Powerful functionality"
             isDark
             topGradient="static"
@@ -261,62 +260,73 @@ const Home: ConsolePage = () => {
               <UpcomingFeature type="advanced_nfts" />
               <UpcomingFeature type="data" />
             </SimpleGrid>
-          </HomepageSection>
+          </HomepageSection> */}
 
           <HomepageSection
             id="fees"
-            title="Free to use"
+            title="Always know what you'll pay. This time it's $0."
             leftAlignedTitle
-            subtitle={
-              <>
-                <List
-                  spacing={3}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="start"
-                  textAlign="left"
-                >
-                  <ListItem>
-                    <ListIcon as={FiCheck} color="green.500" />
-                    We take zero fees on any smart contracts deployed
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={FiCheck} color="green.500" />
-                    You keep 100% of the money you make
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={FiCheck} color="green.500" />
-                    Gain access to fresh features each month{" "}
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={FiCheck} color="green.500" />
-                    Only pay blockchain-specific gas fees
-                  </ListItem>
-                </List>
-                <Text mt={4} textAlign="left">
-                  In the future, we will introduce advanced features which you
-                  can decide to pay for. We&apos;ll always be clear and
-                  transparent with how much these features will cost.
-                </Text>
-              </>
-            }
+            leftAlignedSubtitle
+            isDark
+            subtitle="In the future, we will introduce advanced features which you can
+                decide to pay for. We'll always be clear and transparent
+                with how much these features will cost."
             titleSm
             subtitleMd
             childrenOnRightSide
+            middleGradient="static"
           >
-            <Flex justifyContent="center" alignItems="center">
-              <ChakraNextImage
-                alt=""
-                maxW={64}
-                w={64}
-                display={{ base: "none", md: "block" }}
-                placeholder="empty"
-                src={Scissors}
+            <Box
+              border=".5px solid"
+              borderColor="#FF63C8"
+              p={12}
+              borderRadius="lg"
+              backgroundColor="#0000004d"
+            >
+              <Heading
+                bgGradient="linear(to-r, #FFB8E6, #8689E3)"
+                bgClip="text"
+                size="display.lg"
+                mb={6}
+              >
+                Free.
+              </Heading>
+              <List
+                spacing={3}
+                display="flex"
+                flexDirection="column"
+                alignItems="start"
+                textAlign="left"
+                color="gray.400"
+              >
+                <ListItem>
+                  <ListIcon as={FiCheck} color="green.500" />
+                  We take zero fees on any smart contracts deployed
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FiCheck} color="green.500" />
+                  You keep 100% of the money you make
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FiCheck} color="green.500" />
+                  Gain access to fresh features each month{" "}
+                </ListItem>
+                <ListItem>
+                  <ListIcon as={FiCheck} color="green.500" />
+                  Only pay blockchain-specific gas fees
+                </ListItem>
+              </List>
+              <GeneralCta
+                w="100%"
+                title="Start building today"
+                mt={16}
+                size="lg"
+                py={8}
               />
-            </Flex>
+            </Box>
           </HomepageSection>
 
-          <HomepageFooter />
+          {/* <HomepageFooter /> */}
         </Flex>
       </Track>
     </LightMode>

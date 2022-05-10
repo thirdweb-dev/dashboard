@@ -76,7 +76,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
       as="section"
       overflow="hidden"
       id={id}
-      pb={paddingBottom ? [40, 40, 80] : []}
+      pb={paddingBottom ? [40, 40, 80] : [20]}
     >
       <Container
         zIndex={2}

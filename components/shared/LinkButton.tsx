@@ -4,7 +4,7 @@ import NextLink, { LinkProps } from "next/link";
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
 
-interface ILinkButtonProps extends ButtonProps {
+export interface ILinkButtonProps extends ButtonProps {
   href: string | LinkProps["href"];
   isExternal?: boolean;
   noIcon?: true;

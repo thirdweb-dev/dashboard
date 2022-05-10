@@ -1,15 +1,20 @@
-import { LinkButton } from "./LinkButton";
+import { ILinkButtonProps, LinkButton } from "./LinkButton";
 import { useWeb3 } from "@3rdweb-sdk/react";
 import { Box, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { BsLightningCharge } from "react-icons/bs";
 import { VscDashboard } from "react-icons/vsc";
 
-interface GeneralCtaProps {
+interface GeneralCtaProps extends Partial<ILinkButtonProps> {
   size?: string;
+  title?: string;
 }
 
-export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
+export const GeneralCta: React.FC<GeneralCtaProps> = ({
+  size = "md",
+  title = "Start building",
+  ...props
+}) => {
   const { address } = useWeb3();
   const { trackEvent } = useTrack();
 
@@ -36,8 +41,9 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
           fromColor="#1D64EF"
           toColor="#E0507A"
           size={size}
-          href="/dashboard"
           borderRadius="md"
+          href="/dashboard"
+          {...props}
         >
           <Box>Go to dashboard</Box>
         </LinkButton>
@@ -62,10 +68,11 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
           fromColor="#1D64EF"
           toColor="#E0507A"
           size={size}
-          href="/dashboard"
           borderRadius="md"
+          href="/dashboard"
+          {...props}
         >
-          <Box>Start building</Box>
+          <Box>{title}</Box>
         </LinkButton>
       )}
     </>
