@@ -16,7 +16,7 @@ const CONTRACT_ANALYTICS: Record<string, Event[]> = {
   ],
   edition: [
     { eventName: "TokensMinted", dataName: "Tokens Minted" },
-    { eventName: "Transfer", dataName: "Tokens Transferred" },
+    { eventName: "TransferSingle", dataName: "Token Transfers" },
   ],
   token: [
     { eventName: "TokensMinted", dataName: "Tokens Minted" },
@@ -34,7 +34,7 @@ const CONTRACT_ANALYTICS: Record<string, Event[]> = {
   ],
   "edition-drop": [
     { eventName: "TokensLazyMinted", dataName: "Tokens Minted" },
-    { eventName: "Transfer", dataName: "Tokens Transferred" },
+    { eventName: "TransferSingle", dataName: "Token Transfers" },
   ],
   "token-drop": [
     { eventName: "TokensLazyMinted", dataName: "Tokens Minted" },
