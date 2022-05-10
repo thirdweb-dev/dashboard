@@ -33,6 +33,7 @@ import { GeneralCta } from "components/shared/GeneralCta";
 import { FeaturesBackground } from "components/svgs/FeaturesBackground";
 import { useTrack } from "hooks/analytics/useTrack";
 // images
+import Hero from "public/assets/landingpage/hero.png";
 import Octopus from "public/assets/landingpage/octopus.png";
 import Scissors from "public/assets/landingpage/scissors.png";
 // end images
@@ -69,7 +70,15 @@ const Home: ConsolePage = () => {
             leftAlignedTitle
             leftAlignedSubtitle
           >
-            hello
+            <ChakraNextImage
+              alt=""
+              maxW={96}
+              w={96}
+              mt={8}
+              display={{ base: "none", md: "block" }}
+              placeholder="empty"
+              src={Hero}
+            />
           </HomepageSection>
           {/*           <Flex
             position="relative"
