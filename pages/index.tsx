@@ -132,7 +132,7 @@ const Home: ConsolePage = () => {
             id="dashboard"
             title="Dedicated dashboard to control everything"
             isDark
-            topGradient="static"
+            middleGradient="static"
           >
             <SimpleGrid flexDirection={{ base: "column", md: "row" }} gap={12}>
               <DashboardCard
@@ -199,23 +199,51 @@ const Home: ConsolePage = () => {
 
           <HomepageSection
             id="networks"
-            bottomGradient="animated"
-            title="thirdweb supports a multi-chain ecosystem of blockchains"
+            middleGradient="static"
+            title="We are multi-chain"
+            subtitle="thirdweb supports a multi-chain ecosystem of blockchains"
+            isDark
           >
-            <Stack spacing="5rem" align="center">
+            <Box>
+              <Text
+                size="title.lg"
+                textTransform="uppercase"
+                fontWeight="700"
+                color="gray.400"
+              >
+                Available now
+              </Text>
               <SimpleGrid
-                columns={[3, 3, 6]}
-                spacing={{ base: "1.5rem", md: "4rem" }}
-                mt={8}
+                columns={{ base: 2, md: 4 }}
+                spacing={{ base: 1, md: 4 }}
+                mt={5}
+                mb={12}
               >
                 <SupportedChain type="ethereum" />
                 <SupportedChain type="polygon" />
                 <SupportedChain type="avalanche" />
                 <SupportedChain type="fantom" />
-                <SupportedChain type="solana" />
-                <SupportedChain type="flow" />
               </SimpleGrid>
-            </Stack>
+
+              <Text
+                size="title.lg"
+                textTransform="uppercase"
+                fontWeight="700"
+                color="gray.400"
+              >
+                Coming soon
+              </Text>
+              <Stack align="center">
+                <SimpleGrid
+                  columns={{ base: 2 }}
+                  spacing={{ base: 1, md: 4 }}
+                  mt={5}
+                >
+                  <SupportedChain type="solana" />
+                  <SupportedChain type="flow" />
+                </SimpleGrid>
+              </Stack>
+            </Box>
           </HomepageSection>
 
           <HomepageSection

@@ -19,6 +19,7 @@ interface IHomepageSection {
   isDark?: true;
   bottomGradient?: GradientType;
   topGradient?: GradientType;
+  middleGradient?: GradientType;
   id?: string;
   mainAction?: {
     MainActionButton: JSX.Element;
@@ -49,6 +50,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
   children,
   bottomGradient,
   topGradient,
+  middleGradient,
   id,
   mainAction,
   leftAlignedTitle,
@@ -60,6 +62,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
 }) => {
   const TopGradient = topGradient ? gradientMap[topGradient] : null;
   const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
+  const MiddleGradient = middleGradient ? gradientMap[middleGradient] : null;
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const MainActionButton = useMemo(() => {
@@ -89,6 +92,18 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
             left="50%"
             w="100%"
             transform="translate(-50%, -66%)"
+            hero={hero}
+          />
+        )}
+
+        {MiddleGradient && (
+          <MiddleGradient
+            zIndex={-1}
+            position="absolute"
+            bottom="50%"
+            left="50%"
+            w="100%"
+            transform={`translate(-50%, ${hero ? "33%" : "66%"})`}
             hero={hero}
           />
         )}

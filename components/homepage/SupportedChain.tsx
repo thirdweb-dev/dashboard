@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Stack, Text } from "@chakra-ui/layout";
+import { Grid, Heading, Stack } from "@chakra-ui/layout";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import AvalanchePng from "public/assets/chain-icons/avalanche.png";
@@ -20,57 +20,59 @@ type SupportedChain =
 interface ISupportedChain {
   title: string;
   icon: StaticImageData;
-  available: boolean;
 }
 
 const supportedChainMap: Record<SupportedChain, ISupportedChain> = {
   ethereum: {
     title: "Ethereum",
     icon: EthereumPng,
-    available: true,
   },
   polygon: {
     title: "Polygon",
     icon: PolygonPng,
-    available: true,
   },
   avalanche: {
     title: "Avalanche",
     icon: AvalanchePng,
-    available: true,
   },
   fantom: {
     title: "Fantom",
     icon: FantomPng,
-    available: true,
   },
   solana: {
     title: "Solana",
     icon: SolanaPng,
-    available: false,
   },
   flow: {
     title: "Flow",
     icon: FlowPng,
-    available: false,
   },
 };
 
 export const SupportedChain: React.FC<{ type: SupportedChain }> = ({
   type,
 }) => {
-  const { title, icon, available } = supportedChainMap[type];
+  const { title, icon } = supportedChainMap[type];
   return (
-    <Stack spacing={6} align="center">
+    <Stack
+      spacing={6}
+      align="center"
+      border=".5px solid"
+      borderColor="#ffffff26"
+      py={8}
+      px={10}
+      borderRadius="lg"
+      backgroundColor="#0000004d"
+    >
       <Grid
-        bg="white"
-        boxSize={{ base: "7rem", md: "7rem" }}
+        bg="black"
+        boxSize={{ base: "6rem", md: "6rem" }}
         placeItems="center"
         borderRadius="full"
       >
         <ChakraNextImage
           alt=""
-          boxSize="60%"
+          boxSize="55%"
           layout="fill"
           objectFit="contain"
           objectPosition="center"
@@ -78,21 +80,9 @@ export const SupportedChain: React.FC<{ type: SupportedChain }> = ({
         />
       </Grid>
       <Stack spacing={3} align="center">
-        <Heading color="#262A36" as="h4" size="title.sm" fontWeight="600">
+        <Heading as="h4" size="title.sm" fontWeight="600" color="gray.50">
           {title}
         </Heading>
-        {!available && (
-          <Box backgroundColor="rgba(173, 92, 255, 0.1)" p={1.5} rounded="lg">
-            <Text
-              size="label.md"
-              color="purple.500"
-              textAlign="center"
-              lineHeight="120%"
-            >
-              Coming soon
-            </Text>
-          </Box>
-        )}
       </Stack>
     </Stack>
   );
