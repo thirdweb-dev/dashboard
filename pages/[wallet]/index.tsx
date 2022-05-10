@@ -62,7 +62,11 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
-import { AiOutlineWarning } from "react-icons/ai";
+import {
+  AiFillInfoCircle,
+  AiOutlineInfoCircle,
+  AiOutlineWarning,
+} from "react-icons/ai";
 import { FaMinus, FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
@@ -927,85 +931,108 @@ const RemoveContract: React.FC<IRemoveContract> = ({
       onClose={onClose}
     >
       <PopoverAnchor>
-        <Tooltip
-          p={0}
-          bg="transparent"
-          boxShadow="none"
-          label={
-            <Card py={2} px={4}>
-              <Text size="label.sm">
-                Remove this contract from the dashboard
-              </Text>
-            </Card>
-          }
+        <Button
+          padding={0}
+          ml="16px"
+          borderRadius="md"
+          variant="outline"
+          size="sm"
+          isLoading={isLoading}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (!isOpen) {
+              onOpen();
+            }
+          }}
         >
-          <Button
-            padding={0}
-            ml="16px"
-            borderRadius="md"
-            variant="outline"
-            size="sm"
-            isLoading={isLoading}
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              if (chainId === targetChainId) {
-                mutate({
-                  contractAddress,
-                  contractType,
-                  chainId: targetChainId,
-                });
-              } else {
-                onOpen();
-              }
-            }}
-          >
-            <Icon as={FaTrash} boxSize={3} />
-          </Button>
-        </Tooltip>
+          <Icon as={FaTrash} boxSize={3} />
+        </Button>
       </PopoverAnchor>
 
       <PopoverContent>
-        <PopoverBody>
-          <Flex direction="column" gap={4}>
-            <Heading size="label.lg">
-              <Flex gap={2} align="center">
-                <Icon boxSize={6} as={AiOutlineWarning} />
-                <span>Network Mismatch</span>
-              </Flex>
-            </Heading>
-
-            <Text>
-              Your wallet is connected to the <strong>{walletNetwork}</strong>{" "}
-              network but this action requires you to connect to the{" "}
-              <strong>{twNetwork}</strong> network.
-            </Text>
-
-            <Button
-              ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
-              leftIcon={<Icon as={VscDebugDisconnect} />}
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                onSwitchWallet();
-              }}
-              isLoading={network.loading}
-              isDisabled={!actuallyCanAttemptSwitch}
-              colorScheme="orange"
-            >
-              Switch wallet to {twNetwork}
-            </Button>
-
-            {!actuallyCanAttemptSwitch && (
-              <Text size="body.sm" fontStyle="italic">
-                Your connected wallet does not support programatic switching.
-                <br />
-                Please manually switch the network in your wallet.
+        {chainId === targetChainId ? (
+          <PopoverBody>
+            <Flex direction="column" gap={4}>
+              <Text>
+                Removing this contract will permanently remove it from the
+                dashboard. Your contract will{" "}
+                <strong>still exist on the blockchain</strong>.
               </Text>
-            )}
-          </Flex>
-        </PopoverBody>
+
+              <Button
+                ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
+                leftIcon={<Icon as={VscDebugDisconnect} />}
+                size="sm"
+                borderRadius="md"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  mutate({
+                    contractAddress,
+                    contractType,
+                    chainId: targetChainId,
+                  });
+                  onClose();
+                }}
+                isLoading={isLoading}
+                isDisabled={!actuallyCanAttemptSwitch}
+                colorScheme="red"
+              >
+                Remove Contract
+              </Button>
+
+              {!actuallyCanAttemptSwitch && (
+                <Text size="body.sm" fontStyle="italic">
+                  Your connected wallet does not support programatic switching.
+                  <br />
+                  Please manually switch the network in your wallet.
+                </Text>
+              )}
+            </Flex>
+          </PopoverBody>
+        ) : (
+          <PopoverBody>
+            <Flex direction="column" gap={4}>
+              <Heading size="label.lg">
+                <Flex gap={2} align="center">
+                  <Icon boxSize={6} as={AiOutlineWarning} />
+                  <span>Network Mismatch</span>
+                </Flex>
+              </Heading>
+
+              <Text>
+                Your wallet is connected to the <strong>{walletNetwork}</strong>{" "}
+                network but this action requires you to connect to the{" "}
+                <strong>{twNetwork}</strong> network.
+              </Text>
+
+              <Button
+                ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
+                leftIcon={<Icon as={VscDebugDisconnect} />}
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  onSwitchWallet();
+                }}
+                isLoading={network.loading}
+                isDisabled={!actuallyCanAttemptSwitch}
+                colorScheme="orange"
+              >
+                Switch wallet to {twNetwork}
+              </Button>
+
+              {!actuallyCanAttemptSwitch && (
+                <Text size="body.sm" fontStyle="italic">
+                  Your connected wallet does not support programatic switching.
+                  <br />
+                  Please manually switch the network in your wallet.
+                </Text>
+              )}
+            </Flex>
+          </PopoverBody>
+        )}
       </PopoverContent>
     </Popover>
   );
