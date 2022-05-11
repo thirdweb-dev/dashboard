@@ -320,6 +320,7 @@ const Home: ConsolePage = () => {
               flexDirection={{ base: "column", md: "row" }}
               gap={12}
               columns={{ base: 1, md: 2 }}
+              w="full"
             >
               <CaseStudyCard
                 title="100thieves"

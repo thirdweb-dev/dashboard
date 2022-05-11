@@ -16,8 +16,6 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
     <Flex
       flexDir="column"
       borderRadius="2xl"
-      border=".5px solid"
-      borderColor="#ffffff26"
       bgImage={`url('/assets/case-studies/${title}.png')`}
       bgPosition="center"
       bgSize="cover"
@@ -36,7 +34,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
             src={require(`/public/assets/case-studies/${title}-logo.png`)}
           />
         </Box>
-        <Box backdropFilter="blur(30px)" p={6}>
+        <Box backdropFilter="blur(30px)" p={6} borderBottomRadius="2xl">
           <Text size="body.xl" color="white">
             {description}
           </Text>
