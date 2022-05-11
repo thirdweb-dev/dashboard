@@ -1,4 +1,4 @@
-import { contractKeys } from "../cache-keys";
+import { contractKeys, networkKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useWeb3 } from "./useWeb3";
 import { useSigner } from "@thirdweb-dev/react";
@@ -29,14 +29,16 @@ export function useRemoveContractMutation() {
       const registry = await sdk?.deployer.getRegistry();
 
       if (contractType === "custom") {
-        return await registry.removeCustomContract(contractAddress);
+        const tx = await registry.removeCustomContract(contractAddress);
+        return tx;
       }
 
-      return await registry.removeContract(contractAddress);
+      const tx = await registry.removeContract(contractAddress);
+      return tx;
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([contractKeys.list(address)]);
+        return invalidate([contractKeys.list()]);
       },
     },
   );

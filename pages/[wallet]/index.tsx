@@ -24,6 +24,7 @@ import {
   MenuOptionGroup,
   Popover,
   PopoverAnchor,
+  PopoverArrow,
   PopoverBody,
   PopoverContent,
   Skeleton,
@@ -950,7 +951,15 @@ const RemoveContract: React.FC<IRemoveContract> = ({
         </Button>
       </PopoverAnchor>
 
-      <PopoverContent>
+      <Card
+        maxW="sm"
+        w="auto"
+        as={PopoverContent}
+        bg="backgroundCardHighlight"
+        mx={6}
+        boxShadow="0px 0px 2px 0px var(--popper-arrow-shadow-color)"
+      >
+        <PopoverArrow bg="backgroundCardHighlight" />
         {chainId === targetChainId ? (
           <PopoverBody>
             <Flex direction="column" gap={4}>
@@ -1033,7 +1042,7 @@ const RemoveContract: React.FC<IRemoveContract> = ({
             </Flex>
           </PopoverBody>
         )}
-      </PopoverContent>
+      </Card>
     </Popover>
   );
 };
