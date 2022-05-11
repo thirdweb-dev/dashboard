@@ -29,6 +29,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       borderRadius="2xl"
       border=".5px solid"
       borderColor="#ffffff26"
+      overflow="hidden"
     >
       <Flex
         flexDir="column"

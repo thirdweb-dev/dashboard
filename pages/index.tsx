@@ -10,15 +10,18 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { CaseStudyCard } from "components/homepage/CaseStudyCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
-import Analytics from "public/assets/landingpage/analytics.png";
-import Contracts from "public/assets/landingpage/contracts.png";
 // images
+import Analytics from "public/assets/landingpage/analytics.png";
+import BoohooLogo from "public/assets/landingpage/boohoo-logo.png";
+import Boohoo from "public/assets/landingpage/boohoo.png";
+import Contracts from "public/assets/landingpage/contracts.png";
 import Hero from "public/assets/landingpage/hero.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 // end images
@@ -305,6 +308,37 @@ const Home: ConsolePage = () => {
                 w="100%"
               />
             </Box>
+          </HomepageSection>
+
+          <HomepageSection
+            id="case-studies"
+            title="See how game-changing companies are making the most of web3 with thirdweb."
+            titleSm
+            isDark
+            middleGradient="static"
+          >
+            <SimpleGrid
+              flexDirection={{ base: "column", md: "row" }}
+              gap={12}
+              columns={{ base: 1, md: 2 }}
+            >
+              <CaseStudyCard
+                title="100thieves"
+                description="100Thieves launched an NFT to commemorate their historic 2021 LCS Championship win, with over 700k NFTs claimed."
+              />
+              <CaseStudyCard
+                title="boohoo"
+                description="boohoo launches their entry into web3 with boohooverse using thirdweb to make it easy for a non crypto-native audience."
+              />
+              <CaseStudyCard
+                title="yestheory"
+                description="Yes Theory created a tiered digital ticket NFT drop to crowdfund the biggest documentary ever made and released on YouTube."
+              />
+              <CaseStudyCard
+                title="fnatic"
+                description="Fnatic launched their free and paid digital membership program using thirdweb, with over 400k NFTs claimed on the free tier."
+              />
+            </SimpleGrid>
           </HomepageSection>
 
           {/* <HomepageFooter /> */}

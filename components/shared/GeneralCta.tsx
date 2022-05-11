@@ -72,7 +72,7 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
           href="/dashboard"
           {...props}
         >
-          <Box>{title}</Box>
+          <Box py={0.5}>{title}</Box>
         </LinkButton>
       )}
     </>
