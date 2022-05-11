@@ -14,7 +14,7 @@ import { Logo } from "components/logo";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useState } from "react";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-import { Button, LinkButton, NextLink } from "tw-components";
+import { LinkButton, NextLink } from "tw-components";
 
 export const HomepageTopNav: React.FC<{}> = () => {
   const { trackEvent } = useTrack();

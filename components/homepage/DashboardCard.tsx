@@ -1,4 +1,3 @@
-import { AnimatedGradient } from "./AnimatedGradient";
 import { StaticGradient } from "./StaticGradient";
 import Icon from "@chakra-ui/icon";
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
