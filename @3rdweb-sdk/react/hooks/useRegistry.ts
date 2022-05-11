@@ -1,8 +1,9 @@
-import { contractKeys } from "../cache-keys";
+import { contractKeys, networkKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { useSigner } from "@thirdweb-dev/react";
+import { useAddress, useSigner } from "@thirdweb-dev/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { alchemyUrlMap } from "components/app-layouts/providers";
+import { useMutation, useQueryClient } from "react-query";
 import invariant from "tiny-invariant";
 import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
 
@@ -14,8 +15,10 @@ interface IRemoveContract {
 
 export function useRemoveContractMutation() {
   const signer = useSigner();
+  const address = useAddress();
+  const queryClient = useQueryClient();
 
-  return useMutationWithInvalidate(
+  return useMutation(
     async (data: IRemoveContract) => {
       invariant(signer, "must have an active signer");
 
@@ -35,8 +38,13 @@ export function useRemoveContractMutation() {
       return tx;
     },
     {
-      onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([contractKeys.list()]);
+      onSuccess: (_data, _variables, _options) => {
+        console.log("success...");
+        const { chainId } = _variables;
+        return queryClient.invalidateQueries([
+          ...networkKeys.chain(chainId as SUPPORTED_CHAIN_ID),
+          ...contractKeys.list(address),
+        ]);
       },
     },
   );

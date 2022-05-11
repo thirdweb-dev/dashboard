@@ -19,6 +19,11 @@ export function useContractList(
   return useQuery(
     [...networkKeys.chain(chainId), ...contractKeys.list(walletAddress)],
     async () => {
+      console.log("fetching...");
+      console.log([
+        ...networkKeys.chain(chainId),
+        ...contractKeys.list(walletAddress),
+      ]);
       const data = await sdk?.getContractList(walletAddress || "");
 
       return data;
