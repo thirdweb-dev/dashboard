@@ -63,12 +63,8 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
-import {
-  AiFillInfoCircle,
-  AiOutlineInfoCircle,
-  AiOutlineWarning,
-} from "react-icons/ai";
-import { FaMinus, FaTrash } from "react-icons/fa";
+import { AiOutlineWarning } from "react-icons/ai";
+import { FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
 import { VscDebugDisconnect } from "react-icons/vsc";
@@ -84,7 +80,6 @@ import {
   Badge,
   Button,
   Card,
-  Checkbox,
   Heading,
   LinkButton,
   Text,

@@ -1,6 +1,5 @@
-import { contractKeys, networkKeys } from "../cache-keys";
+import { contractKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { useWeb3 } from "./useWeb3";
 import { useSigner } from "@thirdweb-dev/react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { alchemyUrlMap } from "components/app-layouts/providers";
@@ -15,7 +14,6 @@ interface IRemoveContract {
 
 export function useRemoveContractMutation() {
   const signer = useSigner();
-  const { address } = useWeb3();
 
   return useMutationWithInvalidate(
     async (data: IRemoveContract) => {
