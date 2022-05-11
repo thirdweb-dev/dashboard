@@ -12,6 +12,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { CaseStudyCard } from "components/homepage/CaseStudyCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
+import { Partner } from "components/homepage/Partner";
 import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
@@ -226,6 +227,42 @@ const Home: ConsolePage = () => {
                 </SimpleGrid>
               </Stack>
             </Box>
+          </HomepageSection>
+
+          <HomepageSection
+            id="networks"
+            middleGradient="static"
+            title={
+              <>
+                <Heading
+                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                  bgClip="text"
+                  size="display.sm"
+                  mb={6}
+                >
+                  37,000 builders.
+                </Heading>
+                100k+ contracts deployed.
+              </>
+            }
+            titleSm
+            isDark
+          >
+            <SimpleGrid
+              columns={{ base: 2, md: 4 }}
+              spacing={{ base: 1, md: 4 }}
+              mt={5}
+              mb={12}
+            >
+              <Partner type="paper" />
+              <Partner type="whop" />
+              <Partner type="filta" />
+              <Partner type="daocentral" />
+              <Partner type="presearch" />
+              <Partner type="citydao" />
+              <Partner type="paper" />
+              <Partner type="whop" />
+            </SimpleGrid>
           </HomepageSection>
 
           {/*           <HomepageSection

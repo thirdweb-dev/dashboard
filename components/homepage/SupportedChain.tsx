@@ -1,6 +1,5 @@
 import { Grid, Stack } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { StaticImageData } from "next/image";
 import AvalanchePng from "public/assets/chain-icons/avalanche.png";
 import EthereumPng from "public/assets/chain-icons/ethereum.png";
 import FantomPng from "public/assets/chain-icons/fantom.png";
@@ -10,20 +9,7 @@ import SolanaPng from "public/assets/chain-icons/solana.png";
 import React from "react";
 import { Heading } from "tw-components";
 
-type SupportedChain =
-  | "ethereum"
-  | "polygon"
-  | "avalanche"
-  | "fantom"
-  | "solana"
-  | "flow";
-
-interface ISupportedChain {
-  title: string;
-  icon: StaticImageData;
-}
-
-const supportedChainMap: Record<SupportedChain, ISupportedChain> = {
+const supportedChainMap = {
   ethereum: {
     title: "Ethereum",
     icon: EthereumPng,
@@ -48,7 +34,9 @@ const supportedChainMap: Record<SupportedChain, ISupportedChain> = {
     title: "Flow",
     icon: FlowPng,
   },
-};
+} as const;
+
+type SupportedChain = keyof typeof supportedChainMap;
 
 export const SupportedChain: React.FC<{ type: SupportedChain }> = ({
   type,
