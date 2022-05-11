@@ -20,8 +20,6 @@ import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
 // images
 import Analytics from "public/assets/landingpage/analytics.png";
-import BoohooLogo from "public/assets/landingpage/boohoo-logo.png";
-import Boohoo from "public/assets/landingpage/boohoo.png";
 import Contracts from "public/assets/landingpage/contracts.png";
 import Hero from "public/assets/landingpage/hero.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
