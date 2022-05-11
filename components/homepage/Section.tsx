@@ -75,7 +75,6 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
       w="100%"
       position="relative"
       as="section"
-      overflow="hidden"
       id={id}
       pb={paddingBottom ? [40, 40, 80] : [20]}
     >

@@ -115,7 +115,6 @@ const Home: ConsolePage = () => {
             id="dashboard"
             title="Dedicated dashboard to control everything"
             isDark
-            topGradient="static"
           >
             <SimpleGrid flexDirection={{ base: "column", md: "row" }} gap={12}>
               <DashboardCard
@@ -315,7 +314,7 @@ const Home: ConsolePage = () => {
             title="See how game-changing companies are making the most of web3 with thirdweb."
             titleSm
             isDark
-            middleGradient="static"
+            bottomGradient="static"
           >
             <SimpleGrid
               flexDirection={{ base: "column", md: "row" }}

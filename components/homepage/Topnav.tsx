@@ -150,9 +150,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
               />
             </Flex>
           </Stack>
-          <Button colorScheme="primary" variant="outline">
-            Start building
-          </Button>
           {isMobile ? <LandingMenu /> : null}
         </Container>
       </Box>
