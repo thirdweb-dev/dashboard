@@ -28,10 +28,7 @@ const CONTRACT_ANALYTICS: Record<string, Event[]> = {
     { eventName: "NewSale", dataName: "Sales Made" },
     { eventName: "AuctionClosed", dataName: "Auctions Closed" },
   ],
-  "nft-drop": [
-    { eventName: "TokensLazyMinted", dataName: "Tokens Minted" },
-    { eventName: "Transfer", dataName: "Tokens Transferred" },
-  ],
+  "nft-drop": [],
   "edition-drop": [
     { eventName: "TokensLazyMinted", dataName: "Tokens Minted" },
     { eventName: "TransferSingle", dataName: "Token Transfers" },
@@ -64,9 +61,34 @@ export function useContractAnalytics<TContract extends ValidContractClass>(
       const events = CONTRACT_ANALYTICS[type as string];
       const analytics = events.map(async (event) => {
         const data = await contract?.analytics.query(event.eventName);
+        console.log(data);
         return {
           name: event.dataName,
           value: data?.length,
+        };
+      });
+      return await Promise.all(analytics);
+    },
+    {
+      enabled: !!contract && !!type,
+    },
+  );
+}
+
+export function useGraphData<TContract extends ValidContractClass>(
+  contract?: C.Instance<TContract>,
+) {
+  const { data: type } = useContractType(contract?.getAddress());
+
+  return useQueryWithNetwork(
+    analyticsKeys.detail(contract?.getAddress()),
+    async () => {
+      const events = CONTRACT_ANALYTICS[type as string];
+      const analytics = events.map(async (event) => {
+        const data = await contract?.analytics.query(event.eventName);
+        return {
+          name: event.dataName,
+          data,
         };
       });
       return await Promise.all(analytics);
