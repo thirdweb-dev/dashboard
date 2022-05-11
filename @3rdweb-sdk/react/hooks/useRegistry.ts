@@ -39,7 +39,6 @@ export function useRemoveContractMutation() {
     },
     {
       onSuccess: (_data, _variables, _options) => {
-        console.log("success...");
         const { chainId } = _variables;
         return queryClient.invalidateQueries([
           ...networkKeys.chain(chainId as SUPPORTED_CHAIN_ID),
