@@ -227,42 +227,6 @@ const Home: ConsolePage = () => {
             </Box>
           </HomepageSection>
 
-          <HomepageSection
-            id="networks"
-            middleGradient="static"
-            title={
-              <>
-                <Heading
-                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
-                  bgClip="text"
-                  size="display.sm"
-                  mb={6}
-                >
-                  37,000 builders.
-                </Heading>
-                100k+ contracts deployed.
-              </>
-            }
-            titleSm
-            isDark
-          >
-            <SimpleGrid
-              columns={{ base: 2, md: 4 }}
-              spacing={{ base: 1, md: 4 }}
-              mt={5}
-              mb={12}
-            >
-              <Partner type="paper" />
-              <Partner type="whop" />
-              <Partner type="filta" />
-              <Partner type="daocentral" />
-              <Partner type="presearch" />
-              <Partner type="citydao" />
-              <Partner type="paper" />
-              <Partner type="whop" />
-            </SimpleGrid>
-          </HomepageSection>
-
           {/*           <HomepageSection
             title="Powerful functionality"
             isDark
@@ -342,6 +306,42 @@ const Home: ConsolePage = () => {
                 w="100%"
               />
             </Box>
+          </HomepageSection>
+
+          <HomepageSection
+            id="networks"
+            middleGradient="static"
+            title={
+              <>
+                <Heading
+                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                  bgClip="text"
+                  size="display.sm"
+                  mb={6}
+                >
+                  37,000 builders.
+                </Heading>
+                100k+ contracts deployed.
+              </>
+            }
+            titleSm
+            isDark
+          >
+            <SimpleGrid
+              columns={{ base: 2, md: 4 }}
+              spacing={{ base: 1, md: 4 }}
+              mt={5}
+              mb={12}
+            >
+              <Partner type="paper" />
+              <Partner type="whop" />
+              <Partner type="filta" />
+              <Partner type="daocentral" />
+              <Partner type="presearch" />
+              <Partner type="citydao" />
+              <Partner type="paper" />
+              <Partner type="whop" />
+            </SimpleGrid>
           </HomepageSection>
 
           <HomepageSection
