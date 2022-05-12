@@ -1,4 +1,3 @@
-/* eslint-disable line-comment-position */
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { IpfsStorage } from "@thirdweb-dev/sdk";
@@ -6,14 +5,14 @@ import { BigNumber } from "ethers";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import React, { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
-import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createWebStoragePersister } from "react-query/createWebStoragePersister";
+import { persistQueryClient } from "react-query/persistQueryClient";
 import { ComponentWithChildren } from "types/component-with-children";
 import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
 
 const __CACHE_BUSTER = "tw_v2.0.0-nightly.3";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // 24 hours
@@ -35,6 +34,7 @@ function replacer(_key: string, value: any) {
   ) {
     return BigNumber.from(value).toString();
   }
+
   return value;
 }
 
@@ -68,6 +68,7 @@ const walletConnectors: WalletConnector[] = [
   "metamask",
   "walletConnect",
   "walletLink",
+  "gnosis",
 ];
 if (process.env.NEXT_PUBLIC_MAGIC_KEY) {
   walletConnectors.push({
@@ -81,11 +82,12 @@ if (process.env.NEXT_PUBLIC_MAGIC_KEY) {
 
 export const Providers: ComponentWithChildren = ({ children }) => {
   useNativeColorMode();
+
   useEffect(() => {
     persistQueryClient({
       queryClient,
       buster: __CACHE_BUSTER,
-      persistor: createWebStoragePersistor({
+      persister: createWebStoragePersister({
         storage: window.localStorage,
         serialize: (data) => JSON.stringify(data, replacer),
       }),
@@ -97,6 +99,7 @@ export const Providers: ComponentWithChildren = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThirdwebProvider
+        queryClient={queryClient}
         dAppMeta={{
           name: "thirdweb",
           logoUrl: "https://thirdweb.com/favicon.ico",

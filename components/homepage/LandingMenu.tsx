@@ -1,9 +1,14 @@
-import { IconButton, IconButtonProps } from "@chakra-ui/button";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
-import { NextLink } from "components/shared/NextLink";
+import {
+  IconButton,
+  IconButtonProps,
+  Menu,
+  MenuButton,
+  MenuList,
+} from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useCallback } from "react";
+import { MenuItem, NextLink } from "tw-components";
 
 export const LandingMenu: React.FC<IconButtonProps> = (props) => {
   const { trackEvent } = useTrack();
@@ -34,7 +39,7 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
         <MenuItem onClick={() => scrollToId("features")}>Features</MenuItem>
         <MenuItem onClick={() => scrollToId("developers")}>Developers</MenuItem>
         <MenuItem onClick={() => scrollToId("fees")}>Pricing</MenuItem>
-        <NextLink href="https://portal.thirdweb.com" isExternal>
+        <NextLink href="https://portal.thirdweb.com/guides" isExternal>
           <MenuItem>Guides</MenuItem>
         </NextLink>
         <NextLink href="/dashboard">

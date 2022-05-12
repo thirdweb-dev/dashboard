@@ -1,20 +1,23 @@
 import { useTableContext } from "../table-context";
-import { useAirdropMutation } from "@3rdweb-sdk/react";
-import { Flex, Stack } from "@chakra-ui/layout";
-import { Icon, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  useAirdropMutation,
+  useContractTypeOfContract,
+} from "@3rdweb-sdk/react";
+import { Flex, Icon, Stack, useDisclosure } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import {
   AirdropAddressInput,
   AirdropUpload,
 } from "components/batch-upload/AirdropUpload";
-import { Button } from "components/buttons/Button";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { TransactionButton } from "components/buttons/TransactionButton";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
 import { FiUpload } from "react-icons/fi";
 import { IoMdSend } from "react-icons/io";
+import { Button, Text } from "tw-components";
 
 interface IAirdropSection {
   contract?: ValidContractInstance;
@@ -30,6 +33,7 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
   }>({
     defaultValues: { addresses: [] },
   });
+  const { trackEvent } = useTrack();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -43,23 +47,46 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
 
   const addresses = watch("addresses");
 
+  const categoryName = useContractTypeOfContract(contract) || "unknown-airdrop";
+
   return (
     <Stack pt={3}>
       <form
         onSubmit={handleSubmit((data) => {
+          trackEvent({
+            category: categoryName,
+            action: "airdrop",
+            label: "attempt",
+            contractAddress: contract?.getAddress(),
+            tokenId,
+          });
           airdrop.mutate(
             {
               tokenId,
-              addresses: data.addresses.map((address) => ({
-                ...address,
-                quantity: address.quantity || "1",
-              })),
+              addresses: data.addresses,
             },
             {
-              onError,
               onSuccess: () => {
                 onSuccess();
+                trackEvent({
+                  category: categoryName,
+                  action: "airdrop",
+                  label: "success",
+                  contractAddress: contract?.getAddress(),
+                  tokenId,
+                });
                 closeAllRows();
+              },
+              onError: (error) => {
+                trackEvent({
+                  category: categoryName,
+                  action: "airdrop",
+                  label: "error",
+                  contractAddress: contract?.getAddress(),
+                  tokenId,
+                  error,
+                });
+                onError(error);
               },
             },
           );
@@ -111,7 +138,8 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
               </Flex>
             </Flex>
           </Stack>
-          <MismatchButton
+          <TransactionButton
+            transactionCount={1}
             isLoading={airdrop.isLoading}
             type="submit"
             colorScheme="primary"
@@ -119,7 +147,7 @@ export const AirdropSection: React.FC<IAirdropSection> = ({
             rightIcon={<Icon as={IoMdSend} />}
           >
             Airdrop
-          </MismatchButton>
+          </TransactionButton>
         </Stack>
       </form>
     </Stack>

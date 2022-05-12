@@ -16,6 +16,11 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
 } from "@chakra-ui/react";
 import { useNFTDrop } from "@thirdweb-dev/react";
 import { BatchToReveal } from "@thirdweb-dev/sdk";
@@ -26,7 +31,6 @@ import { MismatchButton } from "components/buttons/MismatchButton";
 import { MintButton } from "components/contract-pages/action-buttons/MintButton";
 import { ContractLayout } from "components/contract-pages/contract-layout";
 import { ContractItemsTable } from "components/contract-pages/table";
-import { Card } from "components/layout/Card";
 import { ContractPageNotice } from "components/notices/ContractPageNotice";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -34,6 +38,7 @@ import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import React, { useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
+import { Button, Card } from "tw-components";
 
 const NFTDropPage: ConsolePage = () => {
   const {
@@ -78,17 +83,17 @@ const NFTDropPage: ConsolePage = () => {
       <ContractLayout
         contract={contract}
         metadata={metadata}
-        primaryAction={MintButton}
+        primaryAction={<MintButton colorScheme="primary" contract={contract} />}
         secondaryAction={
           <MinterOnly contract={contract}>
-            <MismatchButton
+            <Button
               leftIcon={<Icon as={RiCheckboxMultipleBlankLine} />}
               onClick={onBatchOpen}
               colorScheme="primary"
               variant="outline"
             >
               Batch Upload
-            </MismatchButton>
+            </Button>
           </MinterOnly>
         }
         tertiaryAction={
@@ -172,13 +177,32 @@ const NFTDropPage: ConsolePage = () => {
             </Card>
           </Stack>
 
-          <ContractItemsTable
-            contract={contract}
-            emptyState={{
-              title:
-                "You have not added any drops yet, let's add your first one to get started!",
-            }}
-          />
+          <Tabs variant="solid-rounded">
+            <TabList>
+              <Tab>Unclaimed</Tab>
+              <Tab>Claimed</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel px={0}>
+                <ContractItemsTable
+                  lazyMint
+                  contract={contract}
+                  emptyState={{
+                    title:
+                      "You have not added any drops yet, let's add your first one to get started!",
+                  }}
+                />
+              </TabPanel>
+              <TabPanel px={0}>
+                <ContractItemsTable
+                  contract={contract}
+                  emptyState={{
+                    title: "No one has claimed any of your drops yet!",
+                  }}
+                />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Stack>
       </ContractLayout>
     </Track>

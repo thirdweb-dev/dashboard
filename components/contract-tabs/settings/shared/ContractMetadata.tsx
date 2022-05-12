@@ -3,26 +3,23 @@ import {
   useContractMetadata,
   useContractMetadataMutation,
 } from "@3rdweb-sdk/react";
-import {
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CommonContractSchema, ValidContractClass } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { Card } from "components/layout/Card";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { C } from "ts-toolbelt";
+import {
+  Card,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 import { z } from "zod";
 
 export const ContractMetadata = <TContract extends ValidContractClass>({
@@ -89,7 +86,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                 isDisabled={
                   metadata.isLoading || metadataMutation.isLoading || isDisabled
                 }
-                isInvalid={getFieldState("image", formState).invalid}
+                isInvalid={!!getFieldState("image", formState).error}
               >
                 <FormLabel>Image</FormLabel>
                 <FileInput
@@ -98,7 +95,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                     metadataMutation.isLoading ||
                     isDisabled
                   }
-                  accept="image/*"
+                  accept={{ "image/*": [] }}
                   value={useImageFileOrUrl(watch("image"))}
                   setValue={(file) =>
                     setValue("image", file, { shouldTouch: true })
@@ -127,7 +124,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                     metadataMutation.isLoading ||
                     isDisabled
                   }
-                  isInvalid={getFieldState("name", formState).invalid}
+                  isInvalid={!!getFieldState("name", formState).error}
                 >
                   <FormLabel>Name</FormLabel>
                   <Input variant="filled" {...register("name")} />
@@ -141,7 +138,7 @@ export const ContractMetadata = <TContract extends ValidContractClass>({
                 isDisabled={
                   metadata.isLoading || metadataMutation.isLoading || isDisabled
                 }
-                isInvalid={getFieldState("description", formState).invalid}
+                isInvalid={!!getFieldState("description", formState).error}
               >
                 <FormLabel>Description</FormLabel>
                 <Textarea variant="filled" {...register("description")} />

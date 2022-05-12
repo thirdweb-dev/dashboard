@@ -3,12 +3,12 @@ import { useEditionDropBalance } from "@3rdweb-sdk/react";
 import Icon from "@chakra-ui/icon";
 import { Box, Tooltip } from "@chakra-ui/react";
 import { EditionMetadata } from "@thirdweb-dev/sdk";
-import { Button } from "components/buttons/Button";
 import { BigNumber } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import React from "react";
 import { RiDropLine } from "react-icons/ri";
 import { Row } from "react-table";
+import { Button } from "tw-components";
 
 interface IEditionAirdropCellProps {
   row: Row<EditionMetadata>;
@@ -30,7 +30,9 @@ export const EditionAirdropCell: React.FC<IEditionAirdropCellProps> = ({
 
   return (
     <Tooltip
-      label={`You do not own at least 1 NFT. Your balance: ${balance?.toString()}`}
+      label={`You do not own at least 1 NFT. Your balance: ${
+        balance?.toString() || 0
+      }`}
       isDisabled={ownsAtLeastOne}
     >
       <Box>

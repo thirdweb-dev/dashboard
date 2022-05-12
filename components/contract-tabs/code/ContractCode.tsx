@@ -7,23 +7,12 @@ import {
   SnippetSchema,
 } from "./types";
 import { useContractName, useWeb3 } from "@3rdweb-sdk/react";
-import {
-  Code,
-  Flex,
-  Heading,
-  IconButton,
-  Spinner,
-  Stack,
-  Text,
-  useClipboard,
-} from "@chakra-ui/react";
+import { Flex, Spinner, Stack } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
-import { Card } from "components/layout/Card";
-import { LinkButton } from "components/shared/LinkButton";
 import { useCallback, useMemo, useState } from "react";
-import { ImCheckmark, ImCopy } from "react-icons/im";
 import { IoDocumentOutline } from "react-icons/io5";
 import { useQuery } from "react-query";
+import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
 
 function replaceVariablesInCodeSnippet(
   snippet: CodeSnippet,
@@ -33,10 +22,9 @@ function replaceVariablesInCodeSnippet(
   const envs = Object.keys(snippet) as Environment[];
   for (const env of envs) {
     if (contractAddress) {
-      snippet[env] = snippet[env]?.replace(
-        /{{contract_address}}/gm,
-        contractAddress,
-      );
+      snippet[env] = snippet[env]
+        ?.replace(/{{contract_address}}/gm, contractAddress)
+        .replace(/<YOUR-CONTRACT-ADDRESS>/gm, contractAddress);
     }
 
     if (walletAddress) {
@@ -53,7 +41,12 @@ interface IContractCode {
   contract?: ValidContractInstance;
 }
 
-const NPM_INSTALL_COMMAND = `npm install @thirdweb-dev/sdk`;
+const INSTALL_COMMANDS = {
+  typescript: "npm install @thirdweb-dev/sdk",
+  javascript: "npm install @thirdweb-dev/sdk",
+  react: "npm install @thirdweb-dev/react",
+  python: "pip install thirdweb-sdk",
+};
 
 export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
   const { data, isLoading } = useContractCodeSnippetQuery();
@@ -71,8 +64,6 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
       replaceVariablesInCodeSnippet(snip, contract?.getAddress(), address),
     [address, contract],
   );
-
-  const { onCopy, hasCopied } = useClipboard(NPM_INSTALL_COMMAND);
 
   if (isLoading) {
     return (
@@ -101,13 +92,13 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
             <Heading size="label.lg">{snippet.summary}</Heading>
             {snippet.remarks && <Text>{snippet.remarks}</Text>}
           </Flex>
-          {snippet.reference && (
+          {snippet.reference[environment as string] && (
             <LinkButton
               flexShrink={0}
               leftIcon={<IoDocumentOutline />}
               isExternal
               noIcon
-              href={snippet.reference}
+              href={snippet.reference[environment as string]}
               variant="outline"
               size="sm"
             >
@@ -130,21 +121,7 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
         <Stack spacing={3}>
           <Heading size="title.sm">Getting Started</Heading>
           <Text>First, install the latest version of the SDK.</Text>
-          <Code borderRadius="md" py={2} px={4} variant="subtle" bg="#1e1e1e">
-            <Flex justify="space-between" align="center">
-              <Text color="#d4d4d4">
-                {">"} {NPM_INSTALL_COMMAND}
-              </Text>
-              <IconButton
-                onClick={onCopy}
-                size="xs"
-                colorScheme="purple"
-                variant="solid"
-                aria-label="copy"
-                icon={hasCopied ? <ImCheckmark /> : <ImCopy />}
-              />
-            </Flex>
-          </Code>
+          <CodeBlock language="bash" code={INSTALL_COMMANDS[environment]} />
           <Text>
             Follow along below to get started using this contract in your code.
           </Text>
@@ -193,16 +170,10 @@ function getContractSnippets(
 }
 
 function useContractCodeSnippetQuery() {
-  return useQuery(
-    ["code-snippet"],
-    async () => {
-      const res = await fetch(
-        `https://raw.githubusercontent.com/thirdweb-dev/typescript-sdk/main/docs/snippets.json`,
-      );
-      return (await res.json()) as SnippetApiResponse;
-    },
-    {
-      refetchInterval: 10_000,
-    },
-  );
+  return useQuery(["code-snippet"], async () => {
+    const res = await fetch(
+      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/snippets.json`,
+    );
+    return (await res.json()) as SnippetApiResponse;
+  });
 }

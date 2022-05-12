@@ -1,6 +1,6 @@
-import { Box, Container, Flex, Heading } from "@chakra-ui/react";
-import { LinkButton } from "components/shared/LinkButton";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import { Heading, LinkButton } from "tw-components";
 
 export const CodeExamples: React.FC = () => {
   const { trackEvent } = useTrack();
@@ -42,15 +42,15 @@ export const CodeExamples: React.FC = () => {
             <LinkButton
               noIcon
               borderRadius="full"
-              href="https://portal.thirdweb.com/learn"
+              href="https://portal.thirdweb.com/"
               bgGradient="linear(to-r, #CC25B3 0%, #418DFF 101.52%)"
               color="white"
               _hover={{ opacity: 0.8 }}
               _focus={{ bgColor: "purple.600" }}
               _active={{ bgColor: "purple.600" }}
               mt={12}
+              px={12}
               size="lg"
-              fontSize={{ base: "md", md: "lg" }}
               onClick={() =>
                 trackEvent({
                   category: "home",

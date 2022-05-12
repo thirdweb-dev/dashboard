@@ -1,10 +1,12 @@
 import chakraTheme from "../theme";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { FallbackLayout } from "components/app-layouts/fallback";
 import { Providers } from "components/app-layouts/providers";
 import { ErrorProvider } from "contexts/error-handler";
+import flat from "flat";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextComponentType, NextPageContext } from "next";
 import { DefaultSeo } from "next-seo";
@@ -12,7 +14,6 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
 import React, { useEffect } from "react";
-import { fontsizeCss } from "theme/typography";
 
 export type ConsolePageComponent<IP, P> = NextComponentType<
   NextPageContext,
@@ -61,7 +62,7 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
           console.debug(`[PH.capture]:${catActLab}`, restData);
         }
 
-        posthog.capture(catActLab, restData);
+        posthog.capture(catActLab, flat(restData));
       },
     },
   );
@@ -71,10 +72,6 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
     <Track>
       <Global
         styles={css`
-          :host,
-          :root {
-            ${fontsizeCss};
-          }
           #walletconnect-wrapper {
             color: #000;
           }
@@ -95,14 +92,17 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
           },
         ]}
         openGraph={{
-          title: "thirdweb",
+          title:
+            "Web3 SDKs for developers ⸱ No-code for NFT artists | thirdweb",
+          description:
+            "Build web3 apps easily. Implement web3 features with powerful SDKs for developers. Drop NFTs with no code. — Ethereum, Polygon, Avalanche, & more.",
           type: "website",
           locale: "en_US",
           url: "https://thirdweb.com",
           site_name: "thirdweb",
           images: [
             {
-              url: "https://thirdweb.com/thirdweb-og.png",
+              url: "https://thirdweb.com/thirdweb.jpeg",
               width: 1200,
               height: 650,
               alt: "thirdweb",
@@ -120,6 +120,7 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
       <ChakraProvider theme={chakraTheme}>
         <ErrorProvider>
           <Providers>
+            <PHIdentifier />
             <Layout>
               <Component {...pageProps} />
             </Layout>
@@ -130,3 +131,13 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
   );
 }
 export default ConsoleApp;
+
+const PHIdentifier: React.VFC = () => {
+  const address = useAddress();
+  useEffect(() => {
+    if (address) {
+      posthog.identify(address);
+    }
+  }, [address]);
+  return null;
+};
