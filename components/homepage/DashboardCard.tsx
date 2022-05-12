@@ -26,7 +26,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
     <SimpleGrid
       columns={{ base: 1, md: 2 }}
       borderRadius="2xl"
-      border=".5px solid"
+      border="1px solid"
       borderColor="#ffffff26"
       overflow="hidden"
     >

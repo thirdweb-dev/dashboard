@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { CaseStudyCard } from "components/homepage/CaseStudyCard";
+import { ContractCard } from "components/homepage/ContractCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFooter } from "components/homepage/Footer";
 import { Partner } from "components/homepage/Partner";
@@ -23,6 +24,8 @@ import { useTrack } from "hooks/analytics/useTrack";
 import Analytics from "public/assets/landingpage/analytics.png";
 import Contracts from "public/assets/landingpage/contracts.png";
 import Hero from "public/assets/landingpage/hero.png";
+import ListImage from "public/assets/landingpage/list.png";
+import Statistics from "public/assets/landingpage/statistics.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 // end images
 import React from "react";
@@ -72,6 +75,73 @@ const Home: ConsolePage = () => {
                 src={Hero}
               />
             </Flex>
+          </HomepageSection>
+
+          <HomepageSection
+            id="networks"
+            middleGradient="static"
+            title={
+              <>
+                Get started with{" "}
+                <Heading
+                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                  bgClip="text"
+                  size="display.sm"
+                  mb={6}
+                >
+                  pre-built contracts.
+                </Heading>
+              </>
+            }
+            titleSm
+            isDark
+          >
+            <>
+              <SimpleGrid
+                border="1px solid"
+                borderColor="#4953AF"
+                p={{ base: 8, md: 14 }}
+                borderRadius="lg"
+                backgroundColor="#0000004d"
+                flexDir="column"
+                justifyContent="space-between"
+                w="100%"
+                columns={{ base: 1, md: 3 }}
+                gap={6}
+              >
+                <Stack justifyContent="center">
+                  <Text size="label.sm" textTransform="uppercase">
+                    BRING YOUR OWN CONTRACT
+                  </Text>
+                  <Heading size="title.2xl">thirdweb deploy</Heading>
+                </Stack>
+                <Stack spacing={4}>
+                  <ChakraNextImage src={ListImage} alt="" w={10} />
+                  <Heading size="title.sm">Manage and deploy contracts</Heading>
+                  <Text size="body.lg">
+                    from the dashboard without dealing with proper private keys
+                  </Text>
+                </Stack>
+                <Stack spacing={4}>
+                  <ChakraNextImage src={Statistics} alt="" w={10} />
+                  <Heading size="title.sm">Easily import key features</Heading>
+                  <Text size="body.lg">
+                    (NFT royalties, claim conditions, platform fees & more.)
+                  </Text>
+                </Stack>
+              </SimpleGrid>
+              <SimpleGrid
+                columns={{ base: 1, md: 4 }}
+                spacing={{ base: 5, md: 4 }}
+                mt={5}
+                mb={12}
+              >
+                <ContractCard type="nft" />
+                <ContractCard type="drop" />
+                <ContractCard type="marketplace" />
+                <ContractCard type="governance" />
+              </SimpleGrid>
+            </>
           </HomepageSection>
 
           {/* <WhatCanYouBuild /> */}
@@ -207,7 +277,7 @@ const Home: ConsolePage = () => {
           >
             <Box
               border=".5px solid"
-              borderColor="#FF63C8"
+              borderColor="#4953AF"
               p={12}
               borderRadius="lg"
               backgroundColor="#0000004d"
