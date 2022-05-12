@@ -86,7 +86,8 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
         zIndex={2}
         position="relative"
         maxW="container.page"
-        py={["75px", "75px", "150px"]}
+        py={48}
+        pt={hero ? 48 : "inherit"}
       >
         {TopGradient && (
           <TopGradient
@@ -193,7 +194,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
         mixBlendMode="multiply"
       />
       {union && (
-        <Box position="relative" bottom="80px" left="0" right="0" zIndex="10">
+        <Box position="relative" bottom={24} left="0" right="0" zIndex="10">
           <ChakraNextImage alt="" w="100%" placeholder="empty" src={Union} />
         </Box>
       )}
