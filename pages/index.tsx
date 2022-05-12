@@ -98,7 +98,6 @@ const Home: ConsolePage = () => {
             }
             titleSm
             isDark
-            union
           >
             <>
               <SimpleGrid
