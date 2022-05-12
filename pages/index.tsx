@@ -73,41 +73,6 @@ const Home: ConsolePage = () => {
               />
             </Flex>
           </HomepageSection>
-          {/*           <Flex
-            position="relative"
-            zIndex={3}
-            overflow="hidden"
-            mt={{ base: "-40rem", md: "-48rem" }}
-            py={{ base: 0, md: 0 }}
-            id="features"
-          >
-            <FeaturesBackground position="absolute" bottom={0} />
-            <Container
-              maxW="container.page"
-              position="relative"
-              pb={["75px", "75px", "150px"]}
-            >
-              <Stack
-                w="100%"
-                align="center"
-                spacing={{ base: "2.5rem", md: "5.5rem" }}
-              >
-                <SimpleGrid
-                  w="100%"
-                  placeItems="stretch"
-                  columns={{ base: 1, md: 2, lg: 3 }}
-                  spacing={6}
-                >
-                  <HomepageFeatureCard type={NFTCollection.contractType} />
-                  <HomepageFeatureCard type={Marketplace.contractType} />
-                  <HomepageFeatureCard type={Token.contractType} />
-                  <HomepageFeatureCard type={Pack.contractType} />
-                  <HomepageFeatureCard type={NFTDrop.contractType} />
-                  <HomepageFeatureCard type={Split.contractType} />
-                </SimpleGrid>
-              </Stack>
-            </Container>
-          </Flex> */}
 
           {/* <WhatCanYouBuild /> */}
 
@@ -177,8 +142,6 @@ const Home: ConsolePage = () => {
             </SimpleGrid>
           </HomepageSection>
 
-          {/*           <CodeExamples /> */}
-
           <HomepageSection
             id="networks"
             middleGradient="static"
@@ -227,23 +190,6 @@ const Home: ConsolePage = () => {
               </Stack>
             </Box>
           </HomepageSection>
-
-          {/*           <HomepageSection
-            title="Powerful functionality"
-            isDark
-            topGradient="static"
-          >
-            <SimpleGrid
-              w="100%"
-              placeItems="stretch"
-              columns={{ base: 1, md: 2, lg: 4 }}
-            >
-              <UpcomingFeature type="analytics" />
-              <UpcomingFeature type="permissions" />
-              <UpcomingFeature type="advanced_nfts" />
-              <UpcomingFeature type="data" />
-            </SimpleGrid>
-          </HomepageSection> */}
 
           <HomepageSection
             id="fees"
