@@ -122,14 +122,15 @@ const Home: ConsolePage = () => {
                   <ChakraNextImage src={ListImage} alt="" w={10} />
                   <Heading size="title.sm">Manage and deploy contracts</Heading>
                   <Text size="body.lg">
-                    from the dashboard without dealing with proper private keys
+                    From the dashboard without dealing with proper private keys.
                   </Text>
                 </Stack>
                 <Stack spacing={4}>
                   <ChakraNextImage src={Statistics} alt="" w={10} />
                   <Heading size="title.sm">Easily import key features</Heading>
                   <Text size="body.lg">
-                    (NFT royalties, claim conditions, platform fees & more.)
+                    NFT royalties, claim conditions, platform fees, delayed
+                    reveal & more.
                   </Text>
                 </Stack>
               </SimpleGrid>
