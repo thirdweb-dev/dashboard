@@ -1,101 +1,188 @@
 import {
   Box,
+  ButtonGroup,
   Container,
-  Flex,
+  Divider,
   Icon,
   IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
-import { GeneralCta } from "components/shared/GeneralCta";
-import triangleGradient from "public/assets/gradient-triangle.png";
-import React from "react";
-import { SiDiscord, SiTwitter } from "react-icons/si";
-import { Heading, Link, LinkButton } from "tw-components";
+import { Logo } from "components/logo";
+import { useForm } from "react-hook-form";
+import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
+import { Button, Link, Text } from "tw-components";
+import { sendEmailToConvertkit } from "utils/convertkit";
 
-export const HomepageFooter: React.FC = () => {
+export const HomepageFooter = () => {
+  const { register, handleSubmit, setError } = useForm<{ email: string }>();
   return (
-    <Flex
-      position="relative"
-      as="footer"
-      bg="backgroundDark"
-      mixBlendMode="multiply"
-      overflow="hidden"
-    >
-      <Box
-        zIndex={-1}
-        pointerEvents="none"
-        position="absolute"
-        w={{ base: "200vw", md: "1920px" }}
-        bottom="-10px"
-        left="50%"
-        transform="translateX(-50%)"
-      >
-        <ChakraNextImage
-          alt=""
-          layout="responsive"
-          objectFit="cover"
-          src={triangleGradient}
-        />
-      </Box>
-      <Container
-        maxW="container.page"
-        position="relative"
-        py={["75px", "75px", "150px"]}
-      >
-        <Stack
-          w="100%"
-          align="center"
-          spacing={{ base: "2.5rem", md: "5.5rem" }}
-        >
-          <Container maxW="container.lg" px={0}>
-            <Heading
-              color="#F2FBFF"
-              w="100%"
-              as="h2"
-              textAlign="center"
-              size="display.md"
-            >
-              Add NFTs and other web3 features to your project today.
-            </Heading>
-          </Container>
-          <GeneralCta size="lg" />
-          <Stack direction="row">
-            <IconButton
-              as={LinkButton}
-              isExternal
-              noIcon
-              href="https://twitter.com/thirdweb_"
-              size="lg"
-              colorScheme="whiteAlpha"
-              color="rgba(242, 251, 255, 0.8)"
-              variant="ghost"
-              aria-label="twitter"
-              icon={<Icon boxSize="1.5rem" as={SiTwitter} />}
-            />
-            <IconButton
-              as={LinkButton}
-              isExternal
-              noIcon
-              href="https://discord.gg/thirdweb"
-              size="lg"
-              colorScheme="whiteAlpha"
-              color="rgba(242, 251, 255, 0.8)"
-              variant="ghost"
-              aria-label="discord"
-              icon={<Icon boxSize="1.5rem" as={SiDiscord} />}
-            />
+    <Box bgColor="#111315">
+      <Container as="footer" maxW="container.page">
+        <Box p={16} mx="auto">
+          <Text
+            size="label.md"
+            textTransform="uppercase"
+            pb={5}
+            textAlign="center"
+          >
+            20,000+ builders joined our bi-weekly newsletter
+          </Text>
+          <Stack
+            as="form"
+            spacing="4"
+            direction={{ base: "column", sm: "row" }}
+            mx="auto"
+            maxW={{ lg: "450px" }}
+          >
+            <InputGroup display="flex" flexDir={{ base: "column", md: "row" }}>
+              <InputLeftElement pointerEvents="none">
+                <Icon as={HiOutlineMail} color="gray.500" />
+              </InputLeftElement>
+              <Input
+                placeholder="Your email address"
+                type="email"
+                required
+                {...register("email")}
+              />
+              <Button
+                variant="gradient"
+                fromColor="#E838D0"
+                toColor="#FA6E66"
+                type="submit"
+                borderRadius="md"
+                borderWidth="1px"
+                flexShrink={0}
+                mt={{ base: 4, md: 0 }}
+                onSubmit={handleSubmit(async ({ email }) => {
+                  try {
+                    await sendEmailToConvertkit(email);
+                  } catch (err) {
+                    console.error("failed to send email to convertkit", err);
+                    setError("email", {
+                      message:
+                        err instanceof Error
+                          ? err.message
+                          : "Something went wrong",
+                    });
+                  }
+                })}
+              >
+                <Box as="span">Get web3 scoops</Box>
+              </Button>
+            </InputGroup>
           </Stack>
-          <Flex gap={4}>
-            <Link isExternal href="/privacy">
-              Privacy Policy
-            </Link>
-            <Link isExternal href="/tos">
-              Terms of Service
-            </Link>
-          </Flex>
+        </Box>
+        <Divider />
+        <Stack
+          spacing="8"
+          direction={{ base: "column", md: "row" }}
+          justify="space-between"
+          py={{ base: "12", md: "16" }}
+        >
+          <Stack spacing={{ base: "6", md: "8" }} align="start">
+            <Logo />
+            <ButtonGroup variant="ghost">
+              <IconButton
+                as="a"
+                href="https://twitter.com/thirdweb_"
+                aria-label="Twitter"
+                icon={<FaTwitter fontSize="1.25rem" />}
+              />
+              <IconButton
+                as="a"
+                href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
+                aria-label="YouTube"
+                icon={<FaYoutube fontSize="1.25rem" />}
+              />
+              <IconButton
+                as="a"
+                href="https://www.linkedin.com/company/third-web/"
+                aria-label="LinkedIn"
+                icon={<FaLinkedin fontSize="1.25rem" />}
+              />
+              <IconButton
+                as="a"
+                href="https://github.com/thirdweb-dev"
+                aria-label="GitHub"
+                icon={<FaGithub fontSize="1.25rem" />}
+              />
+            </ButtonGroup>
+          </Stack>
+          <Stack
+            direction={{ base: "column-reverse", md: "column", lg: "row" }}
+            spacing={{ base: "12", md: "8" }}
+          >
+            <SimpleGrid columns={{ base: 2, md: 4 }} spacing="8">
+              <Stack spacing="4" minW="36" flex="1">
+                <Text size="label.lg" color="gray.600">
+                  Product
+                </Text>
+                <Stack spacing="3" shouldWrapChildren>
+                  <Link href="#features">Features</Link>
+                  <Link href="#fees">Pricing</Link>
+                  <Link href="/dashboard">Dashboard</Link>
+                </Stack>
+              </Stack>
+              <Stack spacing="4" minW="36" flex="1">
+                <Text size="label.lg" color="gray.600">
+                  Company
+                </Text>
+                <Stack spacing="3" shouldWrapChildren>
+                  <Link isExternal href="https://portal.thirdweb.com">
+                    Developer Portal
+                  </Link>
+                  <Link isExternal href="https://blog.thirdweb.com/">
+                    Blog
+                  </Link>
+                  <Link isExternal href="https://portal.thirdweb.com/guides">
+                    Guides
+                  </Link>
+                </Stack>
+              </Stack>
+              <Stack spacing="4" minW="36" flex="1">
+                <Text size="label.lg" color="gray.600">
+                  SDKs
+                </Text>
+                <Stack spacing="3" shouldWrapChildren>
+                  <Link
+                    isExternal
+                    href="https://portal.thirdweb.com/typescript"
+                  >
+                    JavaScript
+                  </Link>
+                  <Link isExternal href="https://portal.thirdweb.com/react">
+                    React
+                  </Link>
+                  <Link isExternal href="https://portal.thirdweb.com/python">
+                    Python
+                  </Link>
+                  <Link isExternal href="https://portal.thirdweb.com/contracts">
+                    Solidity
+                  </Link>
+                </Stack>
+              </Stack>
+              <Stack spacing="4" minW="36" flex="1">
+                <Text size="label.lg" color="gray.600">
+                  Legal
+                </Text>
+                <Stack spacing="3" shouldWrapChildren>
+                  <Link isExternal href="/privacy">
+                    Privacy policy
+                  </Link>
+                  <Link isExternal href="/tos">
+                    Terms of service
+                  </Link>
+                </Stack>
+              </Stack>
+            </SimpleGrid>
+          </Stack>
         </Stack>
       </Container>
-    </Flex>
+    </Box>
   );
 };

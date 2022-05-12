@@ -12,6 +12,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { CaseStudyCard } from "components/homepage/CaseStudyCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
+import { HomepageFooter } from "components/homepage/Footer";
 import { Partner } from "components/homepage/Partner";
 import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
@@ -111,7 +112,7 @@ const Home: ConsolePage = () => {
           {/* <WhatCanYouBuild /> */}
 
           <HomepageSection
-            id="dashboard"
+            id="features"
             title="Dedicated dashboard to control everything"
             isDark
           >
@@ -349,7 +350,6 @@ const Home: ConsolePage = () => {
             title="See how game-changing companies are making the most of web3 with thirdweb."
             titleSm
             isDark
-            bottomGradient="static"
           >
             <SimpleGrid
               flexDirection={{ base: "column", md: "row" }}
@@ -376,7 +376,7 @@ const Home: ConsolePage = () => {
             </SimpleGrid>
           </HomepageSection>
 
-          {/* <HomepageFooter /> */}
+          <HomepageFooter />
         </Flex>
       </Track>
     </LightMode>
