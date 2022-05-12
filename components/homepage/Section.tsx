@@ -9,6 +9,8 @@ import {
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import Union from "public/assets/landingpage/union.png";
 import React, { useMemo } from "react";
 import { Heading } from "tw-components";
 
@@ -33,6 +35,7 @@ interface IHomepageSection {
   subtitleMd?: boolean;
   titleSm?: boolean;
   paddingBottom?: boolean;
+  union?: true;
 }
 
 const gradientMap: Record<
@@ -60,6 +63,7 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
   subtitleMd,
   titleSm,
   paddingBottom,
+  union,
 }) => {
   const TopGradient = topGradient ? gradientMap[topGradient] : null;
   const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
@@ -188,6 +192,11 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
         right={0}
         mixBlendMode="multiply"
       />
+      {union && (
+        <Box position="relative" bottom="80px" left="0" right="0" zIndex="10">
+          <ChakraNextImage alt="" w="100%" placeholder="empty" src={Union} />
+        </Box>
+      )}
     </Box>
   );
 };

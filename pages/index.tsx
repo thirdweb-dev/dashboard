@@ -65,6 +65,7 @@ const Home: ConsolePage = () => {
             childrenOnRightSide
             leftAlignedTitle
             leftAlignedSubtitle
+            union
           >
             <Flex justifyContent="end" mr={12}>
               <ChakraNextImage
@@ -97,6 +98,7 @@ const Home: ConsolePage = () => {
             }
             titleSm
             isDark
+            union
           >
             <>
               <SimpleGrid
