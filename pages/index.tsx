@@ -61,7 +61,7 @@ const Home: ConsolePage = () => {
                 <GeneralCta size="lg" />
               </Box>
             }
-            topGradient="static"
+            bottomGradient="static"
             childrenOnRightSide
             leftAlignedTitle
             leftAlignedSubtitle
@@ -367,8 +367,14 @@ const Home: ConsolePage = () => {
 
           <HomepageSection
             id="case-studies"
-            title="See how game-changing companies are making the most of web3 with thirdweb."
-            titleSm
+            title={
+              <Center mb={4}>
+                <Heading maxW={{ lg: "680px" }} size="title.xl">
+                  See how game-changing companies are making the most of web3
+                  with thirdweb.
+                </Heading>
+              </Center>
+            }
             isDark
           >
             <SimpleGrid
@@ -400,7 +406,7 @@ const Home: ConsolePage = () => {
             id="get-started"
             title={
               <>
-                <Center mb={6}>
+                <Center mb={6} pt={24}>
                   <Box
                     bgGradient="linear(to-r, #F213A4, #040BBF)"
                     w={24}
@@ -432,6 +438,10 @@ const Home: ConsolePage = () => {
             }
             titleSm
             isDark
+            bottomGradient="static"
+            union
+            overflowHidden
+            noPaddingBottom
           >
             <GeneralCta
               title="Start building for free"

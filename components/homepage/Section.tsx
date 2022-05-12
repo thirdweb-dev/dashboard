@@ -34,8 +34,9 @@ interface IHomepageSection {
   hero?: true;
   subtitleMd?: boolean;
   titleSm?: boolean;
-  paddingBottom?: boolean;
   union?: true;
+  overflowHidden?: true;
+  noPaddingBottom?: true;
 }
 
 const gradientMap: Record<
@@ -62,8 +63,9 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
   hero,
   subtitleMd,
   titleSm,
-  paddingBottom,
   union,
+  overflowHidden,
+  noPaddingBottom,
 }) => {
   const TopGradient = topGradient ? gradientMap[topGradient] : null;
   const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
@@ -80,14 +82,15 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
       position="relative"
       as="section"
       id={id}
-      pb={paddingBottom ? [40, 40, 80] : [20]}
+      overflow={overflowHidden ? "hidden" : "visible"}
     >
       <Container
         zIndex={2}
         position="relative"
         maxW="container.page"
-        py={48}
-        pt={hero ? 48 : "inherit"}
+        py={24}
+        pb={noPaddingBottom ? 0 : 24}
+        pt={hero ? 48 : 24}
       >
         {TopGradient && (
           <TopGradient
@@ -182,6 +185,17 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
             hero={hero}
           />
         )}
+        {union && (
+          <Box
+            position="relative"
+            bottom={hero ? -16 : 0}
+            left="0"
+            right="0"
+            zIndex="10"
+          >
+            <ChakraNextImage alt="" w="100%" placeholder="empty" src={Union} />
+          </Box>
+        )}
       </Container>
       <Box
         zIndex={1}
@@ -193,11 +207,6 @@ export const HomepageSection: React.FC<IHomepageSection> = ({
         right={0}
         mixBlendMode="multiply"
       />
-      {union && (
-        <Box position="relative" bottom={24} left="0" right="0" zIndex="10">
-          <ChakraNextImage alt="" w="100%" placeholder="empty" src={Union} />
-        </Box>
-      )}
     </Box>
   );
 };
