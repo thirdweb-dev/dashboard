@@ -21,7 +21,7 @@ import { sendEmailToConvertkit } from "utils/convertkit";
 export const HomepageFooter = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
   return (
-    <Box bgColor="#111315">
+    <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page">
         <Box p={16} mx="auto">
           <Text

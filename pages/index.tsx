@@ -1,6 +1,7 @@
 import { ConsolePage } from "./_app";
 import {
   Box,
+  Center,
   Flex,
   LightMode,
   List,
@@ -27,6 +28,7 @@ import Hero from "public/assets/landingpage/hero.png";
 import ListImage from "public/assets/landingpage/list.png";
 import Statistics from "public/assets/landingpage/statistics.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
+import WhiteLogo from "public/assets/landingpage/white-logo.png";
 // end images
 import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
@@ -390,6 +392,51 @@ const Home: ConsolePage = () => {
                 description="Fnatic launched their free and paid digital membership program using thirdweb, with over 400k NFTs claimed on the free tier."
               />
             </SimpleGrid>
+          </HomepageSection>
+
+          <HomepageSection
+            id="get-started"
+            title={
+              <>
+                <Center mb={6}>
+                  <Box
+                    bgGradient="linear(to-r, #F213A4, #040BBF)"
+                    w={24}
+                    h={24}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    borderRadius="3xl"
+                  >
+                    <ChakraNextImage
+                      alt=""
+                      w={20}
+                      display={{ base: "none", md: "block" }}
+                      placeholder="empty"
+                      src={WhiteLogo}
+                    />
+                  </Box>
+                </Center>
+                Get started with thirdweb
+              </>
+            }
+            subtitle={
+              <Center>
+                <Box maxW={{ lg: "600px" }} textAlign="center">
+                  thirdweb helps you build web3 apps with ease. Explore our
+                  tools and build something magical.
+                </Box>
+              </Center>
+            }
+            titleSm
+            isDark
+          >
+            <GeneralCta
+              title="Start building for free"
+              size="lg"
+              py={8}
+              px={14}
+            />
           </HomepageSection>
 
           <HomepageFooter />
