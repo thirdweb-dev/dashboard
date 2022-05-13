@@ -424,18 +424,22 @@ const Home: ConsolePage = () => {
               <CaseStudyCard
                 title="100thieves"
                 description="100Thieves launched an NFT to commemorate their historic 2021 LCS Championship win, with over 700k NFTs claimed."
+                href="https://twitter.com/thirdweb_/status/1488987923978588160"
               />
               <CaseStudyCard
                 title="boohoo"
                 description="boohoo launches their entry into web3 with boohooverse using thirdweb to make it easy for a non crypto-native audience."
+                href="https://twitter.com/thirdweb_/status/1518591454326702081"
               />
               <CaseStudyCard
                 title="yestheory"
                 description="Yes Theory created a tiered digital ticket NFT drop to crowdfund the biggest documentary ever made and released on YouTube."
+                href="https://twitter.com/thirdweb_/status/1516460620798963713"
               />
               <CaseStudyCard
                 title="fnatic"
                 description="Fnatic launched their free and paid digital membership program using thirdweb, with over 400k NFTs claimed on the free tier."
+                href="https://twitter.com/thirdweb_/status/1509180723978252303"
               />
             </SimpleGrid>
           </HomepageSection>
