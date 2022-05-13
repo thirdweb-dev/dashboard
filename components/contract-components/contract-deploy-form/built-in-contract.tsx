@@ -286,7 +286,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             colorScheme="purple"
             variant="outline"
           >
-            Built-in Contract
+            Pre-built Contract
           </Badge>
         </Flex>
         <Divider borderColor="borderColor" />
