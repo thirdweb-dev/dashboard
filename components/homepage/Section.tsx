@@ -3,6 +3,7 @@ import { StaticGradient } from "./StaticGradient";
 import {
   AspectRatioProps,
   Box,
+  BoxProps,
   Container,
   Flex,
   SimpleGrid,
@@ -32,6 +33,7 @@ interface IHomepageSection {
   subtitleMd?: boolean;
   titleSm?: boolean;
   paddingBottom?: boolean;
+  overflow?: BoxProps["overflow"];
 }
 
 const gradientMap: Record<
@@ -57,6 +59,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   subtitleMd,
   titleSm,
   paddingBottom,
+  overflow = "hidden",
 }) => {
   const TopGradient = topGradient ? gradientMap[topGradient] : null;
   const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
@@ -71,7 +74,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
       w="100%"
       position="relative"
       as="section"
-      overflow="hidden"
+      overflow={overflow}
       id={id}
       pb={paddingBottom ? [40, 40, 80] : []}
     >

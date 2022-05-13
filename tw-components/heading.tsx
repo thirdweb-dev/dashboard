@@ -1,3 +1,4 @@
+import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
   Heading as ChakraHeading,
   HeadingProps as ChakraHeadingProps,
@@ -7,11 +8,9 @@ import {
   HeadingBase,
   HeadingSizes,
   TypographySize,
-  baseFontSizes,
   fontWeights,
   letterSpacings,
   lineHeights,
-  mdFontSizes,
 } from "theme/typography";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -23,16 +22,11 @@ export const Heading: ComponentWithChildren<HeadingProps> = ({
   size = "title.lg",
   ...restProps
 }) => {
-  const [base, fontSizeKey] = size.split(".") as [HeadingBase, TypographySize];
-  const fontSizeMap =
-    useBreakpointValue({
-      base: baseFontSizes,
-      md: mdFontSizes,
-    }) || mdFontSizes;
+  const [base] = size.split(".") as [HeadingBase, TypographySize];
 
   return (
     <ChakraHeading
-      fontSize={fontSizeMap[base][fontSizeKey]}
+      fontSize={convertFontSizeToCSSVar(size)}
       fontWeight={fontWeights[base]}
       lineHeight={lineHeights[base]}
       letterSpacing={letterSpacings[base]}
