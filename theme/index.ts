@@ -52,9 +52,9 @@ const chakraTheme: Theme = extendTheme({
       },
       variants: {
         gradient: (props: any) => {
-          const { theme, fromColor, toColor } = props;
-          const lgFrom = getColor(theme, fromColor);
-          const lgTo = getColor(theme, toColor);
+          const { theme, fromcolor, tocolor } = props;
+          const lgFrom = getColor(theme, fromcolor);
+          const lgTo = getColor(theme, tocolor);
           const bgColor = getColor(theme, mode("white", "gray.800")(props));
 
           return {

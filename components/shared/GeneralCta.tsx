@@ -39,8 +39,8 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
           }
           textAlign="center"
           variant="gradient"
-          fromColor="#1D64EF"
-          toColor="#E0507A"
+          fromcolor="#1D64EF"
+          tocolor="#E0507A"
           size={size}
           borderRadius="md"
           href="/dashboard"
@@ -66,8 +66,8 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
           }
           textAlign="center"
           variant="gradient"
-          fromColor="#1D64EF"
-          toColor="#E0507A"
+          fromcolor="#1D64EF"
+          tocolor="#E0507A"
           size={size}
           borderRadius="md"
           href="/dashboard"

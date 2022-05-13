@@ -57,8 +57,8 @@ export const HomepageFooter = () => {
                 <Button
                   size="sm"
                   variant="gradient"
-                  fromColor="#E838D0"
-                  toColor="#FA6E66"
+                  fromcolor="#E838D0"
+                  tocolor="#FA6E66"
                   type="submit"
                   borderRadius="md"
                   borderWidth="1px"
