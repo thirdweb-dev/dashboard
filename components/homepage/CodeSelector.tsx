@@ -5,7 +5,7 @@ import JavaScript from "public/assets/languages/javascript.png";
 import Python from "public/assets/languages/python.png";
 import React from "public/assets/languages/react.png";
 import { useState } from "react";
-import { Button, ButtonProps, Link } from "tw-components";
+import { Button, ButtonProps, Link, LinkButton } from "tw-components";
 
 export type CodeOptions = "typescript" | "react" | "python";
 
@@ -63,17 +63,17 @@ export const CodeSelector: React.FC = () => {
         />
       </Center>
 
-      {/*       <Link isExternal href={`https://portal.thirdweb.com/${language}`}> */}
-      <Button
+      <LinkButton
         bg="white"
         color="#000"
         borderRadius="md"
         w="full"
         maxW={{ lg: "800px" }}
+        href={`https://portal.thirdweb.com/${language}`}
+        isExternal
       >
         See documentation
-      </Button>
-      {/*       </Link> */}
+      </LinkButton>
     </>
   );
 };
