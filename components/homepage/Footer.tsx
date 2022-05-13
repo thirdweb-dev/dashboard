@@ -24,7 +24,7 @@ export const HomepageFooter = () => {
   return (
     <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page" color="gray.500">
-        <Box p={16} mx="auto">
+        <Box p={16} px={{ base: 4, md: 16 }} mx="auto">
           <Heading
             size="label.md"
             textTransform="uppercase"

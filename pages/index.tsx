@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { CaseStudyCard } from "components/homepage/CaseStudyCard";
+import { CodeSelector } from "components/homepage/CodeSelector";
 import { ContractCard } from "components/homepage/ContractCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFooter } from "components/homepage/Footer";
@@ -168,32 +169,7 @@ const Home: ConsolePage = () => {
             union
             middleGradient="static"
           >
-            <>
-              <Center
-                maxW={{ base: "100%", lg: "800px" }}
-                borderRadius="md"
-                overflow="hidden"
-                border="1px solid"
-                borderColor="#4953AF"
-              >
-                <iframe
-                  frameBorder="0"
-                  width="800px"
-                  height="600px"
-                  src="https://replit.com/@IgnacioIacovino/thirdwebtypescript-sdk?lite=true"
-                />
-              </Center>
-
-              <Button
-                bg="white"
-                color="#000"
-                borderRadius="md"
-                w="full"
-                maxW={{ lg: "800px" }}
-              >
-                See documentation
-              </Button>
-            </>
+            <CodeSelector />
           </HomepageSection>
 
           <HomepageSection
