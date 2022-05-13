@@ -80,9 +80,9 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
         zIndex={2}
         position="relative"
         maxW="container.page"
-        py={24}
-        pb={noPaddingBottom ? 0 : 24}
-        pt={isHeroSection ? 48 : 24}
+        py={{ base: 12, lg: 24 }}
+        pb={{ base: noPaddingBottom ? 0 : 12, lg: noPaddingBottom ? 0 : 24 }}
+        pt={{ base: isHeroSection ? 24 : 12, lg: isHeroSection ? 48 : 24 }}
       >
         {TopGradient && (
           <TopGradient

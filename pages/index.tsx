@@ -81,13 +81,12 @@ const Home: ConsolePage = () => {
             leftAlignedSubtitle
             union
           >
-            <Flex justifyContent="end" mr={12}>
+            <Flex justifyContent={{ lg: "end" }} mr={{ lg: 12 }}>
               <ChakraNextImage
                 alt=""
                 maxW={96}
                 w={96}
                 mt={8}
-                display={{ base: "none", md: "block" }}
                 placeholder="empty"
                 src={Hero}
               />
