@@ -35,7 +35,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
 import { MdOutlineAnalytics } from "react-icons/md";
-import { Heading, Text } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 
 const Home: ConsolePage = () => {
   const { Track } = useTrack({ page: "home" });
@@ -81,7 +81,7 @@ const Home: ConsolePage = () => {
           </HomepageSection>
 
           <HomepageSection
-            id="networks"
+            id="contracts"
             middleGradient="static"
             title={
               <>
@@ -145,6 +145,37 @@ const Home: ConsolePage = () => {
                 <ContractCard type="marketplace" />
                 <ContractCard type="governance" />
               </SimpleGrid>
+            </>
+          </HomepageSection>
+
+          <HomepageSection
+            id="sdks"
+            title="Powerful SDKs. Easy integrations."
+            subtitle="Intuitive SDK for websites, mobiles, backend servers, games, etc."
+            titleSm
+            isDark
+            union
+            bottomGradient="static"
+          >
+            <>
+              <Center maxW={{ lg: "800px" }}>
+                <iframe
+                  frameBorder="0"
+                  width="800px"
+                  height="600px"
+                  src="https://replit.com/@IgnacioIacovino/thirdwebtypescript-sdk?lite=true"
+                />
+              </Center>
+
+              <Button
+                bg="white"
+                color="#000"
+                borderRadius="md"
+                w="full"
+                maxW={{ lg: "800px" }}
+              >
+                See documentation{" "}
+              </Button>
             </>
           </HomepageSection>
 
