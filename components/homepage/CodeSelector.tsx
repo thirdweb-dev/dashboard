@@ -91,7 +91,7 @@ export const CodeSelector: React.FC = () => {
         color="#000"
         borderRadius="md"
         w="full"
-        maxW={{ lg: "800px" }}
+        maxW={{ lg: "1000px" }}
         href={`https://portal.thirdweb.com/${activeLanguage}`}
         isExternal
       >
