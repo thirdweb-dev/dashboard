@@ -57,16 +57,16 @@ export const CodeSelector: React.FC = () => {
         <CodeOptionButton
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
-          logo={Python}
           language="python"
+          logo={Python}
         >
           Python
         </CodeOptionButton>
         <CodeOptionButton
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
-          logo={React}
           language="react"
+          logo={React}
         >
           React
         </CodeOptionButton>
