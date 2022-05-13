@@ -6,18 +6,15 @@ import {
   MenuItem as ChakraMenuItem,
   MenuItemProps as ChakraMenuItemProps,
   forwardRef,
-  useBreakpointValue,
   useButtonGroup,
 } from "@chakra-ui/react";
 import {
   LabelBase,
   LabelSizes,
   TypographySize,
-  baseFontSizes,
   fontWeights,
   letterSpacings,
   lineHeights,
-  mdFontSizes,
 } from "theme/typography";
 import { ComponentWithChildren } from "types/component-with-children";
 

@@ -2,7 +2,6 @@ import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
   Heading as ChakraHeading,
   HeadingProps as ChakraHeadingProps,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import {
   HeadingBase,

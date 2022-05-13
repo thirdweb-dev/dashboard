@@ -137,7 +137,7 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
 }
 export default ConsoleApp;
 
-const PHIdentifier: React.VFC = () => {
+const PHIdentifier: React.FC = () => {
   const address = useAddress();
   useEffect(() => {
     if (address) {

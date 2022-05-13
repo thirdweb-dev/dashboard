@@ -118,7 +118,7 @@ interface IAddressCopyButton extends Omit<ButtonProps, "onClick" | "size"> {
   size?: PossibleButtonSize;
 }
 
-export const AddressCopyButton: React.VFC<IAddressCopyButton> = ({
+export const AddressCopyButton: React.FC<IAddressCopyButton> = ({
   address,
   noIcon,
   flexGrow = 0,

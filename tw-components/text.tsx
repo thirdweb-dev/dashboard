@@ -1,6 +1,5 @@
 import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
-  Box,
   Text as ChakraText,
   TextProps as ChakraTextProps,
 } from "@chakra-ui/react";
