@@ -1,11 +1,11 @@
 import { LandingMenu } from "./LandingMenu";
 import {
   Box,
+  Link as ChakraLink,
   Container,
   Flex,
   Icon,
   IconButton,
-  Link,
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
@@ -14,7 +14,7 @@ import { Logo } from "components/logo";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useState } from "react";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-import { LinkButton, NextLink } from "tw-components";
+import { Link, LinkButton } from "tw-components";
 
 export const HomepageTopNav: React.FC<{}> = () => {
   const { trackEvent } = useTrack();
@@ -67,9 +67,9 @@ export const HomepageTopNav: React.FC<{}> = () => {
           align="center"
           flexDir="row"
         >
-          <Link onClick={() => scrollToId("home")}>
+          <ChakraLink onClick={() => scrollToId("home")}>
             <Logo color="#fff" />
-          </Link>
+          </ChakraLink>
           <Stack
             display={["none", "none", "flex"]}
             direction="row"
@@ -79,11 +79,15 @@ export const HomepageTopNav: React.FC<{}> = () => {
             spacing={10}
             as="nav"
           >
-            <Link onClick={() => scrollToId("features")}>Features</Link>
-            <Link onClick={() => scrollToId("developers")}>Developers</Link>
-            <Link onClick={() => scrollToId("fees")}>Pricing</Link>
-            <NextLink
-              href="https://portal.thirdweb.com/guides"
+            <ChakraLink onClick={() => scrollToId("features")}>
+              Features
+            </ChakraLink>
+            <ChakraLink onClick={() => scrollToId("developers")}>
+              Developers
+            </ChakraLink>
+            <ChakraLink onClick={() => scrollToId("fees")}>Pricing</ChakraLink>
+            <Link
+              href="https://portal.thirdweb.com"
               variant="link"
               color="inherit"
               fontWeight="inherit"
@@ -91,7 +95,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
               isExternal
             >
               Developer Portal
-            </NextLink>
+            </Link>
             <Flex
               display={{ base: "none", lg: "flex" }}
               direction="row"
