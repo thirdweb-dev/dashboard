@@ -49,7 +49,7 @@ export const CodeSelector: React.FC = () => {
         </CodeOptionButton>
       </Flex>
       <Center
-        maxW={{ base: "100%", lg: "800px" }}
+        maxW={{ base: "100%", lg: "1000px" }}
         borderRadius="md"
         overflow="hidden"
         border="1px solid"
@@ -57,7 +57,7 @@ export const CodeSelector: React.FC = () => {
       >
         <iframe
           frameBorder="0"
-          width="800px"
+          width="1000px"
           height="600px"
           src={`https://replit.com/@thirdweb-dev/${language}-sdk?lite=true`}
         />
