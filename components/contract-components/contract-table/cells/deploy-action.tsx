@@ -6,7 +6,7 @@ import { isContractIdBuiltInContract } from "components/contract-components/util
 import { IoRocketOutline } from "react-icons/io5";
 import { Button, Drawer, LinkButton } from "tw-components";
 
-export const ContractDeployActionCell: React.VFC<
+export const ContractDeployActionCell: React.FC<
   DeployableContractContractCellProps
 > = ({ cell: { value } }) => {
   const publishMetadata = useContractPublishMetadataFromURI(value);
@@ -25,7 +25,7 @@ export const ContractDeployActionCell: React.VFC<
             <LinkButton
               variant="outline"
               isExternal
-              href={`https://portal.thirdweb.com/contracts/${value}`}
+              href={`https://portal.thirdweb.com/pre-built-contracts/${value}`}
             >
               Learn more
             </LinkButton>

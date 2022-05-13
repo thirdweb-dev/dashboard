@@ -1,6 +1,5 @@
-import { StaticGradient } from "./StaticGradient";
 import Icon from "@chakra-ui/icon";
-import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import * as React from "react";
@@ -13,6 +12,7 @@ interface DashboardCardProps {
   title: string | JSX.Element;
   subtitle: string;
   rightImage: StaticImageData;
+  gradientBGs?: CardGradientBackgroundProps;
 }
 
 export const DashboardCard: React.FC<DashboardCardProps> = ({
@@ -21,6 +21,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   title,
   subtitle,
   rightImage,
+  gradientBGs,
 }) => {
   return (
     <SimpleGrid
@@ -56,15 +57,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
         overflow="hidden"
         display={{ base: "none", md: "flex" }}
       >
-        <StaticGradient
-          zIndex={-1}
-          position="absolute"
-          top={0}
-          left="50%"
-          w="100%"
-          opacity={1}
-          transform="translate(-50%, -66%)"
-        />
+        <CardGradientBackground {...gradientBGs} />
         <ChakraNextImage
           alt=""
           maxW={96}
@@ -75,5 +68,92 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
         />
       </Flex>
     </SimpleGrid>
+  );
+};
+
+interface CardGradientBackgroundProps {
+  topGradient?: string;
+  bottomGradient?: string;
+  leftGradient?: string;
+  rightGradient?: string;
+}
+
+const CardGradientBackground: React.FC<CardGradientBackgroundProps> = (
+  props,
+) => {
+  return (
+    <Box
+      zIndex={-1}
+      overflow="hidden"
+      position="absolute"
+      top={0}
+      left={0}
+      w="full"
+      h="full"
+      opacity={1}
+      background="linear-gradient(225.96deg, #000000 -0.79%, #4400D5 42.2%, #000000 101.89%)"
+    >
+      {props.topGradient && (
+        <AspectRatio
+          position="absolute"
+          ratio={882 / 486}
+          top="-90%"
+          left="-5%"
+          w="full"
+        >
+          <Box
+            background={props.topGradient}
+            borderRadius="full"
+            filter="blur(69px)"
+          />
+        </AspectRatio>
+      )}
+      {props.rightGradient && (
+        <AspectRatio
+          position="absolute"
+          ratio={882 / 486}
+          top="-55%"
+          right="-50%"
+          w="full"
+        >
+          <Box
+            transform="rotate(15deg)"
+            background={props.rightGradient}
+            borderRadius="full"
+            filter="blur(69px)"
+          />
+        </AspectRatio>
+      )}
+      {props.bottomGradient && (
+        <AspectRatio
+          position="absolute"
+          ratio={882 / 486}
+          bottom="-50%"
+          left="15%"
+          w="full"
+        >
+          <Box
+            background={props.bottomGradient}
+            borderRadius="full"
+            filter="blur(80px)"
+          />
+        </AspectRatio>
+      )}
+      {props.leftGradient && (
+        <AspectRatio
+          position="absolute"
+          ratio={882 / 486}
+          bottom="-50%"
+          left="-20%"
+          w="full"
+        >
+          <Box
+            background={props.leftGradient}
+            borderRadius="full"
+            filter="blur(80px)"
+          />
+        </AspectRatio>
+      )}
+    </Box>
   );
 };

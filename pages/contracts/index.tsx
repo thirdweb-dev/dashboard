@@ -18,7 +18,7 @@ import { ConsolePage } from "pages/_app";
 import { IoRefreshSharp } from "react-icons/io5";
 import { Badge, Button, Heading, LinkButton, Text } from "tw-components";
 
-const ContractsHomepageWrapped: React.VFC = () => {
+const ContractsHomepageWrapped: React.FC = () => {
   const { Track } = useTrack({
     page: "contracts",
   });
@@ -101,7 +101,7 @@ const ContractsHomepageWrapped: React.VFC = () => {
         <Box />
 
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Built-in contracts</Heading>
+          <Heading size="title.md">Pre-built contracts</Heading>
           <Text fontStyle="italic">
             Contracts created by the thirdweb team that you can deploy
           </Text>

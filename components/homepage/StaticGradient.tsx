@@ -5,12 +5,12 @@ export const StaticGradient: React.FC<
   Omit<AspectRatioProps, "ratio"> & { hero?: true }
 > = ({ opacity, ...props }) => {
   return (
-    <AspectRatio ratio={300 / 468} {...props}>
+    <AspectRatio {...props}>
       <Box
         overflow="visible!important"
         bgGradient="linear(to-r, #C200C6, #2D8EFF)"
         opacity={opacity ? opacity : 0.4}
-        filter="blur(136px)"
+        filter="blur(350px)"
         borderRadius="full"
       />
     </AspectRatio>

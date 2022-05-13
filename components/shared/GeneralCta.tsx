@@ -8,6 +8,7 @@ import { ButtonProps, LinkButton } from "tw-components";
 interface GeneralCtaProps extends ButtonProps {
   size?: ButtonProps["size"];
   title?: string;
+  subtitle?: string;
 }
 
 export const GeneralCta: React.FC<GeneralCtaProps> = ({

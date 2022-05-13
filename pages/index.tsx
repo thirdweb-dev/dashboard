@@ -2,6 +2,7 @@ import { ConsolePage } from "./_app";
 import {
   Box,
   Center,
+  DarkMode,
   Flex,
   LightMode,
   List,
@@ -39,16 +40,26 @@ import { Button, Heading, Text } from "tw-components";
 
 const Home: ConsolePage = () => {
   const { Track } = useTrack({ page: "home" });
+
   return (
-    <LightMode>
+    <DarkMode>
       <Track>
-        <Flex justify="center" flexDir="column" as="main" bg="#000">
+        <Flex
+          sx={{
+            // overwrite the theme colors because the home page is *always* in "dark mode"
+            "--chakra-colors-heading": "#F2F2F7",
+            "--chakra-colors-paragraph": "#AEAEB2",
+          }}
+          justify="center"
+          flexDir="column"
+          as="main"
+          bg="#000"
+        >
           <HomepageTopNav />
           <HomepageSection
             id="home"
-            hero
+            isHeroSection
             title="Build web3 apps, easily."
-            isDark
             subtitle={
               <Box color="gray.400">
                 <Box mb={12}>
@@ -58,10 +69,12 @@ const Home: ConsolePage = () => {
                   <Box display={{ base: "none", md: "block" }} /> Intuitive SDKs
                   and embeds for developers.
                 </Box>
-                <GeneralCta size="lg" />
+                <LightMode>
+                  <GeneralCta size="lg" subtitle="It's free!" />
+                </LightMode>
               </Box>
             }
-            bottomGradient="static"
+            topGradient="static"
             childrenOnRightSide
             leftAlignedTitle
             leftAlignedSubtitle
@@ -87,6 +100,8 @@ const Home: ConsolePage = () => {
               <>
                 Get started with{" "}
                 <Heading
+                  as="span"
+                  display="block"
                   bgGradient="linear(to-r, #B8EEFF, #8689E3)"
                   bgClip="text"
                   size="display.sm"
@@ -97,55 +112,52 @@ const Home: ConsolePage = () => {
               </>
             }
             titleSm
-            isDark
           >
-            <>
-              <SimpleGrid
-                border="1px solid"
-                borderColor="#4953AF"
-                p={{ base: 8, md: 14 }}
-                borderRadius="lg"
-                backgroundColor="#0000004d"
-                flexDir="column"
-                justifyContent="space-between"
-                w="100%"
-                columns={{ base: 1, md: 3 }}
-                gap={6}
-              >
-                <Stack justifyContent="center">
-                  <Text size="label.sm" textTransform="uppercase">
-                    BRING YOUR OWN CONTRACT
-                  </Text>
-                  <Heading size="title.2xl">thirdweb deploy</Heading>
-                </Stack>
-                <Stack spacing={4}>
-                  <ChakraNextImage src={ListImage} alt="" w={10} />
-                  <Heading size="title.sm">Manage and deploy contracts</Heading>
-                  <Text size="body.lg">
-                    From the dashboard without dealing with proper private keys.
-                  </Text>
-                </Stack>
-                <Stack spacing={4}>
-                  <ChakraNextImage src={Statistics} alt="" w={10} />
-                  <Heading size="title.sm">Easily import key features</Heading>
-                  <Text size="body.lg">
-                    NFT royalties, claim conditions, platform fees, delayed
-                    reveal & more.
-                  </Text>
-                </Stack>
-              </SimpleGrid>
-              <SimpleGrid
-                columns={{ base: 1, md: 4 }}
-                spacing={{ base: 5, md: 4 }}
-                mt={5}
-                mb={12}
-              >
-                <ContractCard type="nft" />
-                <ContractCard type="drop" />
-                <ContractCard type="marketplace" />
-                <ContractCard type="governance" />
-              </SimpleGrid>
-            </>
+            <SimpleGrid
+              border="1px solid"
+              borderColor="#4953AF"
+              p={{ base: 8, md: 14 }}
+              borderRadius="lg"
+              backgroundColor="#0000004d"
+              flexDir="column"
+              justifyContent="space-between"
+              w="100%"
+              columns={{ base: 1, md: 3 }}
+              gap={6}
+            >
+              <Stack justifyContent="center">
+                <Text size="label.sm" textTransform="uppercase">
+                  BRING YOUR OWN CONTRACT
+                </Text>
+                <Heading size="title.2xl">thirdweb deploy</Heading>
+              </Stack>
+              <Stack spacing={4}>
+                <ChakraNextImage src={ListImage} alt="" w={10} />
+                <Heading size="title.sm">Manage and deploy contracts</Heading>
+                <Text size="body.lg">
+                  From the dashboard without dealing with proper private keys.
+                </Text>
+              </Stack>
+              <Stack spacing={4}>
+                <ChakraNextImage src={Statistics} alt="" w={10} />
+                <Heading size="title.sm">Easily import key features</Heading>
+                <Text size="body.lg">
+                  NFT royalties, claim conditions, platform fees, delayed reveal
+                  & more.
+                </Text>
+              </Stack>
+            </SimpleGrid>
+            <SimpleGrid
+              columns={{ base: 1, md: 4 }}
+              spacing={{ base: 5, md: 4 }}
+              mt={5}
+              mb={12}
+            >
+              <ContractCard type="nft" />
+              <ContractCard type="drop" />
+              <ContractCard type="marketplace" />
+              <ContractCard type="governance" />
+            </SimpleGrid>
           </HomepageSection>
 
           <HomepageSection
@@ -153,12 +165,17 @@ const Home: ConsolePage = () => {
             title="Powerful SDKs. Easy integrations."
             subtitle="Intuitive SDK for websites, mobiles, backend servers, games, etc."
             titleSm
-            isDark
             union
-            bottomGradient="static"
+            middleGradient="static"
           >
             <>
-              <Center maxW={{ lg: "800px" }}>
+              <Center
+                maxW={{ base: "100%", lg: "800px" }}
+                borderRadius="md"
+                overflow="hidden"
+                border="1px solid"
+                borderColor="#4953AF"
+              >
                 <iframe
                   frameBorder="0"
                   width="800px"
@@ -174,17 +191,15 @@ const Home: ConsolePage = () => {
                 w="full"
                 maxW={{ lg: "800px" }}
               >
-                See documentation{" "}
+                See documentation
               </Button>
             </>
           </HomepageSection>
 
-          {/* <WhatCanYouBuild /> */}
-
           <HomepageSection
             id="features"
             title="Dedicated dashboard to control everything"
-            isDark
+            bottomGradient="static"
           >
             <SimpleGrid flexDirection={{ base: "column", md: "row" }} gap={12}>
               <DashboardCard
@@ -194,6 +209,7 @@ const Home: ConsolePage = () => {
                   <>
                     Deploy contracts with{" "}
                     <Heading
+                      as="span"
                       bgGradient="linear(to-l, #48BCA8, #A998FF)"
                       bgClip="text"
                       display="inline"
@@ -205,6 +221,11 @@ const Home: ConsolePage = () => {
                 }
                 subtitle="Team up to move your app forward, faster. Get everyone on the same page."
                 rightImage={ThirdwebTeams}
+                gradientBGs={{
+                  topGradient:
+                    "linear-gradient(135.89deg, #E21E12 17.67%, #00FFE0 59.03%)",
+                  bottomGradient: "#C512E2",
+                }}
               />
               <DashboardCard
                 headingTitle="Contract manager"
@@ -212,6 +233,7 @@ const Home: ConsolePage = () => {
                 title={
                   <>
                     <Heading
+                      as="span"
                       bgGradient="linear(to-l, #E483F4, #FAC588)"
                       bgClip="text"
                       display="inline"
@@ -224,6 +246,10 @@ const Home: ConsolePage = () => {
                 }
                 subtitle="Team up to move your app forward, faster. Get everyone on the same page."
                 rightImage={Contracts}
+                gradientBGs={{
+                  rightGradient: "#E28F12",
+                  leftGradient: "#C512E2",
+                }}
               />
               <DashboardCard
                 headingTitle="thirdweb reports"
@@ -231,6 +257,7 @@ const Home: ConsolePage = () => {
                 title={
                   <>
                     <Heading
+                      as="span"
                       bgGradient="linear(to-l, #585EE9, #E487D0)"
                       bgClip="text"
                       display="inline"
@@ -243,16 +270,19 @@ const Home: ConsolePage = () => {
                 }
                 subtitle="Team up to move your app forward, faster. Get everyone on the same page."
                 rightImage={Analytics}
+                gradientBGs={{
+                  rightGradient: "#C512E2",
+                  bottomGradient: "#00FFE0",
+                }}
               />
             </SimpleGrid>
           </HomepageSection>
 
           <HomepageSection
             id="networks"
-            middleGradient="static"
+            // topGradient="static"
             title="We are multi-chain"
             subtitle="thirdweb supports a multi-chain ecosystem of blockchains"
-            isDark
           >
             <Box>
               <Text
@@ -301,10 +331,9 @@ const Home: ConsolePage = () => {
             title="Always know what you'll pay. This time it's $0."
             leftAlignedTitle
             leftAlignedSubtitle
-            isDark
             subtitle="In the future, we will introduce advanced features which you can
-                decide to pay for. We'll always be clear and transparent
-                with how much these features will cost."
+              decide to pay for. We'll always be clear and transparent
+              with how much these features will cost."
             titleSm
             subtitleMd
             childrenOnRightSide
@@ -351,21 +380,25 @@ const Home: ConsolePage = () => {
                   Only pay blockchain-specific gas fees
                 </ListItem>
               </List>
-              <GeneralCta
-                title="Start building today"
-                size="lg"
-                py={8}
-                w="100%"
-              />
+              <LightMode>
+                <GeneralCta
+                  title="Start building today"
+                  size="lg"
+                  py={8}
+                  w="100%"
+                />
+              </LightMode>
             </Box>
           </HomepageSection>
 
           <HomepageSection
-            id="networks"
+            id="partners"
             middleGradient="static"
             title={
               <>
                 <Heading
+                  as="span"
+                  display="block"
                   bgGradient="linear(to-r, #B8EEFF, #8689E3)"
                   bgClip="text"
                   size="display.sm"
@@ -377,7 +410,6 @@ const Home: ConsolePage = () => {
               </>
             }
             titleSm
-            isDark
           >
             <SimpleGrid
               columns={{ base: 2, md: 4 }}
@@ -406,7 +438,6 @@ const Home: ConsolePage = () => {
                 </Heading>
               </Center>
             }
-            isDark
           >
             <SimpleGrid
               flexDirection={{ base: "column", md: "row" }}
@@ -438,15 +469,19 @@ const Home: ConsolePage = () => {
             title={
               <>
                 <Center mb={6} pt={24}>
-                  <Box
-                    bgGradient="linear(to-r, #F213A4, #040BBF)"
-                    w={24}
-                    h={24}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    borderRadius="3xl"
-                  >
+                  <Center p={2} position="relative">
+                    <Box
+                      position="absolute"
+                      bgGradient="linear(to-r, #F213A4, #040BBF)"
+                      top={0}
+                      left={0}
+                      bottom={0}
+                      right={0}
+                      borderRadius="3xl"
+                      overflow="visible"
+                      filter="blur(15px)"
+                    />
+
                     <ChakraNextImage
                       alt=""
                       w={20}
@@ -454,7 +489,7 @@ const Home: ConsolePage = () => {
                       placeholder="empty"
                       src={WhiteLogo}
                     />
-                  </Box>
+                  </Center>
                 </Center>
                 Get started with thirdweb
               </>
@@ -468,24 +503,25 @@ const Home: ConsolePage = () => {
               </Center>
             }
             titleSm
-            isDark
             bottomGradient="static"
             union
-            overflowHidden
+            overflow="hidden"
             noPaddingBottom
           >
-            <GeneralCta
-              title="Start building for free"
-              size="lg"
-              py={8}
-              px={14}
-            />
+            <LightMode>
+              <GeneralCta
+                title="Start building for free"
+                size="lg"
+                py={8}
+                px={14}
+              />
+            </LightMode>
           </HomepageSection>
 
           <HomepageFooter />
         </Flex>
       </Track>
-    </LightMode>
+    </DarkMode>
   );
 };
 

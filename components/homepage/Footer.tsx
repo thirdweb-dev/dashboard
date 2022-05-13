@@ -8,6 +8,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
@@ -15,23 +16,23 @@ import { Logo } from "components/logo";
 import { useForm } from "react-hook-form";
 import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
-import { Button, Link, Text } from "tw-components";
+import { Button, Heading, Link } from "tw-components";
 import { sendEmailToConvertkit } from "utils/convertkit";
 
 export const HomepageFooter = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
   return (
     <Box bgColor="#111315" zIndex="100">
-      <Container as="footer" maxW="container.page">
+      <Container as="footer" maxW="container.page" color="gray.500">
         <Box p={16} mx="auto">
-          <Text
+          <Heading
             size="label.md"
             textTransform="uppercase"
             pb={5}
             textAlign="center"
           >
             20,000+ builders joined our bi-weekly newsletter
-          </Text>
+          </Heading>
           <Stack
             as="form"
             spacing="4"
@@ -39,41 +40,46 @@ export const HomepageFooter = () => {
             mx="auto"
             maxW={{ lg: "450px" }}
           >
-            <InputGroup display="flex" flexDir={{ base: "column", md: "row" }}>
+            <InputGroup display="flex">
               <InputLeftElement pointerEvents="none">
-                <Icon as={HiOutlineMail} color="gray.500" />
+                <Icon as={HiOutlineMail} />
               </InputLeftElement>
               <Input
+                variant="outline"
+                borderColor="rgba(255,255,255,.2)"
                 placeholder="Your email address"
                 type="email"
+                borderRadius="lg"
                 required
                 {...register("email")}
               />
-              <Button
-                variant="gradient"
-                fromColor="#E838D0"
-                toColor="#FA6E66"
-                type="submit"
-                borderRadius="md"
-                borderWidth="1px"
-                flexShrink={0}
-                mt={{ base: 4, md: 0 }}
-                onSubmit={handleSubmit(async ({ email }) => {
-                  try {
-                    await sendEmailToConvertkit(email);
-                  } catch (err) {
-                    console.error("failed to send email to convertkit", err);
-                    setError("email", {
-                      message:
-                        err instanceof Error
-                          ? err.message
-                          : "Something went wrong",
-                    });
-                  }
-                })}
-              >
-                <Box as="span">Get web3 scoops</Box>
-              </Button>
+              <InputRightElement w="auto" pr={1}>
+                <Button
+                  size="sm"
+                  variant="gradient"
+                  fromColor="#E838D0"
+                  toColor="#FA6E66"
+                  type="submit"
+                  borderRadius="md"
+                  borderWidth="1px"
+                  flexShrink={0}
+                  onSubmit={handleSubmit(async ({ email }) => {
+                    try {
+                      await sendEmailToConvertkit(email);
+                    } catch (err) {
+                      console.error("failed to send email to convertkit", err);
+                      setError("email", {
+                        message:
+                          err instanceof Error
+                            ? err.message
+                            : "Something went wrong",
+                      });
+                    }
+                  })}
+                >
+                  <Box as="span">Get web3 scoops</Box>
+                </Button>
+              </InputRightElement>
             </InputGroup>
           </Stack>
         </Box>
@@ -85,7 +91,7 @@ export const HomepageFooter = () => {
           py={{ base: "12", md: "16" }}
         >
           <Stack spacing={{ base: "6", md: "8" }} align="start">
-            <Logo />
+            <Logo color="#fff" />
             <ButtonGroup variant="ghost">
               <IconButton
                 as="a"
@@ -119,9 +125,7 @@ export const HomepageFooter = () => {
           >
             <SimpleGrid columns={{ base: 2, md: 4 }} spacing="8">
               <Stack spacing="4" minW="36" flex="1">
-                <Text size="label.lg" color="gray.600">
-                  Product
-                </Text>
+                <Heading size="label.lg">Product</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <Link href="#features">Features</Link>
                   <Link href="#fees">Pricing</Link>
@@ -129,9 +133,7 @@ export const HomepageFooter = () => {
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
-                <Text size="label.lg" color="gray.600">
-                  Company
-                </Text>
+                <Heading size="label.lg">Company</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <Link isExternal href="https://portal.thirdweb.com">
                     Developer Portal
@@ -145,9 +147,7 @@ export const HomepageFooter = () => {
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
-                <Text size="label.lg" color="gray.600">
-                  SDKs
-                </Text>
+                <Heading size="label.lg">SDKs</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <Link
                     isExternal
@@ -167,9 +167,7 @@ export const HomepageFooter = () => {
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
-                <Text size="label.lg" color="gray.600">
-                  Legal
-                </Text>
+                <Heading size="label.lg">Legal</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <Link isExternal href="/privacy">
                     Privacy policy

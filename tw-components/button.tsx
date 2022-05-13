@@ -1,5 +1,6 @@
 import { Card } from "./card";
 import { Text } from "./text";
+import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
   Button as ChakraButton,
   ButtonProps as ChakraButtonprops,
@@ -8,7 +9,6 @@ import {
   Link,
   Tooltip,
   forwardRef,
-  useBreakpointValue,
   useButtonGroup,
   useClipboard,
   useToast,
@@ -17,13 +17,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import NextLink, { LinkProps } from "next/link";
 import React from "react";
 import { FiCopy, FiExternalLink } from "react-icons/fi";
-import {
-  baseFontSizes,
-  fontWeights,
-  letterSpacings,
-  lineHeights,
-  mdFontSizes,
-} from "theme/typography";
+import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 export const buttonSizesMap = {
@@ -50,17 +44,12 @@ export const Button = forwardRef<ButtonProps, "button">(
     if (!(_size in buttonSizesMap)) {
       _size = "md";
     }
-    const fontSizeMap =
-      useBreakpointValue({
-        base: baseFontSizes,
-        md: mdFontSizes,
-      }) || mdFontSizes;
 
     const props: ButtonProps = {
       fontWeight: fontWeights.label,
       lineHeight: lineHeights.label,
       letterSpacing: letterSpacings.label,
-      fontSize: fontSizeMap.label[buttonSizesMap[_size]],
+      fontSize: convertFontSizeToCSSVar(`label.${buttonSizesMap[_size]}`),
       size: _size,
       ...buttonGroupContext,
       ...restButtonprops,
@@ -131,7 +120,7 @@ interface IAddressCopyButton extends Omit<ButtonProps, "onClick" | "size"> {
   size?: PossibleButtonSize;
 }
 
-export const AddressCopyButton: React.VFC<IAddressCopyButton> = ({
+export const AddressCopyButton: React.FC<IAddressCopyButton> = ({
   address,
   noIcon,
   flexGrow = 0,
@@ -166,6 +155,8 @@ export const AddressCopyButton: React.VFC<IAddressCopyButton> = ({
           e.preventDefault();
           onCopy();
           toast({
+            variant: "solid",
+            position: "bottom",
             title: "Address copied.",
             status: "success",
             duration: 5000,

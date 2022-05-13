@@ -97,7 +97,7 @@ interface BuiltinContractFormProps {
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
 }
 
-const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
+const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   contractType,
   selectedChain,
   onChainSelect,
@@ -129,8 +129,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
   const hasPlatformFeeMechanic = useMemo(
     () =>
       "platform_fee_recipient" in contract.schema.deploy.shape &&
-      "platform_fee_basis_points" in contract.schema.deploy.shape &&
-      false,
+      "platform_fee_basis_points" in contract.schema.deploy.shape,
     [contract],
   );
   const hasRoyaltyMechanic = useMemo(
@@ -287,7 +286,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
             colorScheme="purple"
             variant="outline"
           >
-            Built-in Contract
+            Pre-built Contract
           </Badge>
         </Flex>
         <Divider borderColor="borderColor" />
