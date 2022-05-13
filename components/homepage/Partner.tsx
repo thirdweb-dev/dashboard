@@ -1,71 +1,80 @@
 import { Grid, Stack } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import React from "react";
-import { Heading, Text } from "tw-components";
+import { Heading, Link, Text } from "tw-components";
 
 export const partnerMap = {
   paper: {
     title: "Paper.xyz",
     description: "Payment provider",
+    href: "https://paper.xyz/",
   },
   whop: {
     title: "Whop",
-    description: "SAAS",
+    description: "Marketplace",
+    href: "https://whop.com/",
   },
   filta: {
     title: "Filta",
-    description: "SAAS",
+    description: "Marketplace",
+    href: "https://www.getfilta.com/",
   },
   daocentral: {
     title: "Dao Central",
     description: "DAO",
+    href: "https://daocentral.com/",
   },
   presearch: {
     title: "Presearch",
-    description: "SAAS",
+    description: "Search Engine",
+    href: "https://presearch.org/",
   },
   citydao: {
     title: "CityDao",
-    description: "SAAS",
+    description: "DAO",
+    href: "https://www.citydao.io/",
   },
 } as const;
 
 type PartnerType = keyof typeof partnerMap;
 
 export const Partner: React.FC<{ type: PartnerType }> = ({ type }) => {
-  const { title, description } = partnerMap[type];
+  const { title, description, href } = partnerMap[type];
   return (
-    <Stack
-      spacing={6}
-      align="center"
-      border=".5px solid"
-      borderColor="#ffffff26"
-      py={8}
-      px={10}
-      borderRadius="lg"
-      backgroundColor="#0000004d"
-    >
-      <Grid
-        bg="black"
-        boxSize={{ base: "6rem", md: "6rem" }}
-        placeItems="center"
-        borderRadius="full"
+    <Link href={href} isExternal _hover={{ textDecoration: "none" }}>
+      <Stack
+        spacing={6}
+        align="center"
+        border="1px solid"
+        borderColor="#ffffff26"
+        py={8}
+        px={10}
+        borderRadius="lg"
+        backgroundColor="#0000004d"
+        _hover={{ borderColor: "primary.600" }}
       >
-        <ChakraNextImage
-          alt=""
-          boxSize="55%"
-          layout="fill"
-          objectFit="contain"
-          objectPosition="center"
-          src={require(`/public/assets/partners/${type}.png`)}
-        />
-      </Grid>
-      <Stack spacing={3} align="center">
-        <Heading as="h4" size="title.sm" fontWeight="600" color="gray.50">
-          {title}
-        </Heading>
-        <Text size="label.md">{description}</Text>
+        <Grid
+          bg="black"
+          boxSize={{ base: "6rem", md: "6rem" }}
+          placeItems="center"
+          borderRadius="full"
+        >
+          <ChakraNextImage
+            alt=""
+            boxSize="55%"
+            layout="fill"
+            objectFit="contain"
+            objectPosition="center"
+            src={require(`/public/assets/partners/${type}.png`)}
+          />
+        </Grid>
+        <Stack spacing={3} align="center">
+          <Heading as="h4" size="title.sm" fontWeight="600" color="gray.50">
+            {title}
+          </Heading>
+          <Text size="label.md">{description}</Text>
+        </Stack>
       </Stack>
-    </Stack>
+    </Link>
   );
 };
