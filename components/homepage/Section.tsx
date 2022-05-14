@@ -122,9 +122,8 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
                     "100%",
                     MainActionButton && !childrenOnRightSide ? "50%" : "100%",
                   ]}
-                  // color={isDark ? "gray.50" : "#262A36"}
                   textAlign={
-                    (MainActionButton && !isMobile) || leftAlignedTitle
+                    (MainActionButton || leftAlignedSubtitle) && !isMobile
                       ? "left"
                       : "center"
                   }
