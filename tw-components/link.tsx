@@ -1,9 +1,11 @@
 import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
+  Icon,
 } from "@chakra-ui/react";
 import _NextLink, { LinkProps as _NextLinkProps } from "next/link";
 import React from "react";
+import { FiExternalLink } from "react-icons/fi";
 
 interface LinkProps
   extends Omit<ChakraLinkProps, "href">,
@@ -19,11 +21,19 @@ interface LinkProps
  */
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (props, ref) => {
-    const { href, isExternal, children, ...restLinkProps } = props;
+    const { href, isExternal, children, noIcon, ...restLinkProps } = props;
     if (isExternal) {
       return (
-        <ChakraLink isExternal href={href} ref={ref} {...restLinkProps}>
+        <ChakraLink
+          isExternal
+          href={href}
+          ref={ref}
+          {...restLinkProps}
+          display="flex"
+          alignItems="center"
+        >
           {children}
+          {noIcon ? undefined : <Icon ml={1.5} as={FiExternalLink} />}
         </ChakraLink>
       );
     }
