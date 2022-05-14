@@ -1,8 +1,6 @@
-import { useWeb3 } from "@3rdweb-sdk/react";
 import { Box, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { BsLightningCharge } from "react-icons/bs";
-import { VscDashboard } from "react-icons/vsc";
 import { ButtonProps, LinkButton } from "tw-components";
 
 interface GeneralCtaProps extends ButtonProps {
@@ -16,68 +14,36 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
   title = "Start building",
   ...props
 }) => {
-  const { address } = useWeb3();
   const { trackEvent } = useTrack();
 
   return (
-    <>
-      {address ? (
-        <LinkButton
-          leftIcon={<Icon as={VscDashboard} color="#1D64EF" />}
-          color="black"
-          _hover={{ opacity: 0.8 }}
-          _focus={{ bgColor: "purple.600" }}
-          _active={{ bgColor: "purple.600" }}
-          px={20}
-          py={6}
-          onClick={() =>
-            trackEvent({
-              category: "cta-button",
-              action: "click",
-              label: "go-to-dashboard",
-            })
-          }
-          textAlign="center"
-          variant="gradient"
-          fromcolor="#1D64EF"
-          tocolor="#E0507A"
-          size={size}
-          borderRadius="md"
-          href="/dashboard"
-          {...props}
-        >
-          <Box>Go to dashboard</Box>
-        </LinkButton>
-      ) : (
-        <LinkButton
-          leftIcon={<Icon as={BsLightningCharge} color="#1D64EF" />}
-          color="black"
-          _hover={{ opacity: 0.8 }}
-          _focus={{ bgColor: "purple.600" }}
-          _active={{ bgColor: "purple.600" }}
-          px={20}
-          py={6}
-          onClick={() =>
-            trackEvent({
-              category: "cta-button",
-              action: "click",
-              label: "start",
-            })
-          }
-          textAlign="center"
-          variant="gradient"
-          fromcolor="#1D64EF"
-          tocolor="#E0507A"
-          size={size}
-          borderRadius="md"
-          href="/dashboard"
-          {...props}
-        >
-          <Box as="span" py={0.5}>
-            {title}
-          </Box>
-        </LinkButton>
-      )}
-    </>
+    <LinkButton
+      leftIcon={<Icon as={BsLightningCharge} color="#1D64EF" />}
+      color="black"
+      _hover={{ opacity: 0.8 }}
+      _focus={{ bgColor: "purple.600" }}
+      _active={{ bgColor: "purple.600" }}
+      px={20}
+      py={6}
+      onClick={() =>
+        trackEvent({
+          category: "cta-button",
+          action: "click",
+          label: "start",
+        })
+      }
+      textAlign="center"
+      variant="gradient"
+      fromcolor="#1D64EF"
+      tocolor="#E0507A"
+      size={size}
+      borderRadius="md"
+      href="/dashboard"
+      {...props}
+    >
+      <Box as="span" py={0.5}>
+        {title}
+      </Box>
+    </LinkButton>
   );
 };
