@@ -1,5 +1,6 @@
 import { Center, Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { useTrack } from "hooks/analytics/useTrack";
 import { StaticImageData } from "next/image";
 import JavaScript from "public/assets/languages/javascript.png";
 import Python from "public/assets/languages/python.png";
@@ -23,30 +24,40 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   setActiveLanguage,
   activeLanguage,
   ...rest
-}) => (
-  <Button
-    borderRadius="md"
-    border="2px solid"
-    borderColor={language === activeLanguage ? "primary.600" : "borderColor"}
-    _hover={{ borderColor: "primary.600" }}
-    _active={{
-      borderColor: language === activeLanguage ? "primary.600" : "borderColor",
-    }}
-    onClick={() => {
-      flushSync(() => {
-        setActiveLanguage(language);
-      });
-    }}
-    {...rest}
-  >
-    <ChakraNextImage src={logo} alt="" w={6} mr={2} />
-    {children}
-  </Button>
-);
+}) => {
+  const { trackEvent } = useTrack();
+  return (
+    <Button
+      borderRadius="md"
+      border="2px solid"
+      borderColor={language === activeLanguage ? "primary.600" : "borderColor"}
+      _hover={{ borderColor: "primary.600" }}
+      _active={{
+        borderColor:
+          language === activeLanguage ? "primary.600" : "borderColor",
+      }}
+      onClick={() => {
+        trackEvent({
+          category: "code-selector",
+          action: "switch-language",
+          label: language,
+        });
+        flushSync(() => {
+          setActiveLanguage(language);
+        });
+      }}
+      {...rest}
+    >
+      <ChakraNextImage src={logo} alt="" w={6} mr={2} />
+      {children}
+    </Button>
+  );
+};
 
 export const CodeSelector: React.FC = () => {
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>("typescript");
+  const { trackEvent } = useTrack();
 
   return (
     <>
@@ -99,6 +110,13 @@ export const CodeSelector: React.FC = () => {
         maxW={{ lg: "1000px" }}
         href={`https://portal.thirdweb.com/${activeLanguage}`}
         isExternal
+        onClick={() =>
+          trackEvent({
+            category: "code-selector",
+            action: "click-documentation",
+            label: activeLanguage,
+          })
+        }
       >
         See documentation
       </LinkButton>
