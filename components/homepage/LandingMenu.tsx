@@ -72,22 +72,6 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
         >
           <MenuItem>Developer Portal</MenuItem>
         </Link>
-        <Link href="/dashboard">
-          <MenuItem
-            onClick={() =>
-              trackEvent({
-                category: "topnav",
-                action: "click",
-                label: "start",
-              })
-            }
-            _focus={{ bgColor: "black" }}
-            _hover={{ bgColor: "black" }}
-            _active={{ bgColor: "black" }}
-          >
-            Start building
-          </MenuItem>
-        </Link>
       </MenuList>
     </Menu>
   );
