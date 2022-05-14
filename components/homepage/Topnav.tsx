@@ -13,6 +13,7 @@ import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Logo } from "components/logo";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useState } from "react";
+import { FiExternalLink } from "react-icons/fi";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
 import { Link, LinkButton } from "tw-components";
 
@@ -94,7 +95,10 @@ export const HomepageTopNav: React.FC<{}> = () => {
               textDecoration={undefined}
               isExternal
             >
-              Developer Portal
+              <Flex alignItems="center">
+                Developer Portal
+                <Icon ml={1.5} as={FiExternalLink} />
+              </Flex>
             </Link>
             <Flex
               display={{ base: "none", lg: "flex" }}
