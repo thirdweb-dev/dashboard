@@ -22,6 +22,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
         overflow="hidden"
         position="relative"
         h={96}
+        _hover={{ opacity: 0.9 }}
       >
         <ChakraNextImage
           alt=""
