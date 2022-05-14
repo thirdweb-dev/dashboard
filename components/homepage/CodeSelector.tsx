@@ -85,7 +85,7 @@ export const CodeSelector: React.FC = () => {
       >
         <iframe
           frameBorder="0"
-          width="2000px"
+          width="1200px"
           height="800px"
           sandbox="allow-scripts allow-same-origin"
           src={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk?lite=true`}
