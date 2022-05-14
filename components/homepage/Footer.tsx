@@ -13,14 +13,39 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
-import { Button, Heading, Link } from "tw-components";
+import {
+  SiDiscord,
+  SiGithub,
+  SiInstagram,
+  SiLinkedin,
+  SiTiktok,
+  SiTwitter,
+  SiYoutube,
+} from "react-icons/si";
+import { Button, Heading, Link, LinkProps } from "tw-components";
 import { sendEmailToConvertkit } from "utils/convertkit";
+
+interface TrackedLinkProps extends LinkProps {
+  label?: string;
+}
+
+const TrackedLink: React.FC<TrackedLinkProps> = ({ label, ...props }) => {
+  const { trackEvent } = useTrack();
+
+  const onClick = useCallback(() => {
+    trackEvent({ category: "footer", action: "click", label });
+  }, [trackEvent, label]);
+
+  return <Link onClick={onClick} {...props} />;
+};
 
 export const HomepageFooter = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
+  const { trackEvent } = useTrack();
   return (
     <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page" color="gray.500">
@@ -97,25 +122,92 @@ export const HomepageFooter = () => {
                 as="a"
                 href="https://twitter.com/thirdweb_"
                 aria-label="Twitter"
-                icon={<FaTwitter fontSize="1.25rem" />}
+                icon={<SiTwitter fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "twitter",
+                  })
+                }
+              />
+              <IconButton
+                as="a"
+                href="https://discord.gg/thirdweb"
+                aria-label="Discord"
+                icon={<SiDiscord fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "discord",
+                  })
+                }
               />
               <IconButton
                 as="a"
                 href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
                 aria-label="YouTube"
-                icon={<FaYoutube fontSize="1.25rem" />}
+                icon={<SiYoutube fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "youtube",
+                  })
+                }
               />
               <IconButton
                 as="a"
                 href="https://www.linkedin.com/company/third-web/"
                 aria-label="LinkedIn"
-                icon={<FaLinkedin fontSize="1.25rem" />}
+                icon={<SiLinkedin fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "linkedin",
+                  })
+                }
+              />
+              <IconButton
+                as="a"
+                href="https://www.instagram.com/thirdweb/"
+                aria-label="Instagram"
+                icon={<SiInstagram fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "instagram",
+                  })
+                }
+              />
+              <IconButton
+                as="a"
+                href="https://www.tiktok.com/@thirdweb"
+                aria-label="TikTok"
+                icon={<SiTiktok fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "tiktok",
+                  })
+                }
               />
               <IconButton
                 as="a"
                 href="https://github.com/thirdweb-dev"
                 aria-label="GitHub"
-                icon={<FaGithub fontSize="1.25rem" />}
+                icon={<SiGithub fontSize="1.25rem" />}
+                onClick={() =>
+                  trackEvent({
+                    category: "footer",
+                    action: "click",
+                    label: "github",
+                  })
+                }
               />
             </ButtonGroup>
           </Stack>
@@ -127,54 +219,85 @@ export const HomepageFooter = () => {
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Product</Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  <Link href="#features">Features</Link>
-                  <Link href="#fees">Pricing</Link>
-                  <Link href="/dashboard">Dashboard</Link>
+                  <TrackedLink href="#features" label="features">
+                    Features
+                  </TrackedLink>
+                  <TrackedLink href="#fees" label="pricing">
+                    Pricing
+                  </TrackedLink>
+                  <TrackedLink href="/dashboard" label="dashboard">
+                    Dashboard
+                  </TrackedLink>
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Company</Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  <Link isExternal href="https://portal.thirdweb.com">
+                  <TrackedLink
+                    isExternal
+                    href="https://portal.thirdweb.com"
+                    label="portal"
+                  >
                     Developer Portal
-                  </Link>
-                  <Link isExternal href="https://blog.thirdweb.com/">
+                  </TrackedLink>
+                  <TrackedLink
+                    isExternal
+                    href="https://blog.thirdweb.com/"
+                    label="blog"
+                  >
                     Blog
-                  </Link>
-                  <Link isExternal href="https://portal.thirdweb.com/guides">
+                  </TrackedLink>
+                  <TrackedLink
+                    isExternal
+                    href="https://portal.thirdweb.com/guides"
+                    label="guides"
+                  >
                     Guides
-                  </Link>
+                  </TrackedLink>
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">SDKs</Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  <Link
+                  <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com/typescript"
+                    label="javascript"
                   >
                     JavaScript
-                  </Link>
-                  <Link isExternal href="https://portal.thirdweb.com/react">
+                  </TrackedLink>
+                  <TrackedLink
+                    isExternal
+                    href="https://portal.thirdweb.com/react"
+                    label="react"
+                  >
                     React
-                  </Link>
-                  <Link isExternal href="https://portal.thirdweb.com/python">
+                  </TrackedLink>
+                  <TrackedLink
+                    isExternal
+                    href="https://portal.thirdweb.com/python"
+                    label="python"
+                  >
                     Python
-                  </Link>
-                  <Link isExternal href="https://portal.thirdweb.com/contracts">
-                    Solidity
-                  </Link>
+                  </TrackedLink>
+                  <TrackedLink
+                    isExternal
+                    href="https://portal.thirdweb.com/contracts"
+                    label="contracts"
+                  >
+                    Contracts
+                  </TrackedLink>
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Legal</Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  <Link isExternal href="/privacy">
+                  <TrackedLink isExternal href="/privacy" label="privacy">
                     Privacy policy
-                  </Link>
-                  <Link isExternal href="/tos">
+                  </TrackedLink>
+                  <TrackedLink isExternal href="/tos" label="terms">
                     Terms of service
-                  </Link>
+                  </TrackedLink>
                 </Stack>
               </Stack>
             </SimpleGrid>

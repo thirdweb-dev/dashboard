@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { RiGasStationFill } from "react-icons/ri";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-import { Link, LinkButton, NextLink, Text } from "tw-components";
+import { Link, LinkButton, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export const AppShell: ComponentWithChildren = ({ children }) => {
@@ -68,16 +68,16 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
             as="header"
             alignItems="center"
           >
-            <NextLink href="/dashboard">
+            <Link href="/dashboard">
               <Logo />
-            </NextLink>
+            </Link>
             <Stack
               direction="row"
               align="center"
               spacing={{ base: 3, md: 4 }}
               marginLeft="auto"
             >
-              <NextLink
+              <Link
                 href="https://portal.thirdweb.com/guides"
                 isExternal
                 variant="link"
@@ -87,7 +87,7 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
                 display={{ base: "none", md: "block" }}
               >
                 Guides
-              </NextLink>
+              </Link>
               <ButtonGroup
                 variant="ghost"
                 display={{ base: "none", md: "block" }}
@@ -179,7 +179,7 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
               <Text alignSelf="center">
                 thirdweb &copy; {new Date().getFullYear()}
               </Text>
-              <NextLink
+              <Link
                 href="https://feedback.thirdweb.com"
                 isExternal
                 variant="link"
@@ -195,7 +195,7 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
                 }
               >
                 Feedback
-              </NextLink>
+              </Link>
               <Link isExternal href="/tos">
                 Terms of Service
               </Link>

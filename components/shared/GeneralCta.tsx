@@ -30,6 +30,7 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
           category: "cta-button",
           action: "click",
           label: "start",
+          title,
         })
       }
       textAlign="center"

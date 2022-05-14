@@ -5,7 +5,7 @@ import {
 import _NextLink, { LinkProps as _NextLinkProps } from "next/link";
 import React from "react";
 
-interface LinkProps
+export interface LinkProps
   extends Omit<ChakraLinkProps, "href">,
     Pick<_NextLinkProps, "href"> {
   isExternal?: boolean;

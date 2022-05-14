@@ -94,6 +94,13 @@ export const HomepageTopNav: React.FC<{}> = () => {
               fontWeight="inherit"
               textDecoration={undefined}
               isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "topnav",
+                  action: "click",
+                  label: "portal",
+                })
+              }
             >
               <Flex alignItems="center">
                 Developer Portal

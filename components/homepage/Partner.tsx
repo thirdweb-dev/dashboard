@@ -1,5 +1,6 @@
 import { Grid, Stack } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { useTrack } from "hooks/analytics/useTrack";
 import React from "react";
 import { Heading, Link, Text } from "tw-components";
 
@@ -40,8 +41,20 @@ type PartnerType = keyof typeof partnerMap;
 
 export const Partner: React.FC<{ type: PartnerType }> = ({ type }) => {
   const { title, description, href } = partnerMap[type];
+  const { trackEvent } = useTrack();
   return (
-    <Link href={href} isExternal _hover={{ textDecoration: "none" }}>
+    <Link
+      href={href}
+      isExternal
+      _hover={{ textDecoration: "none" }}
+      onClick={() =>
+        trackEvent({
+          category: "partners",
+          action: "click",
+          label: title,
+        })
+      }
+    >
       <Stack
         spacing={6}
         align="center"

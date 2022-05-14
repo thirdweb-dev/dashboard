@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { useTrack } from "hooks/analytics/useTrack";
 import * as React from "react";
 import { Link, Text } from "tw-components";
 
@@ -14,8 +15,19 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
   description,
   href,
 }) => {
+  const { trackEvent } = useTrack();
   return (
-    <Link href={href} isExternal>
+    <Link
+      href={href}
+      isExternal
+      onClick={() =>
+        trackEvent({
+          category: "case-study",
+          action: "click",
+          label: title,
+        })
+      }
+    >
       <Flex
         flexDir="column"
         borderRadius="2xl"
