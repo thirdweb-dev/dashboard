@@ -45,7 +45,7 @@ export const CodeSelector: React.FC = () => {
 
   return (
     <>
-      <Flex gap={3}>
+      <Flex gap={3} flexDirection={{ base: "column", md: "row" }}>
         <CodeOptionButton
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
