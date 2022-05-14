@@ -5,6 +5,7 @@ import JavaScript from "public/assets/languages/javascript.png";
 import Python from "public/assets/languages/python.png";
 import React from "public/assets/languages/react.png";
 import { Dispatch, SetStateAction, useState } from "react";
+import { flushSync } from "react-dom";
 import { Button, ButtonProps, LinkButton } from "tw-components";
 
 export type CodeOptions = "typescript" | "react" | "python";
@@ -31,7 +32,11 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
     _active={{
       borderColor: language === activeLanguage ? "primary.600" : "borderColor",
     }}
-    onClick={() => setActiveLanguage(language)}
+    onClick={() => {
+      flushSync(() => {
+        setActiveLanguage(language);
+      });
+    }}
     {...rest}
   >
     <ChakraNextImage src={logo} alt="" w={6} mr={2} />
@@ -72,7 +77,7 @@ export const CodeSelector: React.FC = () => {
         </CodeOptionButton>
       </Flex>
       <Center
-        maxW={{ base: "100%", lg: "1000px" }}
+        maxW="100%"
         borderRadius="md"
         overflow="hidden"
         border="1px solid"
@@ -80,8 +85,9 @@ export const CodeSelector: React.FC = () => {
       >
         <iframe
           frameBorder="0"
-          width="1000px"
-          height="600px"
+          width="1200px"
+          height="800px"
+          sandbox="allow-scripts allow-same-origin"
           src={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk?lite=true`}
         />
       </Center>
@@ -90,7 +96,6 @@ export const CodeSelector: React.FC = () => {
         bg="white"
         color="#000"
         borderRadius="md"
-        w="full"
         maxW={{ lg: "1000px" }}
         href={`https://portal.thirdweb.com/${activeLanguage}`}
         isExternal
