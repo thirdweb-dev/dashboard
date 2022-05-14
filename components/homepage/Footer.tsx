@@ -47,7 +47,7 @@ export const HomepageFooter = () => {
               <Input
                 variant="outline"
                 borderColor="rgba(255,255,255,.2)"
-                placeholder="Your email address"
+                placeholder="Email address"
                 type="email"
                 borderRadius="lg"
                 required
