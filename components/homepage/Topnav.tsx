@@ -79,11 +79,11 @@ export const HomepageTopNav: React.FC<{}> = () => {
             spacing={10}
             as="nav"
           >
-            <ChakraLink onClick={() => scrollToId("features")}>
-              Features
-            </ChakraLink>
             <ChakraLink onClick={() => scrollToId("developers")}>
               Developers
+            </ChakraLink>
+            <ChakraLink onClick={() => scrollToId("features")}>
+              Features
             </ChakraLink>
             <ChakraLink onClick={() => scrollToId("fees")}>Pricing</ChakraLink>
             <Link

@@ -161,7 +161,7 @@ const Home: ConsolePage = () => {
           </HomepageSection>
 
           <HomepageSection
-            id="sdks"
+            id="developers"
             title="Powerful SDKs. Easy integrations."
             subtitle="Intuitive SDK for websites, mobiles, backend servers, games, etc."
             titleSm
