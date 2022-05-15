@@ -314,7 +314,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
             MetaMask
           </MenuItem>
           {connector.data.connectors
-            .filter((c) => c.id !== "gnosis" && c.id !== "injected")
+            .filter((c) => c.id !== "gnosis" && c.name !== "MetaMask")
             .map((_connector) => {
               if (!_connector.ready) {
                 return null;
