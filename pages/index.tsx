@@ -78,6 +78,7 @@ const Home: ConsolePage = () => {
             }
             topGradient="static"
             childrenOnRightSide
+            leftAlignedTitle
             leftAlignedSubtitle
             union
           >
@@ -303,6 +304,7 @@ const Home: ConsolePage = () => {
                 This time it&apos;s $0.
               </>
             }
+            leftAlignedTitle
             leftAlignedSubtitle
             subtitle={
               <Text size="body.xl" fontStyle="italic">
@@ -450,7 +452,7 @@ const Home: ConsolePage = () => {
             title={
               <>
                 <Center mb={6} pt={24}>
-                  <Center p={2} position="relative">
+                  <Center p={2} position="relative" mb={6}>
                     <Box
                       position="absolute"
                       bgGradient="linear(to-r, #F213A4, #040BBF)"
@@ -466,7 +468,6 @@ const Home: ConsolePage = () => {
                     <ChakraNextImage
                       alt=""
                       w={20}
-                      display={{ base: "none", md: "block" }}
                       placeholder="empty"
                       src={WhiteLogo}
                     />

@@ -23,11 +23,8 @@ interface IHomepageSection {
   topGradient?: GradientType;
   middleGradient?: GradientType;
   id?: string;
-  mainAction?: {
-    MainActionButton: JSX.Element;
-    forceBelow?: boolean;
-  };
-  leftAlignedSubtitle?: boolean;
+  leftAlignedTitle?: true;
+  leftAlignedSubtitle?: true;
   childrenOnRightSide?: true;
   subtitleMd?: boolean;
   titleSm?: boolean;
@@ -54,7 +51,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   topGradient,
   middleGradient,
   id,
-  mainAction,
+  leftAlignedTitle,
   leftAlignedSubtitle,
   subtitleMd,
   titleSm,
@@ -67,10 +64,6 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
   const MiddleGradient = middleGradient ? gradientMap[middleGradient] : null;
   const isMobile = useBreakpointValue({ base: true, md: false });
-
-  const MainActionButton = useMemo(() => {
-    return mainAction && mainAction.MainActionButton;
-  }, [mainAction]);
 
   return (
     <Box w="100%" position="relative" as="section" overflow={overflow} id={id}>
@@ -115,30 +108,18 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
             <Flex align="flex-end" justify="space-between" w="100%">
               <Container maxW="container.lg" px={0}>
                 <Heading
-                  w={[
-                    "100%",
-                    "100%",
-                    MainActionButton && !childrenOnRightSide ? "50%" : "100%",
-                  ]}
-                  textAlign={
-                    (MainActionButton || leftAlignedSubtitle) && !isMobile
-                      ? "left"
-                      : "center"
-                  }
+                  textAlign={leftAlignedTitle && !isMobile ? "left" : "center"}
                   size={titleSm ? "display.sm" : "display.md"}
                 >
                   {title}
                 </Heading>
               </Container>
-              {isMobile || mainAction?.forceBelow ? null : MainActionButton}
             </Flex>
             {subtitle && (
               <Container maxW="container.lg" px={0}>
                 <Heading
                   textAlign={
-                    (MainActionButton || leftAlignedSubtitle) && !isMobile
-                      ? "left"
-                      : "center"
+                    leftAlignedSubtitle && !isMobile ? "left" : "center"
                   }
                   size={subtitleMd ? "subtitle.md" : "subtitle.lg"}
                 >
@@ -147,7 +128,6 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
               </Container>
             )}
             {childrenOnRightSide ? null : children}
-            {isMobile || mainAction?.forceBelow ? MainActionButton : null}
           </Stack>
           {childrenOnRightSide ? children : null}
         </SimpleGrid>
