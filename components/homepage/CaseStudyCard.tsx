@@ -34,7 +34,9 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
         overflow="hidden"
         position="relative"
         h={96}
-        _hover={{ opacity: 0.9 }}
+        border="1px solid"
+        borderColor={"borderColor"}
+        _hover={{ borderColor: "primary.600" }}
       >
         <ChakraNextImage
           alt=""
@@ -48,7 +50,6 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
           <ChakraNextImage
             alt=""
             w={title === "yestheory" ? 16 : 32}
-            maxW={title === "yestheory" ? 16 : 32}
             placeholder="empty"
             src={require(`/public/assets/case-studies/${title}-logo.png`)}
           />

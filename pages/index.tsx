@@ -50,6 +50,7 @@ const Home: ConsolePage = () => {
             // overwrite the theme colors because the home page is *always* in "dark mode"
             "--chakra-colors-heading": "#F2F2F7",
             "--chakra-colors-paragraph": "#AEAEB2",
+            "--chakra-colors-borderColor": "rgba(255,255,255,0.1)",
           }}
           justify="center"
           flexDir="column"
@@ -77,19 +78,14 @@ const Home: ConsolePage = () => {
             }
             topGradient="static"
             childrenOnRightSide
-            leftAlignedTitle
             leftAlignedSubtitle
             union
           >
-            <Flex justifyContent={{ lg: "end" }} mr={{ lg: 12 }}>
-              <ChakraNextImage
-                alt=""
-                maxW={96}
-                w={96}
-                mt={8}
-                placeholder="empty"
-                src={Hero}
-              />
+            <Flex
+              justifyContent={{ base: "center", md: "end" }}
+              mr={{ base: 20, md: 0 }}
+            >
+              <ChakraNextImage alt="" maxW={96} w={96} mt={8} src={Hero} />
             </Flex>
           </HomepageSection>
 
@@ -173,7 +169,20 @@ const Home: ConsolePage = () => {
 
           <HomepageSection
             id="features"
-            title="Dedicated dashboard to control everything"
+            title={
+              <>
+                Dedicated dashboard to{" "}
+                <Heading
+                  as="span"
+                  display="block"
+                  bgGradient="linear(to-r, #E483F4, #FAC588)"
+                  bgClip="text"
+                  fontSize="inherit"
+                >
+                  control everything
+                </Heading>
+              </>
+            }
             bottomGradient="static"
           >
             <SimpleGrid flexDirection={{ base: "column", md: "row" }} gap={12}>
@@ -255,22 +264,16 @@ const Home: ConsolePage = () => {
 
           <HomepageSection
             id="networks"
-            // topGradient="static"
             title="We are multi-chain"
             subtitle="thirdweb supports a multi-chain ecosystem of blockchains"
           >
-            <Box>
-              <Text
-                size="body.lg"
-                textTransform="uppercase"
-                fontWeight="700"
-                color="gray.400"
-              >
+            <Box w="full">
+              <Text size="label.lg" textTransform="uppercase">
                 Available now
               </Text>
               <SimpleGrid
                 columns={{ base: 2, md: 4 }}
-                spacing={{ base: 1, md: 4 }}
+                spacing={4}
                 mt={5}
                 mb={12}
               >
@@ -280,37 +283,35 @@ const Home: ConsolePage = () => {
                 <SupportedChain type="fantom" />
               </SimpleGrid>
 
-              <Text
-                size="body.lg"
-                textTransform="uppercase"
-                fontWeight="700"
-                color="gray.400"
-              >
+              <Text size="label.lg" textTransform="uppercase">
                 Coming soon
               </Text>
-              <Stack align="center">
-                <SimpleGrid
-                  columns={{ base: 2 }}
-                  spacing={{ base: 1, md: 4 }}
-                  mt={5}
-                >
-                  <SupportedChain type="solana" />
-                  <SupportedChain type="flow" />
-                </SimpleGrid>
-              </Stack>
+
+              <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4} mt={5}>
+                <SupportedChain type="solana" />
+                <SupportedChain type="flow" />
+              </SimpleGrid>
             </Box>
           </HomepageSection>
 
           <HomepageSection
             id="fees"
-            title="Always know what you'll pay. This time it's $0."
-            leftAlignedTitle
+            title={
+              <>
+                Always know what you&apos;ll pay.
+                <br />
+                This time it&apos;s $0.
+              </>
+            }
             leftAlignedSubtitle
-            subtitle="In the future, we will introduce advanced features which you can
-              decide to pay for. We'll always be clear and transparent
-              with how much these features will cost."
+            subtitle={
+              <Text size="body.xl" fontStyle="italic">
+                We may introduce advanced features which you can decide to pay
+                for in the future. We will always be transparent and clear about
+                any paid features up-front.
+              </Text>
+            }
             titleSm
-            subtitleMd
             childrenOnRightSide
             middleGradient="static"
           >
@@ -387,8 +388,9 @@ const Home: ConsolePage = () => {
             titleSm
           >
             <SimpleGrid
+              w="full"
               columns={{ base: 2, md: 4 }}
-              spacing={{ base: 1, md: 4 }}
+              spacing={4}
               mt={5}
               mb={12}
             >

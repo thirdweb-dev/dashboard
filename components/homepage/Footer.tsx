@@ -2,6 +2,7 @@ import {
   Box,
   ButtonGroup,
   Container,
+  DarkMode,
   Divider,
   Icon,
   IconButton,
@@ -9,6 +10,7 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  LightMode,
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
@@ -43,7 +45,7 @@ const TrackedLink: React.FC<TrackedLinkProps> = ({ label, ...props }) => {
   return <Link onClick={onClick} {...props} />;
 };
 
-export const HomepageFooter = () => {
+export const HomepageFooter: React.FC = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
   const { trackEvent } = useTrack();
   return (
@@ -79,36 +81,43 @@ export const HomepageFooter = () => {
                 {...register("email")}
               />
               <InputRightElement w="auto" pr={1}>
-                <Button
-                  size="sm"
-                  variant="gradient"
-                  fromcolor="#E838D0"
-                  tocolor="#FA6E66"
-                  type="submit"
-                  borderRadius="md"
-                  borderWidth="1px"
-                  flexShrink={0}
-                  onSubmit={handleSubmit(async ({ email }) => {
-                    try {
-                      await sendEmailToConvertkit(email);
-                    } catch (err) {
-                      console.error("failed to send email to convertkit", err);
-                      setError("email", {
-                        message:
-                          err instanceof Error
-                            ? err.message
-                            : "Something went wrong",
-                      });
-                    }
-                  })}
-                >
-                  <Box as="span">Get web3 scoops</Box>
-                </Button>
+                <LightMode>
+                  <Button
+                    size="sm"
+                    variant="gradient"
+                    fromcolor="#1D64EF"
+                    tocolor="#E0507A"
+                    type="submit"
+                    borderRadius="md"
+                    borderWidth="1px"
+                    flexShrink={0}
+                    onSubmit={handleSubmit(async ({ email }) => {
+                      try {
+                        await sendEmailToConvertkit(email);
+                      } catch (err) {
+                        console.error(
+                          "failed to send email to convertkit",
+                          err,
+                        );
+                        setError("email", {
+                          message:
+                            err instanceof Error
+                              ? err.message
+                              : "Something went wrong",
+                        });
+                      }
+                    })}
+                  >
+                    <Box as="span">Get web3 scoops</Box>
+                  </Button>
+                </LightMode>
               </InputRightElement>
             </InputGroup>
           </Stack>
         </Box>
-        <Divider />
+        <DarkMode>
+          <Divider borderColor="rgba(255,255,255,0.1)" />
+        </DarkMode>
         <Stack
           spacing="8"
           direction={{ base: "column", md: "row" }}

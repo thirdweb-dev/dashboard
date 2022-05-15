@@ -1,4 +1,9 @@
-import { Center, Flex } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  ButtonGroup,
+  chakra,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
 import { StaticImageData } from "next/image";
@@ -9,6 +14,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { flushSync } from "react-dom";
 import { Button, ButtonProps, LinkButton } from "tw-components";
 
+const ChakraIframe = chakra("iframe");
+
 export type CodeOptions = "typescript" | "react" | "python";
 
 interface CodeOptionButtonProps extends ButtonProps {
@@ -17,6 +24,7 @@ interface CodeOptionButtonProps extends ButtonProps {
   activeLanguage: CodeOptions;
   setActiveLanguage: Dispatch<SetStateAction<CodeOptions>>;
 }
+
 const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   children,
   logo,
@@ -28,13 +36,15 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   const { trackEvent } = useTrack();
   return (
     <Button
+      leftIcon={<ChakraNextImage src={logo} alt="" boxSize={4} />}
       borderRadius="md"
-      border="2px solid"
-      borderColor={language === activeLanguage ? "primary.600" : "borderColor"}
-      _hover={{ borderColor: "primary.600" }}
+      outline="2px solid"
+      variant="solid"
+      colorScheme="gray"
+      outlineColor={language === activeLanguage ? "primary.600" : undefined}
+      _hover={{ outlineColor: "primary.600" }}
       _active={{
-        borderColor:
-          language === activeLanguage ? "primary.600" : "borderColor",
+        outlineColor: language === activeLanguage ? "primary.600" : undefined,
       }}
       onClick={() => {
         trackEvent({
@@ -48,7 +58,6 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
       }}
       {...rest}
     >
-      <ChakraNextImage src={logo} alt="" w={6} mr={2} />
       {children}
     </Button>
   );
@@ -59,9 +68,16 @@ export const CodeSelector: React.FC = () => {
     useState<CodeOptions>("typescript");
   const { trackEvent } = useTrack();
 
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
+
   return (
     <>
-      <Flex gap={3} flexDirection={{ base: "column", md: "row" }}>
+      <ButtonGroup
+        gap={3}
+        size={buttonSize}
+        w="100%"
+        justifyContent={{ base: "space-between", md: "center" }}
+      >
         <CodeOptionButton
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
@@ -86,28 +102,36 @@ export const CodeSelector: React.FC = () => {
         >
           React
         </CodeOptionButton>
-      </Flex>
-      <Center
-        maxW="100%"
+      </ButtonGroup>
+
+      <AspectRatio
+        ratio={{ base: 9 / 16, md: 16 / 9 }}
+        w="full"
         borderRadius="md"
         overflow="hidden"
         border="1px solid"
         borderColor="#4953AF"
       >
-        <iframe
+        <ChakraIframe
           frameBorder="0"
           width="1200px"
           height="800px"
           sandbox="allow-scripts allow-same-origin"
+          loading="lazy"
           src={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk?lite=true`}
         />
-      </Center>
+      </AspectRatio>
 
       <LinkButton
         bg="white"
         color="#000"
+        variant="solid"
         borderRadius="md"
-        maxW={{ lg: "1000px" }}
+        _hover={{
+          bg: "whiteAlpha.800",
+        }}
+        w="full"
+        maxW="300px"
         href={`https://portal.thirdweb.com/${activeLanguage}`}
         isExternal
         onClick={() =>

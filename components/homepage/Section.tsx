@@ -27,7 +27,6 @@ interface IHomepageSection {
     MainActionButton: JSX.Element;
     forceBelow?: boolean;
   };
-  leftAlignedTitle?: boolean;
   leftAlignedSubtitle?: boolean;
   childrenOnRightSide?: true;
   subtitleMd?: boolean;
@@ -56,7 +55,6 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   middleGradient,
   id,
   mainAction,
-  leftAlignedTitle,
   leftAlignedSubtitle,
   subtitleMd,
   titleSm,

@@ -1,8 +1,8 @@
-import { Grid, Stack } from "@chakra-ui/react";
+import { Center, LinkBox, LinkOverlay, Stack } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
 import React from "react";
-import { Heading, Link, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 export const partnerMap = {
   paper: {
@@ -43,51 +43,58 @@ export const Partner: React.FC<{ type: PartnerType }> = ({ type }) => {
   const { title, description, href } = partnerMap[type];
   const { trackEvent } = useTrack();
   return (
-    <Link
-      href={href}
-      isExternal
-      _hover={{ textDecoration: "none" }}
-      onClick={() =>
-        trackEvent({
-          category: "partners",
-          action: "click",
-          label: title,
-        })
-      }
+    <Stack
+      as={LinkBox}
+      spacing={6}
+      align="center"
+      border="1px solid"
+      borderColor="#ffffff26"
+      py={8}
+      px={10}
+      borderRadius="lg"
+      backgroundColor="#0000004d"
+      _hover={{ borderColor: "primary.600", textDecoration: "none" }}
     >
-      <Stack
-        spacing={6}
-        align="center"
-        border="1px solid"
-        borderColor="#ffffff26"
-        py={8}
-        px={10}
-        borderRadius="lg"
-        backgroundColor="#0000004d"
-        _hover={{ borderColor: "primary.600" }}
+      <Center
+        bg="black"
+        boxSize={{ base: "6rem", md: "6rem" }}
+        borderRadius="full"
       >
-        <Grid
-          bg="black"
-          boxSize={{ base: "6rem", md: "6rem" }}
-          placeItems="center"
-          borderRadius="full"
+        <ChakraNextImage
+          alt=""
+          boxSize="55%"
+          layout="fill"
+          objectFit="contain"
+          objectPosition="center"
+          src={require(`/public/assets/partners/${type}.png`)}
+        />
+      </Center>
+      <Stack spacing={3} align="center">
+        <LinkOverlay
+          href={href}
+          isExternal
+          onClick={() =>
+            trackEvent({
+              category: "partners",
+              action: "click",
+              label: title,
+            })
+          }
         >
-          <ChakraNextImage
-            alt=""
-            boxSize="55%"
-            layout="fill"
-            objectFit="contain"
-            objectPosition="center"
-            src={require(`/public/assets/partners/${type}.png`)}
-          />
-        </Grid>
-        <Stack spacing={3} align="center">
-          <Heading as="h4" size="title.sm" fontWeight="600" color="gray.50">
+          <Heading
+            textAlign="center"
+            as="h4"
+            size="title.sm"
+            fontWeight="600"
+            color="gray.50"
+          >
             {title}
           </Heading>
-          <Text size="label.md">{description}</Text>
-        </Stack>
+        </LinkOverlay>
+        <Text textAlign="center" size="label.md">
+          {description}
+        </Text>
       </Stack>
-    </Link>
+    </Stack>
   );
 };
