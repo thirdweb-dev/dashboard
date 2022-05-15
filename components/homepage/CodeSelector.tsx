@@ -1,20 +1,22 @@
 import {
   AspectRatio,
+  AspectRatioProps,
   ButtonGroup,
+  Center,
+  PropsOf,
+  Spinner,
   chakra,
-  useBreakpointValue,
 } from "@chakra-ui/react";
+import useIntersectionObserver from "@react-hook/intersection-observer";
 import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
 import { StaticImageData } from "next/image";
 import JavaScript from "public/assets/languages/javascript.png";
 import Python from "public/assets/languages/python.png";
 import React from "public/assets/languages/react.png";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Button, ButtonProps, LinkButton } from "tw-components";
-
-const ChakraIframe = chakra("iframe");
 
 export type CodeOptions = "typescript" | "react" | "python";
 
@@ -38,9 +40,10 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
     <Button
       leftIcon={<ChakraNextImage src={logo} alt="" boxSize={4} />}
       borderRadius="md"
-      outline="2px solid"
+      // outline="2px solid"
       variant="solid"
       colorScheme="gray"
+      color="#000"
       outlineColor={language === activeLanguage ? "primary.600" : undefined}
       _hover={{ outlineColor: "primary.600" }}
       _active={{
@@ -67,14 +70,11 @@ export const CodeSelector: React.FC = () => {
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>("typescript");
   const { trackEvent } = useTrack();
-
-  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
-
   return (
     <>
       <ButtonGroup
         gap={3}
-        size={buttonSize}
+        size="sm"
         w="100%"
         justifyContent={{ base: "space-between", md: "center" }}
       >
@@ -103,25 +103,23 @@ export const CodeSelector: React.FC = () => {
           React
         </CodeOptionButton>
       </ButtonGroup>
-
-      <AspectRatio
-        ratio={{ base: 9 / 16, md: 16 / 9 }}
-        w="full"
-        borderRadius="md"
-        overflow="hidden"
-        border="1px solid"
-        borderColor="#4953AF"
-      >
-        <ChakraIframe
-          frameBorder="0"
-          width="1200px"
-          height="800px"
-          sandbox="allow-scripts allow-same-origin"
-          loading="lazy"
-          src={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk?lite=true`}
-        />
-      </AspectRatio>
-
+      <LazyLoadedIframe
+        aspectRatioProps={{
+          ratio: { base: 9 / 16, md: 16 / 9 },
+          w: "full",
+          borderRadius: "md",
+          overflow: "hidden",
+          border: "1px solid",
+          borderColor: "#4953AF",
+          bg: "#1C2333",
+        }}
+        frameBorder="0"
+        width="1200px"
+        height="800px"
+        sandbox="allow-scripts allow-same-origin"
+        loading="lazy"
+        src={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk?lite=true`}
+      />
       <LinkButton
         bg="white"
         color="#000"
@@ -145,5 +143,34 @@ export const CodeSelector: React.FC = () => {
         See documentation
       </LinkButton>
     </>
+  );
+};
+
+const ChakraIframe = chakra("iframe");
+
+type LazyLoadedIframeProps = PropsOf<typeof ChakraIframe> & {
+  aspectRatioProps?: AspectRatioProps;
+};
+
+export const LazyLoadedIframe: React.FC<LazyLoadedIframeProps> = ({
+  aspectRatioProps,
+  ...iframeProps
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lockRef = useRef(false);
+  const { isIntersecting } = useIntersectionObserver(containerRef);
+  if (isIntersecting) {
+    lockRef.current = true;
+  }
+  return (
+    <AspectRatio {...aspectRatioProps} ref={containerRef}>
+      {lockRef.current ? (
+        <ChakraIframe {...iframeProps} />
+      ) : (
+        <Center>
+          <Spinner color="heading" />
+        </Center>
+      )}
+    </AspectRatio>
   );
 };
