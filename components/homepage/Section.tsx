@@ -10,7 +10,7 @@ import {
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import React from "react";
 import { Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
