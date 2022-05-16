@@ -67,7 +67,7 @@ const connectorIdToImageUrl: Record<string, StaticImageData> = {
   "Coinbase Wallet": require("public/logos/coinbase-wallet-logo.svg"),
   Magic: require("public/logos/magic-logo.svg"),
   Gnosis: require("public/logos/gnosis-logo.svg"),
-  Injected: require("public/logos/wallet.svg"),
+  Injected: require("public/logos/wallet.png"),
 };
 
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
@@ -332,7 +332,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                       src={
                         _connector.id === "gnosis"
                           ? connectorIdToImageUrl["Gnosis"]
-                          : _connector.name !== "Injected"
+                          : _connector.name === "Injected"
                           ? connectorIdToImageUrl[_connector.name]
                           : connectorIdToImageUrl["Injected"]
                       }
