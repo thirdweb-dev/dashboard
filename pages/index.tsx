@@ -59,7 +59,7 @@ const Home: ConsolePage = () => {
           bg="#000"
         >
           <HomepageTopNav />
-          <HomepageSection id="home" topGradient union>
+          <HomepageSection id="home" topGradient bottomPattern>
             <SimpleGrid
               pb={{ base: 12, md: 24 }}
               pt={{
@@ -165,7 +165,7 @@ const Home: ConsolePage = () => {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection id="developers" union middleGradient>
+          <HomepageSection id="developers" bottomPattern middleGradient>
             <Flex
               flexDir="column"
               py={{ base: 12, md: 24 }}
@@ -479,7 +479,7 @@ const Home: ConsolePage = () => {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection id="get-started" bottomGradient union>
+          <HomepageSection id="get-started" bottomGradient bottomPattern>
             <Flex
               flexDir="column"
               pt={{ base: 12, md: 24 }}

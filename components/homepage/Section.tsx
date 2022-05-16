@@ -8,8 +8,7 @@ interface IHomepageSection {
   topGradient?: true;
   middleGradient?: true;
   id?: string;
-
-  union?: true;
+  bottomPattern?: true;
 }
 export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   children,
@@ -17,7 +16,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   topGradient,
   middleGradient,
   id,
-  union,
+  bottomPattern,
 }) => {
   return (
     <Box
@@ -73,7 +72,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
       <Container position="relative" maxW="container.page" id={id}>
         {children}
 
-        {union && (
+        {bottomPattern && (
           <Box
             position="relative"
             zIndex="10"
