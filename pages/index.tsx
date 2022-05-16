@@ -22,6 +22,7 @@ import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
 import { GeneralCta } from "components/shared/GeneralCta";
+import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 // images
 import Analytics from "public/assets/landingpage/analytics.png";
@@ -154,14 +155,15 @@ const Home: ConsolePage = () => {
                 Or get started with thirdweb pre-built contracts
               </Heading>
               <SimpleGrid
-                columns={{ base: 1, md: 4 }}
-                spacing={{ base: 5, md: 4 }}
+                columns={{ base: 2, md: 5 }}
+                spacing={{ base: 5, md: 2 }}
                 mb={12}
               >
-                <ContractCard type="nft" />
-                <ContractCard type="drop" />
-                <ContractCard type="marketplace" />
-                <ContractCard type="governance" />
+                {Object.values(BuiltinContractMap)
+                  .filter((contract) => contract.title !== "NOT IMPLEMENTED")
+                  .map((contract) => (
+                    <ContractCard key={contract.title} contract={contract} />
+                  ))}
               </SimpleGrid>
             </Flex>
           </HomepageSection>
