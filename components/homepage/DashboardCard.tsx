@@ -29,48 +29,34 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       border="1px solid"
       borderColor="#ffffff26"
       overflow="hidden"
-      flexDirection={{ base: "column-reverse", md: "row" }}
+      flexDirection="column"
     >
-      <Flex
-        w={{ base: "100%", md: "50%" }}
-        flexShrink={0}
-        flexGrow={0}
-        flexDir="column"
-        justifyContent="space-between"
-        p={{ base: 6, md: 10 }}
-        height={{ base: "inherit", md: 80 }}
-      >
-        <Box>
-          <Flex alignItems="center" mb={4} gap={1.5}>
-            <Icon as={headingIcon} boxSize={4} />
-            <Text size="label.sm" textTransform="uppercase">
-              {headingTitle}
-            </Text>
-          </Flex>
-          <Heading size="title.lg">{title}</Heading>
-        </Box>
-        <Text size="body.lg" mt={{ base: 4, md: 0 }}>
-          {subtitle}
-        </Text>
-      </Flex>
       <Flex
         justifyContent="center"
         alignItems="center"
         position="relative"
         overflow="hidden"
-        w={{ base: "100%", md: "50%" }}
-        flexShrink={0}
-        flexGrow={0}
+        h={52}
       >
         <CardGradientBackground {...gradientBGs} />
-        <ChakraNextImage
-          p={6}
-          alt=""
-          maxW={96}
-          w={96}
-          // display={{ base: "none", md: "block" }}
-          src={rightImage}
-        />
+        <ChakraNextImage p={6} alt="" maxW={80} w={80} src={rightImage} />
+      </Flex>
+      <Flex
+        flexShrink={0}
+        flexGrow={0}
+        flexDir="column"
+        justifyContent="space-between"
+        p={{ base: 6, md: 10 }}
+        gap={4}
+      >
+        <Flex alignItems="center" gap={1.5}>
+          <Icon as={headingIcon} boxSize={4} />
+          <Text size="label.sm" textTransform="uppercase">
+            {headingTitle}
+          </Text>
+        </Flex>
+        <Heading size="title.sm">{title}</Heading>
+        <Text size="body.lg">{subtitle}</Text>
       </Flex>
     </Flex>
   );

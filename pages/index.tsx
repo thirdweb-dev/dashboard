@@ -204,10 +204,7 @@ const Home: ConsolePage = () => {
                 </Heading>
                 .
               </Heading>
-              <SimpleGrid
-                flexDirection={{ base: "column", md: "row" }}
-                gap={12}
-              >
+              <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
                 <DashboardCard
                   headingTitle="thirdweb teams"
                   headingIcon={AiOutlineTeam}
@@ -219,7 +216,7 @@ const Home: ConsolePage = () => {
                         bgGradient="linear(to-l, #48BCA8, #A998FF)"
                         bgClip="text"
                         display="inline"
-                        size="title.lg"
+                        size="title.sm"
                       >
                         connected wallets or team
                       </Heading>
@@ -243,7 +240,7 @@ const Home: ConsolePage = () => {
                         bgGradient="linear(to-l, #E483F4, #FAC588)"
                         bgClip="text"
                         display="inline"
-                        size="title.lg"
+                        size="title.sm"
                       >
                         View and manage
                       </Heading>{" "}
@@ -267,7 +264,7 @@ const Home: ConsolePage = () => {
                         bgGradient="linear(to-l, #585EE9, #E487D0)"
                         bgClip="text"
                         display="inline"
-                        size="title.lg"
+                        size="title.sm"
                       >
                         Prebuilt reports
                       </Heading>{" "}
