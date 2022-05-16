@@ -46,13 +46,13 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
         <StaticGradient
           zIndex={-1}
           position="absolute"
-          bottom="50%"
+          top="50%"
           left={{ base: "50%", md: "50%" }}
           w={{ base: "200%", md: "100%" }}
           maxW="container.page"
           transform={{
             base: "translate(-75%, -50%)",
-            md: "translate(-50%, -66%)",
+            md: "translate(-50%, -50%)",
           }}
         />
       )}
