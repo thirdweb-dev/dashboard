@@ -48,6 +48,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
         justifyContent="space-between"
         p={{ base: 6, md: 10 }}
         gap={4}
+        bgColor="blackAlpha.300"
       >
         <Flex alignItems="center" gap={1.5}>
           <Icon as={headingIcon} boxSize={4} />
