@@ -406,9 +406,9 @@ const Home: ConsolePage = () => {
                   bgClip="text"
                   fontSize="inherit"
                 >
-                  37,000 builders.
+                  100k+ contracts deployed
                 </Heading>
-                100k+ contracts deployed.
+                by builders all over the world.
               </Heading>
 
               <SimpleGrid
