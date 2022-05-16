@@ -398,13 +398,13 @@ const Home: ConsolePage = () => {
               align="center"
               gap={{ base: 6, md: 8 }}
             >
-              <Heading as="h2" size="display.md" textAlign="center">
+              <Heading as="h2" size="title.xl" textAlign="center">
                 <Heading
                   as="span"
                   display="block"
                   bgGradient="linear(to-r, #B8EEFF, #8689E3)"
                   bgClip="text"
-                  fontSize="inherit"
+                  size="display.md"
                 >
                   100k+ contracts deployed
                 </Heading>

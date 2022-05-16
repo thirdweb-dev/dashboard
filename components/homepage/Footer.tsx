@@ -28,7 +28,7 @@ import {
   SiTwitter,
   SiYoutube,
 } from "react-icons/si";
-import { Button, Heading, Link, LinkProps } from "tw-components";
+import { Button, Heading, Link, LinkButton, LinkProps } from "tw-components";
 import { sendEmailToConvertkit } from "utils/convertkit";
 
 interface TrackedLinkProps extends LinkProps {
@@ -128,7 +128,9 @@ export const HomepageFooter: React.FC = () => {
             <Logo color="#fff" />
             <ButtonGroup variant="ghost">
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://twitter.com/thirdweb_"
                 aria-label="Twitter"
                 icon={<SiTwitter fontSize="1.25rem" />}
@@ -141,7 +143,9 @@ export const HomepageFooter: React.FC = () => {
                 }
               />
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://discord.gg/thirdweb"
                 aria-label="Discord"
                 icon={<SiDiscord fontSize="1.25rem" />}
@@ -154,7 +158,9 @@ export const HomepageFooter: React.FC = () => {
                 }
               />
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
                 aria-label="YouTube"
                 icon={<SiYoutube fontSize="1.25rem" />}
@@ -167,7 +173,9 @@ export const HomepageFooter: React.FC = () => {
                 }
               />
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://www.linkedin.com/company/third-web/"
                 aria-label="LinkedIn"
                 icon={<SiLinkedin fontSize="1.25rem" />}
@@ -180,7 +188,9 @@ export const HomepageFooter: React.FC = () => {
                 }
               />
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://www.instagram.com/thirdweb/"
                 aria-label="Instagram"
                 icon={<SiInstagram fontSize="1.25rem" />}
@@ -193,7 +203,9 @@ export const HomepageFooter: React.FC = () => {
                 }
               />
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://www.tiktok.com/@thirdweb"
                 aria-label="TikTok"
                 icon={<SiTiktok fontSize="1.25rem" />}
@@ -206,7 +218,9 @@ export const HomepageFooter: React.FC = () => {
                 }
               />
               <IconButton
-                as="a"
+                as={LinkButton}
+                isExternal
+                noIcon
                 href="https://github.com/thirdweb-dev"
                 aria-label="GitHub"
                 icon={<SiGithub fontSize="1.25rem" />}

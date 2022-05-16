@@ -40,12 +40,11 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
       />
       <MenuList bgColor="black" color="white">
         <MenuItem
-          onClick={() => scrollToId("developers")}
           _focus={{ bgColor: "black" }}
           _hover={{ bgColor: "black" }}
           _active={{ bgColor: "black" }}
         >
-          Developers
+          <Link href="#developers">Developers</Link>
         </MenuItem>
         <MenuItem
           onClick={() => scrollToId("features")}
