@@ -16,7 +16,7 @@ import Python from "public/assets/languages/python.png";
 import React from "public/assets/languages/react.png";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { Button, ButtonProps, LinkButton } from "tw-components";
+import { Button, ButtonProps, LinkButton, Text } from "tw-components";
 
 export type CodeOptions = "typescript" | "react" | "python";
 
@@ -38,12 +38,11 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   const { trackEvent } = useTrack();
   return (
     <Button
-      leftIcon={<ChakraNextImage src={logo} alt="" boxSize={4} />}
+      leftIcon={<ChakraNextImage src={logo} alt="" boxSize={6} />}
       borderRadius="md"
-      // outline="2px solid"
       variant="solid"
-      colorScheme="gray"
-      color="#000"
+      bgColor="white"
+      p={6}
       outlineColor={language === activeLanguage ? "primary.600" : undefined}
       _hover={{ outlineColor: "primary.600" }}
       _active={{
@@ -61,7 +60,9 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
       }}
       {...rest}
     >
-      {children}
+      <Text size="label.lg" color="black">
+        {children}
+      </Text>
     </Button>
   );
 };
@@ -132,6 +133,7 @@ export const CodeSelector: React.FC = () => {
         maxW="300px"
         href={`https://portal.thirdweb.com/${activeLanguage}`}
         isExternal
+        p={6}
         onClick={() =>
           trackEvent({
             category: "code-selector",

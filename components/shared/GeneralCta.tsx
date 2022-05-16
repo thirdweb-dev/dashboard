@@ -18,13 +18,17 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
 
   return (
     <LinkButton
-      leftIcon={<Icon as={BsLightningCharge} color="#1D64EF" />}
+      role="group"
+      leftIcon={
+        <Icon
+          as={BsLightningCharge}
+          color="#1D64EF"
+          _groupHover={{ color: "#E0507A" }}
+        />
+      }
       color="black"
-      _hover={{ opacity: 0.8 }}
-      _focus={{ bgColor: "purple.600" }}
-      _active={{ bgColor: "purple.600" }}
       px={20}
-      py={6}
+      py={{ base: 6, md: 8 }}
       onClick={() =>
         trackEvent({
           category: "cta-button",

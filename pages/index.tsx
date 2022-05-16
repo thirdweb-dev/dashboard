@@ -380,12 +380,7 @@ const Home: ConsolePage = () => {
                   </ListItem>
                 </List>
                 <LightMode>
-                  <GeneralCta
-                    title="Start building today"
-                    size="lg"
-                    py={8}
-                    w="100%"
-                  />
+                  <GeneralCta title="Start building today" size="lg" w="100%" />
                 </LightMode>
               </Box>
             </SimpleGrid>
@@ -521,12 +516,7 @@ const Home: ConsolePage = () => {
                 and build something magical.
               </Heading>
               <LightMode>
-                <GeneralCta
-                  title="Start building for free"
-                  size="lg"
-                  py={8}
-                  px={14}
-                />
+                <GeneralCta title="Start building for free" size="lg" px={14} />
               </LightMode>
             </Flex>
           </HomepageSection>

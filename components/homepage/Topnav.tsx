@@ -58,7 +58,8 @@ export const HomepageTopNav: React.FC<{}> = () => {
         zIndex="overlay"
         as="header"
         boxShadow={isScrolled ? "md" : undefined}
-        bg={isScrolled ? "backgroundDark" : "transparent"}
+        bg={isScrolled ? "blackAlpha.900" : "transparent"}
+        backdropFilter="blur(10px)"
       >
         <Container
           as={Flex}
