@@ -6,71 +6,52 @@ import {
   MenuButton,
   MenuList,
 } from "@chakra-ui/react";
-import { useTrack } from "hooks/analytics/useTrack";
-import { useCallback } from "react";
-import { Link, MenuItem } from "tw-components";
+import { MenuItem, TrackedLink } from "tw-components";
 
 export const LandingMenu: React.FC<IconButtonProps> = (props) => {
-  const { trackEvent } = useTrack();
-
-  const scrollToId = useCallback(
-    (id: string) => {
-      if (document) {
-        trackEvent({ category: "topnav", action: "click", label: id });
-        document.getElementById(id)?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    },
-    [trackEvent],
-  );
-
   return (
     <Menu>
       <MenuButton
         {...props}
         as={IconButton}
-        aria-label="Options"
+        aria-label="Menu"
         icon={<HamburgerIcon />}
         variant="outline"
-        color="white"
-        _focus={{ bgColor: "black" }}
-        _hover={{ bgColor: "black" }}
-        _active={{ bgColor: "black" }}
       />
       <MenuList bgColor="black" color="white">
         <MenuItem
-          _focus={{ bgColor: "black" }}
-          _hover={{ bgColor: "black" }}
-          _active={{ bgColor: "black" }}
+          as={TrackedLink}
+          href="#developers"
+          category="mobile-menu"
+          label="developers"
         >
-          <Link href="#developers">Developers</Link>
+          Developers
         </MenuItem>
         <MenuItem
-          onClick={() => scrollToId("features")}
-          _focus={{ bgColor: "black" }}
-          _hover={{ bgColor: "black" }}
-          _active={{ bgColor: "black" }}
+          as={TrackedLink}
+          href="#features"
+          category="mobile-menu"
+          label="fees"
         >
           Features
         </MenuItem>
         <MenuItem
-          onClick={() => scrollToId("fees")}
-          _focus={{ bgColor: "black" }}
-          _hover={{ bgColor: "black" }}
-          _active={{ bgColor: "black" }}
+          as={TrackedLink}
+          href="#fees"
+          category="mobile-menu"
+          label="fees"
         >
           Pricing
         </MenuItem>
-        <Link
+
+        <MenuItem
+          as={TrackedLink}
           href="https://portal.thirdweb.com"
-          isExternal
-          _focus={{ bgColor: "black" }}
-          _hover={{ bgColor: "black" }}
-          _active={{ bgColor: "black" }}
+          category="mobile-menu"
+          label="portal"
         >
-          <MenuItem>Developer Portal</MenuItem>
-        </Link>
+          Developer Portal
+        </MenuItem>
       </MenuList>
     </Menu>
   );

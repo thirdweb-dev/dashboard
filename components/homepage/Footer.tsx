@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
 import { useTrack } from "hooks/analytics/useTrack";
-import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineMail } from "react-icons/hi";
 import {
@@ -28,22 +27,8 @@ import {
   SiTwitter,
   SiYoutube,
 } from "react-icons/si";
-import { Button, Heading, Link, LinkButton, LinkProps } from "tw-components";
+import { Button, Heading, LinkButton, TrackedLink } from "tw-components";
 import { sendEmailToConvertkit } from "utils/convertkit";
-
-interface TrackedLinkProps extends LinkProps {
-  label?: string;
-}
-
-const TrackedLink: React.FC<TrackedLinkProps> = ({ label, ...props }) => {
-  const { trackEvent } = useTrack();
-
-  const onClick = useCallback(() => {
-    trackEvent({ category: "footer", action: "click", label });
-  }, [trackEvent, label]);
-
-  return <Link onClick={onClick} {...props} />;
-};
 
 export const HomepageFooter: React.FC = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
@@ -242,13 +227,21 @@ export const HomepageFooter: React.FC = () => {
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Product</Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  <TrackedLink href="#features" label="features">
+                  <TrackedLink
+                    href="#features"
+                    category="footer"
+                    label="features"
+                  >
                     Features
                   </TrackedLink>
-                  <TrackedLink href="#fees" label="pricing">
+                  <TrackedLink href="#fees" category="footer" label="pricing">
                     Pricing
                   </TrackedLink>
-                  <TrackedLink href="/dashboard" label="dashboard">
+                  <TrackedLink
+                    href="/dashboard"
+                    category="footer"
+                    label="dashboard"
+                  >
                     Dashboard
                   </TrackedLink>
                 </Stack>
@@ -259,6 +252,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com"
+                    category="footer"
                     label="portal"
                   >
                     Developer Portal
@@ -266,6 +260,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://blog.thirdweb.com/"
+                    category="footer"
                     label="blog"
                   >
                     Blog
@@ -273,6 +268,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com/guides"
+                    category="footer"
                     label="guides"
                   >
                     Guides
@@ -285,6 +281,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com/typescript"
+                    category="footer"
                     label="javascript"
                   >
                     JavaScript
@@ -292,6 +289,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com/react"
+                    category="footer"
                     label="react"
                   >
                     React
@@ -299,6 +297,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com/python"
+                    category="footer"
                     label="python"
                   >
                     Python
@@ -306,6 +305,7 @@ export const HomepageFooter: React.FC = () => {
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com/contracts"
+                    category="footer"
                     label="contracts"
                   >
                     Contracts
@@ -315,10 +315,20 @@ export const HomepageFooter: React.FC = () => {
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Legal</Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  <TrackedLink isExternal href="/privacy" label="privacy">
+                  <TrackedLink
+                    isExternal
+                    href="/privacy"
+                    category="footer"
+                    label="privacy"
+                  >
                     Privacy policy
                   </TrackedLink>
-                  <TrackedLink isExternal href="/tos" label="terms">
+                  <TrackedLink
+                    isExternal
+                    href="/tos"
+                    category="footer"
+                    label="terms"
+                  >
                     Terms of service
                   </TrackedLink>
                 </Stack>

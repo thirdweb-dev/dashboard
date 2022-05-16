@@ -1,7 +1,6 @@
 import { LandingMenu } from "./LandingMenu";
 import {
   Box,
-  Link as ChakraLink,
   Container,
   Flex,
   Icon,
@@ -12,10 +11,10 @@ import {
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Logo } from "components/logo";
 import { useTrack } from "hooks/analytics/useTrack";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-import { Link, LinkButton } from "tw-components";
+import { LinkButton, TrackedLink } from "tw-components";
 
 export const HomepageTopNav: React.FC<{}> = () => {
   const { trackEvent } = useTrack();
@@ -33,18 +32,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
     undefined,
     false,
     33,
-  );
-
-  const scrollToId = useCallback(
-    (id: string) => {
-      if (document) {
-        trackEvent({ category: "topnav", action: "click", label: id });
-        document.getElementById(id)?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    },
-    [trackEvent],
   );
 
   return (
@@ -69,9 +56,9 @@ export const HomepageTopNav: React.FC<{}> = () => {
           align="center"
           flexDir="row"
         >
-          <ChakraLink onClick={() => scrollToId("home")}>
+          <TrackedLink href="#home" category="topnav" label="home">
             <Logo color="#fff" />
-          </ChakraLink>
+          </TrackedLink>
           <Stack
             display={["none", "none", "flex"]}
             direction="row"
@@ -81,31 +68,34 @@ export const HomepageTopNav: React.FC<{}> = () => {
             spacing={10}
             as="nav"
           >
-            <ChakraLink href="#developers">Developers</ChakraLink>
-            <ChakraLink onClick={() => scrollToId("features")}>
+            <TrackedLink
+              href="#developers"
+              category="topnav"
+              label="developers"
+            >
+              Developers
+            </TrackedLink>
+            <TrackedLink href="#features" category="topnav" label="features">
               Features
-            </ChakraLink>
-            <ChakraLink onClick={() => scrollToId("fees")}>Pricing</ChakraLink>
-            <Link
+            </TrackedLink>
+            <TrackedLink href="#fees" category="topnav" label="fees">
+              Pricing
+            </TrackedLink>
+            <TrackedLink
               href="https://portal.thirdweb.com"
               variant="link"
               color="inherit"
               fontWeight="inherit"
               textDecoration={undefined}
               isExternal
-              onClick={() =>
-                trackEvent({
-                  category: "topnav",
-                  action: "click",
-                  label: "portal",
-                })
-              }
+              category="topnav"
+              label="portal"
             >
               <Flex alignItems="center">
                 Developer Portal
                 <Icon ml={1.5} as={FiExternalLink} />
               </Flex>
-            </Link>
+            </TrackedLink>
             <Flex
               display={{ base: "none", lg: "flex" }}
               direction="row"
