@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
+import { ContractType } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { CaseStudyCard } from "components/homepage/CaseStudyCard";
 import { CodeSelector } from "components/homepage/CodeSelector";
@@ -180,13 +181,19 @@ const Home: ConsolePage = () => {
               </Heading>
               <SimpleGrid
                 columns={{ base: 2, md: 5 }}
-                spacing={{ base: 5, md: 2 }}
+                spacing={{ base: 2, md: 4 }}
                 mb={12}
               >
-                {Object.values(BuiltinContractMap)
-                  .filter((contract) => contract.title !== "NOT IMPLEMENTED")
-                  .map((contract) => (
-                    <ContractCard key={contract.title} contract={contract} />
+                {Object.entries(BuiltinContractMap)
+                  .filter(
+                    ([, contract]) => contract.title !== "NOT IMPLEMENTED",
+                  )
+                  .map(([key, contract]) => (
+                    <ContractCard
+                      key={key}
+                      contract={contract}
+                      contractType={key as keyof typeof BuiltinContractMap}
+                    />
                   ))}
               </SimpleGrid>
             </Flex>
