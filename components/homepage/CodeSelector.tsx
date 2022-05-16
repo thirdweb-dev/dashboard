@@ -38,7 +38,7 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   const { trackEvent } = useTrack();
   return (
     <Button
-      leftIcon={<ChakraNextImage src={logo} alt="" boxSize={5} />}
+      leftIcon={<ChakraNextImage src={logo} alt="" boxSize={6} />}
       borderRadius="md"
       variant="solid"
       bgColor="white"
