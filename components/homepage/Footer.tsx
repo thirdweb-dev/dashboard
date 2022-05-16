@@ -5,7 +5,6 @@ import {
   DarkMode,
   Divider,
   Icon,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -15,7 +14,6 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useForm } from "react-hook-form";
 import { HiOutlineMail } from "react-icons/hi";
 import {
@@ -27,12 +25,17 @@ import {
   SiTwitter,
   SiYoutube,
 } from "react-icons/si";
-import { Button, Heading, LinkButton, TrackedLink } from "tw-components";
+import {
+  Button,
+  Heading,
+  LinkButton,
+  TrackedIconButton,
+  TrackedLink,
+} from "tw-components";
 import { sendEmailToConvertkit } from "utils/convertkit";
 
 export const HomepageFooter: React.FC = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
-  const { trackEvent } = useTrack();
   return (
     <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page" color="gray.500">
@@ -112,110 +115,74 @@ export const HomepageFooter: React.FC = () => {
           <Stack spacing={{ base: "6", md: "8" }} align="start">
             <Logo color="#fff" />
             <ButtonGroup variant="ghost">
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://twitter.com/thirdweb_"
-                aria-label="Twitter"
                 icon={<SiTwitter fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "twitter",
-                  })
-                }
+                category="footer"
+                aria-label="Twitter"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://discord.gg/thirdweb"
                 aria-label="Discord"
                 icon={<SiDiscord fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "discord",
-                  })
-                }
+                category="footer"
+                label="discord"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
                 aria-label="YouTube"
                 icon={<SiYoutube fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "youtube",
-                  })
-                }
+                category="footer"
+                label="youtube"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://www.linkedin.com/company/third-web/"
                 aria-label="LinkedIn"
                 icon={<SiLinkedin fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "linkedin",
-                  })
-                }
+                category="footer"
+                label="youtube"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://www.instagram.com/thirdweb/"
                 aria-label="Instagram"
                 icon={<SiInstagram fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "instagram",
-                  })
-                }
+                category="footer"
+                label="instagram"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://www.tiktok.com/@thirdweb"
                 aria-label="TikTok"
                 icon={<SiTiktok fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "tiktok",
-                  })
-                }
+                category="footer"
+                label="tiktok"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
                 href="https://github.com/thirdweb-dev"
                 aria-label="GitHub"
                 icon={<SiGithub fontSize="1.25rem" />}
-                onClick={() =>
-                  trackEvent({
-                    category: "footer",
-                    action: "click",
-                    label: "github",
-                  })
-                }
+                category="footer"
+                label="github"
               />
             </ButtonGroup>
           </Stack>

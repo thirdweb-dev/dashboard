@@ -1,4 +1,4 @@
-import { Flex, LinkBox, LinkOverlay, Stack } from "@chakra-ui/react";
+import { Flex, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { ContractType } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { BuiltinContractDetails, UrlMap } from "constants/mappings";

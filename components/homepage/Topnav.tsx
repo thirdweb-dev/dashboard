@@ -4,20 +4,17 @@ import {
   Container,
   Flex,
   Icon,
-  IconButton,
   Stack,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Logo } from "components/logo";
-import { useTrack } from "hooks/analytics/useTrack";
 import React, { useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
-import { SiDiscord, SiGithub, SiTwitter } from "react-icons/si";
-import { LinkButton, TrackedLink } from "tw-components";
+import { SiDiscord, SiGithub, SiTwitter, SiYoutube } from "react-icons/si";
+import { LinkButton, TrackedIconButton, TrackedLink } from "tw-components";
 
 export const HomepageTopNav: React.FC<{}> = () => {
-  const { trackEvent } = useTrack();
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
   useScrollPosition(
@@ -101,7 +98,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
               direction="row"
               align="center"
             >
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
@@ -110,15 +107,10 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 bg="transparent"
                 aria-label="twitter"
                 icon={<Icon boxSize="1rem" as={SiTwitter} />}
-                onClick={() =>
-                  trackEvent({
-                    category: "topnav",
-                    action: "click",
-                    label: "twitter",
-                  })
-                }
+                category="topnav"
+                label="twitter"
               />
-              <IconButton
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
@@ -127,15 +119,22 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 color="gray.50"
                 aria-label="discord"
                 icon={<Icon boxSize="1rem" as={SiDiscord} />}
-                onClick={() =>
-                  trackEvent({
-                    category: "topnav",
-                    action: "click",
-                    label: "discord",
-                  })
-                }
+                category="topnav"
+                label="discord"
               />
-              <IconButton
+              <TrackedIconButton
+                as={LinkButton}
+                isExternal
+                noIcon
+                href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
+                bg="transparent"
+                color="gray.50"
+                aria-label="YouTube"
+                icon={<Icon boxSize="1rem" as={SiYoutube} />}
+                category="topnav"
+                label="youtube"
+              />
+              <TrackedIconButton
                 as={LinkButton}
                 isExternal
                 noIcon
@@ -144,13 +143,8 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 color="gray.50"
                 aria-label="github"
                 icon={<Icon boxSize="1rem" as={SiGithub} />}
-                onClick={() =>
-                  trackEvent({
-                    category: "topnav",
-                    action: "click",
-                    label: "github",
-                  })
-                }
+                category="topnav"
+                label="github"
               />
             </Flex>
           </Stack>
