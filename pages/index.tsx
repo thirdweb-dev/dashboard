@@ -89,7 +89,7 @@ const Home: ConsolePage = () => {
                   <GeneralCta size="lg" subtitle="It's free!" />
                 </LightMode>
               </Flex>
-              <Flex justify={{ base: "center", md: "end" }}>
+              <Flex display={{ base: "none", md: "flex" }}>
                 <ChakraNextImage alt="" maxW={96} w={96} mt={8} src={Hero} />
               </Flex>
             </SimpleGrid>
@@ -112,7 +112,7 @@ const Home: ConsolePage = () => {
               >
                 Introducing thirdweb deploy
               </Heading>
-              <Heading size="subtitle.lg" as="h3">
+              <Heading size="subtitle.lg" as="h3" textAlign="center">
                 Create and deploy your own contracts with our intuitive SDK
               </Heading>
               <SimpleGrid
@@ -120,8 +120,9 @@ const Home: ConsolePage = () => {
                 justifyContent="space-between"
                 w="100%"
                 columns={{ base: 1, md: 3 }}
-                gap={6}
+                gap={{ base: 12, md: 6 }}
                 py={12}
+                px={{ base: 6, md: 0 }}
               >
                 <Stack spacing={4}>
                   <ChakraNextImage src={ListImage} alt="" w={10} />
@@ -149,7 +150,7 @@ const Home: ConsolePage = () => {
                   </Text>
                 </Stack>
               </SimpleGrid>
-              <Heading size="subtitle.lg" as="h3">
+              <Heading size="subtitle.lg" as="h3" textAlign="center">
                 Or get started with thirdweb pre-built contracts
               </Heading>
               <SimpleGrid
@@ -175,7 +176,7 @@ const Home: ConsolePage = () => {
               <Heading as="h2" size="display.sm">
                 Powerful SDKs. Easy integrations.
               </Heading>
-              <Heading as="h3" size="subtitle.lg">
+              <Heading as="h3" size="subtitle.lg" textAlign="center">
                 Intuitive SDK for websites, mobiles, backend servers, games,
                 etc.
               </Heading>
@@ -294,7 +295,7 @@ const Home: ConsolePage = () => {
               <Heading as="h2" size="display.sm" textAlign="center">
                 We are multi-chain
               </Heading>
-              <Heading size="subtitle.lg" as="h3">
+              <Heading size="subtitle.lg" as="h3" textAlign="center">
                 thirdweb supports a multi-chain ecosystem of blockchains
               </Heading>
               <Box w="full">
@@ -332,12 +333,19 @@ const Home: ConsolePage = () => {
               spacing={{ base: 6, md: 8 }}
             >
               <Flex gap={{ base: 6, md: 8 }} flexDir="column">
-                <Heading size="display.sm">
+                <Heading
+                  size="display.sm"
+                  textAlign={{ base: "center", md: "left" }}
+                >
                   Always know what you&apos;ll pay.
                   <br />
                   This time it&apos;s $0.
                 </Heading>
-                <Text size="body.xl" fontStyle="italic">
+                <Text
+                  size="body.xl"
+                  fontStyle="italic"
+                  textAlign={{ base: "center", md: "left" }}
+                >
                   We may introduce advanced features which you can decide to pay
                   for in the future. We will always be transparent and clear
                   about any paid features up-front.
@@ -445,7 +453,7 @@ const Home: ConsolePage = () => {
               >
                 Success stories
               </Heading>
-              <Heading size="subtitle.lg" as="h3">
+              <Heading size="subtitle.lg" as="h3" textAlign="center">
                 See how game-changing companies are making the most of web3 with
                 thirdweb.
               </Heading>
@@ -485,6 +493,7 @@ const Home: ConsolePage = () => {
               pt={{ base: 12, md: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
+              pb={{ base: 24, md: 0 }}
             >
               <Center mb={6} pt={24}>
                 <Center p={2} position="relative" mb={6}>
