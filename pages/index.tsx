@@ -30,6 +30,7 @@ import Contracts from "public/assets/landingpage/contracts.png";
 import Hero from "public/assets/landingpage/hero.png";
 import Keys from "public/assets/landingpage/keys.png";
 import ListImage from "public/assets/landingpage/list.png";
+import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import Statistics from "public/assets/landingpage/statistics.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
@@ -90,8 +91,31 @@ const Home: ConsolePage = () => {
                   <GeneralCta size="lg" subtitle="It's free!" />
                 </LightMode>
               </Flex>
-              <Flex display={{ base: "none", md: "flex" }}>
-                <ChakraNextImage alt="" maxW={96} w={96} mt={8} src={Hero} />
+              <Flex
+                display={{ base: "none", md: "flex" }}
+                justifyContent="flex-end"
+              >
+                <ChakraNextImage
+                  alt=""
+                  maxW={96}
+                  w={96}
+                  mt={8}
+                  src={Hero}
+                  mr={12}
+                />
+              </Flex>
+              <Flex
+                display={{ base: "flex", md: "none" }}
+                justifyContent="center"
+              >
+                <ChakraNextImage
+                  alt=""
+                  maxW={96}
+                  w={96}
+                  mt={8}
+                  px={4}
+                  src={MobileHero}
+                />
               </Flex>
             </SimpleGrid>
           </HomepageSection>
@@ -331,7 +355,11 @@ const Home: ConsolePage = () => {
               columns={{ base: 1, md: 2 }}
               spacing={{ base: 6, md: 8 }}
             >
-              <Flex gap={{ base: 6, md: 8 }} flexDir="column">
+              <Flex
+                gap={{ base: 6, md: 8 }}
+                flexDir="column"
+                justifyContent="center"
+              >
                 <Heading
                   size="display.sm"
                   textAlign={{ base: "center", md: "left" }}
