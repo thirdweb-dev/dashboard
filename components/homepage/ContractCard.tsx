@@ -49,9 +49,9 @@ export const ContractCard: React.FC<ContractCardProps> = ({
         </LinkOverlay>
       </Flex>
 
-      <Stack spacing={3}>
-        <Text size="body.md">{description}</Text>
-      </Stack>
+      <Text size="body.md" display={{ base: "none", md: "inherit" }}>
+        {description}
+      </Text>
     </Flex>
   );
 };

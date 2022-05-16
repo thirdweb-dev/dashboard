@@ -1,9 +1,9 @@
 import {
   AspectRatio,
   AspectRatioProps,
-  ButtonGroup,
   Center,
   PropsOf,
+  SimpleGrid,
   Spinner,
   chakra,
 } from "@chakra-ui/react";
@@ -38,11 +38,16 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   const { trackEvent } = useTrack();
   return (
     <Button
-      leftIcon={<ChakraNextImage src={logo} alt="" boxSize={6} />}
+      leftIcon={
+        <ChakraNextImage src={logo} alt="" boxSize={{ base: 5, md: 6 }} />
+      }
+      iconSpacing={{ base: 2, md: 3 }}
       borderRadius="md"
       variant="solid"
       bgColor="white"
-      p={6}
+      size="sm"
+      px={{ base: 8, md: 3 }}
+      py={{ base: 5, md: 6 }}
       outlineColor={language === activeLanguage ? "primary.600" : undefined}
       _hover={{ outlineColor: "primary.600" }}
       _active={{
@@ -73,10 +78,9 @@ export const CodeSelector: React.FC = () => {
   const { trackEvent } = useTrack();
   return (
     <>
-      <ButtonGroup
-        gap={{ base: 1, md: 3 }}
-        size="sm"
-        w="100%"
+      <SimpleGrid
+        gap={{ base: 2, md: 3 }}
+        columns={3}
         justifyContent={{ base: "space-between", md: "center" }}
       >
         <CodeOptionButton
@@ -103,7 +107,7 @@ export const CodeSelector: React.FC = () => {
         >
           React
         </CodeOptionButton>
-      </ButtonGroup>
+      </SimpleGrid>
       <LazyLoadedIframe
         aspectRatioProps={{
           ratio: { base: 9 / 16, md: 16 / 9 },

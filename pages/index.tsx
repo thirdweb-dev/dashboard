@@ -11,14 +11,15 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import { ContractType } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { CaseStudyCard } from "components/homepage/CaseStudyCard";
 import { CodeSelector } from "components/homepage/CodeSelector";
 import { ContractCard } from "components/homepage/ContractCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFooter } from "components/homepage/Footer";
-import { Partner } from "components/homepage/Partner";
+
+/* import { ContractType } from "@thirdweb-dev/sdk";
+import { Partner } from "components/homepage/Partner"; */
 import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
@@ -75,9 +76,13 @@ const Home: ConsolePage = () => {
               <Flex
                 flexDir="column"
                 gap={{ base: 6, md: 8 }}
-                align={{ base: "center", md: "start" }}
+                align={{ base: "initial", md: "start" }}
               >
-                <Heading as="h2" size="display.md">
+                <Heading
+                  as="h2"
+                  size="display.md"
+                  textAlign={{ base: "center", md: "left" }}
+                >
                   Build web3 apps, easily.
                 </Heading>
                 <Heading
@@ -89,7 +94,7 @@ const Home: ConsolePage = () => {
                   workflow. Intuitive SDKs and embeds for developers.
                 </Heading>
                 <LightMode>
-                  <GeneralCta size="lg" subtitle="It's free!" />
+                  <GeneralCta size="lg" />
                 </LightMode>
               </Flex>
               <Flex
@@ -181,7 +186,7 @@ const Home: ConsolePage = () => {
               </Heading>
               <SimpleGrid
                 columns={{ base: 2, md: 5 }}
-                spacing={{ base: 2, md: 4 }}
+                spacing={{ base: 3, md: 4 }}
                 mb={12}
               >
                 {Object.entries(BuiltinContractMap)
@@ -433,7 +438,7 @@ const Home: ConsolePage = () => {
             </SimpleGrid>
           </HomepageSection>
 
-          <HomepageSection id="partners" middleGradient>
+          {/* <HomepageSection id="partners" middleGradient>
             <Flex
               flexDir="column"
               py={{ base: 12, md: 24 }}
@@ -470,7 +475,7 @@ const Home: ConsolePage = () => {
                 <Partner type="whop" />
               </SimpleGrid>
             </Flex>
-          </HomepageSection>
+          </HomepageSection> */}
 
           <HomepageSection id="case-studies">
             <Flex
