@@ -72,7 +72,7 @@ const Home: ConsolePage = () => {
                   and embeds for developers.
                 </Box>
                 <LightMode>
-                  <GeneralCta size="lg" subtitle="It's free!" py={8} />
+                  <GeneralCta size="lg" subtitle="It's free!" />
                 </LightMode>
               </Box>
             }
@@ -359,12 +359,7 @@ const Home: ConsolePage = () => {
                 </ListItem>
               </List>
               <LightMode>
-                <GeneralCta
-                  title="Start building today"
-                  size="lg"
-                  py={8}
-                  w="100%"
-                />
+                <GeneralCta title="Start building today" size="lg" w="100%" />
               </LightMode>
             </Box>
           </HomepageSection>
@@ -491,12 +486,7 @@ const Home: ConsolePage = () => {
             noPaddingBottom
           >
             <LightMode>
-              <GeneralCta
-                title="Start building for free"
-                size="lg"
-                py={8}
-                px={14}
-              />
+              <GeneralCta title="Start building for free" size="lg" px={14} />
             </LightMode>
           </HomepageSection>
 

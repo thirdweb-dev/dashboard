@@ -28,7 +28,7 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({
       }
       color="black"
       px={20}
-      py={6}
+      py={{ base: 6, md: 8 }}
       onClick={() =>
         trackEvent({
           category: "cta-button",
