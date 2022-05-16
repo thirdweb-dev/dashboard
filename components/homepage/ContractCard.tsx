@@ -49,7 +49,7 @@ export const ContractCard: React.FC<{ type: ContractCardType }> = ({
         </Box>
       </AspectRatio>
 
-      <Stack spacing={3}>
+      <Stack spacing={3} mt={4}>
         <Heading as="h4" size="title.sm" fontWeight="600" color="gray.50">
           {title}
         </Heading>

@@ -27,6 +27,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import Analytics from "public/assets/landingpage/analytics.png";
 import Contracts from "public/assets/landingpage/contracts.png";
 import Hero from "public/assets/landingpage/hero.png";
+import Keys from "public/assets/landingpage/keys.png";
 import ListImage from "public/assets/landingpage/list.png";
 import Statistics from "public/assets/landingpage/statistics.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
@@ -99,37 +100,29 @@ const Home: ConsolePage = () => {
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               py={{ base: 12, md: 24 }}
+              align="center"
             >
-              <Heading size="display.sm" as="h2" textAlign="center">
-                Get started with{" "}
-                <Heading
-                  as="span"
-                  display="block"
-                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
-                  bgClip="text"
-                  fontSize="inherit"
-                >
-                  pre-built contracts.
-                </Heading>
+              <Heading
+                as="h2"
+                display="block"
+                bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                bgClip="text"
+                size="display.sm"
+                textAlign="center"
+              >
+                Introducing thirdweb deploy
+              </Heading>
+              <Heading size="subtitle.lg" as="h3">
+                Create and deploy your own contracts with our intuitive SDK
               </Heading>
               <SimpleGrid
-                border="1px solid"
-                borderColor="#4953AF"
-                p={{ base: 8, md: 14 }}
-                borderRadius="lg"
-                backgroundColor="#0000004d"
                 flexDir="column"
                 justifyContent="space-between"
                 w="100%"
                 columns={{ base: 1, md: 3 }}
                 gap={6}
+                py={12}
               >
-                <Stack justifyContent="center">
-                  <Text size="label.sm" textTransform="uppercase">
-                    BRING YOUR OWN CONTRACT
-                  </Text>
-                  <Heading size="title.2xl">thirdweb deploy</Heading>
-                </Stack>
                 <Stack spacing={4}>
                   <ChakraNextImage src={ListImage} alt="" w={10} />
                   <Heading size="title.sm">Manage and deploy contracts</Heading>
@@ -145,11 +138,23 @@ const Home: ConsolePage = () => {
                     reveal & more.
                   </Text>
                 </Stack>
+                <Stack spacing={4}>
+                  <ChakraNextImage src={Keys} alt="" w={10} />
+                  <Heading size="title.sm">
+                    Stop messing with private keys
+                  </Heading>
+                  <Text size="body.lg">
+                    Deploy through our CLI without having to input your private
+                    keys.
+                  </Text>
+                </Stack>
               </SimpleGrid>
+              <Heading size="subtitle.lg" as="h3">
+                Or get started with thirdweb pre-built contracts
+              </Heading>
               <SimpleGrid
                 columns={{ base: 1, md: 4 }}
                 spacing={{ base: 5, md: 4 }}
-                mt={5}
                 mb={12}
               >
                 <ContractCard type="nft" />
