@@ -74,7 +74,7 @@ export const CodeSelector: React.FC = () => {
   return (
     <>
       <ButtonGroup
-        gap={3}
+        gap={{ base: 1, md: 3 }}
         size="sm"
         w="100%"
         justifyContent={{ base: "space-between", md: "center" }}
