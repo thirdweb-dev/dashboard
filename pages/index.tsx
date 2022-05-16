@@ -84,7 +84,7 @@ const Home: ConsolePage = () => {
           >
             <Flex
               justifyContent={{ base: "center", md: "end" }}
-              mr={{ base: 20, md: 0 }}
+              mr={{ base: 0, md: 20 }}
             >
               <ChakraNextImage alt="" maxW={96} w={96} mt={8} src={Hero} />
             </Flex>
