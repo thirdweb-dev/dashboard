@@ -1,149 +1,85 @@
-import { AnimatedGradient } from "./AnimatedGradient";
 import { StaticGradient } from "./StaticGradient";
-import {
-  AspectRatioProps,
-  Box,
-  BoxProps,
-  Container,
-  Flex,
-  SimpleGrid,
-  Stack,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import React from "react";
-import { Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
-type GradientType = "animated" | "static";
-
 interface IHomepageSection {
-  title: string | JSX.Element;
-  subtitle?: string | JSX.Element;
-  bottomGradient?: GradientType;
-  topGradient?: GradientType;
-  middleGradient?: GradientType;
+  bottomGradient?: true;
+  topGradient?: true;
+  middleGradient?: true;
   id?: string;
-  leftAlignedTitle?: true;
-  leftAlignedSubtitle?: true;
-  childrenOnRightSide?: true;
-  subtitleMd?: boolean;
-  titleSm?: boolean;
+
   union?: true;
-  noPaddingBottom?: true;
-  isHeroSection?: true;
-  overflow?: BoxProps["overflow"];
 }
-
-const gradientMap: Record<
-  GradientType,
-  React.ComponentType<Omit<AspectRatioProps, "ratio"> & { hero?: true }>
-> = {
-  animated: AnimatedGradient,
-  static: StaticGradient,
-};
-
 export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
-  childrenOnRightSide,
-  title,
-  subtitle,
   children,
   bottomGradient,
   topGradient,
   middleGradient,
   id,
-  leftAlignedTitle,
-  leftAlignedSubtitle,
-  subtitleMd,
-  titleSm,
   union,
-  noPaddingBottom,
-  isHeroSection,
-  overflow,
 }) => {
-  const TopGradient = topGradient ? gradientMap[topGradient] : null;
-  const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
-  const MiddleGradient = middleGradient ? gradientMap[middleGradient] : null;
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
   return (
-    <Box w="100%" position="relative" as="section" overflow={overflow} id={id}>
-      <Container
-        zIndex={2}
-        position="relative"
-        maxW="container.page"
-        py={{ base: 12, lg: 24 }}
-        pb={{ base: noPaddingBottom ? 0 : 12, lg: noPaddingBottom ? 0 : 24 }}
-        pt={{ base: isHeroSection ? 24 : 12, lg: isHeroSection ? 48 : 24 }}
-      >
-        {TopGradient && (
-          <TopGradient
-            zIndex={-1}
-            position="absolute"
-            top={0}
-            left="50%"
-            w="100%"
-            transform="translate(-50%, -66%)"
-          />
-        )}
+    <Box
+      w="100%"
+      position="relative"
+      as="section"
+      overflow="visible"
+      zIndex={2}
+    >
+      {topGradient && (
+        <StaticGradient
+          zIndex={-1}
+          position="absolute"
+          top={0}
+          left={{ base: "50%", md: "50%" }}
+          w={{ base: "200%", md: "100%" }}
+          maxW="container.page"
+          transform={{
+            base: "translate(-75%, -50%)",
+            md: "translate(-50%, -66%)",
+          }}
+        />
+      )}
 
-        {MiddleGradient && (
-          <MiddleGradient
-            zIndex={-1}
-            position="absolute"
-            bottom="50%"
-            left="50%"
-            w="100%"
-            transform={`translate(-50%, 66%)`}
-          />
-        )}
-        <SimpleGrid
-          columns={[1, 1, childrenOnRightSide ? 2 : 1]}
-          spacing={[6, 6, 12]}
-        >
-          <Stack
-            spacing={[6, 6, 8]}
-            align={childrenOnRightSide ? "flex-start" : "center"}
-            justifyContent="center"
-          >
-            <Flex align="flex-end" justify="space-between" w="100%">
-              <Container maxW="container.lg" px={0}>
-                <Heading
-                  textAlign={leftAlignedTitle && !isMobile ? "left" : "center"}
-                  size={titleSm ? "display.sm" : "display.md"}
-                >
-                  {title}
-                </Heading>
-              </Container>
-            </Flex>
-            {subtitle && (
-              <Container maxW="container.lg" px={0}>
-                <Heading
-                  textAlign={
-                    leftAlignedSubtitle && !isMobile ? "left" : "center"
-                  }
-                  size={subtitleMd ? "subtitle.md" : "subtitle.lg"}
-                >
-                  {subtitle}
-                </Heading>
-              </Container>
-            )}
-            {childrenOnRightSide ? null : children}
-          </Stack>
-          {childrenOnRightSide ? children : null}
-        </SimpleGrid>
+      {middleGradient && (
+        <StaticGradient
+          zIndex={-1}
+          position="absolute"
+          bottom="50%"
+          left={{ base: "50%", md: "50%" }}
+          w={{ base: "200%", md: "100%" }}
+          maxW="container.page"
+          transform={{
+            base: "translate(-75%, -50%)",
+            md: "translate(-50%, -66%)",
+          }}
+        />
+      )}
+      {bottomGradient && (
+        <StaticGradient
+          zIndex={-1}
+          position="absolute"
+          bottom={0}
+          left={{ base: "50%", md: "50%" }}
+          w={{ base: "200%", md: "100%" }}
+          maxW="container.page"
+          transform={{
+            base: "translate(-75%, 55%)",
+            md: "translate(-50%, 55%)",
+          }}
+        />
+      )}
+      <Container position="relative" maxW="container.page" id={id}>
+        {children}
 
-        {BottomGradient && (
-          <BottomGradient
-            zIndex={-1}
-            position="absolute"
-            bottom={0}
-            left="50%"
-            w="100%"
-            transform={`translate(-50%, 66%)`}
-          />
-        )}
         {union && (
-          <Box position="relative" zIndex="10" pt={24}>
+          <Box
+            position="relative"
+            zIndex="10"
+            pt={24}
+            display={{ base: "none", md: "block" }}
+          >
             <Box
               as="svg"
               viewBox="0 0 1371 131"
