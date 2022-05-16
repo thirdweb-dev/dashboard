@@ -72,7 +72,7 @@ const Home: ConsolePage = () => {
                   and embeds for developers.
                 </Box>
                 <LightMode>
-                  <GeneralCta size="lg" subtitle="It's free!" />
+                  <GeneralCta size="lg" subtitle="It's free!" py={8} />
                 </LightMode>
               </Box>
             }
