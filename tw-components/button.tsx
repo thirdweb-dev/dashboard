@@ -142,13 +142,13 @@ export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
 
 TrackedIconButton.displayName = "TrackedIconButton";
 
-interface IAddressCopyButton extends Omit<ButtonProps, "onClick" | "size"> {
+interface AddressCopyButtonProps extends Omit<ButtonProps, "onClick" | "size"> {
   address?: string;
   noIcon?: boolean;
   size?: PossibleButtonSize;
 }
 
-export const AddressCopyButton: React.FC<IAddressCopyButton> = ({
+export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   address,
   noIcon,
   flexGrow = 0,
