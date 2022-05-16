@@ -10,7 +10,7 @@ export const StaticGradient: React.FC<
         overflow="visible!important"
         bgGradient="linear(to-r, #C200C6, #2D8EFF)"
         opacity={opacity ? opacity : 0.4}
-        filter="blur(350px)"
+        filter="blur(33vw)"
         borderRadius="full"
       />
     </AspectRatio>

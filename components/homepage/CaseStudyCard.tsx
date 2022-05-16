@@ -34,9 +34,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
         overflow="hidden"
         position="relative"
         h={96}
-        border="1px solid"
-        borderColor={"borderColor"}
-        _hover={{ borderColor: "primary.600" }}
+        role="group"
       >
         <ChakraNextImage
           alt=""
@@ -45,6 +43,20 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
           src={require(`/public/assets/case-studies/${title}.png`)}
           objectFit="cover"
           layout="fill"
+        />
+        <Box
+          position="absolute"
+          top={0}
+          bottom={0}
+          left={0}
+          right={0}
+          bg="#000"
+          opacity={0}
+          willChange="opacity"
+          transition="opacity 0.1s"
+          _groupHover={{
+            opacity: 0.3,
+          }}
         />
         <Box p={6} position="absolute" top="0" left="0">
           <ChakraNextImage
