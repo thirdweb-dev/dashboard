@@ -63,7 +63,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   const TopGradient = topGradient ? gradientMap[topGradient] : null;
   const BottomGradient = bottomGradient ? gradientMap[bottomGradient] : null;
   const MiddleGradient = middleGradient ? gradientMap[middleGradient] : null;
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
   return (
     <Box w="100%" position="relative" as="section" overflow={overflow} id={id}>
