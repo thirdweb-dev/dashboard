@@ -15,7 +15,7 @@ import { Heading } from "tw-components";
 const EXAMPLES_MAP = {
   tokenGated: {
     title: "Token gated memberships",
-    href: "https://portal.thirdweb.com",
+    href: "https://github.com/thirdweb-example/NFT-Gated-Website",
     svg: TokenGated,
   },
   defiProtocols: {
@@ -25,17 +25,17 @@ const EXAMPLES_MAP = {
   },
   daos: {
     title: "DAOs",
-    href: "https://portal.thirdweb.com",
+    href: "https://github.com/thirdweb-example/dao",
     svg: DAOs,
   },
   marketplaces: {
     title: "Digitial asset marketplaces",
-    href: "https://portal.thirdweb.com",
+    href: "https://github.com/thirdweb-example/marketplace-next-ts",
     svg: Marketplaces,
   },
   nftDrops: {
     title: "NFT drops",
-    href: "https://portal.thirdweb.com",
+    href: "https://github.com/thirdweb-example/custom-minting-page",
     svg: NFTDrops,
   },
   creatorTools: {
