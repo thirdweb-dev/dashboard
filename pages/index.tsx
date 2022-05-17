@@ -66,7 +66,7 @@ const Home: ConsolePage = () => {
           <HomepageTopNav />
           <HomepageSection id="home" topGradient bottomPattern>
             <SimpleGrid
-              pb={{ base: 12, md: 24 }}
+              pb={{ base: 12, lg: 24 }}
               pt={{
                 base: 24,
                 md: 48,
@@ -144,7 +144,7 @@ const Home: ConsolePage = () => {
             <Flex
               flexDir="column"
               gap={{ base: 6, md: 8 }}
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
             >
               <Flex
@@ -266,7 +266,7 @@ const Home: ConsolePage = () => {
                 or get started with our pre-built contracts
               </Heading>
               <SimpleGrid
-                columns={{ base: 2, md: 5 }}
+                columns={{ base: 2, md: 3, lg: 4 }}
                 spacing={{ base: 3, md: 4 }}
                 mb={12}
               >
@@ -288,7 +288,7 @@ const Home: ConsolePage = () => {
           <HomepageSection id="developers" bottomPattern middleGradient>
             <Flex
               flexDir="column"
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
@@ -305,9 +305,9 @@ const Home: ConsolePage = () => {
           <HomepageSection id="features">
             <Flex
               flexDir="column"
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
-              gap={{ base: 12, md: 24 }}
+              gap={{ base: 12, lg: 24 }}
             >
               <Heading as="h2" size="display.sm" textAlign="center">
                 Dashboards to
@@ -318,7 +318,7 @@ const Home: ConsolePage = () => {
                 </Heading>
                 .
               </Heading>
-              <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
+              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
                 <DashboardCard
                   headingTitle="thirdweb teams"
                   headingIcon={AiOutlineTeam}
@@ -400,7 +400,7 @@ const Home: ConsolePage = () => {
           <HomepageSection id="networks" middleGradient>
             <Flex
               flexDir="column"
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
@@ -411,7 +411,7 @@ const Home: ConsolePage = () => {
                 size="display.sm"
                 textAlign="center"
               >
-                Think Multi-Chain
+                Think Multi-Chain.
               </Heading>
               <Heading size="subtitle.lg" as="h3" textAlign="center">
                 Major chains are supported. More are coming soon.
@@ -422,8 +422,8 @@ const Home: ConsolePage = () => {
 
           <HomepageSection id="fees" middleGradient>
             <SimpleGrid
-              py={{ base: 12, md: 24 }}
-              columns={{ base: 1, md: 2 }}
+              py={{ base: 12, lg: 24 }}
+              columns={{ base: 1, lg: 2 }}
               spacing={{ base: 6, md: 8 }}
               alignItems="center"
             >
@@ -496,9 +496,9 @@ const Home: ConsolePage = () => {
           <HomepageSection id="examples" bottomGradient>
             <Flex
               flexDir="column"
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
-              gap={{ base: 12, md: 24 }}
+              gap={{ base: 12, lg: 24 }}
             >
               <Heading
                 as="h2"
@@ -524,7 +524,7 @@ const Home: ConsolePage = () => {
           {/* <HomepageSection id="partners" middleGradient>
             <Flex
               flexDir="column"
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
@@ -563,7 +563,7 @@ const Home: ConsolePage = () => {
           <HomepageSection id="case-studies">
             <Flex
               flexDir="column"
-              py={{ base: 12, md: 24 }}
+              py={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
@@ -573,7 +573,7 @@ const Home: ConsolePage = () => {
                 size="display.sm"
                 textAlign="center"
               >
-                Case Studies
+                Case studies.
               </Heading>
               <Heading maxW="md" size="subtitle.lg" as="h3" textAlign="center">
                 Powering web3 experiences from startups to large organizations
@@ -612,12 +612,12 @@ const Home: ConsolePage = () => {
           <HomepageSection id="get-started" bottomGradient bottomPattern>
             <Flex
               flexDir="column"
-              pt={{ base: 12, md: 24 }}
+              pt={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
               pb={{ base: 24, md: 0 }}
             >
-              <Center mb={6} pt={{ base: 8, md: 24 }}>
+              <Center mb={6} pt={{ base: 8, lg: 24 }}>
                 <Center p={2} position="relative" mb={6}>
                   <Box
                     position="absolute"

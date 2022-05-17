@@ -77,7 +77,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
             position="relative"
             zIndex="10"
             pt={24}
-            display={{ base: "none", md: "block" }}
+            display={{ base: "none", lg: "block" }}
           >
             <Box
               as="svg"

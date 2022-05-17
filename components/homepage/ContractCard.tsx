@@ -31,7 +31,7 @@ export const ContractCard: React.FC<ContractCardProps> = ({
       _hover={{ borderColor: "primary.600", textDecoration: "none" }}
     >
       <Flex align="center" gap={2}>
-        <ChakraNextImage src={icon} alt={title} boxSize={7} />
+        <ChakraNextImage src={icon} alt={title} boxSize={7} flexShrink={0} />
         <LinkOverlay
           href={`https://portal.thirdweb.com/pre-built-contracts/${UrlMap[contractType]}`}
           isExternal

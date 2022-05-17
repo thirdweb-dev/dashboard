@@ -192,11 +192,11 @@ export const HomepageFooter: React.FC = () => {
               />
             </ButtonGroup>
           </Stack>
-          <Stack
+          <Flex
             direction={{ base: "column-reverse", md: "column", lg: "row" }}
-            spacing={{ base: "12", md: "8" }}
+            gap={{ base: "12", md: "8" }}
           >
-            <SimpleGrid columns={{ base: 2, md: 4 }} spacing="8">
+            <SimpleGrid columns={{ base: 2, lg: 4 }} spacing="8">
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Product</Heading>
                 <Stack spacing="3" shouldWrapChildren>
@@ -307,7 +307,7 @@ export const HomepageFooter: React.FC = () => {
                 </Stack>
               </Stack>
             </SimpleGrid>
-          </Stack>
+          </Flex>
         </Stack>
       </Container>
     </Box>
