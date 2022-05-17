@@ -308,12 +308,7 @@ const Home: ConsolePage = () => {
               align="center"
               gap={{ base: 12, md: 24 }}
             >
-              <Heading
-                as="h2"
-                size="display.sm"
-                textAlign="center"
-                fontWeight={500}
-              >
+              <Heading as="h2" size="display.sm" textAlign="center">
                 A dashboard to
                 <br />
                 control{" "}
