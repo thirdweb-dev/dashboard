@@ -18,12 +18,12 @@ import { ContractCard } from "components/homepage/ContractCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFooter } from "components/homepage/Footer";
 import { HomepageSection } from "components/homepage/Section";
-import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
 import {
   ExampleItem,
   exampleCategories,
 } from "components/homepage/examples/ExampleItem";
+import { MultiChainSVG } from "components/homepage/multi-chain-svg";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -302,7 +302,7 @@ const Home: ConsolePage = () => {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection id="features" bottomGradient>
+          <HomepageSection id="features">
             <Flex
               flexDir="column"
               py={{ base: 12, md: 24 }}
@@ -397,44 +397,26 @@ const Home: ConsolePage = () => {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection id="networks">
+          <HomepageSection id="networks" middleGradient>
             <Flex
               flexDir="column"
               py={{ base: 12, md: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
-              <Heading as="h2" size="display.sm" textAlign="center">
+              <Heading
+                bgGradient="linear(to-l, #7EB6FF, #F0C5FF)"
+                bgClip="text"
+                as="h2"
+                size="display.sm"
+                textAlign="center"
+              >
                 Think Multi-Chain
               </Heading>
               <Heading size="subtitle.lg" as="h3" textAlign="center">
                 Major chains are supported. More are coming soon.
               </Heading>
-              <Box w="full">
-                <Text size="label.lg" textTransform="uppercase">
-                  Available now
-                </Text>
-                <SimpleGrid
-                  columns={{ base: 2, md: 4 }}
-                  spacing={4}
-                  mt={5}
-                  mb={12}
-                >
-                  <SupportedChain type="ethereum" />
-                  <SupportedChain type="polygon" />
-                  <SupportedChain type="avalanche" />
-                  <SupportedChain type="fantom" />
-                </SimpleGrid>
-
-                <Text size="label.lg" textTransform="uppercase">
-                  Coming soon
-                </Text>
-
-                <SimpleGrid columns={{ base: 2, md: 4 }} spacing={4} mt={5}>
-                  <SupportedChain type="solana" />
-                  <SupportedChain type="flow" />
-                </SimpleGrid>
-              </Box>
+              <MultiChainSVG />
             </Flex>
           </HomepageSection>
 
