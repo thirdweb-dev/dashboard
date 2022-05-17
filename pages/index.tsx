@@ -257,12 +257,7 @@ const Home: ConsolePage = () => {
                   </Stack>
                 </SimpleGrid>
               </Flex>
-              <Heading
-                fontStyle="italic"
-                size="subtitle.lg"
-                as="h3"
-                textAlign="center"
-              >
+              <Heading size="subtitle.lg" as="h3" textAlign="center">
                 or get started with our pre-built contracts
               </Heading>
               <SimpleGrid
