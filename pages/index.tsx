@@ -442,7 +442,7 @@ const Home: ConsolePage = () => {
                 >
                   We may introduce optional advanced features which you can
                   decide to pay for in the future. We will always be transparent
-                  and clear about any paid features up-front.
+                  and clear about any paid features up front.
                 </Text>
               </Flex>
               <Box
@@ -581,6 +581,7 @@ const Home: ConsolePage = () => {
               <SimpleGrid
                 flexDirection={{ base: "column", md: "row" }}
                 gap={12}
+                mt={6}
                 columns={{ base: 1, md: 2 }}
                 w="full"
               >
