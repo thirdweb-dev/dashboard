@@ -53,7 +53,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
           align="center"
           flexDir="row"
         >
-          <TrackedLink href="#home" category="topnav" label="home">
+          <TrackedLink href="/" category="topnav" label="home">
             <Logo color="#fff" />
           </TrackedLink>
           <Stack

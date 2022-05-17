@@ -88,12 +88,12 @@ const Home: ConsolePage = () => {
                 </Heading>
                 <Heading
                   as="h3"
-                  size="subtitle.lg"
+                  size="subtitle.md"
                   textAlign={{ base: "center", md: "left" }}
                 >
                   Powerful SDKs and intuitive tools for building web3 apps.
-                  Bring your own contracts or use the ones we built for you. Get
-                  to production with confidence and ahead of schedule.
+                  Bring your own contracts or use ours for free. Get to
+                  production faster.
                 </Heading>
                 <LightMode>
                   <Flex flexDir="column" align="center" gap={6}>
