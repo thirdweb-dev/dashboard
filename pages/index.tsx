@@ -617,7 +617,7 @@ const Home: ConsolePage = () => {
               gap={{ base: 6, md: 8 }}
               pb={{ base: 24, md: 0 }}
             >
-              <Center mb={6} pt={24}>
+              <Center mb={6} pt={{ base: 8, md: 24 }}>
                 <Center p={2} position="relative" mb={6}>
                   <Box
                     position="absolute"

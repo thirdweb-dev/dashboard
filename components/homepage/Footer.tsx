@@ -285,7 +285,7 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="privacy"
                   >
-                    Privacy policy
+                    Privacy Policy
                   </TrackedLink>
                   <TrackedLink
                     isExternal
@@ -293,7 +293,7 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="terms"
                   >
-                    Terms of service
+                    Terms of Service
                   </TrackedLink>
                 </Stack>
               </Stack>
