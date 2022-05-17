@@ -219,7 +219,7 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="portal"
                   >
-                    Developer Portal
+                    Docs
                   </TrackedLink>
                   <TrackedLink
                     isExternal

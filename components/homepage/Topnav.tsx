@@ -89,7 +89,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
               label="portal"
             >
               <Flex alignItems="center">
-                Developer Portal
+                Docs
                 <Icon ml={1.5} as={FiExternalLink} />
               </Flex>
             </TrackedLink>
