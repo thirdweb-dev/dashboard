@@ -1,5 +1,5 @@
 import Icon from "@chakra-ui/icon";
-import { AspectRatio, Box, Flex } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import * as React from "react";
@@ -24,23 +24,24 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   gradientBGs,
 }) => {
   return (
-    <Flex
+    <SimpleGrid
       borderRadius="2xl"
       border="1px solid"
       borderColor="#ffffff26"
       overflow="hidden"
-      flexDirection="column"
-      flexGrow={1}
+      columns={1}
     >
       <Flex
         justifyContent="center"
         alignItems="center"
         position="relative"
         overflow="hidden"
-        h={52}
+        flexGrow={0}
+        flexShrink={0}
+        h={64}
       >
         <CardGradientBackground {...gradientBGs} />
-        <ChakraNextImage p={6} alt="" maxW={80} w={80} src={rightImage} />
+        <ChakraNextImage p={6} alt="" src={rightImage} w="100%" />
       </Flex>
       <Flex
         flexShrink={0}
@@ -60,7 +61,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
         <Heading size="title.sm">{title}</Heading>
         <Text size="body.lg">{subtitle}</Text>
       </Flex>
-    </Flex>
+    </SimpleGrid>
   );
 };
 

@@ -91,9 +91,8 @@ const Home: ConsolePage = () => {
                   size="subtitle.md"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  Powerful SDKs and intuitive tools for building web3 apps.
-                  Bring your own contracts or use ours for free. Get to
-                  production faster.
+                  Smart contracts you control. Powerful SDKs and intuitive tools
+                  for developers. Get to production faster.
                 </Heading>
                 <LightMode>
                   <Flex flexDir="column" align="center" gap={6}>
@@ -166,11 +165,16 @@ const Home: ConsolePage = () => {
                     bgClip="text"
                     size="display.sm"
                   >
-                    thirdweb deploy
+                    <Link
+                      isExternal
+                      href="https://portal.thirdweb.com/thirdweb-deploy"
+                    >
+                      thirdweb deploy
+                    </Link>
                   </Heading>
                 </Heading>
                 <Heading size="subtitle.lg" as="h3" textAlign="center">
-                  Create and deploy your own contracts with our intuitive SDK
+                  Bring your own contracts, unlock all of our tools.
                 </Heading>
                 <SimpleGrid
                   flexDir="column"
@@ -182,20 +186,20 @@ const Home: ConsolePage = () => {
                   px={{ base: 6, md: 0 }}
                 >
                   <Stack spacing={4}>
-                    <ChakraNextImage src={Keys} alt="" w={10} />
+                    <ChakraNextImage src={Keys} alt="" w={12} />
                     <Heading size="title.sm">No more private keys</Heading>
                     <Text size="body.lg">
-                      Use your favorite wallet to deploy. Have a team? Use your
-                      Gnosis Safe!
-                      <br />
-                      Never accidentally leak your private keys again.
+                      Deploy as a team seamlessly with multi-sig or as a solo
+                      dev with your favorite wallet. Never accidentally leak
+                      your private keys again.
                     </Text>
                   </Stack>
 
                   <Stack spacing={4}>
-                    <ChakraNextImage src={Statistics} alt="" w={10} />
+                    <ChakraNextImage src={Statistics} alt="" w={12} />
                     <Heading size="title.sm">Power up with extensions</Heading>
                     <Text size="body.lg">
+                      Building blocks for your smart contracts:{" "}
                       <Link
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
@@ -237,20 +241,18 @@ const Home: ConsolePage = () => {
                       >
                         and more...
                       </Link>{" "}
-                      <br />
-                      Ready to go in minutes.
                     </Text>
                   </Stack>
 
                   <Stack spacing={4}>
-                    <ChakraNextImage src={ListImage} alt="" w={10} />
+                    <ChakraNextImage src={ListImage} alt="" w={12} />
                     <Heading size="title.sm">
-                      Automatic SDKs and dashboard
+                      Automatic SDKs and dashboards
                     </Heading>
                     <Text size="body.lg">
-                      Get fully-featured SDKs for popular languages out of the
-                      box and use the dashboard to effortlessly manage your
-                      contracts.
+                      Fully featured SDKs for your contracts so you can focus on
+                      building your app. Easy-to-use dashboards to manage and
+                      track your contracts on-chain.
                     </Text>
                   </Stack>
                 </SimpleGrid>
@@ -261,7 +263,7 @@ const Home: ConsolePage = () => {
                 as="h3"
                 textAlign="center"
               >
-                or get started with thirdweb pre-built contracts
+                or get started with our pre-built contracts
               </Heading>
               <SimpleGrid
                 columns={{ base: 2, md: 5 }}
@@ -291,11 +293,10 @@ const Home: ConsolePage = () => {
               gap={{ base: 6, md: 8 }}
             >
               <Heading as="h2" size="display.sm" textAlign="center">
-                Powerful SDKs. Easy integrations.
+                Powerful and intuitive SDKs.
               </Heading>
               <Heading as="h3" size="subtitle.lg" textAlign="center">
-                Intuitive SDK for websites, mobiles, backend servers, games,
-                etc.
+                Easily integrate into web, mobile, backend, games, etc.
               </Heading>
               <CodeSelector />
             </Flex>
@@ -309,7 +310,7 @@ const Home: ConsolePage = () => {
               gap={{ base: 12, md: 24 }}
             >
               <Heading as="h2" size="display.sm" textAlign="center">
-                A dashboard to
+                Dashboards to
                 <br />
                 control{" "}
                 <Heading as="span" fontSize="inherit" fontWeight={900}>
@@ -335,7 +336,7 @@ const Home: ConsolePage = () => {
                       </Heading>
                     </>
                   }
-                  subtitle="Deploy and manage your contracts with your Gnosis Safe, manage permissions, and more."
+                  subtitle="Deploy and manage your contracts with your multi-sig, manage permissions, and more."
                   rightImage={ThirdwebTeams}
                   gradientBGs={{
                     topGradient:
@@ -360,7 +361,7 @@ const Home: ConsolePage = () => {
                       , at your fingertips
                     </>
                   }
-                  subtitle="Keep track of your contracts, effortlessly deploy new versions, and more."
+                  subtitle="Keep track of your contracts, easily deploy new versions, perform transactions and more."
                   rightImage={Contracts}
                   gradientBGs={{
                     rightGradient: "#E28F12",
@@ -368,11 +369,12 @@ const Home: ConsolePage = () => {
                   }}
                 />
                 <DashboardCard
-                  headingTitle="thirdweb reports"
+                  headingTitle="thirdweb analytics"
                   headingIcon={MdOutlineAnalytics}
                   title={
                     <>
-                      Reports to learn about{" "}
+                      Automatic reports with
+                      <br />
                       <Heading
                         as="span"
                         bgGradient="linear(to-l, #585EE9, #E487D0)"
@@ -380,7 +382,7 @@ const Home: ConsolePage = () => {
                         display="inline"
                         size="title.sm"
                       >
-                        contract usage
+                        on-chain analytics
                       </Heading>
                     </>
                   }
@@ -441,28 +443,24 @@ const Home: ConsolePage = () => {
               py={{ base: 12, md: 24 }}
               columns={{ base: 1, md: 2 }}
               spacing={{ base: 6, md: 8 }}
+              alignItems="center"
             >
-              <Flex
-                gap={{ base: 6, md: 8 }}
-                flexDir="column"
-                justify="space-between"
-              >
+              <Flex gap={{ base: 6, md: 8 }} flexDir="column">
                 <Heading
                   size="display.sm"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  Always know what you&apos;ll pay.
+                  Transparent pricing. No hidden fees.
                   <br />
-                  This time it&apos;s $0.
                 </Heading>
                 <Text
                   size="body.xl"
                   fontStyle="italic"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  We may introduce advanced features which you can decide to pay
-                  for in the future. We will always be transparent and clear
-                  about any paid features up-front.
+                  We may introduce optional advanced features which you can
+                  decide to pay for in the future. We will always be transparent
+                  and clear about any paid features up-front.
                 </Text>
               </Flex>
               <Box
@@ -527,7 +525,7 @@ const Home: ConsolePage = () => {
                 size="display.md"
                 textAlign="center"
               >
-                What will you build?
+                Build anything.
               </Heading>
               <SimpleGrid
                 w="100%"
@@ -593,11 +591,10 @@ const Home: ConsolePage = () => {
                 size="display.sm"
                 textAlign="center"
               >
-                Success stories
+                Case Studies
               </Heading>
-              <Heading maxW="lg" size="subtitle.lg" as="h3" textAlign="center">
-                Game-changing companies are making the most of web3 with
-                thirdweb.
+              <Heading maxW="md" size="subtitle.lg" as="h3" textAlign="center">
+                Powering web3 experiences from startups to large organizations
               </Heading>
               <SimpleGrid
                 flexDirection={{ base: "column", md: "row" }}
@@ -612,17 +609,17 @@ const Home: ConsolePage = () => {
                 />
                 <CaseStudyCard
                   title="boohoo"
-                  description="boohoo launched their entry into web3 with boohooverse using thirdweb to make it easy for a non crypto-native audience."
+                  description="boohoo launched their entry into web3 with boohooverse selling over 12k NFTs to a non-crypto native audience."
                   href="https://twitter.com/thirdweb_/status/1518591454326702081"
                 />
                 <CaseStudyCard
                   title="yestheory"
-                  description="Yes Theory created a tiered digital ticket NFT drop to crowdfund the biggest documentary ever made and released on YouTube."
+                  description="Yes Theory dropped a digital ticket NFT to become the first feature-length documentary crowd-funded by NFTs."
                   href="https://twitter.com/thirdweb_/status/1516460620798963713"
                 />
                 <CaseStudyCard
                   title="fnatic"
-                  description="Fnatic launched their free and paid digital membership program using thirdweb, with over 400k NFTs claimed on the free tier."
+                  description="Fnatic launched their free and paid digital membership program, with over 400k NFTs claimed within the first month."
                   href="https://twitter.com/thirdweb_/status/1509180723978252303"
                 />
               </SimpleGrid>
@@ -668,8 +665,7 @@ const Home: ConsolePage = () => {
                 textAlign="center"
                 size="subtitle.lg"
               >
-                Build web3 apps with ease. Get instant access, explore our tools
-                and build something magical.
+                Build web3 apps with ease. Get instant access.
               </Heading>
               <LightMode>
                 <GeneralCta title="Start building for free" size="lg" />

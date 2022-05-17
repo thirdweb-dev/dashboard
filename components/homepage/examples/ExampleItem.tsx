@@ -20,7 +20,7 @@ const EXAMPLES_MAP = {
   },
   defiProtocols: {
     title: "DeFi protocols",
-    href: "https://portal.thirdweb.com",
+    href: "https://portal.thirdweb.com/examples",
     svg: DefiProtocols,
   },
   daos: {
@@ -29,7 +29,7 @@ const EXAMPLES_MAP = {
     svg: DAOs,
   },
   marketplaces: {
-    title: "Digitial asset marketplaces",
+    title: "Digital asset marketplaces",
     href: "https://github.com/thirdweb-example/marketplace-next-ts",
     svg: Marketplaces,
   },
@@ -40,17 +40,17 @@ const EXAMPLES_MAP = {
   },
   creatorTools: {
     title: "Creator tools",
-    href: "https://portal.thirdweb.com",
+    href: "https://portal.thirdweb.com/examples",
     svg: CreatorTools,
   },
   communityRewards: {
     title: "Community rewards",
-    href: "https://portal.thirdweb.com",
+    href: "https://portal.thirdweb.com/examples",
     svg: CommunityRewards,
   },
   playToEarnGames: {
     title: "Play to earn games",
-    href: "https://portal.thirdweb.com",
+    href: "https://portal.thirdweb.com/examples",
     svg: PlayToEarnGames,
   },
 } as const;

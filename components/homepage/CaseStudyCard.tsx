@@ -67,7 +67,8 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
           />
         </Box>
         <Box
-          backdropFilter="blur(30px)"
+          bgGradient="linear(rgba(0,0,0,.0) 0%,rgba(0,0,0,.5) 25%, rgba(0,0,0,.9) 100%)"
+          backdropFilter="blur(10px)"
           p={6}
           borderBottomRadius="2xl"
           position="absolute"
