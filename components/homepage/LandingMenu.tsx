@@ -50,7 +50,7 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
           category="mobile-menu"
           label="portal"
         >
-          Developer Portal
+          Docs
         </MenuItem>
       </MenuList>
     </Menu>

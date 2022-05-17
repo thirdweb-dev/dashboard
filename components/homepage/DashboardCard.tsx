@@ -86,6 +86,7 @@ const CardGradientBackground: React.FC<CardGradientBackgroundProps> = (
       h="full"
       opacity={1}
       background="linear-gradient(225.96deg, #000000 -0.79%, #4400D5 42.2%, #000000 101.89%)"
+      borderTopRadius="xl"
     >
       {props.topGradient && (
         <AspectRatio
@@ -148,6 +149,14 @@ const CardGradientBackground: React.FC<CardGradientBackgroundProps> = (
           />
         </AspectRatio>
       )}
+      <Box
+        position="absolute"
+        top={0}
+        bottom={0}
+        left={0}
+        right={0}
+        backdropFilter="blur(5px)"
+      />
     </Box>
   );
 };

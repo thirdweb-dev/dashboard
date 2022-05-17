@@ -1,4 +1,3 @@
-import { StaticGradient } from "./StaticGradient";
 import { AspectRatio, Box, Container } from "@chakra-ui/react";
 import React from "react";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -29,8 +28,8 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
       {topGradient && (
         <AspectRatio
           w="100vw"
-          maxW="800px"
-          ratio={1}
+          maxW="container.lg"
+          ratio={{ base: 1 / 2, md: 1 }}
           position="absolute"
           top={0}
           left="50%"
@@ -40,52 +39,97 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
         >
           <Box
             background="linear-gradient(268.16deg, rgba(45, 142, 255, 0.4) 8.06%, rgba(194, 0, 198, 0.4) 73.26%)"
-            filter="blur(359px)"
-            borderRadius="full"
-            zIndex={-1}
+            filter={{
+              base: "blur(100px)",
+              md: "blur(360px)",
+            }}
+            borderRadius="50%"
+            overflow="visible"
           >
             <Box
               position="absolute"
-              backdropFilter="blur(1px)"
+              backdropFilter="blur(0px)"
               top={0}
               left={0}
               bottom={0}
               right={0}
+              opacity={0.5}
               background="linear-gradient(268.16deg, rgba(45, 142, 255, 0.4) 8.06%, rgba(194, 0, 198, 0.4) 73.26%)"
-              zIndex={5}
-            ></Box>
+            />
           </Box>
         </AspectRatio>
       )}
 
       {middleGradient && (
-        <StaticGradient
-          zIndex={-1}
+        <AspectRatio
+          w="100vw"
+          maxW="container.lg"
+          ratio={1}
           position="absolute"
-          top="50%"
-          left={{ base: "50%", md: "50%" }}
-          w={{ base: "200%", md: "100%" }}
-          maxW="container.page"
-          transform={{
-            base: "translate(-75%, -50%)",
-            md: "translate(-50%, -50%)",
-          }}
-        />
+          top={0}
+          left="50%"
+          transform="translate(-50%, 5%)"
+          zIndex={-1}
+          overflow="visible"
+        >
+          <Box
+            background="linear-gradient(268.16deg, rgba(45, 142, 255, 0.4) 8.06%, rgba(194, 0, 198, 0.4) 73.26%)"
+            filter={{
+              base: "blur(100px)",
+              md: "blur(360px)",
+            }}
+            borderRadius="50%"
+            overflow="visible"
+          >
+            <Box
+              position="absolute"
+              backdropFilter="blur(0px)"
+              top={0}
+              left={0}
+              bottom={0}
+              right={0}
+              opacity={0.5}
+              background="linear-gradient(268.16deg, rgba(45, 142, 255, 0.4) 8.06%, rgba(194, 0, 198, 0.4) 73.26%)"
+            />
+          </Box>
+        </AspectRatio>
       )}
+
       {bottomGradient && (
-        <StaticGradient
-          zIndex={-1}
+        <AspectRatio
+          w="100vw"
+          maxW="container.lg"
+          ratio={1}
           position="absolute"
-          bottom={0}
-          left={{ base: "50%", md: "50%" }}
-          w={{ base: "200%", md: "100%" }}
-          maxW="container.page"
-          transform={{
-            base: "translate(-75%, 55%)",
-            md: "translate(-50%, 55%)",
-          }}
-        />
+          bottom="5%"
+          left="50%"
+          transform="translate(-50%, 50%)"
+          zIndex={-1}
+          overflow="visible"
+        >
+          <Box
+            background="linear-gradient(268.16deg, rgba(45, 142, 255, 0.4) 8.06%, rgba(194, 0, 198, 0.4) 73.26%)"
+            filter={{
+              base: "blur(100px)",
+              md: "blur(360px)",
+            }}
+            borderRadius="50%"
+            overflow="visible"
+          >
+            <Box
+              position="absolute"
+              backdropFilter="blur(0px)"
+              top={0}
+              left={0}
+              bottom={0}
+              right={0}
+              opacity={0.5}
+              background="linear-gradient(268.16deg, rgba(45, 142, 255, 0.4) 8.06%, rgba(194, 0, 198, 0.4) 73.26%)"
+            />
+          </Box>
+        </AspectRatio>
       )}
+
       <Container zIndex={1} position="relative" maxW="container.page" id={id}>
         {children}
 
@@ -94,7 +138,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
             position="relative"
             zIndex="10"
             pt={24}
-            display={{ base: "none", md: "block" }}
+            display={{ base: "none", lg: "block" }}
           >
             <Box
               as="svg"

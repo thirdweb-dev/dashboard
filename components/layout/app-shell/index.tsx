@@ -187,7 +187,7 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
                 category="footer"
                 label="privacy"
               >
-                Privacy policy
+                Privacy Policy
               </TrackedLink>
               <TrackedLink
                 isExternal
@@ -195,7 +195,7 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
                 category="footer"
                 label="terms"
               >
-                Terms of service
+                Terms of Service
               </TrackedLink>
             </Stack>
           </Stack>

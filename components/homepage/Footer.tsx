@@ -12,6 +12,7 @@ import {
   LightMode,
   SimpleGrid,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
 import { useForm } from "react-hook-form";
@@ -36,6 +37,7 @@ import { sendEmailToConvertkit } from "utils/convertkit";
 
 export const HomepageFooter: React.FC = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
+  const toast = useToast();
 
   return (
     <Box bgColor="#111315" zIndex="100">
@@ -56,6 +58,26 @@ export const HomepageFooter: React.FC = () => {
             mx="auto"
             maxW="md"
             gap={{ base: 4, md: 0 }}
+            onSubmit={handleSubmit(async ({ email }) => {
+              try {
+                await sendEmailToConvertkit(email, ["landing"]);
+                toast({
+                  position: "bottom",
+                  variant: "solid",
+                  title: "You're in!",
+                  description: "Check your inbox to confirm your subscription.",
+                  status: "success",
+                  duration: 5000,
+                  isClosable: true,
+                });
+              } catch (err) {
+                console.error("failed to send email to convertkit", err);
+                setError("email", {
+                  message:
+                    err instanceof Error ? err.message : "Something went wrong",
+                });
+              }
+            })}
           >
             <InputGroup display="flex" size="md">
               <InputLeftElement pointerEvents="none">
@@ -81,19 +103,6 @@ export const HomepageFooter: React.FC = () => {
                 borderRadius="md"
                 borderWidth="1px"
                 flexShrink={0}
-                onSubmit={handleSubmit(async ({ email }) => {
-                  try {
-                    await sendEmailToConvertkit(email);
-                  } catch (err) {
-                    console.error("failed to send email to convertkit", err);
-                    setError("email", {
-                      message:
-                        err instanceof Error
-                          ? err.message
-                          : "Something went wrong",
-                    });
-                  }
-                })}
               >
                 <Box as="span">Subscribe</Box>
               </Button>
@@ -183,11 +192,11 @@ export const HomepageFooter: React.FC = () => {
               />
             </ButtonGroup>
           </Stack>
-          <Stack
+          <Flex
             direction={{ base: "column-reverse", md: "column", lg: "row" }}
-            spacing={{ base: "12", md: "8" }}
+            gap={{ base: "12", md: "8" }}
           >
-            <SimpleGrid columns={{ base: 2, md: 4 }} spacing="8">
+            <SimpleGrid columns={{ base: 2, lg: 4 }} spacing="8">
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Product</Heading>
                 <Stack spacing="3" shouldWrapChildren>
@@ -219,7 +228,7 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="portal"
                   >
-                    Developer Portal
+                    Docs
                   </TrackedLink>
                   <TrackedLink
                     isExternal
@@ -285,7 +294,7 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="privacy"
                   >
-                    Privacy policy
+                    Privacy Policy
                   </TrackedLink>
                   <TrackedLink
                     isExternal
@@ -293,12 +302,12 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="terms"
                   >
-                    Terms of service
+                    Terms of Service
                   </TrackedLink>
                 </Stack>
               </Stack>
             </SimpleGrid>
-          </Stack>
+          </Flex>
         </Stack>
       </Container>
     </Box>
