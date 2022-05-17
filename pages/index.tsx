@@ -31,10 +31,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import Analytics from "public/assets/landingpage/analytics.png";
 import Contracts from "public/assets/landingpage/contracts.png";
 import Hero from "public/assets/landingpage/hero.png";
-import Keys from "public/assets/landingpage/keys.png";
-import ListImage from "public/assets/landingpage/list.png";
 import MobileHero from "public/assets/landingpage/mobile-hero.png";
-import Statistics from "public/assets/landingpage/statistics.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
 // end images
@@ -186,7 +183,12 @@ const Home: ConsolePage = () => {
                   px={{ base: 6, md: 0 }}
                 >
                   <Stack spacing={4}>
-                    <ChakraNextImage src={Keys} alt="" w={12} />
+                    <ChakraNextImage
+                      src={require("/public/assets/landingpage/keys.svg")}
+                      placeholder="empty"
+                      alt=""
+                      w={12}
+                    />
                     <Heading size="title.sm">No more private keys</Heading>
                     <Text size="body.lg">
                       Deploy as a team seamlessly with a multi-sig or as a solo
@@ -196,7 +198,12 @@ const Home: ConsolePage = () => {
                   </Stack>
 
                   <Stack spacing={4}>
-                    <ChakraNextImage src={Statistics} alt="" w={12} />
+                    <ChakraNextImage
+                      src={require("/public/assets/landingpage/extensions.svg")}
+                      placeholder="empty"
+                      alt=""
+                      w={12}
+                    />
                     <Heading size="title.sm">Power up with extensions</Heading>
                     <Text size="body.lg">
                       Building blocks for your smart contracts:{" "}
@@ -245,7 +252,12 @@ const Home: ConsolePage = () => {
                   </Stack>
 
                   <Stack spacing={4}>
-                    <ChakraNextImage src={ListImage} alt="" w={12} />
+                    <ChakraNextImage
+                      src={require("/public/assets/landingpage/list.svg")}
+                      placeholder="empty"
+                      alt=""
+                      w={12}
+                    />
                     <Heading size="title.sm">
                       Automatic SDKs and dashboards
                     </Heading>
