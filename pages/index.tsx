@@ -189,7 +189,7 @@ const Home: ConsolePage = () => {
                     <ChakraNextImage src={Keys} alt="" w={12} />
                     <Heading size="title.sm">No more private keys</Heading>
                     <Text size="body.lg">
-                      Deploy as a team seamlessly with multi-sig or as a solo
+                      Deploy as a team seamlessly with a multi-sig or as a solo
                       dev with your favorite wallet. Never accidentally leak
                       your private keys again.
                     </Text>
