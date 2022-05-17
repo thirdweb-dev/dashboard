@@ -4,11 +4,11 @@ import {
   Container,
   DarkMode,
   Divider,
+  Flex,
   Icon,
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
   LightMode,
   SimpleGrid,
   Stack,
@@ -36,6 +36,7 @@ import { sendEmailToConvertkit } from "utils/convertkit";
 
 export const HomepageFooter: React.FC = () => {
   const { register, handleSubmit, setError } = useForm<{ email: string }>();
+
   return (
     <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page" color="gray.500">
@@ -43,65 +44,62 @@ export const HomepageFooter: React.FC = () => {
           <Heading
             size="label.md"
             textTransform="uppercase"
-            pb={5}
+            pb={3}
             textAlign="center"
+            lineHeight={1.5}
           >
-            20,000+ builders joined our bi-weekly newsletter
+            Join 20,000+ builders who stay up to date with our bi-weekly
+            newsletter
           </Heading>
-          <Stack
+          <Flex
             as="form"
-            spacing="4"
             direction={{ base: "column", sm: "row" }}
             mx="auto"
-            maxW={{ lg: "450px" }}
+            maxW="md"
+            gap={{ base: 4, md: 0 }}
           >
-            <InputGroup display="flex">
+            <InputGroup display="flex" size="md">
               <InputLeftElement pointerEvents="none">
                 <Icon as={HiOutlineMail} />
               </InputLeftElement>
               <Input
+                borderEndRadius={{ base: "md", md: "none" }}
                 variant="outline"
                 borderColor="rgba(255,255,255,.2)"
                 placeholder="Email address"
                 type="email"
-                borderRadius="lg"
                 required
                 {...register("email")}
               />
-              <InputRightElement w="auto" pr={1}>
-                <LightMode>
-                  <Button
-                    size="sm"
-                    variant="gradient"
-                    fromcolor="#1D64EF"
-                    tocolor="#E0507A"
-                    type="submit"
-                    borderRadius="md"
-                    borderWidth="1px"
-                    flexShrink={0}
-                    onSubmit={handleSubmit(async ({ email }) => {
-                      try {
-                        await sendEmailToConvertkit(email);
-                      } catch (err) {
-                        console.error(
-                          "failed to send email to convertkit",
-                          err,
-                        );
-                        setError("email", {
-                          message:
-                            err instanceof Error
-                              ? err.message
-                              : "Something went wrong",
-                        });
-                      }
-                    })}
-                  >
-                    <Box as="span">Get web3 scoops</Box>
-                  </Button>
-                </LightMode>
-              </InputRightElement>
             </InputGroup>
-          </Stack>
+            <LightMode>
+              <Button
+                borderStartRadius={{ base: "md", md: "none" }}
+                variant="gradient"
+                fromcolor="#1D64EF"
+                tocolor="#E0507A"
+                type="submit"
+                borderRadius="md"
+                borderWidth="1px"
+                flexShrink={0}
+                onSubmit={handleSubmit(async ({ email }) => {
+                  try {
+                    await sendEmailToConvertkit(email);
+                  } catch (err) {
+                    console.error("failed to send email to convertkit", err);
+                    setError("email", {
+                      message:
+                        err instanceof Error
+                          ? err.message
+                          : "Something went wrong",
+                    });
+                  }
+                })}
+              >
+                <Box as="span">Get web3 scoops</Box>
+              </Button>
+            </LightMode>
+          </Flex>
         </Box>
         <DarkMode>
           <Divider borderColor="rgba(255,255,255,0.1)" />

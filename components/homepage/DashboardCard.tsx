@@ -30,6 +30,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       borderColor="#ffffff26"
       overflow="hidden"
       flexDirection="column"
+      flexGrow={1}
     >
       <Flex
         justifyContent="center"

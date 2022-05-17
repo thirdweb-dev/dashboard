@@ -17,12 +17,13 @@ import { CodeSelector } from "components/homepage/CodeSelector";
 import { ContractCard } from "components/homepage/ContractCard";
 import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFooter } from "components/homepage/Footer";
-
-/* import { ContractType } from "@thirdweb-dev/sdk";
-import { Partner } from "components/homepage/Partner"; */
 import { HomepageSection } from "components/homepage/Section";
 import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
+import {
+  ExampleItem,
+  exampleCategories,
+} from "components/homepage/examples/ExampleItem";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -42,7 +43,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
 import { MdOutlineAnalytics } from "react-icons/md";
-import { Heading, Text } from "tw-components";
+import { Heading, Link, Text } from "tw-components";
 
 const Home: ConsolePage = () => {
   const { Track } = useTrack({ page: "home" });
@@ -90,11 +91,25 @@ const Home: ConsolePage = () => {
                   size="subtitle.lg"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  Smart contracts you control. Tools that accelerate your
-                  workflow. Intuitive SDKs and embeds for developers.
+                  Powerful SDKs and intuitive tools for building web3 apps.
+                  Bring your own contracts or use the ones we built for you. Get
+                  to production with confidence and ahead of schedule.
                 </Heading>
                 <LightMode>
-                  <GeneralCta size="lg" />
+                  <Flex flexDir="column" align="center" gap={6}>
+                    <GeneralCta size="lg" />
+                    <Link
+                      href="#fees"
+                      borderBottomWidth="1px"
+                      _hover={{
+                        textDecor: "none",
+                        opacity: 1,
+                      }}
+                      opacity={0.8}
+                    >
+                      <Text size="body.lg">thirdweb is 100% free</Text>
+                    </Link>
+                  </Flex>
                 </LightMode>
               </Flex>
               <Flex
@@ -133,56 +148,120 @@ const Home: ConsolePage = () => {
               py={{ base: 12, md: 24 }}
               align="center"
             >
+              <Flex
+                p={{ base: 0, md: 12 }}
+                flexDir="column"
+                gap={{ base: 6, md: 8 }}
+                borderWidth={{ base: 0, md: 2 }}
+                borderColor="rgba(255,255,255,.1)"
+                borderRadius="2xl"
+                mb={{ base: 4, md: 12 }}
+              >
+                <Heading textAlign="center" size="display.sm" as="h2">
+                  Introducing:
+                  <br />
+                  <Heading
+                    as="span"
+                    bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                    bgClip="text"
+                    size="display.sm"
+                  >
+                    thirdweb deploy
+                  </Heading>
+                </Heading>
+                <Heading size="subtitle.lg" as="h3" textAlign="center">
+                  Create and deploy your own contracts with our intuitive SDK
+                </Heading>
+                <SimpleGrid
+                  flexDir="column"
+                  justifyContent="space-between"
+                  w="100%"
+                  columns={{ base: 1, md: 3 }}
+                  gap={{ base: 12, md: 6 }}
+                  py={12}
+                  px={{ base: 6, md: 0 }}
+                >
+                  <Stack spacing={4}>
+                    <ChakraNextImage src={Keys} alt="" w={10} />
+                    <Heading size="title.sm">No more private keys</Heading>
+                    <Text size="body.lg">
+                      Use your favorite wallet to deploy. Have a team? Use your
+                      Gnosis Safe!
+                      <br />
+                      Never accidentally leak your private keys again.
+                    </Text>
+                  </Stack>
+
+                  <Stack spacing={4}>
+                    <ChakraNextImage src={Statistics} alt="" w={10} />
+                    <Heading size="title.sm">Power up with extensions</Heading>
+                    <Text size="body.lg">
+                      <Link
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                      >
+                        Delayed Reveal
+                      </Link>
+                      ,{" "}
+                      <Link
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                      >
+                        Signature Minting
+                      </Link>
+                      ,{" "}
+                      <Link
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/permissions"
+                        isExternal
+                      >
+                        Permissions & Roles
+                      </Link>
+                      ,{" "}
+                      <Link
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/royalty"
+                        isExternal
+                      >
+                        Royalties
+                      </Link>
+                      ,{" "}
+                      <Link
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                      >
+                        Primary Sales
+                      </Link>
+                      ,{" "}
+                      <Link
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                      >
+                        and more...
+                      </Link>{" "}
+                      <br />
+                      Ready to go in minutes.
+                    </Text>
+                  </Stack>
+
+                  <Stack spacing={4}>
+                    <ChakraNextImage src={ListImage} alt="" w={10} />
+                    <Heading size="title.sm">
+                      Automatic SDKs and dashboard
+                    </Heading>
+                    <Text size="body.lg">
+                      Get fully-featured SDKs for popular languages out of the
+                      box and use the dashboard to effortlessly manage your
+                      contracts.
+                    </Text>
+                  </Stack>
+                </SimpleGrid>
+              </Flex>
               <Heading
-                as="h2"
-                display="block"
-                bgGradient="linear(to-r, #B8EEFF, #8689E3)"
-                bgClip="text"
-                size="display.sm"
+                fontStyle="italic"
+                size="subtitle.lg"
+                as="h3"
                 textAlign="center"
               >
-                Introducing thirdweb deploy
-              </Heading>
-              <Heading size="subtitle.lg" as="h3" textAlign="center">
-                Create and deploy your own contracts with our intuitive SDK
-              </Heading>
-              <SimpleGrid
-                flexDir="column"
-                justifyContent="space-between"
-                w="100%"
-                columns={{ base: 1, md: 3 }}
-                gap={{ base: 12, md: 6 }}
-                py={12}
-                px={{ base: 6, md: 0 }}
-              >
-                <Stack spacing={4}>
-                  <ChakraNextImage src={ListImage} alt="" w={10} />
-                  <Heading size="title.sm">Manage and deploy contracts</Heading>
-                  <Text size="body.lg">
-                    From the dashboard without dealing with proper private keys.
-                  </Text>
-                </Stack>
-                <Stack spacing={4}>
-                  <ChakraNextImage src={Statistics} alt="" w={10} />
-                  <Heading size="title.sm">Easily import key features</Heading>
-                  <Text size="body.lg">
-                    NFT royalties, claim conditions, platform fees, delayed
-                    reveal & more.
-                  </Text>
-                </Stack>
-                <Stack spacing={4}>
-                  <ChakraNextImage src={Keys} alt="" w={10} />
-                  <Heading size="title.sm">
-                    Stop messing with private keys
-                  </Heading>
-                  <Text size="body.lg">
-                    Deploy through our CLI without having to input your private
-                    keys.
-                  </Text>
-                </Stack>
-              </SimpleGrid>
-              <Heading size="subtitle.lg" as="h3" textAlign="center">
-                Or get started with thirdweb pre-built contracts
+                or get started with thirdweb pre-built contracts
               </Heading>
               <SimpleGrid
                 columns={{ base: 2, md: 5 }}
@@ -211,7 +290,7 @@ const Home: ConsolePage = () => {
               align="center"
               gap={{ base: 6, md: 8 }}
             >
-              <Heading as="h2" size="display.sm">
+              <Heading as="h2" size="display.sm" textAlign="center">
                 Powerful SDKs. Easy integrations.
               </Heading>
               <Heading as="h3" size="subtitle.lg" textAlign="center">
@@ -227,18 +306,19 @@ const Home: ConsolePage = () => {
               flexDir="column"
               py={{ base: 12, md: 24 }}
               align="center"
-              gap={{ base: 6, md: 8 }}
+              gap={{ base: 12, md: 24 }}
             >
-              <Heading as="h2" size="display.sm" textAlign="center">
-                Dedicated dashboard to
+              <Heading
+                as="h2"
+                size="display.sm"
+                textAlign="center"
+                fontWeight={500}
+              >
+                A dashboard to
                 <br />
-                <Heading
-                  as="span"
-                  bgGradient="linear(to-r, #E483F4, #FAC588)"
-                  bgClip="text"
-                  fontSize="inherit"
-                >
-                  control everything
+                control{" "}
+                <Heading as="span" fontSize="inherit" fontWeight={900}>
+                  everything
                 </Heading>
                 .
               </Heading>
@@ -248,7 +328,7 @@ const Home: ConsolePage = () => {
                   headingIcon={AiOutlineTeam}
                   title={
                     <>
-                      Deploy contracts with{" "}
+                      Built with a focus on{" "}
                       <Heading
                         as="span"
                         bgGradient="linear(to-l, #48BCA8, #A998FF)"
@@ -256,11 +336,11 @@ const Home: ConsolePage = () => {
                         display="inline"
                         size="title.sm"
                       >
-                        connected wallets or team
+                        empowering your team
                       </Heading>
                     </>
                   }
-                  subtitle="Team up to move your app forward, faster. Get everyone on the same page."
+                  subtitle="Deploy and manage your contracts with your Gnosis Safe, manage permissions, and more."
                   rightImage={ThirdwebTeams}
                   gradientBGs={{
                     topGradient:
@@ -280,12 +360,12 @@ const Home: ConsolePage = () => {
                         display="inline"
                         size="title.sm"
                       >
-                        View and manage
-                      </Heading>{" "}
-                      all your contracts
+                        Your contracts
+                      </Heading>
+                      , at your fingertips
                     </>
                   }
-                  subtitle="Team up to move your app forward, faster. Get everyone on the same page."
+                  subtitle="Keep track of your contracts, effortlessly deploy new versions, and more."
                   rightImage={Contracts}
                   gradientBGs={{
                     rightGradient: "#E28F12",
@@ -297,6 +377,7 @@ const Home: ConsolePage = () => {
                   headingIcon={MdOutlineAnalytics}
                   title={
                     <>
+                      Reports to learn about{" "}
                       <Heading
                         as="span"
                         bgGradient="linear(to-l, #585EE9, #E487D0)"
@@ -304,12 +385,11 @@ const Home: ConsolePage = () => {
                         display="inline"
                         size="title.sm"
                       >
-                        Prebuilt reports
-                      </Heading>{" "}
-                      to learn about contracts usage
+                        contract usage
+                      </Heading>
                     </>
                   }
-                  subtitle="Team up to move your app forward, faster. Get everyone on the same page."
+                  subtitle="Pre-built reports for all of your contracts. Understand how your contracts are being used."
                   rightImage={Analytics}
                   gradientBGs={{
                     rightGradient: "#C512E2",
@@ -328,10 +408,10 @@ const Home: ConsolePage = () => {
               gap={{ base: 6, md: 8 }}
             >
               <Heading as="h2" size="display.sm" textAlign="center">
-                We are multi-chain
+                Think Multi-Chain
               </Heading>
               <Heading size="subtitle.lg" as="h3" textAlign="center">
-                thirdweb supports a multi-chain ecosystem of blockchains
+                Major chains are supported. More are coming soon.
               </Heading>
               <Box w="full">
                 <Text size="label.lg" textTransform="uppercase">
@@ -370,7 +450,7 @@ const Home: ConsolePage = () => {
               <Flex
                 gap={{ base: 6, md: 8 }}
                 flexDir="column"
-                justifyContent="center"
+                justify="space-between"
               >
                 <Heading
                   size="display.sm"
@@ -416,19 +496,19 @@ const Home: ConsolePage = () => {
                 >
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    We take zero fees on any smart contracts deployed
+                    Zero fees on contract deployments
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    You keep 100% of the money you make
+                    Zero fees on transactions
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    Gain access to fresh features each month{" "}
+                    New features added every week
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    Only pay blockchain-specific gas fees
+                    Save on gas fees with advanced optimizations
                   </ListItem>
                 </List>
                 <LightMode>
@@ -436,6 +516,34 @@ const Home: ConsolePage = () => {
                 </LightMode>
               </Box>
             </SimpleGrid>
+          </HomepageSection>
+
+          <HomepageSection id="examples" bottomGradient>
+            <Flex
+              flexDir="column"
+              py={{ base: 12, md: 24 }}
+              align="center"
+              gap={{ base: 12, md: 24 }}
+            >
+              <Heading
+                as="h2"
+                bgGradient="linear(to-r, #907EFF, #C5D8FF)"
+                bgClip="text"
+                size="display.md"
+                textAlign="center"
+              >
+                What will you build?
+              </Heading>
+              <SimpleGrid
+                w="100%"
+                columns={{ base: 2, md: 4 }}
+                spacing={{ base: 6, md: 12 }}
+              >
+                {exampleCategories.map((category) => (
+                  <ExampleItem category={category} key={category} />
+                ))}
+              </SimpleGrid>
+            </Flex>
           </HomepageSection>
 
           {/* <HomepageSection id="partners" middleGradient>
@@ -492,8 +600,8 @@ const Home: ConsolePage = () => {
               >
                 Success stories
               </Heading>
-              <Heading size="subtitle.lg" as="h3" textAlign="center">
-                See how game-changing companies are making the most of web3 with
+              <Heading maxW="lg" size="subtitle.lg" as="h3" textAlign="center">
+                Game-changing companies are making the most of web3 with
                 thirdweb.
               </Heading>
               <SimpleGrid
@@ -509,7 +617,7 @@ const Home: ConsolePage = () => {
                 />
                 <CaseStudyCard
                   title="boohoo"
-                  description="boohoo launches their entry into web3 with boohooverse using thirdweb to make it easy for a non crypto-native audience."
+                  description="boohoo launched their entry into web3 with boohooverse using thirdweb to make it easy for a non crypto-native audience."
                   href="https://twitter.com/thirdweb_/status/1518591454326702081"
                 />
                 <CaseStudyCard
@@ -550,13 +658,13 @@ const Home: ConsolePage = () => {
 
                   <ChakraNextImage
                     alt=""
-                    w={20}
+                    boxSize={{ base: 24, md: 32 }}
                     placeholder="empty"
                     src={WhiteLogo}
                   />
                 </Center>
               </Center>
-              <Heading as="h2" size="display.sm">
+              <Heading as="h2" size="display.md" textAlign="center">
                 Get started with thirdweb
               </Heading>
               <Heading
@@ -565,11 +673,11 @@ const Home: ConsolePage = () => {
                 textAlign="center"
                 size="subtitle.lg"
               >
-                thirdweb helps you build web3 apps with ease. Explore our tools
+                Build web3 apps with ease. Get instant access, explore our tools
                 and build something magical.
               </Heading>
               <LightMode>
-                <GeneralCta title="Start building for free" size="lg" px={14} />
+                <GeneralCta title="Start building for free" size="lg" />
               </LightMode>
             </Flex>
           </HomepageSection>

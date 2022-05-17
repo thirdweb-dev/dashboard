@@ -2,56 +2,79 @@ import {
   AspectRatio,
   AspectRatioProps,
   Center,
+  Icon,
   PropsOf,
   SimpleGrid,
   Spinner,
   chakra,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import useIntersectionObserver from "@react-hook/intersection-observer";
-import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
-import { StaticImageData } from "next/image";
-import JavaScript from "public/assets/languages/javascript.png";
-import Python from "public/assets/languages/python.png";
-import React from "public/assets/languages/react.png";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { Button, ButtonProps, LinkButton, Text } from "tw-components";
+import { IconType } from "react-icons";
+import { SiJavascript, SiPython, SiReact } from "react-icons/si";
+import {
+  Button,
+  ButtonProps,
+  LinkButton,
+  PossibleButtonSize,
+} from "tw-components";
 
 export type CodeOptions = "typescript" | "react" | "python";
 
+const LOGO_OPTIONS: Record<CodeOptions, { fill: string; icon: IconType }> = {
+  typescript: {
+    icon: SiJavascript,
+    fill: "yellow",
+  },
+  react: {
+    icon: SiReact,
+    fill: "#61dafb",
+  },
+  python: {
+    icon: SiPython,
+    fill: "#3e7aac",
+  },
+};
+
 interface CodeOptionButtonProps extends ButtonProps {
-  logo: StaticImageData;
   language: CodeOptions;
   activeLanguage: CodeOptions;
   setActiveLanguage: Dispatch<SetStateAction<CodeOptions>>;
 }
-
 const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   children,
-  logo,
+
   language,
   setActiveLanguage,
   activeLanguage,
   ...rest
 }) => {
   const { trackEvent } = useTrack();
+
+  const logo = LOGO_OPTIONS[language];
+  const size = useBreakpointValue(
+    { base: "sm", md: "md" },
+    "md",
+  ) as PossibleButtonSize;
+
   return (
     <Button
-      leftIcon={
-        <ChakraNextImage src={logo} alt="" boxSize={{ base: 5, md: 6 }} />
-      }
-      iconSpacing={{ base: 2, md: 3 }}
+      leftIcon={<Icon as={logo.icon} fill={logo.fill} />}
       borderRadius="md"
       variant="solid"
-      bgColor="white"
-      size="sm"
-      px={{ base: 8, md: 3 }}
-      py={{ base: 5, md: 6 }}
-      outlineColor={language === activeLanguage ? "primary.600" : undefined}
-      _hover={{ outlineColor: "primary.600" }}
+      colorScheme="blackAlpha"
+      bg="#1E1E24"
+      borderWidth="1px"
+      size={size}
+      borderColor={
+        language === activeLanguage ? "#0098EE" : "rgba(255, 255, 255, 0.1)"
+      }
+      _hover={{ borderColor: "#0098EE" }}
       _active={{
-        outlineColor: language === activeLanguage ? "primary.600" : undefined,
+        borderColor: language === activeLanguage ? "#0098EE" : undefined,
       }}
       onClick={() => {
         trackEvent({
@@ -65,9 +88,7 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
       }}
       {...rest}
     >
-      <Text size="label.lg" color="black">
-        {children}
-      </Text>
+      {children}
     </Button>
   );
 };
@@ -87,7 +108,6 @@ export const CodeSelector: React.FC = () => {
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
           language="typescript"
-          logo={JavaScript}
         >
           JavaScript
         </CodeOptionButton>
@@ -95,7 +115,6 @@ export const CodeSelector: React.FC = () => {
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
           language="python"
-          logo={Python}
         >
           Python
         </CodeOptionButton>
@@ -103,7 +122,6 @@ export const CodeSelector: React.FC = () => {
           setActiveLanguage={setActiveLanguage}
           activeLanguage={activeLanguage}
           language="react"
-          logo={React}
         >
           React
         </CodeOptionButton>
@@ -112,9 +130,9 @@ export const CodeSelector: React.FC = () => {
         aspectRatioProps={{
           ratio: { base: 9 / 16, md: 16 / 9 },
           w: "full",
-          borderRadius: "md",
+          borderRadius: "xl",
           overflow: "hidden",
-          border: "1px solid",
+          border: "2px solid",
           borderColor: "#4953AF",
           bg: "#1C2333",
         }}
