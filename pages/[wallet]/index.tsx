@@ -7,8 +7,6 @@ import {
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
-  Avatar,
-  AvatarGroup,
   Box,
   Center,
   Container,
@@ -65,16 +63,9 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { ReactElement, useEffect, useMemo } from "react";
-import {
-  AiFillCode,
-  AiFillLayout,
-  AiOutlineCode,
-  AiOutlineWarning,
-} from "react-icons/ai";
-import { BsBookFill } from "react-icons/bs";
+import { AiFillCode, AiFillLayout, AiOutlineWarning } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
-import { GiOpenBook } from "react-icons/gi";
 import { IoFilterSharp } from "react-icons/io5";
 import { SiJavascript, SiPython, SiReact } from "react-icons/si";
 import { VscDebugDisconnect } from "react-icons/vsc";
