@@ -1,4 +1,3 @@
-import { ConsolePage } from "./_app";
 import {
   Box,
   Center,
@@ -42,7 +41,7 @@ import { FiCheck } from "react-icons/fi";
 import { MdOutlineAnalytics } from "react-icons/md";
 import { Heading, Link, Text } from "tw-components";
 
-const Home: ConsolePage = () => {
+export default function Home() {
   const { Track } = useTrack({ page: "home" });
 
   return (
@@ -534,45 +533,6 @@ const Home: ConsolePage = () => {
             </Flex>
           </HomepageSection>
 
-          {/* <HomepageSection id="partners" middleGradient>
-            <Flex
-              flexDir="column"
-              py={{ base: 12, lg: 24 }}
-              align="center"
-              gap={{ base: 6, md: 8 }}
-            >
-              <Heading as="h2" size="title.xl" textAlign="center">
-                <Heading
-                  as="span"
-                  display="block"
-                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
-                  bgClip="text"
-                  size="display.md"
-                >
-                  100k+ contracts deployed
-                </Heading>
-                by builders all over the world.
-              </Heading>
-
-              <SimpleGrid
-                w="full"
-                columns={{ base: 2, md: 4 }}
-                spacing={4}
-                mt={5}
-                mb={12}
-              >
-                <Partner type="paper" />
-                <Partner type="whop" />
-                <Partner type="filta" />
-                <Partner type="daocentral" />
-                <Partner type="presearch" />
-                <Partner type="citydao" />
-                <Partner type="paper" />
-                <Partner type="whop" />
-              </SimpleGrid>
-            </Flex>
-          </HomepageSection> */}
-
           <HomepageSection id="case-studies">
             <Flex
               flexDir="column"
@@ -674,6 +634,4 @@ const Home: ConsolePage = () => {
       </Track>
     </DarkMode>
   );
-};
-
-export default Home;
+}
