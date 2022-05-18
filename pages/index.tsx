@@ -332,7 +332,7 @@ export default function Home() {
               </Heading>
               <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
                 <DashboardCard
-                  headingTitle="thirdweb teams"
+                  headingTitle="teams"
                   headingIcon={AiOutlineTeam}
                   title={
                     <>
@@ -381,7 +381,7 @@ export default function Home() {
                   }}
                 />
                 <DashboardCard
-                  headingTitle="thirdweb analytics"
+                  headingTitle="analytics"
                   headingIcon={MdOutlineAnalytics}
                   title={
                     <>
