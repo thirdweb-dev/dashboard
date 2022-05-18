@@ -7,6 +7,8 @@ import {
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
+  Avatar,
+  AvatarGroup,
   Box,
   Center,
   Container,
@@ -15,6 +17,8 @@ import {
   IconButton,
   Image,
   Link,
+  LinkBox,
+  LinkOverlay,
   Menu,
   MenuButton,
   MenuItemOption,
@@ -25,6 +29,7 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
+  SimpleGrid,
   Skeleton,
   Stack,
   Tab,
@@ -60,10 +65,18 @@ import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { ReactElement, useEffect, useMemo } from "react";
-import { AiOutlineWarning } from "react-icons/ai";
+import {
+  AiFillCode,
+  AiFillLayout,
+  AiOutlineCode,
+  AiOutlineWarning,
+} from "react-icons/ai";
+import { BsBookFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import { GiOpenBook } from "react-icons/gi";
 import { IoFilterSharp } from "react-icons/io5";
+import { SiJavascript, SiPython, SiReact } from "react-icons/si";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import {
@@ -202,6 +215,103 @@ export default function Dashboard() {
       ) : (
         <ContractTable combinedList={combinedList} />
       )}
+      <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
+        <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+          <Flex flexDir="column" gap={3}>
+            <Flex>
+              <Flex
+                bgColor="black"
+                borderRadius="full"
+                boxSize={8}
+                justifyContent="center"
+                alignItems="center"
+                border="1px solid black"
+              >
+                <Icon
+                  as={SiJavascript}
+                  boxSize={8}
+                  fill="yellow"
+                  borderRadius="full"
+                />
+              </Flex>
+              <Flex
+                bgColor="#fff"
+                borderRadius="full"
+                boxSize={8}
+                justifyContent="center"
+                alignItems="center"
+                marginLeft={-2}
+                border="1px solid black"
+              >
+                <Icon as={SiPython} boxSize={6} fill="#3e7aac" />
+              </Flex>
+              <Flex
+                bgColor="#fff"
+                borderRadius="full"
+                boxSize={8}
+                justifyContent="center"
+                alignItems="center"
+                marginLeft={-2}
+                border="1px solid black"
+              >
+                <Icon as={SiReact} boxSize={6} fill="#61dafb" />
+              </Flex>
+            </Flex>
+            <Flex flexDir="column" gap={1}>
+              <LinkOverlay href="https://portal.thirdweb.com/" isExternal>
+                <Heading
+                  size="title.sm"
+                  bgGradient="linear(to-l, #48BCA8, #A998FF)"
+                  bgClip="text"
+                >
+                  Powerful and intuitive SDKs
+                </Heading>
+              </LinkOverlay>
+              <Text size="body.md">JavaScript, Python, React, Go, etc.</Text>
+            </Flex>
+          </Flex>
+        </Card>
+        <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+          <Flex flexDir="column" gap={3}>
+            <Icon as={AiFillCode} boxSize={8} />
+            <Flex flexDir="column" gap={1}>
+              <LinkOverlay
+                href="https://portal.thirdweb.com/thirdweb-deploy"
+                isExternal
+              >
+                <Heading
+                  size="title.sm"
+                  bgGradient="linear(to-l, #E483F4, #FAC588)"
+                  bgClip="text"
+                >
+                  thirdweb deploy
+                </Heading>
+              </LinkOverlay>
+              <Text size="body.md">Your own contracts, all of our tools.</Text>
+            </Flex>
+          </Flex>
+        </Card>
+        <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+          <Flex flexDir="column" gap={3}>
+            <Icon as={AiFillLayout} boxSize={8} />
+            <Flex flexDir="column" gap={1}>
+              <LinkOverlay
+                href="https://portal.thirdweb.com/pre-built-contracts"
+                isExternal
+              >
+                <Heading
+                  size="title.sm"
+                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                  bgClip="text"
+                >
+                  Explore our pre-built contracts
+                </Heading>
+              </LinkOverlay>
+              <Text size="body.md">Everything you need to know</Text>
+            </Flex>
+          </Flex>
+        </Card>
+      </SimpleGrid>
     </Flex>
   );
 }
