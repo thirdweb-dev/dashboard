@@ -88,7 +88,7 @@ export default function Home() {
                   textAlign={{ base: "center", md: "left" }}
                 >
                   Smart contracts you control. Powerful SDKs and intuitive tools
-                  for developers. Get to production faster.
+                  for developers. Ship on-chain faster.
                 </Heading>
                 <LightMode>
                   <Flex flexDir="column" align="center" gap={6}>
