@@ -14,7 +14,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Button, Checkbox, Heading, Text, TrackedLink } from "tw-components";
 
-export const NightlyNotice: React.FC = () => {
+export const PrivacyNotice: React.FC = () => {
   const [hasShownWelcome, setHasShownWelcome] = useLocalStorage(
     "hasShownWelcome",
     false,
