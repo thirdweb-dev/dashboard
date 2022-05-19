@@ -68,7 +68,13 @@ import { AiFillCode, AiFillLayout, AiOutlineWarning } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
-import { SiJavascript, SiPython, SiReact } from "react-icons/si";
+import {
+  SiGo,
+  SiJavascript,
+  SiPython,
+  SiReact,
+  SiSolidity,
+} from "react-icons/si";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import {
@@ -220,45 +226,103 @@ const LearnMoreSection: React.FC = () => {
   const { trackEvent } = useTrack();
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
-      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+      <Card
+        p={6}
+        as={LinkBox}
+        _hover={{ borderColor: "primary.600" }}
+        role="group"
+      >
         <Flex flexDir="column" gap={3}>
           <Flex>
             <Flex
-              bgColor="black"
               borderRadius="full"
-              boxSize={8}
+              boxSize={9}
               justifyContent="center"
               alignItems="center"
-              border="1px solid black"
+              border="1px solid"
+              borderColor="borderColor"
+              overflow="hidden"
+              bg="yellow"
+              p={1.5}
+              shadow="md"
             >
-              <Icon
-                as={SiJavascript}
-                boxSize={8}
-                fill="yellow"
-                borderRadius="full"
-              />
+              <Icon boxSize="full" as={SiJavascript} bg="black" fill="yellow" />
             </Flex>
             <Flex
-              bgColor="#fff"
+              bgColor="backgroundCardHighlight"
               borderRadius="full"
-              boxSize={8}
+              boxSize={9}
               justifyContent="center"
               alignItems="center"
-              marginLeft={-2}
-              border="1px solid black"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
             >
-              <Icon as={SiPython} boxSize={6} fill="#3e7aac" />
+              <Icon as={SiPython} boxSize="full" fill="#3e7aac" />
             </Flex>
             <Flex
-              bgColor="#fff"
+              bgColor="backgroundCardHighlight"
               borderRadius="full"
-              boxSize={8}
+              boxSize={9}
               justifyContent="center"
               alignItems="center"
-              marginLeft={-2}
-              border="1px solid black"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
             >
-              <Icon as={SiReact} boxSize={6} fill="#61dafb" />
+              <Icon as={SiReact} boxSize="full" fill="#61dafb" />
+            </Flex>
+            <Flex
+              bgColor="backgroundCardHighlight"
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
+            >
+              <Icon as={SiGo} boxSize="full" fill="#50b7e0" />
+            </Flex>
+            <Flex
+              bgColor="backgroundCardHighlight"
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
+            >
+              <Icon as={SiSolidity} boxSize="full" fill="#9b59b6" />
             </Flex>
           </Flex>
           <Flex flexDir="column" gap={1}>
@@ -294,7 +358,7 @@ const LearnMoreSection: React.FC = () => {
       </Card>
       <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
         <Flex flexDir="column" gap={3}>
-          <Icon as={AiFillCode} boxSize={8} />
+          <Icon as={AiFillCode} boxSize={9} />
           <Flex flexDir="column" gap={1}>
             <LinkOverlay
               href="https://portal.thirdweb.com/thirdweb-deploy"
@@ -327,7 +391,7 @@ const LearnMoreSection: React.FC = () => {
       </Card>
       <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
         <Flex flexDir="column" gap={3}>
-          <Icon as={AiFillLayout} boxSize={8} />
+          <Icon as={AiFillLayout} boxSize={9} />
           <Flex flexDir="column" gap={1}>
             <LinkOverlay
               href="https://portal.thirdweb.com/pre-built-contracts"
