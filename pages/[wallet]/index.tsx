@@ -322,7 +322,12 @@ const LearnMoreSection: React.FC = () => {
               }}
               transition="all 0.2s"
             >
-              <Icon as={SiSolidity} boxSize="full" fill="#9b59b6" />
+              <Icon
+                as={SiSolidity}
+                boxSize="full"
+                fill="#1C1C1C"
+                _dark={{ filter: "invert(1)" }}
+              />
             </Flex>
           </Flex>
           <Flex flexDir="column" gap={1}>
