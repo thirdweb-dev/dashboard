@@ -58,6 +58,7 @@ import {
   UrlMap,
 } from "constants/mappings";
 import { utils } from "ethers";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
@@ -159,155 +160,208 @@ export default function Dashboard() {
     mumbaiQuery.data,
   ]);
 
-  if (wallet === "dashboard" && !address) {
-    return <NoWallet />;
-  }
-
   return (
     <Flex direction="column" gap={8}>
-      {!!combinedList.length && (
-        <Flex
-          justify="space-between"
-          align="top"
-          gap={4}
-          direction={{ base: "column", md: "row" }}
-        >
-          <Flex gap={2} direction="column">
-            <Heading size="title.md">Deployed contracts</Heading>
-            <Text fontStyle="italic" maxW="container.md">
-              The list of contract instances that you have deployed with
-              thirdweb across all networks.
-            </Text>
-          </Flex>
-          <LinkButton
-            leftIcon={<FiPlus />}
-            colorScheme="primary"
-            href="/contracts"
-          >
-            Deploy new contract
-          </LinkButton>
-        </Flex>
-      )}
-      {projects && projects.length ? (
-        <Tabs>
-          <TabList>
-            <Tab>V2 Contracts</Tab>
-            <Tab>V1 Projects</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel px={0} pt={8}>
-              <ContractTable combinedList={combinedList} />
-            </TabPanel>
-            <TabPanel px={0} pt={8}>
-              <OldProjects projects={projects} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+      {wallet === "dashboard" && !address ? (
+        <NoWallet />
       ) : (
-        <ContractTable combinedList={combinedList} />
+        <>
+          {!!combinedList.length && (
+            <Flex
+              justify="space-between"
+              align="top"
+              gap={4}
+              direction={{ base: "column", md: "row" }}
+            >
+              <Flex gap={2} direction="column">
+                <Heading size="title.md">Deployed contracts</Heading>
+                <Text fontStyle="italic" maxW="container.md">
+                  The list of contract instances that you have deployed with
+                  thirdweb across all networks.
+                </Text>
+              </Flex>
+              <LinkButton
+                leftIcon={<FiPlus />}
+                colorScheme="primary"
+                href="/contracts"
+              >
+                Deploy new contract
+              </LinkButton>
+            </Flex>
+          )}
+          {projects && projects.length ? (
+            <Tabs>
+              <TabList>
+                <Tab>V2 Contracts</Tab>
+                <Tab>V1 Projects</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel px={0} pt={8}>
+                  <ContractTable combinedList={combinedList} />
+                </TabPanel>
+                <TabPanel px={0} pt={8}>
+                  <OldProjects projects={projects} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          ) : (
+            <ContractTable combinedList={combinedList} />
+          )}
+        </>
       )}
-      <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
-        <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
-          <Flex flexDir="column" gap={3}>
-            <Flex>
-              <Flex
-                bgColor="black"
-                borderRadius="full"
-                boxSize={8}
-                justifyContent="center"
-                alignItems="center"
-                border="1px solid black"
-              >
-                <Icon
-                  as={SiJavascript}
-                  boxSize={8}
-                  fill="yellow"
-                  borderRadius="full"
-                />
-              </Flex>
-              <Flex
-                bgColor="#fff"
-                borderRadius="full"
-                boxSize={8}
-                justifyContent="center"
-                alignItems="center"
-                marginLeft={-2}
-                border="1px solid black"
-              >
-                <Icon as={SiPython} boxSize={6} fill="#3e7aac" />
-              </Flex>
-              <Flex
-                bgColor="#fff"
-                borderRadius="full"
-                boxSize={8}
-                justifyContent="center"
-                alignItems="center"
-                marginLeft={-2}
-                border="1px solid black"
-              >
-                <Icon as={SiReact} boxSize={6} fill="#61dafb" />
-              </Flex>
-            </Flex>
-            <Flex flexDir="column" gap={1}>
-              <LinkOverlay href="https://portal.thirdweb.com/" isExternal>
-                <Heading
-                  size="title.sm"
-                  bgGradient="linear(to-l, #48BCA8, #A998FF)"
-                  bgClip="text"
-                >
-                  Powerful and intuitive SDKs
-                </Heading>
-              </LinkOverlay>
-              <Text size="body.md">JavaScript, Python, React, Go, etc.</Text>
-            </Flex>
-          </Flex>
-        </Card>
-        <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
-          <Flex flexDir="column" gap={3}>
-            <Icon as={AiFillCode} boxSize={8} />
-            <Flex flexDir="column" gap={1}>
-              <LinkOverlay
-                href="https://portal.thirdweb.com/thirdweb-deploy"
-                isExternal
-              >
-                <Heading
-                  size="title.sm"
-                  bgGradient="linear(to-l, #E483F4, #FAC588)"
-                  bgClip="text"
-                >
-                  thirdweb deploy
-                </Heading>
-              </LinkOverlay>
-              <Text size="body.md">Your own contracts, all of our tools.</Text>
-            </Flex>
-          </Flex>
-        </Card>
-        <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
-          <Flex flexDir="column" gap={3}>
-            <Icon as={AiFillLayout} boxSize={8} />
-            <Flex flexDir="column" gap={1}>
-              <LinkOverlay
-                href="https://portal.thirdweb.com/pre-built-contracts"
-                isExternal
-              >
-                <Heading
-                  size="title.sm"
-                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
-                  bgClip="text"
-                >
-                  Explore our pre-built contracts
-                </Heading>
-              </LinkOverlay>
-              <Text size="body.md">Everything you need to know</Text>
-            </Flex>
-          </Flex>
-        </Card>
-      </SimpleGrid>
+      <LearnMoreSection />
     </Flex>
   );
 }
 
 Dashboard.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
+
+const LearnMoreSection: React.FC = () => {
+  const { trackEvent } = useTrack();
+  return (
+    <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
+      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+        <Flex flexDir="column" gap={3}>
+          <Flex>
+            <Flex
+              bgColor="black"
+              borderRadius="full"
+              boxSize={8}
+              justifyContent="center"
+              alignItems="center"
+              border="1px solid black"
+            >
+              <Icon
+                as={SiJavascript}
+                boxSize={8}
+                fill="yellow"
+                borderRadius="full"
+              />
+            </Flex>
+            <Flex
+              bgColor="#fff"
+              borderRadius="full"
+              boxSize={8}
+              justifyContent="center"
+              alignItems="center"
+              marginLeft={-2}
+              border="1px solid black"
+            >
+              <Icon as={SiPython} boxSize={6} fill="#3e7aac" />
+            </Flex>
+            <Flex
+              bgColor="#fff"
+              borderRadius="full"
+              boxSize={8}
+              justifyContent="center"
+              alignItems="center"
+              marginLeft={-2}
+              border="1px solid black"
+            >
+              <Icon as={SiReact} boxSize={6} fill="#61dafb" />
+            </Flex>
+          </Flex>
+          <Flex flexDir="column" gap={1}>
+            <LinkOverlay
+              href="https://portal.thirdweb.com/"
+              isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more",
+                  action: "click",
+                  label: "sdks",
+                })
+              }
+            >
+              <Heading size="title.sm">
+                Discover our{" "}
+                <Heading
+                  as="span"
+                  size="title.sm"
+                  bgGradient="linear(to-tl, blue.300, purple.400)"
+                  _light={{
+                    bgGradient: "linear(to-tl, purple.500, blue.500)",
+                  }}
+                  bgClip="text"
+                >
+                  SDKs
+                </Heading>
+              </Heading>
+            </LinkOverlay>
+            <Text size="body.md">JavaScript, Python, React, Go, etc.</Text>
+          </Flex>
+        </Flex>
+      </Card>
+      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+        <Flex flexDir="column" gap={3}>
+          <Icon as={AiFillCode} boxSize={8} />
+          <Flex flexDir="column" gap={1}>
+            <LinkOverlay
+              href="https://portal.thirdweb.com/thirdweb-deploy"
+              isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more",
+                  action: "click",
+                  label: "sdks",
+                })
+              }
+            >
+              <Heading size="title.sm">
+                <Heading
+                  as="span"
+                  size="title.sm"
+                  bgGradient="linear(to-tr, blue.300, purple.400)"
+                  _light={{
+                    bgGradient: "linear(to-tr, purple.500, blue.500)",
+                  }}
+                  bgClip="text"
+                >
+                  thirdweb deploy
+                </Heading>
+              </Heading>
+            </LinkOverlay>
+            <Text size="body.md">Your own contracts, all of our tools.</Text>
+          </Flex>
+        </Flex>
+      </Card>
+      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+        <Flex flexDir="column" gap={3}>
+          <Icon as={AiFillLayout} boxSize={8} />
+          <Flex flexDir="column" gap={1}>
+            <LinkOverlay
+              href="https://portal.thirdweb.com/pre-built-contracts"
+              isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more",
+                  action: "click",
+                  label: "sdks",
+                })
+              }
+            >
+              <Heading size="title.sm">
+                Explore our{" "}
+                <Heading
+                  as="span"
+                  size="title.sm"
+                  bgGradient="linear(to-l, blue.300, purple.400)"
+                  _light={{
+                    bgGradient: "linear(to-l, purple.500, blue.500)",
+                  }}
+                  bgClip="text"
+                >
+                  pre-built contracts
+                </Heading>
+              </Heading>
+            </LinkOverlay>
+            <Text size="body.md">Your Solidity quick-start</Text>
+          </Flex>
+        </Flex>
+      </Card>
+    </SimpleGrid>
+  );
+};
 
 interface ContractTableProps {
   combinedList: {
