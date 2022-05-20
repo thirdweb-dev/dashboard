@@ -3,7 +3,7 @@ import { DeployableContractContractCellProps } from "../../types";
 import { ButtonGroup, Icon, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
 import { isContractIdBuiltInContract } from "components/contract-components/utils";
-import { BsShieldCheck, BsShieldFillCheck } from "react-icons/bs";
+import { BsShieldFillCheck } from "react-icons/bs";
 import { IoRocketOutline } from "react-icons/io5";
 import { Button, Drawer, LinkButton, TrackedIconButton } from "tw-components";
 
