@@ -11,6 +11,7 @@ import {
   Edition,
   EditionDrop,
   Erc721,
+  Erc1155,
   Marketplace,
   NFTCollection,
   NFTDrop,

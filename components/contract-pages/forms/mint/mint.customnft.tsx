@@ -32,7 +32,7 @@ import {
 } from "tw-components";
 import { NFTMetadataInputLimited } from "types/modified-types";
 
-const MINT_FORM_ID = "nft-collection-mint-form";
+const MINT_FORM_ID = "custom-nft-mint-form";
 interface CustomNFTMintForm {
   contract: Erc721;
 }
