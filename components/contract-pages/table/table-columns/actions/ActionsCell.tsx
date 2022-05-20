@@ -17,24 +17,26 @@ interface IEditionActionsCell {
 }
 
 const ERC721Cell: React.FC<INFTActionsCell> = ({ row }) => (
-  <Flex flexDir="column" gap={1}>
+  <>
     <OwnerTransferCell row={row} />
     <OwnerBurnCell row={row} />
-  </Flex>
+  </>
 );
 
 const ERC1155Cell: React.FC<IEditionActionsCell> = ({ row }) => (
-  <Flex flexDir="column" gap={1}>
+  <>
     <EditionTransferCell row={row} />
     <EditionAirdropCell row={row} />
     <EditionBurnCell row={row} />
-  </Flex>
+  </>
 );
 
 export const NFTActionsCell: React.FC<INFTActionsCell> = ({ row }) => {
   return (
     <Stack as={ButtonGroup} size="sm" variant="outline">
-      <ERC721Cell row={row} />
+      <Flex flexDir="column" gap={1}>
+        <ERC721Cell row={row} />
+      </Flex>
     </Stack>
   );
 };
@@ -42,7 +44,9 @@ export const NFTActionsCell: React.FC<INFTActionsCell> = ({ row }) => {
 export const EditionActionsCell: React.FC<IEditionActionsCell> = ({ row }) => {
   return (
     <Stack as={ButtonGroup} size="sm" variant="outline">
-      <ERC1155Cell row={row} />
+      <Flex flexDir="column" gap={1}>
+        <ERC1155Cell row={row} />
+      </Flex>
     </Stack>
   );
 };
@@ -52,8 +56,10 @@ export const EditionDropActionsCell: React.FC<IEditionActionsCell> = ({
 }) => {
   return (
     <Stack as={ButtonGroup} size="sm" variant="outline">
-      <AdminMintConditionCell row={row} />
-      <ERC1155Cell row={row} />
+      <Flex flexDir="column" gap={1}>
+        <AdminMintConditionCell row={row} />
+        <ERC1155Cell row={row} />
+      </Flex>
     </Stack>
   );
 };
