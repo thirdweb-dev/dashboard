@@ -7,6 +7,7 @@ import { MismatchButton } from "components/buttons/MismatchButton";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useMemo } from "react";
+import { Button } from "tw-components";
 
 export interface IDistributeButtonProps extends IContractActionButtonProps {}
 
@@ -38,6 +39,19 @@ export const DistributeButton: React.FC<IDistributeButtonProps> = ({
       >
         Distribute Funds
       </MismatchButton>
+    );
+  }
+
+  if (numTransactions === 0) {
+    return (
+      <Button
+        borderRadius="full"
+        isDisabled
+        colorScheme="primary"
+        {...restButtonProps}
+      >
+        Nothing to distribute
+      </Button>
     );
   }
 
