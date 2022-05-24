@@ -15,7 +15,6 @@ import { InsufficientFunds } from "components/notices/InsufficientFunds";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import React from "react";
-import { FiExternalLink } from "react-icons/fi";
 import { RiGasStationFill } from "react-icons/ri";
 import { SiDiscord, SiGithub, SiTwitter, SiYoutube } from "react-icons/si";
 import {
