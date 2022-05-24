@@ -206,7 +206,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         category="thirdweb-deploy"
                         label="extensions"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         _hover={{ opacity: 0.9 }}
                       >
                         extensions
@@ -216,7 +216,7 @@ export default function Home() {
                       Building blocks for your smart contracts:{" "}
                       <TrackedLink
                         category="thirdweb-deploy"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/permissions"
                         isExternal
                         _hover={{ opacity: 0.9 }}
@@ -226,7 +226,7 @@ export default function Home() {
                       ,{" "}
                       <TrackedLink
                         category="thirdweb-deploy"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/royalty"
                         isExternal
                         _hover={{ opacity: 0.9 }}
@@ -236,7 +236,7 @@ export default function Home() {
                       ,{" "}
                       <TrackedLink
                         category="thirdweb-deploy"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
@@ -246,7 +246,7 @@ export default function Home() {
                       ,{" "}
                       <TrackedLink
                         category="thirdweb-deploy"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
@@ -256,7 +256,7 @@ export default function Home() {
                       ,{" "}
                       <TrackedLink
                         category="thirdweb-deploy"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
@@ -266,7 +266,7 @@ export default function Home() {
                       ,{" "}
                       <TrackedLink
                         category="thirdweb-deploy"
-                        textDecoration="underline"
+                        borderBottom="1px solid"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
@@ -300,7 +300,7 @@ export default function Home() {
                     href="https://portal.thirdweb.com/pre-built-contracts"
                     category="pre-built-contract"
                     label="heading"
-                    textDecoration="underline"
+                    borderBottom="1px solid"
                     isExternal
                     _hover={{ opacity: 0.9 }}
                   >
