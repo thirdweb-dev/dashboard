@@ -38,7 +38,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
 import { MdOutlineAnalytics } from "react-icons/md";
-import { Heading, Link, Text } from "tw-components";
+import { Heading, Link, Text, TrackedLink } from "tw-components";
 
 export default function Home() {
   const { Track } = useTrack({ page: "home" });
@@ -61,7 +61,6 @@ export default function Home() {
           <HomepageTopNav />
           <HomepageSection id="home" topGradient bottomPattern>
             <SimpleGrid
-              pb={{ base: 12, lg: 24 }}
               pt={{
                 base: 24,
                 md: 48,
@@ -167,7 +166,7 @@ export default function Home() {
                   </Heading>
                 </Heading>
                 <Heading size="subtitle.lg" as="h3" textAlign="center">
-                  Bring your own contracts, unlock all of our tools.
+                  Bring your own contracts, unlock the power of thirdweb.
                 </Heading>
                 <SimpleGrid
                   flexDir="column"
@@ -185,7 +184,9 @@ export default function Home() {
                       alt=""
                       w={12}
                     />
-                    <Heading size="title.sm">No more private keys</Heading>
+                    <Heading size="title.sm">
+                      Private keys are dangerous
+                    </Heading>
                     <Text size="body.lg">
                       Deploy as a team seamlessly with a multi-sig or as a solo
                       dev with your favorite wallet. Never accidentally leak
@@ -200,56 +201,72 @@ export default function Home() {
                       alt=""
                       w={12}
                     />
-                    <Heading size="title.sm">Power up with extensions</Heading>
+                    <Heading size="title.sm">
+                      Power up with{" "}
+                      <TrackedLink
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        category="thirdweb-deploy"
+                        label="extensions"
+                        textDecoration="underline"
+                      >
+                        extensions
+                      </TrackedLink>
+                    </Heading>
                     <Text size="body.lg">
                       Building blocks for your smart contracts:{" "}
-                      <Link
-                        fontStyle="italic"
-                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
-                        isExternal
-                      >
-                        Delayed Reveal
-                      </Link>
-                      ,{" "}
-                      <Link
-                        fontStyle="italic"
-                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
-                        isExternal
-                      >
-                        Signature Minting
-                      </Link>
-                      ,{" "}
-                      <Link
-                        fontStyle="italic"
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/permissions"
                         isExternal
                       >
                         Permissions & Roles
-                      </Link>
+                      </TrackedLink>
                       ,{" "}
-                      <Link
-                        fontStyle="italic"
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/royalty"
                         isExternal
                       >
                         Royalties
-                      </Link>
+                      </TrackedLink>
                       ,{" "}
-                      <Link
-                        fontStyle="italic"
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        textDecoration="underline"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                      >
+                        Delayed Reveal
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        textDecoration="underline"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                      >
+                        Signature Minting
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                       >
                         Primary Sales
-                      </Link>
+                      </TrackedLink>
                       ,{" "}
-                      <Link
-                        fontStyle="italic"
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                       >
                         and more...
-                      </Link>{" "}
+                      </TrackedLink>{" "}
                     </Text>
                   </Stack>
 
@@ -261,7 +278,7 @@ export default function Home() {
                       w={12}
                     />
                     <Heading size="title.sm">
-                      Automatic SDKs and dashboards
+                      Powerful SDKs and dashboards
                     </Heading>
                     <Text size="body.lg">
                       Fully featured SDKs for your contracts so you can focus on
@@ -272,7 +289,7 @@ export default function Home() {
                 </SimpleGrid>
               </Flex>
               <Heading size="subtitle.lg" as="h3" textAlign="center">
-                or get started with our pre-built contracts
+                Get started with our pre-built contracts
               </Heading>
               <SimpleGrid
                 columns={{ base: 2, md: 3, lg: 4 }}
@@ -297,7 +314,7 @@ export default function Home() {
           <HomepageSection id="developers" bottomPattern middleGradient>
             <Flex
               flexDir="column"
-              py={{ base: 12, lg: 24 }}
+              pt={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
@@ -535,7 +552,6 @@ export default function Home() {
               pt={{ base: 12, lg: 24 }}
               align="center"
               gap={{ base: 6, md: 8 }}
-              pb={{ base: 24, md: 0 }}
             >
               <Center mb={6} pt={{ base: 8, lg: 24 }}>
                 <Center p={2} position="relative" mb={6}>

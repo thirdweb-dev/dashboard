@@ -15,6 +15,7 @@ import { InsufficientFunds } from "components/notices/InsufficientFunds";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import React from "react";
+import { FiExternalLink } from "react-icons/fi";
 import { RiGasStationFill } from "react-icons/ri";
 import { SiDiscord, SiGithub, SiTwitter, SiYoutube } from "react-icons/si";
 import {
@@ -80,17 +81,19 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
               spacing={{ base: 3, md: 4 }}
               marginLeft="auto"
             >
-              <Link
-                href="https://portal.thirdweb.com/guides"
+              <TrackedLink
+                href="https://portal.thirdweb.com/"
                 isExternal
                 variant="link"
                 color="inherit"
                 fontWeight="inherit"
                 textDecoration={undefined}
                 display={{ base: "none", md: "block" }}
+                category="header"
+                label="docs"
               >
-                Guides
-              </Link>
+                Docs
+              </TrackedLink>
               <ButtonGroup
                 variant="ghost"
                 display={{ base: "none", md: "block" }}

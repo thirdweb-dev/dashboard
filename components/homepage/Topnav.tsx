@@ -78,21 +78,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
             <TrackedLink href="#fees" category="topnav" label="fees">
               Pricing
             </TrackedLink>
-            <TrackedLink
-              href="https://portal.thirdweb.com"
-              variant="link"
-              color="inherit"
-              fontWeight="inherit"
-              textDecoration={undefined}
-              isExternal
-              category="topnav"
-              label="portal"
-            >
-              <Flex alignItems="center">
-                Docs
-                <Icon ml={1.5} as={FiExternalLink} />
-              </Flex>
-            </TrackedLink>
             <Flex
               display={{ base: "none", lg: "flex" }}
               direction="row"
