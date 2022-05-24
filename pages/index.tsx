@@ -148,7 +148,6 @@ export default function Home() {
                 borderWidth={{ base: 0, md: 2 }}
                 borderColor="rgba(255,255,255,.1)"
                 borderRadius="2xl"
-                mb={{ base: 4, md: 12 }}
               >
                 <Heading textAlign="center" size="display.sm" as="h2">
                   <Heading
@@ -287,27 +286,45 @@ export default function Home() {
                     </Text>
                   </Stack>
                 </SimpleGrid>
+
+                <Heading size="subtitle.lg" as="h3" textAlign="center">
+                  Get started with our{" "}
+                  <TrackedLink
+                    href="https://portal.thirdweb.com/pre-built-contracts"
+                    category="pre-built-contract"
+                    label="heading"
+                    textDecoration="underline"
+                    isExternal
+                  >
+                    pre-built contracts
+                  </TrackedLink>
+                </Heading>
+                <SimpleGrid
+                  columns={{ base: 2, md: 3, lg: 4 }}
+                  spacing={{ base: 3, md: 4 }}
+                >
+                  <ContractCard
+                    icon="nft-drop"
+                    title="NFTs"
+                    description="ERC721 and ERC1155, minted or lazy minted so your audience can claim them."
+                  />
+                  <ContractCard
+                    icon="token"
+                    title="Tokens"
+                    description="ERC20 tokens, minted or lazy minted so your audience can claim them."
+                  />
+                  <ContractCard
+                    icon="marketplace"
+                    title="Marketplace"
+                    description="NFT marketplace, either open to any collection or limited to the collections you want."
+                  />
+                  <ContractCard
+                    icon="split"
+                    title="More"
+                    description="Governance on-chain, splitting revenue, and more."
+                  />
+                </SimpleGrid>
               </Flex>
-              <Heading size="subtitle.lg" as="h3" textAlign="center">
-                Get started with our pre-built contracts
-              </Heading>
-              <SimpleGrid
-                columns={{ base: 2, md: 3, lg: 4 }}
-                spacing={{ base: 3, md: 4 }}
-                mb={12}
-              >
-                {Object.entries(BuiltinContractMap)
-                  .filter(
-                    ([, contract]) => contract.title !== "NOT IMPLEMENTED",
-                  )
-                  .map(([key, contract]) => (
-                    <ContractCard
-                      key={key}
-                      contract={contract}
-                      contractType={key as keyof typeof BuiltinContractMap}
-                    />
-                  ))}
-              </SimpleGrid>
             </Flex>
           </HomepageSection>
 
