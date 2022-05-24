@@ -143,11 +143,9 @@ export default function Home() {
             >
               <Flex
                 p={{ base: 0, md: 12 }}
+                pt={{ base: 0, md: 24 }}
                 flexDir="column"
                 gap={{ base: 6, md: 8 }}
-                borderWidth={{ base: 0, md: 2 }}
-                borderColor="rgba(255,255,255,.1)"
-                borderRadius="2xl"
               >
                 <Heading textAlign="center" size="display.sm" as="h2">
                   <Heading
@@ -155,13 +153,17 @@ export default function Home() {
                     bgGradient="linear(to-r, #B8EEFF, #8689E3)"
                     bgClip="text"
                     size="display.sm"
+                    _hover={{ opacity: 0.8 }}
+                    textDecoration="underline"
                   >
-                    <Link
+                    <TrackedLink
                       isExternal
                       href="https://portal.thirdweb.com/thirdweb-deploy"
+                      category="thirdweb-deloy"
+                      label="heading"
                     >
                       thirdweb deploy
-                    </Link>
+                    </TrackedLink>
                   </Heading>
                 </Heading>
                 <Heading size="subtitle.lg" as="h3" textAlign="center">
@@ -220,6 +222,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/permissions"
                         isExternal
                         _hover={{ opacity: 0.9 }}
+                        label="permissions"
                       >
                         Permissions & Roles
                       </TrackedLink>
@@ -230,6 +233,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/royalty"
                         isExternal
                         _hover={{ opacity: 0.9 }}
+                        label="royalties"
                       >
                         Royalties
                       </TrackedLink>
@@ -240,6 +244,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
+                        label="delayed-reveal"
                       >
                         Delayed Reveal
                       </TrackedLink>
@@ -250,6 +255,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
+                        label="signature-minting"
                       >
                         Signature Minting
                       </TrackedLink>
@@ -260,6 +266,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
+                        label="primary-sales"
                       >
                         Primary Sales
                       </TrackedLink>
@@ -270,6 +277,7 @@ export default function Home() {
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
                         _hover={{ opacity: 0.9 }}
+                        label="more"
                       >
                         and more...
                       </TrackedLink>{" "}
