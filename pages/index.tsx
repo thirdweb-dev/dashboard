@@ -138,6 +138,7 @@ export default function Home() {
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               py={{ base: 12, lg: 24 }}
+              pt={{ base: 24, lg: 0 }}
               align="center"
             >
               <Flex
@@ -355,19 +356,25 @@ export default function Home() {
           <HomepageSection id="features">
             <Flex
               flexDir="column"
-              py={{ base: 12, lg: 24 }}
+              pb={{ base: 12, lg: 24 }}
+              pt={24}
               align="center"
               gap={{ base: 12, lg: 24 }}
             >
-              <Heading as="h2" size="display.sm" textAlign="center">
-                Dashboards to
-                <br />
-                control{" "}
-                <Heading as="span" fontSize="inherit" fontWeight={900}>
-                  everything
+              <Flex flexDir="column" gap={4}>
+                <Heading as="h2" size="display.sm" textAlign="center">
+                  Dashboards to
+                  <br />
+                  control{" "}
+                  <Heading as="span" fontSize="inherit" fontWeight={900}>
+                    everything
+                  </Heading>
+                  .
                 </Heading>
-                .
-              </Heading>
+                <Heading size="subtitle.lg" as="h3" textAlign="center">
+                  Everything you need, in one place.
+                </Heading>
+              </Flex>
               <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
                 <DashboardCard
                   headingTitle="teams"
@@ -574,6 +581,7 @@ export default function Home() {
             <Flex
               flexDir="column"
               pt={{ base: 12, lg: 24 }}
+              pb={{ base: 24, lg: 0 }}
               align="center"
               gap={{ base: 6, md: 8 }}
             >
@@ -611,7 +619,11 @@ export default function Home() {
                 Build web3 apps with ease. Get instant access.
               </Heading>
               <LightMode>
-                <GeneralCta title="Start building for free" size="lg" />
+                <GeneralCta
+                  title="Start building for free"
+                  size="lg"
+                  w={{ base: "full", md: "inherit" }}
+                />
               </LightMode>
             </Flex>
           </HomepageSection>
