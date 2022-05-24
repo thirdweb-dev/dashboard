@@ -206,6 +206,7 @@ export default function Home() {
                         category="thirdweb-deploy"
                         label="extensions"
                         textDecoration="underline"
+                        _hover={{ opacity: 0.9 }}
                       >
                         extensions
                       </TrackedLink>
@@ -217,6 +218,7 @@ export default function Home() {
                         textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/permissions"
                         isExternal
+                        _hover={{ opacity: 0.9 }}
                       >
                         Permissions & Roles
                       </TrackedLink>
@@ -226,6 +228,7 @@ export default function Home() {
                         textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/royalty"
                         isExternal
+                        _hover={{ opacity: 0.9 }}
                       >
                         Royalties
                       </TrackedLink>
@@ -235,6 +238,7 @@ export default function Home() {
                         textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
+                        _hover={{ opacity: 0.9 }}
                       >
                         Delayed Reveal
                       </TrackedLink>
@@ -244,6 +248,7 @@ export default function Home() {
                         textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
+                        _hover={{ opacity: 0.9 }}
                       >
                         Signature Minting
                       </TrackedLink>
@@ -253,6 +258,7 @@ export default function Home() {
                         textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
+                        _hover={{ opacity: 0.9 }}
                       >
                         Primary Sales
                       </TrackedLink>
@@ -262,6 +268,7 @@ export default function Home() {
                         textDecoration="underline"
                         href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
                         isExternal
+                        _hover={{ opacity: 0.9 }}
                       >
                         and more...
                       </TrackedLink>{" "}
@@ -294,6 +301,7 @@ export default function Home() {
                     label="heading"
                     textDecoration="underline"
                     isExternal
+                    _hover={{ opacity: 0.9 }}
                   >
                     pre-built contracts
                   </TrackedLink>
