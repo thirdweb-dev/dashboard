@@ -23,7 +23,6 @@ import {
 } from "components/homepage/examples/ExampleItem";
 import { MultiChainSVG } from "components/homepage/multi-chain-svg";
 import { GeneralCta } from "components/shared/GeneralCta";
-import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 // images
 import Analytics from "public/assets/landingpage/analytics.png";
@@ -336,7 +335,7 @@ export default function Home() {
               gap={{ base: 6, md: 8 }}
             >
               <Heading as="h2" size="display.sm" textAlign="center">
-                Powerful and intuitive SDKs.
+                Powerful SDKs.
               </Heading>
               <Heading as="h3" size="subtitle.lg" textAlign="center">
                 Easily integrate into web, mobile, backend, games, etc.
