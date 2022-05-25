@@ -1,12 +1,12 @@
 import { NFTMintForm } from "./mint-form";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { NFTContract } from "@thirdweb-dev/react";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer } from "tw-components";
 
 interface NFTMintButtonProps {
-  contract: Erc721 | Erc1155;
+  contract: NFTContract;
 }
 
 export const NFTMintButton: React.FC<NFTMintButtonProps> = ({

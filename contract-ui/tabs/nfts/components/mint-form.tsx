@@ -14,8 +14,8 @@ import {
   Textarea,
   useModalContext,
 } from "@chakra-ui/react";
-import { useAddress, useMintNFT } from "@thirdweb-dev/react";
-import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { NFTContract, useAddress, useMintNFT } from "@thirdweb-dev/react";
+import { Erc1155 } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { PropertiesFormControl } from "components/contract-pages/forms/properties.shared";
@@ -32,11 +32,12 @@ import {
   Heading,
 } from "tw-components";
 import { NFTMetadataInputLimited } from "types/modified-types";
+import { parseAttributes } from "utils/parseAttributes";
 
 const MINT_FORM_ID = "nft-mint-form";
 
 interface NFTMintForm {
-  contract: Erc721 | Erc1155;
+  contract: NFTContract;
 }
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({ contract }) => {
@@ -136,7 +137,11 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({ contract }) => {
               return;
             }
             mutate(
-              { to: address, metadata: data },
+              {
+                to: address,
+                metadata: parseAttributes(data),
+                supply: data.supply,
+              },
               {
                 onSuccess: () => {
                   onSuccess();
