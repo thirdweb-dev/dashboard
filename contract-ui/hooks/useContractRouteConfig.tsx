@@ -1,6 +1,6 @@
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { Route } from "@tanstack/react-location";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useSDK } from "@thirdweb-dev/react";
 import {
   Erc20,
   Erc721,
@@ -20,11 +20,14 @@ export type EnhancedRoute = Route & {
 export function useContractRouteConfig(
   contractAddress?: string,
 ): EnhancedRoute[] {
+  const sdk = useSDK();
   const contract = useContract(contractAddress);
 
   const nftContract =
     detectErc721Instance(contract.contract) ||
     detectErc1155Instance(contract.contract);
+
+  console.log({ nftContract, sdk });
 
   const tokenContract = detectErc20Instance(contract.contract);
 
