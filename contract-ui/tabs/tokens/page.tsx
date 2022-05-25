@@ -1,3 +1,4 @@
+import { TokenMintButton } from "./components/mint-button";
 import { TokenSupply } from "./components/supply";
 import { Flex } from "@chakra-ui/react";
 import { Erc20 } from "@thirdweb-dev/sdk";
@@ -16,6 +17,7 @@ export const ContractTokensPage: React.FC<ContractTokenPageProps> = ({
       <Flex direction="column" gap={4}>
         <Heading size="title.sm">Contract Tokens</Heading>
         {/* TODO build everything erc20 token-based in here */}
+        <TokenMintButton contract={contract} />
         <TokenSupply contract={contract} />
       </Flex>
     </Flex>
