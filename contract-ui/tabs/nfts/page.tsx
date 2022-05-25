@@ -1,3 +1,4 @@
+import { NFTMintButton } from "./components/mint-button";
 import { NftGetAllTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
 import { NFTContract } from "@thirdweb-dev/react";
@@ -17,6 +18,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
         {/* TODO add erc721 & 1155 mint flow here */}
       </Flex>
       {/* TODO check if this is supported before rendering it */}
+      <NFTMintButton contract={contract} />
       <NftGetAllTable contract={contract} />
     </Flex>
   );
