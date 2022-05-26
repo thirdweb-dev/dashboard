@@ -1,14 +1,16 @@
 import { Card } from "./card";
 import { Text } from "./text";
+import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
   Button as ChakraButton,
   ButtonProps as ChakraButtonprops,
   Icon,
+  IconButton,
+  IconButtonProps,
   LightMode,
   Link,
   Tooltip,
   forwardRef,
-  useBreakpointValue,
   useButtonGroup,
   useClipboard,
   useToast,
@@ -17,13 +19,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import NextLink, { LinkProps } from "next/link";
 import React from "react";
 import { FiCopy, FiExternalLink } from "react-icons/fi";
-import {
-  baseFontSizes,
-  fontWeights,
-  letterSpacings,
-  lineHeights,
-  mdFontSizes,
-} from "theme/typography";
+import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 export const buttonSizesMap = {
@@ -37,10 +33,12 @@ export type PossibleButtonSize = keyof typeof buttonSizesMap;
 
 export interface ButtonProps extends Omit<ChakraButtonprops, "size"> {
   size?: PossibleButtonSize;
+  fromcolor?: string;
+  tocolor?: string;
 }
 
 export const Button = forwardRef<ButtonProps, "button">(
-  ({ size, ...restButtonprops }, ref) => {
+  ({ size, ...restButtonProps }, ref) => {
     const { size: groupSize, ...buttonGroupContext } = useButtonGroup() || {};
     let _size: PossibleButtonSize = (size ||
       groupSize ||
@@ -48,20 +46,15 @@ export const Button = forwardRef<ButtonProps, "button">(
     if (!(_size in buttonSizesMap)) {
       _size = "md";
     }
-    const fontSizeMap =
-      useBreakpointValue({
-        base: baseFontSizes,
-        md: mdFontSizes,
-      }) || mdFontSizes;
 
     const props: ButtonProps = {
       fontWeight: fontWeights.label,
       lineHeight: lineHeights.label,
       letterSpacing: letterSpacings.label,
-      fontSize: fontSizeMap.label[buttonSizesMap[_size]],
+      fontSize: convertFontSizeToCSSVar(`label.${buttonSizesMap[_size]}`),
       size: _size,
       ...buttonGroupContext,
-      ...restButtonprops,
+      ...restButtonProps,
     };
     if (props.colorScheme && props.variant !== "outline") {
       return (
@@ -82,14 +75,14 @@ export const Button = forwardRef<ButtonProps, "button">(
 
 Button.displayName = "Button";
 
-interface ILinkButtonProps extends ButtonProps {
+export interface LinkButtonProps extends ButtonProps {
   href: string | LinkProps["href"];
   isExternal?: boolean;
   noIcon?: true;
 }
 
-export const LinkButton = React.forwardRef<HTMLButtonElement, ILinkButtonProps>(
-  ({ href, isExternal, noIcon, children, ...restButtonprops }, ref) => {
+export const LinkButton = React.forwardRef<HTMLButtonElement, LinkButtonProps>(
+  ({ href, isExternal, noIcon, children, ...restButtonProps }, ref) => {
     if (isExternal) {
       return (
         <Button
@@ -99,7 +92,7 @@ export const LinkButton = React.forwardRef<HTMLButtonElement, ILinkButtonProps>(
           ref={ref}
           textDecoration="none!important"
           rightIcon={noIcon ? undefined : <Icon as={FiExternalLink} />}
-          {...restButtonprops}
+          {...restButtonProps}
         >
           {children}
         </Button>
@@ -111,7 +104,7 @@ export const LinkButton = React.forwardRef<HTMLButtonElement, ILinkButtonProps>(
         <Button
           as={Link}
           ref={ref}
-          {...restButtonprops}
+          {...restButtonProps}
           textDecoration="none!important"
         >
           {children}
@@ -123,13 +116,39 @@ export const LinkButton = React.forwardRef<HTMLButtonElement, ILinkButtonProps>(
 
 LinkButton.displayName = "LinkButton";
 
-interface IAddressCopyButton extends Omit<ButtonProps, "onClick" | "size"> {
+export interface TrackedIconButtonProps extends IconButtonProps {
+  category: string;
+  label?: string;
+}
+
+export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
+  ({ category, label, ...restButtonProps }, ref) => {
+    const { trackEvent } = useTrack();
+    return (
+      <IconButton
+        ref={ref}
+        onClick={() =>
+          trackEvent({
+            category,
+            action: "click",
+            label,
+          })
+        }
+        {...restButtonProps}
+      />
+    );
+  },
+);
+
+TrackedIconButton.displayName = "TrackedIconButton";
+
+interface AddressCopyButtonProps extends Omit<ButtonProps, "onClick" | "size"> {
   address?: string;
   noIcon?: boolean;
   size?: PossibleButtonSize;
 }
 
-export const AddressCopyButton: React.VFC<IAddressCopyButton> = ({
+export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   address,
   noIcon,
   flexGrow = 0,
@@ -164,6 +183,8 @@ export const AddressCopyButton: React.VFC<IAddressCopyButton> = ({
           e.preventDefault();
           onCopy();
           toast({
+            variant: "solid",
+            position: "bottom",
             title: "Address copied.",
             status: "success",
             duration: 5000,

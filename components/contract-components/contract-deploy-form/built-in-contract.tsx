@@ -2,6 +2,11 @@ import { ContractIdImage } from "../contract-table/cells/image";
 import { useContractPublishMetadataFromURI } from "../hooks";
 import { useDeploy } from "@3rdweb-sdk/react";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Divider,
   Flex,
   FormControl,
@@ -15,7 +20,6 @@ import {
   Skeleton,
   Textarea,
 } from "@chakra-ui/react";
-import { AddressZero } from "@ethersproject/constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -29,7 +33,7 @@ import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
 import { UrlMap } from "constants/mappings";
-import { isAddress } from "ethers/lib/utils";
+import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -97,7 +101,7 @@ interface BuiltinContractFormProps {
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
 }
 
-const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
+const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   contractType,
   selectedChain,
   onChainSelect,
@@ -129,8 +133,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
   const hasPlatformFeeMechanic = useMemo(
     () =>
       "platform_fee_recipient" in contract.schema.deploy.shape &&
-      "platform_fee_basis_points" in contract.schema.deploy.shape &&
-      false,
+      "platform_fee_basis_points" in contract.schema.deploy.shape,
     [contract],
   );
   const hasRoyaltyMechanic = useMemo(
@@ -287,7 +290,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
             colorScheme="purple"
             variant="outline"
           >
-            Built-in Contract
+            Pre-built Contract
           </Badge>
         </Flex>
         <Divider borderColor="borderColor" />
@@ -466,55 +469,83 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
                 </Flex>
               )}
               {hasPlatformFeeMechanic && (
-                <Flex pb={4} direction="column" gap={2}>
-                  <Heading size="label.lg">Platform fees</Heading>
-                  <Flex gap={4} direction={{ base: "column", md: "row" }}>
-                    <FormControl
-                      isRequired={isRequired("platform_fee_recipient")}
-                      isInvalid={
-                        !!getFieldState("platform_fee_recipient", formState)
-                          .error
-                      }
-                    >
-                      <FormLabel>Recipient Address</FormLabel>
-                      <Input
-                        variant="filled"
-                        {...register("platform_fee_recipient")}
-                      />
-                      <FormErrorMessage>
-                        {
-                          getFieldState("platform_fee_recipient", formState)
-                            .error?.message
-                        }
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl
-                      maxW={{ base: "100%", md: "200px" }}
-                      isRequired={isRequired("platform_fee_basis_points")}
-                      isInvalid={
-                        !!getFieldState("platform_fee_basis_points", formState)
-                          .error
-                      }
-                    >
-                      <FormLabel>Percentage</FormLabel>
-                      <BasisPointsInput
-                        variant="filled"
-                        value={watch("platform_fee_basis_points")}
-                        onChange={(value) =>
-                          setValue("platform_fee_basis_points", value, {
-                            shouldTouch: true,
-                          })
-                        }
-                      />
-                      <FormErrorMessage>
-                        {
-                          getFieldState("platform_fee_basis_points", formState)
-                            .error?.message
-                        }
-                      </FormErrorMessage>
-                    </FormControl>
-                  </Flex>
-                </Flex>
+                <Accordion allowToggle>
+                  <AccordionItem borderColor="borderColor">
+                    <AccordionButton px={0}>
+                      <Heading size="subtitle.md" flex="1" textAlign="left">
+                        Advanced Configuration
+                      </Heading>
+
+                      <AccordionIcon />
+                    </AccordionButton>
+
+                    <AccordionPanel py={4} px={0}>
+                      <Flex pb={4} direction="column" gap={2}>
+                        <Heading size="label.lg">Platform fees</Heading>
+                        <Text size="body.md" fontStyle="italic">
+                          Get additional fees for all primary sales that happen
+                          on this contract. (This is useful if you are deploying
+                          this contract for a 3rd party and want to take fees
+                          for your service.)
+                        </Text>
+                        <Flex gap={4} direction={{ base: "column", md: "row" }}>
+                          <FormControl
+                            isRequired={isRequired("platform_fee_recipient")}
+                            isInvalid={
+                              !!getFieldState(
+                                "platform_fee_recipient",
+                                formState,
+                              ).error
+                            }
+                          >
+                            <FormLabel>Recipient Address</FormLabel>
+                            <Input
+                              variant="filled"
+                              {...register("platform_fee_recipient")}
+                            />
+                            <FormErrorMessage>
+                              {
+                                getFieldState(
+                                  "platform_fee_recipient",
+                                  formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          </FormControl>
+                          <FormControl
+                            maxW={{ base: "100%", md: "200px" }}
+                            isRequired={isRequired("platform_fee_basis_points")}
+                            isInvalid={
+                              !!getFieldState(
+                                "platform_fee_basis_points",
+                                formState,
+                              ).error
+                            }
+                          >
+                            <FormLabel>Percentage</FormLabel>
+                            <BasisPointsInput
+                              variant="filled"
+                              value={watch("platform_fee_basis_points")}
+                              onChange={(value) =>
+                                setValue("platform_fee_basis_points", value, {
+                                  shouldTouch: true,
+                                })
+                              }
+                            />
+                            <FormErrorMessage>
+                              {
+                                getFieldState(
+                                  "platform_fee_basis_points",
+                                  formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          </FormControl>
+                        </Flex>
+                      </Flex>
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
               )}
             </Flex>
           </>
@@ -540,13 +571,13 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
                   isInvalid={
                     !!getFieldState("voting_token_address", formState).error ||
                     (watch("voting_token_address")
-                      ? !isAddress(watch("voting_token_address"))
+                      ? !utils.isAddress(watch("voting_token_address"))
                       : false)
                   }
                 >
                   <FormLabel>Governance Token Address</FormLabel>
                   <Input
-                    placeholder={AddressZero}
+                    placeholder={constants.AddressZero}
                     variant="filled"
                     {...register("voting_token_address")}
                   />
@@ -558,7 +589,7 @@ const BuiltinContractForm: React.VFC<BuiltinContractFormProps> = ({
                     {getFieldState("voting_token_address", formState).error
                       ?.message ||
                       (watch("voting_token_address") &&
-                        !isAddress(watch("voting_token_address")) &&
+                        !utils.isAddress(watch("voting_token_address")) &&
                         "Please enter a valid address.")}
                   </FormErrorMessage>
                 </FormControl>

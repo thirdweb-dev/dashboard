@@ -14,11 +14,11 @@ import { DeployableContractTable } from "components/contract-components/contract
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
-import { ConsolePage } from "pages/_app";
+import { ReactElement } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
 import { Badge, Button, Heading, LinkButton, Text } from "tw-components";
 
-const ContractsHomepageWrapped: React.VFC = () => {
+const ContractsHomepageWrapped: React.FC = () => {
   const { Track } = useTrack({
     page: "contracts",
   });
@@ -86,7 +86,7 @@ const ContractsHomepageWrapped: React.VFC = () => {
                   <Text>You have not published any contracts yet.</Text>
                   <LinkButton
                     size="sm"
-                    href="https://thirdweb.notion.site/thirdweb-deploy-Public-Alpha-74d81faa569b418f9ed718645fd7df2c"
+                    href="https://portal.thirdweb.com/thirdweb-deploy"
                     isExternal
                     variant="outline"
                     colorScheme="primary"
@@ -97,16 +97,13 @@ const ContractsHomepageWrapped: React.VFC = () => {
               </Center>
             )}
         </DeployableContractTable>
-
         <Box />
-
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Built-in contracts</Heading>
+          <Heading size="title.md">Pre-built contracts</Heading>
           <Text fontStyle="italic">
             Contracts created by the thirdweb team that you can deploy
           </Text>
         </Flex>
-
         <DeployableContractTable
           hasDescription
           contractIds={Object.keys(KNOWN_CONTRACTS_MAP)}
@@ -116,14 +113,14 @@ const ContractsHomepageWrapped: React.VFC = () => {
   );
 };
 
-const ContractsHomepage: ConsolePage = () => {
+export default function ContractsHomepage() {
   return (
     <CustomSDKContext desiredChainId={ChainId.Mumbai}>
       <ContractsHomepageWrapped />
     </CustomSDKContext>
   );
-};
+}
 
-ContractsHomepage.Layout = AppLayout;
-
-export default ContractsHomepage;
+ContractsHomepage.getLayout = (page: ReactElement) => (
+  <AppLayout>{page}</AppLayout>
+);

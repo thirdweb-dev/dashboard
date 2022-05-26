@@ -1,8 +1,15 @@
 import { CodeSnippet, Environment, SupportedEnvironment } from "./types";
 import { ButtonGroup, Flex, Icon, Stack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useMemo } from "react";
-import { SiJavascript, SiPython, SiReact, SiTypescript } from "react-icons/si";
+import {
+  SiGo,
+  SiJavascript,
+  SiPython,
+  SiReact,
+  SiTypescript,
+} from "react-icons/si";
 import { Button, CodeBlock, Heading } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface ICodeSegment {
   snippet: CodeSnippet;
@@ -33,6 +40,12 @@ const Environments: SupportedEnvironment[] = [
     environment: "python",
     title: "Python",
     icon: SiPython,
+    colorScheme: "blue",
+  },
+  {
+    environment: "go",
+    title: "Go",
+    icon: SiGo,
     colorScheme: "blue",
   },
 ];
@@ -108,13 +121,9 @@ interface ISupportedEnvironment {
   onClick: () => void;
 }
 
-const SupportedEnvironmentButton: React.FC<ISupportedEnvironment> = ({
-  active,
-  icon,
-  onClick,
-  children,
-  isDisabled,
-}) => {
+const SupportedEnvironmentButton: ComponentWithChildren<
+  ISupportedEnvironment
+> = ({ active, icon, onClick, children, isDisabled }) => {
   return (
     <Button
       variant={active ? "solid" : "outline"}

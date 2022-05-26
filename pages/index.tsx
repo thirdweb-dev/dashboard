@@ -1,7 +1,7 @@
-import { ConsolePage } from "./_app";
 import {
   Box,
-  Container,
+  Center,
+  DarkMode,
   Flex,
   LightMode,
   List,
@@ -10,250 +10,635 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import {
-  Marketplace,
-  NFTCollection,
-  NFTDrop,
-  Pack,
-  Split,
-  Token,
-} from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
-import { CodeExamples } from "components/homepage/CodeExamples";
-import { HomepageFeatureCard } from "components/homepage/FeatureCard";
+import { CodeSelector } from "components/homepage/CodeSelector";
+import { ContractCard } from "components/homepage/ContractCard";
+import { DashboardCard } from "components/homepage/DashboardCard";
 import { HomepageFooter } from "components/homepage/Footer";
-import { OctopusCard } from "components/homepage/OctopusCard";
 import { HomepageSection } from "components/homepage/Section";
-import { SupportedChain } from "components/homepage/SupportedChain";
 import { HomepageTopNav } from "components/homepage/Topnav";
-import { UpcomingFeature } from "components/homepage/UpcomingFeatureCard";
-import { WhatCanYouBuild } from "components/homepage/WhatCanYouBuild";
+import {
+  ExampleItem,
+  exampleCategories,
+} from "components/homepage/examples/ExampleItem";
+import { MultiChainSVG } from "components/homepage/multi-chain-svg";
 import { GeneralCta } from "components/shared/GeneralCta";
-import { FeaturesBackground } from "components/svgs/FeaturesBackground";
 import { useTrack } from "hooks/analytics/useTrack";
 // images
-import Octopus from "public/assets/landingpage/octopus.png";
-import Scissors from "public/assets/landingpage/scissors.png";
+import Analytics from "public/assets/landingpage/analytics.png";
+import Contracts from "public/assets/landingpage/contracts.png";
+import Hero from "public/assets/landingpage/hero.png";
+import MobileHero from "public/assets/landingpage/mobile-hero.png";
+import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
+import WhiteLogo from "public/assets/landingpage/white-logo.png";
 // end images
 import React from "react";
+import { AiOutlineTeam } from "react-icons/ai";
+import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
-import { Text } from "tw-components";
+import { MdOutlineAnalytics } from "react-icons/md";
+import { Heading, Link, Text, TrackedLink } from "tw-components";
 
-const Home: ConsolePage = () => {
+export default function Home() {
   const { Track } = useTrack({ page: "home" });
+
   return (
-    <LightMode>
+    <DarkMode>
       <Track>
-        <Flex justify="center" flexDir="column" as="main" bg="#fff">
+        <Flex
+          sx={{
+            // overwrite the theme colors because the home page is *always* in "dark mode"
+            "--chakra-colors-heading": "#F2F2F7",
+            "--chakra-colors-paragraph": "#AEAEB2",
+            "--chakra-colors-borderColor": "rgba(255,255,255,0.1)",
+          }}
+          justify="center"
+          flexDir="column"
+          as="main"
+          bg="#000"
+        >
           <HomepageTopNav />
-          <HomepageSection
-            id="home"
-            hero
-            title="Build web3 apps, easily."
-            subtitle={
-              <>
-                Smart contracts you control. Tools that accelerate your
-                workflow.
-                <Box display={{ base: "none", md: "block" }} /> Intuitive SDKs
-                and embeds for developers.
-              </>
-            }
-            bottomGradient="animated"
-            paddingBottom
-          >
-            <Stack w="100%" spacing={["64px", "64px", "100px"]} pb="30rem">
-              <GeneralCta size="lg" />
-            </Stack>
-          </HomepageSection>
-          <Flex
-            position="relative"
-            zIndex={3}
-            overflow="hidden"
-            mt={{ base: "-40rem", md: "-48rem" }}
-            py={{ base: 0, md: 0 }}
-            id="features"
-          >
-            <FeaturesBackground position="absolute" bottom={0} />
-            <Container
-              maxW="container.page"
-              position="relative"
-              pb={["75px", "75px", "150px"]}
-            >
-              <Stack
-                w="100%"
-                align="center"
-                spacing={{ base: "2.5rem", md: "5.5rem" }}
-              >
-                <SimpleGrid
-                  w="100%"
-                  placeItems="stretch"
-                  columns={{ base: 1, md: 2, lg: 3 }}
-                  spacing={6}
-                >
-                  <HomepageFeatureCard type={NFTCollection.contractType} />
-                  <HomepageFeatureCard type={Marketplace.contractType} />
-                  <HomepageFeatureCard type={Token.contractType} />
-                  <HomepageFeatureCard type={Pack.contractType} />
-                  <HomepageFeatureCard type={NFTDrop.contractType} />
-                  <HomepageFeatureCard type={Split.contractType} />
-                </SimpleGrid>
-              </Stack>
-            </Container>
-          </Flex>
-
-          <WhatCanYouBuild />
-
-          <HomepageSection
-            id="permissions"
-            title="Permissions for your team"
-            subtitle={
-              <Box mt={-5}>
-                Each contract lets you finely tune permissions to control who
-                can
-                <br />
-                access your contracts and modify settings.
-              </Box>
-            }
-          >
-            <Flex flexDirection={{ base: "column", md: "row" }}>
-              <Stack spacing={{ base: 4, md: 20 }} mr={{ base: 0, md: 2 }}>
-                <OctopusCard
-                  title="admin"
-                  address="0x386...23c2"
-                  description="Has full permissions for your project"
-                />
-                <OctopusCard
-                  title="minter"
-                  address="0x4F5...61b3"
-                  description="Can mint new tokens on your contracts"
-                />
-              </Stack>
-              <ChakraNextImage
-                alt=""
-                maxW={96}
-                w={96}
-                mt={24}
-                display={{ base: "none", md: "block" }}
-                placeholder="empty"
-                src={Octopus}
-              />
-              <Stack
-                spacing={{ base: 4, md: 14 }}
-                mt={{ base: 4, md: 0 }}
-                ml={{ base: 0, md: 2 }}
-              >
-                <OctopusCard
-                  title="pauser"
-                  address="0x27d...4Eb6"
-                  description="Can enable and disable external interaction with your contracts"
-                />
-                <OctopusCard
-                  title="transferrer"
-                  address="0x4gh...5692"
-                  description="Can transfer and receive assets through your contract"
-                />
-              </Stack>
-            </Flex>
-          </HomepageSection>
-
-          <CodeExamples />
-
-          <HomepageSection
-            id="networks"
-            bottomGradient="animated"
-            title="thirdweb supports a multi-chain ecosystem of blockchains"
-          >
-            <Stack spacing="5rem" align="center">
-              <SimpleGrid
-                columns={[3, 3, 6]}
-                spacing={{ base: "1.5rem", md: "4rem" }}
-                mt={8}
-              >
-                <SupportedChain type="ethereum" />
-                <SupportedChain type="polygon" />
-                <SupportedChain type="avalanche" />
-                <SupportedChain type="fantom" />
-                <SupportedChain type="solana" />
-                <SupportedChain type="flow" />
-              </SimpleGrid>
-            </Stack>
-          </HomepageSection>
-
-          <HomepageSection
-            title="Powerful functionality"
-            isDark
-            topGradient="static"
-          >
+          <HomepageSection id="home" topGradient bottomPattern>
             <SimpleGrid
-              w="100%"
-              placeItems="stretch"
-              columns={{ base: 1, md: 2, lg: 4 }}
+              pt={{
+                base: 24,
+                md: 48,
+              }}
+              columns={{ base: 1, md: 2 }}
+              spacing={{ base: 6, md: 8 }}
             >
-              <UpcomingFeature type="analytics" />
-              <UpcomingFeature type="permissions" />
-              <UpcomingFeature type="advanced_nfts" />
-              <UpcomingFeature type="data" />
+              <Flex
+                flexDir="column"
+                gap={{ base: 6, md: 8 }}
+                align={{ base: "initial", md: "start" }}
+              >
+                <Heading
+                  as="h2"
+                  size="display.md"
+                  textAlign={{ base: "center", md: "left" }}
+                >
+                  Build web3 apps, easily.
+                </Heading>
+                <Heading
+                  as="h3"
+                  size="subtitle.md"
+                  textAlign={{ base: "center", md: "left" }}
+                >
+                  Smart contracts you control. Powerful SDKs and intuitive tools
+                  for developers. Ship on-chain faster.
+                </Heading>
+                <LightMode>
+                  <Flex flexDir="column" align="center" gap={6}>
+                    <GeneralCta size="lg" />
+                    <Link
+                      href="#fees"
+                      borderBottomWidth="1px"
+                      _hover={{
+                        textDecor: "none",
+                        opacity: 1,
+                      }}
+                      opacity={0.8}
+                    >
+                      <Text size="body.lg">thirdweb is 100% free</Text>
+                    </Link>
+                  </Flex>
+                </LightMode>
+              </Flex>
+              <Flex
+                display={{ base: "none", md: "flex" }}
+                justifyContent="flex-end"
+              >
+                <ChakraNextImage
+                  alt=""
+                  maxW={96}
+                  w={96}
+                  mt={8}
+                  src={Hero}
+                  mr={12}
+                />
+              </Flex>
+              <Flex
+                display={{ base: "flex", md: "none" }}
+                justifyContent="center"
+              >
+                <ChakraNextImage
+                  alt=""
+                  maxW={96}
+                  w={96}
+                  mt={8}
+                  px={4}
+                  src={MobileHero}
+                />
+              </Flex>
             </SimpleGrid>
           </HomepageSection>
 
-          <HomepageSection
-            id="fees"
-            title="Free to use"
-            leftAlignedTitle
-            subtitle={
-              <>
+          <HomepageSection id="contracts" middleGradient>
+            <Flex
+              flexDir="column"
+              gap={{ base: 6, md: 8 }}
+              py={{ base: 12, lg: 24 }}
+              pt={{ base: 24, lg: 0 }}
+              align="center"
+            >
+              <Flex
+                p={{ base: 0, md: 12 }}
+                pt={{ base: 0, md: 24 }}
+                flexDir="column"
+                gap={{ base: 6, md: 8 }}
+              >
+                <Heading textAlign="center" size="display.sm" as="h2">
+                  <Heading
+                    as="span"
+                    bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                    bgClip="text"
+                    size="display.sm"
+                    _hover={{ opacity: 0.8 }}
+                    textDecoration="underline"
+                  >
+                    <TrackedLink
+                      isExternal
+                      href="https://portal.thirdweb.com/thirdweb-deploy"
+                      category="thirdweb-deloy"
+                      label="heading"
+                    >
+                      thirdweb deploy
+                    </TrackedLink>
+                  </Heading>
+                </Heading>
+                <Heading size="subtitle.lg" as="h3" textAlign="center">
+                  Bring your own contracts, unlock the power of thirdweb.
+                </Heading>
+                <SimpleGrid
+                  flexDir="column"
+                  justifyContent="space-between"
+                  w="100%"
+                  columns={{ base: 1, md: 3 }}
+                  gap={{ base: 12, md: 6 }}
+                  py={12}
+                  px={{ base: 6, md: 0 }}
+                >
+                  <Stack spacing={4}>
+                    <ChakraNextImage
+                      src={require("/public/assets/landingpage/keys.svg")}
+                      placeholder="empty"
+                      alt=""
+                      w={12}
+                    />
+                    <Heading size="title.sm">
+                      Private keys are dangerous
+                    </Heading>
+                    <Text size="body.lg">
+                      Deploy as a team seamlessly with a multi-sig or as a solo
+                      dev with your favorite wallet. Never accidentally leak
+                      your private keys again.
+                    </Text>
+                  </Stack>
+
+                  <Stack spacing={4}>
+                    <ChakraNextImage
+                      src={require("/public/assets/landingpage/extensions.svg")}
+                      placeholder="empty"
+                      alt=""
+                      w={12}
+                    />
+                    <Heading size="title.sm">
+                      Power up with{" "}
+                      <TrackedLink
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        category="thirdweb-deploy"
+                        label="extensions"
+                        borderBottom="1px solid"
+                        _hover={{ opacity: 0.9 }}
+                      >
+                        extensions
+                      </TrackedLink>
+                    </Heading>
+                    <Text size="body.lg">
+                      Building blocks for your smart contracts:{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        borderBottom="1px solid"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/permissions"
+                        isExternal
+                        _hover={{ opacity: 0.9 }}
+                        label="permissions"
+                      >
+                        Permissions & Roles
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        borderBottom="1px solid"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/royalty"
+                        isExternal
+                        _hover={{ opacity: 0.9 }}
+                        label="royalties"
+                      >
+                        Royalties
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        borderBottom="1px solid"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                        _hover={{ opacity: 0.9 }}
+                        label="delayed-reveal"
+                      >
+                        Delayed Reveal
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        borderBottom="1px solid"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                        _hover={{ opacity: 0.9 }}
+                        label="signature-minting"
+                      >
+                        Signature Minting
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        borderBottom="1px solid"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                        _hover={{ opacity: 0.9 }}
+                        label="primary-sales"
+                      >
+                        Primary Sales
+                      </TrackedLink>
+                      ,{" "}
+                      <TrackedLink
+                        category="thirdweb-deploy"
+                        borderBottom="1px solid"
+                        href="https://portal.thirdweb.com/thirdweb-deploy/contract-features"
+                        isExternal
+                        _hover={{ opacity: 0.9 }}
+                        label="more"
+                      >
+                        and more...
+                      </TrackedLink>{" "}
+                    </Text>
+                  </Stack>
+
+                  <Stack spacing={4}>
+                    <ChakraNextImage
+                      src={require("/public/assets/landingpage/list.svg")}
+                      placeholder="empty"
+                      alt=""
+                      w={12}
+                    />
+                    <Heading size="title.sm">
+                      Powerful SDKs and dashboards
+                    </Heading>
+                    <Text size="body.lg">
+                      Fully featured SDKs for your contracts so you can focus on
+                      building your app. Easy-to-use dashboards to manage and
+                      track your contracts on-chain.
+                    </Text>
+                  </Stack>
+                </SimpleGrid>
+
+                <Heading size="subtitle.lg" as="h3" textAlign="center">
+                  Get started with our{" "}
+                  <TrackedLink
+                    href="https://portal.thirdweb.com/pre-built-contracts"
+                    category="pre-built-contract"
+                    label="heading"
+                    borderBottom="1px solid"
+                    isExternal
+                    _hover={{ opacity: 0.9 }}
+                  >
+                    pre-built contracts
+                  </TrackedLink>
+                </Heading>
+                <SimpleGrid
+                  columns={{ base: 2, md: 3, lg: 4 }}
+                  spacing={{ base: 3, md: 4 }}
+                >
+                  <ContractCard
+                    icon="nft-drop"
+                    title="NFTs"
+                    description="ERC721 and ERC1155, minted or lazy minted so your audience can claim them."
+                  />
+                  <ContractCard
+                    icon="token"
+                    title="Tokens"
+                    description="ERC20 tokens, minted or lazy minted so your audience can claim them."
+                  />
+                  <ContractCard
+                    icon="marketplace"
+                    title="Marketplace"
+                    description="NFT marketplace, either open to any collection or limited to the collections you want."
+                  />
+                  <ContractCard
+                    icon="split"
+                    title="More"
+                    description="Governance on-chain, splitting revenue, and more."
+                  />
+                </SimpleGrid>
+              </Flex>
+            </Flex>
+          </HomepageSection>
+
+          <HomepageSection id="developers" bottomPattern middleGradient>
+            <Flex
+              flexDir="column"
+              pt={{ base: 12, lg: 24 }}
+              align="center"
+              gap={{ base: 6, md: 8 }}
+            >
+              <Heading as="h2" size="display.sm" textAlign="center">
+                Powerful SDKs.
+              </Heading>
+              <Heading as="h3" size="subtitle.lg" textAlign="center">
+                Easily integrate into web, mobile, backend, games, etc.
+              </Heading>
+              <CodeSelector />
+            </Flex>
+          </HomepageSection>
+
+          <HomepageSection id="features">
+            <Flex
+              flexDir="column"
+              pb={{ base: 12, lg: 24 }}
+              pt={24}
+              align="center"
+              gap={{ base: 12, lg: 24 }}
+            >
+              <Flex flexDir="column" gap={4}>
+                <Heading as="h2" size="display.sm" textAlign="center">
+                  Dashboards to
+                  <br />
+                  control{" "}
+                  <Heading as="span" fontSize="inherit" fontWeight={900}>
+                    everything
+                  </Heading>
+                  .
+                </Heading>
+                <Heading size="subtitle.lg" as="h3" textAlign="center">
+                  Everything you need, in one place.
+                </Heading>
+              </Flex>
+              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
+                <DashboardCard
+                  headingTitle="teams"
+                  headingIcon={AiOutlineTeam}
+                  title={
+                    <>
+                      Built with a focus on{" "}
+                      <Heading
+                        as="span"
+                        bgGradient="linear(to-l, #48BCA8, #A998FF)"
+                        bgClip="text"
+                        display="inline"
+                        size="title.sm"
+                      >
+                        empowering your team
+                      </Heading>
+                    </>
+                  }
+                  subtitle="Deploy and manage your contracts with your multi-sig, manage permissions, and more."
+                  rightImage={ThirdwebTeams}
+                  gradientBGs={{
+                    topGradient:
+                      "linear-gradient(135.89deg, #E21E12 17.67%, #00FFE0 59.03%)",
+                    bottomGradient: "#C512E2",
+                  }}
+                />
+                <DashboardCard
+                  headingTitle="Contract manager"
+                  headingIcon={BsMenuButtonWide}
+                  title={
+                    <>
+                      <Heading
+                        as="span"
+                        bgGradient="linear(to-l, #E483F4, #FAC588)"
+                        bgClip="text"
+                        display="inline"
+                        size="title.sm"
+                      >
+                        Your contracts
+                      </Heading>
+                      , at your fingertips
+                    </>
+                  }
+                  subtitle="Keep track of your contracts, easily deploy new versions, perform transactions and more."
+                  rightImage={Contracts}
+                  gradientBGs={{
+                    rightGradient: "#E28F12",
+                    leftGradient: "#C512E2",
+                  }}
+                />
+                <DashboardCard
+                  headingTitle="analytics"
+                  headingIcon={MdOutlineAnalytics}
+                  title={
+                    <>
+                      Automatic reports with
+                      <br />
+                      <Heading
+                        as="span"
+                        bgGradient="linear(to-l, #585EE9, #E487D0)"
+                        bgClip="text"
+                        display="inline"
+                        size="title.sm"
+                      >
+                        on-chain analytics
+                      </Heading>
+                    </>
+                  }
+                  subtitle="Pre-built reports for all of your contracts. Understand how your contracts are being used."
+                  rightImage={Analytics}
+                  gradientBGs={{
+                    rightGradient: "#C512E2",
+                    bottomGradient: "#00FFE0",
+                  }}
+                />
+              </SimpleGrid>
+            </Flex>
+          </HomepageSection>
+
+          <HomepageSection id="networks" middleGradient>
+            <Flex
+              flexDir="column"
+              py={{ base: 12, lg: 24 }}
+              align="center"
+              gap={{ base: 6, md: 8 }}
+            >
+              <Heading
+                bgGradient="linear(to-l, #7EB6FF, #F0C5FF)"
+                bgClip="text"
+                as="h2"
+                size="display.sm"
+                textAlign="center"
+              >
+                Think Multi-Chain.
+              </Heading>
+              <Heading size="subtitle.lg" as="h3" textAlign="center">
+                Major chains are supported. More are coming soon.
+              </Heading>
+              <MultiChainSVG />
+            </Flex>
+          </HomepageSection>
+
+          <HomepageSection id="fees">
+            <SimpleGrid
+              py={{ base: 12, lg: 24 }}
+              columns={{ base: 1, lg: 2 }}
+              spacing={{ base: 6, md: 8 }}
+              alignItems="center"
+            >
+              <Flex gap={{ base: 6, md: 8 }} flexDir="column">
+                <Heading
+                  size="display.sm"
+                  textAlign={{ base: "center", md: "left" }}
+                >
+                  Transparent pricing. No hidden fees.
+                  <br />
+                </Heading>
+                <Text
+                  size="body.xl"
+                  fontStyle="italic"
+                  textAlign={{ base: "center", md: "left" }}
+                >
+                  We may introduce optional advanced features which you can
+                  decide to pay for in the future. We will always be transparent
+                  and clear about any paid features up front.
+                </Text>
+              </Flex>
+              <Box
+                border=".5px solid"
+                borderColor="#4953AF"
+                p={12}
+                borderRadius="lg"
+                backgroundColor="#0000004d"
+              >
+                <Heading
+                  bgGradient="linear(to-r, #FFB8E6, #8689E3)"
+                  bgClip="text"
+                  size="display.lg"
+                  mb={6}
+                >
+                  Free.
+                </Heading>
                 <List
                   spacing={3}
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
                   textAlign="left"
+                  color="gray.400"
+                  mb={16}
                 >
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    We take zero fees on any smart contracts deployed
+                    Zero fees on contract deployments
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    You keep 100% of the money you make
+                    Zero fees on transactions
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    Gain access to fresh features each month{" "}
+                    New features added every week
                   </ListItem>
                   <ListItem>
                     <ListIcon as={FiCheck} color="green.500" />
-                    Only pay blockchain-specific gas fees
+                    Save on gas fees with advanced optimizations
                   </ListItem>
                 </List>
-                <Text mt={4} textAlign="left">
-                  In the future, we will introduce advanced features which you
-                  can decide to pay for. We&apos;ll always be clear and
-                  transparent with how much these features will cost.
-                </Text>
-              </>
-            }
-            titleSm
-            subtitleMd
-            childrenOnRightSide
-          >
-            <Flex justifyContent="center" alignItems="center">
-              <ChakraNextImage
-                alt=""
-                maxW={64}
-                w={64}
-                display={{ base: "none", md: "block" }}
-                placeholder="empty"
-                src={Scissors}
-              />
+                <LightMode>
+                  <GeneralCta title="Start building today" size="lg" w="100%" />
+                </LightMode>
+              </Box>
+            </SimpleGrid>
+          </HomepageSection>
+
+          <HomepageSection id="examples" middleGradient>
+            <Flex
+              flexDir="column"
+              py={{ base: 12, lg: 24 }}
+              align="center"
+              gap={{ base: 12, lg: 24 }}
+            >
+              <Heading
+                as="h2"
+                bgGradient="linear(to-r, #907EFF, #C5D8FF)"
+                bgClip="text"
+                size="display.md"
+                textAlign="center"
+              >
+                Build anything.
+              </Heading>
+              <SimpleGrid
+                w="100%"
+                columns={{ base: 2, md: 4 }}
+                spacing={{ base: 6, md: 24 }}
+              >
+                {exampleCategories.map((category) => (
+                  <ExampleItem category={category} key={category} />
+                ))}
+              </SimpleGrid>
+            </Flex>
+          </HomepageSection>
+          <HomepageSection id="get-started" bottomPattern>
+            <Flex
+              flexDir="column"
+              pt={{ base: 12, lg: 24 }}
+              pb={{ base: 24, lg: 0 }}
+              align="center"
+              gap={{ base: 6, md: 8 }}
+            >
+              <Center mb={6} pt={{ base: 8, lg: 24 }}>
+                <Center p={2} position="relative" mb={6}>
+                  <Box
+                    position="absolute"
+                    bgGradient="linear(to-r, #F213A4, #040BBF)"
+                    top={0}
+                    left={0}
+                    bottom={0}
+                    right={0}
+                    borderRadius="3xl"
+                    overflow="visible"
+                    filter="blur(15px)"
+                  />
+
+                  <ChakraNextImage
+                    alt=""
+                    boxSize={{ base: 24, md: 32 }}
+                    placeholder="empty"
+                    src={WhiteLogo}
+                  />
+                </Center>
+              </Center>
+              <Heading as="h2" size="display.md" textAlign="center">
+                Get started with thirdweb
+              </Heading>
+              <Heading
+                as="h3"
+                maxW="600px"
+                textAlign="center"
+                size="subtitle.lg"
+              >
+                Build web3 apps with ease. Get instant access.
+              </Heading>
+              <LightMode>
+                <GeneralCta
+                  title="Start building for free"
+                  size="lg"
+                  w={{ base: "full", md: "inherit" }}
+                />
+              </LightMode>
             </Flex>
           </HomepageSection>
 
           <HomepageFooter />
         </Flex>
       </Track>
-    </LightMode>
+    </DarkMode>
   );
-};
-
-export default Home;
+}

@@ -3,11 +3,10 @@ import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
-import { ConsolePage } from "pages/_app";
-import { useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import { Badge, Heading, Text } from "tw-components";
 
-const ContractsDeployPage: ConsolePage = () => {
+export default function ContractsDeployPage() {
   const { Track } = useTrack({
     page: "deploy",
   });
@@ -45,7 +44,7 @@ const ContractsDeployPage: ConsolePage = () => {
             <Link
               color="primary.500"
               isExternal
-              href="https://thirdweb.notion.site/thirdweb-deploy-Public-Alpha-74d81faa569b418f9ed718645fd7df2c"
+              href="https://portal.thirdweb.com/thirdweb-deploy"
             >
               Learn more about deploying your contracts.
             </Link>
@@ -56,8 +55,8 @@ const ContractsDeployPage: ConsolePage = () => {
       </Flex>
     </Track>
   );
+}
+
+ContractsDeployPage.getLayout = function getLayout(page: ReactElement) {
+  return <AppLayout>{page}</AppLayout>;
 };
-
-ContractsDeployPage.Layout = AppLayout;
-
-export default ContractsDeployPage;

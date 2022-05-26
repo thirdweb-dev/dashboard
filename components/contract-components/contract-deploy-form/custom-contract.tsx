@@ -48,7 +48,7 @@ interface CustomContractFormProps {
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
 }
 
-const CustomContractForm: React.VFC<CustomContractFormProps> = ({
+const CustomContractForm: React.FC<CustomContractFormProps> = ({
   ipfsHash,
   selectedChain,
   onChainSelect,
@@ -275,7 +275,11 @@ const CustomContractForm: React.VFC<CustomContractFormProps> = ({
         <FormControl>
           <SupportedNetworkSelect
             disabledChainIds={SUPPORTED_CHAIN_IDS.filter(
-              (c) => c !== ChainId.Mumbai && c !== ChainId.Rinkeby,
+              (c) =>
+                c !== ChainId.Mumbai &&
+                c !== ChainId.Rinkeby &&
+                c !== ChainId.Goerli &&
+                c !== ChainId.Polygon,
             )}
             disabledChainIdText="coming soon"
             isDisabled={deploy.isLoading || !publishMetadata.isSuccess}

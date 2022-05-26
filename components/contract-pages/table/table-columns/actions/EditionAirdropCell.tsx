@@ -37,7 +37,7 @@ export const EditionAirdropCell: React.FC<IEditionAirdropCellProps> = ({
     >
       <Box>
         <Button
-          isFullWidth
+          w="full"
           isDisabled={!ownsAtLeastOne}
           onClick={() =>
             tableContext.expandRow({

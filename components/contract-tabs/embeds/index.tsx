@@ -34,16 +34,16 @@ interface EmbedSetupProps {
   contract?: ValidContractInstance;
 }
 
-const IPFS_URI = "ipfs://Qma17oTrNVQqPTg8v3E5UvHYFbXjbgeqHCocDZtPyUopLX";
+const IPFS_URI = "ipfs://QmQTQPfoJbAPYAbRqNLmm9gfLspXuXq5TVa8LgQEf6vktt";
 
 const getContractEmbedHash = (contract?: ValidContractInstance) => {
   if (contract instanceof NFTDrop) {
     // NFT drop contract embed hash
-    return `${IPFS_URI}/drop.html`;
+    return `${IPFS_URI}/nft-drop.html`;
   }
   if (contract instanceof EditionDrop) {
     // Edition drop contract embed hash
-    return `${IPFS_URI}/bundledrop.html`;
+    return `${IPFS_URI}/edition-drop.html`;
   }
   if (contract instanceof Marketplace) {
     // Marketplace contract embed hash

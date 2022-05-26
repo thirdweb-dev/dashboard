@@ -1,4 +1,3 @@
-import { ConsolePage } from "../_app";
 import {
   ConnectWallet,
   useContractList,
@@ -15,8 +14,9 @@ import {
   Icon,
   IconButton,
   Image,
-  Input,
   Link,
+  LinkBox,
+  LinkOverlay,
   Menu,
   MenuButton,
   MenuItemOption,
@@ -27,6 +27,7 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
+  SimpleGrid,
   Skeleton,
   Stack,
   Tab,
@@ -39,7 +40,6 @@ import {
   Td,
   Th,
   Thead,
-  Tooltip,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -57,24 +57,26 @@ import {
   FeatureIconMap,
   UrlMap,
 } from "constants/mappings";
-import { isAddress } from "ethers/lib/utils";
+import { utils } from "ethers";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import * as React from "react";
-import { useEffect, useMemo } from "react";
-import { AiOutlineWarning } from "react-icons/ai";
+import { ReactElement, useEffect, useMemo } from "react";
+import { AiFillCode, AiFillLayout, AiOutlineWarning } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
-import { VscDebugDisconnect } from "react-icons/vsc";
 import {
-  Cell,
-  Column,
-  useFilters,
-  useGlobalFilter,
-  useTable,
-} from "react-table";
+  SiGo,
+  SiJavascript,
+  SiPython,
+  SiReact,
+  SiSolidity,
+} from "react-icons/si";
+import { VscDebugDisconnect } from "react-icons/vsc";
+import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import {
   AddressCopyButton,
   Badge,
@@ -94,7 +96,7 @@ import {
 import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
-const Dashboard: ConsolePage = () => {
+export default function Dashboard() {
   const router = useRouter();
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const { address } = useWeb3();
@@ -104,7 +106,7 @@ const Dashboard: ConsolePage = () => {
 
   // redirect anything that is not a valid address or `/dashboard` to `/dashboard`
   useEffect(() => {
-    if (!isAddress(wallet) && wallet !== "dashboard") {
+    if (!utils.isAddress(wallet) && wallet !== "dashboard") {
       router.replace("/dashboard");
     }
   }, [router, wallet]);
@@ -112,7 +114,7 @@ const Dashboard: ConsolePage = () => {
   const dashboardAddress = useMemo(() => {
     return wallet === "dashboard"
       ? address
-      : isAddress(wallet)
+      : utils.isAddress(wallet)
       ? wallet
       : address;
   }, [address, wallet]);
@@ -164,60 +166,272 @@ const Dashboard: ConsolePage = () => {
     mumbaiQuery.data,
   ]);
 
-  if (wallet === "dashboard" && !address) {
-    return <NoWallet />;
-  }
-
   return (
     <Flex direction="column" gap={8}>
-      {!!combinedList.length && (
-        <Flex
-          justify="space-between"
-          align="top"
-          gap={4}
-          direction={{ base: "column", md: "row" }}
-        >
-          <Flex gap={2} direction="column">
-            <Heading size="title.md">Deployed contracts</Heading>
-            <Text fontStyle="italic" maxW="container.md">
-              The list of contract instances that you have deployed with
-              thirdweb across all networks.
-            </Text>
-          </Flex>
-          <LinkButton
-            leftIcon={<FiPlus />}
-            colorScheme="primary"
-            href="/contracts"
-          >
-            Deploy new contract
-          </LinkButton>
-        </Flex>
-      )}
-      {projects && projects.length ? (
-        <Tabs>
-          <TabList>
-            <Tab>V2 Contracts</Tab>
-            <Tab>V1 Projects</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel px={0} pt={8}>
-              <ContractTable combinedList={combinedList} />
-            </TabPanel>
-            <TabPanel px={0} pt={8}>
-              <OldProjects projects={projects} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+      {wallet === "dashboard" && !address ? (
+        <NoWallet />
       ) : (
-        <ContractTable combinedList={combinedList} />
+        <>
+          {!!combinedList.length && (
+            <Flex
+              justify="space-between"
+              align="top"
+              gap={4}
+              direction={{ base: "column", md: "row" }}
+            >
+              <Flex gap={2} direction="column">
+                <Heading size="title.md">Deployed contracts</Heading>
+                <Text fontStyle="italic" maxW="container.md">
+                  The list of contract instances that you have deployed with
+                  thirdweb across all networks.
+                </Text>
+              </Flex>
+              <LinkButton
+                leftIcon={<FiPlus />}
+                colorScheme="primary"
+                href="/contracts"
+              >
+                Deploy new contract
+              </LinkButton>
+            </Flex>
+          )}
+          {projects && projects.length ? (
+            <Tabs>
+              <TabList>
+                <Tab>V2 Contracts</Tab>
+                <Tab>V1 Projects</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel px={0} pt={8}>
+                  <ContractTable combinedList={combinedList} />
+                </TabPanel>
+                <TabPanel px={0} pt={8}>
+                  <OldProjects projects={projects} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          ) : (
+            <ContractTable combinedList={combinedList} />
+          )}
+        </>
       )}
+      <LearnMoreSection />
     </Flex>
+  );
+}
+
+Dashboard.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
+
+const LearnMoreSection: React.FC = () => {
+  const { trackEvent } = useTrack();
+  return (
+    <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
+      <Card
+        p={6}
+        as={LinkBox}
+        _hover={{ borderColor: "primary.600" }}
+        role="group"
+      >
+        <Flex flexDir="column" gap={3}>
+          <Flex>
+            <Flex
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              border="1px solid"
+              borderColor="borderColor"
+              overflow="hidden"
+              bg="yellow"
+              p={1.5}
+              shadow="md"
+            >
+              <Icon boxSize="full" as={SiJavascript} bg="black" fill="yellow" />
+            </Flex>
+            <Flex
+              bgColor="backgroundCardHighlight"
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
+            >
+              <Icon as={SiPython} boxSize="full" fill="#3e7aac" />
+            </Flex>
+            <Flex
+              bgColor="backgroundCardHighlight"
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
+            >
+              <Icon as={SiReact} boxSize="full" fill="#61dafb" />
+            </Flex>
+            <Flex
+              bgColor="backgroundCardHighlight"
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
+            >
+              <Icon as={SiGo} boxSize="full" fill="#50b7e0" />
+            </Flex>
+            <Flex
+              bgColor="backgroundCardHighlight"
+              borderRadius="full"
+              boxSize={9}
+              justifyContent="center"
+              alignItems="center"
+              ml={-4}
+              border="1px solid"
+              borderColor="borderColor"
+              p={1.5}
+              overflow="hidden"
+              shadow="md"
+              _groupHover={{
+                ml: -2,
+              }}
+              transition="all 0.2s"
+            >
+              <Icon
+                as={SiSolidity}
+                boxSize="full"
+                fill="#1C1C1C"
+                _dark={{ filter: "invert(1)" }}
+              />
+            </Flex>
+          </Flex>
+          <Flex flexDir="column" gap={1}>
+            <LinkOverlay
+              href="https://portal.thirdweb.com/"
+              isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more",
+                  action: "click",
+                  label: "sdks",
+                })
+              }
+            >
+              <Heading size="title.sm">
+                Discover our{" "}
+                <Heading
+                  as="span"
+                  size="title.sm"
+                  bgGradient="linear(to-tl, blue.300, purple.400)"
+                  _light={{
+                    bgGradient: "linear(to-tl, purple.500, blue.500)",
+                  }}
+                  bgClip="text"
+                >
+                  SDKs
+                </Heading>
+              </Heading>
+            </LinkOverlay>
+            <Text size="body.md">JavaScript, Python, React, Go, etc.</Text>
+          </Flex>
+        </Flex>
+      </Card>
+      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+        <Flex flexDir="column" gap={3}>
+          <Icon as={AiFillCode} boxSize={9} />
+          <Flex flexDir="column" gap={1}>
+            <LinkOverlay
+              href="https://portal.thirdweb.com/thirdweb-deploy"
+              isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more",
+                  action: "click",
+                  label: "sdks",
+                })
+              }
+            >
+              <Heading size="title.sm">
+                <Heading
+                  as="span"
+                  size="title.sm"
+                  bgGradient="linear(to-tr, blue.300, purple.400)"
+                  _light={{
+                    bgGradient: "linear(to-tr, purple.500, blue.500)",
+                  }}
+                  bgClip="text"
+                >
+                  thirdweb deploy
+                </Heading>
+              </Heading>
+            </LinkOverlay>
+            <Text size="body.md">Your own contracts, all of our tools.</Text>
+          </Flex>
+        </Flex>
+      </Card>
+      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
+        <Flex flexDir="column" gap={3}>
+          <Icon as={AiFillLayout} boxSize={9} />
+          <Flex flexDir="column" gap={1}>
+            <LinkOverlay
+              href="https://portal.thirdweb.com/pre-built-contracts"
+              isExternal
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more",
+                  action: "click",
+                  label: "sdks",
+                })
+              }
+            >
+              <Heading size="title.sm">
+                Explore our{" "}
+                <Heading
+                  as="span"
+                  size="title.sm"
+                  bgGradient="linear(to-l, blue.300, purple.400)"
+                  _light={{
+                    bgGradient: "linear(to-l, purple.500, blue.500)",
+                  }}
+                  bgClip="text"
+                >
+                  pre-built contracts
+                </Heading>
+              </Heading>
+            </LinkOverlay>
+            <Text size="body.md">Your Solidity quick-start</Text>
+          </Flex>
+        </Flex>
+      </Card>
+    </SimpleGrid>
   );
 };
 
-Dashboard.Layout = AppLayout;
-
-export default Dashboard;
 interface ContractTableProps {
   combinedList: {
     chainId: ChainId;
@@ -230,39 +444,52 @@ interface ContractTableProps {
 export const ContractTable: React.FC<ContractTableProps> = ({
   combinedList,
 }) => {
-  const { address, getNetworkMetadata } = useWeb3();
+  const { getNetworkMetadata } = useWeb3();
 
   const columns = useMemo(
     () => [
       {
         Header: "Name",
         accessor: (row) => row.metadata,
-        Cell: (cell: Cell<typeof combinedList[number], "metadata">) => {
+        Cell: (cell: any) => {
           return <AsyncContractCell cell={cell.row.original} />;
         },
       },
       {
         Header: "Contract Type",
         accessor: (row) => row.contractType,
-        Cell: (cell: Cell<typeof combinedList[number], "contractType">) => {
-          const src = FeatureIconMap[cell.row.original.contractType];
+        Cell: (cell: any) => {
+          const src =
+            FeatureIconMap[cell.row.original.contractType as ContractType];
           return (
             <Flex align="center" gap={2}>
               {src ? (
                 <ChakraNextImage
                   boxSize={8}
                   src={src}
-                  alt={CONTRACT_TYPE_NAME_MAP[cell.row.original.contractType]}
+                  alt={
+                    CONTRACT_TYPE_NAME_MAP[
+                      cell.row.original.contractType as ContractType
+                    ]
+                  }
                 />
               ) : (
                 <Image
                   boxSize={8}
                   src=""
-                  alt={CONTRACT_TYPE_NAME_MAP[cell.row.original.contractType]}
+                  alt={
+                    CONTRACT_TYPE_NAME_MAP[
+                      cell.row.original.contractType as ContractType
+                    ]
+                  }
                 />
               )}
               <Text size="label.md">
-                {CONTRACT_TYPE_NAME_MAP[cell.row.original.contractType]}
+                {
+                  CONTRACT_TYPE_NAME_MAP[
+                    cell.row.original.contractType as ContractType
+                  ]
+                }
               </Text>
             </Flex>
           );
@@ -320,7 +547,7 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       {
         Header: "Network",
         accessor: (row) => row.chainId,
-        Cell: (cell: Cell<typeof combinedList[number], "chainId">) => {
+        Cell: (cell: any) => {
           const data = getNetworkMetadata(
             cell.row.original.chainId as SUPPORTED_CHAIN_ID,
           );
@@ -395,13 +622,13 @@ export const ContractTable: React.FC<ContractTableProps> = ({
       {
         Header: "Contract Address",
         accessor: (row) => row.address,
-        Cell: (cell: Cell<typeof combinedList[number], "address">) => {
+        Cell: (cell: any) => {
           return <AddressCopyButton address={cell.row.original.address} />;
         },
       },
       {
         Header: "Actions",
-        Cell: (cell: Cell<typeof combinedList[number]>) => (
+        Cell: (cell: any) => (
           <RemoveContract
             contractType={cell.row.original.contractType}
             contractAddress={cell.row.original.address}
@@ -673,7 +900,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
     () => [
       {
         Header: "Name",
-        Cell: (cell: Cell<typeof projects[number], "metadata">) => {
+        Cell: (cell: any) => {
           return (
             <ProjectCell
               name={cell.row.original.name}
@@ -686,7 +913,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
       {
         Header: "Network",
         accessor: (row) => row.chainId,
-        Cell: (cell: Cell<typeof projects[number], "chainId">) => {
+        Cell: (cell: any) => {
           const data = getNetworkMetadata(
             cell.row.original.chainId as SUPPORTED_CHAIN_ID,
           );
@@ -761,7 +988,7 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
       {
         Header: "Project Address",
         accessor: (row) => row.address,
-        Cell: (cell: Cell<typeof projects[number], "address">) => {
+        Cell: (cell: any) => {
           return <AddressCopyButton address={cell.row.original.address} />;
         },
       },

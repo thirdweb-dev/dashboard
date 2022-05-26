@@ -22,7 +22,6 @@ import {
   useClipboard,
   useDisclosure,
 } from "@chakra-ui/react";
-import { AddressZero } from "@ethersproject/constants";
 import {
   ChainId,
   useConnect,
@@ -37,7 +36,7 @@ import { MismatchButton } from "components/buttons/MismatchButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
-import { isAddress } from "ethers/lib/utils";
+import { constants, utils } from "ethers";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
 import { useEffect } from "react";
@@ -67,6 +66,7 @@ const connectorIdToImageUrl: Record<string, StaticImageData> = {
   "Coinbase Wallet": require("public/logos/coinbase-wallet-logo.svg"),
   Magic: require("public/logos/magic-logo.svg"),
   Gnosis: require("public/logos/gnosis-logo.svg"),
+  Injected: require("public/logos/wallet.png"),
 };
 
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
@@ -314,7 +314,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
             MetaMask
           </MenuItem>
           {connector.data.connectors
-            .filter((c) => c.id !== "gnosis" && c.id !== "injected")
+            .filter((c) => c.id !== "gnosis" && c.name !== "MetaMask")
             .map((_connector) => {
               if (!_connector.ready) {
                 return null;
@@ -331,7 +331,11 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                       src={
                         _connector.id === "gnosis"
                           ? connectorIdToImageUrl["Gnosis"]
-                          : connectorIdToImageUrl[_connector.name]
+                          : Object.keys(connectorIdToImageUrl).includes(
+                              _connector.name,
+                            )
+                          ? connectorIdToImageUrl[_connector.name]
+                          : connectorIdToImageUrl["Injected"]
                       }
                       placeholder="empty"
                       alt=""
@@ -341,6 +345,8 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                 >
                   {_connector.id === "magic"
                     ? "Email Wallet (Magic)"
+                    : _connector.name === "Injected"
+                    ? "Mobile Wallet"
                     : _connector.name}
                 </MenuItem>
               );
@@ -420,7 +426,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
         type: "required",
         message: "Safe address is required",
       });
-    } else if (!isAddress(formData.safeAddress)) {
+    } else if (!utils.isAddress(formData.safeAddress)) {
       setError("safeAddress", {
         type: "pattern",
         message: "Not a valid address",
@@ -480,7 +486,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
 
                       // prevent the default (setting the data to the input) since we're about to handle it
                       if (
-                        isAddress(gnosisSafeAddress) &&
+                        utils.isAddress(gnosisSafeAddress) &&
                         gnosisNetwork in GNOSIS_TO_CHAIN_ID
                       ) {
                         e.preventDefault();
@@ -499,7 +505,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
                   }
                 }}
                 {...register("safeAddress")}
-                placeholder={`net:${AddressZero}`}
+                placeholder={`net:${constants.AddressZero}`}
                 autoFocus
               />
               <FormHelperText>
