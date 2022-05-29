@@ -3,7 +3,7 @@ import { ChainId, useChainId, useContractFunctions } from "@thirdweb-dev/react";
 import { Card, CodeBlock, Heading } from "tw-components";
 
 interface ContentOverviewProps {
-  contractAddress: string;
+  contractAddress?: string;
 }
 
 export const CustomContractCodeTab: React.FC<ContentOverviewProps> = ({
@@ -55,11 +55,7 @@ const contract = await sdk.getContract("${contractAddress}");`}
         <Card as={Flex} gap={2} flexDirection="column">
           <Heading size="subtitle.md">Contract functions</Heading>
           {functions?.map((signature) => (
-            <CodeBlock
-              key={signature}
-              code={`contract.functions.${signature}`}
-              language="typescript"
-            />
+            <CodeBlock key={signature} code={signature} language="javascript" />
           ))}
         </Card>
       )}
