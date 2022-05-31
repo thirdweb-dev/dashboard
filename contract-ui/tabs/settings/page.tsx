@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
+import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { Heading } from "tw-components";
 
 interface CustomContractOverviewPageProps {
@@ -24,3 +25,39 @@ export const CustomContractSettingsTab: React.FC<
     </Flex>
   );
 };
+
+export function detectPrimarySale(
+  contract: ValidContractInstance | SmartContract | null | undefined,
+) {
+  if (!contract) {
+    return undefined;
+  }
+  if ("sales" in contract) {
+    return contract.sales;
+  }
+  return undefined;
+}
+
+export function detectPlatformFees(
+  contract: ValidContractInstance | SmartContract | null | undefined,
+) {
+  if (!contract) {
+    return undefined;
+  }
+  if ("platformFees" in contract) {
+    return contract.platformFees;
+  }
+  return undefined;
+}
+
+export function detectRoyalties(
+  contract: ValidContractInstance | SmartContract | null | undefined,
+) {
+  if (!contract) {
+    return undefined;
+  }
+  if ("royalties" in contract) {
+    return contract.royalties;
+  }
+  return undefined;
+}

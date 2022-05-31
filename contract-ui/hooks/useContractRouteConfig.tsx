@@ -58,6 +58,17 @@ export function useContractRouteConfig(
         )),
     },
     {
+      title: "Permissions",
+      path: "permissions",
+      isEnabled: extensionDetectedState({ contract, feature: "Permissions" }),
+      element: () =>
+        import("../tabs/permissions/page").then(
+          ({ ContractPermissionsPage }) => (
+            <ContractPermissionsPage contractAddress={contractAddress} />
+          ),
+        ),
+    },
+    {
       title: "Settings",
       path: "settings",
       element: () =>

@@ -3,7 +3,6 @@ import { NftGetAllTable } from "./components/table";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import {
-  Erc20,
   Erc721,
   Erc1155,
   SmartContract,
@@ -76,28 +75,9 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   );
 };
 
-type ContractInstance =
-  | ValidContractInstance
-  | SmartContract
-  | null
-  | undefined;
-
-export function detectErc20Instance(contract: ContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if (contract instanceof Erc20) {
-    console.log("*** detect extended contract", contract);
-    return contract;
-  }
-  if ("token" in contract && contract.token instanceof Erc20) {
-    console.log("*** detect extended contract nft", contract);
-    return contract.token;
-  }
-  return undefined;
-}
-
-export function detectErc721Instance(contract: ContractInstance) {
+export function detectErc721Instance(
+  contract: ValidContractInstance | SmartContract | null | undefined,
+) {
   if (!contract) {
     return undefined;
   }
@@ -112,7 +92,9 @@ export function detectErc721Instance(contract: ContractInstance) {
   return undefined;
 }
 
-export function detectErc1155Instance(contract: ContractInstance) {
+export function detectErc1155Instance(
+  contract: ValidContractInstance | SmartContract | null | undefined,
+) {
   if (!contract) {
     return undefined;
   }
@@ -125,56 +107,8 @@ export function detectErc1155Instance(contract: ContractInstance) {
   return undefined;
 }
 
-export function detectNFTContractInstance(contract: ContractInstance) {
+export function detectNFTContractInstance(
+  contract: ValidContractInstance | SmartContract | null | undefined,
+) {
   return detectErc721Instance(contract) || detectErc1155Instance(contract);
-}
-
-export function detectPermissions(contract: ContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("roles" in contract) {
-    return contract.roles;
-  }
-  return undefined;
-}
-
-export function detectPrimarySale(contract: ContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("sales" in contract) {
-    return contract.sales;
-  }
-  return undefined;
-}
-
-export function detectPlatformFees(contract: ContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("platformFees" in contract) {
-    return contract.platformFees;
-  }
-  return undefined;
-}
-
-export function detectRoyalties(contract: ContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("royalties" in contract) {
-    return contract.royalties;
-  }
-  return undefined;
-}
-
-export function detectMetadata(contract: ContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("metadata" in contract) {
-    return contract.metadata;
-  }
-  return undefined;
 }
