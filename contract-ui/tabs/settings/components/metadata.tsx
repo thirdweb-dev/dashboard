@@ -9,7 +9,6 @@ import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { C } from "ts-toolbelt";
 import {
   Card,
   FormErrorMessage,
