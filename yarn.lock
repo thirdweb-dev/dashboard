@@ -1799,7 +1799,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.3.9.tgz#1493c7b12133b3a23733eb9bfa1355ad68954d6f"
   integrity sha512-MmOVqWKdlFsZRk/Ym/fFfrCo/mzJyWL+EWsLYjpa3CUvwt6DffED+LB8pfTo8DkoTkC0Y9J4yzsdbJSgoa0tFw==
 
-"@thirdweb-dev/react@^2.3.6":
+"@thirdweb-dev/react@^2.3.12":
   version "2.3.12"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.3.12.tgz#33d6f23a71e87bc2eb73f131a269600eaec50d93"
   integrity sha512-n+utN3J2CpbSrbbYQ+++QlS89yAAXES4d/Z6sEyKHQP3xWhk+K95ur5t97pVIBW2wsWIKEjEhougOIji2N3f/A==
@@ -1811,16 +1811,17 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.2.tgz#5dac8dea76188e188862e10ec9ec32620d0ab6ba"
-  integrity sha512-1GlmIa7M0KpNvQHdeWx4QWYNqPfUbeChd8NzXiHNKF7YnNUByDPs93i/yrCVKmpYxsVP4jKIrOvLP6K1+2bjmg==
+"@thirdweb-dev/sdk@^2.3.3-1":
+  version "2.3.3-1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.3-1.tgz#57929309bad2f8922d29b9e79337907f508289fc"
+  integrity sha512-gSYW39nrvfBVhkbEzL7AW2mU+NVFGTzrAY2NnVyL5u5Glm+zgul5fDKk9/819zw4eDt9w0OUXKtmPO0Mj1B/0Q==
   dependencies:
     "@thirdweb-dev/contracts" "2.3.9"
     "@web-std/file" "^3.0.0"
     cbor "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
+    fast-deep-equal "^3.1.3"
     form-data "^4.0.0"
     merkletreejs "^0.2.24"
     multihashes "^4.0.3"
