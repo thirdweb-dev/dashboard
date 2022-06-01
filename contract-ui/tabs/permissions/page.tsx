@@ -1,6 +1,5 @@
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";

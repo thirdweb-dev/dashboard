@@ -1,11 +1,12 @@
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  usePrimarySaleRecipient,
-  useUpdatePrimarySaleRecipient,
+  useRoyaltySettings,
+  useUpdateRoyaltySettings,
 } from "@thirdweb-dev/react";
-import { CommonPrimarySaleSchema, SmartContract } from "@thirdweb-dev/sdk";
+import { CommonRoyaltySchema, SmartContract } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
@@ -19,31 +20,34 @@ import {
 } from "tw-components";
 import { z } from "zod";
 
-export const SettingsPrimarySale = <
-  TContract extends PotentialContractInstance,
->({
+export const SettingsRoyalties = <TContract extends PotentialContractInstance>({
   contract,
 }: {
   contract: TContract;
 }) => {
-  const query = usePrimarySaleRecipient(contract as SmartContract);
-  const mutation = useUpdatePrimarySaleRecipient(contract as SmartContract);
-  const { handleSubmit, getFieldState, formState, register, reset } = useForm<
-    z.input<typeof CommonPrimarySaleSchema>
-  >({
-    resolver: zodResolver(CommonPrimarySaleSchema),
+  const query = useRoyaltySettings(contract as SmartContract);
+  const mutation = useUpdateRoyaltySettings(contract as SmartContract);
+  const {
+    handleSubmit,
+    getFieldState,
+    formState,
+    register,
+    reset,
+    watch,
+    setValue,
+  } = useForm<z.input<typeof CommonRoyaltySchema>>({
+    resolver: zodResolver(CommonRoyaltySchema),
   });
-
   useEffect(() => {
     if (query.data && !formState.isDirty) {
-      reset({ primary_sale_recipient: query.data });
+      reset(query.data);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.data]);
+  }, [query.data, formState.isDirty]);
 
   const { onSuccess, onError } = useTxNotifications(
-    "Primary sale address updated",
-    "Error updating primary sale address",
+    "Royalty settings updated",
+    "Error updating royalty settings",
   );
 
   return (
@@ -51,9 +55,9 @@ export const SettingsPrimarySale = <
       <Flex
         as="form"
         onSubmit={handleSubmit((d) =>
-          mutation.mutateAsync(d.primary_sale_recipient, {
+          mutation.mutateAsync(d, {
             onSuccess: (_data, variables) => {
-              reset({ primary_sale_recipient: variables });
+              reset(variables);
               onSuccess();
             },
             onError,
@@ -62,23 +66,40 @@ export const SettingsPrimarySale = <
         direction="column"
       >
         <Flex p={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
-          <Heading size="title.sm">Primary Sales</Heading>
+          <Heading size="title.sm">Royalties</Heading>
           <Text size="body.md" fontStyle="italic">
-            Determine the address that should receive the revenue from initial
-            sales of the assets.
+            Determine the address that should receive the revenue from royalties
+            earned from secondary sales of the assets.
           </Text>
           <Flex gap={4} direction={{ base: "column", md: "row" }}>
             <FormControl
-              isDisabled={mutation.isLoading}
-              isInvalid={
-                !!getFieldState("primary_sale_recipient", formState).error
-              }
+              isInvalid={!!getFieldState("fee_recipient", formState).error}
             >
               <FormLabel>Recipient Address</FormLabel>
-              <Input variant="filled" {...register("primary_sale_recipient")} />
+              <Input variant="filled" {...register("fee_recipient")} />
+              <FormErrorMessage>
+                {getFieldState("fee_recipient", formState).error?.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl
+              maxW={{ base: "100%", md: "200px" }}
+              isInvalid={
+                !!getFieldState("seller_fee_basis_points", formState).error
+              }
+            >
+              <FormLabel>Percentage</FormLabel>
+              <BasisPointsInput
+                variant="filled"
+                value={watch("seller_fee_basis_points")}
+                onChange={(value) =>
+                  setValue("seller_fee_basis_points", value, {
+                    shouldTouch: true,
+                  })
+                }
+              />
               <FormErrorMessage>
                 {
-                  getFieldState("primary_sale_recipient", formState).error
+                  getFieldState("seller_fee_basis_points", formState).error
                     ?.message
                 }
               </FormErrorMessage>
@@ -98,7 +119,7 @@ export const SettingsPrimarySale = <
           borderTopLeftRadius="0"
           borderTopRightRadius="0"
         >
-          Update Primary Sale Settings
+          Update Royalty Settings
         </TransactionButton>
         {/*         </AdminOnly> */}
       </Flex>

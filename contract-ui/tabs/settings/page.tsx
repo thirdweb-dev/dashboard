@@ -1,7 +1,9 @@
-import { PrimarySale } from "./components/primary-sale";
-import { Box, ButtonGroup, Divider, Flex } from "@chakra-ui/react";
+import { SettingsMetadata } from "./components/metadata";
+import { SettingsPlatformFees } from "./components/platform-fees";
+import { SettingsPrimarySale } from "./components/primary-sale";
+import { SettingsRoyalties } from "./components/royalties";
+import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -16,15 +18,20 @@ export const CustomContractSettingsTab: React.FC<
 
   const detectedMetadata = detectMetadata(contract.contract);
   const detectedPrimarySale = detectPrimarySale(contract.contract);
-  const detectedPlatformFees = detectPlatformFees(contract.contract);
   const detectedRoyalties = detectRoyalties(contract.contract);
+  const detectedPlatformFees = detectPlatformFees(contract.contract);
 
   if (contract.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
 
-  if (!detectedPrimarySale || !detectedPlatformFees || !detectedRoyalties) {
+  if (
+    !detectedMetadata ||
+    !detectedPrimarySale ||
+    !detectedPlatformFees ||
+    !detectedRoyalties
+  ) {
     return (
       <Card as={Flex} flexDir="column" gap={3}>
         {/* TODO  extract this out into it's own component and make it better */}
@@ -53,10 +60,20 @@ export const CustomContractSettingsTab: React.FC<
   return (
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%">
-        <Heading>Settings page</Heading>
-        <Box minH="200vh">
-          {detectedPrimarySale && <PrimarySale contract={contract.contract} />}
-        </Box>
+        <Flex flexDir="column" w="100%" gap={8}>
+          {detectedMetadata && (
+            <SettingsMetadata contract={contract.contract} />
+          )}
+          {detectedPrimarySale && (
+            <SettingsPrimarySale contract={contract.contract} />
+          )}
+          {detectedRoyalties && (
+            <SettingsRoyalties contract={contract.contract} />
+          )}
+          {detectedPlatformFees && (
+            <SettingsPlatformFees contract={contract.contract} />
+          )}
+        </Flex>
       </Flex>
     </Flex>
   );
