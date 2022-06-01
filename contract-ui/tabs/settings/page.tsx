@@ -27,9 +27,9 @@ export const CustomContractSettingsTab: React.FC<
   }
 
   if (
-    !detectedMetadata ||
-    !detectedPrimarySale ||
-    !detectedPlatformFees ||
+    !detectedMetadata &&
+    !detectedPrimarySale &&
+    !detectedPlatformFees &&
     !detectedRoyalties
   ) {
     return (
