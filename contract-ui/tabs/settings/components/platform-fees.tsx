@@ -1,9 +1,3 @@
-import {
-  AdminOnly,
-  PlatformFeeContract,
-  useContractPlatformFee,
-  useContractPlatformFeeMutation,
-} from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePlatformFees, useUpdatePlatformFees } from "@thirdweb-dev/react";
