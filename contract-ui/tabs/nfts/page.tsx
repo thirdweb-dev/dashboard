@@ -2,12 +2,7 @@ import { NFTMintButton } from "./components/mint-button";
 import { NftGetAllTable } from "./components/table";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import {
-  Erc721,
-  Erc1155,
-  SmartContract,
-  ValidContractInstance,
-} from "@thirdweb-dev/sdk";
+import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
