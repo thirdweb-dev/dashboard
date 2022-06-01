@@ -18,6 +18,7 @@ import {
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
+import { BigNumber } from "ethers";
 import React, { useCallback, useRef } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
@@ -40,7 +41,7 @@ export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { address } = useWeb3();
     const balance = useBalance();
 
-    const isBalanceZero = balance.data?.displayValue === "0.0";
+    const isBalanceZero = BigNumber.from(balance.data?.value || 0).eq(0);
 
     const initialFocusRef = useRef<HTMLButtonElement>(null);
 
@@ -191,13 +192,13 @@ const NoFundsNotice = () => {
       <Heading size="label.lg">
         <Flex gap={2} align="center">
           <Icon boxSize={6} as={AiOutlineWarning} />
-          <span>You have no funds</span>
+          <span>No funds</span>
         </Flex>
       </Heading>
 
       <Text>
         You don&apos;t have any funds on this network. You&apos;ll need some{" "}
-        {symbol} to get started.
+        {symbol} to pay for gas.
         {isTestnet && "You can get some from the faucet below."}
       </Text>
 
