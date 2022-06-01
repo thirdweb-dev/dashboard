@@ -5,7 +5,6 @@ import {
   useCustomContractDeployMutation,
 } from "../hooks";
 import { Divider, Flex, FormControl, Input, Skeleton } from "@chakra-ui/react";
-import { ChainId } from "@thirdweb-dev/sdk";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -18,7 +17,6 @@ import { useForm } from "react-hook-form";
 import { Badge, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 import {
   SUPPORTED_CHAIN_ID,
-  SUPPORTED_CHAIN_IDS,
   SupportedChainIdToNetworkMap,
 } from "utils/network";
 
