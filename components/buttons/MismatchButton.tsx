@@ -19,6 +19,7 @@ import {
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
+import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useRef } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
@@ -48,6 +49,7 @@ export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const networksMismatch = useNetworkMismatch();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { trackEvent } = useTrack();
 
     if (!address) {
       return (
@@ -68,7 +70,16 @@ export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {...props}
             type={networksMismatch || isBalanceZero ? "button" : type}
             loadingText={loadingText}
-            onClick={networksMismatch || isBalanceZero ? undefined : onClick}
+            onClick={() => {
+              if (isBalanceZero) {
+                trackEvent({
+                  category: "no-funds",
+                  action: "click",
+                  label: "open-popover",
+                });
+              }
+              return networksMismatch || isBalanceZero ? undefined : onClick;
+            }}
             ref={ref}
             isDisabled={isDisabled}
           >
@@ -186,6 +197,7 @@ const NoFundsNotice = () => {
   const chainId = useChainId();
   const { getNetworkMetadata } = useWeb3();
   const { symbol, isTestnet } = getNetworkMetadata(chainId || 0);
+  const { trackEvent } = useTrack();
 
   return (
     <Flex direction="column" gap={4}>
@@ -208,6 +220,14 @@ const NoFundsNotice = () => {
             colorScheme="orange"
             href={FAUCETS[chainId as keyof typeof FAUCETS] || ""}
             isExternal
+            onClick={() =>
+              trackEvent({
+                category: "no-funds",
+                action: "click",
+                label:
+                  SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID],
+              })
+            }
           >
             Get {symbol} from faucet
           </LinkButton>
