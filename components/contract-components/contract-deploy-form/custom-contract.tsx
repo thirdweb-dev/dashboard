@@ -169,14 +169,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
           <SupportedNetworkSelect
-            disabledChainIds={SUPPORTED_CHAIN_IDS.filter(
-              (c) =>
-                c !== ChainId.Mumbai &&
-                c !== ChainId.Rinkeby &&
-                c !== ChainId.Goerli &&
-                c !== ChainId.Polygon,
-            )}
-            disabledChainIdText="coming soon"
             isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
             value={selectedChain || -1}
             onChange={(e) =>
