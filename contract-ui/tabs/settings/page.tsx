@@ -1,7 +1,9 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { PrimarySale } from "./components/primary-sale";
+import { Box, ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
-import { Heading } from "tw-components";
+import { PotentialContractInstance } from "contract-ui/types/types";
+import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -10,25 +12,67 @@ interface CustomContractOverviewPageProps {
 export const CustomContractSettingsTab: React.FC<
   CustomContractOverviewPageProps
 > = ({ contractAddress }) => {
-  const contractQuery = useContract(contractAddress);
+  const contract = useContract(contractAddress);
 
-  if (!contractQuery || contractQuery?.isLoading) {
+  const detectedMetadata = detectMetadata(contract.contract);
+  const detectedPrimarySale = detectPrimarySale(contract.contract);
+  const detectedPlatformFees = detectPlatformFees(contract.contract);
+  const detectedRoyalties = detectRoyalties(contract.contract);
+
+  if (contract.isLoading) {
+    // TODO build a skeleton for this
     return <div>Loading...</div>;
+  }
+
+  if (!detectedPrimarySale || !detectedPlatformFees || !detectedRoyalties) {
+    return (
+      <Card as={Flex} flexDir="column" gap={3}>
+        {/* TODO  extract this out into it's own component and make it better */}
+        <Heading size="subtitle.md">No Permissions enabled</Heading>
+        <Text>
+          To enable Permissions features you will have to extend the required
+          interfaces in your contract.
+        </Text>
+
+        <Divider my={1} borderColor="borderColor" />
+        <Flex gap={4} align="center">
+          <Heading size="label.md">Learn more: </Heading>
+          <ButtonGroup colorScheme="purple" size="sm" variant="solid">
+            <LinkButton
+              isExternal
+              href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions/permissions"
+            >
+              Permissions
+            </LinkButton>
+          </ButtonGroup>
+        </Flex>
+      </Card>
+    );
   }
 
   return (
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%">
         <Heading>Settings page</Heading>
-        <Box minH="200vh"></Box>
+        <Box minH="200vh">
+          {detectedPrimarySale && <PrimarySale contract={contract.contract} />}
+        </Box>
       </Flex>
     </Flex>
   );
 };
 
-export function detectPrimarySale(
-  contract: ValidContractInstance | SmartContract | null | undefined,
-) {
+export function detectMetadata(contract: PotentialContractInstance) {
+  if (!contract) {
+    return undefined;
+  }
+  if ("metadata" in contract) {
+    return contract.metadata;
+  }
+  return undefined;
+}
+
+export function detectPrimarySale(contract: PotentialContractInstance) {
   if (!contract) {
     return undefined;
   }
@@ -38,9 +82,7 @@ export function detectPrimarySale(
   return undefined;
 }
 
-export function detectPlatformFees(
-  contract: ValidContractInstance | SmartContract | null | undefined,
-) {
+export function detectPlatformFees(contract: PotentialContractInstance) {
   if (!contract) {
     return undefined;
   }
@@ -50,9 +92,7 @@ export function detectPlatformFees(
   return undefined;
 }
 
-export function detectRoyalties(
-  contract: ValidContractInstance | SmartContract | null | undefined,
-) {
+export function detectRoyalties(contract: PotentialContractInstance) {
   if (!contract) {
     return undefined;
   }

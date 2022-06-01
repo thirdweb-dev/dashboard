@@ -1,6 +1,7 @@
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
+import { PotentialContractInstance } from "contract-ui/types/types";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -13,20 +14,20 @@ export const ContractPermissionsPage: React.FC<
 > = ({ contractAddress }) => {
   const contract = useContract(contractAddress);
 
-  const detectedContract = detectPermissions(contract.contract);
+  const detectedFeature = detectPermissions(contract.contract);
 
   if (contract.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
 
-  if (!detectedContract) {
+  if (!detectedFeature) {
     return (
       <Card as={Flex} flexDir="column" gap={3}>
         {/* TODO  extract this out into it's own component and make it better */}
-        <Heading size="subtitle.md">No Token extension enabled</Heading>
+        <Heading size="subtitle.md">No Permissions enabled</Heading>
         <Text>
-          To enable Token features you will have to extend the required
+          To enable Permissions features you will have to extend the required
           interfaces in your contract.
         </Text>
 
@@ -36,9 +37,9 @@ export const ContractPermissionsPage: React.FC<
           <ButtonGroup colorScheme="purple" size="sm" variant="solid">
             <LinkButton
               isExternal
-              href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/erc20"
+              href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions/permissions"
             >
-              ERC20
+              Permissions
             </LinkButton>
           </ButtonGroup>
         </Flex>
@@ -60,9 +61,7 @@ export const ContractPermissionsPage: React.FC<
   );
 };
 
-export function detectPermissions(
-  contract: ValidContractInstance | SmartContract | null | undefined,
-) {
+export function detectPermissions(contract: PotentialContractInstance) {
   if (!contract) {
     return undefined;
   }

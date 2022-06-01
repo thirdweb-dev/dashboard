@@ -3,6 +3,7 @@ import { TokenSupply } from "./components/supply";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Erc20, SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
+import { PotentialContractInstance } from "contract-ui/types/types";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -63,9 +64,7 @@ export const ContractTokensPage: React.FC<ContractTokenPageProps> = ({
   );
 };
 
-export function detectErc20Instance(
-  contract: ValidContractInstance | SmartContract | null | undefined,
-) {
+export function detectErc20Instance(contract: PotentialContractInstance) {
   if (!contract) {
     return undefined;
   }
