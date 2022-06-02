@@ -1,7 +1,5 @@
 import { PermissionEditor } from "./permissions-editor";
-import { ContractWithRolesInstance, useIsAdmin } from "@3rdweb-sdk/react";
 import { Flex, Icon, Select, Spinner, Stack } from "@chakra-ui/react";
-import type { Role } from "@thirdweb-dev/sdk";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import { constants } from "ethers";
 import { useFormContext } from "react-hook-form";

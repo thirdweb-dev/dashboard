@@ -1,33 +1,31 @@
 import { ContractPermission } from "./contract-permission";
 import { ButtonGroup, Flex } from "@chakra-ui/react";
-import { useAllRoleMembers, useSetAllRoleMembers } from "@thirdweb-dev/react";
-import { SmartContract } from "@thirdweb-dev/sdk";
+import {
+  ContractWithRoles,
+  RolesForContract,
+  useAllRoleMembers,
+  useSetAllRoleMembers,
+} from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { ROLE_DESCRIPTION_MAP } from "constants/mappings";
-import { ContractWithRoles } from "contract-ui/types/types";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "tw-components";
 
-export type PermissionFormContext = Record<string, string[]>;
+export type PermissionFormContext<TContract extends ContractWithRoles> = {
+  [role in RolesForContract<TContract>]: string[];
+};
 
 export const Permissions = <TContract extends ContractWithRoles>({
   contract,
 }: {
   contract: TContract;
 }) => {
-  /*   const contractConstructor = useContractConstructor(contract); */
-  /*   const roles =
-    contractConstructor && "contractRoles" in contractConstructor
-      ? contractConstructor.contractRoles
-      : []; */
-
-  const allRoleMembers = useAllRoleMembers(contract as SmartContract);
-  const setAllRoleMembers = useSetAllRoleMembers(contract as SmartContract);
+  const allRoleMembers = useAllRoleMembers(contract);
+  const setAllRoleMembers = useSetAllRoleMembers(contract);
   console.log(allRoleMembers.data);
   console.log(allRoleMembers.data);
-  const form = useForm<PermissionFormContext>({});
+  const form = useForm({});
 
   useEffect(() => {
     if (allRoleMembers.data && !form.formState.isDirty) {
@@ -48,7 +46,7 @@ export const Permissions = <TContract extends ContractWithRoles>({
         direction="column"
         as="form"
         onSubmit={form.handleSubmit((d) =>
-          setAllRoleMembers.mutateAsync(d, {
+          setAllRoleMembers.mutateAsync(d as PermissionFormContext<TContract>, {
             onSuccess: (_data, variables) => {
               form.reset(variables);
               onSuccess();
@@ -59,11 +57,12 @@ export const Permissions = <TContract extends ContractWithRoles>({
       >
         {Object.keys(allRoleMembers.data || []).map((role) => {
           return (
-            <PermissionSection
+            <ContractPermission
               isLoading={allRoleMembers.isLoading}
               key={role}
               role={role}
               contract={contract}
+              description="todo"
             />
           );
         })}
@@ -92,25 +91,5 @@ export const Permissions = <TContract extends ContractWithRoles>({
         </ButtonGroup>
       </Flex>
     </FormProvider>
-  );
-};
-
-export const PermissionSection = <TContract extends ContractWithRoles>({
-  role,
-  contract,
-  isLoading,
-}: {
-  contract: TContract;
-  role: string;
-  isLoading: boolean;
-}) => {
-  return (
-    <ContractPermission
-      role={role}
-      isLoading={isLoading}
-      contract={contract}
-      /*       description={ROLE_DESCRIPTION_MAP[role]} */
-      description={""}
-    />
   );
 };
