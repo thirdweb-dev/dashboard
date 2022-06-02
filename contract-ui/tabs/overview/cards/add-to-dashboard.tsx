@@ -29,6 +29,7 @@ export const AddToDashboardCard: React.FC<AddToDashboardCardProps> = ({
   if (!shouldShow) {
     return null;
   }
+
   return (
     <Card
       as={Flex}
