@@ -77,7 +77,6 @@ export const PermissionEditor: React.FC<IPermissionEditor> = ({
         <PermissionAddress
           key={field.id}
           isSubmitting={isSubmitting}
-          contract={contract}
           role={role}
           member={watch(`${role}.${index}`)}
           removeAddress={() => remove(index)}
@@ -153,7 +152,6 @@ export const PermissionEditor: React.FC<IPermissionEditor> = ({
 };
 
 interface IPermissionAddress {
-  contract?: PotentialContractInstance;
   role: string;
   member: string;
   removeAddress: () => void;
@@ -161,7 +159,6 @@ interface IPermissionAddress {
 }
 
 const PermissionAddress: React.FC<IPermissionAddress> = ({
-  contract,
   member,
   removeAddress,
   isSubmitting,
