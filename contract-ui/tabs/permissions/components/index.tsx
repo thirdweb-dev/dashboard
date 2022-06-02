@@ -7,6 +7,7 @@ import {
   useSetAllRoleMembers,
 } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { ROLE_DESCRIPTION_MAP } from "constants/mappings";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -55,17 +56,19 @@ export const Permissions = <TContract extends ContractWithRoles>({
           }),
         )}
       >
-        {Object.keys(allRoleMembers.data || []).map((role) => {
-          return (
-            <ContractPermission
-              isLoading={allRoleMembers.isLoading}
-              key={role}
-              role={role}
-              contract={contract}
-              description="todo"
-            />
-          );
-        })}
+        {Object.keys(allRoleMembers.data || ROLE_DESCRIPTION_MAP).map(
+          (role) => {
+            return (
+              <ContractPermission
+                isLoading={allRoleMembers.isLoading}
+                key={role}
+                role={role}
+                contract={contract}
+                description={ROLE_DESCRIPTION_MAP[role] || ""}
+              />
+            );
+          },
+        )}
         <ButtonGroup justifyContent="flex-end">
           <Button
             borderRadius="md"
