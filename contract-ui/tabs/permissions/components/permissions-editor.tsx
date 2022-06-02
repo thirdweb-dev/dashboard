@@ -1,9 +1,4 @@
 import {
-  AdminOrSelfOnly,
-  ContractWithRolesInstance,
-  useIsAdmin,
-} from "@3rdweb-sdk/react";
-import {
   Flex,
   FormControl,
   Icon,
@@ -17,7 +12,6 @@ import {
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
-import { Role } from "@thirdweb-dev/sdk";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import { constants, utils } from "ethers";
 import { useState } from "react";
