@@ -48,7 +48,6 @@ export function useContractRoleMembersList<TContract extends ContractWithRoles>(
     },
   );
 }
-
 export function useContractRoleMembers<TContract extends ContractWithRoles>(
   role: TContract["contractRoles"][number],
   contract?: C.Instance<TContract>,

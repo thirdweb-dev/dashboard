@@ -1799,10 +1799,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.3.9.tgz#1493c7b12133b3a23733eb9bfa1355ad68954d6f"
   integrity sha512-MmOVqWKdlFsZRk/Ym/fFfrCo/mzJyWL+EWsLYjpa3CUvwt6DffED+LB8pfTo8DkoTkC0Y9J4yzsdbJSgoa0tFw==
 
-"@thirdweb-dev/react@^2.4.0-3":
-  version "2.4.0-3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.4.0-3.tgz#e0b2af60b39a74454c3f768c506c62dc9ace4a9f"
-  integrity sha512-FozyyjN+bm94VYSI0z8Ml1yl5DBXD2pbV12HNzA3NkWdLI7OdpivEqnVuI3RcJdo4hvbn90Pgow7/m1vyxFPuw==
+"@thirdweb-dev/react@^2.4.0-4":
+  version "2.4.0-4"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.4.0-4.tgz#5f65b384d663d792c2808c1972efb8a65485d379"
+  integrity sha512-X/XMTJHJA85oelrMUv0usFx6cTv8WDpGZ7aDTG1HL1IFOJvzEB0KzTv64An8oPlGXjg7Z6njpZQfk+0NGPtN4A==
   dependencies:
     detect-browser "^5.3.0"
     mime "^3.0.0"
@@ -1811,10 +1811,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.7-0":
-  version "2.3.7-0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.7-0.tgz#14c2e89ab013219df696264564fd95c881e08116"
-  integrity sha512-xQBurqKF5otRz88bUGp4uUC9fgagRmMUEHC0FL9StAsdjAaO2I7ywWSlMhHUpW/SHfgeHTlvM9CZbdAqYdOf3Q==
+"@thirdweb-dev/sdk@^2.3.7-1":
+  version "2.3.7-1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.7-1.tgz#5b90c8ab054bd7352eda65762bfb6dc6f41dd3b6"
+  integrity sha512-H1sPoWDjOkWYkhH7sEObrtXQiR/OMznd6HPgvweZv6x5wHZ+qNhlvqLSpFOXxfQm7vt96vVVw93qZYGNynCuYQ==
   dependencies:
     "@thirdweb-dev/contracts" "2.3.9"
     "@web-std/file" "^3.0.0"
