@@ -1,5 +1,5 @@
-import { CustomContractCodeTab } from "../code/page";
 import { AddToDashboardCard } from "./cards/add-to-dashboard";
+import { CustomContractCode } from "./cards/custom-contract-code";
 import { FeedbackFormCard } from "./cards/feedback-form";
 import { Flex } from "@chakra-ui/react";
 import { useAddress, useContract } from "@thirdweb-dev/react";
@@ -39,7 +39,7 @@ export const CustomContractOverviewPage: React.FC<
             localStorageKey={`tw_deploy-${contractAddress}`}
           />
         )}
-        <CustomContractCodeTab contractAddress={contractAddress} />
+        <CustomContractCode contractAddress={contractAddress} />
       </Flex>
     </Flex>
   );
