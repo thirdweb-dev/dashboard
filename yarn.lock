@@ -1811,10 +1811,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.8-2":
-  version "2.3.8-2"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.8-2.tgz#36207fd22d24dc6ed17e7d83e0f0cf9bf5a82a18"
-  integrity sha512-h7Io50SuMonrPMLPyXrI3s5gctUk6m3rAoYF2/fdzUNlH0wfEjXgH5CjIN2sQmuZGP/JAcgQuzKi0wUWd1r0gA==
+"@thirdweb-dev/sdk@^2.3.8-4":
+  version "2.3.8-4"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.8-4.tgz#7a3e590e16e55cf37c014543a0bc348ca711252b"
+  integrity sha512-dB83UzvPsBqmS/8hJE/AM4gal/2jrySUQd2whj9gZ89p6ClcV4eIp0s+7/Pv0SxHSWrV+/YXjZWzrCXin9V2JQ==
   dependencies:
     "@thirdweb-dev/contracts" "2.3.9"
     "@web-std/file" "^3.0.0"
