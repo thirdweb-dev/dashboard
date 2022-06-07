@@ -121,26 +121,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         });
       })}
     >
-      <Flex gap={4} align="center">
-        <ContractIdImage boxSize={12} contractId={ipfsHash} />
-        <Flex gap={2} direction="column">
-          <Skeleton isLoaded={publishMetadata.isSuccess}>
-            <Heading minW="60px" size="subtitle.lg">
-              {publishMetadata.data?.name}
-            </Heading>
-          </Skeleton>
-        </Flex>
-        <Badge
-          display={{ base: "none", md: "inherit" }}
-          colorScheme="green"
-          variant="outline"
-        >
-          Smart Contract
-        </Badge>
-      </Flex>
       {constructorParams?.length ? (
         <>
-          <Divider my={4} borderColor="borderColor" />
           <Flex direction="column">
             <Heading size="subtitle.md">Contract Parameters</Heading>
             <Text size="body.md" fontStyle="italic">

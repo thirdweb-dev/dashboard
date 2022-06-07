@@ -14,7 +14,6 @@ import {
   InputGroup,
   InputLeftElement,
   Skeleton,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { detectFeatures } from "@thirdweb-dev/sdk";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
@@ -35,17 +34,8 @@ import {
   FiSearch,
   FiXCircle,
 } from "react-icons/fi";
-import { IoRocketOutline } from "react-icons/io5";
 import { useQuery } from "react-query";
-import {
-  Button,
-  Card,
-  CodeBlock,
-  Drawer,
-  Heading,
-  LinkButton,
-  Text,
-} from "tw-components";
+import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
 
 const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
 
@@ -116,8 +106,6 @@ export default function ContractDetailPage() {
       : FeatureIconMap["custom"];
   }, [contractId]);
   const features = useContractFeatures(publishMetadataQuery.data?.abi);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [extensionFilter, setExtensionFilter] = useState("");
 
@@ -263,9 +251,19 @@ export default function ContractDetailPage() {
             </Flex>
           )}
           {contractId && (
-            <Card>
-              <ContractDeployForm contractId={contractId} />
-            </Card>
+            <Flex gap={4} direction="column">
+              <Box>
+                <Heading size="subtitle.lg">Deploy contract</Heading>
+                <Text>
+                  Now you&apos;re ready to deploy the contract, fill the
+                  parameters and select the network in which you want to deploy
+                  the contract to.
+                </Text>
+              </Box>
+              <Card>
+                <ContractDeployForm contractId={contractId} />
+              </Card>
+            </Flex>
           )}
         </Flex>
       </Flex>
