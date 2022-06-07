@@ -140,9 +140,6 @@ export default function ContractDetailPage() {
 
   return (
     <Track>
-      <Drawer size="xl" isOpen={isOpen} onClose={onClose}>
-        {contractId && <ContractDeployForm contractId={contractId} />}
-      </Drawer>
       <Flex direction="column" as="section" gap={4}>
         <Flex gap={4} align="center">
           {from && (
@@ -204,23 +201,6 @@ export default function ContractDetailPage() {
                 borderColor="borderColor"
               />
             </InputGroup>
-            <Button
-              flexShrink={0}
-              isDisabled={publishMetadataQuery.data?.deployDisabled}
-              onClick={onOpen}
-              isLoading={publishMetadataQuery.isLoading}
-              colorScheme="primary"
-              variant={
-                publishMetadataQuery.data?.deployDisabled ? "outline" : "solid"
-              }
-              rightIcon={
-                !publishMetadataQuery.data?.deployDisabled ? (
-                  <Icon as={IoRocketOutline} />
-                ) : undefined
-              }
-            >
-              Deploy
-            </Button>
           </Flex>
         </Flex>
         <Divider borderColor="borderColor" />
@@ -281,6 +261,11 @@ export default function ContractDetailPage() {
                 ))}
               </Accordion>
             </Flex>
+          )}
+          {contractId && (
+            <Card>
+              <ContractDeployForm contractId={contractId} />
+            </Card>
           )}
         </Flex>
       </Flex>
