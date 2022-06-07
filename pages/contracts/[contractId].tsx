@@ -35,7 +35,6 @@ import {
   FiExternalLink,
   FiInfo,
   FiSearch,
-  FiXCircle,
 } from "react-icons/fi";
 import { useQuery } from "react-query";
 import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
