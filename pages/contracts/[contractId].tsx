@@ -193,32 +193,51 @@ export default function ContractDetailPage() {
         </Flex>
         <Divider borderColor="borderColor" />
         <Flex gap={12} direction="column" as="main">
-          {enabledFeatures.length > 0 && (
-            <Flex gap={4} direction="column" as="section">
+          {contractId && (
+            <Flex gap={4} direction="column">
               <Box>
-                <Heading size="subtitle.lg">Detected Extensions</Heading>
+                <Heading size="subtitle.lg">Deploy contract</Heading>
                 <Text>
-                  These extensions will automatically be available for this
-                  contract in the dashboard as well as in the SDKs.
+                  Now you&apos;re ready to deploy, fill the parameters and
+                  select the network in which you want to deploy the contract
+                  to.
                 </Text>
               </Box>
-              <Accordion
-                allowToggle
-                allowMultiple
-                defaultIndex={[0]}
-                display="flex"
-                flexDir="column"
-                gap={6}
-              >
-                {enabledFeatures.map((feature) => (
-                  <FeatureDetails
-                    key={feature.name}
-                    contractName={publishMetadataQuery.data?.name}
-                    feature={feature}
-                    state="enabled"
-                  />
-                ))}
-              </Accordion>
+              <Card>
+                <Flex direction="column" gap={8}>
+                  {enabledFeatures.length > 0 && (
+                    <Flex direction="column" gap={4}>
+                      <Box>
+                        <Heading size="subtitle.md">
+                          Detected Extensions
+                        </Heading>
+                        <Text>
+                          These extensions will automatically be available for
+                          this contract in the dashboard as well as in the SDKs.
+                        </Text>
+                      </Box>
+                      <Accordion
+                        allowToggle
+                        allowMultiple
+                        defaultIndex={[0]}
+                        display="flex"
+                        flexDir="column"
+                        gap={6}
+                      >
+                        {enabledFeatures.map((feature) => (
+                          <FeatureDetails
+                            key={feature.name}
+                            contractName={publishMetadataQuery.data?.name}
+                            feature={feature}
+                            state="enabled"
+                          />
+                        ))}
+                      </Accordion>
+                    </Flex>
+                  )}
+                  <ContractDeployForm contractId={contractId} />
+                </Flex>
+              </Card>
             </Flex>
           )}
           {suggestedFeatures.length > 0 && (
@@ -248,21 +267,6 @@ export default function ContractDetailPage() {
                   />
                 ))}
               </Accordion>
-            </Flex>
-          )}
-          {contractId && (
-            <Flex gap={4} direction="column">
-              <Box>
-                <Heading size="subtitle.lg">Deploy contract</Heading>
-                <Text>
-                  Now you&apos;re ready to deploy the contract, fill the
-                  parameters and select the network in which you want to deploy
-                  the contract to.
-                </Text>
-              </Box>
-              <Card>
-                <ContractDeployForm contractId={contractId} />
-              </Card>
             </Flex>
           )}
         </Flex>
