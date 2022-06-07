@@ -17,10 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { detectFeatures } from "@thirdweb-dev/sdk";
-import {
-  FeatureName,
-  FeatureWithEnabled,
-} from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
@@ -50,22 +47,18 @@ import {
   Text,
 } from "tw-components";
 
-const ROOT_FEATUES: FeatureName[] = ["ERC20", "ERC721", "ERC1155"];
-
 const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
 
 function extractFeatures(
   input: ReturnType<typeof detectFeatures>,
   enabledFeatures: FeatureWithEnabled[] = [],
   suggestedFeatures: FeatureWithEnabled[] = [],
-  disabledFeatures: FeatureWithEnabled[] = [],
   parent = "__ROOT__",
 ) {
   if (!input) {
     return {
       enabledFeatures,
       suggestedFeatures,
-      disabledFeatures,
     };
   }
   for (const featureKey in input) {
@@ -80,44 +73,19 @@ function extractFeatures(
       ALWAYS_SUGGESTED.includes(feature.name)
     ) {
       suggestedFeatures.push(feature);
-      // otherwise add it to disabledFeatures
-    } else {
-      disabledFeatures.push(feature);
     }
     // recurse
     extractFeatures(
       feature.features,
       enabledFeatures,
       suggestedFeatures,
-      disabledFeatures,
       feature.name,
     );
   }
 
-  const rootFeatureInEnabled = enabledFeatures.find((f) =>
-    ROOT_FEATUES.includes(f.name),
-  )?.name;
-
-  disabledFeatures = disabledFeatures.filter((f) => {
-    // if there is no root feature in enabledFeatures, let everything through
-    if (!rootFeatureInEnabled) {
-      return true;
-    }
-    // if the feature starts with the root feature, then let it through
-    if (f.name.startsWith(rootFeatureInEnabled)) {
-      return true;
-    }
-    const otherRootFeatures = ROOT_FEATUES.filter(
-      (feat) => feat !== rootFeatureInEnabled,
-    );
-    // copilot knows, I hope
-    return !otherRootFeatures.some((feat) => f.name.startsWith(feat));
-  });
-
   return {
     enabledFeatures,
     suggestedFeatures,
-    disabledFeatures,
   };
 }
 
@@ -153,7 +121,7 @@ export default function ContractDetailPage() {
 
   const [extensionFilter, setExtensionFilter] = useState("");
 
-  const [enabledFeatures, suggestedFeatures, disabledFeatures] = useMemo(() => {
+  const [enabledFeatures, suggestedFeatures] = useMemo(() => {
     if (!features) {
       return [[], [], []];
     }
@@ -167,12 +135,7 @@ export default function ContractDetailPage() {
         f.name.toLowerCase().includes(extensionFilter.toLowerCase()) ||
         f.namespace.toLowerCase().includes(extensionFilter.toLowerCase()),
     );
-    const disabled = features.disabledFeatures.filter(
-      (f) =>
-        f.name.toLowerCase().includes(extensionFilter.toLowerCase()) ||
-        f.namespace.toLowerCase().includes(extensionFilter.toLowerCase()),
-    );
-    return [enabled, suggested, disabled] as const;
+    return [enabled, suggested] as const;
   }, [extensionFilter, features]);
 
   return (
@@ -314,34 +277,6 @@ export default function ContractDetailPage() {
                     contractName={publishMetadataQuery.data?.name}
                     feature={feature}
                     state="suggested"
-                  />
-                ))}
-              </Accordion>
-            </Flex>
-          )}
-          {disabledFeatures.length > 0 && (
-            <Flex gap={4} direction="column" as="section">
-              <Box>
-                <Heading size="subtitle.lg">Available Extensions</Heading>
-                <Text>
-                  Extensions that are available to be added to this contract.
-                </Text>
-              </Box>
-
-              <Accordion
-                allowToggle
-                allowMultiple
-                defaultIndex={[0]}
-                display="flex"
-                flexDir="column"
-                gap={6}
-              >
-                {disabledFeatures.map((feature) => (
-                  <FeatureDetails
-                    key={feature.name}
-                    contractName={publishMetadataQuery.data?.name}
-                    feature={feature}
-                    state="disabled"
                   />
                 ))}
               </Accordion>
