@@ -13,6 +13,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  LinkBox,
+  LinkOverlay,
   Skeleton,
 } from "@chakra-ui/react";
 import { detectFeatures } from "@thirdweb-dev/sdk";
@@ -30,6 +32,7 @@ import { ReactElement, useMemo, useState } from "react";
 import {
   FiArrowLeft,
   FiCheckCircle,
+  FiExternalLink,
   FiInfo,
   FiSearch,
   FiXCircle,
@@ -216,23 +219,14 @@ export default function ContractDetailPage() {
                           this contract in the dashboard as well as in the SDKs.
                         </Text>
                       </Box>
-                      <Accordion
-                        allowToggle
-                        allowMultiple
-                        defaultIndex={[0]}
-                        display="flex"
-                        flexDir="column"
-                        gap={6}
-                      >
+                      <Flex gap={2}>
                         {enabledFeatures.map((feature) => (
-                          <FeatureDetails
+                          <EnabledFeature
                             key={feature.name}
-                            contractName={publishMetadataQuery.data?.name}
                             feature={feature}
-                            state="enabled"
                           />
                         ))}
-                      </Accordion>
+                      </Flex>
                     </Flex>
                   )}
                   <ContractDeployForm contractId={contractId} />
@@ -279,6 +273,29 @@ ContractDetailPage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
 };
 
+interface EnabledFeatureProps {
+  feature: FeatureWithEnabled;
+}
+
+const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => (
+  <Card overflow="hidden" py={2} as={LinkBox} _hover={{ opacity: 0.8 }}>
+    <Flex gap={2} align="center" justify="space-between">
+      <Flex gap={2} align="center">
+        <Icon boxSize={4} color="green.500" as={FiCheckCircle} />
+        <LinkOverlay
+          href={`https://portal.thirdweb.com/typescript/${feature.docLinks.sdk}`}
+          isExternal
+        >
+          <Heading textAlign="left" size="subtitle.sm">
+            {feature.name}
+          </Heading>
+        </LinkOverlay>
+        <Icon as={FiExternalLink} />
+      </Flex>
+    </Flex>
+  </Card>
+);
+
 interface FeatureDetailsProps {
   feature: FeatureWithEnabled;
   state: "enabled" | "disabled" | "suggested";
@@ -302,7 +319,7 @@ const FeatureDetails: React.FC<FeatureDetailsProps> = ({
     : "feature";
 
   return (
-    <Card key={feature.name} p={0} overflow="hidden">
+    <Card p={0} overflow="hidden">
       <AccordionItem border="none">
         <AccordionButton
           p={4}
