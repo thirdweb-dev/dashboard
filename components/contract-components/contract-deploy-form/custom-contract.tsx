@@ -1,10 +1,9 @@
-import { ContractIdImage } from "../contract-table/cells/image";
 import {
   useConstructorParamsFromABI,
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
 } from "../hooks";
-import { Divider, Flex, FormControl, Input, Skeleton } from "@chakra-ui/react";
+import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -15,7 +14,6 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
-  Badge,
   FormHelperText,
   FormLabel,
   Heading,
