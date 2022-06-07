@@ -123,7 +123,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         <>
           <Flex direction="column">
             <Heading size="subtitle.md">Contract Parameters</Heading>
-            <Text size="body.md" fontStyle="italic">
+            <Text size="body.md">
               Parameters the contract specifies to be passed in during
               deployment.
             </Text>
@@ -146,7 +146,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       <Divider borderColor="borderColor" mt="auto" />
       <Flex direction="column">
         <Heading size="subtitle.md">Network / Chain</Heading>
-        <Text size="body.md" fontStyle="italic">
+        <Text size="body.md">
           Select a network to deploy this contract on. We recommend starting
           with a testnet.{" "}
           <TrackedLink

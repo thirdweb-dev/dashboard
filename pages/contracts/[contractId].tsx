@@ -10,9 +10,6 @@ import {
   Icon,
   IconButton,
   Image,
-  Input,
-  InputGroup,
-  InputLeftElement,
   LinkBox,
   LinkOverlay,
   Skeleton,
@@ -109,41 +106,28 @@ export default function ContractDetailPage() {
   }, [contractId]);
   const features = useContractFeatures(publishMetadataQuery.data?.abi);
 
-  const [extensionFilter, setExtensionFilter] = useState("");
-
   const [enabledFeatures, suggestedFeatures] = useMemo(() => {
     if (!features) {
-      return [[], [], []];
+      return [[], []];
     }
-    const enabled = features.enabledFeatures.filter(
-      (f) =>
-        f.name.toLowerCase().includes(extensionFilter.toLowerCase()) ||
-        f.namespace.toLowerCase().includes(extensionFilter.toLowerCase()),
-    );
-    const suggested = features.suggestedFeatures.filter(
-      (f) =>
-        f.name.toLowerCase().includes(extensionFilter.toLowerCase()) ||
-        f.namespace.toLowerCase().includes(extensionFilter.toLowerCase()),
-    );
+    const enabled = features.enabledFeatures;
+    const suggested = features.suggestedFeatures;
     return [enabled, suggested] as const;
-  }, [extensionFilter, features]);
+  }, [features]);
 
   return (
     <Track>
       <Flex direction="column" as="section" gap={4}>
-        <Flex gap={4} align="center">
-          {from && (
-            <IconButton
-              variant="ghost"
-              aria-label="back"
-              onClick={() => router.back()}
-              icon={<Icon boxSize={6} as={FiArrowLeft} />}
-            />
-          )}
-          <Heading>Contract Details</Heading>
-        </Flex>
         <Flex align="center" gap={4} justify="space-between" as="header">
           <Flex align="center" gap={2}>
+            {from && (
+              <IconButton
+                variant="ghost"
+                aria-label="back"
+                onClick={() => router.back()}
+                icon={<Icon boxSize={6} as={FiArrowLeft} />}
+              />
+            )}
             <Skeleton isLoaded={publishMetadataQuery.isSuccess}>
               {publishMetadataQuery.data?.image ? (
                 typeof publishMetadataQuery.data.image === "string" ? (
@@ -178,35 +162,13 @@ export default function ContractDetailPage() {
               </Skeleton>
             </Flex>
           </Flex>
-          <Flex align="center" gap={4}>
-            <InputGroup>
-              <InputLeftElement>
-                <Icon as={FiSearch} />
-              </InputLeftElement>
-              <Input
-                value={extensionFilter}
-                onChange={(e) => setExtensionFilter(e.target.value)}
-                placeholder="Filter extensions..."
-                variant="outline"
-                borderColor="borderColor"
-              />
-            </InputGroup>
-          </Flex>
         </Flex>
         <Divider borderColor="borderColor" />
         <Flex gap={12} direction="column" as="main">
           {contractId && (
             <Flex gap={4} direction="column">
-              <Box>
-                <Heading size="subtitle.lg">Deploy contract</Heading>
-                <Text>
-                  Now you&apos;re ready to deploy, fill the parameters and
-                  select the network in which you want to deploy the contract
-                  to.
-                </Text>
-              </Box>
               <Card>
-                <Flex direction="column" gap={8}>
+                <Flex direction="column" gap={6}>
                   {enabledFeatures.length > 0 && (
                     <Flex direction="column" gap={4}>
                       <Box>
