@@ -25,13 +25,12 @@ import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
-import { ReactElement, useMemo, useState } from "react";
+import { ReactElement, useMemo } from "react";
 import {
   FiArrowLeft,
   FiCheckCircle,
   FiExternalLink,
   FiInfo,
-  FiSearch,
 } from "react-icons/fi";
 import { useQuery } from "react-query";
 import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
