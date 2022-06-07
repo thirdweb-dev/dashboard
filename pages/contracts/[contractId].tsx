@@ -277,24 +277,40 @@ interface EnabledFeatureProps {
   feature: FeatureWithEnabled;
 }
 
-const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => (
-  <Card overflow="hidden" py={2} as={LinkBox} _hover={{ opacity: 0.8 }}>
-    <Flex gap={2} align="center" justify="space-between">
-      <Flex gap={2} align="center">
-        <Icon boxSize={4} color="green.500" as={FiCheckCircle} />
-        <LinkOverlay
-          href={`https://portal.thirdweb.com/typescript/${feature.docLinks.sdk}`}
-          isExternal
-        >
-          <Heading textAlign="left" size="subtitle.sm">
-            {feature.name}
-          </Heading>
-        </LinkOverlay>
-        <Icon as={FiExternalLink} />
+const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => {
+  const { trackEvent } = useTrack();
+  return (
+    <Card
+      overflow="hidden"
+      py={2}
+      as={LinkBox}
+      _hover={{ opacity: 0.8 }}
+      borderRadius="full"
+    >
+      <Flex gap={2} align="center" justify="space-between">
+        <Flex gap={2} align="center">
+          <Icon boxSize={4} color="green.500" as={FiCheckCircle} />
+          <LinkOverlay
+            href={`https://portal.thirdweb.com/typescript/${feature.docLinks.sdk}`}
+            isExternal
+            onClick={() =>
+              trackEvent({
+                category: "extensions-deploy",
+                action: "click",
+                label: feature.name,
+              })
+            }
+          >
+            <Heading textAlign="left" size="subtitle.sm">
+              {feature.name}
+            </Heading>
+          </LinkOverlay>
+          <Icon as={FiExternalLink} />
+        </Flex>
       </Flex>
-    </Flex>
-  </Card>
-);
+    </Card>
+  );
+};
 
 interface FeatureDetailsProps {
   feature: FeatureWithEnabled;
@@ -307,6 +323,7 @@ const FeatureDetails: React.FC<FeatureDetailsProps> = ({
   state,
   contractName = "YourContract",
 }) => {
+  const { trackEvent } = useTrack();
   const codeSnippets = useFeatureCodeSnippet();
 
   const featureDetails = useMemo(() => {
@@ -373,6 +390,13 @@ const FeatureDetails: React.FC<FeatureDetailsProps> = ({
                   isExternal
                   variant="ghost"
                   borderRadius="md"
+                  onClick={() =>
+                    trackEvent({
+                      category: "extensions-deploy",
+                      action: "click",
+                      label: feature.name,
+                    })
+                  }
                 >
                   Learn more
                 </LinkButton>
