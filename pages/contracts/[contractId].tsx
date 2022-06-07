@@ -253,11 +253,10 @@ export default function ContractDetailPage() {
                 gap={6}
               >
                 {suggestedFeatures.map((feature) => (
-                  <FeatureDetails
+                  <SuggestedFeature
                     key={feature.name}
                     contractName={publishMetadataQuery.data?.name}
                     feature={feature}
-                    state="suggested"
                   />
                 ))}
               </Accordion>
@@ -312,15 +311,13 @@ const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => {
   );
 };
 
-interface FeatureDetailsProps {
+interface SuggestedFeatureProps {
   feature: FeatureWithEnabled;
-  state: "enabled" | "disabled" | "suggested";
   contractName?: string;
 }
 
-const FeatureDetails: React.FC<FeatureDetailsProps> = ({
+const SuggestedFeature: React.FC<SuggestedFeatureProps> = ({
   feature,
-  state,
   contractName = "YourContract",
 }) => {
   const { trackEvent } = useTrack();
@@ -350,23 +347,7 @@ const FeatureDetails: React.FC<FeatureDetailsProps> = ({
         >
           <Flex gap={2} align="center" justify="space-between">
             <Flex gap={2} align="center">
-              <Icon
-                boxSize={4}
-                color={
-                  state === "enabled"
-                    ? "green.500"
-                    : state === "suggested"
-                    ? "blue.500"
-                    : "red.500"
-                }
-                as={
-                  state === "enabled"
-                    ? FiCheckCircle
-                    : state === "suggested"
-                    ? FiInfo
-                    : FiXCircle
-                }
-              />
+              <Icon boxSize={4} color="blue.500" as={FiInfo} />
               <Heading textAlign="left" size="subtitle.sm">
                 {feature.name}
               </Heading>
@@ -382,11 +363,7 @@ const FeatureDetails: React.FC<FeatureDetailsProps> = ({
                 <Heading size="label.md">{featureDetails.summary}</Heading>
                 <LinkButton
                   size="sm"
-                  href={
-                    state === "enabled"
-                      ? `https://portal.thirdweb.com/typescript/${feature.docLinks.sdk}`
-                      : `https://portal.thirdweb.com/contracts/${feature.docLinks.contracts}`
-                  }
+                  href={`https://portal.thirdweb.com/contracts/${feature.docLinks.contracts}`}
                   isExternal
                   variant="ghost"
                   borderRadius="md"
@@ -401,29 +378,14 @@ const FeatureDetails: React.FC<FeatureDetailsProps> = ({
                   Learn more
                 </LinkButton>
               </Flex>
-              {state === "enabled" ? (
-                <>
-                  {featureDetails.examples.javascript && (
-                    <CodeBlock
-                      mt={1}
-                      language="javascript"
-                      code={featureDetails.examples.javascript.replaceAll(
-                        "{{contract_address}}",
-                        "0x...",
-                      )}
-                    />
-                  )}
-                </>
-              ) : (
-                <Flex mt={2} gap={3} direction="column">
-                  <CodeBlock
-                    language="solidity"
-                    code={`import "@thirdweb-dev/contracts/${contractFeaturePath}/${contractFeatureName}.sol";
+              <Flex mt={2} gap={3} direction="column">
+                <CodeBlock
+                  language="solidity"
+                  code={`import "@thirdweb-dev/contracts/${contractFeaturePath}/${contractFeatureName}.sol";
 
 contract ${contractName} is ${contractFeatureName} { ... }`}
-                  />
-                </Flex>
-              )}
+                />
+              </Flex>
             </Flex>
           )}
         </AccordionPanel>
