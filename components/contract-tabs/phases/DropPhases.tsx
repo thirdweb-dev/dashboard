@@ -160,6 +160,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
       ...phase,
       price: Number(phase.currencyMetadata.displayValue),
       maxQuantity: phase.maxQuantity.toString(),
+      currencyMetadata: {
+        ...phase.currencyMetadata,
+        value: phase.currencyMetadata.value.toString(),
+      },
       quantityLimitPerTransaction: phase.quantityLimitPerTransaction.toString(),
       waitInSeconds: phase.waitInSeconds.toString(),
       startTime: new Date(phase.startTime),
@@ -222,7 +226,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const isDataEqual = deepEqual(transformedQueryData, watchFieldArray);
 
   // make user confirm not-saving changes
-  useLeaveConfirm(!isDataEqual);
+  useLeaveConfirm(query.isSuccess && !isDataEqual);
 
   return (
     <>
