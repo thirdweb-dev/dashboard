@@ -168,6 +168,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
       quantityLimitPerTransaction: phase.quantityLimitPerTransaction.toString(),
       waitInSeconds: phase.waitInSeconds.toString(),
       startTime: new Date(phase.startTime),
+      snapshot: phase.snapshot?.map(({ address, maxClaimable }) => ({
+        address,
+        maxClaimable: maxClaimable || "0",
+      })),
     }));
   }, [query.data]);
 
