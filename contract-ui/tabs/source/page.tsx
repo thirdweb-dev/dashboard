@@ -1,5 +1,5 @@
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
-import { Flex, Icon, Spinner } from "@chakra-ui/react";
+import { Flex, Icon, Link, Spinner } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { Card, CodeBlock, Heading } from "tw-components";
@@ -47,7 +47,13 @@ export const CustomContractSourcePage: React.FC<
         <Heading size="title.sm">Contract source code not available</Heading>
       </Flex>
       <Heading size="subtitle.sm">
-        Try deploying with thirdweb CLI v0.5+
+        Try deploying with{" "}
+        <Link
+          href="https://portal.thirdweb.com/thirdweb-deploy/thirdweb-cli"
+          isExternal
+        >
+          thirdweb CLI v0.5+
+        </Link>
       </Heading>
     </Flex>
   );
