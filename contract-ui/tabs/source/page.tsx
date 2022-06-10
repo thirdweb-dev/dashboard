@@ -1,7 +1,7 @@
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import { Flex, Icon, Spinner } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
-import { FiCheck, FiCheckCircle, FiXCircle } from "react-icons/fi";
+import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { Card, CodeBlock, Heading } from "tw-components";
 
 interface CustomContractSourcePageProps {
@@ -13,7 +13,7 @@ function useContractSources(contractAddress?: string) {
   return useQueryWithNetwork(
     [contractAddress],
     async () => {
-      return sdk
+      return await sdk
         ?.getPublisher()
         .fetchContractSourcesFromAddress(contractAddress || "");
     },
