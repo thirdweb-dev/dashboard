@@ -13,6 +13,7 @@ export const CustomContractCode: React.FC<ContentOverviewProps> = ({
   const chainId = useChainId();
   const chainName = getChainName(chainId);
 
+  // TODO filter out functions that are part of detected extensions already
   const functions = functionsQuery.data
     ?.filter(
       (d) =>
@@ -55,7 +56,7 @@ const contract = await sdk.getContract("${contractAddress}");`}
       {functions && (
         <Card as={Flex} gap={2} flexDirection="column">
           <Heading size="subtitle.md">Contract functions</Heading>
-          {functions?.map((signature) => (
+          {functions.map((signature) => (
             <CodeBlock key={signature} code={signature} language="javascript" />
           ))}
         </Card>
