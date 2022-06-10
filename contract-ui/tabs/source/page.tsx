@@ -41,9 +41,14 @@ export const CustomContractSourcePage: React.FC<
   }
 
   const codeNotFound = (
-    <Flex direction="row" align="center" gap={2}>
-      <Icon as={FiXCircle} color="red.500" />
-      <Heading size="title.sm">Contract source code not available</Heading>
+    <Flex direction="column" align="left" gap={2}>
+      <Flex direction="row" align="center" gap={2}>
+        <Icon as={FiXCircle} color="red.500" />
+        <Heading size="title.sm">Contract source code not available</Heading>
+      </Flex>
+      <Heading size="subtitle.sm">
+        Try deploying with thirdweb CLI v0.5+
+      </Heading>
     </Flex>
   );
 
