@@ -66,7 +66,7 @@ export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
     process.env.NEXT_PUBLIC_RPC_AVALANCHE || "https://rpc.ankr.com/avalanche",
   [ChainId.AvalancheFujiTestnet]:
     process.env.NEXT_PUBLIC_RPC_AVALANCHE_FUJI_TESTNET ||
-    "https://api.avax-test.network/ext/bc/C/rpc	",
+    "https://api.avax-test.network/ext/bc/C/rpc",
   [ChainId.Optimism]:
     process.env.NEXT_PUBLIC_RPC_OPTIMISM ||
     `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
@@ -129,7 +129,7 @@ export const Providers: ComponentWithChildren = ({ children }) => {
           readonlySettings: activeChainId
             ? {
                 chainId: activeChainId,
-                rpcUrl: alchemyUrlMap[activeChainId],
+                rpcUrl: alchemyUrlMap[activeChainId as SUPPORTED_CHAIN_ID],
               }
             : undefined,
         }}
