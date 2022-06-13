@@ -1,13 +1,15 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import {
+  Arbitrum,
   Avalanche,
   Ethereum,
   Fantom,
+  Optimism,
   Polygon,
 } from "@thirdweb-dev/chain-icons";
-import { useAddress, useNetwork } from "@thirdweb-dev/react";
+import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
 import { useCallback } from "react";
-import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
+import { SUPPORTED_CHAIN_ID } from "utils/network";
 
 interface NetworkMetadata {
   chainName: string;
@@ -46,8 +48,22 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Polygon,
   },
+  [ChainId.Mumbai]: {
+    chainName: "Mumbai",
+    icon: Polygon,
+    symbol: "MATIC",
+    isTestnet: true,
+    chainId: ChainId.Mumbai,
+  },
   [ChainId.Fantom]: {
     chainName: "Fantom",
+    icon: Fantom,
+    symbol: "FTM",
+    isTestnet: false,
+    chainId: ChainId.Fantom,
+  },
+  [ChainId.FantomTestnet]: {
+    chainName: "Fantom Testnet",
     icon: Fantom,
     symbol: "FTM",
     isTestnet: false,
@@ -60,12 +76,40 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Avalanche,
   },
-  [ChainId.Mumbai]: {
-    chainName: "Mumbai",
-    icon: Polygon,
-    symbol: "MATIC",
+  [ChainId.AvalancheFujiTestnet]: {
+    chainName: "Avalanche",
+    icon: Avalanche,
+    symbol: "AVAX",
     isTestnet: true,
-    chainId: ChainId.Mumbai,
+    chainId: ChainId.AvalancheFujiTestnet,
+  },
+  [ChainId.Optimism]: {
+    chainName: "Optimism",
+    icon: Optimism,
+    symbol: "ETH",
+    isTestnet: false,
+    chainId: ChainId.Optimism,
+  },
+  [ChainId.OptimismTestnet]: {
+    chainName: "Optimism Testnet",
+    icon: Optimism,
+    symbol: "ETH",
+    isTestnet: true,
+    chainId: ChainId.OptimismTestnet,
+  },
+  [ChainId.Arbitrum]: {
+    chainName: "Arbitrum",
+    icon: Arbitrum,
+    symbol: "ETH",
+    isTestnet: false,
+    chainId: ChainId.Arbitrum,
+  },
+  [ChainId.ArbitrumTestnet]: {
+    chainName: "Arbitrum Testnet",
+    icon: Arbitrum,
+    symbol: "ETH",
+    isTestnet: true,
+    chainId: ChainId.ArbitrumTestnet,
   },
 };
 
