@@ -4,7 +4,7 @@ import {
   useCustomContractDeployMutation,
 } from "../hooks";
 import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
-import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -161,6 +161,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
           <SupportedNetworkSelect
+            disabledChainIds={[ChainId.Arbitrum, ChainId.Optimism]}
             isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
             value={selectedChain || -1}
             onChange={(e) =>

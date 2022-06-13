@@ -195,6 +195,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                   >
                     <SupportedNetworkSelect
                       disabled={!switchNetwork}
+                      disabledChainIds={[ChainId.Arbitrum, ChainId.Optimism]}
                       fontWeight={500}
                       isDisabled={network.loading}
                       value={network.data.chain?.id || -1}

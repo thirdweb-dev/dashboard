@@ -14,7 +14,7 @@ export const SupportedNetworkSelect = forwardRef<
   "select"
 >(
   (
-    { disabledChainIds, disabledChainIdText = "unsupported", ...selectProps },
+    { disabledChainIds, disabledChainIdText = "Coming Soon", ...selectProps },
     ref,
   ) => {
     const { getNetworkMetadata } = useWeb3();
