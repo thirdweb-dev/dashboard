@@ -21,9 +21,9 @@ export const SupportedChainIdToNetworkMap: Record<SUPPORTED_CHAIN_ID, string> =
     [ChainId.Avalanche]: "avalanche",
     [ChainId.AvalancheFujiTestnet]: "avalanche-fuji",
     [ChainId.Optimism]: "optimism",
-    [ChainId.OptimismTestnet]: "optimism-testnet",
+    [ChainId.OptimismTestnet]: "optimism-kovan",
     [ChainId.Arbitrum]: "arbitrum",
-    [ChainId.ArbitrumTestnet]: "arbitrum-testnet",
+    [ChainId.ArbitrumTestnet]: "arbitrum-rinkeby",
   } as const;
 
 export type ValueOf<T> = T[keyof T];
@@ -42,9 +42,9 @@ export const SupportedNetworkToChainIdMap: Record<
   avalanche: ChainId.Avalanche,
   "avalanche-fuji": ChainId.AvalancheFujiTestnet,
   optimism: ChainId.Optimism,
-  "optimism-testnet": ChainId.OptimismTestnet,
+  "optimism-kovan": ChainId.OptimismTestnet,
   arbitrum: ChainId.Arbitrum,
-  "arbitrum-testnet": ChainId.ArbitrumTestnet,
+  "arbitrum-rinkeby": ChainId.ArbitrumTestnet,
 } as const;
 
 export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {

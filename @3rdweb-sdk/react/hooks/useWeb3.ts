@@ -64,7 +64,7 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     chainName: "Fantom Testnet",
     icon: Fantom,
     symbol: "FTM",
-    isTestnet: false,
+    isTestnet: true,
     chainId: ChainId.Fantom,
   },
   [ChainId.Avalanche]: {
