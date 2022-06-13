@@ -1,7 +1,7 @@
 import { useWeb3 } from "@3rdweb-sdk/react";
 import { Select, SelectProps, forwardRef } from "@chakra-ui/react";
+import { ChainId, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
-import { ChainId, SUPPORTED_CHAIN_IDS } from "utils/network";
 
 export interface SupportedNetworkSelectProps
   extends Omit<SelectProps, "children"> {

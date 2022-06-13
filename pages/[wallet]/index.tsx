@@ -46,8 +46,10 @@ import {
 import { useNetwork } from "@thirdweb-dev/react";
 import {
   CONTRACTS_MAP,
+  ChainId,
   CommonContractOutputSchema,
   ContractType,
+  SUPPORTED_CHAIN_ID,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
@@ -87,8 +89,6 @@ import {
   Text,
 } from "tw-components";
 import {
-  ChainId,
-  SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
   SupportedChainIdToNetworkMap,
   getNetworkFromChainId,

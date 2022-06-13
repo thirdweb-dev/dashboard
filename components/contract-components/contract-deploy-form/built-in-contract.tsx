@@ -25,6 +25,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   ContractType,
   KNOWN_CONTRACTS_MAP,
+  SUPPORTED_CHAIN_ID,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -58,7 +59,6 @@ import {
 } from "tw-components";
 import {
   NetworkToBlockTimeMap,
-  SUPPORTED_CHAIN_ID,
   SupportedChainIdToNetworkMap,
 } from "utils/network";
 import { z } from "zod";

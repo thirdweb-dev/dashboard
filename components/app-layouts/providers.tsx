@@ -1,6 +1,6 @@
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
-import { IpfsStorage } from "@thirdweb-dev/sdk";
+import { ChainId, IpfsStorage, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import React, { useEffect } from "react";
@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { createWebStoragePersister } from "react-query/createWebStoragePersister";
 import { persistQueryClient } from "react-query/persistQueryClient";
 import { ComponentWithChildren } from "types/component-with-children";
-import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
 
 const __CACHE_BUSTER = "tw_v2.0.2";
 

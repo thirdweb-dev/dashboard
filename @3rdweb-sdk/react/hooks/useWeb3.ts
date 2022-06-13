@@ -8,8 +8,8 @@ import {
   Polygon,
 } from "@thirdweb-dev/chain-icons";
 import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
+import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { useCallback } from "react";
-import { SUPPORTED_CHAIN_ID } from "utils/network";
 
 interface NetworkMetadata {
   chainName: string;

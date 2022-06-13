@@ -1,4 +1,4 @@
-import { ChainId, SUPPORTED_CHAIN_ID } from "utils/network";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { OtherAddressZero } from "utils/zeroAddress";
 
 export interface CurrencyMetadata {
