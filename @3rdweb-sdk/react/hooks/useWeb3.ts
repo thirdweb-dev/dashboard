@@ -7,6 +7,8 @@ import {
 } from "@thirdweb-dev/chain-icons";
 import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
 import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import Arbitrum from "components/icons/arbitrum";
+import Optimism from "components/icons/optimism";
 import { useCallback } from "react";
 
 interface NetworkMetadata {
@@ -83,28 +85,28 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
   },
   [ChainId.Optimism]: {
     chainName: "Optimism",
-    icon: Ethereum,
+    icon: Optimism,
     symbol: "ETH",
     isTestnet: false,
     chainId: ChainId.Optimism,
   },
   [ChainId.OptimismTestnet]: {
     chainName: "Optimism Testnet",
-    icon: Ethereum,
+    icon: Optimism,
     symbol: "ETH",
     isTestnet: true,
     chainId: ChainId.OptimismTestnet,
   },
   [ChainId.Arbitrum]: {
     chainName: "Arbitrum",
-    icon: Ethereum,
+    icon: Arbitrum,
     symbol: "ETH",
     isTestnet: false,
     chainId: ChainId.Arbitrum,
   },
   [ChainId.ArbitrumTestnet]: {
     chainName: "Arbitrum Testnet",
-    icon: Ethereum,
+    icon: Arbitrum,
     symbol: "ETH",
     isTestnet: true,
     chainId: ChainId.ArbitrumTestnet,
