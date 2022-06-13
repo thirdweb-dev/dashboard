@@ -1,35 +1,4 @@
-import { ChainId } from "@thirdweb-dev/react";
-
-export type SUPPORTED_CHAIN_ID =
-  | ChainId.Mainnet
-  | ChainId.Rinkeby
-  | ChainId.Goerli
-  | ChainId.Mumbai
-  | ChainId.Polygon
-  | ChainId.Fantom
-  | ChainId.FantomTestnet
-  | ChainId.Avalanche
-  | ChainId.AvalancheFujiTestnet
-  | ChainId.Optimism
-  | ChainId.OptimismTestnet
-  | ChainId.Arbitrum
-  | ChainId.ArbitrumTestnet;
-
-export const SUPPORTED_CHAIN_IDS: SUPPORTED_CHAIN_ID[] = [
-  ChainId.Mainnet,
-  ChainId.Rinkeby,
-  ChainId.Goerli,
-  ChainId.Polygon,
-  ChainId.Mumbai,
-  ChainId.Fantom,
-  ChainId.FantomTestnet,
-  ChainId.Avalanche,
-  ChainId.AvalancheFujiTestnet,
-  ChainId.Optimism,
-  ChainId.OptimismTestnet,
-  ChainId.Arbitrum,
-  ChainId.ArbitrumTestnet,
-];
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 
 export const SUPPORTED_CHAIN_IDS_V1: SUPPORTED_CHAIN_ID[] = [
   ChainId.Mainnet,

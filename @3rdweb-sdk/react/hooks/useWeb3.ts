@@ -75,7 +75,7 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     chainId: ChainId.Avalanche,
   },
   [ChainId.AvalancheFujiTestnet]: {
-    chainName: "Avalanche",
+    chainName: "Avalanche Fuji Testnet",
     icon: Avalanche,
     symbol: "AVAX",
     isTestnet: true,

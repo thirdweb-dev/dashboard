@@ -50,6 +50,7 @@ import {
   CommonContractOutputSchema,
   ContractType,
   SUPPORTED_CHAIN_ID,
+  SUPPORTED_CHAIN_IDS,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
@@ -89,7 +90,6 @@ import {
   Text,
 } from "tw-components";
 import {
-  SUPPORTED_CHAIN_IDS,
   SupportedChainIdToNetworkMap,
   getNetworkFromChainId,
 } from "utils/network";
