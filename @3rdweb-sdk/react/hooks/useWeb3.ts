@@ -1,10 +1,8 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import {
-  Arbitrum,
   Avalanche,
   Ethereum,
   Fantom,
-  Optimism,
   Polygon,
 } from "@thirdweb-dev/chain-icons";
 import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
@@ -85,28 +83,28 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
   },
   [ChainId.Optimism]: {
     chainName: "Optimism",
-    icon: Optimism,
+    icon: Ethereum,
     symbol: "ETH",
     isTestnet: false,
     chainId: ChainId.Optimism,
   },
   [ChainId.OptimismTestnet]: {
     chainName: "Optimism Testnet",
-    icon: Optimism,
+    icon: Ethereum,
     symbol: "ETH",
     isTestnet: true,
     chainId: ChainId.OptimismTestnet,
   },
   [ChainId.Arbitrum]: {
     chainName: "Arbitrum",
-    icon: Arbitrum,
+    icon: Ethereum,
     symbol: "ETH",
     isTestnet: false,
     chainId: ChainId.Arbitrum,
   },
   [ChainId.ArbitrumTestnet]: {
     chainName: "Arbitrum Testnet",
-    icon: Arbitrum,
+    icon: Ethereum,
     symbol: "ETH",
     isTestnet: true,
     chainId: ChainId.ArbitrumTestnet,
