@@ -62,6 +62,9 @@ export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.Mumbai]:
     process.env.NEXT_PUBLIC_RPC_MUMBAI ||
     `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.OptimismTestnet]:
+    process.env.NEXT_PUBLIC_RPC_OPTIMISM_TESTNET ||
+    `https://opt-kovan.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
 };
 
 const walletConnectors: WalletConnector[] = [

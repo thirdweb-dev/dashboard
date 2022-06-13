@@ -67,6 +67,14 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: true,
     chainId: ChainId.Mumbai,
   },
+  [ChainId.OptimismTestnet]: {
+    chainName: "Optimism Testnet",
+    // TODO change to optimism icon
+    icon: Ethereum,
+    symbol: "ETH",
+    isTestnet: true,
+    chainId: ChainId.OptimismTestnet,
+  },
 };
 
 export function useWeb3() {

@@ -1872,9 +1872,9 @@
     wagmi "^0.2.28"
 
 "@thirdweb-dev/sdk@^2.3.11":
-  version "2.3.11"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.11.tgz#7b810d2e4d74c4f67fa775d79e4e082f995663c4"
-  integrity sha512-sdIuSVxiMko+rhVjrdpZ3+yWMlB9mDsCD0tKfBE18Vp+rqmRTy2nIDz76fkqBVZi24BVdaGi81VnNpBMlKzRMw==
+  version "2.3.12"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.12.tgz#535af1d93fd464bf92c1e36e036a63b62c332bb7"
+  integrity sha512-i36xwL6xv9bkvd7ilh7+1WVPqXoYGg/kCAjF/QXpPwDGFvYLNXlAjOIO4E2fg05q3LEkpK+jJhWtNeRVDQFpAA==
   dependencies:
     "@thirdweb-dev/contracts" "2.3.14"
     "@web-std/file" "^3.0.0"

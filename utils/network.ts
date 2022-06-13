@@ -1,3 +1,4 @@
+// TODO get these from SDK directly
 export enum ChainId {
   Mainnet = 1,
   Ropsten = 3,
@@ -16,6 +17,10 @@ export enum ChainId {
   FantomTestnet = 4002,
   Avalanche = 43114,
   AvalancheFujiTestnet = 43113,
+  Optimism = 10,
+  OptimismTestnet = 69,
+  Arbitrum = 42161,
+  ArbitrumTestnet = 421611,
 }
 
 export type SUPPORTED_CHAIN_ID =
@@ -26,7 +31,8 @@ export type SUPPORTED_CHAIN_ID =
   | ChainId.Polygon
   | ChainId.Fantom
   // | ChainId.FantomTestnet
-  | ChainId.Avalanche;
+  | ChainId.Avalanche
+  | ChainId.OptimismTestnet;
 // | ChainId.AvalancheFujiTestnet;
 
 export const SUPPORTED_CHAIN_IDS: SUPPORTED_CHAIN_ID[] = [
@@ -38,6 +44,7 @@ export const SUPPORTED_CHAIN_IDS: SUPPORTED_CHAIN_ID[] = [
   ChainId.Fantom,
   // ChainId.FantomTestnet,
   ChainId.Avalanche,
+  ChainId.OptimismTestnet,
   // ChainId.AvalancheFujiTestnet,
 ];
 
@@ -61,6 +68,7 @@ export const SupportedChainIdToNetworkMap: Record<SUPPORTED_CHAIN_ID, string> =
     // [ChainId.FantomTestnet]: "fantom-testnet",
     [ChainId.Avalanche]: "avalanche",
     // [ChainId.AvalancheFujiTestnet]: "avalanche-fuji",
+    [ChainId.OptimismTestnet]: "optimismtestnet",
   } as const;
 
 export type ValueOf<T> = T[keyof T];
@@ -77,6 +85,7 @@ export const SupportedNetworkToChainIdMap: Record<
   fantom: ChainId.Fantom,
   // "fantom-testnet": ChainId.FantomTestnet,
   avalanche: ChainId.Avalanche,
+  optimismtestnet: ChainId.OptimismTestnet,
   // "avalanche-fuji": ChainId.AvalancheFujiTestnet,
 } as const;
 
@@ -88,6 +97,7 @@ export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.Mumbai]: "2",
   [ChainId.Fantom]: "0.7",
   [ChainId.Avalanche]: "3",
+  [ChainId.OptimismTestnet]: "14",
 };
 
 export type SupportedNetwork = keyof typeof SupportedNetworkToChainIdMap;

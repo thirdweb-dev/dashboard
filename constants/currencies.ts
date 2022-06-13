@@ -247,4 +247,5 @@ export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.Avalanche]: Avalanche,
   [ChainId.Mumbai]: Mumbai,
   [ChainId.Mainnet]: Ethereum,
+  [ChainId.OptimismTestnet]: Ethereum,
 } as const;

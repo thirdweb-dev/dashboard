@@ -126,6 +126,10 @@ export default function Dashboard() {
   const rinkebyQuery = useContractList(ChainId.Rinkeby, dashboardAddress);
   const goerliQuery = useContractList(ChainId.Goerli, dashboardAddress);
   const mumbaiQuery = useContractList(ChainId.Mumbai, dashboardAddress);
+  const optimismQuery = useContractList(
+    ChainId.OptimismTestnet,
+    dashboardAddress,
+  );
 
   const combinedList = useMemo(() => {
     return (
@@ -138,15 +142,6 @@ export default function Dashboard() {
         })) || [],
       )
       .concat(
-        avalancheQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.Avalanche,
-        })) || [],
-      )
-      .concat(
-        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
-      )
-      .concat(
         rinkebyQuery.data?.map((d) => ({ ...d, chainId: ChainId.Rinkeby })) ||
           [],
       )
@@ -155,6 +150,21 @@ export default function Dashboard() {
       )
       .concat(
         mumbaiQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mumbai })) || [],
+      )
+      .concat(
+        optimismQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.OptimismTestnet,
+        })) || [],
+      )
+      .concat(
+        avalancheQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.Avalanche,
+        })) || [],
+      )
+      .concat(
+        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
       );
   }, [
     mainnetQuery.data,
@@ -164,6 +174,7 @@ export default function Dashboard() {
     rinkebyQuery.data,
     goerliQuery.data,
     mumbaiQuery.data,
+    optimismQuery.data,
   ]);
 
   return (
