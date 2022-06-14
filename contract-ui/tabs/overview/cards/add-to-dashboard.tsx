@@ -8,13 +8,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useAddress, useContract } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useEffect } from "react";
+import { useState } from "react";
 import { Button, Text, TrackedLink } from "tw-components";
 
 interface AddToDashboardCardProps {
@@ -37,38 +36,27 @@ export const AddToDashboardCard: React.FC<AddToDashboardCardProps> = ({
   );
 
   const shouldShow =
-    contractList.data?.findIndex((c) => c.address === contractAddress) === -1;
+    contractList.data?.findIndex((c) => c.address === contractAddress) === -1 &&
+    contractList.isSuccess;
 
-  const { isOpen, onOpen, onClose } = useDisclosure({
-    defaultIsOpen: shouldShow,
-  });
-
-  useEffect(() => {
-    if (!contractList.isFetching && contractList.isSuccess) {
-      if (shouldShow) {
-        onOpen();
-      } else {
-        onClose();
-      }
-    }
-  }, [
-    shouldShow,
-    onOpen,
-    onClose,
-    contractList.isFetching,
-    contractList.isSuccess,
-  ]);
+  const [hasClosedModal, setHasClosedModal] = useState(false);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnEsc={false} isCentered>
+    <Modal
+      isOpen={shouldShow && !hasClosedModal}
+      onClose={() => undefined}
+      closeOnEsc={false}
+      closeOnOverlayClick={false}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>This contract is not in your dashboard</ModalHeader>
+        <ModalHeader>This contract is not on your dashboard</ModalHeader>
         <ModalBody>
           <Flex direction="column" gap={0}>
             <Text>
-              Adding this contract to your dashboard will add it to the list of
-              your contracts at{" "}
+              When you add this contract to the dashboard it will be displayed
+              in the list of your contracts at{" "}
               <TrackedLink
                 href="https://thirdweb.com/dashboard"
                 isExternal
@@ -76,7 +64,7 @@ export const AddToDashboardCard: React.FC<AddToDashboardCardProps> = ({
                 label="visit-dashboard"
                 color="primary.500"
               >
-                thirdweb.com/dashboard
+                /dashboard
               </TrackedLink>
               .
             </Text>
@@ -149,7 +137,7 @@ export const AddToDashboardCard: React.FC<AddToDashboardCardProps> = ({
                 label: "skip",
                 contractAddress,
               });
-              onClose();
+              setHasClosedModal(true);
             }}
           >
             Skip for now
