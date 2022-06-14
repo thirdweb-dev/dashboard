@@ -112,8 +112,6 @@ export const Providers: ComponentWithChildren = ({ children }) => {
   }, []);
 
   const activeChainId = useActiveChainId();
-  console.log(activeChainId);
-  console.log(alchemyUrlMap[activeChainId as SUPPORTED_CHAIN_ID]);
 
   return (
     <QueryClientProvider client={queryClient}>
