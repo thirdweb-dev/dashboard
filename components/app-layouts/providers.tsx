@@ -71,7 +71,8 @@ export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
     process.env.NEXT_PUBLIC_RPC_OPTIMISM ||
     `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
   [ChainId.OptimismTestnet]:
-    process.env.NEXT_PUBLIC_RPC_OPTIMISM_TESTNET || "https://kovan.optimism.io",
+    process.env.NEXT_PUBLIC_RPC_OPTIMISM_TESTNET ||
+    `https://opt-kovan.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
   [ChainId.Arbitrum]:
     process.env.NEXT_PUBLIC_RPC_ARBITRUM ||
     `https://arb-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
@@ -111,6 +112,8 @@ export const Providers: ComponentWithChildren = ({ children }) => {
   }, []);
 
   const activeChainId = useActiveChainId();
+  console.log(activeChainId);
+  console.log(alchemyUrlMap[activeChainId as SUPPORTED_CHAIN_ID]);
 
   return (
     <QueryClientProvider client={queryClient}>
