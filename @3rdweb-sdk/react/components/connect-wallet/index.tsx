@@ -195,6 +195,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                   >
                     <SupportedNetworkSelect
                       disabled={!switchNetwork}
+                      disabledChainIdText="Coming Soon"
                       disabledChainIds={[ChainId.Arbitrum, ChainId.Optimism]}
                       fontWeight={500}
                       isDisabled={network.loading}
@@ -522,6 +523,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
             <FormControl isRequired isInvalid={!!errors.safeChainId} mr={4}>
               <FormLabel>Safe Network</FormLabel>
               <SupportedNetworkSelect
+                disabledChainIdText="Coming Soon"
                 disabledChainIds={[ChainId.Fantom, ChainId.Mumbai]}
                 {...register("safeChainId")}
               />

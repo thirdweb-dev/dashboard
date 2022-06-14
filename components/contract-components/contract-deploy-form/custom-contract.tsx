@@ -161,6 +161,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
           <SupportedNetworkSelect
+            disabledChainIdText="Coming Soon"
             disabledChainIds={[ChainId.Arbitrum, ChainId.Optimism]}
             isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
             value={selectedChain || -1}

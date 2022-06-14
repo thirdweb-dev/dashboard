@@ -6,7 +6,7 @@ import {
   Polygon,
 } from "@thirdweb-dev/chain-icons";
 import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
-import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import Arbitrum from "components/icons/arbitrum";
 import Optimism from "components/icons/optimism";
 import { useCallback } from "react";
@@ -33,91 +33,91 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
   [ChainId.Mainnet]: {
     chainName: "Ethereum",
     icon: Ethereum,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.Mainnet].symbol,
     isTestnet: false,
     chainId: ChainId.Mainnet,
   },
   [ChainId.Rinkeby]: {
     chainName: "Rinkeby",
     icon: Ethereum,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.Rinkeby].symbol,
     isTestnet: true,
     chainId: ChainId.Rinkeby,
   },
   [ChainId.Goerli]: {
     chainName: "Goerli",
     icon: Ethereum,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.Goerli].symbol,
     isTestnet: true,
     chainId: ChainId.Goerli,
   },
   [ChainId.Polygon]: {
     chainName: "Polygon",
     icon: Polygon,
-    symbol: "MATIC",
+    symbol: NATIVE_TOKENS[ChainId.Polygon].symbol,
     isTestnet: false,
     chainId: ChainId.Polygon,
   },
   [ChainId.Mumbai]: {
     chainName: "Mumbai",
     icon: Polygon,
-    symbol: "MATIC",
+    symbol: NATIVE_TOKENS[ChainId.Mumbai].symbol,
     isTestnet: true,
     chainId: ChainId.Mumbai,
   },
   [ChainId.Fantom]: {
     chainName: "Fantom",
     icon: Fantom,
-    symbol: "FTM",
+    symbol: NATIVE_TOKENS[ChainId.Fantom].symbol,
     isTestnet: false,
     chainId: ChainId.Fantom,
   },
   [ChainId.FantomTestnet]: {
     chainName: "Fantom Testnet",
     icon: Fantom,
-    symbol: "FTM",
+    symbol: NATIVE_TOKENS[ChainId.FantomTestnet].symbol,
     isTestnet: true,
     chainId: ChainId.Fantom,
   },
   [ChainId.Avalanche]: {
     chainName: "Avalanche",
     icon: Avalanche,
-    symbol: "AVAX",
+    symbol: NATIVE_TOKENS[ChainId.Avalanche].symbol,
     isTestnet: false,
     chainId: ChainId.Avalanche,
   },
   [ChainId.AvalancheFujiTestnet]: {
     chainName: "Avalanche Fuji Testnet",
     icon: Avalanche,
-    symbol: "AVAX",
+    symbol: NATIVE_TOKENS[ChainId.AvalancheFujiTestnet].symbol,
     isTestnet: true,
     chainId: ChainId.AvalancheFujiTestnet,
   },
   [ChainId.Optimism]: {
     chainName: "Optimism",
     icon: Optimism,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.Optimism].symbol,
     isTestnet: false,
     chainId: ChainId.Optimism,
   },
   [ChainId.OptimismTestnet]: {
     chainName: "Optimism Testnet",
     icon: Optimism,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.OptimismTestnet].symbol,
     isTestnet: true,
     chainId: ChainId.OptimismTestnet,
   },
   [ChainId.Arbitrum]: {
     chainName: "Arbitrum",
     icon: Arbitrum,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.Arbitrum].symbol,
     isTestnet: false,
     chainId: ChainId.Arbitrum,
   },
   [ChainId.ArbitrumTestnet]: {
     chainName: "Arbitrum Testnet",
     icon: Arbitrum,
-    symbol: "ETH",
+    symbol: NATIVE_TOKENS[ChainId.ArbitrumTestnet].symbol,
     isTestnet: true,
     chainId: ChainId.ArbitrumTestnet,
   },
