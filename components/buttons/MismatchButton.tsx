@@ -1,4 +1,4 @@
-import { ConnectWallet, useWeb3 } from "@3rdweb-sdk/react";
+import { ConnectWallet, FAUCETS, useWeb3 } from "@3rdweb-sdk/react";
 import {
   Box,
   ButtonGroup,
@@ -12,7 +12,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  ChainId,
   useBalance,
   useChainId,
   useDesiredChainId,
@@ -207,15 +206,6 @@ const MismatchNotice: React.FC<{
   );
 };
 
-const FAUCETS: Partial<Record<ChainId, string>> = {
-  [ChainId.Rinkeby]: "https://rinkebyfaucet.com",
-  [ChainId.Goerli]: "https://faucet.paradigm.xyz/",
-  [ChainId.Mumbai]: "https://mumbaifaucet.com",
-  [ChainId.FantomTestnet]: "https://faucet.fantom.network/",
-  [ChainId.OptimismTestnet]: "https://kovan.optifaucet.com/",
-  [ChainId.ArbitrumTestnet]: "https://bridge.arbitrum.io/",
-};
-
 const NoFundsNotice = () => {
   const chainId = useChainId();
   const { getNetworkMetadata } = useWeb3();
@@ -235,10 +225,8 @@ const NoFundsNotice = () => {
         You don&apos;t have any funds on this network. You&apos;ll need some{" "}
         {symbol} to pay for gas.
         {isTestnet &&
-        FAUCETS[chainId as keyof typeof FAUCETS] &&
-        chainId === ChainId.ArbitrumTestnet
-          ? " You can bridge some from Rinkeby on the link below."
-          : " You can get some from the faucet below."}
+          FAUCETS[chainId as keyof typeof FAUCETS] &&
+          " You can get some from the faucet below."}
       </Text>
 
       <ButtonGroup size="sm">
@@ -256,9 +244,7 @@ const NoFundsNotice = () => {
               })
             }
           >
-            {chainId === ChainId.ArbitrumTestnet
-              ? `Bridge ETH from Rinkeby`
-              : `Get ${symbol} from faucet`}
+            Get {symbol} from faucet
           </LinkButton>
         )}
       </ButtonGroup>

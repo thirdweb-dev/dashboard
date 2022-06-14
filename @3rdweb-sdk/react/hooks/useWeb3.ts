@@ -19,6 +19,16 @@ interface NetworkMetadata {
   chainId: ChainId;
 }
 
+export const FAUCETS: Partial<Record<ChainId, string>> = {
+  [ChainId.Rinkeby]: "https://rinkebyfaucet.com",
+  [ChainId.Goerli]: "https://faucet.paradigm.xyz/",
+  [ChainId.Mumbai]: "https://mumbaifaucet.com",
+  [ChainId.AvalancheFujiTestnet]: "https://faucet.avax.network/",
+  [ChainId.FantomTestnet]: "https://faucet.fantom.network/",
+  [ChainId.OptimismTestnet]: "https://kovan.optifaucet.com/",
+  [ChainId.ArbitrumTestnet]: "https://faucet.paradigm.xyz/",
+};
+
 const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
   [ChainId.Mainnet]: {
     chainName: "Ethereum",
