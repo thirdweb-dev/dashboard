@@ -1,4 +1,3 @@
-import { AddToDashboardCard } from "./cards/add-to-dashboard";
 import { CustomContractCode } from "./cards/custom-contract-code";
 import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
