@@ -22,7 +22,6 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%" flexWrap="wrap">
-        <AddToDashboardCard contractAddress={contractAddress} />
         <CustomContractCode contractAddress={contractAddress} />
       </Flex>
     </Flex>
