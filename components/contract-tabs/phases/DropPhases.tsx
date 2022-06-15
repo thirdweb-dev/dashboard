@@ -229,8 +229,6 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
 
   const isDataEqual = deepEqual(transformedQueryData, watchFieldArray);
 
-  console.log({ transformedQueryData, watchFieldArray });
-
   return (
     <>
       {query.isRefetching && (
