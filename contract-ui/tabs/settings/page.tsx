@@ -73,16 +73,16 @@ export const CustomContractSettingsTab: React.FC<
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%">
         <Flex flexDir="column" w="100%" gap={8}>
-          {detectedMetadata !== "disabled" && (
+          {detectedMetadata === "enabled" && (
             <SettingsMetadata contract={contract.contract} />
           )}
-          {detectedPrimarySale !== "disabled" && (
+          {detectedPrimarySale === "enabled" && (
             <SettingsPrimarySale contract={contract.contract} />
           )}
-          {detectedRoyalties !== "disabled" && (
+          {detectedRoyalties === "enabled" && (
             <SettingsRoyalties contract={contract.contract} />
           )}
-          {detectedPlatformFees !== "disabled" && (
+          {detectedPlatformFees === "enabled" && (
             <SettingsPlatformFees contract={contract.contract} />
           )}
         </Flex>
