@@ -252,26 +252,28 @@ export default function Dashboard() {
             </Flex>
           )}
           {projects && projects.length ? (
-            <Tabs>
-              <TabList>
-                <Tab>V2 Contracts</Tab>
-                <Tab>V1 Projects</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel px={0} pt={8}>
-                  <ContractTable combinedList={combinedList} />
-                </TabPanel>
-                <TabPanel px={0} pt={8}>
-                  <OldProjects projects={projects} />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
+            <>
+              <Tabs>
+                <TabList>
+                  <Tab>V2 Contracts</Tab>
+                  <Tab>V1 Projects</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel px={0} pt={8}>
+                    <ContractTable combinedList={combinedList} />
+                  </TabPanel>
+                  <TabPanel px={0} pt={8}>
+                    <OldProjects projects={projects} />
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+              <LearnMoreSection />
+            </>
           ) : (
             <ContractTable combinedList={combinedList} />
           )}
         </>
       )}
-      <LearnMoreSection />
     </Flex>
   );
 }
