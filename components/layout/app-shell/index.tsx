@@ -30,7 +30,6 @@ import { ComponentWithChildren } from "types/component-with-children";
 export const AppShell: ComponentWithChildren = ({ children }) => {
   const { pathname } = useRouter();
   const address = useAddress();
-  console.log(pathname);
 
   const isCustomContractLayout =
     pathname === "/[wallet]/[network]/[...customContract]";

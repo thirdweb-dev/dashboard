@@ -24,7 +24,9 @@ import {
 } from "@chakra-ui/react";
 import {
   ChainId,
+  useAddress,
   useBalance,
+  useChainId,
   useConnect,
   useDisconnect,
   useGnosis,
@@ -40,6 +42,7 @@ import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { constants, utils } from "ethers";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
+import posthog from "posthog-js";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineDisconnect } from "react-icons/ai";
@@ -72,13 +75,20 @@ const connectorIdToImageUrl: Record<string, StaticImageData> = {
 
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const [connector, connect] = useConnect();
-  const { address, chainId, getNetworkMetadata } = useWeb3();
+  const { getNetworkMetadata } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const disconnect = useDisconnect();
   const disconnectFully = useDisconnect({ reconnectAfterGnosis: false });
   const [network, switchNetwork] = useNetwork();
+  const address = useAddress();
+  const chainId = useChainId();
 
   const { hasCopied, onCopy } = useClipboard(address || "");
+
+  const registerConnector = (_connector: string) => {
+    posthog.register({ connector: _connector });
+    posthog.capture("wallet_connected", { connector: _connector });
+  };
 
   function handleConnect(_connector: Connector<any, any>) {
     if (_connector.name.toLowerCase() === "magic") {
@@ -86,6 +96,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
     } else {
       connect(_connector);
     }
+    registerConnector(_connector.name);
   }
 
   const balanceQuery = useBalance();
@@ -314,7 +325,10 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                 alt=""
               />
             }
-            onClick={() => connectWithMetamask()}
+            onClick={() => {
+              connectWithMetamask();
+              registerConnector("metamask");
+            }}
           >
             MetaMask
           </MenuItem>

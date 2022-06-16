@@ -731,8 +731,6 @@ export const ContractTable: React.FC<ContractTableProps> = ({
 
   const wallet = useSingleQueryParam("wallet") || "dashboard";
 
-  console.log(combinedList);
-
   if (combinedList.length === 0) {
     router.replace("/contracts");
     return (
