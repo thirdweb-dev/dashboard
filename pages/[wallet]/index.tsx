@@ -29,6 +29,7 @@ import {
   PopoverContent,
   SimpleGrid,
   Skeleton,
+  Spinner,
   Stack,
   Tab,
   TabList,
@@ -730,8 +731,26 @@ export const ContractTable: React.FC<ContractTableProps> = ({
 
   const wallet = useSingleQueryParam("wallet") || "dashboard";
 
-  if (!combinedList.length) {
-    return <NoContracts />;
+  console.log(combinedList);
+
+  if (combinedList.length === 0) {
+    router.replace("/contracts");
+    return (
+      <Box
+        position="absolute"
+        left="50%"
+        top="50%"
+        transform="translate(-50%, -50%)"
+      >
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Box>
+    );
   }
 
   return (
@@ -850,37 +869,6 @@ const AsyncContractCell: React.FC<AsyncContractCellProps> = ({ cell }) => {
         </Link>
       </OriginalNextLink>
     </Skeleton>
-  );
-};
-
-const NoContracts: React.FC = () => {
-  return (
-    <Center w="100%">
-      <Container as={Card}>
-        <Stack py={7} align="center" spacing={6} w="100%">
-          <ChakraNextImage
-            src={require("public/assets/illustrations/listing.png")}
-            alt="no apps"
-            boxSize={20}
-            maxW="200px"
-            mb={3}
-          />
-          <Flex direction="column" gap={0.5} align="center">
-            <Heading size="title.md" textAlign="center">
-              You don&apos;t have any contracts
-            </Heading>
-            <Text size="body.lg">Deploy a contract to get started</Text>
-          </Flex>
-          <LinkButton
-            leftIcon={<FiPlus />}
-            colorScheme="primary"
-            href="/contracts"
-          >
-            Deploy new contract
-          </LinkButton>
-        </Stack>
-      </Container>
-    </Center>
   );
 };
 
@@ -1085,8 +1073,24 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
 
   const router = useRouter();
 
-  if (!projects.length) {
-    return <NoContracts />;
+  if (projects.length === 0) {
+    router.replace("/contracts");
+    return (
+      <Box
+        position="absolute"
+        left="50%"
+        top="50%"
+        transform="translate(-50%, -50%)"
+      >
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Box>
+    );
   }
 
   return (
