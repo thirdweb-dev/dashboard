@@ -268,11 +268,11 @@ export default function Dashboard() {
                   </TabPanel>
                 </TabPanels>
               </Tabs>
-              <LearnMoreSection />
             </>
           ) : (
             <ContractTable combinedList={combinedList} />
           )}
+          <LearnMoreSection />
         </>
       )}
     </Flex>
