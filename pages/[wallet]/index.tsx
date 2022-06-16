@@ -1071,26 +1071,6 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
 
   const router = useRouter();
 
-  if (projects.length === 0) {
-    router.replace("/contracts");
-    return (
-      <Box
-        position="absolute"
-        left="50%"
-        top="50%"
-        transform="translate(-50%, -50%)"
-      >
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      </Box>
-    );
-  }
-
   return (
     <Box w="100%" overflowX="auto">
       <Table
