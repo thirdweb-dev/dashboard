@@ -73,6 +73,11 @@ const connectorIdToImageUrl: Record<string, StaticImageData> = {
   Injected: require("public/logos/wallet.png"),
 };
 
+const registerConnector = (_connector: string) => {
+  posthog.register({ connector: _connector });
+  posthog.capture("wallet_connected", { connector: _connector });
+};
+
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const [connector, connect] = useConnect();
   const { getNetworkMetadata } = useWeb3();
@@ -84,19 +89,13 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const chainId = useChainId();
 
   const { hasCopied, onCopy } = useClipboard(address || "");
-
-  const registerConnector = (_connector: string) => {
-    posthog.register({ connector: _connector });
-    posthog.capture("wallet_connected", { connector: _connector });
-  };
-
   function handleConnect(_connector: Connector<any, any>) {
     if (_connector.name.toLowerCase() === "magic") {
       onOpen();
     } else {
       connect(_connector);
+      registerConnector(_connector.name);
     }
-    registerConnector(_connector.name);
   }
 
   const balanceQuery = useBalance();
@@ -600,6 +599,7 @@ const MagicModal: React.FC<ConnectorModalProps> = ({ isOpen, onClose }) => {
           onSubmit={handleSubmit(async ({ email }) => {
             try {
               await connectMagic({ email });
+              registerConnector("magic");
               onClose();
             } catch (err) {
               console.error("failed to connect", err);
