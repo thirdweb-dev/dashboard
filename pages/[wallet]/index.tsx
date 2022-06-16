@@ -223,56 +223,94 @@ export default function Dashboard() {
     arbitrumTestnetQuery.data,
   ]);
 
+  const isFetched =
+    mainnetQuery.isFetched &&
+    rinkebyQuery.isFetched &&
+    goerliQuery.isFetched &&
+    polygonQuery.isFetched &&
+    mumbaiQuery.isFetched &&
+    fantomQuery.isFetched &&
+    fantomTestnetQuery.isFetched &&
+    avalancheQuery.isFetched &&
+    avalancheFujiTestnetQuery.isFetched &&
+    optimismQuery.isFetched &&
+    optimismTestnetQuery.isFetched &&
+    arbitrumQuery.isFetched &&
+    arbitrumTestnetQuery.isFetched;
+
+  useEffect(() => {
+    if (isFetched && combinedList.length === 0) {
+      router.replace("/contracts");
+    }
+  }, [isFetched, router, combinedList]);
+
   return (
     <Flex direction="column" gap={8}>
       {wallet === "dashboard" && !address ? (
         <NoWallet />
       ) : (
         <>
-          {!!combinedList.length && (
-            <Flex
-              justify="space-between"
-              align="top"
-              gap={4}
-              direction={{ base: "column", md: "row" }}
+          {combinedList.length === 0 ? (
+            <Box
+              position="absolute"
+              left="50%"
+              top="50%"
+              transform="translate(-50%, -50%)"
             >
-              <Flex gap={2} direction="column">
-                <Heading size="title.md">Deployed contracts</Heading>
-                <Text fontStyle="italic" maxW="container.md">
-                  The list of contract instances that you have deployed with
-                  thirdweb across all networks.
-                </Text>
-              </Flex>
-              <LinkButton
-                leftIcon={<FiPlus />}
-                colorScheme="primary"
-                href="/contracts"
-              >
-                Deploy new contract
-              </LinkButton>
-            </Flex>
-          )}
-          {projects && projects.length ? (
-            <>
-              <Tabs>
-                <TabList>
-                  <Tab>V2 Contracts</Tab>
-                  <Tab>V1 Projects</Tab>
-                </TabList>
-                <TabPanels>
-                  <TabPanel px={0} pt={8}>
-                    <ContractTable combinedList={combinedList} />
-                  </TabPanel>
-                  <TabPanel px={0} pt={8}>
-                    <OldProjects projects={projects} />
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
-            </>
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Box>
           ) : (
-            <ContractTable combinedList={combinedList} />
+            <>
+              <Flex
+                justify="space-between"
+                align="top"
+                gap={4}
+                direction={{ base: "column", md: "row" }}
+              >
+                <Flex gap={2} direction="column">
+                  <Heading size="title.md">Deployed contracts</Heading>
+                  <Text fontStyle="italic" maxW="container.md">
+                    The list of contract instances that you have deployed with
+                    thirdweb across all networks.
+                  </Text>
+                </Flex>
+                <LinkButton
+                  leftIcon={<FiPlus />}
+                  colorScheme="primary"
+                  href="/contracts"
+                >
+                  Deploy new contract
+                </LinkButton>
+              </Flex>
+              {projects && projects.length ? (
+                <>
+                  <Tabs>
+                    <TabList>
+                      <Tab>V2 Contracts</Tab>
+                      <Tab>V1 Projects</Tab>
+                    </TabList>
+                    <TabPanels>
+                      <TabPanel px={0} pt={8}>
+                        <ContractTable combinedList={combinedList} />
+                      </TabPanel>
+                      <TabPanel px={0} pt={8}>
+                        <OldProjects projects={projects} />
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </>
+              ) : (
+                <ContractTable combinedList={combinedList} />
+              )}
+              <LearnMoreSection />
+            </>
           )}
-          <LearnMoreSection />
         </>
       )}
     </Flex>
@@ -730,26 +768,6 @@ export const ContractTable: React.FC<ContractTableProps> = ({
   const router = useRouter();
 
   const wallet = useSingleQueryParam("wallet") || "dashboard";
-
-  if (combinedList.length === 0) {
-    router.replace("/contracts");
-    return (
-      <Box
-        position="absolute"
-        left="50%"
-        top="50%"
-        transform="translate(-50%, -50%)"
-      >
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      </Box>
-    );
-  }
 
   return (
     <Box w="100%" overflowX="auto">
