@@ -46,17 +46,17 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
     "nft-drop": {
       title: "NFT Drop",
-      description: "ERC721 NFTs that other people can claim.",
+      description: "ERC721 NFTs that other people can claim",
       icon: FeatureIconMap["nft-drop"],
     },
     marketplace: {
       title: "Marketplace",
-      description: "Open/closed marketplace for ERC721/ERC1155 NFTs.",
+      description: "Marketplace for ERC721/ERC1155 NFTs",
       icon: FeatureIconMap["marketplace"],
     },
     split: {
       title: "Split",
-      description: "Fee splitting for your primary sales and royalties.",
+      description: "Fee splitting for your primary sales and royalties",
       icon: FeatureIconMap["split"],
     },
     token: {
@@ -66,12 +66,12 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
     },
     "edition-drop": {
       title: "Edition Drop",
-      description: "ERC1155 NFTs that other people can claim.",
+      description: "ERC1155 NFTs that other people can claim",
       icon: FeatureIconMap["edition-drop"],
     },
     "token-drop": {
       title: "Token Drop",
-      description: "ERC20 tokens that other people can claim.",
+      description: "ERC20 tokens that other people can claim",
       icon: FeatureIconMap["token-drop"],
     },
     vote: {
@@ -91,7 +91,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
     },
     pack: {
       title: "Pack",
-      description: "Bundle ERC721/ERC1155/ERC20 into a single token",
+      description:
+        "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
       icon: FeatureIconMap["pack"],
       comingSoon: true,
     },
@@ -105,7 +106,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
     "signature-drop": {
       title: "Signature Drop",
       description:
-        "ERC721A NFTs that other people can claim. With signature verification.",
+        "ERC721A NFTs that other people can claim, with signature verification",
       icon: FeatureIconMap["nft-drop"],
       comingSoon: true,
     },
