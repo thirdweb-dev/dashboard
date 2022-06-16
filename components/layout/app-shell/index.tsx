@@ -9,6 +9,7 @@ import {
   Icon,
   Stack,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
 import { InsufficientFunds } from "components/notices/InsufficientFunds";
@@ -28,6 +29,8 @@ import { ComponentWithChildren } from "types/component-with-children";
 
 export const AppShell: ComponentWithChildren = ({ children }) => {
   const { pathname } = useRouter();
+  const address = useAddress();
+  console.log(pathname);
 
   const isCustomContractLayout =
     pathname === "/[wallet]/[network]/[...customContract]";
@@ -154,7 +157,9 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
                 />
               </ButtonGroup>
               <ColorModeToggle />
-              <ConnectWallet colorScheme="primary" />
+              {pathname === "/[wallet]" && !address ? null : (
+                <ConnectWallet colorScheme="primary" />
+              )}
             </Stack>
           </Container>
         </Box>
