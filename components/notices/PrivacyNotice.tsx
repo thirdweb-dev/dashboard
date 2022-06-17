@@ -15,13 +15,14 @@ import { useForm } from "react-hook-form";
 import { Button, Checkbox, Heading, Text, TrackedLink } from "tw-components";
 
 export const PrivacyNotice: React.FC = () => {
-  const [hasShownWelcome, setHasShownWelcome] = useLocalStorage(
+  const [hasAcceptedTOS, setHasAcceptedTOS] = useLocalStorage(
     "accepted-tos",
     false,
   );
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { register, watch, handleSubmit } = useForm<{ accepted: false }>();
-  return hasShownWelcome.data ? null : (
+
+  return hasAcceptedTOS.data || hasAcceptedTOS.isLoading ? null : (
     <Modal
       size={isMobile ? "full" : "xl"}
       closeOnEsc={false}
@@ -43,7 +44,7 @@ export const PrivacyNotice: React.FC = () => {
             gap={1}
             flexDirection="column"
             as="form"
-            onSubmit={handleSubmit(() => setHasShownWelcome(true))}
+            onSubmit={handleSubmit(() => setHasAcceptedTOS(true))}
           >
             <Heading size="subtitle.md">
               Welcome to the thirdweb dashboard
