@@ -16,13 +16,12 @@ import { Button, Checkbox, Heading, Text, TrackedLink } from "tw-components";
 
 export const PrivacyNotice: React.FC = () => {
   const [hasShownWelcome, setHasShownWelcome] = useLocalStorage(
-    "hasShownWelcome",
+    "accepted-tos",
     false,
   );
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const { register, handleSubmit } = useForm<{ accepted: false }>();
-
-  return hasShownWelcome ? null : (
+  const { register, watch, handleSubmit } = useForm<{ accepted: false }>();
+  return hasShownWelcome.data ? null : (
     <Modal
       size={isMobile ? "full" : "xl"}
       closeOnEsc={false}
@@ -30,7 +29,7 @@ export const PrivacyNotice: React.FC = () => {
       closeOnOverlayClick={false}
       isCentered
       isOpen
-      onClose={() => setHasShownWelcome(true)}
+      onClose={() => undefined}
     >
       <ModalOverlay />
       <ModalContent p={{ base: 0, md: 8 }}>
@@ -50,15 +49,18 @@ export const PrivacyNotice: React.FC = () => {
               Welcome to the thirdweb dashboard
             </Heading>
             <Flex mt={1}>
-              <Checkbox isRequired {...register("accepted")} />
+              <Checkbox autoFocus={true} isRequired {...register("accepted")} />
               <Text ml={3}>
-                Check here to indicate that you have read and agree to our{" "}
+                I have read and agree to the{" "}
                 <TrackedLink
                   href="/privacy"
                   isExternal
                   category="notice"
                   label="privacy"
                   textDecoration="underline"
+                  _hover={{
+                    opacity: 0.8,
+                  }}
                 >
                   Privacy Policy
                 </TrackedLink>{" "}
@@ -69,18 +71,22 @@ export const PrivacyNotice: React.FC = () => {
                   category="notice"
                   label="terms"
                   textDecoration="underline"
+                  _hover={{
+                    opacity: 0.8,
+                  }}
                 >
                   Terms of Service
                 </TrackedLink>
+                .
               </Text>
             </Flex>
             <Divider my={4} />
             <Button
-              autoFocus
               width="100%"
               type="submit"
               borderRadius="md"
               colorScheme="primary"
+              isDisabled={!watch("accepted")}
             >
               Continue
             </Button>
