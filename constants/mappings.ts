@@ -138,13 +138,6 @@ interface ContractDeployMap {
   governance: BuiltinContractDetails[];
 }
 
-export type ContractDeployTypes = [
-  "drop",
-  "token",
-  "marketplace",
-  "governance",
-];
-
 export const TYPE_CONTRACT_MAP: ContractDeployMap = {
   drop: [
     BuiltinContractMap["nft-drop"],

@@ -36,42 +36,8 @@ export default function DeployContractContract() {
   }, [chainId, selectedChain]);
 
   return (
-    <Card p={0}>
-      <Flex
-        direction="column"
-        gap={8}
-        px={{ base: 4, md: 10 }}
-        py={{ base: 6, md: 10 }}
-      >
-        <Flex align="center" justify="space-between" gap={4}>
-          <IconButton
-            onClick={() => router.back()}
-            size="sm"
-            aria-label="back"
-            icon={<FiChevronLeft />}
-          />
-          {contractType && (
-            <Flex gap={2} align="center">
-              <AspectRatio ratio={1} w="50px" flexShrink={0}>
-                <Box>
-                  <ChakraNextImage
-                    src={FeatureIconMap[contractType]}
-                    alt={contractType}
-                    w="100%"
-                  />
-                </Box>
-              </AspectRatio>
-
-              <Heading size="title.lg">
-                Deploy new {CONTRACT_TYPE_NAME_MAP[contractType]} contract
-              </Heading>
-            </Flex>
-          )}
-          <Box />
-        </Flex>
-      </Flex>
-      <Divider />
-      <Box pt={{ base: 6, md: 10 }}>
+    <Card p={{ base: 6, md: 10 }}>
+      <Box>
         {contractType ? (
           <BuiltinContractForm
             contractType={contractType}
@@ -82,39 +48,6 @@ export default function DeployContractContract() {
       </Box>
     </Card>
   );
-}
-
-function useDeployForm<TContract extends ValidContractClass>(
-  deploySchema: TContract["schema"]["deploy"],
-) {
-  const { handleSubmit: _handleSubmit, ...restForm } = useForm<
-    z.infer<typeof deploySchema>
-  >({
-    resolver: zodResolver(deploySchema),
-    mode: "onBlur",
-    reValidateMode: "onChange",
-    criteriaMode: "all",
-  });
-
-  function handleSubmit(
-    onValid: SubmitHandler<z.infer<typeof deploySchema>>,
-    onInvalid?: SubmitErrorHandler<z.infer<typeof deploySchema>>,
-  ) {
-    return _handleSubmit((d) => {
-      onValid(stripNullishKeys(d));
-    }, onInvalid);
-  }
-
-  return { ...restForm, handleSubmit };
-}
-
-function stripNullishKeys<T extends object>(obj: T) {
-  return Object.entries(obj).reduce((acc, [key, value]) => {
-    if (value || value === 0) {
-      acc[key as keyof T] = value;
-    }
-    return acc;
-  }, {} as T);
 }
 
 DeployContractContract.getLayout = (page: ReactElement) => (
