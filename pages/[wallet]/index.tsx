@@ -239,8 +239,6 @@ export default function Dashboard() {
     arbitrumTestnetQuery.isFetched &&
     projectsIsFetched;
 
-  console.log({ isFetched, projectsIsFetched });
-
   useEffect(() => {
     if (isFetched && combinedList.length === 0 && projects?.length === 0) {
       router.replace("/contracts");
