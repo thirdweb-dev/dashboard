@@ -50,7 +50,7 @@ export const HomepageFooter: React.FC = () => {
             textAlign="center"
             lineHeight={1.5}
           >
-            Join 20,000+ builders and stay up to date with our newsletter
+            Join 40,000+ builders and stay up to date with our newsletter
           </Heading>
           <Flex
             as="form"
@@ -60,7 +60,7 @@ export const HomepageFooter: React.FC = () => {
             gap={{ base: 4, md: 0 }}
             onSubmit={handleSubmit(async ({ email }) => {
               try {
-                await sendEmailToConvertkit(email, ["landing"]);
+                await sendEmailToConvertkit(email, [3136080]);
                 toast({
                   position: "bottom",
                   variant: "solid",

@@ -1,7 +1,7 @@
 import { useWeb3 } from "@3rdweb-sdk/react";
 import { Select, SelectProps, forwardRef } from "@chakra-ui/react";
+import { ChainId, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
-import { ChainId, SUPPORTED_CHAIN_IDS } from "utils/network";
 
 export interface SupportedNetworkSelectProps
   extends Omit<SelectProps, "children"> {
@@ -14,16 +14,14 @@ export const SupportedNetworkSelect = forwardRef<
   "select"
 >(
   (
-    { disabledChainIds, disabledChainIdText = "unsupported", ...selectProps },
+    { disabledChainIds, disabledChainIdText = "Unsupported", ...selectProps },
     ref,
   ) => {
     const { getNetworkMetadata } = useWeb3();
     const testnets = useMemo(() => {
-      return SUPPORTED_CHAIN_IDS.filter((chainId) => chainId !== ChainId.Goerli)
-        .map((supportedChain) => {
-          return getNetworkMetadata(supportedChain);
-        })
-        .filter((n) => n.isTestnet);
+      return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
+        return getNetworkMetadata(supportedChain);
+      }).filter((n) => n.isTestnet);
     }, [getNetworkMetadata]);
 
     const mainnets = useMemo(() => {

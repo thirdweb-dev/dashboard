@@ -1,21 +1,10 @@
-import {
+import type {
   ContractType,
-  Edition,
-  EditionDrop,
-  Marketplace,
-  NFTCollection,
-  NFTDrop,
-  Pack,
   QueryAllParams,
   Role,
-  SmartContract,
-  Split,
-  Token,
-  TokenDrop,
-  Vote,
+  SUPPORTED_CHAIN_ID,
 } from "@thirdweb-dev/sdk";
 import { constants } from "ethers";
-import { SUPPORTED_CHAIN_ID } from "utils/network";
 
 export const networkKeys = {
   all: ["network"] as const,
@@ -306,15 +295,17 @@ export const linkBalanceKeys = {
 };
 
 export const CacheKeyMap: Record<ContractType, any> = {
-  [NFTCollection.contractType]: nftCollectionKeys,
-  [Edition.contractType]: editionKeys,
-  [Token.contractType]: tokenKeys,
-  [NFTDrop.contractType]: NFTDropKeys,
-  [EditionDrop.contractType]: editionDropKeys,
-  [Vote.contractType]: voteKeys,
-  [Marketplace.contractType]: marketplaceKeys,
-  [Pack.contractType]: packKeys,
-  [Split.contractType]: splitsKeys,
-  [TokenDrop.contractType]: tokenDropKeys,
-  [SmartContract.contractType]: {},
+  "nft-collection": nftCollectionKeys,
+  edition: editionKeys,
+  token: tokenKeys,
+  "nft-drop": NFTDropKeys,
+  "edition-drop": editionDropKeys,
+  vote: voteKeys,
+  marketplace: marketplaceKeys,
+  pack: packKeys,
+  split: splitsKeys,
+  "token-drop": tokenDropKeys,
+  custom: {},
+  "signature-drop": {},
+  multiwrap: {},
 };

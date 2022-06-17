@@ -13,30 +13,25 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { Heading } from "tw-components";
 
 const EXAMPLES_MAP = {
+  nftDrops: {
+    title: "NFT drops",
+    href: "https://github.com/thirdweb-example/custom-minting-page",
+    svg: NFTDrops,
+  },
+  marketplaces: {
+    title: "NFT marketplaces",
+    href: "https://github.com/thirdweb-example/marketplace-next-ts",
+    svg: Marketplaces,
+  },
   tokenGated: {
-    title: "Token gated memberships",
+    title: "Token-gated memberships",
     href: "https://github.com/thirdweb-example/NFT-Gated-Website",
     svg: TokenGated,
-  },
-  defiProtocols: {
-    title: "DeFi protocols",
-    href: "https://portal.thirdweb.com/examples",
-    svg: DefiProtocols,
   },
   daos: {
     title: "DAOs",
     href: "https://github.com/thirdweb-example/dao",
     svg: DAOs,
-  },
-  marketplaces: {
-    title: "Digital asset marketplaces",
-    href: "https://github.com/thirdweb-example/marketplace-next-ts",
-    svg: Marketplaces,
-  },
-  nftDrops: {
-    title: "NFT drops",
-    href: "https://github.com/thirdweb-example/custom-minting-page",
-    svg: NFTDrops,
   },
   creatorTools: {
     title: "Creator tools",
@@ -45,13 +40,18 @@ const EXAMPLES_MAP = {
   },
   communityRewards: {
     title: "Community rewards",
-    href: "https://portal.thirdweb.com/examples",
+    href: "https://github.com/thirdweb-example/community-rewards",
     svg: CommunityRewards,
   },
   playToEarnGames: {
-    title: "Play to earn games",
+    title: "Play-to-earn games",
     href: "https://portal.thirdweb.com/examples",
     svg: PlayToEarnGames,
+  },
+  defiProtocols: {
+    title: "DeFi protocols",
+    href: "https://portal.thirdweb.com/examples",
+    svg: DefiProtocols,
   },
 } as const;
 

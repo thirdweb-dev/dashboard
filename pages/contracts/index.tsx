@@ -8,10 +8,11 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { ChainId, KNOWN_CONTRACTS_MAP } from "@thirdweb-dev/sdk";
+import { ChainId } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
+import { BuiltinContractMap } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement } from "react";
@@ -30,8 +31,21 @@ const ContractsHomepageWrapped: React.FC = () => {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
+          <Heading size="title.md">Pre-built contracts</Heading>
+          <Text fontStyle="italic">
+            Contracts created by the thirdweb team that you can deploy
+          </Text>
+        </Flex>
+        <DeployableContractTable
+          hasDescription
+          contractIds={Object.keys(BuiltinContractMap).filter(
+            (contract) => contract !== "custom",
+          )}
+        />
+        <Box />
+        <Flex gap={2} direction="column">
           <Heading size="title.md">
-            Your contracts{" "}
+            Your published contracts{" "}
             <Badge variant="outline" colorScheme="purple">
               beta
             </Badge>
@@ -86,7 +100,7 @@ const ContractsHomepageWrapped: React.FC = () => {
                   <Text>You have not published any contracts yet.</Text>
                   <LinkButton
                     size="sm"
-                    href="https://thirdweb.notion.site/thirdweb-deploy-Public-Alpha-74d81faa569b418f9ed718645fd7df2c"
+                    href="https://portal.thirdweb.com/thirdweb-deploy"
                     isExternal
                     variant="outline"
                     colorScheme="primary"
@@ -97,17 +111,6 @@ const ContractsHomepageWrapped: React.FC = () => {
               </Center>
             )}
         </DeployableContractTable>
-        <Box />
-        <Flex gap={2} direction="column">
-          <Heading size="title.md">Pre-built contracts</Heading>
-          <Text fontStyle="italic">
-            Contracts created by the thirdweb team that you can deploy
-          </Text>
-        </Flex>
-        <DeployableContractTable
-          hasDescription
-          contractIds={Object.keys(KNOWN_CONTRACTS_MAP)}
-        />
       </Flex>
     </Track>
   );

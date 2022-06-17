@@ -3,7 +3,9 @@ import { DeployableContractContractCellProps } from "../../types";
 import { ButtonGroup, Icon, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
 import { isContractIdBuiltInContract } from "components/contract-components/utils";
+import { useTrack } from "hooks/analytics/useTrack";
 import { BsShieldFillCheck } from "react-icons/bs";
+import { FiArrowRight } from "react-icons/fi";
 import { IoRocketOutline } from "react-icons/io5";
 import { Button, Drawer, LinkButton, TrackedIconButton } from "tw-components";
 
@@ -13,6 +15,7 @@ export const ContractDeployActionCell: React.FC<
   const publishMetadata = useContractPublishMetadataFromURI(value);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { trackEvent } = useTrack();
 
   return (
     <>
@@ -38,30 +41,54 @@ export const ContractDeployActionCell: React.FC<
             />
           </Tooltip>
         )}
-        {isContractIdBuiltInContract(value) &&
-          !publishMetadata.data?.deployDisabled && (
-            <LinkButton
-              variant="outline"
-              isExternal
-              href={`https://portal.thirdweb.com/pre-built-contracts/${value}`}
+        {isContractIdBuiltInContract(value) ? (
+          <>
+            {!publishMetadata.data?.deployDisabled && (
+              <LinkButton
+                variant="outline"
+                isExternal
+                href={`https://portal.thirdweb.com/pre-built-contracts/${value}`}
+                onClick={() =>
+                  trackEvent({
+                    category: "learn-more-deploy",
+                    action: "click",
+                    label: value,
+                  })
+                }
+              >
+                Learn more
+              </LinkButton>
+            )}
+            <Button
+              isDisabled={publishMetadata.data?.deployDisabled}
+              onClick={onOpen}
+              isLoading={publishMetadata.isLoading}
+              colorScheme="purple"
+              variant={
+                publishMetadata.data?.deployDisabled ? "outline" : "solid"
+              }
+              rightIcon={
+                !publishMetadata.data?.deployDisabled ? (
+                  <Icon as={IoRocketOutline} />
+                ) : undefined
+              }
             >
-              Learn more
-            </LinkButton>
-          )}
-        <Button
-          isDisabled={publishMetadata.data?.deployDisabled}
-          onClick={onOpen}
-          isLoading={publishMetadata.isLoading}
-          colorScheme="purple"
-          variant={publishMetadata.data?.deployDisabled ? "outline" : "solid"}
-          rightIcon={
-            !publishMetadata.data?.deployDisabled ? (
-              <Icon as={IoRocketOutline} />
-            ) : undefined
-          }
-        >
-          {publishMetadata.data?.deployDisabled ? "Coming Soon" : "Deploy Now"}
-        </Button>
+              {publishMetadata.data?.deployDisabled
+                ? "Coming Soon"
+                : "Deploy Now"}
+            </Button>
+          </>
+        ) : (
+          <LinkButton
+            isDisabled={publishMetadata.data?.deployDisabled}
+            isLoading={publishMetadata.isLoading}
+            colorScheme="purple"
+            rightIcon={<Icon as={FiArrowRight} />}
+            href={`/contracts/${encodeURIComponent(value)}?from=deploy`}
+          >
+            Deploy
+          </LinkButton>
+        )}
       </ButtonGroup>
     </>
   );

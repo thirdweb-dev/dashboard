@@ -17,5 +17,7 @@ export class AnalyticsEvents {
     vote: "App-VoteContractDeployed",
     "token-drop": "App-TokenDropContractDeployed",
     custom: "App-CustomContractDeployed",
+    "signature-drop": "App-SignatureDropContractDeployed",
+    multiwrap: "App-MultiwrapContractDeployed",
   };
 }

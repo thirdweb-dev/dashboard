@@ -1,23 +1,17 @@
-import { useWeb3 } from "@3rdweb-sdk/react";
+import { FAUCETS, useWeb3 } from "@3rdweb-sdk/react";
 import { ButtonGroup, Container, Icon, Stack } from "@chakra-ui/react";
-import { useNetworkMismatch } from "@thirdweb-dev/react";
+import { useBalance, useNetworkMismatch } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { Button, Card, Heading, LinkButton, Text } from "tw-components";
-import { ChainId } from "utils/network";
-
-const FAUCETS: Partial<Record<ChainId, string>> = {
-  [ChainId.Rinkeby]: "https://faucets.chain.link/rinkeby",
-  [ChainId.Goerli]: "https://faucet.paradigm.xyz/",
-  [ChainId.Mumbai]: "https://faucet.polygon.technology/",
-};
 
 export const InsufficientFunds: React.FC = () => {
   const router = useRouter();
   const mismatchExists = useNetworkMismatch();
-  const { address, balance, chainId, getNetworkMetadata } = useWeb3();
+  const { address, chainId, getNetworkMetadata } = useWeb3();
+  const balanceQuery = useBalance();
   const [dismissed, setDismissed] = useState(false);
   const [delayExpired, setDelayExpired] = useState(false);
 
@@ -48,7 +42,7 @@ export const InsufficientFunds: React.FC = () => {
   if (!delayExpired) {
     return null;
   }
-  if (BigNumber.from(balance?.data?.value || 0)?.gt(0)) {
+  if (BigNumber.from(balanceQuery?.data?.value || 0)?.gt(0)) {
     return null;
   }
 
@@ -75,8 +69,8 @@ export const InsufficientFunds: React.FC = () => {
 
         <Text>
           You don&apos;t have any funds on this network. You&apos;ll need some{" "}
-          {symbol} to get started.
-          {isTestnet && "You can get some from the faucet below."}
+          {symbol} to pay for gas.
+          {isTestnet && " You can get some from the faucet below."}
         </Text>
 
         <ButtonGroup size="sm">

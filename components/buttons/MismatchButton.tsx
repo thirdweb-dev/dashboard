@@ -1,5 +1,7 @@
-import { ConnectWallet, useWeb3 } from "@3rdweb-sdk/react";
+import { ConnectWallet, FAUCETS, useWeb3 } from "@3rdweb-sdk/react";
 import {
+  Box,
+  ButtonGroup,
   Flex,
   Icon,
   Popover,
@@ -10,16 +12,27 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
+  useBalance,
+  useChainId,
   useDesiredChainId,
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
+import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { BigNumber } from "ethers";
+import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useRef } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
-import { Button, ButtonProps, Card, Heading, Text } from "tw-components";
 import {
-  SUPPORTED_CHAIN_ID,
+  Button,
+  ButtonProps,
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+} from "tw-components";
+import {
   SupportedChainIdToNetworkMap,
   getNetworkFromChainId,
 } from "utils/network";
@@ -27,12 +40,18 @@ import {
 export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, isDisabled, onClick, loadingText, type, ...props }, ref) => {
     const { address } = useWeb3();
+    const balance = useBalance();
+
+    const isBalanceZero = BigNumber.from(balance.data?.value || 0).eq(0);
 
     const initialFocusRef = useRef<HTMLButtonElement>(null);
 
     const networksMismatch = useNetworkMismatch();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { trackEvent } = useTrack();
+    const { chainId, getNetworkMetadata } = useWeb3();
+    const { isTestnet } = getNetworkMetadata(chainId || 0);
 
     if (!address) {
       return (
@@ -45,15 +64,34 @@ export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         initialFocusRef={initialFocusRef}
         isLazy
         isOpen={isOpen}
-        onOpen={networksMismatch ? onOpen : undefined}
+        onOpen={
+          networksMismatch || (isBalanceZero && isTestnet) ? onOpen : undefined
+        }
         onClose={onClose}
       >
         <PopoverTrigger>
           <Button
             {...props}
-            type={networksMismatch ? "button" : type}
+            type={
+              networksMismatch || (isBalanceZero && isTestnet) ? "button" : type
+            }
             loadingText={loadingText}
-            onClick={networksMismatch ? undefined : onClick}
+            onClick={(e) => {
+              if (isBalanceZero && isTestnet) {
+                trackEvent({
+                  category: "no-funds",
+                  action: "popover",
+                  label:
+                    SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID],
+                });
+              }
+              if (networksMismatch || (isBalanceZero && isTestnet)) {
+                return undefined;
+              }
+              if (onClick) {
+                return onClick(e);
+              }
+            }}
             ref={ref}
             isDisabled={isDisabled}
           >
@@ -70,10 +108,14 @@ export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         >
           <PopoverArrow bg="backgroundCardHighlight" />
           <PopoverBody>
-            <MismatchNotice
-              initialFocusRef={initialFocusRef}
-              onClose={onClose}
-            />
+            {networksMismatch ? (
+              <MismatchNotice
+                initialFocusRef={initialFocusRef}
+                onClose={onClose}
+              />
+            ) : (
+              <NoFundsNotice />
+            )}
           </PopoverBody>
         </Card>
       </Popover>
@@ -129,9 +171,15 @@ const MismatchNotice: React.FC<{
       </Heading>
 
       <Text>
-        Your wallet is connected to the <strong>{walletNetwork}</strong> network
-        but this action requires you to connect to the{" "}
-        <strong>{twNetwork}</strong> network.
+        Your wallet is connected to the{" "}
+        <Box as="strong" textTransform="capitalize">
+          {walletNetwork.replace("-", " ")}
+        </Box>{" "}
+        network but this action requires you to connect to the{" "}
+        <Box as="strong" textTransform="capitalize">
+          {twNetwork.replace("-", " ")}
+        </Box>{" "}
+        network.
       </Text>
 
       <Button
@@ -142,8 +190,9 @@ const MismatchNotice: React.FC<{
         isLoading={network.loading}
         isDisabled={!actuallyCanAttemptSwitch}
         colorScheme="orange"
+        textTransform="capitalize"
       >
-        Switch wallet to {twNetwork}
+        Switch wallet to {twNetwork.replace("-", " ")}
       </Button>
 
       {!actuallyCanAttemptSwitch && (
@@ -153,6 +202,52 @@ const MismatchNotice: React.FC<{
           Please manually switch the network in your wallet.
         </Text>
       )}
+    </Flex>
+  );
+};
+
+const NoFundsNotice = () => {
+  const chainId = useChainId();
+  const { getNetworkMetadata } = useWeb3();
+  const { symbol, isTestnet } = getNetworkMetadata(chainId || 0);
+  const { trackEvent } = useTrack();
+
+  return (
+    <Flex direction="column" gap={4}>
+      <Heading size="label.lg">
+        <Flex gap={2} align="center">
+          <Icon boxSize={6} as={AiOutlineWarning} />
+          <span>No funds</span>
+        </Flex>
+      </Heading>
+
+      <Text>
+        You don&apos;t have any funds on this network. You&apos;ll need some{" "}
+        {symbol} to pay for gas.
+        {isTestnet &&
+          FAUCETS[chainId as keyof typeof FAUCETS] &&
+          " You can get some from the faucet below."}
+      </Text>
+
+      <ButtonGroup size="sm">
+        {isTestnet && FAUCETS[chainId as keyof typeof FAUCETS] && (
+          <LinkButton
+            colorScheme="orange"
+            href={FAUCETS[chainId as keyof typeof FAUCETS] || ""}
+            isExternal
+            onClick={() =>
+              trackEvent({
+                category: "no-funds",
+                action: "click",
+                label:
+                  SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID],
+              })
+            }
+          >
+            Get {symbol} from faucet
+          </LinkButton>
+        )}
+      </ButtonGroup>
     </Flex>
   );
 };

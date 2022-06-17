@@ -23,8 +23,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddress } from "@thirdweb-dev/react";
 import {
+  ChainId,
   ContractType,
   KNOWN_CONTRACTS_MAP,
+  SUPPORTED_CHAIN_ID,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -54,10 +56,10 @@ import {
   FormLabel,
   Heading,
   Text,
+  TrackedLink,
 } from "tw-components";
 import {
   NetworkToBlockTimeMap,
-  SUPPORTED_CHAIN_ID,
   SupportedChainIdToNetworkMap,
 } from "utils/network";
 import { z } from "zod";
@@ -755,12 +757,24 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
         <Flex direction="column">
           <Heading size="subtitle.md">Network / Chain</Heading>
           <Text size="body.md" fontStyle="italic">
-            Select which network to deploy this contract on.
+            Select a network to deploy this contract on. We recommend starting
+            with a testnet.{" "}
+            <TrackedLink
+              href="https://portal.thirdweb.com/guides/which-network-should-you-use"
+              color="primary.600"
+              category="deploy"
+              label="learn-networks"
+              isExternal
+            >
+              Learn more about the different networks.
+            </TrackedLink>
           </Text>
         </Flex>
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <FormControl>
             <SupportedNetworkSelect
+              disabledChainIdText="Coming Soon"
+              disabledChainIds={[ChainId.Arbitrum, ChainId.Optimism]}
               isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
               value={selectedChain || -1}
               onChange={(e) =>

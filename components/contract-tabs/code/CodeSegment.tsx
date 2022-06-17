@@ -1,14 +1,21 @@
 import { CodeSnippet, Environment, SupportedEnvironment } from "./types";
 import { ButtonGroup, Flex, Icon, Stack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useMemo } from "react";
-import { SiJavascript, SiPython, SiReact, SiTypescript } from "react-icons/si";
-import { Button, CodeBlock, Heading } from "tw-components";
+import {
+  SiGo,
+  SiJavascript,
+  SiPython,
+  SiReact,
+  SiTypescript,
+} from "react-icons/si";
+import { Button, CodeBlock } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface ICodeSegment {
   snippet: CodeSnippet;
   environment: Environment;
   setEnvironment: Dispatch<SetStateAction<Environment>>;
+  isInstallCommand?: true;
 }
 
 const Environments: SupportedEnvironment[] = [
@@ -36,12 +43,19 @@ const Environments: SupportedEnvironment[] = [
     icon: SiPython,
     colorScheme: "blue",
   },
+  {
+    environment: "go",
+    title: "Go",
+    icon: SiGo,
+    colorScheme: "blue",
+  },
 ];
 
 export const CodeSegment: React.FC<ICodeSegment> = ({
   snippet,
   environment,
   setEnvironment,
+  isInstallCommand,
 }) => {
   const activeEnvironment: Environment = useMemo(() => {
     return (
@@ -70,7 +84,6 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
     <Stack spacing={2}>
       <Flex justify="space-between" align="flex-end">
         <Flex direction="column" gap={4}>
-          <Heading size="label.sm">Code Snippet</Heading>
           <ButtonGroup isAttached size="sm" variant="outline">
             {environments.map((env) => (
               <SupportedEnvironmentButton
@@ -86,17 +99,15 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         </Flex>
       </Flex>
 
-      {activeEnvironment === "react" && (
-        <CodeBlock
-          code={
-            '// Make sure to wrap your app in a <ThirdwebProvider>\nimport { ThirdwebProvider } from "@thirdweb/react";\n\nexport default function App() {\n  return (\n    <ThirdwebProvider>\n      <AppContent />\n    </ThirdwebProvider>\n  );\n}'
-          }
-          language="jsx"
-        />
-      )}
       <CodeBlock
         code={code}
-        language={activeEnvironment === "react" ? "jsx" : activeEnvironment}
+        language={
+          isInstallCommand
+            ? "bash"
+            : activeEnvironment === "react"
+            ? "jsx"
+            : activeEnvironment
+        }
       />
     </Stack>
   );

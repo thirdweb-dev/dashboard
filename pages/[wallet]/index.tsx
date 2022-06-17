@@ -29,6 +29,7 @@ import {
   PopoverContent,
   SimpleGrid,
   Skeleton,
+  Spinner,
   Stack,
   Tab,
   TabList,
@@ -46,8 +47,11 @@ import {
 import { useNetwork } from "@thirdweb-dev/react";
 import {
   CONTRACTS_MAP,
+  ChainId,
   CommonContractOutputSchema,
   ContractType,
+  SUPPORTED_CHAIN_ID,
+  SUPPORTED_CHAIN_IDS,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
@@ -87,9 +91,6 @@ import {
   Text,
 } from "tw-components";
 import {
-  ChainId,
-  SUPPORTED_CHAIN_ID,
-  SUPPORTED_CHAIN_IDS,
   SupportedChainIdToNetworkMap,
   getNetworkFromChainId,
 } from "utils/network";
@@ -100,7 +101,7 @@ export default function Dashboard() {
   const router = useRouter();
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const { address } = useWeb3();
-  const { data: projects } = useProjects(
+  const { data: projects, isFetched: projectsIsFetched } = useProjects(
     wallet === "dashboard" ? address : wallet,
   );
 
@@ -120,32 +121,35 @@ export default function Dashboard() {
   }, [address, wallet]);
 
   const mainnetQuery = useContractList(ChainId.Mainnet, dashboardAddress);
-  const polygonQuery = useContractList(ChainId.Polygon, dashboardAddress);
-  const avalancheQuery = useContractList(ChainId.Avalanche, dashboardAddress);
-  const fantomQuery = useContractList(ChainId.Fantom, dashboardAddress);
   const rinkebyQuery = useContractList(ChainId.Rinkeby, dashboardAddress);
   const goerliQuery = useContractList(ChainId.Goerli, dashboardAddress);
+  const polygonQuery = useContractList(ChainId.Polygon, dashboardAddress);
   const mumbaiQuery = useContractList(ChainId.Mumbai, dashboardAddress);
+  const fantomQuery = useContractList(ChainId.Fantom, dashboardAddress);
+  const fantomTestnetQuery = useContractList(
+    ChainId.FantomTestnet,
+    dashboardAddress,
+  );
+  const avalancheQuery = useContractList(ChainId.Avalanche, dashboardAddress);
+  const avalancheFujiTestnetQuery = useContractList(
+    ChainId.AvalancheFujiTestnet,
+    dashboardAddress,
+  );
+  const optimismQuery = useContractList(ChainId.Optimism, dashboardAddress);
+  const optimismTestnetQuery = useContractList(
+    ChainId.OptimismTestnet,
+    dashboardAddress,
+  );
+  const arbitrumQuery = useContractList(ChainId.Arbitrum, dashboardAddress);
+  const arbitrumTestnetQuery = useContractList(
+    ChainId.ArbitrumTestnet,
+    dashboardAddress,
+  );
 
   const combinedList = useMemo(() => {
     return (
       mainnetQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mainnet })) || []
     )
-      .concat(
-        polygonQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.Polygon,
-        })) || [],
-      )
-      .concat(
-        avalancheQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.Avalanche,
-        })) || [],
-      )
-      .concat(
-        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
-      )
       .concat(
         rinkebyQuery.data?.map((d) => ({ ...d, chainId: ChainId.Rinkeby })) ||
           [],
@@ -154,17 +158,92 @@ export default function Dashboard() {
         goerliQuery.data?.map((d) => ({ ...d, chainId: ChainId.Goerli })) || [],
       )
       .concat(
+        polygonQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.Polygon,
+        })) || [],
+      )
+      .concat(
         mumbaiQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mumbai })) || [],
+      )
+      .concat(
+        avalancheQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.Avalanche,
+        })) || [],
+      )
+      .concat(
+        avalancheFujiTestnetQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.AvalancheFujiTestnet,
+        })) || [],
+      )
+      .concat(
+        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
+      )
+      .concat(
+        fantomTestnetQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.FantomTestnet,
+        })) || [],
+      )
+      .concat(
+        optimismQuery.data?.map((d) => ({ ...d, chainId: ChainId.Optimism })) ||
+          [],
+      )
+      .concat(
+        optimismTestnetQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.OptimismTestnet,
+        })) || [],
+      )
+      .concat(
+        arbitrumQuery.data?.map((d) => ({ ...d, chainId: ChainId.Arbitrum })) ||
+          [],
+      )
+      .concat(
+        arbitrumTestnetQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.ArbitrumTestnet,
+        })) || [],
       );
   }, [
     mainnetQuery.data,
-    polygonQuery.data,
-    avalancheQuery.data,
-    fantomQuery.data,
     rinkebyQuery.data,
     goerliQuery.data,
+    polygonQuery.data,
     mumbaiQuery.data,
+    fantomQuery.data,
+    fantomTestnetQuery.data,
+    avalancheQuery.data,
+    avalancheFujiTestnetQuery.data,
+    optimismQuery.data,
+    optimismTestnetQuery.data,
+    arbitrumQuery.data,
+    arbitrumTestnetQuery.data,
   ]);
+
+  const isFetched =
+    mainnetQuery.isFetched &&
+    rinkebyQuery.isFetched &&
+    goerliQuery.isFetched &&
+    polygonQuery.isFetched &&
+    mumbaiQuery.isFetched &&
+    fantomQuery.isFetched &&
+    fantomTestnetQuery.isFetched &&
+    avalancheQuery.isFetched &&
+    avalancheFujiTestnetQuery.isFetched &&
+    optimismQuery.isFetched &&
+    optimismTestnetQuery.isFetched &&
+    arbitrumQuery.isFetched &&
+    arbitrumTestnetQuery.isFetched &&
+    projectsIsFetched;
+
+  useEffect(() => {
+    if (isFetched && combinedList.length === 0 && projects?.length === 0) {
+      router.replace("/contracts");
+    }
+  }, [isFetched, router, combinedList, projects]);
 
   return (
     <Flex direction="column" gap={8}>
@@ -172,50 +251,73 @@ export default function Dashboard() {
         <NoWallet />
       ) : (
         <>
-          {!!combinedList.length && (
-            <Flex
-              justify="space-between"
-              align="top"
-              gap={4}
-              direction={{ base: "column", md: "row" }}
+          {combinedList.length === 0 && projects?.length === 0 ? (
+            <Box
+              position="absolute"
+              left="50%"
+              top="50%"
+              transform="translate(-50%, -50%)"
             >
-              <Flex gap={2} direction="column">
-                <Heading size="title.md">Deployed contracts</Heading>
-                <Text fontStyle="italic" maxW="container.md">
-                  The list of contract instances that you have deployed with
-                  thirdweb across all networks.
-                </Text>
-              </Flex>
-              <LinkButton
-                leftIcon={<FiPlus />}
-                colorScheme="primary"
-                href="/contracts"
-              >
-                Deploy new contract
-              </LinkButton>
-            </Flex>
-          )}
-          {projects && projects.length ? (
-            <Tabs>
-              <TabList>
-                <Tab>V2 Contracts</Tab>
-                <Tab>V1 Projects</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel px={0} pt={8}>
-                  <ContractTable combinedList={combinedList} />
-                </TabPanel>
-                <TabPanel px={0} pt={8}>
-                  <OldProjects projects={projects} />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            </Box>
           ) : (
-            <ContractTable combinedList={combinedList} />
+            <>
+              <Flex
+                justify="space-between"
+                align="top"
+                gap={4}
+                direction={{ base: "column", md: "row" }}
+              >
+                <Flex gap={2} direction="column">
+                  <Heading size="title.md">Deployed contracts</Heading>
+                  <Text fontStyle="italic" maxW="container.md">
+                    The list of contract instances that you have deployed with
+                    thirdweb across all networks.
+                  </Text>
+                </Flex>
+                <LinkButton
+                  leftIcon={<FiPlus />}
+                  colorScheme="primary"
+                  href="/contracts"
+                >
+                  Deploy new contract
+                </LinkButton>
+              </Flex>
+              {projects && projects.length ? (
+                <>
+                  <Tabs>
+                    <TabList>
+                      <Tab>V2 Contracts</Tab>
+                      <Tab>V1 Projects</Tab>
+                    </TabList>
+                    <TabPanels>
+                      <TabPanel px={0} pt={8}>
+                        {combinedList.length === 0 ? (
+                          <NoContracts />
+                        ) : (
+                          <ContractTable combinedList={combinedList} />
+                        )}
+                      </TabPanel>
+                      <TabPanel px={0} pt={8}>
+                        <OldProjects projects={projects} />
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </>
+              ) : (
+                <ContractTable combinedList={combinedList} />
+              )}
+              <LearnMoreSection />
+            </>
           )}
         </>
       )}
-      <LearnMoreSection />
     </Flex>
   );
 }
@@ -672,10 +774,6 @@ export const ContractTable: React.FC<ContractTableProps> = ({
 
   const wallet = useSingleQueryParam("wallet") || "dashboard";
 
-  if (!combinedList.length) {
-    return <NoContracts />;
-  }
-
   return (
     <Box w="100%" overflowX="auto">
       <Table
@@ -807,11 +905,15 @@ const NoContracts: React.FC = () => {
             maxW="200px"
             mb={3}
           />
-          <Flex direction="column" gap={0.5} align="center">
+          <Flex direction="column" gap={2} align="center">
             <Heading size="title.md" textAlign="center">
               You don&apos;t have any contracts
             </Heading>
-            <Text size="body.lg">Deploy a contract to get started</Text>
+            <Text size="body.lg" textAlign="center">
+              We found projects on thirdweb v1, but you don&apos;t have any
+              contracts on thirdweb v2, deploy a contract go get started or
+              navigate to V1 contracts.
+            </Text>
           </Flex>
           <LinkButton
             leftIcon={<FiPlus />}
@@ -838,10 +940,11 @@ const NoWallet: React.FC = () => {
             maxW="200px"
             mb={3}
           />
-          <Flex direction="column" gap={0.5} align="center">
+          <Flex direction="column" gap={2} align="center">
             <Heading size="title.md">Connect your wallet</Heading>
-            <Text size="body.lg">
-              You need to connect your wallet to continue
+            <Text size="body.lg" textAlign="center">
+              You need to connect your wallet to deploy and interact with your
+              contracts.
             </Text>
           </Flex>
           <ConnectWallet />
@@ -1025,10 +1128,6 @@ const OldProjects: React.FC<IOldProjects> = ({ projects }) => {
   );
 
   const router = useRouter();
-
-  if (!projects.length) {
-    return <NoContracts />;
-  }
 
   return (
     <Box w="100%" overflowX="auto">

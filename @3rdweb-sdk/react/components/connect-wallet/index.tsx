@@ -24,6 +24,9 @@ import {
 } from "@chakra-ui/react";
 import {
   ChainId,
+  useAddress,
+  useBalance,
+  useChainId,
   useConnect,
   useDisconnect,
   useGnosis,
@@ -39,6 +42,7 @@ import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { constants, utils } from "ethers";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
+import posthog from "posthog-js";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineDisconnect } from "react-icons/ai";
@@ -69,23 +73,32 @@ const connectorIdToImageUrl: Record<string, StaticImageData> = {
   Injected: require("public/logos/wallet.png"),
 };
 
+const registerConnector = (_connector: string) => {
+  posthog.register({ connector: _connector });
+  posthog.capture("wallet_connected", { connector: _connector });
+};
+
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const [connector, connect] = useConnect();
-  const { balance, address, chainId, getNetworkMetadata } = useWeb3();
+  const { getNetworkMetadata } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const disconnect = useDisconnect();
   const disconnectFully = useDisconnect({ reconnectAfterGnosis: false });
   const [network, switchNetwork] = useNetwork();
+  const address = useAddress();
+  const chainId = useChainId();
 
   const { hasCopied, onCopy } = useClipboard(address || "");
-
   function handleConnect(_connector: Connector<any, any>) {
     if (_connector.name.toLowerCase() === "magic") {
       onOpen();
     } else {
       connect(_connector);
+      registerConnector(_connector.name);
     }
   }
+
+  const balanceQuery = useBalance();
 
   const connectWithMetamask = useMetamask();
 
@@ -119,8 +132,8 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
               <Icon boxSize={6} as={SVG} />
               <Flex gap={0.5} direction="column" textAlign="left">
                 <Text size="label.sm">
-                  <Skeleton as="span" isLoaded={!balance.isLoading}>
-                    {balance.data?.formatted || "0.000"}
+                  <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>
+                    {balanceQuery.data?.displayValue.slice(0, 6) || "0.000"}
                   </Skeleton>{" "}
                   {getNetworkMetadata(chainId).symbol}
                 </Text>
@@ -192,6 +205,8 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                   >
                     <SupportedNetworkSelect
                       disabled={!switchNetwork}
+                      disabledChainIdText="Coming Soon"
+                      disabledChainIds={[ChainId.Arbitrum, ChainId.Optimism]}
                       fontWeight={500}
                       isDisabled={network.loading}
                       value={network.data.chain?.id || -1}
@@ -309,7 +324,10 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                 alt=""
               />
             }
-            onClick={() => connectWithMetamask()}
+            onClick={() => {
+              connectWithMetamask();
+              registerConnector("metamask");
+            }}
           >
             MetaMask
           </MenuItem>
@@ -331,7 +349,9 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                       src={
                         _connector.id === "gnosis"
                           ? connectorIdToImageUrl["Gnosis"]
-                          : _connector.name !== "Injected"
+                          : Object.keys(connectorIdToImageUrl).includes(
+                              _connector.name,
+                            )
                           ? connectorIdToImageUrl[_connector.name]
                           : connectorIdToImageUrl["Injected"]
                       }
@@ -516,7 +536,16 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
             <FormControl isRequired isInvalid={!!errors.safeChainId} mr={4}>
               <FormLabel>Safe Network</FormLabel>
               <SupportedNetworkSelect
-                disabledChainIds={[ChainId.Fantom, ChainId.Mumbai]}
+                disabledChainIds={[
+                  ChainId.Fantom,
+                  ChainId.Mumbai,
+                  ChainId.Optimism,
+                  ChainId.OptimismTestnet,
+                  ChainId.Arbitrum,
+                  ChainId.ArbitrumTestnet,
+                  ChainId.FantomTestnet,
+                  ChainId.AvalancheFujiTestnet,
+                ]}
                 {...register("safeChainId")}
               />
 
@@ -570,6 +599,7 @@ const MagicModal: React.FC<ConnectorModalProps> = ({ isOpen, onClose }) => {
           onSubmit={handleSubmit(async ({ email }) => {
             try {
               await connectMagic({ email });
+              registerConnector("magic");
               onClose();
             } catch (err) {
               console.error("failed to connect", err);

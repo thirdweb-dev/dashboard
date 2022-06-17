@@ -2,7 +2,7 @@ import type { ContractType, Role } from "@thirdweb-dev/sdk";
 import { StaticImageData } from "next/image";
 
 export const FeatureIconMap: Record<ContractType, StaticImageData> = {
-  "nft-drop": require("public/assets/tw-icons/drop.png"),
+  "nft-drop": require("public/assets/tw-icons/nft-drop.png"),
   "nft-collection": require("public/assets/tw-icons/nft-collection.png"),
   "edition-drop": require("public/assets/tw-icons/edition-drop.png"),
   edition: require("public/assets/tw-icons/edition.png"),
@@ -10,10 +10,12 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   vote: require("public/assets/tw-icons/vote.png"),
   marketplace: require("public/assets/tw-icons/marketplace.png"),
   pack: require("public/assets/tw-icons/pack.png"),
-  split: require("public/assets/tw-icons/splits.png"),
+  split: require("public/assets/tw-icons/split.png"),
   "token-drop": require("public/assets/tw-icons/token.png"),
   // TODO (byoc) icon for custom contract
   custom: require("public/assets/tw-icons/general.png"),
+  "signature-drop": require("public/assets/tw-icons/general.png"),
+  multiwrap: require("public/assets/tw-icons/general.png"),
 } as const;
 
 export const UrlMap: Record<ContractType, string> = {
@@ -29,6 +31,8 @@ export const UrlMap: Record<ContractType, string> = {
   "token-drop": "token-drop",
   // TODO (byoc)
   custom: "",
+  "signature-drop": "",
+  multiwrap: "",
 };
 
 export interface BuiltinContractDetails {
@@ -42,55 +46,69 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
     "nft-drop": {
       title: "NFT Drop",
-      description: "Claimable drop of one-of-one NFTs",
+      description: "ERC721 NFTs that other people can claim",
       icon: FeatureIconMap["nft-drop"],
-    },
-    "nft-collection": {
-      title: "NFT Collection",
-      description: "A collection of one-of-one NFTs",
-      icon: FeatureIconMap["nft-collection"],
     },
     marketplace: {
       title: "Marketplace",
-      description: "Your very own marketplace",
+      description: "Marketplace for ERC721/ERC1155 NFTs",
       icon: FeatureIconMap["marketplace"],
-    },
-    token: {
-      title: "Token",
-      description: "Your own ERC20 token",
-      icon: FeatureIconMap["token"],
-    },
-    pack: {
-      title: "Pack",
-      description: "Randomized rewards (loot boxes)",
-      icon: FeatureIconMap["pack"],
-
-      comingSoon: true,
     },
     split: {
       title: "Split",
-      description: "Fee splitting for your revenue",
+      description: "Fee splitting for your primary sales and royalties",
       icon: FeatureIconMap["split"],
+    },
+    token: {
+      title: "Token",
+      description: "ERC20 token",
+      icon: FeatureIconMap["token"],
     },
     "edition-drop": {
       title: "Edition Drop",
-      description: "Claimable drop of N-of-one NFTs",
+      description: "ERC1155 NFTs that other people can claim",
       icon: FeatureIconMap["edition-drop"],
-    },
-    edition: {
-      title: "Edition",
-      description: "A collection of N-of-one NFTs",
-      icon: FeatureIconMap["edition"],
-    },
-    vote: {
-      title: "Vote",
-      description: "On-chain ERC20 based voting",
-      icon: FeatureIconMap["vote"],
     },
     "token-drop": {
       title: "Token Drop",
-      description: "Claimable drop of ERC20 tokens",
+      description: "ERC20 tokens that other people can claim",
       icon: FeatureIconMap["token-drop"],
+    },
+    vote: {
+      title: "Vote",
+      description: "On-chain ERC20-based voting",
+      icon: FeatureIconMap["vote"],
+    },
+    "nft-collection": {
+      title: "NFT Collection",
+      description: "ERC721 mintable NFTs",
+      icon: FeatureIconMap["nft-collection"],
+    },
+    edition: {
+      title: "Edition",
+      description: "ERC1155 mintable NFTs",
+      icon: FeatureIconMap["edition"],
+    },
+    pack: {
+      title: "Pack",
+      description:
+        "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
+      icon: FeatureIconMap["pack"],
+      comingSoon: true,
+    },
+    multiwrap: {
+      title: "Multiwrap",
+      description:
+        "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721",
+      icon: FeatureIconMap["token-drop"],
+      comingSoon: true,
+    },
+    "signature-drop": {
+      title: "Signature Drop",
+      description:
+        "ERC721A NFTs that other people can claim, with signature verification",
+      icon: FeatureIconMap["nft-drop"],
+      comingSoon: true,
     },
     custom: {
       title: "NOT IMPLEMENTED",
@@ -151,18 +169,26 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
   custom: {
     deployContract: 0,
   },
+  "signature-drop": {
+    deployContract: 0,
+  },
+  multiwrap: {
+    deployContract: 0,
+  },
 };
 
-export const CONTRACT_TYPE_NAME_MAP = {
+export const CONTRACT_TYPE_NAME_MAP: Record<ContractType, string> = {
   // drop
   "nft-drop": "NFT Drop" as const,
   "edition-drop": "Edition Drop" as const,
   "token-drop": "Token Drop" as const,
+  "signature-drop": "Signature Drop" as const,
 
   // token
   token: "Token" as const,
   "nft-collection": "NFT Collection" as const,
   edition: "Edition" as const,
+  multiwrap: "Multi Wrap" as const,
 
   // other
   vote: "Vote" as const,
@@ -173,7 +199,7 @@ export const CONTRACT_TYPE_NAME_MAP = {
   custom: "Custom" as const,
 } as const;
 
-export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
+export const ROLE_DESCRIPTION_MAP: Record<Role | string, string> = {
   admin:
     "Determine who can grant or revoke roles and modify settings on this contract.",
   minter: "Determine who can create new tokens on this contract.",
@@ -181,8 +207,8 @@ export const ROLE_DESCRIPTION_MAP: Record<Role, string> = {
     "Determine who can pause (and unpause) all external calls made to this contract's contract.",
   transfer: "Determine who can transfer tokens on this contract.",
   lister: "Determine who can create new listings on this contract.",
-  editor: "NOT IMPLEMENTED",
   asset: "Determine which assets can be listed on this marketplace.",
+  unwrap: "Determine who can unwrap tokens on this contract.",
 };
 
 // gnosis mappings
