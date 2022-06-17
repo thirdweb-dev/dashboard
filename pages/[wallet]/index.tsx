@@ -101,7 +101,7 @@ export default function Dashboard() {
   const router = useRouter();
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const { address } = useWeb3();
-  const { data: projects } = useProjects(
+  const { data: projects, isFetched: projectsIsFetched } = useProjects(
     wallet === "dashboard" ? address : wallet,
   );
 
@@ -236,13 +236,16 @@ export default function Dashboard() {
     optimismQuery.isFetched &&
     optimismTestnetQuery.isFetched &&
     arbitrumQuery.isFetched &&
-    arbitrumTestnetQuery.isFetched;
+    arbitrumTestnetQuery.isFetched &&
+    projectsIsFetched;
+
+  console.log({ isFetched, projectsIsFetched });
 
   useEffect(() => {
-    if (isFetched && combinedList.length === 0) {
+    if (isFetched && combinedList.length === 0 && projects?.length === 0) {
       router.replace("/contracts");
     }
-  }, [isFetched, router, combinedList]);
+  }, [isFetched, router, combinedList, projects]);
 
   return (
     <Flex direction="column" gap={8}>
@@ -250,7 +253,7 @@ export default function Dashboard() {
         <NoWallet />
       ) : (
         <>
-          {combinedList.length === 0 ? (
+          {combinedList.length === 0 && projects?.length === 0 ? (
             <Box
               position="absolute"
               left="50%"
@@ -297,7 +300,11 @@ export default function Dashboard() {
                     </TabList>
                     <TabPanels>
                       <TabPanel px={0} pt={8}>
-                        <ContractTable combinedList={combinedList} />
+                        {combinedList.length === 0 ? (
+                          <NoContracts />
+                        ) : (
+                          <ContractTable combinedList={combinedList} />
+                        )}
                       </TabPanel>
                       <TabPanel px={0} pt={8}>
                         <OldProjects projects={projects} />
@@ -885,6 +892,41 @@ const AsyncContractCell: React.FC<AsyncContractCellProps> = ({ cell }) => {
         </Link>
       </OriginalNextLink>
     </Skeleton>
+  );
+};
+
+const NoContracts: React.FC = () => {
+  return (
+    <Center w="100%">
+      <Container as={Card}>
+        <Stack py={7} align="center" spacing={6} w="100%">
+          <ChakraNextImage
+            src={require("public/assets/illustrations/listing.png")}
+            alt="no apps"
+            boxSize={20}
+            maxW="200px"
+            mb={3}
+          />
+          <Flex direction="column" gap={2} align="center">
+            <Heading size="title.md" textAlign="center">
+              You don&apos;t have any contracts
+            </Heading>
+            <Text size="body.lg" textAlign="center">
+              We found projects on thirdweb v1, but you don&apos;t have any
+              contracts on thirdweb v2, deploy a contract go get started or
+              navigate to V1 contracts.
+            </Text>
+          </Flex>
+          <LinkButton
+            leftIcon={<FiPlus />}
+            colorScheme="primary"
+            href="/contracts"
+          >
+            Deploy new contract
+          </LinkButton>
+        </Stack>
+      </Container>
+    </Center>
   );
 };
 
