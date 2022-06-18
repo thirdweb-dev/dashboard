@@ -3,6 +3,7 @@ import { ContractType } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { LinkCard } from "components/link-card";
 import { FeatureIconMap, TYPE_CONTRACT_MAP } from "constants/mappings";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
@@ -12,6 +13,7 @@ import { Card, Heading } from "tw-components";
 export default function DeployContractType() {
   const type = useSingleQueryParam("type");
   const router = useRouter();
+  const { trackEvent } = useTrack();
 
   if (!type || !(type in TYPE_CONTRACT_MAP)) {
     return <div>invalid type</div>;
@@ -46,6 +48,15 @@ export default function DeployContractType() {
                   subtitle={item.description}
                   comingSoon={item.comingSoon}
                   erc={item.erc}
+                  onClick={() =>
+                    trackEvent({
+                      category: "ftux",
+                      action: "click",
+                      label: "step-2",
+                      type,
+                      contractType: item.contractType,
+                    })
+                  }
                 />
               ),
             )}
