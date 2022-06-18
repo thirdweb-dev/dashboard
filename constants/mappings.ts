@@ -41,15 +41,17 @@ export interface BuiltinContractDetails {
   icon: StaticImageData;
   comingSoon?: boolean;
   contractType: ContractType;
+  erc?: "ERC721" | "ERC20" | "ERC1155" | "ERC721A";
 }
 
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
     "nft-drop": {
       title: "NFT Drop",
-      description: "ERC721 NFTs that other people can claim",
+      description: "One NFT, one owner",
       icon: FeatureIconMap["nft-drop"],
       contractType: "nft-drop",
+      erc: "ERC721",
     },
     marketplace: {
       title: "Marketplace",
@@ -68,18 +70,21 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description: "ERC20 token",
       icon: FeatureIconMap["token"],
       contractType: "token",
+      erc: "ERC20",
     },
     "edition-drop": {
       title: "Edition Drop",
-      description: "ERC1155 NFTs that other people can claim",
+      description: "One NFT, multiple owners",
       icon: FeatureIconMap["edition-drop"],
       contractType: "edition-drop",
+      erc: "ERC1155",
     },
     "token-drop": {
       title: "Token Drop",
-      description: "ERC20 tokens that other people can claim",
+      description: "ERC20 token that you can sell for other tokens",
       icon: FeatureIconMap["token-drop"],
       contractType: "token-drop",
+      erc: "ERC20",
     },
     vote: {
       title: "Vote",
@@ -92,12 +97,14 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description: "ERC721 mintable NFTs",
       icon: FeatureIconMap["nft-collection"],
       contractType: "nft-collection",
+      erc: "ERC721",
     },
     edition: {
       title: "Edition",
       description: "ERC1155 mintable NFTs",
       icon: FeatureIconMap["edition"],
       contractType: "edition",
+      erc: "ERC1155",
     },
     pack: {
       title: "Pack",
@@ -122,6 +129,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["nft-drop"],
       comingSoon: true,
       contractType: "signature-drop",
+      erc: "ERC721A",
     },
     custom: {
       title: "NOT IMPLEMENTED",

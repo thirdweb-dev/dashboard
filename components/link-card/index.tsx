@@ -17,6 +17,7 @@ interface LinkCardProps extends CardProps {
   subtitle?: string;
   largeIcon?: boolean;
   comingSoon?: boolean;
+  erc?: string;
 }
 
 export const LinkCard: React.FC<LinkCardProps> = ({
@@ -27,6 +28,7 @@ export const LinkCard: React.FC<LinkCardProps> = ({
   subtitle,
   largeIcon,
   comingSoon,
+  erc,
   ...restCardProps
 }) => {
   return (
@@ -69,12 +71,21 @@ export const LinkCard: React.FC<LinkCardProps> = ({
           {subtitle && <Text size="body.md">{subtitle}</Text>}
         </Stack>
       </Stack>
-      {comingSoon && (
+
+      {comingSoon ? (
         <Box position="absolute" top={0} right={0} p={1}>
           <Badge colorScheme="yellow" variant="solid">
             Coming soon
           </Badge>
         </Box>
+      ) : (
+        erc && (
+          <Box position="absolute" top={0} right={0} p={1}>
+            <Badge colorScheme="purple" variant="solid">
+              {erc}
+            </Badge>
+          </Box>
+        )
       )}
     </Card>
   );

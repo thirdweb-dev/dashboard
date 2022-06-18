@@ -10,8 +10,6 @@ import { FiChevronLeft } from "react-icons/fi";
 import { Card, Heading } from "tw-components";
 
 export default function DeployContractType() {
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
-  const network = useSingleQueryParam("network");
   const type = useSingleQueryParam("type");
   const router = useRouter();
 
@@ -47,6 +45,7 @@ export default function DeployContractType() {
                   title={item.title}
                   subtitle={item.description}
                   comingSoon={item.comingSoon}
+                  erc={item.erc}
                 />
               ),
             )}
