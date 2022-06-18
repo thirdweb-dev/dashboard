@@ -7,6 +7,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import BuiltinContractForm from "components/contract-components/contract-deploy-form/built-in-contract";
+import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import React, { ReactElement, useEffect, useState } from "react";
 import { Card } from "tw-components";
@@ -29,13 +30,15 @@ export default function DeployContractContract() {
   return (
     <Card p={{ base: 6, md: 10 }}>
       <Box>
-        {contractType ? (
-          <BuiltinContractForm
-            contractType={contractType}
-            selectedChain={selectedChain}
-            onChainSelect={setSelectedChain}
-          />
-        ) : null}
+        <CustomSDKContext desiredChainId={selectedChain}>
+          {contractType ? (
+            <BuiltinContractForm
+              contractType={contractType}
+              selectedChain={selectedChain}
+              onChainSelect={setSelectedChain}
+            />
+          ) : null}
+        </CustomSDKContext>
       </Box>
     </Card>
   );
