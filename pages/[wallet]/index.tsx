@@ -89,6 +89,7 @@ import {
   Heading,
   LinkButton,
   Text,
+  TrackedLink,
 } from "tw-components";
 import {
   SupportedChainIdToNetworkMap,
@@ -288,6 +289,54 @@ export default function Dashboard() {
                 >
                   Deploy new contract
                 </LinkButton>
+                <Menu matchWidth isLazy>
+                  <MenuButton
+                    as={Button}
+                    colorScheme="primary"
+                    leftIcon={<FiPlus />}
+                  >
+                    Deploy new contract
+                  </MenuButton>
+
+                  <MenuList>
+                    <MenuItemOption
+                      py={3}
+                      as={TrackedLink}
+                      href="/contracts/custom"
+                      category="ftux"
+                      label="custom"
+                      /*                       icon={
+                        <ChakraNextImage
+                          boxSize={4}
+                          borderRadius="md"
+                          src={connectorIdToImageUrl.MetaMask}
+                          placeholder="empty"
+                          alt=""
+                        />
+                      } */
+                    >
+                      My contracts
+                    </MenuItemOption>
+                    <MenuItemOption
+                      py={3}
+                      as={TrackedLink}
+                      href="/contracts/new"
+                      category="ftux"
+                      label="pre-built"
+                      /*                       icon={
+                        <ChakraNextImage
+                          boxSize={4}
+                          borderRadius="md"
+                          src={connectorIdToImageUrl.MetaMask}
+                          placeholder="empty"
+                          alt=""
+                        />
+                      } */
+                    >
+                      Pre-built
+                    </MenuItemOption>
+                  </MenuList>
+                </Menu>
               </Flex>
               {projects && projects.length ? (
                 <>
