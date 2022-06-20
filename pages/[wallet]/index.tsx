@@ -26,7 +26,10 @@ import {
   PopoverAnchor,
   PopoverArrow,
   PopoverBody,
+  PopoverCloseButton,
   PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   SimpleGrid,
   Skeleton,
   Spinner,
@@ -42,6 +45,7 @@ import {
   Th,
   Thead,
   Tr,
+  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useNetwork } from "@thirdweb-dev/react";
@@ -281,13 +285,34 @@ export default function Dashboard() {
                     thirdweb across all networks.
                   </Text>
                 </Flex>
-                <LinkButton
-                  leftIcon={<FiPlus />}
-                  colorScheme="primary"
-                  href="/contracts/new"
-                >
-                  Deploy new contract
-                </LinkButton>
+                <Popover>
+                  <PopoverTrigger>
+                    <Button leftIcon={<FiPlus />} colorScheme="primary">
+                      Deploy Contract
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent backgroundColor="blue.600" width="100%">
+                    <PopoverArrow backgroundColor="blue.600"></PopoverArrow>
+                    <PopoverBody>
+                      <VStack>
+                        <LinkButton
+                          href="/contracts/new/custom"
+                          width="100%"
+                          backgroundColor="transparent"
+                        >
+                          My Contracts
+                        </LinkButton>
+                        <LinkButton
+                          href="/contracts/new/pre-built"
+                          width="100%"
+                          backgroundColor="transparent"
+                        >
+                          Pre-Built
+                        </LinkButton>
+                      </VStack>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
               </Flex>
               {projects && projects.length ? (
                 <>
@@ -915,13 +940,21 @@ const NoContracts: React.FC = () => {
               navigate to V1 contracts.
             </Text>
           </Flex>
-          <LinkButton
-            leftIcon={<FiPlus />}
-            colorScheme="primary"
-            href="/contracts/new"
-          >
-            Deploy new contract
-          </LinkButton>
+          <Popover>
+            <PopoverTrigger>
+              <Button leftIcon={<FiPlus />} colorScheme="primary">
+                Deploy new contract
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Confirmation!</PopoverHeader>
+              <PopoverBody>
+                Are you sure you want to have that milkshake?
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
         </Stack>
       </Container>
     </Center>
