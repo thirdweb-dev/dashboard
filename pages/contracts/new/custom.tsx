@@ -118,15 +118,15 @@ function DeployCustomContract() {
                 Run this command in your project to enable thirdweb features for
                 your smart contract
               </Text>
-              <CodeBlock code="npx thirdweb deploy" language={"javascript"} />
+              <CodeBlock code="npx thirdweb publish" language={"javascript"} />
             </Card>
-            <Card as={Flex} flexDir="column" gap={2}>
+            {/*             <Card as={Flex} flexDir="column" gap={2}>
               <Text>Automatically publish contracts with Github Actions</Text>
               <CodeBlock
                 code="npx thirdweb install-ci"
                 language={"javascript"}
               />
-            </Card>
+            </Card> */}
           </Flex>
         </Container>
       </Flex>

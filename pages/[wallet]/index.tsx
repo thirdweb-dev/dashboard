@@ -89,7 +89,6 @@ import {
   Heading,
   LinkButton,
   Text,
-  TrackedLink,
 } from "tw-components";
 import {
   SupportedChainIdToNetworkMap,
