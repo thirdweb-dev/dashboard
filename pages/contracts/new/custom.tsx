@@ -111,10 +111,10 @@ function DeployCustomContract() {
 
           <Flex flexDir="column" gap={4}>
             <Heading size="title.md">Add new published contracts</Heading>
-            <Card as={Flex} flexDir="column" gap={2}>
+            <Card as={Flex} flexDir="column" gap={3}>
               <Text>
-                Run this command in your project to enable thirdweb features for
-                your smart contract
+                Run this command in your project to make your contracts easily
+                deployable:
               </Text>
               <CodeBlock code="npx thirdweb publish" language={"javascript"} />
             </Card>
