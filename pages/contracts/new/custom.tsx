@@ -15,7 +15,6 @@ import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import { FiChevronLeft } from "react-icons/fi";
@@ -31,7 +30,6 @@ import {
 
 function DeployCustomContract() {
   const router = useRouter();
-  const { trackEvent } = useTrack();
 
   const walletAddress = useAddress();
   const publishedContracts = usePublishedContractsQuery();
