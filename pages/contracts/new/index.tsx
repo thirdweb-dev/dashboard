@@ -29,7 +29,7 @@ export default function DeployContract() {
               largeIcon
               bg="backgroundCardHighlight"
               borderWidth="2px"
-              src={require("/public/assets/add-contract/tw-deploy.png")}
+              src={require("/public/assets/add-contract/tw-publish.png")}
               alt="custom"
               href="/contracts/new/custom"
               title="My contracts"
