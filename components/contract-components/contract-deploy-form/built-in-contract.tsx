@@ -24,7 +24,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddress } from "@thirdweb-dev/react";
 import {
-  ChainId,
   ContractType,
   KNOWN_CONTRACTS_MAP,
   SUPPORTED_CHAIN_ID,
