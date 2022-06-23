@@ -16,8 +16,6 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  Portal,
-  UnorderedList,
 } from "@chakra-ui/react";
 import {
   ChainId,
