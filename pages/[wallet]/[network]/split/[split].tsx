@@ -47,8 +47,8 @@ export default function SplitPage() {
         ...acc,
         [curr.token_address]: ethers.utils.formatUnits(
           BigNumber.from(curr.balance)
-            .mul(activeRecipient.splitPercentage)
-            .div(100),
+            .mul(activeRecipient.splitPercentage * 100) // convert to bps for BigNumber calculations
+            .div(10000),
           curr.decimals,
         ),
       };
