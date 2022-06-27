@@ -34,7 +34,7 @@ import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
-import { UrlMap } from "constants/mappings";
+import { BuiltinContractMap, UrlMap } from "constants/mappings";
 import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -220,6 +220,8 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   const { trackEvent } = useTrack();
   const router = useRouter();
 
+  const audit = BuiltinContractMap[contractType]?.audit;
+
   return (
     <FormProvider {...form}>
       <Flex
@@ -296,28 +298,39 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 </Text>
               </Skeleton>
             </Flex>
-            <Badge
-              display={{ base: "none", md: "inherit" }}
-              colorScheme="purple"
-              variant="outline"
-            >
-              Pre-built Contract
-            </Badge>
           </Flex>
-          <LinkButton
-            variant="outline"
-            isExternal
-            href={`https://portal.thirdweb.com/pre-built-contracts/${contractType}`}
-            onClick={() =>
-              trackEvent({
-                category: "learn-more-deploy",
-                action: "click",
-                label: contractType,
-              })
-            }
-          >
-            Learn more about this contract
-          </LinkButton>
+          <Flex gap={2}>
+            {audit && (
+              <LinkButton
+                colorScheme="green"
+                isExternal
+                href={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/${audit}`}
+                onClick={() =>
+                  trackEvent({
+                    category: "visit-audit",
+                    action: "click",
+                    label: contractType,
+                  })
+                }
+              >
+                Audited contract
+              </LinkButton>
+            )}
+            <LinkButton
+              variant="outline"
+              isExternal
+              href={`https://portal.thirdweb.com/pre-built-contracts/${contractType}`}
+              onClick={() =>
+                trackEvent({
+                  category: "learn-more-deploy",
+                  action: "click",
+                  label: contractType,
+                })
+              }
+            >
+              Learn more about this contract
+            </LinkButton>
+          </Flex>
         </Flex>
         <Divider borderColor="borderColor" />
         <Flex direction="column">
