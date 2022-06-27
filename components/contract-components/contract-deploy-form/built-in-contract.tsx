@@ -51,7 +51,6 @@ import {
 } from "react-hook-form";
 import { FiChevronLeft } from "react-icons/fi";
 import {
-  Badge,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
