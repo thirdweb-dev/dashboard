@@ -166,7 +166,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       <Flex alignItems="center" gap={3}>
         <Checkbox
           autoFocus={true}
-          isRequired
           {...register("addToDashboard")}
           defaultChecked
         />

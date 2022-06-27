@@ -11,6 +11,7 @@ import {
 } from "@3rdweb-sdk/react";
 import { Stack } from "@chakra-ui/react";
 import { ValidContractInstance, Vote } from "@thirdweb-dev/sdk";
+import { AddToDashboardCard } from "contract-ui/tabs/overview/cards/add-to-dashboard";
 
 interface IContractSettings {
   contract?: ValidContractInstance;
@@ -25,6 +26,7 @@ export const ContractSettings: React.FC<IContractSettings> = ({ contract }) => {
 
   return (
     <Stack spacing={8}>
+      <AddToDashboardCard contract={contract} prebuilt />
       <ContractMetadata contract={contract} isDisabled={!isAdmin} />
       {/* only if the contract has a primary sale mechanic */}
       {hasPrimarySaleMechanic(contract) && (

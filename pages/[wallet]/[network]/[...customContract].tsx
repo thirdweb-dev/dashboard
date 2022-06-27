@@ -84,7 +84,6 @@ export default function CustomContractPage() {
       defaultElement="Foo"
     >
       <RootTrack>
-        <AddToDashboardCard contractAddress={contractAddress} />
         <Flex direction="column" ref={scrollRef}>
           {/* sub-header-nav */}
           <Box
