@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useAllContractEvents, useContract } from "@thirdweb-dev/react";
 import { ContractEvent } from "@thirdweb-dev/sdk";
-import { BigNumber } from "ethers";
+import { bigNumberReplacer } from "components/app-layouts/providers";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import {
@@ -115,7 +115,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
             </Heading>
           </SimpleGrid>
 
-          <List overflow="auto" h={{ base: "300px", md: "600px" }}>
+          <List overflow="auto" maxH={{ base: "300px", md: "600px" }}>
             <AnimatePresence initial={true}>
               {transactions.map((e) => (
                 <ActivityFeedItem key={e.transactionHash} transaction={e} />
@@ -170,7 +170,7 @@ export const ActivityFeedItem: React.FC<ActivityFeedItemProps> = ({
         spacing={0}
       >
         {transaction.events.map((e) => (
-          <Popover key={e.transaction.logIndex} isLazy>
+          <Popover key={e.transaction.logIndex} isLazy placement="top">
             <PopoverTrigger>
               <Button>{e.eventName}</Button>
             </PopoverTrigger>
@@ -185,16 +185,7 @@ export const ActivityFeedItem: React.FC<ActivityFeedItemProps> = ({
               <PopoverArrow bg="backgroundCardHighlight" />
               <PopoverBody p={0}>
                 <CodeBlock
-                  code={JSON.stringify(
-                    Object.fromEntries(
-                      Object.entries(e.data).map(([key, val]) => [
-                        key,
-                        BigNumber.isBigNumber(val) ? val.toString() : val,
-                      ]),
-                    ),
-                    null,
-                    2,
-                  )}
+                  code={JSON.stringify(e.data, bigNumberReplacer, 2)}
                   language="json"
                 />
               </PopoverBody>

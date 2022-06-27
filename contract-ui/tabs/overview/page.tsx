@@ -15,8 +15,8 @@ export const CustomContractOverviewPage: React.FC<
 
   return (
     <Flex direction="column" gap={8}>
-      <ActivityFeed contractAddress={contractAddress} />
       <CustomContractCode contractAddress={contractAddress} />
+      <ActivityFeed contractAddress={contractAddress} />
     </Flex>
   );
 };
