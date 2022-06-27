@@ -95,7 +95,10 @@ export function usePublishMutation() {
   });
 }
 
-export function useCustomContractDeployMutation(ipfsHash: string) {
+export function useCustomContractDeployMutation(
+  ipfsHash: string,
+  { addToDashboard = false },
+) {
   const sdk = useSDK();
   const queryClient = useQueryClient();
   const walletAddress = useAddress();
@@ -115,8 +118,12 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
       );
     },
     {
-      onSuccess: () => {
-        return queryClient.invalidateQueries([
+      onSuccess: async (contractAddress) => {
+        if (addToDashboard) {
+          const registry = await sdk?.deployer.getRegistry();
+          await registry?.addContract(contractAddress);
+        }
+        return await queryClient.invalidateQueries([
           ...networkKeys.chain(chainId),
           ...contractKeys.list(walletAddress),
         ]);

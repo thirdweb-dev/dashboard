@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
+  Checkbox,
   FormHelperText,
   FormLabel,
   Heading,
@@ -40,10 +41,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     publishMetadata.data?.abi,
   );
 
-  const form =
-    useForm<Pick<CustomContractMetadata, "name" | "image" | "description">>();
+  const form = useForm<
+    | Pick<CustomContractMetadata, "name" | "image" | "description">
+    | { addToDashboard: true }
+  >();
 
-  const { handleSubmit } = form;
+  const { register, watch, handleSubmit } = form;
   const [contractParams, _setContractParams] = useState<any[]>([]);
   const setContractParams = useCallback((idx: number, value: any) => {
     _setContractParams((prev) => {
@@ -53,7 +56,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     });
   }, []);
 
-  const deploy = useCustomContractDeployMutation(ipfsHash);
+  const deploy = useCustomContractDeployMutation(ipfsHash, {
+    addToDashboard: true,
+  });
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
@@ -149,13 +154,34 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           with a testnet.{" "}
           <TrackedLink
             href="https://portal.thirdweb.com/guides/which-network-should-you-use"
-            color="primary.600"
+            color="primary.500"
             category="deploy"
             label="learn-networks"
             isExternal
           >
             Learn more about the different networks.
           </TrackedLink>
+        </Text>
+      </Flex>
+      <Flex alignItems="center" gap={3}>
+        <Checkbox
+          autoFocus={true}
+          isRequired
+          {...register("addToDashboard")}
+          defaultChecked
+        />
+        <Text mt={1}>
+          Add to dashboard so I can find it in the list of my contracts at{" "}
+          <TrackedLink
+            href="https://thirdweb.com/dashboard"
+            isExternal
+            category="custom-contract"
+            label="visit-dashboard"
+            color="primary.500"
+          >
+            /dashboard
+          </TrackedLink>
+          .
         </Text>
       </Flex>
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
@@ -176,7 +202,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           isLoading={deploy.isLoading}
           isDisabled={!publishMetadata.isSuccess || !selectedChain}
           colorScheme="primary"
-          transactionCount={1}
+          transactionCount={watch("addToDashboard") ? 2 : 1}
         >
           Deploy Now
         </TransactionButton>
