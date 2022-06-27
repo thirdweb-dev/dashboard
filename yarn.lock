@@ -1871,10 +1871,8 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.19":
+"@thirdweb-dev/sdk@file:.yalc/@thirdweb-dev/sdk":
   version "2.3.19"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.19.tgz#290a202f58d96d365ab7d4b3f60cd36baa45f5ef"
-  integrity sha512-NHOXmoedQRPEImQ9QocXhu+h0AH6Nqie3E/E+eQ/Rw3uGqfyyjnyCzSOJ+RqYMbIEZWV/mE/PkoD5RzjR8w27w==
   dependencies:
     "@thirdweb-dev/contracts" "2.3.15-0"
     "@web-std/file" "^3.0.0"
