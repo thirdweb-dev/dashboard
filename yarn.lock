@@ -1858,8 +1858,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-2.3.15-0.tgz#9ea4aa8500b213356acc1772c18222c8085087c0"
   integrity sha512-hm6qK5GSp776ctXV3NeA6jvHHfkolJjTLXQ/ed9gZVBLVD5Bl1ofLRZ30wG3lf8eMMxFoJCEqOsoQlB95M+qOw==
 
-"@thirdweb-dev/react@file:.yalc/@thirdweb-dev/react":
-  version "2.4.5"
+"@thirdweb-dev/react@^2.4.6":
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.4.6.tgz#1d38e8eee6be09dd160a6eb163523dfc472c2f77"
+  integrity sha512-s/biVUJwj3YKPkkzxIbuLBVBBq9xQUve6Te+zJAHzwfY4f9RPGhchbICEh9alRJ49rDgtkZ6G1Vvd6etn74Xfw==
   dependencies:
     "@gnosis.pm/safe-core-sdk" "2.1.0"
     "@gnosis.pm/safe-ethers-adapters" "0.1.0-alpha.9"
@@ -1871,8 +1873,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@file:.yalc/@thirdweb-dev/sdk":
-  version "2.3.19"
+"@thirdweb-dev/sdk@^2.3.20":
+  version "2.3.20"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.20.tgz#b096fdedaf156e1ffbeb0ee6bb03a6ab4e899036"
+  integrity sha512-h0qA7jGaDWMRPCcsBRrEPVRXkgo/2KSYevtW4ql5od8aNvPI+tY+h7wa0CL9bPz5MDbXQGqPe08jPkV7kUSNrw==
   dependencies:
     "@thirdweb-dev/contracts" "2.3.15-0"
     "@web-std/file" "^3.0.0"
