@@ -317,10 +317,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                         }
                         width={20}
                       >
-                        <ChakraNextImage
-                          src={twAudited}
-                          alt="audited"                          
-                        />
+                        <ChakraNextImage src={twAudited} alt="audited" />
                       </LinkOverlay>
                     </Flex>
                   )}
