@@ -295,7 +295,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             <ContractIdImage boxSize={12} contractId={contractType} />
             <Flex direction="column">
               <Skeleton isLoaded={publishMetadata.isSuccess}>
-                <Flex alignItems="center" gap={2}>
+                <Flex gap={2}>
                   <Heading minW="60px" size="subtitle.lg">
                     {publishMetadata.data?.name}
                   </Heading>
