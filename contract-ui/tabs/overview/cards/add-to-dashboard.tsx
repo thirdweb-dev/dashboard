@@ -15,7 +15,7 @@ export const AddToDashboardCard = <
   prebuilt,
 }: {
   contract: TContract;
-  prebuilt: boolean;
+  prebuilt?: boolean;
 }) => {
   const activeChainId = useActiveChainId();
   const address = useAddress();
