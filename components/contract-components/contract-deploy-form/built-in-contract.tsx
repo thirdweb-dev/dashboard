@@ -12,6 +12,8 @@ import {
   FormControl,
   IconButton,
   Input,
+  LinkBox,
+  LinkOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -29,6 +31,7 @@ import {
   SUPPORTED_CHAIN_ID,
   ValidContractClass,
 } from "@thirdweb-dev/sdk";
+import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
@@ -41,6 +44,7 @@ import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
+import twAudited from "public/brand/thirdweb-audited-2.png";
 import { useEffect, useMemo } from "react";
 import {
   FieldPath,
@@ -276,7 +280,11 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           });
         })}
       >
-        <Flex justifyContent="space-between">
+        <Flex
+          justifyContent="space-between"
+          direction={{ base: "column", md: "row" }}
+          gap={6}
+        >
           <Flex gap={4} align="center">
             <IconButton
               onClick={() => router.back()}
@@ -287,9 +295,36 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             <ContractIdImage boxSize={12} contractId={contractType} />
             <Flex direction="column">
               <Skeleton isLoaded={publishMetadata.isSuccess}>
-                <Heading minW="60px" size="subtitle.lg">
-                  {publishMetadata.data?.name}
-                </Heading>
+                <Flex alignItems="center" gap={2}>
+                  <Heading minW="60px" size="subtitle.lg">
+                    {publishMetadata.data?.name}
+                  </Heading>
+                  {audit && (
+                    <Flex
+                      justifyContent="center"
+                      alignItems="center"
+                      as={LinkBox}
+                    >
+                      <LinkOverlay
+                        isExternal
+                        href={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/${audit}`}
+                        onClick={() =>
+                          trackEvent({
+                            category: "visit-audit",
+                            action: "click",
+                            label: contractType,
+                          })
+                        }
+                        width={20}
+                      >
+                        <ChakraNextImage
+                          src={twAudited}
+                          alt="audited"                          
+                        />
+                      </LinkOverlay>
+                    </Flex>
+                  )}
+                </Flex>
               </Skeleton>
               <Skeleton isLoaded={publishMetadata.isSuccess}>
                 <Text maxW="xs" fontStyle="italic" noOfLines={2}>
@@ -299,22 +334,6 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             </Flex>
           </Flex>
           <Flex gap={2}>
-            {audit && (
-              <LinkButton
-                colorScheme="green"
-                isExternal
-                href={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/${audit}`}
-                onClick={() =>
-                  trackEvent({
-                    category: "visit-audit",
-                    action: "click",
-                    label: contractType,
-                  })
-                }
-              >
-                Audited contract
-              </LinkButton>
-            )}
             <LinkButton
               variant="outline"
               isExternal
