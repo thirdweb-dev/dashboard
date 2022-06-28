@@ -5,7 +5,6 @@ import {
 } from "../hooks";
 import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
 import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
-import { CustomContractMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -41,10 +40,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     publishMetadata.data?.abi,
   );
 
-  const form = useForm<
-    | Pick<CustomContractMetadata, "name" | "image" | "description">
-    | { addToDashboard: true }
-  >();
+  const form = useForm<{ addToDashboard: true }>();
 
   const { register, watch, handleSubmit } = form;
   const [contractParams, _setContractParams] = useState<any[]>([]);
@@ -56,9 +52,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     });
   }, []);
 
-  const deploy = useCustomContractDeployMutation(ipfsHash, {
-    addToDashboard: true,
-  });
+  const deploy = useCustomContractDeployMutation(ipfsHash);
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
@@ -90,36 +84,42 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           label: "attempt",
           deployData,
         });
-        deploy.mutate(contractParams, {
-          onSuccess: (deployedContractAddress) => {
-            console.info("contract deployed:", {
-              chainId: selectedChain,
-              address: deployedContractAddress,
-            });
-            trackEvent({
-              category: "custom-contract",
-              action: "deploy",
-              label: "success",
-              deployData,
-              contractAddress: deployedContractAddress,
-            });
-            onSuccess();
+        deploy.mutate(
+          {
+            constructorParams: contractParams,
+            addToDashboard: d.addToDashboard,
+          },
+          {
+            onSuccess: (deployedContractAddress) => {
+              console.info("contract deployed:", {
+                chainId: selectedChain,
+                address: deployedContractAddress,
+              });
+              trackEvent({
+                category: "custom-contract",
+                action: "deploy",
+                label: "success",
+                deployData,
+                contractAddress: deployedContractAddress,
+              });
+              onSuccess();
 
-            router.replace(
-              `/${wallet}/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
-            );
+              router.replace(
+                `/${wallet}/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
+              );
+            },
+            onError: (err) => {
+              trackEvent({
+                category: "custom-contract",
+                action: "deploy",
+                label: "error",
+                deployData,
+                error: err,
+              });
+              onError(err);
+            },
           },
-          onError: (err) => {
-            trackEvent({
-              category: "custom-contract",
-              action: "deploy",
-              label: "error",
-              deployData,
-              error: err,
-            });
-            onError(err);
-          },
-        });
+        );
       })}
     >
       {constructorParams?.length ? (

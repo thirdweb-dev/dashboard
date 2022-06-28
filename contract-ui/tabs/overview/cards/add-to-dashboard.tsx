@@ -29,9 +29,11 @@ export const AddToDashboardCard = <
   );
 
   const shouldShow =
+    contractList.isFetched &&
     contractList.data?.findIndex(
       (c) => c.address === contract?.getAddress(),
-    ) === -1 && contractList.isSuccess;
+    ) === -1 &&
+    contractList.isSuccess;
 
   return shouldShow ? (
     <Card p={0}>
