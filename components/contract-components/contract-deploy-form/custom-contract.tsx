@@ -208,7 +208,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           isLoading={deploy.isLoading}
           isDisabled={!publishMetadata.isSuccess || !selectedChain}
           colorScheme="primary"
-          transactionCount={watch("addToDashboard") ? 2 : 1}
+          transactionCount={!watch("addToDashboard") ? 1 : 2}
         >
           Deploy Now
         </TransactionButton>
