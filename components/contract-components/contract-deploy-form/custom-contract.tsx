@@ -101,6 +101,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 label: "success",
                 deployData,
                 contractAddress: deployedContractAddress,
+                addToDashboard: d.addToDashboard,
+              });
+              trackEvent({
+                category: "custom-contract",
+                action: "add-to-dashboard",
+                label: "success",
+                contractAddress: deployedContractAddress,
               });
               onSuccess();
 
