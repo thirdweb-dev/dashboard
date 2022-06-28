@@ -97,7 +97,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
         </Box>
       </Flex>
       {eventsQuery.data && contractAddress && (
-        <Card p={0}>
+        <Card p={0} overflow="hidden">
           <SimpleGrid
             gap={2}
             columns={12}
@@ -116,7 +116,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           </SimpleGrid>
 
           <List overflow="auto" maxH={{ base: "300px", md: "600px" }}>
-            <AnimatePresence initial={true}>
+            <AnimatePresence initial={false}>
               {transactions.map((e) => (
                 <ActivityFeedItem key={e.transactionHash} transaction={e} />
               ))}
