@@ -8,15 +8,11 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { ChainId } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
 import { BuiltinContractMap } from "constants/mappings";
-import {
-  CustomSDKContext,
-  PublisherSDKContext,
-} from "contexts/custom-sdk-context";
+import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
