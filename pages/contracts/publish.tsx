@@ -6,7 +6,10 @@ import { DeployableContractTable } from "components/contract-components/contract
 import { usePublishMutation } from "components/contract-components/hooks";
 import { ContractId } from "components/contract-components/types";
 import { UrlMap } from "constants/mappings";
-import { CustomSDKContext } from "contexts/custom-sdk-context";
+import {
+  CustomSDKContext,
+  PublisherSDKContext,
+} from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
@@ -146,9 +149,9 @@ const ContractsPublishPageWrapped: React.FC = () => {
 
 export default function ContractsPublishPage() {
   return (
-    <CustomSDKContext desiredChainId={ChainId.Mumbai}>
+    <PublisherSDKContext>
       <ContractsPublishPageWrapped />
-    </CustomSDKContext>
+    </PublisherSDKContext>
   );
 }
 
