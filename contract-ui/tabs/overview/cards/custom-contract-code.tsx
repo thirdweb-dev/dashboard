@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   SimpleGrid,
+  Textarea,
 } from "@chakra-ui/react";
 import {
   ChainId,
@@ -298,7 +299,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
         if (Array.isArray(parsed)) {
           return "[]interface{}{" + parsed.map((p) => parseParameter({ value: JSON.stringify(p) }, "go")).join(", ") + "}";
         } else if (typeof parsed === "object") {
-          return "map[string]interface{}{" + Object.keys(parsed).map((k) => `${k}: ${parseParameter({ value: `${parsed[k]}` }, "go")}`).join(", ") +  "}"
+          return "map[string]interface{}{" + Object.keys(parsed).map((k) => `"${k}": ${parseParameter({ value: `${parsed[k]}` }, "go")}`).join(", ") +  "}"
         } {
           return displayString(param.value);
         }
@@ -369,10 +370,17 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
             {fields.map((item, index) => (
               <FormControl key={item.id} gap={0.5}>
                 <FormLabel>{item.key}</FormLabel>
-                <Input
-                  defaultValue={getValues(`params.${index}.value`)}
-                  {...register(`params.${index}.value`)}
-                />
+                {item.type.includes("tuple") || item.type.includes("[]") ? (
+                  <Textarea
+                    defaultValue={getValues(`params.${index}.value`)}
+                    {...register(`params.${index}.value`)}
+                  />
+                ) : (
+                  <Input
+                    defaultValue={getValues(`params.${index}.value`)}
+                    {...register(`params.${index}.value`)}
+                  />
+                )}
                 <FormHelperText>{item.type}</FormHelperText>
               </FormControl>
             ))}
