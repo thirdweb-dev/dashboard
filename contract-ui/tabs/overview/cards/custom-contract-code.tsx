@@ -381,7 +381,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                     {...register(`params.${index}.value`)}
                   />
                 )}
-                <FormHelperText>{item.type}</FormHelperText>
+                <FormHelperText>{item.type} {(item.type.includes("tuple") || item.type.includes("[]")) && "- Input should be passed in as a valid JSON string"}</FormHelperText>
               </FormControl>
             ))}
           </>
