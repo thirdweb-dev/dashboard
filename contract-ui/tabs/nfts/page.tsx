@@ -7,6 +7,7 @@ import { PotentialContractInstance } from "contract-ui/types/types";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
+import { BatchLazyMintButton } from "./components/batch-lazy-mint-button";
 
 interface NftOverviewPageProps {
   contractAddress?: string;
@@ -66,7 +67,10 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract NFTs</Heading>
-        <NFTMintButton contract={detectedContract} />
+        <Flex gap={4}>
+          <NFTMintButton contract={detectedContract} />
+          <BatchLazyMintButton contract={detectedContract} />
+        </Flex>
       </Flex>
       {detectedState === "enabled" && (
         <NftGetAllTable contract={detectedContract} />
