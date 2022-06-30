@@ -20,14 +20,14 @@ function replaceVariablesInCodeSnippet(
   snippet: CodeSnippet,
   contractAddress?: string,
   walletAddress?: string,
-  chain?: string,
+  chainName?: string,
 ): CodeSnippet {
   const envs = Object.keys(snippet) as Environment[];
   for (const env of envs) {
     if (contractAddress) {
       snippet[env] = snippet[env]
         ?.replace(/{{contract_address}}/gm, contractAddress)
-        ?.replace(/{{chain}}/gm, chain || "rinkeby")
+        ?.replace(/{{chainName}}/gm, chainName || "rinkeby")
         .replace(/<YOUR-CONTRACT-ADDRESS>/gm, contractAddress);
     }
 
@@ -55,7 +55,7 @@ const INSTALL_COMMANDS = {
 
 export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
   const { data, isLoading } = useContractCodeSnippetQuery();
-  const chain = useSingleQueryParam<SupportedNetwork>("network");
+  const chainName = useSingleQueryParam<SupportedNetwork>("network");
 
   const contractName = useContractName(contract);
 
@@ -71,9 +71,9 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
         snip,
         contract?.getAddress(),
         address,
-        chain,
+        chainName,
       ),
-    [address, contract, chain],
+    [address, contract, chainName],
   );
 
   if (isLoading) {
