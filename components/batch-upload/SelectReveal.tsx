@@ -1,5 +1,5 @@
 import {
-  useNFTDropBatchMint,
+  useDropBatchMint,
   useNFTDropDelayedRevealBatchMint,
 } from "@3rdweb-sdk/react/hooks/useNFTDrop";
 import {
@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  EditionDrop,
   NFTDrop,
   NFTMetadataInput,
   UploadProgressEvent,
@@ -87,7 +88,7 @@ const SelectRevealOption: React.FC<SelectRevealOptionProps> = ({
 };
 
 interface SelectRevealProps {
-  contract?: NFTDrop;
+  contract?: NFTDrop | EditionDrop;
   mergedData: NFTMetadataInput[];
   onClose: () => void;
 }
@@ -135,8 +136,10 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
 
   const imageUrl = useImageFileOrUrl(watch("image"));
 
-  const mintBatch = useNFTDropBatchMint(contract);
-  const mintDelayedRevealBatch = useNFTDropDelayedRevealBatchMint(contract);
+  const mintBatch = useDropBatchMint(contract);
+  const mintDelayedRevealBatch = useNFTDropDelayedRevealBatchMint(
+    contract as NFTDrop,
+  );
 
   const { onSuccess, onError } = useTxNotifications(
     "Batch uploaded successfully",
