@@ -19,7 +19,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
 
   const detectedState = extensionDetectedState({
     contract,
-    feature: ["ERC721BatchMintable", "ERC1155BatchMintable"],
+    feature: ["ERC721Dropable"],
   });
 
   return (
