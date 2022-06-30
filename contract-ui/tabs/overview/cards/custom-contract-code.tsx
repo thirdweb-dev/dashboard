@@ -473,7 +473,7 @@ const result = await contract.call("${abiFunction?.name}"${watch("params")
 
 sdk = ThirdwebSDK("${chainName}")
 contract = sdk.get_contract("${contractAddress}")
-const result = await contract.call("${abiFunction?.name}"${watch("params")
+result = contract.call("${abiFunction?.name}"${watch("params")
                         .map(
                           (f) => ", " + parseParameter(f, "python"),
                         )
@@ -484,7 +484,7 @@ const result = await contract.call("${abiFunction?.name}"${watch("params")
             
 sdk, err := thirdweb.NewThirdwebSDK("${chainName}", nil)
 contract, err := sdk.GetContract("${contractAddress}")
-const result = await contract.Call("${abiFunction?.name}"${watch("params")
+result, err = contract.Call("${abiFunction?.name}"${watch("params")
                         .map(
                           (f) => ", " + parseParameter(f, "go"),
                         )
