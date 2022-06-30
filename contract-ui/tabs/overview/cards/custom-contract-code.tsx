@@ -228,9 +228,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
     data,
     error,
     isLoading: mutationLoading,
-  } = useMutation(async (params: unknown[] = []) =>
-    abiFunction ? await contract?.call(abiFunction.name, ...params) : undefined,
-  );
+  } = useMutation(async (params: unknown[] = []) => contractCall(params));
 
   const initialFocusRef = useRef<HTMLButtonElement>(null);
 
@@ -260,6 +258,66 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
   const chainId = useActiveChainId();
   const chainName = getChainName(chainId);
   const [codeEnv, setCodeEnv] = useState<Environment>("javascript");
+
+  async function contractCall(params: unknown[]) {
+    if (!abiFunction) {
+      return undefined;
+    }
+
+    const parsedParams = params.map((p) => {
+      try {
+        const parsed = JSON.parse(p as string);
+        if (Array.isArray(parsed) || typeof parsed === "object") {
+          return parsed;
+        } else {
+          // Return original value if its not an array or object
+          return p;
+        }
+      } catch {
+        // JSON.parse on string will throw an error
+        return p;
+      }
+    })
+    return await contract?.call(abiFunction.name as string, ...parsedParams);
+  }
+
+  function displayString(str: string) {
+    // Only add quotes around string if they aren't already there
+    return str[0] === '"' && str.slice(-1) === '"' ? `${str}` : `"${str}"`;
+  }
+
+  function parseParameter(param: any, language: Environment): string {
+    if (!param.value) {
+      return param.key;
+    }
+
+    // Different syntax for go maps and arrays
+    if (language === "go") {
+      try {
+        const parsed = JSON.parse(param.value);
+        if (Array.isArray(parsed)) {
+          return "[]interface{}{" + parsed.map((p) => parseParameter({ value: JSON.stringify(p) }, "go")).join(", ") + "}";
+        } else if (typeof parsed === "object") {
+          return "map[string]interface{}{" + Object.keys(parsed).map((k) => `${k}: ${parseParameter({ value: `${parsed[k]}` }, "go")}`).join(", ") +  "}"
+        } {
+          return displayString(param.value);
+        }
+      } catch {
+        return displayString(param.value);
+      }
+    }
+
+    try {
+      const parsed = JSON.parse(param.value);
+      if (Array.isArray(parsed) || typeof parsed === "object") {
+        return param.value;
+      } else {
+        return displayString(param.value);
+      }
+    } catch {
+      return displayString(param.value);
+    }
+  }
 
   return (
     <Card
@@ -399,7 +457,7 @@ const sdk = new ThirdwebSDK("${chainName}");
 const contract = await sdk.getContract("${contractAddress}");
 const result = await contract.call("${abiFunction?.name}"${watch("params")
                         .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
+                          (f) => ", " + parseParameter(f, "javascript"),
                         )
                         .join("")});
 `,
@@ -408,7 +466,7 @@ const result = await contract.call("${abiFunction?.name}"${watch("params")
 const { contract, isLoading } = useContract("${contractAddress}");
 const result = await contract.call("${abiFunction?.name}"${watch("params")
                         .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
+                          (f) => ", " + parseParameter(f, "react"),
                         )
                         .join("")});`,
                       python: `from thirdweb import ThirdwebSDK
@@ -417,7 +475,7 @@ sdk = ThirdwebSDK("${chainName}")
 contract = sdk.get_contract("${contractAddress}")
 const result = await contract.call("${abiFunction?.name}"${watch("params")
                         .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
+                          (f) => ", " + parseParameter(f, "python"),
                         )
                         .join("")});`,
                       go: `import (
@@ -428,7 +486,7 @@ sdk, err := thirdweb.NewThirdwebSDK("${chainName}", nil)
 contract, err := sdk.GetContract("${contractAddress}")
 const result = await contract.Call("${abiFunction?.name}"${watch("params")
                         .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
+                          (f) => ", " + parseParameter(f, "go"),
                         )
                         .join("")});`,
                     }}
