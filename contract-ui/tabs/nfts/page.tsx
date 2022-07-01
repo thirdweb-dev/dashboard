@@ -23,7 +23,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
 
   const detectedState = extensionDetectedState({
     contract,
-    feature: ["ERC721Supply", "ERC1155Enumerable"],
+    feature: ["ERC721Enumerable", "ERC1155Enumerable"],
   });
 
   const enabled = detectedState === "enabled" || detectedSupply;
