@@ -37,7 +37,11 @@ import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
-import { BuiltinContractMap, UrlMap } from "constants/mappings";
+import {
+  BuiltinContractMap,
+  DisabledChainsMap,
+  UrlMap,
+} from "constants/mappings";
 import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -832,6 +836,8 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                   parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
                 )
               }
+              disabledChainIds={DisabledChainsMap[contractType as ContractType]}
+              disabledChainIdText="Coming Soon"
             />
           </FormControl>
           <TransactionButton
