@@ -71,11 +71,19 @@ export const HomepageTopNav: React.FC<{}> = () => {
             >
               Developers
             </TrackedLink>
-            <TrackedLink href="#features" category="topnav" label="features">
-              Features
+            <TrackedLink
+              href="https://portal.thirdweb.com"
+              category="topnav"
+              label="docs"
+            >
+              Docs
             </TrackedLink>
-            <TrackedLink href="#fees" category="topnav" label="fees">
-              Pricing
+            <TrackedLink
+              href="https://thirdweb.com/dashboard"
+              category="topnav"
+              label="dashboard"
+            >
+              Dashboard
             </TrackedLink>
             <Flex
               display={{ base: "none", lg: "flex" }}
