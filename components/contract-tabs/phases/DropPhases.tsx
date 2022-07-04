@@ -181,10 +181,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
     }));
   }, [query.data]);
 
-  const nftsOrToken =
-    contract instanceof NFTDrop || contract instanceof EditionDrop
-      ? "NFTs"
-      : "tokens";
+  const nftsOrToken = contract instanceof TokenDrop ? "tokens" : "NFTs";
 
   const form = useForm<z.input<typeof DropPhasesSchema>>({
     defaultValues: query.data
