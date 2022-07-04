@@ -29,7 +29,6 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
-  Text,
 } from "tw-components";
 import { getChainIdFromNetwork } from "utils/network";
 
