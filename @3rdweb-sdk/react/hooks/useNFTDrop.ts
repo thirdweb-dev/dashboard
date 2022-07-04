@@ -6,7 +6,7 @@ import {
 import { useContractMetadata } from "./useContract";
 import { getAllQueryKey, getTotalCountQueryKey } from "./useGetAll";
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { useNFTDrop, useSignatureDrop } from "@thirdweb-dev/react";
+import { useNFTDrop } from "@thirdweb-dev/react";
 import {
   ClaimConditionInput,
   EditionDrop,
