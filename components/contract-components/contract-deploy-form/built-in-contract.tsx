@@ -830,7 +830,13 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           <FormControl>
             <SupportedNetworkSelect
               isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
-              value={selectedChain || -1}
+              value={
+                !DisabledChainsMap[contractType as ContractType].find(
+                  (chain) => chain === selectedChain,
+                )
+                  ? selectedChain
+                  : undefined
+              }
               onChange={(e) =>
                 onChainSelect(
                   parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,

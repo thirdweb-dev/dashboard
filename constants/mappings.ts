@@ -158,6 +158,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
         "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
       icon: FeatureIconMap["pack"],
       contractType: "pack",
+      erc: "ERC1155",
     },
     multiwrap: {
       title: "Multiwrap",
@@ -165,6 +166,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
         "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721",
       icon: FeatureIconMap["token-drop"],
       contractType: "multiwrap",
+      erc: "ERC721",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
     },
     "signature-drop": {
