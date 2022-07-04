@@ -54,6 +54,33 @@ export const NFTDropKeys = {
     ] as const,
 };
 
+export const signatureDropKeys = {
+  all: ["nft-drop"] as const,
+  lists: () => [...signatureDropKeys.all, "list"] as const,
+  list: (address = constants.AddressZero) =>
+    [...signatureDropKeys.lists(), address] as const,
+  details: () => [...signatureDropKeys.all, "detail"] as const,
+  detail: (address = constants.AddressZero) =>
+    [...signatureDropKeys.details(), address] as const,
+  batchesToReveal: (address = constants.AddressZero) =>
+    [...signatureDropKeys.details(), address, "batchesToReveal"] as const,
+  supply: (address = constants.AddressZero) =>
+    [...signatureDropKeys.detail(address), "supply"] as const,
+  activeClaimCondition: (address = constants.AddressZero) =>
+    [...signatureDropKeys.detail(address), "activeClaimCondition"] as const,
+  claimPhases: (address = constants.AddressZero) =>
+    [...signatureDropKeys.detail(address), "claimPhases"] as const,
+  balanceOf: (
+    address = constants.AddressZero,
+    userAddress = constants.AddressZero,
+  ) =>
+    [
+      ...signatureDropKeys.detail(address),
+      "balanceOf",
+      { address: userAddress },
+    ] as const,
+};
+
 export const editionDropKeys = {
   all: ["edition-drop"] as const,
   lists: () => [...editionDropKeys.all, "list"] as const,

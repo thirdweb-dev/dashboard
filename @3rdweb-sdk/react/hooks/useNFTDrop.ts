@@ -1,4 +1,4 @@
-import { NFTDropKeys } from "../cache-keys";
+import { NFTDropKeys, signatureDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -6,12 +6,13 @@ import {
 import { useContractMetadata } from "./useContract";
 import { getAllQueryKey, getTotalCountQueryKey } from "./useGetAll";
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { useNFTDrop } from "@thirdweb-dev/react";
+import { useNFTDrop, useSignatureDrop } from "@thirdweb-dev/react";
 import {
   ClaimConditionInput,
   EditionDrop,
   NFTDrop,
   NFTMetadataInput,
+  SignatureDrop,
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
@@ -113,7 +114,9 @@ interface UploadWithProgress {
   onProgress: (event: UploadProgressEvent) => void;
 }
 
-export function useDropBatchMint(contract?: NFTDrop | EditionDrop) {
+export function useDropBatchMint(
+  contract?: NFTDrop | EditionDrop | SignatureDrop,
+) {
   return useMutationWithInvalidate(
     async (data: UploadWithProgress) => {
       invariant(contract, "contract is required");
@@ -126,6 +129,7 @@ export function useDropBatchMint(contract?: NFTDrop | EditionDrop) {
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
           NFTDropKeys.supply(contract?.getAddress()),
+          signatureDropKeys.supply(contract?.getAddress()),
         ]);
       },
     },
@@ -199,7 +203,7 @@ interface RevealInput {
   password: string;
 }
 
-export function useNFTDropRevealMutation(contract?: NFTDrop) {
+export function useNFTDropRevealMutation(contract?: NFTDrop | SignatureDrop) {
   return useMutationWithInvalidate(
     async (data: RevealInput) => {
       invariant(contract, "contract is required");

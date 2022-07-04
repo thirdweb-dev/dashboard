@@ -8,6 +8,7 @@ import {
   EditionDrop,
   Marketplace,
   NFTDrop,
+  SignatureDrop,
   TokenDrop,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
@@ -32,7 +33,9 @@ export function useContractTabs(
     }
 
     if (
-      (contract instanceof NFTDrop || contract instanceof TokenDrop) &&
+      (contract instanceof NFTDrop ||
+        contract instanceof TokenDrop ||
+        contract instanceof SignatureDrop) &&
       isAdmin
     ) {
       tabs.push({

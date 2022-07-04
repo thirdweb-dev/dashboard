@@ -30,6 +30,7 @@ import {
   EditionDrop,
   NATIVE_TOKEN_ADDRESS,
   NFTDrop,
+  SignatureDrop,
   TokenDrop,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -54,21 +55,23 @@ import { toDateTimeLocal } from "utils/date-utils";
 import * as z from "zod";
 import { ZodError } from "zod";
 
+type ResettableContracts = TokenDrop | EditionDrop | NFTDrop;
+
 interface DropPhases {
-  contract?: NFTDrop | EditionDrop | TokenDrop;
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop;
   tokenId?: string;
 }
 export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
-  const mutation = useResetEligibilityMutation(contract, tokenId);
+  const mutation = useResetEligibilityMutation(
+    contract as ResettableContracts,
+    tokenId,
+  );
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
   );
 
-  const nftsOrToken =
-    contract instanceof NFTDrop || contract instanceof EditionDrop
-      ? "NFTs"
-      : "tokens";
+  const nftsOrToken = contract instanceof TokenDrop ? "tokens" : "NFTs";
 
   return (
     <Stack spacing={8}>
@@ -92,46 +95,49 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
           <DropPhasesForm contract={contract} tokenId={tokenId} />
         </Flex>
       </Card>
-      <Card p={0} position="relative">
-        <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
-          <Flex
-            px={{ base: 6, md: 10 }}
-            as="section"
-            direction="column"
-            gap={4}
-          >
-            <Flex direction="column">
-              <Heading size="title.md">Claim Eligibility</Heading>
-              <Text size="body.md" fontStyle="italic">
-                This contracts claim eligibility stores who has already claimed
-                {nftsOrToken} from this contract and carries across claim
-                phases. Resetting claim eligibility will reset this state
-                permanently, and people who have already claimed to their limit
-                will be able to claim again.
-              </Text>
-            </Flex>
-          </Flex>
-
-          <AdminOnly contract={contract} fallback={<Box pb={5} />}>
-            <TransactionButton
-              colorScheme="primary"
-              transactionCount={1}
-              type="submit"
-              isLoading={mutation.isLoading}
-              onClick={() => {
-                mutation.mutate(undefined, txNotifications);
-              }}
-              loadingText="Resetting..."
-              size="md"
-              borderRadius="xl"
-              borderTopLeftRadius="0"
-              borderTopRightRadius="0"
+      {contract instanceof SignatureDrop ? null : (
+        <Card p={0} position="relative">
+          <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
+            <Flex
+              px={{ base: 6, md: 10 }}
+              as="section"
+              direction="column"
+              gap={4}
             >
-              Reset Claim Eligibility
-            </TransactionButton>
-          </AdminOnly>
-        </Flex>
-      </Card>
+              <Flex direction="column">
+                <Heading size="title.md">Claim Eligibility</Heading>
+                <Text size="body.md" fontStyle="italic">
+                  This contracts claim eligibility stores who has already
+                  claimed
+                  {nftsOrToken} from this contract and carries across claim
+                  phases. Resetting claim eligibility will reset this state
+                  permanently, and people who have already claimed to their
+                  limit will be able to claim again.
+                </Text>
+              </Flex>
+            </Flex>
+
+            <AdminOnly contract={contract} fallback={<Box pb={5} />}>
+              <TransactionButton
+                colorScheme="primary"
+                transactionCount={1}
+                type="submit"
+                isLoading={mutation.isLoading}
+                onClick={() => {
+                  mutation.mutate(undefined, txNotifications);
+                }}
+                loadingText="Resetting..."
+                size="md"
+                borderRadius="xl"
+                borderTopLeftRadius="0"
+                borderTopRightRadius="0"
+              >
+                Reset Claim Eligibility
+              </TransactionButton>
+            </AdminOnly>
+          </Flex>
+        </Card>
+      )}
     </Stack>
   );
 };
@@ -155,6 +161,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const decimals = useDecimals(contract);
 
   const transformedQueryData = useMemo(() => {
+    console.log(query.data);
     return (query.data || []).map((phase) => ({
       ...phase,
       price: Number(phase.currencyMetadata.displayValue),
@@ -195,11 +202,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   });
 
   useEffect(() => {
-    if (
-      query.data?.length &&
-      !form.formState.isDirty &&
-      !form.getValues("phases").length
-    ) {
+    if (!form.formState.isDirty && !form.getValues("phases").length) {
       form.reset({
         phases: transformedQueryData,
       });
@@ -606,16 +609,30 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
               </Flex>
             </Alert>
           )}
-          <Button
-            colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
-            variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
-            borderRadius="md"
-            leftIcon={<Icon as={FiPlus} />}
-            onClick={addPhase}
-          >
-            Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}Claim
-            Phase
-          </Button>
+          {contract instanceof SignatureDrop && watchFieldArray.length === 0 && (
+            <Button
+              colorScheme="purple"
+              variant="solid"
+              borderRadius="md"
+              leftIcon={<Icon as={FiPlus} />}
+              onClick={addPhase}
+            >
+              Add Claim Phase
+            </Button>
+          )}
+
+          {contract instanceof SignatureDrop ? null : (
+            <Button
+              colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
+              variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
+              borderRadius="md"
+              leftIcon={<Icon as={FiPlus} />}
+              onClick={addPhase}
+            >
+              Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
+              Claim Phase
+            </Button>
+          )}
         </Flex>
         <AdminOnly contract={contract} fallback={<Box pb={5} />}>
           <>

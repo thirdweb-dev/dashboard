@@ -14,8 +14,8 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   "token-drop": require("public/assets/tw-icons/token.png"),
   // TODO (byoc) icon for custom contract
   custom: require("public/assets/tw-icons/general.png"),
-  "signature-drop": require("public/assets/tw-icons/general.png"),
-  multiwrap: require("public/assets/tw-icons/general.png"),
+  "signature-drop": require("public/assets/tw-icons/nft-drop.png"),
+  multiwrap: require("public/assets/tw-icons/edition.png"),
 } as const;
 
 export const UrlMap: Record<ContractType, string> = {
@@ -31,7 +31,7 @@ export const UrlMap: Record<ContractType, string> = {
   "token-drop": "token-drop",
   // TODO (byoc)
   custom: "",
-  "signature-drop": "",
+  "signature-drop": "signature-drop",
   multiwrap: "",
 };
 

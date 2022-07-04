@@ -1,7 +1,6 @@
 import {
   MinterOnly,
   useBatchesToReveal,
-  useNFTDropContractMetadata,
   useNFTDropSupply,
 } from "@3rdweb-sdk/react";
 import { useClaimPhases } from "@3rdweb-sdk/react/hooks/useClaimPhases";
@@ -17,7 +16,7 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/react";
-import { useNFTDrop } from "@thirdweb-dev/react";
+import { useContractMetadata, useSignatureDrop } from "@thirdweb-dev/react";
 import { BatchToReveal } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { DropBatchUpload } from "components/batch-upload/DropBatchUpload";
@@ -34,7 +33,7 @@ import React, { ReactElement, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Card } from "tw-components";
 
-export default function NFTDropPage() {
+export default function SignatureDropPage() {
   const {
     isOpen: isBatchOpen,
     onOpen: onBatchOpen,
@@ -48,11 +47,10 @@ export default function NFTDropPage() {
   const router = useRouter();
   const [selectedBatch, setSelectedBatch] = useState<BatchToReveal>();
 
-  const dropAddress = useSingleQueryParam("nft-drop");
-  const contract = useNFTDrop(dropAddress);
+  const dropAddress = useSingleQueryParam("signature-drop");
+  const contract = useSignatureDrop(dropAddress);
   const claimPhases = useClaimPhases(contract);
-  const metadata = useNFTDropContractMetadata(dropAddress);
-  console.log(metadata);
+  const metadata = useContractMetadata(dropAddress);
   const batchesToReveal = useBatchesToReveal(dropAddress);
 
   const { data: supplyData } = useNFTDropSupply(dropAddress);
@@ -184,4 +182,6 @@ export default function NFTDropPage() {
   );
 }
 
-NFTDropPage.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
+SignatureDropPage.getLayout = (page: ReactElement) => (
+  <AppLayout>{page}</AppLayout>
+);
