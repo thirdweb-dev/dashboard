@@ -81,7 +81,6 @@ const colorOptions = [
   "teal",
   "cyan",
   "yellow",
-  "gray",
 ];
 
 const buildIframeSrc = (
