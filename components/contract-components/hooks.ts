@@ -15,6 +15,7 @@ import {
   extractConstructorParamsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk";
+import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { BuiltinContractMap, FeatureIconMap } from "constants/mappings";
 import { StaticImageData } from "next/image";
@@ -83,18 +84,23 @@ export function useContractIdIpfsHash(contractId: ContractId) {
   return `ipfs://${contractId}`;
 }
 
+interface PublishMutationData {
+  predeployUri: string;
+  extraMetadata: ExtraPublishMetadata;
+}
+
 export function usePublishMutation() {
   const sdk = useSDK();
 
-  return useMutation(async (uri: string) => {
-    invariant(
-      sdk && "getPublisher" in sdk,
-      "sdk is not ready or does not support publishing",
-    );
-    await sdk.getPublisher().publish(uri, {
-      version: "0.0.1",
-    });
-  });
+  return useMutation(
+    async ({ predeployUri, extraMetadata }: PublishMutationData) => {
+      invariant(
+        sdk && "getPublisher" in sdk,
+        "sdk is not ready or does not support publishing",
+      );
+      await sdk.getPublisher().publish(predeployUri, extraMetadata);
+    },
+  );
 }
 
 interface ContractDeployMutationParams {

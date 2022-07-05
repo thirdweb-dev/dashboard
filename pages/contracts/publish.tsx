@@ -1,4 +1,5 @@
-import { Box, Flex, Link } from "@chakra-ui/react";
+import { Flex, FormControl, Input, Link } from "@chakra-ui/react";
+import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { usePublishMutation } from "components/contract-components/hooks";
@@ -8,12 +9,25 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ReactElement, useMemo } from "react";
-import { Badge, Heading, Text } from "tw-components";
+import { useForm } from "react-hook-form";
+import {
+  Badge,
+  Card,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 
 const ContractsPublishPageWrapped: React.FC = () => {
   const { Track, trackEvent } = useTrack({
     page: "publish",
   });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ExtraPublishMetadata>();
 
   const router = useRouter();
 
@@ -76,45 +90,59 @@ const ContractsPublishPageWrapped: React.FC = () => {
           </Text>
         </Flex>
 
-        <Flex justify="space-between">
-          <Box />
-          <TransactionButton
-            colorScheme="primary"
-            transactionCount={1}
-            isLoading={publishMutation.isLoading}
-            onClick={() => {
+        <Card w="100%" p={6}>
+          <Flex
+            as="form"
+            onSubmit={handleSubmit((data) => {
               trackEvent({
                 category: "publish",
                 action: "click",
                 label: "attempt",
                 uris: uri,
               });
-              publishMutation.mutate(uri, {
-                onSuccess: () => {
-                  onSuccess();
-                  trackEvent({
-                    category: "publish",
-                    action: "click",
-                    label: "success",
-                    uris: uri,
-                  });
-                  router.push(`/contracts`);
+              publishMutation.mutate(
+                { predeployUri: uri, extraMetadata: data },
+                {
+                  onSuccess: () => {
+                    onSuccess();
+                    trackEvent({
+                      category: "publish",
+                      action: "click",
+                      label: "success",
+                      uris: uri,
+                    });
+                    router.push(`/contracts`);
+                  },
+                  onError: (err) => {
+                    onError(err);
+                    trackEvent({
+                      category: "publish",
+                      action: "click",
+                      label: "error",
+                      uris: uri,
+                    });
+                  },
                 },
-                onError: (err) => {
-                  onError(err);
-                  trackEvent({
-                    category: "publish",
-                    action: "click",
-                    label: "error",
-                    uris: uri,
-                  });
-                },
-              });
-            }}
+              );
+            })}
+            direction="column"
+            gap={4}
           >
-            Publish contract
-          </TransactionButton>
-        </Flex>
+            <FormControl isRequired isInvalid={!!errors.name}>
+              <FormLabel>Version</FormLabel>
+              <Input {...register("version")} placeholder="1.0.1" />
+              <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
+            </FormControl>
+            <TransactionButton
+              colorScheme="primary"
+              transactionCount={1}
+              isLoading={publishMutation.isLoading}
+              type="submit"
+            >
+              Publish contract
+            </TransactionButton>
+          </Flex>
+        </Card>
       </Flex>
     </Track>
   );
