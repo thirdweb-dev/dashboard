@@ -6,6 +6,7 @@ import {
   Skeleton,
   Textarea,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -40,6 +41,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
   } = useForm<ExtraPublishMetadata>();
 
   const router = useRouter();
+  const address = useAddress();
 
   const ipfsHashes = useMemo(() => {
     const uri = router.query.uri;
@@ -156,12 +158,16 @@ const ContractsPublishPageWrapped: React.FC = () => {
             </Flex>
             <FormControl isRequired isInvalid={!!errors.name}>
               <FormLabel>Version</FormLabel>
-              <Input {...register("version")} placeholder="1.0.1" />
+              <Input
+                {...register("version")}
+                placeholder="1.0.1"
+                disabled={!address}
+              />
               <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
             </FormControl>
             <FormControl isRequired isInvalid={!!errors.name}>
               <FormLabel>What&apos;s new?</FormLabel>
-              <Textarea {...register("changelog")} />
+              <Textarea {...register("changelog")} disabled={!address} />
               <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
             </FormControl>
             <Flex justifyContent="space-between" alignItems="center">
