@@ -353,7 +353,9 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
         </Flex>
         {!abiFunction ? (
           <Text>Please select a function on the left to get started</Text>
-        ) : null}
+        ) : (
+          <Text>{(abiFunction as any).comment}</Text>
+        )}
         {abiFunction?.signature && (
           <CodeBlock code={abiFunction.signature} language="typescript" />
         )}
