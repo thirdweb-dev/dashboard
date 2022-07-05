@@ -1,15 +1,14 @@
 import {
   Flex,
   FormControl,
-  IconButton,
   Input,
   Link,
   Skeleton,
+  Textarea,
 } from "@chakra-ui/react";
 import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { ContractIdImage } from "components/contract-components/contract-table/cells/image";
 import {
   useContractPublishMetadataFromURI,
   usePublishMutation,
@@ -21,7 +20,6 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ReactElement, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { FiChevronLeft } from "react-icons/fi";
 import {
   Badge,
   Card,
@@ -102,24 +100,6 @@ const ContractsPublishPageWrapped: React.FC = () => {
             </Link>
           </Text>
         </Flex>
-
-        <Flex gap={4} align="center">
-          <Flex direction="column">
-            <Skeleton isLoaded={publishMetadata.isSuccess}>
-              <Flex gap={2}>
-                <Heading minW="60px" size="subtitle.lg">
-                  {publishMetadata.data?.name}
-                </Heading>
-              </Flex>
-            </Skeleton>
-            <Skeleton isLoaded={publishMetadata.isSuccess}>
-              <Text maxW="xs" fontStyle="italic" noOfLines={2}>
-                {publishMetadata.data?.description || "No description"}
-              </Text>
-            </Skeleton>
-          </Flex>
-        </Flex>
-
         <Card w="100%" p={6}>
           <Flex
             as="form"
@@ -158,19 +138,46 @@ const ContractsPublishPageWrapped: React.FC = () => {
             direction="column"
             gap={4}
           >
+            <Flex gap={4} align="center">
+              <Flex direction="column">
+                <Skeleton isLoaded={publishMetadata.isSuccess}>
+                  <Flex gap={2}>
+                    <Heading minW="60px" size="subtitle.lg">
+                      {publishMetadata.data?.name}
+                    </Heading>
+                  </Flex>
+                </Skeleton>
+                <Skeleton isLoaded={publishMetadata.isSuccess}>
+                  <Text maxW="xs" fontStyle="italic" noOfLines={2}>
+                    {publishMetadata.data?.description || "No description"}
+                  </Text>
+                </Skeleton>
+              </Flex>
+            </Flex>
             <FormControl isRequired isInvalid={!!errors.name}>
               <FormLabel>Version</FormLabel>
               <Input {...register("version")} placeholder="1.0.1" />
               <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
             </FormControl>
-            <TransactionButton
-              colorScheme="primary"
-              transactionCount={1}
-              isLoading={publishMutation.isLoading}
-              type="submit"
-            >
-              Publish contract
-            </TransactionButton>
+            <FormControl isRequired isInvalid={!!errors.name}>
+              <FormLabel>What&apos;s new?</FormLabel>
+              <Textarea {...register("changelog")} />
+              <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
+            </FormControl>
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text>
+                Contracts gets published for free (gasless) on the Polygon
+                network.
+              </Text>
+              <TransactionButton
+                colorScheme="primary"
+                transactionCount={1}
+                isLoading={publishMutation.isLoading}
+                type="submit"
+              >
+                Publish contract
+              </TransactionButton>
+            </Flex>
           </Flex>
         </Card>
       </Flex>
