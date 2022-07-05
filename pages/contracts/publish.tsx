@@ -1,15 +1,13 @@
 import { Box, Flex, Link } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { DeployableContractTable } from "components/contract-components/contract-table";
 import { usePublishMutation } from "components/contract-components/hooks";
-import { ContractId } from "components/contract-components/types";
 import { UrlMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { ReactElement, useMemo } from "react";
 import { Badge, Heading, Text } from "tw-components";
 
 const ContractsPublishPageWrapped: React.FC = () => {
@@ -34,33 +32,23 @@ const ContractsPublishPageWrapped: React.FC = () => {
     return array;
   }, [router.query]);
 
-  const [selectedContractIds, setSelectedContractIds] = useState<ContractId[]>(
-    [],
-  );
-
-  useEffect(() => {
-    setSelectedContractIds(ipfsHashes);
-  }, [ipfsHashes]);
-
-  const publishContractNo = selectedContractIds.length;
-
   const { onSuccess, onError } = useTxNotifications(
-    `Successfully published ${publishContractNo} contract${
-      publishContractNo === 1 ? "" : "s"
-    }`,
+    "Successfully published contract",
     "Failed to publish contracts",
   );
   const publishMutation = usePublishMutation();
 
-  const publishableContractIds = useMemo(() => {
-    return selectedContractIds.filter((id) => !(id in UrlMap));
-  }, [selectedContractIds]);
+  const publishableContractId = useMemo(() => {
+    return ipfsHashes.find((id) => !(id in UrlMap));
+  }, [ipfsHashes]);
 
-  const uris = useMemo(() => {
-    return selectedContractIds.map((id) =>
-      id.startsWith("ipfs://") ? id : `ipfs://${id}`,
-    );
-  }, [selectedContractIds]);
+  const uri = useMemo(
+    () =>
+      publishableContractId?.startsWith("ipfs://")
+        ? publishableContractId
+        : `ipfs://${publishableContractId}`,
+    [publishableContractId],
+  );
 
   return (
     <Track>
@@ -88,37 +76,27 @@ const ContractsPublishPageWrapped: React.FC = () => {
           </Text>
         </Flex>
 
-        <DeployableContractTable
-          isPublish
-          contractIds={ipfsHashes}
-          selectable={{
-            selected: publishableContractIds,
-            onChange: setSelectedContractIds,
-          }}
-        />
-
         <Flex justify="space-between">
           <Box />
           <TransactionButton
             colorScheme="primary"
-            isDisabled={!publishContractNo}
-            transactionCount={publishContractNo}
+            transactionCount={1}
             isLoading={publishMutation.isLoading}
             onClick={() => {
               trackEvent({
                 category: "publish",
                 action: "click",
                 label: "attempt",
-                uris,
+                uris: uri,
               });
-              publishMutation.mutate(uris, {
+              publishMutation.mutate(uri, {
                 onSuccess: () => {
                   onSuccess();
                   trackEvent({
                     category: "publish",
                     action: "click",
                     label: "success",
-                    uris,
+                    uris: uri,
                   });
                   router.push(`/contracts`);
                 },
@@ -128,14 +106,13 @@ const ContractsPublishPageWrapped: React.FC = () => {
                     category: "publish",
                     action: "click",
                     label: "error",
-                    uris,
+                    uris: uri,
                   });
                 },
               });
             }}
           >
-            Publish {publishContractNo} contract
-            {publishContractNo === 1 ? "" : "s"}
+            Publish contract
           </TransactionButton>
         </Flex>
       </Flex>

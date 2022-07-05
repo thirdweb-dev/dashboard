@@ -86,22 +86,14 @@ export function useContractIdIpfsHash(contractId: ContractId) {
 export function usePublishMutation() {
   const sdk = useSDK();
 
-  return useMutation(async (uris: string[]) => {
+  return useMutation(async (uri: string) => {
     invariant(
       sdk && "getPublisher" in sdk,
       "sdk is not ready or does not support publishing",
     );
-    // FIXME - can't call batch here because of a bug with multicall + gasless setup. Looping through the uris and calling publish one by one for now.
-    const receipts = [];
-    for (const uri of uris) {
-      // TODO - add version input UI + other publish metadata and pass it here
-      receipts.push(
-        await sdk.getPublisher().publish(uri, {
-          version: "0.0.1",
-        }),
-      );
-    }
-    return receipts;
+    await sdk.getPublisher().publish(uri, {
+      version: "0.0.1",
+    });
   });
 }
 
