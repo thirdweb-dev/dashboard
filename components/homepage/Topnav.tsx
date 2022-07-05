@@ -9,6 +9,7 @@ import {
   MenuList,
   Stack,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Logo } from "components/logo";
@@ -25,6 +26,7 @@ import {
 export const HomepageTopNav: React.FC<{}> = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isOpen, onClose, onOpen } = useDisclosure();
   useScrollPosition(
     ({ currPos }) => {
       if (currPos.y < -5) {
@@ -81,8 +83,8 @@ export const HomepageTopNav: React.FC<{}> = () => {
             >
               Docs
             </TrackedLink>
-            <Menu>
-              <MenuButton>
+            <Menu isOpen={isOpen} onClose={onClose}>
+              <MenuButton onMouseOver={onOpen}>
                 <Text color="white" fontWeight="bold" fontSize="16px">
                   Features
                 </Text>
