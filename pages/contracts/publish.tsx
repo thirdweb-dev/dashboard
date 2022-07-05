@@ -11,6 +11,7 @@ import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contract
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import {
+  useContractPrePublishMetadata,
   useContractPublishMetadataFromURI,
   usePublishMutation,
 } from "components/contract-components/hooks";
@@ -19,7 +20,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
   Badge,
@@ -35,9 +36,10 @@ const ContractsPublishPageWrapped: React.FC = () => {
     page: "publish",
   });
   const {
+    reset,
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ExtraPublishMetadata>();
 
   const router = useRouter();
@@ -75,7 +77,25 @@ const ContractsPublishPageWrapped: React.FC = () => {
         : `ipfs://${publishableContractId}`,
     [publishableContractId],
   );
+
   const publishMetadata = useContractPublishMetadataFromURI(uri);
+  const prePublishMetadata = useContractPrePublishMetadata(uri, address);
+
+  useEffect(() => {
+    if (!isDirty && address) {
+      reset({
+        ...prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata,
+        changelog: "",
+        version: "",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prePublishMetadata.data, address]);
+
+  const latestVersion =
+    prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
+      .version;
 
   return (
     <Track>
@@ -138,7 +158,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
               );
             })}
             direction="column"
-            gap={4}
+            gap={6}
           >
             <Flex gap={4} align="center">
               <Flex direction="column">
@@ -157,22 +177,24 @@ const ContractsPublishPageWrapped: React.FC = () => {
               </Flex>
             </Flex>
             <FormControl isRequired isInvalid={!!errors.name}>
-              <FormLabel>Version</FormLabel>
+              <FormLabel>
+                Version {latestVersion && `(latest: ${latestVersion})`}
+              </FormLabel>
               <Input
                 {...register("version")}
-                placeholder="1.0.1"
+                placeholder={latestVersion || "1.0.0"}
                 disabled={!address}
               />
               <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl isRequired isInvalid={!!errors.name}>
+            <FormControl isInvalid={!!errors.name}>
               <FormLabel>What&apos;s new?</FormLabel>
               <Textarea {...register("changelog")} disabled={!address} />
               <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
             </FormControl>
             <Flex justifyContent="space-between" alignItems="center">
               <Text>
-                Contracts gets published for free (gasless) on the Polygon
+                Contracts are published for free (gasless) on the Polygon
                 network.
               </Text>
               <TransactionButton

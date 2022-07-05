@@ -1,6 +1,7 @@
 import { ContractId } from "./types";
 import { isContractIdBuiltInContract } from "./utils";
 import { contractKeys, networkKeys } from "@3rdweb-sdk/react";
+import { useMutationWithInvalidate } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import { contractTypeFromContract } from "@3rdweb-sdk/react/hooks/useCommon";
 import {
   useAddress,
@@ -20,7 +21,7 @@ import { StorageSingleton } from "components/app-layouts/providers";
 import { BuiltinContractMap, FeatureIconMap } from "constants/mappings";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { QueryKey, useMutation, useQuery, useQueryClient } from "react-query";
 import invariant from "tiny-invariant";
 
 interface ContractPublishMetadata {
@@ -68,6 +69,20 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
   );
 }
 
+export function useContractPrePublishMetadata(uri: string, address?: string) {
+  const sdk = useSDK();
+  return useQuery(
+    ["pre-publish-metadata", uri],
+    async () => {
+      invariant(address, "address is not defined");
+      return await sdk?.getPublisher().fetchPrePublishMetadata(uri, address);
+    },
+    {
+      enabled: !!uri && !!address,
+    },
+  );
+}
+
 export function useConstructorParamsFromABI(abi?: any) {
   return useMemo(() => {
     return abi ? extractConstructorParamsFromAbi(abi) : [];
@@ -92,13 +107,18 @@ interface PublishMutationData {
 export function usePublishMutation() {
   const sdk = useSDK();
 
-  return useMutation(
+  return useMutationWithInvalidate(
     async ({ predeployUri, extraMetadata }: PublishMutationData) => {
       invariant(
         sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
       await sdk.getPublisher().publish(predeployUri, extraMetadata);
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        return invalidate([["pre-publish-metadata", _variables.predeployUri]]);
+      },
     },
   );
 }
