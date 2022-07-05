@@ -1,8 +1,19 @@
-import { Flex, FormControl, Input, Link } from "@chakra-ui/react";
+import {
+  Flex,
+  FormControl,
+  IconButton,
+  Input,
+  Link,
+  Skeleton,
+} from "@chakra-ui/react";
 import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { usePublishMutation } from "components/contract-components/hooks";
+import { ContractIdImage } from "components/contract-components/contract-table/cells/image";
+import {
+  useContractPublishMetadataFromURI,
+  usePublishMutation,
+} from "components/contract-components/hooks";
 import { UrlMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -10,6 +21,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ReactElement, useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { FiChevronLeft } from "react-icons/fi";
 import {
   Badge,
   Card,
@@ -63,6 +75,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
         : `ipfs://${publishableContractId}`,
     [publishableContractId],
   );
+  const publishMetadata = useContractPublishMetadataFromURI(uri);
 
   return (
     <Track>
@@ -88,6 +101,23 @@ const ContractsPublishPageWrapped: React.FC = () => {
               Learn more about publishing contracts
             </Link>
           </Text>
+        </Flex>
+
+        <Flex gap={4} align="center">
+          <Flex direction="column">
+            <Skeleton isLoaded={publishMetadata.isSuccess}>
+              <Flex gap={2}>
+                <Heading minW="60px" size="subtitle.lg">
+                  {publishMetadata.data?.name}
+                </Heading>
+              </Flex>
+            </Skeleton>
+            <Skeleton isLoaded={publishMetadata.isSuccess}>
+              <Text maxW="xs" fontStyle="italic" noOfLines={2}>
+                {publishMetadata.data?.description || "No description"}
+              </Text>
+            </Skeleton>
+          </Flex>
         </Flex>
 
         <Card w="100%" p={6}>
