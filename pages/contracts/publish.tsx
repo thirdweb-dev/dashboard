@@ -1,6 +1,7 @@
 import {
   Flex,
   FormControl,
+  Icon,
   Input,
   Link,
   Skeleton,
@@ -22,6 +23,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineAntDesign } from "react-icons/ai";
 import {
   Badge,
   Card,
@@ -126,7 +128,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
             </Link>
           </Text>
         </Flex>
-        <Card w="100%" p={6}>
+        <Card w="100%" p={8}>
           <Flex
             as="form"
             onSubmit={handleSubmit((data) => {
@@ -168,7 +170,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
               <Flex direction="column">
                 <Skeleton isLoaded={publishMetadata.isSuccess}>
                   <Flex gap={2}>
-                    <Heading minW="60px" size="subtitle.lg">
+                    <Heading minW="60px" size="subtitle.lg" fontWeight="bold">
                       {publishMetadata.data?.name}
                     </Heading>
                   </Flex>
@@ -177,15 +179,19 @@ const ContractsPublishPageWrapped: React.FC = () => {
             </Flex>
             <FormControl isInvalid={!!errors.name}>
               <FormLabel>Description</FormLabel>
-              <Input {...register("description")} disabled={!address} />
+              <Textarea {...register("description")} disabled={!address} />
               <FormErrorMessage>
                 {errors?.description?.message}
               </FormErrorMessage>
             </FormControl>
             <FormControl isRequired isInvalid={!!errors.name}>
-              <FormLabel>
-                Version {latestVersion && `(latest: ${latestVersion})`}
-              </FormLabel>
+              <Flex flexDir="row" align="center">
+                <FormLabel flex="1">Version</FormLabel>
+                <Text size="body.md" p={1}>
+                  {latestVersion &&
+                    `latest published version: v${latestVersion}`}
+                </Text>
+              </Flex>
               <Input
                 {...register("version")}
                 placeholder={latestVersion || "1.0.0"}
@@ -194,7 +200,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
               <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={!!errors.name}>
-              <FormLabel>What&apos;s new?</FormLabel>
+              <FormLabel>Release Notes</FormLabel>
               <Textarea {...register("changelog")} disabled={!address} />
               <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
             </FormControl>
