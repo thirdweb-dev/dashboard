@@ -42,8 +42,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   } = useForm<ExtraPublishMetadata>();
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully published contract",
-    "Failed to publish contracts",
+    "Successfully released contract",
+    "Failed to released contract",
   );
   const address = useAddress();
   const publishMutation = usePublishMutation();
@@ -92,7 +92,9 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   label: "success",
                   uris: contractId,
                 });
-                router.push(`/contracts/deploy/${contractId}`);
+                router.push(
+                  `/contracts/deploy/${encodeURIComponent(contractId)}`,
+                );
               },
               onError: (err) => {
                 onError(err);
