@@ -106,12 +106,10 @@ const ContractsPublishPageWrapped: React.FC = () => {
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
           <Heading size="title.md">Release a new contract version</Heading>
-          <Text fontStyle="normal" maxW="container.lg">
-            This releases a new version of your contract. You&apos;ll be able to
-            share this release for others to deploy.
-            <br />
-            We&apos;ll automatically generate SDKs to interact with your
-            contract and generate admin dashboards with analytics, contract
+          <Text fontStyle="normal" maxW="container.md">
+            Once released, you&apos;ll be able to share this version for others
+            to deploy. We&apos;ll automatically generate SDKs to interact with
+            your contract and provide admin dashboards with analytics, contract
             explorer and extensions.
             <br />
             <Link
@@ -189,7 +187,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
                 <FormLabel flex="1">Version</FormLabel>
                 {latestVersion && (
                   <Text size="body.md" p={1}>
-                    latest published version: {latestVersion}
+                    latest release: {latestVersion}
                   </Text>
                 )}
               </Flex>
@@ -216,7 +214,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
                 isLoading={publishMutation.isLoading}
                 type="submit"
               >
-                Publish contract
+                Create Release
               </TransactionButton>
             </Flex>
           </Flex>
