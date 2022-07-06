@@ -20,12 +20,10 @@ import { FeatureIconMap, UrlMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { StaticImageData } from "next/image";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
-  Badge,
   Card,
   FormErrorMessage,
   FormLabel,
