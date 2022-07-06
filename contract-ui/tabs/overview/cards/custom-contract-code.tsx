@@ -365,6 +365,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
         {!abiFunction ? (
           <Text>Please select a function on the left to get started</Text>
         ) : (
+          // TODO: Remove this when we update SDK
           <Text fontSize="12px" noOfLines={2}>
             {(abiFunction as any).comment}
           </Text>
@@ -423,7 +424,8 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
               <FormLabel>Native Token Value</FormLabel>
               <Input {...register(`value`)} />
               <FormHelperText>
-                The native currency value to send with this transaction.
+                The native currency value to send with this transaction (ex:
+                0.01 to send 0.01 native currency).
               </FormHelperText>
             </FormControl>
           </>
