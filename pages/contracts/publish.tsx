@@ -1,7 +1,6 @@
 import {
   Flex,
   FormControl,
-  Icon,
   Input,
   Link,
   Skeleton,
@@ -23,7 +22,6 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineAntDesign } from "react-icons/ai";
 import {
   Badge,
   Card,
@@ -107,24 +105,21 @@ const ContractsPublishPageWrapped: React.FC = () => {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">
-            Publish Contracts{" "}
-            <Badge variant="outline" colorScheme="purple">
-              beta
-            </Badge>
-          </Heading>
+          <Heading size="title.md">Release a version</Heading>
           <Text fontStyle="italic" maxW="container.md">
-            Publishing contracts lets you make your contracts available to be
-            deployed later, across multiple chains. You can even share your
-            published contracts with others, letting them deploy instances of
-            your contracts.
+            Create a version release for your contract. This creates an official
+            version from your wallet that only you control. you&apos;ll be able
+            to share this version with team members or the public. We&apos;ll
+            automatically generate a SDK for anyone to use with your contract
+            and you&apos;ll have access to our dashboard with analytics,
+            contract explorer and extensions.
             <br />
             <Link
               color="primary.500"
               isExternal
               href="https://portal.thirdweb.com/thirdweb-deploy"
             >
-              Learn more about publishing contracts
+              Learn more about releasing contracts
             </Link>
           </Text>
         </Flex>
@@ -187,10 +182,11 @@ const ContractsPublishPageWrapped: React.FC = () => {
             <FormControl isRequired isInvalid={!!errors.name}>
               <Flex flexDir="row" align="center">
                 <FormLabel flex="1">Version</FormLabel>
-                <Text size="body.md" pb={1}>
-                  {latestVersion &&
-                    `latest published version: ${latestVersion}`}
-                </Text>
+                {latestVersion && (
+                  <Text size="body.md" p={1}>
+                    latest published version: {latestVersion}
+                  </Text>
+                )}
               </Flex>
               <Input
                 {...register("version")}
@@ -206,8 +202,8 @@ const ContractsPublishPageWrapped: React.FC = () => {
             </FormControl>
             <Flex justifyContent="space-between" alignItems="center">
               <Text>
-                Contracts are published for free (gasless) on the Polygon
-                network.
+                Our contract registry lives on Polygon and releases are free
+                (gasless)
               </Text>
               <TransactionButton
                 colorScheme="purple"
