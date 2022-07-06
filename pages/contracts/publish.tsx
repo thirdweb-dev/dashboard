@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ExtraPublishMetadata } from "@thirdweb-dev/sdk";
+import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import {
@@ -19,6 +20,7 @@ import { UrlMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { StaticImageData } from "next/image";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -164,7 +166,12 @@ const ContractsPublishPageWrapped: React.FC = () => {
             <Flex gap={4} align="center">
               <Flex direction="column">
                 <Skeleton isLoaded={publishMetadata.isSuccess}>
-                  <Flex gap={2}>
+                  <Flex gap={2} alignItems="center">
+                    <ChakraNextImage
+                      src={publishMetadata.data?.image as StaticImageData}
+                      boxSize={12}
+                      alt={publishMetadata.data?.name || "Contract Image"}
+                    />
                     <Heading minW="60px" size="subtitle.lg" fontWeight="bold">
                       {publishMetadata.data?.name}
                     </Heading>
