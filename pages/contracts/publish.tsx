@@ -7,7 +7,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
+import { ExtraPublishMetadata } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import {
@@ -88,6 +88,10 @@ const ContractsPublishPageWrapped: React.FC = () => {
           ?.publishedMetadata,
         changelog: "",
         version: "",
+        description:
+          prePublishMetadata.data?.latestPublishedContractMetadata
+            ?.publishedMetadata.description ||
+          prePublishMetadata.data?.preDeployMetadata.info.title,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,13 +173,15 @@ const ContractsPublishPageWrapped: React.FC = () => {
                     </Heading>
                   </Flex>
                 </Skeleton>
-                <Skeleton isLoaded={publishMetadata.isSuccess}>
-                  <Text maxW="xs" fontStyle="italic" noOfLines={2}>
-                    {publishMetadata.data?.description || "No description"}
-                  </Text>
-                </Skeleton>
               </Flex>
             </Flex>
+            <FormControl isInvalid={!!errors.name}>
+              <FormLabel>Description</FormLabel>
+              <Input {...register("description")} disabled={!address} />
+              <FormErrorMessage>
+                {errors?.description?.message}
+              </FormErrorMessage>
+            </FormControl>
             <FormControl isRequired isInvalid={!!errors.name}>
               <FormLabel>
                 Version {latestVersion && `(latest: ${latestVersion})`}
@@ -198,7 +204,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
                 network.
               </Text>
               <TransactionButton
-                colorScheme="primary"
+                colorScheme="purple"
                 transactionCount={1}
                 isLoading={publishMutation.isLoading}
                 type="submit"
