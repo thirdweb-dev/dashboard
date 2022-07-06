@@ -13,7 +13,7 @@ export default function UserPage() {
     if (!wallet?.startsWith("0x") && previousPath !== "[wallet]") {
       router.replace(`/contracts/deploy/${previousPath}`);
     }
-  }, [wallet]);
+  }, [wallet, router]);
 
   return null;
 }
