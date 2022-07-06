@@ -99,7 +99,7 @@ export function useConstructorParamsFromABI(abi?: any) {
 export function useContractIdIpfsHash(contractId: ContractId) {
   if (
     isContractIdBuiltInContract(contractId) ||
-    contractId.startsWith("ipfs://")
+    contractId?.startsWith("ipfs://")
   ) {
     return contractId;
   }

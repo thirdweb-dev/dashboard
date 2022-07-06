@@ -19,6 +19,7 @@ interface DeployableContractTableProps {
   isPublish?: true;
   hasDescription?: true;
   isFetching?: boolean;
+  release?: boolean;
 }
 
 export const DeployableContractTable: ComponentWithChildren<
@@ -29,6 +30,7 @@ export const DeployableContractTable: ComponentWithChildren<
   isPublish,
   hasDescription,
   isFetching,
+  release,
   children,
 }) => {
   const tableColumns: Column<{ contractId: ContractId }>[] = useMemo(() => {
@@ -70,7 +72,9 @@ export const DeployableContractTable: ComponentWithChildren<
         {
           id: "deploy-action",
           accessor: (row) => row.contractId,
-          Cell: (cell: any) => <ContractDeployActionCell cell={cell} />,
+          Cell: (cell: any) => (
+            <ContractDeployActionCell cell={cell} release={release} />
+          ),
         },
       ];
     }

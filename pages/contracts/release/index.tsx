@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import { ReactElement, useMemo } from "react";
 import { Heading, Text } from "tw-components";
 
-export default function ContractsDeployPage() {
+export default function ContractsReleasePage() {
   const { Track } = useTrack({
-    page: "deploy",
+    page: "publish",
   });
 
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function ContractsDeployPage() {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Deploy Contract</Heading>
+          <Heading size="title.md">Release Contracts</Heading>
           <Text fontStyle="italic" maxW="container.md">
             Welcome to the new thirdweb contract deployment flow.
             <br />
@@ -31,17 +31,17 @@ export default function ContractsDeployPage() {
               isExternal
               href="https://portal.thirdweb.com/thirdweb-deploy"
             >
-              Learn more about deploying your contracts.
+              Learn more about releasing your contracts.
             </Link>
           </Text>
         </Flex>
 
-        <DeployableContractTable contractIds={ipfsHashes} />
+        <DeployableContractTable contractIds={ipfsHashes} release />
       </Flex>
     </Track>
   );
 }
 
-ContractsDeployPage.getLayout = function getLayout(page: ReactElement) {
+ContractsReleasePage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
 };
