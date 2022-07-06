@@ -26,7 +26,6 @@ export const DeployableContractTable: ComponentWithChildren<
 > = ({
   contractIds,
   selectable,
-  isPublish,
   hasDescription,
   isFetching,
   release,
