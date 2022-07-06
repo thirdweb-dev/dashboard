@@ -64,6 +64,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     <Flex
       flexGrow={1}
       minH="full"
+      p={{ base: 4, md: 6 }}
       gap={4}
       direction="column"
       as="form"
@@ -141,14 +142,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           {/* TODO make this part of the actual form */}
           {constructorParams.map((param, idx) => (
             <FormControl isRequired key={param.name}>
-              <FormLabel>{param.name}</FormLabel>
+              <Flex alignItems="center" my={1}>
+                <FormLabel mb={0} flex="1">
+                  {param.name}
+                </FormLabel>
+                <FormHelperText mt={0}>{param.type}</FormHelperText>
+              </Flex>
               <Input
                 fontFamily={param.type === "address" ? "monospace" : undefined}
                 value={contractParams[idx] || ""}
                 onChange={(e) => setContractParams(idx, e.currentTarget.value)}
                 type="text"
               />
-              <FormHelperText>{param.type}</FormHelperText>
             </FormControl>
           ))}
           <Divider borderColor="borderColor" mt="auto" />
