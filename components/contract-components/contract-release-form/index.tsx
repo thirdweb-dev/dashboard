@@ -70,7 +70,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
       .version;
   return (
-    <Card w="100%" p={8}>
+    <Card w="100%" p={{ base: 6, md: 10 }}>
       <Flex
         as="form"
         onSubmit={handleSubmit((data) => {
@@ -150,7 +150,12 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           <Textarea {...register("changelog")} disabled={!address} />
           <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
         </FormControl>
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          direction={{ base: "column", md: "row" }}
+          gap={4}
+        >
           <Text>
             Our contract registry lives on Polygon and releases are free
             (gasless)
@@ -160,6 +165,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             transactionCount={1}
             isLoading={publishMutation.isLoading}
             type="submit"
+            w={{ base: "full", md: "inherit" }}
           >
             Create Release
           </TransactionButton>
