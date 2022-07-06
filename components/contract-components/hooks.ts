@@ -70,12 +70,15 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
 }
 
 export function useContractPrePublishMetadata(uri: string, address?: string) {
+  const contractIdIpfsHash = useContractIdIpfsHash(uri);
   const sdk = useSDK();
   return useQuery(
-    ["pre-publish-metadata", uri],
+    ["pre-publish-metadata", uri, address],
     async () => {
       invariant(address, "address is not defined");
-      return await sdk?.getPublisher().fetchPrePublishMetadata(uri, address);
+      return await sdk
+        ?.getPublisher()
+        .fetchPrePublishMetadata(contractIdIpfsHash, address);
     },
     {
       enabled: !!uri && !!address,
