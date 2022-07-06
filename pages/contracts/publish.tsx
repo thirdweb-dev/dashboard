@@ -16,7 +16,7 @@ import {
   useContractPublishMetadataFromURI,
   usePublishMutation,
 } from "components/contract-components/hooks";
-import { UrlMap } from "constants/mappings";
+import { FeatureIconMap, UrlMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -107,14 +107,14 @@ const ContractsPublishPageWrapped: React.FC = () => {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Release a version</Heading>
-          <Text fontStyle="italic" maxW="container.md">
-            Create a version release for your contract. This creates an official
-            version from your wallet that only you control. you&apos;ll be able
-            to share this version with team members or the public. We&apos;ll
-            automatically generate a SDK for anyone to use with your contract
-            and you&apos;ll have access to our dashboard with analytics,
-            contract explorer and extensions.
+          <Heading size="title.md">Release a new contract version</Heading>
+          <Text fontStyle="normal" maxW="container.lg">
+            This releases a new version of your contract. You&apos;ll be able to
+            share this release for others to deploy.
+            <br />
+            We&apos;ll automatically generate SDKs to interact with your
+            contract and generate admin dashboards with analytics, contract
+            explorer and extensions.
             <br />
             <Link
               color="primary.500"
@@ -165,18 +165,18 @@ const ContractsPublishPageWrapped: React.FC = () => {
           >
             <Flex gap={4} align="center">
               <Flex direction="column">
-                <Skeleton isLoaded={publishMetadata.isSuccess}>
-                  <Flex gap={2} alignItems="center">
-                    <ChakraNextImage
-                      src={publishMetadata.data?.image as StaticImageData}
-                      boxSize={12}
-                      alt={publishMetadata.data?.name || "Contract Image"}
-                    />
+                <Flex gap={2} alignItems="center">
+                  <ChakraNextImage
+                    src={FeatureIconMap["custom"]}
+                    boxSize={12}
+                    alt=""
+                  />
+                  <Skeleton isLoaded={publishMetadata.isSuccess}>
                     <Heading minW="60px" size="subtitle.lg" fontWeight="bold">
                       {publishMetadata.data?.name}
                     </Heading>
-                  </Flex>
-                </Skeleton>
+                  </Skeleton>
+                </Flex>
               </Flex>
             </Flex>
             <FormControl isInvalid={!!errors.name}>

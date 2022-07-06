@@ -8,7 +8,6 @@ export const ContractVersionCell: React.FC<
 > = ({ cell: { value } }) => {
   const address = useAddress();
   const fullPublishMetadata = useContractPrePublishMetadata(value, address);
-  console.log("fullPublishMetadata", value);
   return (
     <Text size="label.md">
       {fullPublishMetadata.data?.latestPublishedContractMetadata

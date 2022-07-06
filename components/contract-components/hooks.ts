@@ -47,6 +47,8 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
           description: details.description,
         };
       }
+      // TODO: Make this nicer.
+      invariant(contractId !== "ipfs://undefined", "uri can't be undefined");
       const resolved = await fetchPreDeployMetadata(
         contractIdIpfsHash,
         StorageSingleton,
@@ -76,6 +78,8 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
     ["pre-publish-metadata", uri, address],
     async () => {
       invariant(address, "address is not defined");
+      // TODO: Make this nicer.
+      invariant(uri !== "ipfs://undefined", "uri can't be undefined");
       return await sdk
         ?.getPublisher()
         .fetchPrePublishMetadata(contractIdIpfsHash, address);
