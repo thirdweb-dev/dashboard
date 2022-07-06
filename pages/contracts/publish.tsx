@@ -213,7 +213,7 @@ const ContractsPublishPageWrapped: React.FC = () => {
                   (gasless)
                 </Text>
                 <TransactionButton
-                  colorScheme="purple"
+                  colorScheme={address ? "purple" : "blue"}
                   transactionCount={1}
                   isLoading={publishMutation.isLoading}
                   type="submit"
