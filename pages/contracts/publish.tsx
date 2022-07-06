@@ -187,9 +187,9 @@ const ContractsPublishPageWrapped: React.FC = () => {
             <FormControl isRequired isInvalid={!!errors.name}>
               <Flex flexDir="row" align="center">
                 <FormLabel flex="1">Version</FormLabel>
-                <Text size="body.md" p={1}>
+                <Text size="body.md" pb={1}>
                   {latestVersion &&
-                    `latest published version: v${latestVersion}`}
+                    `latest published version: ${latestVersion}`}
                 </Text>
               </Flex>
               <Input
