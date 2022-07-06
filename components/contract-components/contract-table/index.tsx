@@ -16,7 +16,6 @@ interface DeployableContractTableProps {
     selected: ContractId[];
     onChange: (contractIds: ContractId[]) => void;
   };
-  isPublish?: true;
   hasDescription?: true;
   isFetching?: boolean;
   release?: boolean;
@@ -66,18 +65,16 @@ export const DeployableContractTable: ComponentWithChildren<
         },
       ];
     }
-    if (!isPublish) {
-      cols = [
-        ...cols,
-        {
-          id: "deploy-action",
-          accessor: (row) => row.contractId,
-          Cell: (cell: any) => (
-            <ContractDeployActionCell cell={cell} release={release} />
-          ),
-        },
-      ];
-    }
+    cols = [
+      ...cols,
+      {
+        id: "deploy-action",
+        accessor: (row) => row.contractId,
+        Cell: (cell: any) => (
+          <ContractDeployActionCell cell={cell} release={release} />
+        ),
+      },
+    ];
 
     if (selectable) {
       const selectedContractIds = selectable.selected;
@@ -135,7 +132,7 @@ export const DeployableContractTable: ComponentWithChildren<
     return cols;
     // this is to avoid re-rendering of the table when the contractIds array changes (it will always be a string array, so we can just join it and compare the string output)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contractIds.join(), isPublish, selectable, hasDescription]);
+  }, [contractIds.join(), release, selectable, hasDescription]);
 
   const tableInstance = useTable({
     columns: tableColumns,
@@ -183,7 +180,7 @@ export const DeployableContractTable: ComponentWithChildren<
                   <Td
                     {...cell.getCellProps()}
                     borderBottomWidth="inherit"
-                    _last={isPublish ? undefined : { textAlign: "end" }}
+                    _last={{ textAlign: "end" }}
                   >
                     {cell.render("Cell")}
                   </Td>

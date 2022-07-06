@@ -12,7 +12,7 @@ import { Button, Drawer, LinkButton, TrackedIconButton } from "tw-components";
 
 export const ContractDeployActionCell: React.FC<
   DeployableContractContractCellProps
-> = ({ cell: { value } }, release) => {
+> = ({ cell: { value }, release }) => {
   const publishMetadata = useContractPublishMetadataFromURI(value);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
