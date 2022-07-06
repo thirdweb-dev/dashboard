@@ -18,19 +18,18 @@ const ContractsPublishPageWrapped: React.FC = () => {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Release a new contract version</Heading>
-          <Text fontStyle="normal" maxW="container.md">
-            Once released, you&apos;ll be able to share this version for others
-            to deploy. We&apos;ll automatically generate SDKs to interact with
-            your contract and provide admin dashboards with analytics, contract
-            explorer and extensions.
-            <br />
+          <Heading size="title.md">Create a Release</Heading>
+          <Text fontStyle="normal" maxW="container.lg">
+            Releases are recorded on chain, and enable others to deploy this
+            contract and track new versions.
+            <br /> Unlocks automatic SDKs in all languages, admin dashboards,
+            analytics and auto verification.{" "}
             <Link
               color="primary.500"
               isExternal
               href="https://portal.thirdweb.com/thirdweb-deploy/thirdweb-cli"
             >
-              Learn more about releasing contracts
+              Learn more
             </Link>
           </Text>
         </Flex>

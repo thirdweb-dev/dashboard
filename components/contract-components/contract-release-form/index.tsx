@@ -22,6 +22,7 @@ import {
   Heading,
   Text,
 } from "tw-components";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 interface ContractReleaseFormProps {
   contractId: ContractId;
@@ -91,7 +92,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   label: "success",
                   uris: contractId,
                 });
-                router.push(`/contracts`);
+                router.push(`/contracts/deploy/${contractId}`);
               },
               onError: (err) => {
                 onError(err);
@@ -108,67 +109,70 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
         direction="column"
         gap={6}
       >
-        <Flex gap={4} align="center">
-          <Flex direction="column">
-            <Flex gap={2} alignItems="center">
-              <ChakraNextImage
-                src={FeatureIconMap["custom"]}
-                boxSize={12}
-                alt=""
-              />
-              <Skeleton isLoaded={publishMetadata.isSuccess}>
-                <Heading minW="60px" size="subtitle.lg" fontWeight="bold">
+        <Flex gap={8} direction="column">
+          <Flex gap={4} alignItems="center">
+            <ChakraNextImage
+              src={FeatureIconMap["custom"]}
+              boxSize={14}
+              alt=""
+            />
+            <Skeleton isLoaded={publishMetadata.isSuccess}>
+              <Flex direction="column">
+                <Heading minW="60px" size="title.md" fontWeight="bold">
                   {publishMetadata.data?.name}
                 </Heading>
-              </Skeleton>
+                {address ? (
+                  <Text size="body.md" py={1}>
+                    Releasing as {shortenIfAddress(address)}
+                  </Text>
+                ) : (
+                  <Text size="body.md" py={1}>
+                    Connect your wallet to create a release for this contract
+                  </Text>
+                )}
+              </Flex>
+            </Skeleton>
+          </Flex>
+          <FormControl isInvalid={!!errors.name}>
+            <FormLabel>Description</FormLabel>
+            <Textarea {...register("description")} disabled={!address} />
+            <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isRequired isInvalid={!!errors.name}>
+            <Flex alignItems="center" mb={1}>
+              <FormLabel flex="1" mb={0}>
+                Version
+              </FormLabel>
+              {latestVersion && (
+                <Text size="body.md">latest release: {latestVersion}</Text>
+              )}
             </Flex>
+            <Input
+              {...register("version")}
+              placeholder={latestVersion || "1.0.0"}
+              disabled={!address}
+            />
+            <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.name}>
+            <FormLabel>Release Notes</FormLabel>
+            <Textarea {...register("changelog")} disabled={!address} />
+            <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
+          </FormControl>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Text>
+              Our contract registry lives on Polygon and releases are free
+              (gasless)
+            </Text>
+            <TransactionButton
+              colorScheme={address ? "purple" : "blue"}
+              transactionCount={1}
+              isLoading={publishMutation.isLoading}
+              type="submit"
+            >
+              Create Release
+            </TransactionButton>
           </Flex>
-        </Flex>
-        <FormControl isInvalid={!!errors.name}>
-          <FormLabel>Description</FormLabel>
-          <Textarea {...register("description")} disabled={!address} />
-          <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl isRequired isInvalid={!!errors.name}>
-          <Flex flexDir="row" align="center">
-            <FormLabel flex="1">Version</FormLabel>
-            {latestVersion && (
-              <Text size="body.md" p={1}>
-                latest release: {latestVersion}
-              </Text>
-            )}
-          </Flex>
-          <Input
-            {...register("version")}
-            placeholder={latestVersion || "1.0.0"}
-            disabled={!address}
-          />
-          <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={!!errors.name}>
-          <FormLabel>Release Notes</FormLabel>
-          <Textarea {...register("changelog")} disabled={!address} />
-          <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
-        </FormControl>
-        <Flex
-          justifyContent="space-between"
-          alignItems="center"
-          direction={{ base: "column", md: "row" }}
-          gap={4}
-        >
-          <Text>
-            Our contract registry lives on Polygon and releases are free
-            (gasless)
-          </Text>
-          <TransactionButton
-            colorScheme="purple"
-            transactionCount={1}
-            isLoading={publishMutation.isLoading}
-            type="submit"
-            w={{ base: "full", md: "inherit" }}
-          >
-            Create Release
-          </TransactionButton>
         </Flex>
       </Flex>
     </Card>
