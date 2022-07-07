@@ -76,14 +76,7 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
     ChainId.Optimism,
     ChainId.Arbitrum,
   ],
-  multiwrap: [
-    ChainId.Mainnet,
-    ChainId.Polygon,
-    ChainId.Fantom,
-    ChainId.Avalanche,
-    ChainId.Optimism,
-    ChainId.Arbitrum,
-  ],
+  multiwrap: [],
   custom: [],
 };
 
