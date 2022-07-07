@@ -200,13 +200,8 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               <Flex alignItems="center" gap={3}>
                 <Checkbox {...register("shuffle")} />
                 <Flex gap={1}>
-                  <Text>
-                    Randomize the order of the NFTs you are uploading.
-                  </Text>
-                  <Text fontStyle="italic">
-                    Keep in mind we randomize it before uploading, so it&apos;s
-                    an off-chain randomization.
-                  </Text>
+                  <Text>Randomize the order of the NFTs.</Text>
+                  <Text fontStyle="italic">(Off-chain randomization)</Text>
                 </Flex>
               </Flex>
             )}
@@ -386,13 +381,8 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               <Flex alignItems="center" gap={3}>
                 <Checkbox {...register("shuffle")} />
                 <Flex gap={1}>
-                  <Text>
-                    Randomize the order of the NFTs you are uploading.
-                  </Text>
-                  <Text fontStyle="italic">
-                    Keep in mind we randomize it before uploading, so it&apos;s
-                    an off-chain randomization.
-                  </Text>
+                  <Text>Randomize the order of the NFTs.</Text>
+                  <Text fontStyle="italic">(Off-chain randomization)</Text>
                 </Flex>
               </Flex>
               <TransactionButton
