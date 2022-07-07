@@ -436,9 +436,9 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
       >
         {fields.length > 0 && (
           <>
-            <Divider borderColor="borderColor" />
+            <Divider borderColor="borderColor" mb="8px" />
             {fields.map((item, index) => (
-              <FormControl key={item.id} gap={0.5}>
+              <FormControl key={item.id} mb="8px">
                 <Flex justify="space-between">
                   <FormLabel>{item.key}</FormLabel>
                   <Text fontSize="12px">{item.type}</Text>
@@ -456,8 +456,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                 )}
                 {(item.type.includes("tuple") || item.type.includes("[]")) && (
                   <FormHelperText>
-                    Make sure input is passed as a valid JSON string -{" "}
-                    <strong>Ex:</strong>{" "}
+                    Make sure input is passed as a valid JSON string - Ex:{" "}
                     {formatHint(item.type, item.components)}
                   </FormHelperText>
                 )}
@@ -468,7 +467,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
 
         {abiFunction?.stateMutability === "payable" && (
           <>
-            <Divider borderColor="borderColor" />
+            <Divider borderColor="borderColor" mb="8px" />
             <FormControl gap={0.5}>
               <FormLabel>Native Token Value</FormLabel>
               <Input {...register(`value`)} />
