@@ -70,7 +70,10 @@ function useNFTDropClaimPhases(contract?: NFTDrop) {
 function useSignatureDropClaimPhases(contract?: SignatureDrop) {
   return useQueryWithNetwork(
     signatureDropKeys.claimPhases(contract?.getAddress()),
-    async () => [await contract?.claimCondition.get()],
+    async () => {
+      const cc = await contract?.claimCondition.get();
+      return cc ? [cc] : [];
+    },
     {
       enabled: !!contract,
     },
