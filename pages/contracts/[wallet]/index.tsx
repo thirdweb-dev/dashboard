@@ -10,7 +10,7 @@ export default function UserPage() {
   useEffect(() => {
     const previousPath = router.asPath.split("/")[2];
     console.log({ previousPath, wallet });
-    if (previousPath !== "[wallet]" && wallet && wallet.startsWith("Qm")) {
+    if (previousPath !== "[wallet]" && wallet?.startsWith("Qm")) {
       router.replace(`/contracts/deploy/${previousPath}`);
     }
   }, [wallet, router]);

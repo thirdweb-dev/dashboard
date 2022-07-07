@@ -90,6 +90,21 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
   );
 }
 
+export function useReleaserProfile(publisherAddress?: string) {
+  const sdk = useSDK();
+  return useQuery(
+    ["releaser-profile", publisherAddress],
+    async () => {
+      invariant(publisherAddress, "address is not defined");
+      invariant(sdk, "sdk not provided");
+      return await sdk.getPublisher().getPublisherProfile(publisherAddress);
+    },
+    {
+      enabled: !!publisherAddress,
+    },
+  );
+}
+
 export function useConstructorParamsFromABI(abi?: any) {
   return useMemo(() => {
     return abi ? extractConstructorParamsFromAbi(abi) : [];
