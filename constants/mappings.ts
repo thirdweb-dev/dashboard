@@ -31,7 +31,7 @@ export const UrlMap: Record<ContractType, string> = {
   token: "token",
   vote: "vote",
   marketplace: "marketplace",
-  pack: "pack",
+  pack: "",
   split: "split",
   "token-drop": "token-drop",
   // TODO (byoc)
@@ -65,6 +65,8 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
     ChainId.Avalanche,
     ChainId.Optimism,
     ChainId.Arbitrum,
+    ChainId.ArbitrumTestnet,
+    ChainId.OptimismTestnet,
   ],
   split: [],
   "token-drop": [],
