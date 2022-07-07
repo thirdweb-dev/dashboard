@@ -456,7 +456,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                 )}
                 {(item.type.includes("tuple") || item.type.includes("[]")) && (
                   <FormHelperText>
-                    Make sure input is passed as a valid JSON string - Ex:{" "}
+                    Input should be passed in JSON format - Ex:{" "}
                     {formatHint(item.type, item.components)}
                   </FormHelperText>
                 )}
