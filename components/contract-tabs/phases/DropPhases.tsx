@@ -161,7 +161,6 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const decimals = useDecimals(contract);
 
   const transformedQueryData = useMemo(() => {
-    console.log(query.data);
     return (query.data || []).map((phase) => ({
       ...phase,
       price: Number(phase.currencyMetadata.displayValue),
@@ -206,6 +205,17 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.data, form.formState.isDirty]);
+
+  useEffect(() => {
+    if (
+      contract instanceof SignatureDrop &&
+      transformedQueryData[0].maxQuantity === "0"
+    ) {
+      form.reset({
+        phases: [],
+      });
+    }
+  }, [transformedQueryData, contract, form]);
 
   const addPhase = () => {
     append(DEFAULT_PHASE);
