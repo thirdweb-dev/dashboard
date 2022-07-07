@@ -1,9 +1,10 @@
+import { Flex } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ReleaserHeader } from "components/contract-components/releaser-header";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ReactElement } from "react";
-import { Heading, Text } from "tw-components";
+import { Text } from "tw-components";
 
 export default function ContractNamePage() {
   const wallet = useSingleQueryParam("wallet");
@@ -12,16 +13,7 @@ export default function ContractNamePage() {
 
   console.log({ wallet, contractName, sdk });
 
-  return (
-    <div>
-      <Heading>Contract Name</Heading>
-      <Text>
-        The name of the contract. This is used to identify the contract in the
-        blockchain.
-      </Text>
-      {wallet && <ReleaserHeader wallet={wallet} />}
-    </div>
-  );
+  return <Flex>{wallet && <ReleaserHeader wallet={wallet} />}</Flex>;
 }
 
 ContractNamePage.getLayout = function getLayout(page: ReactElement) {
