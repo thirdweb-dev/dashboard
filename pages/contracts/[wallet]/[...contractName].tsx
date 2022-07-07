@@ -1,13 +1,13 @@
-import { Flex, Select } from "@chakra-ui/react";
-import { useSDK } from "@thirdweb-dev/react";
-import { PublishedContract } from "@thirdweb-dev/sdk";
+import { Flex, Skeleton } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { useAllVersions, useLatestRelease } from "components/contract-components/hooks";
+import { useLatestRelease } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
-import { ReleaserHeader } from "components/contract-components/releaser-header";
+import { FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
+import { Heading, LinkButton } from "tw-components";
 
 const ContractsNamePageWrapped = () => {
   const wallet = useSingleQueryParam("wallet");
@@ -16,22 +16,28 @@ const ContractsNamePageWrapped = () => {
   /* const allVersions = useAllVersions(wallet, contractName); */
 
   const release = useLatestRelease(wallet, contractName);
-  console.log({ release });
 
   return (
-    <Flex>
-      {/* {wallet && <ReleaserHeader wallet={wallet} />} */}
-      <Flex>
-{/*         <Select onChange={(e) => setRelease(e.target.value)}>
-          {(allVersions.data || []).map((version) => (
-            <option value={version}>{version.id}</option>
-          ))}
-        </Select> */}
+    <Flex direction="column" gap={6}>
+      <Flex justifyContent="space-between" w="full">
+        <Flex gap={4} alignItems="center">
+          <ChakraNextImage src={FeatureIconMap["custom"]} boxSize={12} alt="" />
+          <Skeleton isLoaded={release.isSuccess}>
+            <Heading size="title.md">{release.data?.id}</Heading>
+          </Skeleton>
+        </Flex>
+        <LinkButton
+          size="sm"
+          colorScheme="purple"
+          href={`/contracts/deploy/${encodeURIComponent(
+            release.data?.metadataUri.replace("ipfs://", "") || "",
+          )}`}
+        >
+          Deploy Now
+        </LinkButton>
       </Flex>
       <Flex>
-        {release?.data && (
-          <ReleasedContract release={release.data} />
-        )}
+        {release?.data && <ReleasedContract release={release.data} />}
       </Flex>
     </Flex>
   );
