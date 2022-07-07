@@ -10,8 +10,7 @@ interface ReleaseHeaderProps {
 
 export const ReleaserHeader: React.FC<ReleaseHeaderProps> = ({ wallet }) => {
   const releaserProfile = useReleaserProfile(wallet);
-  console.log(wallet);
-  console.log(releaserProfile.data);
+  console.log({ wallet, releaserProfile });
   return (
     <Flex direction="column" gap={2}>
       <Heading size="title.sm">Author</Heading>
