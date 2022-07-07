@@ -158,23 +158,26 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   const decimals = useDecimals(contract);
 
   const transformedQueryData = useMemo(() => {
-    return (query.data || []).map((phase) => ({
-      ...phase,
-      price: Number(phase.currencyMetadata.displayValue),
-      maxQuantity: phase.maxQuantity.toString(),
-      currencyMetadata: {
-        ...phase.currencyMetadata,
-        value: phase.currencyMetadata.value.toString(),
-      },
-      currencyAddress: phase.currencyAddress.toLowerCase(),
-      quantityLimitPerTransaction: phase.quantityLimitPerTransaction.toString(),
-      waitInSeconds: phase.waitInSeconds.toString(),
-      startTime: new Date(phase.startTime),
-      snapshot: phase.snapshot?.map(({ address, maxClaimable }) => ({
-        address,
-        maxClaimable: maxClaimable || "0",
-      })),
-    }));
+    return (query.data || [])
+      .map((phase) => ({
+        ...phase,
+        price: Number(phase.currencyMetadata.displayValue),
+        maxQuantity: phase.maxQuantity.toString(),
+        currencyMetadata: {
+          ...phase.currencyMetadata,
+          value: phase.currencyMetadata.value.toString(),
+        },
+        currencyAddress: phase.currencyAddress.toLowerCase(),
+        quantityLimitPerTransaction:
+          phase.quantityLimitPerTransaction.toString(),
+        waitInSeconds: phase.waitInSeconds.toString(),
+        startTime: new Date(phase.startTime),
+        snapshot: phase.snapshot?.map(({ address, maxClaimable }) => ({
+          address,
+          maxClaimable: maxClaimable || "0",
+        })),
+      }))
+      .filter((phase) => phase.maxQuantity !== "0");
   }, [query.data]);
 
   const nftsOrToken = contract instanceof TokenDrop ? "tokens" : "NFTs";
@@ -202,17 +205,6 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.data, form.formState.isDirty]);
-
-  useEffect(() => {
-    if (
-      contract instanceof SignatureDrop &&
-      transformedQueryData[0].maxQuantity === "0"
-    ) {
-      form.reset({
-        phases: [],
-      });
-    }
-  }, [transformedQueryData, contract, form]);
 
   const addPhase = () => {
     append(DEFAULT_PHASE);
