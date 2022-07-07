@@ -84,39 +84,38 @@ export const HomepageTopNav: React.FC<{}> = () => {
               Docs
             </TrackedLink>
             <Menu isOpen={isOpen} onClose={onClose}>
-              <MenuButton onMouseOver={onOpen}>
+              <MenuButton
+                onMouseEnter={onOpen}
+                onMouseLeave={onClose}
+                py="12px"
+              >
                 <Text color="white" fontWeight="bold" fontSize="16px">
                   Features
                 </Text>
               </MenuButton>
-              <MenuList>
-                <MenuItem>
-                  <TrackedLink
-                    href="#contracts"
-                    category="topnav"
-                    label="contracts"
-                  >
-                    Contracts
-                  </TrackedLink>
-                </MenuItem>
-                <MenuItem>
-                  <TrackedLink
-                    href="#developers"
-                    category="topnav"
-                    label="developers"
-                  >
-                    SDKs
-                  </TrackedLink>
-                </MenuItem>
-                <MenuItem>
-                  <TrackedLink
-                    href="#features"
-                    category="topnav"
-                    label="features"
-                  >
-                    Dashboards
-                  </TrackedLink>
-                </MenuItem>
+              <MenuList onMouseEnter={onOpen} onMouseLeave={onClose} mt="-12px">
+                <TrackedLink
+                  href="#contracts"
+                  category="topnav"
+                  label="contracts"
+                >
+                  <MenuItem>Contracts</MenuItem>
+                </TrackedLink>
+                <TrackedLink
+                  href="#developers"
+                  category="topnav"
+                  label="developers"
+                >
+                  <MenuItem>SDKs</MenuItem>
+                </TrackedLink>
+
+                <TrackedLink
+                  href="#features"
+                  category="topnav"
+                  label="features"
+                >
+                  <MenuItem>Dashboards</MenuItem>
+                </TrackedLink>
               </MenuList>
             </Menu>
             <TrackedLink href="#fees" category="topnav" label="fees">
