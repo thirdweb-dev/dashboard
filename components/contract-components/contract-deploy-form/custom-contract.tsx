@@ -64,7 +64,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     <Flex
       flexGrow={1}
       minH="full"
-      p={{ base: 4, md: 6 }}
       gap={4}
       direction="column"
       as="form"
