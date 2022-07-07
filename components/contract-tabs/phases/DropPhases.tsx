@@ -95,49 +95,46 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
           <DropPhasesForm contract={contract} tokenId={tokenId} />
         </Flex>
       </Card>
-      {contract instanceof SignatureDrop ? null : (
-        <Card p={0} position="relative">
-          <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
-            <Flex
-              px={{ base: 6, md: 10 }}
-              as="section"
-              direction="column"
-              gap={4}
-            >
-              <Flex direction="column">
-                <Heading size="title.md">Claim Eligibility</Heading>
-                <Text size="body.md" fontStyle="italic">
-                  This contracts claim eligibility stores who has already
-                  claimed
-                  {nftsOrToken} from this contract and carries across claim
-                  phases. Resetting claim eligibility will reset this state
-                  permanently, and people who have already claimed to their
-                  limit will be able to claim again.
-                </Text>
-              </Flex>
+      <Card p={0} position="relative">
+        <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
+          <Flex
+            px={{ base: 6, md: 10 }}
+            as="section"
+            direction="column"
+            gap={4}
+          >
+            <Flex direction="column">
+              <Heading size="title.md">Claim Eligibility</Heading>
+              <Text size="body.md" fontStyle="italic">
+                This contracts claim eligibility stores who has already claimed
+                {nftsOrToken} from this contract and carries across claim
+                phases. Resetting claim eligibility will reset this state
+                permanently, and people who have already claimed to their limit
+                will be able to claim again.
+              </Text>
             </Flex>
-
-            <AdminOnly contract={contract} fallback={<Box pb={5} />}>
-              <TransactionButton
-                colorScheme="primary"
-                transactionCount={1}
-                type="submit"
-                isLoading={mutation.isLoading}
-                onClick={() => {
-                  mutation.mutate(undefined, txNotifications);
-                }}
-                loadingText="Resetting..."
-                size="md"
-                borderRadius="xl"
-                borderTopLeftRadius="0"
-                borderTopRightRadius="0"
-              >
-                Reset Claim Eligibility
-              </TransactionButton>
-            </AdminOnly>
           </Flex>
-        </Card>
-      )}
+
+          <AdminOnly contract={contract} fallback={<Box pb={5} />}>
+            <TransactionButton
+              colorScheme="primary"
+              transactionCount={1}
+              type="submit"
+              isLoading={mutation.isLoading}
+              onClick={() => {
+                mutation.mutate(undefined, txNotifications);
+              }}
+              loadingText="Resetting..."
+              size="md"
+              borderRadius="xl"
+              borderTopLeftRadius="0"
+              borderTopRightRadius="0"
+            >
+              Reset Claim Eligibility
+            </TransactionButton>
+          </AdminOnly>
+        </Flex>
+      </Card>
     </Stack>
   );
 };

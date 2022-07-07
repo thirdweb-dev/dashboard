@@ -1,9 +1,4 @@
-import {
-  NFTDropKeys,
-  editionDropKeys,
-  signatureDropKeys,
-  tokenDropKeys,
-} from "../cache-keys";
+import { NFTDropKeys, editionDropKeys, tokenDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -42,12 +37,9 @@ export function useClaimPhases(
   contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
   tokenId?: string,
 ) {
-  if (contract instanceof NFTDrop) {
+  if (contract instanceof NFTDrop || contract instanceof SignatureDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useNFTDropClaimPhases(contract);
-  } else if (contract instanceof SignatureDrop) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useSignatureDropClaimPhases(contract);
   } else if (contract instanceof EditionDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useEditionDropClaimPhases(contract, tokenId);
@@ -57,23 +49,10 @@ export function useClaimPhases(
   }
 }
 
-function useNFTDropClaimPhases(contract?: NFTDrop) {
+function useNFTDropClaimPhases(contract?: NFTDrop | SignatureDrop) {
   return useQueryWithNetwork(
     NFTDropKeys.claimPhases(contract?.getAddress()),
     async () => await contract?.claimConditions.getAll(),
-    {
-      enabled: !!contract,
-    },
-  );
-}
-
-function useSignatureDropClaimPhases(contract?: SignatureDrop) {
-  return useQueryWithNetwork(
-    signatureDropKeys.claimPhases(contract?.getAddress()),
-    async () => {
-      const cc = await contract?.claimCondition.get();
-      return cc ? [cc] : [];
-    },
     {
       enabled: !!contract,
     },
@@ -104,12 +83,9 @@ export function useClaimPhasesMutation(
   contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
   tokenId?: string,
 ) {
-  if (contract instanceof NFTDrop) {
+  if (contract instanceof NFTDrop || contract instanceof SignatureDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useNFTDropPhasesMutation(contract);
-  } else if (contract instanceof SignatureDrop) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useSignatureDropPhasesMutation(contract);
   } else if (contract instanceof EditionDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useEditionDropPhasesMutation(contract, tokenId);
@@ -135,24 +111,7 @@ export function useResetEligibilityMutation(
   }
 }
 
-function useSignatureDropPhasesMutation(contract?: SignatureDrop) {
-  return useMutationWithInvalidate(
-    async (phases: ClaimConditionInput[]) => {
-      invariant(contract, "contract is required");
-
-      return await contract.claimCondition.set(phases[0]);
-    },
-    {
-      onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([
-          signatureDropKeys.claimPhases(contract?.getAddress()),
-        ]);
-      },
-    },
-  );
-}
-
-function useNFTDropPhasesMutation(contract?: NFTDrop) {
+function useNFTDropPhasesMutation(contract?: NFTDrop | SignatureDrop) {
   return useMutationWithInvalidate(
     async (phases: ClaimConditionInput[]) => {
       invariant(contract, "contract is required");
