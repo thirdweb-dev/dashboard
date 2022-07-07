@@ -10,6 +10,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   release,
 }) => {
   const releasedContractInfo = useReleasedContractInfo(release);
+  console.log({ releasedContractInfo });
 
   return <Card>hi</Card>;
 };
