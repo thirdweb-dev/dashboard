@@ -208,9 +208,12 @@ export const ActivityFeedItem: React.FC<ActivityFeedItemProps> = ({
               gap={2}
               spacing={0}
             >
-              {transaction.events.map((e, idx) => (
+              {transaction.events.slice(0, 2).map((e, idx) => (
                 <Button key={idx}>{e.eventName}</Button>
               ))}
+              {transaction.events.length > 2 && (
+                <Button>+ {transaction.events.length - 2}</Button>
+              )}
             </ButtonGroup>
 
             <Box gridColumn="span 3">
