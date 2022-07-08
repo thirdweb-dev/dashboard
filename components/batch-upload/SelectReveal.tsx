@@ -23,6 +23,7 @@ import {
   EditionDrop,
   NFTDrop,
   NFTMetadataInput,
+  SignatureDrop,
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -109,7 +110,7 @@ const SelectRevealOption: React.FC<SelectRevealOptionProps> = ({
 };
 
 interface SelectRevealProps {
-  contract?: NFTDrop | EditionDrop;
+  contract?: NFTDrop | EditionDrop | SignatureDrop;
   mergedData: NFTMetadataInput[];
   onClose: () => void;
 }
