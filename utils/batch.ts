@@ -150,7 +150,7 @@ export const useMergedData = (
   }, [csvData, jsonData, imageFiles, videoFiles]);
 };
 
-export const randomizeData = (array: NFTMetadataInput[]) =>
+export const shuffleData = (array: NFTMetadataInput[]) =>
   array
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)

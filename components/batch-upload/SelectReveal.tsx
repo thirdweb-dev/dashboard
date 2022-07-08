@@ -41,7 +41,7 @@ import {
   Heading,
   Text,
 } from "tw-components";
-import { randomizeData } from "utils/batch";
+import { shuffleData } from "utils/batch";
 import z from "zod";
 
 interface SelectRevealOptionProps {
@@ -196,13 +196,10 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               You&apos;re ready to go! Now you can upload the files, we will be
               uploading each file to IPFS so it might take a while.
             </Text>
-            {contract instanceof NFTDrop && (
+            {contract instanceof EditionDrop ? null : (
               <Flex alignItems="center" gap={3}>
                 <Checkbox {...register("shuffle")} />
-                <Flex gap={1}>
-                  <Text>Randomize the order of the NFTs.</Text>
-                  <Text fontStyle="italic">(Off-chain randomization)</Text>
-                </Flex>
+                <Text>Shuffle the order of the NFTs before uploading</Text>
               </Flex>
             )}
             <TransactionButton
@@ -222,7 +219,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                 mintBatch.mutate(
                   {
                     metadata: watch("shuffle")
-                      ? randomizeData(mergedData)
+                      ? shuffleData(mergedData)
                       : mergedData,
                     onProgress: (event: UploadProgressEvent) => {
                       setProgress(event);
@@ -266,7 +263,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                     image: data.image,
                   },
                   metadatas: watch("shuffle")
-                    ? randomizeData(mergedData)
+                    ? shuffleData(mergedData)
                     : mergedData,
                   password: data.password,
                   onProgress: (event: UploadProgressEvent) => {
@@ -380,10 +377,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               </FormControl>
               <Flex alignItems="center" gap={3}>
                 <Checkbox {...register("shuffle")} />
-                <Flex gap={1}>
-                  <Text>Randomize the order of the NFTs.</Text>
-                  <Text fontStyle="italic">(Off-chain randomization)</Text>
-                </Flex>
+                <Text>Shuffle the order of the NFTs before uploading</Text>
               </Flex>
               <TransactionButton
                 mt={4}
