@@ -1,4 +1,4 @@
-import { NFTDropKeys, signatureDropKeys } from "../cache-keys";
+import { NFTDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
@@ -129,7 +129,6 @@ export function useDropBatchMint(
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
           NFTDropKeys.supply(contract?.getAddress()),
-          signatureDropKeys.supply(contract?.getAddress()),
         ]);
       },
     },
