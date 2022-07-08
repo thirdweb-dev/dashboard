@@ -172,7 +172,6 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       contractType: "signature-drop",
       erc: "ERC721A",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
-      comingSoon: true,
     },
     custom: {
       title: "NOT IMPLEMENTED",

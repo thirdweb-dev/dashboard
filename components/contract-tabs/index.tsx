@@ -47,7 +47,8 @@ export function useContractTabs(
       contract instanceof NFTDrop ||
       contract instanceof EditionDrop ||
       contract instanceof Marketplace ||
-      contract instanceof TokenDrop
+      contract instanceof TokenDrop ||
+      contract instanceof SignatureDrop
     ) {
       tabs.push({
         title: "Embed",
