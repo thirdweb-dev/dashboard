@@ -198,7 +198,11 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   });
 
   useEffect(() => {
-    if (!form.formState.isDirty && !form.getValues("phases").length) {
+    if (
+      query.data?.length &&
+      !form.formState.isDirty &&
+      !form.getValues("phases").length
+    ) {
       form.reset({
         phases: transformedQueryData,
       });

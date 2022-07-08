@@ -52,7 +52,6 @@ export default function NFTDropPage() {
   const contract = useNFTDrop(dropAddress);
   const claimPhases = useClaimPhases(contract);
   const metadata = useNFTDropContractMetadata(dropAddress);
-  console.log(metadata);
   const batchesToReveal = useBatchesToReveal(dropAddress);
 
   const { data: supplyData } = useNFTDropSupply(dropAddress);
