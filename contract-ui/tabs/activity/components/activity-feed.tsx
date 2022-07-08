@@ -87,10 +87,10 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
             bg="blackAlpha.50"
             _dark={{ bg: "whiteAlpha.50" }}
           >
-            <Heading gridColumn="span 6" size="label.md">
+            <Heading gridColumn="span 4" size="label.md">
               Transaction Hash
             </Heading>
-            <Heading gridColumn="span 3" size="label.md">
+            <Heading gridColumn="span 5" size="label.md">
               Events
             </Heading>
             <Heading gridColumn="span 3" size="label.md">
@@ -124,7 +124,7 @@ export const ActivityFeedItem: React.FC<ActivityFeedItemProps> = ({
   return (
     <Accordion allowToggle>
       <AccordionItem>
-        <AccordionButton py={0} paddingLeft={0}>
+        <AccordionButton padding={0}>
           <SimpleGrid
             columns={12}
             gap={2}
@@ -198,12 +198,12 @@ export const ActivityFeedItem: React.FC<ActivityFeedItemProps> = ({
               </Stack>
             </Box>
 
-            <Box gridColumn="span 3" />
+            <Box gridColumn="span 1" />
 
             <ButtonGroup
               size="sm"
               variant="outline"
-              gridColumn="span 3"
+              gridColumn="span 5"
               flexWrap="wrap"
               gap={2}
               spacing={0}
