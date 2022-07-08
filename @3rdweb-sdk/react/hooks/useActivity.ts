@@ -1,12 +1,7 @@
 import { contractKeys } from "../cache-keys";
 import { useQueryWithNetwork } from "./query/useQueryWithNetwork";
-import {
-  useAllContractEvents,
-  useContract,
-  useProvider,
-} from "@thirdweb-dev/react";
+import { useAllContractEvents, useContract } from "@thirdweb-dev/react";
 import { ContractEvent } from "@thirdweb-dev/sdk";
-import { BigNumber } from "ethers";
 
 interface InternalTransaction {
   transactionHash: ContractEvent["transaction"]["transactionHash"];
@@ -14,14 +9,14 @@ interface InternalTransaction {
   events: ContractEvent[];
 }
 
-interface ContractTransaction extends InternalTransaction {
-  // timestamp: number;
-  from: string;
-  value: BigNumber;
-}
+// interface ContractTransaction extends InternalTransaction {
+//   // timestamp: number;
+//   from: string;
+//   value: BigNumber;
+// }
 
 export function useActivity(contractAddress?: string, autoUpdate?: boolean) {
-  const provider = useProvider();
+  // const provider = useProvider();
   const contract = useContract(contractAddress);
 
   const eventsQuery = useAllContractEvents(contract.contract, {
