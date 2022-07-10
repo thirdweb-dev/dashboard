@@ -23,7 +23,7 @@ const RequestStatus = {
   NOTOK: "0",
 };
 
-const VerificationStatus = {
+export const VerificationStatus = {
   FAILED: "Fail - Unable to verify",
   SUCCESS: "Pass - Verified",
   PENDING: "Pending in queue",
@@ -178,11 +178,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (data.status === RequestStatus.OK) {
       return res.status(200).json({ guid: data.result });
     } else {
-      return res.status(400).json({ error: data.result });
+      return res.status(200).json({ error: data.result });
     }
   } catch (e) {
     console.log(e);
-    return res.status(400).json({ error: e });
+    return res.status(400).json({ error: (e as any).toString() });
   }
 };
 
@@ -225,6 +225,7 @@ async function fetchConstructorParams(
     data.result[0] !== undefined
   ) {
     const txData = data.result[0].input;
+    console.log("DEBUG - txData", txData);
     const constructorArgs = txData.substring(
       txData.length - construtctorParamByteLength,
     );
