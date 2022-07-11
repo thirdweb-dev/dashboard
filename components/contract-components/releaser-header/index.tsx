@@ -3,14 +3,15 @@ import { Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { SiDiscord, SiTwitter } from "react-icons/si";
 import { Heading, LinkButton, TrackedIconButton } from "tw-components";
+import { shortenAddress } from "utils/usedapp-external";
 
-interface ReleaseHeaderProps {
+interface ReleaserHeaderProps {
   wallet: string;
 }
 
-export const ReleaserHeader: React.FC<ReleaseHeaderProps> = ({ wallet }) => {
+export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({ wallet }) => {
   const releaserProfile = useReleaserProfile(wallet);
-  console.log({ wallet, releaserProfile });
+
   return (
     <Flex direction="column" gap={2}>
       <Heading size="title.sm">Author</Heading>
@@ -22,7 +23,7 @@ export const ReleaserHeader: React.FC<ReleaseHeaderProps> = ({ wallet }) => {
         />
         <Flex flexDir="column">
           <Heading size="subtitle.sm">
-            {releaserProfile?.data?.name || "user.eth"}
+            {releaserProfile?.data?.name || shortenAddress(wallet)}
           </Heading>
           <Flex>
             <TrackedIconButton
