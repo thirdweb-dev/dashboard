@@ -1,9 +1,18 @@
 import { useReleasedContractInfo } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
-import { Divider, Flex, Icon, List, ListItem } from "@chakra-ui/react";
+import {
+  Divider,
+  Flex,
+  Icon,
+  List,
+  ListItem,
+  useClipboard,
+} from "@chakra-ui/react";
 import { PublishedContract } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
+import { FiGlobe } from "react-icons/fi";
+import { IoMdCheckmark } from "react-icons/io";
 import { IoDocumentOutline } from "react-icons/io5";
 import { SiTwitter } from "react-icons/si";
 import {
@@ -26,6 +35,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const router = useRouter();
 
   const currentRoute = `https://thirdweb.com${router.asPath}`;
+
+  const { onCopy, hasCopied } = useClipboard(currentRoute);
 
   console.log(router);
 
@@ -74,6 +85,16 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           <Heading size="title.sm">Share</Heading>
           <Flex gap={2} alignItems="center">
             <TrackedIconButton
+              bg="transparent"
+              aria-label="copy-url"
+              icon={
+                <Icon boxSize={5} as={hasCopied ? IoMdCheckmark : FiGlobe} />
+              }
+              category="released-contract"
+              label="copy-url"
+              onClick={onCopy}
+            />
+            <TrackedIconButton
               as={LinkButton}
               isExternal
               noIcon
@@ -81,8 +102,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
               bg="transparent"
               aria-label="twitter"
               icon={<Icon boxSize={5} as={SiTwitter} />}
-              category="tweet-contract"
-              label="twitter"
+              category="released-contract"
+              label="share-twitter"
             />
           </Flex>
         </Flex>
