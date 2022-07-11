@@ -1,44 +1,55 @@
-import { Flex, Skeleton } from "@chakra-ui/react";
+import { Flex, Select, Skeleton } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { useLatestRelease } from "components/contract-components/hooks";
+import { useAllVersions } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
 import { FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { ReactElement } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { Heading, LinkButton } from "tw-components";
 
 const ContractsNamePageWrapped = () => {
   const wallet = useSingleQueryParam("wallet");
   const contractName = useSingleQueryParam("contractName");
-  /*   const [release, setRelease] = useState<PublishedContract>(); */
-  /* const allVersions = useAllVersions(wallet, contractName); */
+  const allVersions = useAllVersions(wallet, contractName);
+  const [selectedVersion, setSelectedVersion] = useState<string>();
 
-  const release = useLatestRelease(wallet, contractName);
+  const release = useMemo(() => {
+    if (selectedVersion) {
+      return allVersions.data?.find((v) => v.version === selectedVersion);
+    }
+    return allVersions.data?.[0];
+  }, [allVersions?.data, selectedVersion]);
 
   return (
     <Flex direction="column" gap={6}>
       <Flex justifyContent="space-between" w="full">
         <Flex gap={4} alignItems="center">
           <ChakraNextImage src={FeatureIconMap["custom"]} boxSize={12} alt="" />
-          <Skeleton isLoaded={release.isSuccess}>
-            <Heading size="title.md">{release.data?.id}</Heading>
+          <Skeleton isLoaded={allVersions.isSuccess}>
+            <Heading size="title.md">{release?.name}</Heading>
           </Skeleton>
         </Flex>
-        <LinkButton
-          size="sm"
-          colorScheme="purple"
-          href={`/contracts/deploy/${encodeURIComponent(
-            release.data?.metadataUri.replace("ipfs://", "") || "",
-          )}`}
-        >
-          Deploy Now
-        </LinkButton>
+        <Flex gap={3}>
+          <Select onChange={(e) => setSelectedVersion(e.target.value)} w={24}>
+            {(allVersions.data || []).map((releasedVersion) => (
+              <option key={releasedVersion.id} value={releasedVersion.version}>
+                {releasedVersion.version}
+              </option>
+            ))}
+          </Select>
+          <LinkButton
+            colorScheme="purple"
+            href={`/contracts/deploy/${encodeURIComponent(
+              release?.metadataUri.replace("ipfs://", "") || "",
+            )}`}
+          >
+            Deploy {selectedVersion}
+          </LinkButton>
+        </Flex>
       </Flex>
-      <Flex>
-        {release?.data && <ReleasedContract release={release.data} />}
-      </Flex>
+      <Flex>{release && <ReleasedContract release={release} />}</Flex>
     </Flex>
   );
 };

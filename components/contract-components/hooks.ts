@@ -126,7 +126,6 @@ export function useLatestRelease(
     },
   );
 }
-
 export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
@@ -138,9 +137,26 @@ export function useAllVersions(
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
       invariant(sdk, "sdk not provided");
-      return await sdk
+      const allVersions = await sdk
         .getPublisher()
         .getAllVersions(publisherAddress, contractName);
+
+      const releasedVersions = [];
+
+      for (let i = 0; i < allVersions.length; i++) {
+        const contractInfo = await sdk
+          .getPublisher()
+          .fetchPublishedContractInfo(allVersions[i]);
+
+        releasedVersions.unshift({
+          ...allVersions[i],
+          version: contractInfo.publishedMetadata.version,
+          name: contractInfo.publishedMetadata.name,
+          description: contractInfo.publishedMetadata.description,
+        });
+      }
+
+      return releasedVersions;
     },
     {
       enabled: !!publisherAddress && !!contractName,
