@@ -2,7 +2,7 @@ import { useReleaserProfile } from "../hooks";
 import { Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { SiDiscord, SiTwitter } from "react-icons/si";
-import { Button, Heading, LinkButton, TrackedIconButton } from "tw-components";
+import { Heading, LinkButton, TrackedIconButton } from "tw-components";
 
 interface ReleaseHeaderProps {
   wallet: string;
@@ -50,7 +50,6 @@ export const ReleaserHeader: React.FC<ReleaseHeaderProps> = ({ wallet }) => {
           </Flex>
         </Flex>
       </Flex>
-      <Button w="full">View all contracts</Button>
     </Flex>
   );
 };
