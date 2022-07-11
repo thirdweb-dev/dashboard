@@ -117,14 +117,12 @@ interface SelectRevealProps {
 
 const DelayedRevealSchema = z
   .object({
-    name: z.string().nonempty("A name is required"),
+    name: z.string().min(1, "A name is required"),
     image: z.any().optional(),
     description: z.string().or(z.string().length(0)).optional(),
-    password: z.string().nonempty({ message: "A password is required." }),
+    password: z.string().min(1, "A password is required."),
     shuffle: z.boolean().default(false),
-    confirmPassword: z
-      .string()
-      .nonempty({ message: "Please confirm your password." }),
+    confirmPassword: z.string().min(1, "Please confirm your password."),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -200,7 +198,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
             {contract instanceof EditionDrop ? null : (
               <Flex alignItems="center" gap={3}>
                 <Checkbox {...register("shuffle")} />
-                <Text>Shuffle the order of the NFTs before uploading</Text>
+                <Text>Shuffle the order of the NFTs before uploading.</Text>
               </Flex>
             )}
             <TransactionButton
