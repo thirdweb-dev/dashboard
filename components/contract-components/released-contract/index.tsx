@@ -11,7 +11,7 @@ import {
 import { PublishedContract } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
-import { FiGlobe } from "react-icons/fi";
+import { BiShareAlt } from "react-icons/bi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoDocumentOutline } from "react-icons/io5";
 import { SiTwitter } from "react-icons/si";
@@ -43,7 +43,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   console.log({ releasedContractInfo: releasedContractInfo.data });
 
   return (
-    <Flex gap={12} w="full">
+    <Flex gap={12} w="full" flexDir={{ base: "column", md: "row" }}>
       <Flex w="full" flexDir="column" gap={6}>
         {releasedContractInfo.data?.publishedMetadata?.readme && (
           <Card w="full" as={Flex} flexDir="column" gap={2}>
@@ -63,7 +63,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           </Card>
         )}
       </Flex>
-      <Flex w="30vw" flexDir="column" gap={6}>
+      <Flex w={{ base: "100vw", md: "30vw" }} flexDir="column" gap={6}>
         {wallet && <ReleaserHeader wallet={wallet} />}
         <Divider />
         <Flex flexDir="column" gap={4}>
@@ -88,7 +88,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
               bg="transparent"
               aria-label="copy-url"
               icon={
-                <Icon boxSize={5} as={hasCopied ? IoMdCheckmark : FiGlobe} />
+                <Icon boxSize={5} as={hasCopied ? IoMdCheckmark : BiShareAlt} />
               }
               category="released-contract"
               label="copy-url"

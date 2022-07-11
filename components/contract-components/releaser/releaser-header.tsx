@@ -14,7 +14,7 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({ wallet }) => {
 
   return (
     <Flex direction="column" gap={4}>
-      <Heading size="title.sm">Author</Heading>
+      <Heading size="title.sm">Released by</Heading>
       <Flex gap={4} alignItems="center">
         <ChakraNextImage
           alt=""
