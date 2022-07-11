@@ -1,8 +1,12 @@
+import { Flex } from "@chakra-ui/react";
+import { AppLayout } from "components/app-layouts/app";
+import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
+import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 
-export default function UserPage() {
+const UserPageWrapped = () => {
   const wallet = useSingleQueryParam("wallet");
   const router = useRouter();
 
@@ -14,5 +18,17 @@ export default function UserPage() {
     }
   }, [wallet, router]);
 
-  return null;
+  return <Flex>{wallet && <ReleaserHeader wallet={wallet} />}</Flex>;
+};
+
+export default function UserPage() {
+  return (
+    <PublisherSDKContext>
+      <UserPageWrapped />
+    </PublisherSDKContext>
+  );
 }
+
+UserPage.getLayout = function getLayout(page: ReactElement) {
+  return <AppLayout>{page}</AppLayout>;
+};
