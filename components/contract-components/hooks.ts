@@ -243,9 +243,8 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
   );
 }
 
-export function usePublishedContractsQuery() {
+export function usePublishedContractsQuery(address?: string) {
   const sdk = useSDK();
-  const address = useAddress();
   return useQuery(
     ["published-contracts", address],
     async () => {
