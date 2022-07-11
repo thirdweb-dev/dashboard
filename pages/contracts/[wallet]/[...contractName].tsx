@@ -45,7 +45,7 @@ const ContractsNamePageWrapped = () => {
               release?.metadataUri.replace("ipfs://", "") || "",
             )}`}
           >
-            Deploy {selectedVersion}
+            Deploy {selectedVersion || "Now"}
           </LinkButton>
         </Flex>
       </Flex>

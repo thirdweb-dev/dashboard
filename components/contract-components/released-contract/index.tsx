@@ -1,8 +1,9 @@
 import { useReleasedContractInfo } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
-import { Flex } from "@chakra-ui/react";
+import { Divider, Flex, Icon, List, ListItem } from "@chakra-ui/react";
 import { PublishedContract } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
+import { IoDocumentOutline } from "react-icons/io5";
 import { Card, Heading, Text } from "tw-components";
 
 interface ReleasedContractProps {
@@ -37,7 +38,22 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           </Card>
         )}
       </Flex>
-      <Flex w="30vw">{wallet && <ReleaserHeader wallet={wallet} />}</Flex>
+      <Flex w="30vw" flexDir="column" gap={6}>
+        {wallet && <ReleaserHeader wallet={wallet} />}
+        <Divider />
+        <Heading size="title.sm">Contract details</Heading>
+        <List>
+          <ListItem>
+            <Flex gap={2} alignItems="center">
+              <Icon as={IoDocumentOutline} boxSize={5} />
+              <Text size="label.md">
+                {releasedContractInfo.data?.publishedMetadata.license ||
+                  "No license found"}
+              </Text>
+            </Flex>
+          </ListItem>
+        </List>
+      </Flex>
     </Flex>
   );
 };

@@ -13,7 +13,7 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({ wallet }) => {
   const releaserProfile = useReleaserProfile(wallet);
 
   return (
-    <Flex direction="column" gap={2}>
+    <Flex direction="column" gap={4}>
       <Heading size="title.sm">Author</Heading>
       <Flex gap={4} alignItems="center">
         <ChakraNextImage
