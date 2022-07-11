@@ -7,7 +7,7 @@ import { FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { ReactElement, useMemo, useState } from "react";
-import { Heading, LinkButton } from "tw-components";
+import { Heading, LinkButton, Text } from "tw-components";
 
 const ContractsNamePageWrapped = () => {
   const wallet = useSingleQueryParam("wallet");
@@ -29,6 +29,7 @@ const ContractsNamePageWrapped = () => {
           <ChakraNextImage src={FeatureIconMap["custom"]} boxSize={12} alt="" />
           <Skeleton isLoaded={allVersions.isSuccess}>
             <Heading size="title.md">{release?.name}</Heading>
+            <Text>{release?.description}</Text>
           </Skeleton>
         </Flex>
         <Flex gap={3}>
