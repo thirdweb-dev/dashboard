@@ -35,7 +35,6 @@ import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import {
   Card,
-  Checkbox,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -45,27 +44,29 @@ import {
 import { shuffleData } from "utils/batch";
 import z from "zod";
 
-interface SelectRevealOptionProps {
+interface SelectOptionProps {
   name: string;
   description: string;
   isActive: boolean;
   onClick: MouseEventHandler<HTMLDivElement>;
   disabled?: boolean;
+  disabledText?: string;
 }
 
-const SelectRevealOption: React.FC<SelectRevealOptionProps> = ({
+const SelectOption: React.FC<SelectOptionProps> = ({
   name,
   description,
   isActive,
   onClick,
   disabled,
+  disabledText,
 }) => {
   return (
     <Tooltip
       label={
         disabled && (
           <Card bgColor="backgroundHighlight">
-            <Text>Delayed reveal is only available in NFT Drop contracts</Text>
+            <Text>{disabledText}</Text>
           </Card>
         )
       }
@@ -121,7 +122,6 @@ const DelayedRevealSchema = z
     image: z.any().optional(),
     description: z.string().or(z.string().length(0)).optional(),
     password: z.string().min(1, "A password is required."),
-    shuffle: z.boolean().default(false),
     confirmPassword: z.string().min(1, "Please confirm your password."),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -139,6 +139,9 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
   const [selectedReveal, setSelectedReveal] = useState<
     "unselected" | "instant" | "delayed"
   >(contract instanceof EditionDrop ? "instant" : "unselected");
+  const [selectedShuffle, setSelectedShuffle] = useState<
+    "unselected" | "shuffle" | "sequential"
+  >("unselected");
   const [show, setShow] = useState(false);
   const [progress, setProgress] = useState<UploadProgressEvent>({
     progress: 0,
@@ -174,33 +177,48 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
         mb={6}
         flexDir={{ base: "column", md: "row" }}
       >
-        <SelectRevealOption
+        <SelectOption
           name="Reveal upon mint"
           description="Collectors will immediately see the final NFT when they complete the minting"
           isActive={selectedReveal === "instant"}
           onClick={() => setSelectedReveal("instant")}
         />
-        <SelectRevealOption
+        <SelectOption
           name="Delayed Reveal"
           description="Collectors will mint your placeholder image, then you reveal at a later time"
           isActive={selectedReveal === "delayed"}
           onClick={() => setSelectedReveal("delayed")}
           disabled={contract instanceof EditionDrop}
+          disabledText="Delayed reveal is only available is not availble in Edition Drop contracts"
         />
       </Flex>
+      {contract instanceof EditionDrop ? null : (
+        <Flex
+          gap={{ base: 3, md: 6 }}
+          mb={6}
+          flexDir={{ base: "column", md: "row" }}
+        >
+          <SelectOption
+            name="Upload in sequential order"
+            description="NFTs will get uploaded to IPFS in the same order you saw in the last step"
+            isActive={selectedShuffle === "sequential"}
+            onClick={() => setSelectedShuffle("sequential")}
+          />
+          <SelectOption
+            name="Shuffle order of NFTs"
+            description="NFTs will get shuffled before uploading, this is an off-chain operation and is not provable"
+            isActive={selectedShuffle === "shuffle"}
+            onClick={() => setSelectedShuffle("shuffle")}
+          />
+        </Flex>
+      )}
       <Flex>
-        {selectedReveal === "instant" ? (
+        {selectedReveal === "instant" && selectedShuffle !== "unselected" ? (
           <Flex flexDir="column" gap={2}>
             <Text size="body.md" color="gray.600">
               You&apos;re ready to go! Now you can upload the files, we will be
               uploading each file to IPFS so it might take a while.
             </Text>
-            {contract instanceof EditionDrop ? null : (
-              <Flex alignItems="center" gap={3}>
-                <Checkbox {...register("shuffle")} />
-                <Text>Shuffle the order of the NFTs before uploading.</Text>
-              </Flex>
-            )}
             <TransactionButton
               mt={4}
               size="lg"
@@ -217,9 +235,10 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               onClick={() => {
                 mintBatch.mutate(
                   {
-                    metadata: watch("shuffle")
-                      ? shuffleData(mergedData)
-                      : mergedData,
+                    metadata:
+                      selectedShuffle === "shuffle"
+                        ? shuffleData(mergedData)
+                        : mergedData,
                     onProgress: (event: UploadProgressEvent) => {
                       setProgress(event);
                     },
@@ -249,7 +268,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               />
             )}
           </Flex>
-        ) : selectedReveal === "delayed" ? (
+        ) : selectedReveal === "delayed" && selectedShuffle !== "unselected" ? (
           <Stack
             spacing={6}
             as="form"
@@ -261,9 +280,10 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                     description: data.description || "",
                     image: data.image,
                   },
-                  metadatas: watch("shuffle")
-                    ? shuffleData(mergedData)
-                    : mergedData,
+                  metadatas:
+                    selectedShuffle === "shuffle"
+                      ? shuffleData(mergedData)
+                      : mergedData,
                   password: data.password,
                   onProgress: (event: UploadProgressEvent) => {
                     setProgress(event);
@@ -374,10 +394,6 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                   {errors?.description?.message}
                 </FormErrorMessage>
               </FormControl>
-              <Flex alignItems="center" gap={3}>
-                <Checkbox {...register("shuffle")} />
-                <Text>Shuffle the order of the NFTs before uploading</Text>
-              </Flex>
               <TransactionButton
                 mt={4}
                 size="lg"
