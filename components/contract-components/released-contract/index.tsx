@@ -1,5 +1,5 @@
 import { useReleasedContractInfo } from "../hooks";
-import { ReleaserHeader } from "../releaser-header";
+import { ReleaserHeader } from "../releaser/releaser-header";
 import { Flex } from "@chakra-ui/react";
 import { PublishedContract } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
