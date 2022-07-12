@@ -39,10 +39,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   const { onCopy, hasCopied } = useClipboard(currentRoute);
 
-  console.log(router);
-
-  console.log({ releasedContractInfo: releasedContractInfo.data });
-
   return (
     <Flex gap={12} w="full" flexDir={{ base: "column", md: "row" }}>
       <Flex w="full" flexDir="column" gap={6}>

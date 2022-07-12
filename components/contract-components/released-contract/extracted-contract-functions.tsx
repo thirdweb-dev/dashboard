@@ -22,11 +22,9 @@ function useReleasedContractFunctions(contractRelease: PublishedContract) {
     async () => {
       invariant(contractRelease, "contract is not defined");
       invariant(sdk, "sdk not provided");
-      const fn = await sdk
+      return await sdk
         ?.getPublisher()
         .extractFunctions(contractRelease.metadataUri);
-      console.log({ fn });
-      return fn;
     },
     {
       enabled: !!contractRelease && !!sdk,
