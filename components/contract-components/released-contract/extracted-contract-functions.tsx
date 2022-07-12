@@ -1,11 +1,12 @@
-import { Flex, Icon } from "@chakra-ui/react";
+import { InfoIcon } from "@chakra-ui/icons";
+import { Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
 import { AbiFunction, PublishedContract } from "@thirdweb-dev/sdk";
 import { BiPencil } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import { useQuery } from "react-query";
 import invariant from "tiny-invariant";
-import { Badge, Heading, Text } from "tw-components";
+import { Badge, Card, Heading, Text } from "tw-components";
 
 interface ExtractedContractFunctionsProps {
   contractRelease: PublishedContract;
@@ -34,25 +35,32 @@ function useReleasedContractFunctions(contractRelease: PublishedContract) {
 
 const ContractFunction: React.FC<ContractFunctionProps> = ({ fn }) => {
   return (
-    <Flex flexDir="column" gap={1}>
-      <Flex alignItems="center" gap={2}>
-        <Heading size="label.md">{fn.name}</Heading>
-        {fn.stateMutability === "payable" && (
-          <Badge
-            size="label.sm"
-            variant="subtle"
-            rounded={6}
-            px={2}
-            backgroundColor="green.600"
-          >
-            Payable
-          </Badge>
-        )}
-      </Flex>
+    <Flex alignItems="center" gap={2}>
+      <Heading size="label.md">{fn.name}</Heading>
       {fn.comment && (
-        <Text fontSize="12px" noOfLines={2}>
-          {fn.comment} This is a comment
-        </Text>
+        <Tooltip
+          bg="transparent"
+          boxShadow="none"
+          p={0}
+          label={
+            <Card>
+              <Text>{fn.comment}</Text>
+            </Card>
+          }
+        >
+          <Icon as={InfoIcon} />
+        </Tooltip>
+      )}
+      {fn.stateMutability === "payable" && (
+        <Badge
+          size="label.sm"
+          variant="subtle"
+          rounded={6}
+          px={2}
+          backgroundColor="green.600"
+        >
+          Payable
+        </Badge>
       )}
     </Flex>
   );
