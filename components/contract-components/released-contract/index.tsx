@@ -75,7 +75,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           </Card>
         )}
       </Flex>
-      <Flex w={{ base: "100vw", md: "30vw" }} flexDir="column" gap={6}>
+      <Flex w={{ base: "100vw", md: "25vw" }} flexDir="column" gap={6}>
         {wallet && <ReleaserHeader wallet={wallet} />}
         <Divider />
         <Flex flexDir="column" gap={4}>
