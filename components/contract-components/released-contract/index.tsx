@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { PublishedContract } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { BiShareAlt } from "react-icons/bi";
 import { IoMdCheckmark } from "react-icons/io";
@@ -41,6 +42,14 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   return (
     <Flex gap={12} w="full" flexDir={{ base: "column", md: "row" }}>
+      <NextSeo
+        title={`${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`}
+        description={`Browse previous versions of ${releasedContractInfo.data?.name} and deploy it in one click to any supported blockchains.`}
+        openGraph={{
+          title: `${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`,
+          url: currentRoute,
+        }}
+      />
       <Flex w="full" flexDir="column" gap={6}>
         {releasedContractInfo.data?.publishedMetadata?.readme && (
           <Card w="full" as={Flex} flexDir="column" gap={2} p={0}>
@@ -110,7 +119,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
               as={LinkButton}
               isExternal
               noIcon
-              href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20${releasedContractInfo.data?.name}%20contract%20on%20%40thirdweb_%20!%20Ready%20to%20be%20deployed%20in%20one-click%2C%20awesome!%20&url=${currentRoute}`}
+              href={`https://twitter.com/intent/tweet?text=Check%20out%20this%20${releasedContractInfo.data?.name}%20contract%20on%20%40thirdweb_%0A%0ADeploy%20it%20in%20one%20click%3A&url=${currentRoute}`}
               bg="transparent"
               aria-label="twitter"
               icon={<Icon boxSize={5} as={SiTwitter} />}
