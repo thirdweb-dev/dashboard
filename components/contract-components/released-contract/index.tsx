@@ -1,5 +1,6 @@
 import { useReleasedContractInfo } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
+import { ExtractedContractFunctions } from "./extracted-contract-functions";
 import {
   Divider,
   Flex,
@@ -66,6 +67,12 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
             <Text px={6} pt={2} pb={5}>
               {releasedContractInfo.data?.publishedMetadata?.changelog}
             </Text>
+          </Card>
+        )}
+        {release && (
+          <Card w="full" as={Flex} flexDir="column" gap={6} overflow="clip">
+            <Heading size="title.sm">Functions</Heading>
+            <ExtractedContractFunctions contractRelease={release} />
           </Card>
         )}
       </Flex>
