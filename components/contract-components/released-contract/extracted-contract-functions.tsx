@@ -66,7 +66,7 @@ export const ExtractedContractFunctions: React.FC<
   const { data: contractFunctions } =
     useReleasedContractFunctions(contractRelease);
   return (
-    <Flex gap={4}>
+    <Flex gap={4} px={6} pt={2} pb={5}>
       <Flex flexDir="column" flex="1" gap={3}>
         <Badge size="label.sm" variant="subtle" rounded={6} p={2}>
           <Icon as={BiPencil} mr={2} />

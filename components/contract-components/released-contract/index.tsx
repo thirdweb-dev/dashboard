@@ -70,8 +70,11 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           </Card>
         )}
         {release && (
-          <Card w="full" as={Flex} flexDir="column" gap={6} overflow="clip">
-            <Heading size="title.sm">Functions</Heading>
+          <Card w="full" as={Flex} flexDir="column" gap={2} p={0}>
+            <Heading px={6} pt={5} pb={2} size="title.sm">
+              Functions
+            </Heading>
+            <Divider />
             <ExtractedContractFunctions contractRelease={release} />
           </Card>
         )}
