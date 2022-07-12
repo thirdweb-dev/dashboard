@@ -1,5 +1,5 @@
 import { InfoIcon } from "@chakra-ui/icons";
-import { Flex, Icon, Tooltip, useTheme } from "@chakra-ui/react";
+import { Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
 import { AbiFunction, PublishedContract } from "@thirdweb-dev/sdk";
 import { BiPencil } from "react-icons/bi";
