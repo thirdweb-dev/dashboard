@@ -2,11 +2,11 @@ import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
 import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
+import { CustomContractCard } from "components/custom-contract/contract-header/custom-contract-card";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
-import { Card } from "tw-components";
 
 const UserPageWrapped = () => {
   const wallet = useSingleQueryParam("wallet");
@@ -22,13 +22,14 @@ const UserPageWrapped = () => {
   }, [wallet, router]);
 
   return (
-    <Flex flexDir="column" gap={3}>
+    <Flex flexDir="column" gap={8}>
       {wallet && <ReleaserHeader wallet={wallet} />}
-      <Flex flexDir="column" gap={3}>
+      <Flex flexDir="column" gap={4}>
         {(publishedContracts?.data || []).map((publishedContract) => (
-          <Card key={publishedContract.id}>
-            {publishedContract.metadataUri}
-          </Card>
+          <CustomContractCard
+            key={publishedContract.id}
+            uri={publishedContract.metadataUri}
+          />
         ))}
       </Flex>
     </Flex>

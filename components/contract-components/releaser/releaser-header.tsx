@@ -2,7 +2,7 @@ import { useReleaserProfile } from "../hooks";
 import { ReleaserSocials } from "./releaser-socials";
 import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { Heading } from "tw-components";
+import { Heading, Link } from "tw-components";
 import { shortenAddress } from "utils/usedapp-external";
 
 interface ReleaserHeaderProps {
@@ -22,9 +22,11 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({ wallet }) => {
           src={require("public/assets/others/hexagon.png")}
         />
         <Flex flexDir="column">
-          <Heading size="subtitle.sm">
-            {releaserProfile?.data?.name || shortenAddress(wallet)}
-          </Heading>
+          <Link href={`/contracts/${wallet}`}>
+            <Heading size="subtitle.sm">
+              {releaserProfile?.data?.name || shortenAddress(wallet)}
+            </Heading>
+          </Link>
           {releaserProfile?.data && (
             <ReleaserSocials releaserProfile={releaserProfile.data} />
           )}
