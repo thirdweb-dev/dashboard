@@ -46,18 +46,24 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     <Flex gap={12} w="full" flexDir={{ base: "column", md: "row" }}>
       <Flex w="full" flexDir="column" gap={6}>
         {releasedContractInfo.data?.publishedMetadata?.readme && (
-          <Card w="full" as={Flex} flexDir="column" gap={2}>
-            <Heading size="title.sm">Readme</Heading>
-            <Text>{releasedContractInfo.data?.publishedMetadata.readme}</Text>
+          <Card w="full" as={Flex} flexDir="column" gap={2} p={0}>
+            <Heading px={6} pt={5} pb={2} size="title.sm">
+              Readme
+            </Heading>
+            <Divider />
+            <Text px={6} pt={2} pb={5}>
+              {releasedContractInfo.data?.publishedMetadata.readme}
+            </Text>
           </Card>
         )}
         {releasedContractInfo.data?.publishedMetadata?.changelog && (
-          <Card w="full" as={Flex} flexDir="column" gap={2}>
-            <Heading size="title.sm">
+          <Card w="full" as={Flex} flexDir="column" gap={2} p={0}>
+            <Heading px={6} pt={5} pb={2} size="title.sm">
               {releasedContractInfo.data?.publishedMetadata?.version} Release
               Notes
             </Heading>
-            <Text>
+            <Divider />
+            <Text px={6} pt={2} pb={5}>
               {releasedContractInfo.data?.publishedMetadata?.changelog}
             </Text>
           </Card>
