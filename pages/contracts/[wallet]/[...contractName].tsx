@@ -23,7 +23,7 @@ const ContractsNamePageWrapped = () => {
   }, [allVersions?.data, selectedVersion]);
 
   return (
-    <Flex direction="column" gap={6}>
+    <Flex direction="column" gap={8}>
       <Flex justifyContent="space-between" w="full">
         <Flex gap={4} alignItems="center">
           <ChakraNextImage src={FeatureIconMap["custom"]} boxSize={12} alt="" />
