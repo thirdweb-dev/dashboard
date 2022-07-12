@@ -48,7 +48,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
               Readme
             </Heading>
             <Divider />
-            <Text px={6} pt={2} pb={5}>
+            <Text px={6} pt={2} pb={5} whiteSpace="pre-wrap">
               {releasedContractInfo.data?.publishedMetadata.readme}
             </Text>
           </Card>
@@ -60,7 +60,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
               Notes
             </Heading>
             <Divider />
-            <Text px={6} pt={2} pb={5}>
+            <Text px={6} pt={2} pb={5} whiteSpace="pre-wrap">
               {releasedContractInfo.data?.publishedMetadata?.changelog}
             </Text>
           </Card>
