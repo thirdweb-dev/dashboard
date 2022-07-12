@@ -1,8 +1,8 @@
 import { Box, Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { useContractPublishMetadataFromURI } from "components/contract-components/hooks";
 import { FeatureIconMap } from "constants/mappings";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { AiOutlineRight } from "react-icons/ai";
 import { Card, Heading, Text } from "tw-components";
 
@@ -11,7 +11,7 @@ interface ContractCardProps {
 }
 
 export const CustomContractCard: React.FC<ContractCardProps> = ({ uri }) => {
-  const address = useAddress();
+  const wallet = useSingleQueryParam("wallet");
   const contractMetadata = useContractPublishMetadataFromURI(uri);
 
   const contractImage =
@@ -36,7 +36,7 @@ export const CustomContractCard: React.FC<ContractCardProps> = ({ uri }) => {
           </Box>
           <Flex>
             <LinkOverlay
-              href={`/contracts/${address}/${contractMetadata.data?.name}`}
+              href={`/contracts/${wallet}/${contractMetadata.data?.name}`}
             >
               <Heading size="title.sm">{contractMetadata.data?.name}</Heading>
             </LinkOverlay>
