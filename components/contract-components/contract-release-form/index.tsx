@@ -94,7 +94,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   uris: contractId,
                 });
                 router.push(
-                  `/contracts/deploy/${encodeURIComponent(contractId)}`,
+                  `/contracts/${address}/${publishMetadata.data?.name}`,
                 );
               },
               onError: (err) => {
