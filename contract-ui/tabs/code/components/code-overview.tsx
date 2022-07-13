@@ -202,7 +202,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
             fn: write,
             args: writeFunctions
               ?.find((f) => f.name === write)
-              ?.inputs?.map((i) => i.name),
+              ?.inputs?.map((i, index) => i.name || `arg${index}`),
           })}
         />
       </Card>
