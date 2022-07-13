@@ -52,6 +52,14 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
         openGraph={{
           title: `${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`,
           url: currentRoute,
+          images: [
+            {
+              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${releasedContractInfo.data?.publishedMetadata.version}&description=${releasedContractInfo.data?.publishedMetadata.description}&contractName=${releasedContractInfo.data?.name}&.png`,
+              width: 1200,
+              height: 650,
+              alt: "thirdweb",
+            },
+          ],
         }}
       />
       <Flex w="full" flexDir="column" gap={6}>
