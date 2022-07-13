@@ -1,10 +1,11 @@
 import {
-  useContractPrePublishMetadata,
   useContractPublishMetadataFromURI,
+  useLatestRelease,
 } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
 import { Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { Text } from "tw-components";
 
 export const ContractDescriptionCell: React.FC<
@@ -12,12 +13,14 @@ export const ContractDescriptionCell: React.FC<
 > = ({ cell: { value } }) => {
   const compilerMeta = useContractPublishMetadataFromURI(value);
   const address = useAddress();
-  const publishMeta = useContractPrePublishMetadata(value, address);
+  const wallet = useSingleQueryParam("wallet");
+  const publishMetadata = useContractPublishMetadataFromURI(value);
+  const latestRelease = useLatestRelease(
+    wallet || address,
+    publishMetadata.data?.name,
+  );
   const description =
-    publishMeta.data?.latestPublishedContractMetadata?.publishedMetadata
-      ?.description ||
-    compilerMeta.data?.description ||
-    "None";
+    latestRelease.data?.description || compilerMeta.data?.description || "None";
 
   return (
     <Skeleton isLoaded={compilerMeta.isSuccess}>

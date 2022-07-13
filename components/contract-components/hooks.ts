@@ -135,20 +135,35 @@ export function useLatestRelease(
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
       invariant(sdk, "sdk not provided");
-      return await sdk.getPublisher().getLatest(publisherAddress, contractName);
+
+      const latestRelease = await sdk
+        .getPublisher()
+        .getLatest(publisherAddress, contractName);
+
+      const contractInfo = await sdk
+        .getPublisher()
+        .fetchPublishedContractInfo(latestRelease);
+
+      return {
+        ...latestRelease,
+        version: contractInfo.publishedMetadata.version,
+        name: contractInfo.publishedMetadata.name,
+        description: contractInfo.publishedMetadata.description,
+      };
     },
     {
       enabled: !!publisherAddress && !!contractName,
     },
   );
 }
+
 export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
   const sdk = useSDK();
   return useQuery(
-    ["latest-release", publisherAddress, contractName],
+    ["all-releases", publisherAddress, contractName],
     async () => {
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
