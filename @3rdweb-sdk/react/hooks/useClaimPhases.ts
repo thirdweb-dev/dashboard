@@ -96,10 +96,10 @@ export function useClaimPhasesMutation(
 }
 
 export function useResetEligibilityMutation(
-  contract?: NFTDrop | EditionDrop | TokenDrop,
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
   tokenId?: string,
 ) {
-  if (contract instanceof NFTDrop) {
+  if (contract instanceof NFTDrop || contract instanceof SignatureDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useNFTDropResetClaimEligibilityMutation(contract);
   } else if (contract instanceof EditionDrop) {
