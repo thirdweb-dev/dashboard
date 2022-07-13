@@ -21,6 +21,7 @@ import {
   AbiSchema,
   ContractInfoSchema,
   ExtraPublishMetadata,
+  ProfileMetadata,
   PublishedContract,
 } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
@@ -254,6 +255,23 @@ export function usePublishMutation() {
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
         return invalidate([["pre-publish-metadata", _variables.predeployUri]]);
+      },
+    },
+  );
+}
+
+export function useEditProfileMutation() {
+  const sdk = useSDK();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (data: ProfileMetadata) => {
+      invariant(sdk, "sdk not provided");
+      await sdk.getPublisher().updatePublisherProfile(data);
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        return invalidate([["releaser-profile", address]]);
       },
     },
   );
