@@ -16,7 +16,7 @@ import { Button, Drawer, LinkButton, TrackedIconButton } from "tw-components";
 
 export const ContractDeployActionCell: React.FC<
   DeployableContractContractCellProps
-> = ({ cell: { value }, context }) => {
+> = ({ cell: { value }, context, wallet }) => {
   const publishMetadata = useContractPublishMetadataFromURI(value);
   const address = useAddress();
 
@@ -103,7 +103,7 @@ export const ContractDeployActionCell: React.FC<
             href={actionUrlPath(
               context,
               value,
-              address,
+              wallet || address,
               publishMetadata.data?.name,
             )}
           >

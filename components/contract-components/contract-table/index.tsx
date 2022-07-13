@@ -18,11 +18,12 @@ interface DeployableContractTableProps {
   };
   isFetching?: boolean;
   context?: ContractCellContext;
+  wallet?: string;
 }
 
 export const DeployableContractTable: ComponentWithChildren<
   DeployableContractTableProps
-> = ({ contractIds, selectable, isFetching, context, children }) => {
+> = ({ contractIds, selectable, isFetching, context, wallet, children }) => {
   const tableColumns: Column<{ contractId: ContractId }>[] = useMemo(() => {
     let cols: Column<{ contractId: ContractId }>[] = [
       {
@@ -64,7 +65,11 @@ export const DeployableContractTable: ComponentWithChildren<
         id: "deploy-action",
         accessor: (row) => row.contractId,
         Cell: (cell: any) => (
-          <ContractDeployActionCell cell={cell} context={context} />
+          <ContractDeployActionCell
+            cell={cell}
+            context={context}
+            wallet={wallet}
+          />
         ),
       },
     ];

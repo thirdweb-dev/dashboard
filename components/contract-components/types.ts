@@ -12,4 +12,5 @@ export interface DeployableContractContractCellProps {
     value: ContractId;
   };
   context?: ContractCellContext;
+  wallet?: string;
 }

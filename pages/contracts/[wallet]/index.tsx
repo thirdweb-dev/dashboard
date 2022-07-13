@@ -42,13 +42,14 @@ const UserPageWrapped = () => {
             d.metadataUri.replace("ipfs://", ""),
           )}
           context="view_release"
+          wallet={wallet}
         >
           {publishedContracts.isLoading && (
             <Center>
               <Flex py={4} direction="row" gap={4} align="center">
                 {wallet && <Spinner size="sm" />}
                 <Text>
-                  {wallet ? "Loading your contracts" : "No wallet connected"}
+                  {wallet ? "Loading releases" : "No wallet connected"}
                 </Text>
               </Flex>
             </Center>
