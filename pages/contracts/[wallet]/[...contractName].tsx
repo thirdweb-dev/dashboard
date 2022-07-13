@@ -36,14 +36,14 @@ const ContractsNamePageWrapped: React.FC<ContractNamePage> = ({
   return (
     <Flex direction="column" gap={8}>
       <NextSeo
-        title={`${release?.name} | Deploy in one click with thirdweb deploy`}
-        description={`Browse previous versions of ${release?.name} and deploy it in one click to any supported blockchains.`}
+        title={`${contractName} | Deploy in one click with thirdweb deploy`}
+        description={`Browse previous versions of ${contractName} and deploy it in one click to any supported blockchains.`}
         openGraph={{
-          title: `${release?.name} | Deploy in one click with thirdweb deploy`,
+          title: `${contractName} | Deploy in one click with thirdweb deploy`,
           url: `https://thirdweb.com${router.asPath}`,
           images: [
             {
-              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release?.name}&.png`,
+              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${contractName}&.png`,
               width: 1200,
               height: 650,
               alt: "thirdweb",
@@ -55,7 +55,7 @@ const ContractsNamePageWrapped: React.FC<ContractNamePage> = ({
         <Flex gap={4} alignItems="center">
           <ChakraNextImage src={FeatureIconMap["custom"]} boxSize={12} alt="" />
           <Skeleton isLoaded={allVersions.isSuccess}>
-            <Heading size="title.md">{release?.name}</Heading>
+            <Heading size="title.md">{contractName}</Heading>
             <Text>{release?.description}</Text>
           </Skeleton>
         </Flex>
