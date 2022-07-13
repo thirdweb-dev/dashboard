@@ -5,15 +5,22 @@ import { useAllVersions } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
 import { FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
-import { useSingleQueryParam } from "hooks/useQueryParam";
+import { NextPageContext } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ReactElement, useMemo, useState } from "react";
 import { Heading, LinkButton, Text } from "tw-components";
 
-const ContractsNamePageWrapped = () => {
-  const wallet = useSingleQueryParam("wallet");
-  const contractName = useSingleQueryParam("contractName");
+interface ContractNamePage {
+  query: {
+    wallet: string;
+    contractName: string;
+  };
+}
+
+const ContractsNamePageWrapped: React.FC<ContractNamePage> = ({
+  query: { wallet, contractName },
+}) => {
   const allVersions = useAllVersions(wallet, contractName);
   const [selectedVersion, setSelectedVersion] = useState<string>();
 
@@ -55,7 +62,10 @@ const ContractsNamePageWrapped = () => {
         <Flex gap={3}>
           <Select onChange={(e) => setSelectedVersion(e.target.value)} w={24}>
             {(allVersions.data || []).map((releasedVersion) => (
-              <option key={releasedVersion.id} value={releasedVersion.version}>
+              <option
+                key={releasedVersion.version}
+                value={releasedVersion.version}
+              >
                 {releasedVersion.version}
               </option>
             ))}
@@ -75,14 +85,23 @@ const ContractsNamePageWrapped = () => {
   );
 };
 
-export default function ContractNamePage() {
+export default function ContractNamePage(props: ContractNamePage) {
   return (
     <PublisherSDKContext>
-      <ContractsNamePageWrapped />
+      <ContractsNamePageWrapped {...props} />
     </PublisherSDKContext>
   );
 }
 
 ContractNamePage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
+};
+
+ContractNamePage.getInitialProps = async (ctx: NextPageContext) => {
+  return {
+    query: {
+      wallet: ctx.query.wallet,
+      contractName: ctx.query.contractName[0],
+    },
+  };
 };
