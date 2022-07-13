@@ -27,7 +27,9 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
       justifyContent="space-between"
     >
       <Flex direction="column" gap={4}>
-        <Heading size="title.sm">Released by</Heading>
+        <Heading size="title.sm">
+          {router.pathname === "/contracts/[wallet]" ? "Author" : "Released by"}
+        </Heading>
         <Flex gap={4} alignItems="center">
           <ChakraNextImage
             alt=""

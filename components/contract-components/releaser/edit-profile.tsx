@@ -46,8 +46,6 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     "Error updating profile",
   );
 
-  console.log(releaserProfile);
-
   useEffect(() => {
     if (!isDirty) {
       reset({
