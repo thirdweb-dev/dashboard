@@ -4,6 +4,7 @@ import { ReleaserSocials } from "./releaser-socials";
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
+import { useRouter } from "next/router";
 import { Heading, Link } from "tw-components";
 import { shortenAddress } from "utils/usedapp-external";
 
@@ -18,6 +19,8 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
 }) => {
   const releaserProfile = useReleaserProfile(wallet);
   const address = useAddress();
+  const router = useRouter();
+  console.log(router);
 
   return (
     <Flex
@@ -44,7 +47,9 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
           </Flex>
         </Flex>
       </Flex>
-      {wallet === address && <EditProfile />}
+      {wallet === address && router.pathname === "/contracts/[wallet]" && (
+        <EditProfile />
+      )}
     </Flex>
   );
 };
