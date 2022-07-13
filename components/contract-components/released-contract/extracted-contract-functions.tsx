@@ -1,12 +1,9 @@
 import { useReleasedContractFunctions } from "../hooks";
 import { InfoIcon } from "@chakra-ui/icons";
 import { Flex, Icon, Tooltip } from "@chakra-ui/react";
-import { useSDK } from "@thirdweb-dev/react";
 import { AbiFunction, PublishedContract } from "@thirdweb-dev/sdk";
 import { BiPencil } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
-import { useQuery } from "react-query";
-import invariant from "tiny-invariant";
 import { Badge, Card, Heading, Text } from "tw-components";
 
 interface ExtractedContractFunctionsProps {
