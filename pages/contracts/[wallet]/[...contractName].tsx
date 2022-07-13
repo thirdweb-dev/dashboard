@@ -6,6 +6,8 @@ import { ReleasedContract } from "components/contract-components/released-contra
 import { FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
+import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 import { ReactElement, useMemo, useState } from "react";
 import { Heading, LinkButton, Text } from "tw-components";
 
@@ -14,6 +16,8 @@ const ContractsNamePageWrapped = () => {
   const contractName = useSingleQueryParam("contractName");
   const allVersions = useAllVersions(wallet, contractName);
   const [selectedVersion, setSelectedVersion] = useState<string>();
+
+  const router = useRouter();
 
   const release = useMemo(() => {
     if (selectedVersion) {
@@ -24,6 +28,22 @@ const ContractsNamePageWrapped = () => {
 
   return (
     <Flex direction="column" gap={8}>
+      <NextSeo
+        title={`${release?.name} | Deploy in one click with thirdweb deploy`}
+        description={`Browse previous versions of ${release?.name} and deploy it in one click to any supported blockchains.`}
+        openGraph={{
+          title: `${release?.name} | Deploy in one click with thirdweb deploy`,
+          url: `https://thirdweb.com${router.asPath}`,
+          images: [
+            {
+              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release?.name}&.png`,
+              width: 1200,
+              height: 650,
+              alt: "thirdweb",
+            },
+          ],
+        }}
+      />
       <Flex justifyContent="space-between" w="full">
         <Flex gap={4} alignItems="center">
           <ChakraNextImage src={FeatureIconMap["custom"]} boxSize={12} alt="" />

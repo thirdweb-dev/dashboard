@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { PublishedContract } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { BiShareAlt } from "react-icons/bi";
 import { IoMdCheckmark } from "react-icons/io";
@@ -46,22 +45,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   return (
     <Flex gap={12} w="full" flexDir={{ base: "column", md: "row" }}>
-      <NextSeo
-        title={`${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`}
-        description={`Browse previous versions of ${releasedContractInfo.data?.name} and deploy it in one click to any supported blockchains.`}
-        openGraph={{
-          title: `${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`,
-          url: currentRoute,
-          images: [
-            {
-              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${releasedContractInfo.data?.publishedMetadata.version}&description=${releasedContractInfo.data?.publishedMetadata.description}&contractName=${releasedContractInfo.data?.name}&.png`,
-              width: 1200,
-              height: 650,
-              alt: "thirdweb",
-            },
-          ],
-        }}
-      />
       <Flex w="full" flexDir="column" gap={6}>
         {releasedContractInfo.data?.publishedMetadata?.readme && (
           <Card w="full" as={Flex} flexDir="column" gap={2} p={0}>
