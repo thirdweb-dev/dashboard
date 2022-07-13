@@ -27,7 +27,6 @@ export const TransferSection: React.FC<ITransferSection> = ({
     defaultValues: { to: "", amount: "1" },
   });
 
-  console.log({ contract });
   const transfer = useTransferMutation(contract);
   const { closeAllRows } = useTableContext();
 
