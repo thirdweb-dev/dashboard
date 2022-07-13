@@ -174,7 +174,7 @@ export type TransferableContract =
   | SignatureDrop;
 // | PackContract;
 
-export type RecipientContract = NFTDrop | EditionDrop;
+export type RecipientContract = NFTDrop | EditionDrop | SignatureDrop;
 
 export function hasPrimarySaleMechanic(
   contract: ValidContractInstance,
