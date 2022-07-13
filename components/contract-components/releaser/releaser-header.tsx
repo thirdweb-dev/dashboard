@@ -20,7 +20,6 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
   const releaserProfile = useReleaserProfile(wallet);
   const address = useAddress();
   const router = useRouter();
-  console.log(router);
 
   return (
     <Flex
@@ -47,9 +46,11 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
           </Flex>
         </Flex>
       </Flex>
-      {wallet === address && router.pathname === "/contracts/[wallet]" && (
-        <EditProfile />
-      )}
+      {wallet === address &&
+        router.pathname === "/contracts/[wallet]" &&
+        releaserProfile?.data && (
+          <EditProfile releaserProfile={releaserProfile.data} />
+        )}
     </Flex>
   );
 };

@@ -17,18 +17,26 @@ import {
 import { ProfileMetadata } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FiGlobe } from "react-icons/fi";
 import { HiPencilAlt } from "react-icons/hi";
 import { SiDiscord, SiTwitter } from "react-icons/si";
 import { Button, FormErrorMessage, FormLabel } from "tw-components";
 
-export const EditProfile = () => {
+interface EditProfileProps {
+  releaserProfile: ProfileMetadata;
+}
+
+export const EditProfile: React.FC<EditProfileProps> = ({
+  releaserProfile,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isDirty },
   } = useForm<ProfileMetadata>();
 
   const editProfile = useEditProfileMutation();
@@ -37,6 +45,17 @@ export const EditProfile = () => {
     "Profile update successfully",
     "Error updating profile",
   );
+
+  console.log(releaserProfile);
+
+  useEffect(() => {
+    if (!isDirty) {
+      reset({
+        ...releaserProfile,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [releaserProfile]);
 
   return (
     <>
