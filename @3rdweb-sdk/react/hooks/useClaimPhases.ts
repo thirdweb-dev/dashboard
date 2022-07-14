@@ -1,8 +1,14 @@
-import { NFTDropKeys, editionDropKeys, tokenDropKeys } from "../cache-keys";
+import {
+  CacheKeyMap,
+  NFTDropKeys,
+  editionDropKeys,
+  tokenDropKeys,
+} from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
+import { useContractTypeOfContract } from "./useCommon";
 import { useEditionDropResetClaimEligibilityMutation } from "./useEditionDrop";
 import { useNFTDropResetClaimEligibilityMutation } from "./useNFTDrop";
 import {
@@ -13,12 +19,19 @@ import {
   ClaimConditionInput,
   EditionDrop,
   NFTDrop,
+  SignatureDrop,
   TokenDrop,
 } from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
 
-export function useDecimals(contract?: NFTDrop | EditionDrop | TokenDrop) {
-  if (contract instanceof NFTDrop || contract instanceof EditionDrop) {
+export function useDecimals(
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
+) {
+  if (
+    contract instanceof NFTDrop ||
+    contract instanceof EditionDrop ||
+    contract instanceof SignatureDrop
+  ) {
     return 0;
   } else {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -27,10 +40,10 @@ export function useDecimals(contract?: NFTDrop | EditionDrop | TokenDrop) {
 }
 
 export function useClaimPhases(
-  contract?: NFTDrop | EditionDrop | TokenDrop,
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
   tokenId?: string,
 ) {
-  if (contract instanceof NFTDrop) {
+  if (contract instanceof NFTDrop || contract instanceof SignatureDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useNFTDropClaimPhases(contract);
   } else if (contract instanceof EditionDrop) {
@@ -42,9 +55,12 @@ export function useClaimPhases(
   }
 }
 
-function useNFTDropClaimPhases(contract?: NFTDrop) {
+function useNFTDropClaimPhases(contract?: NFTDrop | SignatureDrop) {
+  const contractType = useContractTypeOfContract(contract);
   return useQueryWithNetwork(
-    NFTDropKeys.claimPhases(contract?.getAddress()),
+    CacheKeyMap[contractType as keyof typeof CacheKeyMap].claimPhases(
+      contract?.getAddress(),
+    ),
     async () => await contract?.claimConditions.getAll(),
     {
       enabled: !!contract,
@@ -73,10 +89,10 @@ function useTokenDropClaimPhases(contract?: TokenDrop) {
 }
 
 export function useClaimPhasesMutation(
-  contract?: NFTDrop | EditionDrop | TokenDrop,
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
   tokenId?: string,
 ) {
-  if (contract instanceof NFTDrop) {
+  if (contract instanceof NFTDrop || contract instanceof SignatureDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useNFTDropPhasesMutation(contract);
   } else if (contract instanceof EditionDrop) {
@@ -89,10 +105,10 @@ export function useClaimPhasesMutation(
 }
 
 export function useResetEligibilityMutation(
-  contract?: NFTDrop | EditionDrop | TokenDrop,
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
   tokenId?: string,
 ) {
-  if (contract instanceof NFTDrop) {
+  if (contract instanceof NFTDrop || contract instanceof SignatureDrop) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useNFTDropResetClaimEligibilityMutation(contract);
   } else if (contract instanceof EditionDrop) {
@@ -104,7 +120,7 @@ export function useResetEligibilityMutation(
   }
 }
 
-function useNFTDropPhasesMutation(contract?: NFTDrop) {
+function useNFTDropPhasesMutation(contract?: NFTDrop | SignatureDrop) {
   return useMutationWithInvalidate(
     async (phases: ClaimConditionInput[]) => {
       invariant(contract, "contract is required");

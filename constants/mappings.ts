@@ -1,4 +1,9 @@
-import type { ContractType, Role } from "@thirdweb-dev/sdk";
+import {
+  ChainId,
+  ContractType,
+  Role,
+  SUPPORTED_CHAIN_ID,
+} from "@thirdweb-dev/sdk";
 import { StaticImageData } from "next/image";
 
 export const FeatureIconMap: Record<ContractType, StaticImageData> = {
@@ -14,8 +19,8 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   "token-drop": require("public/assets/tw-icons/token.png"),
   // TODO (byoc) icon for custom contract
   custom: require("public/assets/tw-icons/general.png"),
-  "signature-drop": require("public/assets/tw-icons/general.png"),
-  multiwrap: require("public/assets/tw-icons/general.png"),
+  "signature-drop": require("public/assets/tw-icons/nft-drop.png"),
+  multiwrap: require("public/assets/tw-icons/edition.png"),
 } as const;
 
 export const UrlMap: Record<ContractType, string> = {
@@ -26,12 +31,12 @@ export const UrlMap: Record<ContractType, string> = {
   token: "token",
   vote: "vote",
   marketplace: "marketplace",
-  pack: "pack",
+  pack: "",
   split: "split",
   "token-drop": "token-drop",
   // TODO (byoc)
   custom: "",
-  "signature-drop": "",
+  "signature-drop": "signature-drop",
   multiwrap: "",
 };
 
@@ -44,6 +49,38 @@ export interface BuiltinContractDetails {
   erc?: "ERC721" | "ERC20" | "ERC1155" | "ERC721A";
   audit?: string;
 }
+
+export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
+  "nft-drop": [],
+  "nft-collection": [],
+  "edition-drop": [],
+  edition: [],
+  token: [],
+  vote: [],
+  marketplace: [],
+  pack: [
+    ChainId.Mainnet,
+    ChainId.Polygon,
+    ChainId.Fantom,
+    ChainId.Avalanche,
+    ChainId.Optimism,
+    ChainId.Arbitrum,
+    ChainId.ArbitrumTestnet,
+    ChainId.OptimismTestnet,
+  ],
+  split: [],
+  "token-drop": [],
+  "signature-drop": [
+    ChainId.Mainnet,
+    ChainId.Polygon,
+    ChainId.Fantom,
+    ChainId.Avalanche,
+    ChainId.Optimism,
+    ChainId.Arbitrum,
+  ],
+  multiwrap: [],
+  custom: [],
+};
 
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
@@ -115,16 +152,16 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description:
         "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
       icon: FeatureIconMap["pack"],
-      comingSoon: true,
       contractType: "pack",
+      erc: "ERC1155",
     },
     multiwrap: {
       title: "Multiwrap",
       description:
         "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721",
       icon: FeatureIconMap["token-drop"],
-      comingSoon: true,
       contractType: "multiwrap",
+      erc: "ERC721",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
     },
     "signature-drop": {
@@ -132,7 +169,6 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description:
         "ERC721A NFTs that other people can claim, with signature verification",
       icon: FeatureIconMap["nft-drop"],
-      comingSoon: true,
       contractType: "signature-drop",
       erc: "ERC721A",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",

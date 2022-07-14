@@ -139,7 +139,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
     <Drawer
       allowPinchZoom
       preserveScrollBarGap
-      size="full"
+      size="xl"
       onClose={_onClose}
       isOpen={isOpen}
     >
@@ -297,7 +297,7 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({ data, portalRef }) => {
         },
       },
       {
-        Header: "Max claimable per transaction",
+        Header: "Max claimable",
         accessor: ({ maxClaimable }) => {
           return maxClaimable || "Default";
         },

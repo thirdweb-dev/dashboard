@@ -10,12 +10,14 @@ import {
   LinkOverlay,
   Skeleton,
 } from "@chakra-ui/react";
-import { detectFeatures } from "@thirdweb-dev/sdk";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
-import { useContractPublishMetadataFromURI } from "components/contract-components/hooks";
+import {
+  useContractEnabledFeatures,
+  useContractPublishMetadataFromURI,
+} from "components/contract-components/hooks";
 import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -23,58 +25,7 @@ import { useRouter } from "next/router";
 import { ReactElement, useMemo } from "react";
 import { FiArrowLeft, FiCheckCircle, FiExternalLink } from "react-icons/fi";
 import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
-
-const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
-
-function extractFeatures(
-  input: ReturnType<typeof detectFeatures>,
-  enabledFeatures: FeatureWithEnabled[] = [],
-  suggestedFeatures: FeatureWithEnabled[] = [],
-  parent = "__ROOT__",
-) {
-  if (!input) {
-    return {
-      enabledFeatures,
-      suggestedFeatures,
-    };
-  }
-  for (const featureKey in input) {
-    const feature = input[featureKey];
-    // if feature is enabled, then add it to enabledFeatures
-    if (feature.enabled) {
-      enabledFeatures.push(feature);
-    }
-    // otherwise if it is disabled, but it's parent is enabled or suggested, then add it to suggestedFeatures
-    else if (
-      enabledFeatures.findIndex((f) => f.name === parent) > -1 ||
-      ALWAYS_SUGGESTED.includes(feature.name)
-    ) {
-      suggestedFeatures.push(feature);
-    }
-    // recurse
-    extractFeatures(
-      feature.features,
-      enabledFeatures,
-      suggestedFeatures,
-      feature.name,
-    );
-  }
-
-  return {
-    enabledFeatures,
-    suggestedFeatures,
-  };
-}
-
-function useContractFeatures(abi?: any) {
-  const features = useMemo(() => {
-    if (abi) {
-      return extractFeatures(detectFeatures(abi));
-    }
-    return undefined;
-  }, [abi]);
-  return features;
-}
+import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
 
 export default function ContractDetailPage() {
   const { Track } = useTrack({
@@ -92,16 +43,10 @@ export default function ContractDetailPage() {
       ? FeatureIconMap[contractId as keyof typeof FeatureIconMap]
       : FeatureIconMap["custom"];
   }, [contractId]);
-  const features = useContractFeatures(publishMetadataQuery.data?.abi);
 
-  const [enabledFeatures] = useMemo(() => {
-    if (!features) {
-      return [[]];
-    }
-    const enabled = features.enabledFeatures;
-
-    return [enabled] as const;
-  }, [features]);
+  const enabledFeatures = useContractEnabledFeatures(
+    publishMetadataQuery.data?.abi,
+  );
 
   return (
     <Track>
@@ -112,7 +57,7 @@ export default function ContractDetailPage() {
               <IconButton
                 variant="ghost"
                 aria-label="back"
-                onClick={() => router.back()}
+                onClick={() => pushToPreviousRoute(router)}
                 icon={<Icon boxSize={6} as={FiArrowLeft} />}
               />
             )}
@@ -155,8 +100,8 @@ export default function ContractDetailPage() {
         <Flex gap={12} direction="column" as="main">
           {contractId && (
             <Flex gap={4} direction="column">
-              <Card>
-                <Flex direction="column" gap={6}>
+              <Card p={{ base: 6, md: 10 }}>
+                <Flex direction="column" gap={8}>
                   {enabledFeatures.length > 0 && (
                     <Flex direction="column" gap={4}>
                       <Box>

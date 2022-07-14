@@ -1,9 +1,9 @@
-import { ContractId } from "../types";
-import { ContractAbiCell } from "./cells/abi";
+import { ContractCellContext, ContractId } from "../types";
 import { ContractDeployActionCell } from "./cells/deploy-action";
 import { ContractDescriptionCell } from "./cells/description";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
+import { ContractVersionCell } from "./cells/version";
 import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import React, { useMemo } from "react";
 import { Column, useTable } from "react-table";
@@ -16,21 +16,13 @@ interface DeployableContractTableProps {
     selected: ContractId[];
     onChange: (contractIds: ContractId[]) => void;
   };
-  isPublish?: true;
-  hasDescription?: true;
   isFetching?: boolean;
+  context?: ContractCellContext;
 }
 
 export const DeployableContractTable: ComponentWithChildren<
   DeployableContractTableProps
-> = ({
-  contractIds,
-  selectable,
-  isPublish,
-  hasDescription,
-  isFetching,
-  children,
-}) => {
+> = ({ contractIds, selectable, isFetching, context, children }) => {
   const tableColumns: Column<{ contractId: ContractId }>[] = useMemo(() => {
     let cols: Column<{ contractId: ContractId }>[] = [
       {
@@ -45,7 +37,7 @@ export const DeployableContractTable: ComponentWithChildren<
       },
     ];
 
-    if (hasDescription) {
+    if (context !== "deploy") {
       cols = [
         ...cols,
         {
@@ -54,26 +46,28 @@ export const DeployableContractTable: ComponentWithChildren<
           Cell: (cell: any) => <ContractDescriptionCell cell={cell} />,
         },
       ];
-    } else {
+    }
+    if (context === "view_release" || context === "create_release") {
       cols = [
         ...cols,
         {
-          Header: "ABI",
+          Header: "Version",
           accessor: (row) => row.contractId,
-          Cell: (cell: any) => <ContractAbiCell cell={cell} />,
+          Cell: (cell: any) => <ContractVersionCell cell={cell} />,
         },
       ];
     }
-    if (!isPublish) {
-      cols = [
-        ...cols,
-        {
-          id: "deploy-action",
-          accessor: (row) => row.contractId,
-          Cell: (cell: any) => <ContractDeployActionCell cell={cell} />,
-        },
-      ];
-    }
+
+    cols = [
+      ...cols,
+      {
+        id: "deploy-action",
+        accessor: (row) => row.contractId,
+        Cell: (cell: any) => (
+          <ContractDeployActionCell cell={cell} context={context} />
+        ),
+      },
+    ];
 
     if (selectable) {
       const selectedContractIds = selectable.selected;
@@ -131,7 +125,7 @@ export const DeployableContractTable: ComponentWithChildren<
     return cols;
     // this is to avoid re-rendering of the table when the contractIds array changes (it will always be a string array, so we can just join it and compare the string output)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contractIds.join(), isPublish, selectable, hasDescription]);
+  }, [contractIds.join(), context, selectable]);
 
   const tableInstance = useTable({
     columns: tableColumns,
@@ -179,7 +173,7 @@ export const DeployableContractTable: ComponentWithChildren<
                   <Td
                     {...cell.getCellProps()}
                     borderBottomWidth="inherit"
-                    _last={isPublish ? undefined : { textAlign: "end" }}
+                    _last={{ textAlign: "end" }}
                   >
                     {cell.render("Cell")}
                   </Td>

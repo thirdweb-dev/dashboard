@@ -15,7 +15,7 @@ export default function DeployContract() {
       <Flex direction="column" gap={8}>
         <Flex align="center" justify="space-between">
           <IconButton
-            onClick={() => router.back()}
+            onClick={() => router.push("/dashboard")}
             size="sm"
             aria-label="back"
             icon={<FiChevronLeft />}
@@ -33,7 +33,7 @@ export default function DeployContract() {
               alt="custom"
               href="/contracts/new/custom"
               title="My contracts"
-              subtitle="Publish custom contracts so you can deploy them at any time."
+              subtitle="Release custom contracts so you can deploy them at any time."
               onClick={() =>
                 trackEvent({
                   category: "ftux",
