@@ -2,8 +2,8 @@ import { Box, Flex, Select } from "@chakra-ui/react";
 import { useContractFunctions } from "@thirdweb-dev/react";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { Environment } from "components/contract-tabs/code/types";
-import { useEffect, useMemo, useState } from "react";
-import { Card, CodeBlock, Heading, Text } from "tw-components";
+import { useMemo, useState } from "react";
+import { Card, Heading, Text } from "tw-components";
 
 interface CodeOverviewProps {
   contractAddress?: string;
@@ -39,7 +39,7 @@ contract, err := sdk.GetContract("CONTRACT-ADDRESS")
   },
   read: {
     javascript: `const data = await contract.call("FN", ARGS)`,
-    react: `import { useContract } from "@thirdweb-dev/react";
+    react: `import { useContract, useContractData } from "@thirdweb-dev/react";
 
 export default function Component() {
   const contract = useContract("CONTRACT-ADDRESS");
@@ -50,7 +50,7 @@ export default function Component() {
   },
   write: {
     javascript: `const data = await contract.call("FN", ARGS)`,
-    react: `import { useContract } from "@thirdweb-dev/react";
+    react: `import { useContract, useContractCall } from "@thirdweb-dev/react";
 
 export default function Component() {
   const contract = useContract("CONTRACT-ADDRESS");
