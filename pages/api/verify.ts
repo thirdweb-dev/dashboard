@@ -1,15 +1,12 @@
-import { useSDK } from "@thirdweb-dev/react";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
   ThirdwebSDK,
   extractConstructorParamsFromAbi,
   fetchSourceFilesFromMetadata,
+  resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
-import {
-  StorageSingleton,
-  alchemyUrlMap,
-} from "components/app-layouts/providers";
+import { StorageSingleton } from "components/app-layouts/providers";
 import { ethers } from "ethers";
 import { Interface } from "ethers/lib/utils";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -126,7 +123,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // TODO can't use alchemyMap here because the domain is not in the allowlist
     const rpc = SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID];
-    console.log(`Using RPC ${rpc}`);
     const sdk = new ThirdwebSDK(rpc, {}, StorageSingleton);
     const compilerMetadata = await sdk
       .getPublisher()
@@ -181,6 +177,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       contractAddress,
       chainId,
       compilerMetadata.abi,
+      sdk.getProvider(),
     );
 
     const requestBody: Record<string, string> = {
@@ -196,8 +193,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     };
 
     const parameters = new URLSearchParams({ ...requestBody });
-    console.log("DEBUG - requestBody", requestBody);
-
     const result = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -205,7 +200,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     const data = await result.json();
-    console.log("DEBUG - data", data);
     if (data.status === RequestStatus.OK) {
       return res.status(200).json({ guid: data.result });
     } else {
@@ -227,13 +221,13 @@ async function fetchConstructorParams(
   contractAddress: string,
   chainId: ChainId,
   abi: any,
+  provider: ethers.providers.Provider,
 ): Promise<string> {
   const constructorParamTypes = extractConstructorParamsFromAbi(abi);
   if (constructorParamTypes.length === 0) {
     return "";
   }
   const construtctorParamByteLength = constructorParamTypes.length * 64;
-  console.log("Constructor params:", constructorParamTypes.length);
   const requestBody = {
     apiKey: apiKeyMap[chainId],
     module: "account",
@@ -256,20 +250,43 @@ async function fetchConstructorParams(
     data.result[0] !== undefined
   ) {
     const txData = data.result[0].input;
-    console.log("DEBUG - txData", txData);
-    const constructorArgs = txData.substring(
+    let constructorArgs = txData.substring(
       txData.length - construtctorParamByteLength,
     );
-    console.log("checking constructor args:", constructorArgs);
+    const contract = new Interface(abi);
     try {
       // sanity check that the constructor params are valid
-      const contract = new Interface(abi);
       ethers.utils.defaultAbiCoder.decode(
         contract.deploy.inputs,
         `0x${constructorArgs}`,
       );
     } catch (e) {
-      throw new Error("Could not decode constructor parameters");
+      // if that fails, try to grab the deployable bytecode from the release metadata
+      const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
+        contractAddress,
+        provider,
+      );
+      if (bytecode) {
+        // contract was realeased, use the deployable bytecode method (proper solution)
+        const bytecodeHex = bytecode.startsWith("0x")
+          ? bytecode
+          : `0x${bytecode}`;
+        constructorArgs = txData.substring(bytecodeHex.length);
+        try {
+          // re-do the sanity check
+          ethers.utils.defaultAbiCoder.decode(
+            contract.deploy.inputs,
+            `0x${constructorArgs}`,
+          );
+        } catch (err) {
+          throw new Error("Error decoding contract parameters.");
+        }
+      } else {
+        // contract was not release, throw an error
+        throw new Error(
+          "No contract release found. Run `npx thirdweb release` to create a release for your contract.",
+        );
+      }
     }
 
     return constructorArgs;
@@ -277,4 +294,29 @@ async function fetchConstructorParams(
     // Could not retrieve constructor parameters, using empty parameters as fallback
     return "";
   }
+}
+
+/**
+ * Fetches the release metadata on the ContractPublisher registry (on polygon) for the given contract address (on any chain)
+ * @param contractAddress
+ * @param provider
+ * @returns
+ */
+async function fetchDeployBytecodeFromReleaseMetadata(
+  contractAddress: string,
+  provider: ethers.providers.Provider,
+): Promise<string | undefined> {
+  const compialierMetaUri = await resolveContractUriFromAddress(
+    contractAddress,
+    provider,
+  );
+  if (compialierMetaUri) {
+    const pubmeta = await new ThirdwebSDK("polygon")
+      .getPublisher()
+      .resolvePublishMetadataFromCompilerMetadata(compialierMetaUri);
+    return pubmeta.length > 0
+      ? await StorageSingleton.getRaw(pubmeta[0].bytecodeUri)
+      : undefined;
+  }
+  return undefined;
 }

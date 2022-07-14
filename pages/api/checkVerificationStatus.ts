@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const guid = req.query["guid"];
   const chainId = Number(req.query["chainId"]) as ChainId;
-  console.log("guid", guid);
+  console.log("Checking verification status for guid:", guid);
 
   const endpoint = `${apiMap[chainId]}?module=contract&action=checkverifystatus&guid=${guid}&apikey=${apiKeyMap[chainId]}"`;
 
@@ -19,14 +19,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     const data = await result.json();
-    console.log("DEBUG - data", data);
     if (data.status === "1") {
       return res.status(200).json({ result: data.result });
     } else {
       return res.status(200).json({ result: data.result });
     }
   } catch (e) {
-    console.log(e);
     return res.status(400).json({ error: e });
   }
 };
