@@ -57,7 +57,9 @@ export const EditProfile: React.FC<EditProfileProps> = ({
 
   return (
     <>
-      <Button onClick={onOpen}>Edit Profile</Button>
+      <Button onClick={onOpen} size="sm">
+        Edit Profile
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
