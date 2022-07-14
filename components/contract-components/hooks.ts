@@ -14,23 +14,35 @@ import {
   SmartContract,
   detectFeatures,
   extractConstructorParamsFromAbi,
+  extractFunctionsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk";
-import { ExtraPublishMetadata } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
+import {
+  AbiSchema,
+  ContractInfoSchema,
+  ExtraPublishMetadata,
+  ProfileMetadata,
+  PublishedContract,
+} from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { BuiltinContractMap, FeatureIconMap } from "constants/mappings";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import invariant from "tiny-invariant";
+import { z } from "zod";
 
 interface ContractPublishMetadata {
   image: string | StaticImageData;
   name: string;
   description?: string;
-  abi?: unknown;
+  abi?: z.infer<typeof AbiSchema>;
   bytecode?: string;
   deployDisabled?: boolean;
+  info?: z.infer<typeof ContractInfoSchema>;
+  licenses?: string[];
+  compilerMetadata?: Record<string, any>;
 }
 
 export function useContractPublishMetadataFromURI(contractId: ContractId) {
@@ -62,7 +74,11 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
       return {
         image: (resolved as any)?.image || FeatureIconMap.custom,
         name: resolved.name,
+        description: resolved.info?.title,
         abi: resolved.abi,
+        info: resolved.info,
+        licenses: resolved.licenses,
+        compilerMetadata: resolved.metadata,
       };
     },
     {
@@ -77,6 +93,10 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
   return useQuery(
     ["pre-publish-metadata", uri, address],
     async () => {
+      invariant(
+        !isContractIdBuiltInContract(uri),
+        "Skipping publish metadata fetch for built-in contract",
+      );
       invariant(address, "address is not defined");
       // TODO: Make this nicer.
       invariant(uri !== "ipfs://undefined", "uri can't be undefined");
@@ -88,6 +108,131 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
       enabled: !!uri && !!address,
     },
   );
+}
+
+export function useReleaserProfile(publisherAddress?: string) {
+  const sdk = useSDK();
+  return useQuery(
+    ["releaser-profile", publisherAddress],
+    async () => {
+      invariant(publisherAddress, "address is not defined");
+      invariant(sdk, "sdk not provided");
+      return await sdk.getPublisher().getPublisherProfile(publisherAddress);
+    },
+    {
+      enabled: !!publisherAddress,
+    },
+  );
+}
+
+export function useLatestRelease(
+  publisherAddress?: string,
+  contractName?: string,
+) {
+  const sdk = useSDK();
+  return useQuery(
+    ["latest-release", publisherAddress, contractName],
+    async () => {
+      invariant(publisherAddress, "address is not defined");
+      invariant(contractName, "contract name is not defined");
+      invariant(sdk, "sdk not provided");
+
+      const latestRelease = await sdk
+        .getPublisher()
+        .getLatest(publisherAddress, contractName);
+
+      const contractInfo = await sdk
+        .getPublisher()
+        .fetchPublishedContractInfo(latestRelease);
+
+      return {
+        ...latestRelease,
+        version: contractInfo.publishedMetadata.version,
+        name: contractInfo.publishedMetadata.name,
+        description: contractInfo.publishedMetadata.description,
+      };
+    },
+    {
+      enabled: !!publisherAddress && !!contractName,
+    },
+  );
+}
+
+export function useAllVersions(
+  publisherAddress?: string,
+  contractName?: string,
+) {
+  const sdk = useSDK();
+  return useQuery(
+    ["all-releases", publisherAddress, contractName],
+    async () => {
+      invariant(publisherAddress, "address is not defined");
+      invariant(contractName, "contract name is not defined");
+      invariant(sdk, "sdk not provided");
+      const allVersions = await sdk
+        .getPublisher()
+        .getAllVersions(publisherAddress, contractName);
+
+      const releasedVersions = [];
+
+      for (let i = 0; i < allVersions.length; i++) {
+        const contractInfo = await sdk
+          .getPublisher()
+          .fetchPublishedContractInfo(allVersions[i]);
+
+        releasedVersions.unshift({
+          ...allVersions[i],
+          version: contractInfo.publishedMetadata.version,
+          name: contractInfo.publishedMetadata.name,
+          description: contractInfo.publishedMetadata.description,
+        });
+      }
+
+      return releasedVersions;
+    },
+    {
+      enabled: !!publisherAddress && !!contractName,
+    },
+  );
+}
+
+export function useReleasedContractInfo(contract: PublishedContract) {
+  const sdk = useSDK();
+  return useQuery(
+    ["released-contract", contract],
+    async () => {
+      invariant(contract, "contract is not defined");
+      invariant(sdk, "sdk not provided");
+      return await sdk.getPublisher().fetchPublishedContractInfo(contract);
+    },
+    {
+      enabled: !!contract,
+    },
+  );
+}
+
+export function useReleasedContractFunctions(contract: PublishedContract) {
+  const { data: meta } = useContractPublishMetadataFromURI(
+    contract.metadataUri,
+  );
+  return useQuery(
+    ["contract-functions", contract.metadataUri],
+    async () => {
+      invariant(contract, "contract is not defined");
+      invariant(meta, "sdk not provided");
+      invariant(meta.abi, "sdk not provided");
+      return extractFunctionsFromAbi(meta.abi || {}, meta.compilerMetadata);
+    },
+    {
+      enabled: !!contract && !!meta && !!meta.abi,
+    },
+  );
+}
+
+export function useReleasedContractCompilerMetadata(
+  contract: PublishedContract,
+) {
+  return useContractPublishMetadataFromURI(contract.metadataUri);
 }
 
 export function useConstructorParamsFromABI(abi?: any) {
@@ -126,6 +271,23 @@ export function usePublishMutation() {
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
         return invalidate([["pre-publish-metadata", _variables.predeployUri]]);
+      },
+    },
+  );
+}
+
+export function useEditProfileMutation() {
+  const sdk = useSDK();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (data: ProfileMetadata) => {
+      invariant(sdk, "sdk not provided");
+      await sdk.getPublisher().updatePublisherProfile(data);
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        return invalidate([["releaser-profile", address]]);
       },
     },
   );
@@ -170,9 +332,8 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
   );
 }
 
-export function usePublishedContractsQuery() {
+export function usePublishedContractsQuery(address?: string) {
   const sdk = useSDK();
-  const address = useAddress();
   return useQuery(
     ["published-contracts", address],
     async () => {
@@ -211,4 +372,61 @@ export function useContractFeatures(abi?: any) {
   return useMemo(() => {
     return abi ? detectFeatures(abi) : undefined;
   }, [abi]);
+}
+
+const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
+
+function extractFeatures(
+  input: ReturnType<typeof detectFeatures>,
+  enabledFeatures: FeatureWithEnabled[] = [],
+  suggestedFeatures: FeatureWithEnabled[] = [],
+  parent = "__ROOT__",
+) {
+  if (!input) {
+    return {
+      enabledFeatures,
+      suggestedFeatures,
+    };
+  }
+  for (const featureKey in input) {
+    const feature = input[featureKey];
+    // if feature is enabled, then add it to enabledFeatures
+    if (feature.enabled) {
+      enabledFeatures.push(feature);
+    }
+    // otherwise if it is disabled, but it's parent is enabled or suggested, then add it to suggestedFeatures
+    else if (
+      enabledFeatures.findIndex((f) => f.name === parent) > -1 ||
+      ALWAYS_SUGGESTED.includes(feature.name)
+    ) {
+      suggestedFeatures.push(feature);
+    }
+    // recurse
+    extractFeatures(
+      feature.features,
+      enabledFeatures,
+      suggestedFeatures,
+      feature.name,
+    );
+  }
+
+  return {
+    enabledFeatures,
+    suggestedFeatures,
+  };
+}
+
+export function useContractDetectedFeatures(abi?: any) {
+  const features = useMemo(() => {
+    if (abi) {
+      return extractFeatures(detectFeatures(abi));
+    }
+    return undefined;
+  }, [abi]);
+  return features;
+}
+
+export function useContractEnabledFeatures(abi?: any) {
+  const features = useContractDetectedFeatures(abi);
+  return features ? features.enabledFeatures : [];
 }

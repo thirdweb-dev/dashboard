@@ -24,7 +24,7 @@ const ContractsHomepageWrapped: React.FC = () => {
   });
 
   const walletAddress = useAddress();
-  const publishedContracts = usePublishedContractsQuery();
+  const publishedContracts = usePublishedContractsQuery(walletAddress);
 
   return (
     <Track>
@@ -36,7 +36,7 @@ const ContractsHomepageWrapped: React.FC = () => {
           </Text>
         </Flex>
         <DeployableContractTable
-          hasDescription
+          context="built-in"
           contractIds={Object.keys(BuiltinContractMap).filter(
             (contract) => contract !== "custom",
           )}
