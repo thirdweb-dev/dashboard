@@ -55,7 +55,7 @@ import { toDateTimeLocal } from "utils/date-utils";
 import * as z from "zod";
 import { ZodError } from "zod";
 
-type ResettableContracts = TokenDrop | EditionDrop | NFTDrop;
+type ResettableContracts = TokenDrop | EditionDrop | NFTDrop | SignatureDrop;
 
 interface DropPhases {
   contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop;

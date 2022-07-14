@@ -25,9 +25,7 @@ import { NFTContract } from "@thirdweb-dev/react";
 import {
   ClaimConditionInput,
   ClaimConditionInputArray,
-  EditionDrop,
   NATIVE_TOKEN_ADDRESS,
-  NFTDrop,
   TokenDrop,
 } from "@thirdweb-dev/sdk";
 import { SnapshotUpload } from "components/batch-upload/SnapshotUpload";
@@ -53,11 +51,14 @@ import { toDateTimeLocal } from "utils/date-utils";
 import * as z from "zod";
 import { ZodError } from "zod";
 
-interface ClaimPhases {
+interface ClaimPhasesProps {
   contract?: NFTContract;
   tokenId?: string;
 }
-export const ClaimPhases: React.FC<ClaimPhases> = ({ contract, tokenId }) => {
+export const DropPhases: React.FC<ClaimPhasesProps> = ({
+  contract,
+  tokenId,
+}) => {
   const mutation = useResetEligibilityMutation(contract, tokenId);
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
@@ -79,8 +80,8 @@ export const ClaimPhases: React.FC<ClaimPhases> = ({ contract, tokenId }) => {
             <Flex direction="column">
               <Heading size="title.md">Claim Phases</Heading>
               <Text size="body.md" fontStyle="italic">
-                Add different phases to control when you drop your {nftsOrToken}
-                , how much they cost, and more.
+                Different phases control when the {nftsOrToken} get dropped, how
+                much they cost, and more.
               </Text>
             </Flex>
           </Flex>
@@ -99,7 +100,7 @@ export const ClaimPhases: React.FC<ClaimPhases> = ({ contract, tokenId }) => {
             <Flex direction="column">
               <Heading size="title.md">Claim Eligibility</Heading>
               <Text size="body.md" fontStyle="italic">
-                This contracts claim eligibility stores who has already claimed
+                This contracts claim eligibility stores who has already claimed{" "}
                 {nftsOrToken} from this contract and carries across claim
                 phases. Resetting claim eligibility will reset this state
                 permanently, and people who have already claimed to their limit
@@ -143,35 +144,35 @@ const DEFAULT_PHASE = {
 const ClaimPhasesSchema = z.object({
   phases: ClaimConditionInputArray,
 });
-const ClaimPhasesForm: React.FC<ClaimPhases> = ({ contract, tokenId }) => {
+const ClaimPhasesForm: React.FC<ClaimPhasesProps> = ({ contract, tokenId }) => {
   const query = useClaimPhases(contract, tokenId);
   const mutation = useClaimPhasesMutation(contract, tokenId);
   const decimals = useDecimals(contract);
 
   const transformedQueryData = useMemo(() => {
-    return (query.data || []).map((phase) => ({
-      ...phase,
-      price: Number(phase.currencyMetadata.displayValue),
-      maxQuantity: phase.maxQuantity.toString(),
-      currencyMetadata: {
-        ...phase.currencyMetadata,
-        value: phase.currencyMetadata.value.toString(),
-      },
-      currencyAddress: phase.currencyAddress.toLowerCase(),
-      quantityLimitPerTransaction: phase.quantityLimitPerTransaction.toString(),
-      waitInSeconds: phase.waitInSeconds.toString(),
-      startTime: new Date(phase.startTime),
-      snapshot: phase.snapshot?.map(({ address, maxClaimable }) => ({
-        address,
-        maxClaimable: maxClaimable || "0",
-      })),
-    }));
+    return (query.data || [])
+      .map((phase) => ({
+        ...phase,
+        price: Number(phase.currencyMetadata.displayValue),
+        maxQuantity: phase.maxQuantity.toString(),
+        currencyMetadata: {
+          ...phase.currencyMetadata,
+          value: phase.currencyMetadata.value.toString(),
+        },
+        currencyAddress: phase.currencyAddress.toLowerCase(),
+        quantityLimitPerTransaction:
+          phase.quantityLimitPerTransaction.toString(),
+        waitInSeconds: phase.waitInSeconds.toString(),
+        startTime: new Date(phase.startTime),
+        snapshot: phase.snapshot?.map(({ address, maxClaimable }) => ({
+          address,
+          maxClaimable: maxClaimable || "0",
+        })),
+      }))
+      .filter((phase) => phase.maxQuantity !== "0");
   }, [query.data]);
 
-  const nftsOrToken =
-    contract instanceof NFTDrop || contract instanceof EditionDrop
-      ? "NFTs"
-      : "tokens";
+  const nftsOrToken = contract instanceof TokenDrop ? "tokens" : "NFTs";
 
   const form = useForm<z.input<typeof ClaimPhasesSchema>>({
     defaultValues: query.data
@@ -590,41 +591,42 @@ const ClaimPhasesForm: React.FC<ClaimPhases> = ({ contract, tokenId }) => {
             <Alert status="warning" borderRadius="md">
               <AlertIcon />
               <Flex direction="column">
-                <AlertTitle>
-                  You need to set at least one claim phase
-                </AlertTitle>
+                <AlertTitle>No claim phases set.</AlertTitle>
                 <AlertDescription>
                   Without a claim phase no-one will be able to claim this drop.
-                  To add one, click the button below.
                 </AlertDescription>
               </Flex>
             </Alert>
           )}
-          <Button
-            colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
-            variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
-            borderRadius="md"
-            leftIcon={<Icon as={FiPlus} />}
-            onClick={addPhase}
-          >
-            Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}Claim
-            Phase
-          </Button>
+          {watchFieldArray.length === 0 && (
+            <Button
+              colorScheme="purple"
+              variant="solid"
+              borderRadius="md"
+              leftIcon={<Icon as={FiPlus} />}
+              onClick={addPhase}
+            >
+              Add Claim Phase
+            </Button>
+          )}
         </Flex>
-        <TransactionButton
-          colorScheme="primary"
-          transactionCount={1}
-          isDisabled={query.isLoading || isDataEqual}
-          type="submit"
-          isLoading={mutation.isLoading}
-          loadingText="Saving..."
-          size="md"
-          borderRadius="xl"
-          borderTopLeftRadius="0"
-          borderTopRightRadius="0"
-        >
-          Save Claim Phases
-        </TransactionButton>
+        <>
+          <Divider />
+          <TransactionButton
+            colorScheme="primary"
+            transactionCount={1}
+            isDisabled={query.isLoading || isDataEqual}
+            type="submit"
+            isLoading={mutation.isLoading}
+            loadingText="Saving..."
+            size="md"
+            borderRadius="xl"
+            borderTopLeftRadius="0"
+            borderTopRightRadius="0"
+          >
+            Save Claim Phase
+          </TransactionButton>
+        </>
       </Flex>
     </>
   );
