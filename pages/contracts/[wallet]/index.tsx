@@ -42,7 +42,6 @@ const UserPageWrapped = () => {
             d.metadataUri.replace("ipfs://", ""),
           )}
           context="view_release"
-          wallet={wallet}
         >
           {publishedContracts.isLoading && (
             <Center>
