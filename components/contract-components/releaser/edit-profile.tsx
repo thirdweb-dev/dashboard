@@ -1,5 +1,6 @@
 import { useEditProfileMutation } from "../hooks";
 import {
+  Divider,
   Flex,
   FormControl,
   Icon,
@@ -22,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { FiGlobe } from "react-icons/fi";
 import { HiPencilAlt } from "react-icons/hi";
 import { SiDiscord, SiTwitter } from "react-icons/si";
-import { Button, FormErrorMessage, FormLabel } from "tw-components";
+import { Button, FormErrorMessage, FormLabel, Heading } from "tw-components";
 
 interface EditProfileProps {
   releaserProfile: ProfileMetadata;
@@ -76,9 +77,12 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             }),
           )}
         >
-          <ModalHeader>Edit your profile</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody as={Flex} flexDir="column" gap={6}>
+          <ModalHeader as={Flex} alignItems="center" p={5}>
+            <Heading size="title.md">Edit your profile</Heading>
+            <ModalCloseButton mt={2} />
+          </ModalHeader>
+          <Divider mb={5} />
+          <ModalBody as={Flex} flexDir="column" gap={8}>
             <FormControl isInvalid={!!errors.bio} mr={4}>
               <FormLabel>
                 <Flex gap={2}>
