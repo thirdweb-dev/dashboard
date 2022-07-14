@@ -262,29 +262,36 @@ async function fetchConstructorParams(
       );
     } catch (e) {
       // if that fails, try to grab the deployable bytecode from the release metadata
-      const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
-        contractAddress,
-        provider,
-      );
-      if (bytecode) {
-        // contract was realeased, use the deployable bytecode method (proper solution)
-        const bytecodeHex = bytecode.startsWith("0x")
-          ? bytecode
-          : `0x${bytecode}`;
-        constructorArgs = txData.substring(bytecodeHex.length);
-        try {
-          // re-do the sanity check
-          ethers.utils.defaultAbiCoder.decode(
-            contract.deploy.inputs,
-            `0x${constructorArgs}`,
+      try {
+        const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
+          contractAddress,
+          provider,
+        );
+        if (bytecode) {
+          // contract was realeased, use the deployable bytecode method (proper solution)
+          const bytecodeHex = bytecode.startsWith("0x")
+            ? bytecode
+            : `0x${bytecode}`;
+          constructorArgs = txData.substring(bytecodeHex.length);
+          try {
+            // re-do the sanity check
+            ethers.utils.defaultAbiCoder.decode(
+              contract.deploy.inputs,
+              `0x${constructorArgs}`,
+            );
+          } catch (err) {
+            throw new Error(`Error decoding contract parameters: ${err}`);
+          }
+        } else {
+          // contract was not released, throw an error
+          throw new Error(
+            "Verifying this contract requires a release. Run `npx thirdweb release` to create a release for this contract, then try again.",
           );
-        } catch (err) {
-          throw new Error("Error decoding contract parameters.");
         }
-      } else {
-        // contract was not release, throw an error
+      } catch (err) {
+        // contract was not released, throw an error
         throw new Error(
-          "No contract release found. Run `npx thirdweb release` to create a release for your contract.",
+          "Verifying this contract requires a release. Run `npx thirdweb release` to create a release for this contract, then try again.",
         );
       }
     }
