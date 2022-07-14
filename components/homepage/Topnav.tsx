@@ -2,7 +2,6 @@ import { LandingMenu } from "./LandingMenu";
 import {
   Box,
   Container,
-  DarkMode,
   Flex,
   Icon,
   Menu,
