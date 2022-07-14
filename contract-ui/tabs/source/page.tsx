@@ -1,6 +1,7 @@
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
+  Divider,
   Flex,
   Icon,
   Link,
@@ -8,15 +9,23 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useSDK } from "@thirdweb-dev/react";
-import { VerificationStatus } from "pages/api/verify";
+import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
-import { Badge, Button, Card, CodeBlock, Heading } from "tw-components";
+import {
+  Badge,
+  Button,
+  Card,
+  CodeBlock,
+  Heading,
+  LinkButton,
+} from "tw-components";
 
 interface CustomContractSourcePageProps {
   contractAddress?: string;
@@ -74,7 +83,7 @@ function useCheckVerificationStatus(guid?: string) {
       enabled: !!guid && !!chainId,
       refetchInterval: (data, query) => {
         if (data?.result === VerificationStatus.PENDING) {
-          return 2000;
+          return 3000;
         }
         return 0;
       },
@@ -100,10 +109,14 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
   const { data: verificationStatus } = useCheckVerificationStatus(
     verifyResult?.guid,
   );
+  const showLinkButton =
+    verifyResult?.error === VerificationStatus.ALREADY_VERIFIED ||
+    verificationStatus?.result === VerificationStatus.SUCCESS;
+  const chainId = useActiveChainId();
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent pb={5} mx={{ base: 4, md: 0 }}>
+      <ModalContent pb={2} mx={{ base: 4, md: 0 }}>
         <ModalHeader>
           <Flex gap={2} align="center">
             <Heading size="subtitle.md">Etherscan Verification</Heading>
@@ -112,7 +125,8 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
             </Badge>
           </Flex>
         </ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton mt={2} />
+        <Divider mb={4} />
         <ModalBody py={4}>
           <Flex flexDir="column">
             {verifying && (
@@ -123,7 +137,7 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
             )}
             {verifyResult?.error ? (
               <Flex gap={2} align="center">
-                {verifyResult?.error === verifyResult.ALREADY_VERIFIED ? (
+                {verifyResult?.error === VerificationStatus.ALREADY_VERIFIED ? (
                   <Icon as={FiCheckCircle} color="green.600" />
                 ) : (
                   <Icon as={FiXCircle} color="red.600" />
@@ -151,6 +165,18 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
             ) : null}
           </Flex>
         </ModalBody>
+        <ModalFooter>
+          {showLinkButton && (
+            <LinkButton
+              variant="outline"
+              size="sm"
+              href={blockExplorerUrl(chainId, contractAddress)}
+              isExternal
+            >
+              View on {blockExplorerName(chainId)}
+            </LinkButton>
+          )}
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );
@@ -161,6 +187,7 @@ export const CustomContractSourcePage: React.FC<
 > = ({ contractAddress }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const contractQuery = useContractSources(contractAddress);
+  const chainId = useActiveChainId();
 
   if (!contractAddress) {
     return <div>No contract address provided</div>;
@@ -222,7 +249,9 @@ export const CustomContractSourcePage: React.FC<
               <Heading size="title.sm" flex={1}>
                 Contract Source Code
               </Heading>
-              <Button onClick={onOpen}>Verify on Etherscan</Button>
+              <Button variant="solid" colorScheme="purple" onClick={onOpen}>
+                Verify on {blockExplorerName(chainId)}
+              </Button>
             </Flex>
             {sources.map((signature) => (
               <Card
@@ -243,3 +272,27 @@ export const CustomContractSourcePage: React.FC<
     </>
   );
 };
+
+function blockExplorerUrl(
+  chainId: import("@thirdweb-dev/react").ChainId | undefined,
+  contractAddress: string,
+): string {
+  if (!chainId) {
+    return "";
+  }
+  const { url } = blockExplorerMap[chainId];
+  if (url) {
+    return `${url}address/${contractAddress}#code`;
+  }
+  return "";
+}
+
+function blockExplorerName(
+  chainId: import("@thirdweb-dev/react").ChainId | undefined,
+): string {
+  if (!chainId) {
+    return "";
+  }
+  const { name } = blockExplorerMap[chainId];
+  return name;
+}

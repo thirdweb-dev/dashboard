@@ -61,6 +61,33 @@ export const apiMap: Record<number, string> = {
   1313161555: "https://api-testnet.aurorascan.dev/api",
 };
 
+export const blockExplorerMap: Record<number, { name: string; url: string }> = {
+  1: { name: "Etherscan", url: "https://etherscan.io/" },
+  3: { name: "Ropsten Etherscan", url: "https://ropsten.etherscan.io/" },
+  4: { name: "Rinkeby Etherscan", url: "https://rinkeby.etherscan.io/" },
+  5: { name: "Goerli Etherscan", url: "https://goerli.etherscan.io/" },
+  10: {
+    name: "Optimism Etherscan",
+    url: "https://optimistic.etherscan.io/",
+  },
+  42: { name: "Kovan Etherscan", url: "https://kovan.etherscan.io/" },
+  69: {
+    name: "Optimism Kovan Etherscan",
+    url: "https://kovan-optimistic.etherscan.io/",
+  },
+  137: { name: "Polygonscan", url: "https://polygonscan.com/" },
+  250: { name: "FTMScan", url: "https://ftmscan.com/" },
+  4002: { name: "FTMScan Testnet", url: "https://testnet.ftmscan.com/" },
+  42161: { name: "Arbiscan", url: "https://arbiscan.io/" },
+  43113: { name: "Snowtrace Testnet", url: "https://testnet.snowtrace.io/" },
+  43114: { name: "Snowtrace", url: "https://snowtrace.io/" },
+  421611: { name: "Arbiscan Testnet", url: "https://testnet.arbiscan.io/" },
+  80001: {
+    name: "Mumbai Polygonscan",
+    url: "https://mumbai.polygonscan.com/",
+  },
+};
+
 export const apiKeyMap: Record<number, string> = {
   [ChainId.Mainnet]: process.env.ETHERSCAN_KEY as string,
   [ChainId.Rinkeby]: process.env.ETHERSCAN_KEY as string,
