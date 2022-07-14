@@ -17,10 +17,12 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import {
   AbiSchema,
   ContractInfoSchema,
   ExtraPublishMetadata,
+  ProfileMetadata,
   PublishedContract,
 } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
@@ -134,20 +136,35 @@ export function useLatestRelease(
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
       invariant(sdk, "sdk not provided");
-      return await sdk.getPublisher().getLatest(publisherAddress, contractName);
+
+      const latestRelease = await sdk
+        .getPublisher()
+        .getLatest(publisherAddress, contractName);
+
+      const contractInfo = await sdk
+        .getPublisher()
+        .fetchPublishedContractInfo(latestRelease);
+
+      return {
+        ...latestRelease,
+        version: contractInfo.publishedMetadata.version,
+        name: contractInfo.publishedMetadata.name,
+        description: contractInfo.publishedMetadata.description,
+      };
     },
     {
       enabled: !!publisherAddress && !!contractName,
     },
   );
 }
+
 export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
   const sdk = useSDK();
   return useQuery(
-    ["latest-release", publisherAddress, contractName],
+    ["all-releases", publisherAddress, contractName],
     async () => {
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
@@ -259,6 +276,23 @@ export function usePublishMutation() {
   );
 }
 
+export function useEditProfileMutation() {
+  const sdk = useSDK();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (data: ProfileMetadata) => {
+      invariant(sdk, "sdk not provided");
+      await sdk.getPublisher().updatePublisherProfile(data);
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        return invalidate([["releaser-profile", address]]);
+      },
+    },
+  );
+}
+
 interface ContractDeployMutationParams {
   constructorParams: unknown[];
   addToDashboard?: boolean;
@@ -338,4 +372,61 @@ export function useContractFeatures(abi?: any) {
   return useMemo(() => {
     return abi ? detectFeatures(abi) : undefined;
   }, [abi]);
+}
+
+const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
+
+function extractFeatures(
+  input: ReturnType<typeof detectFeatures>,
+  enabledFeatures: FeatureWithEnabled[] = [],
+  suggestedFeatures: FeatureWithEnabled[] = [],
+  parent = "__ROOT__",
+) {
+  if (!input) {
+    return {
+      enabledFeatures,
+      suggestedFeatures,
+    };
+  }
+  for (const featureKey in input) {
+    const feature = input[featureKey];
+    // if feature is enabled, then add it to enabledFeatures
+    if (feature.enabled) {
+      enabledFeatures.push(feature);
+    }
+    // otherwise if it is disabled, but it's parent is enabled or suggested, then add it to suggestedFeatures
+    else if (
+      enabledFeatures.findIndex((f) => f.name === parent) > -1 ||
+      ALWAYS_SUGGESTED.includes(feature.name)
+    ) {
+      suggestedFeatures.push(feature);
+    }
+    // recurse
+    extractFeatures(
+      feature.features,
+      enabledFeatures,
+      suggestedFeatures,
+      feature.name,
+    );
+  }
+
+  return {
+    enabledFeatures,
+    suggestedFeatures,
+  };
+}
+
+export function useContractDetectedFeatures(abi?: any) {
+  const features = useMemo(() => {
+    if (abi) {
+      return extractFeatures(detectFeatures(abi));
+    }
+    return undefined;
+  }, [abi]);
+  return features;
+}
+
+export function useContractEnabledFeatures(abi?: any) {
+  const features = useContractDetectedFeatures(abi);
+  return features ? features.enabledFeatures : [];
 }
