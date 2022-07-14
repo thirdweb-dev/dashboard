@@ -1,3 +1,4 @@
+import { useSDK } from "@thirdweb-dev/react";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
@@ -124,7 +125,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const rpc = alchemyUrlMap[chainId as SUPPORTED_CHAIN_ID];
     console.log(`Using RPC ${rpc}`);
-    const sdk = new ThirdwebSDK(rpc, {}, StorageSingleton);
+    const sdk = new ThirdwebSDK(
+      rpc,
+      {
+        readonlySettings: {
+          rpcUrl: rpc,
+          chainId,
+        },
+      },
+      StorageSingleton,
+    );
     const compilerMetadata = await sdk
       .getPublisher()
       .fetchCompilerMetadataFromAddress(contractAddress);
