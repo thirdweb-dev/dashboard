@@ -2,6 +2,7 @@ import { LandingMenu } from "./LandingMenu";
 import {
   Box,
   Container,
+  DarkMode,
   Flex,
   Icon,
   Menu,
@@ -93,7 +94,15 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   Features
                 </Text>
               </MenuButton>
-              <MenuList onMouseEnter={onOpen} onMouseLeave={onClose} mt="-12px">
+              <MenuList
+                onMouseEnter={onOpen}
+                onMouseLeave={onClose}
+                mt="-12px"
+                bgColor="black"
+                color="white"
+                borderColor="rgba(255, 255, 255, 0.1)"
+                overflow="hidden"
+              >
                 <TrackedLink
                   href="#contracts"
                   category="topnav"
@@ -108,7 +117,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 >
                   <MenuItem>SDKs</MenuItem>
                 </TrackedLink>
-
                 <TrackedLink
                   href="#features"
                   category="topnav"
