@@ -1,6 +1,4 @@
 import {
-  useClaimPhases,
-  useClaimPhasesMutation,
   useDecimals,
   useResetEligibilityMutation,
 } from "@3rdweb-sdk/react/hooks/useClaimPhases";
@@ -21,11 +19,12 @@ import {
   Spinner,
   Stack,
 } from "@chakra-ui/react";
-import { NFTContract } from "@thirdweb-dev/react";
+import { useClaimConditions } from "@thirdweb-dev/react";
 import {
   ClaimConditionInput,
   ClaimConditionInputArray,
   NATIVE_TOKEN_ADDRESS,
+  SmartContract,
   TokenDrop,
 } from "@thirdweb-dev/sdk";
 import { SnapshotUpload } from "components/batch-upload/SnapshotUpload";
@@ -52,14 +51,14 @@ import * as z from "zod";
 import { ZodError } from "zod";
 
 interface ClaimPhasesProps {
-  contract?: NFTContract;
+  contract?: SmartContract;
   tokenId?: string;
 }
-export const DropPhases: React.FC<ClaimPhasesProps> = ({
+export const ClaimPhases: React.FC<ClaimPhasesProps> = ({
   contract,
   tokenId,
 }) => {
-  const mutation = useResetEligibilityMutation(contract, tokenId);
+  /*   const mutation = useResetEligibilityMutation(contract, tokenId); */
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
@@ -113,10 +112,11 @@ export const DropPhases: React.FC<ClaimPhasesProps> = ({
             colorScheme="primary"
             transactionCount={1}
             type="submit"
-            isLoading={mutation.isLoading}
+            isLoading={false}
+            /*             isLoading={mutation.isLoading}
             onClick={() => {
               mutation.mutate(undefined, txNotifications);
-            }}
+            }} */
             loadingText="Resetting..."
             size="md"
             borderRadius="xl"
@@ -145,8 +145,8 @@ const ClaimPhasesSchema = z.object({
   phases: ClaimConditionInputArray,
 });
 const ClaimPhasesForm: React.FC<ClaimPhasesProps> = ({ contract, tokenId }) => {
-  const query = useClaimPhases(contract, tokenId);
-  const mutation = useClaimPhasesMutation(contract, tokenId);
+  const query = useClaimConditions(contract);
+  /*   const mutation = useClaimPhasesMutation(contract, tokenId); */
   const decimals = useDecimals(contract);
 
   const transformedQueryData = useMemo(() => {
@@ -236,7 +236,7 @@ const ClaimPhasesForm: React.FC<ClaimPhasesProps> = ({ contract, tokenId }) => {
         />
       )}
       <Flex
-        onSubmit={form.handleSubmit((d) =>
+        /* onSubmit={form.handleSubmit((d) =>
           mutation
             .mutateAsync(d.phases as ClaimConditionInput[], {
               onSuccess: (_data, variables) => {
@@ -254,7 +254,7 @@ const ClaimPhasesForm: React.FC<ClaimPhasesProps> = ({ contract, tokenId }) => {
                 onError(error);
               }
             }),
-        )}
+        )} */
         direction="column"
         as="form"
         gap={10}
@@ -598,7 +598,7 @@ const ClaimPhasesForm: React.FC<ClaimPhasesProps> = ({ contract, tokenId }) => {
               </Flex>
             </Alert>
           )}
-          {watchFieldArray.length === 0 && (
+          {watchFieldArray?.length === 0 && (
             <Button
               colorScheme="purple"
               variant="solid"
@@ -617,7 +617,8 @@ const ClaimPhasesForm: React.FC<ClaimPhasesProps> = ({ contract, tokenId }) => {
             transactionCount={1}
             isDisabled={query.isLoading || isDataEqual}
             type="submit"
-            isLoading={mutation.isLoading}
+            /*             isLoading={mutation.isLoading} */
+            isLoading={false}
             loadingText="Saving..."
             size="md"
             borderRadius="xl"

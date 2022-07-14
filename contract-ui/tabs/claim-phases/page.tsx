@@ -23,7 +23,7 @@ export const ClaimPhasesPage: React.FC<ClaimPhasesPageProps> = ({
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%">
         <Flex flexDir="column" w="100%" gap={8}>
-          <ClaimPhases contract={contract.contract?.nft} />
+          {contract?.contract && <ClaimPhases contract={contract.contract} />}
         </Flex>
       </Flex>
     </Flex>

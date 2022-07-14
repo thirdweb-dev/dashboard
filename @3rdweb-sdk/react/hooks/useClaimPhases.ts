@@ -20,17 +20,19 @@ import {
   EditionDrop,
   NFTDrop,
   SignatureDrop,
+  SmartContract,
   TokenDrop,
 } from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
 
 export function useDecimals(
-  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop,
+  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop | SmartContract,
 ) {
   if (
     contract instanceof NFTDrop ||
     contract instanceof EditionDrop ||
-    contract instanceof SignatureDrop
+    contract instanceof SignatureDrop ||
+    contract instanceof SmartContract
   ) {
     return 0;
   } else {
