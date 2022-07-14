@@ -13,6 +13,7 @@ import {
 import { ethers } from "ethers";
 import { Interface } from "ethers/lib/utils";
 import { NextApiRequest, NextApiResponse } from "next";
+import { SupportedChainIdToNetworkMap } from "utils/network";
 
 interface VerifyPayload {
   contractAddress: string;
@@ -123,18 +124,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log(`Verifying contract ${contractAddress} on chain ${chainId}`);
 
-    const rpc = alchemyUrlMap[chainId as SUPPORTED_CHAIN_ID];
+    // TODO can't use alchemyMap here because the domain is not in the allowlist
+    const rpc = SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID];
     console.log(`Using RPC ${rpc}`);
-    const sdk = new ThirdwebSDK(
-      rpc,
-      {
-        readonlySettings: {
-          rpcUrl: rpc,
-          chainId,
-        },
-      },
-      StorageSingleton,
-    );
+    const sdk = new ThirdwebSDK(rpc, {}, StorageSingleton);
     const compilerMetadata = await sdk
       .getPublisher()
       .fetchCompilerMetadataFromAddress(contractAddress);
