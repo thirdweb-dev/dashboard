@@ -123,6 +123,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(`Verifying contract ${contractAddress} on chain ${chainId}`);
 
     const rpc = alchemyUrlMap[chainId as SUPPORTED_CHAIN_ID];
+    console.log(`Using RPC ${rpc}`);
     const sdk = new ThirdwebSDK(rpc, {}, StorageSingleton);
     const compilerMetadata = await sdk
       .getPublisher()
