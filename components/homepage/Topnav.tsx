@@ -16,6 +16,7 @@ import { Logo } from "components/logo";
 import React, { useState } from "react";
 import { SiDiscord, SiGithub, SiTwitter, SiYoutube } from "react-icons/si";
 import {
+  Button,
   LinkButton,
   MenuItem,
   Text,
@@ -27,6 +28,12 @@ export const HomepageTopNav: React.FC<{}> = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isResourcesOpen,
+    onOpen: onResourcesOpen,
+    onClose: onResourcesClose,
+  } = useDisclosure();
+
   useScrollPosition(
     ({ currPos }) => {
       if (currPos.y < -5) {
@@ -75,14 +82,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
             spacing={10}
             as="nav"
           >
-            <TrackedLink
-              href="https://portal.thirdweb.com"
-              category="topnav"
-              label="docs"
-              isExternal
-            >
-              Docs
-            </TrackedLink>
             <Menu isOpen={isOpen} onClose={onClose}>
               <MenuButton
                 onMouseEnter={onOpen}
@@ -90,7 +89,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 py="12px"
               >
                 <Text color="white" fontWeight="bold" fontSize="16px">
-                  Features
+                  Products
                 </Text>
               </MenuButton>
               <MenuList
@@ -102,88 +101,139 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 borderColor="rgba(255, 255, 255, 0.1)"
                 overflow="hidden"
               >
-                <TrackedLink
+                <MenuItem
+                  as={TrackedLink}
                   href="#contracts"
                   category="topnav"
                   label="contracts"
                 >
-                  <MenuItem>Contracts</MenuItem>
-                </TrackedLink>
-                <TrackedLink
+                  Contracts
+                </MenuItem>
+                <MenuItem
+                  as={TrackedLink}
                   href="#developers"
-                  category="topnav"
+                  category="mobile-menu"
                   label="developers"
                 >
-                  <MenuItem>SDKs</MenuItem>
-                </TrackedLink>
-                <TrackedLink
-                  href="#features"
-                  category="topnav"
-                  label="features"
+                  SDKs
+                </MenuItem>
+                <MenuItem
+                  as={TrackedLink}
+                  href="#dashboards"
+                  category="mobile-menu"
+                  label="dashboards"
                 >
-                  <MenuItem>Dashboards</MenuItem>
-                </TrackedLink>
+                  Dashboards
+                </MenuItem>
+                <MenuItem
+                  as={TrackedLink}
+                  href="/authentication"
+                  category="topnav"
+                  label="authentication"
+                  isExternal
+                >
+                  Authentication
+                </MenuItem>
               </MenuList>
             </Menu>
+
+            <Menu isOpen={isResourcesOpen} onClose={onResourcesClose}>
+              <MenuButton
+                onMouseEnter={onResourcesOpen}
+                onMouseLeave={onResourcesClose}
+                py="12px"
+              >
+                <Text color="white" fontWeight="bold" fontSize="16px">
+                  Resources
+                </Text>
+              </MenuButton>
+              <MenuList
+                onMouseEnter={onResourcesOpen}
+                onMouseLeave={onResourcesClose}
+                mt="-12px"
+                bgColor="black"
+                color="white"
+                borderColor="rgba(255, 255, 255, 0.1)"
+                overflow="hidden"
+              >
+                <MenuItem
+                  as={TrackedLink}
+                  href="https://portal.thirdweb.com"
+                  category="topnav"
+                  label="docs"
+                  isExternal
+                >
+                  Docs
+                </MenuItem>
+                <MenuItem
+                  as={TrackedLink}
+                  href="https://portal.thirdweb.com/guides"
+                  category="topnav"
+                  label="guides"
+                  isExternal
+                >
+                  Guides
+                </MenuItem>
+                <MenuItem
+                  as={TrackedLink}
+                  href="https://blog.thirdweb.com"
+                  category="topnav"
+                  label="blog"
+                  isExternal
+                >
+                  Blog
+                </MenuItem>
+              </MenuList>
+            </Menu>
+
             <TrackedLink href="#fees" category="topnav" label="fees">
               Pricing
             </TrackedLink>
-
-            <Flex
-              display={{ base: "none", lg: "flex" }}
-              direction="row"
-              align="center"
-            >
-              <TrackedIconButton
-                as={LinkButton}
-                isExternal
-                noIcon
-                href="https://twitter.com/thirdweb_"
-                color="gray.50"
-                bg="transparent"
-                aria-label="twitter"
-                icon={<Icon boxSize="1rem" as={SiTwitter} />}
-                category="topnav"
-                label="twitter"
-              />
-              <TrackedIconButton
-                as={LinkButton}
-                isExternal
-                noIcon
-                href="https://discord.gg/thirdweb"
-                bg="transparent"
-                color="gray.50"
-                aria-label="discord"
-                icon={<Icon boxSize="1rem" as={SiDiscord} />}
-                category="topnav"
-                label="discord"
-              />
-              <TrackedIconButton
-                as={LinkButton}
-                isExternal
-                noIcon
-                href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
-                bg="transparent"
-                color="gray.50"
-                aria-label="YouTube"
-                icon={<Icon boxSize="1rem" as={SiYoutube} />}
-                category="topnav"
-                label="youtube"
-              />
-              <TrackedIconButton
-                as={LinkButton}
-                isExternal
-                noIcon
-                href="https://github.com/thirdweb-dev"
-                bg="transparent"
-                color="gray.50"
-                aria-label="github"
-                icon={<Icon boxSize="1rem" as={SiGithub} />}
-                category="topnav"
-                label="github"
-              />
-            </Flex>
           </Stack>
+
+          <Flex
+            display={{ base: "none", lg: "flex" }}
+            direction="row"
+            align="center"
+          >
+            <TrackedIconButton
+              as={LinkButton}
+              isExternal
+              noIcon
+              href="https://twitter.com/thirdweb_"
+              color="gray.50"
+              bg="transparent"
+              aria-label="twitter"
+              icon={<Icon boxSize="1rem" as={SiTwitter} />}
+              category="topnav"
+              label="twitter"
+            />
+            <TrackedIconButton
+              as={LinkButton}
+              isExternal
+              noIcon
+              href="https://discord.gg/thirdweb"
+              bg="transparent"
+              color="gray.50"
+              aria-label="discord"
+              icon={<Icon boxSize="1rem" as={SiDiscord} />}
+              category="topnav"
+              label="discord"
+            />
+            <TrackedIconButton
+              as={LinkButton}
+              isExternal
+              noIcon
+              href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
+              bg="transparent"
+              color="gray.50"
+              aria-label="YouTube"
+              icon={<Icon boxSize="1rem" as={SiYoutube} />}
+              category="topnav"
+              label="youtube"
+            />
+          </Flex>
+
           <LandingMenu
             aria-label="Homepage Menu"
             display={{ base: "inherit", md: "none" }}
