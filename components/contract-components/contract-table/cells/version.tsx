@@ -1,7 +1,4 @@
-import {
-  useContractPublishMetadataFromURI,
-  useLatestRelease,
-} from "../../hooks";
+import { useContractPrePublishMetadata } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
 import { useAddress } from "@thirdweb-dev/react";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -12,12 +9,15 @@ export const ContractVersionCell: React.FC<
 > = ({ cell: { value } }) => {
   const address = useAddress();
   const wallet = useSingleQueryParam("wallet");
-  const publishMetadata = useContractPublishMetadataFromURI(value);
-  const latestRelease = useLatestRelease(
+  const fullPublishMetadata = useContractPrePublishMetadata(
+    value,
     wallet || address,
-    publishMetadata.data?.name,
   );
+
   return (
-    <Text size="body.md">{latestRelease.data?.version || "First Release"}</Text>
+    <Text size="body.md">
+      {fullPublishMetadata.data?.latestPublishedContractMetadata
+        ?.publishedMetadata.version || "First Release"}
+    </Text>
   );
 };
