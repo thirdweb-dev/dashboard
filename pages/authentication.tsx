@@ -48,6 +48,7 @@ export default function Authentication() {
               spacing={{ base: 6, md: 8 }}
             >
               <Flex
+                alignSelf="center"
                 flexDir="column"
                 gap={{ base: 6, md: 8 }}
                 align={{ base: "initial", md: "start" }}
@@ -67,15 +68,6 @@ export default function Authentication() {
                   Authenticate users with just their wallet. Add web3
                   functionality to any application.
                 </Heading>
-                <LightMode>
-                  <Flex flexDir="column" align="center" gap={6}>
-                    <GeneralCta
-                      size="lg"
-                      href="https://portal.thirdweb.com/building-web3-apps/authenticating-users"
-                      isExternal
-                    />
-                  </Flex>
-                </LightMode>
               </Flex>
               <Flex
                 display={{ base: "none", md: "flex" }}
@@ -283,35 +275,6 @@ export default function Authentication() {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection bottomGradient overflow="hidden">
-            <Flex
-              flexDir="column"
-              py={{ base: 24, lg: 48 }}
-              align="center"
-              gap={{ base: 6, md: 8 }}
-            >
-              <Heading
-                as="h2"
-                bgGradient="linear(to-r, #907EFF, #C5D8FF)"
-                bgClip="text"
-                size="display.sm"
-                fontWeight={700}
-                textAlign="center"
-              >
-                Integrate the services you know and love
-              </Heading>
-              <Heading
-                as="h3"
-                maxW="600px"
-                textAlign="center"
-                color="whiteAlpha.600"
-                size="subtitle.md"
-              >
-                Add web3 functionality to the most popular web2 workflows
-              </Heading>
-            </Flex>
-          </HomepageSection>
-
           <HomepageSection bottomPattern bottomGradient overflow="hidden">
             <Flex
               flexDir="column"
@@ -360,7 +323,6 @@ export default function Authentication() {
                   size="lg"
                   href="https://portal.thirdweb.com/building-web3-apps/authenticating-users"
                   w={{ base: "full", md: "inherit" }}
-                  isExternal
                 />
               </LightMode>
             </Flex>

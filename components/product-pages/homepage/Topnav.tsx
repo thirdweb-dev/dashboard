@@ -118,6 +118,14 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 </MenuItem>
                 <MenuItem
                   as={TrackedLink}
+                  href="https://thirdweb.com/dashboard"
+                  category="topnav"
+                  label="dashboard"
+                >
+                  Dashboard
+                </MenuItem>
+                <MenuItem
+                  as={TrackedLink}
                   href="/authentication"
                   category="topnav"
                   label="authentication"

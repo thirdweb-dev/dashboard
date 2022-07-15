@@ -16,7 +16,7 @@ const EXAMPLES = [
     svg: NFTDrops,
   },
   {
-    title: "Wallet Subscriptions",
+    title: "Stripe Subscriptions For Wallets",
     label: "",
     href: "https://github.com/thirdweb-example/thirdweb-stripe",
     svg: Marketplaces,

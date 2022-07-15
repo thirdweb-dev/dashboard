@@ -142,7 +142,6 @@ export const AuthenticationCode: React.FC = () => {
           w={{ base: "full", md: "inherit" }}
           px={10}
           py={6}
-          isExternal
         />
       </LightMode>
     </>
