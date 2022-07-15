@@ -105,7 +105,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   href="https://portal.thirdweb.com/smart-contracts"
                   category="topnav"
                   label="contracts"
-                  isExternal
                 >
                   Contracts
                 </MenuItem>
@@ -114,7 +113,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   href="https://portal.thirdweb.com/building-web3-apps/setting-up-the-sdk"
                   category="topnav"
                   label="developers"
-                  isExternal
                 >
                   SDKs
                 </MenuItem>
@@ -123,7 +121,6 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   href="/authentication"
                   category="topnav"
                   label="authentication"
-                  isExternal
                 >
                   Authentication
                 </MenuItem>
@@ -154,7 +151,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   href="https://portal.thirdweb.com"
                   category="topnav"
                   label="docs"
-                  isExternal
+                  target="_blank"
                 >
                   Docs
                 </MenuItem>
@@ -163,7 +160,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   href="https://portal.thirdweb.com/guides"
                   category="topnav"
                   label="guides"
-                  isExternal
+                  target="_blank"
                 >
                   Guides
                 </MenuItem>
@@ -172,7 +169,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                   href="https://blog.thirdweb.com"
                   category="topnav"
                   label="blog"
-                  isExternal
+                  target="_blank"
                 >
                   Blog
                 </MenuItem>
