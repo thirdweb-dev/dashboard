@@ -14,9 +14,8 @@ import {
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Logo } from "components/logo";
 import React, { useState } from "react";
-import { SiDiscord, SiGithub, SiTwitter, SiYoutube } from "react-icons/si";
+import { SiDiscord, SiTwitter, SiYoutube } from "react-icons/si";
 import {
-  Button,
   LinkButton,
   MenuItem,
   Text,
@@ -112,7 +111,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 <MenuItem
                   as={TrackedLink}
                   href="#developers"
-                  category="mobile-menu"
+                  category="topnav"
                   label="developers"
                 >
                   SDKs
@@ -120,7 +119,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 <MenuItem
                   as={TrackedLink}
                   href="#dashboards"
-                  category="mobile-menu"
+                  category="topnav"
                   label="dashboards"
                 >
                   Dashboards
