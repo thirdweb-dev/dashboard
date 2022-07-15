@@ -4,32 +4,32 @@ import {
   NFTDrops,
   TokenGated,
 } from "../homepage/examples/example-svgs";
-import { Box, Flex, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
+import { Flex, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Badge, Heading } from "tw-components";
 
 const EXAMPLES = [
   {
     title: "Sign-in With Wallet",
-    label: "",
+    label: "sign-in-with-wallet",
     href: "https://github.com/thirdweb-example/sign-in-with-ethereum",
     svg: NFTDrops,
   },
   {
     title: "Stripe Subscriptions For Wallets",
-    label: "",
+    label: "stripe-subscriptions-for-wallets",
     href: "https://github.com/thirdweb-example/thirdweb-stripe",
     svg: Marketplaces,
   },
   {
     title: "Link Existing Accounts to Wallets",
-    label: "",
+    label: "link-existing-accounts-to-wallets",
     href: "",
     svg: TokenGated,
   },
   {
     title: "Authenticate With Discord Bot",
-    label: "",
+    label: "authenticate-with-discord-bot",
     href: "",
     svg: DAOs,
   },
