@@ -80,15 +80,16 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
         </MenuGroup>
 
         <Divider />
-
-        <MenuItem
-          as={TrackedLink}
-          href="#fees"
-          category="mobile-menu"
-          label="fees"
-        >
-          Pricing
-        </MenuItem>
+        {typeof window !== "undefined" && window.location.pathname === "/" && (
+          <MenuItem
+            as={TrackedLink}
+            href="#fees"
+            category="mobile-menu"
+            label="fees"
+          >
+            Pricing
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );

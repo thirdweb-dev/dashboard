@@ -4,9 +4,9 @@ import {
   NFTDrops,
   TokenGated,
 } from "../homepage/examples/example-svgs";
-import { Flex, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import { Heading } from "tw-components";
+import { Badge, Heading } from "tw-components";
 
 const EXAMPLES = [
   {
@@ -22,15 +22,15 @@ const EXAMPLES = [
     svg: Marketplaces,
   },
   {
-    title: "Link Accounts to Wallets",
+    title: "Link Existing Accounts to Wallets",
     label: "",
-    href: "https://github.com/thirdweb-example/",
+    href: "",
     svg: TokenGated,
   },
   {
-    title: "Discord Authentication",
+    title: "Authenticate With Discord Bot",
     label: "",
-    href: "https://github.com/thirdweb-example/",
+    href: "",
     svg: DAOs,
   },
 ];
@@ -50,8 +50,27 @@ const ExampleItem: React.FC<ExampleItemProps> = ({
 }) => {
   const { trackEvent } = useTrack();
 
+  if (!href) {
+    return (
+      <Flex flexDir="column" position="relative" gap={4} flexGrow={0}>
+        <RenderSVG />
+        <Badge
+          alignSelf="center"
+          borderRadius="md"
+          position="absolute"
+          top="-36px"
+        >
+          Example Coming Soon
+        </Badge>
+        <Heading textAlign="center" size="subtitle.md" maxW="100%">
+          {title}
+        </Heading>
+      </Flex>
+    );
+  }
+
   return (
-    <Flex as={LinkBox} role="group" flexDir="column" gap={6} flexGrow={0}>
+    <Flex as={LinkBox} role="group" flexDir="column" gap={4} flexGrow={0}>
       <RenderSVG />
       <LinkOverlay
         href={href}

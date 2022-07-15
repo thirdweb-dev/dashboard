@@ -68,6 +68,14 @@ export default function Authentication() {
                   Authenticate users with just their wallet. Add web3
                   functionality to any application.
                 </Heading>
+                <LightMode>
+                  <GeneralCta
+                    title="Get started"
+                    size="lg"
+                    href="https://portal.thirdweb.com/building-web3-apps/authenticating-users"
+                    w={{ base: "full", md: "inherit" }}
+                  />
+                </LightMode>
               </Flex>
               <Flex
                 display={{ base: "none", md: "flex" }}
