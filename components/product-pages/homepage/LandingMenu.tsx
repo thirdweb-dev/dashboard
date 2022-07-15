@@ -23,27 +23,21 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
         <MenuGroup title={<>Products</>}>
           <MenuItem
             as={TrackedLink}
-            href="#contracts"
+            href="https://portal.thirdweb.com/smart-contracts"
             category="topnav"
             label="contracts"
+            isExternal
           >
             Contracts
           </MenuItem>
           <MenuItem
             as={TrackedLink}
-            href="#developers"
-            category="mobile-menu"
+            href="https://portal.thirdweb.com/building-web3-apps/setting-up-the-sdk"
+            category="topnav"
             label="developers"
+            isExternal
           >
             SDKs
-          </MenuItem>
-          <MenuItem
-            as={TrackedLink}
-            href="#dashboards"
-            category="mobile-menu"
-            label="dashboards"
-          >
-            Dashboards
           </MenuItem>
           <MenuItem
             as={TrackedLink}
