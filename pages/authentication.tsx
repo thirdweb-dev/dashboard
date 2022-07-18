@@ -14,9 +14,8 @@ import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { HomepageTopNav } from "components/product-pages/homepage/Topnav";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
-import Hero from "public/assets/landingpage/hero.png";
-import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
+import Hero from "public/assets/product-pages/authentication/auth.png";
 import { Heading, Text, TrackedLink } from "tw-components";
 
 export default function Authentication() {
@@ -100,7 +99,7 @@ export default function Authentication() {
                   w={96}
                   mt={8}
                   px={4}
-                  src={MobileHero}
+                  src={Hero}
                 />
               </Flex>
             </SimpleGrid>
