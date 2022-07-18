@@ -5,7 +5,7 @@ import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { useRouter } from "next/router";
-import { Heading, Link, LinkButton, Text } from "tw-components";
+import { Heading, LinkButton, Text } from "tw-components";
 import { shortenAddress } from "utils/usedapp-external";
 
 interface ReleaserHeaderProps {
