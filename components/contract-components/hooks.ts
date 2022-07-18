@@ -82,7 +82,7 @@ export async function fetchContractPublishMetadataFromURI(
     };
   }
   return {
-    image: (resolved as any)?.image || "custom",
+    image: (resolved as any)?.image || "",
     name: resolved.name,
     description: resolved.info?.title || "",
     abi: resolved.abi,
@@ -162,9 +162,9 @@ export function useLatestRelease(
 
       return {
         ...latestRelease,
-        version: contractInfo.publishedMetadata.version,
-        name: contractInfo.publishedMetadata.name,
-        description: contractInfo.publishedMetadata.description,
+        version: contractInfo.publishedMetadata.version || "",
+        name: contractInfo.publishedMetadata.name || "",
+        description: contractInfo.publishedMetadata.description || "",
       };
     },
     {
@@ -196,7 +196,7 @@ export async function fetchAllVersions(
       ...allVersions[i],
       version: contractInfo.publishedMetadata.version,
       name: contractInfo.publishedMetadata.name,
-      description: contractInfo.publishedMetadata.description,
+      description: contractInfo.publishedMetadata.description || "",
     });
   }
 
