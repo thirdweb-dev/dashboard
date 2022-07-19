@@ -188,7 +188,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
           isActive={selectedReveal === "delayed"}
           onClick={() => setSelectedReveal("delayed")}
           disabled={contract instanceof EditionDrop}
-          disabledText="Delayed reveal is only available is not available in Edition Drop contracts"
+          disabledText="Delayed reveal is not available in Edition Drop contracts"
         />
       </Flex>
       <Flex>
