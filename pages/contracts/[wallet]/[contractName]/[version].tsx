@@ -1,8 +1,7 @@
 import { Flex, Select, Skeleton } from "@chakra-ui/react";
-import { ChainId, ThirdwebSDK } from "@thirdweb-dev/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { alchemyUrlMap } from "components/app-layouts/providers";
 import {
   fetchAllVersions,
   fetchContractPublishMetadataFromURI,
@@ -56,12 +55,13 @@ const ContractsNamePageWrapped = () => {
             }
             value={version}
           >
-            {(allVersions?.data || []).map((releasedVersion) => (
+            {(allVersions?.data || []).map((releasedVersion, idx) => (
               <option
                 key={releasedVersion.version}
                 value={releasedVersion.version}
               >
                 {releasedVersion.version}
+                {idx === 0 ? " (latest)" : ""}
               </option>
             ))}
           </Select>
@@ -95,9 +95,7 @@ ContractNamePage.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient();
-  const sdk = new ThirdwebSDK(alchemyUrlMap[ChainId.Polygon], {
-    readonlySettings: { chainId: 137, rpcUrl: alchemyUrlMap[ChainId.Polygon] },
-  });
+  const sdk = new ThirdwebSDK("polygon");
 
   const wallet = getSingleQueryValue(ctx.query, "wallet");
   const contractName = getSingleQueryValue(ctx.query, "contractName");
