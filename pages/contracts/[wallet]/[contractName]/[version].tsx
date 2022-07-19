@@ -6,6 +6,7 @@ import {
   fetchAllVersions,
   fetchContractPublishMetadataFromURI,
   fetchReleasedContractInfo,
+  fetchReleaserProfile,
   useAllVersions,
 } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
@@ -94,6 +95,12 @@ ContractNamePage.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  // cache for 10 seconds, with up to 60 seconds of stale time
+  ctx.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59",
+  );
+
   const queryClient = new QueryClient();
   // TODO make this use alchemy / other RPC
   // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
@@ -120,6 +127,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         fetchContractPublishMetadataFromURI(
           singularPublishedContract.metadataUri,
         ),
+    ),
+    queryClient.prefetchQuery(["releaser-profile", wallet], () =>
+      fetchReleaserProfile(sdk, wallet),
     ),
   ]);
 
