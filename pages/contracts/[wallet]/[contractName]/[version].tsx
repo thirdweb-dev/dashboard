@@ -95,7 +95,9 @@ ContractNamePage.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient();
-  const sdk = new ThirdwebSDK(alchemyUrlMap[ChainId.Polygon]);
+  const sdk = new ThirdwebSDK(alchemyUrlMap[ChainId.Polygon], {
+    readonlySettings: { chainId: 137, rpcUrl: alchemyUrlMap[ChainId.Polygon] },
+  });
 
   const wallet = getSingleQueryValue(ctx.query, "wallet");
   const contractName = getSingleQueryValue(ctx.query, "contractName");
