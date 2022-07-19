@@ -29,11 +29,12 @@ const ContractsNamePageWrapped = () => {
   const allVersions = useAllVersions(wallet, contractName);
 
   const release = useMemo(() => {
-    if (version) {
-      return allVersions.data?.find((v) => v.version === version);
-    }
-    return allVersions.data?.[0];
+    return (
+      allVersions.data?.find((v) => v.version === version) ||
+      allVersions.data?.[0]
+    );
   }, [allVersions?.data, version]);
+
   return (
     <Flex direction="column" gap={8}>
       <Flex justifyContent="space-between" w="full">
@@ -44,14 +45,15 @@ const ContractsNamePageWrapped = () => {
             <Text>{release?.description}</Text>
           </Skeleton>
         </Flex>
-        <Flex gap={3}>
+        <Flex gap={3} direction={{ base: "column", md: "row" }}>
           <Select
             onChange={(e) =>
               router.push(
                 `/contracts/${wallet}/${contractName}/${e.target.value}`,
+                undefined,
+                { shallow: true },
               )
             }
-            w={24}
             value={version}
           >
             {(allVersions?.data || []).map((releasedVersion) => (
@@ -64,6 +66,7 @@ const ContractsNamePageWrapped = () => {
             ))}
           </Select>
           <LinkButton
+            flexShrink={0}
             colorScheme="purple"
             href={`/contracts/deploy/${encodeURIComponent(
               release?.metadataUri.replace("ipfs://", "") || "",
