@@ -1,5 +1,5 @@
-import { ContractIdImage } from "../contract-table/cells/image";
 import { useContractPublishMetadataFromURI } from "../hooks";
+import { ContractIdImage } from "../shared/contract-id-image";
 import { useDeploy } from "@3rdweb-sdk/react";
 import {
   Accordion,
@@ -37,7 +37,11 @@ import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
-import { BuiltinContractMap, UrlMap } from "constants/mappings";
+import {
+  BuiltinContractMap,
+  DisabledChainsMap,
+  UrlMap,
+} from "constants/mappings";
 import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -67,6 +71,7 @@ import {
   NetworkToBlockTimeMap,
   SupportedChainIdToNetworkMap,
 } from "utils/network";
+import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
 import { z } from "zod";
 
 function useDeployForm<TContract extends ValidContractClass>(
@@ -287,7 +292,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
         >
           <Flex gap={4} align="center">
             <IconButton
-              onClick={() => router.back()}
+              onClick={() => pushToPreviousRoute(router)}
               size="sm"
               aria-label="back"
               icon={<FiChevronLeft />}
@@ -347,7 +352,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             </LinkButton>
           </Flex>
         </Flex>
-        <Divider borderColor="borderColor" />
+        <Divider />
         <Flex direction="column">
           <Heading size="subtitle.md">Contract Metadata</Heading>
           <Text size="body.md" fontStyle="italic">
@@ -432,7 +437,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           hasPlatformFeeMechanic ||
           hasRoyaltyMechanic) && (
           <>
-            <Divider borderColor="borderColor" />
+            <Divider />
             <Flex as="section" direction="column" gap={4}>
               <Flex direction="column">
                 <Heading size="subtitle.md">Payout Settings</Heading>
@@ -805,7 +810,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
         {/* splits start */}
         {hasSplitsMechanic && <RecipientForm />}
         {/* splits end */}
-        <Divider borderColor="borderColor" mt="auto" />
+        <Divider mt="auto" />
         <Flex direction="column">
           <Heading size="subtitle.md">Network / Chain</Heading>
           <Text size="body.md" fontStyle="italic">
@@ -826,12 +831,20 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           <FormControl>
             <SupportedNetworkSelect
               isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
-              value={selectedChain || -1}
+              value={
+                !DisabledChainsMap[contractType as ContractType].find(
+                  (chain) => chain === selectedChain,
+                )
+                  ? selectedChain
+                  : undefined
+              }
               onChange={(e) =>
                 onChainSelect(
                   parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
                 )
               }
+              disabledChainIds={DisabledChainsMap[contractType as ContractType]}
+              disabledChainIdText="Coming Soon"
             />
           </FormControl>
           <TransactionButton

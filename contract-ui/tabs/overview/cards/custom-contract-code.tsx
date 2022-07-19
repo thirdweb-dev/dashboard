@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   SimpleGrid,
+  Textarea,
 } from "@chakra-ui/react";
 import {
   ChainId,
@@ -28,7 +29,7 @@ import { AbiFunction } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom"
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { Environment } from "components/contract-tabs/code/types";
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { useId, useMemo, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FiCode, FiEdit2, FiEye, FiPlay, FiSearch } from "react-icons/fi";
@@ -84,7 +85,7 @@ export const CustomContractCode: React.FC<ContentOverviewProps> = ({
 
   return (
     <Flex gap={3} flexDirection="column" w="100%">
-      <Heading size="subtitle.md">Contract Functions</Heading>
+      <Heading size="subtitle.md">Contract Explorer</Heading>
       {functionsQuery.data && contractAddress && (
         <Card overflow="hidden" p={0} minH="400px">
           <SimpleGrid columns={12}>
@@ -110,7 +111,7 @@ export const CustomContractCode: React.FC<ContentOverviewProps> = ({
                   placeholder="Type to filter"
                 />
               </InputGroup>
-              <Divider borderColor="borderColor" />
+              <Divider />
               <List
                 gap={0.5}
                 as={Flex}
@@ -202,13 +203,124 @@ function getChainName(chainId: number | undefined) {
       return "mainnet";
   }
 }
+
 function formatResponseData(data: unknown): string {
   if (BigNumber.isBigNumber(data)) {
     data = data.toString();
   }
 
-  // more parsing here
+  if (typeof data === "object") {
+    const receipt: any = (data as any).receipt;
+    if (receipt) {
+      data = {
+        to: receipt.to,
+        from: receipt.from,
+        transactionHash: receipt.transactionHash,
+        events: receipt.events,
+      };
+    }
+  }
+
   return JSON.stringify(data, null, 2);
+}
+
+function displayString(str: string) {
+  // Only add quotes around string if they aren't already there
+  return str[0] === '"' && str.slice(-1) === '"' ? `${str}` : `"${str}"`;
+}
+
+function parseParameter(param: any, language: Environment): string {
+  if (!param.value) {
+    return param.key;
+  }
+
+  // Different syntax for go maps and arrays
+  if (language === "go") {
+    try {
+      const parsed = JSON.parse(param.value);
+      if (Array.isArray(parsed)) {
+        return `[]interface{}{${parsed
+          .map((p) => parseParameter({ value: JSON.stringify(p) }, "go"))
+          .join(", ")}}`;
+      } else if (typeof parsed === "object") {
+        return `map[string]interface{}{${Object.keys(parsed)
+          .map(
+            (k) => `"${k}": ${parseParameter({ value: `${parsed[k]}` }, "go")}`,
+          )
+          .join(", ")}}`;
+      }
+      {
+        return displayString(param.value);
+      }
+    } catch {
+      return displayString(param.value);
+    }
+  }
+
+  try {
+    const parsed = JSON.parse(param.value);
+    if (Array.isArray(parsed) || typeof parsed === "object") {
+      return param.value;
+    }
+  } catch {
+    return displayString(param.value);
+  }
+
+  return displayString(param.value);
+}
+
+type FunctionComponents = {
+  name: string;
+  type: string;
+  [key: string]: any;
+}[];
+
+function formatInputType(type: string, components?: FunctionComponents): any {
+  if (type.includes("[]")) {
+    const obj = [];
+    obj.push(formatInputType(type.replace("[]", ""), components));
+    return obj;
+  } else if (type.includes("tuple")) {
+    const obj: any = {};
+    components?.forEach((component) => {
+      obj[component.name] = formatInputType(
+        component.type,
+        component.components,
+      );
+    });
+    return obj;
+  } else if (type.includes("string")) {
+    return "...";
+  } else if (type.includes("int")) {
+    return 0;
+  } else if (type.includes("bool")) {
+    return true;
+  } else if (type.includes("address")) {
+    return "0x...";
+  } else {
+    return "0";
+  }
+}
+
+function formatHint(type: string, components?: FunctionComponents): string {
+  const placeholder = formatInputType(type, components);
+  return JSON.stringify(placeholder)
+    .replaceAll(",", ", ")
+    .replaceAll(":", ": ")
+    .replaceAll("{", "{ ")
+    .replaceAll("}", " }");
+}
+
+function formatError(error: Error): string {
+  if (error.message) {
+    return error.message.split("| Raw error |\n")[0].trim();
+  }
+
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return error.toString();
+  }
 }
 
 interface InteractiveAbiFunctionProps {
@@ -223,15 +335,6 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
   const formId = useId();
   const { contract, isLoading: contractLoading } = useContract(contractAddress);
 
-  const {
-    mutate,
-    data,
-    error,
-    isLoading: mutationLoading,
-  } = useMutation(async (params: unknown[] = []) =>
-    abiFunction ? await contract?.call(abiFunction.name, ...params) : undefined,
-  );
-
   const initialFocusRef = useRef<HTMLButtonElement>(null);
 
   const { register, control, getValues, handleSubmit, watch } = useForm({
@@ -241,7 +344,9 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
           key: i.name || "key",
           value: "",
           type: i.type,
+          components: i.components,
         })) || [],
+      value: "0",
     },
   });
   const { fields } = useFieldArray({
@@ -260,6 +365,45 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
   const chainId = useActiveChainId();
   const chainName = getChainName(chainId);
   const [codeEnv, setCodeEnv] = useState<Environment>("javascript");
+
+  async function contractCall(params: unknown[], value?: BigNumber) {
+    if (!abiFunction) {
+      return undefined;
+    }
+
+    const parsedParams = params.map((p) => {
+      try {
+        const parsed = JSON.parse(p as string);
+        if (Array.isArray(parsed) || typeof parsed === "object") {
+          return parsed;
+        } else {
+          // Return original value if its not an array or object
+          return p;
+        }
+      } catch {
+        // JSON.parse on string will throw an error
+        return p;
+      }
+    });
+
+    if (value) {
+      parsedParams.push({
+        value,
+      });
+    }
+
+    return await contract?.call(abiFunction.name as string, ...parsedParams);
+  }
+
+  const {
+    mutate,
+    data,
+    error,
+    isLoading: mutationLoading,
+  } = useMutation(
+    async ({ params, value }: { params: unknown[]; value: BigNumber }) =>
+      contractCall(params || [], value),
+  );
 
   return (
     <Card
@@ -287,9 +431,17 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
         </Flex>
         {!abiFunction ? (
           <Text>Please select a function on the left to get started</Text>
-        ) : null}
-        {abiFunction?.signature && (
-          <CodeBlock code={abiFunction.signature} language="typescript" />
+        ) : (
+          <>
+            {abiFunction?.comment && (
+              <Text fontSize="12px" noOfLines={2}>
+                {abiFunction.comment}
+              </Text>
+            )}
+            {abiFunction?.signature && (
+              <CodeBlock code={abiFunction?.signature} language="typescript" />
+            )}
+          </>
         )}
       </Flex>
       <Flex
@@ -301,29 +453,61 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
         id={formId}
         onSubmit={handleSubmit((d) => {
           if (d.params) {
-            mutate(d.params.map((p) => p.value));
+            mutate({
+              params: d.params.map((p) => p.value),
+              value: utils.parseEther(d.value),
+            });
           }
         })}
       >
         {fields.length > 0 && (
           <>
-            <Divider borderColor="borderColor" />
+            <Divider mb="8px" />
             {fields.map((item, index) => (
-              <FormControl key={item.id} gap={0.5}>
-                <FormLabel>{item.key}</FormLabel>
-                <Input
-                  defaultValue={getValues(`params.${index}.value`)}
-                  {...register(`params.${index}.value`)}
-                />
-                <FormHelperText>{item.type}</FormHelperText>
+              <FormControl key={item.id} mb="8px">
+                <Flex justify="space-between">
+                  <FormLabel>{item.key}</FormLabel>
+                  <Text fontSize="12px">{item.type}</Text>
+                </Flex>
+                {item.type.includes("tuple") || item.type.includes("[]") ? (
+                  <Textarea
+                    defaultValue={getValues(`params.${index}.value`)}
+                    {...register(`params.${index}.value`)}
+                  />
+                ) : (
+                  <Input
+                    defaultValue={getValues(`params.${index}.value`)}
+                    {...register(`params.${index}.value`)}
+                  />
+                )}
+                {(item.type.includes("tuple") || item.type.includes("[]")) && (
+                  <FormHelperText>
+                    Input should be passed in JSON format - Ex:{" "}
+                    {formatHint(item.type, item.components)}
+                  </FormHelperText>
+                )}
               </FormControl>
             ))}
           </>
         )}
 
+        {abiFunction?.stateMutability === "payable" && (
+          <>
+            <Divider mb="8px" />
+            <FormControl gap={0.5}>
+              <FormLabel>Native Token Value</FormLabel>
+              <Input {...register(`value`)} />
+              <FormHelperText>
+                The native currency value to send with this transaction (ex:
+                0.01 to send 0.01 native currency).
+              </FormHelperText>
+            </FormControl>
+          </>
+        )}
+
         {error ? (
           <>
-            <Divider borderColor="borderColor" />
+            <Divider />
             <Heading size="label.sm">Error</Heading>
             <Text
               borderColor="borderColor"
@@ -337,12 +521,12 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
               borderWidth="1px"
               position="relative"
             >
-              {(error as Error).toString()}
+              {formatError(error as any)}
             </Text>
           </>
         ) : data !== undefined ? (
           <>
-            <Divider borderColor="borderColor" />
+            <Divider />
             <Heading size="label.sm">Output</Heading>
             <CodeBlock
               w="full"
@@ -354,7 +538,7 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
         ) : null}
       </Flex>
 
-      <Divider mt="auto" borderColor="borderColor" />
+      <Divider mt="auto" />
       <ButtonGroup ml="auto">
         <Popover initialFocusRef={initialFocusRef} isLazy>
           <PopoverTrigger>
@@ -398,27 +582,21 @@ const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
 const sdk = new ThirdwebSDK("${chainName}");
 const contract = await sdk.getContract("${contractAddress}");
 const result = await contract.call("${abiFunction?.name}"${watch("params")
-                        .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
-                        )
+                        .map((f) => `, ${parseParameter(f, "javascript")}`)
                         .join("")});
 `,
                       react: `import { useContract } from "@thirdweb-dev/react";
 
 const { contract, isLoading } = useContract("${contractAddress}");
 const result = await contract.call("${abiFunction?.name}"${watch("params")
-                        .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
-                        )
+                        .map((f) => `, ${parseParameter(f, "react")}`)
                         .join("")});`,
                       python: `from thirdweb import ThirdwebSDK
 
 sdk = ThirdwebSDK("${chainName}")
 contract = sdk.get_contract("${contractAddress}")
-const result = await contract.call("${abiFunction?.name}"${watch("params")
-                        .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
-                        )
+result = contract.call("${abiFunction?.name}"${watch("params")
+                        .map((f) => `, ${parseParameter(f, "python")}`)
                         .join("")});`,
                       go: `import (
   "github.com/thirdweb-dev/go-sdk/thirdweb"
@@ -426,10 +604,8 @@ const result = await contract.call("${abiFunction?.name}"${watch("params")
             
 sdk, err := thirdweb.NewThirdwebSDK("${chainName}", nil)
 contract, err := sdk.GetContract("${contractAddress}")
-const result = await contract.Call("${abiFunction?.name}"${watch("params")
-                        .map(
-                          (f) => `, ${f.value ? `"${f.value}"` : `${f.key}`}`,
-                        )
+result, err = contract.Call("${abiFunction?.name}"${watch("params")
+                        .map((f) => `, ${parseParameter(f, "go")}`)
                         .join("")});`,
                     }}
                   />

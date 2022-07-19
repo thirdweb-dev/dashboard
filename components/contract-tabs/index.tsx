@@ -1,13 +1,14 @@
 import { ContractCode } from "./code/ContractCode";
-import { WidgetSetup } from "./embeds";
+import { EmbedSetup } from "./embeds";
 import { ContractPermissions } from "./permissions";
 import { DropPhases } from "./phases/DropPhases";
 import { ContractSettings } from "./settings/shared/ContractSettings";
-import { isContractWithRoles, useIsAdmin } from "@3rdweb-sdk/react";
+import { isContractWithRoles } from "@3rdweb-sdk/react";
 import {
   EditionDrop,
   Marketplace,
   NFTDrop,
+  SignatureDrop,
   TokenDrop,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
@@ -21,7 +22,6 @@ export interface ContractTab {
 export function useContractTabs(
   contract?: ValidContractInstance,
 ): ContractTab[] {
-  const isAdmin = useIsAdmin(contract);
   return useMemo(() => {
     const tabs: ContractTab[] = [];
     if (isContractWithRoles(contract)) {
@@ -32,8 +32,9 @@ export function useContractTabs(
     }
 
     if (
-      (contract instanceof NFTDrop || contract instanceof TokenDrop) &&
-      isAdmin
+      contract instanceof NFTDrop ||
+      contract instanceof TokenDrop ||
+      contract instanceof SignatureDrop
     ) {
       tabs.push({
         title: "Claim Phases",
@@ -44,11 +45,12 @@ export function useContractTabs(
       contract instanceof NFTDrop ||
       contract instanceof EditionDrop ||
       contract instanceof Marketplace ||
-      contract instanceof TokenDrop
+      contract instanceof TokenDrop ||
+      contract instanceof SignatureDrop
     ) {
       tabs.push({
         title: "Embed",
-        content: <WidgetSetup contract={contract} />,
+        content: <EmbedSetup contract={contract} />,
       });
     }
 
@@ -62,5 +64,5 @@ export function useContractTabs(
     });
 
     return tabs;
-  }, [contract, isAdmin]);
+  }, [contract]);
 }

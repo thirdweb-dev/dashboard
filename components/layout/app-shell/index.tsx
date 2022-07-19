@@ -34,6 +34,11 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
   const isCustomContractLayout =
     pathname === "/[wallet]/[network]/[...customContract]";
 
+  const isReleasedContractsLayout =
+    pathname === "/contracts/[wallet]/[contractName]/[version]" ||
+    pathname === "/contracts/[wallet]/[contractName]" ||
+    pathname === "/contracts/[wallet]";
+
   return (
     <Flex
       h="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
@@ -166,15 +171,26 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
           <Box as="main" flexGrow={1}>
             {children}
           </Box>
+        ) : isReleasedContractsLayout ? (
+          <Container flexGrow={1} as="main" maxW="container.page" py={8}>
+            {children}
+          </Container>
         ) : (
           <Container flexGrow={1} as="main" maxW="container.page" py={8}>
             <Breadcrumbs />
             {children}
           </Container>
         )}
-        <Divider />
-        <Container as="footer" maxW="container.page" w="100%" py={4}>
+
+        <Container
+          as="footer"
+          maxW="container.page"
+          w="100%"
+          py={4}
+          mt={{ base: 24, md: 24 }}
+        >
           <Stack>
+            <Divider mb={4} />
             <Stack direction="row" spacing="4" align="center" justify="center">
               <Text alignSelf="center">
                 thirdweb &copy; {new Date().getFullYear()}

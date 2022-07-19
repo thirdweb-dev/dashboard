@@ -1,10 +1,15 @@
 import { useContractPublishMetadataFromURI } from "../../hooks";
-import { DeployableContractContractCellProps } from "../../types";
+import {
+  ContractCellContext,
+  DeployableContractContractCellProps,
+} from "../../types";
 import { ButtonGroup, Icon, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
 import { isContractIdBuiltInContract } from "components/contract-components/utils";
 import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FiArrowRight } from "react-icons/fi";
 import { IoRocketOutline } from "react-icons/io5";
@@ -12,8 +17,10 @@ import { Button, Drawer, LinkButton, TrackedIconButton } from "tw-components";
 
 export const ContractDeployActionCell: React.FC<
   DeployableContractContractCellProps
-> = ({ cell: { value } }) => {
+> = ({ cell: { value }, context }) => {
   const publishMetadata = useContractPublishMetadataFromURI(value);
+  const address = useAddress();
+  const wallet = useSingleQueryParam("wallet");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { trackEvent } = useTrack();
@@ -95,12 +102,36 @@ export const ContractDeployActionCell: React.FC<
             isLoading={publishMetadata.isLoading}
             colorScheme="purple"
             rightIcon={<Icon as={FiArrowRight} />}
-            href={`/contracts/${encodeURIComponent(value)}?from=deploy`}
+            href={actionUrlPath(
+              context,
+              value,
+              wallet || address,
+              publishMetadata.data?.name,
+            )}
           >
-            Deploy
+            {context === "create_release" ? "Release" : "Deploy"}
           </LinkButton>
         )}
       </ButtonGroup>
     </>
   );
 };
+
+function actionUrlPath(
+  context: ContractCellContext | undefined,
+  hash: string,
+  address?: string,
+  name?: string,
+) {
+  switch (context) {
+    case "view_release":
+      return `/contracts/${address}/${name}/latest`;
+    case "create_release":
+      return `/contracts/release/${encodeURIComponent(hash)}`;
+    case "deploy":
+      return `/contracts/deploy/${encodeURIComponent(hash)}`;
+    default:
+      // should never happen
+      return `/contracts/deploy/${encodeURIComponent(hash)}`;
+  }
+}

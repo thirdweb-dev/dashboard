@@ -1,17 +1,17 @@
-import { NFTDropKeys } from "../cache-keys";
+import { CacheKeyMap, NFTDropKeys, SignatureDropKeys } from "../cache-keys";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
 import { useContractMetadata } from "./useContract";
 import { getAllQueryKey, getTotalCountQueryKey } from "./useGetAll";
-import { useWeb3 } from "@3rdweb-sdk/react";
+import { useContractTypeOfContract, useWeb3 } from "@3rdweb-sdk/react";
 import { useNFTDrop } from "@thirdweb-dev/react";
 import {
-  ClaimConditionInput,
   EditionDrop,
   NFTDrop,
   NFTMetadataInput,
+  SignatureDrop,
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
@@ -90,7 +90,8 @@ export function useBatchesToReveal(contractAddress?: string) {
 // Mutations
 // ----------------------------------------------------------------
 
-export function useNFTDropMintMutation(contract?: NFTDrop) {
+export function useNFTDropMintMutation(contract?: NFTDrop | SignatureDrop) {
+  const contractType = useContractTypeOfContract(contract);
   return useMutationWithInvalidate(
     async (data: NFTMetadataInput) => {
       invariant(contract, "contract is required");
@@ -98,10 +99,26 @@ export function useNFTDropMintMutation(contract?: NFTDrop) {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
+        // this should not be possible, but we need to catch it in case it does
+        // if we don't know we just invalidate everything.
+        if (!contractType) {
+          return invalidate(
+            Object.keys(CacheKeyMap)
+              .map((key) => {
+                const cacheKeys = CacheKeyMap[key as keyof typeof CacheKeyMap];
+                if ("list" in cacheKeys) {
+                  return cacheKeys.list(contract?.getAddress());
+                }
+                return undefined as never;
+              })
+              .filter((fn) => !!fn),
+          );
+        }
+
         return invalidate([
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
-          NFTDropKeys.supply(contract?.getAddress()),
+          CacheKeyMap[contractType].supply(contract?.getAddress()),
         ]);
       },
     },
@@ -113,7 +130,10 @@ interface UploadWithProgress {
   onProgress: (event: UploadProgressEvent) => void;
 }
 
-export function useDropBatchMint(contract?: NFTDrop | EditionDrop) {
+export function useDropBatchMint(
+  contract?: NFTDrop | EditionDrop | SignatureDrop,
+) {
+  const contractType = useContractTypeOfContract(contract);
   return useMutationWithInvalidate(
     async (data: UploadWithProgress) => {
       invariant(contract, "contract is required");
@@ -122,17 +142,35 @@ export function useDropBatchMint(contract?: NFTDrop | EditionDrop) {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
+        // this should not be possible, but we need to catch it in case it does
+        // if we don't know we just invalidate everything.
+        if (!contractType) {
+          return invalidate(
+            Object.keys(CacheKeyMap)
+              .map((key) => {
+                const cacheKeys = CacheKeyMap[key as keyof typeof CacheKeyMap];
+                if ("list" in cacheKeys) {
+                  return cacheKeys.list(contract?.getAddress());
+                }
+                return undefined as never;
+              })
+              .filter((fn) => !!fn),
+          );
+        }
+
         return invalidate([
           getAllQueryKey(contract),
           getTotalCountQueryKey(contract),
-          NFTDropKeys.supply(contract?.getAddress()),
+          CacheKeyMap[contractType].supply(contract?.getAddress()),
         ]);
       },
     },
   );
 }
 
-export function useNFTDropResetClaimEligibilityMutation(contract?: NFTDrop) {
+export function useNFTDropResetClaimEligibilityMutation(
+  contract?: NFTDrop | SignatureDrop,
+) {
   return useMutationWithInvalidate(async () => {
     invariant(contract, "contract is required");
     const claimConditions = await contract.claimConditions.getAll();
@@ -146,21 +184,6 @@ export function useNFTDropResetClaimEligibilityMutation(contract?: NFTDrop) {
 
     return await contract.claimConditions.set(cleaned, true);
   });
-}
-export function useNFTDropClaimConditionMutation(contract?: NFTDrop) {
-  return useMutationWithInvalidate(
-    async (data: ClaimConditionInput[]) => {
-      invariant(contract, "contract is required");
-      return await contract.claimConditions.set(data);
-    },
-    {
-      onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([
-          NFTDropKeys.activeClaimCondition(contract?.getAddress()),
-        ]);
-      },
-    },
-  );
 }
 
 interface DelayedRevealInput {
@@ -188,6 +211,8 @@ export function useNFTDropDelayedRevealBatchMint(contract?: NFTDrop) {
           getTotalCountQueryKey(contract),
           NFTDropKeys.supply(contract?.getAddress()),
           NFTDropKeys.batchesToReveal(contract?.getAddress()),
+          SignatureDropKeys.supply(contract?.getAddress()),
+          SignatureDropKeys.batchesToReveal(contract?.getAddress()),
         ]);
       },
     },
@@ -199,7 +224,8 @@ interface RevealInput {
   password: string;
 }
 
-export function useNFTDropRevealMutation(contract?: NFTDrop) {
+export function useNFTDropRevealMutation(contract?: NFTDrop | SignatureDrop) {
+  const contractType = useContractTypeOfContract(contract);
   return useMutationWithInvalidate(
     async (data: RevealInput) => {
       invariant(contract, "contract is required");
@@ -208,10 +234,26 @@ export function useNFTDropRevealMutation(contract?: NFTDrop) {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
+        // this should not be possible, but we need to catch it in case it does
+        // if we don't know we just invalidate everything.
+        if (!contractType) {
+          return invalidate(
+            Object.keys(CacheKeyMap)
+              .map((key) => {
+                const cacheKeys = CacheKeyMap[key as keyof typeof CacheKeyMap];
+                if ("list" in cacheKeys) {
+                  return cacheKeys.list(contract?.getAddress());
+                }
+                return undefined as never;
+              })
+              .filter((fn) => !!fn),
+          );
+        }
+
         return invalidate([
           getAllQueryKey(contract),
-          NFTDropKeys.detail(contract?.getAddress()),
-          NFTDropKeys.batchesToReveal(contract?.getAddress()),
+          CacheKeyMap[contractType].detail(contract?.getAddress()),
+          CacheKeyMap[contractType].batchesToReveal(contract?.getAddress()),
         ]);
       },
     },
