@@ -9,11 +9,13 @@ import { ReleaserHeader } from "../releaser/releaser-header";
 import { ContractFunction } from "./extracted-contract-functions";
 import {
   Box,
+  Center,
   Divider,
   Flex,
   Icon,
   List,
   ListItem,
+  Spinner,
   Tab,
   TabList,
   TabPanel,
@@ -33,6 +35,7 @@ import { useRouter } from "next/router";
 import { BiPencil, BiShareAlt } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
+import { FiXCircle } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoDocumentOutline } from "react-icons/io5";
 import { SiTwitter } from "react-icons/si";
@@ -43,6 +46,7 @@ import {
   Card,
   CodeBlock,
   Heading,
+  Link,
   LinkButton,
   Text,
   TrackedIconButton,
@@ -94,11 +98,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     },
     { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
   );
-
-  console.log("*** contractReleaseMetadata", {
-    sources,
-  });
-
   const currentRoute = `https://thirdweb.com${router.asPath}`;
 
   const { data: contractFunctions } = useReleasedContractFunctions(release);
@@ -207,18 +206,49 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
                 </Flex>
               </TabPanel>
               <TabPanel px={0}>
-                <Flex direction="column" gap={8}>
-                  {(sources.data || []).map((signature) => (
-                    <Flex
-                      gap={4}
-                      flexDirection="column"
-                      key={signature.filename}
-                    >
-                      <Heading size="label.md">{signature.filename}</Heading>
-                      <CodeBlock code={signature.source} language="solidity" />
+                {sources.isLoading ? (
+                  <Card>
+                    <Center>
+                      <Spinner mr={4} /> Loading sources...
+                    </Center>
+                  </Card>
+                ) : sources.data && sources.data.length > 0 ? (
+                  <Flex direction="column" gap={8}>
+                    {sources.data.map((signature) => (
+                      <Flex
+                        gap={4}
+                        flexDirection="column"
+                        key={signature.filename}
+                      >
+                        <Heading size="label.md">{signature.filename}</Heading>
+                        <CodeBlock
+                          code={signature.source}
+                          language="solidity"
+                        />
+                      </Flex>
+                    ))}
+                  </Flex>
+                ) : (
+                  <Card>
+                    <Flex direction="column" align="left" gap={2}>
+                      <Flex direction="row" align="center" gap={2}>
+                        <Icon as={FiXCircle} color="red.500" />
+                        <Heading size="title.sm">
+                          Contract source code not available
+                        </Heading>
+                      </Flex>
+                      <Heading size="subtitle.sm">
+                        Try deploying with{" "}
+                        <Link
+                          href="https://portal.thirdweb.com/thirdweb-deploy/thirdweb-cli"
+                          isExternal
+                        >
+                          thirdweb CLI v0.5+
+                        </Link>
+                      </Heading>
                     </Flex>
-                  ))}
-                </Flex>
+                  </Card>
+                )}
               </TabPanel>
             </TabPanels>
           </Tabs>
