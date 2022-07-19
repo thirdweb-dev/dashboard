@@ -34,7 +34,6 @@ const ContractsNamePageWrapped = () => {
       allVersions.data?.[0]
     );
   }, [allVersions?.data, version]);
-
   return (
     <Flex direction="column" gap={8}>
       <Flex justifyContent="space-between" w="full">

@@ -21,7 +21,12 @@ import {
   Tabs,
   useClipboard,
 } from "@chakra-ui/react";
-import { PublishedContract } from "@thirdweb-dev/sdk";
+import {
+  PublishedContract,
+  PublishedMetadata,
+  fetchSourceFilesFromMetadata,
+} from "@thirdweb-dev/sdk";
+import { StorageSingleton } from "components/app-layouts/providers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -32,8 +37,11 @@ import { IoMdCheckmark } from "react-icons/io";
 import { IoDocumentOutline } from "react-icons/io5";
 import { SiTwitter } from "react-icons/si";
 import { VscSourceControl } from "react-icons/vsc";
+import { useQuery } from "react-query";
+import invariant from "tiny-invariant";
 import {
   Card,
+  CodeBlock,
   Heading,
   LinkButton,
   Text,
@@ -59,6 +67,37 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const enabledFeatures = useContractEnabledFeatures(
     contractReleaseMetadata.data?.abi,
   );
+  const sources = useQuery(
+    ["sources", release],
+    async () => {
+      invariant(
+        contractReleaseMetadata.data?.compilerMetadata?.sources,
+        "no compilerMetadata sources available",
+      );
+      return (
+        await fetchSourceFilesFromMetadata(
+          {
+            metadata: {
+              sources: contractReleaseMetadata.data.compilerMetadata.sources,
+            },
+          } as unknown as PublishedMetadata,
+          StorageSingleton,
+        )
+      )
+        .filter((source) => !source.filename.includes("@"))
+        .map((source) => {
+          return {
+            ...source,
+            filename: source.filename.split("/").pop(),
+          };
+        });
+    },
+    { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
+  );
+
+  console.log("*** contractReleaseMetadata", {
+    sources,
+  });
 
   const currentRoute = `https://thirdweb.com${router.asPath}`;
 
@@ -101,7 +140,11 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
         )}
         <Card w="full" as={Flex} flexDir="column" gap={2} p={0}>
           <Tabs colorScheme="purple">
-            <TabList borderBottomColor="borderColor" borderBottomWidth="1px">
+            <TabList
+              px={{ base: 2, md: 6 }}
+              borderBottomColor="borderColor"
+              borderBottomWidth="1px"
+            >
               <Tab gap={2}>
                 <Icon as={BiPencil} my={2} />
                 <Heading size="label.lg">
@@ -124,20 +167,20 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
                   </Box>
                 </Heading>
               </Tab>
-              <Tab gap={2} isDisabled>
+              <Tab gap={2}>
                 <Icon as={VscSourceControl} my={2} />
                 <Heading size="label.lg">
                   <Box as="span" display={{ base: "none", md: "flex" }}>
-                    Sources (Coming Soon)
+                    Sources
                   </Box>
                   <Box as="span" display={{ base: "flex", md: "none" }}>
-                    Src (Soon)
+                    Src
                   </Box>
                 </Heading>
               </Tab>
             </TabList>
-            <TabPanels>
-              <TabPanel px={6} pt={8}>
+            <TabPanels px={{ base: 2, md: 6 }} py={2}>
+              <TabPanel px={0}>
                 <Flex flexDir="column" flex="1" gap={3}>
                   {(contractFunctions || [])
                     .filter(
@@ -150,7 +193,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
                     ))}
                 </Flex>
               </TabPanel>
-              <TabPanel px={6} pt={8}>
+              <TabPanel px={0}>
                 <Flex flexDir="column" flex="1" gap={3}>
                   {(contractFunctions || [])
                     .filter(
@@ -163,8 +206,19 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
                     ))}
                 </Flex>
               </TabPanel>
-              <TabPanel px={6} pt={8}>
-                sources
+              <TabPanel px={0}>
+                <Flex direction="column" gap={8}>
+                  {(sources.data || []).map((signature) => (
+                    <Flex
+                      gap={4}
+                      flexDirection="column"
+                      key={signature.filename}
+                    >
+                      <Heading size="label.md">{signature.filename}</Heading>
+                      <CodeBlock code={signature.source} language="solidity" />
+                    </Flex>
+                  ))}
+                </Flex>
               </TabPanel>
             </TabPanels>
           </Tabs>
