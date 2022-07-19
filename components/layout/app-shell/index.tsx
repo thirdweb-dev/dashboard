@@ -180,9 +180,16 @@ export const AppShell: ComponentWithChildren = ({ children }) => {
             {children}
           </Container>
         )}
-        <Divider />
-        <Container as="footer" maxW="container.page" w="100%" py={4}>
+
+        <Container
+          as="footer"
+          maxW="container.page"
+          w="100%"
+          py={4}
+          mt={{ base: 24, md: 24 }}
+        >
           <Stack>
+            <Divider mb={4} />
             <Stack direction="row" spacing="4" align="center" justify="center">
               <Text alignSelf="center">
                 thirdweb &copy; {new Date().getFullYear()}
