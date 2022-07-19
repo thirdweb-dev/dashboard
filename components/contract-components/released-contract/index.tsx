@@ -87,6 +87,14 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
       .join("&");
   }, [enabledExtensions]);
 
+  const licensesUrl = useMemo(() => {
+    return compilerInfo?.licenses
+      ?.map((license: string) => {
+        return `licenses=${license}`;
+      })
+      .join("&");
+  }, [compilerInfo?.licenses]);
+
   const sources = useQuery(
     ["sources", release],
     async () => {
@@ -129,7 +137,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           url: currentRoute,
           images: [
             {
-              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&licenses=${releasedContractInfo?.data?.publishedMetadata.license}&${enabledExtensionsUrl}&releaser=${wallet}&.png`,
+              url: `https://og-image-orpin-seven.vercel.app/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&licenses=${licensesUrl}&${enabledExtensionsUrl}&releaser=${wallet}&.png`,
               width: 1200,
               height: 650,
               alt: "thirdweb",
