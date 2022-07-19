@@ -8,7 +8,6 @@ import {
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -112,23 +111,17 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
   const [selectedReveal, setSelectedReveal] = useState<
     "unselected" | "instant" | "delayed"
   >("instant");
-  const [show, setShow] = useState(false);
+  /*   const [show, setShow] = useState(false); */
   const [progress, setProgress] = useState<UploadProgressEvent>({
     progress: 0,
     total: 100,
   });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<DelayedRevealInput>({
+  const { register, watch } = useForm<DelayedRevealInput>({
     resolver: zodResolver(DelayedRevealSchema),
   });
 
-  const imageUrl = useImageFileOrUrl(watch("image"));
+  /*   const imageUrl = useImageFileOrUrl(watch("image")); */
 
   const mintBatch = useLazyMint(contract, (event: UploadProgressEvent) => {
     setProgress(event);
