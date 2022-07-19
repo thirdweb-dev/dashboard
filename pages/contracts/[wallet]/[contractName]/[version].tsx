@@ -95,6 +95,8 @@ ContractNamePage.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const queryClient = new QueryClient();
+  // TODO make this use alchemy / other RPC
+  // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
   const sdk = new ThirdwebSDK("polygon");
 
   const wallet = getSingleQueryValue(ctx.query, "wallet");
