@@ -8,6 +8,7 @@ import {
 import { ReleaserHeader } from "../releaser/releaser-header";
 import { ContractFunction } from "./extracted-contract-functions";
 import {
+  Box,
   Divider,
   Flex,
   Icon,
@@ -102,18 +103,37 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           <Tabs colorScheme="purple">
             <TabList borderBottomColor="borderColor" borderBottomWidth="1px">
               <Tab gap={2}>
-                <Icon as={BiPencil} />
-                <Heading my={2} size="label.lg">
-                  Functions
+                <Icon as={BiPencil} my={2} />
+                <Heading size="label.lg">
+                  <Box as="span" display={{ base: "none", md: "flex" }}>
+                    Functions
+                  </Box>
+                  <Box as="span" display={{ base: "flex", md: "none" }}>
+                    Func
+                  </Box>
                 </Heading>
               </Tab>
               <Tab gap={2}>
-                <Icon as={BsEye} />
-                <Heading size="label.lg">Variables</Heading>
+                <Icon as={BsEye} my={2} />
+                <Heading size="label.lg">
+                  <Box as="span" display={{ base: "none", md: "flex" }}>
+                    Variables
+                  </Box>
+                  <Box as="span" display={{ base: "flex", md: "none" }}>
+                    Var
+                  </Box>
+                </Heading>
               </Tab>
               <Tab gap={2} isDisabled>
-                <Icon as={VscSourceControl} />
-                <Heading size="label.lg">Sources (Coming Soon)</Heading>
+                <Icon as={VscSourceControl} my={2} />
+                <Heading size="label.lg">
+                  <Box as="span" display={{ base: "none", md: "flex" }}>
+                    Sources (Coming Soon)
+                  </Box>
+                  <Box as="span" display={{ base: "flex", md: "none" }}>
+                    Src (Soon)
+                  </Box>
+                </Heading>
               </Tab>
             </TabList>
             <TabPanels>
@@ -150,7 +170,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           </Tabs>
         </Card>
       </Flex>
-      <Flex w={{ base: "100vw", md: "20vw" }} flexDir="column" gap={6}>
+      <Flex w={{ base: "100%", md: "18vw" }} flexDir="column" gap={6}>
         {wallet && <ReleaserHeader wallet={wallet} />}
         <Divider />
         <Flex flexDir="column" gap={4}>

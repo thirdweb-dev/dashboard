@@ -108,25 +108,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const wallet = getSingleQueryValue(ctx.query, "wallet");
   const contractName = getSingleQueryValue(ctx.query, "contractName");
+  const version = getSingleQueryValue(ctx.query, "version");
 
-  const publishedContract = await queryClient.fetchQuery(
+  const allVersions = await queryClient.fetchQuery(
     ["all-releases", wallet, contractName],
     () => fetchAllVersions(sdk, wallet, contractName),
   );
 
-  const singularPublishedContract = publishedContract[0];
+  const release =
+    allVersions.find((v) => v.version === version) || allVersions[0];
 
   await Promise.all([
-    queryClient.prefetchQuery(
-      ["released-contract", singularPublishedContract],
-      () => fetchReleasedContractInfo(sdk, singularPublishedContract),
+    queryClient.prefetchQuery(["released-contract", release], () =>
+      fetchReleasedContractInfo(sdk, release),
     ),
-    queryClient.prefetchQuery(
-      ["publish-metadata", singularPublishedContract.metadataUri],
-      () =>
-        fetchContractPublishMetadataFromURI(
-          singularPublishedContract.metadataUri,
-        ),
+    queryClient.prefetchQuery(["publish-metadata", release.metadataUri], () =>
+      fetchContractPublishMetadataFromURI(release.metadataUri),
     ),
     queryClient.prefetchQuery(["releaser-profile", wallet], () =>
       fetchReleaserProfile(sdk, wallet),
