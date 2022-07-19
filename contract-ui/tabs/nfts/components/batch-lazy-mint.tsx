@@ -1,10 +1,9 @@
-import { BatchTable } from "./BatchTable";
-import { SelectReveal } from "./SelectReveal";
-import { UploadStep } from "./UploadStep";
-import { useGetTotalCount } from "@3rdweb-sdk/react/hooks/useGetAll";
+import { SelectReveal } from "./select-reveal";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import { NFTContract } from "@thirdweb-dev/react";
-import { EditionDrop, NFTDrop } from "@thirdweb-dev/sdk";
+import { useTotalCount } from "@thirdweb-dev/react";
+import { Erc721 } from "@thirdweb-dev/sdk";
+import { BatchTable } from "components/batch-upload/BatchTable";
+import { UploadStep } from "components/batch-upload/UploadStep";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
@@ -18,7 +17,7 @@ import {
 } from "utils/batch";
 
 interface BatchLazyMintProps {
-  contract?: NFTContract;
+  contract?: Erc721;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -28,7 +27,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
   isOpen,
   onClose,
 }) => {
-  const nextTokenIdToMint = useGetTotalCount(contract);
+  const nextTokenIdToMint = useTotalCount(contract);
   const [step, setStep] = useState(0);
   const [csvData, setCSVData] = useState<Papa.ParseResult<CSVData>>();
   const [jsonData, setJsonData] = useState<any>();

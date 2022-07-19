@@ -1,7 +1,7 @@
 import { BatchLazyMint } from "./batch-lazy-mint";
-import { NFTMintForm } from "./mint-form";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import { NFTContract } from "@thirdweb-dev/react";
+import { Erc721 } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
@@ -31,7 +31,11 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
         onClose={onClose}
         isOpen={isOpen}
       >
-        <BatchLazyMint contract={contract} isOpen={isOpen} onClose={onClose} />
+        <BatchLazyMint
+          contract={contract as Erc721}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
       </Drawer>
       {detectedState === "enabled" && (
         <Button
