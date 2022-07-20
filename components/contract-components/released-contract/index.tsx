@@ -41,11 +41,13 @@ import {
   Text,
   TrackedIconButton,
 } from "tw-components";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 export interface ExtendedReleasedContractInfo extends PublishedContract {
   name: string;
   description: string;
   version: string;
+  releaser: string;
 }
 
 interface ReleasedContractProps {
@@ -85,7 +87,39 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
       .join("&");
   }, [compilerInfo?.licenses]);
 
-  const currentRoute = `https://thirdweb.com${router.asPath}`;
+
+  const sources = useQuery(
+    ["sources", release],
+    async () => {
+      invariant(
+        contractReleaseMetadata.data?.compilerMetadata?.sources,
+        "no compilerMetadata sources available",
+      );
+      return (
+        await fetchSourceFilesFromMetadata(
+          {
+            metadata: {
+              sources: contractReleaseMetadata.data.compilerMetadata.sources,
+            },
+          } as unknown as PublishedMetadata,
+          StorageSingleton,
+        )
+      )
+        .filter((source) => !source.filename.includes("@"))
+        .map((source) => {
+          return {
+            ...source,
+            filename: source.filename.split("/").pop(),
+          };
+        });
+    },
+    { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
+  );
+  const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
+    "/latest",
+    "",
+  );
+
 
   const { data: contractFunctions } = useReleasedContractFunctions(release);
 
@@ -93,10 +127,12 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   return (
     <>
       <NextSeo
-        title={`${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`}
-        description={`Browse previous versions of ${releasedContractInfo.data?.name} and deploy it in one click to any supported blockchains.`}
+        title={release.name}
+        description={`${release.description}${
+          release.description ? ". " : ""
+        }Deploy ${release.name} in one click with thirdweb.`}
         openGraph={{
-          title: `${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`,
+          title: `${shortenIfAddress(release.releaser)}/${release.name}`,
           url: currentRoute,
           images: [
             {
