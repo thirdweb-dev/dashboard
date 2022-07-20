@@ -27,10 +27,7 @@ import {
   ProfileMetadata,
   PublishedContract,
 } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
-import {
-  StorageSingleton,
-  alchemyUrlMap,
-} from "components/app-layouts/providers";
+import { StorageSingleton } from "components/app-layouts/providers";
 import { BuiltinContractMap } from "constants/mappings";
 import { ethers } from "ethers";
 import { getAddress } from "ethers/lib/utils";

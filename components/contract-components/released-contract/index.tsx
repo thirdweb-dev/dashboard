@@ -87,39 +87,10 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
       .join("&");
   }, [compilerInfo?.licenses]);
 
-
-  const sources = useQuery(
-    ["sources", release],
-    async () => {
-      invariant(
-        contractReleaseMetadata.data?.compilerMetadata?.sources,
-        "no compilerMetadata sources available",
-      );
-      return (
-        await fetchSourceFilesFromMetadata(
-          {
-            metadata: {
-              sources: contractReleaseMetadata.data.compilerMetadata.sources,
-            },
-          } as unknown as PublishedMetadata,
-          StorageSingleton,
-        )
-      )
-        .filter((source) => !source.filename.includes("@"))
-        .map((source) => {
-          return {
-            ...source,
-            filename: source.filename.split("/").pop(),
-          };
-        });
-    },
-    { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
-  );
   const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
     "/latest",
     "",
   );
-
 
   const { data: contractFunctions } = useReleasedContractFunctions(release);
 
@@ -136,7 +107,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           url: currentRoute,
           images: [
             {
-              url: `https://og-image.thirdweb.com/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&${licensesUrl}&${enabledExtensionsUrl}&releaser=${walletOrEns}&.png`,
+              url: `https://og-image.thirdweb.com/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&${licensesUrl}&${enabledExtensionsUrl}&releaser=${walletOrEns}.png`,
               width: 1200,
               height: 650,
               alt: "thirdweb",
