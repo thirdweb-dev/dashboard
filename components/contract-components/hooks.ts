@@ -10,6 +10,7 @@ import {
   useSDK,
 } from "@thirdweb-dev/react";
 import {
+  ChainId,
   ContractType,
   SmartContract,
   ThirdwebSDK,
@@ -28,13 +29,15 @@ import {
 } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { BuiltinContractMap } from "constants/mappings";
+import { ethers } from "ethers";
+import { getAddress } from "ethers/lib/utils";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
-interface ContractPublishMetadata {
+export interface ContractPublishMetadata {
   image: string | StaticImageData;
   name: string;
   description?: string;
@@ -170,6 +173,7 @@ export function useLatestRelease(
         version: contractInfo.publishedMetadata.version || "",
         name: contractInfo.publishedMetadata.name || "",
         description: contractInfo.publishedMetadata.description || "",
+        releaser: contractInfo.publishedMetadata.publisher || "",
       };
     },
     {
@@ -202,6 +206,7 @@ export async function fetchAllVersions(
       version: contractInfo.publishedMetadata.version,
       name: contractInfo.publishedMetadata.name,
       description: contractInfo.publishedMetadata.description || "",
+      releaser: contractInfo.publishedMetadata.publisher || "",
     });
   }
 
@@ -241,23 +246,13 @@ export function useReleasedContractInfo(contract: PublishedContract) {
     },
   );
 }
-
 export function useReleasedContractFunctions(contract: PublishedContract) {
   const { data: meta } = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
-  return useQuery(
-    ["contract-functions", contract.metadataUri],
-    async () => {
-      invariant(contract, "contract is not defined");
-      invariant(meta, "sdk not provided");
-      invariant(meta.abi, "sdk not provided");
-      return extractFunctionsFromAbi(meta.abi || {}, meta.compilerMetadata);
-    },
-    {
-      enabled: !!contract && !!meta && !!meta.abi,
-    },
-  );
+  return meta
+    ? extractFunctionsFromAbi(meta.abi as any, meta?.compilerMetadata)
+    : undefined;
 }
 
 export function useReleasedContractCompilerMetadata(
@@ -462,4 +457,70 @@ export function useContractDetectedExtensions(abi?: any) {
 export function useContractEnabledExtensions(abi?: any) {
   const extensions = useContractDetectedExtensions(abi);
   return extensions ? extensions.enabledExtensions : [];
+}
+
+export async function resolveAddressToEnsName(address: string) {
+  if (address.endsWith(".eth")) {
+    return address;
+  }
+
+  // const provider = new ethers.providers.StaticJsonRpcProvider(
+  //   alchemyUrlMap[ChainId.Mainnet],
+  // );
+
+  // TODO switch this to the static JSONRPC provider...
+  // we cannot do this right now because we need this for server-rendering
+  const provider = new ethers.providers.AlchemyProvider(ChainId.Mainnet);
+  return await provider.lookupAddress(address);
+}
+
+export function useEnsName(address?: string) {
+  return useQuery(
+    ["ens-name", address],
+    () => (address ? resolveAddressToEnsName(address) : null),
+    {
+      enabled: !!address,
+      // 24h
+      cacheTime: 60 * 60 * 24 * 1000,
+      // 1h
+      staleTime: 60 * 60 * 1000,
+    },
+  );
+}
+
+export async function resolvePossibleENSName(walletOrEnsAddress: string) {
+  // not a valid ens name, so we'll just return whatever string was passed in
+  if (!walletOrEnsAddress.endsWith(".eth")) {
+    return walletOrEnsAddress;
+  }
+
+  // const provider = new ethers.providers.StaticJsonRpcProvider(
+  //   alchemyUrlMap[ChainId.Mainnet],
+  // );
+
+  // TODO switch this to the static JSONRPC provider...
+  // we cannot do this right now because we need this for server-rendering
+  const provider = new ethers.providers.AlchemyProvider(ChainId.Mainnet);
+  const address = await provider.resolveName(walletOrEnsAddress);
+
+  try {
+    return address ? getAddress(address) : null;
+  } catch (_error) {
+    return null;
+  }
+}
+
+export function useResolvedEnsName(walletOrEnsAddress?: string) {
+  return useQuery(
+    ["ens-address", walletOrEnsAddress],
+    () =>
+      walletOrEnsAddress ? resolvePossibleENSName(walletOrEnsAddress) : null,
+    {
+      enabled: !!walletOrEnsAddress,
+      // 24h
+      cacheTime: 60 * 60 * 24 * 1000,
+      // 1h
+      staleTime: 60 * 60 * 1000,
+    },
+  );
 }
