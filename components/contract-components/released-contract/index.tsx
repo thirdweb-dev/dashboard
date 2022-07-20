@@ -124,7 +124,10 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     },
     { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
   );
-  const currentRoute = `https://thirdweb.com${router.asPath}`;
+  const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
+    "/latest",
+    "",
+  );
 
   const { data: contractFunctions } = useReleasedContractFunctions(release);
 
@@ -132,12 +135,12 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   return (
     <Flex gap={12} w="full" flexDir={{ base: "column-reverse", md: "row" }}>
       <NextSeo
-        title={`${shortenIfAddress(release.releaser)}/${release.name}`}
+        title={release.name}
         description={`${release.description}${
           release.description ? ". " : ""
         }Deploy ${release.name} in one click with thirdweb.`}
         openGraph={{
-          title: `${release.name} | thirdweb`,
+          title: `${shortenIfAddress(release.releaser)}/${release.name}`,
           url: currentRoute,
           images: [
             {
