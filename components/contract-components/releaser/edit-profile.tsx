@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { ProfileMetadata } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -47,6 +48,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     "Error updating profile",
   );
 
+  const { trackEvent } = useTrack();
+
   useEffect(() => {
     if (!isDirty) {
       reset({
@@ -71,9 +74,22 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             editProfile.mutate(d, {
               onSuccess: () => {
                 onSuccess();
+                trackEvent({
+                  category: "team-profile",
+                  action: "edit",
+                  label: "success",
+                });
                 onClose();
               },
-              onError,
+              onError: (error) => {
+                onError(error);
+                trackEvent({
+                  category: "team-profile",
+                  action: "edit",
+                  label: "error",
+                  error,
+                });
+              },
             }),
           )}
         >

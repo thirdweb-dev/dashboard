@@ -4,6 +4,7 @@ import { ReleaserSocials } from "./releaser-socials";
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import { Heading, Link, LinkButton, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -24,6 +25,8 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
 
   const ensName = useEnsName(wallet);
 
+  const { trackEvent } = useTrack();
+
   return (
     <Flex
       flexDirection={{ base: "column", md: page ? "column" : "row" }}
@@ -41,7 +44,16 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
             src={require("public/assets/others/hexagon.png")}
           />
           <Flex flexDir="column">
-            <Link href={`/contracts/${ensName.data || wallet}`}>
+            <Link
+              href={`/contracts/${ensName.data || wallet}`}
+              onClick={() =>
+                trackEvent({
+                  category: "releaser-header",
+                  action: "click",
+                  label: "releaser-name",
+                })
+              }
+            >
               <Heading size="subtitle.sm" ml={2}>
                 {/* TODO resolve ENS name */}
                 {releaserProfile?.data?.name ||
@@ -60,7 +72,18 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
           </Flex>
         </Flex>
         {!isProfilePage && (
-          <LinkButton variant="outline" size="sm" href={`/contracts/${wallet}`}>
+          <LinkButton
+            variant="outline"
+            size="sm"
+            href={`/contracts/${wallet}`}
+            onClick={() =>
+              trackEvent({
+                category: "releaser-header",
+                action: "click",
+                label: "view-all-contracts",
+              })
+            }
+          >
             View all contracts
           </LinkButton>
         )}

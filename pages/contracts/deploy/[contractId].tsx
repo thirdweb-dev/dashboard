@@ -27,7 +27,7 @@ import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
 
 export default function ContractDetailPage() {
   const { Track } = useTrack({
-    page: "contract-detail",
+    page: "create-deploy",
   });
 
   const router = useRouter();

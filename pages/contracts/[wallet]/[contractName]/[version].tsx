@@ -22,6 +22,7 @@ import {
 import { ReleasedContract } from "components/contract-components/released-contract";
 import { FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
@@ -36,6 +37,11 @@ const ContractsNamePageWrapped = () => {
   const contractName = useSingleQueryParam("contractName");
   const version = useSingleQueryParam("version");
   const router = useRouter();
+  const { Track, trackEvent } = useTrack({
+    page: "specific-release",
+    contractName,
+    version,
+  });
 
   const allVersions = useAllVersions(
     resolvedAddress.data || undefined,
@@ -49,63 +55,77 @@ const ContractsNamePageWrapped = () => {
     );
   }, [allVersions?.data, version]);
   return (
-    <SimpleGrid columns={12} gap={{ base: 6, md: 12 }} w="full">
-      <GridItem colSpan={{ base: 12, md: 9 }}>
-        <Flex gap={4} alignItems="center">
-          <ChakraNextImage
-            flexShrink={0}
-            src={FeatureIconMap["custom"]}
-            boxSize={12}
-            alt=""
-          />
-          <Skeleton isLoaded={allVersions.isSuccess}>
-            <Flex direction="column" gap={2}>
-              <Heading size="title.md">{release?.name}</Heading>
-              <Text>{release?.description}</Text>
-            </Flex>
-          </Skeleton>
-        </Flex>
-      </GridItem>
-      <GridItem colSpan={{ base: 12, md: 3 }}>
-        <Flex gap={3} direction="column">
-          <Select
-            onChange={(e) =>
-              router.push(
-                `/contracts/${wallet}/${contractName}/${e.target.value}`,
-                undefined,
-                { shallow: true },
-              )
-            }
-            value={version}
-          >
-            {(allVersions?.data || []).map((releasedVersion, idx) => (
-              <option
-                key={releasedVersion.version}
-                value={releasedVersion.version}
-              >
-                {releasedVersion.version}
-                {idx === 0 ? " (latest)" : ""}
-              </option>
-            ))}
-          </Select>
-          <LinkButton
-            flexShrink={0}
-            colorScheme="purple"
-            href={`/contracts/deploy/${encodeURIComponent(
-              release?.metadataUri.replace("ipfs://", "") || "",
-            )}`}
-          >
-            Deploy Now
-          </LinkButton>
-        </Flex>
-      </GridItem>
-      <GridItem colSpan={12} display={{ base: "inherit", md: "none" }}>
-        <Divider />
-      </GridItem>
-      {release && wallet && (
-        <ReleasedContract release={release} walletOrEns={wallet} />
-      )}
-    </SimpleGrid>
+    <Track>
+      <SimpleGrid columns={12} gap={{ base: 6, md: 12 }} w="full">
+        <GridItem colSpan={{ base: 12, md: 9 }}>
+          <Flex gap={4} alignItems="center">
+            <ChakraNextImage
+              flexShrink={0}
+              src={FeatureIconMap["custom"]}
+              boxSize={12}
+              alt=""
+            />
+            <Skeleton isLoaded={allVersions.isSuccess}>
+              <Flex direction="column" gap={2}>
+                <Heading size="title.md">{release?.name}</Heading>
+                <Text>{release?.description}</Text>
+              </Flex>
+            </Skeleton>
+          </Flex>
+        </GridItem>
+        <GridItem colSpan={{ base: 12, md: 3 }}>
+          <Flex gap={3} direction="column">
+            <Select
+              onChange={(e) => {
+                trackEvent({
+                  category: "release-selector",
+                  action: "click",
+                  versionSelected: e.target.value,
+                });
+                router.push(
+                  `/contracts/${wallet}/${contractName}/${e.target.value}`,
+                  undefined,
+                  { shallow: true },
+                );
+              }}
+              value={version}
+            >
+              {(allVersions?.data || []).map((releasedVersion, idx) => (
+                <option
+                  key={releasedVersion.version}
+                  value={releasedVersion.version}
+                >
+                  {releasedVersion.version}
+                  {idx === 0 ? " (latest)" : ""}
+                </option>
+              ))}
+            </Select>
+            <LinkButton
+              flexShrink={0}
+              colorScheme="purple"
+              href={`/contracts/deploy/${encodeURIComponent(
+                release?.metadataUri.replace("ipfs://", "") || "",
+              )}`}
+              onClick={() =>
+                trackEvent({
+                  category: "specific-release",
+                  action: "click",
+                  label: "deploy-now",
+                })
+              }
+            >
+              Deploy Now
+            </LinkButton>
+          </Flex>
+        </GridItem>
+        <GridItem colSpan={12} display={{ base: "inherit", md: "none" }}>
+          <Divider />
+        </GridItem>
+        {release && wallet && (
+          <ReleasedContract release={release} walletOrEns={wallet} />
+        )}
+      </SimpleGrid>
+    </Track>
   );
 };
 

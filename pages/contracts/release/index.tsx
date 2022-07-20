@@ -8,7 +8,7 @@ import { Heading, Text } from "tw-components";
 
 export default function ContractsReleasePage() {
   const { Track } = useTrack({
-    page: "publish",
+    page: "pre-release",
   });
 
   const router = useRouter();
