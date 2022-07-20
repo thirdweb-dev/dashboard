@@ -52,7 +52,7 @@ import {
   Text,
   TrackedIconButton,
 } from "tw-components";
-import { shortenAddress } from "utils/usedapp-external";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 interface ExtendedReleasedContractInfo extends PublishedContract {
   name: string;
@@ -132,11 +132,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   return (
     <Flex gap={12} w="full" flexDir={{ base: "column-reverse", md: "row" }}>
       <NextSeo
-        title={`${
-          release.releaser.endsWith(".ens")
-            ? release.releaser
-            : shortenAddress(release.releaser)
-        }/${release.name} | thirdweb`}
+        title={`${shortenIfAddress(release.releaser)}/${release.name}`}
         description={`${release.description}${
           release.description ? ". " : ""
         }Deploy ${release.name} in one click with thirdweb.`}
@@ -145,7 +141,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           url: currentRoute,
           images: [
             {
-              url: `https://og-image.thirdweb.com/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&${licensesUrl}&${enabledExtensionsUrl}&releaser=${wallet}&.png`,
+              url: `https://og-image.thirdweb.com/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&${licensesUrl}&${enabledExtensionsUrl}&releaser=${wallet}.png`,
               width: 1200,
               height: 650,
               alt: "thirdweb",
