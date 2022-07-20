@@ -83,6 +83,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   const ensName = useEnsName(release.releaser);
 
+  const releaserEnsOrAddress = ensName.data || release.releaser;
+
   const ogImageUrl = useMemo(() => {
     const url = new URL("https://og-image.thirdweb.com/thirdweb");
     url.searchParams.append("version", release.version);
@@ -100,9 +102,9 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           url.searchParams.append("extensions", extension);
         });
     }
-    url.searchParams.append("releaser", ensName.data || release.releaser);
+    url.searchParams.append("releaser", releaserEnsOrAddress);
     return `${url.href}&.png`;
-  }, [release, compilerInfo, enabledExtensions, ensName]);
+  }, [release, compilerInfo, enabledExtensions, releaserEnsOrAddress]);
 
   return (
     <>
@@ -112,7 +114,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           release.description ? ". " : ""
         }Deploy ${release.name} in one click with thirdweb.`}
         openGraph={{
-          title: `${shortenIfAddress(release.releaser)}/${release.name}`,
+          title: `${shortenIfAddress(releaserEnsOrAddress)}/${release.name}`,
           url: currentRoute,
           images: [
             {
