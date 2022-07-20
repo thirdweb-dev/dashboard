@@ -1,6 +1,7 @@
 import {
   useContractEnabledExtensions,
   useContractPublishMetadataFromURI,
+  useEnsName,
   useReleasedContractCompilerMetadata,
   useReleasedContractFunctions,
   useReleasedContractInfo,
@@ -71,22 +72,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     contractReleaseMetadata.data?.abi,
   );
 
-  const enabledExtensionsUrl = useMemo(() => {
-    return enabledExtensions
-      .map((extension) => {
-        return `extensions=${extension.name}`;
-      })
-      .join("&");
-  }, [enabledExtensions]);
-
-  const licensesUrl = useMemo(() => {
-    return compilerInfo?.licenses
-      ?.map((license: string) => {
-        return `licenses=${license}`;
-      })
-      .join("&");
-  }, [compilerInfo?.licenses]);
-
   const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
     "/latest",
     "",
@@ -95,6 +80,30 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const { data: contractFunctions } = useReleasedContractFunctions(release);
 
   const { onCopy, hasCopied } = useClipboard(currentRoute);
+
+  const ensName = useEnsName(release.releaser);
+
+  const ogImageUrl = useMemo(() => {
+    const url = new URL("https://og-image.thirdweb.com/thirdweb");
+    url.searchParams.append("version", release.version);
+    url.searchParams.append("description", release.description);
+    url.searchParams.append("contractName", release.name);
+    if (compilerInfo?.licenses) {
+      compilerInfo.licenses.forEach((license) => {
+        url.searchParams.append("licenses", license);
+      });
+    }
+    if (enabledExtensions) {
+      enabledExtensions
+        .map((extension) => extension.name)
+        .forEach((extension) => {
+          url.searchParams.append("extensions", extension);
+        });
+    }
+    url.searchParams.append("releaser", ensName.data || release.releaser);
+    return `${url.href}&.png`;
+  }, [release, compilerInfo, enabledExtensions, ensName]);
+
   return (
     <>
       <NextSeo
@@ -107,7 +116,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
           url: currentRoute,
           images: [
             {
-              url: `https://og-image.thirdweb.com/thirdweb?version=${release?.version}&description=${release?.description}&contractName=${release.name}&${licensesUrl}&${enabledExtensionsUrl}&releaser=${walletOrEns}.png`,
+              url: ogImageUrl,
               width: 1200,
               height: 650,
               alt: "thirdweb",
