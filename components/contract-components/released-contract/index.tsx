@@ -52,11 +52,13 @@ import {
   Text,
   TrackedIconButton,
 } from "tw-components";
+import { shortenAddress } from "utils/usedapp-external";
 
 interface ExtendedReleasedContractInfo extends PublishedContract {
   name: string;
   description: string;
   version: string;
+  releaser: string;
 }
 
 interface ReleasedContractProps {
@@ -130,10 +132,16 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   return (
     <Flex gap={12} w="full" flexDir={{ base: "column-reverse", md: "row" }}>
       <NextSeo
-        title={`${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`}
-        description={`Browse previous versions of ${releasedContractInfo.data?.name} and deploy it in one click to any supported blockchains.`}
+        title={`${
+          release.releaser.endsWith(".ens")
+            ? release.releaser
+            : shortenAddress(release.releaser)
+        }/${release.name} | thirdweb`}
+        description={`${release.description}${
+          release.description ? ". " : ""
+        }Deploy ${release.name} in one click with thirdweb.`}
         openGraph={{
-          title: `${releasedContractInfo.data?.name} | Deploy in one click with thirdweb deploy`,
+          title: `${release.name} | thirdweb`,
           url: currentRoute,
           images: [
             {
