@@ -41,6 +41,7 @@ const ContractsNamePageWrapped = () => {
     page: "specific-release",
     contractName,
     version,
+    wallet: resolvedAddress.data || wallet,
   });
 
   const allVersions = useAllVersions(
