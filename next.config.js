@@ -80,7 +80,6 @@ const moduleExports = {
       "ipfs.thirdweb.com",
       "portal.thirdweb.com",
       "blog.thirdweb.com",
-      "source.boringavatars.com",
     ],
   },
 };
