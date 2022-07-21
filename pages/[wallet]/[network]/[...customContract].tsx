@@ -14,9 +14,7 @@ import {
   Router,
   useMatchRoute,
 } from "@tanstack/react-location";
-import { useSDK } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
-import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { Logo } from "components/logo";
 import {
@@ -35,13 +33,6 @@ export default function CustomContractPage() {
   const router = useRouter();
   const query = router.query.customContract || [];
   const contractAddress = query[0];
-  const sdk = useSDK();
-  const releasesFromDeploy = useReleasesFromDeploy(
-    contractAddress,
-    sdk?.getProvider(),
-  );
-
-  console.log(releasesFromDeploy.then((e) => console.log(e.data?.at(-1))));
 
   const [location] = useState(() => new ReactLocation());
 
@@ -185,6 +176,7 @@ const ContractSubnav: React.FC<ContractSubnavProps> = ({ routes }) => {
           }
         }, 10);
       }}
+      overflowX={{ base: "scroll", md: "inherit" }}
     >
       <Box
         position="absolute"
