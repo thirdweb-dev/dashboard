@@ -83,7 +83,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
               onSuccess: () => {
                 onSuccess();
                 trackEvent({
-                  category: "team-profile",
+                  category: "team_profile",
                   action: "edit",
                   label: "success",
                 });
@@ -92,7 +92,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
               onError: (error) => {
                 onError(error);
                 trackEvent({
-                  category: "team-profile",
+                  category: "team_profile",
                   action: "edit",
                   label: "error",
                   error,
