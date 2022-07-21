@@ -55,9 +55,9 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
               href={`/contracts/${ensName.data || wallet}`}
               onClick={() =>
                 trackEvent({
-                  category: "releaser-header",
+                  category: "releaser_header",
                   action: "click",
-                  label: "releaser-name",
+                  label: "releaser_name",
                 })
               }
             >
@@ -85,9 +85,9 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
             href={`/contracts/${wallet}`}
             onClick={() =>
               trackEvent({
-                category: "releaser-header",
+                category: "releaser_header",
                 action: "click",
-                label: "view-all-contracts",
+                label: "view_all_contracts",
               })
             }
           >
