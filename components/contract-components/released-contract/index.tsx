@@ -118,8 +118,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     releaserProfile?.data,
   ]);
 
-  console.log(ogImageUrl);
-
   const twitterIntentUrl = useMemo(() => {
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(

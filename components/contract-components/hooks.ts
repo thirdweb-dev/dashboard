@@ -221,7 +221,7 @@ export function useAllVersions(
 ) {
   const sdk = useSDK();
   return useQuery(
-    ["all-releases-2", publisherAddress, contractName],
+    ["all-releases", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
     {
       enabled: !!publisherAddress && !!contractName && !!sdk,
