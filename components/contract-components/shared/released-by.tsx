@@ -14,7 +14,9 @@ interface ReleasedByProps {
 export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
   const releasesFromDeploy = useReleasesFromDeploy(contractAddress);
 
-  const lastRelease = releasesFromDeploy?.data?.at(-1);
+  const lastRelease = releasesFromDeploy?.data?.length
+    ? releasesFromDeploy.data[releasesFromDeploy.data.length - 1]
+    : undefined;
 
   const ensName = useEnsName(lastRelease?.publisher);
 
