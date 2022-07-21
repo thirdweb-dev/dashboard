@@ -18,6 +18,7 @@ import {
   extractConstructorParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
+  resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import {
@@ -223,6 +224,35 @@ export function useAllVersions(
     () => fetchAllVersions(sdk, publisherAddress, contractName),
     {
       enabled: !!publisherAddress && !!contractName && !!sdk,
+    },
+  );
+}
+
+export async function useReleasesFromDeploy(
+  contractAddress: string,
+  provider?: ethers.providers.Provider,
+) {
+  const sdk = new ThirdwebSDK("polygon");
+  return useQuery(
+    ["release-from-deploy", contractAddress],
+    async () => {
+      invariant(contractAddress, "contractAddress is not defined");
+      invariant(provider, "provider is not defined");
+      const compilerMetaUri = await resolveContractUriFromAddress(
+        contractAddress,
+        provider,
+      );
+
+      if (compilerMetaUri) {
+        return await sdk
+          .getPublisher()
+          .resolvePublishMetadataFromCompilerMetadata(compilerMetaUri);
+      }
+
+      return undefined;
+    },
+    {
+      enabled: !!contractAddress && !!provider,
     },
   );
 }
