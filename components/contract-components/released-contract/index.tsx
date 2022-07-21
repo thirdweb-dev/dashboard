@@ -5,6 +5,7 @@ import {
   useReleasedContractCompilerMetadata,
   useReleasedContractFunctions,
   useReleasedContractInfo,
+  useReleaserProfile,
 } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
 import { ContractFunctionsPanel } from "./extracted-contract-functions";
@@ -50,7 +51,6 @@ export interface ExtendedReleasedContractInfo extends PublishedContract {
   description: string;
   version: string;
   releaser: string;
-  avatar: string;
   tags: string[];
 }
 
@@ -74,6 +74,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const enabledExtensions = useContractEnabledExtensions(
     contractReleaseMetadata.data?.abi,
   );
+
+  const releaserProfile = useReleaserProfile(release.releaser);
 
   const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
     "/latest",
@@ -106,9 +108,17 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
         });
     }
     url.searchParams.append("releaser", releaserEnsOrAddress);
-    url.searchParams.append("avatar", release.avatar);
+    url.searchParams.append("avatar", releaserProfile.data?.avatar || "");
     return `${url.href}&.png`;
-  }, [release, compilerInfo, enabledExtensions, releaserEnsOrAddress]);
+  }, [
+    release,
+    compilerInfo,
+    enabledExtensions,
+    releaserEnsOrAddress,
+    releaserProfile?.data,
+  ]);
+
+  console.log(ogImageUrl);
 
   const twitterIntentUrl = useMemo(() => {
     const url = new URL("https://twitter.com/intent/tweet");

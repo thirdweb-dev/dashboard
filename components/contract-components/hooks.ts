@@ -174,7 +174,6 @@ export function useLatestRelease(
         name: contractInfo.publishedMetadata.name || "",
         description: contractInfo.publishedMetadata.description || "",
         releaser: contractInfo.publishedMetadata.publisher || "",
-        avatar: contractInfo.publishedMetadata.avatar || "",
         tags: contractInfo.publishedMetadata.tags || [],
       };
     },
@@ -209,7 +208,6 @@ export async function fetchAllVersions(
       name: contractInfo.publishedMetadata.name,
       description: contractInfo.publishedMetadata.description || "",
       releaser: contractInfo.publishedMetadata.publisher || "",
-      avatar: contractInfo.publishedMetadata.avatar || "",
       tags: contractInfo.publishedMetadata.tags || [],
     });
   }
@@ -223,7 +221,7 @@ export function useAllVersions(
 ) {
   const sdk = useSDK();
   return useQuery(
-    ["all-releases", publisherAddress, contractName],
+    ["all-releases-2", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
     {
       enabled: !!publisherAddress && !!contractName && !!sdk,
