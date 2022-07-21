@@ -1,5 +1,6 @@
 import {
   BoxProps,
+  Link,
   ListItem,
   OrderedList,
   Table,
@@ -63,6 +64,7 @@ export const MarkdownRenderer: React.FC<
         h6: (props) => (
           <Heading size="label.md" {...commonHeadingProps} {...props} />
         ),
+        a: (props) => <Link color="primary.500" isExternal {...props} />,
         pre: (props) => (
           <CodeBlock
             code={onlyText(props.children).trim()}
