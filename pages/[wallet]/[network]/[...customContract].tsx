@@ -14,7 +14,9 @@ import {
   Router,
   useMatchRoute,
 } from "@tanstack/react-location";
+import { useProvider } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
+import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { Logo } from "components/logo";
 import {
@@ -33,6 +35,9 @@ export default function CustomContractPage() {
   const router = useRouter();
   const query = router.query.customContract || [];
   const contractAddress = query[0];
+  const provider = useProvider();
+  const releasesFromDeploy = useReleasesFromDeploy(contractAddress, provider);
+  console.log({ releasesFromDeploy });
 
   const [location] = useState(() => new ReactLocation());
 

@@ -19,6 +19,7 @@ import {
 import { ProfileMetadata, ProfileMetadataInput } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
@@ -55,6 +56,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     "Error updating profile",
   );
 
+  const { trackEvent } = useTrack();
+
   useEffect(() => {
     if (!isDirty) {
       reset({
@@ -79,9 +82,22 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             editProfile.mutate(d, {
               onSuccess: () => {
                 onSuccess();
+                trackEvent({
+                  category: "team_profile",
+                  action: "edit",
+                  label: "success",
+                });
                 onClose();
               },
-              onError,
+              onError: (error) => {
+                onError(error);
+                trackEvent({
+                  category: "team_profile",
+                  action: "edit",
+                  label: "error",
+                  error,
+                });
+              },
             }),
           )}
         >
