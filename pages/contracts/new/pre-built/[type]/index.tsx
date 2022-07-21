@@ -6,15 +6,17 @@ import { FeatureIconMap, TYPE_CONTRACT_MAP } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import React, { ReactElement } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { Card, Heading } from "tw-components";
 import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
+import { getSingleQueryValue } from "utils/router";
 
-export default function DeployContractType() {
+const DeployContractType: NextPageWithLayout = function () {
   const type = useSingleQueryParam("type");
   const router = useRouter();
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   if (!type || !(type in TYPE_CONTRACT_MAP)) {
     return <div>invalid type</div>;
@@ -67,8 +69,13 @@ export default function DeployContractType() {
       </Flex>
     </Card>
   );
-}
+};
 
 DeployContractType.getLayout = (page: ReactElement) => (
   <AppLayout>{page}</AppLayout>
 );
+
+DeployContractType.trackingScope = (query) =>
+  `contract_deploy_prebuilt_${getSingleQueryValue(query, "type")}`;
+
+export default DeployContractType;

@@ -25,6 +25,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import { ReactElement, useMemo } from "react";
 import { QueryClient, dehydrate } from "react-query";
 import { Heading, LinkButton, Text } from "tw-components";
@@ -109,17 +110,21 @@ const ContractsNamePageWrapped = () => {
   );
 };
 
-export default function ContractNamePage() {
+const ContractNamePage: NextPageWithLayout = function () {
   return (
     <PublisherSDKContext>
       <ContractsNamePageWrapped />
     </PublisherSDKContext>
   );
-}
+};
 
 ContractNamePage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
 };
+
+ContractNamePage.trackingScope = "released_contract_detail";
+
+export default ContractNamePage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // cache for 10 seconds, with up to 60 seconds of stale time

@@ -23,7 +23,7 @@ export const ContractDeployActionCell: React.FC<
   const wallet = useSingleQueryParam("wallet");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   const audit =
     BuiltinContractMap[value as keyof typeof BuiltinContractMap]?.audit;

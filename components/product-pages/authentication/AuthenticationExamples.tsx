@@ -48,7 +48,7 @@ const ExampleItem: React.FC<ExampleItemProps> = ({
   href,
   svg: RenderSVG,
 }) => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   if (!href) {
     return (

@@ -66,6 +66,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import * as React from "react";
 import { ReactElement, useEffect, useMemo } from "react";
 import { AiFillCode, AiFillLayout, AiOutlineWarning } from "react-icons/ai";
@@ -97,7 +98,7 @@ import {
 import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
-export default function Dashboard() {
+const Dashboard: NextPageWithLayout = function () {
   const router = useRouter();
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const { address } = useWeb3();
@@ -320,12 +321,16 @@ export default function Dashboard() {
       )}
     </Flex>
   );
-}
+};
 
 Dashboard.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
 
+Dashboard.trackingScope = "dashboard";
+
+export default Dashboard;
+
 const LearnMoreSection: React.FC = () => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
       <Card

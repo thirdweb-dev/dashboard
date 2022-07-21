@@ -1,3 +1,4 @@
+import { NextPageWithLayout } from "./_app";
 import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
 import { Flex, SimpleGrid, Switch } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
@@ -7,15 +8,13 @@ import { NextSeo } from "next-seo";
 import { ReactElement, useState } from "react";
 import { Badge, Card, Heading, Text } from "tw-components";
 
-export default function GasPage() {
+const GasPage: NextPageWithLayout = function () {
   const [ethOrUsd, setEthOrUsd] = useState<"eth" | "usd">("eth");
   const { data } = useGas();
-  const { Track, trackEvent } = useTrack({
-    page: "gas-estimator",
-  });
+  const trackEvent = useTrack();
 
   return (
-    <Track>
+    <>
       <NextSeo
         title="Blockchain Gas Estimator"
         description="Estimate the cost of gas fees when deploying contracts or performing common use cases to the blockchain on thirdweb."
@@ -107,10 +106,14 @@ export default function GasPage() {
         {data?.ethPrice}. These estimates are only intended to use for contracts
         deployed with thirdweb. Updated every 10 seconds.
       </Text>
-    </Track>
+    </>
   );
-}
+};
 
 GasPage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
 };
+
+GasPage.trackingScope = "gas_estimator";
+
+export default GasPage;

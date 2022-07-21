@@ -23,7 +23,7 @@ export interface FeedbackFormProps {
   scope: keyof typeof FEEDBACK_PRODUCT_MAP;
   onClose?: () => void;
   onSubmitSuccess?: () => void;
-  trackEvent: ReturnType<typeof useTrack>["trackEvent"];
+  trackEvent: ReturnType<typeof useTrack>;
   localStorageKey?: string;
 }
 

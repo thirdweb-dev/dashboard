@@ -24,12 +24,13 @@ import {
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import { ReactElement, useCallback, useRef, useState } from "react";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { Button, LinkButton } from "tw-components";
 import { isBrowser } from "utils/isBrowser";
 
-export default function CustomContractPage() {
+const CustomContractPage: NextPageWithLayout = function () {
   const router = useRouter();
   const query = router.query.customContract || [];
   const contractAddress = query[0];
@@ -64,11 +65,6 @@ export default function CustomContractPage() {
     16,
     scrollContainerRef,
   );
-
-  const { Track: RootTrack } = useTrack({
-    page: "custom-contract",
-  });
-
   // we can currently *only* client side render this
   // TODO @jonas we should start the router on the root level that way we can leverage it client side there?
   if (!router.query.wallet) {
@@ -82,73 +78,73 @@ export default function CustomContractPage() {
       routes={routes}
       defaultElement="Foo"
     >
-      <RootTrack>
-        <Flex direction="column" ref={scrollRef}>
-          {/* sub-header-nav */}
-          <Box
-            position="sticky"
-            top={0}
-            borderBottomColor="borderColor"
-            borderBottomWidth={1}
-            bg="backgroundHighlight"
-            flexShrink={0}
-            w="full"
-            as="nav"
-            zIndex={1}
-          >
-            <Container maxW="container.page">
-              <Flex direction="row" align="center" w="100%" position="relative">
-                <Button
-                  borderRadius="none"
-                  variant="unstyled"
-                  transition="all .25s ease"
-                  transform={
-                    isScrolled ? "translateZ(0px)" : "translate3d(0,-20px,0)"
-                  }
-                  opacity={isScrolled ? 1 : 0}
-                  visibility={isScrolled ? "visible" : "hidden"}
-                  onClick={() =>
-                    scrollContainerRef.current?.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
-                    })
-                  }
-                >
-                  <Logo hideWordmark />
-                </Button>
-                <Box
-                  position="absolute"
-                  transition="all .25s ease"
-                  willChange="transform width"
-                  transform={
-                    isScrolled
-                      ? "translate3d(40px,0,0)"
-                      : `translate3d(0, 0, 0)`
-                  }
-                  w={isScrolled ? "calc(100% - 40px)" : "100%"}
-                >
-                  <ContractSubnav routes={routes} />
-                </Box>
-              </Flex>
-            </Container>
-          </Box>
-          {/* sub-header */}
-          <ContractHeader contractAddress={contractAddress} />
-          {/* main content */}
+      <Flex direction="column" ref={scrollRef}>
+        {/* sub-header-nav */}
+        <Box
+          position="sticky"
+          top={0}
+          borderBottomColor="borderColor"
+          borderBottomWidth={1}
+          bg="backgroundHighlight"
+          flexShrink={0}
+          w="full"
+          as="nav"
+          zIndex={1}
+        >
           <Container maxW="container.page">
-            <Box py={8}>
-              <Outlet />
-            </Box>
+            <Flex direction="row" align="center" w="100%" position="relative">
+              <Button
+                borderRadius="none"
+                variant="unstyled"
+                transition="all .25s ease"
+                transform={
+                  isScrolled ? "translateZ(0px)" : "translate3d(0,-20px,0)"
+                }
+                opacity={isScrolled ? 1 : 0}
+                visibility={isScrolled ? "visible" : "hidden"}
+                onClick={() =>
+                  scrollContainerRef.current?.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                <Logo hideWordmark />
+              </Button>
+              <Box
+                position="absolute"
+                transition="all .25s ease"
+                willChange="transform width"
+                transform={
+                  isScrolled ? "translate3d(40px,0,0)" : `translate3d(0, 0, 0)`
+                }
+                w={isScrolled ? "calc(100% - 40px)" : "100%"}
+              >
+                <ContractSubnav routes={routes} />
+              </Box>
+            </Flex>
           </Container>
-        </Flex>
-      </RootTrack>
+        </Box>
+        {/* sub-header */}
+        <ContractHeader contractAddress={contractAddress} />
+        {/* main content */}
+        <Container maxW="container.page">
+          <Box py={8}>
+            <Outlet />
+          </Box>
+        </Container>
+      </Flex>
     </Router>
   );
-}
+};
 
 CustomContractPage.getLayout = (page: ReactElement) => (
   <AppLayout>{page}</AppLayout>
 );
+
+CustomContractPage.trackingScope = "custom_contract";
+
+export default CustomContractPage;
 
 interface ContractSubnavProps {
   routes: EnhancedRoute[];
@@ -225,7 +221,7 @@ interface ContractSubNavLinkButton {
 const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
   props,
 ) => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   const onClick = useCallback(() => {
     trackEvent({
       category: "subnav-link",

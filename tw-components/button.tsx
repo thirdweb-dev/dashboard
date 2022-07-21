@@ -141,7 +141,7 @@ export interface TrackedIconButtonProps extends IconButtonProps {
 
 export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
   ({ category, label, ...restButtonProps }, ref) => {
-    const { trackEvent } = useTrack();
+    const trackEvent = useTrack();
     return (
       <IconButton
         ref={ref}
@@ -176,7 +176,7 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   ...restButtonProps
 }) => {
   const { onCopy } = useClipboard(address || "");
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   const toast = useToast();
 
   return (

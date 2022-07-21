@@ -225,7 +225,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
 
   const wallet = useSingleQueryParam("wallet") || "dashboard";
 
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   const router = useRouter();
 
   const audit = BuiltinContractMap[contractType]?.audit;

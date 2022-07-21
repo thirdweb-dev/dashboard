@@ -15,7 +15,7 @@ export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
   description,
   href,
 }) => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   return (
     <Link
       href={href}

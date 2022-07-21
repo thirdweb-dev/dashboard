@@ -64,7 +64,7 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   activeLanguage,
   ...rest
 }) => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   const logo = LOGO_OPTIONS[language];
   const size = useBreakpointValue(
@@ -108,7 +108,7 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
 export const CodeSelector: React.FC = () => {
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>("typescript");
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   return (
     <>
       <SimpleGrid

@@ -26,14 +26,14 @@ import { MintButton } from "components/contract-pages/action-buttons/MintButton"
 import { ContractLayout } from "components/contract-pages/contract-layout";
 import { ContractItemsTable } from "components/contract-pages/table";
 import { ContractPageNotice } from "components/notices/ContractPageNotice";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import React, { ReactElement, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Card } from "tw-components";
 
-export default function SignatureDropPage() {
+const SignatureDropPage: NextPageWithLayout = function () {
   const {
     isOpen: isBatchOpen,
     onOpen: onBatchOpen,
@@ -54,13 +54,9 @@ export default function SignatureDropPage() {
   const batchesToReveal = useBatchesToReveal(dropAddress);
 
   const { data: supplyData } = useNFTDropSupply(dropAddress);
-  const { Track } = useTrack({
-    page: "drop",
-    drop: dropAddress,
-  });
 
   return (
-    <Track>
+    <>
       <DropBatchUpload
         isOpen={isBatchOpen}
         onClose={onBatchClose}
@@ -178,10 +174,14 @@ export default function SignatureDropPage() {
           />
         </Stack>
       </ContractLayout>
-    </Track>
+    </>
   );
-}
+};
 
 SignatureDropPage.getLayout = (page: ReactElement) => (
   <AppLayout>{page}</AppLayout>
 );
+
+SignatureDropPage.trackingScope = "signature_drop";
+
+export default SignatureDropPage;
