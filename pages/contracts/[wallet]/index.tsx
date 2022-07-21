@@ -41,7 +41,7 @@ const UserPageWrapped = () => {
   );
 
   const { Track } = useTrack({
-    page: "team-profile",
+    page: "team_profile",
     wallet: resolvedAddress.data || wallet,
   });
 

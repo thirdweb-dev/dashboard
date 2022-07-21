@@ -8,7 +8,7 @@ import { Heading, Text } from "tw-components";
 
 export default function ContractsDeployPage() {
   const { Track } = useTrack({
-    page: "pre-deploy",
+    page: "pre_deploy",
   });
 
   const router = useRouter();

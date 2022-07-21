@@ -9,7 +9,7 @@ import { Heading, Text } from "tw-components";
 
 const ContractsPublishPageWrapped: React.FC = () => {
   const { Track } = useTrack({
-    page: "create-release",
+    page: "create_release",
   });
 
   const contractId = useSingleQueryParam("contractId");

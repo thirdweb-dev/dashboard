@@ -38,7 +38,7 @@ const ContractsNamePageWrapped = () => {
   const version = useSingleQueryParam("version");
   const router = useRouter();
   const { Track, trackEvent } = useTrack({
-    page: "specific-release",
+    page: "specific_release",
     contractName,
     version,
     wallet: resolvedAddress.data || wallet,
@@ -79,7 +79,7 @@ const ContractsNamePageWrapped = () => {
             <Select
               onChange={(e) => {
                 trackEvent({
-                  category: "release-selector",
+                  category: "release_selector",
                   action: "click",
                   versionSelected: e.target.value,
                 });
@@ -111,7 +111,7 @@ const ContractsNamePageWrapped = () => {
                 trackEvent({
                   category: "specific-release",
                   action: "click",
-                  label: "deploy-now",
+                  label: "deploy_now",
                 })
               }
             >
