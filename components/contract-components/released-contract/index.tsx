@@ -108,7 +108,9 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
         });
     }
     url.searchParams.append("releaser", releaserEnsOrAddress);
-    url.searchParams.append("avatar", releaserProfile.data?.avatar || "");
+    if (releaserProfile.data?.avatar) {
+      url.searchParams.append("avatar", releaserProfile.data.avatar);
+    }
     return `${url.href}&.png`;
   }, [
     release,
