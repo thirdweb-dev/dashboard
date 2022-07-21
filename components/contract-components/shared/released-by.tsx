@@ -14,12 +14,9 @@ interface ReleasedByProps {
 export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
   const releasesFromDeploy = useReleasesFromDeploy(contractAddress);
 
-  const lastRelease = useMemo(
-    () => releasesFromDeploy?.data?.at(-1),
-    [releasesFromDeploy?.data],
-  );
+  const lastRelease = releasesFromDeploy?.data?.at(-1);
 
-  const ensName = useEnsName(lastRelease?.name);
+  const ensName = useEnsName(lastRelease?.publisher);
 
   return lastRelease ? (
     <Flex flexDir="column" gap={3}>
