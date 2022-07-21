@@ -174,6 +174,8 @@ export function useLatestRelease(
         name: contractInfo.publishedMetadata.name || "",
         description: contractInfo.publishedMetadata.description || "",
         releaser: contractInfo.publishedMetadata.publisher || "",
+        avatar: contractInfo.publishedMetadata.avatar || "",
+        tags: contractInfo.publishedMetadata.tags || [],
       };
     },
     {
@@ -207,6 +209,8 @@ export async function fetchAllVersions(
       name: contractInfo.publishedMetadata.name,
       description: contractInfo.publishedMetadata.description || "",
       releaser: contractInfo.publishedMetadata.publisher || "",
+      avatar: contractInfo.publishedMetadata.avatar || "",
+      tags: contractInfo.publishedMetadata.tags || [],
     });
   }
 
