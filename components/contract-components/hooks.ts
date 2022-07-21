@@ -246,15 +246,7 @@ export function useReleasesFromDeploy(contractAddress: string) {
         provider,
       );
 
-      console.log("compilerMetaUri", compilerMetaUri);
-
       if (compilerMetaUri) {
-        console.log(
-          "hey",
-          await polygonSdk
-            .getPublisher()
-            .resolvePublishMetadataFromCompilerMetadata(compilerMetaUri),
-        );
         return await polygonSdk
           .getPublisher()
           .resolvePublishMetadataFromCompilerMetadata(compilerMetaUri);

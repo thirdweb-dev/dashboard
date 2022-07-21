@@ -3,7 +3,6 @@ import {
   useEnsName,
   useReleasesFromDeploy,
 } from "components/contract-components/hooks";
-import { useMemo } from "react";
 import { LinkButton, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
