@@ -26,6 +26,7 @@ export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
       <LinkButton
         href={`/contracts/${lastRelease?.publisher}/${lastRelease?.name}/${lastRelease?.version}`}
         noMatch
+        size="sm"
       >
         {lastRelease?.name} | {lastRelease?.version}
       </LinkButton>
