@@ -27,7 +27,7 @@ import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, version } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
 import {
@@ -219,9 +219,36 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.name}>
-            <FormLabel>Release Notes</FormLabel>
-            <Textarea {...register("changelog")} disabled={!address} />
-            <FormErrorMessage>{errors?.changelog?.message}</FormErrorMessage>
+            <FormLabel>Release notes</FormLabel>{" "}
+            <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
+              <TabList
+                px={0}
+                borderBottomColor="borderColor"
+                borderBottomWidth="1px"
+              >
+                <Tab gap={2}>
+                  <Icon as={BsCode} my={2} />
+                  <Heading size="label.lg">Edit Release notes</Heading>
+                </Tab>
+                <Tab gap={2}>
+                  <Icon as={BsEye} my={2} />
+                  <Heading size="label.lg">Preview</Heading>
+                </Tab>
+              </TabList>
+              <TabPanels py={2}>
+                <TabPanel px={0}>
+                  <Textarea {...register("changelog")} disabled={!address} />
+                  <FormErrorMessage>
+                    {errors?.changelog?.message}
+                  </FormErrorMessage>
+                </TabPanel>
+                <TabPanel px={0}>
+                  <Card>
+                    <MarkdownRenderer markdownText={watch("changelog") || ""} />
+                  </Card>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
           </FormControl>
           <Flex justifyContent="space-between" alignItems="center">
             <Text>
