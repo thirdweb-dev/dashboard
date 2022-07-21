@@ -110,9 +110,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     return `${url.href}&.png`;
   }, [release, compilerInfo, enabledExtensions, releaserEnsOrAddress]);
 
-  console.log(release.avatar);
-  console.log(ogImageUrl);
-
   const twitterIntentUrl = useMemo(() => {
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
