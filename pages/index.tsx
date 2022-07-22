@@ -43,14 +43,6 @@ export default function Home() {
   return (
     <DarkMode>
       <Track>
-        <NextSeo
-          title="Wallet Authentication"
-          description="Simple wallet based sign-in and authentication for any app."
-          openGraph={{
-            title: "Wallet Authentication | thirdweb",
-            url: `https://thirdweb.com/authentication`,
-          }}
-        />
         <Flex
           sx={{
             // overwrite the theme colors because the home page is *always* in "dark mode"
