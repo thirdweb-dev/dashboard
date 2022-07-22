@@ -97,16 +97,10 @@ export const removeEmptyKeysFromObject = (obj: any) => {
 };
 
 export const convertToOsStandard = (obj: NFTMetadataInput["attributes"]) => {
-  const keys = Object.keys(obj || {});
-  const values = Object.values(obj || {});
-  const attributes = [];
-
-  for (let i = 0; i < keys.length; i++) {
-    attributes.push({
-      trait_type: keys[i],
-      value: values[i],
-    });
-  }
+  const attributes = Object.entries(obj || {}).map(([trait_type, value]) => ({
+    trait_type,
+    value,
+  }));
 
   return removeEmptyValues(attributes);
 };
