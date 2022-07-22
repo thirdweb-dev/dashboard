@@ -83,8 +83,8 @@ export const MarkdownRenderer: React.FC<
               as="code"
               px={1.5}
               py={1}
-              mx={0.5}
-              bg="borderColor"
+              mx={1}
+              bg="backgroundBody"
               borderRadius="md"
               {...props}
             />
