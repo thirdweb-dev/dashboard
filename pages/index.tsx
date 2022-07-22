@@ -21,7 +21,6 @@ import { ExamplesSection } from "components/product-pages/homepage/examples/Exam
 import { MultiChainSVG } from "components/product-pages/homepage/multi-chain-svg";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
-import { NextSeo } from "next-seo";
 // images
 import Analytics from "public/assets/landingpage/analytics.png";
 import Contracts from "public/assets/landingpage/contracts.png";
