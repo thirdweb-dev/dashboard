@@ -28,7 +28,7 @@ export const MintSection: React.FC<IMintSection> = ({ contract, tokenId }) => {
 
   const { onSuccess, onError } = useTxNotifications(
     "Mint successful",
-    "Error burning",
+    "Error minting additional supply",
   );
 
   return (
