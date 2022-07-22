@@ -12,6 +12,7 @@ import {
   UnorderedList,
   chakra,
 } from "@chakra-ui/react";
+import { Language } from "prism-react-renderer";
 import { onlyText } from "react-children-utilities";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -65,14 +66,30 @@ export const MarkdownRenderer: React.FC<
           <Heading size="label.md" {...commonHeadingProps} {...props} />
         ),
         a: (props) => <Link color="primary.500" isExternal {...props} />,
-        pre: (props) => (
-          <CodeBlock
-            code={onlyText(props.children).trim()}
-            language="jsx"
-            mb={4}
-            {...props}
-          />
-        ),
+        code: (props) => {
+          if (props?.className) {
+            const language = props.className.replace("language-", "");
+            return (
+              <CodeBlock
+                code={onlyText(props.children).trim()}
+                language={language as Language}
+                mb={4}
+                {...props}
+              />
+            );
+          }
+          return (
+            <Text
+              as="code"
+              px={1.5}
+              py={1}
+              mx={0.5}
+              bg="borderColor"
+              borderRadius="md"
+              {...props}
+            />
+          );
+        },
         p: (props) => <Text size="body.md" mb={4} {...props} />,
         table: (props) => (
           <Card
