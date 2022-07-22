@@ -20,16 +20,13 @@ import { ContractIdImage } from "components/contract-components/shared/contract-
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import { ReactElement } from "react";
 import { FiArrowLeft, FiCheckCircle, FiExternalLink } from "react-icons/fi";
 import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
 
-export default function ContractDetailPage() {
-  const { Track } = useTrack({
-    page: "contract-detail",
-  });
-
+const ContractDetailPage: NextPageWithLayout = function () {
   const router = useRouter();
   const contractId = useSingleQueryParam("contractId");
   const from = useSingleQueryParam("from");
@@ -42,97 +39,96 @@ export default function ContractDetailPage() {
   );
 
   return (
-    <Track>
-      <Flex direction="column" as="section" gap={4}>
-        <Flex align="center" gap={4} justify="space-between" as="header">
-          <Flex align="center" gap={2}>
-            {from && (
-              <IconButton
-                variant="ghost"
-                aria-label="back"
-                onClick={() => pushToPreviousRoute(router)}
-                icon={<Icon boxSize={6} as={FiArrowLeft} />}
-              />
-            )}
-            <ContractIdImage boxSize={12} contractId={contractId || "custom"} />
-            <Flex direction="column" gap={1} align="flex-start">
-              <Skeleton isLoaded={publishMetadataQuery.isSuccess}>
-                <Heading size="title.md">
-                  {publishMetadataQuery.isSuccess
-                    ? publishMetadataQuery.data?.name
-                    : "testing testing testing"}
-                </Heading>
-              </Skeleton>
-            </Flex>
+    <Flex direction="column" as="section" gap={4}>
+      <Flex align="center" gap={4} justify="space-between" as="header">
+        <Flex align="center" gap={2}>
+          {from && (
+            <IconButton
+              variant="ghost"
+              aria-label="back"
+              onClick={() => pushToPreviousRoute(router)}
+              icon={<Icon boxSize={6} as={FiArrowLeft} />}
+            />
+          )}
+          <ContractIdImage boxSize={12} contractId={contractId || "custom"} />
+          <Flex direction="column" gap={1} align="flex-start">
+            <Skeleton isLoaded={publishMetadataQuery.isSuccess}>
+              <Heading size="title.md">
+                {publishMetadataQuery.isSuccess
+                  ? publishMetadataQuery.data?.name
+                  : "testing testing testing"}
+              </Heading>
+            </Skeleton>
           </Flex>
         </Flex>
-        <Divider />
-        <Flex gap={12} direction="column" as="main">
-          {contractId && (
-            <Flex gap={4} direction="column">
-              <Card p={{ base: 6, md: 10 }}>
-                <Flex direction="column" gap={8}>
-                  {enabledFeatures.length > 0 && (
-                    <Flex direction="column" gap={4}>
-                      <Box>
-                        <Heading size="subtitle.md">
-                          <TrackedLink
-                            href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions"
-                            category="extensions-deploy"
-                            label="header"
-                            isExternal
-                          >
-                            <Flex alignItems="center" gap={2}>
-                              Detected Extensions
-                              <Icon as={FiExternalLink} />
-                            </Flex>
-                          </TrackedLink>
-                        </Heading>
-                        <Text>
-                          These extensions will automatically be available for
-                          this contract in the dashboard as well as in the SDKs.
-                        </Text>
-                      </Box>
-                      <Flex gap={2} flexWrap="wrap">
-                        {enabledFeatures.map((feature) => (
-                          <EnabledFeature
-                            key={feature.name}
-                            feature={feature}
-                          />
-                        ))}
-                      </Flex>
-                    </Flex>
-                  )}
-                  <ContractDeployForm contractId={contractId} />
-                </Flex>
-              </Card>
-            </Flex>
-          )}
-          <Center>
-            <LinkButton
-              variant="outline"
-              isExternal
-              href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions"
-            >
-              Learn about thirdweb extensions
-            </LinkButton>
-          </Center>
-        </Flex>
       </Flex>
-    </Track>
+      <Divider />
+      <Flex gap={12} direction="column" as="main">
+        {contractId && (
+          <Flex gap={4} direction="column">
+            <Card p={{ base: 6, md: 10 }}>
+              <Flex direction="column" gap={8}>
+                {enabledFeatures.length > 0 && (
+                  <Flex direction="column" gap={4}>
+                    <Box>
+                      <Heading size="subtitle.md">
+                        <TrackedLink
+                          href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions"
+                          category="extensions-deploy"
+                          label="header"
+                          isExternal
+                        >
+                          <Flex alignItems="center" gap={2}>
+                            Detected Extensions
+                            <Icon as={FiExternalLink} />
+                          </Flex>
+                        </TrackedLink>
+                      </Heading>
+                      <Text>
+                        These extensions will automatically be available for
+                        this contract in the dashboard as well as in the SDKs.
+                      </Text>
+                    </Box>
+                    <Flex gap={2} flexWrap="wrap">
+                      {enabledFeatures.map((feature) => (
+                        <EnabledFeature key={feature.name} feature={feature} />
+                      ))}
+                    </Flex>
+                  </Flex>
+                )}
+                <ContractDeployForm contractId={contractId} />
+              </Flex>
+            </Card>
+          </Flex>
+        )}
+        <Center>
+          <LinkButton
+            variant="outline"
+            isExternal
+            href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions"
+          >
+            Learn about thirdweb extensions
+          </LinkButton>
+        </Center>
+      </Flex>
+    </Flex>
   );
-}
+};
 
 ContractDetailPage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
 };
+
+ContractDetailPage.trackingScope = "contracts_deploy_detail";
+
+export default ContractDetailPage;
 
 interface EnabledFeatureProps {
   feature: FeatureWithEnabled;
 }
 
 const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   return (
     <Card
       overflow="hidden"

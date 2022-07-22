@@ -24,6 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ error: "Failed to fetch ETH price" });
     }
 
+    res.setHeader(
+      "Cache-Control",
+      "public, s-maxage=10, stale-while-revalidate=59",
+    );
     return res.status(200).json({
       gasPrice: gasData.result.ProposeGasPrice,
       ethPrice: ethPriceData.result.ethusd,

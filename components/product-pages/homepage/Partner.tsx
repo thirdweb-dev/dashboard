@@ -41,7 +41,7 @@ type PartnerType = keyof typeof partnerMap;
 
 export const Partner: React.FC<{ type: PartnerType }> = ({ type }) => {
   const { title, description, href } = partnerMap[type];
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
   return (
     <Stack
       as={LinkBox}

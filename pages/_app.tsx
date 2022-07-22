@@ -3,13 +3,13 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { ErrorProvider } from "contexts/error-handler";
 import { BigNumber } from "ethers";
-import flat from "flat";
-import { useTrack } from "hooks/analytics/useTrack";
+import { TrackPageContextProvider } from "hooks/analytics/useTrack";
 import { NextPage } from "next";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
+import type { ParsedUrlQuery } from "querystring";
 import React, { ReactElement, ReactNode, useEffect } from "react";
 import { Hydrate, QueryClientProvider } from "react-query";
 import { createWebStoragePersister } from "react-query/createWebStoragePersister";
@@ -36,8 +36,9 @@ export function bigNumberReplacer(_key: string, value: any) {
 
 const fontSizeCssVars = generateBreakpointTypographyCssVars();
 
-type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
+  trackingScope: string | ((query: ParsedUrlQuery) => string);
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -65,39 +66,22 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
       autocapture: true,
     });
 
-    // Track page views
-    const handleRouteChange = () => {
-      posthog.capture("$pageview");
-    };
-    router.events.on("routeChangeComplete", handleRouteChange);
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const { Track } = useTrack(
-    { page: "root" },
-    {
-      dispatch: (data) => {
-        const { category, action, label, ...restData } = data;
-        const catActLab = label
-          ? `${category}.${action}.${label}`
-          : `${category}.${action}`;
-        if (process.env.NODE_ENV === "development") {
-          console.debug(`[PH.capture]:${catActLab}`, restData);
-        }
-
-        posthog.capture(catActLab, flat(restData));
-      },
-    },
-  );
 
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Track>
+        <TrackPageContextProvider
+          pageContext={
+            Component.trackingScope
+              ? typeof Component.trackingScope === "string"
+                ? Component.trackingScope
+                : Component.trackingScope(router.query)
+              : "error_page"
+          }
+        >
           <Global
             styles={css`
               #walletconnect-wrapper {
@@ -151,7 +135,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
               {getLayout(<Component {...pageProps} />)}
             </ErrorProvider>
           </ChakraProvider>
-        </Track>
+        </TrackPageContextProvider>
       </Hydrate>
     </QueryClientProvider>
   );

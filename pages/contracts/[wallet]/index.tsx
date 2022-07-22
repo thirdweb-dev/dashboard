@@ -23,6 +23,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import { ReactElement, useEffect } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
 import { QueryClient, dehydrate } from "react-query";
@@ -119,17 +120,20 @@ const UserPageWrapped = () => {
   );
 };
 
-export default function UserPage() {
+const UserPage: NextPageWithLayout = () => {
   return (
     <PublisherSDKContext>
       <UserPageWrapped />
     </PublisherSDKContext>
   );
-}
-
+};
 UserPage.getLayout = function getLayout(page: ReactElement) {
   return <AppLayout>{page}</AppLayout>;
 };
+
+UserPage.trackingScope = "released_contracts_profile";
+
+export default UserPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // cache for 10 seconds, with up to 60 seconds of stale time

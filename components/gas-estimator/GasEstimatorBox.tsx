@@ -62,7 +62,7 @@ export const GasEstimatorBox: React.FC<GasEstimatorBoxProps> = ({
     claim,
     distributeFunds,
   }: GasPrice = GasEstimatorMap[contractType];
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   const formatPrice = (price: number | undefined) => {
     if (price && ethOrUsd === "eth") {

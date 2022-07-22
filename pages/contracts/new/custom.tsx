@@ -17,6 +17,7 @@ import { DeployableContractTable } from "components/contract-components/contract
 import { usePublishedContractsQuery } from "components/contract-components/hooks";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useRouter } from "next/router";
+import { NextPageWithLayout } from "pages/_app";
 import React, { ReactElement } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { IoRefreshSharp } from "react-icons/io5";
@@ -136,14 +137,18 @@ function DeployCustomContract() {
   );
 }
 
-export default function DeployCustomContractWrapped() {
+const DeployCustomContractWrapped: NextPageWithLayout = function () {
   return (
     <PublisherSDKContext>
       <DeployCustomContract />
     </PublisherSDKContext>
   );
-}
+};
 
 DeployCustomContractWrapped.getLayout = (page: ReactElement) => (
   <AppLayout>{page}</AppLayout>
 );
+
+DeployCustomContractWrapped.trackingScope = "contract_deploy_custom";
+
+export default DeployCustomContractWrapped;

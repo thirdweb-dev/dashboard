@@ -45,7 +45,7 @@ const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   activeLanguage,
   ...rest
 }) => {
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   const logo = LOGO_OPTIONS[language];
   const size = useBreakpointValue(
