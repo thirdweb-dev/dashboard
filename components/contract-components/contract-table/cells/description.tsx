@@ -29,9 +29,9 @@ export const ContractDescriptionCell: React.FC<
   return (
     <Skeleton isLoaded={fullPublishMetadata.isSuccess || !!description}>
       <Text size="body.md" noOfLines={1}>
-        {description ||
-          fullPublishMetadata.data?.latestPublishedContractMetadata
-            ?.publishedMetadata.description ||
+        {fullPublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata.description ||
+          description ||
           "None"}
       </Text>
     </Skeleton>
