@@ -16,7 +16,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
-import { Badge, Button, Heading, LinkButton, Text } from "tw-components";
+import { Button, Heading, LinkButton, Text } from "tw-components";
 
 const ContractsHomepageWrapped: React.FC = () => {
   const { Track } = useTrack({
@@ -43,14 +43,9 @@ const ContractsHomepageWrapped: React.FC = () => {
         />
         <Box />
         <Flex gap={2} direction="column">
-          <Heading size="title.md">
-            Your published contracts{" "}
-            <Badge variant="outline" colorScheme="purple">
-              beta
-            </Badge>
-          </Heading>
+          <Heading size="title.md">Your releases contracts</Heading>
           <Text fontStyle="italic">
-            Contracts that you have published via the thirdweb cli
+            Contracts that you have published via the thirdweb CLI
           </Text>
         </Flex>
         <DeployableContractTable
@@ -99,7 +94,7 @@ const ContractsHomepageWrapped: React.FC = () => {
                   <Text>You have not published any contracts yet.</Text>
                   <LinkButton
                     size="sm"
-                    href="https://portal.thirdweb.com/thirdweb-deploy"
+                    href="https://portal.thirdweb.com/thirdweb-cli"
                     isExternal
                     variant="outline"
                     colorScheme="primary"
