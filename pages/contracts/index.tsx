@@ -16,7 +16,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
-import { Badge, Button, Heading, LinkButton, Text } from "tw-components";
+import { Button, Heading, LinkButton, Text } from "tw-components";
 
 const ContractsHomepageWrapped: React.FC = () => {
   const { Track } = useTrack({

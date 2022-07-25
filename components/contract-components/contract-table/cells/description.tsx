@@ -1,8 +1,4 @@
-import {
-  useContractPrePublishMetadata,
-  useContractPublishMetadataFromURI,
-  useResolvedEnsName,
-} from "../../hooks";
+import { useContractPrePublishMetadata, useResolvedEnsName } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
 import { Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
