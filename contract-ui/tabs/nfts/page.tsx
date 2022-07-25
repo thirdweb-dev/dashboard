@@ -1,13 +1,13 @@
 import { BatchLazyMintButton } from "./components/batch-lazy-mint-button";
 import { NFTMintButton } from "./components/mint-button";
 import { NftGetAllTable } from "./components/table";
-import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { NFTContract, useContract } from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { PotentialContractInstance } from "contract-ui/types/types";
 import React from "react";
-import { Card, Heading, LinkButton, Text } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 
 interface NftOverviewPageProps {
   contractAddress?: string;
