@@ -41,27 +41,8 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
         <Heading size="subtitle.md">No Enumerable extension enabled</Heading>
         <Text>
           To being able to see the list of the NFTs minted on your contract, you
-          will have to extend the required interfaces in your contract.
+          will have to extend the ERC721Enumerable in your contract.
         </Text>
-
-        <Divider my={1} />
-        <Flex gap={4} align="center">
-          <Heading size="label.md">Learn more: </Heading>
-          <ButtonGroup colorScheme="purple" size="sm" variant="solid">
-            <LinkButton
-              isExternal
-              href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions/erc721#erc721enumerable"
-            >
-              ERC721Enumerable
-            </LinkButton>
-            <LinkButton
-              isExternal
-              href="https://portal.thirdweb.com/thirdweb-deploy/contract-extensions/erc721#erc721enumerable"
-            >
-              ERC1155Enumerable
-            </LinkButton>
-          </ButtonGroup>
-        </Flex>
       </Card>
     );
   }

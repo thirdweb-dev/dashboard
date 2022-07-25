@@ -30,22 +30,9 @@ export const ContractTokensPage: React.FC<ContractTokenPageProps> = ({
         {/* TODO  extract this out into it's own component and make it better */}
         <Heading size="subtitle.md">No Token extension enabled</Heading>
         <Text>
-          To enable Token features you will have to extend the required
-          interfaces in your contract.
+          To enable Token features you will have to extend an ERC20 interface in
+          your contract.
         </Text>
-
-        <Divider my={1} />
-        <Flex gap={4} align="center">
-          <Heading size="label.md">Learn more: </Heading>
-          <ButtonGroup colorScheme="purple" size="sm" variant="solid">
-            <LinkButton
-              isExternal
-              href="https://portal.thirdweb.com/thirdweb-deploy/contract-features/erc20"
-            >
-              ERC20
-            </LinkButton>
-          </ButtonGroup>
-        </Flex>
       </Card>
     );
   }
