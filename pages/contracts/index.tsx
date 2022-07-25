@@ -43,14 +43,9 @@ const ContractsHomepageWrapped: React.FC = () => {
         />
         <Box />
         <Flex gap={2} direction="column">
-          <Heading size="title.md">
-            Your published contracts{" "}
-            <Badge variant="outline" colorScheme="purple">
-              beta
-            </Badge>
-          </Heading>
+          <Heading size="title.md">Your releases contracts</Heading>
           <Text fontStyle="italic">
-            Contracts that you have published via the thirdweb cli
+            Contracts that you have published via the thirdweb CLI
           </Text>
         </Flex>
         <DeployableContractTable
