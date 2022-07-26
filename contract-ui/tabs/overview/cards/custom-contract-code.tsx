@@ -20,7 +20,6 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import {
-  ChainId,
   useActiveChainId,
   useContract,
   useContractFunctions,
