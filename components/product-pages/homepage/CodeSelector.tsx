@@ -210,7 +210,7 @@ export const CodeSelector: React.FC = () => {
       />
 
       <Flex
-        gap={{ base: 4, md: 12 }}
+        gap={{ base: 4, md: 6 }}
         align="center"
         direction={{ base: "column", md: "row" }}
         w="100%"
@@ -223,47 +223,44 @@ export const CodeSelector: React.FC = () => {
           variant="gradient"
           fromcolor="#1D64EF"
           tocolor="#E0507A"
-          // flexShrink={0}
           isExternal
-          // variant="solid"
           colorScheme="primary"
           w="full"
-          // maxW="300px"
           href={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk`}
-          leftIcon={
+          rightIcon={
             <Icon
-              color="#1D64EF"
-              _groupHover={{ color: "#E0507A" }}
+              color="#E0507A"
+              _groupHover={{ color: "#1D64EF" }}
               as={SiReplit}
             />
           }
         >
-          <Box as="span">Try it on repl.it</Box>
+          <Box as="span">Try it on Replit</Box>
+        </LinkButton>
+        <LinkButton
+          variant="outline"
+          borderRadius="md"
+          bg="#fff"
+          color="#000"
+          w="full"
+          maxW="container.sm"
+          _hover={{
+            bg: "whiteAlpha.800",
+          }}
+          href="https://portal.thirdweb.com/"
+          isExternal
+          p={6}
+          onClick={() =>
+            trackEvent({
+              category: "code-selector",
+              action: "click",
+              label: "documentation",
+            })
+          }
+        >
+          Explore documentation
         </LinkButton>
       </Flex>
-      <LinkButton
-        variant="outline"
-        borderRadius="md"
-        bg="#fff"
-        color="#000"
-        w="full"
-        maxW="container.sm"
-        _hover={{
-          bg: "whiteAlpha.800",
-        }}
-        href="https://portal.thirdweb.com/"
-        isExternal
-        p={6}
-        onClick={() =>
-          trackEvent({
-            category: "code-selector",
-            action: "click",
-            label: "documentation",
-          })
-        }
-      >
-        Explore documentation
-      </LinkButton>
     </>
   );
 };
