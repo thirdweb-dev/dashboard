@@ -27,23 +27,6 @@ export const SupportedChainIdToNetworkMap: Record<SUPPORTED_CHAIN_ID, string> =
     [ChainId.ArbitrumTestnet]: "arbitrum-testnet",
   } as const;
 
-export const NetworkToSupportedChainIdMap: Record<string, SUPPORTED_CHAIN_ID> =
-  {
-    ethereum: ChainId.Mainnet,
-    rinkeby: ChainId.Rinkeby,
-    goerli: ChainId.Goerli,
-    polygon: ChainId.Polygon,
-    mumbai: ChainId.Mumbai,
-    fantom: ChainId.Fantom,
-    "fantom-testnet": ChainId.FantomTestnet,
-    avalanche: ChainId.Avalanche,
-    "avalanche-fuji": ChainId.AvalancheFujiTestnet,
-    optimism: ChainId.Optimism,
-    "optimism-testnet": ChainId.OptimismTestnet,
-    arbitrum: ChainId.Arbitrum,
-    "arbitrum-testnet": ChainId.ArbitrumTestnet,
-  } as const;
-
 export type ValueOf<T> = T[keyof T];
 
 export const SupportedNetworkToChainIdMap: Record<
