@@ -202,6 +202,8 @@ export const CodeSelector: React.FC = () => {
 
       <CodeBlock
         w={{ base: "full", md: "80%" }}
+        borderColor="#4953AF"
+        borderWidth="2px"
         py={4}
         code={codeSnippets[activeLanguage]}
         language={
