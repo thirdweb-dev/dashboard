@@ -515,6 +515,12 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                           </Flex>
                         )}
                       </Flex>
+                      <FormHelperText>
+                        When setting a snapshot, addresses in the snapshot would
+                        only be able to use their spot in the allowlist once.
+                        Even if they haven&apos;t claimed their fully allocated
+                        quantity.
+                      </FormHelperText>
                       <FormErrorMessage>
                         {
                           form.getFieldState(
@@ -550,6 +556,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                             )
                           }
                         />
+                        <FormHelperText>
+                          Even when set to unlimited, you&apos;ll still be
+                          limited by the block-limits of the blockchain.
+                        </FormHelperText>
                         <FormErrorMessage>
                           {
                             form.getFieldState(
