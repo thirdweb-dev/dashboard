@@ -90,10 +90,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
           const data: SnapshotAddressInput[] = (
             results.data as SnapshotAddressInput[]
           )
-            .map((a) => ({ ...a, address: (a.address || "").trim() }))
-            .map((a) => ({
-              ...a,
-              quantity: a?.maxClaimable ? (a.maxClaimable || "").trim() : "0",
+            .map(({ address, maxClaimable }) => ({
+              address: (address || "").trim(),
+              quantity: maxClaimable ? (maxClaimable || "").trim() : "0",
             }))
             .filter(({ address }) => address !== "");
 

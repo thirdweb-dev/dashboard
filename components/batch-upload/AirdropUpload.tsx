@@ -85,10 +85,9 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
           const data: AirdropAddressInput[] = (
             results.data as AirdropAddressInput[]
           )
-            .map((a) => ({ ...a, address: (a.address || "").trim() }))
-            .map((a) => ({
-              ...a,
-              quantity: a?.quantity ? (a.quantity || "").trim() : "1",
+            .map(({ address, quantity }) => ({
+              address: (address || "").trim(),
+              quantity: quantity ? (quantity || "").trim() : "1",
             }))
             .filter(({ address }) => address !== "");
 
