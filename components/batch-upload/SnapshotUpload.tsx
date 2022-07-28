@@ -216,6 +216,10 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                         Download an example CSV with maxClaimable
                       </Link>
                     </ListItem>
+                    <ListItem>
+                      Repeated addresses will be deleted and only the first
+                      found will be kept.
+                    </ListItem>
                   </UnorderedList>
                 </Flex>
               </Flex>

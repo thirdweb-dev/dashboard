@@ -122,8 +122,6 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
     return ordered;
   }, [validAirdrop]);
 
-  console.log(data);
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
   });
@@ -200,6 +198,10 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
                       <Link download color="blue.500" href="/airdrop.csv">
                         Download an example CSV
                       </Link>
+                    </ListItem>
+                    <ListItem>
+                      Repeated addresses will be deleted and only the first
+                      found will be kept.
                     </ListItem>
                   </UnorderedList>
                 </Flex>
