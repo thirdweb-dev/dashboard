@@ -82,6 +82,27 @@ export const getServerSideProps: GetServerSideProps<PossiblePageProps> = async (
     "networkOrAddress",
   ) as string;
 
+  // handle old dashboard urls
+  if (networkOrAddress === "dashboard") {
+    return {
+      redirect: {
+        destination: ctx.resolvedUrl.replace("/dashboard", ""),
+        permanent: false,
+      },
+    };
+  }
+  // handle old contract urls
+  if (networkOrAddress === "contracts") {
+    return {
+      redirect: {
+        destination: ctx.resolvedUrl
+          .replace("/contracts", "")
+          .replace("/latest", ""),
+        permanent: false,
+      },
+    };
+  }
+
   const queryClient = new QueryClient();
   const sdk = new ThirdwebSDK("polygon");
 
