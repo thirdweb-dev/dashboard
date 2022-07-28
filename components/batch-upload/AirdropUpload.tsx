@@ -86,6 +86,10 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
             results.data as AirdropAddressInput[]
           )
             .map((a) => ({ ...a, address: (a.address || "").trim() }))
+            .map((a) => ({
+              ...a,
+              quantity: a?.quantity ? (a.quantity || "").trim() : "1",
+            }))
             .filter(({ address }) => address !== "");
 
           // Filter out address duplicates
@@ -118,6 +122,8 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
     const ordered = [...invalid, ...valid];
     return ordered;
   }, [validAirdrop]);
+
+  console.log(data);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

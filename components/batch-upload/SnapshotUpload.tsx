@@ -91,6 +91,10 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             results.data as SnapshotAddressInput[]
           )
             .map((a) => ({ ...a, address: (a.address || "").trim() }))
+            .map((a) => ({
+              ...a,
+              quantity: a?.maxClaimable ? (a.maxClaimable || "").trim() : "0",
+            }))
             .filter(({ address }) => address !== "");
 
           // Filter out address duplicates
