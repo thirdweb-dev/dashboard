@@ -92,7 +92,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
           )
             .map(({ address, maxClaimable }) => ({
               address: (address || "").trim(),
-              quantity: maxClaimable ? (maxClaimable || "").trim() : "0",
+              quantity: (maxClaimable || "0").trim(),
             }))
             .filter(({ address }) => address !== "");
 
@@ -217,7 +217,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                       </Link>
                     </ListItem>
                     <ListItem>
-                      Repeated addresses will be deleted and only the first
+                      Repeated addresses will be removed and only the first
                       found will be kept.
                     </ListItem>
                   </UnorderedList>

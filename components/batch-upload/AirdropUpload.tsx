@@ -87,7 +87,7 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
           )
             .map(({ address, quantity }) => ({
               address: (address || "").trim(),
-              quantity: quantity ? (quantity || "").trim() : "1",
+              quantity: (quantity || "1").trim(),
             }))
             .filter(({ address }) => address !== "");
 
@@ -200,7 +200,7 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
                       </Link>
                     </ListItem>
                     <ListItem>
-                      Repeated addresses will be deleted and only the first
+                      Repeated addresses will be removed and only the first
                       found will be kept.
                     </ListItem>
                   </UnorderedList>
