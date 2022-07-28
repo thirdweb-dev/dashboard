@@ -13,7 +13,7 @@ interface CodeOverviewProps {
 
 const COMMANDS = {
   install: {
-    javascript: "npm install @thirdweb-dev/sdk",
+    javascript: "npm install @thirdweb-dev/sdk ethers",
     react: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
