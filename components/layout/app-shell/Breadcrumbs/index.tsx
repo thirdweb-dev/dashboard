@@ -10,7 +10,7 @@ import { shortenIfAddress } from "utils/usedapp-external";
 
 export const Breadcrumbs: React.FC = () => {
   const { asPath } = useRouter();
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
+  const wallet = useSingleQueryParam("networkOrAddress") || "dashboard";
 
   const cleanAsPath = useMemo(() => {
     return asPath.split("?")[0];
