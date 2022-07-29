@@ -15,7 +15,7 @@ const PRODUCTS: IProduct[] = [
   {
     name: "Web3 SDK",
     label: "web3-sdk",
-    description: "Integrate web3 functionality into your apps",
+    description: "Integrate web3 into your apps",
     link: "https://portal.thirdweb.com",
     icon: require("public/assets/tw-icons/general.png"),
   },
@@ -50,7 +50,7 @@ const PRODUCTS: IProduct[] = [
   {
     name: "Release",
     label: "release",
-    description: "On-chain version control for contracts",
+    description: "On-chain contract version control",
     link: "https://portal.thirdweb.com/thirdweb-cli#release",
     icon: require("public/assets/tw-icons/marketplace.png"),
   },
@@ -85,17 +85,23 @@ export const Products: React.FC = () => {
             onMouseEnter={onOpen}
             position="absolute"
             top={0}
-            left={-180}
-            width="md"
+            left="-280px"
             borderColor="whiteAlpha.100"
             bg="black"
             borderWidth="2px"
           >
-            <Stack>
-              {PRODUCTS.map((product, id) => (
-                <Product key={id} {...product} />
-              ))}
-            </Stack>
+            <Flex>
+              <Stack width="300px">
+                {PRODUCTS.slice(0, 4).map((product, id) => (
+                  <Product key={id} {...product} />
+                ))}
+              </Stack>
+              <Stack width="300px">
+                {PRODUCTS.slice(4, 8).map((product, id) => (
+                  <Product key={id} {...product} />
+                ))}
+              </Stack>
+            </Flex>
           </Card>
         )}
       </Box>
@@ -119,7 +125,7 @@ const Product: React.FC<IProduct> = ({
     >
       <Box _hover={{ bg: "whiteAlpha.50" }} p="8px" borderRadius="md">
         <Stack direction="row" align="center" spacing={3}>
-          <ChakraNextImage boxSize={10} mb="-4px" src={icon} alt="icon" />
+          <ChakraNextImage boxSize={6} mb="-4px" src={icon} alt="icon" />
           <Flex direction="column">
             <Text fontWeight="bold" color="white">
               {name}
