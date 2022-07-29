@@ -467,7 +467,7 @@ const LearnMoreSection: React.FC = () => {
                 trackEvent({
                   category: "learn-more",
                   action: "click",
-                  label: "sdks",
+                  label: "thirdweb-deploy",
                 })
               }
             >
@@ -500,7 +500,7 @@ const LearnMoreSection: React.FC = () => {
                 trackEvent({
                   category: "learn-more",
                   action: "click",
-                  label: "sdks",
+                  label: "pre-built-contracts",
                 })
               }
             >
