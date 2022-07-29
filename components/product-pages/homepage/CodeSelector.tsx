@@ -49,8 +49,7 @@ const codeSnippets = {
 const sdk = new ThirdwebSDK("rinkeby");
 const nftCollection = sdk.getNFTCollection("0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e");
 
-const nfts = await nftCollection.getAll();
-console.log(nfts);`,
+const nfts = await nftCollection.getAll();`,
   react: `import {
   ThirdwebNftMedia,
   useNFTCollection,
@@ -228,7 +227,7 @@ export const CodeSelector: React.FC = () => {
           isExternal
           colorScheme="primary"
           w="full"
-          href={`https://replit.com/@thirdweb-dev/${activeLanguage}-sdk`}
+          href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
           rightIcon={
             <Icon
               color="#E0507A"

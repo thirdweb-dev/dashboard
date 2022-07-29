@@ -27,7 +27,7 @@ function replaceVariablesInCodeSnippet(
     if (contractAddress) {
       snippet[env] = snippet[env]
         ?.replace(/{{contract_address}}/gm, contractAddress)
-        ?.replace(/{{chainName}}/gm, chainName || "rinkeby")
+        ?.replace(/{{chainName}}/gm, chainName || "goerli")
         .replace(/<YOUR-CONTRACT-ADDRESS>/gm, contractAddress);
     }
 
@@ -64,7 +64,7 @@ export const ContractCode: React.FC<IContractCode> = ({ contract }) => {
   }, [data, contractName]);
 
   const { address } = useWeb3();
-  const [environment, setEnvironment] = useState<Environment>("javascript");
+  const [environment, setEnvironment] = useState<Environment>("react");
   const replaceSnippetVars = useCallback(
     (snip: Partial<Record<Environment, string>>) =>
       replaceVariablesInCodeSnippet(
