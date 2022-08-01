@@ -122,7 +122,9 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   uris: contractId,
                 });
                 router.push(
-                  `/contracts/${address}/${publishMetadata.data?.name}`,
+                  `/contracts/${ensName.data || address}/${
+                    publishMetadata.data?.name
+                  }`,
                 );
               },
               onError: (err) => {
@@ -172,7 +174,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           </FormControl>
 
           <FormControl isInvalid={!!errors.name}>
-            <FormLabel>Readme</FormLabel>{" "}
             <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
               <TabList
                 px={0}
@@ -181,19 +182,23 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               >
                 <Tab gap={2}>
                   <Icon as={BsCode} my={2} />
-                  <Heading size="label.lg">Edit Readme</Heading>
+                  <Heading size="label.lg">About</Heading>
                 </Tab>
                 <Tab gap={2}>
                   <Icon as={BsEye} my={2} />
                   <Heading size="label.lg">Preview</Heading>
                 </Tab>
               </TabList>
-              <TabPanels py={2}>
-                <TabPanel px={0}>
-                  <Textarea {...register("readme")} disabled={!address} />
+              <TabPanels pt={2}>
+                <TabPanel px={0} pb={0}>
+                  <Textarea
+                    {...register("readme")}
+                    disabled={!address}
+                    rows={12}
+                  />
                   <FormErrorMessage>{errors?.readme?.message}</FormErrorMessage>
                 </TabPanel>
-                <TabPanel px={0}>
+                <TabPanel px={0} pb={0}>
                   <Card>
                     <MarkdownRenderer markdownText={watch("readme") || ""} />
                   </Card>
@@ -219,7 +224,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.name}>
-            <FormLabel>Release notes</FormLabel>{" "}
             <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
               <TabList
                 px={0}
@@ -228,21 +232,21 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               >
                 <Tab gap={2}>
                   <Icon as={BsCode} my={2} />
-                  <Heading size="label.lg">Edit Release notes</Heading>
+                  <Heading size="label.lg">Release notes</Heading>
                 </Tab>
                 <Tab gap={2}>
                   <Icon as={BsEye} my={2} />
                   <Heading size="label.lg">Preview</Heading>
                 </Tab>
               </TabList>
-              <TabPanels py={2}>
-                <TabPanel px={0}>
+              <TabPanels pt={2}>
+                <TabPanel px={0} pb={0}>
                   <Textarea {...register("changelog")} disabled={!address} />
                   <FormErrorMessage>
                     {errors?.changelog?.message}
                   </FormErrorMessage>
                 </TabPanel>
-                <TabPanel px={0}>
+                <TabPanel px={0} pb={0}>
                   <Card>
                     <MarkdownRenderer markdownText={watch("changelog") || ""} />
                   </Card>
