@@ -9,6 +9,7 @@ import {
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
 import {
   fetchAllVersions,
   fetchContractPublishMetadataFromURI,
@@ -24,7 +25,7 @@ import { FeatureIconMap } from "constants/mappings";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
-import { Heading, LinkButton, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { getSingleQueryValue } from "utils/router";
 
 export interface ReleaseWithVersionPageProps {
@@ -97,15 +98,11 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
               </option>
             ))}
           </Select>
-          <LinkButton
-            flexShrink={0}
-            colorScheme="purple"
-            href={`/contracts/deploy/${encodeURIComponent(
-              release?.metadataUri.replace("ipfs://", "") || "",
-            )}`}
-          >
-            Deploy Now
-          </LinkButton>
+          {release?.metadataUri && (
+            <DeployFormDrawer
+              contractId={release.metadataUri.replace("ipfs://", "")}
+            />
+          )}
         </Flex>
       </GridItem>
       <GridItem colSpan={12} display={{ base: "inherit", md: "none" }}>
