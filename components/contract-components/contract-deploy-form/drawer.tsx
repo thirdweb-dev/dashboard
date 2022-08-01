@@ -13,7 +13,7 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button flexShrink={0} colorScheme="purple" w="full" onClick={onOpen}>
+      <Button flexShrink={0} colorScheme="purple" onClick={onOpen}>
         Deploy Now
       </Button>
       <Drawer

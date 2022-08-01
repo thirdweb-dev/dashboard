@@ -58,8 +58,8 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
   }, [allVersions?.data, version]);
 
   return (
-    <SimpleGrid columns={12} gap={{ base: 6, md: 12 }} w="full">
-      <GridItem colSpan={{ base: 12, md: 9 }}>
+    <SimpleGrid columns={12} gap={{ base: 6, md: 10 }} w="full">
+      <GridItem colSpan={{ base: 12, md: 8 }}>
         <Flex gap={4} alignItems="center">
           <ChakraNextImage
             flexShrink={0}
@@ -75,8 +75,8 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
           </Skeleton>
         </Flex>
       </GridItem>
-      <GridItem colSpan={{ base: 12, md: 3 }}>
-        <Flex gap={3} direction="column">
+      <GridItem colSpan={{ base: 12, md: 4 }}>
+        <Flex gap={3}>
           <Select
             onChange={(e) => {
               const path =
