@@ -131,7 +131,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
           isOpen={gnosisModalState.isOpen}
           onClose={gnosisModalState.onClose}
         />
-        <Menu matchWidth isLazy>
+        <Menu isLazy>
           <MenuButton
             as={Button}
             {...buttonProps}
