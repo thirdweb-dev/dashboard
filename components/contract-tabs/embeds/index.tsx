@@ -163,8 +163,6 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({ contract }) => {
     secondaryColor,
   });
 
-  console.log(iframeSrc);
-
   const embedCode = `<iframe
 src="${iframeSrc}"
 width="600px"
