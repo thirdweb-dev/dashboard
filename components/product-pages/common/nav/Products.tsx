@@ -20,15 +20,15 @@ const PRODUCTS: IProduct[] = [
     icon: require("public/assets/tw-icons/general.png"),
   },
   {
-    name: "Contract Templates",
-    label: "contract-templates",
+    name: "Pre-built Contracts",
+    label: "pre-built-contracts",
     description: "Pre-built and audited contracts",
     link: "https://portal.thirdweb.com/smart-contracts/pre-built-contracts-overview",
     icon: require("public/assets/tw-icons/pack.png"),
   },
   {
-    name: "Contract Blocks",
-    label: "contract-blocks",
+    name: "Contract Extensions",
+    label: "contract-extensions",
     description: "Build and extend smart contracts",
     link: "https://portal.thirdweb.com/thirdweb-deploy/contract-extensions",
     icon: require("public/assets/tw-icons/edition.png"),
@@ -50,7 +50,7 @@ const PRODUCTS: IProduct[] = [
   {
     name: "Release",
     label: "release",
-    description: "On-chain contract version control",
+    description: "Publish your contract on-chain",
     link: "https://portal.thirdweb.com/thirdweb-cli#release",
     icon: require("public/assets/tw-icons/marketplace.png"),
   },
