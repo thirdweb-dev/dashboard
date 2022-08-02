@@ -191,7 +191,7 @@ export default function Authentication() {
                 </Center>
               </Center>
               <Heading as="h2" size="display.sm" textAlign="center">
-                Get started with authentication
+                Get started with auth
               </Heading>
               <Heading
                 as="h3"
