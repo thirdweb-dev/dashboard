@@ -73,9 +73,7 @@ export const ContractDeployActionCell: React.FC<
               ) : undefined
             }
           >
-            {publishMetadata.data?.deployDisabled
-              ? "Coming Soon"
-              : "Deploy Now"}
+            {publishMetadata.data?.deployDisabled ? "Coming Soon" : "Deploy"}
           </Button>
         ) : (
           <LinkButton
