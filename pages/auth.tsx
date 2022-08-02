@@ -27,10 +27,10 @@ export default function Authentication() {
     <DarkMode>
       <Track>
         <NextSeo
-          title="Wallet Authentication"
+          title="Auth"
           description="Simple wallet based sign-in and authentication for any app."
           openGraph={{
-            title: "Wallet Authentication | thirdweb",
+            title: "Auth | thirdweb",
             url: `https://thirdweb.com/authentication`,
           }}
         />
