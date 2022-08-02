@@ -11,11 +11,11 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { HomepageSection } from "components/product-pages/common/Section";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { ContractCard } from "components/product-pages/homepage/ContractCard";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { HomepageTopNav } from "components/product-pages/homepage/Topnav";
 import { ExamplesSection } from "components/product-pages/homepage/examples/ExamplesSection";
 import { MultiChainSVG } from "components/product-pages/homepage/multi-chain-svg";

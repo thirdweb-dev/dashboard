@@ -10,8 +10,9 @@ import { ChakraNextImage } from "components/Image";
 import { AuthenticationCode } from "components/product-pages/authentication/AuthenticationCode";
 import { AuthenticationExamples } from "components/product-pages/authentication/AuthenticationExamples";
 import { Hero } from "components/product-pages/common/Hero";
-import { HomepageSection } from "components/product-pages/common/Section";
+import { ProductSection } from "components/product-pages/common/ProductSection";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { HomepageTopNav } from "components/product-pages/homepage/Topnav";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -54,84 +55,12 @@ export default function Authentication() {
             buttonText="Get started"
             buttonLink="https://portal.thirdweb.com/building-web3-apps/authenticating-users"
             image={require("public/assets/product-pages/authentication/auth.png")}
-          />
-          {/* <HomepageSection topGradient bottomPattern>
+          >
             <SimpleGrid
-              pt={{
-                base: 24,
-                md: 48,
-              }}
-              columns={{ base: 1, md: 2 }}
-              spacing={{ base: 6, md: 8 }}
-            >
-              <Flex
-                alignSelf="center"
-                flexDir="column"
-                gap={{ base: 6, md: 8 }}
-                align={{ base: "initial", md: "start" }}
-              >
-                <Heading
-                  as="h2"
-                  size="display.sm"
-                  textAlign={{ base: "center", md: "left" }}
-                >
-                  Simple wallet sign-in for your apps
-                </Heading>
-                <Heading
-                  as="h3"
-                  size="subtitle.md"
-                  textAlign={{ base: "center", md: "left" }}
-                >
-                  Authenticate users with just their wallet. Add web3
-                  functionality to any application.
-                </Heading>
-                <LightMode>
-                  <GeneralCta
-                    title="Get started"
-                    size="lg"
-                    href="https://portal.thirdweb.com/building-web3-apps/authenticating-users"
-                    w={{ base: "full", md: "inherit" }}
-                  />
-                </LightMode>
-              </Flex>
-              <Flex
-                display={{ base: "none", md: "flex" }}
-                justifyContent="flex-end"
-              >
-                <ChakraNextImage
-                  alt=""
-                  maxW={96}
-                  w={96}
-                  mt={8}
-                  src={Auth}
-                  mr={12}
-                />
-              </Flex>
-              <Flex
-                display={{ base: "flex", md: "none" }}
-                justifyContent="center"
-              >
-                <ChakraNextImage
-                  alt=""
-                  maxW={96}
-                  w={96}
-                  mt={8}
-                  px={4}
-                  src={Auth}
-                />
-              </Flex>
-            </SimpleGrid>
-          </HomepageSection> */}
-
-          <HomepageSection bottomGradient overflow="hidden">
-            <SimpleGrid
-              flexDir="column"
-              justifyContent="space-between"
+              justifyContent="flex-start"
               w="100%"
               columns={{ base: 1, md: 3 }}
               gap={{ base: 12, md: 6 }}
-              py={48}
-              px={{ base: 6, md: 0 }}
             >
               <SimpleGrid
                 borderRadius="2xl"
@@ -242,9 +171,9 @@ export default function Authentication() {
                 </Flex>
               </SimpleGrid>
             </SimpleGrid>
-          </HomepageSection>
+          </Hero>
 
-          <HomepageSection middleGradient overflow="hidden">
+          <ProductSection overflow="hidden">
             <Flex
               flexDir="column"
               py={{ base: 24, lg: 48 }}
@@ -263,14 +192,9 @@ export default function Authentication() {
               </Heading>
               <AuthenticationExamples />
             </Flex>
-          </HomepageSection>
+          </ProductSection>
 
-          <HomepageSection
-            id="developers"
-            bottomPattern
-            middleGradient
-            overflow="hidden"
-          >
+          <ProductSection id="developers" overflow="hidden">
             <Flex
               flexDir="column"
               py={{ base: 12, lg: 24 }}
@@ -298,9 +222,9 @@ export default function Authentication() {
 
               <AuthenticationCode />
             </Flex>
-          </HomepageSection>
+          </ProductSection>
 
-          <HomepageSection bottomPattern bottomGradient overflow="hidden">
+          <ProductSection showPattern overflow="hidden">
             <Flex
               flexDir="column"
               pt={{ base: 12, lg: 24 }}
@@ -351,7 +275,7 @@ export default function Authentication() {
                 />
               </LightMode>
             </Flex>
-          </HomepageSection>
+          </ProductSection>
 
           <HomepageFooter />
         </Flex>

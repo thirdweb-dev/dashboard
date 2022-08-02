@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
-import { PropsWithChildren } from "react";
 import { Heading } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface IHero {
   name: string;
@@ -23,7 +23,7 @@ interface IHero {
   image: StaticImageData;
 }
 
-export const Hero: React.FC<PropsWithChildren<IHero>> = ({
+export const Hero: ComponentWithChildren<IHero> = ({
   name,
   title,
   description,
@@ -33,7 +33,14 @@ export const Hero: React.FC<PropsWithChildren<IHero>> = ({
   children,
 }) => {
   return (
-    <Center w="100%" as="section" bg="#030A19" minHeight="100vh">
+    <Center
+      w="100%"
+      as="section"
+      flexDirection="column"
+      bg="#030A19"
+      minHeight="100vh"
+      padding="64px"
+    >
       <SimpleGrid
         as={Container}
         maxW="container.page"
@@ -42,6 +49,7 @@ export const Hero: React.FC<PropsWithChildren<IHero>> = ({
         columns={{ base: 1, md: 7 }}
         padding={0}
         margin="40px"
+        mb={0}
         minHeight="578px"
       >
         <Flex
@@ -103,7 +111,9 @@ export const Hero: React.FC<PropsWithChildren<IHero>> = ({
         </Center>
       </SimpleGrid>
 
-      {children}
+      <Container maxW="container.page" mt="64px" padding={0}>
+        {children}
+      </Container>
     </Center>
   );
 };
