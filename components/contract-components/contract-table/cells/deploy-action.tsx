@@ -61,42 +61,22 @@ export const ContractDeployActionCell: React.FC<
           </Tooltip>
         )}
         {isContractIdBuiltInContract(value) ? (
-          <>
-            {!publishMetadata.data?.deployDisabled && (
-              <LinkButton
-                variant="outline"
-                isExternal
-                href={`https://portal.thirdweb.com/pre-built-contracts/${value}`}
-                onClick={() =>
-                  trackEvent({
-                    category: "learn-more-deploy",
-                    action: "click",
-                    label: value,
-                  })
-                }
-              >
-                Learn more
-              </LinkButton>
-            )}
-            <Button
-              isDisabled={publishMetadata.data?.deployDisabled}
-              onClick={onOpen}
-              isLoading={publishMetadata.isLoading}
-              colorScheme="purple"
-              variant={
-                publishMetadata.data?.deployDisabled ? "outline" : "solid"
-              }
-              rightIcon={
-                !publishMetadata.data?.deployDisabled ? (
-                  <Icon as={IoRocketOutline} />
-                ) : undefined
-              }
-            >
-              {publishMetadata.data?.deployDisabled
-                ? "Coming Soon"
-                : "Deploy Now"}
-            </Button>
-          </>
+          <Button
+            isDisabled={publishMetadata.data?.deployDisabled}
+            onClick={onOpen}
+            isLoading={publishMetadata.isLoading}
+            colorScheme="purple"
+            variant={publishMetadata.data?.deployDisabled ? "outline" : "solid"}
+            rightIcon={
+              !publishMetadata.data?.deployDisabled ? (
+                <Icon as={IoRocketOutline} />
+              ) : undefined
+            }
+          >
+            {publishMetadata.data?.deployDisabled
+              ? "Coming Soon"
+              : "Deploy Now"}
+          </Button>
         ) : (
           <LinkButton
             isDisabled={publishMetadata.data?.deployDisabled}
