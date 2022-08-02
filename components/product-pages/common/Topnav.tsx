@@ -1,4 +1,4 @@
-import { LandingMenu } from "../homepage/LandingMenu";
+import { MobileMenu } from "./nav/MobileMenu";
 import { Products } from "./nav/Products";
 import {
   Box,
@@ -134,7 +134,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
           </Stack>
 
           <Flex
-            display={{ base: "none", lg: "flex" }}
+            display={{ base: "none", md: "flex" }}
             direction="row"
             align="center"
           >
@@ -176,7 +176,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
             />
           </Flex>
 
-          <LandingMenu
+          <MobileMenu
             aria-label="Homepage Menu"
             display={{ base: "inherit", md: "none" }}
           />

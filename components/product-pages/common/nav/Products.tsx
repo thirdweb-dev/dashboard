@@ -11,12 +11,12 @@ interface IProduct {
   icon: StaticImageData;
 }
 
-const PRODUCTS: IProduct[] = [
+export const PRODUCTS: IProduct[] = [
   {
     name: "Web3 SDK",
     label: "web3-sdk",
     description: "Integrate web3 into your apps",
-    link: "https://portal.thirdweb.com",
+    link: "https://portal.thirdweb.com/building-web3-apps/setting-up-the-sdk",
     icon: require("public/assets/tw-icons/general.png"),
   },
   {
