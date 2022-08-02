@@ -96,7 +96,15 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
       href: "/contracts/new/pre-built/marketplace/marketplace",
     },
-
+    "edition-drop": {
+      title: "Edition Drop",
+      description: "One NFT, multiple owners",
+      icon: FeatureIconMap["edition-drop"],
+      contractType: "edition-drop",
+      erc: "ERC1155",
+      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      href: "/contracts/new/pre-built/drop/edition-drop",
+    },
     split: {
       title: "Split",
       description: "Fee splitting for your primary sales and royalties",
@@ -111,15 +119,6 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       contractType: "token",
       erc: "ERC20",
       href: "/contracts/new/pre-built/token/token",
-    },
-    "edition-drop": {
-      title: "Edition Drop",
-      description: "One NFT, multiple owners",
-      icon: FeatureIconMap["edition-drop"],
-      contractType: "edition-drop",
-      erc: "ERC1155",
-      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
-      href: "/contracts/new/pre-built/drop/edition-drop",
     },
     edition: {
       title: "Edition",
@@ -161,15 +160,6 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
       href: "/contracts/new/pre-built/drop/nft-drop",
     },
-    pack: {
-      title: "Pack",
-      description:
-        "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
-      icon: FeatureIconMap["pack"],
-      contractType: "pack",
-      erc: "ERC1155",
-      href: "/contracts/new/pre-built/token/pack",
-    },
     multiwrap: {
       title: "Multiwrap",
       description:
@@ -179,6 +169,15 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC721",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       href: "/contracts/new/pre-built/token/multiwrap",
+    },
+    pack: {
+      title: "Pack",
+      description:
+        "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
+      icon: FeatureIconMap["pack"],
+      contractType: "pack",
+      erc: "ERC1155",
+      href: "/contracts/new/pre-built/token/pack",
     },
     custom: {
       title: "NOT IMPLEMENTED",
