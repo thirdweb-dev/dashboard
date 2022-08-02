@@ -9,6 +9,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { AuthenticationCode } from "components/product-pages/authentication/AuthenticationCode";
 import { AuthenticationExamples } from "components/product-pages/authentication/AuthenticationExamples";
+import { Hero } from "components/product-pages/common/Hero";
 import { HomepageSection } from "components/product-pages/common/Section";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { HomepageTopNav } from "components/product-pages/homepage/Topnav";
@@ -16,7 +17,7 @@ import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
-import Hero from "public/assets/product-pages/authentication/auth.png";
+import Auth from "public/assets/product-pages/authentication/auth.png";
 import { Heading, Text, TrackedLink } from "tw-components";
 
 export default function Authentication() {
@@ -46,7 +47,15 @@ export default function Authentication() {
           bg="#000"
         >
           <HomepageTopNav />
-          <HomepageSection topGradient bottomPattern>
+          <Hero
+            name="Auth"
+            title="Simple wallet sign-in for your apps"
+            description=" Authenticate users with just their wallet. Add web3 functionality to any application."
+            buttonText="Get started"
+            buttonLink="https://portal.thirdweb.com/building-web3-apps/authenticating-users"
+            image={require("public/assets/product-pages/authentication/auth.png")}
+          />
+          {/* <HomepageSection topGradient bottomPattern>
             <SimpleGrid
               pt={{
                 base: 24,
@@ -94,7 +103,7 @@ export default function Authentication() {
                   maxW={96}
                   w={96}
                   mt={8}
-                  src={Hero}
+                  src={Auth}
                   mr={12}
                 />
               </Flex>
@@ -108,11 +117,11 @@ export default function Authentication() {
                   w={96}
                   mt={8}
                   px={4}
-                  src={Hero}
+                  src={Auth}
                 />
               </Flex>
             </SimpleGrid>
-          </HomepageSection>
+          </HomepageSection> */}
 
           <HomepageSection bottomGradient overflow="hidden">
             <SimpleGrid
