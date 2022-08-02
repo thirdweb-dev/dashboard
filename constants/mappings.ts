@@ -46,6 +46,7 @@ export interface BuiltinContractDetails {
   icon: StaticImageData;
   comingSoon?: boolean;
   contractType: ContractType;
+  href: string;
   erc?: "ERC721" | "ERC20" | "ERC1155" | "ERC721A";
   audit?: string;
 }
@@ -85,6 +86,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       contractType: "nft-drop",
       erc: "ERC721",
       audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+      href: "/contracts/new/pre-built/drop/nft-drop",
     },
     marketplace: {
       title: "Marketplace",
@@ -92,12 +94,14 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["marketplace"],
       contractType: "marketplace",
       audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+      href: "/contracts/new/pre-built/marketplace/marketplace",
     },
     split: {
       title: "Split",
       description: "Fee splitting for your primary sales and royalties",
       icon: FeatureIconMap["split"],
       contractType: "split",
+      href: "/contracts/new/pre-built/governance/split",
     },
     token: {
       title: "Token",
@@ -105,6 +109,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["token"],
       contractType: "token",
       erc: "ERC20",
+      href: "/contracts/new/pre-built/token/token",
     },
     "edition-drop": {
       title: "Edition Drop",
@@ -113,6 +118,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       contractType: "edition-drop",
       erc: "ERC1155",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      href: "/contracts/new/pre-built/drop/edition-drop",
     },
     "token-drop": {
       title: "Token Drop",
@@ -120,12 +126,14 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["token-drop"],
       contractType: "token-drop",
       erc: "ERC20",
+      href: "/contracts/new/pre-built/drop/token-drop",
     },
     vote: {
       title: "Vote",
       description: "On-chain ERC20-based voting",
       icon: FeatureIconMap["vote"],
       contractType: "vote",
+      href: "/contracts/new/pre-built/governance/vote",
     },
     "nft-collection": {
       title: "NFT Collection",
@@ -133,6 +141,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["nft-collection"],
       contractType: "nft-collection",
       erc: "ERC721",
+      href: "/contracts/new/pre-built/token/nft-collection",
     },
     edition: {
       title: "Edition",
@@ -140,6 +149,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["edition"],
       contractType: "edition",
       erc: "ERC1155",
+      href: "/contracts/new/pre-built/token/edition",
     },
     pack: {
       title: "Pack",
@@ -148,6 +158,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["pack"],
       contractType: "pack",
       erc: "ERC1155",
+      href: "/contracts/new/pre-built/token/pack",
     },
     multiwrap: {
       title: "Multiwrap",
@@ -157,6 +168,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       contractType: "multiwrap",
       erc: "ERC721",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      href: "/contracts/new/pre-built/token/multiwrap",
     },
     "signature-drop": {
       title: "Signature Drop",
@@ -166,12 +178,14 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       contractType: "signature-drop",
       erc: "ERC721A",
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      href: "/contracts/new/pre-built/drop/signature-drop",
     },
     custom: {
       title: "NOT IMPLEMENTED",
       description: "NOT IMPLEMENTED",
-      icon: FeatureIconMap["token-drop"],
+      icon: FeatureIconMap["custom"],
       contractType: "custom",
+      href: "NOT IMPLEMENTED",
     },
   };
 
