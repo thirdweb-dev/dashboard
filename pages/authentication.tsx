@@ -10,6 +10,7 @@ import { ChakraNextImage } from "components/Image";
 import { AuthenticationCode } from "components/product-pages/authentication/AuthenticationCode";
 import { AuthenticationExamples } from "components/product-pages/authentication/AuthenticationExamples";
 import { Hero } from "components/product-pages/common/Hero";
+import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -62,114 +63,49 @@ export default function Authentication() {
               columns={{ base: 1, md: 3 }}
               gap={{ base: 12, md: 6 }}
             >
-              <SimpleGrid
-                borderRadius="2xl"
-                border="1px solid"
-                borderColor="#ffffff26"
-                overflow="hidden"
-                columns={1}
+              <ProductCard
+                title="Sign-in with just a wallet"
+                icon={require("/public/assets/product-pages/authentication/sign-in.png")}
               >
-                <Flex
-                  flexShrink={0}
-                  flexGrow={0}
-                  flexDir="column"
-                  p={{ base: 4, md: 8 }}
-                  gap={4}
-                  bgColor="blackAlpha.300"
-                >
-                  <ChakraNextImage
-                    src={require("/public/assets/product-pages/authentication/sign-in.png")}
-                    placeholder="empty"
-                    alt=""
-                    w={12}
-                  />
-                  <Heading size="title.sm">Sign-in with just a wallet</Heading>
-                  <Text size="body.lg">
-                    Let users login to your apps with just their connected
-                    wallet and instantly get access to your services.
-                  </Text>
-                </Flex>
-              </SimpleGrid>
-
-              <SimpleGrid
-                borderRadius="2xl"
-                border="1px solid"
-                borderColor="#ffffff26"
-                overflow="hidden"
-                columns={1}
+                Let users login to your apps with just their connected wallet
+                and instantly get access to your services.
+              </ProductCard>
+              <ProductCard
+                title="Verify on-chain identities"
+                icon={require("/public/assets/product-pages/authentication/verify.png")}
               >
-                <Flex
-                  flexShrink={0}
-                  flexGrow={0}
-                  flexDir="column"
-                  p={{ base: 4, md: 8 }}
-                  gap={4}
-                  bgColor="blackAlpha.300"
+                Securely verify the on-chain identities of your existing users
+                by using a{" "}
+                <TrackedLink
+                  color="white"
+                  fontWeight="medium"
+                  href="https://eips.ethereum.org/EIPS/eip-4361"
+                  category="authentication"
+                  label="sign-in-with-ethereum"
+                  isExternal
                 >
-                  <ChakraNextImage
-                    src={require("/public/assets/product-pages/authentication/verify.png")}
-                    placeholder="empty"
-                    alt=""
-                    w={12}
-                  />
-                  <Heading size="title.sm">Verify on-chain identities</Heading>
-                  <Text size="body.lg">
-                    Securely verify the on-chain identities of your existing
-                    users by using a{" "}
-                    <TrackedLink
-                      color="white"
-                      fontWeight="medium"
-                      href="https://eips.ethereum.org/EIPS/eip-4361"
-                      category="authentication"
-                      label="sign-in-with-ethereum"
-                      isExternal
-                    >
-                      Sign-in with Ethereum
-                    </TrackedLink>{" "}
-                    compliant flow.
-                  </Text>
-                </Flex>
-              </SimpleGrid>
-
-              <SimpleGrid
-                borderRadius="2xl"
-                border="1px solid"
-                borderColor="#ffffff26"
-                overflow="hidden"
-                columns={1}
+                  Sign-in with Ethereum
+                </TrackedLink>{" "}
+                compliant flow.
+              </ProductCard>
+              <ProductCard
+                title="Secure token authentication"
+                icon={require("/public/assets/product-pages/authentication/authenticate.png")}
               >
-                <Flex
-                  flexShrink={0}
-                  flexGrow={0}
-                  flexDir="column"
-                  p={{ base: 4, md: 8 }}
-                  gap={4}
-                  bgColor="blackAlpha.300"
+                Secure your backend with a web3-compatible authentication system
+                compliant with the widely used{" "}
+                <TrackedLink
+                  color="white"
+                  fontWeight="medium"
+                  href="https://jwt.io"
+                  category="authentication"
+                  label="jwt"
+                  isExternal
                 >
-                  <ChakraNextImage
-                    src={require("/public/assets/product-pages/authentication/authenticate.png")}
-                    placeholder="empty"
-                    alt=""
-                    w={12}
-                  />
-                  <Heading size="title.sm">Secure token authentication</Heading>
-                  <Text size="body.lg">
-                    Secure your backend with a web3-compatible authentication
-                    system compliant with the widely used{" "}
-                    <TrackedLink
-                      color="white"
-                      fontWeight="medium"
-                      href="https://jwt.io"
-                      category="authentication"
-                      label="jwt"
-                      isExternal
-                    >
-                      JSON Web Token
-                    </TrackedLink>{" "}
-                    standard.
-                  </Text>
-                </Flex>
-              </SimpleGrid>
+                  JSON Web Token
+                </TrackedLink>{" "}
+                standard.
+              </ProductCard>
             </SimpleGrid>
           </Hero>
 
