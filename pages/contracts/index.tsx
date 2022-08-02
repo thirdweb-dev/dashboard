@@ -66,6 +66,7 @@ const ContractsHomepageWrapped: React.FC = () => {
         <DeployableContractTable
           isFetching={releasedContractsQuery.isFetching}
           contractIds={allContracts}
+          context="view_release"
         />
       </Flex>
     </Track>
