@@ -3,6 +3,7 @@ import { ContractDeployActionCell } from "./cells/deploy-action";
 import { ContractDescriptionCell } from "./cells/description";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
+import { ContractReleasedByCell } from "./cells/released-by";
 import { ContractVersionCell } from "./cells/version";
 import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import React, { useMemo } from "react";
@@ -54,6 +55,11 @@ export const DeployableContractTable: ComponentWithChildren<
           Header: "Version",
           accessor: (row) => row.contractId,
           Cell: (cell: any) => <ContractVersionCell cell={cell} />,
+        },
+        {
+          Header: "Released By",
+          accessor: (row) => row.contractId,
+          Cell: (cell: any) => <ContractReleasedByCell cell={cell} />,
         },
       ];
     }
