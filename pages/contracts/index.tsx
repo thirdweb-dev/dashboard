@@ -1,12 +1,4 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  Center,
-  Flex,
-  Spinner,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
@@ -15,8 +7,7 @@ import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement, useMemo } from "react";
-import { IoRefreshSharp } from "react-icons/io5";
-import { Button, Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 const ContractsHomepageWrapped: React.FC = () => {
   const { Track } = useTrack({
