@@ -12,8 +12,8 @@ import { AuthenticationExamples } from "components/product-pages/authentication/
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductSection } from "components/product-pages/common/ProductSection";
+import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
-import { HomepageTopNav } from "components/product-pages/homepage/Topnav";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
