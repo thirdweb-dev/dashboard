@@ -237,7 +237,7 @@ export const HomepageFooter: React.FC = () => {
                     Dashboard
                   </TrackedLink>
                   <TrackedLink
-                    href="/authentication"
+                    href="/auth"
                     category="footer"
                     label="authentication"
                   >

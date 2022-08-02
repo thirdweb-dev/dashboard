@@ -128,7 +128,7 @@ export const HomepageTopNav: React.FC<{}> = () => {
                 </MenuItem>
                 <MenuItem
                   as={TrackedLink}
-                  href="/authentication"
+                  href="/auth"
                   category="topnav"
                   label="authentication"
                 >

@@ -41,7 +41,7 @@ export const LandingMenu: React.FC<IconButtonProps> = (props) => {
           </MenuItem>
           <MenuItem
             as={TrackedLink}
-            href="/authentication"
+            href="/auth"
             category="topnav"
             label="authentication"
           >

@@ -13,14 +13,12 @@ import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
-import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { HomepageTopNav } from "components/product-pages/homepage/Topnav";
 import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
-import Auth from "public/assets/product-pages/authentication/auth.png";
-import { Heading, Text, TrackedLink } from "tw-components";
+import { Heading, TrackedLink } from "tw-components";
 
 export default function Authentication() {
   const { Track } = useTrack({ page: "authentication" });
