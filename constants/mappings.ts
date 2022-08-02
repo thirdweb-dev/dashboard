@@ -51,14 +51,15 @@ export interface BuiltinContractDetails {
 }
 
 export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
-  "nft-drop": [],
-  "nft-collection": [],
-  "edition-drop": [],
-  edition: [],
-  token: [],
-  vote: [],
-  marketplace: [],
+  "nft-drop": [ChainId.Rinkeby],
+  "nft-collection": [ChainId.Rinkeby],
+  "edition-drop": [ChainId.Rinkeby],
+  edition: [ChainId.Rinkeby],
+  token: [ChainId.Rinkeby],
+  vote: [ChainId.Rinkeby],
+  marketplace: [ChainId.Rinkeby],
   pack: [
+    ChainId.Rinkeby,
     ChainId.Mainnet,
     ChainId.Polygon,
     ChainId.Fantom,
@@ -68,11 +69,11 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
     ChainId.ArbitrumTestnet,
     ChainId.OptimismTestnet,
   ],
-  split: [],
-  "token-drop": [],
-  "signature-drop": [],
-  multiwrap: [],
-  custom: [],
+  split: [ChainId.Rinkeby],
+  "token-drop": [ChainId.Rinkeby],
+  "signature-drop": [ChainId.Rinkeby],
+  multiwrap: [ChainId.Rinkeby],
+  custom: [ChainId.Rinkeby],
 };
 
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
@@ -205,15 +206,24 @@ export interface GasPrice {
   batchUpload?: number;
   mint?: number;
   claim?: number;
+  claim5?: number;
   distributeFunds?: number;
 }
 
 export const GasEstimatorMap: Record<ContractType, GasPrice> = {
+  "signature-drop": {
+    deployContract: 800735,
+    setClaimPhase: 143139,
+    batchUpload: 169832,
+    claim: 174604,
+    claim5: 182572,
+  },
   "nft-drop": {
     deployContract: 785405,
     setClaimPhase: 187999,
     batchUpload: 169832,
     claim: 277449,
+    claim5: 745113,
   },
   "edition-drop": {
     deployContract: 746515,
@@ -249,9 +259,6 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
     deployContract: 0,
   },
   custom: {
-    deployContract: 0,
-  },
-  "signature-drop": {
     deployContract: 0,
   },
   multiwrap: {
