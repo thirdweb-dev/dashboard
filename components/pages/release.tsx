@@ -7,6 +7,7 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
 import {
   useAllVersions,
   useResolvedEnsName,
@@ -15,7 +16,7 @@ import { ReleasedContract } from "components/contract-components/released-contra
 import { FeatureIconMap } from "constants/mappings";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
-import { Heading, LinkButton, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 export interface ReleaseWithVersionPageProps {
   author: string;
@@ -47,8 +48,8 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
   }, [allVersions?.data, version]);
 
   return (
-    <SimpleGrid columns={12} gap={{ base: 6, md: 12 }} w="full">
-      <GridItem colSpan={{ base: 12, md: 9 }}>
+    <SimpleGrid columns={12} gap={{ base: 6, md: 10 }} w="full">
+      <GridItem colSpan={{ base: 12, md: 8 }}>
         <Flex gap={4} alignItems="center">
           <ChakraNextImage
             flexShrink={0}
@@ -64,8 +65,8 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
           </Skeleton>
         </Flex>
       </GridItem>
-      <GridItem colSpan={{ base: 12, md: 3 }}>
-        <Flex gap={3} direction="column">
+      <GridItem colSpan={{ base: 12, md: 4 }}>
+        <Flex gap={3}>
           <Select
             onChange={(e) => {
               const path =
@@ -87,15 +88,11 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
               </option>
             ))}
           </Select>
-          <LinkButton
-            flexShrink={0}
-            colorScheme="purple"
-            href={`/contracts/deploy/${encodeURIComponent(
-              release?.metadataUri.replace("ipfs://", "") || "",
-            )}`}
-          >
-            Deploy Now
-          </LinkButton>
+          {release?.metadataUri && (
+            <DeployFormDrawer
+              contractId={release.metadataUri.replace("ipfs://", "")}
+            />
+          )}
         </Flex>
       </GridItem>
       <GridItem colSpan={12} display={{ base: "inherit", md: "none" }}>
