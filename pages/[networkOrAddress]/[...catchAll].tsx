@@ -174,10 +174,10 @@ export const getServerSideProps: GetServerSideProps<PossiblePageProps> = async (
         ),
       ]);
 
-      // cache for 10 seconds, with up to 60 seconds of stale time
+      // cache for 10 seconds, with up to 24h of stale time
       ctx.res.setHeader(
         "Cache-Control",
-        "public, s-maxage=10, stale-while-revalidate=59",
+        `public, s-maxage=10, stale-while-revalidate=${60 * 60 * 24}`,
       );
 
       return {

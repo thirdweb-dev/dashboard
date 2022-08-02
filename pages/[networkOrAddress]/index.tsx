@@ -135,7 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // cache for 10 seconds, with up to 60 seconds of stale time
   ctx.res.setHeader(
     "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59",
+    `public, s-maxage=10, stale-while-revalidate=${60 * 60 * 24}`,
   );
 
   const queryClient = new QueryClient();
