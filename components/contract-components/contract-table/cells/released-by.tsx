@@ -7,7 +7,7 @@ import { DeployableContractContractCellProps } from "../../types";
 import { useAddress } from "@thirdweb-dev/react";
 import { BuiltinContractMap } from "constants/mappings";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { Text } from "tw-components";
+import { LinkButton, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 export const ContractReleasedByCell: React.FC<
@@ -32,9 +32,17 @@ export const ContractReleasedByCell: React.FC<
   const ensName = useEnsName(releaser);
 
   return (
-    <Text size="body.md">
-      {shortenIfAddress(ensName.data || releaser, true) ||
-        (isPrebuilt ? "thirdweb" : "Unknown")}
-    </Text>
+    <LinkButton
+      href={`/${ensName.data || releaser}`}
+      variant="outline"
+      px={3}
+      mr={3}
+      pointerEvents={isPrebuilt ? "none" : "auto"}
+    >
+      <Text size="body.md">
+        {shortenIfAddress(ensName.data || releaser, true) ||
+          (isPrebuilt ? "thirdweb" : "Unknown")}
+      </Text>
+    </LinkButton>
   );
 };

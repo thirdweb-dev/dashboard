@@ -38,7 +38,7 @@ const ContractsHomepageWrapped: React.FC = () => {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Your contracts</Heading>
+          <Heading size="title.md">Contracts</Heading>
           <Text fontStyle="italic">
             A combination of our{" "}
             <TrackedLink
