@@ -16,7 +16,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
-import { Button, Heading, LinkButton, Text } from "tw-components";
+import { Button, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 const ContractsHomepageWrapped: React.FC = () => {
   const { Track } = useTrack({
@@ -30,9 +30,29 @@ const ContractsHomepageWrapped: React.FC = () => {
     <Track>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Pre-built contracts</Heading>
+          <Heading size="title.md">Your contracts</Heading>
           <Text fontStyle="italic">
-            Contracts created by the thirdweb team that you can deploy
+            A combination of our{" "}
+            <TrackedLink
+              category="contracts"
+              label="pre-built"
+              href="https://portal.thirdweb.com/pre-built-contracts"
+              isExternal
+              color="blue.500"
+            >
+              pre-built contracts
+            </TrackedLink>{" "}
+            and your{" "}
+            <TrackedLink
+              category="contracts"
+              label="released"
+              href="https://portal.thirdweb.com/thirdweb-cli"
+              isExternal
+              color="blue.500"
+            >
+              released contracts
+            </TrackedLink>
+            .
           </Text>
         </Flex>
         <DeployableContractTable
