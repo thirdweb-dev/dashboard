@@ -39,22 +39,23 @@ export const Hero: ComponentWithChildren<IHero> = ({
       flexDirection="column"
       bg="#030A19"
       minHeight="100vh"
-      padding="64px"
+      padding={{ base: 0, md: "64px" }}
     >
       <SimpleGrid
         as={Container}
         maxW="container.page"
-        borderRadius={24}
+        borderRadius={{ base: 0, md: 24 }}
         bg="linear-gradient(147.15deg, #410AB6 30.17%, #FF8D5C 100.01%)"
         columns={{ base: 1, md: 7 }}
         padding={0}
-        margin="40px"
+        margin={{ base: "0px", md: "40px" }}
         mb={0}
         minHeight="578px"
       >
         <Flex
           gridColumnEnd={{ base: undefined, md: "span 4" }}
           padding={{ base: "24px", md: "48px" }}
+          pt={{ base: "36px", md: undefined }}
           bg="rgba(0, 0, 0, 0.5)"
           flexDir="column"
           gap={{ base: 6, md: "32px" }}
@@ -111,7 +112,11 @@ export const Hero: ComponentWithChildren<IHero> = ({
         </Center>
       </SimpleGrid>
 
-      <Container maxW="container.page" mt="64px" padding={0}>
+      <Container
+        maxW="container.page"
+        mt="64px"
+        padding={{ base: "24px", md: 0 }}
+      >
         {children}
       </Container>
     </Center>

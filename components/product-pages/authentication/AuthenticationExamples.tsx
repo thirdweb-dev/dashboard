@@ -52,7 +52,13 @@ const ExampleItem: React.FC<ExampleItemProps> = ({
 
   if (!href) {
     return (
-      <Flex flexDir="column" position="relative" gap={4} flexGrow={0}>
+      <Flex
+        flexDir="column"
+        position="relative"
+        gap={4}
+        flexGrow={0}
+        mt={{ base: "36px", md: 0 }}
+      >
         <RenderSVG />
         <Badge
           alignSelf="center"
@@ -60,7 +66,7 @@ const ExampleItem: React.FC<ExampleItemProps> = ({
           position="absolute"
           top="-36px"
         >
-          Example Coming Soon
+          Coming Soon
         </Badge>
         <Heading textAlign="center" size="subtitle.md" maxW="100%">
           {title}
