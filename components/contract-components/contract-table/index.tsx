@@ -155,7 +155,11 @@ export const DeployableContractTable: ComponentWithChildren<
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 // eslint-disable-next-line react/jsx-key
-                <Th {...column.getHeaderProps()} py={5}>
+                <Th
+                  {...column.getHeaderProps()}
+                  py={5}
+                  borderBottomColor="borderColor"
+                >
                   <Text as="label" size="label.md">
                     {column.render("Header")}
                   </Text>
@@ -179,6 +183,7 @@ export const DeployableContractTable: ComponentWithChildren<
                   <Td
                     {...cell.getCellProps()}
                     borderBottomWidth="inherit"
+                    borderBottomColor="borderColor"
                     _last={{ textAlign: "end" }}
                   >
                     {cell.render("Cell")}

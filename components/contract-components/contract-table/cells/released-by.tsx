@@ -38,6 +38,9 @@ export const ContractReleasedByCell: React.FC<
       px={3}
       mr={3}
       pointerEvents={isPrebuilt ? "none" : "auto"}
+      fontFamily="mono"
+      size="sm"
+      width="100%"
     >
       <Text size="body.md">
         {shortenIfAddress(ensName.data || releaser, true) ||
