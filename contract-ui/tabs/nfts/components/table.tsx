@@ -18,6 +18,7 @@ import { NFT, NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
 import { Erc721, Erc1155, Json } from "@thirdweb-dev/sdk";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
+import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   MdFirstPage,
@@ -121,6 +122,7 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
   useEffect(() => {
     setQueryParams({ start: pageIndex * pageSize, count: pageSize });
   }, [pageIndex, pageSize]);
+
   return (
     <Flex gap={4} direction="column">
       <Card maxW="100%" overflowX="auto" position="relative" px={0} pt={0}>
@@ -156,10 +158,22 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
               return (
                 // eslint-disable-next-line react/jsx-key
                 <Tr
-                  transition="all 0.1s"
+                  {...row.getRowProps()}
+                  role="group"
+                  _hover={{ bg: "blackAlpha.50" }}
+                  _dark={{
+                    _hover: {
+                      bg: "whiteAlpha.50",
+                    },
+                  }}
+                  // this is a hack to get around the fact that safari does not handle position: relative on table rows
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    console.log("hi");
+                  }}
+                  // end hack
                   borderBottomWidth={1}
                   _last={{ borderBottomWidth: 0 }}
-                  {...row.getRowProps()}
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
