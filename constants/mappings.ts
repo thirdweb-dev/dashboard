@@ -79,6 +79,15 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
 
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
+    "nft-drop": {
+      title: "NFT Drop",
+      description: "One NFT, one owner",
+      icon: FeatureIconMap["nft-drop"],
+      contractType: "nft-drop",
+      erc: "ERC721",
+      audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+      href: "/contracts/new/pre-built/drop/nft-drop",
+    },
     "signature-drop": {
       title: "Signature Drop",
       description: "ERC721A NFTs that other people can claim",
@@ -105,12 +114,15 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       href: "/contracts/new/pre-built/drop/edition-drop",
     },
-    split: {
-      title: "Split",
-      description: "Fee splitting for your primary sales and royalties",
-      icon: FeatureIconMap["split"],
-      contractType: "split",
-      href: "/contracts/new/pre-built/governance/split",
+    multiwrap: {
+      title: "Multiwrap",
+      description:
+        "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721",
+      icon: FeatureIconMap["token-drop"],
+      contractType: "multiwrap",
+      erc: "ERC721",
+      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      href: "/contracts/new/pre-built/token/multiwrap",
     },
     token: {
       title: "Token",
@@ -136,12 +148,12 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC20",
       href: "/contracts/new/pre-built/drop/token-drop",
     },
-    vote: {
-      title: "Vote",
-      description: "On-chain ERC20-based voting",
-      icon: FeatureIconMap["vote"],
-      contractType: "vote",
-      href: "/contracts/new/pre-built/governance/vote",
+    split: {
+      title: "Split",
+      description: "Fee splitting for your primary sales and royalties",
+      icon: FeatureIconMap["split"],
+      contractType: "split",
+      href: "/contracts/new/pre-built/governance/split",
     },
     "nft-collection": {
       title: "NFT Collection",
@@ -151,24 +163,12 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC721",
       href: "/contracts/new/pre-built/token/nft-collection",
     },
-    "nft-drop": {
-      title: "NFT Drop",
-      description: "One NFT, one owner",
-      icon: FeatureIconMap["nft-drop"],
-      contractType: "nft-drop",
-      erc: "ERC721",
-      audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
-      href: "/contracts/new/pre-built/drop/nft-drop",
-    },
-    multiwrap: {
-      title: "Multiwrap",
-      description:
-        "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721",
-      icon: FeatureIconMap["token-drop"],
-      contractType: "multiwrap",
-      erc: "ERC721",
-      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
-      href: "/contracts/new/pre-built/token/multiwrap",
+    vote: {
+      title: "Vote",
+      description: "On-chain ERC20-based voting",
+      icon: FeatureIconMap["vote"],
+      contractType: "vote",
+      href: "/contracts/new/pre-built/governance/vote",
     },
     pack: {
       title: "Pack",
