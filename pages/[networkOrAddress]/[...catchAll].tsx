@@ -124,7 +124,6 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
           network: networkOrAddress,
           chainId: getChainIdFromNetwork(networkOrAddress) as SupportedChainId,
         },
-        revalidate: 60,
       };
     }
   } else if (isPossibleAddress(networkOrAddress)) {
@@ -175,7 +174,6 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
           contractName,
           version,
         },
-        revalidate: 60,
       };
     }
   }

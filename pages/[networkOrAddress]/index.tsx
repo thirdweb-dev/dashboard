@@ -176,7 +176,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      revalidate: 60,
     },
   };
 };

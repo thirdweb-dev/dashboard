@@ -111,7 +111,11 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             uris: contractId,
           });
           publishMutation.mutate(
-            { predeployUri: contractId, extraMetadata: data },
+            {
+              predeployUri: contractId,
+              extraMetadata: data,
+              contractName: publishMetadata.data?.name,
+            },
             {
               onSuccess: () => {
                 onSuccess();
@@ -169,13 +173,13 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </Flex>
             </Skeleton>
           </Flex>
-          <FormControl isInvalid={!!errors.name}>
+          <FormControl isInvalid={!!errors.Description}>
             <FormLabel>Description</FormLabel>
             <Input {...register("description")} disabled={!address} />
             <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={!!errors.name}>
+          <FormControl isInvalid={!!errors.readme}>
             <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
               <TabList
                 px={0}
@@ -209,7 +213,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             </Tabs>
           </FormControl>
 
-          <FormControl isRequired isInvalid={!!errors.name}>
+          <FormControl isRequired isInvalid={!!errors.version}>
             <Flex alignItems="center" mb={1}>
               <FormLabel flex="1" mb={0}>
                 Version
@@ -225,7 +229,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             />
             <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={!!errors.name}>
+          <FormControl isInvalid={!!errors.changelog}>
             <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
               <TabList
                 px={0}

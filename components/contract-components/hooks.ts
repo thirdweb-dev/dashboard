@@ -314,10 +314,13 @@ export function toContractIdIpfsHash(contractId: ContractId) {
 interface PublishMutationData {
   predeployUri: string;
   extraMetadata: ExtraPublishMetadata;
+  contractName?: string;
 }
 
 export function usePublishMutation() {
   const sdk = useSDK();
+
+  const address = useAddress();
 
   return useMutationWithInvalidate(
     async ({ predeployUri, extraMetadata }: PublishMutationData) => {
@@ -329,8 +332,13 @@ export function usePublishMutation() {
       await sdk.getPublisher().publish(contractIdIpfsHash, extraMetadata);
     },
     {
-      onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([["pre-publish-metadata", _variables.predeployUri]]);
+      onSuccess: (_data, variables, _options, invalidate) => {
+        return Promise.all([
+          invalidate([["pre-publish-metadata", variables.predeployUri]]),
+          fetch(
+            `/api/revalidate/release?address=${address}&contractName=${variables.contractName}`,
+          ).catch((err) => console.error("failed to revalidate", err)),
+        ]);
       },
     },
   );
@@ -347,7 +355,12 @@ export function useEditProfileMutation() {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([["releaser-profile", address]]);
+        return Promise.all([
+          invalidate([["releaser-profile", address]]),
+          fetch(`/api/revalidate/release?address=${address}`).catch((err) =>
+            console.error("failed to revalidate", err),
+          ),
+        ]);
       },
     },
   );
