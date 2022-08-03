@@ -1,8 +1,4 @@
-import {
-  useContractPrePublishMetadata,
-  useEnsName,
-  useResolvedEnsName,
-} from "../../hooks";
+import { ens, useContractPrePublishMetadata } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
 import { Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
@@ -17,10 +13,10 @@ export const ContractReleasedByCell: React.FC<
   const address = useAddress();
   const wallet = useSingleQueryParam("networkOrAddress");
 
-  const resolvedAddress = useResolvedEnsName(wallet);
+  const ensQuery = ens.useQuery(wallet);
   const fullPublishMetadata = useContractPrePublishMetadata(
     value,
-    resolvedAddress.data || wallet || address,
+    ensQuery.data?.address || wallet || address,
   );
 
   const isPrebuilt =
@@ -29,13 +25,10 @@ export const ContractReleasedByCell: React.FC<
   const releaser =
     fullPublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
       .publisher;
-
-  const ensName = useEnsName(releaser);
-
   return (
     <Skeleton isLoaded={fullPublishMetadata.isSuccess || isPrebuilt}>
       <LinkButton
-        href={`/${ensName.data || releaser}`}
+        href={`/${ensQuery.data?.ensName || releaser}`}
         variant="outline"
         px={3}
         mr={3}
@@ -45,7 +38,7 @@ export const ContractReleasedByCell: React.FC<
         width="100%"
       >
         <Text size="body.md">
-          {shortenIfAddress(ensName.data || releaser, true) ||
+          {shortenIfAddress(ensQuery.data?.ensName || releaser, true) ||
             (isPrebuilt ? "thirdweb" : "Unknown")}
         </Text>
       </LinkButton>

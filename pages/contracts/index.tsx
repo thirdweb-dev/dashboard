@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { DarkMode, Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
@@ -7,9 +7,9 @@ import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement, useMemo } from "react";
-import { Heading, Text, TrackedLink } from "tw-components";
+import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
-const ContractsHomepageWrapped: React.FC = () => {
+export default function ContractsHomepage() {
   const { Track } = useTrack({
     page: "contracts",
   });
@@ -68,19 +68,45 @@ const ContractsHomepageWrapped: React.FC = () => {
           contractIds={allContracts}
           context="view_release"
         />
+        <DarkMode>
+          <Card
+            p={8}
+            bgGradient="linear(147.15deg, #410AB6 30.17%, #E85CFF 100%)"
+            border="none"
+          >
+            <Flex
+              gap={4}
+              direction={{ base: "column", md: "row" }}
+              justify="space-between"
+              align="center"
+            >
+              <Flex gap={4} direction="column">
+                <Heading color="white" size="title.lg" fontFamily="mono">
+                  release
+                </Heading>
+                <Heading color="white" size="subtitle.md">
+                  Bring your own contracts, unlock the power of thirdweb.
+                </Heading>
+              </Flex>
+              <LinkButton
+                w={{ base: "full", md: "auto" }}
+                variant="ghost"
+                isExternal
+                href="https://portal.thirdweb.com/release"
+                size="md"
+              >
+                Learn more
+              </LinkButton>
+            </Flex>
+          </Card>
+        </DarkMode>
       </Flex>
     </Track>
-  );
-};
-
-export default function ContractsHomepage() {
-  return (
-    <PublisherSDKContext>
-      <ContractsHomepageWrapped />
-    </PublisherSDKContext>
   );
 }
 
 ContractsHomepage.getLayout = (page: ReactElement) => (
-  <AppLayout>{page}</AppLayout>
+  <AppLayout>
+    <PublisherSDKContext>{page}</PublisherSDKContext>
+  </AppLayout>
 );
