@@ -496,10 +496,10 @@ export function useContractEnabledExtensions(abi?: any) {
   return extensions ? extensions.enabledExtensions : [];
 }
 
-function getAbsoluteUrl(path: string) {
+function getAbsoluteUrlForSSR(path: string) {
   const url = new URL(
-    process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
+    process.env.NEXT_PUBLIC_VERCEL_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
       : "http://localhost:3000",
   );
   url.pathname = path;
@@ -507,7 +507,7 @@ function getAbsoluteUrl(path: string) {
 }
 
 async function fetchEns(addressOrEnsName: string): Promise<ENSResolveResult> {
-  const res = await fetch(getAbsoluteUrl(`/api/ens/${addressOrEnsName}`));
+  const res = await fetch(getAbsoluteUrlForSSR(`/api/ens/${addressOrEnsName}`));
   return await res.json();
 }
 

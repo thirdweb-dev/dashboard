@@ -136,7 +136,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const sdk = new ThirdwebSDK("polygon");
 
   const walletOrEnsAddress = getSingleQueryValue(
-    ctx.params as any,
+    ctx.params,
     "networkOrAddress",
   );
 

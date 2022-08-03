@@ -75,7 +75,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
   ctx,
 ) => {
   const networkOrAddress = getSingleQueryValue(
-    ctx.params as any,
+    ctx.params,
     "networkOrAddress",
   ) as string;
   // handle old dashboard urls
