@@ -100,7 +100,7 @@ const UserPageWrapped = () => {
                   {ensQuery.data?.address === address && (
                     <LinkButton
                       size="sm"
-                      href="https://portal.thirdweb.com/thirdweb-cli"
+                      href="https://portal.thirdweb.com/release"
                       isExternal
                       variant="outline"
                       colorScheme="primary"
