@@ -83,7 +83,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
     posthog.init("phc_hKK4bo8cHZrKuAVXfXGpfNSLSJuucUnguAgt2j6dgSV", {
       api_host: "https://a.thirdweb.com",
       autocapture: true,
-      debug: true,
+      debug: false,
       capture_pageview: false,
     });
     // register the git commit sha on all subsequent events
