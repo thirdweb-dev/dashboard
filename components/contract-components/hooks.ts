@@ -497,7 +497,11 @@ export function useContractEnabledExtensions(abi?: any) {
 }
 
 function getAbsoluteUrl(path: string) {
-  const url = new URL(process.env.VERCEL_URL || `http://localhost:3000`);
+  const url = new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000",
+  );
   url.pathname = path;
   return url;
 }
