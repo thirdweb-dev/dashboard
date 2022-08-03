@@ -4,6 +4,7 @@ import {
   useResolvedEnsName,
 } from "../../hooks";
 import { DeployableContractContractCellProps } from "../../types";
+import { Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { BuiltinContractMap } from "constants/mappings";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -32,20 +33,22 @@ export const ContractReleasedByCell: React.FC<
   const ensName = useEnsName(releaser);
 
   return (
-    <LinkButton
-      href={`/${ensName.data || releaser}`}
-      variant="outline"
-      px={3}
-      mr={3}
-      pointerEvents={isPrebuilt ? "none" : "auto"}
-      fontFamily="mono"
-      size="sm"
-      width="100%"
-    >
-      <Text size="body.md">
-        {shortenIfAddress(ensName.data || releaser, true) ||
-          (isPrebuilt ? "thirdweb" : "Unknown")}
-      </Text>
-    </LinkButton>
+    <Skeleton isLoaded={fullPublishMetadata.isSuccess || isPrebuilt}>
+      <LinkButton
+        href={`/${ensName.data || releaser}`}
+        variant="outline"
+        px={3}
+        mr={3}
+        pointerEvents={isPrebuilt ? "none" : "auto"}
+        fontFamily="mono"
+        size="sm"
+        width="100%"
+      >
+        <Text size="body.md">
+          {shortenIfAddress(ensName.data || releaser, true) ||
+            (isPrebuilt ? "thirdweb" : "Unknown")}
+        </Text>
+      </LinkButton>
+    </Skeleton>
   );
 };
