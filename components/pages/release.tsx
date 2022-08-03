@@ -8,10 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
-import {
-  useAllVersions,
-  useResolvedEnsName,
-} from "components/contract-components/hooks";
+import { ens, useAllVersions } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
 import { FeatureIconMap } from "constants/mappings";
 import { useRouter } from "next/router";
@@ -29,14 +26,14 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
   contractName,
   version: initialVersion,
 }) => {
-  const resolvedAddress = useResolvedEnsName(author);
+  const ensQuery = ens.useQuery(author);
 
   const [version, setVersion] = useState(initialVersion);
 
   const router = useRouter();
 
   const allVersions = useAllVersions(
-    resolvedAddress.data || undefined,
+    ensQuery.data?.address || undefined,
     contractName,
   );
 

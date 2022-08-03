@@ -14,7 +14,6 @@ import {
   useSDK,
 } from "@thirdweb-dev/react";
 import {
-  ChainId,
   ContractType,
   SmartContract,
   ThirdwebSDK,
@@ -34,8 +33,8 @@ import {
 } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { BuiltinContractMap } from "constants/mappings";
-import { ethers } from "ethers";
-import { getAddress } from "ethers/lib/utils";
+import { isAddress } from "ethers/lib/utils";
+import { ENSResolveResult, isEnsName } from "lib/ens";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -134,7 +133,7 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
 
 export async function fetchReleaserProfile(
   sdk?: ThirdwebSDK,
-  publisherAddress?: string,
+  publisherAddress?: string | null,
 ) {
   invariant(publisherAddress, "address is not defined");
   invariant(sdk, "sdk not provided");
@@ -395,7 +394,7 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
 
 export async function fetchPublishedContracts(
   sdk?: ThirdwebSDK,
-  address?: string,
+  address?: string | null,
 ) {
   invariant(sdk, "sdk not provided");
   invariant(address, "address is not defined");
@@ -497,68 +496,44 @@ export function useContractEnabledExtensions(abi?: any) {
   return extensions ? extensions.enabledExtensions : [];
 }
 
-export async function resolveAddressToEnsName(address: string) {
-  if (address.endsWith(".eth")) {
-    return address;
-  }
-
-  // const provider = new ethers.providers.StaticJsonRpcProvider(
-  //   alchemyUrlMap[ChainId.Mainnet],
-  // );
-
-  // TODO switch this to the static JSONRPC provider...
-  // we cannot do this right now because we need this for server-rendering
-  const provider = new ethers.providers.AlchemyProvider(ChainId.Mainnet);
-  return await provider.lookupAddress(address);
+function getAbsoluteUrl(path: string) {
+  const url = new URL(process.env.VERCEL_URL || `http://localhost:3000`);
+  url.pathname = path;
+  return url;
 }
 
-export function useEnsName(address?: string) {
+async function fetchEns(addressOrEnsName: string): Promise<ENSResolveResult> {
+  const res = await fetch(getAbsoluteUrl(`/api/ens/${addressOrEnsName}`));
+  return await res.json();
+}
+
+const ensQueryKey = (addressOrEnsName: string) =>
+  ["ens", addressOrEnsName] as const;
+
+function useEns(addressOrEnsName?: string) {
   return useQuery(
-    ["ens-name", address],
-    () => (address ? resolveAddressToEnsName(address) : null),
-    {
-      enabled: !!address,
-      // 24h
-      cacheTime: 60 * 60 * 24 * 1000,
-      // 1h
-      staleTime: 60 * 60 * 1000,
-    },
-  );
-}
-
-export async function resolvePossibleENSName(walletOrEnsAddress: string) {
-  // not a valid ens name, so we'll just return whatever string was passed in
-  if (!walletOrEnsAddress.endsWith(".eth")) {
-    return walletOrEnsAddress;
-  }
-
-  // const provider = new ethers.providers.StaticJsonRpcProvider(
-  //   alchemyUrlMap[ChainId.Mainnet],
-  // );
-
-  // TODO switch this to the static JSONRPC provider...
-  // we cannot do this right now because we need this for server-rendering
-  const provider = new ethers.providers.AlchemyProvider(ChainId.Mainnet);
-  const address = await provider.resolveName(walletOrEnsAddress);
-
-  try {
-    return address ? getAddress(address) : null;
-  } catch (_error) {
-    return null;
-  }
-}
-
-export function useResolvedEnsName(walletOrEnsAddress?: string) {
-  return useQuery(
-    ["ens-address", walletOrEnsAddress],
+    ensQueryKey(addressOrEnsName || ""),
     () =>
-      walletOrEnsAddress ? resolvePossibleENSName(walletOrEnsAddress) : null,
+      addressOrEnsName
+        ? fetchEns(addressOrEnsName)
+        : { address: null, ensName: null },
     {
-      enabled: !!walletOrEnsAddress,
+      enabled: !!addressOrEnsName,
       // 24h
       cacheTime: 60 * 60 * 24 * 1000,
       // 1h
       staleTime: 60 * 60 * 1000,
+      // default to the one we know already
+      placeholderData: {
+        address: isAddress(addressOrEnsName || "") ? addressOrEnsName : null,
+        ensName: isEnsName(addressOrEnsName || "") ? addressOrEnsName : null,
+      },
     },
   );
 }
+
+export const ens = {
+  queryKey: ensQueryKey,
+  useQuery: useEns,
+  fetch: fetchEns,
+};

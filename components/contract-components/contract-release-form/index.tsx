@@ -1,7 +1,7 @@
 import {
+  ens,
   useContractPrePublishMetadata,
   useContractPublishMetadataFromURI,
-  useEnsName,
   usePublishMutation,
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
@@ -88,7 +88,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
       .version;
 
-  const ensName = useEnsName(address);
+  const ensQuery = ens.useQuery(address);
 
   const placeholderVersion = useMemo(() => {
     if (latestVersion) {
@@ -122,7 +122,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   uris: contractId,
                 });
                 router.push(
-                  `/contracts/${ensName.data || address}/${
+                  `/contracts/${ensQuery.data?.ensName || address}/${
                     publishMetadata.data?.name
                   }`,
                 );
@@ -157,7 +157,9 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 {address ? (
                   <Text size="body.md" py={1}>
                     Releasing as{" "}
-                    <strong>{shortenIfAddress(ensName.data || address)}</strong>
+                    <strong>
+                      {shortenIfAddress(ensQuery.data?.ensName || address)}
+                    </strong>
                   </Text>
                 ) : (
                   <Text size="body.md" py={1}>
