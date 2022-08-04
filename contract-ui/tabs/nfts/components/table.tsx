@@ -1,5 +1,4 @@
 import { NFTDrawer } from "./nft-drawer";
-import { NFTTableRow } from "./nft-table-row";
 import {
   Center,
   Code,
