@@ -10,7 +10,6 @@ import {
   Spinner,
   Table,
   Tbody,
-  Td,
   Th,
   Thead,
   Tr,
@@ -19,7 +18,6 @@ import { NFT, NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
 import { Erc721, Erc1155, Json } from "@thirdweb-dev/sdk";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
-import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   MdFirstPage,

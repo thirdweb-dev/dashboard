@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import {
   NFT,
-  NFTContract,
   ThirdwebNftMedia,
   useAddress,
   useContract,
