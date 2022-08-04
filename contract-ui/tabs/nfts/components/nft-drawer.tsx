@@ -21,7 +21,7 @@ import { Card, Drawer, Heading, Text } from "tw-components";
 interface NFTDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  data: NFT<Erc721<any> | Erc1155<any>>;
+  data: NFT<Erc721<any> | Erc1155<any>> | null;
 }
 
 const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
@@ -36,6 +36,10 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   const { contract } = useContract(contractAddress);
   console.log(contract);
   const address = useAddress();
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <Drawer
@@ -75,14 +79,14 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           </Flex>
         </Card>
         <Tabs>
-          {data.owner !== address && (
+          {data.owner === address && (
             <TabList>
               <Tab>Transfer</Tab>
             </TabList>
           )}
 
           <TabPanels>
-            {data.owner !== address && (
+            {data.owner === address && (
               <TabPanel>
                 <TransferTab
                   contract={contract?.nft}

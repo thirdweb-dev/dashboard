@@ -79,7 +79,6 @@ export const TransferTab: React.FC<TransferTabProps> = ({
             isLoading={transfer.isLoading}
             type="submit"
             colorScheme="primary"
-            rightIcon={<Icon as={IoMdSend} />}
           >
             Transfer
           </TransactionButton>
