@@ -2,26 +2,56 @@ export enum PageId {
   // unknown page id (default)
   Unknown = "unknown",
 
+  // ---------------------------------------------------------------------------
+  //  marketing / growth pages
+  // ---------------------------------------------------------------------------
+
   // thirdweb.com
-  Homepage = "homepage",
-
-  // thirdweb.com/dashboard
-  Dashboard = "dashboard",
-
-  // thirdweb.com/gas
-  GasEstimator = "gas-estimator",
+  Homepage = "homepage-landing",
 
   // thirdweb.com/authentication
   Authentication = "auth-landing",
 
+  // thirdweb.com/gas
+  GasEstimator = "gas-estimator",
+
+  // ---------------------------------------------------------------------------
+  //  general product pages
+  // ---------------------------------------------------------------------------
+
+  // thirdweb.com/dashboard
+  Dashboard = "dashboard",
+
   // thridweb.com/contracts
   Contracts = "contracts",
+
+  // ---------------------------------------------------------------------------
+  //  "release" product pages
+  // ---------------------------------------------------------------------------
 
   // thirdweb.com/contracts/release
   ReleaseMultiple = "release-multiple-contracts",
 
   // thirdweb.com/contracts/release/:id
   ReleaseSingle = "release-single-contract",
+
+  // thirdweb.com/:wallet
+  // example: thirdweb.com/jns.eth
+  Profile = "profile",
+
+  // thirdweb.com/:wallet/:contractId
+  // example: thirdweb.com/jns.eth/PermissionedERC721A
+  ReleasedContract = "released-contract",
+
+  // ---------------------------------------------------------------------------
+  //  "deploy" product pages
+  // ---------------------------------------------------------------------------
+
+  // thirdweb.com/contracts/deploy
+  DeployMultiple = "deploy-multiple-contracts",
+
+  // thirdweb.com/contracts/deploy/:id
+  DeploySingle = "deploy-single-contract",
 
   // thirdweb.com/contracts/new
   NewContract = "new-contract",
@@ -40,28 +70,18 @@ export enum PageId {
   // example: thirdweb.com/contracts/new/pre-built/drop/nft-drop
   PreBuiltContractType = "new-pre-built-contract-type",
 
-  // thirdweb.com/contracts/deploy
-  DeployMultiple = "deploy-multiple-contracts",
-
-  // thirdweb.com/contracts/deploy/:id
-  DeploySingle = "deploy-single-contract",
-
-  // thirdweb.com/:wallet
-  // example: thirdweb.com/jns.eth
-  Profile = "profile",
-
-  // thirdweb.com/:wallet/:contractId
-  // example: thirdweb.com/jns.eth/PermissionedERC721A
-  ReleasedContract = "released-contract",
-
   // thirdweb.com/:network/:contractAddress
   // example: thirdweb.com/goerli/0x2eaDAa60dBB74Ead3E20b23E4C5A0Dd789932846
   DeployedContract = "deployed-contract",
 
-  // -- pre built contracts -- // (will bedeprecated in favor of the new "deplouyed-contract" page)
+  // ---------------------------------------------------------------------------
+  //  pre-built deployed contracts
+  //  (will bedeprecated in favor of the new "deployed-contract" page over time)
+  // ---------------------------------------------------------------------------
+
   EditionContract = "edition-contract",
   EditionDropContract = "edition-drop-contract",
-  MarketlaceContract = "marketlace-contract",
+  MarketplaceContract = "marketplace-contract",
   NftCollectionContract = "nft-collection-contract",
   NftDropContract = "nft-drop-contract",
   PackContract = "pack-contract",
