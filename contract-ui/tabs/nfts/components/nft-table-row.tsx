@@ -1,9 +1,8 @@
 import { NFTDrawer } from "./nft-drawer";
-import { Box, Td, Tr, useDisclosure } from "@chakra-ui/react";
+import { Td, Tr, useDisclosure } from "@chakra-ui/react";
 import { NFT } from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
 import { Row } from "react-table";
-import { Button, Drawer } from "tw-components";
 
 interface NFTTableRowProps {
   row: Row<NFT<Erc721<any> | Erc1155<any>>>;

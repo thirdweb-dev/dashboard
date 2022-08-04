@@ -1,6 +1,22 @@
-import { Box, Flex, chakra } from "@chakra-ui/react";
-import { NFT, ThirdwebNftMedia } from "@thirdweb-dev/react";
+import { TransferTab } from "./transfer-tab";
+import {
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  chakra,
+} from "@chakra-ui/react";
+import {
+  NFT,
+  NFTContract,
+  ThirdwebNftMedia,
+  useAddress,
+  useContract,
+} from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { Card, Drawer, Heading, Text } from "tw-components";
 
 interface NFTDrawerProps {
@@ -17,6 +33,10 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   data,
 }) => {
   console.log({ data });
+  const contractAddress = useSingleQueryParam("catchAll");
+  const { contract } = useContract(contractAddress);
+  console.log(contract);
+  const address = useAddress();
 
   return (
     <Drawer
@@ -26,7 +46,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
       onClose={onClose}
       isOpen={isOpen}
     >
-      <Flex py={4} px={2} flexDir="column" gap={6}>
+      <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
           <ChakraThirdwebNftMedia
             metadata={data.metadata}
@@ -46,13 +66,33 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           <Heading size="title.md">Details</Heading>
           <Flex flexDir="column" gap={3}>
             <Text size="label.md">Token ID: {data.metadata.id.toString()}</Text>
-            <Text size="label.md">Owner: {data.owner}</Text>
+            {data.type === "ERC721" && (
+              <Text size="label.md">Owner: {data.owner}</Text>
+            )}
             <Text size="label.md">Token Standard: {data.type}</Text>
             {data.type === "ERC1155" && (
-              <Text size="label.md">Supply: {data.supply}</Text>
+              <Text size="label.md">Supply: {data.supply.toString()}</Text>
             )}
           </Flex>
         </Card>
+        <Tabs>
+          {data.owner !== address && (
+            <TabList>
+              <Tab>Transfer</Tab>
+            </TabList>
+          )}
+
+          <TabPanels>
+            {data.owner !== address && (
+              <TabPanel>
+                <TransferTab
+                  contract={contract?.nft}
+                  tokenId={data.metadata.id.toString()}
+                />
+              </TabPanel>
+            )}
+          </TabPanels>
+        </Tabs>
       </Flex>
     </Drawer>
   );
