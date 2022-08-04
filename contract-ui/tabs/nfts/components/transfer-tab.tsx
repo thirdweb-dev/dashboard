@@ -54,7 +54,7 @@ export const TransferTab: React.FC<TransferTabProps> = ({
           );
         })}
       >
-        <Stack align="center">
+        <Stack gap={3}>
           <Stack spacing={6} w="100%" direction={{ base: "column", md: "row" }}>
             <FormControl isRequired isInvalid={!!errors.to}>
               <FormLabel>To Address</FormLabel>
@@ -78,6 +78,7 @@ export const TransferTab: React.FC<TransferTabProps> = ({
             isLoading={transfer.isLoading}
             type="submit"
             colorScheme="primary"
+            alignSelf="flex-end"
           >
             Transfer
           </TransactionButton>

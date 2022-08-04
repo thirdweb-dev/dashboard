@@ -84,29 +84,38 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
             )}
           </Flex>
         </Card>
-        <Tabs>
-          <TabList>
-            <Tab
-              isDisabled={
-                (data.type === "ERC721" && data.owner !== address) ||
-                (data.type === "ERC1155" && balanceOf.data?.lt(1))
-              }
+        <Card as={Flex} flexDir="column" gap={2} p={0}>
+          <Tabs isLazy lazyBehavior="keepMounted">
+            <TabList
+              px={0}
+              borderBottomColor="borderColor"
+              borderBottomWidth="1px"
             >
-              Transfer
-            </Tab>
-            <Tab isDisabled>Burn</Tab>
-          </TabList>
+              <Tab
+                gap={2}
+                isDisabled={
+                  (data.type === "ERC721" && data.owner !== address) ||
+                  (data.type === "ERC1155" && balanceOf.data?.lt(1))
+                }
+              >
+                Transfer
+              </Tab>
+              <Tab gap={2} isDisabled>
+                Burn
+              </Tab>
+            </TabList>
 
-          <TabPanels>
-            <TabPanel>
-              <TransferTab
-                contract={contract?.nft || contract?.edition}
-                tokenId={data.metadata.id.toString()}
-              />
-            </TabPanel>
-            <TabPanel>Burn</TabPanel>
-          </TabPanels>
-        </Tabs>
+            <TabPanels px={{ base: 2, md: 6 }} py={2}>
+              <TabPanel px={0}>
+                <TransferTab
+                  contract={contract?.nft || contract?.edition}
+                  tokenId={data.metadata.id.toString()}
+                />
+              </TabPanel>
+              <TabPanel>Burn</TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Card>
       </Flex>
     </Drawer>
   );
