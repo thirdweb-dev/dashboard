@@ -13,6 +13,7 @@ import {
   ThirdwebNftMedia,
   useAddress,
   useContract,
+  useNFTBalance,
 } from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -36,6 +37,11 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   const { contract } = useContract(contractAddress);
   console.log(contract);
   const address = useAddress();
+  const balanceOf = useNFTBalance(
+    contract?.edition,
+    address,
+    data?.metadata.id,
+  );
 
   if (!data) {
     return null;
@@ -79,21 +85,23 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           </Flex>
         </Card>
         <Tabs>
-          {data.owner === address && (
-            <TabList>
-              <Tab>Transfer</Tab>
-            </TabList>
-          )}
+          {data.owner === address ||
+            (data.type === "ERC1155" && balanceOf.data?.gt(0) && (
+              <TabList>
+                <Tab>Transfer</Tab>
+              </TabList>
+            ))}
 
           <TabPanels>
-            {data.owner === address && (
-              <TabPanel>
-                <TransferTab
-                  contract={contract?.nft}
-                  tokenId={data.metadata.id.toString()}
-                />
-              </TabPanel>
-            )}
+            {data.owner === address ||
+              (data.type === "ERC1155" && balanceOf.data?.gt(0) && (
+                <TabPanel>
+                  <TransferTab
+                    contract={contract?.nft || contract?.edition}
+                    tokenId={data.metadata.id.toString()}
+                  />
+                </TabPanel>
+              ))}
           </TabPanels>
         </Tabs>
       </Flex>
