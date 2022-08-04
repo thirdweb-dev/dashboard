@@ -31,6 +31,6 @@ MarketplacePage.getLayout = (page: ReactElement) => (
   <AppLayout>{page}</AppLayout>
 );
 
-MarketplacePage.pageId = PageId.MarketlaceContract;
+MarketplacePage.pageId = PageId.MarketplaceContract;
 
 export default MarketplacePage;
