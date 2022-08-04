@@ -1,8 +1,7 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Link } from "@chakra-ui/react";
 import {
-  useEnsName,
+  ens,
   useReleasesFromDeploy,
-  useResolvedEnsName,
 } from "components/contract-components/hooks";
 import { LinkButton, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -12,29 +11,31 @@ interface ReleasedByProps {
 }
 
 export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
-  const resolvedAddress = useResolvedEnsName(contractAddress);
+  const ensQuery = ens.useQuery(contractAddress);
   const releasesFromDeploy = useReleasesFromDeploy(
-    resolvedAddress.data || undefined,
+    ensQuery.data?.address || undefined,
   );
 
   const lastRelease = releasesFromDeploy?.data?.length
     ? releasesFromDeploy.data[releasesFromDeploy.data.length - 1]
     : undefined;
 
-  const ensName = useEnsName(lastRelease?.publisher);
-
+  const releaserAddress = ensQuery.data?.ensName || lastRelease?.publisher;
   return lastRelease ? (
-    <Flex flexDir="column" gap={3}>
+    <Flex flexDir="column" gap={3} alignItems="end">
       <LinkButton
-        href={`/contracts/${lastRelease?.publisher}/${lastRelease?.name}/${lastRelease?.version}`}
+        href={`/contracts/${releaserAddress}/${lastRelease?.name}/${lastRelease?.version}`}
         noMatch
         size="sm"
+        variant="outline"
       >
-        {lastRelease?.name} | {lastRelease?.version}
+        {lastRelease?.name} v{lastRelease?.version}
       </LinkButton>
-      <Text size="label.sm" textAlign="center">
-        Released by {shortenIfAddress(ensName.data || lastRelease?.publisher)}
-      </Text>
+      <Link href={`/${releaserAddress}`}>
+        <Text size="label.sm" textAlign="center">
+          Released by {shortenIfAddress(releaserAddress)}
+        </Text>
+      </Link>
     </Flex>
   ) : null;
 };

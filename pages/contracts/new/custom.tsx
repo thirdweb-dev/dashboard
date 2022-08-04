@@ -30,7 +30,7 @@ import {
 } from "tw-components";
 import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
 
-function DeployCustomContract() {
+export default function DeployCustomContractWrapped() {
   const router = useRouter();
 
   const walletAddress = useAddress();
@@ -100,7 +100,7 @@ function DeployCustomContract() {
                     <Text>You have not released any contracts yet.</Text>
                     <LinkButton
                       size="sm"
-                      href="https://portal.thirdweb.com/thirdweb-cli"
+                      href="https://portal.thirdweb.com/release"
                       isExternal
                       variant="outline"
                       colorScheme="primary"
@@ -124,7 +124,7 @@ function DeployCustomContract() {
                 fontSize={14}
                 color="primary.500"
                 isExternal
-                href="https://portal.thirdweb.com/thirdweb-cli"
+                href="https://portal.thirdweb.com/release"
               >
                 Learn more about releasing contracts
               </Link>
@@ -136,14 +136,8 @@ function DeployCustomContract() {
   );
 }
 
-export default function DeployCustomContractWrapped() {
-  return (
-    <PublisherSDKContext>
-      <DeployCustomContract />
-    </PublisherSDKContext>
-  );
-}
-
 DeployCustomContractWrapped.getLayout = (page: ReactElement) => (
-  <AppLayout>{page}</AppLayout>
+  <AppLayout>
+    <PublisherSDKContext>{page}</PublisherSDKContext>
+  </AppLayout>
 );
