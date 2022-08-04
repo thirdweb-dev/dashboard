@@ -38,7 +38,6 @@ export const Hero: ComponentWithChildren<IHero> = ({
       as="section"
       flexDirection="column"
       bg="#030A19"
-      minHeight="100vh"
       padding={{ base: 0, md: "64px" }}
     >
       <SimpleGrid
