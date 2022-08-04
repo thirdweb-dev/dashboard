@@ -85,23 +85,26 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           </Flex>
         </Card>
         <Tabs>
-          {data.owner === address ||
-            (data.type === "ERC1155" && balanceOf.data?.gt(0) && (
-              <TabList>
-                <Tab>Transfer</Tab>
-              </TabList>
-            ))}
+          <TabList>
+            <Tab
+              isDisabled={
+                (data.type === "ERC721" && data.owner !== address) ||
+                (data.type === "ERC1155" && balanceOf.data?.lt(1))
+              }
+            >
+              Transfer
+            </Tab>
+            <Tab isDisabled>Burn</Tab>
+          </TabList>
 
           <TabPanels>
-            {data.owner === address ||
-              (data.type === "ERC1155" && balanceOf.data?.gt(0) && (
-                <TabPanel>
-                  <TransferTab
-                    contract={contract?.nft || contract?.edition}
-                    tokenId={data.metadata.id.toString()}
-                  />
-                </TabPanel>
-              ))}
+            <TabPanel>
+              <TransferTab
+                contract={contract?.nft || contract?.edition}
+                tokenId={data.metadata.id.toString()}
+              />
+            </TabPanel>
+            <TabPanel>Burn</TabPanel>
           </TabPanels>
         </Tabs>
       </Flex>
