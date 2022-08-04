@@ -1,3 +1,4 @@
+import { NFTTableRow } from "./nft-table-row";
 import {
   Center,
   Code,
@@ -154,34 +155,9 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
           <Tbody {...getTableBodyProps()} position="relative">
             {page.map((row) => {
               prepareRow(row);
-
               return (
                 // eslint-disable-next-line react/jsx-key
-                <Tr
-                  {...row.getRowProps()}
-                  role="group"
-                  _hover={{ bg: "blackAlpha.50" }}
-                  _dark={{
-                    _hover: {
-                      bg: "whiteAlpha.50",
-                    },
-                  }}
-                  // this is a hack to get around the fact that safari does not handle position: relative on table rows
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    console.log("hi");
-                  }}
-                  // end hack
-                  borderBottomWidth={1}
-                  _last={{ borderBottomWidth: 0 }}
-                >
-                  {row.cells.map((cell) => (
-                    // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth={"inherit"}>
-                      {cell.render("Cell")}
-                    </Td>
-                  ))}
-                </Tr>
+                <NFTTableRow row={row} />
               );
             })}
             {getAllQueryResult.isPreviousData && (
