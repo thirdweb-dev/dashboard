@@ -32,10 +32,8 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   onClose,
   data,
 }) => {
-  console.log({ data });
   const contractAddress = useSingleQueryParam("catchAll");
   const { contract } = useContract(contractAddress);
-  console.log(contract);
   const address = useAddress();
   const balanceOf = useNFTBalance(
     contract?.edition,
@@ -54,6 +52,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
       size="lg"
       onClose={onClose}
       isOpen={isOpen}
+      isFullHeight
     >
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
@@ -71,26 +70,15 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
             </Text>
           </Flex>
         </Flex>
-        <Card as={Flex} flexDir="column" gap={4}>
-          <Heading size="title.md">Details</Heading>
-          <Flex flexDir="column" gap={3}>
-            <Text size="label.md">Token ID: {data.metadata.id.toString()}</Text>
-            {data.type === "ERC721" && (
-              <Text size="label.md">Owner: {data.owner}</Text>
-            )}
-            <Text size="label.md">Token Standard: {data.type}</Text>
-            {data.type === "ERC1155" && (
-              <Text size="label.md">Supply: {data.supply.toString()}</Text>
-            )}
-          </Flex>
-        </Card>
         <Card as={Flex} flexDir="column" gap={2} p={0}>
           <Tabs isLazy lazyBehavior="keepMounted">
             <TabList
               px={0}
               borderBottomColor="borderColor"
               borderBottomWidth="1px"
+              overflowX={{ base: "auto", md: "inherit" }}
             >
+              <Tab gap={2}>Details</Tab>
               <Tab
                 gap={2}
                 isDisabled={
@@ -103,9 +91,36 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
               <Tab gap={2} isDisabled>
                 Burn
               </Tab>
+              {data.type === "ERC1155" && (
+                <Tab gap={2} isDisabled>
+                  Transfer Batch
+                </Tab>
+              )}
+              {data.type === "ERC1155" && (
+                <Tab gap={2} isDisabled>
+                  Claim Phases
+                </Tab>
+              )}
             </TabList>
 
-            <TabPanels px={{ base: 2, md: 6 }} py={2}>
+            <TabPanels px={{ base: 4, md: 6 }} py={2}>
+              <TabPanel px={0}>
+                <Flex flexDir="column" gap={3}>
+                  <Text size="label.md">
+                    Token ID: {data.metadata.id.toString()}
+                  </Text>
+                  {data.type === "ERC721" && (
+                    <Text size="label.md">Owner: {data.owner}</Text>
+                  )}
+                  <Text size="label.md">Token Standard: {data.type}</Text>
+                  {data.type === "ERC1155" && (
+                    <Text size="label.md">
+                      Supply: {data.supply.toString()}
+                    </Text>
+                  )}
+                </Flex>
+              </TabPanel>
+
               <TabPanel px={0}>
                 <TransferTab
                   contract={contract?.nft || contract?.edition}

@@ -33,7 +33,6 @@ export const TransferTab: React.FC<TransferTabProps> = ({
   );
 
   const requiresAmount = contract instanceof Erc1155;
-  console.log({ contract });
 
   return (
     <Stack pt={3}>
