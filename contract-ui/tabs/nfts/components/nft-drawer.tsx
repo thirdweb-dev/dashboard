@@ -52,7 +52,6 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
       size="lg"
       onClose={onClose}
       isOpen={isOpen}
-      isFullHeight
     >
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
