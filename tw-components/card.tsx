@@ -64,29 +64,28 @@ export const Card: React.FC<CardProps> = ({
     <CardStackContext.Provider value={cardStackLevel + 1}>
       {outlineBorder ? (
         <Box
-          p={outlineBorder?.width || "0"}
+          p={outlineBorder.width}
           borderRadius={combinedProps.borderRadius}
           position="relative"
           overflow="hidden"
           w={combinedProps.w || combinedProps.width}
         >
-          {outlineBorder && (
-            <Box
-              zIndex={-1}
-              position="absolute"
-              top={0}
-              left={0}
-              w="full"
-              h="full"
-              bgGradient={outlineBorder.gradient}
-            />
-          )}
+          <Box
+            zIndex={-1}
+            position="absolute"
+            top={0}
+            left={0}
+            w="full"
+            h="full"
+            bgGradient={outlineBorder.gradient}
+          />
+
           <Box
             backgroundColor={
               cardStackBgMap[cardStackLevel] || "backgroundHighlight"
             }
             {...combinedProps}
-            w={outlineBorder ? "full" : combinedProps.w}
+            w="full"
             borderRadius={getBorderRadius(combinedProps.borderRadius)}
           >
             {children}
@@ -98,7 +97,6 @@ export const Card: React.FC<CardProps> = ({
             cardStackBgMap[cardStackLevel] || "backgroundHighlight"
           }
           {...combinedProps}
-          w={outlineBorder ? "full" : combinedProps.w}
         >
           {children}
         </Box>
