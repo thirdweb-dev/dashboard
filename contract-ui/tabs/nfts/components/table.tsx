@@ -1,7 +1,6 @@
 import { NFTDrawer } from "./nft-drawer";
 import {
   Center,
-  Code,
   Flex,
   Icon,
   IconButton,
@@ -27,7 +26,13 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Cell, Column, usePagination, useTable } from "react-table";
-import { AddressCopyButton, Card, Heading, Text } from "tw-components";
+import {
+  AddressCopyButton,
+  Card,
+  CodeBlock,
+  Heading,
+  Text,
+} from "tw-components";
 
 interface ContractOverviewNftGetAllProps {
   contract: NFTContract;
@@ -58,7 +63,12 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
         Header: "Properties",
         accessor: (row) => row.metadata.attributes || row.metadata.properties,
         Cell: ({ cell }: { cell: Cell<NFT<NFTContract>, Json> }) => (
-          <Code whiteSpace="pre">{JSON.stringify(cell.value, null, 2)}</Code>
+          <CodeBlock
+            code={JSON.stringify(cell.value, null, 2) || ""}
+            language="json"
+            canCopy={false}
+            wrap={false}
+          />
         ),
       },
     ];
