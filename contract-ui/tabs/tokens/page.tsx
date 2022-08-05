@@ -1,3 +1,4 @@
+import { TokenAirdropButton } from "./components/airdrop-buton";
 import { TokenMintButton } from "./components/mint-button";
 import { TokenSupply } from "./components/supply";
 import { TokenTransferButton } from "./components/transfer-button";
@@ -43,6 +44,7 @@ export const ContractTokensPage: React.FC<ContractTokenPageProps> = ({
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract Tokens</Heading>
         <ButtonGroup>
+          <TokenAirdropButton contract={detectedContract} />
           <TokenTransferButton contract={detectedContract} />
           <TokenMintButton contract={detectedContract} />
         </ButtonGroup>
