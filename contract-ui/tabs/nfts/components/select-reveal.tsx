@@ -209,12 +209,12 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                       onSuccess();
                       onClose();
                     },
-                    onError: (err) => {
+                    onError: (error) => {
                       trackEvent({
                         category: "batch-upload-instant",
                         action: "upload",
                         label: "error",
-                        error: err,
+                        error,
                       });
                       setProgress({
                         progress: 0,
