@@ -3,6 +3,7 @@ import { NFTContract, useTransferNFT } from "@thirdweb-dev/react";
 import { Erc1155 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +18,7 @@ export const TransferTab: React.FC<TransferTabProps> = ({
   contract,
   tokenId,
 }) => {
+  const trackEvent = useTrack();
   const {
     register,
     handleSubmit,
@@ -38,6 +40,11 @@ export const TransferTab: React.FC<TransferTabProps> = ({
     <Stack pt={3}>
       <form
         onSubmit={handleSubmit((data) => {
+          trackEvent({
+            category: "token",
+            action: "transfer",
+            label: "attempt",
+          });
           transfer.mutate(
             {
               tokenId,
@@ -45,9 +52,22 @@ export const TransferTab: React.FC<TransferTabProps> = ({
               amount: data.amount,
             },
             {
-              onError,
               onSuccess: () => {
+                trackEvent({
+                  category: "token",
+                  action: "transfer",
+                  label: "success",
+                });
                 onSuccess();
+              },
+              onError: (error) => {
+                trackEvent({
+                  category: "token",
+                  action: "transfer",
+                  label: "error",
+                  error,
+                });
+                onError(error);
               },
             },
           );
