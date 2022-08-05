@@ -81,7 +81,6 @@ export const Permissions = <TContract extends ContractWithRoles>({
                 isLoading={allRoleMembers.isLoading}
                 key={role}
                 role={role}
-                contract={contract}
                 description={ROLE_DESCRIPTION_MAP[role] || ""}
               />
             );
