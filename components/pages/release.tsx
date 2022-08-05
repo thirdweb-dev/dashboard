@@ -69,7 +69,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
           <Select
             onChange={(e) => {
               trackEvent({
-                category: "release_selector",
+                category: "release-selector",
                 action: "click",
                 versionSelected: e.target.value,
               });

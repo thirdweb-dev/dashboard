@@ -56,7 +56,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
     "Error updating profile",
   );
 
-  const { trackEvent } = useTrack();
+  const trackEvent = useTrack();
 
   useEffect(() => {
     if (!isDirty) {
@@ -83,7 +83,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
               onSuccess: () => {
                 onSuccess();
                 trackEvent({
-                  category: "team_profile",
+                  category: "profile",
                   action: "edit",
                   label: "success",
                 });
@@ -92,7 +92,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
               onError: (error) => {
                 onError(error);
                 trackEvent({
-                  category: "team_profile",
+                  category: "profile",
                   action: "edit",
                   label: "error",
                   error,

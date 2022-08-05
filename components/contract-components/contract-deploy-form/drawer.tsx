@@ -20,9 +20,9 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
         colorScheme="purple"
         onClick={() => {
           trackEvent({
-            category: "specific_release",
+            category: "specific-release",
             action: "click",
-            label: "open_drawer",
+            label: "open-drawer",
           });
           onOpen();
         }}
