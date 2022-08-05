@@ -220,7 +220,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                         progress: 0,
                         total: 100,
                       });
-                      onError(err);
+                      onError(error);
                     },
                   },
                 );
