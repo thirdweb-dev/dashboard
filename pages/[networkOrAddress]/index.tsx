@@ -19,6 +19,7 @@ import {
 } from "components/contract-components/hooks";
 import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
@@ -65,11 +66,19 @@ const UserPage: ThirdwebNextPage = () => {
         >
           {publishedContracts.isLoading && (
             <Center>
-              <Flex py={4} direction="row" gap={4} align="center">
-                {wallet && <Spinner size="sm" />}
-                <Text>
-                  {wallet ? "Loading releases" : "No wallet connected"}
-                </Text>
+              <Flex py={4} direction="column" gap={4} align="center">
+                <Text>No releases found.</Text>
+                {ensQuery.data?.address === address && (
+                  <LinkButton
+                    size="sm"
+                    href="https://portal.thirdweb.com/release"
+                    isExternal
+                    variant="outline"
+                    colorScheme="primary"
+                  >
+                    Learn more about releasing contracts
+                  </LinkButton>
+                )}
               </Flex>
             </Center>
           )}

@@ -31,7 +31,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="twitter"
         icon={<Icon boxSize={5} as={SiTwitter} />}
-        category="releaser-header"
+        category="releaser_header"
         label="twitter"
       />
     )}
@@ -44,7 +44,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="discord"
         icon={<Icon boxSize={5} as={SiDiscord} />}
-        category="releaser-header"
+        category="releaser_header"
         label="discord"
       />
     )}
@@ -57,7 +57,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="github"
         icon={<Icon boxSize={5} as={SiGithub} />}
-        category="releaser-header"
+        category="releaser_header"
         label="github"
       />
     )}
@@ -70,7 +70,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="website"
         icon={<Icon boxSize={5} as={FiGlobe} />}
-        category="releaser-header"
+        category="releaser_header"
         label="website"
       />
     )}
@@ -83,7 +83,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="medium"
         icon={<Icon boxSize={5} as={SiMedium} />}
-        category="releaser-header"
+        category="releaser_header"
         label="medium"
       />
     )}
@@ -96,7 +96,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="telegram"
         icon={<Icon boxSize={5} as={SiTelegram} />}
-        category="releaser-header"
+        category="releaser_header"
         label="telegram"
       />
     )}
@@ -109,7 +109,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="facebook"
         icon={<Icon boxSize={5} as={SiFacebook} />}
-        category="releaser-header"
+        category="releaser_header"
         label="facebook"
       />
     )}
@@ -122,7 +122,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="reddit"
         icon={<Icon boxSize={5} as={SiReddit} />}
-        category="releaser-header"
+        category="releaser_header"
         label="reddit"
       />
     )}
@@ -135,7 +135,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         bg="transparent"
         aria-label="linkedin"
         icon={<Icon boxSize={5} as={SiLinkedin} />}
-        category="releaser-header"
+        category="releaser_header"
         label="linkedin"
       />
     )}

@@ -4,6 +4,7 @@ import { MaskedAvatar } from "./masked-avatar";
 import { ReleaserSocials } from "./releaser-socials";
 import { Flex, Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import { Heading, Link, LinkButton, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -23,6 +24,8 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
   const address = useAddress();
   const router = useRouter();
   const isProfilePage = router.pathname === "/[networkOrAddress]";
+
+  const trackEvent = useTrack();
 
   return (
     <Flex
@@ -48,7 +51,16 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
           </Skeleton>
 
           <Flex flexDir="column">
-            <Link href={`/${ensQuery.data?.ensName || wallet}`}>
+            <Link
+              href={`/contracts/${ensQuery.data?.ensName || wallet}`}
+              onClick={() =>
+                trackEvent({
+                  category: "releaser_header",
+                  action: "click",
+                  label: "releaser_name",
+                })
+              }
+            >
               <Heading size="subtitle.sm" ml={2}>
                 {releaserProfile?.data?.name ||
                   ensQuery.data?.ensName ||
@@ -66,7 +78,18 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
           </Flex>
         </Flex>
         {!isProfilePage && (
-          <LinkButton variant="outline" size="sm" href={`/${wallet}`}>
+          <LinkButton
+            variant="outline"
+            size="sm"
+            href={`/contracts/${wallet}`}
+            onClick={() =>
+              trackEvent({
+                category: "releaser_header",
+                action: "click",
+                label: "view_all_contracts",
+              })
+            }
+          >
             View all contracts
           </LinkButton>
         )}
