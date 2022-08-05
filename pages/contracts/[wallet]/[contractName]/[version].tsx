@@ -81,7 +81,7 @@ const ContractsNamePageWrapped = () => {
                 trackEvent({
                   category: "release-selector",
                   action: "click",
-                  versionSelected: e.target.value,
+                  version_selected: e.target.value,
                 });
                 router.push(
                   `/contracts/${wallet}/${contractName}/${e.target.value}`,

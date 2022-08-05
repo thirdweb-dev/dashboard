@@ -71,7 +71,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
               trackEvent({
                 category: "release-selector",
                 action: "click",
-                versionSelected: e.target.value,
+                version_selected: e.target.value,
               });
               const path =
                 e.target.value === allVersions.data?.[0].version
