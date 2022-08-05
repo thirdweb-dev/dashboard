@@ -78,7 +78,12 @@ export const EditProfile: React.FC<EditProfileProps> = ({
         <ModalContent
           mx={{ base: 4, md: 0 }}
           as="form"
-          onSubmit={handleSubmit((d) =>
+          onSubmit={handleSubmit((d) => {
+            trackEvent({
+              category: "profile",
+              action: "edit",
+              label: "attempt",
+            });
             editProfile.mutate(d, {
               onSuccess: () => {
                 onSuccess();
@@ -98,8 +103,8 @@ export const EditProfile: React.FC<EditProfileProps> = ({
                   error,
                 });
               },
-            }),
-          )}
+            });
+          })}
         >
           <ModalHeader as={Flex} alignItems="center" p={5}>
             <Heading size="title.md">Edit your profile</Heading>
