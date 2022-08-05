@@ -1,3 +1,4 @@
+import { AirdropTab } from "./airdrop-tab";
 import { TransferTab } from "./transfer-tab";
 import {
   Flex,
@@ -16,6 +17,7 @@ import {
   useNFTBalance,
 } from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { BigNumber } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { Card, Drawer, Heading, Text } from "tw-components";
 
@@ -82,19 +84,23 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                 gap={2}
                 isDisabled={
                   (data.type === "ERC721" && data.owner !== address) ||
-                  (data.type === "ERC1155" && balanceOf.data?.lt(1))
+                  (data.type === "ERC1155" &&
+                    BigNumber.from(balanceOf?.data || 0).eq(0))
                 }
               >
                 Transfer
               </Tab>
+              {data.type === "ERC1155" && (
+                <Tab
+                  gap={2}
+                  isDisabled={BigNumber.from(balanceOf?.data || 0).eq(0)}
+                >
+                  Airdrop
+                </Tab>
+              )}
               <Tab gap={2} isDisabled>
                 Burn
               </Tab>
-              {data.type === "ERC1155" && (
-                <Tab gap={2} isDisabled>
-                  Transfer Batch
-                </Tab>
-              )}
               {data.type === "ERC1155" && (
                 <Tab gap={2} isDisabled>
                   Claim Phases
@@ -125,6 +131,14 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                   contract={contract?.nft || contract?.edition}
                   tokenId={data.metadata.id.toString()}
                 />
+              </TabPanel>
+              <TabPanel>
+                {data.type === "ERC1155" && contract?.edition && (
+                  <AirdropTab
+                    contract={contract.edition}
+                    tokenId={data.metadata.id.toString()}
+                  />
+                )}
               </TabPanel>
               <TabPanel>Burn</TabPanel>
             </TabPanels>
