@@ -8,23 +8,24 @@ import {
   TabPanels,
   Tabs,
   chakra,
+  usePrevious,
 } from "@chakra-ui/react";
 import {
   NFT,
+  NFTContract,
   ThirdwebNftMedia,
   useAddress,
-  useContract,
   useNFTBalance,
 } from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import { Card, Drawer, Heading, Text } from "tw-components";
 
 interface NFTDrawerProps {
+  contract: NFTContract;
   isOpen: boolean;
   onClose: () => void;
-  data: NFT<Erc721<any> | Erc1155<any>> | null;
+  data: NFT<NFTContract> | null;
 }
 
 const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
@@ -33,19 +34,28 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   isOpen,
   onClose,
   data,
+  contract,
 }) => {
-  const contractAddress = useSingleQueryParam("catchAll");
-  const { contract } = useContract(contractAddress);
   const address = useAddress();
   const balanceOf = useNFTBalance(
-    contract?.edition,
+    contract instanceof Erc1155 ? contract : undefined,
     address,
     data?.metadata.id,
   );
 
-  if (!data) {
+  const isERC1155 = contract instanceof Erc1155;
+  const isERC721 = contract instanceof Erc721;
+
+  const prevData = usePrevious(data);
+
+  const renderData = data || prevData;
+  if (!renderData) {
     return null;
   }
+
+  const isOwner =
+    (isERC1155 && BigNumber.from(balanceOf?.data || 0).gt(0)) ||
+    (isERC721 && renderData.owner === address);
 
   return (
     <Drawer
@@ -58,16 +68,16 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
           <ChakraThirdwebNftMedia
-            metadata={data.metadata}
+            metadata={renderData.metadata}
             requireInteraction
             flexShrink={0}
             boxSize={32}
             objectFit="contain"
           />
           <Flex flexDir="column" gap={2} w="70%">
-            <Heading size="title.lg">{data.metadata.name}</Heading>
+            <Heading size="title.lg">{renderData.metadata.name}</Heading>
             <Text size="label.md" noOfLines={6}>
-              {data.metadata.description}
+              {renderData.metadata.description}
             </Text>
           </Flex>
         </Flex>
@@ -80,30 +90,20 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
               overflowX={{ base: "auto", md: "inherit" }}
             >
               <Tab gap={2}>Details</Tab>
-              <Tab
-                gap={2}
-                isDisabled={
-                  (data.type === "ERC721" && data.owner !== address) ||
-                  (data.type === "ERC1155" &&
-                    BigNumber.from(balanceOf?.data || 0).eq(0))
-                }
-              >
+              <Tab gap={2} isDisabled={!isOwner}>
                 Transfer
               </Tab>
-              {data.type === "ERC1155" && (
-                <Tab
-                  gap={2}
-                  isDisabled={BigNumber.from(balanceOf?.data || 0).eq(0)}
-                >
+              {isERC1155 && (
+                <Tab gap={2} isDisabled={!isOwner}>
                   Airdrop
                 </Tab>
               )}
               <Tab gap={2} isDisabled>
-                Burn
+                Burn 🚧
               </Tab>
-              {data.type === "ERC1155" && (
+              {isERC1155 && (
                 <Tab gap={2} isDisabled>
-                  Claim Phases
+                  Claim Phases 🚧
                 </Tab>
               )}
             </TabList>
@@ -112,15 +112,15 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
               <TabPanel px={0}>
                 <Flex flexDir="column" gap={3}>
                   <Text size="label.md">
-                    Token ID: {data.metadata.id.toString()}
+                    Token ID: {renderData.metadata.id.toString()}
                   </Text>
-                  {data.type === "ERC721" && (
-                    <Text size="label.md">Owner: {data.owner}</Text>
+                  {isERC721 && (
+                    <Text size="label.md">Owner: {renderData.owner}</Text>
                   )}
-                  <Text size="label.md">Token Standard: {data.type}</Text>
-                  {data.type === "ERC1155" && (
+                  <Text size="label.md">Token Standard: {renderData.type}</Text>
+                  {isERC1155 && (
                     <Text size="label.md">
-                      Supply: {data.supply.toString()}
+                      Supply: {renderData.supply.toString()}
                     </Text>
                   )}
                 </Flex>
@@ -128,15 +128,15 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
 
               <TabPanel px={0}>
                 <TransferTab
-                  contract={contract?.nft || contract?.edition}
-                  tokenId={data.metadata.id.toString()}
+                  contract={contract}
+                  tokenId={renderData.metadata.id.toString()}
                 />
               </TabPanel>
               <TabPanel>
-                {data.type === "ERC1155" && contract?.edition && (
+                {isERC1155 && contract instanceof Erc1155 && (
                   <AirdropTab
-                    contract={contract.edition}
-                    tokenId={data.metadata.id.toString()}
+                    contract={contract}
+                    tokenId={renderData.metadata.id.toString()}
                   />
                 )}
               </TabPanel>

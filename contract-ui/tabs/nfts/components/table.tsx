@@ -140,6 +140,7 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
           />
         )}
         <NFTDrawer
+          contract={contract}
           data={tokenRow}
           isOpen={!!tokenRow}
           onClose={() => setTokenRow(null)}
