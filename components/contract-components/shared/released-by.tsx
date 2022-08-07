@@ -1,8 +1,10 @@
 import { Flex, Link } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import {
   ens,
   useReleasesFromDeploy,
 } from "components/contract-components/hooks";
+import { useMemo } from "react";
 import { LinkButton, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -11,29 +13,50 @@ interface ReleasedByProps {
 }
 
 export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
-  const ensQuery = ens.useQuery(contractAddress);
+  const contractEnsQuery = ens.useQuery(contractAddress);
+
   const releasesFromDeploy = useReleasesFromDeploy(
-    ensQuery.data?.address || undefined,
+    contractEnsQuery.data?.address || undefined,
   );
 
-  const lastRelease = releasesFromDeploy?.data?.length
-    ? releasesFromDeploy.data[releasesFromDeploy.data.length - 1]
-    : undefined;
+  const address = useAddress();
 
-  const releaserAddress = ensQuery.data?.ensName || lastRelease?.publisher;
-  return lastRelease ? (
+  const releaseToShow = useMemo(() => {
+    return (
+      releasesFromDeploy.data?.find(
+        (release) => release.publisher === address,
+      ) ||
+      releasesFromDeploy.data?.at(-1) ||
+      undefined
+    );
+  }, [releasesFromDeploy.data, address]);
+
+  const releaserEnsQuery = ens.useQuery(releaseToShow?.publisher);
+
+  const isOwnRelease = address === releaserEnsQuery.data?.address;
+
+  if (!releaseToShow) {
+    return null;
+  }
+
+  const releaserAddress =
+    releaserEnsQuery.data?.ensName || releaserEnsQuery.data?.address;
+  return releaseToShow ? (
     <Flex flexDir="column" gap={3} alignItems="end">
       <LinkButton
-        href={`/contracts/${releaserAddress}/${lastRelease?.name}/${lastRelease?.version}`}
+        href={`/contracts/${releaserAddress}/${releaseToShow?.name}/${releaseToShow?.version}`}
         noMatch
         size="sm"
         variant="outline"
       >
-        {lastRelease?.name} v{lastRelease?.version}
+        {releaseToShow?.name} v{releaseToShow?.version}
       </LinkButton>
       <Link href={`/${releaserAddress}`}>
         <Text size="label.sm" textAlign="center">
-          Released by {shortenIfAddress(releaserAddress)}
+          Released by{" "}
+          <strong>
+            {isOwnRelease ? "you" : shortenIfAddress(releaserAddress)}
+          </strong>
         </Text>
       </Link>
     </Flex>
