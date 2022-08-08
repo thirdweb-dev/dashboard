@@ -1,13 +1,21 @@
 import { InteractiveAbiFunction } from "./interactive-abi-function";
 import {
+  Divider,
   Flex,
   GridItem,
   Icon,
   List,
   ListItem,
   SimpleGrid,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
+import { MarkdownRenderer } from "components/contract-components/released-contract/markdown-renderer";
 import { useState } from "react";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
@@ -24,6 +32,7 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
   if (!fn) {
     return null;
   }
+
   return (
     <Flex direction="column" gap={1.5}>
       <Flex alignItems="center" gap={2}>
@@ -33,13 +42,63 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
         </Badge>
       </Flex>
       {fn.comment && (
-        <Text size="body.md">
-          {fn.comment
+        <MarkdownRenderer
+          markdownText={fn.comment
             .replaceAll(/See \{(.+)\}(\.)?/gm, "")
             .replaceAll("{", '"')
-            .replaceAll("}", '"')}
-        </Text>
+            .replaceAll("}", '"')
+            .replaceAll("'", '"')}
+        />
       )}
+      {fn.inputs && fn.inputs.length && !contract ? (
+        <>
+          <Divider my={2} />
+          <Flex flexDir="column" gap={3}>
+            <Heading size="label.lg">Inputs</Heading>
+            <Card borderRadius="md" p={0} overflowX="auto" position="relative">
+              <Table size="sm">
+                <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
+                  <Tr>
+                    <Th py={2} borderBottomColor="borderColor">
+                      <Heading as="label" size="label.sm">
+                        Name
+                      </Heading>
+                    </Th>
+                    <Th py={2} borderBottomColor="borderColor">
+                      <Heading as="label" size="label.sm">
+                        Type
+                      </Heading>
+                    </Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {fn.inputs.map((input) => (
+                    <Tr
+                      borderBottomWidth={1}
+                      _last={{ borderBottomWidth: 0 }}
+                      key={input.name}
+                    >
+                      <Td
+                        borderBottomWidth="inherit"
+                        borderBottomColor="borderColor"
+                      >
+                        <Text fontFamily="mono">{input.name}</Text>
+                      </Td>
+                      <Td
+                        borderBottomWidth="inherit"
+                        borderBottomColor="borderColor"
+                      >
+                        <Text fontFamily="mono">{input.type}</Text>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </Card>
+          </Flex>
+        </>
+      ) : null}
+
       {contract && (
         <InteractiveAbiFunction
           key={JSON.stringify(fn)}
