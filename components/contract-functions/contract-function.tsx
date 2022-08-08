@@ -1,13 +1,26 @@
-import { Flex, GridItem, List, ListItem, SimpleGrid } from "@chakra-ui/react";
-import { AbiFunction } from "@thirdweb-dev/sdk";
+import { InteractiveAbiFunction } from "./interactive-abi-function";
+import {
+  Flex,
+  GridItem,
+  Icon,
+  List,
+  ListItem,
+  SimpleGrid,
+} from "@chakra-ui/react";
+import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
 import { useState } from "react";
+import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface ContractFunctionProps {
   fn?: AbiFunction;
+  contract?: SmartContract;
 }
 
-export const ContractFunction: React.FC<ContractFunctionProps> = ({ fn }) => {
+export const ContractFunction: React.FC<ContractFunctionProps> = ({
+  fn,
+  contract,
+}) => {
   if (!fn) {
     return null;
   }
@@ -15,11 +28,9 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({ fn }) => {
     <Flex direction="column" gap={1.5}>
       <Flex alignItems="center" gap={2}>
         <Heading size="subtitle.md">{fn.name}</Heading>
-        {fn.stateMutability === "payable" && (
-          <Badge size="label.sm" variant="subtle" colorScheme="green">
-            Payable
-          </Badge>
-        )}
+        <Badge size="label.sm" variant="subtle" colorScheme="green">
+          {fn.stateMutability}
+        </Badge>
       </Flex>
       {fn.comment && (
         <Text size="body.md">
@@ -29,16 +40,25 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({ fn }) => {
             .replaceAll("}", '"')}
         </Text>
       )}
+      {contract && (
+        <InteractiveAbiFunction
+          key={JSON.stringify(fn)}
+          contract={contract}
+          abiFunction={fn}
+        />
+      )}
     </Flex>
   );
 };
 
 interface ContractFunctionsPanelProps {
   functions: AbiFunction[];
+  contract?: SmartContract;
 }
 
 export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
   functions,
+  contract,
 }) => {
   const [selectedFunction, setSelectedFunction] = useState<AbiFunction>(
     functions[0],
@@ -60,8 +80,20 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           {functions.map((fn) => (
             <ListItem key={fn.signature} my={0.5}>
               <Button
+                size="sm"
                 fontWeight={
                   selectedFunction.signature === fn.signature ? 600 : 400
+                }
+                leftIcon={
+                  <Icon
+                    boxSize={3}
+                    as={
+                      fn.stateMutability === "view" ||
+                      fn.stateMutability === "pure"
+                        ? FiEye
+                        : FiEdit2
+                    }
+                  />
                 }
                 opacity={selectedFunction.signature === fn.signature ? 1 : 0.65}
                 onClick={() => setSelectedFunction(fn)}
@@ -78,7 +110,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
       </GridItem>
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Card ml={{ base: 0, md: 3 }} mt={{ base: 3, md: 0 }} flexGrow={1}>
-          <ContractFunction fn={selectedFunction} />
+          <ContractFunction fn={selectedFunction} contract={contract} />
         </Card>
       </GridItem>
     </SimpleGrid>
