@@ -35,6 +35,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
+  Link,
   Text,
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -288,8 +289,10 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           </FormControl>
           <Flex justifyContent="space-between" alignItems="center">
             <Text>
-              Our contract registry lives on Polygon and releases are free
-              (gasless)
+              Our contract registry lives on-chain, releases are free (gasless).
+              <Link href="https://portal.thirdweb.com/release" isExternal>
+                Learn more
+              </Link>
             </Text>
             <TransactionButton
               colorScheme={address ? "purple" : "blue"}
