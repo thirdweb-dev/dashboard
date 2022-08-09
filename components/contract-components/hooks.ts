@@ -69,6 +69,9 @@ export async function fetchContractPublishMetadataFromURI(
   contractId: ContractId,
 ) {
   const contractIdIpfsHash = toContractIdIpfsHash(contractId);
+
+  console.log("*** contractIdIpfsHash", { contractIdIpfsHash, contractId });
+
   if (isContractIdBuiltInContract(contractId)) {
     const details = BuiltinContractMap[contractIdIpfsHash as ContractType];
     return {
@@ -78,18 +81,25 @@ export async function fetchContractPublishMetadataFromURI(
       description: details.description,
     };
   }
-  // TODO: Make this nicer.
+
   invariant(contractId !== "ipfs://undefined", "uri can't be undefined");
-  const resolved = await fetchPreDeployMetadata(
-    contractIdIpfsHash,
-    StorageSingleton,
-  );
+  let resolved;
+  try {
+    resolved = await fetchPreDeployMetadata(
+      contractIdIpfsHash,
+      StorageSingleton,
+    );
+  } catch (err) {
+    console.error("failed to resolvePreDeployMetadata", err);
+  }
+
   if (!resolved) {
     return {
-      name: "Loading...",
+      name: "",
       image: "custom",
     };
   }
+
   return {
     image: (resolved as any)?.image || "custom",
     name: resolved.name,
