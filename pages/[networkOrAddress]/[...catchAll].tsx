@@ -217,7 +217,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    fallback: "blocking",
+    fallback: true,
     paths: [],
   };
 };
