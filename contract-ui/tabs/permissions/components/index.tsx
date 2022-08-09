@@ -34,8 +34,6 @@ export const Permissions = <TContract extends ContractWithRoles>({
   const contractData =
     BuiltinContractMap[contractType as keyof typeof BuiltinContractMap];
 
-  console.log({ contractType, contractData });
-
   useEffect(() => {
     if (allRoleMembers.data && !form.formState.isDirty) {
       form.reset(allRoleMembers.data);
