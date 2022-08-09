@@ -32,11 +32,13 @@ import {
   ProfileMetadata,
   PublishedContract,
 } from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
-import { StorageSingleton } from "components/app-layouts/providers";
+import {
+  StorageSingleton,
+  alchemyUrlMap,
+} from "components/app-layouts/providers";
 import { BuiltinContractMap } from "constants/mappings";
 import { isAddress } from "ethers/lib/utils";
 import { ENSResolveResult, isEnsName } from "lib/ens";
-import { getSSRSDK } from "lib/ssr-sdk";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -69,8 +71,6 @@ export async function fetchContractPublishMetadataFromURI(
   contractId: ContractId,
 ) {
   const contractIdIpfsHash = toContractIdIpfsHash(contractId);
-
-  console.log("*** contractIdIpfsHash", { contractIdIpfsHash, contractId });
 
   if (isContractIdBuiltInContract(contractId)) {
     const details = BuiltinContractMap[contractIdIpfsHash as ContractType];
@@ -249,7 +249,16 @@ export function useReleasesFromDeploy(contractAddress?: string) {
   const sdk = useSDK();
   const provider = sdk?.getProvider();
 
-  const polygonSdk = getSSRSDK(ChainId.Polygon);
+  const polygonSdk = new ThirdwebSDK(
+    alchemyUrlMap[ChainId.Polygon],
+    {
+      readonlySettings: {
+        chainId: ChainId.Polygon,
+        rpcUrl: alchemyUrlMap[ChainId.Polygon],
+      },
+    },
+    StorageSingleton,
+  );
   return useQueryWithNetwork(
     ["release-from-deploy", contractAddress],
     async () => {
