@@ -27,7 +27,6 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
   contract,
   sources,
 }) => {
-  console.log(events);
   return (
     <Card as={Flex} flexDir="column" gap={2} p={0}>
       <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
