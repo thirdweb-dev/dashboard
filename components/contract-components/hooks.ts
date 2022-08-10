@@ -21,6 +21,7 @@ import {
   ThirdwebSDK,
   detectFeatures,
   extractConstructorParamsFromAbi,
+  extractEventsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
   resolveContractUriFromAddress,
@@ -309,6 +310,14 @@ export function useReleasedContractFunctions(contract: PublishedContract) {
   );
   return meta
     ? extractFunctionsFromAbi(meta.abi as any, meta?.compilerMetadata)
+    : undefined;
+}
+export function useReleasedContractEvents(contract: PublishedContract) {
+  const { data: meta } = useContractPublishMetadataFromURI(
+    contract.metadataUri,
+  );
+  return meta
+    ? extractEventsFromAbi(meta.abi as any, meta?.compilerMetadata)
     : undefined;
 }
 
