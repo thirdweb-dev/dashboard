@@ -1,6 +1,6 @@
 import { Flex, Progress, Radio, Stack, Tooltip } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLazyMint } from "@thirdweb-dev/react";
+import { NFTContract, useLazyMint } from "@thirdweb-dev/react";
 import {
   EditionDrop,
   Erc721,
@@ -83,7 +83,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 };
 
 interface SelectRevealProps {
-  contract?: Erc721;
+  contract?: NFTContract;
   mergedData: NFTMetadataInput[];
   onClose: () => void;
 }
