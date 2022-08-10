@@ -14,14 +14,14 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
+import { AbiEvent, AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
 import { MarkdownRenderer } from "components/contract-components/released-contract/markdown-renderer";
 import { useMemo, useState } from "react";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface ContractFunctionProps {
-  fn?: AbiFunction;
+  fn?: AbiFunction | AbiEvent;
   contract?: SmartContract;
 }
 
@@ -33,13 +33,17 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
     return null;
   }
 
+  const isFunction = "stateMutability" in fn;
+
   return (
     <Flex direction="column" gap={1.5}>
       <Flex alignItems="center" gap={2}>
         <Heading size="subtitle.md">{fn.name}</Heading>
-        <Badge size="label.sm" variant="subtle" colorScheme="green">
-          {fn.stateMutability}
-        </Badge>
+        {isFunction && (
+          <Badge size="label.sm" variant="subtle" colorScheme="green">
+            {fn.stateMutability}
+          </Badge>
+        )}
       </Flex>
       {fn.comment && (
         <MarkdownRenderer
@@ -99,7 +103,7 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
         </>
       ) : null}
 
-      {contract && (
+      {contract && isFunction && (
         <InteractiveAbiFunction
           key={JSON.stringify(fn)}
           contract={contract}
@@ -110,30 +114,33 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
   );
 };
 
-interface ContractFunctionsPanelProps {
-  functions: AbiFunction[];
-  contract?: SmartContract;
-}
+type ContractFunctionsPanelProps =
+  | { functions: AbiFunction[]; events?: undefined; contract?: SmartContract }
+  | { functions?: undefined; events: AbiEvent[]; contract?: SmartContract };
 
 export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
   functions,
+  events,
   contract,
 }) => {
-  const sortedFunctions = useMemo(() => {
-    return functions.sort((a, b) => {
-      if (b.stateMutability === "view" || b.stateMutability === "pure") {
-        return -1;
-      }
-      if (a.stateMutability === "view" || a.stateMutability === "pure") {
-        return 1;
-      }
-      return 0;
-    });
-  }, [functions]);
+  const fnsOrEvents: AbiFunction[] | AbiEvent[] = useMemo(() => {
+    if (functions) {
+      return functions.sort((a, b) => {
+        if (b.stateMutability === "view" || b.stateMutability === "pure") {
+          return -1;
+        }
+        if (a.stateMutability === "view" || a.stateMutability === "pure") {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    return events;
+  }, [functions, events]);
 
-  const [selectedFunction, setSelectedFunction] = useState<AbiFunction>(
-    sortedFunctions[0],
-  );
+  const [selectedFunction, setSelectedFunction] = useState<
+    AbiFunction | AbiEvent
+  >(fnsOrEvents[0]);
 
   return (
     <SimpleGrid columns={12}>
@@ -149,25 +156,23 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           pr={{ base: 0, md: 3 }}
           mb={{ base: 3, md: 0 }}
         >
-          {sortedFunctions.map((fn) => (
-            <ListItem key={fn.signature} my={0.5}>
+          {fnsOrEvents.map((fn) => (
+            <ListItem key={fn.name} my={0.5}>
               <Button
                 size="sm"
-                fontWeight={
-                  selectedFunction.signature === fn.signature ? 600 : 400
-                }
+                fontWeight={selectedFunction.name === fn.name ? 600 : 400}
                 leftIcon={
                   <Icon
                     boxSize={3}
-                    as={
+                    /*                     as={
                       fn.stateMutability === "view" ||
                       fn.stateMutability === "pure"
                         ? FiEye
                         : FiEdit2
-                    }
+                    } */
                   />
                 }
-                opacity={selectedFunction.signature === fn.signature ? 1 : 0.65}
+                opacity={selectedFunction.name === fn.name ? 1 : 0.65}
                 onClick={() => setSelectedFunction(fn)}
                 color="heading"
                 _hover={{ opacity: 1, textDecor: "underline" }}

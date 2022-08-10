@@ -1,4 +1,3 @@
-import { ContractEventsPanel } from "./contract-events";
 import { ContractFunctionsPanel } from "./contract-function";
 import {
   Flex,
@@ -66,7 +65,7 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
           ) : null}
           {events?.length ? (
             <TabPanel px={0}>
-              <ContractEventsPanel events={events} contract={contract} />
+              <ContractFunctionsPanel events={events} contract={contract} />
             </TabPanel>
           ) : null}
           {sources && (
