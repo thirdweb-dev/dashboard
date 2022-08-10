@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NFTContract, useLazyMint } from "@thirdweb-dev/react";
 import {
   EditionDrop,
-  Erc721,
   NFTMetadataInput,
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";

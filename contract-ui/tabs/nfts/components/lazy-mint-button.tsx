@@ -1,7 +1,6 @@
 import { NFTMintForm } from "./mint-form";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import { NFTContract, useLazyMint } from "@thirdweb-dev/react";
-import { Erc721 } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
