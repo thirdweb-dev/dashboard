@@ -57,14 +57,17 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
           {functions.length ? (
             <TabPanel px={0}>
               <ContractFunctionsPanel
-                functions={functions}
+                fnsOrEvents={functions}
                 contract={contract}
               />
             </TabPanel>
           ) : null}
           {events?.length ? (
             <TabPanel px={0}>
-              <ContractFunctionsPanel events={events} contract={contract} />
+              <ContractFunctionsPanel
+                fnsOrEvents={events}
+                contract={contract}
+              />
             </TabPanel>
           ) : null}
           {sources && (

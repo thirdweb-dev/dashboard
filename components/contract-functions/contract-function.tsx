@@ -115,35 +115,41 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
   );
 };
 
-type ContractFunctionsPanelProps =
-  | { functions: AbiFunction[]; events?: undefined; contract?: SmartContract }
-  | { functions?: undefined; events: AbiEvent[]; contract?: SmartContract };
+interface ContractFunctionsPanelProps {
+  fnsOrEvents: (AbiFunction | AbiEvent)[];
+  contract?: SmartContract;
+}
 
 export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
-  functions,
-  events,
+  fnsOrEvents,
   contract,
 }) => {
-  const fnsOrEvents: AbiFunction[] | AbiEvent[] = useMemo(() => {
-    if (functions) {
-      return functions.sort((a, b) => {
-        if (b.stateMutability === "view" || b.stateMutability === "pure") {
+  const isFunction = "stateMutability" in fnsOrEvents[0];
+
+  const fnsOrEventsSorted: AbiFunction[] | AbiEvent[] = useMemo(() => {
+    if (isFunction) {
+      return fnsOrEvents.sort((a, b) => {
+        if (
+          (b as AbiFunction).stateMutability === "view" ||
+          (b as AbiFunction).stateMutability === "pure"
+        ) {
           return -1;
         }
-        if (a.stateMutability === "view" || a.stateMutability === "pure") {
+        if (
+          (a as AbiFunction).stateMutability === "view" ||
+          (a as AbiFunction).stateMutability === "pure"
+        ) {
           return 1;
         }
         return 0;
       });
     }
-    return events;
-  }, [functions, events]);
+    return fnsOrEvents;
+  }, [fnsOrEvents, isFunction]);
 
   const [selectedFunction, setSelectedFunction] = useState<
     AbiFunction | AbiEvent
   >(fnsOrEvents[0]);
-
-  const isFunction = "stateMutability" in selectedFunction;
 
   return (
     <SimpleGrid columns={12}>
@@ -159,7 +165,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           pr={{ base: 0, md: 3 }}
           mb={{ base: 3, md: 0 }}
         >
-          {fnsOrEvents.map((fn) => (
+          {fnsOrEventsSorted.map((fn) => (
             <ListItem key={fn.name} my={0.5}>
               <Button
                 size="sm"
