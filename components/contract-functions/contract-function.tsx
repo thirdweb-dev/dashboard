@@ -17,6 +17,7 @@ import {
 import { AbiEvent, AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
 import { MarkdownRenderer } from "components/contract-components/released-contract/markdown-renderer";
 import { useMemo, useState } from "react";
+import { BsLightningCharge } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
@@ -142,6 +143,8 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
     AbiFunction | AbiEvent
   >(fnsOrEvents[0]);
 
+  const isFunction = "stateMutability" in selectedFunction;
+
   return (
     <SimpleGrid columns={12}>
       <GridItem
@@ -164,12 +167,14 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
                 leftIcon={
                   <Icon
                     boxSize={3}
-                    /*                     as={
-                      fn.stateMutability === "view" ||
-                      fn.stateMutability === "pure"
-                        ? FiEye
-                        : FiEdit2
-                    } */
+                    as={
+                      isFunction
+                        ? (fn as AbiFunction).stateMutability === "view" ||
+                          (fn as AbiFunction).stateMutability === "pure"
+                          ? FiEye
+                          : FiEdit2
+                        : BsLightningCharge
+                    }
                   />
                 }
                 opacity={selectedFunction.name === fn.name ? 1 : 0.65}
