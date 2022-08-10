@@ -92,7 +92,7 @@ function formatSnippet(
       ?.replace(/{{chainName}}/gm, chainName || "goerli")
       ?.replace(/{{function}}/gm, fn || "");
 
-    if (args && args.length) {
+    if (args && args?.some((arg) => arg)) {
       code[env] = code[env]?.replace(/{{args}}/gm, args?.join(", ") || "");
     } else {
       code[env] = code[env]
