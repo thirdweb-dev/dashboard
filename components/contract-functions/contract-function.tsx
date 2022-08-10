@@ -166,7 +166,10 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           mb={{ base: 3, md: 0 }}
         >
           {fnsOrEventsSorted.map((fn) => (
-            <ListItem key={fn.name} my={0.5}>
+            <ListItem
+              key={isFunction ? (fn as AbiFunction).signature : fn.name}
+              my={0.5}
+            >
               <Button
                 size="sm"
                 fontWeight={selectedFunction.name === fn.name ? 600 : 400}
