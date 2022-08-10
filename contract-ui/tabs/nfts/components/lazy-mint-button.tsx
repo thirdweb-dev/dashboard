@@ -16,11 +16,11 @@ export const NFTLazyMintButton: React.FC<NFTLazyMintButtonProps> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const mutation = useLazyMint(contract as Erc721);
+  const mutation = useLazyMint(contract);
 
   const detectedState = extensionDetectedState({
     contract,
-    feature: ["ERC721Droppable"],
+    feature: ["ERC721Droppable", "ERC1155Droppable"],
   });
 
   if (detectedState !== "enabled") {
