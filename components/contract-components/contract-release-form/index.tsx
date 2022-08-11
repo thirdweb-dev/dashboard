@@ -27,7 +27,6 @@ import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
-import posthog from "posthog-js";
 import { useEffect, useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
