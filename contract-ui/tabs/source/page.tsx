@@ -16,9 +16,6 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useContractType } from "@thirdweb-dev/react";
-import { ContractType } from "@thirdweb-dev/sdk";
-import { BuiltinContractMap } from "constants/mappings";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
