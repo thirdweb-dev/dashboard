@@ -47,6 +47,7 @@ export interface BuiltinContractDetails {
   comingSoon?: boolean;
   contractType: ContractType;
   href: string;
+  sourceUrl: string;
   erc?: "ERC721" | "ERC20" | "ERC1155" | "ERC721A";
   audit?: string;
   roles?: Role[];
@@ -89,6 +90,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
       href: "/contracts/new/pre-built/drop/nft-drop",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/drop/DropERC721.sol",
     },
     "signature-drop": {
       title: "Signature Drop",
@@ -99,6 +102,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       href: "/contracts/new/pre-built/drop/signature-drop",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/signature-drop/SignatureDrop.sol",
     },
     marketplace: {
       title: "Marketplace",
@@ -108,6 +113,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
       href: "/contracts/new/pre-built/marketplace/marketplace",
       roles: ["admin", "lister", "asset"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/marketplace/Marketplace.sol",
     },
     "edition-drop": {
       title: "Edition Drop",
@@ -118,6 +125,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       href: "/contracts/new/pre-built/drop/edition-drop",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/drop/DropERC1155.sol",
     },
     multiwrap: {
       title: "Multiwrap",
@@ -129,6 +138,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       href: "/contracts/new/pre-built/token/multiwrap",
       roles: ["admin", "transfer", "minter", "unwrap", "asset"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/multiwrap/Multiwrap.sol",
     },
     token: {
       title: "Token",
@@ -138,6 +149,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC20",
       href: "/contracts/new/pre-built/token/token",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/token/TokenERC20.sol",
     },
     edition: {
       title: "Edition",
@@ -147,6 +160,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC1155",
       href: "/contracts/new/pre-built/token/edition",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/token/TokenERC1155.sol",
     },
     "token-drop": {
       title: "Token Drop",
@@ -156,6 +171,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC20",
       href: "/contracts/new/pre-built/drop/token-drop",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/drop/DropERC20.sol",
     },
     split: {
       title: "Split",
@@ -163,6 +180,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["split"],
       contractType: "split",
       href: "/contracts/new/pre-built/governance/split",
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/Split.sol",
     },
     "nft-collection": {
       title: "NFT Collection",
@@ -172,6 +191,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC721",
       href: "/contracts/new/pre-built/token/nft-collection",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/token/TokenERC721.sol",
     },
     vote: {
       title: "Vote",
@@ -179,6 +200,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["vote"],
       contractType: "vote",
       href: "/contracts/new/pre-built/governance/vote",
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/vote/VoteERC20.sol",
     },
     pack: {
       title: "Pack",
@@ -189,6 +212,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       erc: "ERC1155",
       href: "/contracts/new/pre-built/token/pack",
       roles: ["admin", "transfer", "minter"],
+      sourceUrl:
+        "https://github.com/thirdweb-dev/contracts/blob/main/contracts/pack/Pack.sol",
     },
     custom: {
       title: "NOT IMPLEMENTED",
@@ -196,6 +221,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       icon: FeatureIconMap["custom"],
       contractType: "custom",
       href: "NOT IMPLEMENTED",
+      sourceUrl: "NOT IMPLEMENTED",
     },
   };
 

@@ -1,5 +1,6 @@
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
+import { usePrebuiltSource } from "@3rdweb-sdk/react/hooks/usePrebuiltSource";
 import {
   Divider,
   Flex,
@@ -15,6 +16,9 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useContractType } from "@thirdweb-dev/react";
+import { ContractType } from "@thirdweb-dev/sdk";
+import { BuiltinContractMap } from "constants/mappings";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
@@ -174,9 +178,12 @@ export const CustomContractSourcePage: React.FC<
   const contractQuery = useContractSources(contractAddress);
   const chainId = useActiveChainId();
 
+  const { data: prebuiltSource } = usePrebuiltSource(contractAddress);
+
   if (!contractAddress) {
     return <div>No contract address provided</div>;
   }
+
   if (!contractQuery || contractQuery?.isLoading) {
     return (
       <Flex direction="row" align="center" gap={2}>
@@ -206,7 +213,9 @@ export const CustomContractSourcePage: React.FC<
   }
 
   // clean up the source filenames and filter out libraries
-  const sources = contractQuery.data
+  const sources = prebuiltSource
+    ? [prebuiltSource]
+    : contractQuery.data
     ? contractQuery.data
         .filter((source) => !source.filename.includes("@"))
         .map((source) => {
