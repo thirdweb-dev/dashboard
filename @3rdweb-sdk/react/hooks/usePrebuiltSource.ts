@@ -5,14 +5,16 @@ import { BuiltinContractMap } from "constants/mappings";
 
 export function usePrebuiltSource(contractAddress: string | undefined) {
   const { data: contractType } = useContractType(contractAddress);
-  const contract = BuiltinContractMap[contractType as ContractType];
+  const { sourceUrl } = BuiltinContractMap[contractType as ContractType];
   return useQuery(["prebuilt-source", contractType], async () => {
-    const res = await fetch(
-      `https://raw.githubusercontent.com/thirdweb-dev/contracts/main/contracts/drop/DropERC1155.sol`,
-    );
-    const code = await res.text();
+    if (contractType === "custom") {
+      return undefined;
+    }
 
-    const source = { filename: "DropERC1155.sol", source: code };
+    const res = await fetch(sourceUrl);
+    const code = await res.text();
+    const filename = sourceUrl.split("/").pop();
+    const source = { filename, source: code };
 
     return source;
   });

@@ -184,7 +184,7 @@ export const CustomContractSourcePage: React.FC<
     return <div>No contract address provided</div>;
   }
 
-  if (!contractQuery || contractQuery?.isLoading) {
+  if ((!contractQuery || contractQuery?.isLoading) && !prebuiltSource) {
     return (
       <Flex direction="row" align="center" gap={2}>
         <Spinner color="purple.500" size="xs" />
@@ -208,7 +208,7 @@ export const CustomContractSourcePage: React.FC<
     </Flex>
   );
 
-  if (contractQuery.isError) {
+  if (contractQuery.isError && !prebuiltSource) {
     return codeNotFound;
   }
 
@@ -240,9 +240,11 @@ export const CustomContractSourcePage: React.FC<
               <Heading size="title.sm" flex={1}>
                 Contract Source Code
               </Heading>
-              <Button variant="solid" colorScheme="purple" onClick={onOpen}>
-                Verify on {blockExplorerName(chainId)}
-              </Button>
+              {!prebuiltSource && (
+                <Button variant="solid" colorScheme="purple" onClick={onOpen}>
+                  Verify on {blockExplorerName(chainId)}
+                </Button>
+              )}
             </Flex>
             {sources.map((signature) => (
               <Card
