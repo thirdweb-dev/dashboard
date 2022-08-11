@@ -63,14 +63,14 @@ export const Permissions = <TContract extends ContractWithRoles>({
         as="form"
         onSubmit={form.handleSubmit((d) => {
           trackEvent({
-            category: "settings",
+            category: "permissions",
             action: "set-permissions",
             label: "attempt",
           });
           setAllRoleMembers.mutateAsync(d as PermissionFormContext<TContract>, {
             onSuccess: (_data, variables) => {
               trackEvent({
-                category: "settings",
+                category: "permissions",
                 action: "set-permissions",
                 label: "success",
               });
@@ -79,7 +79,7 @@ export const Permissions = <TContract extends ContractWithRoles>({
             },
             onError: (error) => {
               trackEvent({
-                category: "settings",
+                category: "permissions",
                 action: "set-permissions",
                 label: "error",
                 error,
