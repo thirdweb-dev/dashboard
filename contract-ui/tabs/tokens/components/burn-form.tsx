@@ -61,7 +61,7 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
           </Stack>
           <Text>
             Burning these{" "}
-            {`${Number(watch("amount")) > 1 ? watch("amount") : ""} `}tokens
+            {`${parseInt(watch("amount")) > 1 ? watch("amount") : ""} `}tokens
             will remove them from the total circulating supply. This action is
             irreversible.
           </Text>
