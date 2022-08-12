@@ -22,7 +22,10 @@ export function useTrack() {
     const restDataSafe = Object.fromEntries(
       Object.entries(restData).map(([key, value]) => {
         if (value instanceof Error) {
-          return [key, { message: value.message, stack: value.stack }];
+          return [
+            key,
+            { message: value.message, stack: value.stack?.toString() },
+          ];
         }
         return [key, value];
       }),
