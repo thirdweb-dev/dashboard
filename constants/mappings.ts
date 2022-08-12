@@ -25,10 +25,10 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
 
 export const UrlMap: Record<ContractType, string> = {
   "nft-drop": "nft-drop",
-  "nft-collection": "nft-collection",
+  "nft-collection": "",
   "edition-drop": "edition-drop",
-  edition: "edition",
-  token: "token",
+  edition: "",
+  token: "",
   vote: "vote",
   marketplace: "marketplace",
   pack: "",
