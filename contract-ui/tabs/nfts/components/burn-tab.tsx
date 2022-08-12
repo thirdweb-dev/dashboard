@@ -101,7 +101,7 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
           {contract instanceof Erc1155 && (
             <Text>
               Burning these{" "}
-              {`${Number(watch("amount")) > 1 ? watch("amount") : ""} `}
+              {`${parseInt(watch("amount")) > 1 ? watch("amount") : ""} `}
               copies of the NFT will remove them them from your wallet. The NFT
               data will continue to be accessible but no one will be able to
               claim ownership over these copies again. This action is
