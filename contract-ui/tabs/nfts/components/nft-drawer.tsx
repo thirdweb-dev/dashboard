@@ -1,4 +1,5 @@
 import { AirdropTab } from "./airdrop-tab";
+import { BurnTab } from "./burn-tab";
 import { TransferTab } from "./transfer-tab";
 import {
   Flex,
@@ -98,8 +99,8 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                   Airdrop
                 </Tab>
               )}
-              <Tab gap={2} isDisabled>
-                Burn 🚧
+              <Tab gap={2} isDisabled={!isOwner}>
+                Burn
               </Tab>
               {isERC1155 && (
                 <Tab gap={2} isDisabled>
@@ -132,15 +133,20 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                   tokenId={renderData.metadata.id.toString()}
                 />
               </TabPanel>
-              <TabPanel>
-                {isERC1155 && contract instanceof Erc1155 && (
+              {isERC1155 && (
+                <TabPanel>
                   <AirdropTab
                     contract={contract}
                     tokenId={renderData.metadata.id.toString()}
                   />
-                )}
+                </TabPanel>
+              )}
+              <TabPanel>
+                <BurnTab
+                  contract={contract}
+                  tokenId={renderData.metadata.id.toString()}
+                />
               </TabPanel>
-              <TabPanel>Burn</TabPanel>
             </TabPanels>
           </Tabs>
         </Card>
