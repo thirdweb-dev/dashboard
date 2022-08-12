@@ -19,6 +19,7 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
+  Text,
 } from "tw-components";
 
 const BURN_FORM_ID = "token-burn-form";
@@ -33,6 +34,7 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({ defaultValues: { amount: "0" } });
   const modalContext = useModalContext();
@@ -57,6 +59,12 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
               <FormErrorMessage>{errors.amount?.message}</FormErrorMessage>
             </FormControl>
           </Stack>
+          <Text>
+            Burning these{" "}
+            {`${Number(watch("amount")) > 1 ? watch("amount") : ""} `}tokens
+            will remove them from the total circulating supply. This action is
+            irreversible.
+          </Text>
         </Stack>
       </DrawerBody>
       <DrawerFooter>
