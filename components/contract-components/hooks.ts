@@ -273,7 +273,10 @@ export function useReleasesFromDeploy(
     StorageSingleton,
   );
   return useQuery(
-    networkKeys.chain(cId).concat(["release-from-deploy", contractAddress]),
+    (networkKeys.chain(cId) as readonly unknown[]).concat([
+      "release-from-deploy",
+      contractAddress,
+    ]),
     async () => {
       invariant(contractAddress, "contractAddress is not defined");
       invariant(provider, "provider is not defined");
