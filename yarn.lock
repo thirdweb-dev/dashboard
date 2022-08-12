@@ -1999,10 +1999,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.0.3.tgz#ba83b7e28ab01a88358de479cf98cddbf835ff56"
   integrity sha512-TQRrML5SwbTb0VA1nu7VLxqIXrqMfvaXOBFT//yA9Jdd7GNsG4zSQHlHpkU4KWG1r766poG/AuXwz8KQ1A9IBg==
 
-"@thirdweb-dev/react@^2.6.3-0":
-  version "2.6.3-0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.6.3-0.tgz#07f804fa5803ae9b8408843e0f1d86403b9e4b9a"
-  integrity sha512-WmUGAz/aKRDg8v/KVeZcVV/xkboEpHxXKHiW7yZun0sNmt8koYHN0GRXhidhsnYTBwqKbHZBvUbNA2THETKfqA==
+"@thirdweb-dev/react@^2.6.3-3":
+  version "2.6.3-3"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.6.3-3.tgz#716d83bce9217d189b5f5a2900fb3dd49afc8921"
+  integrity sha512-EpL60HAgMQZUgZAsc/CAjUL9KVZF16fRZSuzrE6Z6xNxs/aIsgbHJan9UxPUCSE74BqsnYIkz4Hg5mrlCk1P7A==
   dependencies:
     "@gnosis.pm/safe-core-sdk" "2.1.0"
     "@gnosis.pm/safe-ethers-adapters" "0.1.0-alpha.9"
@@ -2014,10 +2014,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.35-4":
-  version "2.3.35-4"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.35-4.tgz#f39b2628ac2c96d221884a135cfbca4d28c4a07f"
-  integrity sha512-m9ki/ft2IeY89O5XRI2EzMETfZhDhfm0TNjNYLYgaRpFXDLIaAV5fxPbcaL9v7YKHsnmsO3x+KREHkWSmoks1Q==
+"@thirdweb-dev/sdk@^2.3.35":
+  version "2.3.35"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.35.tgz#3a212aed78eec6e1ec2a00cdcb587ad075d8f165"
+  integrity sha512-jeoNjWe2AyPCmkMl6d7FJhk4Dpbb+T5OtItl8WCPkrqJh3/+Z3CfycLe0Pxm7urlfolgUL/O0LzPpQ2aVKiYFA==
   dependencies:
     "@thirdweb-dev/contracts" "^3.0.0"
     "@web-std/file" "^3.0.0"
@@ -2196,6 +2196,11 @@
   version "12.20.55"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.55.tgz#c329cbd434c42164f846b909bd6f85b5537f6240"
   integrity sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==
+
+"@types/nprogress@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/nprogress/-/nprogress-0.2.0.tgz#86c593682d4199212a0509cc3c4d562bbbd6e45f"
+  integrity sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==
 
 "@types/papaparse@^5.3.1":
   version "5.3.3"
@@ -7224,6 +7229,11 @@ normalize-url@^6.0.1:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
   integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
 number-to-bn@1.7.0:
   version "1.7.0"
