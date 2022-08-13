@@ -1,22 +1,26 @@
 import { PermissionEditor } from "./permissions-editor";
+import { useIsAdmin } from "@3rdweb-sdk/react";
 import { Flex, Icon, Select, Spinner, Stack } from "@chakra-ui/react";
+import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { constants } from "ethers";
 import { useFormContext } from "react-hook-form";
 import { FiInfo } from "react-icons/fi";
 import { Card, Heading, Text } from "tw-components";
 
-interface IContractPermission {
+interface ContractPermissionProps {
   role: string;
   description: string;
   isLoading: boolean;
   isPrebuilt: boolean;
+  contract: ValidContractInstance | SmartContract;
 }
 
-export const ContractPermission: React.FC<IContractPermission> = ({
+export const ContractPermission: React.FC<ContractPermissionProps> = ({
   role,
   description,
   isLoading,
   isPrebuilt,
+  contract,
 }) => {
   const {
     watch,
@@ -29,7 +33,7 @@ export const ContractPermission: React.FC<IContractPermission> = ({
     !roleMembers.includes(constants.AddressZero) ||
     (role !== "transfer" && role !== "lister" && role !== "asset");
 
-  const isAdmin = true;
+  const isAdmin = useIsAdmin(contract as ValidContractInstance);
 
   return (
     <Card position="relative">
@@ -275,7 +279,8 @@ export const ContractPermission: React.FC<IContractPermission> = ({
           {isLoading ? (
             <Spinner />
           ) : (
-            isRestricted && isPrebuilt && <PermissionEditor role={role} />
+            isRestricted &&
+            isPrebuilt && <PermissionEditor role={role} contract={contract} />
           )}
         </Stack>
       </Flex>

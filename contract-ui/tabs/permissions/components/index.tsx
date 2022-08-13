@@ -101,6 +101,7 @@ export const Permissions = <TContract extends ContractWithRoles>({
               role={role}
               description={ROLE_DESCRIPTION_MAP[role] || ""}
               isPrebuilt={isPrebuilt}
+              contract={contract}
             />
           );
         })}
