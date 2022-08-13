@@ -7,7 +7,6 @@ import { useWeb3 } from "@3rdweb-sdk/react";
 import { useContractType } from "@thirdweb-dev/react";
 import {
   Multiwrap,
-  SmartContract,
   Split,
   ValidContractClass,
   ValidContractInstance,
@@ -125,7 +124,9 @@ export function useIsAccountRole<TContract extends ContractWithRoles>(
   return !!(account && data?.includes(account));
 }
 
-export function useIsAdmin(contract?: ValidContractInstance) {
+export function useIsAdmin<TContract extends ValidContractClass>(
+  contract?: C.Instance<TContract>,
+) {
   const { address } = useWeb3();
   const { data: contractType } = useContractType(contract?.getAddress());
   if (contractType === "custom") {
