@@ -38,7 +38,7 @@ const Release: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/release/hero-icon-1.png")}
           >
             When you officially release a contract, it gets added to our{" "}
-            <Text as="span" fontWeight="medium" color="white">
+            <Text as="span" size="body.lg" fontWeight="medium" color="white">
               trusted on-chain registry
             </Text>{" "}
             of contracts.
