@@ -14,12 +14,13 @@ import { StaticImageData } from "next/image";
 import { Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
-interface IHero {
+export interface IHero {
   name: string;
   title: string;
   description: string;
   buttonText: string;
   buttonLink: string;
+  gradient: string;
   image: StaticImageData;
 }
 
@@ -30,6 +31,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
   buttonText,
   buttonLink,
   image,
+  gradient,
   children,
 }) => {
   return (
@@ -44,7 +46,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
         as={Container}
         maxW="container.page"
         borderRadius={{ base: 0, md: 24 }}
-        bg="linear-gradient(147.15deg, #410AB6 30.17%, #FF8D5C 100.01%)"
+        bg={gradient}
         columns={{ base: 1, md: 7 }}
         padding={0}
         margin={{ base: "0px", md: "40px" }}
@@ -98,7 +100,8 @@ export const Hero: ComponentWithChildren<IHero> = ({
             mt="32px"
             title={buttonText}
             href={buttonLink}
-            bg="linear-gradient(124.38deg, #FF8D5C 10.5%, #410AB6 85.62%) !important"
+            bg="bgBlack"
+            color="headingLight"
           />
         </Flex>
         <Center
