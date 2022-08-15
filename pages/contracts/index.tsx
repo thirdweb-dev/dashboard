@@ -64,7 +64,16 @@ const Contracts: ThirdwebNextPage = () => {
             >
               released contracts
             </TrackedLink>
-            .
+            . Not sure which contract to choose?{" "}
+            <TrackedLink
+              category="contracts"
+              label="take-quiz"
+              href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
+              isExternal
+              color="blue.500"
+            >
+              Take our quiz.
+            </TrackedLink>
           </Text>
         </Flex>
         <DeployableContractTable
