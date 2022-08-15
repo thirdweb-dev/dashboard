@@ -38,7 +38,7 @@ const Deploy: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/deploy/hero-icon-1.png")}
           >
             Compile and deploy any smart contract with the{" "}
-            <Text fontWeight="medium" color="white">
+            <Text as="span" fontWeight="medium" color="white">
               npx thirdweb deploy
             </Text>
             command. No more copying ABIs or generating bindings.
