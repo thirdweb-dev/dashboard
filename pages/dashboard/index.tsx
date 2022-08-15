@@ -862,7 +862,7 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
   );
 
   const contractTypeUrlSegment =
-    cell.contractType === "custom" ? "" : `/${UrlMap[cell.contractType]}`;
+    cell.contractType === "custom" ? "" : `${UrlMap[cell.contractType]}`;
 
   const href = `/${getNetworkFromChainId(
     cell.chainId as SUPPORTED_CHAIN_ID,
