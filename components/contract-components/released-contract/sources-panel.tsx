@@ -1,22 +1,11 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Flex,
-  Icon,
-} from "@chakra-ui/react";
+import { SourcesAccordion } from "../shared/sources-accordion";
+import { SourceFile } from "../types";
+import { Flex, Icon } from "@chakra-ui/react";
 import { AbiSchema } from "@thirdweb-dev/sdk";
 import { ABICopyButton } from "components/contract-tabs/code/ABICopyButton";
 import { FiXCircle } from "react-icons/fi";
-import { Card, CodeBlock, Heading, Link, Text } from "tw-components";
+import { Card, Heading, Link, Text } from "tw-components";
 import { z } from "zod";
-
-export type SourceFile = {
-  filename: string | undefined;
-  source: string;
-};
 
 interface SourcesPanelProps {
   sources?: SourceFile[];
@@ -41,31 +30,10 @@ export const SourcesPanel: React.FC<SourcesPanelProps> = ({ sources, abi }) => {
         {abi && <ABICopyButton colorScheme="purple" abi={abi} />}
       </Flex>
 
-      {(sources || []).length > 0 ? (
+      {sources ? (
         <Flex flexDir="column" gap={4}>
           <Heading size="title.sm">Contract Sources</Heading>
-          <Accordion allowToggle allowMultiple>
-            {(sources || []).map((signature) => (
-              <AccordionItem
-                gap={4}
-                flexDirection="column"
-                key={signature.filename}
-              >
-                <AccordionButton justifyContent="space-between" py={2}>
-                  <Heading size="label.md">{signature.filename}</Heading>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel>
-                  <CodeBlock
-                    maxH="500px"
-                    overflow="auto"
-                    code={signature.source.trim()}
-                    language="solidity"
-                  />
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <SourcesAccordion sources={sources} />
         </Flex>
       ) : (
         <Card>

@@ -13,10 +13,8 @@ import type {
   AbiSchema,
   SmartContract,
 } from "@thirdweb-dev/sdk";
-import {
-  SourceFile,
-  SourcesPanel,
-} from "components/contract-components/released-contract/sources-panel";
+import { SourcesPanel } from "components/contract-components/released-contract/sources-panel";
+import { SourceFile } from "components/contract-components/types";
 import { Card, Heading } from "tw-components";
 import { z } from "zod";
 

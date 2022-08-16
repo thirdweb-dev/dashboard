@@ -13,3 +13,8 @@ export interface DeployableContractContractCellProps {
   };
   context?: ContractCellContext;
 }
+
+export type SourceFile = {
+  filename: string | undefined;
+  source: string;
+};
