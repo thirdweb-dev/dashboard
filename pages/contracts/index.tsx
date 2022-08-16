@@ -64,7 +64,7 @@ const Contracts: ThirdwebNextPage = () => {
             >
               released contracts
             </TrackedLink>
-            . Not sure which contract to choose?{" "}
+            . Not sure which contract is right for your use-case?{" "}
             <TrackedLink
               category="contracts"
               label="take-quiz"
