@@ -72,7 +72,7 @@ const Contracts: ThirdwebNextPage = () => {
               isExternal
               color="blue.500"
             >
-              Take our quiz.
+              Help me choose.
             </TrackedLink>
           </Text>
         </Flex>
