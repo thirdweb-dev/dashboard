@@ -1,5 +1,4 @@
 import {
-  AbiSchema,
   ChainId,
   SUPPORTED_CHAIN_ID,
   ThirdwebSDK,
@@ -8,12 +7,12 @@ import {
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
 import { StorageSingleton } from "components/app-layouts/providers";
+import { Abi } from "components/contract-components/types";
 import { ethers } from "ethers";
 import { Interface } from "ethers/lib/utils";
 import { getSSRSDK } from "lib/ssr-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 import { SupportedChainIdToNetworkMap } from "utils/network";
-import { z } from "zod";
 
 interface VerifyPayload {
   contractAddress: string;
@@ -221,7 +220,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 async function fetchConstructorParams(
   contractAddress: string,
   chainId: ChainId,
-  abi: z.infer<typeof AbiSchema>,
+  abi: Abi,
   provider: ethers.providers.Provider,
 ): Promise<string> {
   const constructorParamTypes = extractConstructorParamsFromAbi(abi);

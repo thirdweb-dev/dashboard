@@ -1,13 +1,11 @@
-import { SourceFile } from "../types";
+import { Abi, SourceFile } from "../types";
 import { SourcesAccordion } from "./sources-accordion";
 import { Flex } from "@chakra-ui/react";
-import { AbiSchema } from "@thirdweb-dev/sdk";
 import { CodeBlock, Heading, Link, Text } from "tw-components";
-import { z } from "zod";
 
 interface SourcesPanelProps {
   sources?: SourceFile[];
-  abi?: z.infer<typeof AbiSchema>;
+  abi?: Abi;
 }
 
 export const SourcesPanel: React.FC<SourcesPanelProps> = ({ sources, abi }) => {

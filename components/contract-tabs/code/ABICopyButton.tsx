@@ -1,11 +1,10 @@
 import { useClipboard } from "@chakra-ui/react";
-import { AbiSchema } from "@thirdweb-dev/sdk";
+import { Abi } from "components/contract-components/types";
 import { FiCheck, FiCopy } from "react-icons/fi";
 import { Button, ButtonProps } from "tw-components";
-import { z } from "zod";
 
 interface ABICopyButtonProps extends ButtonProps {
-  abi: z.infer<typeof AbiSchema>;
+  abi: Abi;
 }
 export const ABICopyButton: React.FC<ABICopyButtonProps> = ({
   abi,
