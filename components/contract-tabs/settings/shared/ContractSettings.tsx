@@ -3,6 +3,7 @@ import { ContractPrimarySale } from "../fees/primary-sale";
 import { ContractRoyalties } from "../fees/royalties";
 import { VoteConfiguration } from "../modules/vote/VoteConfiguration";
 import { ContractMetadata } from "./ContractMetadata";
+import { RemoveContract } from "./RemoveContract";
 import {
   hasPlatformFeeMechanic,
   hasPrimarySaleMechanic,
@@ -38,6 +39,7 @@ export const ContractSettings: React.FC<IContractSettings> = ({ contract }) => {
         <ContractPlatformFee contract={contract} isDisabled={!isAdmin} />
       )}
       {contract instanceof Vote && <VoteConfiguration contract={contract} />}
+      <RemoveContract contractAddress={contract.getAddress()} />
     </Stack>
   );
 };

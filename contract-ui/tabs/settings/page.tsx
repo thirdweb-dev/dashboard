@@ -6,6 +6,7 @@ import { SettingsRoyalties } from "./components/royalties";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
+import { RemoveContract } from "components/contract-tabs/settings/shared/RemoveContract";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface CustomContractOverviewPageProps {
@@ -48,6 +49,9 @@ export const CustomContractSettingsTab: React.FC<
     return (
       <Flex direction="column" gap={4}>
         <AddToDashboardCard contract={contract.contract} />
+        {contractAddress && (
+          <RemoveContract contractAddress={contractAddress} />
+        )}
         <Card as={Flex} flexDir="column" gap={3}>
           {/* TODO  extract this out into it's own component and make it better */}
           <Heading size="subtitle.md">No Settings enabled</Heading>
@@ -101,6 +105,9 @@ export const CustomContractSettingsTab: React.FC<
           )}
           {detectedPlatformFees === "enabled" && (
             <SettingsPlatformFees contract={contract.contract} />
+          )}
+          {contractAddress && (
+            <RemoveContract contractAddress={contractAddress} />
           )}
         </Flex>
       </Flex>
