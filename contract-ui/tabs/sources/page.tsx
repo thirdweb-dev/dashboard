@@ -28,7 +28,7 @@ import {
   LinkButton,
 } from "tw-components";
 
-interface CustomContractSourcePageProps {
+interface CustomContractSourcesPageProps {
   contractAddress?: string;
 }
 
@@ -168,8 +168,8 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
   );
 };
 
-export const CustomContractSourcePage: React.FC<
-  CustomContractSourcePageProps
+export const CustomContractSourcesPage: React.FC<
+  CustomContractSourcesPageProps
 > = ({ contractAddress }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const contractQuery = useContractSources(contractAddress);
