@@ -11,7 +11,6 @@ import type { AbiEvent, AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
 import { Abi, SourceFile } from "components/contract-components/types";
 import { Card, Heading } from "tw-components";
-import { z } from "zod";
 
 interface ContractFunctionsOverview {
   functions: AbiFunction[];
