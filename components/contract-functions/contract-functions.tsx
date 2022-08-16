@@ -19,6 +19,7 @@ interface ContractFunctionsOverview {
   events?: AbiEvent[] | null;
   contract?: SmartContract;
   sources?: SourceFile[];
+  abi?: any;
   onlyFunctions?: boolean;
 }
 
@@ -27,6 +28,7 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
   events,
   contract,
   sources,
+  abi,
   onlyFunctions,
 }) => {
   if (onlyFunctions) {
@@ -80,9 +82,9 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
               />
             </TabPanel>
           ) : null}
-          {sources && (
+          {(sources || abi) && (
             <TabPanel px={0}>
-              <SourcesPanel sources={sources} />
+              <SourcesPanel sources={sources} abi={abi} />
             </TabPanel>
           )}
         </TabPanels>
