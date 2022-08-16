@@ -15,7 +15,10 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useContract } from "@thirdweb-dev/react";
+import { useABI } from "components/contract-components/hooks";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
+import { Abi } from "components/contract-components/types";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
@@ -169,6 +172,8 @@ export const CustomContractSourcesPage: React.FC<
   const chainId = useActiveChainId();
 
   const { data: prebuiltSource } = usePrebuiltSource(contractAddress);
+  const { contract } = useContract(contractAddress);
+  const { data: abi } = useABI(contract);
 
   if (!contractAddress) {
     return <div>No contract address provided</div>;
@@ -216,7 +221,7 @@ export const CustomContractSourcesPage: React.FC<
           )}
         </Flex>
         <Card>
-          <SourcesPanel sources={sources} />
+          <SourcesPanel sources={sources} abi={abi as Abi} />
         </Card>
       </Flex>
     </>

@@ -622,3 +622,22 @@ export function useContractEvents(contract: SmartContract | null) {
     },
   );
 }
+
+export function useABI(contract: SmartContract | null) {
+  const sdk = useSDK();
+  const activeChainId = useActiveChainId();
+  return useQueryWithNetwork(
+    ["contract-events", contract?.getAddress(), activeChainId],
+    async () => {
+      if (contract instanceof SmartContract) {
+        return (await contract.publishedMetadata.get()).abi;
+      }
+      return null;
+    },
+    {
+      enabled: !!contract?.getAddress() || !!sdk,
+      // functions are based on publish metadata (abi), so this is immutable
+      staleTime: Infinity,
+    },
+  );
+}
