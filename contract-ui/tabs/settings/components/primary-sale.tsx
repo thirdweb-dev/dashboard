@@ -1,4 +1,4 @@
-import { useIsAdmin } from "@3rdweb-sdk/react";
+import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,7 +32,6 @@ export const SettingsPrimarySale = <
 }: {
   contract: TContract;
 }) => {
-  const isAdmin = useIsAdmin(contract as ValidContractInstance);
   const trackEvent = useTrack();
   const query = usePrimarySaleRecipient(contract as SmartContract);
   const mutation = useUpdatePrimarySaleRecipient(contract as SmartContract);
@@ -111,7 +110,7 @@ export const SettingsPrimarySale = <
             </FormControl>
           </Flex>
         </Flex>
-        {isAdmin && (
+        <AdminOnly contract={contract as ValidContractInstance}>
           <TransactionButton
             colorScheme="primary"
             transactionCount={1}
@@ -126,7 +125,7 @@ export const SettingsPrimarySale = <
           >
             Update Primary Sale Settings
           </TransactionButton>
-        )}
+        </AdminOnly>
       </Flex>
     </Card>
   );

@@ -1,4 +1,4 @@
-import { useIsAdmin } from "@3rdweb-sdk/react";
+import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -31,7 +31,6 @@ export const SettingsRoyalties = <TContract extends PotentialContractInstance>({
 }: {
   contract: TContract;
 }) => {
-  const isAdmin = useIsAdmin(contract as ValidContractInstance);
   const trackEvent = useTrack();
   const query = useRoyaltySettings(contract as SmartContract);
   const mutation = useUpdateRoyaltySettings(contract as SmartContract);
@@ -132,7 +131,7 @@ export const SettingsRoyalties = <TContract extends PotentialContractInstance>({
             </FormControl>
           </Flex>
         </Flex>
-        {isAdmin && (
+        <AdminOnly contract={contract as ValidContractInstance}>
           <TransactionButton
             colorScheme="primary"
             transactionCount={1}
@@ -147,7 +146,7 @@ export const SettingsRoyalties = <TContract extends PotentialContractInstance>({
           >
             Update Royalty Settings
           </TransactionButton>
-        )}
+        </AdminOnly>
       </Flex>
     </Card>
   );

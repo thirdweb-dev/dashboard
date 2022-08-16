@@ -1,4 +1,4 @@
-import { useIsAdmin } from "@3rdweb-sdk/react";
+import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePlatformFees, useUpdatePlatformFees } from "@thirdweb-dev/react";
@@ -30,7 +30,6 @@ export const SettingsPlatformFees = <
 }: {
   contract: TContract;
 }) => {
-  const isAdmin = useIsAdmin(contract as ValidContractInstance);
   const trackEvent = useTrack();
   const query = usePlatformFees(contract as SmartContract);
   const mutation = useUpdatePlatformFees(contract as SmartContract);
@@ -136,7 +135,7 @@ export const SettingsPlatformFees = <
             </FormControl>
           </Flex>
         </Flex>
-        {isAdmin && (
+        <AdminOnly contract={contract as ValidContractInstance}>
           <TransactionButton
             colorScheme="primary"
             transactionCount={1}
@@ -151,7 +150,7 @@ export const SettingsPlatformFees = <
           >
             Update Platform Fee Settings
           </TransactionButton>
-        )}
+        </AdminOnly>
       </Flex>
     </Card>
   );

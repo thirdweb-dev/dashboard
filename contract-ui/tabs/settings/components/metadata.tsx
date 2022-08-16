@@ -1,4 +1,4 @@
-import { useIsAdmin } from "@3rdweb-sdk/react";
+import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMetadata, useUpdateMetadata } from "@thirdweb-dev/react";
@@ -29,7 +29,6 @@ export const SettingsMetadata = <TContract extends PotentialContractInstance>({
 }: {
   contract: TContract;
 }) => {
-  const isAdmin = useIsAdmin(contract as ValidContractInstance);
   const trackEvent = useTrack();
   const metadata = useMetadata(contract as SmartContract);
   const metadataMutation = useUpdateMetadata(contract as SmartContract);
@@ -160,7 +159,7 @@ export const SettingsMetadata = <TContract extends PotentialContractInstance>({
           </Flex>
         </Flex>
 
-        {isAdmin && (
+        <AdminOnly contract={contract as ValidContractInstance}>
           <TransactionButton
             colorScheme="primary"
             transactionCount={1}
@@ -175,7 +174,7 @@ export const SettingsMetadata = <TContract extends PotentialContractInstance>({
           >
             Update Metadata
           </TransactionButton>
-        )}
+        </AdminOnly>
       </Flex>
     </Card>
   );
