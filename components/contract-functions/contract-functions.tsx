@@ -61,7 +61,7 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
               </Heading>
             </Tab>
           ) : null}
-          {sources && (
+          {sources && sources.length > 0 && (
             <Tab gap={2}>
               <Heading color="inherit" my={1} size="label.lg">
                 Sources

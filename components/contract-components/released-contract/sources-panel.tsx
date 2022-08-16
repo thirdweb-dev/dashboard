@@ -30,7 +30,7 @@ export const SourcesPanel: React.FC<SourcesPanelProps> = ({ sources, abi }) => {
         {abi && <ABICopyButton colorScheme="purple" abi={abi} />}
       </Flex>
 
-      {sources ? (
+      {sources && sources.length > 0 ? (
         <Flex flexDir="column" gap={4}>
           <Heading size="title.sm">Contract Sources</Heading>
           <SourcesAccordion sources={sources} />
