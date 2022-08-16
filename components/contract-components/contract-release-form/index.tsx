@@ -11,6 +11,7 @@ import {
   FormControl,
   Icon,
   Input,
+  SimpleGrid,
   Skeleton,
   Tab,
   TabList,
@@ -20,7 +21,11 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { ExtraPublishMetadata } from "@thirdweb-dev/sdk";
+import {
+  CONTRACT_ADDRESSES,
+  ExtraPublishMetadata,
+  SUPPORTED_CHAIN_IDS,
+} from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FeatureIconMap } from "constants/mappings";
@@ -32,12 +37,14 @@ import { useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
 import {
   Card,
+  Checkbox,
   FormErrorMessage,
   FormLabel,
   Heading,
   LinkButton,
   Text,
 } from "tw-components";
+import { SupportedChainIdToNetworkMap } from "utils/network";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 interface ContractReleaseFormProps {
@@ -102,6 +109,20 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             ?.publishedMetadata.description ||
           prePublishMetadata.data?.preDeployMetadata.info.title ||
           "",
+        factoryDeploymentData: prePublishMetadata.data
+          ?.latestPublishedContractMetadata?.publishedMetadata
+          ?.factoryDeploymentData || {
+          factoryAddresses: Object.fromEntries(
+            SUPPORTED_CHAIN_IDS.map((id) => [
+              id,
+              CONTRACT_ADDRESSES[id].twFactory,
+            ]),
+          ),
+          implementationAddresses: Object.fromEntries(
+            SUPPORTED_CHAIN_IDS.map((id) => [id, ""]),
+          ),
+          implementationInitializerFunction: "initialize",
+        },
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,6 +147,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   ]);
 
   const isDisabled = !successRedirectUrl || !address;
+  const isDeployableViaFactory = watch("isDeployableViaFactory");
+  console.log(watch());
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
@@ -217,7 +240,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             <Input {...register("description")} disabled={isDisabled} />
             <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
           </FormControl>
-
           <FormControl isInvalid={!!errors.readme}>
             <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
               <TabList
@@ -251,7 +273,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </TabPanels>
             </Tabs>
           </FormControl>
-
           <FormControl isRequired isInvalid={!!errors.version}>
             <Flex alignItems="center" mb={1}>
               <FormLabel flex="1" mb={0}>
@@ -299,6 +320,89 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </TabPanels>
             </Tabs>
           </FormControl>
+          <Flex alignItems="center" gap={3}>
+            <Checkbox
+              {...register("isDeployableViaFactory")}
+              isChecked={isDeployableViaFactory}
+            />
+            <Flex gap={4} alignItems="center">
+              <Heading size="label.lg">Deployable via factory</Heading>
+              <Text>
+                Enable cheaper deploys for your users by using proxies of
+                pre-deployed contracts
+              </Text>
+            </Flex>
+          </Flex>
+          {isDeployableViaFactory && (
+            <Flex flexDir={"column"} gap={2}>
+              <Heading size="label.lg">
+                Addresses of your deployed implementations
+              </Heading>
+              <Text>
+                Factory deployment requires having deployed implementations of
+                your contract already available on each chain you want to
+                support.
+              </Text>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
+                {SUPPORTED_CHAIN_IDS.map((chainId) => (
+                  <FormControl key={`implementation${chainId}`}>
+                    <FormLabel flex="1">
+                      {SupportedChainIdToNetworkMap[chainId]}
+                    </FormLabel>
+                    <Input
+                      {...register(
+                        `factoryDeploymentData.implementationAddresses.${chainId}`,
+                      )}
+                      placeholder="0x..."
+                      disabled={isDisabled}
+                    />
+                  </FormControl>
+                ))}
+              </SimpleGrid>
+              <Heading size="label.lg" mt={8}>
+                Initializer function
+              </Heading>
+              <Text>
+                Choose the initializer function to invoke on your proxy
+                contracts.
+              </Text>
+              <FormControl>
+                {/** TODO this should be a selector of ABI functions **/}
+                <Input
+                  {...register(
+                    `factoryDeploymentData.implementationInitializerFunction`,
+                  )}
+                  placeholder="function name to invoke"
+                  defaultValue="initialize"
+                  disabled={isDisabled}
+                />
+              </FormControl>
+              <Heading size="label.lg" mt={8}>
+                Addresses of your factory contracts
+              </Heading>
+              <Text>
+                Enter the addresses of your deployed factory contracts. These
+                need to conform to a known interface for deploying proxy
+                contracts.
+              </Text>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
+                {SUPPORTED_CHAIN_IDS.map((chainId) => (
+                  <FormControl key={`factory${chainId}`}>
+                    <FormLabel flex="1">
+                      {SupportedChainIdToNetworkMap[chainId]}
+                    </FormLabel>
+                    <Input
+                      {...register(
+                        `factoryDeploymentData.factoryAddresses.${chainId}`,
+                      )}
+                      placeholder="0x..."
+                      disabled={isDisabled}
+                    />
+                  </FormControl>
+                ))}
+              </SimpleGrid>
+            </Flex>
+          )}
           <Flex justifyContent="space-between" alignItems="center">
             <Text>
               Our contract registry lives on-chain (Polygon), releasing is free
