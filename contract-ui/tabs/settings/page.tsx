@@ -1,5 +1,3 @@
-import { RemoveContract } from "./components/RemoveContract";
-import { AddToDashboardCard } from "./components/add-to-dashboard";
 import { SettingsMetadata } from "./components/metadata";
 import { OnDashboard } from "./components/on-dashboard";
 import { SettingsPlatformFees } from "./components/platform-fees";
