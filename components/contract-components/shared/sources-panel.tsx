@@ -1,10 +1,9 @@
-import { SourcesAccordion } from "../shared/sources-accordion";
 import { SourceFile } from "../types";
+import { SourcesAccordion } from "./sources-accordion";
 import { Flex, Icon } from "@chakra-ui/react";
 import { AbiSchema } from "@thirdweb-dev/sdk";
-import { ABICopyButton } from "components/contract-tabs/code/ABICopyButton";
 import { FiXCircle } from "react-icons/fi";
-import { Card, Heading, Link, Text } from "tw-components";
+import { Card, CodeBlock, Heading, Link } from "tw-components";
 import { z } from "zod";
 
 interface SourcesPanelProps {
@@ -15,24 +14,21 @@ interface SourcesPanelProps {
 export const SourcesPanel: React.FC<SourcesPanelProps> = ({ sources, abi }) => {
   return (
     <Flex flexDir="column" gap={8}>
-      <Flex
-        direction={{ base: "column", md: "row" }}
-        gap={2}
-        justify="space-between"
-      >
-        <Flex direction="column" gap={2} mb={{ base: 2, md: 0 }}>
-          <Heading size="title.sm">Contract ABI</Heading>
-          <Text>
-            If you need the underlying contract ABI for this contract you can
-            copy it from here.
-          </Text>
+      <Flex direction="column" gap={2} justify="space-between">
+        <Flex direction="column" gap={4} mb={{ base: 2, md: 0 }}>
+          <Heading size="title.sm">ABI</Heading>
+          <CodeBlock
+            code={JSON.stringify(abi, null, 2)}
+            language="json"
+            maxH="500px"
+            overflow="auto"
+          />
         </Flex>
-        {abi && <ABICopyButton colorScheme="purple" abi={abi} />}
       </Flex>
 
       {sources && sources.length > 0 ? (
         <Flex flexDir="column" gap={4}>
-          <Heading size="title.sm">Contract Sources</Heading>
+          <Heading size="title.sm">Solidity</Heading>
           <SourcesAccordion sources={sources} />
         </Flex>
       ) : (

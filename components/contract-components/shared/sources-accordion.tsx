@@ -18,7 +18,12 @@ export const SourcesAccordion: React.FC<SourcesAccordionProps> = ({
   return (
     <Accordion allowToggle allowMultiple>
       {sources.map((signature) => (
-        <AccordionItem gap={4} flexDirection="column" key={signature.filename}>
+        <AccordionItem
+          gap={4}
+          flexDirection="column"
+          key={signature.filename}
+          borderColor="borderColor"
+        >
           <AccordionButton justifyContent="space-between" py={2}>
             <Heading size="label.md">{signature.filename}</Heading>
             <AccordionIcon />
