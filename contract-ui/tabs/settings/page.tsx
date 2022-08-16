@@ -1,12 +1,13 @@
+import { RemoveContract } from "./components/RemoveContract";
 import { AddToDashboardCard } from "./components/add-to-dashboard";
 import { SettingsMetadata } from "./components/metadata";
+import { OnDashboard } from "./components/on-dashboard";
 import { SettingsPlatformFees } from "./components/platform-fees";
 import { SettingsPrimarySale } from "./components/primary-sale";
 import { SettingsRoyalties } from "./components/royalties";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { RemoveContract } from "components/contract-tabs/settings/shared/RemoveContract";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface CustomContractOverviewPageProps {
@@ -48,10 +49,6 @@ export const CustomContractSettingsTab: React.FC<
   ) {
     return (
       <Flex direction="column" gap={4}>
-        <AddToDashboardCard contract={contract.contract} />
-        {contractAddress && (
-          <RemoveContract contractAddress={contractAddress} />
-        )}
         <Card as={Flex} flexDir="column" gap={3}>
           {/* TODO  extract this out into it's own component and make it better */}
           <Heading size="subtitle.md">No Settings enabled</Heading>
@@ -85,6 +82,7 @@ export const CustomContractSettingsTab: React.FC<
             </ButtonGroup>
           </Flex>
         </Card>
+        <OnDashboard contract={contract.contract} />
       </Flex>
     );
   }
@@ -93,7 +91,6 @@ export const CustomContractSettingsTab: React.FC<
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%">
         <Flex flexDir="column" w="100%" gap={8}>
-          <AddToDashboardCard contract={contract.contract} />
           {detectedMetadata === "enabled" && (
             <SettingsMetadata contract={contract.contract} />
           )}
@@ -106,9 +103,7 @@ export const CustomContractSettingsTab: React.FC<
           {detectedPlatformFees === "enabled" && (
             <SettingsPlatformFees contract={contract.contract} />
           )}
-          {contractAddress && (
-            <RemoveContract contractAddress={contractAddress} />
-          )}
+          <OnDashboard contract={contract.contract} />
         </Flex>
       </Flex>
     </Flex>

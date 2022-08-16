@@ -3,7 +3,6 @@ import { ContractPrimarySale } from "../fees/primary-sale";
 import { ContractRoyalties } from "../fees/royalties";
 import { VoteConfiguration } from "../modules/vote/VoteConfiguration";
 import { ContractMetadata } from "./ContractMetadata";
-import { RemoveContract } from "./RemoveContract";
 import {
   hasPlatformFeeMechanic,
   hasPrimarySaleMechanic,
@@ -12,6 +11,7 @@ import {
 } from "@3rdweb-sdk/react";
 import { Stack } from "@chakra-ui/react";
 import { ValidContractInstance, Vote } from "@thirdweb-dev/sdk";
+import { OnDashboard } from "contract-ui/tabs/settings/components/on-dashboard";
 
 interface IContractSettings {
   contract?: ValidContractInstance;
@@ -39,7 +39,7 @@ export const ContractSettings: React.FC<IContractSettings> = ({ contract }) => {
         <ContractPlatformFee contract={contract} isDisabled={!isAdmin} />
       )}
       {contract instanceof Vote && <VoteConfiguration contract={contract} />}
-      <RemoveContract contractAddress={contract.getAddress()} />
+      <OnDashboard contract={contract} />
     </Stack>
   );
 };
