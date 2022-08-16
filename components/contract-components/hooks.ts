@@ -166,7 +166,6 @@ export function useContractFullPublishMetadata(uri: string) {
       );
       // TODO: Make this nicer.
       invariant(uri !== "ipfs://undefined", "uri can't be undefined");
-      console.log("fetching full publish metadata", contractIdIpfsHash);
       return await sdk
         ?.getPublisher()
         .fetchFullPublishMetadata(contractIdIpfsHash);
@@ -464,7 +463,6 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
         sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
-      console.log("deploying", ipfsHash, data);
       return await sdk.deployer.deployContractFromUri(
         ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
         data.constructorParams,

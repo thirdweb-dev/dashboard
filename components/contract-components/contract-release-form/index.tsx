@@ -148,7 +148,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
 
   const isDisabled = !successRedirectUrl || !address;
   const isDeployableViaFactory = watch("isDeployableViaFactory");
-  console.log(watch());
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
