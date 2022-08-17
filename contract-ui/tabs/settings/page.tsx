@@ -34,6 +34,13 @@ export const CustomContractSettingsTab: React.FC<
     feature: "PlatformFee",
   });
 
+  const detectedAppURI = extensionDetectedState({
+    contract,
+    feature: "AppURI",
+  });
+
+  console.log({ detectedAppURI });
+
   if (contract.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
@@ -43,7 +50,8 @@ export const CustomContractSettingsTab: React.FC<
     detectedMetadata === "disabled" &&
     detectedPrimarySale === "disabled" &&
     detectedPlatformFees === "disabled" &&
-    detectedRoyalties === "disabled"
+    detectedRoyalties === "disabled" &&
+    detectedAppURI === "disabled"
   ) {
     return (
       <Flex direction="column" gap={4}>
