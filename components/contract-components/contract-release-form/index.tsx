@@ -1,3 +1,4 @@
+import { DeployFormDrawer } from "../contract-deploy-form/drawer";
 import {
   ens,
   useContractPrePublishMetadata,
@@ -60,6 +61,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors, isDirty },
   } = useForm<ExtraPublishMetadata>();
   const router = useRouter();
@@ -69,6 +71,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   );
   const address = useAddress();
   const publishMutation = usePublishMutation();
+  const showProxyDeployment = router.query.proxyDeploy === "true";
 
   const publishMetadata = useContractPublishMetadataFromURI(contractId);
   const prePublishMetadata = useContractPrePublishMetadata(contractId, address);
@@ -319,20 +322,22 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </TabPanels>
             </Tabs>
           </FormControl>
-          <Flex alignItems="center" gap={3}>
-            <Checkbox
-              {...register("isDeployableViaFactory")}
-              isChecked={isDeployableViaFactory}
-            />
-            <Flex gap={4} alignItems="center">
-              <Heading size="label.lg">Deployable via factory</Heading>
-              <Text>
-                Enable cheaper deploys for your users by using proxies of
-                pre-deployed contracts
-              </Text>
+          {showProxyDeployment && (
+            <Flex alignItems="center" gap={3}>
+              <Checkbox
+                {...register("isDeployableViaFactory")}
+                isChecked={isDeployableViaFactory}
+              />
+              <Flex gap={4} alignItems="center">
+                <Heading size="label.lg">Deployable via factory</Heading>
+                <Text>
+                  Enable cheaper deploys for your users by using proxies of
+                  pre-deployed contracts
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
-          {isDeployableViaFactory && (
+          )}
+          {showProxyDeployment && isDeployableViaFactory && (
             <Flex flexDir={"column"} gap={2}>
               <Heading size="label.lg">
                 Addresses of your deployed implementations
@@ -348,13 +353,25 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                     <FormLabel flex="1">
                       {SupportedChainIdToNetworkMap[chainId]}
                     </FormLabel>
-                    <Input
-                      {...register(
-                        `factoryDeploymentData.implementationAddresses.${chainId}`,
-                      )}
-                      placeholder="0x..."
-                      disabled={isDisabled}
-                    />
+                    <Flex gap={2}>
+                      <Input
+                        {...register(
+                          `factoryDeploymentData.implementationAddresses.${chainId}`,
+                        )}
+                        placeholder="0x..."
+                        disabled={isDisabled}
+                      />
+                      <DeployFormDrawer
+                        contractId={contractId}
+                        chainId={chainId}
+                        onSuccessCallback={(contractAddress) => {
+                          setValue(
+                            `factoryDeploymentData.implementationAddresses.${chainId}`,
+                            contractAddress,
+                          );
+                        }}
+                      />
+                    </Flex>
                   </FormControl>
                 ))}
               </SimpleGrid>

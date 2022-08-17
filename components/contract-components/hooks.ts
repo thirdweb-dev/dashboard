@@ -463,17 +463,18 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
         sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
-      return await sdk.deployer.deployContractFromUri(
+      const contractAddress = await sdk.deployer.deployContractFromUri(
         ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
         data.constructorParams,
       );
+      if (data.addToDashboard) {
+        const registry = await sdk?.deployer.getRegistry();
+        await registry?.addContract(contractAddress);
+      }
+      return contractAddress;
     },
     {
-      onSuccess: async (contractAddress, variables) => {
-        if (variables.addToDashboard) {
-          const registry = await sdk?.deployer.getRegistry();
-          await registry?.addContract(contractAddress);
-        }
+      onSuccess: async () => {
         return await queryClient.invalidateQueries([
           ...networkKeys.chain(chainId),
           ...contractKeys.list(walletAddress),

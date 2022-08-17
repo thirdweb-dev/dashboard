@@ -29,12 +29,16 @@ interface CustomContractFormProps {
   ipfsHash: string;
   selectedChain: SUPPORTED_CHAIN_ID | undefined;
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
+  restrictToSelectedChainId?: boolean;
+  onSuccessCallback?: (contractAddress: string) => void;
 }
 
 const CustomContractForm: React.FC<CustomContractFormProps> = ({
   ipfsHash,
   selectedChain,
   onChainSelect,
+  restrictToSelectedChainId,
+  onSuccessCallback,
 }) => {
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
@@ -122,10 +126,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 contractAddress: deployedContractAddress,
               });
               onSuccess();
-
-              router.replace(
-                `/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
-              );
+              if (onSuccessCallback) {
+                onSuccessCallback(deployedContractAddress);
+              } else {
+                router.replace(
+                  `/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
+                );
+              }
             },
             onError: (err) => {
               trackEvent({
@@ -210,7 +217,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         <FormControl>
           <SupportedNetworkSelect
             disabledChainIds={DisabledChainsMap["custom" as ContractType]}
-            isDisabled={deploy.isLoading || !compilerMetadata.isSuccess}
+            isDisabled={
+              restrictToSelectedChainId ||
+              deploy.isLoading ||
+              !compilerMetadata.isSuccess
+            }
             value={
               !DisabledChainsMap["custom" as ContractType].find(
                 (chain) => chain === selectedChain,
