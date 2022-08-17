@@ -155,6 +155,7 @@ const DropPhasesSchema = z.object({
   phases: ClaimConditionInputArray,
 });
 const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
+  const [resetFlag, setResetFlag] = useState(false);
   const isAdmin = useIsAdmin(contract);
   const query = useClaimPhases(contract, tokenId);
   const mutation = useClaimPhasesMutation(contract, tokenId);
@@ -248,12 +249,15 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
       <Flex
         onSubmit={form.handleSubmit((d) =>
           mutation
-            .mutateAsync(d.phases as ClaimConditionInput[], {
-              onSuccess: (_data, variables) => {
-                form.reset({ phases: variables });
-                onSuccess();
+            .mutateAsync(
+              { phases: d.phases as ClaimConditionInput[], reset: resetFlag },
+              {
+                onSuccess: (_data, variables) => {
+                  form.reset({ phases: variables.phases });
+                  onSuccess();
+                },
               },
-            })
+            )
             .catch((error) => {
               if (error instanceof ZodError) {
                 error.errors.forEach((e) => {
@@ -299,7 +303,12 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       position="absolute"
                       cursor="pointer"
                       _hover={{ color: "red.400" }}
-                      onClick={() => removePhase(index)}
+                      onClick={() => {
+                        removePhase(index);
+                        if (contract instanceof SignatureDrop) {
+                          setResetFlag(true);
+                        }
+                      }}
                     />
                   </AdminOnly>
 
@@ -386,8 +395,8 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How much do you want to charge to claim the{" "}
-                          {nftsOrToken}?
+                          How much do you want to charge to claim each{" "}
+                          {contract instanceof TokenDrop ? "token" : "NFT"}?
                         </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
@@ -618,17 +627,18 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
             </Alert>
           )}
           <AdminOnly contract={contract}>
-            {contract instanceof SignatureDrop && watchFieldArray.length === 0 && (
-              <Button
-                colorScheme="purple"
-                variant="solid"
-                borderRadius="md"
-                leftIcon={<Icon as={FiPlus} />}
-                onClick={addPhase}
-              >
-                Add Claim Phase
-              </Button>
-            )}
+            {contract instanceof SignatureDrop &&
+              watchFieldArray?.length === 0 && (
+                <Button
+                  colorScheme="purple"
+                  variant="solid"
+                  borderRadius="md"
+                  leftIcon={<Icon as={FiPlus} />}
+                  onClick={addPhase}
+                >
+                  Add Claim Phase
+                </Button>
+              )}
 
             {contract instanceof SignatureDrop ? null : (
               <Button
