@@ -627,7 +627,7 @@ export function useABI(contract: SmartContract | null) {
   const sdk = useSDK();
   const activeChainId = useActiveChainId();
   return useQueryWithNetwork(
-    ["contract-events", contract?.getAddress(), activeChainId],
+    ["contract-abi", contract?.getAddress(), activeChainId],
     async () => {
       if (contract instanceof SmartContract) {
         return (await contract.publishedMetadata.get()).abi;
@@ -636,7 +636,7 @@ export function useABI(contract: SmartContract | null) {
     },
     {
       enabled: !!contract?.getAddress() || !!sdk,
-      // functions are based on publish metadata (abi), so this is immutable
+      // ABI is immutable
       staleTime: Infinity,
     },
   );
