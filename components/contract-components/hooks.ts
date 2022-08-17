@@ -622,22 +622,3 @@ export function useContractEvents(contract: SmartContract | null) {
     },
   );
 }
-
-export function useABI(contract: SmartContract | null) {
-  const sdk = useSDK();
-  const activeChainId = useActiveChainId();
-  return useQueryWithNetwork(
-    ["contract-abi", contract?.getAddress(), activeChainId],
-    async () => {
-      if (contract instanceof SmartContract) {
-        return (await contract.publishedMetadata.get()).abi;
-      }
-      return null;
-    },
-    {
-      enabled: !!contract?.getAddress() || !!sdk,
-      // ABI is immutable
-      staleTime: Infinity,
-    },
-  );
-}

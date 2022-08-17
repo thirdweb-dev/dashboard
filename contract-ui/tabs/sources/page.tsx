@@ -16,11 +16,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { useABI } from "components/contract-components/hooks";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
 import { Abi } from "components/contract-components/types";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
+import { useMemo } from "react";
 import { FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { Badge, Button, Card, Heading, LinkButton } from "tw-components";
 
@@ -173,7 +173,11 @@ export const CustomContractSourcesPage: React.FC<
 
   const { data: prebuiltSource } = usePrebuiltSource(contractAddress);
   const { contract } = useContract(contractAddress);
-  const { data: abi } = useABI(contract);
+
+  const abi = useMemo(
+    () => (contract?.publishedMetadata as any).contractWrapper.abi as Abi,
+    [contract],
+  );
 
   if (!contractAddress) {
     return <div>No contract address provided</div>;
@@ -221,7 +225,7 @@ export const CustomContractSourcesPage: React.FC<
           )}
         </Flex>
         <Card>
-          <SourcesPanel sources={sources} abi={abi as Abi} />
+          <SourcesPanel sources={sources} abi={abi} />
         </Card>
       </Flex>
     </>
