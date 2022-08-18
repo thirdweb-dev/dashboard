@@ -26,6 +26,7 @@ export type ContractWithRolesInstance = C.Instance<ContractWithRoles>;
 export function isContractWithRoles(
   contract?: ValidContractInstance,
 ): contract is C.Instance<ContractWithRoles> {
+  console.log({ contract });
   if (contract && "roles" in contract) {
     return true;
   }
@@ -129,11 +130,13 @@ export function useIsAdmin<TContract extends ValidContractClass>(
 ) {
   const { address } = useWeb3();
   const { data: contractType } = useContractType(contract?.getAddress());
+  console.log({ contractType });
   if (contractType === "custom") {
     return true;
   }
 
   const contractHasRoles = isContractWithRoles(contract);
+  console.log({ contractHasRoles });
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useIsAccountRole(
     "admin",

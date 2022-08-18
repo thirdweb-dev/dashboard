@@ -1,9 +1,10 @@
-import { useIsAdmin } from "@3rdweb-sdk/react";
+import { AdminOnly, useIsAdmin } from "@3rdweb-sdk/react";
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Box,
   Divider,
   Flex,
   FormControl,
@@ -19,6 +20,7 @@ import {
 import {
   NFTContract,
   useClaimConditions,
+  useContract,
   useContractType,
   useResetClaimConditions,
   useSetClaimConditions,
@@ -71,6 +73,8 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
     "Failed to reset claim eligibility",
   );
 
+  const { contract: actualContract } = useContract(contract?.getAddress());
+
   const nftsOrToken = contract instanceof Erc20 ? "tokens" : "NFTs";
 
   return (
@@ -95,51 +99,51 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
           <ClaimConditionsForm contract={contract} tokenId={tokenId} />
         </Flex>
       </Card>
-      {/*       <AdminOnly contract={contract as ValidContractInstance}> */}
-      <Card p={0} position="relative">
-        <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
-          <Flex
-            px={{ base: 6, md: 10 }}
-            as="section"
-            direction="column"
-            gap={4}
-          >
-            <Flex direction="column">
-              <Heading size="title.md">Claim Eligibility</Heading>
-              <Text size="body.md" fontStyle="italic">
-                This contracts claim eligibility stores who has already claimed{" "}
-                {nftsOrToken} from this contract and carries across claim
-                phases. Resetting claim eligibility will reset this state
-                permanently, and people who have already claimed to their limit
-                will be able to claim again.
-              </Text>
+      <AdminOnly contract={actualContract as unknown as ValidContractInstance}>
+        <Card p={0} position="relative">
+          <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
+            <Flex
+              px={{ base: 6, md: 10 }}
+              as="section"
+              direction="column"
+              gap={4}
+            >
+              <Flex direction="column">
+                <Heading size="title.md">Claim Eligibility</Heading>
+                <Text size="body.md" fontStyle="italic">
+                  This contracts claim eligibility stores who has already
+                  claimed {nftsOrToken} from this contract and carries across
+                  claim phases. Resetting claim eligibility will reset this
+                  state permanently, and people who have already claimed to
+                  their limit will be able to claim again.
+                </Text>
+              </Flex>
             </Flex>
-          </Flex>
 
-          {/*             <AdminOnly
-              contract={contract as ValidContractInstance}
+            <AdminOnly
+              contract={actualContract as unknown as ValidContractInstance}
               fallback={<Box pb={5} />}
-            > */}
-          <TransactionButton
-            colorScheme="primary"
-            transactionCount={1}
-            type="submit"
-            isLoading={resetClaimConditions.isLoading}
-            onClick={() => {
-              resetClaimConditions.mutate(undefined, txNotifications);
-            }}
-            loadingText="Resetting..."
-            size="md"
-            borderRadius="xl"
-            borderTopLeftRadius="0"
-            borderTopRightRadius="0"
-          >
-            Reset Claim Eligibility
-          </TransactionButton>
-          {/*             </AdminOnly> */}
-        </Flex>
-      </Card>
-      {/*       </AdminOnly> */}
+            >
+              <TransactionButton
+                colorScheme="primary"
+                transactionCount={1}
+                type="submit"
+                isLoading={resetClaimConditions.isLoading}
+                onClick={() => {
+                  resetClaimConditions.mutate(undefined, txNotifications);
+                }}
+                loadingText="Resetting..."
+                size="md"
+                borderRadius="xl"
+                borderTopLeftRadius="0"
+                borderTopRightRadius="0"
+              >
+                Reset Claim Eligibility
+              </TransactionButton>
+            </AdminOnly>
+          </Flex>
+        </Card>
+      </AdminOnly>
     </Stack>
   );
 };
@@ -254,6 +258,8 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
     [contractType],
   );
 
+  const { contract: actualContract } = useContract(contract?.getAddress());
+
   return (
     <>
       {query.isRefetching && (
@@ -312,25 +318,29 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   }
                 />
                 <Card position="relative">
-                  {/*                   <AdminOnly contract={contract as ValidContractInstance}> */}
-                  <Icon
-                    color="red.500"
-                    as={FiTrash}
-                    boxSize={5}
-                    top="16px"
-                    right="16px"
-                    position="absolute"
-                    cursor="pointer"
-                    _hover={{ color: "red.400" }}
-                    onClick={() => {
-                      removePhase(index);
-                      if (isMultiPhase) {
-                        return;
-                      }
-                      setResetFlag(true);
-                    }}
-                  />
-                  {/*                   </AdminOnly> */}
+                  <AdminOnly
+                    contract={
+                      actualContract as unknown as ValidContractInstance
+                    }
+                  >
+                    <Icon
+                      color="red.500"
+                      as={FiTrash}
+                      boxSize={5}
+                      top="16px"
+                      right="16px"
+                      position="absolute"
+                      cursor="pointer"
+                      _hover={{ color: "red.400" }}
+                      onClick={() => {
+                        removePhase(index);
+                        if (isMultiPhase) {
+                          return;
+                        }
+                        setResetFlag(true);
+                      }}
+                    />
+                  </AdminOnly>
 
                   <Flex direction="column" gap={8}>
                     <Heading size="label.lg">Phase {index + 1}</Heading>
@@ -646,55 +656,57 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
               </Flex>
             </Alert>
           )}
-          {/*           <AdminOnly contract={contract as ValidContractInstance}> */}
-          {isMultiPhase ? (
-            <Button
-              colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
-              variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
-              borderRadius="md"
-              leftIcon={<Icon as={FiPlus} />}
-              onClick={addPhase}
-            >
-              Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
-              Claim Phase
-            </Button>
-          ) : (
-            watchFieldArray?.length === 0 && (
+          <AdminOnly
+            contract={actualContract as unknown as ValidContractInstance}
+          >
+            {isMultiPhase ? (
               <Button
-                colorScheme="purple"
-                variant="solid"
+                colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
+                variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
                 borderRadius="md"
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={addPhase}
               >
-                Add Claim Phase
+                Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
+                Claim Phase
               </Button>
-            )
-          )}
-          {/*           </AdminOnly> */}
+            ) : (
+              watchFieldArray?.length === 0 && (
+                <Button
+                  colorScheme="purple"
+                  variant="solid"
+                  borderRadius="md"
+                  leftIcon={<Icon as={FiPlus} />}
+                  onClick={addPhase}
+                >
+                  Add Claim Phase
+                </Button>
+              )
+            )}
+          </AdminOnly>
         </Flex>
-        {/*         <AdminOnly
-          contract={contract as ValidContractInstance}
+        <AdminOnly
+          contract={actualContract as unknown as ValidContractInstance}
           fallback={<Box pb={5} />}
-        > */}
-        <>
-          <Divider />
-          <TransactionButton
-            colorScheme="primary"
-            transactionCount={1}
-            isDisabled={query.isLoading || isDataEqual}
-            type="submit"
-            isLoading={mutation.isLoading}
-            loadingText="Saving..."
-            size="md"
-            borderRadius="xl"
-            borderTopLeftRadius="0"
-            borderTopRightRadius="0"
-          >
-            Save Claim Phases
-          </TransactionButton>
-        </>
-        {/*         </AdminOnly> */}
+        >
+          <>
+            <Divider />
+            <TransactionButton
+              colorScheme="primary"
+              transactionCount={1}
+              isDisabled={query.isLoading || isDataEqual}
+              type="submit"
+              isLoading={mutation.isLoading}
+              loadingText="Saving..."
+              size="md"
+              borderRadius="xl"
+              borderTopLeftRadius="0"
+              borderTopRightRadius="0"
+            >
+              Save Claim Phases
+            </TransactionButton>
+          </>
+        </AdminOnly>
       </Flex>
     </>
   );
