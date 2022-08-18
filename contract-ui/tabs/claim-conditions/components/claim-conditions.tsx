@@ -1,11 +1,5 @@
 import { AdminOnly, useIsAdmin } from "@3rdweb-sdk/react";
 import {
-  useClaimPhases,
-  useClaimPhasesMutation,
-  useDecimals,
-  useResetEligibilityMutation,
-} from "@3rdweb-sdk/react/hooks/useClaimPhases";
-import {
   Alert,
   AlertDescription,
   AlertIcon,
@@ -24,13 +18,19 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import {
+  NFTContract,
+  useClaimConditions,
+  useContractType,
+  useSetClaimConditions,
+} from "@thirdweb-dev/react";
+import {
   ClaimConditionInput,
   ClaimConditionInputArray,
-  EditionDrop,
+  Erc20,
+  Erc1155,
   NATIVE_TOKEN_ADDRESS,
   NFTDrop,
-  SignatureDrop,
-  TokenDrop,
+  ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BigNumberInput } from "components/shared/BigNumberInput";
@@ -55,23 +55,24 @@ import { toDateTimeLocal } from "utils/date-utils";
 import * as z from "zod";
 import { ZodError } from "zod";
 
-type ResettableContracts = TokenDrop | EditionDrop | NFTDrop;
-
-interface DropPhases {
-  contract?: NFTDrop | EditionDrop | TokenDrop | SignatureDrop;
+interface ClaimConditionsProps {
+  contract?: NFTContract;
   tokenId?: string;
 }
-export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
-  const mutation = useResetEligibilityMutation(
+export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
+  contract,
+  tokenId,
+}) => {
+  /*   const mutation = useResetEligibilityMutation(
     contract as ResettableContracts,
     tokenId,
-  );
+  ); */
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
   );
 
-  const nftsOrToken = contract instanceof TokenDrop ? "tokens" : "NFTs";
+  const nftsOrToken = contract instanceof Erc20 ? "tokens" : "NFTs";
 
   return (
     <Stack spacing={8}>
@@ -84,7 +85,7 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
             gap={4}
           >
             <Flex direction="column">
-              <Heading size="title.md">Claim Phases</Heading>
+              <Heading size="title.md">Set phases</Heading>
               <Text size="body.md" fontStyle="italic">
                 Different phases control when the {nftsOrToken} get dropped, how
                 much they cost, and more.
@@ -92,10 +93,10 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
             </Flex>
           </Flex>
           <Divider />
-          <DropPhasesForm contract={contract} tokenId={tokenId} />
+          <ClaimConditionsForm contract={contract} tokenId={tokenId} />
         </Flex>
       </Card>
-      <AdminOnly contract={contract}>
+      <AdminOnly contract={contract as ValidContractInstance}>
         <Card p={0} position="relative">
           <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
             <Flex
@@ -116,14 +117,21 @@ export const DropPhases: React.FC<DropPhases> = ({ contract, tokenId }) => {
               </Flex>
             </Flex>
 
-            <AdminOnly contract={contract} fallback={<Box pb={5} />}>
+            <AdminOnly
+              contract={contract as ValidContractInstance}
+              fallback={<Box pb={5} />}
+            >
               <TransactionButton
                 colorScheme="primary"
                 transactionCount={1}
                 type="submit"
-                isLoading={mutation.isLoading}
+                /*                 isLoading={mutation.isLoading}
                 onClick={() => {
                   mutation.mutate(undefined, txNotifications);
+                }} */
+                isLoading={false}
+                onClick={() => {
+                  console.log("reset eligibility");
                 }}
                 loadingText="Resetting..."
                 size="md"
@@ -151,15 +159,21 @@ const DEFAULT_PHASE = {
   snapshot: undefined,
   merkleRootHash: undefined,
 };
-const DropPhasesSchema = z.object({
+const ClaimConditionsSchema = z.object({
   phases: ClaimConditionInputArray,
 });
-const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
+const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
+  contract,
+  tokenId,
+}) => {
   const [resetFlag, setResetFlag] = useState(false);
-  const isAdmin = useIsAdmin(contract);
-  const query = useClaimPhases(contract, tokenId);
-  const mutation = useClaimPhasesMutation(contract, tokenId);
-  const decimals = useDecimals(contract);
+  const isAdmin = useIsAdmin(contract as ValidContractInstance);
+
+  // We're setting it as Erc1155 so TypeScript doesn't complain that we don't have a tokenId.
+  const query = useClaimConditions(contract as Erc1155, tokenId);
+  const mutation = useSetClaimConditions(contract as Erc1155, tokenId);
+  /*   const decimals = useDecimals(contract); */
+  const decimals = 0;
 
   const transformedQueryData = useMemo(() => {
     return (query.data || [])
@@ -184,9 +198,9 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
       .filter((phase) => phase.maxQuantity !== "0");
   }, [query.data]);
 
-  const nftsOrToken = contract instanceof TokenDrop ? "tokens" : "NFTs";
+  const nftsOrToken = contract instanceof Erc20 ? "tokens" : "NFTs";
 
-  const form = useForm<z.input<typeof DropPhasesSchema>>({
+  const form = useForm<z.input<typeof ClaimConditionsSchema>>({
     defaultValues: query.data
       ? {
           phases: transformedQueryData,
@@ -235,6 +249,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
   );
 
   const isDataEqual = deepEqual(transformedQueryData, watchFieldArray);
+
+  const { data: contractType } = useContractType(contract?.getAddress());
+  const isNFTDrop = useMemo(() => contractType === "nft-drop", [contractType]);
+
   return (
     <>
       {query.isRefetching && (
@@ -293,7 +311,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                   }
                 />
                 <Card position="relative">
-                  <AdminOnly contract={contract}>
+                  <AdminOnly contract={contract as ValidContractInstance}>
                     <Icon
                       color="red.500"
                       as={FiTrash}
@@ -305,9 +323,10 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       _hover={{ color: "red.400" }}
                       onClick={() => {
                         removePhase(index);
-                        if (contract instanceof SignatureDrop) {
-                          setResetFlag(true);
+                        if (isNFTDrop) {
+                          return;
                         }
+                        setResetFlag(true);
                       }}
                     />
                   </AdminOnly>
@@ -396,7 +415,7 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
                       >
                         <Heading as={FormLabel} size="label.md">
                           How much do you want to charge to claim each{" "}
-                          {contract instanceof TokenDrop ? "token" : "NFT"}?
+                          {contract instanceof Erc20 ? "token" : "NFT"}?
                         </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
@@ -626,53 +645,55 @@ const DropPhasesForm: React.FC<DropPhases> = ({ contract, tokenId }) => {
               </Flex>
             </Alert>
           )}
-          <AdminOnly contract={contract}>
-            {contract instanceof SignatureDrop &&
-              watchFieldArray?.length === 0 && (
-                <Button
-                  colorScheme="purple"
-                  variant="solid"
-                  borderRadius="md"
-                  leftIcon={<Icon as={FiPlus} />}
-                  onClick={addPhase}
-                >
-                  Add Claim Phase
-                </Button>
-              )}
-
-            {contract instanceof SignatureDrop ? null : (
+          {/*           <AdminOnly contract={contract as ValidContractInstance}> */}
+          {isNFTDrop ? (
+            <Button
+              colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
+              variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
+              borderRadius="md"
+              leftIcon={<Icon as={FiPlus} />}
+              onClick={addPhase}
+            >
+              Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
+              Claim Phase
+            </Button>
+          ) : (
+            watchFieldArray?.length === 0 && (
               <Button
-                colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
-                variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
+                colorScheme="purple"
+                variant="solid"
                 borderRadius="md"
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={addPhase}
               >
-                Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
-                Claim Phase
+                Add Claim Phase
               </Button>
-            )}
-          </AdminOnly>
+            )
+          )}
+          {/*           </AdminOnly> */}
         </Flex>
-        <AdminOnly contract={contract} fallback={<Box pb={5} />}>
-          <>
-            <Divider />
-            <TransactionButton
-              colorScheme="primary"
-              transactionCount={1}
-              isDisabled={query.isLoading || isDataEqual}
-              type="submit"
-              isLoading={mutation.isLoading}
-              loadingText="Saving..."
-              size="md"
-              borderRadius="xl"
-              borderTopLeftRadius="0"
-              borderTopRightRadius="0"
-            >
-              Save Claim Phases
-            </TransactionButton>
-          </>
-        </AdminOnly>
+        {/*         <AdminOnly
+          contract={contract as ValidContractInstance}
+          fallback={<Box pb={5} />}
+        > */}
+        <>
+          <Divider />
+          <TransactionButton
+            colorScheme="primary"
+            transactionCount={1}
+            isDisabled={query.isLoading || isDataEqual}
+            type="submit"
+            isLoading={mutation.isLoading}
+            loadingText="Saving..."
+            size="md"
+            borderRadius="xl"
+            borderTopLeftRadius="0"
+            borderTopRightRadius="0"
+          >
+            Save Claim Phases
+          </TransactionButton>
+        </>
+        {/*         </AdminOnly> */}
       </Flex>
     </>
   );

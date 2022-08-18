@@ -1,3 +1,4 @@
+import { ClaimConditions } from "./components/claim-conditions";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Erc721 } from "@thirdweb-dev/sdk";
@@ -50,8 +51,7 @@ export const ContractClaimConditionsPage: React.FC<
 
   return (
     <Flex direction="column" gap={6}>
-      Claim conditions
-      {/*       <Permissions contract={contract.contract as SmartContract} /> */}
+      <ClaimConditions contract={contract.contract?.nft} />
     </Flex>
   );
 };
