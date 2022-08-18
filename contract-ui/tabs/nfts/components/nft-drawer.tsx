@@ -188,7 +188,7 @@ export function detectClaimable(contract?: NFTContract) {
     return undefined;
   }
   if ("drop" in contract) {
-    return !!contract?.drop;
+    return !!contract?.drop?.claim;
   }
   return undefined;
 }
