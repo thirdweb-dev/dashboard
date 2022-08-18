@@ -1994,15 +1994,15 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts@3.1.0-1":
-  version "3.1.0-1"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.0-1.tgz#8c4d068f0548f780a90cc723636bcc358cb946eb"
-  integrity sha512-v19UtKKIpd6ol7fXcAL24F7Jwew1jIAmxstogTw9MdX2k9McwaI0Ebxu/3SSkQq2AhmruwOPp+E2xq1SWKsBUw==
+"@thirdweb-dev/contracts@3.1.0-2":
+  version "3.1.0-2"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.0-2.tgz#3f8327eb5771b8cd6aa812843c2d768f8d3d5849"
+  integrity sha512-EOqa9HqTNPE7Ibvl4aj4bRSqxPsT5W5RYsy8XCcsMfoWdMrc9+ZbMJHsaLCHzFLEWdjrSPdum3dazVPud5RvSg==
 
-"@thirdweb-dev/react@^2.6.3":
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.6.3.tgz#cfbe553bdb6fbba3bb6716696c448e8283a27419"
-  integrity sha512-B3JSQm/OcGjKyuwHO6EYAT9oWOOQT/8hlgjaF5S36Y/W7D0HzHdFLbNIgqCmyPY86QedTBF5or/zI2zA3sM5hQ==
+"@thirdweb-dev/react@^2.6.3-4":
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.6.5.tgz#30bf45e8a78d9659ba5d512d6d772d4531c4634c"
+  integrity sha512-UEZdh6tVZKP4pqWBtYYPLKmmuuO30eXGpP2b1Ze5L4aUso4TIQ8uuNNWSSf87StnIGAPe3tJrK2p1/G8O6WBAA==
   dependencies:
     "@gnosis.pm/safe-core-sdk" "2.1.0"
     "@gnosis.pm/safe-ethers-adapters" "0.1.0-alpha.9"
@@ -2014,10 +2014,12 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@file:.yalc/@thirdweb-dev/sdk":
-  version "2.3.36"
+"@thirdweb-dev/sdk@2.3.37-1":
+  version "2.3.37-1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.37-1.tgz#d48d2714c7a6707c26e5a1e270524a4fdc146264"
+  integrity sha512-OTYCnvShz+aTGiy/mNbteLSflGjRMHn+uOJz/Xj7+fc9Oy39QHiFl3z/uU92av65FnK1TCHuzr/UH2MJYPqBMA==
   dependencies:
-    "@thirdweb-dev/contracts" "3.1.0-1"
+    "@thirdweb-dev/contracts" "3.1.0-2"
     "@web-std/file" "^3.0.0"
     cbor "^8.1.0"
     cross-fetch "^3.1.5"
