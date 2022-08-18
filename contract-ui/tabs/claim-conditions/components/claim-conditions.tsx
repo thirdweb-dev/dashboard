@@ -246,7 +246,13 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   const isDataEqual = deepEqual(transformedQueryData, watchFieldArray);
 
   const { data: contractType } = useContractType(contract?.getAddress());
-  const isNFTDrop = useMemo(() => contractType === "nft-drop", [contractType]);
+  const isMultiPhase = useMemo(
+    () =>
+      contractType === "nft-drop" ||
+      contractType === "edition-drop" ||
+      contractType === "token-drop",
+    [contractType],
+  );
 
   return (
     <>
@@ -318,7 +324,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                     _hover={{ color: "red.400" }}
                     onClick={() => {
                       removePhase(index);
-                      if (isNFTDrop) {
+                      if (isMultiPhase) {
                         return;
                       }
                       setResetFlag(true);
@@ -641,7 +647,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
             </Alert>
           )}
           {/*           <AdminOnly contract={contract as ValidContractInstance}> */}
-          {isNFTDrop ? (
+          {isMultiPhase ? (
             <Button
               colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
               variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
