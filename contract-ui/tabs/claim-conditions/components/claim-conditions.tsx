@@ -96,55 +96,55 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
           <ClaimConditionsForm contract={contract} tokenId={tokenId} />
         </Flex>
       </Card>
-      <AdminOnly contract={contract as ValidContractInstance}>
-        <Card p={0} position="relative">
-          <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
-            <Flex
-              px={{ base: 6, md: 10 }}
-              as="section"
-              direction="column"
-              gap={4}
-            >
-              <Flex direction="column">
-                <Heading size="title.md">Claim Eligibility</Heading>
-                <Text size="body.md" fontStyle="italic">
-                  This contracts claim eligibility stores who has already
-                  claimed {nftsOrToken} from this contract and carries across
-                  claim phases. Resetting claim eligibility will reset this
-                  state permanently, and people who have already claimed to
-                  their limit will be able to claim again.
-                </Text>
-              </Flex>
+      {/*       <AdminOnly contract={contract as ValidContractInstance}> */}
+      <Card p={0} position="relative">
+        <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
+          <Flex
+            px={{ base: 6, md: 10 }}
+            as="section"
+            direction="column"
+            gap={4}
+          >
+            <Flex direction="column">
+              <Heading size="title.md">Claim Eligibility</Heading>
+              <Text size="body.md" fontStyle="italic">
+                This contracts claim eligibility stores who has already claimed{" "}
+                {nftsOrToken} from this contract and carries across claim
+                phases. Resetting claim eligibility will reset this state
+                permanently, and people who have already claimed to their limit
+                will be able to claim again.
+              </Text>
             </Flex>
+          </Flex>
 
-            <AdminOnly
+          {/*             <AdminOnly
               contract={contract as ValidContractInstance}
               fallback={<Box pb={5} />}
-            >
-              <TransactionButton
-                colorScheme="primary"
-                transactionCount={1}
-                type="submit"
-                /*                 isLoading={mutation.isLoading}
+            > */}
+          <TransactionButton
+            colorScheme="primary"
+            transactionCount={1}
+            type="submit"
+            /*                 isLoading={mutation.isLoading}
                 onClick={() => {
                   mutation.mutate(undefined, txNotifications);
                 }} */
-                isLoading={false}
-                onClick={() => {
-                  console.log("reset eligibility");
-                }}
-                loadingText="Resetting..."
-                size="md"
-                borderRadius="xl"
-                borderTopLeftRadius="0"
-                borderTopRightRadius="0"
-              >
-                Reset Claim Eligibility
-              </TransactionButton>
-            </AdminOnly>
-          </Flex>
-        </Card>
-      </AdminOnly>
+            isLoading={false}
+            onClick={() => {
+              console.log("reset eligibility");
+            }}
+            loadingText="Resetting..."
+            size="md"
+            borderRadius="xl"
+            borderTopLeftRadius="0"
+            borderTopRightRadius="0"
+          >
+            Reset Claim Eligibility
+          </TransactionButton>
+          {/*             </AdminOnly> */}
+        </Flex>
+      </Card>
+      {/*       </AdminOnly> */}
     </Stack>
   );
 };
@@ -311,25 +311,25 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   }
                 />
                 <Card position="relative">
-                  <AdminOnly contract={contract as ValidContractInstance}>
-                    <Icon
-                      color="red.500"
-                      as={FiTrash}
-                      boxSize={5}
-                      top="16px"
-                      right="16px"
-                      position="absolute"
-                      cursor="pointer"
-                      _hover={{ color: "red.400" }}
-                      onClick={() => {
-                        removePhase(index);
-                        if (isNFTDrop) {
-                          return;
-                        }
-                        setResetFlag(true);
-                      }}
-                    />
-                  </AdminOnly>
+                  {/*                   <AdminOnly contract={contract as ValidContractInstance}> */}
+                  <Icon
+                    color="red.500"
+                    as={FiTrash}
+                    boxSize={5}
+                    top="16px"
+                    right="16px"
+                    position="absolute"
+                    cursor="pointer"
+                    _hover={{ color: "red.400" }}
+                    onClick={() => {
+                      removePhase(index);
+                      if (isNFTDrop) {
+                        return;
+                      }
+                      setResetFlag(true);
+                    }}
+                  />
+                  {/*                   </AdminOnly> */}
 
                   <Flex direction="column" gap={8}>
                     <Heading size="label.lg">Phase {index + 1}</Heading>
