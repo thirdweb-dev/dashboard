@@ -18,7 +18,6 @@ export const AdminOnly: ComponentWithChildren<AdminOnlyProps> = ({
   fallback,
 }) => {
   const isAdmin = useIsAdmin(contract);
-  console.log({ isAdmin });
   if (!isAdmin) {
     return fallback ?? null;
   }
