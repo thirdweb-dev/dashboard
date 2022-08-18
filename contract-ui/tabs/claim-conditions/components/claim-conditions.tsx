@@ -1,10 +1,9 @@
-import { AdminOnly, useIsAdmin } from "@3rdweb-sdk/react";
+import { useIsAdmin } from "@3rdweb-sdk/react";
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
-  Box,
   Divider,
   Flex,
   FormControl,
@@ -21,6 +20,7 @@ import {
   NFTContract,
   useClaimConditions,
   useContractType,
+  useResetClaimConditions,
   useSetClaimConditions,
 } from "@thirdweb-dev/react";
 import {
@@ -29,7 +29,6 @@ import {
   Erc20,
   Erc1155,
   NATIVE_TOKEN_ADDRESS,
-  NFTDrop,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -63,10 +62,10 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
   contract,
   tokenId,
 }) => {
-  /*   const mutation = useResetEligibilityMutation(
-    contract as ResettableContracts,
+  const resetClaimConditions = useResetClaimConditions(
+    contract as Erc1155,
     tokenId,
-  ); */
+  );
   const txNotifications = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
@@ -125,13 +124,9 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
             colorScheme="primary"
             transactionCount={1}
             type="submit"
-            /*                 isLoading={mutation.isLoading}
-                onClick={() => {
-                  mutation.mutate(undefined, txNotifications);
-                }} */
-            isLoading={false}
+            isLoading={resetClaimConditions.isLoading}
             onClick={() => {
-              console.log("reset eligibility");
+              resetClaimConditions.mutate(undefined, txNotifications);
             }}
             loadingText="Resetting..."
             size="md"
