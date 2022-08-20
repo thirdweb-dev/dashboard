@@ -289,6 +289,11 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               spacing={6}
               as="form"
               onSubmit={handleSubmit((data) => {
+                trackEvent({
+                  category: "nft",
+                  action: "batch-upload-delayed",
+                  label: "attempt",
+                });
                 mintDelayedRevealBatch.mutate(
                   {
                     placeholder: {
@@ -303,15 +308,26 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                   },
                   {
                     onSuccess: () => {
+                      trackEvent({
+                        category: "nft",
+                        action: "batch-upload-delayed",
+                        label: "success",
+                      });
                       onSuccess();
                       onClose();
                     },
-                    onError: (err) => {
+                    onError: (error) => {
+                      trackEvent({
+                        category: "nft",
+                        action: "batch-upload-delayed",
+                        label: "error",
+                        error,
+                      });
                       setProgress({
                         progress: 0,
                         total: 100,
                       });
-                      onError(err);
+                      onError(error);
                     },
                   },
                 );
