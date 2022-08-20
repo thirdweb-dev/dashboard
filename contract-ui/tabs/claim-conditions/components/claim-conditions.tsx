@@ -38,6 +38,7 @@ import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
 import deepEqual from "fast-deep-equal";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -64,11 +65,12 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
   contract,
   tokenId,
 }) => {
+  const trackEvent = useTrack();
   const resetClaimConditions = useResetClaimConditions(
     contract as Erc1155,
     tokenId,
   );
-  const txNotifications = useTxNotifications(
+  const { onSuccess, onError } = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
   );
@@ -130,7 +132,30 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
                 type="submit"
                 isLoading={resetClaimConditions.isLoading}
                 onClick={() => {
-                  resetClaimConditions.mutate(undefined, txNotifications);
+                  trackEvent({
+                    category: contract instanceof Erc20 ? "token" : "nft",
+                    action: "reset-claim-conditions",
+                    label: "attempt",
+                  });
+                  resetClaimConditions.mutate(undefined, {
+                    onSuccess: () => {
+                      trackEvent({
+                        category: contract instanceof Erc20 ? "token" : "nft",
+                        action: "reset-claim-conditions",
+                        label: "success",
+                      });
+                      onSuccess();
+                    },
+                    onError: (error) => {
+                      trackEvent({
+                        category: contract instanceof Erc20 ? "token" : "nft",
+                        action: "reset-claim-conditions",
+                        label: "error",
+                        error,
+                      });
+                      onError(error);
+                    },
+                  });
                 }}
                 loadingText="Resetting..."
                 size="md"
@@ -165,6 +190,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   contract,
   tokenId,
 }) => {
+  const trackEvent = useTrack();
   const [resetFlag, setResetFlag] = useState(false);
   const isAdmin = useIsAdmin(contract as ValidContractInstance);
 
@@ -272,14 +298,32 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
         />
       )}
       <Flex
-        onSubmit={form.handleSubmit((d) =>
+        onSubmit={form.handleSubmit((d) => {
+          trackEvent({
+            category: contract instanceof Erc20 ? "token" : "nft",
+            action: "set-claim-conditions",
+            label: "attempt",
+          });
           mutation
             .mutateAsync(
               { phases: d.phases as ClaimConditionInput[], reset: resetFlag },
               {
                 onSuccess: (_data, variables) => {
+                  trackEvent({
+                    category: contract instanceof Erc20 ? "token" : "nft",
+                    action: "set-claim-conditions",
+                    label: "success",
+                  });
                   form.reset({ phases: variables.phases });
                   onSuccess();
+                },
+                onError: (error) => {
+                  trackEvent({
+                    category: contract instanceof Erc20 ? "token" : "nft",
+                    action: "set-claim-conditions",
+                    label: "attempt",
+                  });
+                  onError(error);
                 },
               },
             )
@@ -292,8 +336,8 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
               } else {
                 onError(error);
               }
-            }),
-        )}
+            });
+        })}
         direction="column"
         as="form"
         gap={10}
