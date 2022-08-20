@@ -52,7 +52,12 @@ export const NFTRevealForm: React.FC<NFTRevealFormProps> = ({ contract }) => {
           spacing={6}
           as="form"
           id={REVEAL_FORM_ID}
-          onSubmit={handleSubmit((data) =>
+          onSubmit={handleSubmit((data) => {
+            trackEvent({
+              category: "nft",
+              action: "batch-upload-reveal",
+              label: "attempt",
+            });
             reveal.mutate(
               {
                 batchId: data.batchId,
@@ -60,13 +65,25 @@ export const NFTRevealForm: React.FC<NFTRevealFormProps> = ({ contract }) => {
               },
               {
                 onSuccess: () => {
+                  trackEvent({
+                    category: "nft",
+                    action: "batch-upload-reveal",
+                    label: "success",
+                  });
                   onSuccess();
                   modalContext.onClose();
                 },
-                onError,
+                onError: (error) => {
+                  trackEvent({
+                    category: "nft",
+                    action: "batch-upload-reveal",
+                    label: "error",
+                  });
+                  onError(error);
+                },
               },
-            ),
-          )}
+            );
+          })}
         >
           <FormControl isRequired isInvalid={!!errors.password} mr={4}>
             <FormLabel>Select a batch</FormLabel>
