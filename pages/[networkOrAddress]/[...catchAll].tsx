@@ -139,7 +139,9 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
           pageType: "contract",
           contractAddress: contractAddress as string,
           network: networkOrAddress,
-          chainId: getChainIdFromNetwork(networkOrAddress) as SupportedChainId,
+          chainId: getChainIdFromNetwork(
+            networkOrAddress,
+          ) as SUPPORTED_CHAIN_ID,
         },
       };
     }
