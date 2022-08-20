@@ -60,10 +60,12 @@ import { ZodError } from "zod";
 interface ClaimConditionsProps {
   contract?: NFTContract;
   tokenId?: string;
+  isColumn?: true;
 }
 export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
   contract,
   tokenId,
+  isColumn,
 }) => {
   const trackEvent = useTrack();
   const resetClaimConditions = useResetClaimConditions(
@@ -98,7 +100,11 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
             </Flex>
           </Flex>
           <Divider />
-          <ClaimConditionsForm contract={contract} tokenId={tokenId} />
+          <ClaimConditionsForm
+            contract={contract}
+            tokenId={tokenId}
+            isColumn={isColumn}
+          />
         </Flex>
       </Card>
       <AdminOnly contract={actualContract as unknown as ValidContractInstance}>
@@ -189,6 +195,7 @@ const ClaimConditionsSchema = z.object({
 const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   contract,
   tokenId,
+  isColumn,
 }) => {
   const trackEvent = useTrack();
   const [resetFlag, setResetFlag] = useState(false);
@@ -389,7 +396,13 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   <Flex direction="column" gap={8}>
                     <Heading size="label.lg">Phase {index + 1}</Heading>
 
-                    <Flex direction={{ base: "column", md: "row" }} gap={4}>
+                    <Flex
+                      direction={{
+                        base: "column",
+                        md: isColumn ? "column" : "row",
+                      }}
+                      gap={4}
+                    >
                       <FormControl
                         isInvalid={
                           !!form.getFieldState(
@@ -459,7 +472,13 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       </FormControl>
                     </Flex>
 
-                    <Flex direction={{ base: "column", md: "row" }} gap={4}>
+                    <Flex
+                      direction={{
+                        base: "column",
+                        md: isColumn ? "column" : "row",
+                      }}
+                      gap={4}
+                    >
                       <FormControl
                         isInvalid={
                           !!form.getFieldState(
@@ -562,7 +581,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                         {field.snapshot && (
                           <Flex
                             w={{ base: "100%", md: "50%" }}
-                            direction={{ base: "column", md: "row" }}
+                            direction={{
+                              base: "column",
+                              md: isColumn ? "column" : "row",
+                            }}
                             align="center"
                             gap={4}
                           >
@@ -612,7 +634,13 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                         }
                       </FormErrorMessage>
                     </FormControl>
-                    <Flex gap={4} direction={{ base: "column", md: "row" }}>
+                    <Flex
+                      gap={4}
+                      direction={{
+                        base: "column",
+                        md: isColumn ? "column" : "row",
+                      }}
+                    >
                       <FormControl
                         isInvalid={
                           !!form.getFieldState(

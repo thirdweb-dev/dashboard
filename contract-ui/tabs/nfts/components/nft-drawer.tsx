@@ -152,7 +152,11 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
               )}
               {isClaimable && isERC1155 && (
                 <TabPanel>
-                  <ClaimConditions contract={contract} tokenId={tokenId} />
+                  <ClaimConditions
+                    contract={contract}
+                    tokenId={tokenId}
+                    isColumn
+                  />
                 </TabPanel>
               )}
             </TabPanels>
