@@ -2071,10 +2071,13 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@file:.yalc/@thirdweb-dev/sdk":
-  version "2.3.38"
+"@thirdweb-dev/sdk@^2.3.39-1":
+  version "2.3.39-1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.39-1.tgz#1b8d70303ba7193280dc3de8ec2df5b1f7951b1e"
+  integrity sha512-akv1M7+sDYdP4gdieqZRh+kyFkU5v/4H9zHDCKYeAYak8yopFrJBNaeSiukh/AkZHaWXJLMESerfDRHZkpIX8w==
   dependencies:
     "@thirdweb-dev/contracts" "3.1.0-1"
+    "@thirdweb-dev/storage" "^0.1.0"
     "@web-std/file" "^3.0.0"
     cbor "^8.1.0"
     cross-fetch "^3.1.5"
@@ -2085,6 +2088,15 @@
     tiny-invariant "^1.2.0"
     uuid "^8.3.2"
     zod "^3.11.6"
+
+"@thirdweb-dev/storage@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.1.0.tgz#5bd38cb2abf174d50bca76576d9cbcc64c04ce18"
+  integrity sha512-/ss9vDBun2Ibkxzhjpw88q44/fzGmVwxKOBda9V7WS86cfxwP6mW3RaixaguYkQtMxPatQom/2nCoSxYWHUKhQ==
+  dependencies:
+    "@web-std/file" "^3.0.2"
+    cross-fetch "^3.1.5"
+    form-data "^4.0.0"
 
 "@trivago/prettier-plugin-sort-imports@^3.2.0":
   version "3.3.0"
@@ -2652,7 +2664,7 @@
     "@web-std/stream" "1.0.0"
     web-encoding "1.1.5"
 
-"@web-std/file@^3.0.0":
+"@web-std/file@^3.0.0", "@web-std/file@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@web-std/file/-/file-3.0.2.tgz#b84cc9ed754608b18dcf78ac62c40dbcc6a94692"
   integrity sha512-pIH0uuZsmY8YFvSHP1NsBIiMT/1ce0suPrX74fEeO3Wbr1+rW0fUGEe4d0R99iLwXtyCwyserqCFI4BJkJlkRA==
