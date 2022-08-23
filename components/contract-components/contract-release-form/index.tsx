@@ -293,42 +293,50 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             </Flex>
             <Input
               {...register("version")}
+              defaultValue={latestVersion ? "" : "1.0.0"}
               placeholder={placeholderVersion}
               disabled={isDisabled}
             />
             <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={!!errors.changelog}>
-            <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
-              <TabList
-                px={0}
-                borderBottomColor="borderColor"
-                borderBottomWidth="1px"
-              >
-                <Tab gap={2}>
-                  <Icon as={BsCode} my={2} />
-                  <Heading size="label.lg">Release notes</Heading>
-                </Tab>
-                <Tab gap={2}>
-                  <Icon as={BsEye} my={2} />
-                  <Heading size="label.lg">Preview</Heading>
-                </Tab>
-              </TabList>
-              <TabPanels pt={2}>
-                <TabPanel px={0} pb={0}>
-                  <Textarea {...register("changelog")} disabled={isDisabled} />
-                  <FormErrorMessage>
-                    {errors?.changelog?.message}
-                  </FormErrorMessage>
-                </TabPanel>
-                <TabPanel px={0} pb={0}>
-                  <Card>
-                    <MarkdownRenderer markdownText={watch("changelog") || ""} />
-                  </Card>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </FormControl>
+          {latestVersion && (
+            <FormControl isInvalid={!!errors.changelog}>
+              <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
+                <TabList
+                  px={0}
+                  borderBottomColor="borderColor"
+                  borderBottomWidth="1px"
+                >
+                  <Tab gap={2}>
+                    <Icon as={BsCode} my={2} />
+                    <Heading size="label.lg">Release notes</Heading>
+                  </Tab>
+                  <Tab gap={2}>
+                    <Icon as={BsEye} my={2} />
+                    <Heading size="label.lg">Preview</Heading>
+                  </Tab>
+                </TabList>
+                <TabPanels pt={2}>
+                  <TabPanel px={0} pb={0}>
+                    <Textarea
+                      {...register("changelog")}
+                      disabled={isDisabled}
+                    />
+                    <FormErrorMessage>
+                      {errors?.changelog?.message}
+                    </FormErrorMessage>
+                  </TabPanel>
+                  <TabPanel px={0} pb={0}>
+                    <Card>
+                      <MarkdownRenderer
+                        markdownText={watch("changelog") || ""}
+                      />
+                    </Card>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </FormControl>
+          )}
           {showProxyDeployment && (
             <Flex alignItems="center" gap={3}>
               <Checkbox
