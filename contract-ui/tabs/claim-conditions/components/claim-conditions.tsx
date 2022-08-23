@@ -92,10 +92,10 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
             gap={4}
           >
             <Flex direction="column">
-              <Heading size="title.md">Set phases</Heading>
+              <Heading size="title.md">Set Claim Conditions</Heading>
               <Text size="body.md" fontStyle="italic">
-                Different phases control when the {nftsOrToken} get dropped, how
-                much they cost, and more.
+                Control when the {nftsOrToken} get dropped, how much they cost,
+                and more.
               </Text>
             </Flex>
           </Flex>
