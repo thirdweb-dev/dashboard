@@ -385,10 +385,9 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       _hover={{ color: "red.400" }}
                       onClick={() => {
                         removePhase(index);
-                        if (isMultiPhase) {
-                          return;
+                        if (!isMultiPhase) {
+                          setResetFlag(true);
                         }
-                        setResetFlag(true);
                       }}
                     />
                   </AdminOnly>
