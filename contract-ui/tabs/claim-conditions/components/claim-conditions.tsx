@@ -251,7 +251,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
     if (
       query.data?.length &&
       !form.formState.isDirty &&
-      !form.getValues("phases").length
+      !form.getValues("phases")?.length
     ) {
       form.reset({
         phases: transformedQueryData,
@@ -602,7 +602,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               align="center"
                               justify="center"
                               color={
-                                field.snapshot.length === 0
+                                field.snapshot?.length === 0
                                   ? "orange.500"
                                   : "green.500"
                               }
@@ -610,7 +610,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               <Icon as={BsCircleFill} boxSize={2} />
                               <Text size="body.sm" color="inherit">
                                 <strong>
-                                  {field.snapshot.length} addresses
+                                  {field.snapshot?.length} addresses
                                 </strong>{" "}
                                 in snapshot
                               </Text>
