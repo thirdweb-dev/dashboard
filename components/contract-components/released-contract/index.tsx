@@ -48,7 +48,9 @@ export interface ExtendedReleasedContractInfo extends PublishedContract {
   description: string;
   version: string;
   releaser: string;
-  tags: string[];
+  tags?: string[];
+  logo?: string;
+  audit?: string;
 }
 
 interface ReleasedContractProps {

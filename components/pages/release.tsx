@@ -11,6 +11,7 @@ import { ChakraNextImage } from "components/Image";
 import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
 import { ens, useAllVersions } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
+import { MaskedAvatar } from "components/contract-components/releaser/masked-avatar";
 import { THIRDWEB_DEPLOYER_ADDRESS } from "constants/addresses";
 import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -59,16 +60,23 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
   const deployContractId =
     prebuiltContractName || release?.metadataUri.replace("ipfs://", "");
 
+  console.log(release?.logo);
+
   return (
     <SimpleGrid columns={12} gap={{ base: 6, md: 10 }} w="full">
       <GridItem colSpan={{ base: 12, md: 8 }}>
         <Flex gap={4} alignItems="center">
-          <ChakraNextImage
-            flexShrink={0}
-            src={FeatureIconMap["custom"]}
-            boxSize={12}
-            alt=""
-          />
+          {release?.logo ? (
+            <MaskedAvatar src={release.logo} boxSize={14} />
+          ) : (
+            <ChakraNextImage
+              flexShrink={0}
+              src={FeatureIconMap["custom"]}
+              boxSize={14}
+              alt=""
+            />
+          )}
+
           <Skeleton isLoaded={allVersions.isSuccess}>
             <Flex direction="column" gap={2}>
               <Heading size="title.md">{release?.name}</Heading>
