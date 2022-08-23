@@ -18,7 +18,7 @@ const Dashboard: ThirdwebNextPage = () => {
         title="Dashboards to manage your web3 apps."
         description="Everything you need to analyze and manage your web3 applications."
         buttonText="Get started"
-        buttonLink="https://portal.thirdweb.com/dashboard"
+        buttonLink="/dashboard"
         image={require("public/assets/product-pages/dashboard/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
       >
