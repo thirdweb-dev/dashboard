@@ -267,6 +267,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 renderPreview={(fileUrl) => (
                   <MaskedAvatar w="100%" h="100%" src={fileUrl} />
                 )}
+                isDisabled={isDisabled}
               />
             </Box>
             <FormErrorMessage>
@@ -322,7 +323,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             </Flex>
             <Input
               {...register("version")}
-              defaultValue={latestVersion ? "" : "1.0.0"}
               placeholder={placeholderVersion}
               disabled={isDisabled}
             />

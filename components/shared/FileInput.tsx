@@ -113,7 +113,9 @@ export const FileInput: React.FC<IFileInputProps> = ({
           >
             <Stack align="center" color="gray.600">
               <Icon boxSize={6} as={FiUpload} />
-              <Text color="gray.500">Upload Disabled</Text>
+              <Text color="gray.500" textAlign="center">
+                Upload Disabled
+              </Text>
             </Stack>
           </Center>
         ) : (
@@ -168,6 +170,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
               onClick={open}
               colorScheme="purple"
               variant="outline"
+              isDisabled={isDisabled}
             >
               Select File
             </Button>
