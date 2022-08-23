@@ -32,10 +32,8 @@ import {
   ExtraPublishMetadata,
   SUPPORTED_CHAIN_IDS,
 } from "@thirdweb-dev/sdk";
-import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
-import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -226,11 +224,28 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
       >
         <Flex gap={8} direction="column">
           <Flex gap={4} alignItems="center">
-            <ChakraNextImage
-              src={FeatureIconMap["custom"]}
-              boxSize={14}
-              alt=""
-            />
+            <FormControl isInvalid={!!errors.logo} w="auto">
+              <Box width={{ base: "auto", md: "90px" }}>
+                <FileInput
+                  accept={{ "image/*": [] }}
+                  value={logoUrl}
+                  setValue={(file) => setValue("logo", file)}
+                  border="1px solid"
+                  borderColor="gray.200"
+                  borderRadius="md"
+                  transition="all 200ms ease"
+                  _hover={{ shadow: "sm" }}
+                  renderPreview={(fileUrl) => (
+                    <MaskedAvatar w="100%" h="100%" src={fileUrl} />
+                  )}
+                  helperText="logo"
+                  isDisabled={isDisabled}
+                />
+              </Box>
+              <FormErrorMessage>
+                {errors?.logo?.message as unknown as string}
+              </FormErrorMessage>
+            </FormControl>
 
             <Flex direction="column">
               <Skeleton
@@ -256,29 +271,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               )}
             </Flex>
           </Flex>
-          <FormControl isInvalid={!!errors.avatar}>
-            <FormLabel>Logo</FormLabel>
-            <Box width={{ base: "auto", md: "250px" }}>
-              <FileInput
-                accept={{ "image/*": [] }}
-                value={logoUrl}
-                showUploadButton
-                setValue={(file) => setValue("avatar", file)}
-                border="1px solid"
-                borderColor="gray.200"
-                borderRadius="md"
-                transition="all 200ms ease"
-                _hover={{ shadow: "sm" }}
-                renderPreview={(fileUrl) => (
-                  <MaskedAvatar w="100%" h="100%" src={fileUrl} />
-                )}
-                isDisabled={isDisabled}
-              />
-            </Box>
-            <FormErrorMessage>
-              {errors?.avatar?.message as unknown as string}
-            </FormErrorMessage>
-          </FormControl>
           <FormControl isInvalid={!!errors.Description}>
             <FormLabel>Description</FormLabel>
             <Input {...register("description")} disabled={isDisabled} />

@@ -24,6 +24,7 @@ interface IFileInputProps extends BoxProps {
   showUploadButton?: true;
   maxContainerWidth?: LayoutProps["maxW"];
   renderPreview?: (fileUrl: string) => React.ReactNode;
+  helperText?: string;
 }
 
 export const FileInput: React.FC<IFileInputProps> = ({
@@ -35,6 +36,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
   children,
   maxContainerWidth,
   renderPreview,
+  helperText,
   ...restBoxProps
 }) => {
   const onDrop = useCallback<
@@ -59,11 +61,13 @@ export const FileInput: React.FC<IFileInputProps> = ({
   const file: File | null = value instanceof File ? value : null;
   const fileUrl = useImageFileOrUrl(value);
 
-  const helperText =
-    accept &&
-    Object.keys(accept).filter((k) => k.split("/")[0] !== "image").length === 1
-      ? "image"
-      : "file";
+  const helperTextOrFile = helperText
+    ? helperText
+    : accept &&
+      Object.keys(accept).filter((k) => k.split("/")[0] !== "image").length ===
+        1
+    ? "image"
+    : "file";
 
   // Don't display non image file types
   const noDisplay = file && !file.type.includes("image");
@@ -155,7 +159,9 @@ export const FileInput: React.FC<IFileInputProps> = ({
             ) : (
               <Stack align="center" color="gray.600">
                 <Icon boxSize={6} as={FiUpload} />
-                <Text color="gray.600">Upload {helperText}</Text>
+                <Text color="gray.600" textAlign="center">
+                  Upload {helperTextOrFile}
+                </Text>
               </Stack>
             )}
             <input {...getInputProps()} />
