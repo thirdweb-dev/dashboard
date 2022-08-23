@@ -130,8 +130,6 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   const chainId = useActiveChainId();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  console.log({ contract });
-
   const iframeSrc = buildIframeSrc(
     contract as unknown as ValidContractInstance,
     contractType as ContractType,
