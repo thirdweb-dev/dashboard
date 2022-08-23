@@ -6,8 +6,10 @@ import {
   usePublishMutation,
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
+import { MaskedAvatar } from "../releaser/masked-avatar";
 import { ContractId } from "../types";
 import {
+  Box,
   Flex,
   FormControl,
   Icon,
@@ -29,8 +31,10 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { FileInput } from "components/shared/FileInput";
 import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -64,6 +68,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     setValue,
     formState: { errors, isDirty },
   } = useForm<ExtraPublishMetadata>();
+  const logoUrl = useImageFileOrUrl(watch("logo"));
+
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
     "Successfully released contract",
@@ -155,6 +161,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
+
   return (
     <Card w="100%" p={{ base: 6, md: 10 }}>
       <Flex
@@ -244,6 +251,28 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               )}
             </Flex>
           </Flex>
+          <FormControl isInvalid={!!errors.avatar}>
+            <FormLabel>Logo</FormLabel>
+            <Box width={{ base: "auto", md: "250px" }}>
+              <FileInput
+                accept={{ "image/*": [] }}
+                value={logoUrl}
+                showUploadButton
+                setValue={(file) => setValue("avatar", file)}
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="md"
+                transition="all 200ms ease"
+                _hover={{ shadow: "sm" }}
+                renderPreview={(fileUrl) => (
+                  <MaskedAvatar w="100%" h="100%" src={fileUrl} />
+                )}
+              />
+            </Box>
+            <FormErrorMessage>
+              {errors?.avatar?.message as unknown as string}
+            </FormErrorMessage>
+          </FormControl>
           <FormControl isInvalid={!!errors.Description}>
             <FormLabel>Description</FormLabel>
             <Input {...register("description")} disabled={isDisabled} />
