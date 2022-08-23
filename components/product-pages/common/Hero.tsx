@@ -116,6 +116,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
                 src={image}
                 layout="fill"
                 objectFit="contain"
+                priority
               />
             </AspectRatio>
           </Flex>
