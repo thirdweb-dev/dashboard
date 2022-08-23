@@ -12,19 +12,15 @@ const Deploy: ThirdwebNextPage = () => {
       seo={{
         title: "Deploy",
         description: "The next-gen contract deployment flow.",
-        openGraph: {
-          title: "Deploy | thirdweb",
-          url: `https://thirdweb.com/deploy`,
-        },
       }}
     >
       <Hero
         name="Deploy"
         title="The next-gen contract deployment flow."
-        description="Deploy any smart contract with a single command. Get all the tools you need to get to success."
+        description="Deploy any Smart Contract with a single command. Get all the tools you need to get to success."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/deploy"
-        image={require("public/assets/product-pages/authentication/auth.png")}
+        image={require("public/assets/product-pages/deploy/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #5CFFE1 100.01%)"
       >
         <SimpleGrid
@@ -37,7 +33,7 @@ const Deploy: ThirdwebNextPage = () => {
             title="One-line contract deployment"
             icon={require("/public/assets/product-pages/deploy/hero-icon-1.png")}
           >
-            Compile and deploy any smart contract with the{" "}
+            Compile and deploy any Smart Contract with the{" "}
             <Text as="span" size="body.lg" fontWeight="medium" color="white">
               npx thirdweb deploy
             </Text>{" "}

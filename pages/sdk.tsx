@@ -9,21 +9,17 @@ const Web3SDK: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Web3 SDK",
+        title: "SDKs",
         description: "Everything you need to build web3 apps.",
-        openGraph: {
-          title: "Web3 SDK | thirdweb",
-          url: `https://thirdweb.com/web3-sdk`,
-        },
       }}
     >
       <Hero
-        name="Web3 SDK"
+        name="SDKs"
         title="Everything you need to build web3 apps."
-        description="Easily build applications on top of your smart contracts."
+        description="Build applications on top of your Smart Contracts. Seamlessly integrate into your apps."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/web3-sdk"
-        image={require("public/assets/product-pages/authentication/auth.png")}
+        image={require("public/assets/product-pages/sdk/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #5BFF40 100.01%)"
       >
         <SimpleGrid
@@ -36,11 +32,11 @@ const Web3SDK: ThirdwebNextPage = () => {
             title="Interact with the blockchain"
             icon={require("/public/assets/product-pages/sdk/hero-icon-1.png")}
           >
-            Read and write data from your smart contracts, query logs, listen
-            for events, and more.
+            Read and write data from your Smart Contracts, listen for events,
+            query logs and more.
           </ProductCard>
           <ProductCard
-            title="Frontend hooks and components"
+            title="Hooks and Components"
             icon={require("/public/assets/product-pages/sdk/hero-icon-2.png")}
           >
             We provide frontend components like wallet connection and contract
@@ -52,7 +48,7 @@ const Web3SDK: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/sdk/hero-icon-3.png")}
           >
             We provide SDKs in many languages, including JavaScript/TypeScript,
-            Python, and Go so you can build with whatever tools you’re most
+            Python, and Go so you can build with whatever tools you are most
             comfortable using.
           </ProductCard>
         </SimpleGrid>

@@ -9,21 +9,17 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Pre-built Contracts",
-        description: "Ready-to-go contracts for your needs.",
-        openGraph: {
-          title: "Pre-built Contracts | thirdweb",
-          url: `https://thirdweb.com/pre-built-contracts`,
-        },
+        title: "Smart Contracts",
+        description: "Prebuilt, audited and ready to go Smart Contracts.",
       }}
     >
       <Hero
-        name="Pre-built Contracts"
-        title="Ready-to-go contracts for your needs."
-        description="Get started quickly and easily with our pre-built and audited smart contract suite."
+        name="Smart Contracts"
+        title="Prebuilt, audited and ready to go Smart Contracts."
+        description="Get started quickly and easily with our prebuilt and audited Smart Contract suite."
         buttonText="Get started"
-        buttonLink="https://portal.thirdweb.com/pre-built-contracts"
-        image={require("public/assets/product-pages/authentication/auth.png")}
+        buttonLink="/contracts"
+        image={require("public/assets/product-pages/pre-builts/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #AB2E2E 100.01%)"
       >
         <SimpleGrid

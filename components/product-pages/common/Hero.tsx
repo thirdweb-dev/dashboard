@@ -1,6 +1,7 @@
 import { ProductButton } from "./ProductButton";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
+  AspectRatio,
   Box,
   Center,
   Container,
@@ -109,7 +110,14 @@ export const Hero: ComponentWithChildren<IHero> = ({
           gridColumnEnd={{ base: undefined, md: "span 3" }}
         >
           <Flex justifyContent={{ base: "center", md: "flex-end" }} w="100%">
-            <ChakraNextImage alt="" maxW={96} w="100%" src={image} />
+            <AspectRatio ratio={1} maxW={96} w="100%">
+              <ChakraNextImage
+                alt=""
+                src={image}
+                layout="fill"
+                objectFit="contain"
+              />
+            </AspectRatio>
           </Flex>
         </Center>
       </SimpleGrid>

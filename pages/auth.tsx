@@ -19,10 +19,6 @@ const Authentication: ThirdwebNextPage = () => {
         title: "Auth",
         description:
           "Simple wallet based sign-in and authentication for any app.",
-        openGraph: {
-          title: "Auth | thirdweb",
-          url: `https://thirdweb.com/auth`,
-        },
       }}
     >
       <Hero
