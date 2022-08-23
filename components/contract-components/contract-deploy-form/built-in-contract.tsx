@@ -265,7 +265,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
               });
               onSuccess();
               router.push(
-                `/${SupportedChainIdToNetworkMap[selectedChain]}/${UrlMap[contractType]}/${contractAddress}`,
+                `/${SupportedChainIdToNetworkMap[selectedChain]}${UrlMap[contractType]}/${contractAddress}`,
               );
             },
             onError: (err) => {
@@ -345,7 +345,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 })
               }
             >
-              Learn more about this contract
+              Learn more
             </LinkButton>
           </Flex>
         </Flex>

@@ -19,7 +19,7 @@ export function useContractRouteConfig(
 
   return [
     {
-      title: "Overview",
+      title: "Explorer",
       path: "/",
       element: () =>
         import("../tabs/overview/page").then(
@@ -27,6 +27,14 @@ export function useContractRouteConfig(
             <CustomContractOverviewPage contractAddress={contractAddress} />
           ),
         ),
+    },
+    {
+      title: "Events",
+      path: "events",
+      element: () =>
+        import("../tabs/events/page").then(({ ContractEventsPage }) => (
+          <ContractEventsPage contractAddress={contractAddress} />
+        )),
     },
     {
       title: "NFTs",
@@ -50,6 +58,20 @@ export function useContractRouteConfig(
         )),
     },
     {
+      title: "Claim Conditions",
+      path: "claim-conditions",
+      isEnabled: extensionDetectedState({
+        contract,
+        feature: "ERC721Droppable",
+      }),
+      element: () =>
+        import("../tabs/claim-conditions/page").then(
+          ({ ContractClaimConditionsPage }) => (
+            <ContractClaimConditionsPage contractAddress={contractAddress} />
+          ),
+        ),
+    },
+    {
       title: "Permissions",
       path: "permissions",
       isEnabled: extensionDetectedState({ contract, feature: "Permissions" }),
@@ -69,14 +91,6 @@ export function useContractRouteConfig(
         )),
     },
     {
-      title: "Activity",
-      path: "activity",
-      element: () =>
-        import("../tabs/activity/page").then(({ ContractActivityPage }) => (
-          <ContractActivityPage contractAddress={contractAddress} />
-        )),
-    },
-    {
       title: "Settings",
       path: "settings",
       element: () =>
@@ -87,11 +101,11 @@ export function useContractRouteConfig(
         ),
     },
     {
-      title: "Source",
-      path: "source",
+      title: "Sources",
+      path: "sources",
       element: () =>
-        import("../tabs/source/page").then(({ CustomContractSourcePage }) => (
-          <CustomContractSourcePage contractAddress={contractAddress} />
+        import("../tabs/sources/page").then(({ CustomContractSourcesPage }) => (
+          <CustomContractSourcesPage contractAddress={contractAddress} />
         )),
     },
   ];

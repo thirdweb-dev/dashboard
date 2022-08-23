@@ -8,10 +8,8 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import type { AbiEvent, AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
-import {
-  SourceFile,
-  SourcesPanel,
-} from "components/contract-components/released-contract/sources-panel";
+import { SourcesPanel } from "components/contract-components/shared/sources-panel";
+import { Abi, SourceFile } from "components/contract-components/types";
 import { Card, Heading } from "tw-components";
 
 interface ContractFunctionsOverview {
@@ -19,6 +17,8 @@ interface ContractFunctionsOverview {
   events?: AbiEvent[] | null;
   contract?: SmartContract;
   sources?: SourceFile[];
+  abi?: Abi;
+  onlyFunctions?: boolean;
 }
 
 export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
@@ -26,7 +26,17 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
   events,
   contract,
   sources,
+  abi,
+  onlyFunctions,
 }) => {
+  if (onlyFunctions) {
+    return (
+      <Card as={Flex} flexDir="column" gap={2}>
+        <ContractFunctionsPanel fnsOrEvents={functions} contract={contract} />
+      </Card>
+    );
+  }
+
   return (
     <Card as={Flex} flexDir="column" gap={2} p={0}>
       <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
@@ -45,7 +55,7 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
               </Heading>
             </Tab>
           ) : null}
-          {sources && (
+          {sources && sources?.length > 0 && (
             <Tab gap={2}>
               <Heading color="inherit" my={1} size="label.lg">
                 Sources
@@ -70,9 +80,9 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
               />
             </TabPanel>
           ) : null}
-          {sources && (
+          {(sources || abi) && (
             <TabPanel px={0}>
-              <SourcesPanel sources={sources} />
+              <SourcesPanel sources={sources} abi={abi} />
             </TabPanel>
           )}
         </TabPanels>
