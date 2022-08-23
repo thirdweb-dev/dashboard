@@ -14,6 +14,8 @@ import {
   FormControl,
   Icon,
   Input,
+  InputGroup,
+  InputRightElement,
   SimpleGrid,
   Skeleton,
   Tab,
@@ -22,6 +24,7 @@ import {
   TabPanels,
   Tabs,
   Textarea,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -40,10 +43,12 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
+import { FiTrash, FiUpload } from "react-icons/fi";
 import {
   Card,
   Checkbox,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Heading,
   LinkButton,
@@ -327,6 +332,53 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               disabled={isDisabled}
             />
             <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.audit}>
+            <FormLabel>Audit</FormLabel>
+            {watch("audit") instanceof File ? (
+              <InputGroup>
+                <Input isDisabled value={watch("audit")?.name} />
+                <InputRightElement>
+                  <Icon
+                    as={FiTrash}
+                    cursor="pointer"
+                    color="red.300"
+                    _hover={{ color: "red.200" }}
+                    onClick={() => setValue("audit", "")}
+                  />
+                </InputRightElement>
+              </InputGroup>
+            ) : (
+              <InputGroup>
+                <Input
+                  {...register("audit")}
+                  placeholder="ipfs://..."
+                  isDisabled={isDisabled}
+                />
+                <InputRightElement pointerEvents={isDisabled ? "none" : "auto"}>
+                  <Tooltip label="Upload file" shouldWrapChildren>
+                    <FileInput
+                      setValue={(file) => {
+                        setValue("audit", file);
+                      }}
+                      isDisabled={isDisabled}
+                    >
+                      <Icon
+                        as={FiUpload}
+                        color="gray.600"
+                        _hover={{ color: "gray.500" }}
+                      />
+                    </FileInput>
+                  </Tooltip>
+                </InputRightElement>
+              </InputGroup>
+            )}
+            <FormHelperText>
+              <Text size="body.sm">
+                You can add a IPFS hash or URL pointing to an audit report, or
+                add a file and we&apos;ll upload it to IPFS.
+              </Text>
+            </FormHelperText>
           </FormControl>
           {latestVersion && (
             <FormControl isInvalid={!!errors.changelog}>
