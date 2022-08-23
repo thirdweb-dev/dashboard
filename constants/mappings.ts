@@ -24,9 +24,9 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
 } as const;
 
 export const UrlMap: Record<ContractType, string> = {
-  "nft-drop": "/nft-drop",
+  "nft-drop": "",
   "nft-collection": "",
-  "edition-drop": "/edition-drop",
+  "edition-drop": "",
   edition: "",
   token: "",
   vote: "/vote",
@@ -36,7 +36,7 @@ export const UrlMap: Record<ContractType, string> = {
   "token-drop": "/token-drop",
   // TODO (byoc)
   custom: "",
-  "signature-drop": "/signature-drop",
+  "signature-drop": "",
   multiwrap: "",
 };
 
