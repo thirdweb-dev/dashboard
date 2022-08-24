@@ -270,6 +270,19 @@ Deploy it in one click`,
               />
             </Flex>
           </Flex>
+          <Divider />
+          <Flex flexDir="column" gap={4}>
+            <Flex gap={2} alignItems="center">
+              <LinkButton
+                href="https://blog.thirdweb.com/thirdweb-release/"
+                w="full"
+                variant="outline"
+                isExternal
+              >
+                Learn more about Release
+              </LinkButton>
+            </Flex>
+          </Flex>
         </Flex>
       </GridItem>
     </>
