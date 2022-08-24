@@ -194,13 +194,14 @@ export const CustomContractSourcesPage: React.FC<
     ? [prebuiltSource]
     : contractQuery.data
     ? contractQuery.data
-        .filter((source) => !source.filename.includes("@thirdweb"))
         .map((source) => {
           return {
             ...source,
             filename: source.filename.split("/").pop(),
           };
         })
+        .slice()
+        .reverse()
     : [];
 
   return (
