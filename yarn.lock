@@ -2042,10 +2042,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts@3.1.0-1":
-  version "3.1.0-1"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.0-1.tgz#8c4d068f0548f780a90cc723636bcc358cb946eb"
-  integrity sha512-v19UtKKIpd6ol7fXcAL24F7Jwew1jIAmxstogTw9MdX2k9McwaI0Ebxu/3SSkQq2AhmruwOPp+E2xq1SWKsBUw==
+"@thirdweb-dev/contracts@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.2.tgz#fde89c4b42f842f2504fe8f3d42b7535e8c1ddab"
+  integrity sha512-Ly3cEw5K8xfCwj0Fhgzr5olK3mG267TKacDeeufXM/YvU+/6qrpcCWd0JeSafK11+OrMDVXAK/5md93JeniNPQ==
 
 "@thirdweb-dev/react@^2.7.0":
   version "2.7.0"
@@ -2071,12 +2071,12 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.39-1":
-  version "2.3.39-1"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.39-1.tgz#1b8d70303ba7193280dc3de8ec2df5b1f7951b1e"
-  integrity sha512-akv1M7+sDYdP4gdieqZRh+kyFkU5v/4H9zHDCKYeAYak8yopFrJBNaeSiukh/AkZHaWXJLMESerfDRHZkpIX8w==
+"@thirdweb-dev/sdk@^2.4.0-0":
+  version "2.4.0-0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.4.0-0.tgz#d8c98ed5be7e2c893cdf2c6b99e92daf51e078d0"
+  integrity sha512-XlMibWx/sviwkW//myjQizh3AR8MMJWYV/5km9LF12pD2Svw86iuSK8iJl7JhyRljGuSStapPfq4FeReM5ANNQ==
   dependencies:
-    "@thirdweb-dev/contracts" "3.1.0-1"
+    "@thirdweb-dev/contracts" "3.1.2"
     "@thirdweb-dev/storage" "^0.1.0"
     "@web-std/file" "^3.0.0"
     cbor "^8.1.0"
