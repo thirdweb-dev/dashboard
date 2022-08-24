@@ -144,7 +144,7 @@ Deploy it in one click`,
           StorageSingleton,
         )
       )
-        .filter((source) => !source.filename.includes("@"))
+        .filter((source) => !source.filename.includes("@thirdweb"))
         .map((source) => {
           return {
             ...source,

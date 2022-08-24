@@ -174,10 +174,7 @@ export const CustomContractSourcesPage: React.FC<
   const { data: prebuiltSource } = usePrebuiltSource(contractAddress);
   const { contract } = useContract(contractAddress);
 
-  const abi = useMemo(
-    () => (contract?.publishedMetadata as any)?.contractWrapper?.abi as Abi,
-    [contract],
-  );
+  const abi = useMemo(() => contract?.abi as Abi, [contract]);
 
   if (!contractAddress) {
     return <div>No contract address provided</div>;
@@ -197,7 +194,7 @@ export const CustomContractSourcesPage: React.FC<
     ? [prebuiltSource]
     : contractQuery.data
     ? contractQuery.data
-        .filter((source) => !source.filename.includes("@"))
+        .filter((source) => !source.filename.includes("@thirdweb"))
         .map((source) => {
           return {
             ...source,
