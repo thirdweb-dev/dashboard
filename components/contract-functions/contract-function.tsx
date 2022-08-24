@@ -130,7 +130,8 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
     return fnsOrEvents.filter(
       (fn) =>
         (fn as AbiFunction).stateMutability !== "pure" &&
-        (fn as AbiFunction).stateMutability !== "view",
+        (fn as AbiFunction).stateMutability !== "view" &&
+        "stateMutability" in fn,
     ) as AbiFunction[];
   }, [fnsOrEvents]);
   const viewFunctions: AbiFunction[] = useMemo(() => {
@@ -140,9 +141,11 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
         (fn as AbiFunction).stateMutability === "view",
     ) as AbiFunction[];
   }, [fnsOrEvents]);
-  const events: AbiEvent[] = useMemo(() => {
+  const events = useMemo(() => {
     return fnsOrEvents.filter((fn) => !("stateMutability" in fn)) as AbiEvent[];
   }, [fnsOrEvents]);
+
+  console.log({ writeFunctions, events });
 
   const [selectedFunction, setSelectedFunction] = useState<
     AbiFunction | AbiEvent
@@ -164,9 +167,10 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           overflowX="hidden"
         >
           {writeFunctions.length ? (
-            <Text size="label.sm" mt={3} mb={3}>
-              WRITE
-            </Text>
+            <Flex mt={3} mb={3} gap={2}>
+              <Icon boxSize={3} as={FiEdit2} />
+              <Text size="label.sm">WRITE</Text>
+            </Flex>
           ) : null}
           {writeFunctions.map((fn) => (
             <FunctionsOrEventsListItem
@@ -180,9 +184,10 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           {viewFunctions.length ? (
             <>
               <Divider my={3} />
-              <Text size="label.sm" mt={5} mb={3}>
-                READ
-              </Text>
+              <Flex mt={5} mb={3} gap={2}>
+                <Icon boxSize={3} as={FiEye} />
+                <Text size="label.sm">READ</Text>
+              </Flex>
             </>
           ) : null}
           {viewFunctions.map((fn) => (
@@ -239,19 +244,6 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
             (selectedFunction as AbiEvent).name === (fn as AbiEvent).name)
             ? 600
             : 400
-        }
-        leftIcon={
-          <Icon
-            boxSize={3}
-            as={
-              isFunction
-                ? (fn as AbiFunction).stateMutability === "view" ||
-                  (fn as AbiFunction).stateMutability === "pure"
-                  ? FiEye
-                  : FiEdit2
-                : BsLightningCharge
-            }
-          />
         }
         opacity={
           (isFunction &&
