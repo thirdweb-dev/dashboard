@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { REMOTE_CONTRACT_TO_CONTRACT_TYPE } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { StorageSingleton } from "components/app-layouts/providers";
 import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
 import { ens, useAllVersions } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
@@ -67,7 +68,13 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
       <GridItem colSpan={{ base: 12, md: 8 }}>
         <Flex gap={4} alignItems="center">
           {release?.logo ? (
-            <MaskedAvatar src={release.logo} boxSize={14} />
+            <MaskedAvatar
+              src={release.logo.replace(
+                "ipfs://",
+                `${StorageSingleton.gatewayUrl}/`,
+              )}
+              boxSize={14}
+            />
           ) : (
             <ChakraNextImage
               flexShrink={0}

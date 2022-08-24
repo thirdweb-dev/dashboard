@@ -81,8 +81,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const contractFunctions = useReleasedContractFunctions(release);
   const contractEvents = useReleasedContractEvents(release);
 
-  // const { onCopy, hasCopied } = useClipboard(currentRoute);
-
   const ensQuery = ens.useQuery(release.releaser);
 
   const releaserEnsOrAddress = ensQuery.data?.ensName || release.releaser;
