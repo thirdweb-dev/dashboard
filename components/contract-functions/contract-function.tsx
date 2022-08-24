@@ -17,7 +17,6 @@ import {
 import { AbiEvent, AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
 import { MarkdownRenderer } from "components/contract-components/released-contract/markdown-renderer";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { BsLightningCharge } from "react-icons/bs";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
@@ -145,8 +144,6 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
     return fnsOrEvents.filter((fn) => !("stateMutability" in fn)) as AbiEvent[];
   }, [fnsOrEvents]);
 
-  console.log({ writeFunctions, events });
-
   const [selectedFunction, setSelectedFunction] = useState<
     AbiFunction | AbiEvent
   >(fnsOrEvents[0]);
@@ -162,6 +159,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
         <List
           overflow="auto"
           h={{ base: "300px", md: "500px" }}
+          minH="100%"
           pr={{ base: 0, md: 3 }}
           mb={{ base: 3, md: 0 }}
           overflowX="hidden"
