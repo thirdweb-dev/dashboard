@@ -382,6 +382,11 @@ const BinanceTestnet: CurrencyMetadata[] = [
   {
     ...NATIVE_TOKENS[ChainId.BinanceSmartChainTestnet].wrapped,
   },
+  {
+    address: "0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee",
+    name: "Binance USD",
+    symbol: "BUSD",
+  },
 ];
 
 export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
