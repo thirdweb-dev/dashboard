@@ -46,7 +46,8 @@ export const Hero: ComponentWithChildren<IHero> = ({
       <SimpleGrid
         as={Container}
         maxW="container.page"
-        borderRadius={{ base: 0, md: 24 }}
+        borderRadius={{ base: 0, md: "2xl" }}
+        overflow="hidden"
         bg={gradient}
         columns={{ base: 1, md: 7 }}
         padding={0}
