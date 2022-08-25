@@ -1,16 +1,15 @@
 import { ThirdwebNextPage } from "./_app";
-import { DarkMode, Flex, LightMode, SimpleGrid } from "@chakra-ui/react";
+import { Box, DarkMode, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { ProductCard } from "components/product-pages/common/ProductCard";
-import { ProductPage } from "components/product-pages/common/ProductPage";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { GeneralCta } from "components/shared/GeneralCta";
 import { PageId } from "page-id";
+import Furqan from "public/assets/about/furqan-rydhan.png";
+import Steven from "public/assets/about/steven-bartlett.jpeg";
 import Hero from "public/assets/landingpage/hero.png";
 import MobileHero from "public/assets/landingpage/mobile-hero.png";
-import { Heading, Link, Text, TrackedLink } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 const About: ThirdwebNextPage = () => {
   const employees = [
@@ -24,11 +23,11 @@ const About: ThirdwebNextPage = () => {
     },
     {
       name: "Adam Majmudar",
-      twitter: "majmudaradam",
+      twitter: "MajmudarAdam",
     },
     {
       name: "Catty Berragan",
-      twitter: "cathaluk",
+      twitter: "CathalUK",
     },
     {
       name: "Jonas Daniels",
@@ -40,7 +39,7 @@ const About: ThirdwebNextPage = () => {
     },
     {
       name: "Eiman Abdelmoneim",
-      twitter: "eimanabdel",
+      twitter: "EimanAbdel",
     },
     {
       name: "Patrick Kearney",
@@ -56,7 +55,7 @@ const About: ThirdwebNextPage = () => {
     },
     {
       name: "Adam Lee",
-      twitter: "adamleebg",
+      twitter: "AdamLeeBG",
     },
     {
       name: "Samina Kabir",
@@ -64,7 +63,7 @@ const About: ThirdwebNextPage = () => {
     },
     {
       name: "Anshu Tukol",
-      twitter: "anshutukol",
+      twitter: "AnshuTukol",
     },
     {
       name: "Jarrod Watts",
@@ -80,11 +79,11 @@ const About: ThirdwebNextPage = () => {
     },
     {
       name: "Sian Morton",
-      twitter: "sian_morton",
+      twitter: "Sian_Morton",
     },
     {
       name: "Beverly Rivas",
-      twitter: "bevrivas",
+      twitter: "BevRivas",
     },
   ];
 
@@ -163,22 +162,63 @@ const About: ThirdwebNextPage = () => {
             </Flex>
           </SimpleGrid>
         </HomepageSection>
-        <HomepageSection>
-          <Heading size="display.sm" mb={4}>
+        <HomepageSection py={14}>
+          <Heading size="display.sm" mb={6}>
             Founded by
           </Heading>
-          <Flex>
-            <Heading
-              size="title.lg"
-              bgGradient="linear(to-r, #B8EEFF, #8689E3)"
-              bgClip="text"
-            >
-              Furqan Rydhan
-            </Heading>
-          </Flex>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
+            <Flex gap={6}>
+              <Box borderRadius="full" overflow="hidden">
+                <ChakraNextImage src={Furqan} alt="" boxSize={48} />
+              </Box>
+              <Flex flexDir="column" gap={2} justifyContent="center">
+                <Heading
+                  size="title.lg"
+                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                  bgClip="text"
+                >
+                  Furqan Rydhan, CEO
+                </Heading>
+                <TrackedLink
+                  href="https://twitter.com/FurqanR"
+                  isExternal
+                  category="team"
+                  label="Furqan Rydhan"
+                >
+                  <Text size="label.md" color="gray.500">
+                    @FurqanR
+                  </Text>
+                </TrackedLink>
+              </Flex>
+            </Flex>
+            <Flex gap={6}>
+              <Box borderRadius="full" overflow="hidden">
+                <ChakraNextImage src={Steven} alt="" boxSize={48} />
+              </Box>
+              <Flex flexDir="column" gap={2} justifyContent="center">
+                <Heading
+                  size="title.lg"
+                  bgGradient="linear(to-r, #B8EEFF, #8689E3)"
+                  bgClip="text"
+                >
+                  Steven Bartlett, CMO
+                </Heading>
+                <TrackedLink
+                  href="https://twitter.com/SteveBartlettSC"
+                  isExternal
+                  category="team"
+                  label="Steven Bartlett"
+                >
+                  <Text size="label.md" color="gray.500">
+                    @SteveBartlettSC
+                  </Text>
+                </TrackedLink>
+              </Flex>
+            </Flex>
+          </SimpleGrid>
         </HomepageSection>
-        <HomepageSection>
-          <Heading size="display.sm" mb={4}>
+        <HomepageSection pb={24}>
+          <Heading size="display.sm" mb={6}>
             Our Team
           </Heading>
           <SimpleGrid columns={{ base: 2, md: 4 }} gap={8}>
