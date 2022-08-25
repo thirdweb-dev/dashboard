@@ -2,14 +2,17 @@ import { ThirdwebNextPage } from "./_app";
 import {
   Box,
   Center,
+  Container,
   DarkMode,
   Divider,
   Flex,
+  Icon,
   LightMode,
   List,
   ListIcon,
   ListItem,
   SimpleGrid,
+  Stack,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { CLISection } from "components/homepage/CLISection";
@@ -35,7 +38,7 @@ import React from "react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
-import { MdOutlineAnalytics } from "react-icons/md";
+import { MdMarkEmailRead, MdOutlineAnalytics } from "react-icons/md";
 import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 const HomePage: ThirdwebNextPage = () => {
@@ -86,7 +89,11 @@ const HomePage: ThirdwebNextPage = () => {
 
               <Flex direction="column">
                 <LightMode>
-                  <Flex flexDir="row" align="center" gap={6}>
+                  <Flex
+                    direction={{ base: "column", md: "row" }}
+                    align="center"
+                    gap={6}
+                  >
                     <GeneralCta size="lg" />
                     <LinkButton
                       href="https://portal.thirdweb.com"
@@ -128,7 +135,6 @@ const HomePage: ThirdwebNextPage = () => {
             </Flex>
           </SimpleGrid>
         </HomepageSection>
-
         <HomepageSection id="contracts" middleGradient>
           <Flex
             flexDir="column"
@@ -144,8 +150,8 @@ const HomePage: ThirdwebNextPage = () => {
               gap={{ base: 6, md: 8 }}
             >
               <Heading textAlign="center" size="display.sm" as="h2">
-                <Heading as="span" size="display.sm" _hover={{ opacity: 0.8 }}>
-                  It all starts with contracts
+                <Heading as="span" size="display.sm">
+                  It all starts with contracts.
                 </Heading>
               </Heading>
 
@@ -168,34 +174,28 @@ const HomePage: ThirdwebNextPage = () => {
                   gap={8}
                 >
                   <Flex direction="column" gap={1.5}>
-                    <Heading
-                      w="100%"
-                      size="title.lg"
-                      lineHeight={1.2}
-                      // bgClip="text"
-                      // bgImage="linear-gradient(95.15deg, #6600FF 3.36%, #AA2F2F 68.25%)"
-                    >
+                    <Heading w="100%" size="title.lg" lineHeight={1.2}>
                       Prebuilt
                     </Heading>
-                    {/* <Text size="body.md">to quickly get started</Text> */}
                   </Flex>
                   <Divider borderColor="rgba(255,255,255,0.1)" />
-                  <ContractsDescriptorItem
-                    title="No code"
-                    description="Deploy smart contracts in a matter of clicks. No more private keys and deploy scripts."
-                    icon={require("public/assets/landingpage/icons/no-code.png")}
-                  />
-                  <Divider borderColor="rgba(255,255,255,0.1)" />
+
                   <ContractsDescriptorItem
                     title="Secure"
-                    description="Our contracts are audited and follow the highest security standards."
+                    description="Contracts are audited and follow the highest security standards."
                     icon={require("public/assets/landingpage/icons/secure.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
                     title="Optimized"
-                    description="Our contracts are very gas-efficient. Cheap for you to deploy, cheap for users to use."
+                    description="Up to 10x lower gas-fees for contract deployment delivering industry-leading efficiency."
                     icon={require("public/assets/landingpage/icons/optimized.png")}
+                  />
+                  <Divider borderColor="rgba(255,255,255,0.1)" />
+                  <ContractsDescriptorItem
+                    title="Convenient"
+                    description="1-click deployment. No need for private keys or scripts."
+                    icon={require("public/assets/landingpage/icons/no-code.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <LinkButton
@@ -219,27 +219,36 @@ const HomePage: ThirdwebNextPage = () => {
                   gap={8}
                 >
                   <Flex direction="column" gap={1.5}>
-                    <Heading
-                      size="title.lg"
-                      lineHeight={1.2}
-                      // bgClip="text"
-                      // bgImage="linear-gradient(64.09deg, #D15AFE 20.21%, #410AB6 84.02%)"
-                    >
-                      Bring your own
+                    <Heading size="title.lg" lineHeight={1.2}>
+                      Build your own
                     </Heading>
-                    {/* <Text size="body.md">to quickly get started</Text> */}
                   </Flex>
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
-                    title="Start with a base"
+                    title="Starter Templates"
                     description={
                       <>
-                        Base contracts implement core standards such as{" "}
+                        Implement core standards such as{" "}
+                        <TrackedLink
+                          href="https://portal.thirdweb.com/contracts-sdk/base-contracts/erc-20/erc20base"
+                          category="landing-contracts"
+                          label="base-erc20"
+                          borderBottom="1px solid"
+                          isExternal
+                          _hover={{
+                            textDecoration: "none",
+                            opacity: 0.8,
+                          }}
+                        >
+                          ERC20
+                        </TrackedLink>
+                        ,{" "}
                         <TrackedLink
                           href="https://portal.thirdweb.com/contracts-sdk/base-contracts/erc-721/erc721base"
                           category="landing-contracts"
                           label="base-erc721"
                           borderBottom="1px solid"
+                          isExternal
                           _hover={{
                             textDecoration: "none",
                             opacity: 0.8,
@@ -253,24 +262,25 @@ const HomePage: ThirdwebNextPage = () => {
                           category="landing-contracts"
                           label="base-erc1155"
                           borderBottom="1px solid"
+                          isExternal
                           _hover={{
                             textDecoration: "none",
                             opacity: 0.8,
                           }}
                         >
                           ERC1155
-                        </TrackedLink>
-                        .
+                        </TrackedLink>{" "}
+                        with our contract bases.
                       </>
                     }
                     icon={require("public/assets/landingpage/icons/contract-base.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
-                    title="Add functionality with extensions"
+                    title="Extensions"
                     description={
                       <>
-                        Easiily add features such as{" "}
+                        Add features such as{" "}
                         <TrackedLink
                           href="https://portal.thirdweb.com/contracts-sdk/contract-extensions/permissions"
                           category="landing-contracts"
@@ -316,13 +326,13 @@ const HomePage: ThirdwebNextPage = () => {
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
-                    title="Unlock dashboards and SDKs"
-                    description="We automatically generate SDKs and dashboards relevant to your contract's functionality."
+                    title="Dashboards & SDKs"
+                    description="Get auto-generated dashboards & SDKs for your contracts."
                     icon={require("public/assets/landingpage/icons/sdk-dashboard.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <LinkButton
-                    href="https://portal.thirdweb.com/release"
+                    href="https://portal.thirdweb.com/contracts-sdk"
                     variant="solid"
                     colorScheme="whiteAlpha"
                     bg="white"
@@ -331,13 +341,15 @@ const HomePage: ThirdwebNextPage = () => {
                     isExternal
                     noIcon
                   >
-                    Build contracts
+                    Start building contracts
                   </LinkButton>
                 </Card>
               </SimpleGrid>
             </Flex>
           </Flex>
         </HomepageSection>
+
+        <NewsLetterSection />
 
         <HomepageSection id="sdks" bottomPattern middleGradient>
           <Flex
@@ -355,8 +367,8 @@ const HomePage: ThirdwebNextPage = () => {
               textAlign="center"
               maxW="container.md"
             >
-              Powerful SDKs that let you connect apps, backends and games to
-              blockchains and decentralized networks.
+              Powerful SDKs to integrate decentralized technologies into your
+              apps, backends, and games.
             </Heading>
             <CodeSelector />
           </Flex>
@@ -365,7 +377,7 @@ const HomePage: ThirdwebNextPage = () => {
         <HomepageSection id="developers" py={48} bottomGradient>
           <Flex
             flexDir="column"
-            pt={{ base: 12, lg: 24 }}
+            // pt={{ base: 12, lg: 1 }}
             align="center"
             gap={{ base: 6, md: 8 }}
           >
@@ -489,10 +501,10 @@ const HomePage: ThirdwebNextPage = () => {
               size="display.sm"
               textAlign="center"
             >
-              Think Multi-Chain.
+              Think multi-chain.
             </Heading>
             <Heading size="subtitle.lg" as="h3" textAlign="center">
-              Major chains are supported. More are coming soon.
+              Continuously adding support for the most in-demand chains.
             </Heading>
             <MultiChainSVG />
           </Flex>
@@ -665,5 +677,44 @@ const ContractsDescriptorItem: React.FC<ContractsDescriptorItemProps> = ({
         <Text size="body.md">{description}</Text>
       </Flex>
     </Flex>
+  );
+};
+
+const NewsLetterSection: React.FC = () => {
+  return (
+    <Box bgColor="rgba(0,0,0,.6)" zIndex="100">
+      <Container as="section" maxW="container.page" color="gray.500">
+        <Stack
+          spacing="8"
+          direction={{ base: "column", md: "row" }}
+          justify="space-between"
+          py={{ base: "12", md: "16" }}
+          px={12}
+        >
+          <Stack direction="row" spacing={5} align="center">
+            <Icon boxSize={8} color="white" as={MdMarkEmailRead} />
+            <Stack>
+              <Text color="white" size="label.lg">
+                Sign up for our newsletter
+              </Text>
+              <Text>
+                Join 40,000+ builders and stay up to date with our latest
+                updates and news.
+              </Text>
+            </Stack>
+          </Stack>
+
+          <Box
+            as="iframe"
+            src="https://embeds.beehiiv.com/42f51ba6-da56-42f9-92d8-24a339b9acd0?slim=true"
+            data-test-id="beehiiv-embed"
+            frameBorder="0"
+            scrolling="no"
+            h="50px"
+            borderRadius="md"
+          />
+        </Stack>
+      </Container>
+    </Box>
   );
 };

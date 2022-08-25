@@ -23,7 +23,7 @@ const sections = [
     title: "Release",
     command: "release",
     description:
-      "Publish your contracts to the on-chain registry and enable everyone to easily deploy them in a single click.",
+      "Publish contracts to the on-chain registry to enable 1-click deployment for everyone.",
     link: "https://portal.thirdweb.com/cli#release",
   },
 ] as const;
@@ -61,7 +61,12 @@ export const CLISection: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
       overflow={{ base: "hidden", md: "visible" }}
     >
-      <Flex direction="column" mr="auto" gap={6}>
+      <Flex
+        direction="column"
+        mr={{ base: undefined, md: "auto" }}
+        align={{ base: "center", md: "flex-start" }}
+        gap={6}
+      >
         <AnimatePresence exitBeforeEnter>
           <MotionFlex
             key={activeSection.command}
@@ -70,20 +75,26 @@ export const CLISection: React.FC = () => {
             exit={{ x: -20, opacity: 0 }}
             transition={{ duration: 0.2 }}
             direction="column"
-            mr="auto"
+            mr={{ base: undefined, md: "auto" }}
+            align={{ base: "center", md: "flex-start" }}
+            textAlign={{ base: "center", md: "left" }}
             gap={6}
           >
             <Heading
               bgClip="text"
               bgImage="linear-gradient(90.78deg, #486AC2 5.13%, #E41CA7 44.51%)"
               size="title.lg"
-              mr="auto"
-              pr="33%"
+              mr={{ base: undefined, md: "auto" }}
+              pr={{ base: undefined, md: "33%" }}
             >
               {activeSection.title}
             </Heading>
 
-            <Text size="body.xl" maxW={{ base: "100%", md: "75%" }}>
+            <Text
+              size="body.xl"
+              color="rgba(255, 255, 255, 0.8)"
+              maxW={{ base: "100%", md: "75%" }}
+            >
               {activeSection.description}
             </Text>
           </MotionFlex>
@@ -126,7 +137,7 @@ export const CLISection: React.FC = () => {
             py={2}
             px={4}
           >
-            npx thirdweb{" "}
+            $ npx thirdweb{" "}
             <AnimatePresence exitBeforeEnter>
               <motion.div
                 style={{ display: "inline-block" }}
