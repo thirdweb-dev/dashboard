@@ -138,6 +138,9 @@ export const HomepageFooter: React.FC = () => {
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">Resources</Heading>
                 <Stack spacing="3" shouldWrapChildren>
+                  <TrackedLink href="/about" category="footer" label="about">
+                    About
+                  </TrackedLink>
                   <TrackedLink
                     isExternal
                     href="https://portal.thirdweb.com"
@@ -154,6 +157,7 @@ export const HomepageFooter: React.FC = () => {
                   >
                     Guides
                   </TrackedLink>
+
                   <TrackedLink
                     isExternal
                     href="https://blog.thirdweb.com/"

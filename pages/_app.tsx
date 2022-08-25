@@ -249,10 +249,13 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
                 >
                   <Container maxW="container.page" display="flex">
                     <Flex cursor="pointer" mx="auto" align="center" gap={2}>
-                      <Heading size="label.lg" as="p">
+                      <Heading
+                        size="label.lg"
+                        as="p"
+                        lineHeight={{ base: 1.5, md: undefined }}
+                      >
                         Announcing our $24m Series A: Accelerating the adoption
-                        of web3 with Haun Ventures, Coinbase, Shopify and
-                        Polygon
+                        of web3 with Haun Ventures, Coinbase, and Shopify
                       </Heading>
                       <Icon as={FiArrowRight} />
                     </Flex>
