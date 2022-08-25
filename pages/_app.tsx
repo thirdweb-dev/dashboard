@@ -1,5 +1,12 @@
 import chakraTheme from "../theme";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import {
+  Box,
+  ChakraProvider,
+  Container,
+  Flex,
+  Icon,
+  theme,
+} from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { Hydrate, QueryClient } from "@tanstack/react-query";
@@ -24,6 +31,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { FiArrowRight } from "react-icons/fi";
+import { Heading, TrackedLink } from "tw-components";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import { isBrowser } from "utils/isBrowser";
 
@@ -226,6 +235,44 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
         <ChakraProvider theme={chakraTheme}>
           <ErrorProvider>
             <DashboardThirdwebProvider queryClient={queryClient}>
+              <TrackedLink
+                href="https://twitter.com/thirdweb_/status/1562842674679652352"
+                category="landingpage"
+                label="announcement-tweet"
+                isExternal
+              >
+                <Box
+                  position="sticky"
+                  zIndex="10"
+                  py={3}
+                  bgImage="linear-gradient(95.15deg, #AA2F2F 3.36%, #6600FF 68.25%)"
+                >
+                  <Container maxW="container.page" display="flex">
+                    <Flex
+                      cursor="pointer"
+                      mx="auto"
+                      align="center"
+                      gap={{ base: 0.5, md: 2 }}
+                      color="white"
+                    >
+                      <Heading
+                        size="label.lg"
+                        as="p"
+                        lineHeight={{ base: 1.5, md: undefined }}
+                        color="white"
+                      >
+                        Announcing our{" "}
+                        <Box as="span" display={{ base: "none", md: "inline" }}>
+                          $24m
+                        </Box>{" "}
+                        Series A: Accelerating the adoption of web3 with Haun
+                        Ventures, Coinbase Ventures, and Shopify
+                      </Heading>
+                      <Icon as={FiArrowRight} />
+                    </Flex>
+                  </Container>
+                </Box>
+              </TrackedLink>
               {getLayout(<Component {...pageProps} />, pageProps)}
             </DashboardThirdwebProvider>
           </ErrorProvider>
