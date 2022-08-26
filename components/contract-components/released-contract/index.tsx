@@ -30,13 +30,16 @@ import { ShareButton } from "components/share-buttom";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { BsShieldCheck, BsShieldFillCheck } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
+import { FiExternalLink } from "react-icons/fi";
 import { IoDocumentOutline } from "react-icons/io5";
 import { SiTwitter } from "react-icons/si";
 import invariant from "tiny-invariant";
 import {
   Card,
   Heading,
+  Link,
   LinkButton,
   Text,
   TrackedIconButton,
@@ -222,6 +225,24 @@ Deploy it in one click`,
           <Flex flexDir="column" gap={4}>
             <Heading size="title.sm">Contract details</Heading>
             <List as={Flex} flexDir="column" gap={3}>
+              <ListItem>
+                <Flex gap={2} alignItems="center">
+                  <Icon as={BsShieldCheck} boxSize={5} color="green" />
+                  {releasedContractInfo.data?.publishedMetadata?.audit && (
+                    <Text size="label.md">
+                      <Link
+                        href={releasedContractInfo.data?.publishedMetadata?.audit.replace(
+                          "ipfs://",
+                          `${StorageSingleton.gatewayUrl}/`,
+                        )}
+                        isExternal
+                      >
+                        Audited
+                      </Link>
+                    </Text>
+                  )}
+                </Flex>
+              </ListItem>
               <ListItem>
                 <Flex gap={2} alignItems="center">
                   <Icon as={IoDocumentOutline} boxSize={5} />
