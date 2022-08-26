@@ -1,4 +1,4 @@
-import { withSentry } from "@sentry/nextjs";
+// import { withSentry } from "@sentry/nextjs";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
@@ -329,4 +329,4 @@ async function fetchDeployBytecodeFromReleaseMetadata(
   return undefined;
 }
 
-export default withSentry(handler);
+export default handler;
