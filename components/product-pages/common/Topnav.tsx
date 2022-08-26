@@ -30,14 +30,14 @@ export const HomepageTopNav: React.FC<{}> = () => {
     [isMobile],
     undefined,
     false,
-    33,
+    100,
   );
 
   return (
     <>
       <Box
         transition="all 100ms ease"
-        position="fixed"
+        position="sticky"
         top={0}
         left={0}
         w="100%"
@@ -69,6 +69,14 @@ export const HomepageTopNav: React.FC<{}> = () => {
           >
             <Products />
             <Resources />
+            <TrackedLink
+              isExternal
+              href="https://careers.thirdweb.com"
+              category="landing-page"
+              label="careers"
+            >
+              Careers
+            </TrackedLink>
           </Stack>
 
           <Flex

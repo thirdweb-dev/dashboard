@@ -13,6 +13,13 @@ interface IResource {
 
 export const RESOURCES: IResource[] = [
   {
+    name: "About",
+    label: "about",
+    description: "Learn more about our company",
+    link: "/about",
+    icon: require("public/assets/tw-icons/general.png"),
+  },
+  {
     name: "Docs",
     label: "docs",
     description: "Complete thirdweb documentation",
@@ -92,7 +99,7 @@ const Resource: React.FC<IResource> = ({
       category="topnav"
       label={label}
       textDecor="none !important"
-      isExternal
+      isExternal={link.startsWith("http")}
     >
       <Box _hover={{ bg: "whiteAlpha.50" }} p="8px" borderRadius="md">
         <Stack direction="row" align="center" spacing={3}>
