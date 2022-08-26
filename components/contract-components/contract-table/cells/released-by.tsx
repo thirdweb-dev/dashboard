@@ -26,8 +26,17 @@ export const ContractReleasedByCell: React.FC<
       .publisher;
 
   const releaserEnsQuery = ens.useQuery(releaser);
+
+  console.log({ isSuccess: fullPublishMetadata, isPrebuilt });
+
   return (
-    <Skeleton isLoaded={fullPublishMetadata.isSuccess || isPrebuilt}>
+    <Skeleton
+      isLoaded={
+        fullPublishMetadata.isSuccess ||
+        fullPublishMetadata.isStale ||
+        isPrebuilt
+      }
+    >
       <LinkButton
         href={`/${releaserEnsQuery.data?.ensName || releaser}`}
         variant="outline"
@@ -41,7 +50,7 @@ export const ContractReleasedByCell: React.FC<
       >
         <Text size="body.md">
           {shortenIfAddress(releaserEnsQuery.data?.ensName || releaser, true) ||
-            (isPrebuilt ? "thirdweb" : "Unknown")}
+            (isPrebuilt ? "thirdweb" : "First release")}
         </Text>
       </LinkButton>
     </Skeleton>
