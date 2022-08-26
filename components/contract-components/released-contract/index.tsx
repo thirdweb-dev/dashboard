@@ -42,6 +42,7 @@ import {
   LinkButton,
   Text,
   TrackedIconButton,
+  TrackedLink,
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -255,11 +256,20 @@ Deploy it in one click`,
                   </Text>
                 </Flex>
               </ListItem>
-              {(enabledExtensions || []).map((feature) => (
-                <ListItem key={feature.name}>
+              {(enabledExtensions || []).map((extension) => (
+                <ListItem key={extension.name}>
                   <Flex gap={2} alignItems="center">
                     <Icon as={FcCheckmark} boxSize={5} />
-                    <Text size="label.md">{feature.name}</Text>
+                    <Text size="label.md">
+                      <TrackedLink
+                        href={`https://portal.thirdweb.com/contracts/${extension.docLinks.contracts}`}
+                        isExternal
+                        category="extension"
+                        label={extension.name}
+                      >
+                        {extension.name}
+                      </TrackedLink>
+                    </Text>
                   </Flex>
                 </ListItem>
               ))}
