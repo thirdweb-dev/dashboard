@@ -27,9 +27,11 @@ import {
 import { StorageSingleton } from "components/app-layouts/providers";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
+import { format } from "date-fns";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { BiTime } from "react-icons/bi";
 import { BsShieldCheck } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { IoDocumentOutline } from "react-icons/io5";
@@ -225,10 +227,10 @@ Deploy it in one click`,
           <Flex flexDir="column" gap={4}>
             <Heading size="title.sm">Contract details</Heading>
             <List as={Flex} flexDir="column" gap={3}>
-              <ListItem>
-                <Flex gap={2} alignItems="center">
-                  <Icon as={BsShieldCheck} boxSize={5} color="green" />
-                  {releasedContractInfo.data?.publishedMetadata?.audit && (
+              {releasedContractInfo.data?.publishedMetadata?.audit && (
+                <ListItem>
+                  <Flex gap={2} alignItems="center">
+                    <Icon as={BsShieldCheck} boxSize={5} color="green" />
                     <Text size="label.md">
                       <Link
                         href={releasedContractInfo.data?.publishedMetadata?.audit.replace(
@@ -240,9 +242,9 @@ Deploy it in one click`,
                         Audited
                       </Link>
                     </Text>
-                  )}
-                </Flex>
-              </ListItem>
+                  </Flex>
+                </ListItem>
+              )}
               <ListItem>
                 <Flex gap={2} alignItems="center">
                   <Icon as={IoDocumentOutline} boxSize={5} />
