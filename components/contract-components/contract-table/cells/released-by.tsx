@@ -31,7 +31,7 @@ export const ContractReleasedByCell: React.FC<
     <Skeleton
       isLoaded={
         fullPublishMetadata.isSuccess ||
-        fullPublishMetadata.isStale ||
+        !fullPublishMetadata.isFetching ||
         isPrebuilt
       }
     >
@@ -50,7 +50,7 @@ export const ContractReleasedByCell: React.FC<
           {shortenIfAddress(releaserEnsQuery.data?.ensName || releaser, true) ||
             (isPrebuilt
               ? "thirdweb"
-              : fullPublishMetadata.isStale
+              : !fullPublishMetadata.isFetching
               ? "First release"
               : "Unknown")}
         </Text>

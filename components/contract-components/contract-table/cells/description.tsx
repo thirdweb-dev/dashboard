@@ -26,7 +26,7 @@ export const ContractDescriptionCell: React.FC<
     <Skeleton
       isLoaded={
         fullPublishMetadata.isSuccess ||
-        fullPublishMetadata.isStale ||
+        !fullPublishMetadata.isFetching ||
         !!description
       }
     >
@@ -34,7 +34,7 @@ export const ContractDescriptionCell: React.FC<
         {fullPublishMetadata.data?.latestPublishedContractMetadata
           ?.publishedMetadata.description ||
           description ||
-          (fullPublishMetadata.isStale ? "First Release" : "None")}
+          (!fullPublishMetadata.isFetching ? "First Release" : "None")}
       </Text>
     </Skeleton>
   );
