@@ -27,8 +27,6 @@ export const ContractReleasedByCell: React.FC<
 
   const releaserEnsQuery = ens.useQuery(releaser);
 
-  console.log({ isSuccess: fullPublishMetadata, isPrebuilt });
-
   return (
     <Skeleton
       isLoaded={
