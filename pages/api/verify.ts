@@ -1,4 +1,3 @@
-// import { withSentry } from "@sentry/nextjs";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
@@ -73,10 +72,12 @@ export const blockExplorerMap: Record<number, { name: string; url: string }> = {
     url: "https://optimistic.etherscan.io/",
   },
   42: { name: "Kovan Etherscan", url: "https://kovan.etherscan.io/" },
+  56: { name: "Bscscan", url: "https://bscscan.com/" },
   69: {
     name: "Optimism Kovan Etherscan",
     url: "https://kovan-optimistic.etherscan.io/",
   },
+  97: { name: "Bscscan Testnet", url: "https://testnet.bscscan.com/" },
   137: { name: "Polygonscan", url: "https://polygonscan.com/" },
   250: { name: "FTMScan", url: "https://ftmscan.com/" },
   4002: { name: "FTMScan Testnet", url: "https://testnet.ftmscan.com/" },
@@ -104,9 +105,11 @@ export const apiKeyMap: Record<number, string> = {
   [ChainId.ArbitrumTestnet]: process.env.ARBITRUMSCAN_KEY as string,
   [ChainId.Optimism]: process.env.OPTIMISMSCAN_KEY as string,
   [ChainId.OptimismTestnet]: process.env.OPTIMISMSCAN_KEY as string,
+  [ChainId.BinanceSmartChainMainnet]: process.env.BSCSCAN_KEY as string,
+  [ChainId.BinanceSmartChainTestnet]: process.env.BSCSCAN_KEY as string,
 };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     return res.status(400).json({ error: "invalid method" });
   }
@@ -328,5 +331,3 @@ async function fetchDeployBytecodeFromReleaseMetadata(
   }
   return undefined;
 }
-
-export default handler;
