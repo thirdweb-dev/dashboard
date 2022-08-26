@@ -50,7 +50,11 @@ export const ContractReleasedByCell: React.FC<
       >
         <Text size="body.md">
           {shortenIfAddress(releaserEnsQuery.data?.ensName || releaser, true) ||
-            (isPrebuilt ? "thirdweb" : "First release")}
+            (isPrebuilt
+              ? "thirdweb"
+              : fullPublishMetadata.isStale
+              ? "First release"
+              : "Unknown")}
         </Text>
       </LinkButton>
     </Skeleton>
