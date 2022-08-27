@@ -75,6 +75,12 @@ const moduleExports = {
         destination: "/auth",
         permanent: false,
       },
+      //  old (deprecated) routes
+      {
+        source: "/:network/(edition|nft-collection|token|pack)/:address",
+        destination: "/:network/:address",
+        permanent: false,
+      },
     ];
   },
   images: {
@@ -109,7 +115,6 @@ const sentryWebpackPluginOptions = {
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 };
-
 module.exports = withBundleAnalyzer(
   withSentryConfig(moduleExports, sentryWebpackPluginOptions),
 );
