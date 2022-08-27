@@ -2512,9 +2512,9 @@
   integrity sha512-Ly3cEw5K8xfCwj0Fhgzr5olK3mG267TKacDeeufXM/YvU+/6qrpcCWd0JeSafK11+OrMDVXAK/5md93JeniNPQ==
 
 "@thirdweb-dev/react@^2.7.3-3":
-  version "2.7.3-5"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.7.3-5.tgz#b2a0db50bcefc2298ad3556cafbccd14cc4dbb0e"
-  integrity sha512-BSwyd6SvjllgA5BPQzqlt0MtRmtft7bT++QRNp/FI6d7fVby1W7/P4Hl7r5cV4b9RB8xE2ps74AmK77XoiHAsQ==
+  version "2.7.3-6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.7.3-6.tgz#56e67933f54cbd43c1409bd3e4d9e1f7d308bae8"
+  integrity sha512-yEC4IP740YEFEEVTQ1lWxeRBFXDfOQILTQ0rm50CgZGm7Kvg3SRQ7qnrj4RldiUHlb3NQVfECkPc8vrZxmwWdg==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
