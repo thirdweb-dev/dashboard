@@ -13,6 +13,7 @@ import {
   Icon,
   LightMode,
   List,
+  Select,
   SimpleGrid,
   Stack,
   Switch,
@@ -23,8 +24,7 @@ import {
 import { ContractEvent } from "@thirdweb-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { bigNumberReplacer } from "pages/_app";
-import React, { useState } from "react";
-import { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { FiChevronDown, FiCopy } from "react-icons/fi";
 import {
@@ -49,6 +49,7 @@ interface EventsFeedProps {
 export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const [autoUpdate, setAutoUpdate] = useState(true);
   const activityQuery = useActivity(contractAddress, autoUpdate);
+  const [selectedEvent, setSelectedEvent] = useState("all");
 
   const eventTypes = useMemo(
     () =>
@@ -63,6 +64,20 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
         : [],
     [activityQuery],
   );
+
+  const filteredEvents = useMemo(
+    () =>
+      activityQuery?.data
+        ? selectedEvent === "all"
+          ? activityQuery.data
+          : activityQuery.data.filter(({ events }) =>
+              events.some(({ eventName }) => eventName === selectedEvent),
+            )
+        : [],
+    [activityQuery, selectedEvent],
+  );
+
+  console.log({ data: activityQuery.data, filteredEvents });
 
   return (
     <Flex gap={6} flexDirection="column">
@@ -83,6 +98,14 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
           </FormControl>
         </Box>
       </Flex>
+      <Select w="20%" onChange={(e) => setSelectedEvent(e.target.value)}>
+        <option value="all">All</option>
+        {eventTypes.map((eventType) => (
+          <option key={eventType} value={eventType}>
+            {eventType}
+          </option>
+        ))}
+      </Select>
       {activityQuery.data && contractAddress && (
         <Card p={0} overflow="hidden">
           <SimpleGrid
@@ -112,7 +135,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
               allowMultiple
               defaultIndex={[]}
             >
-              {activityQuery.data.slice(0, 10).map((e) => (
+              {filteredEvents?.slice(0, 10).map((e) => (
                 <EventsFeedItem key={e.transactionHash} transaction={e} />
               ))}
             </Accordion>
