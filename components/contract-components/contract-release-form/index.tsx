@@ -6,13 +6,13 @@ import {
   usePublishMutation,
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
-import { MaskedAvatar } from "../releaser/masked-avatar";
 import { ContractId } from "../types";
 import {
   Box,
   Flex,
   FormControl,
   Icon,
+  Image,
   Input,
   InputGroup,
   InputRightElement,
@@ -236,7 +236,12 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   transition="all 200ms ease"
                   _hover={{ shadow: "sm" }}
                   renderPreview={(fileUrl) => (
-                    <MaskedAvatar w="100%" h="100%" src={fileUrl} />
+                    <Image
+                      w="100%"
+                      h="100%"
+                      src={fileUrl}
+                      borderRadius="full"
+                    />
                   )}
                   helperText="logo"
                   isDisabled={isDisabled}
