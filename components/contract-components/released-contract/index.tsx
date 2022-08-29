@@ -144,13 +144,14 @@ Deploy it in one click`,
           StorageSingleton,
         )
       )
-        .filter((source) => !source.filename.includes("@"))
         .map((source) => {
           return {
             ...source,
             filename: source.filename.split("/").pop(),
           };
-        });
+        })
+        .slice()
+        .reverse();
     },
     { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
   );
@@ -175,7 +176,7 @@ Deploy it in one click`,
           ],
         }}
       />
-      <GridItem order={{ base: 4, md: 3 }} colSpan={{ base: 12, md: 9 }}>
+      <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
           {releasedContractInfo.data?.publishedMetadata?.readme && (
             <Card as={Flex} flexDir="column" gap={2} p={6}>
@@ -209,11 +210,12 @@ Deploy it in one click`,
               functions={contractFunctions}
               events={contractEvents}
               sources={sources.data}
+              abi={contractReleaseMetadata.data?.abi}
             />
           )}
         </Flex>
       </GridItem>
-      <GridItem order={{ base: 3, md: 4 }} colSpan={{ base: 12, md: 3 }}>
+      <GridItem colSpan={{ base: 12, md: 3 }}>
         <Flex flexDir="column" gap={6}>
           {walletOrEns && <ReleaserHeader wallet={walletOrEns} />}
           <Divider />
@@ -267,6 +269,19 @@ Deploy it in one click`,
                 category="released-contract"
                 label="share-twitter"
               />
+            </Flex>
+          </Flex>
+          <Divider />
+          <Flex flexDir="column" gap={4}>
+            <Flex gap={2} alignItems="center">
+              <LinkButton
+                href="https://blog.thirdweb.com/thirdweb-release/"
+                w="full"
+                variant="outline"
+                isExternal
+              >
+                Learn more about Release
+              </LinkButton>
             </Flex>
           </Flex>
         </Flex>

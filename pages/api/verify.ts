@@ -1,3 +1,4 @@
+// import { withSentry } from "@sentry/nextjs";
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
@@ -7,6 +8,7 @@ import {
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
 import { StorageSingleton } from "components/app-layouts/providers";
+import { Abi } from "components/contract-components/types";
 import { ethers } from "ethers";
 import { Interface } from "ethers/lib/utils";
 import { getSSRSDK } from "lib/ssr-sdk";
@@ -104,7 +106,7 @@ export const apiKeyMap: Record<number, string> = {
   [ChainId.OptimismTestnet]: process.env.OPTIMISMSCAN_KEY as string,
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     return res.status(400).json({ error: "invalid method" });
   }
@@ -219,7 +221,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 async function fetchConstructorParams(
   contractAddress: string,
   chainId: ChainId,
-  abi: any,
+  abi: Abi,
   provider: ethers.providers.Provider,
 ): Promise<string> {
   const constructorParamTypes = extractConstructorParamsFromAbi(abi);
@@ -326,3 +328,5 @@ async function fetchDeployBytecodeFromReleaseMetadata(
   }
   return undefined;
 }
+
+export default handler;

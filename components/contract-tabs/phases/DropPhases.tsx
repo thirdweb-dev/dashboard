@@ -1,4 +1,3 @@
-import { SnapshotUpload } from "../../batch-upload/SnapshotUpload";
 import { AdminOnly, useIsAdmin } from "@3rdweb-sdk/react";
 import {
   useClaimPhases,
@@ -36,6 +35,7 @@ import {
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
+import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
 import deepEqual from "fast-deep-equal";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useEffect, useMemo, useState } from "react";

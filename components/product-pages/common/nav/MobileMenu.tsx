@@ -29,7 +29,6 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
               href={product.link}
               category="topnav"
               label={product.label}
-              isExternal
             >
               {product.name}
             </MenuItem>
@@ -65,6 +64,15 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
             target="_blank"
           >
             Blog
+          </MenuItem>
+          <MenuItem
+            as={TrackedLink}
+            href="https://careers.thirdweb.com"
+            category="topnav"
+            label="blog"
+            target="_blank"
+          >
+            Careers
           </MenuItem>
         </MenuGroup>
       </MenuList>

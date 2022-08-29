@@ -1,11 +1,11 @@
 import { Flex, Icon, Stack, useDisclosure } from "@chakra-ui/react";
 import { useAddress, useAirdropNFT } from "@thirdweb-dev/react";
 import { Erc1155 } from "@thirdweb-dev/sdk";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import {
   AirdropAddressInput,
   AirdropUpload,
-} from "components/batch-upload/AirdropUpload";
-import { TransactionButton } from "components/buttons/TransactionButton";
+} from "contract-ui/tabs/nfts/components/airdrop-upload";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
@@ -24,7 +24,7 @@ export const AirdropTab: React.FC<AirdropTabProps> = ({
   tokenId,
 }) => {
   const address = useAddress();
-  const { handleSubmit, setValue, watch } = useForm<{
+  const { handleSubmit, setValue, watch, reset } = useForm<{
     addresses: AirdropAddressInput[];
   }>({
     defaultValues: { addresses: [] },
@@ -60,7 +60,6 @@ export const AirdropTab: React.FC<AirdropTabProps> = ({
             },
             {
               onSuccess: () => {
-                onSuccess();
                 trackEvent({
                   category: "nft",
                   action: "airdrop",
@@ -68,6 +67,8 @@ export const AirdropTab: React.FC<AirdropTabProps> = ({
                   contract_address: contract?.getAddress(),
                   token_id: tokenId,
                 });
+                onSuccess();
+                reset();
               },
               onError: (error) => {
                 trackEvent({

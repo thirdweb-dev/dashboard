@@ -1,4 +1,4 @@
-import { ContractId } from "./types";
+import { Abi, ContractId } from "./types";
 import { isContractIdBuiltInContract } from "./utils";
 import { contractKeys, networkKeys } from "@3rdweb-sdk/react";
 import {
@@ -23,13 +23,13 @@ import {
   detectFeatures,
   extractConstructorParamsFromAbi,
   extractEventsFromAbi,
+  extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
 import {
-  AbiSchema,
   ContractInfoSchema,
   ExtraPublishMetadata,
   ProfileMetadata,
@@ -53,7 +53,7 @@ export interface ContractPublishMetadata {
   image: string | StaticImageData;
   name: string;
   description?: string;
-  abi?: z.infer<typeof AbiSchema>;
+  abi?: Abi;
   bytecode?: string;
   deployDisabled?: boolean;
   info?: z.infer<typeof ContractInfoSchema>;
@@ -72,6 +72,7 @@ function removeUndefinedFromObject(obj: Record<string, any>) {
   return newObj;
 }
 
+// metadata PRE release, only has the compiler output info (from CLI)
 export async function fetchContractPublishMetadataFromURI(
   contractId: ContractId,
 ) {
@@ -127,6 +128,8 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
   );
 }
 
+// metadata PRE release, only contains the compiler output
+// if passing an addres, also fetches the latest version of the matching contract
 export function useContractPrePublishMetadata(uri: string, address?: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
   const sdk = useSDK();
@@ -146,6 +149,29 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
     },
     {
       enabled: !!uri && !!address,
+    },
+  );
+}
+
+// Metadata POST release, contains all the extra information filled in by the user
+export function useContractFullPublishMetadata(uri: string) {
+  const contractIdIpfsHash = toContractIdIpfsHash(uri);
+  const sdk = useSDK();
+  return useQuery(
+    ["full-publish-metadata", uri],
+    async () => {
+      invariant(
+        !isContractIdBuiltInContract(uri),
+        "Skipping publish metadata fetch for built-in contract",
+      );
+      // TODO: Make this nicer.
+      invariant(uri !== "ipfs://undefined", "uri can't be undefined");
+      return await sdk
+        ?.getPublisher()
+        .fetchFullPublishMetadata(contractIdIpfsHash);
+    },
+    {
+      enabled: !!uri,
     },
   );
 }
@@ -185,6 +211,8 @@ export function useLatestRelease(
       const latestRelease = await sdk
         .getPublisher()
         .getLatest(publisherAddress, contractName);
+
+      invariant(latestRelease, "latest release is not defined");
 
       const contractInfo = await sdk
         .getPublisher()
@@ -323,7 +351,7 @@ export function useReleasedContractFunctions(contract: PublishedContract) {
     contract.metadataUri,
   );
   return meta
-    ? extractFunctionsFromAbi(meta.abi as any, meta?.compilerMetadata)
+    ? extractFunctionsFromAbi(meta.abi as Abi, meta?.compilerMetadata)
     : undefined;
 }
 export function useReleasedContractEvents(contract: PublishedContract) {
@@ -331,7 +359,7 @@ export function useReleasedContractEvents(contract: PublishedContract) {
     contract.metadataUri,
   );
   return meta
-    ? extractEventsFromAbi(meta.abi as any, meta?.compilerMetadata)
+    ? extractEventsFromAbi(meta.abi as Abi, meta?.compilerMetadata)
     : undefined;
 }
 
@@ -341,10 +369,18 @@ export function useReleasedContractCompilerMetadata(
   return useContractPublishMetadataFromURI(contract.metadataUri);
 }
 
-export function useConstructorParamsFromABI(abi?: any) {
+export function useConstructorParamsFromABI(abi?: Abi) {
   return useMemo(() => {
     return abi ? extractConstructorParamsFromAbi(abi) : [];
   }, [abi]);
+}
+
+export function useFunctionParamsFromABI(abi?: any, functionName?: string) {
+  return useMemo(() => {
+    return abi && functionName
+      ? extractFunctionParamsFromAbi(abi, functionName)
+      : [];
+  }, [abi, functionName]);
 }
 
 export function toContractIdIpfsHash(contractId: ContractId) {
@@ -429,17 +465,18 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
         sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
-      return await sdk.deployer.deployContractFromUri(
+      const contractAddress = await sdk.deployer.deployContractFromUri(
         ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
         data.constructorParams,
       );
+      if (data.addToDashboard) {
+        const registry = await sdk?.deployer.getRegistry();
+        await registry?.addContract(contractAddress);
+      }
+      return contractAddress;
     },
     {
-      onSuccess: async (contractAddress, variables) => {
-        if (variables.addToDashboard) {
-          const registry = await sdk?.deployer.getRegistry();
-          await registry?.addContract(contractAddress);
-        }
+      onSuccess: async () => {
         return await queryClient.invalidateQueries([
           ...networkKeys.chain(chainId),
           ...contractKeys.list(walletAddress),
@@ -613,6 +650,25 @@ export function useContractEvents(contract: SmartContract | null) {
     async () => {
       if (contract instanceof SmartContract) {
         return contract.publishedMetadata.extractEvents();
+      }
+      return null;
+    },
+    {
+      enabled: !!contract?.getAddress() || !!sdk,
+      // functions are based on publish metadata (abi), so this is immutable
+      staleTime: Infinity,
+    },
+  );
+}
+
+export function useContractFunctions(contract: SmartContract | null) {
+  const sdk = useSDK();
+  const activeChainId = useActiveChainId();
+  return useQueryWithNetwork(
+    ["contract-functions", contract?.getAddress(), activeChainId],
+    async () => {
+      if (contract instanceof SmartContract) {
+        return contract.publishedMetadata.extractFunctions();
       }
       return null;
     },

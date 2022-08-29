@@ -16,6 +16,13 @@ export function useContractRouteConfig(
   contractAddress?: string,
 ): EnhancedRoute[] {
   const contract = useContract(contractAddress);
+  const contractType = contract.data?.contractType;
+  const embedEnabled =
+    contractType === "nft-drop" ||
+    contractType === "marketplace" ||
+    contractType === "edition-drop" ||
+    contractType === "token-drop" ||
+    contractType === "signature-drop";
 
   return [
     {
@@ -58,6 +65,20 @@ export function useContractRouteConfig(
         )),
     },
     {
+      title: "Claim Conditions",
+      path: "claim-conditions",
+      isEnabled: extensionDetectedState({
+        contract,
+        feature: "ERC721Droppable",
+      }),
+      element: () =>
+        import("../tabs/claim-conditions/page").then(
+          ({ ContractClaimConditionsPage }) => (
+            <ContractClaimConditionsPage contractAddress={contractAddress} />
+          ),
+        ),
+    },
+    {
       title: "Permissions",
       path: "permissions",
       isEnabled: extensionDetectedState({ contract, feature: "Permissions" }),
@@ -67,6 +88,15 @@ export function useContractRouteConfig(
             <ContractPermissionsPage contractAddress={contractAddress} />
           ),
         ),
+    },
+    {
+      title: "Embed",
+      path: "embed",
+      element: () =>
+        import("../tabs/embed/page").then(({ CustomContractEmbedPage }) => (
+          <CustomContractEmbedPage contractAddress={contractAddress} />
+        )),
+      isEnabled: embedEnabled ? "enabled" : "disabled",
     },
     {
       title: "Code",
@@ -87,11 +117,11 @@ export function useContractRouteConfig(
         ),
     },
     {
-      title: "Source",
-      path: "source",
+      title: "Sources",
+      path: "sources",
       element: () =>
-        import("../tabs/source/page").then(({ CustomContractSourcePage }) => (
-          <CustomContractSourcePage contractAddress={contractAddress} />
+        import("../tabs/sources/page").then(({ CustomContractSourcesPage }) => (
+          <CustomContractSourcesPage contractAddress={contractAddress} />
         )),
     },
   ];
