@@ -27,9 +27,11 @@ import {
 import { StorageSingleton } from "components/app-layouts/providers";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
+import { format } from "date-fns";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { BiTime } from "react-icons/bi";
 import { BsShieldCheck } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { IoDocumentOutline } from "react-icons/io5";
@@ -159,6 +161,15 @@ Deploy it in one click`,
     { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
   );
 
+  const releasedDate = format(
+    new Date(
+      parseInt(
+        releasedContractInfo?.data?.publishedTimestamp.toString() || "0",
+      ) * 1000,
+    ),
+    "MMM dd, yyyy",
+  );
+
   return (
     <>
       <NextSeo
@@ -225,6 +236,16 @@ Deploy it in one click`,
           <Flex flexDir="column" gap={4}>
             <Heading size="title.sm">Contract details</Heading>
             <List as={Flex} flexDir="column" gap={3}>
+              {releasedContractInfo.data?.publishedTimestamp && (
+                <ListItem>
+                  <Flex gap={2} alignItems="center">
+                    <Icon as={BiTime} boxSize={5} />
+                    <Text size="label.md" lineHeight={1.2}>
+                      Released on: {releasedDate}
+                    </Text>
+                  </Flex>
+                </ListItem>
+              )}
               {releasedContractInfo.data?.publishedMetadata?.audit && (
                 <ListItem>
                   <Flex gap={2} alignItems="center">
