@@ -2,7 +2,6 @@ import {
   ens,
   useContractPrePublishMetadata,
   useContractPublishMetadataFromURI,
-  useReleaserProfile,
 } from "../hooks";
 import { ContractId } from "../types";
 import { Image, Skeleton } from "@chakra-ui/react";
