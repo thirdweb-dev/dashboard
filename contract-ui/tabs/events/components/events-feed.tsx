@@ -49,14 +49,13 @@ interface EventsFeedProps {
 }
 
 export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
-  const router = useRouter();
   const [autoUpdate, setAutoUpdate] = useState(true);
   const activityQuery = useActivity(contractAddress, autoUpdate);
-  const [selectedEvent, setSelectedEvent] = useState(
-    (router?.query?.event as string) || "all",
-  );
-
+  const event = useSingleQueryParam("event");
+  const [selectedEvent, setSelectedEvent] = useState(event || "all");
+  
   const chain = useSingleQueryParam("networkOrAddress");
+  const router = useRouter();
 
   const eventTypes = useMemo(
     () =>
