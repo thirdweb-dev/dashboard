@@ -24,6 +24,7 @@ import { ContractEvent } from "@thirdweb-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { bigNumberReplacer } from "pages/_app";
 import React, { useState } from "react";
+import { useMemo } from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { FiChevronDown, FiCopy } from "react-icons/fi";
 import {
@@ -48,6 +49,20 @@ interface EventsFeedProps {
 export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const [autoUpdate, setAutoUpdate] = useState(true);
   const activityQuery = useActivity(contractAddress, autoUpdate);
+
+  const eventTypes = useMemo(
+    () =>
+      activityQuery?.data
+        ? Array.from(
+            new Set([
+              ...activityQuery.data.flatMap(({ events }) =>
+                events.map(({ eventName }) => eventName),
+              ),
+            ]),
+          )
+        : [],
+    [activityQuery],
+  );
 
   return (
     <Flex gap={6} flexDirection="column">
