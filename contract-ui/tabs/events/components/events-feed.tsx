@@ -77,8 +77,6 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
     [activityQuery, selectedEvent],
   );
 
-  console.log({ data: activityQuery.data, filteredEvents });
-
   return (
     <Flex gap={6} flexDirection="column">
       <Flex align="center" justify="space-between" w="full">
@@ -136,7 +134,11 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
               defaultIndex={[]}
             >
               {filteredEvents?.slice(0, 10).map((e) => (
-                <EventsFeedItem key={e.transactionHash} transaction={e} />
+                <EventsFeedItem
+                  key={e.transactionHash}
+                  transaction={e}
+                  setSelectedEvent={setSelectedEvent}
+                />
               ))}
             </Accordion>
           </List>
@@ -148,10 +150,12 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
 
 interface EventsFeedItemProps {
   transaction: ContractTransaction;
+  setSelectedEvent: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   transaction,
+  setSelectedEvent,
 }) => {
   const toast = useToast();
   const { onCopy } = useClipboard(transaction.transactionHash);
@@ -245,15 +249,23 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
             flexWrap="wrap"
             gap={2}
             spacing={0}
-            pointerEvents="none"
           >
             {transaction.events.slice(0, 2).map((e, idx) => (
-              <Button as="span" key={idx}>
+              <Button
+                as="span"
+                key={idx}
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  setSelectedEvent(e.eventName);
+                }}
+              >
                 {e.eventName}
               </Button>
             ))}
             {transaction.events.length > 2 && (
-              <Button as="span">+ {transaction.events.length - 2}</Button>
+              <Button as="span" pointerEvents="none">
+                + {transaction.events.length - 2}
+              </Button>
             )}
           </ButtonGroup>
 
