@@ -37,7 +37,6 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
-import deepEqual from "fast-deep-equal";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { useEffect, useMemo, useState } from "react";
@@ -280,8 +279,6 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
     "Failed to save claim phases",
   );
 
-  const isDataEqual = deepEqual(transformedQueryData, watchFieldArray);
-
   const { data: contractType } = useContractType(contract?.getAddress());
   const isMultiPhase = useMemo(
     () =>
@@ -292,7 +289,6 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   );
 
   const { contract: actualContract } = useContract(contract?.getAddress());
-
   return (
     <>
       {query.isRefetching && (
@@ -352,7 +348,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
         <Flex direction={"column"} gap={4} px={{ base: 6, md: 10 }}>
           {controlledFields.map((field, index) => {
             return (
-              <React.Fragment key={`snapshot_${field.id}`}>
+              <React.Fragment key={`snapshot_${field.id}_${index}`}>
                 <SnapshotUpload
                   isOpen={openIndex === index}
                   onClose={() => setOpenIndex(-1)}
@@ -765,7 +761,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
             <TransactionButton
               colorScheme="primary"
               transactionCount={1}
-              isDisabled={query.isLoading || isDataEqual}
+              isDisabled={query.isLoading}
               type="submit"
               isLoading={mutation.isLoading}
               loadingText="Saving..."

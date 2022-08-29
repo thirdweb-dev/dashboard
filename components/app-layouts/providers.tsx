@@ -1,7 +1,8 @@
 import { useActiveChainId } from "@3rdweb-sdk/react";
 import { QueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
-import { ChainId, IpfsStorage, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { IpfsStorage } from "@thirdweb-dev/storage";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import React from "react";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -49,6 +50,12 @@ export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.ArbitrumTestnet]:
     process.env.NEXT_PUBLIC_RPC_ARBITRUM_TESTNET ||
     `https://arb-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
+  [ChainId.BinanceSmartChainMainnet]:
+    process.env.NEXT_PUBLIC_RPC_BINANCE_MAINNET ||
+    "https://bsc-dataseed1.binance.org",
+  [ChainId.BinanceSmartChainTestnet]:
+    process.env.NEXT_PUBLIC_RPC_BINANCE_TESTNET ||
+    "https://data-seed-prebsc-1-s1.binance.org:8545",
 };
 
 const walletConnectors: WalletConnector[] = [

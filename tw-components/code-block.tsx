@@ -27,6 +27,7 @@ interface CodeBlockProps extends Omit<CodeProps, "size"> {
   language: Language | "solidity";
   canCopy?: boolean;
   wrap?: boolean;
+  prefix?: string;
 }
 export const CodeBlock: React.FC<CodeBlockProps> = ({
   code,
@@ -37,6 +38,8 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   borderRadius = "md",
   borderColor = "borderColor",
   borderWidth = "1px",
+  backgroundColor,
+  prefix,
   canCopy = true,
   wrap = true,
   ...restCodeProps
@@ -46,9 +49,15 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   return (
     <Highlight
       {...defaultProps}
-      code={code}
+      code={prefix ? `${prefix} ${code}` : code}
       language={language as Language}
-      theme={theme}
+      theme={{
+        ...theme,
+        plain: {
+          backgroundColor:
+            (backgroundColor as string) || theme.plain.backgroundColor,
+        },
+      }}
     >
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <Text
