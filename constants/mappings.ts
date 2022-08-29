@@ -58,10 +58,7 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
     ChainId.BinanceSmartChainMainnet,
     ChainId.BinanceSmartChainTestnet,
   ],
-  "edition-drop": [
-    ChainId.BinanceSmartChainMainnet,
-    ChainId.BinanceSmartChainTestnet,
-  ],
+  "edition-drop": [],
   edition: [ChainId.BinanceSmartChainMainnet, ChainId.BinanceSmartChainTestnet],
   token: [ChainId.BinanceSmartChainMainnet, ChainId.BinanceSmartChainTestnet],
   vote: [ChainId.BinanceSmartChainMainnet, ChainId.BinanceSmartChainTestnet],
@@ -82,15 +79,9 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
     ChainId.BinanceSmartChainTestnet,
   ],
   split: [ChainId.BinanceSmartChainMainnet, ChainId.BinanceSmartChainTestnet],
-  "token-drop": [
-    ChainId.BinanceSmartChainMainnet,
-    ChainId.BinanceSmartChainTestnet,
-  ],
+  "token-drop": [],
   "signature-drop": [],
-  multiwrap: [
-    ChainId.BinanceSmartChainMainnet,
-    ChainId.BinanceSmartChainTestnet,
-  ],
+  multiwrap: [],
   custom: [],
 };
 

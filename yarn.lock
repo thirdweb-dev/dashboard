@@ -2518,10 +2518,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.3.tgz#490b2a6c5e9d7fb25f46fed5fd1e6ee451546604"
   integrity sha512-r00Bx0S5AaesJbeV5GrjdMcF/FillsQNL/6ai+d7XteW4WUz5vfjzoqfC0YasKtZBF4o4fw3l5Wyq+ZnuiqB/g==
 
-"@thirdweb-dev/react@^2.7.5-nightly-d03e60c":
-  version "2.7.5-nightly-d03e60c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.7.5-nightly-d03e60c.tgz#d2caf73ccd558ab41670b5edc5270a950643003c"
-  integrity sha512-u16OnbYpKy99IbpdD8L4/RpZaRGiuHD7+kNEm/HC24a9fGWdUepLY3/uw+cXwY1rt1UWGUUL2tVzUJDZDwCSJQ==
+"@thirdweb-dev/react@^2.7.5-nightly-7fa920e":
+  version "2.7.5-nightly-7fa920e"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.7.5-nightly-7fa920e.tgz#626a94edc4883041e0dbea3953fe8a83fe814848"
+  integrity sha512-4eEB0rK3b5gINojvlQz2jBe0rrnkOikhPSIcKY4etMPpPYQpZltllI6JuGgsw28nVw6eECNkGRBAc5vQVIGY3w==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -2529,7 +2529,8 @@
     "@gnosis.pm/safe-ethers-adapters" "0.1.0-alpha.9"
     "@gnosis.pm/safe-ethers-lib" "1.1.0"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/storage" "0.1.1-nightly-d03e60c"
+    "@thirdweb-dev/sdk" "2.3.43-nightly-7fa920e"
+    "@thirdweb-dev/storage" "0.1.1-nightly-7fa920e"
     "@zag-js/menu" "^0.1.11"
     "@zag-js/react" "^0.1.13"
     color "^4.2.3"
@@ -2542,13 +2543,13 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.3.43-nightly-d03e60c":
-  version "2.3.43-nightly-d03e60c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.43-nightly-d03e60c.tgz#579d54c284ff94d8b2bdc57aaae86ef669b60ec6"
-  integrity sha512-gZ6mKXEG2RHqDWRIhmg05SPdhgAwaf4qmT04e1Z47BeiO+UvawJ4u3OqWN+U+ih5XXX2uy505CskryyoSn/xJg==
+"@thirdweb-dev/sdk@2.3.43-nightly-7fa920e", "@thirdweb-dev/sdk@^2.3.43-nightly-7fa920e":
+  version "2.3.43-nightly-7fa920e"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.3.43-nightly-7fa920e.tgz#3d2bf2d46cd2b81a8d660cbaf31b3c2f93342477"
+  integrity sha512-7rj1g0jnJAVhSyGprSmuObnGUs7AQuEGEMGcNa8I85dXfT7THM5MKiCV8xl3OUQeFop3UibR/VfVVEzsXGSlfg==
   dependencies:
     "@thirdweb-dev/contracts-js" "*"
-    "@thirdweb-dev/storage" "0.1.1-nightly-d03e60c"
+    "@thirdweb-dev/storage" "0.1.1-nightly-7fa920e"
     cbor "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
@@ -2560,10 +2561,10 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@0.1.1-nightly-d03e60c":
-  version "0.1.1-nightly-d03e60c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.1.1-nightly-d03e60c.tgz#77d946a8acb87853e188ae85252ac9d40f7f1fa3"
-  integrity sha512-s2X5wo+q5UV41mmbDoY7JsIoIUn8b5PfNN5RUZjOnVD/aP93/HGX8NLNYzWNOCSshj4Ydl6vpMki0XEFDHBEEw==
+"@thirdweb-dev/storage@0.1.1-nightly-7fa920e":
+  version "0.1.1-nightly-7fa920e"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.1.1-nightly-7fa920e.tgz#20120f9b87414653cc299cfc34425501efc80f10"
+  integrity sha512-m5K7RXdVejhso6dF73WCeZ4AalzIdrPZ7wvkvcuB0UZ60L7kO1croWrDCNZtmZHR03nLG8TjaQcnwrAQznJQOQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
