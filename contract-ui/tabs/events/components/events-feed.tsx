@@ -23,6 +23,8 @@ import {
 } from "@chakra-ui/react";
 import { ContractEvent } from "@thirdweb-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSingleQueryParam } from "hooks/useQueryParam";
+import { useRouter } from "next/router";
 import { bigNumberReplacer } from "pages/_app";
 import React, { useMemo, useState } from "react";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
@@ -47,9 +49,14 @@ interface EventsFeedProps {
 }
 
 export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
+  const router = useRouter();
   const [autoUpdate, setAutoUpdate] = useState(true);
   const activityQuery = useActivity(contractAddress, autoUpdate);
-  const [selectedEvent, setSelectedEvent] = useState("all");
+  const [selectedEvent, setSelectedEvent] = useState(
+    (router?.query?.event as string) || "all",
+  );
+
+  const chain = useSingleQueryParam("networkOrAddress");
 
   const eventTypes = useMemo(
     () =>
@@ -96,7 +103,18 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
           </FormControl>
         </Box>
       </Flex>
-      <Select w="20%" onChange={(e) => setSelectedEvent(e.target.value)}>
+      <Select
+        w="20%"
+        value={selectedEvent}
+        onChange={(e) => {
+          const path =
+            e.target.value === "all"
+              ? `/${chain}/${contractAddress}/events`
+              : `/${chain}/${contractAddress}/events?event=${e.target.value}`;
+          router.push(path, undefined, { shallow: true });
+          setSelectedEvent(e.target.value);
+        }}
+      >
         <option value="all">All</option>
         {eventTypes.map((eventType) => (
           <option key={eventType} value={eventType}>
@@ -138,6 +156,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
                   key={e.transactionHash}
                   transaction={e}
                   setSelectedEvent={setSelectedEvent}
+                  contractAddress={contractAddress}
                 />
               ))}
             </Accordion>
@@ -151,14 +170,19 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
 interface EventsFeedItemProps {
   transaction: ContractTransaction;
   setSelectedEvent: React.Dispatch<React.SetStateAction<string>>;
+  contractAddress: string;
 }
 
 export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   transaction,
   setSelectedEvent,
+  contractAddress,
 }) => {
   const toast = useToast();
   const { onCopy } = useClipboard(transaction.transactionHash);
+
+  const router = useRouter();
+  const chain = useSingleQueryParam("networkOrAddress");
 
   return (
     <AccordionItem
@@ -256,6 +280,12 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                 key={idx}
                 onClick={(ev) => {
                   ev.stopPropagation();
+                  router.push(
+                    `/${chain}/${contractAddress}/events?event=${e.eventName}`,
+                    undefined,
+                    { shallow: true },
+                  );
+                  console.log(e.eventName);
                   setSelectedEvent(e.eventName);
                 }}
               >
