@@ -31,7 +31,7 @@
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/react": "^2.7.5-nightly-d03e60c",
     "@thirdweb-dev/sdk": "^2.3.43-nightly-d03e60c",
-    "@thirdweb-dev/storage": "^0.1.0",
+    "@thirdweb-dev/storage": "^0.1.1-nightly-d0a7368",
     "bn.js": "^5.2.0",
     "color": "^4.0.1",
     "date-fns": "^2.28.0",
