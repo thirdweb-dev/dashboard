@@ -87,7 +87,28 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   return (
     <Flex gap={6} flexDirection="column">
       <Flex align="center" justify="space-between" w="full">
-        <Heading size="title.sm">Latest Transactions</Heading>
+        <Flex gap={4} alignItems="center">
+          <Heading size="title.sm">Latest Transactions</Heading>
+          <Select
+            w="50%"
+            value={selectedEvent}
+            onChange={(e) => {
+              const path =
+                e.target.value === "all"
+                  ? `/${chain}/${contractAddress}/events`
+                  : `/${chain}/${contractAddress}/events?event=${e.target.value}`;
+              router.push(path, undefined, { shallow: true });
+              setSelectedEvent(e.target.value);
+            }}
+          >
+            <option value="all">All</option>
+            {eventTypes.map((eventType) => (
+              <option key={eventType} value={eventType}>
+                {eventType}
+              </option>
+            ))}
+          </Select>
+        </Flex>
         <Box>
           <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="auto-update" mb="0">
@@ -103,25 +124,6 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
           </FormControl>
         </Box>
       </Flex>
-      <Select
-        w="20%"
-        value={selectedEvent}
-        onChange={(e) => {
-          const path =
-            e.target.value === "all"
-              ? `/${chain}/${contractAddress}/events`
-              : `/${chain}/${contractAddress}/events?event=${e.target.value}`;
-          router.push(path, undefined, { shallow: true });
-          setSelectedEvent(e.target.value);
-        }}
-      >
-        <option value="all">All</option>
-        {eventTypes.map((eventType) => (
-          <option key={eventType} value={eventType}>
-            {eventType}
-          </option>
-        ))}
-      </Select>
       {activityQuery.data && contractAddress && (
         <Card p={0} overflow="hidden">
           <SimpleGrid
