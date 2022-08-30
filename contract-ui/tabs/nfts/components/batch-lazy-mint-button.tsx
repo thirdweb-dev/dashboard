@@ -1,5 +1,5 @@
 import { BatchLazyMint } from "./batch-lazy-mint";
-import { MinterOnly, useIsMinter } from "@3rdweb-sdk/react";
+import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import { NFTContract, useContract } from "@thirdweb-dev/react";
 import { Erc721, ValidContractInstance } from "@thirdweb-dev/sdk";
