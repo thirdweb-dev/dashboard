@@ -168,6 +168,7 @@ export function useIsMinter<TContract extends ValidContractClass>(
   }
 
   const contractHasRoles = isContractWithRoles(contract);
+  console.log({ address, contractType, contractHasRoles, contract });
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useIsAccountRole(
     "minter",

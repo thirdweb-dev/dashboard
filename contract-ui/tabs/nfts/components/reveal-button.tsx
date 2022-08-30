@@ -1,6 +1,12 @@
 import { NFTRevealForm } from "./reveal-form";
+import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { NFTContract, useBatchesToReveal } from "@thirdweb-dev/react";
+import {
+  NFTContract,
+  useBatchesToReveal,
+  useContract,
+} from "@thirdweb-dev/react";
+import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import React from "react";
 import { FiEye } from "react-icons/fi";
@@ -15,6 +21,7 @@ export const NFTRevealButton: React.FC<NFTRevealButtonProps> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { contract: actualContract } = useContract(contract?.getAddress());
 
   const detectedState = extensionDetectedState({
     contract,
@@ -39,14 +46,18 @@ export const NFTRevealButton: React.FC<NFTRevealButtonProps> = ({
         <NFTRevealForm contract={contract} />
       </Drawer>
       {batchesToReveal?.length ? (
-        <Button
-          colorScheme="primary"
-          leftIcon={<Icon as={FiEye} />}
-          {...restButtonProps}
-          onClick={onOpen}
+        <MinterOnly
+          contract={actualContract as unknown as ValidContractInstance}
         >
-          Reveal NFTs
-        </Button>
+          <Button
+            colorScheme="primary"
+            leftIcon={<Icon as={FiEye} />}
+            {...restButtonProps}
+            onClick={onOpen}
+          >
+            Reveal NFTs
+          </Button>
+        </MinterOnly>
       ) : null}
     </>
   );

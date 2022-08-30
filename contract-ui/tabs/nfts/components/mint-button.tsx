@@ -1,6 +1,8 @@
 import { NFTMintForm } from "./mint-form";
+import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { NFTContract, useMintNFT } from "@thirdweb-dev/react";
+import { NFTContract, useContract, useMintNFT } from "@thirdweb-dev/react";
+import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import React from "react";
 import { FiPlus } from "react-icons/fi";
@@ -15,6 +17,7 @@ export const NFTMintButton: React.FC<NFTMintButtonProps> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { contract: actualContract } = useContract(contract?.getAddress());
   const mutation = useMintNFT(contract);
 
   const detectedState = extensionDetectedState({
@@ -37,14 +40,16 @@ export const NFTMintButton: React.FC<NFTMintButtonProps> = ({
       >
         <NFTMintForm contract={contract} mintMutation={mutation} />
       </Drawer>
-      <Button
-        colorScheme="primary"
-        leftIcon={<Icon as={FiPlus} />}
-        {...restButtonProps}
-        onClick={onOpen}
-      >
-        Mint
-      </Button>
+      <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
+        <Button
+          colorScheme="primary"
+          leftIcon={<Icon as={FiPlus} />}
+          {...restButtonProps}
+          onClick={onOpen}
+        >
+          Mint
+        </Button>
+      </MinterOnly>
     </>
   );
 };
