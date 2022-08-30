@@ -2,6 +2,7 @@ import {
   isContractWithRoles,
   useIsAccountRole,
   useIsAdmin,
+  useIsAdminOrSelf,
   useWeb3,
 } from "@3rdweb-sdk/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
@@ -38,13 +39,8 @@ export const AdminOrSelfOnly: ComponentWithChildren<AdminOrSelfOnlyProps> = ({
   contract,
 }) => {
   const { address } = useWeb3();
-
-  const isAdmin = useIsAccountRole(
-    "admin",
-    isContractWithRoles(contract) ? contract : undefined,
-    address,
-  );
-  if (!isAdmin && address !== self) {
+  const isAdminOrSelf = useIsAdminOrSelf(contract);
+  if (!isAdminOrSelf && address !== self) {
     return fallback ?? null;
   }
   return <>{children}</>;

@@ -4,7 +4,7 @@ import {
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { useContractType } from "@thirdweb-dev/react";
+import { useAddress, useContractType } from "@thirdweb-dev/react";
 import {
   Multiwrap,
   Split,
@@ -127,7 +127,7 @@ export function useIsAccountRole<TContract extends ContractWithRoles>(
 export function useIsAdmin<TContract extends ValidContractClass>(
   contract?: C.Instance<TContract>,
 ) {
-  const { address } = useWeb3();
+  const address = useAddress();
   const { data: contractType } = useContractType(contract?.getAddress());
   if (contractType === "custom") {
     return true;
@@ -142,11 +142,34 @@ export function useIsAdmin<TContract extends ValidContractClass>(
   );
 }
 
+export function useIsAdminOrSelf<TContract extends ValidContractClass>(
+  contract?: C.Instance<TContract>,
+) {
+  const address = useAddress();
+  const { data: contractType } = useContractType(contract?.getAddress());
+  if (contractType === "custom") {
+    return true;
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useIsAccountRole(
+    "admin",
+    isContractWithRoles(contract) ? contract : undefined,
+    address,
+  );
+}
+
 export function useIsMinter<TContract extends ValidContractClass>(
   contract?: C.Instance<TContract>,
 ) {
-  const { address } = useWeb3();
+  const address = useAddress();
+  const { data: contractType } = useContractType(contract?.getAddress());
+  if (contractType === "custom") {
+    return true;
+  }
+
   const contractHasRoles = isContractWithRoles(contract);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useIsAccountRole(
     "minter",
     contractHasRoles ? contract : undefined,
