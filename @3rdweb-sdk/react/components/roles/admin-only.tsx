@@ -1,10 +1,4 @@
-import {
-  isContractWithRoles,
-  useIsAccountRole,
-  useIsAdmin,
-  useIsAdminOrSelf,
-  useWeb3,
-} from "@3rdweb-sdk/react";
+import { useIsAdmin, useIsAdminOrSelf, useWeb3 } from "@3rdweb-sdk/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 

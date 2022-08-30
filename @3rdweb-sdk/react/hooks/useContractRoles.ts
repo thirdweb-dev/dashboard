@@ -3,7 +3,6 @@ import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
-import { useWeb3 } from "@3rdweb-sdk/react";
 import { useAddress, useContractType } from "@thirdweb-dev/react";
 import {
   Multiwrap,
