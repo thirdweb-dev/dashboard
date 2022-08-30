@@ -53,7 +53,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const activityQuery = useActivity(contractAddress, autoUpdate);
   const event = useSingleQueryParam("event");
   const [selectedEvent, setSelectedEvent] = useState(event || "all");
-  
+
   const chain = useSingleQueryParam("networkOrAddress");
   const router = useRouter();
 
@@ -286,7 +286,6 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                     undefined,
                     { shallow: true },
                   );
-                  console.log(e.eventName);
                   setSelectedEvent(e.eventName);
                 }}
               >

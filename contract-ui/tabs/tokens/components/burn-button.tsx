@@ -20,7 +20,6 @@ export const TokenBurnButton: React.FC<TokenBurnButtonProps> = ({
   const address = useAddress();
   const tokenBalance = useTokenBalance(contract, address);
   const hasBalance = BigNumber.from(tokenBalance?.data?.value || 0).gt(0);
-  console.log(hasBalance);
 
   const detectedState = extensionDetectedState({
     contract,
