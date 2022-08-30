@@ -1,7 +1,7 @@
 import { ClaimConditions } from "./components/claim-conditions";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { Erc721, SmartContract } from "@thirdweb-dev/sdk";
+import { SmartContract } from "@thirdweb-dev/sdk";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
