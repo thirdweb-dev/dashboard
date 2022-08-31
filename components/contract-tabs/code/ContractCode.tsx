@@ -60,7 +60,6 @@ export const ContractCode: React.FC<IContractCode> = ({
   const { data, isLoading } = useContractCodeSnippetQuery();
   const chainName = useSingleQueryParam<SupportedNetwork>("networkOrAddress");
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const contractName = usePascalCaseContractName(contractType);
 
   const scopedData = useMemo(() => {
