@@ -26,29 +26,8 @@ export const TokenBurnButton: React.FC<TokenBurnButtonProps> = ({
     feature: ["ERC20Burnable"],
   });
 
-  if (detectedState !== "enabled" || !hasBalance) {
+  if (detectedState !== "enabled") {
     return null;
   }
 
-  return (
-    <>
-      <Drawer
-        allowPinchZoom
-        preserveScrollBarGap
-        size="lg"
-        onClose={onClose}
-        isOpen={isOpen}
-      >
-        <TokenBurnForm contract={contract} />
-      </Drawer>
-      <Button
-        colorScheme="primary"
-        leftIcon={<Icon as={FaBurn} />}
-        {...restButtonProps}
-        onClick={onOpen}
-      >
-        Burn
-      </Button>
-    </>
-  );
 };

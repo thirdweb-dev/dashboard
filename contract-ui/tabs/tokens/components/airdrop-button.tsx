@@ -26,7 +26,7 @@ export const TokenAirdropButton: React.FC<TokenAirdropButtonProps> = ({
     feature: ["ERC20"],
   });
 
-  if (detectedState !== "enabled" || !hasBalance) {
+  if (detectedState !== "enabled") {
     return null;
   }
 
@@ -46,6 +46,7 @@ export const TokenAirdropButton: React.FC<TokenAirdropButtonProps> = ({
         leftIcon={<Icon as={FiDroplet} />}
         {...restButtonProps}
         onClick={onOpen}
+        isDisabled={!hasBalance}
       >
         Airdrop
       </Button>

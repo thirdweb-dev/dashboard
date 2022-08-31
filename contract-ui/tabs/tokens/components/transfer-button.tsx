@@ -26,7 +26,7 @@ export const TokenTransferButton: React.FC<TokenTransferButtonProps> = ({
     feature: ["ERC20"],
   });
 
-  if (detectedState !== "enabled" || !hasBalance) {
+  if (detectedState !== "enabled") {
     return null;
   }
 
@@ -46,6 +46,7 @@ export const TokenTransferButton: React.FC<TokenTransferButtonProps> = ({
         leftIcon={<Icon as={FiSend} />}
         {...restButtonProps}
         onClick={onOpen}
+        isDisabled={!hasBalance}
       >
         Transfer
       </Button>
