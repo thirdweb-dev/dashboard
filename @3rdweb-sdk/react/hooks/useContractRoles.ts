@@ -143,6 +143,7 @@ export function useIsAdmin<TContract extends ValidContractClass>(
 
 export function useIsAdminOrSelf<TContract extends ValidContractClass>(
   contract?: C.Instance<TContract>,
+  self?: string,
 ) {
   const address = useAddress();
   const { data: contractType } = useContractType(contract?.getAddress());
@@ -150,6 +151,9 @@ export function useIsAdminOrSelf<TContract extends ValidContractClass>(
     return true;
   }
 
+  if (address === self) {
+    return true;
+  }
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return useIsAccountRole(
     "admin",
