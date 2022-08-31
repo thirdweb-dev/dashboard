@@ -30,4 +30,26 @@ export const TokenBurnButton: React.FC<TokenBurnButtonProps> = ({
     return null;
   }
 
+  return (
+    <>
+      <Drawer
+        allowPinchZoom
+        preserveScrollBarGap
+        size="lg"
+        onClose={onClose}
+        isOpen={isOpen}
+      >
+        <TokenBurnForm contract={contract} />
+      </Drawer>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FaBurn} />}
+        {...restButtonProps}
+        onClick={onOpen}
+        isDisabled={!hasBalance}
+      >
+        Burn
+      </Button>
+    </>
+  );
 };
