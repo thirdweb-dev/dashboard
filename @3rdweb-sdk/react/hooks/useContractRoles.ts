@@ -128,17 +128,18 @@ export function useIsAdmin<TContract extends ValidContractClass>(
 ) {
   const address = useAddress();
   const { data: contractType } = useContractType(contract?.getAddress());
-  if (contractType === "custom") {
-    return true;
-  }
 
   const contractHasRoles = isContractWithRoles(contract);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useIsAccountRole(
+  const isAccountRole = useIsAccountRole(
     "admin",
     contractHasRoles ? contract : undefined,
     address,
   );
+
+  if (contractType === "custom") {
+    return true;
+  }
+  return isAccountRole;
 }
 
 export function useIsAdminOrSelf<TContract extends ValidContractClass>(
@@ -147,19 +148,15 @@ export function useIsAdminOrSelf<TContract extends ValidContractClass>(
 ) {
   const address = useAddress();
   const { data: contractType } = useContractType(contract?.getAddress());
-  if (contractType === "custom") {
-    return true;
-  }
+  const isAdmin = useIsAdmin(contract);
 
   if (address === self) {
     return true;
   }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useIsAccountRole(
-    "admin",
-    isContractWithRoles(contract) ? contract : undefined,
-    address,
-  );
+  if (contractType === "custom") {
+    return true;
+  }
+  return isAdmin;
 }
 
 export function useIsMinter<TContract extends ValidContractClass>(
@@ -167,15 +164,15 @@ export function useIsMinter<TContract extends ValidContractClass>(
 ) {
   const address = useAddress();
   const { data: contractType } = useContractType(contract?.getAddress());
-  if (contractType === "custom") {
-    return true;
-  }
-
   const contractHasRoles = isContractWithRoles(contract);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useIsAccountRole(
+  const isAccountRole = useIsAccountRole(
     "minter",
     contractHasRoles ? contract : undefined,
     address,
   );
+
+  if (contractType === "custom") {
+    return true;
+  }
+  return isAccountRole;
 }
