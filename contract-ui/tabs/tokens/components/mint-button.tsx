@@ -29,7 +29,7 @@ export const TokenMintButton: React.FC<TokenMintButtonProps> = ({
   }
 
   return (
-    <>
+    <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
@@ -39,16 +39,14 @@ export const TokenMintButton: React.FC<TokenMintButtonProps> = ({
       >
         <TokenMintForm contract={contract} />
       </Drawer>
-      <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
-        <Button
-          colorScheme="primary"
-          leftIcon={<Icon as={FiPlus} />}
-          {...restButtonProps}
-          onClick={onOpen}
-        >
-          Mint
-        </Button>
-      </MinterOnly>
-    </>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FiPlus} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Mint
+      </Button>
+    </MinterOnly>
   );
 };

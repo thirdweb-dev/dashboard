@@ -30,7 +30,7 @@ export const NFTMintButton: React.FC<NFTMintButtonProps> = ({
   }
 
   return (
-    <>
+    <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
@@ -40,16 +40,14 @@ export const NFTMintButton: React.FC<NFTMintButtonProps> = ({
       >
         <NFTMintForm contract={contract} mintMutation={mutation} />
       </Drawer>
-      <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
-        <Button
-          colorScheme="primary"
-          leftIcon={<Icon as={FiPlus} />}
-          {...restButtonProps}
-          onClick={onOpen}
-        >
-          Mint
-        </Button>
-      </MinterOnly>
-    </>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FiPlus} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Mint
+      </Button>
+    </MinterOnly>
   );
 };

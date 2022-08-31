@@ -30,7 +30,7 @@ export const NFTLazyMintButton: React.FC<NFTLazyMintButtonProps> = ({
   }
 
   return (
-    <>
+    <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
@@ -40,16 +40,14 @@ export const NFTLazyMintButton: React.FC<NFTLazyMintButtonProps> = ({
       >
         <NFTMintForm contract={contract} lazyMintMutation={mutation} />
       </Drawer>
-      <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
-        <Button
-          colorScheme="primary"
-          leftIcon={<Icon as={FiPlus} />}
-          {...restButtonProps}
-          onClick={onOpen}
-        >
-          Single Upload
-        </Button>
-      </MinterOnly>
-    </>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FiPlus} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Single Upload
+      </Button>
+    </MinterOnly>
   );
 };

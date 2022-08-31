@@ -34,8 +34,8 @@ export const NFTRevealButton: React.FC<NFTRevealButtonProps> = ({
     return null;
   }
 
-  return (
-    <>
+  return batchesToReveal?.length ? (
+    <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
@@ -45,20 +45,14 @@ export const NFTRevealButton: React.FC<NFTRevealButtonProps> = ({
       >
         <NFTRevealForm contract={contract} />
       </Drawer>
-      {batchesToReveal?.length ? (
-        <MinterOnly
-          contract={actualContract as unknown as ValidContractInstance}
-        >
-          <Button
-            colorScheme="primary"
-            leftIcon={<Icon as={FiEye} />}
-            {...restButtonProps}
-            onClick={onOpen}
-          >
-            Reveal NFTs
-          </Button>
-        </MinterOnly>
-      ) : null}
-    </>
-  );
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FiEye} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Reveal NFTs
+      </Button>
+    </MinterOnly>
+  ) : null;
 };

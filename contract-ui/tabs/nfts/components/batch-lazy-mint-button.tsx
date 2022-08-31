@@ -29,7 +29,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
   }
 
   return (
-    <>
+    <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
@@ -43,16 +43,14 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
           onClose={onClose}
         />
       </Drawer>
-      <MinterOnly contract={actualContract as unknown as ValidContractInstance}>
-        <Button
-          colorScheme="primary"
-          leftIcon={<Icon as={RiCheckboxMultipleBlankLine} />}
-          {...restButtonProps}
-          onClick={onOpen}
-        >
-          Batch Upload
-        </Button>
-      </MinterOnly>
-    </>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={RiCheckboxMultipleBlankLine} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Batch Upload
+      </Button>
+    </MinterOnly>
   );
 };
