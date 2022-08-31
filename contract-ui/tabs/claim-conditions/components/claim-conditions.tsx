@@ -378,6 +378,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       right="16px"
                       position="absolute"
                       cursor="pointer"
+                      pointerEvents={mutation.isLoading ? "none" : "auto"}
                       _hover={{ color: "red.400" }}
                       onClick={() => {
                         removePhase(index);
@@ -733,6 +734,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                 borderRadius="md"
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={addPhase}
+                isDisabled={mutation.isLoading}
               >
                 Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
                 Claim Phase
@@ -745,6 +747,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   borderRadius="md"
                   leftIcon={<Icon as={FiPlus} />}
                   onClick={addPhase}
+                  isDisabled={mutation.isLoading}
                 >
                   Add Claim Phase
                 </Button>
