@@ -21,6 +21,7 @@ import {
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
+import { useActiveChainId } from "@thirdweb-dev/react";
 import { ContractEvent } from "@thirdweb-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -54,7 +55,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const event = useSingleQueryParam("event");
   const [selectedEvent, setSelectedEvent] = useState(event || "all");
 
-  const chain = useSingleQueryParam("networkOrAddress");
+  const chain = useActiveChainId();
   const router = useRouter();
 
   const eventTypes = useMemo(
@@ -183,7 +184,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   const { onCopy } = useClipboard(transaction.transactionHash);
 
   const router = useRouter();
-  const chain = useSingleQueryParam("networkOrAddress");
+  const chain = useActiveChainId();
 
   return (
     <AccordionItem
