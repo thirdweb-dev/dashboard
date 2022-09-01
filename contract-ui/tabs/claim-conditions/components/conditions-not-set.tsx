@@ -1,4 +1,4 @@
-import { AdminOnly, useActiveChainId } from "@3rdweb-sdk/react";
+import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, Stack } from "@chakra-ui/react";
 import { useClaimConditions } from "@thirdweb-dev/react";
 import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
