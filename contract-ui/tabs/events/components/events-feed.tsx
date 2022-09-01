@@ -21,7 +21,6 @@ import {
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
-import { useActiveChainId } from "@thirdweb-dev/react";
 import { ContractEvent } from "@thirdweb-dev/sdk";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSingleQueryParam } from "hooks/useQueryParam";
