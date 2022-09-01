@@ -53,8 +53,8 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const activityQuery = useActivity(contractAddress, autoUpdate);
   const event = useSingleQueryParam("event");
   const [selectedEvent, setSelectedEvent] = useState(event || "all");
-  
-  const chain = useSingleQueryParam("networkOrAddress");
+
+  const chainName = useSingleQueryParam("networkOrAddress");
   const router = useRouter();
 
   const eventTypes = useMemo(
@@ -94,8 +94,8 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
             onChange={(e) => {
               const path =
                 e.target.value === "all"
-                  ? `/${chain}/${contractAddress}/events`
-                  : `/${chain}/${contractAddress}/events?event=${e.target.value}`;
+                  ? `/${chainName}/${contractAddress}/events`
+                  : `/${chainName}/${contractAddress}/events?event=${e.target.value}`;
               router.push(path, undefined, { shallow: true });
               setSelectedEvent(e.target.value);
             }}
@@ -183,7 +183,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   const { onCopy } = useClipboard(transaction.transactionHash);
 
   const router = useRouter();
-  const chain = useSingleQueryParam("networkOrAddress");
+  const chainName = useSingleQueryParam("networkOrAddress");
 
   return (
     <AccordionItem
@@ -282,11 +282,10 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                 onClick={(ev) => {
                   ev.stopPropagation();
                   router.push(
-                    `/${chain}/${contractAddress}/events?event=${e.eventName}`,
+                    `/${chainName}/${contractAddress}/events?event=${e.eventName}`,
                     undefined,
                     { shallow: true },
                   );
-                  console.log(e.eventName);
                   setSelectedEvent(e.eventName);
                 }}
               >
