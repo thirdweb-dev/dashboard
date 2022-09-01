@@ -2507,21 +2507,21 @@
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
 "@thirdweb-dev/contracts-js@*":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.0.0.tgz#d1f81487fdb49f8d9b14f72842868ddc4d7c8e8b"
-  integrity sha512-qOAsfWo0+HexJuBiyieZrncsPsTsUN/MF9oFoJViKrbVHqbnlrAz0AfvhiEnoWYK5K6lMrePGFHX5GB8LYKnHw==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.0.tgz#537aa323f780e87e1007d2a08f26bb6b17e613e8"
+  integrity sha512-dlKcIkaWbpH+Vm4Uivakpo39ChJZkKJ2uTa+PkPq0V6RmVOOR21LMUugREGG+Ed3QzM5cTgct+Y0KmfGYpebzQ==
   dependencies:
     "@thirdweb-dev/contracts" "^3.1.3"
 
 "@thirdweb-dev/contracts@^3.1.3":
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.3.tgz#490b2a6c5e9d7fb25f46fed5fd1e6ee451546604"
-  integrity sha512-r00Bx0S5AaesJbeV5GrjdMcF/FillsQNL/6ai+d7XteW4WUz5vfjzoqfC0YasKtZBF4o4fw3l5Wyq+ZnuiqB/g==
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.5.tgz#58809643eebf9cb722018055e297f1f3334851cf"
+  integrity sha512-3Yw21SkPLuF8zxig1MtPWNVhnuHeiw6vc8u2XovedWlLZj4bNGT88xUdHo3NDghqCrqBW0IJsiB8Rz10z/5EnQ==
 
-"@thirdweb-dev/react@^2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.8.0.tgz#b0f6f45021ae7a5ff16fe4401c3287e6fe18b396"
-  integrity sha512-tNTn5Wa8Dpy8RBgt1eFmnImECVmfTSavsfy7G0G9fxe2i7LPDgHJLD2ohpctX4o4eL3hf6pIGTg9eaYVyppULw==
+"@thirdweb-dev/react@^2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.9.0.tgz#1d64821b6a52148f1239809300822dc79a6aed61"
+  integrity sha512-YsnKlAp4lQy5AkfehELScfBhIzsuAz3yHyhVl+czP+xriMxjWNDeWvx/n/k/MpV7a4f1Oc5JhmWff8noJFCRGw==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -2532,7 +2532,7 @@
     "@thirdweb-dev/sdk" "*"
     "@thirdweb-dev/storage" "*"
     "@zag-js/menu" "^0.1.11"
-    "@zag-js/react" "^0.1.13"
+    "@zag-js/react" "0.1.16"
     color "^4.2.3"
     copy-to-clipboard "^3.3.2"
     detect-browser "^5.3.0"
@@ -2543,14 +2543,14 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@*", "@thirdweb-dev/sdk@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.4.0.tgz#ec95225e24178f7ccf8929fea01f711240de6dd8"
-  integrity sha512-nqBAArEnJbofxVgWA/yhjZNaIVlhuxiKMyBgDm18cFjsQ9xPbwOCedVjzuaD/92CpOJdKKWZQE24UWr55nyl1g==
+"@thirdweb-dev/sdk@*", "@thirdweb-dev/sdk@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.4.2.tgz#135b79374264cc7880653d32cab4273f8b78e165"
+  integrity sha512-5zChtYLKMR4GHSGQl3TJj6NWgLr2TTaDnVcd5naTS/RAcvCpuzPMDPVCXfdYKqNPUHS4R1H4XxZ8oIVjGO8slw==
   dependencies:
     "@thirdweb-dev/contracts-js" "*"
     "@thirdweb-dev/storage" "*"
-    cbor "^8.1.0"
+    cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
     fast-deep-equal "^3.1.3"
@@ -2561,10 +2561,10 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@*", "@thirdweb-dev/storage@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.2.0.tgz#8ef35088f9c4e0e79ad8ff4cc0d4ae37a45ccbb2"
-  integrity sha512-nbzeNSHXhct/p/d4a4JUTPU0FaB0BdJgnzPZRvAfPyuMbcx4glxeYK+8/XNYVTbfQWbjXENbwHMKF5XD1IXqCQ==
+"@thirdweb-dev/storage@*", "@thirdweb-dev/storage@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.2.3.tgz#35b8e54d1a7c97caefa12bd24eba6c49572fd5a8"
+  integrity sha512-G+ggFjF/b8Koyl6ezgMigMRbnDax9L+49Aj6vgCJgvn2EYH2D9q13Zo16lo3GBP+GjCOM14Wtajh/ISbbg4VdQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
@@ -3142,6 +3142,14 @@
   dependencies:
     "@walletconnect/window-getters" "^1.0.0"
 
+"@zag-js/core@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@zag-js/core/-/core-0.1.10.tgz#71ec3366fafd7eed1aba7989ef370b2a105cee3c"
+  integrity sha512-lsJet2ZmTsBlDaMfCJoP0vrhDnn/vqC5NFTuTZ3f+AWwZn/VECXf9yoETGQpB0H74Y2yI2N8etL3NIH0r7kvCA==
+  dependencies:
+    "@zag-js/store" "0.1.2"
+    klona "2.0.5"
+
 "@zag-js/core@0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@zag-js/core/-/core-0.1.9.tgz#f56eb19d61af0d6846acc4d6cadbd660aac2fd83"
@@ -3189,15 +3197,15 @@
   dependencies:
     "@floating-ui/dom" "1.0.0"
 
-"@zag-js/react@^0.1.13":
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/@zag-js/react/-/react-0.1.15.tgz#c27e2848320f4e42321dd73edb86d693ff64fd12"
-  integrity sha512-0xl63vS6E6zGh+Gy2ZnOpWNyzOVjiwpZgI363YupLyFjeh0irg8GGOlxf/4vKd6zLZMTwGSkZggXqAlu+1aN2Q==
+"@zag-js/react@0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@zag-js/react/-/react-0.1.16.tgz#c77cfbdb730c4dff5d9da1def045e13e1ca8c425"
+  integrity sha512-qK01vagPk9ZXDu0AhLIPelehFJ0UmvgEQUL9bO/lEHppKEIoO0EiJTKKhjGjzOtaRahK4WmJ9bPsRdklv9ta1Q==
   dependencies:
-    "@zag-js/core" "0.1.9"
-    "@zag-js/store" "0.1.1"
-    "@zag-js/types" "0.2.4"
-    proxy-compare "2.2.0"
+    "@zag-js/core" "0.1.10"
+    "@zag-js/store" "0.1.2"
+    "@zag-js/types" "0.2.5"
+    proxy-compare "2.3.0"
     use-sync-external-store "1.2.0"
 
 "@zag-js/store@0.1.1":
@@ -3207,10 +3215,24 @@
   dependencies:
     proxy-compare "2.2.0"
 
+"@zag-js/store@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@zag-js/store/-/store-0.1.2.tgz#7c9241d10347d55cb8eeadd723bd0658445471e3"
+  integrity sha512-ya9zb2mpqXaLwCYaIC536sUapIFlLNWEpR5MuIa4h2mvktTVDdG0AQTD4GsQij/6lgAmVE/qvqpMRaeI4zfkRQ==
+  dependencies:
+    proxy-compare "2.3.0"
+
 "@zag-js/types@0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@zag-js/types/-/types-0.2.4.tgz#1e83ede2772ce055437f9873ccdc348050894050"
   integrity sha512-ZToipRbJQXnM6V/BwJphUf5PiozO1qKxOhJRvJOa2T80avYmVwXJSL6IKbpWbSntmKVzCuUTQOeI5/sTR1jcRg==
+  dependencies:
+    csstype "3.1.0"
+
+"@zag-js/types@0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@zag-js/types/-/types-0.2.5.tgz#ca78495ee8bf1b8e6c042d3eee0fb4abd8ccfc1c"
+  integrity sha512-T2Vrwm7maw8JtB2OyeDUagc/R87pL79t0aiYSEQBb3UKjnuXDOlcM06ubecPMINxiMIGueKNUbTdsXZ4rWf16Q==
   dependencies:
     csstype "3.1.0"
 
@@ -4010,12 +4032,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==
 
-cbor@^8.1.0:
+cbor-web@^8.1.0:
   version "8.1.0"
-  resolved "https://registry.yarnpkg.com/cbor/-/cbor-8.1.0.tgz#cfc56437e770b73417a2ecbfc9caf6b771af60d5"
-  integrity sha512-DwGjNW9omn6EwP70aXsn7FQJx5kO12tX0bZkaTjzdVFM6/7nhA4t0EENocKGx6D2Bch9PE2KzCUf5SceBdeijg==
-  dependencies:
-    nofilter "^3.1.0"
+  resolved "https://registry.yarnpkg.com/cbor-web/-/cbor-web-8.1.0.tgz#c1148e91ca6bfc0f5c07c1df164854596e2e33d6"
+  integrity sha512-2hWHHMVrfffgoEmsAUh8vCxHoLa1vgodtC73+C5cSarkJlwTapnqAzcHINlP6Ej0DXuP4OmmJ9LF+JaNM5Lj/g==
 
 ccount@^2.0.0:
   version "2.0.1"
@@ -8506,11 +8526,6 @@ node-source-walk@^4.0.0, node-source-walk@^4.2.0, node-source-walk@^4.2.2:
   dependencies:
     "@babel/parser" "^7.0.0"
 
-nofilter@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/nofilter/-/nofilter-3.1.0.tgz#c757ba68801d41ff930ba2ec55bab52ca184aa66"
-  integrity sha512-l2NNj07e9afPnhAhvgVrCD/oy2Ai1yfLpuo3EpiO1jFTsB4sFz6oIfAfSZyQzVpkZQ9xS8ZS5g1jCBgq4Hwo0g==
-
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
@@ -9137,6 +9152,11 @@ proxy-compare@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.2.0.tgz#2357330407241b091501644d08a446a4a28e0e15"
   integrity sha512-hEtMJevUmOByZCTw1NRUVaWWHCGJLO0ogizpey8yX6zMPolDe8YVa+PHgMOTiZuyUkFj+hMKs/1UaM0+ZkuvgA==
+
+proxy-compare@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.3.0.tgz#ac9633ae52918ff9c9fcc54dfe6316c7a02d20ee"
+  integrity sha512-c3L2CcAi7f7pvlD0D7xsF+2CQIW8C3HaYx2Pfgq8eA4HAl3GAH6/dVYsyBbYF/0XJs2ziGLrzmz5fmzPm6A0pQ==
 
 proxy-from-env@^1.1.0:
   version "1.1.0"
