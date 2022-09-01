@@ -30,7 +30,7 @@
     "@tanstack/react-query-persist-client": "^4.0.10",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/react": "^2.8.0",
-    "@thirdweb-dev/sdk": "^2.4.0",
+    "@thirdweb-dev/sdk": "^2.4.3",
     "@thirdweb-dev/storage": "^0.2.0",
     "bn.js": "^5.2.0",
     "color": "^4.0.1",
