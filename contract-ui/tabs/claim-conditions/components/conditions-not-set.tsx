@@ -3,6 +3,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import { useClaimConditions } from "@thirdweb-dev/react";
 import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { detectClaimable } from "contract-ui/tabs/nfts/components/nft-drawer";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useState } from "react";
 import { Button, LinkButton, Text } from "tw-components";
 
@@ -21,7 +22,7 @@ export const ConditionsNotSet: React.FC<ConditionsNotSetProps> = ({
     !claimConditions?.data?.length ||
     claimConditions.data.every((cc) => cc.maxQuantity === "0");
 
-  const chain = useActiveChainId();
+  const chainName = useSingleQueryParam("networkOrAddress");
 
   if (dismissed || !isClaimable || !noClaimConditions) {
     return null;
@@ -46,7 +47,7 @@ export const ConditionsNotSet: React.FC<ConditionsNotSetProps> = ({
             size="sm"
             bg="white"
             color="orange.800"
-            href={`/${chain}/${contract?.getAddress()}/claim-conditions`}
+            href={`/${chainName}/${contract?.getAddress()}/claim-conditions`}
             onClick={() => setDismissed(false)}
           >
             Set Claim Conditions
