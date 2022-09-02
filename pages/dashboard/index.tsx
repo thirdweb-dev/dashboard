@@ -48,6 +48,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { useReleasesFromDeploy } from "components/contract-components/hooks";
+import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import {
   CONTRACT_TYPE_NAME_MAP,
   FeatureIconMap,
@@ -244,11 +245,11 @@ const Dashboard: ThirdwebNextPage = () => {
     binanceQuery.isFetched &&
     binanceTestnetQuery.isFetched;
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (isFetched && combinedList.length === 0 && projects?.length === 0) {
       router.replace("/contracts");
     }
-  }, [isFetched, router, combinedList, projects]);
+  }, [isFetched, router, combinedList, projects]); */
 
   return (
     <Flex direction="column" gap={8}>
@@ -273,6 +274,7 @@ const Dashboard: ThirdwebNextPage = () => {
             </Box>
           ) : (
             <>
+              <ReleasedContracts />
               <Flex
                 justify="space-between"
                 align="top"
