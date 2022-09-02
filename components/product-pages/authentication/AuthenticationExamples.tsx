@@ -24,8 +24,8 @@ const EXAMPLES = [
     image: require("/public/assets/product-pages/authentication/link-accounts.png"),
   },
   {
-    title: "Stripe Subscriptions For Wallets",
-    label: "stripe-subscriptions-for-wallets",
+    title: "Subscribe with Wallet",
+    label: "stripe-for-wallets",
     href: "https://github.com/thirdweb-example/thirdweb-stripe",
     image: require("/public/assets/product-pages/authentication/stripe-subscriptions.png"),
   },
