@@ -274,7 +274,7 @@ const Dashboard: ThirdwebNextPage = () => {
             </Box>
           ) : (
             <>
-              <ReleasedContracts />
+              <ReleasedContracts address={address} />
               <Flex
                 justify="space-between"
                 align="top"

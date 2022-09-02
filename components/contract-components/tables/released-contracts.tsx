@@ -1,15 +1,23 @@
 import { DeployableContractTable } from "../contract-table";
 import { usePublishedContractsQuery } from "../hooks";
 import { Box, Flex } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { RequiredParam, useAddress } from "@thirdweb-dev/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo } from "react";
 import { Heading, LinkButton, Text } from "tw-components";
 
-export const ReleasedContracts = () => {
+interface ReleasedContractProps {
+  address?: RequiredParam<string>;
+}
+
+export const ReleasedContracts: React.FC<ReleasedContractProps> = ({
+  address,
+}) => {
   const trackEvent = useTrack();
   const walletAddress = useAddress();
-  const releasedContractsQuery = usePublishedContractsQuery(walletAddress);
+  const releasedContractsQuery = usePublishedContractsQuery(
+    address || walletAddress,
+  );
 
   const releasedContracts = useMemo(
     () =>
