@@ -42,6 +42,7 @@ import {
   FeatureIconMap,
   UrlMap,
 } from "constants/mappings";
+import { utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import OriginalNextLink from "next/link";
@@ -70,14 +71,22 @@ const Dashboard: ThirdwebNextPage = () => {
   const wallet = useSingleQueryParam("wallet") || "dashboard";
   const address = useAddress();
 
+  const dashboardAddress = useMemo(() => {
+    return wallet === "dashboard"
+      ? address
+      : utils.isAddress(wallet)
+      ? wallet
+      : address;
+  }, [address, wallet]);
+
   return (
     <Flex direction="column" gap={8}>
       {wallet === "dashboard" && !address ? (
         <NoWallet />
       ) : (
         <>
-          <DeployedContracts address={address} />
-          <ReleasedContracts address={address} />
+          <DeployedContracts address={dashboardAddress} />
+          <ReleasedContracts address={dashboardAddress} />
           <LearnMoreSection />
         </>
       )}

@@ -13,8 +13,6 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import { ChainId, RequiredParam } from "@thirdweb-dev/react";
-import { utils } from "ethers";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 import { ContractTable } from "pages/dashboard";
 import { useEffect, useMemo } from "react";
@@ -31,54 +29,42 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   noHeader,
 }) => {
   const router = useRouter();
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
-
-  const dashboardAddress = useMemo(() => {
-    return wallet === "dashboard"
-      ? address
-      : utils.isAddress(wallet)
-      ? wallet
-      : address;
-  }, [address, wallet]);
 
   const {
     data: projects,
     isFetched: projectsIsFetched,
     isLoading: projectsIsLoading,
-  } = useProjects(dashboardAddress);
+  } = useProjects(address);
 
-  const mainnetQuery = useContractList(ChainId.Mainnet, dashboardAddress);
-  const rinkebyQuery = useContractList(ChainId.Rinkeby, dashboardAddress);
-  const goerliQuery = useContractList(ChainId.Goerli, dashboardAddress);
-  const polygonQuery = useContractList(ChainId.Polygon, dashboardAddress);
-  const mumbaiQuery = useContractList(ChainId.Mumbai, dashboardAddress);
-  const fantomQuery = useContractList(ChainId.Fantom, dashboardAddress);
-  const fantomTestnetQuery = useContractList(
-    ChainId.FantomTestnet,
-    dashboardAddress,
-  );
-  const avalancheQuery = useContractList(ChainId.Avalanche, dashboardAddress);
+  const mainnetQuery = useContractList(ChainId.Mainnet, address);
+  const rinkebyQuery = useContractList(ChainId.Rinkeby, address);
+  const goerliQuery = useContractList(ChainId.Goerli, address);
+  const polygonQuery = useContractList(ChainId.Polygon, address);
+  const mumbaiQuery = useContractList(ChainId.Mumbai, address);
+  const fantomQuery = useContractList(ChainId.Fantom, address);
+  const fantomTestnetQuery = useContractList(ChainId.FantomTestnet, address);
+  const avalancheQuery = useContractList(ChainId.Avalanche, address);
   const avalancheFujiTestnetQuery = useContractList(
     ChainId.AvalancheFujiTestnet,
-    dashboardAddress,
+    address,
   );
-  const optimismQuery = useContractList(ChainId.Optimism, dashboardAddress);
+  const optimismQuery = useContractList(ChainId.Optimism, address);
   const optimismTestnetQuery = useContractList(
     ChainId.OptimismTestnet,
-    dashboardAddress,
+    address,
   );
-  const arbitrumQuery = useContractList(ChainId.Arbitrum, dashboardAddress);
+  const arbitrumQuery = useContractList(ChainId.Arbitrum, address);
   const arbitrumTestnetQuery = useContractList(
     ChainId.ArbitrumTestnet,
-    dashboardAddress,
+    address,
   );
   const binanceQuery = useContractList(
     ChainId.BinanceSmartChainMainnet,
-    dashboardAddress,
+    address,
   );
   const binanceTestnetQuery = useContractList(
     ChainId.BinanceSmartChainTestnet,
-    dashboardAddress,
+    address,
   );
 
   const combinedList = useMemo(() => {

@@ -8,7 +8,8 @@ import {
   Flex,
   Spinner,
 } from "@chakra-ui/react";
-import { RequiredParam, useAddress } from "@thirdweb-dev/react";
+import { RequiredParam } from "@thirdweb-dev/react";
+import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
@@ -19,15 +20,12 @@ interface ReleasedContractProps {
   noHeader?: boolean;
 }
 
-export const ReleasedContracts: React.FC<ReleasedContractProps> = ({
+const ReleasedContractsWrapped: React.FC<ReleasedContractProps> = ({
   address,
   noHeader,
 }) => {
   const trackEvent = useTrack();
-  const walletAddress = useAddress();
-  const releasedContractsQuery = usePublishedContractsQuery(
-    address || walletAddress,
-  );
+  const releasedContractsQuery = usePublishedContractsQuery(address);
 
   const releasedContracts = useMemo(
     () =>
@@ -115,3 +113,9 @@ export const ReleasedContracts: React.FC<ReleasedContractProps> = ({
     </>
   );
 };
+
+export const ReleasedContracts: React.FC<ReleasedContractProps> = (props) => (
+  <PublisherSDKContext>
+    <ReleasedContractsWrapped {...props} />
+  </PublisherSDKContext>
+);
