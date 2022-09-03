@@ -18,6 +18,8 @@ import {
   usePublishedContractsQuery,
 } from "components/contract-components/hooks";
 import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
+import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
+import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getSSRSDK } from "lib/ssr-sdk";
@@ -28,7 +30,7 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement, useEffect } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
-import { Button, LinkButton, Text } from "tw-components";
+import { Button, Heading, LinkButton, Text } from "tw-components";
 import { getSingleQueryValue } from "utils/router";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -64,67 +66,37 @@ const UserPage: ThirdwebNextPage = () => {
         )} profile and view all their released contracts. Deploy them easily with one click.`}
       />
 
-      <Flex flexDir="column" gap={8}>
+      <Flex flexDir="column" gap={12}>
         {wallet && <ReleaserHeader wallet={wallet} />}
         <Flex flexDir="column" gap={4}>
-          <DeployableContractTable
-            isFetching={publishedContracts.isFetching}
-            contractIds={(publishedContracts.data || [])?.map((d) =>
-              d.metadataUri.replace("ipfs://", ""),
-            )}
-            context="view_release"
+          <Flex gap={2} direction="column">
+            <Heading size="title.md">Released contracts</Heading>
+            <Text fontStyle="italic" maxW="container.md">
+              The list of contract instances that this wallet has released
+            </Text>
+          </Flex>
+          {ensQuery.data?.address && (
+            <ReleasedContracts address={ensQuery.data?.address} noHeader />
+          )}
+        </Flex>
+        <Flex flexDir="column" gap={4}>
+          <Flex
+            justify="space-between"
+            align="top"
+            gap={4}
+            direction={{ base: "column", md: "row" }}
           >
-            {publishedContracts.isLoading && (
-              <Center>
-                <Flex py={4} direction="row" gap={4} align="center">
-                  {wallet && <Spinner size="sm" />}
-                  <Text>
-                    {wallet ? "Loading releases" : "No wallet connected"}
-                  </Text>
-                </Flex>
-              </Center>
-            )}
-            {publishedContracts.isError && (
-              <Center>
-                <Flex mt={4} py={4} direction="column" gap={4} align="center">
-                  <Alert status="error" borderRadius="md">
-                    <AlertIcon />
-                    <AlertTitle mr={2}>
-                      Failed to fetch released contracts
-                    </AlertTitle>
-                    <Button
-                      onClick={() => publishedContracts.refetch()}
-                      leftIcon={<IoRefreshSharp />}
-                      ml="auto"
-                      size="sm"
-                      colorScheme="red"
-                    >
-                      Retry
-                    </Button>
-                  </Alert>
-                </Flex>
-              </Center>
-            )}
-            {publishedContracts.isSuccess &&
-              publishedContracts.data.length === 0 && (
-                <Center>
-                  <Flex py={4} direction="column" gap={4} align="center">
-                    <Text>No releases found.</Text>
-                    {ensQuery.data?.address === address && (
-                      <LinkButton
-                        size="sm"
-                        href="https://portal.thirdweb.com/release"
-                        isExternal
-                        variant="outline"
-                        colorScheme="primary"
-                      >
-                        Learn more about releasing contracts
-                      </LinkButton>
-                    )}
-                  </Flex>
-                </Center>
-              )}
-          </DeployableContractTable>
+            <Flex gap={2} direction="column">
+              <Heading size="title.md">Deployed contracts</Heading>
+              <Text fontStyle="italic" maxW="container.md">
+                The list of contract instances that this wallet has deployed
+                across all networks
+              </Text>
+            </Flex>
+          </Flex>
+          {ensQuery.data?.address && (
+            <DeployedContracts address={ensQuery.data?.address} noHeader />
+          )}
         </Flex>
       </Flex>
     </>
