@@ -2,7 +2,7 @@
 
 const ContentSecurityPolicy = `
   default-src 'self';
-  img-src * data:;
+  img-src * data: blob:;
   object-src 'none';
   style-src 'self' 'unsafe-inline' fonts.googleapis.com unpkg.com;
   font-src 'self' fonts.gstatic.com;
