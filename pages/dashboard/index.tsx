@@ -1,6 +1,5 @@
 import { useContractMetadataWithAddress, useWeb3 } from "@3rdweb-sdk/react";
 import {
-  Box,
   Flex,
   Icon,
   IconButton,

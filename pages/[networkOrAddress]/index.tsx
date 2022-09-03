@@ -1,21 +1,11 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Center,
-  Flex,
-  Spinner,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { useAddress } from "@thirdweb-dev/react";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
-import { DeployableContractTable } from "components/contract-components/contract-table";
 import {
   ens,
   fetchPublishedContracts,
   fetchReleaserProfile,
-  usePublishedContractsQuery,
 } from "components/contract-components/hooks";
 import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
@@ -29,8 +19,7 @@ import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement, useEffect } from "react";
-import { IoRefreshSharp } from "react-icons/io5";
-import { Button, Heading, LinkButton, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { getSingleQueryValue } from "utils/router";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -39,11 +28,7 @@ const UserPage: ThirdwebNextPage = () => {
 
   const ensQuery = ens.useQuery(wallet);
 
-  const address = useAddress();
   const router = useRouter();
-  const publishedContracts = usePublishedContractsQuery(
-    ensQuery.data?.address || undefined,
-  );
 
   // We do this so it doesn't break for users that haven't updated their CLI
   useEffect(() => {

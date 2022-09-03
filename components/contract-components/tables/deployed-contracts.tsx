@@ -45,7 +45,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
     data: projects,
     isFetched: projectsIsFetched,
     isLoading: projectsIsLoading,
-    isError: projectsIsError,
   } = useProjects(dashboardAddress);
 
   const mainnetQuery = useContractList(ChainId.Mainnet, dashboardAddress);
