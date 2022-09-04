@@ -18,6 +18,7 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
+import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { useQuery } from "@tanstack/react-query";
 import {
   PublishedContract,
@@ -35,7 +36,6 @@ import { createReleaseOGUrl } from "pages/_og/release";
 import { useMemo } from "react";
 import { BsShieldCheck } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
-import { SiTwitter } from "react-icons/si";
 import { VscBook, VscCalendar } from "react-icons/vsc";
 import invariant from "tiny-invariant";
 import {

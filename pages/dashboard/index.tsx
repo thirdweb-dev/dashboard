@@ -37,6 +37,10 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { SiGo } from "@react-icons/all-files/si/SiGo";
+import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
+import { SiPython } from "@react-icons/all-files/si/SiPython";
+import { SiReact } from "@react-icons/all-files/si/SiReact";
 import {
   ChainId,
   CommonContractOutputSchema,
@@ -65,13 +69,7 @@ import { ReactElement, useEffect, useMemo } from "react";
 import { AiFillCode, AiFillLayout } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
-import {
-  SiGo,
-  SiJavascript,
-  SiPython,
-  SiReact,
-  SiSolidity,
-} from "react-icons/si";
+import { SiSolidity } from "react-icons/si";
 import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import {
   AddressCopyButton,
