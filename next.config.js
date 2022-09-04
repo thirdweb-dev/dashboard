@@ -119,6 +119,8 @@ const sentryWebpackPluginOptions = {
   silent: true,
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
+
+  hideSourceMaps: true,
 };
 module.exports = withBundleAnalyzer(
   withSentryConfig(moduleExports, sentryWebpackPluginOptions),
