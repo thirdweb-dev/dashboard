@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/og/**/*": {
+    "pages/api/og/**/*": {
       "memory": 3008,
       "maxDuration": 30
     }
