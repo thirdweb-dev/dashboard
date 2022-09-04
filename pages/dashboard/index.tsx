@@ -37,6 +37,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { AiFillCode } from "@react-icons/all-files/ai/AiFillCode";
+import { AiFillLayout } from "@react-icons/all-files/ai/AiFillLayout";
 import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiPython } from "@react-icons/all-files/si/SiPython";
@@ -66,7 +68,6 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import * as React from "react";
 import { ReactElement, useEffect, useMemo } from "react";
-import { AiFillCode, AiFillLayout } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
 import { SiSolidity } from "react-icons/si";
