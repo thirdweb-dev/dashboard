@@ -75,7 +75,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({ data, portalRef }) => {
               flexShrink={0}
               boxSize={24}
               objectFit="contain"
-              src={value.replace("ipfs://", "https://ipfs.thirdweb.com/ipfs/")}
+              src={value.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
               alt=""
             />
           ) : value ? (
@@ -97,7 +97,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({ data, portalRef }) => {
               flexShrink={0}
               boxSize={24}
               objectFit="contain"
-              src={value.replace("ipfs://", "https://ipfs.thirdweb.com/ipfs/")}
+              src={value.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")}
               autoPlay
               playsInline
               muted
