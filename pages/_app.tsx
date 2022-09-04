@@ -7,7 +7,6 @@ import {
   PersistQueryClientProvider,
   Persister,
 } from "@tanstack/react-query-persist-client";
-import { DashboardThirdwebProvider } from "components/app-layouts/providers";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { ErrorProvider } from "contexts/error-handler";
 import { BigNumber } from "ethers";
@@ -245,10 +244,8 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
 
         <ChakraProvider theme={chakraTheme}>
           <ErrorProvider>
-            <DashboardThirdwebProvider queryClient={queryClient}>
-              <AnnouncementBanner />
-              {getLayout(<Component {...pageProps} />, pageProps)}
-            </DashboardThirdwebProvider>
+            <AnnouncementBanner />
+            {getLayout(<Component {...pageProps} />, pageProps)}
           </ErrorProvider>
         </ChakraProvider>
       </Hydrate>
