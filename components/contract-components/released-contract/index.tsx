@@ -181,8 +181,8 @@ Deploy it in one click`,
           images: [
             {
               url: ogImageUrl,
-              width: 1200,
-              height: 650,
+              width: 2400,
+              height: 1260,
               alt: "thirdweb",
             },
           ],
