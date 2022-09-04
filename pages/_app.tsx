@@ -141,7 +141,23 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const isOGRenderer = router.pathname.startsWith("/_og/");
+  // shortcut everything and only set up the necessities for the OG renderer
+  if (router.pathname.startsWith("/_og/")) {
+    return (
+      <>
+        <Global
+          styles={css`
+            ${fontSizeCssVars}
+          `}
+        />
+        <ChakraProvider theme={chakraTheme}>
+          <ErrorProvider>
+            <Component {...pageProps} />
+          </ErrorProvider>
+        </ChakraProvider>
+      </>
+    );
+  }
 
   return (
     <PersistQueryClientProvider
@@ -230,7 +246,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
         <ChakraProvider theme={chakraTheme}>
           <ErrorProvider>
             <DashboardThirdwebProvider queryClient={queryClient}>
-              {isOGRenderer ? null : <AnnouncementBanner />}
+              <AnnouncementBanner />
               {getLayout(<Component {...pageProps} />, pageProps)}
             </DashboardThirdwebProvider>
           </ErrorProvider>

@@ -61,6 +61,7 @@
     "react-table": "^7.7.0",
     "react-vis": "^1.11.7",
     "remark-gfm": "^3.0.1",
+    "spdx-correct": "^3.1.1",
     "tiny-invariant": "^1.2.0",
     "ts-toolbelt": "^9.6.0",
     "zod": "^3.8.2"
@@ -80,6 +81,7 @@
     "@types/react-dom": "^18",
     "@types/react-table": "^7.7.7",
     "@types/react-vis": "^1.11.10",
+    "@types/spdx-correct": "^3.1.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.0",
