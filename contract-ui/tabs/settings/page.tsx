@@ -80,7 +80,7 @@ export const CustomContractSettingsTab: React.FC<
             </ButtonGroup>
           </Flex>
         </Card>
-        <OnDashboard contract={contractQuery.contract} />
+        <OnDashboard contractAddress={contractQuery.contract?.getAddress()} />
       </Flex>
     );
   }
@@ -101,7 +101,7 @@ export const CustomContractSettingsTab: React.FC<
           {detectedPlatformFees === "enabled" && (
             <SettingsPlatformFees contract={contractQuery.contract} />
           )}
-          <OnDashboard contract={contractQuery.contract} />
+          <OnDashboard contractAddress={contractQuery.contract?.getAddress()} />
         </Flex>
       </Flex>
     </Flex>
