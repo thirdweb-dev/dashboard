@@ -1,8 +1,7 @@
 import { ClaimConditions } from "./components/claim-conditions";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
-import { getErcs, useContract } from "@thirdweb-dev/react";
-import { SmartContract } from "@thirdweb-dev/sdk";
-import React from "react";
+import { useContract } from "@thirdweb-dev/react";
+import { detectFeature } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface ContractClaimConditionsPageProps {
@@ -14,7 +13,7 @@ export const ContractClaimConditionsPage: React.FC<
 > = ({ contractAddress }) => {
   const contract = useContract(contractAddress);
 
-  const detectedFeature = detectClaimConditions(contract?.contract);
+  const detectedFeature = detectFeature(contract?.contract, "claimConditions");
 
   if (contract.isLoading) {
     // TODO build a skeleton for this
@@ -53,16 +52,3 @@ export const ContractClaimConditionsPage: React.FC<
     </Flex>
   );
 };
-
-export function detectClaimConditions(contract: SmartContract | null) {
-  const { erc721, erc1155 } = getErcs(contract);
-
-  if (!contract || (!erc721 && !erc1155)) {
-    return false;
-  }
-
-  return (
-    (erc721 && "claimConditions" in erc721) ||
-    (erc1155 && "claimConditions" in erc1155)
-  );
-}
