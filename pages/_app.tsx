@@ -8,7 +8,6 @@ import {
   Persister,
 } from "@tanstack/react-query-persist-client";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
-import { ErrorProvider } from "contexts/error-handler";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import { DefaultSeo } from "next-seo";
@@ -150,9 +149,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
           `}
         />
         <ChakraProvider theme={chakraTheme}>
-          <ErrorProvider>
-            <Component {...pageProps} />
-          </ErrorProvider>
+          <Component {...pageProps} />
         </ChakraProvider>
       </>
     );
@@ -243,10 +240,8 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
         />
 
         <ChakraProvider theme={chakraTheme}>
-          <ErrorProvider>
-            <AnnouncementBanner />
-            {getLayout(<Component {...pageProps} />, pageProps)}
-          </ErrorProvider>
+          <AnnouncementBanner />
+          {getLayout(<Component {...pageProps} />, pageProps)}
         </ChakraProvider>
       </Hydrate>
     </PersistQueryClientProvider>
