@@ -2,7 +2,7 @@ import { Box, Flex, Icon, Image, List, ListItem } from "@chakra-ui/react";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { MaskedAvatar } from "components/contract-components/releaser/masked-avatar";
 import { OgBrandIcon } from "components/og/og-brand-icon";
-import { BASE_URL } from "lib/constants";
+import { BASE_URL, OG_IMAGE_BASE_URL } from "lib/constants";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { useRouter } from "next/router";
 import {
@@ -14,7 +14,7 @@ import {
 import { Heading, Text } from "tw-components";
 import { z } from "zod";
 
-export const OGReleaseMetadataSchema = z.object({
+const OGReleaseMetadataSchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   releaser: z.string(),
@@ -29,7 +29,9 @@ export const OGReleaseMetadataSchema = z.object({
 export function createReleaseOGUrl(
   metadata: z.infer<typeof OGReleaseMetadataSchema>,
 ) {
-  const url = new URL(`${BASE_URL}/api/og/release`);
+  const ogUrl = new URL(`${OG_IMAGE_BASE_URL}/api`);
+
+  const url = new URL(`${BASE_URL}/_og/release`);
 
   Object.entries(metadata).forEach(([key, value]) => {
     if (value !== undefined) {
@@ -43,7 +45,9 @@ export function createReleaseOGUrl(
 
   url.searchParams.sort();
 
-  return url.toString();
+  ogUrl.searchParams.append("url", url.toString());
+
+  return ogUrl.toString();
 }
 
 export default function OGReleaseImage() {
