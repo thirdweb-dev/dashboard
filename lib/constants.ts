@@ -1,8 +1,13 @@
+
+const ISOMORPHIC_ENV = process.env.VERCEL_ENV || process.env.NEXT_PUBLIC_VERCEL_ENV || 'development';
+
+const ISOMORPHIC_VERCEL_URL = process.env.VERCEL_URL || process.env.NEXT_PUBLIC_VERCEL_URL || "https://thirdweb.com";
+
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+  ISOMORPHIC_ENV === "production"
     ? "https://thirdweb.com"
-    : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
-    ? process.env.NEXT_PUBLIC_VERCEL_URL || "https://thirdweb.com"
+    : ISOMORPHIC_ENV === "preview"
+    ? ISOMORPHIC_VERCEL_URL
     : "http://localhost:3000";
 
 
