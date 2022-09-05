@@ -198,7 +198,6 @@ const HomePage: ThirdwebNextPage = () => {
                 mt={8}
                 px={4}
                 src={MobileHero}
-                priority
               />
             </Flex>
           </SimpleGrid>
