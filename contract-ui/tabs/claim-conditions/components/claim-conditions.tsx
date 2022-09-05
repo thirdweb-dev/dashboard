@@ -19,7 +19,6 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import {
-  NFTContract,
   useClaimConditions,
   useContract,
   useContractType,
@@ -30,8 +29,8 @@ import {
   ClaimConditionInput,
   ClaimConditionInputArray,
   Erc20,
-  Erc1155,
   NATIVE_TOKEN_ADDRESS,
+  SmartContract,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -58,7 +57,7 @@ import * as z from "zod";
 import { ZodError } from "zod";
 
 interface ClaimConditionsProps {
-  contract?: NFTContract;
+  contract?: SmartContract | null;
   tokenId?: string;
   isColumn?: true;
 }
@@ -68,10 +67,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
   isColumn,
 }) => {
   const trackEvent = useTrack();
-  const resetClaimConditions = useResetClaimConditions(
-    contract as Erc1155,
-    tokenId,
-  );
+  const resetClaimConditions = useResetClaimConditions(contract, tokenId);
   const { onSuccess, onError } = useTxNotifications(
     "Succesfully reset claim eligibility",
     "Failed to reset claim eligibility",
@@ -199,11 +195,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
 }) => {
   const trackEvent = useTrack();
   const [resetFlag, setResetFlag] = useState(false);
-  const isAdmin = useIsAdmin(contract as ValidContractInstance);
+  const isAdmin = useIsAdmin(contract as unknown as ValidContractInstance);
 
-  // We're setting it as Erc1155 so TypeScript doesn't complain that we don't have a tokenId.
-  const query = useClaimConditions(contract as Erc1155, tokenId);
-  const mutation = useSetClaimConditions(contract as Erc1155, tokenId);
+  const query = useClaimConditions(contract, tokenId);
+  const mutation = useSetClaimConditions(contract, tokenId);
   /*   const decimals = useDecimals(contract); */
   const decimals = 0;
 

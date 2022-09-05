@@ -1,6 +1,6 @@
 import { ClaimConditions } from "./components/claim-conditions";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
+import { getErcs, useContract } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
 import React from "react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
@@ -49,19 +49,20 @@ export const ContractClaimConditionsPage: React.FC<
 
   return (
     <Flex direction="column" gap={6}>
-      <ClaimConditions contract={contract.contract?.nft} />
+      <ClaimConditions contract={contract.contract} />
     </Flex>
   );
 };
 
 export function detectClaimConditions(contract: SmartContract | null) {
-  const ercContract = contract?.nft || contract?.token;
+  const { erc721, erc1155 } = getErcs(contract);
 
-  if (!contract || !ercContract) {
-    return undefined;
+  if (!contract || (!erc721 && !erc1155)) {
+    return false;
   }
-  if ("drop" in ercContract) {
-    return ercContract?.drop;
-  }
-  return undefined;
+
+  return (
+    (erc721 && "claimConditions" in erc721) ||
+    (erc1155 && "claimConditions" in erc1155)
+  );
 }
