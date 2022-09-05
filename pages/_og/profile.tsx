@@ -110,7 +110,10 @@ export default function OgProfileImage() {
                 fontFamily="mono"
                 size="subtitle.lg"
               >
-                {metadata.releaseCnt} releases
+                {metadata.releaseCnt}
+                {` ${
+                  parseInt(metadata.releaseCnt) > 1 ? "releases" : "release"
+                }`}
               </Heading>
             </Flex>
           ) : (
