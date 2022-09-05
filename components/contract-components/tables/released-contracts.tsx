@@ -8,18 +8,17 @@ import {
   Flex,
   Spinner,
 } from "@chakra-ui/react";
-import { RequiredParam } from "@thirdweb-dev/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
 import { Button, Heading, LinkButton, Text } from "tw-components";
 
-interface ReleasedContractProps {
-  address?: RequiredParam<string>;
+interface ReleasedContractsProps {
+  address?: string;
   noHeader?: boolean;
 }
 
-export const ReleasedContracts: React.FC<ReleasedContractProps> = ({
+export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
   address,
   noHeader,
 }) => {
