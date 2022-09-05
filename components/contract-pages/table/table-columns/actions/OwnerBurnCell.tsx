@@ -2,7 +2,7 @@ import { useTableContext } from "../../table-context";
 import { useWeb3 } from "@3rdweb-sdk/react";
 import Icon from "@chakra-ui/icon";
 import { NFTMetadataOwner } from "@thirdweb-dev/sdk";
-import React from "react";
+;
 import { FaBurn } from "react-icons/fa";
 import { Row } from "react-table";
 import { Button } from "tw-components";

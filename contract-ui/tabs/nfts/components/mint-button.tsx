@@ -4,7 +4,6 @@ import { Icon, useDisclosure } from "@chakra-ui/react";
 import { useContract, useMintNFT } from "@thirdweb-dev/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer } from "tw-components";
 

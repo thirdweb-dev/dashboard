@@ -16,7 +16,6 @@ import { useToken } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
 import { FormErrorMessage, FormLabel, Heading } from "tw-components";

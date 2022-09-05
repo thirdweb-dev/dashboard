@@ -21,7 +21,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
+;
 import { useForm } from "react-hook-form";
 import {
   Button,

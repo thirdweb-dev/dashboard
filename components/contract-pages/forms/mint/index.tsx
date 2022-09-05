@@ -19,7 +19,7 @@ import {
   ValidContractInstance,
   Vote,
 } from "@thirdweb-dev/sdk";
-import React from "react";
+;
 import { Heading } from "tw-components";
 
 export interface IMintFormProps {

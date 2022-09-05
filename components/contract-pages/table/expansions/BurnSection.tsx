@@ -4,7 +4,7 @@ import { NFTContract, useBurnNFT } from "@thirdweb-dev/react";
 import { Edition, EditionDrop, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
+;
 import { useForm } from "react-hook-form";
 import { FaBurn } from "react-icons/fa";
 import { FormErrorMessage, FormHelperText, FormLabel } from "tw-components";

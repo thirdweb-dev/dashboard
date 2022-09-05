@@ -12,7 +12,6 @@ import type { Erc20 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
 import { useForm } from "react-hook-form";
 import {
   FormErrorMessage,
@@ -24,7 +23,7 @@ import {
 
 const BURN_FORM_ID = "token-burn-form";
 interface TokenBurnFormProps {
-  contract: Erc20;
+  contract?: Erc20;
 }
 
 export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {

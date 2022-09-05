@@ -13,7 +13,6 @@ import {
 import { BatchToReveal, NFTDrop, SignatureDrop } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FormErrorMessage } from "tw-components";
 

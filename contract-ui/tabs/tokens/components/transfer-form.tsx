@@ -13,7 +13,6 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
 import { useForm } from "react-hook-form";
 import {
   FormErrorMessage,
@@ -24,7 +23,7 @@ import {
 
 const TRANSFER_FORM_ID = "token-transfer-form";
 interface TokenTransferFormProps {
-  contract: Erc20;
+  contract?: Erc20;
 }
 
 export const TokenTransferForm: React.FC<TokenTransferFormProps> = ({

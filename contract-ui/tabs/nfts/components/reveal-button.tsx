@@ -4,7 +4,6 @@ import { Icon, useDisclosure } from "@chakra-ui/react";
 import { useBatchesToReveal, useContract } from "@thirdweb-dev/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import React from "react";
 import { FiEye } from "react-icons/fi";
 import { Button, Drawer } from "tw-components";
 

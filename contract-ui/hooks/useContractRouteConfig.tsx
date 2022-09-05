@@ -4,7 +4,6 @@ import {
   ExtensionDetectedState,
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
-import React from "react";
 
 export type EnhancedRoute = Route & {
   title: string;

@@ -1,7 +1,6 @@
 import { Flex, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
-import React from "react";
 import { Heading, Text } from "tw-components";
 
 interface ContractCardProps {

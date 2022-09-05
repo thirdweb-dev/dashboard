@@ -9,6 +9,8 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import {
+  DropContract,
+  Erc721OrErc1155,
   NFTContract,
   useBatchesToReveal,
   useRevealLazyMint,
@@ -16,7 +18,6 @@ import {
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FormErrorMessage, FormLabel, Heading } from "tw-components";
 
@@ -27,8 +28,11 @@ interface NFTRevealFormProps {
 
 export const NFTRevealForm: React.FC<NFTRevealFormProps> = ({ contract }) => {
   const trackEvent = useTrack();
-  const reveal = useRevealLazyMint(contract);
-  const { data: batchesToReveal } = useBatchesToReveal(contract);
+  // TODO: Fix this on the SDK and React side first
+  const reveal = useRevealLazyMint(contract as unknown as Erc721OrErc1155);
+  const { data: batchesToReveal } = useBatchesToReveal(
+    contract as unknown as DropContract,
+  );
   const {
     register,
     handleSubmit,

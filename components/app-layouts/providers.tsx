@@ -4,7 +4,6 @@ import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { IpfsStorage } from "@thirdweb-dev/storage";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
-import React from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export const StorageSingleton = new IpfsStorage(

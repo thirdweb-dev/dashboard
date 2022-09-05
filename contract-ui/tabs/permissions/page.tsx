@@ -3,7 +3,7 @@ import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
 import { ContractWithRoles } from "contract-ui/types/types";
-import React from "react";
+;
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface ContractPermissionsPageProps {

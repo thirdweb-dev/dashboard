@@ -5,7 +5,7 @@ import { Box, Tooltip } from "@chakra-ui/react";
 import { useEdition } from "@thirdweb-dev/react";
 import { EditionMetadata } from "@thirdweb-dev/sdk";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import React from "react";
+;
 import { ImStack } from "react-icons/im";
 import { Row } from "react-table";
 import { Button } from "tw-components";

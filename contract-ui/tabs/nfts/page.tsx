@@ -7,7 +7,7 @@ import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { detectFeature } from "components/contract-components/utils";
-import React from "react";
+;
 import { Card, Heading, Text } from "tw-components";
 
 interface NftOverviewPageProps {
@@ -32,7 +32,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     return <div>Loading...</div>;
   }
 
-  if (!contractQuery.contract) {
+  if (!contractQuery?.contract) {
     return null;
   }
 

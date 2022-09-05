@@ -1,6 +1,6 @@
 import { useTableContext } from "../../table-context";
 import Icon from "@chakra-ui/icon";
-import React from "react";
+;
 import { FiSettings } from "react-icons/fi";
 import { Row } from "react-table";
 import { Button } from "tw-components";
