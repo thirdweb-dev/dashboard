@@ -17,11 +17,11 @@ import {
   NFT,
   NFTContract,
   ThirdwebNftMedia,
+  getErcs,
   useAddress,
   useContract,
   useNFTBalance,
 } from "@thirdweb-dev/react";
-import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
 import { detectFeature } from "components/contract-components/utils";
 import { ClaimConditions } from "contract-ui/tabs/claim-conditions/components/claim-conditions";
 import { BigNumber } from "ethers";
@@ -47,13 +47,14 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   const balanceOf = useNFTBalance(contract, address, data?.metadata.id);
 
   const { contract: actualContract } = useContract(contract?.getAddress());
+  const { erc721, erc1155 } = getErcs(actualContract);
 
   const prevData = usePrevious(data);
 
   const renderData = data || prevData;
 
-  const isERC1155 = contract instanceof Erc1155;
-  const isERC721 = contract instanceof Erc721;
+  const isERC1155 = !!erc1155;
+  const isERC721 = !!erc721;
   const isOwner =
     (isERC1155 && BigNumber.from(balanceOf?.data || 0).gt(0)) ||
     (isERC721 && renderData?.owner === address);
@@ -96,7 +97,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
         {
           title: "Airdrop",
           isDisabled: !isOwner,
-          children: () => <AirdropTab contract={contract} tokenId={tokenId} />,
+          children: () => <AirdropTab contract={erc1155} tokenId={tokenId} />,
         },
       ]);
     }
@@ -115,7 +116,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           title: "Mint",
           isDisabled: false,
           children: () => (
-            <MintSupplyTab contract={contract} tokenId={tokenId} />
+            <MintSupplyTab contract={erc1155} tokenId={tokenId} />
           ),
         },
       ]);
@@ -147,6 +148,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     renderData,
     tokenId,
     actualContract,
+    erc1155,
   ]);
 
   if (!renderData) {

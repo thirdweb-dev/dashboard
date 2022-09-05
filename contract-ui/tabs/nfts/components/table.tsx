@@ -18,6 +18,8 @@ import {
   Erc721OrErc1155,
   NFT,
   NFTContract,
+  getErcs,
+  useContract,
   useNFTs,
   useTotalCount,
 } from "@thirdweb-dev/react";
@@ -46,6 +48,8 @@ interface ContractOverviewNFTGetAllProps {
 export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   contract,
 }) => {
+  const { contract: actualContract } = useContract(contract?.getAddress());
+  const { erc721, erc1155 } = getErcs(actualContract);
   const tableColumns = useMemo(() => {
     const cols: Column<NFT<Erc721OrErc1155>>[] = [
       {
@@ -81,7 +85,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
           ),
       },
     ];
-    if (contract instanceof Erc721) {
+    if (erc721) {
       cols.push({
         Header: "Owned By",
         accessor: (row) => row.owner,
@@ -90,14 +94,14 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
         ),
       });
     }
-    if (contract instanceof Erc1155) {
+    if (erc1155) {
       cols.push({
         Header: "Supply",
         accessor: (row) => BigNumber.from(row.supply).toString(),
       });
     }
     return cols;
-  }, [contract]);
+  }, [erc721, erc1155]);
 
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
   const getAllQueryResult = useNFTs(contract, queryParams);

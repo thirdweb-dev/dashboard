@@ -1,6 +1,10 @@
 import { FormControl, Input, Stack } from "@chakra-ui/react";
-import { NFTContract, useBurnNFT } from "@thirdweb-dev/react";
-import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import {
+  NFTContract,
+  getErcs,
+  useBurnNFT,
+  useContract,
+} from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -36,7 +40,9 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
     "Error burning",
   );
 
-  const requiresAmount = contract instanceof Erc1155;
+  const { contract: actualContract } = useContract(contract?.getAddress());
+  const { erc721, erc1155 } = getErcs(actualContract);
+  const requiresAmount = !!erc1155;
 
   return (
     <Stack pt={3}>
@@ -95,14 +101,14 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
               </FormControl>
             </Stack>
           )}
-          {contract instanceof Erc721 && (
+          {erc721 && (
             <Text>
               Burning this NFT will remove it from your wallet. The NFT data
               will continue to be accessible but no one will be able to claim
               ownership over it again. This action is irreversible.
             </Text>
           )}
-          {contract instanceof Erc1155 && (
+          {erc1155 && (
             <Text>
               Burning these{" "}
               {`${parseInt(watch("amount")) > 1 ? watch("amount") : ""} `}

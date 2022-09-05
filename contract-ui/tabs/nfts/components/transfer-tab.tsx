@@ -1,6 +1,10 @@
 import { FormControl, Input, Stack } from "@chakra-ui/react";
-import { NFTContract, useTransferNFT } from "@thirdweb-dev/react";
-import { Erc1155 } from "@thirdweb-dev/sdk";
+import {
+  NFTContract,
+  getErcs,
+  useContract,
+  useTransferNFT,
+} from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -34,7 +38,9 @@ export const TransferTab: React.FC<TransferTabProps> = ({
     "Error transferring",
   );
 
-  const requiresAmount = contract instanceof Erc1155;
+  const { contract: actualContract } = useContract(contract?.getAddress());
+  const { erc1155 } = getErcs(actualContract);
+  const requiresAmount = !!erc1155;
 
   return (
     <Stack pt={3}>
