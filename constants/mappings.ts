@@ -33,7 +33,7 @@ export const UrlMap: Record<ContractType, string> = {
   marketplace: "/marketplace",
   pack: "",
   split: "/split",
-  "token-drop": "/token-drop",
+  "token-drop": "",
   custom: "",
   "signature-drop": "",
   multiwrap: "",
