@@ -17,7 +17,7 @@ export interface ExtensionDetectedStateParams {
   /**
    * The contract instance to check
    */
-  contract: ReturnType<typeof useContract> | DetectableFeature;
+  contractQuery: ReturnType<typeof useContract> | DetectableFeature;
 
   /**
    * the feature match stragegy (default: any)
@@ -30,7 +30,7 @@ export interface ExtensionDetectedStateParams {
 export type ExtensionDetectedState = "enabled" | "disabled" | "loading";
 
 export function extensionDetectedState({
-  contract,
+  contractQuery: contract,
   feature,
   matchStrategy = "any",
 }: ExtensionDetectedStateParams): ExtensionDetectedState {

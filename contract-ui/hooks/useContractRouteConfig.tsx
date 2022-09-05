@@ -15,8 +15,8 @@ export type EnhancedRoute = Route & {
 export function useContractRouteConfig(
   contractAddress?: string,
 ): EnhancedRoute[] {
-  const contract = useContract(contractAddress);
-  const contractType = contract.data?.contractType;
+  const contractQuery = useContract(contractAddress);
+  const contractType = contractQuery.data?.contractType;
   const embedEnabled =
     contractType === "nft-drop" ||
     contractType === "marketplace" ||
@@ -47,7 +47,7 @@ export function useContractRouteConfig(
       title: "NFTs",
       path: "nfts",
       isEnabled: extensionDetectedState({
-        contract,
+        contractQuery,
         feature: ["ERC1155", "ERC721"],
       }),
       element: () =>
@@ -58,7 +58,7 @@ export function useContractRouteConfig(
     {
       title: "Tokens",
       path: "tokens",
-      isEnabled: extensionDetectedState({ contract, feature: "ERC20" }),
+      isEnabled: extensionDetectedState({ contractQuery, feature: "ERC20" }),
       element: () =>
         import("../tabs/tokens/page").then(({ ContractTokensPage }) => (
           <ContractTokensPage contractAddress={contractAddress} />
@@ -68,7 +68,7 @@ export function useContractRouteConfig(
       title: "Claim Conditions",
       path: "claim-conditions",
       isEnabled: extensionDetectedState({
-        contract,
+        contractQuery,
         feature: "ERC721Claimable",
       }),
       element: () =>
@@ -81,7 +81,10 @@ export function useContractRouteConfig(
     {
       title: "Permissions",
       path: "permissions",
-      isEnabled: extensionDetectedState({ contract, feature: "Permissions" }),
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: "Permissions",
+      }),
       element: () =>
         import("../tabs/permissions/page").then(
           ({ ContractPermissionsPage }) => (

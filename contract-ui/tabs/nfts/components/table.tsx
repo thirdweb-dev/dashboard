@@ -14,7 +14,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { NFT, NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
+import {
+  Erc721OrErc1155,
+  NFT,
+  NFTContract,
+  useNFTs,
+  useTotalCount,
+} from "@thirdweb-dev/react";
 import { Erc721, Erc1155, Json } from "@thirdweb-dev/sdk";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
@@ -34,14 +40,14 @@ import {
   Text,
 } from "tw-components";
 
-interface ContractOverviewNftGetAllProps {
+interface ContractOverviewNFTGetAllProps {
   contract: NFTContract;
 }
-export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
+export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   contract,
 }) => {
   const tableColumns = useMemo(() => {
-    const cols: Column<NFT<NFTContract>>[] = [
+    const cols: Column<NFT<Erc721OrErc1155>>[] = [
       {
         Header: "Token Id",
         accessor: (row) => row.metadata.id.toString(),
@@ -62,7 +68,7 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
       {
         Header: "Properties",
         accessor: (row) => row.metadata.attributes || row.metadata.properties,
-        Cell: ({ cell }: { cell: Cell<NFT<NFTContract>, Json> }) =>
+        Cell: ({ cell }: { cell: Cell<NFT<Erc721OrErc1155>, Json> }) =>
           cell.value ? (
             <CodeBlock
               code={JSON.stringify(cell.value, null, 2) || ""}
@@ -79,7 +85,7 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
       cols.push({
         Header: "Owned By",
         accessor: (row) => row.owner,
-        Cell: ({ cell }: { cell: Cell<NFT<NFTContract>, string> }) => (
+        Cell: ({ cell }: { cell: Cell<NFT<Erc721OrErc1155>, string> }) => (
           <AddressCopyButton address={cell.value} />
         ),
       });

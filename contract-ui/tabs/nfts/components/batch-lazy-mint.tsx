@@ -1,6 +1,7 @@
 import { SelectReveal } from "./select-reveal";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
 import { NFTContract, useTotalCount } from "@thirdweb-dev/react";
+import { SmartContract } from "@thirdweb-dev/sdk";
 import { BatchTable } from "components/batch-upload/BatchTable";
 import { UploadStep } from "components/batch-upload/UploadStep";
 import { BigNumber } from "ethers";
@@ -17,7 +18,7 @@ import {
 } from "utils/batch";
 
 interface BatchLazyMintProps {
-  contract: NFTContract;
+  contract: SmartContract | null;
   isOpen: boolean;
   onClose: () => void;
 }

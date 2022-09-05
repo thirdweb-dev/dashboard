@@ -213,7 +213,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                     onSuccess();
                     modalContext.onClose();
                   },
-                  onError: (error) => {
+                  onError: (error: any) => {
                     trackEvent({
                       category: "nft",
                       action: "mint",

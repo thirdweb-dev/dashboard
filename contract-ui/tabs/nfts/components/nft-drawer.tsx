@@ -13,13 +13,16 @@ import {
   usePrevious,
 } from "@chakra-ui/react";
 import {
+  Erc721OrErc1155,
   NFT,
   NFTContract,
   ThirdwebNftMedia,
   useAddress,
+  useContract,
   useNFTBalance,
 } from "@thirdweb-dev/react";
 import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { detectFeature } from "components/contract-components/utils";
 import { ClaimConditions } from "contract-ui/tabs/claim-conditions/components/claim-conditions";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
@@ -29,7 +32,7 @@ interface NFTDrawerProps {
   contract: NFTContract;
   isOpen: boolean;
   onClose: () => void;
-  data: NFT<NFTContract> | null;
+  data: NFT<Erc721OrErc1155> | null;
 }
 
 const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
@@ -41,11 +44,9 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   contract,
 }) => {
   const address = useAddress();
-  const balanceOf = useNFTBalance(
-    contract instanceof Erc1155 ? contract : undefined,
-    address,
-    data?.metadata.id,
-  );
+  const balanceOf = useNFTBalance(contract, address, data?.metadata.id);
+
+  const { contract: actualContract } = useContract(contract?.getAddress());
 
   const prevData = usePrevious(data);
 
@@ -57,9 +58,9 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     (isERC1155 && BigNumber.from(balanceOf?.data || 0).gt(0)) ||
     (isERC721 && renderData?.owner === address);
 
-  const isBurnable = detectBurnable(contract);
-  const isMintable = detectMintable(contract);
-  const isClaimable = detectClaimable(contract);
+  const isBurnable = detectFeature(actualContract, "burn");
+  const isMintable = detectFeature(actualContract, "mint");
+  const isClaimable = detectFeature(actualContract, "claimConditions");
 
   const tokenId = renderData?.metadata.id.toString() || "";
 
@@ -125,7 +126,11 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           title: "Claim Conditions",
           isDisabled: false,
           children: () => (
-            <ClaimConditions contract={contract} tokenId={tokenId} isColumn />
+            <ClaimConditions
+              contract={actualContract}
+              tokenId={tokenId}
+              isColumn
+            />
           ),
         },
       ]);
@@ -141,6 +146,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     isOwner,
     renderData,
     tokenId,
+    actualContract,
   ]);
 
   if (!renderData) {
@@ -199,33 +205,3 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     </Drawer>
   );
 };
-
-export function detectBurnable(contract?: NFTContract) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("burn" in contract) {
-    return !!contract?.burn;
-  }
-  return undefined;
-}
-
-export function detectMintable(contract?: NFTContract) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("mint" in contract) {
-    return !!contract?.mint;
-  }
-  return undefined;
-}
-
-export function detectClaimable(contract?: NFTContract) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("drop" in contract) {
-    return !!contract?.drop?.claim;
-  }
-  return undefined;
-}

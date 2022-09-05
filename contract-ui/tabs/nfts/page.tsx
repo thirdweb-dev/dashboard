@@ -2,12 +2,11 @@ import { BatchLazyMintButton } from "./components/batch-lazy-mint-button";
 import { NFTLazyMintButton } from "./components/lazy-mint-button";
 import { NFTMintButton } from "./components/mint-button";
 import { NFTRevealButton } from "./components/reveal-button";
-import { NftGetAllTable } from "./components/table";
+import { NFTGetAllTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
-import { NFTContract, useContract } from "@thirdweb-dev/react";
-import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { PotentialContractInstance } from "contract-ui/types/types";
+import { detectFeature } from "components/contract-components/utils";
 import React from "react";
 import { Card, Heading, Text } from "tw-components";
 
@@ -17,26 +16,23 @@ interface NftOverviewPageProps {
 
 export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   contractAddress,
-  // passedContract,
 }) => {
-  const contract = useContract(contractAddress);
-
-  const detectedContract = detectNFTContractInstance(contract.contract);
-  const detectedSupply = detectSupply(contract.contract?.nft);
+  const contractQuery = useContract(contractAddress);
+  const detectedSupply = detectFeature(contractQuery.contract, "query");
 
   const detectedState = extensionDetectedState({
-    contract,
+    contractQuery,
     feature: ["ERC721Enumerable", "ERC1155Enumerable"],
   });
 
   const enabled = detectedState === "enabled" || detectedSupply;
 
-  if (contract.isLoading) {
+  if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
 
-  if (!detectedContract) {
+  if (!contractQuery.contract) {
     return null;
   }
 
@@ -45,10 +41,10 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract NFTs</Heading>
         <Flex gap={4}>
-          <NFTRevealButton contract={detectedContract} />
-          <NFTMintButton contract={detectedContract} />
-          <NFTLazyMintButton contract={detectedContract} />
-          <BatchLazyMintButton contract={detectedContract} />
+          <NFTRevealButton contractQuery={contractQuery} />
+          <NFTMintButton contractQuery={contractQuery} />
+          <NFTLazyMintButton contractQuery={contractQuery} />
+          <BatchLazyMintButton contractQuery={contractQuery} />
         </Flex>
       </Flex>
       {!enabled ? (
@@ -62,48 +58,8 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
           </Text>
         </Card>
       ) : (
-        <NftGetAllTable contract={detectedContract} />
+        <NFTGetAllTable contract={contractQuery.contract} />
       )}
     </Flex>
   );
 };
-
-export function detectErc721Instance(contract: PotentialContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if (contract instanceof Erc721) {
-    return contract;
-  }
-  if ("nft" in contract && contract.nft instanceof Erc721) {
-    return contract.nft;
-  }
-  return undefined;
-}
-
-export function detectErc1155Instance(contract: PotentialContractInstance) {
-  if (!contract) {
-    return undefined;
-  }
-  if (contract instanceof Erc1155) {
-    return contract;
-  }
-  if ("edition" in contract && contract.edition instanceof Erc1155) {
-    return contract.edition;
-  }
-  return undefined;
-}
-
-export function detectNFTContractInstance(contract: PotentialContractInstance) {
-  return detectErc721Instance(contract) || detectErc1155Instance(contract);
-}
-
-export function detectSupply(contract?: NFTContract) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("query" in contract) {
-    return contract?.query;
-  }
-  return undefined;
-}
