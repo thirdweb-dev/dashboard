@@ -1,5 +1,6 @@
 import { Box, Center, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import React from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { Heading, Text, TrackedLink } from "tw-components";
 

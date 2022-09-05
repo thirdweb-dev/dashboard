@@ -16,7 +16,10 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  DropContract,
+  Erc721OrErc1155,
   NFTContract,
+  useContract,
   useDelayedRevealLazyMint,
   useLazyMint,
 } from "@thirdweb-dev/react";
@@ -26,6 +29,7 @@ import {
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { detectFeature } from "components/contract-components/utils";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -160,12 +164,16 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
 
   const imageUrl = useImageFileOrUrl(watch("image"));
 
-  const mintBatch = useLazyMint(contract, (event: UploadProgressEvent) => {
-    setProgress(event);
-  });
+  const mintBatch = useLazyMint(
+    contract as DropContract,
+    (event: UploadProgressEvent) => {
+      setProgress(event);
+    },
+  );
 
+  // TODO - fix in the SDK
   const mintDelayedRevealBatch = useDelayedRevealLazyMint(
-    contract,
+    contract as unknown as Erc721OrErc1155,
     (event: UploadProgressEvent) => {
       setProgress(event);
     },
@@ -176,7 +184,9 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     "Error uploading batch",
   );
 
-  const isRevealable = detectRevealer(contract);
+  const { contract: actualContract } = useContract(contract?.getAddress());
+
+  const isRevealable = detectFeature(actualContract, "revealer");
 
   return (
     <Flex flexDir="column">
@@ -465,13 +475,3 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     </Flex>
   );
 };
-
-export function detectRevealer(contract?: NFTContract) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("drop" in contract) {
-    return !!contract?.drop?.revealer;
-  }
-  return undefined;
-}

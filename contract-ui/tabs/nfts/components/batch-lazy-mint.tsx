@@ -1,9 +1,9 @@
+import { BatchTable } from "./batch-table";
 import { SelectReveal } from "./select-reveal";
+import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import { NFTContract, useTotalCount } from "@thirdweb-dev/react";
+import { useTotalCount } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
-import { BatchTable } from "components/batch-upload/BatchTable";
-import { UploadStep } from "components/batch-upload/UploadStep";
 import { BigNumber } from "ethers";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";

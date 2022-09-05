@@ -28,7 +28,6 @@ import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-;
 import { useForm } from "react-hook-form";
 import {
   Button,

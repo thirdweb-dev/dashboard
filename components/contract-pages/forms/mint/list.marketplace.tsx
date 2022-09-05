@@ -32,7 +32,6 @@ import {
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { useTxNotifications } from "hooks/useTxNotifications";
-;
 import { useForm } from "react-hook-form";
 import { FaImage } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
