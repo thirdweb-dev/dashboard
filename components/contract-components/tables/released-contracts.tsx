@@ -9,7 +9,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { RequiredParam } from "@thirdweb-dev/react";
-import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
@@ -20,7 +19,7 @@ interface ReleasedContractProps {
   noHeader?: boolean;
 }
 
-const ReleasedContractsWrapped: React.FC<ReleasedContractProps> = ({
+export const ReleasedContracts: React.FC<ReleasedContractProps> = ({
   address,
   noHeader,
 }) => {
@@ -113,9 +112,3 @@ const ReleasedContractsWrapped: React.FC<ReleasedContractProps> = ({
     </>
   );
 };
-
-export const ReleasedContracts: React.FC<ReleasedContractProps> = (props) => (
-  <PublisherSDKContext>
-    <ReleasedContractsWrapped {...props} />
-  </PublisherSDKContext>
-);
