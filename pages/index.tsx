@@ -97,12 +97,12 @@ const HomePage: ThirdwebNextPage = () => {
               <Flex direction="column">
                 <LightMode>
                   <Flex
-                    direction={{ base: "column", md: "row" }}
+                    direction={{ base: "column", lg: "row" }}
                     align="center"
                     gap={6}
                   >
                     <LinkButton
-                      href="/contracts"
+                      href="/dashboard"
                       onClick={() =>
                         trackEvent({
                           category: "cta-button",
@@ -133,7 +133,7 @@ const HomePage: ThirdwebNextPage = () => {
                       pr="14px"
                       borderRadius="md"
                       h="68px"
-                      minW={{ base: "100%", md: "290px" }}
+                      minW={{ base: "100%", lg: "240px" }}
                       gap={4}
                       align="center"
                     >

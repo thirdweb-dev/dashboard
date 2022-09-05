@@ -25,6 +25,8 @@ export const SupportedChainIdToNetworkMap: Record<SUPPORTED_CHAIN_ID, string> =
     [ChainId.OptimismTestnet]: "optimism-testnet",
     [ChainId.Arbitrum]: "arbitrum",
     [ChainId.ArbitrumTestnet]: "arbitrum-testnet",
+    [ChainId.BinanceSmartChainMainnet]: "binance",
+    [ChainId.BinanceSmartChainTestnet]: "binance-testnet",
   } as const;
 
 export type ValueOf<T> = T[keyof T];
@@ -45,7 +47,9 @@ export const SupportedNetworkToChainIdMap: Record<
   optimism: ChainId.Optimism, // 10
   "optimism-testnet": ChainId.OptimismTestnet, // 69
   arbitrum: ChainId.Arbitrum, // 42161
-  "arbitrum-testnet": ChainId.ArbitrumTestnet, // 421611
+  "arbitrum-testnet": ChainId.ArbitrumTestnet, // 4216111
+  binance: ChainId.BinanceSmartChainMainnet,
+  "binance-testnet": ChainId.BinanceSmartChainTestnet,
 } as const;
 
 export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
@@ -62,6 +66,8 @@ export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.OptimismTestnet]: "13",
   [ChainId.Arbitrum]: "15",
   [ChainId.ArbitrumTestnet]: "15",
+  [ChainId.BinanceSmartChainMainnet]: "3",
+  [ChainId.BinanceSmartChainTestnet]: "3",
 };
 
 export type SupportedNetwork = keyof typeof SupportedNetworkToChainIdMap;

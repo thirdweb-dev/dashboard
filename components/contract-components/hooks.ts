@@ -16,7 +16,11 @@ import {
 } from "@thirdweb-dev/react";
 import {
   ChainId,
+  ContractInfoSchema,
   ContractType,
+  ExtraPublishMetadata,
+  ProfileMetadata,
+  PublishedContract,
   SUPPORTED_CHAIN_ID,
   SmartContract,
   ThirdwebSDK,
@@ -28,13 +32,7 @@ import {
   fetchPreDeployMetadata,
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
-import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/src/constants/contract-features";
-import {
-  ContractInfoSchema,
-  ExtraPublishMetadata,
-  ProfileMetadata,
-  PublishedContract,
-} from "@thirdweb-dev/sdk/dist/src/schema/contracts/custom";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/constants/contract-features";
 import {
   StorageSingleton,
   alchemyUrlMap,
@@ -220,11 +218,12 @@ export function useLatestRelease(
 
       return {
         ...latestRelease,
-        version: contractInfo.publishedMetadata.version || "",
-        name: contractInfo.publishedMetadata.name || "",
+        version: contractInfo.publishedMetadata.version,
+        name: contractInfo.publishedMetadata.name,
         description: contractInfo.publishedMetadata.description || "",
         releaser: contractInfo.publishedMetadata.publisher || "",
-        tags: contractInfo.publishedMetadata.tags || [],
+        audit: contractInfo.publishedMetadata.audit || "",
+        logo: contractInfo.publishedMetadata.logo || "",
       };
     },
     {
@@ -258,7 +257,8 @@ export async function fetchAllVersions(
       name: contractInfo.publishedMetadata.name,
       description: contractInfo.publishedMetadata.description || "",
       releaser: contractInfo.publishedMetadata.publisher || "",
-      tags: contractInfo.publishedMetadata.tags || [],
+      audit: contractInfo.publishedMetadata.audit || "",
+      logo: contractInfo.publishedMetadata.logo || "",
     });
   }
 
