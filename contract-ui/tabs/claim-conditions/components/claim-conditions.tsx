@@ -19,6 +19,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import {
+  getErcs,
   useClaimConditions,
   useContract,
   useContractType,
@@ -28,7 +29,6 @@ import {
 import {
   ClaimConditionInput,
   ClaimConditionInputArray,
-  Erc20,
   NATIVE_TOKEN_ADDRESS,
   SmartContract,
   ValidContractInstance,
@@ -74,8 +74,9 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
   );
 
   const { contract: actualContract } = useContract(contract?.getAddress());
+  const { erc20 } = getErcs(actualContract);
 
-  const nftsOrToken = contract instanceof Erc20 ? "tokens" : "NFTs";
+  const nftsOrToken = erc20 ? "tokens" : "NFTs";
 
   return (
     <Stack spacing={8}>
@@ -135,14 +136,14 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
                 isLoading={resetClaimConditions.isLoading}
                 onClick={() => {
                   trackEvent({
-                    category: contract instanceof Erc20 ? "token" : "nft",
+                    category: erc20 ? "token" : "nft",
                     action: "reset-claim-conditions",
                     label: "attempt",
                   });
                   resetClaimConditions.mutate(undefined, {
                     onSuccess: () => {
                       trackEvent({
-                        category: contract instanceof Erc20 ? "token" : "nft",
+                        category: erc20 ? "token" : "nft",
                         action: "reset-claim-conditions",
                         label: "success",
                       });
@@ -150,7 +151,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
                     },
                     onError: (error) => {
                       trackEvent({
-                        category: contract instanceof Erc20 ? "token" : "nft",
+                        category: erc20 ? "token" : "nft",
                         action: "reset-claim-conditions",
                         label: "error",
                         error,
@@ -199,7 +200,6 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
 
   const query = useClaimConditions(contract, tokenId);
   const mutation = useSetClaimConditions(contract, tokenId);
-  /*   const decimals = useDecimals(contract); */
   const decimals = 0;
 
   const transformedQueryData = useMemo(() => {
@@ -225,7 +225,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
       .filter((phase) => phase.maxQuantity !== "0");
   }, [query.data]);
 
-  const nftsOrToken = contract instanceof Erc20 ? "tokens" : "NFTs";
+  const { contract: actualContract } = useContract(contract?.getAddress());
+  const { erc20 } = getErcs(actualContract);
+
+  const nftsOrToken = erc20 ? "tokens" : "NFTs";
 
   const form = useForm<z.input<typeof ClaimConditionsSchema>>({
     defaultValues: query.data
@@ -284,7 +287,6 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
     [contractType],
   );
 
-  const { contract: actualContract } = useContract(contract?.getAddress());
   return (
     <>
       {query.isRefetching && (
@@ -299,7 +301,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
       <Flex
         onSubmit={form.handleSubmit((d) => {
           trackEvent({
-            category: contract instanceof Erc20 ? "token" : "nft",
+            category: erc20 ? "token" : "nft",
             action: "set-claim-conditions",
             label: "attempt",
           });
@@ -309,7 +311,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
               {
                 onSuccess: (_data, variables) => {
                   trackEvent({
-                    category: contract instanceof Erc20 ? "token" : "nft",
+                    category: erc20 ? "token" : "nft",
                     action: "set-claim-conditions",
                     label: "success",
                   });
@@ -318,7 +320,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                 },
                 onError: (error) => {
                   trackEvent({
-                    category: contract instanceof Erc20 ? "token" : "nft",
+                    category: erc20 ? "token" : "nft",
                     action: "set-claim-conditions",
                     label: "attempt",
                   });
@@ -480,7 +482,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       >
                         <Heading as={FormLabel} size="label.md">
                           How much do you want to charge to claim each{" "}
-                          {contract instanceof Erc20 ? "token" : "NFT"}?
+                          {erc20 ? "token" : "NFT"}?
                         </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
