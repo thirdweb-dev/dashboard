@@ -18,8 +18,6 @@ import {
   Erc721OrErc1155,
   NFT,
   NFTContract,
-  getErcs,
-  useContract,
   useNFTs,
   useTotalCount,
 } from "@thirdweb-dev/react";
