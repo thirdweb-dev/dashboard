@@ -50,7 +50,7 @@ export function createReleaseOGUrl(
   url.searchParams.sort();
 
   ogUrl.searchParams.append("url", url.toString());
-  ogUrl.searchParams.append("version", OG_IMAGE_CACHE_VERSION);
+  ogUrl.searchParams.append("ogv", OG_IMAGE_CACHE_VERSION);
 
   return ogUrl.toString();
 }
