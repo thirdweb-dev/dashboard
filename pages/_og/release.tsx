@@ -6,6 +6,7 @@ import {
   BASE_URL,
   OG_IMAGE_BASE_URL,
   OG_IMAGE_CACHE_VERSION,
+  TWEMOJI_OPTIONS,
 } from "lib/constants";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { useRouter } from "next/router";
@@ -15,6 +16,7 @@ import {
   VscExtensions,
   VscVersions,
 } from "react-icons/vsc";
+import Twemoji from "react-twemoji";
 import { Heading, Text } from "tw-components";
 import { z } from "zod";
 
@@ -141,7 +143,7 @@ export default function OGReleaseImage() {
                 fontSize="64px"
                 fontWeight={700}
               >
-                {metadata.name}
+                <Twemoji options={TWEMOJI_OPTIONS}>{metadata.name}</Twemoji>
               </Heading>
             </Flex>
             {metadata.description && (
@@ -151,7 +153,9 @@ export default function OGReleaseImage() {
                 fontSize="32px"
                 lineHeight={1.5}
               >
-                {metadata.description}
+                <Twemoji options={TWEMOJI_OPTIONS}>
+                  {metadata.description}
+                </Twemoji>
               </Text>
             )}
           </Flex>
@@ -170,7 +174,9 @@ export default function OGReleaseImage() {
                 `https://source.boringavatars.com/marble/120/${metadata.releaser}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51&square=true`
               }
             />
-            <Heading size="subtitle.lg">{metadata.releaser}</Heading>
+            <Heading size="subtitle.lg">
+              <Twemoji options={TWEMOJI_OPTIONS}>{metadata.releaser}</Twemoji>
+            </Heading>
           </Flex>
         </Flex>
         <Flex direction="row" justify="space-between" align="flex-end">
