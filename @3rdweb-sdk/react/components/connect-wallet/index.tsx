@@ -23,6 +23,8 @@ import {
   useClipboard,
   useDisclosure,
 } from "@chakra-ui/react";
+import { AiOutlineDisconnect } from "@react-icons/all-files/ai/AiOutlineDisconnect";
+import { GiWavyChains } from "@react-icons/all-files/gi/GiWavyChains";
 import {
   ChainId,
   useAddress,
@@ -47,9 +49,7 @@ import { StaticImageData } from "next/image";
 import posthog from "posthog-js";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineDisconnect } from "react-icons/ai";
 import { FiCheck, FiCopy, FiUser } from "react-icons/fi";
-import { GiWavyChains } from "react-icons/gi";
 import {
   Badge,
   Button,

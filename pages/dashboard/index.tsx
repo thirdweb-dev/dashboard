@@ -22,6 +22,12 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { AiFillCode } from "@react-icons/all-files/ai/AiFillCode";
+import { AiFillLayout } from "@react-icons/all-files/ai/AiFillLayout";
+import { SiGo } from "@react-icons/all-files/si/SiGo";
+import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
+import { SiPython } from "@react-icons/all-files/si/SiPython";
+import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { useAddress } from "@thirdweb-dev/react";
 import {
   ChainId,
@@ -42,6 +48,7 @@ import {
   FeatureIconMap,
   UrlMap,
 } from "constants/mappings";
+import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -51,15 +58,8 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import * as React from "react";
 import { ReactElement, useMemo } from "react";
-import { AiFillCode, AiFillLayout } from "react-icons/ai";
 import { IoFilterSharp } from "react-icons/io5";
-import {
-  SiGo,
-  SiJavascript,
-  SiPython,
-  SiReact,
-  SiSolidity,
-} from "react-icons/si";
+import { SiSolidity } from "react-icons/si";
 import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import { AddressCopyButton, Badge, Card, Heading, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -86,7 +86,10 @@ const Dashboard: ThirdwebNextPage = () => {
       ) : (
         <>
           <DeployedContracts address={dashboardAddress} />
-          <ReleasedContracts address={dashboardAddress} />
+          {/* this section needs to be on the publishersdk context (polygon SDK) */}
+          <PublisherSDKContext>
+            <ReleasedContracts address={dashboardAddress} />
+          </PublisherSDKContext>
           <LearnMoreSection />
         </>
       )}
