@@ -1,11 +1,7 @@
 import { FormControl, Input, Stack } from "@chakra-ui/react";
-import {
-  NFTContract,
-  getErcs,
-  useContract,
-  useTransferNFT,
-} from "@thirdweb-dev/react";
+import { NFTContract, useTransferNFT } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { detectFeatures } from "components/contract-components/utils";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -13,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { FormErrorMessage, FormHelperText, FormLabel } from "tw-components";
 
 interface TransferTabProps {
-  contract: NFTContract | undefined;
+  contract: NFTContract;
   tokenId: string;
 }
 
@@ -38,9 +34,7 @@ export const TransferTab: React.FC<TransferTabProps> = ({
     "Error transferring",
   );
 
-  const { contract: actualContract } = useContract(contract?.getAddress());
-  const { erc1155 } = getErcs(actualContract);
-  const requiresAmount = !!erc1155;
+  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
   return (
     <Stack pt={3}>
@@ -88,8 +82,8 @@ export const TransferTab: React.FC<TransferTabProps> = ({
               <FormHelperText>Enter the address to transfer to.</FormHelperText>
               <FormErrorMessage>{errors.to?.message}</FormErrorMessage>
             </FormControl>
-            {requiresAmount && (
-              <FormControl isRequired={requiresAmount} isInvalid={!!errors.to}>
+            {isErc1155 && (
+              <FormControl isRequired={isErc1155} isInvalid={!!errors.to}>
                 <FormLabel>Amount</FormLabel>
                 <Input placeholder={"1"} {...register("amount")} />
                 <FormHelperText>

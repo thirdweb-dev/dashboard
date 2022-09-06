@@ -1,11 +1,7 @@
 import { FormControl, Input, Stack } from "@chakra-ui/react";
-import {
-  NFTContract,
-  getErcs,
-  useBurnNFT,
-  useContract,
-} from "@thirdweb-dev/react";
+import { NFTContract, useBurnNFT } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { detectFeatures } from "components/contract-components/utils";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
@@ -17,7 +13,7 @@ import {
 } from "tw-components";
 
 interface BurnTabProps {
-  contract: NFTContract | undefined;
+  contract: NFTContract;
   tokenId: string;
 }
 
@@ -40,9 +36,8 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
     "Error burning",
   );
 
-  const { contract: actualContract } = useContract(contract?.getAddress());
-  const { erc721, erc1155 } = getErcs(actualContract);
-  const requiresAmount = !!erc1155;
+  const isErc721 = detectFeatures(contract, ["ERC721"]);
+  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
   return (
     <Stack pt={3}>
@@ -82,16 +77,13 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
         })}
       >
         <Stack gap={3}>
-          {requiresAmount && (
+          {isErc1155 && (
             <Stack
               spacing={6}
               w="100%"
               direction={{ base: "column", md: "row" }}
             >
-              <FormControl
-                isRequired={requiresAmount}
-                isInvalid={!!errors.amount}
-              >
+              <FormControl isRequired={isErc1155} isInvalid={!!errors.amount}>
                 <FormLabel>Amount</FormLabel>
                 <Input placeholder={"1"} {...register("amount")} />
                 <FormHelperText>
@@ -101,14 +93,14 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
               </FormControl>
             </Stack>
           )}
-          {erc721 && (
+          {isErc721 && (
             <Text>
               Burning this NFT will remove it from your wallet. The NFT data
               will continue to be accessible but no one will be able to claim
               ownership over it again. This action is irreversible.
             </Text>
           )}
-          {erc1155 && (
+          {isErc1155 && (
             <Text>
               Burning these{" "}
               {`${parseInt(watch("amount")) > 1 ? watch("amount") : ""} `}
