@@ -44,6 +44,10 @@ export function createProfileOGUrl(metadata: z.infer<typeof OgProfileSchema>) {
 export default function OgProfileImage() {
   const router = useRouter();
 
+  if (!router.isReady) {
+    return null;
+  }
+
   let metadata;
 
   try {

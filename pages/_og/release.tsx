@@ -23,8 +23,8 @@ const OGReleaseMetadataSchema = z.object({
   description: z.string().optional(),
   releaser: z.string(),
   releaserAvatar: z.string().optional(),
-  extension: z.array(z.string()).optional(),
-  license: z.array(z.string()).optional(),
+  extension: z.array(z.string()).or(z.string()).optional(),
+  license: z.array(z.string()).or(z.string()).optional(),
   releaseLogo: z.string().optional(),
   version: z.string(),
   releaseDate: z.string(),
@@ -58,11 +58,16 @@ export function createReleaseOGUrl(
 export default function OGReleaseImage() {
   const router = useRouter();
 
+  if (!router.isReady) {
+    return null;
+  }
+
   let metadata;
 
   try {
     metadata = OGReleaseMetadataSchema.parse(router.query);
   } catch (err) {
+    console.error("failed to render", err);
     return null;
   }
 
@@ -184,7 +189,9 @@ export default function OGReleaseImage() {
                   fontFamily="mono"
                   size="subtitle.lg"
                 >
-                  {metadata.extension.join(", ")}
+                  {Array.isArray(metadata.extension)
+                    ? metadata.extension.join(", ")
+                    : metadata.extension}
                 </Heading>
               </Flex>
             )}
@@ -195,7 +202,13 @@ export default function OGReleaseImage() {
                 fontFamily="mono"
                 size="subtitle.lg"
               >
-                {correctAndUniqueLicenses(metadata.license).join(", ")}
+                {correctAndUniqueLicenses(
+                  Array.isArray(metadata.license)
+                    ? metadata.license
+                    : metadata.license
+                    ? [metadata.license]
+                    : [],
+                ).join(", ")}
               </Heading>
             </Flex>
             <Flex as={ListItem} gap="12px" align="center">
