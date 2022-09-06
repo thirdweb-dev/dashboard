@@ -9,9 +9,8 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import {
-  DropContract,
-  Erc721OrErc1155,
   NFTContract,
+  RevealableContract,
   useBatchesToReveal,
   useRevealLazyMint,
 } from "@thirdweb-dev/react";
@@ -28,10 +27,9 @@ interface NFTRevealFormProps {
 
 export const NFTRevealForm: React.FC<NFTRevealFormProps> = ({ contract }) => {
   const trackEvent = useTrack();
-  // TODO: Fix this on the SDK and React side first
-  const reveal = useRevealLazyMint(contract as unknown as Erc721OrErc1155);
+  const reveal = useRevealLazyMint(contract as RevealableContract);
   const { data: batchesToReveal } = useBatchesToReveal(
-    contract as unknown as DropContract,
+    contract as RevealableContract,
   );
   const {
     register,

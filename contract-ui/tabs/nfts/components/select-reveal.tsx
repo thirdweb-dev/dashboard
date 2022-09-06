@@ -19,6 +19,7 @@ import {
   DropContract,
   Erc721OrErc1155,
   NFTContract,
+  RevealableContract,
   useContract,
   useDelayedRevealLazyMint,
   useLazyMint,
@@ -171,9 +172,8 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     },
   );
 
-  // TODO - fix in the SDK
   const mintDelayedRevealBatch = useDelayedRevealLazyMint(
-    contract as unknown as Erc721OrErc1155,
+    contract as RevealableContract,
     (event: UploadProgressEvent) => {
       setProgress(event);
     },
