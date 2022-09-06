@@ -30,16 +30,17 @@ export interface ExtensionDetectedStateParams {
 export type ExtensionDetectedState = "enabled" | "disabled" | "loading";
 
 export function extensionDetectedState({
-  contractQuery: contract,
+  contractQuery,
   feature,
   matchStrategy = "any",
 }: ExtensionDetectedStateParams): ExtensionDetectedState {
   // if contract is loading return "loading"
-  if ("contract" in contract && contract.isLoading) {
+  if ("contract" in contractQuery && contractQuery.isLoading) {
     return "loading";
   }
 
-  const actualContract = "contract" in contract ? contract.contract : contract;
+  const actualContract =
+    "contract" in contractQuery ? contractQuery.contract : contractQuery;
 
   // we're not loading but don't have a contract, so we'll assumed feture is disabled (really this is an error state?)
   if (!actualContract) {

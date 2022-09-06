@@ -17,9 +17,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   DropContract,
-  NFTContract,
   RevealableContract,
-  useContract,
   useDelayedRevealLazyMint,
   useLazyMint,
 } from "@thirdweb-dev/react";
@@ -29,7 +27,7 @@ import {
   UploadProgressEvent,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { detectFeature } from "components/contract-components/utils";
+import { detectFeatures } from "components/contract-components/utils";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -116,7 +114,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 };
 
 interface SelectRevealProps {
-  contract?: NFTContract;
+  contract: DropContract;
   mergedData: NFTMetadataInput[];
   onClose: () => void;
 }
@@ -164,12 +162,9 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
 
   const imageUrl = useImageFileOrUrl(watch("image"));
 
-  const mintBatch = useLazyMint(
-    contract as DropContract,
-    (event: UploadProgressEvent) => {
-      setProgress(event);
-    },
-  );
+  const mintBatch = useLazyMint(contract, (event: UploadProgressEvent) => {
+    setProgress(event);
+  });
 
   const mintDelayedRevealBatch = useDelayedRevealLazyMint(
     contract as RevealableContract,
@@ -183,9 +178,10 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     "Error uploading batch",
   );
 
-  const { contract: actualContract } = useContract(contract?.getAddress());
-
-  const isRevealable = detectFeature(actualContract, "revealer");
+  const isRevealable = detectFeatures(contract, [
+    "ERC721Revealable",
+    "ERC1155Revealable",
+  ]);
 
   return (
     <Flex flexDir="column">

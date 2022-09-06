@@ -5,9 +5,7 @@ import { NFTRevealButton } from "./components/reveal-button";
 import { NFTGetAllTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { detectFeature } from "components/contract-components/utils";
-;
+import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, Text } from "tw-components";
 
 interface NftOverviewPageProps {
@@ -18,14 +16,12 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   contractAddress,
 }) => {
   const contractQuery = useContract(contractAddress);
-  const detectedSupply = detectFeature(contractQuery.contract, "query");
 
-  const detectedState = extensionDetectedState({
-    contractQuery,
-    feature: ["ERC721Enumerable", "ERC1155Enumerable"],
-  });
-
-  const enabled = detectedState === "enabled" || detectedSupply;
+  const detectedState = detectFeatures(contractQuery?.contract, [
+    "ERC721Enumerable",
+    "ERC1155Enumerable",
+    "ERC721Supply",
+  ]);
 
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this
@@ -47,7 +43,7 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
           <BatchLazyMintButton contractQuery={contractQuery} />
         </Flex>
       </Flex>
-      {!enabled ? (
+      {!detectedState ? (
         <Card as={Flex} flexDir="column" gap={3}>
           {/* TODO  extract this out into it's own component and make it better */}
           <Heading size="subtitle.md">No Enumerable extension enabled</Heading>

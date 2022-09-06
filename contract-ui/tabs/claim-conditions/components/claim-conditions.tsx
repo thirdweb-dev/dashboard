@@ -19,6 +19,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import {
+  DropContract,
   getErcs,
   useClaimConditions,
   useContract,
@@ -30,7 +31,6 @@ import {
   ClaimConditionInput,
   ClaimConditionInputArray,
   NATIVE_TOKEN_ADDRESS,
-  SmartContract,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
@@ -57,7 +57,7 @@ import * as z from "zod";
 import { ZodError } from "zod";
 
 interface ClaimConditionsProps {
-  contract?: SmartContract | null;
+  contract?: DropContract;
   tokenId?: string;
   isColumn?: true;
 }
@@ -200,7 +200,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
 
   const query = useClaimConditions(contract, tokenId);
   const mutation = useSetClaimConditions(contract, tokenId);
-  const decimals = 0;
+  const { erc20 } = getErcs(contract);
+
+  const decimals = erc20 ? 18 : 0;
+  const nftsOrToken = erc20 ? "tokens" : "NFTs";
 
   const transformedQueryData = useMemo(() => {
     return (query.data || [])
@@ -224,11 +227,6 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
       }))
       .filter((phase) => phase.maxQuantity !== "0");
   }, [query.data]);
-
-  const { contract: actualContract } = useContract(contract?.getAddress());
-  const { erc20 } = getErcs(actualContract);
-
-  const nftsOrToken = erc20 ? "tokens" : "NFTs";
 
   const form = useForm<z.input<typeof ClaimConditionsSchema>>({
     defaultValues: query.data
@@ -363,11 +361,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   }
                 />
                 <Card position="relative">
-                  <AdminOnly
-                    contract={
-                      actualContract as unknown as ValidContractInstance
-                    }
-                  >
+                  <AdminOnly contract={contract as ValidContractInstance}>
                     <IconButton
                       variant="ghost"
                       aria-label="Delete Claim Phase"
@@ -721,9 +715,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
               </Flex>
             </Alert>
           )}
-          <AdminOnly
-            contract={actualContract as unknown as ValidContractInstance}
-          >
+          <AdminOnly contract={contract as ValidContractInstance}>
             {isMultiPhase ? (
               <Button
                 colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
@@ -753,7 +745,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
           </AdminOnly>
         </Flex>
         <AdminOnly
-          contract={actualContract as unknown as ValidContractInstance}
+          contract={contract as ValidContractInstance}
           fallback={<Box pb={5} />}
         >
           <>

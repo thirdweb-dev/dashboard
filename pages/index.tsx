@@ -36,6 +36,7 @@ import Hero from "public/assets/landingpage/hero.png";
 import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
+// end images
 import { AiOutlineTeam } from "react-icons/ai";
 import { BsLightningCharge, BsMenuButtonWide } from "react-icons/bs";
 import { FiCheck, FiCopy } from "react-icons/fi";
@@ -43,8 +44,6 @@ import { IoMdCheckmark } from "react-icons/io";
 import { MdMarkEmailRead, MdOutlineAnalytics } from "react-icons/md";
 import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
-// end images
-// end images
 const HomePage: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
 

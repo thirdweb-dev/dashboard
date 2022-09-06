@@ -527,12 +527,6 @@ export function usePublishedMetadataQuery(contractAddress: string) {
   );
 }
 
-export function useContractFeatures(abi?: any) {
-  return useMemo(() => {
-    return abi ? detectFeatures(abi) : undefined;
-  }, [abi]);
-}
-
 const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
 
 function extractExtensions(

@@ -1,6 +1,11 @@
-import { ContractId } from "./types";
-import { getErcs } from "@thirdweb-dev/react";
-import { KNOWN_CONTRACTS_MAP, SmartContract } from "@thirdweb-dev/sdk";
+import { Abi, ContractId } from "./types";
+import {
+  KNOWN_CONTRACTS_MAP,
+  SmartContract,
+  ValidContractInstance,
+  isFeatureEnabled,
+} from "@thirdweb-dev/sdk";
+import { FeatureName } from "@thirdweb-dev/sdk/dist/declarations/src/constants/contract-features";
 
 export function isContractIdBuiltInContract(
   contractId: ContractId,
@@ -8,16 +13,28 @@ export function isContractIdBuiltInContract(
   return contractId in KNOWN_CONTRACTS_MAP;
 }
 
-export function detectFeature(contract: SmartContract | null, feature: string) {
-  const { erc721, erc1155, erc20 } = getErcs(contract);
-
-  if (!contract || (!erc721 && !erc1155 && !erc20)) {
+export function detectFeatures<
+  TContract extends SmartContract | ValidContractInstance | null,
+>(
+  contract: SmartContract | ValidContractInstance | null,
+  features: FeatureName[],
+  strategy: "any" | "all" = "any",
+): contract is TContract {
+  if (!contract) {
     return false;
   }
 
-  return (
-    (erc721 && feature in erc721) ||
-    (erc1155 && feature in erc1155) ||
-    (erc20 && feature in erc20)
+  if (!("abi" in contract)) {
+    return false;
+  }
+
+  if (strategy === "any") {
+    return features.some((feature) =>
+      isFeatureEnabled(contract?.abi as Abi, feature),
+    );
+  }
+
+  return features.every((feature) =>
+    isFeatureEnabled(contract?.abi as Abi, feature),
   );
 }
