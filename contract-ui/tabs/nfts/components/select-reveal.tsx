@@ -17,7 +17,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   DropContract,
-  Erc721OrErc1155,
   NFTContract,
   RevealableContract,
   useContract,
