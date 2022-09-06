@@ -16,14 +16,13 @@ import {
 } from "@chakra-ui/react";
 import {
   NFTContract,
-  getErcs,
   useAddress,
-  useContract,
   useLazyMint,
   useMintNFT,
 } from "@thirdweb-dev/react";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { detectFeatures } from "components/contract-components/utils";
 import { PropertiesFormControl } from "components/contract-pages/forms/properties.shared";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -142,8 +141,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch("animation_url") instanceof File ||
     watch("external_url") instanceof File;
 
-  const { contract: actualContract } = useContract(contract?.getAddress());
-  const { erc1155 } = getErcs(actualContract);
+  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
   return (
     <>
@@ -288,7 +286,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
             <Textarea {...register("description")} />
             <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
           </FormControl>
-          {erc1155 && mintMutation && (
+          {isErc1155 && mintMutation && (
             <FormControl isRequired isInvalid={!!errors.supply}>
               <FormLabel>Initial Supply</FormLabel>
               <Input

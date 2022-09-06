@@ -24,6 +24,7 @@ import {
   useTotalCount,
 } from "@thirdweb-dev/react";
 import { Erc721, Erc1155, Json } from "@thirdweb-dev/sdk";
+import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
@@ -48,8 +49,9 @@ interface ContractOverviewNFTGetAllProps {
 export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   contract,
 }) => {
-  const { contract: actualContract } = useContract(contract?.getAddress());
-  const { erc721, erc1155 } = getErcs(actualContract);
+  const isErc721 = detectFeatures(contract, ["ERC721"]);
+  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+
   const tableColumns = useMemo(() => {
     const cols: Column<NFT<Erc721OrErc1155>>[] = [
       {
@@ -85,7 +87,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
           ),
       },
     ];
-    if (erc721) {
+    if (isErc721) {
       cols.push({
         Header: "Owned By",
         accessor: (row) => row.owner,
@@ -94,14 +96,14 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
         ),
       });
     }
-    if (erc1155) {
+    if (isErc1155) {
       cols.push({
         Header: "Supply",
         accessor: (row) => BigNumber.from(row.supply).toString(),
       });
     }
     return cols;
-  }, [erc721, erc1155]);
+  }, [isErc721, isErc1155]);
 
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
   const getAllQueryResult = useNFTs(contract, queryParams);

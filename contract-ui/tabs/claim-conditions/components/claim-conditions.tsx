@@ -20,9 +20,7 @@ import {
 } from "@chakra-ui/react";
 import {
   DropContract,
-  getErcs,
   useClaimConditions,
-  useContract,
   useContractType,
   useResetClaimConditions,
   useSetClaimConditions,
@@ -34,6 +32,7 @@ import {
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { detectFeatures } from "components/contract-components/utils";
 import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
@@ -57,7 +56,7 @@ import * as z from "zod";
 import { ZodError } from "zod";
 
 interface ClaimConditionsProps {
-  contract?: DropContract;
+  contract: DropContract;
   tokenId?: string;
   isColumn?: true;
 }
@@ -73,10 +72,9 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
     "Failed to reset claim eligibility",
   );
 
-  const { contract: actualContract } = useContract(contract?.getAddress());
-  const { erc20 } = getErcs(actualContract);
+  const isErc20 = detectFeatures(contract, ["ERC20"]);
 
-  const nftsOrToken = erc20 ? "tokens" : "NFTs";
+  const nftsOrToken = isErc20 ? "tokens" : "NFTs";
 
   return (
     <Stack spacing={8}>
@@ -104,7 +102,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
           />
         </Flex>
       </Card>
-      <AdminOnly contract={actualContract as unknown as ValidContractInstance}>
+      <AdminOnly contract={contract as ValidContractInstance}>
         <Card p={0} position="relative">
           <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
             <Flex
@@ -126,7 +124,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
             </Flex>
 
             <AdminOnly
-              contract={actualContract as unknown as ValidContractInstance}
+              contract={contract as ValidContractInstance}
               fallback={<Box pb={5} />}
             >
               <TransactionButton
@@ -136,14 +134,14 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
                 isLoading={resetClaimConditions.isLoading}
                 onClick={() => {
                   trackEvent({
-                    category: erc20 ? "token" : "nft",
+                    category: isErc20 ? "token" : "nft",
                     action: "reset-claim-conditions",
                     label: "attempt",
                   });
                   resetClaimConditions.mutate(undefined, {
                     onSuccess: () => {
                       trackEvent({
-                        category: erc20 ? "token" : "nft",
+                        category: isErc20 ? "token" : "nft",
                         action: "reset-claim-conditions",
                         label: "success",
                       });
@@ -151,7 +149,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
                     },
                     onError: (error) => {
                       trackEvent({
-                        category: erc20 ? "token" : "nft",
+                        category: isErc20 ? "token" : "nft",
                         action: "reset-claim-conditions",
                         label: "error",
                         error,
@@ -200,10 +198,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
 
   const query = useClaimConditions(contract, tokenId);
   const mutation = useSetClaimConditions(contract, tokenId);
-  const { erc20 } = getErcs(contract);
+  const isErc20 = detectFeatures(contract, ["ERC20"]);
 
-  const decimals = erc20 ? 18 : 0;
-  const nftsOrToken = erc20 ? "tokens" : "NFTs";
+  const decimals = isErc20 ? 18 : 0;
+  const nftsOrToken = isErc20 ? "tokens" : "NFTs";
 
   const transformedQueryData = useMemo(() => {
     return (query.data || [])
@@ -299,7 +297,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
       <Flex
         onSubmit={form.handleSubmit((d) => {
           trackEvent({
-            category: erc20 ? "token" : "nft",
+            category: isErc20 ? "token" : "nft",
             action: "set-claim-conditions",
             label: "attempt",
           });
@@ -309,7 +307,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
               {
                 onSuccess: (_data, variables) => {
                   trackEvent({
-                    category: erc20 ? "token" : "nft",
+                    category: isErc20 ? "token" : "nft",
                     action: "set-claim-conditions",
                     label: "success",
                   });
@@ -318,7 +316,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                 },
                 onError: (error) => {
                   trackEvent({
-                    category: erc20 ? "token" : "nft",
+                    category: isErc20 ? "token" : "nft",
                     action: "set-claim-conditions",
                     label: "attempt",
                   });
@@ -476,7 +474,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       >
                         <Heading as={FormLabel} size="label.md">
                           How much do you want to charge to claim each{" "}
-                          {erc20 ? "token" : "NFT"}?
+                          {isErc20 ? "token" : "NFT"}?
                         </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
