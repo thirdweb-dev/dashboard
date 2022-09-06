@@ -184,7 +184,6 @@ Deploy it in one click`,
               width: 2400,
               height: 1260,
               alt: `${release.name} contract on thirdweb`,
-              type: "image/png",
             },
           ],
         }}

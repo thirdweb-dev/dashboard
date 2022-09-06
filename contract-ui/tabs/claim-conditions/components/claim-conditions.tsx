@@ -68,7 +68,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
   const trackEvent = useTrack();
   const resetClaimConditions = useResetClaimConditions(contract, tokenId);
   const { onSuccess, onError } = useTxNotifications(
-    "Succesfully reset claim eligibility",
+    "Successfully reset claim eligibility",
     "Failed to reset claim eligibility",
   );
 
