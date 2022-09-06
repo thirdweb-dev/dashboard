@@ -2,6 +2,7 @@ import { Permissions } from "./components";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
+import { detectFeatures } from "components/contract-components/utils";
 import { ContractWithRoles } from "contract-ui/types/types";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -12,11 +13,13 @@ interface ContractPermissionsPageProps {
 export const ContractPermissionsPage: React.FC<
   ContractPermissionsPageProps
 > = ({ contractAddress }) => {
-  const contract = useContract(contractAddress);
+  const contractQuery = useContract(contractAddress);
 
-  const detectedFeature = detectPermissions(contract.contract as SmartContract);
+  const detectedFeature = detectFeatures(contractQuery.contract, [
+    "Permissions",
+  ]);
 
-  if (contract.isLoading) {
+  if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
@@ -49,17 +52,7 @@ export const ContractPermissionsPage: React.FC<
 
   return (
     <Flex direction="column" gap={6}>
-      <Permissions contract={contract.contract as SmartContract} />
+      <Permissions contract={contractQuery.contract as SmartContract} />
     </Flex>
   );
 };
-
-export function detectPermissions(contract: ContractWithRoles) {
-  if (!contract) {
-    return undefined;
-  }
-  if ("roles" in contract) {
-    return contract.roles;
-  }
-  return undefined;
-}
