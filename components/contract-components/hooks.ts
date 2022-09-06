@@ -5,13 +5,11 @@ import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
-import { contractTypeFromContract } from "@3rdweb-sdk/react/hooks/useCommon";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   useActiveChainId,
   useAddress,
   useChainId,
-  useContract,
   useSDK,
 } from "@thirdweb-dev/react";
 import {
@@ -502,27 +500,6 @@ export function usePublishedContractsQuery(address?: string) {
     () => fetchPublishedContracts(sdk, address),
     {
       enabled: !!address && !!sdk,
-    },
-  );
-}
-
-export function usePublishedMetadataQuery(contractAddress: string) {
-  const contractQuery = useContract(contractAddress);
-  return useQuery(
-    ["published-metadata", contractAddress],
-    async () => {
-      if (contractQuery?.contract instanceof SmartContract) {
-        return await contractQuery.contract.publishedMetadata.get();
-      }
-      if (contractQuery?.contract) {
-        return BuiltinContractMap[
-          contractTypeFromContract(contractQuery.contract)
-        ];
-      }
-      return undefined;
-    },
-    {
-      enabled: !!contractAddress && !!contractQuery?.contract,
     },
   );
 }

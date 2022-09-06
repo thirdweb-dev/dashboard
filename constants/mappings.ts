@@ -327,7 +327,7 @@ export const CONTRACT_TYPE_NAME_MAP: Record<ContractType, string> = {
   token: "Token" as const,
   "nft-collection": "NFT Collection" as const,
   edition: "Edition" as const,
-  multiwrap: "Multi Wrap" as const,
+  multiwrap: "Multiwrap" as const,
 
   // other
   vote: "Vote" as const,
