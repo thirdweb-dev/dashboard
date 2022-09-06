@@ -30,7 +30,12 @@ export function useContractTabs(
     if (contract instanceof Marketplace) {
       tabs.push({
         title: "Embed",
-        content: <EmbedSetup contract={actualContract} />,
+        content: (
+          <EmbedSetup
+            contract={actualContract}
+            contractType={data?.contractType}
+          />
+        ),
       });
     }
 
