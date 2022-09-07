@@ -22,11 +22,13 @@ import { Heading, LinkButton, Text } from "tw-components";
 interface DeployedContractsProps {
   address?: RequiredParam<string>;
   noHeader?: boolean;
+  noProjects?: boolean;
 }
 
 export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   address,
   noHeader,
+  noProjects,
 }) => {
   const router = useRouter();
 
@@ -230,7 +232,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </LinkButton>
         </Flex>
       )}
-      {projects && projects.length ? (
+      {!noProjects && projects && projects.length ? (
         <>
           <Tabs>
             <TabList>

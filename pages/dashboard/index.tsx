@@ -85,7 +85,7 @@ const Dashboard: ThirdwebNextPage = () => {
         <NoWallet />
       ) : (
         <>
-          <DeployedContracts address={dashboardAddress} noProjects />
+          <DeployedContracts address={dashboardAddress} />
           {/* this section needs to be on the publishersdk context (polygon SDK) */}
           <PublisherSDKContext>
             <ReleasedContracts address={dashboardAddress} />
