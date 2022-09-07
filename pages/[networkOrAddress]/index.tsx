@@ -62,6 +62,14 @@ const UserPage: ThirdwebNextPage = () => {
     ensQuery.data?.address || undefined,
   );
 
+  const publishedContracts = usePublishedContractsQuery(
+    ensQuery.data?.address || undefined,
+  );
+
+  const mainnetsContractList = useMainnetsContractList(
+    ensQuery.data?.address || undefined,
+  );
+
   return (
     <>
       <NextSeo

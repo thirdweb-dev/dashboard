@@ -47,6 +47,9 @@ import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { NoWallet } from "components/contract-components/shared/no-wallet";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
+import { NoWallet } from "components/contract-components/shared/no-wallet";
+import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
+import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import {
   CONTRACT_TYPE_NAME_MAP,
   FeatureIconMap,
