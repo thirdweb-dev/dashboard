@@ -20,10 +20,12 @@ import {
 } from "@chakra-ui/react";
 import {
   DropContract,
+  getErcs,
   useClaimConditions,
   useContractType,
   useResetClaimConditions,
   useSetClaimConditions,
+  useTokenDecimals,
 } from "@thirdweb-dev/react";
 import {
   ClaimConditionInput,
@@ -200,7 +202,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   const mutation = useSetClaimConditions(contract, tokenId);
   const isErc20 = detectFeatures(contract, ["ERC20"]);
 
-  const decimals = isErc20 ? 18 : 0;
+  const { erc20 } = getErcs(contract);
+  const tokenDecimals = useTokenDecimals(erc20);
+
+  const decimals = tokenDecimals.data ?? 0;
   const nftsOrToken = isErc20 ? "tokens" : "NFTs";
 
   const transformedQueryData = useMemo(() => {

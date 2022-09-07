@@ -15,6 +15,7 @@ export const ContractClaimConditionsPage: React.FC<
 
   const detectedFeature = detectFeatures(contractQuery.contract, [
     "ERC721Claimable",
+    "ERC20Claimable",
   ]);
 
   if (contractQuery.isLoading) {
