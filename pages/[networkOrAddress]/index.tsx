@@ -120,6 +120,7 @@ const UserPage: ThirdwebNextPage = () => {
               noHeader
               noProjects
               contractListQuery={mainnetsContractList}
+              limit={10}
             />
           )}
         </Flex>
