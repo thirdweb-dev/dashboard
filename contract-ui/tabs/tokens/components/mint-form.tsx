@@ -7,7 +7,11 @@ import {
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
-import { useAddress, useMintToken } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useMintToken,
+  useTokenDecimals,
+} from "@thirdweb-dev/react";
 import type { Erc20 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -35,6 +39,8 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
     "Tokens minted successfully",
     "Failed to mint tokens",
   );
+
+  const decimals = useTokenDecimals(contract);
 
   return (
     <>
@@ -83,7 +89,7 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
             <FormLabel>Additional Supply</FormLabel>
             <Input
               type="text"
-              pattern="^\d+(\.\d{1,18})?$"
+              pattern={`^\\d+(\\.\\d{1,${decimals?.data || 18}})?$`}
               {...register("amount")}
             />
             <FormErrorMessage>{errors?.amount?.message}</FormErrorMessage>

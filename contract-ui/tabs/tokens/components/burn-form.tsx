@@ -7,7 +7,11 @@ import {
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
-import { useAddress, useBurnToken } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useBurnToken,
+  useTokenDecimals,
+} from "@thirdweb-dev/react";
 import type { Erc20 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -43,6 +47,8 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
     "Failed to burn tokens",
   );
 
+  const decimals = useTokenDecimals(contract);
+
   return (
     <>
       <DrawerHeader>
@@ -55,7 +61,7 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
               <FormLabel>Amount</FormLabel>
               <Input
                 type="text"
-                pattern="^\d+(\.\d{1,18})?$"
+                pattern={`^\\d+(\\.\\d{1,${decimals?.data || 18}})?$`}
                 {...register("amount")}
               />
               <FormHelperText>How many would you like to burn?</FormHelperText>

@@ -7,7 +7,7 @@ import {
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
-import { useTransferToken } from "@thirdweb-dev/react";
+import { useTokenDecimals, useTransferToken } from "@thirdweb-dev/react";
 import type { Erc20 } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
@@ -43,6 +43,8 @@ export const TokenTransferForm: React.FC<TokenTransferFormProps> = ({
     "Failed to transfer tokens",
   );
 
+  const decimals = useTokenDecimals(contract);
+
   return (
     <>
       <DrawerHeader>
@@ -61,7 +63,7 @@ export const TokenTransferForm: React.FC<TokenTransferFormProps> = ({
               <FormLabel>Amount</FormLabel>
               <Input
                 type="text"
-                pattern="^\d+(\.\d{1,18})?$"
+                pattern={`^\\d+(\\.\\d{1,${decimals?.data || 18}})?$`}
                 {...register("amount")}
               />
               <FormHelperText>
