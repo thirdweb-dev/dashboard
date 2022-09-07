@@ -24,7 +24,7 @@ interface DeployedContractsProps {
   noHeader?: boolean;
   noProjects?: boolean;
   contractListQuery: ReturnType<typeof useAllContractList>;
-  limit: number;
+  limit?: number;
 }
 
 export const DeployedContracts: React.FC<DeployedContractsProps> = ({
