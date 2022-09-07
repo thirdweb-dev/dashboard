@@ -1,3 +1,4 @@
+import { useMainnetsContractList } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { ChainId } from "@thirdweb-dev/sdk";
@@ -54,6 +55,8 @@ const UserPage: ThirdwebNextPage = () => {
   const currentRoute = `https://thirdweb.com${router.asPath}`;
 
   const publishedContracts = usePublishedContractsQuery(wallet);
+
+  const mainnetsContractList = useMainnetsContractList(wallet);
 
   return (
     <>
@@ -112,7 +115,7 @@ const UserPage: ThirdwebNextPage = () => {
               address={ensQuery.data?.address}
               noHeader
               noProjects
-              onlyMainnet
+              contractListQuery={mainnetsContractList}
             />
           )}
         </Flex>

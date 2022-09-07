@@ -1,4 +1,8 @@
-import { useContractMetadataWithAddress, useWeb3 } from "@3rdweb-sdk/react";
+import {
+  useAllContractList,
+  useContractMetadataWithAddress,
+  useWeb3,
+} from "@3rdweb-sdk/react";
 import {
   Flex,
   Icon,
@@ -79,13 +83,18 @@ const Dashboard: ThirdwebNextPage = () => {
       : address;
   }, [address, wallet]);
 
+  const allContractList = useAllContractList(dashboardAddress);
+
   return (
     <Flex direction="column" gap={8}>
       {wallet === "dashboard" && !address ? (
         <NoWallet />
       ) : (
         <>
-          <DeployedContracts address={dashboardAddress} />
+          <DeployedContracts
+            address={dashboardAddress}
+            contractListQuery={allContractList}
+          />
           {/* this section needs to be on the publishersdk context (polygon SDK) */}
           <PublisherSDKContext>
             <ReleasedContracts address={dashboardAddress} />

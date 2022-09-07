@@ -1,6 +1,6 @@
 import { NoContracts } from "../shared/no-contracts";
 import { OldProjects } from "./old-projects";
-import { useContractList } from "@3rdweb-sdk/react";
+import { useAllContractList } from "@3rdweb-sdk/react";
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import {
   Center,
@@ -12,209 +12,42 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { ChainId, RequiredParam } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
 import { ContractTable } from "pages/dashboard";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import { Heading, LinkButton, Text } from "tw-components";
 
 interface DeployedContractsProps {
-  address?: RequiredParam<string>;
+  address?: string;
   noHeader?: boolean;
   noProjects?: boolean;
-  onlyMainnet?: boolean;
+  contractListQuery: ReturnType<typeof useAllContractList>;
 }
 
 export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   address,
   noHeader,
   noProjects,
-  onlyMainnet,
+  contractListQuery,
 }) => {
   const router = useRouter();
 
-  const {
-    data: projects,
-    isFetched: projectsIsFetched,
-    isLoading: projectsIsLoading,
-  } = useProjects(address);
-
-  const mainnetQuery = useContractList(ChainId.Mainnet, address);
-  const rinkebyQuery = useContractList(ChainId.Rinkeby, address);
-  const goerliQuery = useContractList(ChainId.Goerli, address);
-  const polygonQuery = useContractList(ChainId.Polygon, address);
-  const mumbaiQuery = useContractList(ChainId.Mumbai, address);
-  const fantomQuery = useContractList(ChainId.Fantom, address);
-  const fantomTestnetQuery = useContractList(ChainId.FantomTestnet, address);
-  const avalancheQuery = useContractList(ChainId.Avalanche, address);
-  const avalancheFujiTestnetQuery = useContractList(
-    ChainId.AvalancheFujiTestnet,
-    address,
-  );
-  const optimismQuery = useContractList(ChainId.Optimism, address);
-  const optimismTestnetQuery = useContractList(
-    ChainId.OptimismTestnet,
-    address,
-  );
-  const arbitrumQuery = useContractList(ChainId.Arbitrum, address);
-  const arbitrumTestnetQuery = useContractList(
-    ChainId.ArbitrumTestnet,
-    address,
-  );
-  const binanceQuery = useContractList(
-    ChainId.BinanceSmartChainMainnet,
-    address,
-  );
-  const binanceTestnetQuery = useContractList(
-    ChainId.BinanceSmartChainTestnet,
-    address,
-  );
-
-  const mainnetList = useMemo(() => {
-    return (
-      mainnetQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mainnet })) || []
-    )
-      .concat(
-        polygonQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.Polygon,
-        })) || [],
-      )
-      .concat(
-        avalancheQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.Avalanche,
-        })) || [],
-      )
-      .concat(
-        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
-      )
-      .concat(
-        optimismQuery.data?.map((d) => ({ ...d, chainId: ChainId.Optimism })) ||
-          [],
-      )
-      .concat(
-        arbitrumQuery.data?.map((d) => ({ ...d, chainId: ChainId.Arbitrum })) ||
-          [],
-      )
-      .concat(
-        binanceQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.BinanceSmartChainMainnet,
-        })) || [],
-      );
-  }, [
-    mainnetQuery.data,
-    polygonQuery.data,
-    fantomQuery.data,
-    avalancheQuery.data,
-    optimismQuery.data,
-    arbitrumQuery.data,
-    binanceQuery.data,
-  ]);
-
-  const testnetList = useMemo(() => {
-    return (
-      rinkebyQuery.data?.map((d) => ({ ...d, chainId: ChainId.Rinkeby })) || []
-    )
-      .concat(
-        goerliQuery.data?.map((d) => ({ ...d, chainId: ChainId.Goerli })) || [],
-      )
-      .concat(
-        mumbaiQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mumbai })) || [],
-      )
-      .concat(
-        avalancheFujiTestnetQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.AvalancheFujiTestnet,
-        })) || [],
-      )
-      .concat(
-        fantomTestnetQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.FantomTestnet,
-        })) || [],
-      )
-      .concat(
-        optimismTestnetQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.OptimismTestnet,
-        })) || [],
-      )
-      .concat(
-        arbitrumTestnetQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.ArbitrumTestnet,
-        })) || [],
-      )
-      .concat(
-        binanceTestnetQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.BinanceSmartChainTestnet,
-        })) || [],
-      );
-  }, [
-    rinkebyQuery.data,
-    goerliQuery.data,
-    mumbaiQuery.data,
-    fantomTestnetQuery.data,
-    avalancheFujiTestnetQuery.data,
-    optimismTestnetQuery.data,
-    arbitrumTestnetQuery.data,
-    binanceTestnetQuery.data,
-  ]);
-
-  const combinedList = useMemo(() => {
-    return mainnetList.concat(onlyMainnet ? [] : testnetList);
-  }, [mainnetList, testnetList, onlyMainnet]);
-
-  const isFetched =
-    projectsIsFetched &&
-    mainnetQuery.isFetched &&
-    rinkebyQuery.isFetched &&
-    goerliQuery.isFetched &&
-    polygonQuery.isFetched &&
-    mumbaiQuery.isFetched &&
-    fantomQuery.isFetched &&
-    fantomTestnetQuery.isFetched &&
-    avalancheQuery.isFetched &&
-    avalancheFujiTestnetQuery.isFetched &&
-    optimismQuery.isFetched &&
-    optimismTestnetQuery.isFetched &&
-    arbitrumQuery.isFetched &&
-    arbitrumTestnetQuery.isFetched &&
-    binanceQuery.isFetched &&
-    binanceTestnetQuery.isFetched;
-
-  const isLoading =
-    projectsIsLoading ||
-    mainnetQuery.isLoading ||
-    rinkebyQuery.isLoading ||
-    goerliQuery.isLoading ||
-    polygonQuery.isLoading ||
-    mumbaiQuery.isLoading ||
-    fantomQuery.isLoading ||
-    fantomTestnetQuery.isLoading ||
-    avalancheQuery.isLoading ||
-    avalancheFujiTestnetQuery.isLoading ||
-    optimismQuery.isLoading ||
-    optimismTestnetQuery.isLoading ||
-    arbitrumQuery.isLoading ||
-    arbitrumTestnetQuery.isLoading ||
-    binanceQuery.isLoading ||
-    binanceTestnetQuery.isLoading;
+  const projectsQuery = useProjects(address);
 
   useEffect(() => {
     if (
-      isFetched &&
-      combinedList.length === 0 &&
-      projects?.length === 0 &&
+      contractListQuery.isFetched &&
+      contractListQuery.data.length === 0 &&
+      projectsQuery.data?.length === 0 &&
       router.asPath === "/dashboard"
     ) {
       router.replace("/contracts");
     }
-  }, [isFetched, router, combinedList, projects]);
+  }, [contractListQuery, router, projectsQuery]);
+
+  const isLoading = contractListQuery.isLoading || projectsQuery.isLoading;
+  const isFetched = contractListQuery.isFetched && projectsQuery.isFetched;
 
   return (
     <>
@@ -241,7 +74,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </LinkButton>
         </Flex>
       )}
-      {!noProjects && projects && projects.length ? (
+      {!noProjects && projectsQuery && projectsQuery?.data?.length ? (
         <>
           <Tabs>
             <TabList>
@@ -250,20 +83,20 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </TabList>
             <TabPanels>
               <TabPanel px={0} pt={8}>
-                {combinedList.length === 0 ? (
+                {contractListQuery.data.length === 0 ? (
                   <NoContracts />
                 ) : (
-                  <ContractTable combinedList={combinedList} />
+                  <ContractTable combinedList={contractListQuery.data} />
                 )}
               </TabPanel>
               <TabPanel px={0} pt={8}>
-                <OldProjects projects={projects} />
+                <OldProjects projects={projectsQuery.data} />
               </TabPanel>
             </TabPanels>
           </Tabs>
         </>
       ) : (
-        <ContractTable combinedList={combinedList}>
+        <ContractTable combinedList={contractListQuery.data}>
           {isLoading && (
             <Center>
               <Flex py={4} direction="row" gap={4} align="center">
@@ -272,7 +105,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
               </Flex>
             </Center>
           )}
-          {combinedList.length === 0 && isFetched && (
+          {contractListQuery.data.length === 0 && isFetched && (
             <Center>
               <Flex py={4} direction="column" gap={4} align="center">
                 <Text>No deployments found.</Text>
