@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from "@chakra-ui/react";
+import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
 import {
   useBalance,
   useChainId,
@@ -22,7 +23,6 @@ import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useRef } from "react";
-import { AiOutlineWarning } from "react-icons/ai";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import {
   Button,
@@ -197,7 +197,7 @@ const MismatchNotice: React.FC<{
 
       {!actuallyCanAttemptSwitch && (
         <Text size="body.sm" fontStyle="italic">
-          Your connected wallet does not support programatic switching.
+          Your connected wallet does not support programmatic switching.
           <br />
           Please manually switch the network in your wallet.
         </Text>

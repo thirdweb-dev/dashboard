@@ -7,9 +7,7 @@ import {
   PersistQueryClientProvider,
   Persister,
 } from "@tanstack/react-query-persist-client";
-import { DashboardThirdwebProvider } from "components/app-layouts/providers";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
-import { ErrorProvider } from "contexts/error-handler";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import { DefaultSeo } from "next-seo";
@@ -140,6 +138,31 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   }, [pageId]);
 
   const getLayout = Component.getLayout ?? ((page) => page);
+
+  // shortcut everything and only set up the necessities for the OG renderer
+  if (router.pathname.startsWith("/_og/")) {
+    return (
+      <>
+        <Global
+          styles={css`
+            ${fontSizeCssVars}
+
+            .emoji {
+              height: 1em;
+              width: 1em;
+              margin: 0 0.05em 0 0.1em;
+              vertical-align: -0.1em;
+              display: inline;
+            }
+          `}
+        />
+        <ChakraProvider theme={chakraTheme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </>
+    );
+  }
+
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -156,6 +179,14 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
               opacity: 0.7;
             }
             ${fontSizeCssVars}
+
+            .emoji {
+              height: 1em;
+              width: 1em;
+              margin: 0 .05em 0 .1em;
+              vertical-align: -0.1em;
+              display: inline;
+          }
             
             #nprogress {
               pointer-events: none;
@@ -210,8 +241,8 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
             images: [
               {
                 url: "https://thirdweb.com/thirdweb.png",
-                width: 1200,
-                height: 650,
+                width: 2400,
+                height: 1260,
                 alt: "thirdweb",
               },
             ],
@@ -225,12 +256,8 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
         />
 
         <ChakraProvider theme={chakraTheme}>
-          <ErrorProvider>
-            <DashboardThirdwebProvider queryClient={queryClient}>
-              <AnnouncementBanner />
-              {getLayout(<Component {...pageProps} />, pageProps)}
-            </DashboardThirdwebProvider>
-          </ErrorProvider>
+          <AnnouncementBanner />
+          {getLayout(<Component {...pageProps} />, pageProps)}
         </ChakraProvider>
       </Hydrate>
     </PersistQueryClientProvider>
