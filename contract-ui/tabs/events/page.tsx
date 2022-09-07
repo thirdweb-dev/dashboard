@@ -8,7 +8,7 @@ interface ContractEventsPageProps {
 export const ContractEventsPage: React.FC<ContractEventsPageProps> = ({
   contractAddress,
 }) => {
-  if (contractAddress) {
+  if (!contractAddress) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
