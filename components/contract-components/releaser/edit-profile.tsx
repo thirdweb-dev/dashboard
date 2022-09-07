@@ -10,7 +10,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ProfileMetadata, ProfileMetadataInput } from "@thirdweb-dev/sdk";
-import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -119,15 +118,17 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           }}
           footer={{
             children: (
-              <TransactionButton
-                transactionCount={1}
+              <Button
+                borderRadius="md"
+                position="relative"
+                role="group"
                 colorScheme="blue"
                 type="submit"
                 isLoading={editProfile.isLoading}
                 form={FORM_ID}
               >
                 Save
-              </TransactionButton>
+              </Button>
             ),
           }}
           drawerBodyProps={{
