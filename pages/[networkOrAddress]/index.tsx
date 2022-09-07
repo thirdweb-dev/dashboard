@@ -112,6 +112,7 @@ const UserPage: ThirdwebNextPage = () => {
               address={ensQuery.data?.address}
               noHeader
               noProjects
+              onlyMainnet
             />
           )}
         </Flex>

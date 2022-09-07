@@ -23,12 +23,14 @@ interface DeployedContractsProps {
   address?: RequiredParam<string>;
   noHeader?: boolean;
   noProjects?: boolean;
+  onlyMainnet?: boolean;
 }
 
 export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   address,
   noHeader,
   noProjects,
+  onlyMainnet,
 }) => {
   const router = useRouter();
 
@@ -69,25 +71,15 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
     address,
   );
 
-  const combinedList = useMemo(() => {
+  const mainnetList = useMemo(() => {
     return (
       mainnetQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mainnet })) || []
     )
-      .concat(
-        rinkebyQuery.data?.map((d) => ({ ...d, chainId: ChainId.Rinkeby })) ||
-          [],
-      )
-      .concat(
-        goerliQuery.data?.map((d) => ({ ...d, chainId: ChainId.Goerli })) || [],
-      )
       .concat(
         polygonQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.Polygon,
         })) || [],
-      )
-      .concat(
-        mumbaiQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mumbai })) || [],
       )
       .concat(
         avalancheQuery.data?.map((d) => ({
@@ -96,13 +88,47 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
         })) || [],
       )
       .concat(
+        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
+      )
+      .concat(
+        optimismQuery.data?.map((d) => ({ ...d, chainId: ChainId.Optimism })) ||
+          [],
+      )
+      .concat(
+        arbitrumQuery.data?.map((d) => ({ ...d, chainId: ChainId.Arbitrum })) ||
+          [],
+      )
+      .concat(
+        binanceQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.BinanceSmartChainMainnet,
+        })) || [],
+      );
+  }, [
+    mainnetQuery.data,
+    polygonQuery.data,
+    fantomQuery.data,
+    avalancheQuery.data,
+    optimismQuery.data,
+    arbitrumQuery.data,
+    binanceQuery.data,
+  ]);
+
+  const testnetList = useMemo(() => {
+    return (
+      rinkebyQuery.data?.map((d) => ({ ...d, chainId: ChainId.Rinkeby })) || []
+    )
+      .concat(
+        goerliQuery.data?.map((d) => ({ ...d, chainId: ChainId.Goerli })) || [],
+      )
+      .concat(
+        mumbaiQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mumbai })) || [],
+      )
+      .concat(
         avalancheFujiTestnetQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.AvalancheFujiTestnet,
         })) || [],
-      )
-      .concat(
-        fantomQuery.data?.map((d) => ({ ...d, chainId: ChainId.Fantom })) || [],
       )
       .concat(
         fantomTestnetQuery.data?.map((d) => ({
@@ -111,29 +137,15 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
         })) || [],
       )
       .concat(
-        optimismQuery.data?.map((d) => ({ ...d, chainId: ChainId.Optimism })) ||
-          [],
-      )
-      .concat(
         optimismTestnetQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.OptimismTestnet,
         })) || [],
       )
       .concat(
-        arbitrumQuery.data?.map((d) => ({ ...d, chainId: ChainId.Arbitrum })) ||
-          [],
-      )
-      .concat(
         arbitrumTestnetQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.ArbitrumTestnet,
-        })) || [],
-      )
-      .concat(
-        binanceQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.BinanceSmartChainMainnet,
         })) || [],
       )
       .concat(
@@ -143,22 +155,19 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
         })) || [],
       );
   }, [
-    mainnetQuery.data,
     rinkebyQuery.data,
     goerliQuery.data,
-    polygonQuery.data,
     mumbaiQuery.data,
-    fantomQuery.data,
     fantomTestnetQuery.data,
-    avalancheQuery.data,
     avalancheFujiTestnetQuery.data,
-    optimismQuery.data,
     optimismTestnetQuery.data,
-    arbitrumQuery.data,
     arbitrumTestnetQuery.data,
-    binanceQuery.data,
     binanceTestnetQuery.data,
   ]);
+
+  const combinedList = useMemo(() => {
+    return mainnetList.concat(onlyMainnet ? [] : testnetList);
+  }, [mainnetList, testnetList, onlyMainnet]);
 
   const isFetched =
     projectsIsFetched &&
