@@ -4,6 +4,7 @@ import { useAllContractList } from "@3rdweb-sdk/react";
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import {
   Center,
+  Divider,
   Flex,
   Spinner,
   Tab,
@@ -14,15 +15,16 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ContractTable } from "pages/dashboard";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FiPlus } from "react-icons/fi";
-import { Heading, LinkButton, Text } from "tw-components";
+import { Button, Heading, LinkButton, Text } from "tw-components";
 
 interface DeployedContractsProps {
   address?: string;
   noHeader?: boolean;
   noProjects?: boolean;
   contractListQuery: ReturnType<typeof useAllContractList>;
+  limit: number;
 }
 
 export const DeployedContracts: React.FC<DeployedContractsProps> = ({
@@ -30,7 +32,9 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   noHeader,
   noProjects,
   contractListQuery,
+  limit,
 }) => {
+  const [showMoreLimit, setShowMoreLimit] = useState(limit);
   const router = useRouter();
 
   const projectsQuery = useProjects(address);
@@ -45,6 +49,13 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
       router.replace("/contracts");
     }
   }, [contractListQuery, router, projectsQuery]);
+
+  const slicedData = useMemo(() => {
+    if (contractListQuery.data) {
+      return contractListQuery.data.slice(0, showMoreLimit);
+    }
+    return [];
+  }, [contractListQuery.data, showMoreLimit]);
 
   return (
     <>
@@ -93,7 +104,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </Tabs>
         </>
       ) : (
-        <ContractTable combinedList={contractListQuery.data}>
+        <ContractTable combinedList={slicedData}>
           {contractListQuery.isLoading && (
             <Center>
               <Flex py={4} direction="row" gap={4} align="center">
@@ -108,6 +119,21 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                 <Text>No deployments found.</Text>
               </Flex>
             </Center>
+          )}
+          {contractListQuery.data.length > slicedData.length && (
+            <Flex flexDir="column">
+              <Divider color="borderColor" />
+              <Center>
+                <Button
+                  onClick={() => setShowMoreLimit(showMoreLimit + limit)}
+                  variant="ghost"
+                  my={3}
+                  size="sm"
+                >
+                  Show more
+                </Button>
+              </Center>
+            </Flex>
           )}
         </ContractTable>
       )}
