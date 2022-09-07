@@ -1,10 +1,10 @@
 import { NoContracts } from "../shared/no-contracts";
 import { OldProjects } from "./old-projects";
+import { ShowMoreButton } from "./show-more-button";
 import { useAllContractList } from "@3rdweb-sdk/react";
 import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import {
   Center,
-  Divider,
   Flex,
   Spinner,
   Tab,
@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { ContractTable } from "pages/dashboard";
 import { useEffect, useMemo, useState } from "react";
 import { FiPlus } from "react-icons/fi";
-import { Button, Heading, LinkButton, Text } from "tw-components";
+import { Heading, LinkButton, Text } from "tw-components";
 
 interface DeployedContractsProps {
   address?: string;
@@ -32,7 +32,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   noHeader,
   noProjects,
   contractListQuery,
-  limit = 50,
+  limit = 10,
 }) => {
   const [showMoreLimit, setShowMoreLimit] = useState(limit);
   const router = useRouter();
@@ -121,19 +121,11 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </Center>
           )}
           {contractListQuery.data.length > slicedData.length && (
-            <Flex flexDir="column">
-              <Divider color="borderColor" />
-              <Center>
-                <Button
-                  onClick={() => setShowMoreLimit(showMoreLimit + limit)}
-                  variant="ghost"
-                  my={3}
-                  size="sm"
-                >
-                  Show more
-                </Button>
-              </Center>
-            </Flex>
+            <ShowMoreButton
+              limit={limit}
+              showMoreLimit={showMoreLimit}
+              setShowMoreLimit={setShowMoreLimit}
+            />
           )}
         </ContractTable>
       )}
