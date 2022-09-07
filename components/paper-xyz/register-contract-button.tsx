@@ -31,7 +31,7 @@ function usePaperRegisterContractMutation(
       method: "POST",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer id: ${jwt}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
