@@ -2530,7 +2530,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@^1.1.7":
+"@thirdweb-dev/contracts-js@*":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.7.tgz#2ffcf7c2828fb24e0738c2d26b4904dbccee9251"
   integrity sha512-yjT96Pev5uUqftT+7zqPar1Jt1skDCzKhbgQ0FUi1C1WXGPLzzyZ9e33ehBym0jWFnA3fsMRIAFWCV2jNwoKIw==
@@ -2542,10 +2542,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.6-1.tgz#81fc678c89b407bd577d4021500ff1a5de825179"
   integrity sha512-dNIqIsY2JYc+GVG9fZs3HfmgRY2pn6dYSmstGW4IcQmRpM4a3HYbz6FIgX4N9012xo0aNPbBWEq9pfQ3bdY86Q==
 
-"@thirdweb-dev/react@^2.9.6":
-  version "2.9.6"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.9.6.tgz#25bc43501eed3536dd5cf2a27d3191bc24d106b7"
-  integrity sha512-AOHuklT/E1UC6RkYKN4XVyrkNRVq6x2cdOhgGPlq4jUNHx4CcrypOTjzMyKPgBT94US3ZRsO510qY+rPV59kXg==
+"@thirdweb-dev/react@2.9.7-dev-52fcae6":
+  version "2.9.7-dev-52fcae6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-2.9.7-dev-52fcae6.tgz#37a801f0f609f4a39fdda40ac00e9fc10a2496eb"
+  integrity sha512-dcm+uC8rVPn+sUWfS4s2noHvPJ0tn78KfjMp+5pPnvtlGV2S/x7bGqteTdusTY3IcDziBcYngH8wKnVR+9XOJA==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -2553,8 +2553,8 @@
     "@gnosis.pm/safe-ethers-adapters" "0.1.0-alpha.9"
     "@gnosis.pm/safe-ethers-lib" "1.1.0"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/sdk" "^2.4.8"
-    "@thirdweb-dev/storage" "^0.2.7"
+    "@thirdweb-dev/sdk" "2.4.9-dev-52fcae6"
+    "@thirdweb-dev/storage" "0.2.8-dev-52fcae6"
     "@zag-js/menu" "^0.1.11"
     "@zag-js/react" "0.1.16"
     color "^4.2.3"
@@ -2567,13 +2567,13 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^2.4.8":
-  version "2.4.8"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.4.8.tgz#c1ee3304eee65272bbb725a355611697f7b71ba6"
-  integrity sha512-EjUDzfIxYKMFbq+SlxKj2W8a50KDnjqfsYpfGOL4ICiQHpVoDCnMkcrfxX/aq5kv+Wk4MrKuTYAN8+EeVHGiLw==
+"@thirdweb-dev/sdk@2.4.9-dev-52fcae6":
+  version "2.4.9-dev-52fcae6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-2.4.9-dev-52fcae6.tgz#e6bc66038164c24fa3053fa7d3a8ea52edefb12b"
+  integrity sha512-6mdudeRQcW+mYeNqWOFtcBMk9q1wULLyWSOFTd1h0F8RZydJ5HltwAioeXbMebGRWOOSKWShNvzCh+MYgwIY/Q==
   dependencies:
-    "@thirdweb-dev/contracts-js" "^1.1.7"
-    "@thirdweb-dev/storage" "^0.2.7"
+    "@thirdweb-dev/contracts-js" "*"
+    "@thirdweb-dev/storage" "0.2.8-dev-52fcae6"
     cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
@@ -2583,6 +2583,15 @@
     multihashes "^4.0.3"
     tiny-invariant "^1.2.0"
     uuid "^8.3.2"
+    zod "^3.11.6"
+
+"@thirdweb-dev/storage@0.2.8-dev-52fcae6":
+  version "0.2.8-dev-52fcae6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.2.8-dev-52fcae6.tgz#b932009c9848e2f5582aaabe620aafa28267dc20"
+  integrity sha512-8kkfUTD0W1nZOjmWD4+q74kiHdF8GD+zT6WADuUwan7+P/qwAHIVqhc1YzF1KPent7cg5aW39hew1Gj7ybrFhw==
+  dependencies:
+    cross-fetch "^3.1.5"
+    form-data "^4.0.0"
     zod "^3.11.6"
 
 "@thirdweb-dev/storage@^0.2.7":
