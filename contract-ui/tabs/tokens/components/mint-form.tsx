@@ -82,9 +82,8 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
           <FormControl isRequired isInvalid={!!errors.amount}>
             <FormLabel>Additional Supply</FormLabel>
             <Input
-              type="number"
-              step="1"
-              pattern="/(\.)?\d+(\.\d*)?/g"
+              type="text"
+              pattern="^\d+(\.\d{1,18})?$"
               {...register("amount")}
             />
             <FormErrorMessage>{errors?.amount?.message}</FormErrorMessage>

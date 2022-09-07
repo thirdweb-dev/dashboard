@@ -59,7 +59,11 @@ export const TokenTransferForm: React.FC<TokenTransferFormProps> = ({
             </FormControl>
             <FormControl isRequired isInvalid={!!errors.amount}>
               <FormLabel>Amount</FormLabel>
-              <Input placeholder="1" {...register("amount")} />
+              <Input
+                type="text"
+                pattern="^\d+(\.\d{1,18})?$"
+                {...register("amount")}
+              />
               <FormHelperText>
                 How many would you like to transfer?
               </FormHelperText>
