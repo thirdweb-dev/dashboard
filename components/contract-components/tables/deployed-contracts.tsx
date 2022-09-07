@@ -46,9 +46,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
     }
   }, [contractListQuery, router, projectsQuery]);
 
-  const isLoading = contractListQuery.isLoading || projectsQuery.isLoading;
-  const isFetched = contractListQuery.isFetched && projectsQuery.isFetched;
-
   return (
     <>
       {!noHeader && (
@@ -97,7 +94,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
         </>
       ) : (
         <ContractTable combinedList={contractListQuery.data}>
-          {isLoading && (
+          {contractListQuery.isLoading && (
             <Center>
               <Flex py={4} direction="row" gap={4} align="center">
                 <Spinner size="sm" />
@@ -105,7 +102,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
               </Flex>
             </Center>
           )}
-          {contractListQuery.data.length === 0 && isFetched && (
+          {contractListQuery.data.length === 0 && contractListQuery.isFetched && (
             <Center>
               <Flex py={4} direction="column" gap={4} align="center">
                 <Text>No deployments found.</Text>
