@@ -54,9 +54,13 @@ const UserPage: ThirdwebNextPage = () => {
 
   const currentRoute = `https://thirdweb.com${router.asPath}`;
 
-  const publishedContracts = usePublishedContractsQuery(wallet);
+  const publishedContracts = usePublishedContractsQuery(
+    ensQuery.data?.address || undefined,
+  );
 
-  const mainnetsContractList = useMainnetsContractList(wallet);
+  const mainnetsContractList = useMainnetsContractList(
+    ensQuery.data?.address || undefined,
+  );
 
   return (
     <>
