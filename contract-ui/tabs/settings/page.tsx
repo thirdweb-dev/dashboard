@@ -1,12 +1,13 @@
 import { SettingsMetadata } from "./components/metadata";
 import { OnDashboard } from "./components/on-dashboard";
+import { PaperCheckoutSetting } from "./components/paper-xyz";
 import { SettingsPlatformFees } from "./components/platform-fees";
 import { SettingsPrimarySale } from "./components/primary-sale";
 import { SettingsRoyalties } from "./components/royalties";
-import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
+import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { Card, Heading, LinkButton, Text } from "tw-components";
+import { isPaperSupportedContract } from "contract-ui/utils";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -39,70 +40,52 @@ export const CustomContractSettingsTab: React.FC<
     return <div>Loading...</div>;
   }
 
-  if (
-    detectedMetadata === "disabled" &&
-    detectedPrimarySale === "disabled" &&
-    detectedPlatformFees === "disabled" &&
-    detectedRoyalties === "disabled"
-  ) {
-    return (
-      <Flex direction="column" gap={4}>
-        <Card as={Flex} flexDir="column" gap={3}>
-          {/* TODO  extract this out into it's own component and make it better */}
-          <Heading size="subtitle.md">No Settings enabled</Heading>
-          <Text>
-            To enable Settings features you will have to extend the required
-            interfaces in your contract.
-          </Text>
-
-          <Divider my={1} />
-          <Flex gap={4} align="center">
-            <Heading size="label.md">Learn more: </Heading>
-            <ButtonGroup colorScheme="purple" size="sm" variant="solid">
-              <LinkButton
-                isExternal
-                href="https://portal.thirdweb.com/extensions/features/platformfee"
-              >
-                Platform Fee
-              </LinkButton>
-              <LinkButton
-                isExternal
-                href="https://portal.thirdweb.com/extensions/features/primarysale"
-              >
-                Primary Sale
-              </LinkButton>
-              <LinkButton
-                isExternal
-                href="https://portal.thirdweb.com/extensions/features/royalty"
-              >
-                Royalty
-              </LinkButton>
-            </ButtonGroup>
-          </Flex>
-        </Card>
-        <OnDashboard contract={contract.contract} />
-      </Flex>
-    );
-  }
-
   return (
     <Flex direction="column" gap={4}>
       <Flex gap={8} w="100%">
-        <Flex flexDir="column" w="100%" gap={8}>
-          {detectedMetadata === "enabled" && (
-            <SettingsMetadata contract={contract.contract} />
+        <SimpleGrid columns={1} w="100%" gap={8}>
+          <GridItem order={detectedMetadata === "enabled" ? 0 : 100}>
+            <SettingsMetadata
+              contract={contract.contract}
+              detectedState={detectedMetadata}
+            />
+          </GridItem>
+
+          <GridItem order={detectedPrimarySale === "enabled" ? 1 : 101}>
+            <SettingsPrimarySale
+              contract={contract.contract}
+              detectedState={detectedPrimarySale}
+            />
+          </GridItem>
+
+          <GridItem order={detectedRoyalties === "enabled" ? 2 : 102}>
+            <SettingsRoyalties
+              contract={contract.contract}
+              detectedState={detectedRoyalties}
+            />
+          </GridItem>
+
+          <GridItem order={detectedPlatformFees === "enabled" ? 3 : 103}>
+            <SettingsPlatformFees
+              contract={contract.contract}
+              detectedState={detectedPlatformFees}
+            />
+          </GridItem>
+          {/* paper.xyz settings */}
+          {isPaperSupportedContract(
+            contract.contract,
+            contract.data?.contractType,
+          ) && (
+            <GridItem order={4}>
+              <PaperCheckoutSetting contract={contract.contract} />
+            </GridItem>
           )}
-          {detectedPrimarySale === "enabled" && (
-            <SettingsPrimarySale contract={contract.contract} />
-          )}
-          {detectedRoyalties === "enabled" && (
-            <SettingsRoyalties contract={contract.contract} />
-          )}
-          {detectedPlatformFees === "enabled" && (
-            <SettingsPlatformFees contract={contract.contract} />
-          )}
-          <OnDashboard contract={contract.contract} />
-        </Flex>
+
+          {/* end paper.xyz settings */}
+          <GridItem order={50}>
+            <OnDashboard contract={contract.contract} />
+          </GridItem>
+        </SimpleGrid>
       </Flex>
     </Flex>
   );
