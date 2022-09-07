@@ -106,7 +106,7 @@ const UserPage: ThirdwebNextPage = () => {
               <Heading size="title.md">Deployed contracts</Heading>
               <Text fontStyle="italic" maxW="container.md">
                 The list of contract instances that this wallet has deployed
-                across all networks
+                across all mainnets
               </Text>
             </Flex>
           </Flex>
