@@ -103,7 +103,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </Center>
           )}
           {contractListQuery.data.length === 0 && contractListQuery.isFetched && (
-            <Center>
+            <Center overflow="hidden">
               <Flex py={4} direction="column" gap={4} align="center">
                 <Text>No deployments found.</Text>
               </Flex>

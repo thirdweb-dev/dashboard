@@ -460,7 +460,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   const router = useRouter();
 
   return (
-    <Card p={0} overflowX="auto" position="relative">
+    <Card p={0} overflowX="auto" position="relative" overflowY="hidden">
       {isFetching && (
         <Spinner
           color="primary"
