@@ -192,6 +192,14 @@ Deploy it in one click`,
       />
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
+          {contractFunctions && (
+            <ContractFunctionsOverview
+              functions={contractFunctions}
+              events={contractEvents}
+              sources={sources.data}
+              abi={contractReleaseMetadata.data?.abi}
+            />
+          )}
           {releasedContractInfo.data?.publishedMetadata?.readme && (
             <Card as={Flex} flexDir="column" gap={2} p={6}>
               <MarkdownRenderer
@@ -218,14 +226,6 @@ Deploy it in one click`,
                 }
               />
             </Card>
-          )}
-          {contractFunctions && (
-            <ContractFunctionsOverview
-              functions={contractFunctions}
-              events={contractEvents}
-              sources={sources.data}
-              abi={contractReleaseMetadata.data?.abi}
-            />
           )}
         </Flex>
       </GridItem>
