@@ -28,7 +28,8 @@ export const FAUCETS: Partial<Record<ChainId, string>> = {
   [ChainId.ArbitrumRinkeby]: "https://faucet.paradigm.xyz/",
   [ChainId.BinanceSmartChainTestnet]:
     "https://testnet.binance.org/faucet-smart",
-  // TODO: Find feaucets for goerli L2s
+  [ChainId.OptimismGoerli]: "https://app.optimism.io/bridge/deposit",
+  [ChainId.ArbitrumGoerli]: "https://bridge.arbitrum.io/?l2ChainId=421613",
 };
 
 const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
