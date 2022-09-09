@@ -29,11 +29,13 @@ import { StorageSingleton } from "components/app-layouts/providers";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
+import { useOgImagePing } from "hooks/useOgImagePing";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { createReleaseOGUrl } from "pages/_og/release";
 import { useMemo } from "react";
+import { BiPencil } from "react-icons/bi";
 import { BsShieldCheck } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
 import { VscBook, VscCalendar } from "react-icons/vsc";
@@ -130,6 +132,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     ],
   );
 
+  useOgImagePing(ogImageUrl);
+
   const twitterIntentUrl = useMemo(() => {
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
@@ -183,8 +187,8 @@ Deploy it in one click`,
           images: [
             {
               url: ogImageUrl,
-              width: 2400,
-              height: 1260,
+              width: 1200,
+              height: 630,
               alt: `${release.name} contract on thirdweb`,
             },
           ],
@@ -192,8 +196,35 @@ Deploy it in one click`,
       />
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
+          {contractFunctions && (
+            <ContractFunctionsOverview
+              functions={contractFunctions}
+              events={contractEvents}
+              sources={sources.data}
+              abi={contractReleaseMetadata.data?.abi}
+            />
+          )}
           {releasedContractInfo.data?.publishedMetadata?.readme && (
-            <Card as={Flex} flexDir="column" gap={2} p={6}>
+            <Card as={Flex} flexDir="column" gap={2} p={6} position="relative">
+              {walletOrEns === release.releaser && (
+                <TrackedIconButton
+                  icon={<Icon as={BiPencil} />}
+                  aria-label="Edit readme"
+                  position="absolute"
+                  variant="ghost"
+                  top={4}
+                  right={4}
+                  category="released-contract"
+                  label="edit-release"
+                  onClick={() =>
+                    router.push(
+                      `/contracts/release/${encodeURIComponent(
+                        release.metadataUri.replace("ipfs://", ""),
+                      )}`,
+                    )
+                  }
+                />
+              )}
               <MarkdownRenderer
                 markdownText={
                   releasedContractInfo.data?.publishedMetadata?.readme
@@ -218,14 +249,6 @@ Deploy it in one click`,
                 }
               />
             </Card>
-          )}
-          {contractFunctions && (
-            <ContractFunctionsOverview
-              functions={contractFunctions}
-              events={contractEvents}
-              sources={sources.data}
-              abi={contractReleaseMetadata.data?.abi}
-            />
           )}
         </Flex>
       </GridItem>
