@@ -10,7 +10,7 @@ export const BASE_URL = enforceHTTPS(
     ? "thirdweb.com"
     : process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
     ? process.env.NEXT_PUBLIC_VERCEL_URL || "thirdweb.com"
-    : "http://localhost:3000",
+    : "thirdweb.com",
 );
 
 export const OG_IMAGE_BASE_URL = enforceHTTPS(
@@ -18,5 +18,5 @@ export const OG_IMAGE_BASE_URL = enforceHTTPS(
 );
 
 // OG IMAGE RELATED
-export const OG_IMAGE_CACHE_VERSION = "1.0.2";
+export const OG_IMAGE_CACHE_VERSION = "1.0.3";
 export const TWEMOJI_OPTIONS = { folder: "svg", ext: ".svg" };
