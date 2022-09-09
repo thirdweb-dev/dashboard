@@ -63,8 +63,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   const isMintable = detectFeatures(contract, ["ERC1155Mintable"]);
 
   const isClaimable = detectFeatures<DropContract>(contract, [
-    "ERC721Claimable",
-    "ERC1155Claimable",
+    "ERC1155ClaimableWithConditions",
   ]);
 
   const isOwner =
