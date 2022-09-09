@@ -573,8 +573,10 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
                   ChainId.Mumbai,
                   ChainId.Optimism,
                   ChainId.OptimismKovan,
+                  ChainId.OptimismGoerli,
                   ChainId.Arbitrum,
                   ChainId.ArbitrumRinkeby,
+                  ChainId.ArbitrumGoerli,
                   ChainId.FantomTestnet,
                   ChainId.AvalancheFujiTestnet,
                 ]}
