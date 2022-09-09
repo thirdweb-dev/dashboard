@@ -29,6 +29,7 @@ import { StorageSingleton } from "components/app-layouts/providers";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
+import { useOgImagePing } from "hooks/useOgImagePing";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -131,6 +132,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     ],
   );
 
+  useOgImagePing(ogImageUrl);
+
   const twitterIntentUrl = useMemo(() => {
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
@@ -184,8 +187,8 @@ Deploy it in one click`,
           images: [
             {
               url: ogImageUrl,
-              width: 2400,
-              height: 1260,
+              width: 1200,
+              height: 630,
               alt: `${release.name} contract on thirdweb`,
             },
           ],
