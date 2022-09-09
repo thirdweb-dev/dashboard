@@ -68,7 +68,10 @@ export function useContractRouteConfig(
       path: "claim-conditions",
       isEnabled: extensionDetectedState({
         contractQuery,
-        feature: ["ERC721ClaimableWithConditions", "ERC20Claimable"],
+        feature: [
+          "ERC721ClaimableWithConditions",
+          "ERC20ClaimableWithConditions",
+        ],
       }),
       element: () =>
         import("../tabs/claim-conditions/page").then(
