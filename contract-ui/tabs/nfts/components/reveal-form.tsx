@@ -34,7 +34,7 @@ export const NFTRevealForm: React.FC<NFTRevealFormProps> = ({ contract }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<{ batchId: string; password: string }>();
   const modalContext = useModalContext();
 
@@ -119,6 +119,7 @@ export const NFTRevealForm: React.FC<NFTRevealFormProps> = ({ contract }) => {
           form={REVEAL_FORM_ID}
           type="submit"
           colorScheme="primary"
+          isDisabled={!isDirty}
         >
           Reveal NFTs
         </TransactionButton>

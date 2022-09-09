@@ -23,7 +23,7 @@ export const AirdropTab: React.FC<AirdropTabProps> = ({
   tokenId,
 }) => {
   const address = useAddress();
-  const { handleSubmit, setValue, watch, reset } = useForm<{
+  const { handleSubmit, setValue, watch, reset, formState } = useForm<{
     addresses: AirdropAddressInput[];
   }>({
     defaultValues: { addresses: [] },
@@ -132,6 +132,7 @@ export const AirdropTab: React.FC<AirdropTabProps> = ({
             colorScheme="primary"
             disabled={!!address && addresses.length === 0}
             alignSelf="flex-end"
+            isDisabled={!formState.isDirty}
           >
             Airdrop
           </TransactionButton>

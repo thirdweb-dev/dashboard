@@ -38,7 +38,7 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({ defaultValues: { amount: "0" } });
   const modalContext = useModalContext();
 
@@ -83,6 +83,7 @@ export const TokenBurnForm: React.FC<TokenBurnFormProps> = ({ contract }) => {
           isLoading={burn.isLoading}
           type="submit"
           colorScheme="primary"
+          isDisabled={!isDirty}
           onClick={handleSubmit((d) => {
             if (address) {
               trackEvent({

@@ -68,7 +68,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     register,
     watch,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<NFTMetadataInputLimited & { supply: number }>();
 
   const modalContext = useModalContext();
@@ -365,6 +365,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
+          isDisabled={!isDirty}
         >
           {lazyMintMutation && "Lazy "} Mint NFT
         </TransactionButton>

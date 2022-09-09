@@ -23,7 +23,7 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<{ to: string; amount: string }>({
     defaultValues: { amount: "1" },
@@ -116,6 +116,7 @@ export const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
             type="submit"
             colorScheme="primary"
             alignSelf="flex-end"
+            isDisabled={!isDirty}
           >
             Burn
           </TransactionButton>

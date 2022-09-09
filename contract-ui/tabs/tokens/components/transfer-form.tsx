@@ -34,7 +34,7 @@ export const TokenTransferForm: React.FC<TokenTransferFormProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({ defaultValues: { amount: "0", to: "" } });
   const modalContext = useModalContext();
 
@@ -81,6 +81,7 @@ export const TokenTransferForm: React.FC<TokenTransferFormProps> = ({
           isLoading={transfer.isLoading}
           type="submit"
           colorScheme="primary"
+          isDisabled={!isDirty}
           onClick={handleSubmit((d) => {
             trackEvent({
               category: "token",

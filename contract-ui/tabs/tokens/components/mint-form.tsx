@@ -31,7 +31,7 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({ defaultValues: { amount: "0" } });
   const modalContext = useModalContext();
 
@@ -111,6 +111,7 @@ export const TokenMintForm: React.FC<TokenMintFormProps> = ({ contract }) => {
           form={MINT_FORM_ID}
           type="submit"
           colorScheme="primary"
+          isDisabled={!isDirty}
         >
           Mint Tokens
         </TransactionButton>

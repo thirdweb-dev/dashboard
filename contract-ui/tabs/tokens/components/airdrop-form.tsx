@@ -34,7 +34,7 @@ export const TokenAirdropForm: React.FC<TokenAirdropFormProps> = ({
   contract,
 }) => {
   const address = useAddress();
-  const { handleSubmit, setValue, watch } = useForm<{
+  const { handleSubmit, setValue, watch, formState } = useForm<{
     addresses: AirdropAddressInput[];
   }>({
     defaultValues: { addresses: [] },
@@ -147,6 +147,7 @@ export const TokenAirdropForm: React.FC<TokenAirdropFormProps> = ({
                 colorScheme="primary"
                 disabled={!!address && addresses.length === 0}
                 alignSelf="flex-end"
+                isDisabled={!formState.isDirty}
               >
                 Airdrop
               </TransactionButton>

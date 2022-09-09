@@ -21,7 +21,7 @@ export const TransferTab: React.FC<TransferTabProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<{ to: string; amount: string }>({
     defaultValues: { to: "", amount: "1" },
@@ -99,6 +99,7 @@ export const TransferTab: React.FC<TransferTabProps> = ({
             type="submit"
             colorScheme="primary"
             alignSelf="flex-end"
+            isDisabled={!isDirty}
           >
             Transfer
           </TransactionButton>

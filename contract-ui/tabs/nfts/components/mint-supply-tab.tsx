@@ -20,7 +20,7 @@ export const MintSupplyTab: React.FC<MintSupplyTabProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     reset,
   } = useForm<{ to: string; amount: string }>({
     defaultValues: { amount: "1" },
@@ -90,6 +90,7 @@ export const MintSupplyTab: React.FC<MintSupplyTabProps> = ({
             type="submit"
             colorScheme="primary"
             alignSelf="flex-end"
+            isDisabled={!isDirty}
           >
             Mint
           </TransactionButton>
