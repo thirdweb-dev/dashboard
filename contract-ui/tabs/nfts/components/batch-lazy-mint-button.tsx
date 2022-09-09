@@ -19,7 +19,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
 
   const detectedState = extensionDetectedState({
     contractQuery,
-    feature: ["ERC721Droppable", "ERC1155Droppable"],
+    feature: ["ERC721LazyMintable", "ERC1155LazyMintable"],
   });
 
   if (detectedState !== "enabled") {

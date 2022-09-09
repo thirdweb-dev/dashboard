@@ -15,9 +15,11 @@ const UNSUPPORTED_CHAINS = [
   ChainId.AvalancheFujiTestnet,
   ChainId.FantomTestnet,
   ChainId.Optimism,
-  ChainId.OptimismTestnet,
+  ChainId.OptimismKovan,
+  ChainId.OptimismGoerli,
   ChainId.Arbitrum,
-  ChainId.ArbitrumTestnet,
+  ChainId.ArbitrumRinkeby,
+  ChainId.ArbitrumGoerli,
 ];
 
 export interface IListButtonProps extends IContractActionButtonProps {}

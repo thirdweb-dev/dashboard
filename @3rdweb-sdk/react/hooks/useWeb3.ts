@@ -24,8 +24,8 @@ export const FAUCETS: Partial<Record<ChainId, string>> = {
   [ChainId.Mumbai]: "https://mumbaifaucet.com",
   [ChainId.AvalancheFujiTestnet]: "https://faucet.avax.network/",
   [ChainId.FantomTestnet]: "https://faucet.fantom.network/",
-  [ChainId.OptimismTestnet]: "https://kovan.optifaucet.com/",
-  [ChainId.ArbitrumTestnet]: "https://faucet.paradigm.xyz/",
+  [ChainId.OptimismKovan]: "https://kovan.optifaucet.com/",
+  [ChainId.ArbitrumRinkeby]: "https://faucet.paradigm.xyz/",
   [ChainId.BinanceSmartChainTestnet]:
     "https://testnet.binance.org/faucet-smart",
 };
@@ -101,12 +101,19 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Optimism,
   },
-  [ChainId.OptimismTestnet]: {
-    chainName: "Optimism Testnet",
+  [ChainId.OptimismKovan]: {
+    chainName: "Optimism Kovan",
     icon: Optimism,
-    symbol: NATIVE_TOKENS[ChainId.OptimismTestnet].symbol,
+    symbol: NATIVE_TOKENS[ChainId.OptimismKovan].symbol,
     isTestnet: true,
-    chainId: ChainId.OptimismTestnet,
+    chainId: ChainId.OptimismKovan,
+  },
+  [ChainId.OptimismGoerli]: {
+    chainName: "Optimism Goerli",
+    icon: Optimism,
+    symbol: NATIVE_TOKENS[ChainId.OptimismGoerli].symbol,
+    isTestnet: true,
+    chainId: ChainId.OptimismGoerli,
   },
   [ChainId.Arbitrum]: {
     chainName: "Arbitrum",
@@ -115,12 +122,19 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Arbitrum,
   },
-  [ChainId.ArbitrumTestnet]: {
-    chainName: "Arbitrum Testnet",
+  [ChainId.ArbitrumRinkeby]: {
+    chainName: "Arbitrum Rinkeby",
     icon: Arbitrum,
-    symbol: NATIVE_TOKENS[ChainId.ArbitrumTestnet].symbol,
+    symbol: NATIVE_TOKENS[ChainId.ArbitrumRinkeby].symbol,
     isTestnet: true,
-    chainId: ChainId.ArbitrumTestnet,
+    chainId: ChainId.ArbitrumRinkeby,
+  },
+  [ChainId.ArbitrumGoerli]: {
+    chainName: "Arbitrum Goerli",
+    icon: Arbitrum,
+    symbol: NATIVE_TOKENS[ChainId.ArbitrumGoerli].symbol,
+    isTestnet: true,
+    chainId: ChainId.ArbitrumGoerli,
   },
   [ChainId.BinanceSmartChainMainnet]: {
     chainName: "Binance Smart Chain",
