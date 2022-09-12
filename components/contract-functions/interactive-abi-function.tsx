@@ -17,6 +17,7 @@ import { useId, useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FiPlay } from "react-icons/fi";
 import {
+  Button,
   Card,
   CodeBlock,
   FormHelperText,
@@ -278,7 +279,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
       <Divider mt="auto" />
       <ButtonGroup ml="auto">
         {isView ? (
-          <MismatchButton
+          <Button
             isDisabled={!abiFunction}
             rightIcon={<Icon as={FiPlay} />}
             colorScheme="primary"
@@ -287,7 +288,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
             form={formId}
           >
             Run
-          </MismatchButton>
+          </Button>
         ) : (
           <TransactionButton
             isDisabled={!abiFunction}
