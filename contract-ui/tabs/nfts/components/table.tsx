@@ -26,6 +26,7 @@ import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
+import { FiArrowRight } from "react-icons/fi";
 import {
   MdFirstPage,
   MdLastPage,
@@ -181,6 +182,8 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                     </Text>
                   </Th>
                 ))}
+                {/* // Need to add an empty header for the drawer button */}
+                <Th />
               </Tr>
             ))}
           </Thead>
@@ -207,10 +210,17 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth={"inherit"}>
+                    <Td {...cell.getCellProps()} borderBottomWidth="inherit">
                       {cell.render("Cell")}
                     </Td>
                   ))}
+                  <Td borderBottomWidth="inherit">
+                    <IconButton
+                      variant="ghost"
+                      icon={<Icon as={FiArrowRight} />}
+                      aria-label="Open NFT Drawer"
+                    />
+                  </Td>
                 </Tr>
               );
             })}
