@@ -46,9 +46,6 @@ export const ContractPermissionsPage: React.FC<
       </Card>
     );
   }
-
-  console.log("*** contractQuery.contract", contractQuery.contract);
-
   if (!contractQuery.contract) {
     return null;
   }
