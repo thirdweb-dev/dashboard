@@ -45,7 +45,7 @@ export const ContractProposalsPage: React.FC<ProposalsPageProps> = ({
     );
   }, [data]);
 
-  const { data: balances, isLoading } = useVoteTokenBalances(
+  const { data: balances } = useVoteTokenBalances(
     contractQuery.contract,
     balanceAddresses,
   );
