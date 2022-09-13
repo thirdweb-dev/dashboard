@@ -20,6 +20,7 @@ import { MarketplaceImpl } from "@thirdweb-dev/sdk/dist/declarations/src/contrac
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import React, { useEffect, useState } from "react";
+import { FiArrowRight } from "react-icons/fi";
 import {
   MdFirstPage,
   MdLastPage,
@@ -150,6 +151,8 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                     </Text>
                   </Th>
                 ))}
+                {/* // Need to add an empty header for the drawer button */}
+                <Th />
               </Tr>
             ))}
           </Thead>
@@ -180,6 +183,9 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                       {cell.render("Cell")}
                     </Td>
                   ))}
+                  <Td borderBottomWidth="inherit">
+                    <Icon as={FiArrowRight} />
+                  </Td>
                 </Tr>
               );
             })}
