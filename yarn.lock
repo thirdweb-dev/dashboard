@@ -2478,10 +2478,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@1.1.8-nightly-0fa6f3f":
-  version "1.1.8-nightly-0fa6f3f"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.8-nightly-0fa6f3f.tgz#831ca0afe1bdeb4a7a2adb4369c00751a22a565e"
-  integrity sha512-BjgnGg6iQ8r3kuzwqt6qsYvggMtSuvdsYIYtDI6NYMJpxdyOj5qeTBxCRj7s1S6RE/OByo8BJ7EMamd+H4vzsw==
+"@thirdweb-dev/contracts-js@1.1.8-nightly-a37bc00":
+  version "1.1.8-nightly-a37bc00"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.8-nightly-a37bc00.tgz#ea1d49655386692a9a50d0a39ad7ea32dfb7b561"
+  integrity sha512-rrhwEHLdNg0g1NMR5cHS2r+EvzyZy8U+sp5jQZzomS7GHja4acsgrh+vaOAFeAOx1+gji4YFG/XLU0jK5evAzw==
   dependencies:
     "@thirdweb-dev/contracts" "3.1.8-0"
 
@@ -2490,10 +2490,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.0.0-nightly-0fa6f3f":
-  version "3.0.0-nightly-0fa6f3f"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.0-nightly-0fa6f3f.tgz#73c92c4fe5ad92ed9e1470555a5bb5671de1e139"
-  integrity sha512-3NjwjK9vqBEWs9+r+076YX7fwy7KzLwGWd0jdvy2FYcqnl/g13HeKYMDNt9XIqVR4xjeODfMBFfo9eH2DhHzEA==
+"@thirdweb-dev/react@^3.0.0-nightly-a37bc00":
+  version "3.0.0-nightly-a37bc00"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.0-nightly-a37bc00.tgz#a063b29fa3f0bc91b9deae87ebd07033f3229be8"
+  integrity sha512-j23k87C40xSOoJGRkynF9U+FZTs1lLkc3F1gT3cmvl+IMdlqeJ5DAhof1dCHQs2KrtCTzbO0RQ3p8UijuIAMsQ==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -2513,12 +2513,12 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.0.0-nightly-0fa6f3f":
-  version "3.0.0-nightly-0fa6f3f"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.0-nightly-0fa6f3f.tgz#5e5a1c9d198b957b036554608ee2c68dede6d4ce"
-  integrity sha512-N3sususwk2wARsazAjpcbhlG3+cGu1zYYCiJHUIqLDrwObzurk1D0dSdu3yUzFEQs0ycIthWXMTj0jna+5jR0w==
+"@thirdweb-dev/sdk@^3.0.0-nightly-a37bc00":
+  version "3.0.0-nightly-a37bc00"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.0-nightly-a37bc00.tgz#75438d2fdc2825b4464d227c8e7dbed19a2f9aba"
+  integrity sha512-EIcLQWkEAIsKW3TNVcMBr/WkBDbuo4SMLVjJGL37955gj4Ek6Kbzj45syUyzxd2bJ8zXNJRicwXOeXLbqLYhmA==
   dependencies:
-    "@thirdweb-dev/contracts-js" "1.1.8-nightly-0fa6f3f"
+    "@thirdweb-dev/contracts-js" "1.1.8-nightly-a37bc00"
     "@thirdweb-dev/storage" "^0.2.8"
     cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
