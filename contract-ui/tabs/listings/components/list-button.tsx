@@ -1,12 +1,11 @@
 import { CreateListingsForm } from "./list-form";
-import { MinterOnly } from "@3rdweb-sdk/react";
+import { ListerOnly } from "@3rdweb-sdk/react/components/roles/lister-only";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import {
   UseContractResult,
   useCreateAuctionListing,
   useCreateDirectListing,
 } from "@thirdweb-dev/react";
-import { ValidContractInstance } from "@thirdweb-dev/sdk";
 import { MarketplaceImpl } from "@thirdweb-dev/sdk/dist/declarations/src/contracts/prebuilt-implementations/marketplace";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FiPlus } from "react-icons/fi";
@@ -27,9 +26,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
   const auctionList = useCreateAuctionListing(contractQuery.contract);
 
   return (
-    <MinterOnly
-      contract={contractQuery?.contract as unknown as ValidContractInstance}
-    >
+    <ListerOnly contract={contractQuery?.contract}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
@@ -73,8 +70,8 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
         {...restButtonProps}
         onClick={onOpen}
       >
-        Mint
+        Create Listing
       </Button>
-    </MinterOnly>
+    </ListerOnly>
   );
 };

@@ -89,3 +89,21 @@ export function useIsMinter<TContract extends ValidContractInstance>(
   }
   return isAccountRole;
 }
+
+export function useIsLister<TContract extends ValidContractInstance>(
+  contract?: TContract,
+) {
+  const address = useAddress();
+  const { data: contractType } = useContractType(contract?.getAddress());
+  const contractHasRoles = isContractWithRoles(contract);
+  const isAccountRole = useIsAccountRole(
+    "lister",
+    contractHasRoles ? contract : undefined,
+    address,
+  );
+
+  if (contractType === "custom") {
+    return true;
+  }
+  return isAccountRole;
+}
