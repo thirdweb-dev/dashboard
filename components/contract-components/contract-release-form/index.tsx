@@ -177,6 +177,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             action: "click",
             label: "attempt",
             uris: contractId,
+            release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
           });
           publishMutation.mutate(
             {
@@ -212,6 +213,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   action: "click",
                   label: "error",
                   uris: contractId,
+                  release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
                 });
               },
             },
