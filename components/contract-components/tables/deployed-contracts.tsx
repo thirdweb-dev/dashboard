@@ -122,9 +122,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           )}
           {contractListQuery.data.length > slicedData.length && (
             <ShowMoreButton
-              limit={limit}
-              showMoreLimit={showMoreLimit}
-              setShowMoreLimit={setShowMoreLimit}
+              setShowMoreLimit={() => setShowMoreLimit(showMoreLimit + limit)}
             />
           )}
         </ContractTable>

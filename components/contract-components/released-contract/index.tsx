@@ -9,6 +9,7 @@ import {
   useReleaserProfile,
 } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
+import { ShowMoreButton } from "../tables/show-more-button";
 import { MarkdownRenderer } from "./markdown-renderer";
 import {
   Divider,
@@ -34,7 +35,7 @@ import { correctAndUniqueLicenses } from "lib/licenses";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { createReleaseOGUrl } from "pages/_og/release";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { BiPencil } from "react-icons/bi";
 import { BsShieldCheck } from "react-icons/bs";
 import { FcCheckmark } from "react-icons/fc";
@@ -70,6 +71,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   release,
   walletOrEns,
 }) => {
+  const [readmeShowMoreLimit, setReadmeShowMoreLimit] = useState(15);
+  const [changelogShowMoreLimit, setChangelogShowMoreLimit] = useState(15);
   const releasedContractInfo = useReleasedContractInfo(release);
   const { data: compilerInfo } = useReleasedContractCompilerMetadata(release);
 
@@ -196,16 +199,15 @@ Deploy it in one click`,
       />
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
-          {contractFunctions && (
-            <ContractFunctionsOverview
-              functions={contractFunctions}
-              events={contractEvents}
-              sources={sources.data}
-              abi={contractReleaseMetadata.data?.abi}
-            />
-          )}
           {releasedContractInfo.data?.publishedMetadata?.readme && (
-            <Card as={Flex} flexDir="column" gap={2} p={6} position="relative">
+            <Card
+              as={Flex}
+              flexDir="column"
+              gap={2}
+              p={6}
+              position="relative"
+              noOfLines={readmeShowMoreLimit}
+            >
               {ensQuery?.data?.address === release.releaser && (
                 <TrackedIconButton
                   icon={<Icon as={BiPencil} />}
@@ -229,17 +231,45 @@ Deploy it in one click`,
                 markdownText={
                   releasedContractInfo.data?.publishedMetadata?.readme
                 }
+                mb={readmeShowMoreLimit === 1000 ? 12 : 0}
               />
+              {readmeShowMoreLimit === 15 && (
+                <ShowMoreButton
+                  bg="backgroundHighlight"
+                  position="absolute"
+                  w="full"
+                  bottom={0}
+                  right={0}
+                  setShowMoreLimit={() => setReadmeShowMoreLimit(1000)}
+                />
+              )}
+              {readmeShowMoreLimit === 1000 && (
+                <ShowMoreButton
+                  bg="backgroundHighlight"
+                  position="absolute"
+                  w="full"
+                  bottom={0}
+                  right={0}
+                  setShowMoreLimit={() => setReadmeShowMoreLimit(15)}
+                  text="Show less"
+                />
+              )}
             </Card>
           )}
           {releasedContractInfo.data?.publishedMetadata?.changelog && (
-            <Card as={Flex} flexDir="column" gap={2} p={0}>
+            <Card
+              as={Flex}
+              flexDir="column"
+              gap={2}
+              p={0}
+              position="relative"
+              noOfLines={changelogShowMoreLimit}
+            >
               <Heading px={6} pt={5} pb={2} size="title.sm">
                 {releasedContractInfo.data?.publishedMetadata?.version} Release
                 Notes
               </Heading>
               <Divider />
-
               <MarkdownRenderer
                 px={6}
                 pt={2}
@@ -247,8 +277,38 @@ Deploy it in one click`,
                 markdownText={
                   releasedContractInfo.data?.publishedMetadata?.changelog
                 }
+                mb={readmeShowMoreLimit === 1000 ? 12 : 0}
               />
+              {changelogShowMoreLimit === 15 && (
+                <ShowMoreButton
+                  bg="backgroundHighlight"
+                  position="absolute"
+                  w="full"
+                  bottom={0}
+                  right={0}
+                  setShowMoreLimit={() => setChangelogShowMoreLimit(1000)}
+                />
+              )}
+              {changelogShowMoreLimit === 1000 && (
+                <ShowMoreButton
+                  bg="backgroundHighlight"
+                  position="absolute"
+                  w="full"
+                  bottom={0}
+                  right={0}
+                  setShowMoreLimit={() => setChangelogShowMoreLimit(15)}
+                  text="Show less"
+                />
+              )}
             </Card>
+          )}
+          {contractFunctions && (
+            <ContractFunctionsOverview
+              functions={contractFunctions}
+              events={contractEvents}
+              sources={sources.data}
+              abi={contractReleaseMetadata.data?.abi}
+            />
           )}
         </Flex>
       </GridItem>

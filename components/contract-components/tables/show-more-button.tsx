@@ -1,29 +1,23 @@
-import { Center, Divider, Flex } from "@chakra-ui/react";
-import { SetStateAction } from "react";
+import { Center, Divider, Flex, FlexProps } from "@chakra-ui/react";
+import { MouseEventHandler } from "react";
 import { Button } from "tw-components";
 
-interface ShowMoreButtonProps {
-  limit: number;
-  showMoreLimit: number;
-  setShowMoreLimit: (value: SetStateAction<number>) => void;
+interface ShowMoreButtonProps extends FlexProps {
+  setShowMoreLimit: MouseEventHandler<HTMLButtonElement>;
+  text?: string;
 }
 
 export const ShowMoreButton: React.FC<ShowMoreButtonProps> = ({
-  limit,
-  showMoreLimit,
   setShowMoreLimit,
+  text = "Show more",
+  ...rest
 }) => {
   return (
-    <Flex flexDir="column">
+    <Flex flexDir="column" {...rest}>
       <Divider color="borderColor" />
       <Center>
-        <Button
-          onClick={() => setShowMoreLimit(showMoreLimit + limit)}
-          variant="ghost"
-          my={3}
-          size="sm"
-        >
-          Show more
+        <Button onClick={setShowMoreLimit} variant="ghost" my={3} size="sm">
+          {text}
         </Button>
       </Center>
     </Flex>

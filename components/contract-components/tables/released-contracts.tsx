@@ -121,9 +121,7 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
         {releasedContractsQuery.isSuccess &&
           releasedContractsQuery.data.length > slicedData.length && (
             <ShowMoreButton
-              limit={limit}
-              showMoreLimit={showMoreLimit}
-              setShowMoreLimit={setShowMoreLimit}
+              setShowMoreLimit={() => setShowMoreLimit(showMoreLimit + limit)}
             />
           )}
       </DeployableContractTable>
