@@ -149,14 +149,11 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   }, [ensQuery.data]);
 
   const successRedirectUrl = useMemo(() => {
-    if (
-      (!ensQuery.data?.ensName && !ensQuery.data?.address) ||
-      !publishMetadata.data?.name
-    ) {
+    if (!ensNameOrAddress || !publishMetadata.data?.name) {
       return undefined;
     }
     return `/${ensNameOrAddress}/${publishMetadata.data.name}`;
-  }, [ensQuery.data, ensNameOrAddress, publishMetadata.data?.name]);
+  }, [ensNameOrAddress, publishMetadata.data?.name]);
 
   const isDisabled = !successRedirectUrl || !address;
   const isDeployableViaFactory = watch("isDeployableViaFactory");
