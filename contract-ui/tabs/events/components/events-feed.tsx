@@ -50,7 +50,7 @@ interface EventsFeedProps {
 
 export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const [autoUpdate, setAutoUpdate] = useState(true);
-  const activityQuery = useActivity(contractAddress, autoUpdate);
+  const activityArray = useActivity(contractAddress, autoUpdate);
   const event = useSingleQueryParam("event");
   const [selectedEvent, setSelectedEvent] = useState(event || "all");
 
@@ -59,28 +59,24 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
 
   const eventTypes = useMemo(
     () =>
-      activityQuery?.data
-        ? Array.from(
-            new Set([
-              ...activityQuery.data.flatMap(({ events }) =>
-                events.map(({ eventName }) => eventName),
-              ),
-            ]),
-          )
-        : [],
-    [activityQuery],
+      Array.from(
+        new Set([
+          ...activityArray.flatMap(({ events }) =>
+            events.map(({ eventName }) => eventName),
+          ),
+        ]),
+      ),
+    [activityArray],
   );
 
   const filteredEvents = useMemo(
     () =>
-      activityQuery?.data
-        ? selectedEvent === "all"
-          ? activityQuery.data
-          : activityQuery.data.filter(({ events }) =>
-              events.some(({ eventName }) => eventName === selectedEvent),
-            )
-        : [],
-    [activityQuery, selectedEvent],
+      selectedEvent === "all"
+        ? activityArray
+        : activityArray.filter(({ events }) =>
+            events.some(({ eventName }) => eventName === selectedEvent),
+          ),
+    [activityArray, selectedEvent],
   );
 
   return (
@@ -123,7 +119,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
           </FormControl>
         </Box>
       </Flex>
-      {activityQuery.data && contractAddress && (
+      {activityArray.length && contractAddress && (
         <Card p={0} overflow="hidden">
           <SimpleGrid
             gap={2}

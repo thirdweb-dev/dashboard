@@ -2478,10 +2478,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@1.1.8-nightly-8158a55":
-  version "1.1.8-nightly-8158a55"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.8-nightly-8158a55.tgz#128ebdda864068f5aefcf33d38c1add402381255"
-  integrity sha512-UnSAhYIEcudaeLmSecutoPillpaWSSUy4Q3r5geVXtG0hRIloX2lm0G855ZanxeItChLAZhE0T+0WLyVqEDYHA==
+"@thirdweb-dev/contracts-js@1.1.8-dev-d06c3cf":
+  version "1.1.8-dev-d06c3cf"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.8-dev-d06c3cf.tgz#1222cd291544c48dafa0e4f28bab321e95dbf985"
+  integrity sha512-xhH4CrwnXByFc3eJOr/o3EukiPsBAm+lIAedWYgJNCakBDtGI0VMwpa2G9YFUfn1YyxglJzqtB6x51JU6ymsQA==
   dependencies:
     "@thirdweb-dev/contracts" "3.1.8-0"
 
@@ -2490,19 +2490,18 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.0.0-nightly-8158a55":
-  version "3.0.0-nightly-8158a55"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.0-nightly-8158a55.tgz#7c9bf0fb11c87882d05a15183e8a2787531664a1"
-  integrity sha512-36ZFJVuOgIPVvc34UvVmA4mi8caWObzgYEWpR431HcfZuheuKy/PNbbBKkn+YiO6w3m+LWw3UzxKMvkvq6TNNA==
+"@thirdweb-dev/react@^3.0.0-dev-d06c3cf":
+  version "3.0.0-dev-d06c3cf"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.0-dev-d06c3cf.tgz#f272f202daae70480ffb8e1f5fc904f5b9d69516"
+  integrity sha512-xUKVo21T9BMuUMlZctl1lA8JU3/3X/s6fQc2z5I+sVJ/e8JyMjlHzD1zwSA8owXZ7CmN36sJlQG/zKhpkUr+7w==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
     "@gnosis.pm/safe-core-sdk" "2.1.0"
     "@gnosis.pm/safe-ethers-adapters" "0.1.0-alpha.9"
     "@gnosis.pm/safe-ethers-lib" "1.1.0"
+    "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/sdk" "3.0.0-nightly-8158a55"
-    "@thirdweb-dev/storage" "^0.2.8"
     "@zag-js/menu" "^0.1.11"
     "@zag-js/react" "0.1.16"
     color "^4.2.3"
@@ -2511,17 +2510,16 @@
     magic-sdk "^8.1.1"
     mime "^3.0.0"
     react-cool-dimensions "^2.0.7"
-    react-icons "^4.4.0"
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@3.0.0-nightly-8158a55", "@thirdweb-dev/sdk@^3.0.0-nightly-8158a55":
-  version "3.0.0-nightly-8158a55"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.0-nightly-8158a55.tgz#7f0a8302eb3821bff2a91bb82daaafb7509d20c3"
-  integrity sha512-0kmofndVA9SwglaB3M6j9ueL8nAaQe0sc/BWX5TLAplC8hi8hDTU3pLs7e23az/sQLetd0FMG5K7eKzig7io3Q==
+"@thirdweb-dev/sdk@^3.0.0-dev-d06c3cf":
+  version "3.0.0-dev-d06c3cf"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.0-dev-d06c3cf.tgz#2a128d9bd4c3039cae87ef825ad9370c7c7273b0"
+  integrity sha512-TS23RQl0uYWohS9JY/22KkNT70HydWeyDiqSmaRGIYtZfxy1FlONq3On+JrVbAqpGzNgW9ju9jdJYrY98WaxHg==
   dependencies:
-    "@thirdweb-dev/contracts-js" "1.1.8-nightly-8158a55"
-    "@thirdweb-dev/storage" "^0.2.8"
+    "@thirdweb-dev/contracts-js" "1.1.8-dev-d06c3cf"
+    "@thirdweb-dev/storage" "*"
     cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
@@ -2533,7 +2531,7 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@^0.2.8":
+"@thirdweb-dev/storage@*", "@thirdweb-dev/storage@^0.2.8":
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.2.8.tgz#7c19b41dab363737e0015733a98e8f5252925db9"
   integrity sha512-XM3wBlpUVWnMwBnHveWP1NgIsJDtvpzDsORO+DP8CQAsYizILKbiBC3n2w+eW/sLOGLuEYEUZk2zPFD/xpPM3Q==
@@ -8414,7 +8412,7 @@ react-hook-form@^7.32.2:
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.34.2.tgz#9ac6d1a309a7c4aaa369d1269357a70e9e9bf4de"
   integrity sha512-1lYWbEqr0GW7HHUjMScXMidGvV0BE2RJV3ap2BL7G0EJirkqpccTaawbsvBO8GZaB3JjCeFBEbnEWI1P8ZoLRQ==
 
-react-icons@^4.2.0, react-icons@^4.4.0:
+react-icons@^4.2.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.4.0.tgz#a13a8a20c254854e1ec9aecef28a95cdf24ef703"
   integrity sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==
