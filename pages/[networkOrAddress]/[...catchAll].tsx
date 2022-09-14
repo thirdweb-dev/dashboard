@@ -22,8 +22,9 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement } from "react";
 import {
+  SupportedNetwork,
   SupportedNetworkToChainIdMap,
-  getChainIdFromNetwork,
+  getChainIdFromNetworkPath,
 } from "utils/network";
 import { getSingleQueryValue } from "utils/router";
 
@@ -139,8 +140,8 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
           pageType: "contract",
           contractAddress: contractAddress as string,
           network: networkOrAddress,
-          chainId: getChainIdFromNetwork(
-            networkOrAddress,
+          chainId: getChainIdFromNetworkPath(
+            networkOrAddress as SupportedNetwork,
           ) as SUPPORTED_CHAIN_ID,
         },
       };

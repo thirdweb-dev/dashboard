@@ -1,4 +1,4 @@
-import { useActiveChainId } from "@3rdweb-sdk/react";
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import {
   Alert,
@@ -123,7 +123,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   const [primaryColor, setPrimaryColor] = useState("blue");
   const [secondaryColor, setSecondaryColor] = useState("orange");
 
-  const chainId = useActiveChainId();
+  const chainId = useDashboardEVMChainId();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const iframeSrc = buildIframeSrc(

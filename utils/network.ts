@@ -1,4 +1,5 @@
 /* eslint-disable line-comment-position */
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 
 export const SUPPORTED_CHAIN_IDS_V1: SUPPORTED_CHAIN_ID[] = [
@@ -10,33 +11,27 @@ export const SUPPORTED_CHAIN_IDS_V1: SUPPORTED_CHAIN_ID[] = [
   ChainId.Avalanche,
 ];
 
-export const SupportedChainIdToNetworkMap: Record<SUPPORTED_CHAIN_ID, string> =
-  {
-    [ChainId.Mainnet]: "ethereum",
-    [ChainId.Rinkeby]: "rinkeby",
-    [ChainId.Goerli]: "goerli",
-    [ChainId.Polygon]: "polygon",
-    [ChainId.Mumbai]: "mumbai",
-    [ChainId.Fantom]: "fantom",
-    [ChainId.FantomTestnet]: "fantom-testnet",
-    [ChainId.Avalanche]: "avalanche",
-    [ChainId.AvalancheFujiTestnet]: "avalanche-fuji",
-    [ChainId.Optimism]: "optimism",
-    [ChainId.OptimismKovan]: "optimism-kovan",
-    [ChainId.OptimismGoerli]: "optimism-goerli",
-    [ChainId.Arbitrum]: "arbitrum",
-    [ChainId.ArbitrumRinkeby]: "arbitrum-rinkeby",
-    [ChainId.ArbitrumGoerli]: "arbitrum-goerli",
-    [ChainId.BinanceSmartChainMainnet]: "binance",
-    [ChainId.BinanceSmartChainTestnet]: "binance-testnet",
-  } as const;
+export const SupportedChainIdToNetworkMap = {
+  [ChainId.Mainnet]: "ethereum",
+  [ChainId.Rinkeby]: "rinkeby",
+  [ChainId.Goerli]: "goerli",
+  [ChainId.Polygon]: "polygon",
+  [ChainId.Mumbai]: "mumbai",
+  [ChainId.Fantom]: "fantom",
+  [ChainId.FantomTestnet]: "fantom-testnet",
+  [ChainId.Avalanche]: "avalanche",
+  [ChainId.AvalancheFujiTestnet]: "avalanche-fuji",
+  [ChainId.Optimism]: "optimism",
+  [ChainId.OptimismKovan]: "optimism-kovan",
+  [ChainId.OptimismGoerli]: "optimism-goerli",
+  [ChainId.Arbitrum]: "arbitrum",
+  [ChainId.ArbitrumRinkeby]: "arbitrum-rinkeby",
+  [ChainId.ArbitrumGoerli]: "arbitrum-goerli",
+  [ChainId.BinanceSmartChainMainnet]: "binance",
+  [ChainId.BinanceSmartChainTestnet]: "binance-testnet",
+} as const;
 
-export type ValueOf<T> = T[keyof T];
-
-export const SupportedNetworkToChainIdMap: Record<
-  ValueOf<typeof SupportedChainIdToNetworkMap>,
-  SUPPORTED_CHAIN_ID
-> = {
+export const SupportedNetworkToChainIdMap = {
   ethereum: ChainId.Mainnet, // 1
   rinkeby: ChainId.Rinkeby, // 4
   goerli: ChainId.Goerli, // 5
@@ -76,24 +71,73 @@ export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.BinanceSmartChainTestnet]: "3",
 };
 
-export type SupportedNetwork = keyof typeof SupportedNetworkToChainIdMap;
+export const SupportedSolanaUrlToNetworkMap = {
+  solana: WalletAdapterNetwork.Mainnet,
+  devnet: WalletAdapterNetwork.Devnet,
+  testnet: WalletAdapterNetwork.Testnet,
+} as const;
 
-export function getChainIdFromNetwork(
+export const SupportedSolanaNetworkToUrlMap = {
+  [WalletAdapterNetwork.Mainnet]: "solana",
+  [WalletAdapterNetwork.Devnet]: "devnet",
+  [WalletAdapterNetwork.Testnet]: "testnet",
+} as const;
+
+export type SupportedNetwork =
+  | keyof typeof SupportedNetworkToChainIdMap
+  | keyof typeof SupportedSolanaUrlToNetworkMap;
+
+export type DashboardChainIdMode = "evm" | "solana" | "both";
+
+export function getChainIdFromNetworkPath(
   network?: SupportedNetwork,
 ): SUPPORTED_CHAIN_ID | undefined {
-  if (!network || !SupportedNetworkToChainIdMap[network]) {
-    return undefined;
+  if (isSupportedEVMNetwork(network)) {
+    return SupportedNetworkToChainIdMap[network];
   }
-
-  return SupportedNetworkToChainIdMap[network];
+  return undefined;
 }
 
-export function isSupportedNetwork(network?: string): boolean {
+export function getSolNetworkFromNetworkPath(
+  network?: SupportedNetwork,
+): WalletAdapterNetwork | undefined {
+  if (isSupportedSOLNetwork(network)) {
+    return SupportedSolanaUrlToNetworkMap[network];
+  }
+  return undefined;
+}
+
+function isSupportedEVMNetwork(
+  network?: string,
+): network is keyof typeof SupportedNetworkToChainIdMap {
   return network ? network in SupportedNetworkToChainIdMap : false;
 }
 
-export function getNetworkFromChainId<T extends SUPPORTED_CHAIN_ID>(
-  chainId: T,
-): SupportedNetwork {
-  return SupportedChainIdToNetworkMap[chainId] || "";
+function isSupportedSOLNetwork(
+  network?: string,
+): network is keyof typeof SupportedSolanaUrlToNetworkMap {
+  return network ? network in SupportedSolanaUrlToNetworkMap : false;
+}
+
+function isChainIdSolanaNetwork(
+  chainId: SUPPORTED_CHAIN_ID | WalletAdapterNetwork,
+): chainId is WalletAdapterNetwork {
+  if (chainId in SupportedSolanaNetworkToUrlMap) {
+    return true;
+  }
+
+  return false;
+}
+export function isSupportedNetwork(network?: string): boolean {
+  return isSupportedEVMNetwork(network) || isSupportedSOLNetwork(network);
+}
+
+export function getNetworkFromChainId(
+  chainId: SUPPORTED_CHAIN_ID | WalletAdapterNetwork,
+) {
+  if (isChainIdSolanaNetwork(chainId)) {
+    return SupportedSolanaNetworkToUrlMap[chainId];
+  } else {
+    return SupportedChainIdToNetworkMap[chainId] || "";
+  }
 }

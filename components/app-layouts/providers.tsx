@@ -1,4 +1,5 @@
-import { useActiveChainId } from "@3rdweb-sdk/react";
+import { SolanaProvider } from "./solana-provider";
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { QueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
@@ -84,7 +85,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<{
 }> = ({ children, queryClient }) => {
   useNativeColorMode();
 
-  const activeChainId = useActiveChainId();
+  const activeChainId = useDashboardEVMChainId();
 
   return (
     <ThirdwebProvider
@@ -109,7 +110,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<{
       storageInterface={StorageSingleton}
       walletConnectors={walletConnectors}
     >
-      {children}
+      <SolanaProvider>{children}</SolanaProvider>
     </ThirdwebProvider>
   );
 };

@@ -6,6 +6,7 @@ import {
   FormControl,
   Icon,
   IconButton,
+  Image,
   Input,
   Menu,
   MenuButton,
@@ -25,6 +26,10 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineDisconnect } from "@react-icons/all-files/ai/AiOutlineDisconnect";
 import { GiWavyChains } from "@react-icons/all-files/gi/GiWavyChains";
+import {
+  WalletNotSelectedError,
+  useWallet,
+} from "@solana/wallet-adapter-react";
 import {
   ChainId,
   useAddress,
@@ -64,7 +69,7 @@ import {
   MenuItem,
   Text,
 } from "tw-components";
-import { shortenIfAddress } from "utils/usedapp-external";
+import { shortenIfAddress, shortenString } from "utils/usedapp-external";
 import { Connector } from "wagmi-core";
 
 const connectorIdToImageUrl: Record<string, StaticImageData> = {
@@ -82,6 +87,8 @@ const registerConnector = (_connector: string) => {
 };
 
 export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
+  const solWallet = useWallet();
+
   const [connector, connect] = useConnect();
   const { getNetworkMetadata } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -125,6 +132,39 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
 
   const ensQuery = ens.useQuery(address);
 
+  // if solana is connected we hit this
+  if (solWallet.publicKey) {
+    return (
+      <Menu isLazy>
+        <MenuButton
+          as={Button}
+          {...buttonProps}
+          variant="outline"
+          colorScheme="gray"
+          rightIcon={<ChevronDownIcon />}
+        >
+          <Flex direction="row" gap={3} align="center">
+            <Image boxSize={6} src={solWallet.wallet?.adapter.icon} />
+            <Text size="label.sm">
+              {shortenString(solWallet.publicKey.toBase58())}
+            </Text>
+          </Flex>
+        </MenuButton>
+        <MenuList borderRadius="lg" py={2}>
+          <MenuItem
+            icon={<AiOutlineDisconnect />}
+            onClick={async () => {
+              await solWallet.disconnect();
+            }}
+          >
+            Disconnect
+          </MenuItem>
+        </MenuList>
+      </Menu>
+    );
+  }
+
+  // if EVM is connected we hit this
   if (address && chainId) {
     const SVG = getNetworkMetadata(chainId).icon;
     return (
@@ -363,6 +403,48 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
           >
             MetaMask
           </MenuItem>
+          {solWallet.wallets.map((sWallet) => {
+            return (
+              <MenuItem
+                key={sWallet.adapter.name}
+                py={3}
+                icon={
+                  <Image
+                    boxSize={4}
+                    borderRadius="md"
+                    src={sWallet.adapter.icon}
+                    placeholder="empty"
+                    alt=""
+                  />
+                }
+                w="100%"
+                onClick={async () => {
+                  solWallet.select(sWallet.adapter.name);
+                  try {
+                    await solWallet.connect();
+                  } catch (e) {
+                    if (e instanceof WalletNotSelectedError) {
+                      // seems safe to ignore?
+                    } else {
+                      console.error(
+                        "failed to connect to solana wallet",
+                        e,
+                        sWallet,
+                      );
+                    }
+                  }
+                }}
+              >
+                <Flex as="span" align="center">
+                  <span>{sWallet.adapter.name}</span>
+                  <Badge ml="auto" size="label.sm">
+                    Solana
+                  </Badge>
+                </Flex>
+              </MenuItem>
+            );
+          })}
+
           {connector.data.connectors
             .filter((c) => c.id !== "gnosis" && c.name !== "MetaMask")
             .map((_connector) => {
