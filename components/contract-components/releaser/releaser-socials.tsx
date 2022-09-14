@@ -1,5 +1,4 @@
-import { Icon } from "@chakra-ui/icons";
-import { ButtonGroup } from "@chakra-ui/react";
+import { ButtonGroup, Icon } from "@chakra-ui/react";
 import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiFacebook } from "@react-icons/all-files/si/SiFacebook";
 import { SiGithub } from "@react-icons/all-files/si/SiGithub";

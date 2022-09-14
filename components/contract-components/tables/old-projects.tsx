@@ -1,8 +1,8 @@
 import { useWeb3 } from "@3rdweb-sdk/react";
-import { Icon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
+  Icon,
   IconButton,
   Link,
   Menu,

@@ -53,7 +53,7 @@ const TWSolanaProvider: ComponentWithChildren<TWSolanaProviderProps> = ({
   useEffect(() => {
     if (solanaSDK) {
       if (wallet.publicKey) {
-        solanaSDK.wallet.connect(wallet as any);
+        solanaSDK.wallet.connect(wallet);
       } else {
         solanaSDK.wallet.disconnect();
       }

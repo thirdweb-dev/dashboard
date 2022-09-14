@@ -1,4 +1,4 @@
-import { QuestionIcon } from "@chakra-ui/icons";
+import { VscQuestion } from "@react-icons/all-files/vsc/VscQuestion";
 import Arbitrum from "@thirdweb-dev/chain-icons/dist/arbitrum";
 import Avalanche from "@thirdweb-dev/chain-icons/dist/avalanche";
 import BinanceCoin from "@thirdweb-dev/chain-icons/dist/binance-coin";
@@ -161,7 +161,7 @@ export function useWeb3() {
     (chainId: SUPPORTED_CHAIN_ID) => {
       const cData: NetworkMetadata = {
         chainName: "Unsupported Chain",
-        icon: QuestionIcon,
+        icon: VscQuestion,
         isTestnet: false,
         symbol: "",
         chainId,
