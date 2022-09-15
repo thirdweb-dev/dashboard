@@ -1,3 +1,4 @@
+import { PublicKey } from "@solana/web3.js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
@@ -23,8 +24,10 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement } from "react";
 import {
+  DashboardSolanaNetwork,
   SupportedNetwork,
   SupportedNetworkToChainIdMap,
+  SupportedSolanaUrlToNetworkMap,
   getChainIdFromNetworkPath,
 } from "utils/network";
 import { getSingleQueryValue } from "utils/router";
@@ -38,6 +41,15 @@ const CatchAllPage: ThirdwebNextPage = (
         contractAddress={props.contractAddress}
         network={props.network}
       />
+    );
+  }
+  if (props.pageType === "program") {
+    // TODO: implement program page (pull this out out like contract page)
+    return (
+      <div>
+        <h1>Program</h1>
+        <p>{props.programAddress}</p>
+      </div>
     );
   }
   if (props.pageType === "release") {
@@ -73,9 +85,13 @@ CatchAllPage.pageId = (
   if (props.pageType === "contract") {
     return PageId.DeployedContract;
   }
+  if (props.pageType === "program") {
+    return PageId.DeployedProgram;
+  }
   if (props.pageType === "release") {
     return PageId.ReleasedContract;
   }
+
   return PageId.Unknown;
 };
 
@@ -88,6 +104,11 @@ type PossiblePageProps =
       contractAddress: string;
       network: string;
       chainId: SUPPORTED_CHAIN_ID;
+    }
+  | {
+      pageType: "program";
+      programAddress: string;
+      network: DashboardSolanaNetwork;
     };
 
 export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
@@ -126,7 +147,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
   const queryClient = new QueryClient();
   const polygonSdk = getSSRSDK(ChainId.Polygon);
 
-  // handle the case where the user is trying to access a custom contract
+  // handle the case where the user is trying to access a EVM contract
   if (networkOrAddress in SupportedNetworkToChainIdMap) {
     const [contractAddress] = ctx.params?.catchAll as (string | undefined)[];
 
@@ -144,6 +165,20 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
           chainId: getChainIdFromNetworkPath(
             networkOrAddress as SupportedNetwork,
           ) as SUPPORTED_CHAIN_ID,
+        },
+      };
+    }
+  }
+  // handle the case where the user is trying to access a solana contract
+  else if (networkOrAddress in SupportedSolanaUrlToNetworkMap) {
+    const [programAddress] = ctx.params?.catchAll as (string | undefined)[];
+    if (programAddress && isPossibleSolanaAddress(programAddress)) {
+      return {
+        props: {
+          dehydratedState: dehydrate(queryClient),
+          pageType: "program",
+          programAddress: programAddress as string,
+          network: networkOrAddress as DashboardSolanaNetwork,
         },
       };
     }
@@ -227,7 +262,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 // if a string is a valid address or ens name
 function isPossibleAddress(address: string) {
-  return isAddress(address) || isEnsName(".eth");
+  return isAddress(address) || isEnsName(address);
+}
+
+function isPossibleSolanaAddress(address: string) {
+  return PublicKey.isOnCurve(address);
 }
 
 function generateBuildTimePaths() {

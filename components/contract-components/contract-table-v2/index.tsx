@@ -1,4 +1,4 @@
-import BuiltinSolanaDeployForm from "../contract-deploy-form/solana-contract";
+import BuiltinSolanaDeployForm from "../contract-deploy-form/solana-program";
 import { ReleasedContractDetails } from "../hooks";
 import {
   Flex,
@@ -53,6 +53,10 @@ import {
   TrackedIconButton,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
+import {
+  DashboardSolanaNetwork,
+  SupportedSolanaNetworkToUrlMap,
+} from "utils/network";
 
 interface ReleasedContractTableProps {
   contractDetails: ContractDataInput[];
@@ -384,7 +388,12 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
     contractDetails.contractType as SolContractType,
   );
 
-  const [network, setNetwork] = useState<Network>("mainnet-beta");
+  const [network, setNetwork] =
+    useState<DashboardSolanaNetwork>("mainnet-beta");
+
+  const trackEvent = useTrack();
+
+  const router = useRouter();
 
   const { onSuccess, onError } = useTxNotifications(
     "Successfully deployed program",
@@ -393,7 +402,7 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
 
   return (
     <Drawer
-      size="md"
+      size="lg"
       isOpen={disclosure.isOpen}
       onClose={disclosure.onClose}
       hideCloseButton
@@ -423,11 +432,10 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
           <Flex w="100%" gap={4} direction={{ base: "column", md: "row" }}>
             <Select
               onChange={(e) => {
-                setNetwork(e.target.value);
+                setNetwork(e.target.value as DashboardSolanaNetwork);
               }}
             >
               <option value="mainnet-beta">Mainnet Beta</option>
-              <option value="testnet">Testnet</option>
               <option value="devnet">Devnet</option>
             </Select>
             <TransactionButton
@@ -449,15 +457,42 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
         formId={formId}
         contractType={contractDetails.contractType as SolContractType}
         onSubmitForm={(d) => {
+          trackEvent({
+            category: "sol-contract",
+            action: "deploy",
+            label: "attempt",
+            deployData: d,
+          });
           deployMutation.mutate(
             { network, data: d },
             {
-              onSuccess: (response, variables) => {
-                console.log("*** success", response, variables);
+              onSuccess: (contractAddress, variables) => {
+                trackEvent({
+                  category: "sol-contract",
+                  action: "deploy",
+                  label: "success",
+                  deployData: variables,
+                  contractAddress,
+                });
                 onSuccess();
+                router.push(
+                  `/${
+                    SupportedSolanaNetworkToUrlMap[
+                      variables.network as DashboardSolanaNetwork
+                    ]
+                  }/${contractAddress}`,
+                  undefined,
+                  { shallow: true },
+                );
               },
               onError: (error, variables) => {
-                console.error("*** error", error, variables);
+                trackEvent({
+                  category: "sol-contract",
+                  action: "deploy",
+                  label: "error",
+                  deployData: variables,
+                  error,
+                });
                 onError(error);
               },
             },

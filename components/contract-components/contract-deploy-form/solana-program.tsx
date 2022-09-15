@@ -1,5 +1,5 @@
 import { useContractPublishMetadataFromURI } from "../hooks";
-import { Divider, Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
+import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   NFTCollectionMetadataInputSchema,
@@ -16,13 +16,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import {
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Text,
-  TrackedLink,
-} from "tw-components";
+import { FormErrorMessage, FormLabel, Heading, Text } from "tw-components";
 import { z } from "zod";
 
 const SOL_DEPLOY_SCHEMAS = {
@@ -31,8 +25,8 @@ const SOL_DEPLOY_SCHEMAS = {
   "nft-drop": NFTDropContractSchema,
 } as const;
 
-function useDeployForm<TContractType extends SolContractType>(
-  deploySchema: typeof SOL_DEPLOY_SCHEMAS[TContractType],
+function useDeployForm(
+  deploySchema: typeof SOL_DEPLOY_SCHEMAS[SolContractType],
 ) {
   const { handleSubmit: _handleSubmit, ...restForm } = useForm<
     z.infer<typeof deploySchema>
@@ -80,7 +74,7 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
 
   const deploySchema = SOL_DEPLOY_SCHEMAS[contractType];
 
-  const form = useDeployForm<TContractType>(deploySchema);
+  const form = useDeployForm(deploySchema);
 
   const { handleSubmit, getFieldState, formState, watch, register, setValue } =
     form;
@@ -122,19 +116,13 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
             isDisabled={!publishMetadata.isSuccess}
             display="flex"
             flexDirection="column"
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             isInvalid={!!getFieldState("image", formState).error}
           >
             <FormLabel>Image</FormLabel>
             <FileInput
               accept={{ "image/*": [] }}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
               value={useImageFileOrUrl(watch("image"))}
               setValue={(file) =>
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 setValue("image", file, { shouldTouch: true })
               }
               border="1px solid"
@@ -143,8 +131,6 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               transition="all 200ms ease"
             />
             <FormErrorMessage>
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-              {/* @ts-expect-error */}
               {getFieldState("image", formState).error?.message}
             </FormErrorMessage>
           </FormControl>
@@ -155,17 +141,12 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
             <FormControl
               isDisabled={!publishMetadata.isSuccess}
               isRequired={isRequired("name")}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
               isInvalid={!!getFieldState("name", formState).error}
             >
               <FormLabel>Name</FormLabel>
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-              {/* @ts-expect-error */}
+
               <Input autoFocus variant="filled" {...register("name")} />
               <FormErrorMessage>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-expect-error */}
                 {getFieldState("name", formState).error?.message}
               </FormErrorMessage>
             </FormControl>
@@ -173,17 +154,12 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               <FormControl
                 maxW={{ base: "100%", md: "200px" }}
                 isRequired={isRequired("symbol")}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
                 isInvalid={!!getFieldState("symbol", formState).error}
               >
                 <FormLabel>Symbol</FormLabel>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-expect-error */}
+
                 <Input variant="filled" {...register("symbol")} />
                 <FormErrorMessage>
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-expect-error */}
                   {getFieldState("symbol", formState).error?.message}
                 </FormErrorMessage>
               </FormControl>
@@ -193,40 +169,16 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
           <FormControl
             isRequired={isRequired("description")}
             isDisabled={!publishMetadata.isSuccess}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             isInvalid={!!getFieldState("description", formState).error}
           >
             <FormLabel>Description</FormLabel>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-expect-error */}
+
             <Textarea variant="filled" {...register("description")} />
             <FormErrorMessage>
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-              {/* @ts-expect-error */}
               {getFieldState("description", formState).error?.message}
             </FormErrorMessage>
           </FormControl>
         </Flex>
-      </Flex>
-
-      {/* splits end */}
-      <Divider mt="auto" />
-      <Flex direction="column">
-        <Heading size="subtitle.md">Network / Chain</Heading>
-        <Text size="body.md" fontStyle="italic">
-          Select a network to deploy this contract on. We recommend starting
-          with a testnet.{" "}
-          <TrackedLink
-            href="https://portal.thirdweb.com/guides/which-network-should-you-use"
-            color="primary.600"
-            category="deploy"
-            label="learn-networks"
-            isExternal
-          >
-            Learn more about the different networks.
-          </TrackedLink>
-        </Text>
       </Flex>
     </Flex>
   );

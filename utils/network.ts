@@ -52,9 +52,9 @@ export const SupportedNetworkToChainIdMap = {
 } as const;
 
 export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
-  [ChainId.Mainnet]: "14",
+  [ChainId.Mainnet]: "12",
   [ChainId.Rinkeby]: "14",
-  [ChainId.Goerli]: "14",
+  [ChainId.Goerli]: "12",
   [ChainId.Polygon]: "2",
   [ChainId.Mumbai]: "2",
   [ChainId.Fantom]: "0.7",
@@ -70,22 +70,22 @@ export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.BinanceSmartChainMainnet]: "3",
   [ChainId.BinanceSmartChainTestnet]: "3",
 };
+export const SupportedSolanaNetworkToUrlMap = {
+  "mainnet-beta": "solana",
+  devnet: "sol-devnet",
+} as const;
 
 export const SupportedSolanaUrlToNetworkMap = {
-  solana: WalletAdapterNetwork.Mainnet,
-  devnet: WalletAdapterNetwork.Devnet,
-  testnet: WalletAdapterNetwork.Testnet,
+  solana: "mainnet-beta",
+  "sol-devnet": "devnet",
 } as const;
 
-export const SupportedSolanaNetworkToUrlMap = {
-  [WalletAdapterNetwork.Mainnet]: "solana",
-  [WalletAdapterNetwork.Devnet]: "devnet",
-  [WalletAdapterNetwork.Testnet]: "testnet",
-} as const;
+export type DashboardSolanaNetwork =
+  keyof typeof SupportedSolanaNetworkToUrlMap;
 
 export type SupportedNetwork =
   | keyof typeof SupportedNetworkToChainIdMap
-  | keyof typeof SupportedSolanaUrlToNetworkMap;
+  | DashboardSolanaNetwork;
 
 export type DashboardChainIdMode = "evm" | "solana" | "both";
 
@@ -120,8 +120,8 @@ function isSupportedSOLNetwork(
 }
 
 function isChainIdSolanaNetwork(
-  chainId: SUPPORTED_CHAIN_ID | WalletAdapterNetwork,
-): chainId is WalletAdapterNetwork {
+  chainId: SUPPORTED_CHAIN_ID | DashboardSolanaNetwork,
+): chainId is DashboardSolanaNetwork {
   if (chainId in SupportedSolanaNetworkToUrlMap) {
     return true;
   }
@@ -133,7 +133,7 @@ export function isSupportedNetwork(network?: string): boolean {
 }
 
 export function getNetworkFromChainId(
-  chainId: SUPPORTED_CHAIN_ID | WalletAdapterNetwork,
+  chainId: SUPPORTED_CHAIN_ID | DashboardSolanaNetwork,
 ) {
   if (isChainIdSolanaNetwork(chainId)) {
     return SupportedSolanaNetworkToUrlMap[chainId];

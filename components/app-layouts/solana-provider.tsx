@@ -14,7 +14,6 @@ const wallets = [new PhantomWalletAdapter()];
 
 export const SolanaProvider: ComponentWithChildren = ({ children }) => {
   const dashboardNetwork = useDashboardSOLNetworkId();
-
   const endpoint = useMemo(
     () => clusterApiUrl(dashboardNetwork),
     [dashboardNetwork],
