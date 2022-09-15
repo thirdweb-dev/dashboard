@@ -1,4 +1,5 @@
 import { MismatchButton } from "./MismatchButton";
+import { EcosystemButtonprops } from "@3rdweb-sdk/react";
 import {
   Center,
   Flex,
@@ -16,9 +17,10 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import useDimensions from "react-cool-dimensions";
 import { BiTransferAlt } from "react-icons/bi";
 import { FiInfo } from "react-icons/fi";
-import { ButtonProps, Card, Heading, LinkButton, Text } from "tw-components";
+import { Card, Heading, LinkButton, Text } from "tw-components";
 
-export interface TransactionButtonProps extends Omit<ButtonProps, "leftIcon"> {
+export interface TransactionButtonProps
+  extends Omit<EcosystemButtonprops, "leftIcon"> {
   transactionCount: number;
   isLoading: boolean;
 }

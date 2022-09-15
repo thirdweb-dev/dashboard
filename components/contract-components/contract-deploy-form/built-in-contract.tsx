@@ -10,7 +10,6 @@ import {
   Divider,
   Flex,
   FormControl,
-  IconButton,
   Input,
   LinkBox,
   LinkOverlay,
@@ -54,7 +53,6 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { FiChevronLeft } from "react-icons/fi";
 import {
   FormErrorMessage,
   FormHelperText,
@@ -287,13 +285,6 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           gap={6}
         >
           <Flex gap={4} align="center">
-            <IconButton
-              as={LinkButton}
-              href="/contracts"
-              size="sm"
-              aria-label="back"
-              icon={<FiChevronLeft />}
-            />
             <ContractIdImage boxSize={12} contractId={contractType} />
             <Flex direction="column">
               <Skeleton isLoaded={publishMetadata.isSuccess}>

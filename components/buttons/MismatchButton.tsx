@@ -1,4 +1,9 @@
-import { ConnectWallet, FAUCETS, useWeb3 } from "@3rdweb-sdk/react";
+import {
+  ConnectWallet,
+  EcosystemButtonprops,
+  FAUCETS,
+  useWeb3,
+} from "@3rdweb-sdk/react";
 import {
   Box,
   ButtonGroup,
@@ -12,6 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   useAddress,
   useBalance,
@@ -25,22 +31,30 @@ import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useRef } from "react";
 import { VscDebugDisconnect } from "react-icons/vsc";
-import {
-  Button,
-  ButtonProps,
-  Card,
-  Heading,
-  LinkButton,
-  Text,
-} from "tw-components";
+import { Button, Card, Heading, LinkButton, Text } from "tw-components";
 import {
   SupportedChainIdToNetworkMap,
   getNetworkFromChainId,
 } from "utils/network";
 
-export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, isDisabled, onClick, loadingText, type, ...props }, ref) => {
+export const MismatchButton = React.forwardRef<
+  HTMLButtonElement,
+  EcosystemButtonprops
+>(
+  (
+    {
+      children,
+      isDisabled,
+      onClick,
+      loadingText,
+      type,
+      ecosystem = "evm",
+      ...props
+    },
+    ref,
+  ) => {
     const address = useAddress();
+    const { publicKey } = useWallet();
     const balance = useBalance();
 
     const isBalanceZero = BigNumber.from(balance.data?.value || 0).eq(0);
@@ -55,9 +69,46 @@ export const MismatchButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const { getNetworkMetadata } = useWeb3();
     const { isTestnet } = getNetworkMetadata(chainId || 0);
 
-    if (!address) {
+    if (!address && ecosystem === "evm") {
       return (
-        <ConnectWallet borderRadius="md" colorScheme="primary" {...props} />
+        <ConnectWallet
+          borderRadius="md"
+          colorScheme="primary"
+          ecosystem={ecosystem}
+          {...props}
+        />
+      );
+    }
+
+    if (!publicKey && ecosystem === "solana") {
+      return (
+        <ConnectWallet
+          borderRadius="md"
+          colorScheme="primary"
+          ecosystem={ecosystem}
+          {...props}
+        />
+      );
+    }
+
+    if (ecosystem === "solana") {
+      // skip all checks, just render the button
+      // there is *never* a mismatch on solana (wild)
+      return (
+        <Button
+          {...props}
+          type={type}
+          loadingText={loadingText}
+          onClick={(e) => {
+            if (onClick) {
+              return onClick(e);
+            }
+          }}
+          ref={ref}
+          isDisabled={isDisabled}
+        >
+          {children}
+        </Button>
       );
     }
 

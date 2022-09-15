@@ -202,7 +202,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       fetchReleaserProfile(polygonSdk, address),
     ),
     queryClient.prefetchQuery(["published-contracts", address], () =>
-      fetchPublishedContracts(polygonSdk, address),
+      fetchPublishedContracts(polygonSdk, queryClient, address),
     ),
   ]);
 
@@ -216,6 +216,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     fallback: "blocking",
-    paths: [],
+    paths: [{ params: { networkOrAddress: "deployer.thirdweb.eth" } }],
   };
 };

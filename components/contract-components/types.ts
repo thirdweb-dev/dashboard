@@ -2,11 +2,7 @@ import type { AbiSchema, ContractType } from "@thirdweb-dev/sdk";
 import { z } from "zod";
 
 export type ContractId = ContractType | string;
-export type ContractCellContext =
-  | "built-in"
-  | "deploy"
-  | "create_release"
-  | "view_release";
+export type ContractCellContext = "deploy" | "create_release";
 
 export interface DeployableContractContractCellProps {
   cell: {

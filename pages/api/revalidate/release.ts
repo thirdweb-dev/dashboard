@@ -1,4 +1,5 @@
 import { withSentry } from "@sentry/nextjs";
+import { QueryClient } from "@tanstack/react-query";
 import { ChainId } from "@thirdweb-dev/sdk";
 import {
   ens,
@@ -45,6 +46,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const polygonSdk = getSSRSDK(ChainId.Polygon);
     const publishedContracts = await fetchPublishedContracts(
       polygonSdk,
+      new QueryClient(),
       ensResult.address,
     );
 

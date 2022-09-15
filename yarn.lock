@@ -3511,10 +3511,10 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/solana@^0.2.9-nightly-e25dd1a":
-  version "0.2.9-nightly-e25dd1a"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.9-nightly-e25dd1a.tgz#e04aaf46b2ab74f8a808caabad821739dfc3aeb9"
-  integrity sha512-SpnQTj4jkZ6w3O2OIE4vf0hNzQbJtQuCxMtkZxoxydf1pxF3MbXh1kKQ3w5s2lcCoboGHl9pCNuQYtzfwoNAmw==
+"@thirdweb-dev/solana@^0.2.10-nightly-a0cd47e":
+  version "0.2.10-nightly-a0cd47e"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.10-nightly-a0cd47e.tgz#8bc29c7db422c82f97a62fdc55a55407bde4ed66"
+  integrity sha512-b1Uoo9kdYMFlbFv8+GjmQxKEBNgwtKqPjOfb5G/6DZRwNvEsKr540C1i+hA2uSZy+9LxUV4r+Ei7HIEq29GcyA==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
@@ -3522,6 +3522,7 @@
     "@solana/spl-token" "^0.2.0"
     "@solana/web3.js" "^1.50.1"
     "@thirdweb-dev/storage" "^0.2.8"
+    bn.js "^5.2.1"
     eventemitter3 "^4.0.7"
     form-data "^4.0.0"
     formdata-polyfill "^4.0.10"

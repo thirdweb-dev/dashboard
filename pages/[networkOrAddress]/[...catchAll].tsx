@@ -13,6 +13,7 @@ import {
   ReleaseWithVersionPage,
   ReleaseWithVersionPageProps,
 } from "components/pages/release";
+import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { isAddress } from "ethers/lib/utils";
 import { isEnsName } from "lib/ens";
@@ -220,11 +221,22 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     fallback: true,
-    paths: [],
+    paths: generateBuildTimePaths(),
   };
 };
 
 // if a string is a valid address or ens name
 function isPossibleAddress(address: string) {
   return isAddress(address) || isEnsName(".eth");
+}
+
+function generateBuildTimePaths() {
+  return Object.values(BuiltinContractMap)
+    .filter((c) => c.contractType !== "custom")
+    .map((v) => ({
+      params: {
+        networkOrAddress: "deployer.thirdweb.eth",
+        catchAll: [v.id],
+      },
+    }));
 }

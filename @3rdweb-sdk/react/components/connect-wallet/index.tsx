@@ -29,6 +29,7 @@ import {
   WalletNotSelectedError,
   useWallet,
 } from "@solana/wallet-adapter-react";
+import Solana from "@thirdweb-dev/chain-icons/dist/solana";
 import {
   ChainId,
   useAddress,
@@ -85,7 +86,14 @@ const registerConnector = (_connector: string) => {
   posthog.capture("wallet_connected", { connector: _connector });
 };
 
-export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
+export interface EcosystemButtonprops extends ButtonProps {
+  ecosystem?: "evm" | "solana" | "either";
+}
+
+export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
+  ecosystem = "either",
+  ...buttonProps
+}) => {
   const solWallet = useWallet();
 
   const [connector, connect] = useConnect();
@@ -132,7 +140,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
   const ensQuery = ens.useQuery(address);
 
   // if solana is connected we hit this
-  if (solWallet.publicKey) {
+  if (solWallet.publicKey && ecosystem !== "evm") {
     return (
       <Menu isLazy>
         <MenuButton
@@ -162,9 +170,8 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
       </Menu>
     );
   }
-
   // if EVM is connected we hit this
-  if (address && chainId) {
+  if (address && chainId && ecosystem !== "solana") {
     const SVG = getNetworkMetadata(chainId).icon;
     return (
       <>
@@ -370,7 +377,7 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
           rightIcon={<FiChevronDown />}
           {...buttonProps}
         >
-          Connect Wallet
+          Connect{ecosystem === "solana" ? " Solana " : " "}Wallet
         </MenuButton>
 
         <MenuList>
@@ -434,11 +441,9 @@ export const ConnectWallet: React.FC<ButtonProps> = (buttonProps) => {
                   }
                 }}
               >
-                <Flex as="span" align="center">
+                <Flex as="span" align="center" justify="space-between">
                   <span>{sWallet.adapter.name}</span>
-                  <Badge ml="auto" size="label.sm">
-                    Solana
-                  </Badge>
+                  <Icon as={Solana} />
                 </Flex>
               </MenuItem>
             );
