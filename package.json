@@ -34,7 +34,7 @@
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/react": "^3.0.0",
     "@thirdweb-dev/sdk": "^3.0.0",
-    "@thirdweb-dev/solana": "^0.2.10-nightly-a0cd47e",
+    "@thirdweb-dev/solana": "^0.2.10",
     "@thirdweb-dev/storage": "^0.2.8",
     "color": "^4.0.1",
     "date-fns": "^2.28.0",

@@ -1,4 +1,3 @@
-import { PublicKey } from "@solana/web3.js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
@@ -16,8 +15,9 @@ import {
 } from "components/pages/release";
 import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
-import { isAddress } from "ethers/lib/utils";
+import { utils } from "ethers";
 import { isEnsName } from "lib/ens";
+import { isPossibleSolanaAddress } from "lib/sol-utils";
 import { getSSRSDK } from "lib/ssr-sdk";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
@@ -262,13 +262,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 // if a string is a valid address or ens name
 function isPossibleAddress(address: string) {
-  return isAddress(address) || isEnsName(address);
+  return utils.isAddress(address) || isEnsName(address);
 }
-
-function isPossibleSolanaAddress(address: string) {
-  return PublicKey.isOnCurve(address);
-}
-
 function generateBuildTimePaths() {
   return Object.values(BuiltinContractMap)
     .filter((c) => c.contractType !== "custom")

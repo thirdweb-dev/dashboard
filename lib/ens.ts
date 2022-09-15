@@ -1,7 +1,7 @@
 import { getSSRRPCUrl } from "./ssr-sdk";
 import { ChainId } from "@thirdweb-dev/sdk";
 import { ethers } from "ethers";
-import { isAddress } from "ethers/lib/utils";
+import { utils } from "ethers";
 import invariant from "tiny-invariant";
 
 export interface ENSResolveResult {
@@ -16,7 +16,7 @@ export function isEnsName(name: string): boolean {
 export async function resolveAddressToEnsName(
   address: string,
 ): Promise<ENSResolveResult> {
-  invariant(isAddress(address), "address must be a valid address");
+  invariant(utils.isAddress(address), "address must be a valid address");
   const provider = new ethers.providers.StaticJsonRpcProvider(
     getSSRRPCUrl(ChainId.Mainnet),
   );
@@ -40,7 +40,7 @@ export async function resolveEnsNameToAddress(
 export async function resolveEns(
   ensNameOrAddress: string,
 ): Promise<ENSResolveResult> {
-  if (isAddress(ensNameOrAddress)) {
+  if (utils.isAddress(ensNameOrAddress)) {
     return resolveAddressToEnsName(ensNameOrAddress);
   }
 

@@ -19,7 +19,12 @@ import {
   SimpleGrid,
   Skeleton,
   Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
   Table,
+  Tabs,
   Tbody,
   Td,
   Th,
@@ -32,6 +37,8 @@ import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiPython } from "@react-icons/all-files/si/SiPython";
 import { SiReact } from "@react-icons/all-files/si/SiReact";
+import { useWallet } from "@solana/wallet-adapter-react";
+import Solana from "@thirdweb-dev/chain-icons/dist/solana";
 import { useAddress } from "@thirdweb-dev/react";
 import {
   ChainId,
@@ -48,11 +55,13 @@ import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { NoWallet } from "components/contract-components/shared/no-wallet";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
+import { FancyEVMIcon } from "components/icons/Ethereum";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
+import { isPossibleSolanaAddress } from "lib/sol-utils";
 import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
@@ -69,10 +78,11 @@ import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
 const Dashboard: ThirdwebNextPage = () => {
-  const wallet = useSingleQueryParam("wallet") || "dashboard";
+  const wallet = useSingleQueryParam("address") || "dashboard";
   const address = useAddress();
+  const { publicKey } = useWallet();
 
-  const dashboardAddress = useMemo(() => {
+  const evmAddress = useMemo(() => {
     return wallet === "dashboard"
       ? address
       : utils.isAddress(wallet)
@@ -80,27 +90,61 @@ const Dashboard: ThirdwebNextPage = () => {
       : address;
   }, [address, wallet]);
 
-  const allContractList = useAllContractList(dashboardAddress);
+  const solAddress = useMemo(() => {
+    return wallet === "dashboard"
+      ? publicKey?.toBase58()
+      : isPossibleSolanaAddress(wallet)
+      ? wallet
+      : publicKey?.toBase58();
+  }, [publicKey, wallet]);
 
   return (
-    <Flex direction="column" gap={8}>
-      {wallet === "dashboard" && !address ? (
-        <NoWallet />
-      ) : (
-        <>
-          <DeployedContracts
-            address={dashboardAddress}
-            contractListQuery={allContractList}
-            limit={50}
+    <Tabs isLazy lazyBehavior="keepMounted">
+      <TabList
+        px={0}
+        borderBottomColor="borderColor"
+        borderBottomWidth="1px"
+        overflowX={{ base: "auto", md: "inherit" }}
+      >
+        <Tab gap={2} _selected={{ borderBottomColor: "purple.500" }}>
+          <Icon opacity={0.85} boxSize={6} as={FancyEVMIcon} />
+          <Heading size="label.lg">Contracts</Heading>
+        </Tab>
+        <Tab
+          gap={2}
+          _selected={{
+            borderBottomColor: "#00ffa3",
+          }}
+        >
+          <ChakraNextImage
+            src={require("public/assets/product-icons/release.png")}
+            alt=""
+            boxSize={6}
           />
-          {/* this section needs to be on the publishersdk context (polygon SDK) */}
-          <PublisherSDKContext>
-            <ReleasedContracts address={dashboardAddress} />
-          </PublisherSDKContext>
-          <LearnMoreSection />
-        </>
-      )}
-    </Flex>
+          <Heading size="label.lg">Releases</Heading>
+        </Tab>
+        <Tab
+          gap={2}
+          _selected={{
+            borderBottomColor: "#00ffa3",
+          }}
+        >
+          <Icon boxSize={6} as={Solana} />
+          <Heading size="label.lg">Programs</Heading>
+        </Tab>
+      </TabList>
+      <TabPanels px={0} py={2}>
+        <TabPanel px={0}>
+          <EVMDashboard address={evmAddress} />
+        </TabPanel>
+        <TabPanel px={0}>
+          <ReleaseDashboard address={evmAddress} />
+        </TabPanel>
+        <TabPanel px={0}>
+          <SOLDashboard address={solAddress} />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 };
 
@@ -108,6 +152,55 @@ Dashboard.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
 Dashboard.pageId = PageId.Dashboard;
 
 export default Dashboard;
+
+interface DashboardProps {
+  address?: string;
+}
+
+const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
+  const allContractList = useAllContractList(address);
+  return (
+    <Flex direction="column" gap={8}>
+      {!address ? (
+        <NoWallet ecosystem="evm" />
+      ) : (
+        <>
+          <DeployedContracts
+            address={address}
+            contractListQuery={allContractList}
+            limit={50}
+          />
+          <LearnMoreSection />
+        </>
+      )}
+    </Flex>
+  );
+};
+
+const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
+  // const allContractList = useAllContractList(address);
+  return (
+    <Flex direction="column" gap={8}>
+      {!address ? (
+        <NoWallet ecosystem="evm" />
+      ) : (
+        // this section needs to be on the publishersdk context (polygon SDK)
+        <PublisherSDKContext>
+          <ReleasedContracts address={address} />
+        </PublisherSDKContext>
+      )}
+    </Flex>
+  );
+};
+
+const SOLDashboard: React.FC<DashboardProps> = ({ address }) => {
+  // const allContractList = useAllContractList(address);
+  return (
+    <Flex direction="column" gap={8}>
+      {!address ? <NoWallet ecosystem="solana" /> : <>solana contracts here</>}
+    </Flex>
+  );
+};
 
 const LearnMoreSection: React.FC = () => {
   const trackEvent = useTrack();

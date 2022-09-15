@@ -38,8 +38,7 @@ import {
   alchemyUrlMap,
 } from "components/app-layouts/providers";
 import { BuiltinContractMap } from "constants/mappings";
-import { ethers } from "ethers";
-import { isAddress } from "ethers/lib/utils";
+import { ethers, utils } from "ethers";
 import { ENSResolveResult, isEnsName } from "lib/ens";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import { StaticImageData } from "next/image";
@@ -647,14 +646,16 @@ function useEns(addressOrEnsName?: string) {
     {
       enabled:
         !!addressOrEnsName &&
-        (isAddress(addressOrEnsName) || isEnsName(addressOrEnsName)),
+        (utils.isAddress(addressOrEnsName) || isEnsName(addressOrEnsName)),
       // 24h
       cacheTime: 60 * 60 * 24 * 1000,
       // 1h
       staleTime: 60 * 60 * 1000,
       // default to the one we know already
       placeholderData: {
-        address: isAddress(addressOrEnsName || "") ? addressOrEnsName : null,
+        address: utils.isAddress(addressOrEnsName || "")
+          ? addressOrEnsName
+          : null,
         ensName: isEnsName(addressOrEnsName || "") ? addressOrEnsName : null,
       },
     },

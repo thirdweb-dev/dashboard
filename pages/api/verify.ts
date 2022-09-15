@@ -9,8 +9,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { StorageSingleton } from "components/app-layouts/providers";
 import { Abi } from "components/contract-components/types";
-import { ethers } from "ethers";
-import { Interface } from "ethers/lib/utils";
+import { ethers, utils } from "ethers";
 import { getSSRSDK } from "lib/ssr-sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 import { SupportedChainIdToNetworkMap } from "utils/network";
@@ -271,7 +270,7 @@ async function fetchConstructorParams(
     let constructorArgs = txData.substring(
       txData.length - construtctorParamByteLength,
     );
-    const contract = new Interface(abi);
+    const contract = new utils.Interface(abi);
     try {
       // sanity check that the constructor params are valid
       ethers.utils.defaultAbiCoder.decode(
