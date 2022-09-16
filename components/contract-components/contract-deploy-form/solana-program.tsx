@@ -3,7 +3,7 @@ import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   NFTCollectionMetadataInputSchema,
-  NFTDropContractSchema,
+  NFTDropContractInputSchema,
   TokenMetadataInputSchema,
 } from "@thirdweb-dev/solana";
 import { FileInput } from "components/shared/FileInput";
@@ -22,7 +22,7 @@ import { z } from "zod";
 const SOL_DEPLOY_SCHEMAS = {
   "nft-collection": NFTCollectionMetadataInputSchema,
   token: TokenMetadataInputSchema,
-  "nft-drop": NFTDropContractSchema,
+  "nft-drop": NFTDropContractInputSchema,
 } as const;
 
 function useDeployForm(

@@ -3349,10 +3349,10 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/solana@^0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.10.tgz#bcc83f5c12969d4c8add3e00d7907e5828f919bc"
-  integrity sha512-d5bFUN4e1mXPUVrG3k397FMiqSqHH+OXV5mkWhUoKUS1ChqGEt5BntQt1Zquswghtsmotw2wHm+uDbtoz2RUDg==
+"@thirdweb-dev/solana@^0.2.11-nightly-6b48b92":
+  version "0.2.11-nightly-6b48b92"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.11-nightly-6b48b92.tgz#c9bcff5fd4cfde763c8479f71e50ccde46972286"
+  integrity sha512-Tk53avN6U+AEt2LX/tf4Va13rZ9whUc6lgfovWp82OSdlwhT0JSybuoKWTb/wghXYSf+6gh4fHU0aPort1p71g==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"

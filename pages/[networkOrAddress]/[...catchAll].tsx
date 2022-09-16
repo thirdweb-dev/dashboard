@@ -9,6 +9,7 @@ import {
   fetchReleaserProfile,
 } from "components/contract-components/hooks";
 import { CustomContractPage } from "components/pages/custom-contract";
+import { ProgramPage } from "components/pages/program";
 import {
   ReleaseWithVersionPage,
   ReleaseWithVersionPageProps,
@@ -44,12 +45,8 @@ const CatchAllPage: ThirdwebNextPage = (
     );
   }
   if (props.pageType === "program") {
-    // TODO: implement program page (pull this out out like contract page)
     return (
-      <div>
-        <h1>Program</h1>
-        <p>{props.programAddress}</p>
-      </div>
+      <ProgramPage address={props.programAddress} network={props.network} />
     );
   }
   if (props.pageType === "release") {
@@ -201,6 +198,8 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
         };
       }
 
+      // TODO get the latest version instead of all versions
+      // OR wait till contract upgrade to have a faster call for this
       const allVersions = await queryClient.fetchQuery(
         ["all-releases", address, contractName],
         () => fetchAllVersions(polygonSdk, address, contractName),

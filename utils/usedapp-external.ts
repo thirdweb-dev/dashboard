@@ -11,7 +11,7 @@ export function shortenAddress(address: string, extraShort?: true): string {
     const formattedAddress = utils.getAddress(address);
     return shortenString(formattedAddress, extraShort);
   } catch {
-    return address;
+    return shortenString(address, extraShort);
   }
 }
 

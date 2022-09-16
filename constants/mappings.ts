@@ -239,7 +239,7 @@ export const PREBUILT_SOLANA_CONTRACTS_MAP: Record<
     title: "NFT Drop",
     description: "Solana NFT Drop",
     icon: FeatureIconMap["nft-drop"],
-    contractType: "nft-collection",
+    contractType: "nft-drop",
     roles: [],
     sourceUrl: "",
     ecosytem: "solana",

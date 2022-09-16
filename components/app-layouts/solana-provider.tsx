@@ -25,15 +25,13 @@ export const SolanaProvider: ComponentWithChildren = ({ children }) => {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <TWSolanaProvider endpoint={endpoint}>{children}</TWSolanaProvider>
+        <TWSolanaProvider>{children}</TWSolanaProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
 };
 
-interface TWSolanaProviderProps {
-  endpoint: string;
-}
+interface TWSolanaProviderProps {}
 
 const TWSolanaContext = createContext<ThirdwebSDK | null>(null);
 
@@ -42,15 +40,22 @@ export function useSOLSDK() {
 }
 
 const TWSolanaProvider: ComponentWithChildren<TWSolanaProviderProps> = ({
-  endpoint,
   children,
 }) => {
   const wallet = useWallet();
 
   const [solanaSDK, setSolanaSDK] = useState<ThirdwebSDK | null>(null);
 
+  const dashboardNetwork = useDashboardSOLNetworkId();
+  const endpoint = useMemo(
+    () => (dashboardNetwork ? getSOLRPC(dashboardNetwork) : undefined),
+    [dashboardNetwork],
+  );
+
   useEffect(() => {
-    setSolanaSDK(ThirdwebSDK.fromNetwork(endpoint));
+    if (endpoint) {
+      setSolanaSDK(ThirdwebSDK.fromNetwork(endpoint));
+    }
   }, [endpoint]);
 
   useEffect(() => {
