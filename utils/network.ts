@@ -1,5 +1,4 @@
 /* eslint-disable line-comment-position */
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 
 export const SUPPORTED_CHAIN_IDS_V1: SUPPORTED_CHAIN_ID[] = [
@@ -100,7 +99,7 @@ export function getChainIdFromNetworkPath(
 
 export function getSolNetworkFromNetworkPath(
   network?: SupportedNetwork,
-): WalletAdapterNetwork | undefined {
+): DashboardSolanaNetwork | undefined {
   if (isSupportedSOLNetwork(network)) {
     return SupportedSolanaUrlToNetworkMap[network];
   }

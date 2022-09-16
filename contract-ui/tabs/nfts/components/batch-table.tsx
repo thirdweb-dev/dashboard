@@ -19,8 +19,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { NFTMetadata } from "@thirdweb-dev/sdk";
-import { StorageSingleton } from "components/app-layouts/providers";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
+import { StorageSingleton } from "lib/sdk";
 import { useMemo } from "react";
 import {
   MdFirstPage,

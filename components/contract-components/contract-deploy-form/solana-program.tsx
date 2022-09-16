@@ -83,6 +83,11 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
     [deploySchema],
   );
 
+  const hasInitialSupply = useMemo(
+    () => "initialSupply" in deploySchema.shape,
+    [deploySchema],
+  );
+
   function isRequired<
     TFieldName extends FieldPath<z.infer<typeof deploySchema>> | string,
   >(name: TFieldName): boolean {
@@ -101,7 +106,12 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
       gap={4}
       direction="column"
       as="form"
-      onSubmit={handleSubmit((data) => onSubmitForm(data))}
+      onSubmit={handleSubmit(
+        (data) => onSubmitForm(data),
+        (errors) => {
+          console.error(errors);
+        },
+      )}
     >
       <Flex direction="column">
         <Heading size="subtitle.md">Contract Metadata</Heading>
@@ -178,6 +188,21 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               {getFieldState("description", formState).error?.message}
             </FormErrorMessage>
           </FormControl>
+
+          {hasInitialSupply && (
+            <FormControl
+              isRequired={isRequired("initialSupply")}
+              isDisabled={!publishMetadata.isSuccess}
+              isInvalid={!!getFieldState("initialSupply", formState).error}
+            >
+              <FormLabel>Initial Supply</FormLabel>
+
+              <Input variant="filled" {...register("initialSupply")} />
+              <FormErrorMessage>
+                {getFieldState("initialSupply", formState).error?.message}
+              </FormErrorMessage>
+            </FormControl>
+          )}
         </Flex>
       </Flex>
     </Flex>

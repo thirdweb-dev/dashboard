@@ -32,7 +32,6 @@ import {
   SUPPORTED_CHAIN_ID,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
-import { StorageSingleton } from "components/app-layouts/providers";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
@@ -43,6 +42,7 @@ import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { StorageSingleton } from "lib/sdk";
 import { useRouter } from "next/router";
 import twAudited from "public/brand/thirdweb-audited-2.png";
 import { useEffect, useMemo } from "react";

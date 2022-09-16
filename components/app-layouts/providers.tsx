@@ -2,67 +2,10 @@ import { SolanaProvider } from "./solana-provider";
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { QueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
-import { IpfsStorage } from "@thirdweb-dev/storage";
+import { EVM_RPC_URL_MAP, getEVMRPC } from "constants/rpc";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
+import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
-
-export const StorageSingleton = new IpfsStorage(
-  process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL,
-);
-
-export const alchemyUrlMap: Record<SUPPORTED_CHAIN_ID, string> = {
-  [ChainId.Mainnet]:
-    process.env.NEXT_PUBLIC_RPC_MAINNET ||
-    `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Rinkeby]:
-    process.env.NEXT_PUBLIC_RPC_RINKEBY ||
-    `https://eth-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Goerli]:
-    process.env.NEXT_PUBLIC_RPC_GOERLI ||
-    `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Polygon]:
-    process.env.NEXT_PUBLIC_RPC_POLYGON ||
-    `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Mumbai]:
-    process.env.NEXT_PUBLIC_RPC_MUMBAI ||
-    `https://polygon-mumbai.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Fantom]:
-    process.env.NEXT_PUBLIC_RPC_FANTOM || "https://rpc.ftm.tools",
-  [ChainId.FantomTestnet]:
-    process.env.NEXT_PUBLIC_RPC_FANTOM_TESTNET ||
-    "https://rpc.testnet.fantom.network",
-  [ChainId.Avalanche]:
-    process.env.NEXT_PUBLIC_RPC_AVALANCHE ||
-    "https://api.avax.network/ext/bc/C/rpc",
-  [ChainId.AvalancheFujiTestnet]:
-    process.env.NEXT_PUBLIC_RPC_AVALANCHE_FUJI_TESTNET ||
-    "https://api.avax-test.network/ext/bc/C/rpc",
-  [ChainId.Optimism]:
-    process.env.NEXT_PUBLIC_RPC_OPTIMISM ||
-    `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.OptimismKovan]:
-    process.env.NEXT_PUBLIC_RPC_OPTIMISM_KOVAN ||
-    `https://opt-kovan.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.OptimismGoerli]:
-    process.env.NEXT_PUBLIC_RPC_OPTIMISM_GOERLI ||
-    `https://opt-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.Arbitrum]:
-    process.env.NEXT_PUBLIC_RPC_ARBITRUM ||
-    `https://arb-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.ArbitrumRinkeby]:
-    process.env.NEXT_PUBLIC_RPC_ARBITRUM_RINKEBY ||
-    `https://arb-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.ArbitrumGoerli]:
-    process.env.NEXT_PUBLIC_RPC_ARBITRUM_GOERLI ||
-    `https://arb-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [ChainId.BinanceSmartChainMainnet]:
-    process.env.NEXT_PUBLIC_RPC_BINANCE_MAINNET ||
-    "https://bsc-dataseed1.binance.org",
-  [ChainId.BinanceSmartChainTestnet]:
-    process.env.NEXT_PUBLIC_RPC_BINANCE_TESTNET ||
-    "https://data-seed-prebsc-1-s1.binance.org:8545",
-};
 
 const walletConnectors: WalletConnector[] = [
   "metamask",
@@ -75,7 +18,7 @@ if (process.env.NEXT_PUBLIC_MAGIC_KEY) {
     name: "magic",
     options: {
       apiKey: process.env.NEXT_PUBLIC_MAGIC_KEY,
-      rpcUrls: alchemyUrlMap,
+      rpcUrls: EVM_RPC_URL_MAP,
     },
   });
 }
@@ -96,14 +39,14 @@ export const DashboardThirdwebProvider: ComponentWithChildren<{
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      chainRpc={alchemyUrlMap}
+      chainRpc={EVM_RPC_URL_MAP}
       desiredChainId={activeChainId}
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings: activeChainId
           ? {
               chainId: activeChainId,
-              rpcUrl: alchemyUrlMap[activeChainId as SUPPORTED_CHAIN_ID],
+              rpcUrl: getEVMRPC(activeChainId),
             }
           : undefined,
       }}

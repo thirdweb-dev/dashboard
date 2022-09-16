@@ -1,5 +1,4 @@
 import { Box, Flex, Icon, Image, List, ListItem } from "@chakra-ui/react";
-import { StorageSingleton } from "components/app-layouts/providers";
 import { MaskedAvatar } from "components/contract-components/releaser/masked-avatar";
 import { OgBrandIcon } from "components/og/og-brand-icon";
 import {
@@ -9,6 +8,7 @@ import {
   TWEMOJI_OPTIONS,
 } from "lib/constants";
 import { correctAndUniqueLicenses } from "lib/licenses";
+import { StorageSingleton } from "lib/sdk";
 import { useRouter } from "next/router";
 import {
   VscBook,

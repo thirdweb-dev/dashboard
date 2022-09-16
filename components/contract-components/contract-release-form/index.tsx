@@ -32,11 +32,11 @@ import {
   ExtraPublishMetadata,
   SUPPORTED_CHAIN_IDS,
 } from "@thirdweb-dev/sdk";
-import { StorageSingleton } from "components/app-layouts/providers";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { StorageSingleton } from "lib/sdk";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";

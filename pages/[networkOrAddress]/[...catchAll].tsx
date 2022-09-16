@@ -17,8 +17,8 @@ import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
 import { isEnsName } from "lib/ens";
+import { getEVMThirdwebSDK } from "lib/sdk";
 import { isPossibleSolanaAddress } from "lib/sol-utils";
-import { getSSRSDK } from "lib/ssr-sdk";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
@@ -145,7 +145,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
   }
 
   const queryClient = new QueryClient();
-  const polygonSdk = getSSRSDK(ChainId.Polygon);
+  const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
 
   // handle the case where the user is trying to access a EVM contract
   if (networkOrAddress in SupportedNetworkToChainIdMap) {

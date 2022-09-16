@@ -20,14 +20,12 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
 import { Solana } from "@thirdweb-dev/chain-icons";
 import { ContractType } from "@thirdweb-dev/sdk";
-import { Network, ThirdwebSDK } from "@thirdweb-dev/solana";
 import {
   NFTCollectionMetadataInput,
   TokenMetadataInput,
 } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts";
 import { NFTDropMetadataInput } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts/nft-drop";
 import { ChakraNextImage } from "components/Image";
-import { StorageSingleton } from "components/app-layouts/providers";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FancyEVMIcon } from "components/icons/Ethereum";
 import {
@@ -37,6 +35,7 @@ import {
 } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { StorageSingleton, getSOLThirdwebSDK } from "lib/sdk";
 import { useRouter } from "next/router";
 import React, { useId, useMemo, useState } from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
@@ -317,7 +316,6 @@ const ContractTableRow: React.FC<ContractTableRowProps> = ({ row }) => {
             return;
           }
           modalState.onOpen();
-          console.log("solana!");
         }}
         {...row.getRowProps()}
       >
@@ -340,7 +338,7 @@ const ContractTableRow: React.FC<ContractTableRowProps> = ({ row }) => {
   );
 };
 type UseDpeloySolanaParams<TContractType extends SolContractType> = {
-  network: Network;
+  network: DashboardSolanaNetwork;
   data: TContractType extends "token"
     ? TokenMetadataInput
     : TContractType extends "nft-collection"
@@ -356,8 +354,9 @@ function useDeploySolana<TContractType extends SolContractType>(
   const wallet = useWallet();
   return useMutation(async (params: UseDpeloySolanaParams<TContractType>) => {
     invariant(wallet.publicKey, "Wallet not connected");
-    const sdk = ThirdwebSDK.fromNetwork(params.network);
+    const sdk = getSOLThirdwebSDK(params.network);
     sdk.wallet.connect(wallet);
+
     if (contractType === "token") {
       return await sdk.deployer.createToken(params.data as TokenMetadataInput);
     } else if (contractType === "nft-collection") {
@@ -383,7 +382,6 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
   disclosure,
 }) => {
   const formId = useId();
-
   const deployMutation = useDeploySolana(
     contractDetails.contractType as SolContractType,
   );

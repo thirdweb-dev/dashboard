@@ -30,16 +30,12 @@ import {
   extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
-  resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/constants/contract-features";
-import {
-  StorageSingleton,
-  alchemyUrlMap,
-} from "components/app-layouts/providers";
 import { BuiltinContractMap } from "constants/mappings";
-import { ethers, utils } from "ethers";
+import { utils } from "ethers";
 import { ENSResolveResult, isEnsName } from "lib/ens";
+import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
@@ -317,21 +313,6 @@ export function useReleasesFromDeploy(
 ) {
   const activeChainId = useActiveChainId();
   const cId = chainId || activeChainId;
-
-  const provider = cId
-    ? new ethers.providers.StaticJsonRpcProvider(alchemyUrlMap[cId])
-    : undefined;
-
-  const polygonSdk = new ThirdwebSDK(
-    alchemyUrlMap[ChainId.Polygon],
-    {
-      readonlySettings: {
-        chainId: ChainId.Polygon,
-        rpcUrl: alchemyUrlMap[ChainId.Polygon],
-      },
-    },
-    StorageSingleton,
-  );
   return useQuery(
     (networkKeys.chain(cId) as readonly unknown[]).concat([
       "release-from-deploy",
@@ -339,22 +320,16 @@ export function useReleasesFromDeploy(
     ]),
     async () => {
       invariant(contractAddress, "contractAddress is not defined");
-      invariant(provider, "provider is not defined");
-      const compilerMetaUri = await resolveContractUriFromAddress(
-        contractAddress,
-        provider,
-      );
+      invariant(cId, "chain not defined");
 
-      if (compilerMetaUri) {
-        return await polygonSdk
-          .getPublisher()
-          .resolvePublishMetadataFromCompilerMetadata(compilerMetaUri);
-      }
+      const sdk = getEVMThirdwebSDK(ChainId.Polygon);
 
-      return undefined;
+      return await sdk
+        .getPublisher()
+        .resolveReleasesFromAddress(contractAddress);
     },
     {
-      enabled: !!contractAddress && !!provider,
+      enabled: !!contractAddress && !!cId,
     },
   );
 }

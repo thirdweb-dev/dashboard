@@ -5,8 +5,8 @@ import {
   useWallet,
 } from "@solana/wallet-adapter-react";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
-import { clusterApiUrl } from "@solana/web3.js";
 import { ThirdwebSDK } from "@thirdweb-dev/solana";
+import { getSOLRPC } from "constants/rpc";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -15,9 +15,13 @@ const wallets = [new PhantomWalletAdapter()];
 export const SolanaProvider: ComponentWithChildren = ({ children }) => {
   const dashboardNetwork = useDashboardSOLNetworkId();
   const endpoint = useMemo(
-    () => clusterApiUrl(dashboardNetwork),
+    () =>
+      dashboardNetwork
+        ? getSOLRPC(dashboardNetwork)
+        : getSOLRPC("mainnet-beta"),
     [dashboardNetwork],
   );
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>

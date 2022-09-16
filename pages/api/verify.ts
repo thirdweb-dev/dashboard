@@ -2,17 +2,14 @@
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
-  ThirdwebSDK,
   extractConstructorParamsFromAbi,
   fetchSourceFilesFromMetadata,
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk";
-import { StorageSingleton } from "components/app-layouts/providers";
 import { Abi } from "components/contract-components/types";
 import { ethers, utils } from "ethers";
-import { getSSRSDK } from "lib/ssr-sdk";
+import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
-import { SupportedChainIdToNetworkMap } from "utils/network";
 
 interface VerifyPayload {
   contractAddress: string;
@@ -137,10 +134,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `ChainId ${chainId} is not supported for etherscan verification`,
       );
     }
-
-    // TODO can't use alchemyMap here because the domain is not in the allowlist
-    const rpc = SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID];
-    const sdk = new ThirdwebSDK(rpc, {}, StorageSingleton);
+    const sdk = getEVMThirdwebSDK(chainId as SUPPORTED_CHAIN_ID);
     const compilerMetadata = await sdk
       .getPublisher()
       .fetchCompilerMetadataFromAddress(contractAddress);
@@ -335,7 +329,7 @@ async function fetchDeployBytecodeFromReleaseMetadata(
     provider,
   );
   if (compialierMetaUri) {
-    const pubmeta = await getSSRSDK(ChainId.Polygon)
+    const pubmeta = await getEVMThirdwebSDK(ChainId.Polygon)
       .getPublisher()
       .resolvePublishMetadataFromCompilerMetadata(compialierMetaUri);
     return pubmeta.length > 0

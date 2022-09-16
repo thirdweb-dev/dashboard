@@ -6,7 +6,7 @@ import {
   fetchPublishedContracts,
 } from "components/contract-components/hooks";
 import { ENSResolveResult } from "lib/ens";
-import { getSSRSDK } from "lib/ssr-sdk";
+import { getEVMThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSingleQueryValue } from "utils/router";
 
@@ -43,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // if we don't have a specific contractName we have to actually fetch all the contracts for the address
   if (!contractName) {
-    const polygonSdk = getSSRSDK(ChainId.Polygon);
+    const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
     const publishedContracts = await fetchPublishedContracts(
       polygonSdk,
       new QueryClient(),

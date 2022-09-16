@@ -1,6 +1,5 @@
 import { ShowMoreButton } from "./show-more-button";
 import { useAllContractList } from "@3rdweb-sdk/react";
-import { useProjects } from "@3rdweb-sdk/react/hooks/useProjects";
 import { Center, Flex, Spinner } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ContractTable } from "pages/dashboard";
@@ -17,7 +16,6 @@ interface DeployedContractsProps {
 }
 
 export const DeployedContracts: React.FC<DeployedContractsProps> = ({
-  address,
   noHeader,
   contractListQuery,
   limit = 10,
@@ -25,18 +23,15 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   const [showMoreLimit, setShowMoreLimit] = useState(limit);
   const router = useRouter();
 
-  const projectsQuery = useProjects(address);
-
   useEffect(() => {
     if (
       contractListQuery.isFetched &&
       contractListQuery.data.length === 0 &&
-      projectsQuery.data?.length === 0 &&
       router.asPath === "/dashboard"
     ) {
       router.replace("/contracts");
     }
-  }, [contractListQuery, router, projectsQuery]);
+  }, [contractListQuery, router]);
 
   const slicedData = useMemo(() => {
     if (contractListQuery.data) {

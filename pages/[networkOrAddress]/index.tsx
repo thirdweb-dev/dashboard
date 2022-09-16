@@ -16,7 +16,7 @@ import { ReleasedContracts } from "components/contract-components/tables/release
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { useOgImagePing } from "hooks/useOgImagePing";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { getSSRSDK } from "lib/ssr-sdk";
+import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -156,7 +156,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const queryClient = new QueryClient();
   // TODO make this use alchemy / other RPC
   // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
-  const polygonSdk = getSSRSDK(ChainId.Polygon);
+  const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
 
   const networkOrAddress = getSingleQueryValue(ctx.params, "networkOrAddress");
 

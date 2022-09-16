@@ -1,5 +1,6 @@
 import {
   useAllContractList,
+  useAllProgramsList,
   useContractMetadataWithAddress,
   useWeb3,
 } from "@3rdweb-sdk/react";
@@ -113,7 +114,7 @@ const Dashboard: ThirdwebNextPage = () => {
         <Tab
           gap={2}
           _selected={{
-            borderBottomColor: "#00ffa3",
+            borderBottomColor: "#FBFF5C",
           }}
         >
           <ChakraNextImage
@@ -178,7 +179,6 @@ const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
 };
 
 const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
-  // const allContractList = useAllContractList(address);
   return (
     <Flex direction="column" gap={8}>
       {!address ? (
@@ -194,10 +194,29 @@ const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
 };
 
 const SOLDashboard: React.FC<DashboardProps> = ({ address }) => {
-  // const allContractList = useAllContractList(address);
+  const allProgramAccounts = useAllProgramsList(address);
+  console.log("***allProgramAccounts", allProgramAccounts);
   return (
     <Flex direction="column" gap={8}>
-      {!address ? <NoWallet ecosystem="solana" /> : <>solana contracts here</>}
+      {!address ? (
+        <NoWallet ecosystem="solana" />
+      ) : (
+        <Flex gap={4}>
+          {!allProgramAccounts.data?.length ? (
+            <>no programs</>
+          ) : (
+            allProgramAccounts.data?.map((program) => {
+              return (
+                <Card key={program.address}>
+                  {program.address}
+                  {program.name}
+                  {program.type}
+                </Card>
+              );
+            })
+          )}
+        </Flex>
+      )}
     </Flex>
   );
 };
