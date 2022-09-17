@@ -128,9 +128,7 @@ const UserPage: ThirdwebNextPage = () => {
           </Flex>
           {ensQuery.data?.address && (
             <DeployedContracts
-              address={ensQuery.data?.address}
               noHeader
-              noProjects
               contractListQuery={mainnetsContractList}
             />
           )}

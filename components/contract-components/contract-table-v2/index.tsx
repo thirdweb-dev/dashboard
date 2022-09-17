@@ -24,10 +24,7 @@ import {
   NFTCollectionMetadataInput,
   TokenMetadataInput,
 } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts";
-import {
-  NFTDropContractInput,
-  NFTDropMetadataInput,
-} from "@thirdweb-dev/solana/dist/declarations/src/types/contracts/nft-drop";
+import { NFTDropContractInput } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts/nft-drop";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FancyEVMIcon } from "components/icons/Ethereum";

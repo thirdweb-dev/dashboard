@@ -1,4 +1,3 @@
-import { useContractPublishMetadataFromURI } from "../hooks";
 import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
