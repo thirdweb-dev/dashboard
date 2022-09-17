@@ -70,8 +70,6 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
   contractType,
   onSubmitForm,
 }: BuiltinSolanaDeployFormProps<TContractType>) => {
-  const publishMetadata = useContractPublishMetadataFromURI(contractType);
-
   const deploySchema = SOL_DEPLOY_SCHEMAS[contractType];
 
   const form = useDeployForm(deploySchema);
@@ -85,6 +83,11 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
 
   const hasInitialSupply = useMemo(
     () => "initialSupply" in deploySchema.shape,
+    [deploySchema],
+  );
+
+  const hasItemsAvailable = useMemo(
+    () => "itemsAvailable" in deploySchema.shape,
     [deploySchema],
   );
 
@@ -123,7 +126,6 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
         <Flex flexShrink={0} flexGrow={1} maxW={{ base: "100%", md: "160px" }}>
           <FormControl
             isRequired={isRequired("image")}
-            isDisabled={!publishMetadata.isSuccess}
             display="flex"
             flexDirection="column"
             isInvalid={!!getFieldState("image", formState).error}
@@ -149,7 +151,6 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
         <Flex direction="column" gap={4} flexGrow={1} justify="space-between">
           <Flex gap={4} direction={{ base: "column", md: "row" }}>
             <FormControl
-              isDisabled={!publishMetadata.isSuccess}
               isRequired={isRequired("name")}
               isInvalid={!!getFieldState("name", formState).error}
             >
@@ -178,7 +179,6 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
 
           <FormControl
             isRequired={isRequired("description")}
-            isDisabled={!publishMetadata.isSuccess}
             isInvalid={!!getFieldState("description", formState).error}
           >
             <FormLabel>Description</FormLabel>
@@ -192,7 +192,6 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
           {hasInitialSupply && (
             <FormControl
               isRequired={isRequired("initialSupply")}
-              isDisabled={!publishMetadata.isSuccess}
               isInvalid={!!getFieldState("initialSupply", formState).error}
             >
               <FormLabel>Initial Supply</FormLabel>
@@ -200,6 +199,20 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               <Input variant="filled" {...register("initialSupply")} />
               <FormErrorMessage>
                 {getFieldState("initialSupply", formState).error?.message}
+              </FormErrorMessage>
+            </FormControl>
+          )}
+
+          {hasItemsAvailable && (
+            <FormControl
+              isRequired={isRequired("itemsAvailable")}
+              isInvalid={!!getFieldState("itemsAvailable", formState).error}
+            >
+              <FormLabel>Maximum supply</FormLabel>
+
+              <Input variant="filled" {...register("itemsAvailable")} />
+              <FormErrorMessage>
+                {getFieldState("itemsAvailable", formState).error?.message}
               </FormErrorMessage>
             </FormControl>
           )}

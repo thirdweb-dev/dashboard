@@ -20,7 +20,6 @@ export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
   const { data: account } = useAccount(address, network);
   const metadataQuery = useAccountMetadata(account);
 
-  // TODO solana custom icon
   const contractTypeImage = useMemo(() => {
     return account
       ? PREBUILT_SOLANA_CONTRACTS_MAP[account.accountType].icon

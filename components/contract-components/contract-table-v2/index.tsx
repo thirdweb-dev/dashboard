@@ -24,7 +24,10 @@ import {
   NFTCollectionMetadataInput,
   TokenMetadataInput,
 } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts";
-import { NFTDropMetadataInput } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts/nft-drop";
+import {
+  NFTDropContractInput,
+  NFTDropMetadataInput,
+} from "@thirdweb-dev/solana/dist/declarations/src/types/contracts/nft-drop";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FancyEVMIcon } from "components/icons/Ethereum";
@@ -344,7 +347,7 @@ type UseDpeloySolanaParams<TContractType extends SolContractType> = {
     : TContractType extends "nft-collection"
     ? NFTCollectionMetadataInput
     : TContractType extends "nft-drop"
-    ? NFTDropMetadataInput
+    ? NFTDropContractInput
     : never;
 };
 
@@ -365,7 +368,7 @@ function useDeploySolana<TContractType extends SolContractType>(
       );
     } else if (contractType === "nft-drop") {
       return await sdk.deployer.createNftDrop(
-        params.data as NFTDropMetadataInput,
+        params.data as NFTDropContractInput,
       );
     }
     throw new Error("invalid contract type");

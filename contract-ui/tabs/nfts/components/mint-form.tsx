@@ -1,4 +1,3 @@
-import { EcosystemButtonprops } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -17,16 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
-  NFTContract,
-  useAddress,
-  useLazyMint,
-  useMintNFT,
-} from "@thirdweb-dev/react";
+  MutationObserverIdleResult,
+  UseMutationResult,
+} from "@tanstack/react-query";
+import { MintNFTParams, NFTContract, useAddress } from "@thirdweb-dev/react";
+import { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { PropertiesFormControl } from "components/contract-pages/forms/properties.shared";
-import { useSolMintNFT } from "components/pages/program";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -47,21 +45,19 @@ const MINT_FORM_ID = "nft-mint-form";
 type NFTMintForm =
   | {
       contract?: NFTContract;
-      mintMutation: ReturnType<typeof useMintNFT>;
+      mintMutation: UseMutationResult<unknown, unknown, MintNFTParams>;
       lazyMintMutation?: undefined;
-      ecosystem: "evm";
+      ecosystem: "evm" | "solana";
     }
   | {
       contract?: NFTContract;
-      lazyMintMutation: ReturnType<typeof useLazyMint>;
+      lazyMintMutation: UseMutationResult<
+        unknown,
+        unknown,
+        { metadatas: NFTMetadataInput[] }
+      >;
       mintMutation?: undefined;
-      ecosystem: "evm";
-    }
-  | {
-      contract?: NFTContract;
-      mintMutation: ReturnType<typeof useSolMintNFT>;
-      lazyMintMutation?: undefined;
-      ecosystem: "solana";
+      ecosystem: "evm" | "solana";
     };
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({
@@ -72,6 +68,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
 }) => {
   const trackEvent = useTrack();
   const evmAddress = useAddress();
+  // eslint-disable-next-line line-comment-position
   const wallet = useWallet(); // TODO (SOL) as single address hook?
   const address =
     ecosystem === "evm" ? evmAddress : wallet?.publicKey?.toBase58();
