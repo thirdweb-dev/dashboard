@@ -8,7 +8,7 @@ interface MetadataHeaderProps {
   address?: string;
   contractTypeImage?: StaticImageData;
   data?: {
-    name?: string | null;
+    name?: string | number | null;
     description?: string | null;
     image?: string | null;
   };
@@ -28,13 +28,13 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
             objectFit="contain"
             boxSize="64px"
             src={data.image}
-            alt={data?.name || ""}
+            alt={data?.name?.toString() || ""}
           />
         ) : contractTypeImage ? (
           <ChakraNextImage
             boxSize="64px"
             src={contractTypeImage}
-            alt={data?.name || ""}
+            alt={data?.name?.toString() || ""}
           />
         ) : null}
       </Skeleton>

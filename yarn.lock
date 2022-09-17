@@ -3349,17 +3349,17 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/solana@^0.2.11-nightly-6b48b92":
-  version "0.2.11-nightly-6b48b92"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.11-nightly-6b48b92.tgz#c9bcff5fd4cfde763c8479f71e50ccde46972286"
-  integrity sha512-Tk53avN6U+AEt2LX/tf4Va13rZ9whUc6lgfovWp82OSdlwhT0JSybuoKWTb/wghXYSf+6gh4fHU0aPort1p71g==
+"@thirdweb-dev/solana@^0.2.11-dev-3420812":
+  version "0.2.11-dev-3420812"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.11-dev-3420812.tgz#542cf677ccfc0aab1d2b7799dec09e0b3abace45"
+  integrity sha512-JDDtEoPdAd0Bmom7OtfXj1fHUTmT50XviqVmNF3mcqyGNDKsaQT++f+zNpUhKFvjZ0QOHInFagkkMDqltSblbA==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
     "@project-serum/anchor" "^0.25.0"
     "@solana/spl-token" "^0.2.0"
     "@solana/web3.js" "^1.50.1"
-    "@thirdweb-dev/storage" "^0.2.8"
+    "@thirdweb-dev/storage" "*"
     bn.js "^5.2.1"
     eventemitter3 "^4.0.7"
     form-data "^4.0.0"
@@ -3368,7 +3368,7 @@
     yaml "^2.1.1"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@^0.2.8":
+"@thirdweb-dev/storage@*", "@thirdweb-dev/storage@^0.2.8":
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.2.8.tgz#7c19b41dab363737e0015733a98e8f5252925db9"
   integrity sha512-XM3wBlpUVWnMwBnHveWP1NgIsJDtvpzDsORO+DP8CQAsYizILKbiBC3n2w+eW/sLOGLuEYEUZk2zPFD/xpPM3Q==

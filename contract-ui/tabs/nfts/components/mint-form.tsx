@@ -1,3 +1,4 @@
+import { EcosystemButtonprops } from "@3rdweb-sdk/react";
 import {
   Accordion,
   AccordionButton,
@@ -14,6 +15,7 @@ import {
   Textarea,
   useModalContext,
 } from "@chakra-ui/react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   NFTContract,
   useAddress,
@@ -24,6 +26,7 @@ import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { PropertiesFormControl } from "components/contract-pages/forms/properties.shared";
+import { useSolMintNFT } from "components/pages/program";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -43,23 +46,35 @@ const MINT_FORM_ID = "nft-mint-form";
 
 type NFTMintForm =
   | {
-      contract: NFTContract;
+      contract?: NFTContract;
       mintMutation: ReturnType<typeof useMintNFT>;
       lazyMintMutation?: undefined;
+      ecosystem: "evm";
     }
   | {
-      contract: NFTContract;
+      contract?: NFTContract;
       lazyMintMutation: ReturnType<typeof useLazyMint>;
       mintMutation?: undefined;
+      ecosystem: "evm";
+    }
+  | {
+      contract?: NFTContract;
+      mintMutation: ReturnType<typeof useSolMintNFT>;
+      lazyMintMutation?: undefined;
+      ecosystem: "solana";
     };
 
 export const NFTMintForm: React.FC<NFTMintForm> = ({
   contract,
   lazyMintMutation,
   mintMutation,
+  ecosystem,
 }) => {
   const trackEvent = useTrack();
-  const address = useAddress();
+  const evmAddress = useAddress();
+  const wallet = useWallet(); // TODO (SOL) as single address hook?
+  const address =
+    ecosystem === "evm" ? evmAddress : wallet?.publicKey?.toBase58();
   const mutation = mintMutation || lazyMintMutation;
 
   const {
@@ -360,6 +375,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           Cancel
         </Button>
         <TransactionButton
+          ecosystem={ecosystem}
           transactionCount={1}
           isLoading={mutation?.isLoading || false}
           form={MINT_FORM_ID}

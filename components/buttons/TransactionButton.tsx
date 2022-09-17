@@ -32,6 +32,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   size,
   colorScheme,
   variant,
+  ecosystem,
   ...restButtonProps
 }) => {
   const { observe, width } = useDimensions<HTMLSpanElement | null>();
@@ -54,6 +55,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
     >
       <PopoverTrigger>
         <MismatchButton
+          ecosystem={ecosystem}
           borderRadius="md"
           position="relative"
           role="group"
