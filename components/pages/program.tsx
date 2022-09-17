@@ -56,7 +56,7 @@ export const ProgramPage: React.FC<ProgramPageProps> = ({
         <NFTCollectionPanel account={account} />
       ) : null}
       {account?.accountType === "nft-drop" ? (
-        <NFTList account={account} />
+        <NFTDropPanel account={account} />
       ) : null}
     </Flex>
   );
@@ -73,6 +73,22 @@ export const NFTCollectionPanel: React.FC<{
         <Heading size="title.sm">Program NFTs</Heading>
         <Flex gap={2} flexDir={{ base: "column", md: "row" }}>
           <NFTMintButton account={account} />
+        </Flex>
+      </Flex>
+      <NFTList account={account} />
+    </Flex>
+  );
+};
+
+export const NFTDropPanel: React.FC<{
+  account: NFTDrop;
+}> = ({ account }) => {
+  return (
+    <Flex direction="column" gap={6}>
+      <Flex direction="row" justify="space-between" align="center">
+        <Heading size="title.sm">Program NFTs</Heading>
+        <Flex gap={2} flexDir={{ base: "column", md: "row" }}>
+          <NFTLazyMintButton account={account} />
         </Flex>
       </Flex>
       <NFTList account={account} />
@@ -109,6 +125,36 @@ export const NFTMintButton: React.FC<{ account: NFTCollection }> = ({
   );
 };
 
+export const NFTLazyMintButton: React.FC<{ account: NFTDrop }> = ({
+  account,
+  ...restButtonProps
+}) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const mutation = useSolLazyMintNFT(account);
+  // TODO (sol) not cast as any here
+  return (
+    <>
+      <Drawer
+        allowPinchZoom
+        preserveScrollBarGap
+        size="lg"
+        onClose={onClose}
+        isOpen={isOpen}
+      >
+        <NFTMintForm lazyMintMutation={mutation as any} ecosystem={"solana"} />
+      </Drawer>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FiPlus} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Single Upload
+      </Button>
+    </>
+  );
+};
+
 export const NFTList: React.FC<{
   account: NFTCollection | NFTDrop;
 }> = ({ account }) => {
@@ -139,7 +185,6 @@ export const NFTList: React.FC<{
 
   const getAllQueryResult = useSolNFTs(account);
   const totalCount = getAllQueryResult.data ? getAllQueryResult.data.length : 0;
-  // const totalCountQuery = useTotalCount(contract);
 
   const {
     getTableProps,
@@ -396,8 +441,29 @@ export function useSolMintNFT(account: RequiredParam<NFTCollection>) {
       });
       invariant(account, "account not provided");
       invariant(typeof data.metadata === "object");
-      // TODO consolidate NFT types between EVM/SO
+      // TODO consolidate NFT types between EVM/SOL
       return await account.mintTo(data.to, data.metadata as NFTMetadataInput);
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        // eslint-disable-next-line line-comment-position
+        return invalidate([]); // TODO (SOL) invalidation
+      },
+    },
+  );
+}
+
+export function useSolLazyMintNFT(account: RequiredParam<NFTDrop>) {
+  return useMutationWithInvalidate(
+    async (data: { metadatas: NFTMetadataInput[] }) => {
+      console.log({
+        account,
+        data,
+      });
+      invariant(account, "account not provided");
+      invariant(data.metadatas.length > 0, "No NFTs to lazy mint");
+      // TODO (SOL) consolidate NFT types between EVM/SOL
+      return await account.lazyMint(data.metadatas);
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
