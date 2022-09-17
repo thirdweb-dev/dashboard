@@ -8,9 +8,7 @@ import { FiPlus } from "react-icons/fi";
 import { Heading, LinkButton, Text } from "tw-components";
 
 interface DeployedContractsProps {
-  address?: string;
   noHeader?: boolean;
-  noProjects?: boolean;
   contractListQuery: ReturnType<typeof useAllContractList>;
   limit?: number;
 }

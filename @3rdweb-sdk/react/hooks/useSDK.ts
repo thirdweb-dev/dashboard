@@ -214,10 +214,13 @@ function useProgramList(
 ) {
   return useQuery(
     ["sol", network, address, "program-list"],
-    () => {
+    async () => {
       invariant(address, "address is required");
       const sdk = getSOLThirdwebSDK(network);
-      return sdk.registry.getAccountsForWallet(address);
+      // TODO remove this sorting when we have a stable return array from the SDK
+      return (await sdk.registry.getAccountsForWallet(address))
+        .sort((a, b) => (a.name > b.name ? 1 : -1))
+        .map((p) => ({ ...p, network }));
     },
     { enabled: !!address && !!network },
   );

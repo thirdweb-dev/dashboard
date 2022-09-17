@@ -10,14 +10,11 @@ import {
   IconButton,
   Image,
   Link,
-  LinkBox,
-  LinkOverlay,
   Menu,
   MenuButton,
   MenuItemOption,
   MenuList,
   MenuOptionGroup,
-  SimpleGrid,
   Skeleton,
   Spinner,
   Tab,
@@ -32,12 +29,6 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { AiFillCode } from "@react-icons/all-files/ai/AiFillCode";
-import { AiFillLayout } from "@react-icons/all-files/ai/AiFillLayout";
-import { SiGo } from "@react-icons/all-files/si/SiGo";
-import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
-import { SiPython } from "@react-icons/all-files/si/SiPython";
-import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Solana from "@thirdweb-dev/chain-icons/dist/solana";
 import { useAddress } from "@thirdweb-dev/react";
@@ -55,12 +46,12 @@ import { AppLayout } from "components/app-layouts/app";
 import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { NoWallet } from "components/contract-components/shared/no-wallet";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
+import { DeployedPrograms } from "components/contract-components/tables/deployed-programs";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { FancyEVMIcon } from "components/icons/Ethereum";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { isPossibleSolanaAddress } from "lib/sol-utils";
 import OriginalNextLink from "next/link";
@@ -70,7 +61,6 @@ import { ThirdwebNextPage } from "pages/_app";
 import * as React from "react";
 import { ReactElement, useMemo } from "react";
 import { IoFilterSharp } from "react-icons/io5";
-import { SiSolidity } from "react-icons/si";
 import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
 import { AddressCopyButton, Badge, Card, Heading, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -165,14 +155,7 @@ const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
       {!address ? (
         <NoWallet ecosystem="evm" />
       ) : (
-        <>
-          <DeployedContracts
-            address={address}
-            contractListQuery={allContractList}
-            limit={50}
-          />
-          <LearnMoreSection />
-        </>
+        <DeployedContracts contractListQuery={allContractList} limit={50} />
       )}
     </Flex>
   );
@@ -182,7 +165,7 @@ const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
   return (
     <Flex direction="column" gap={8}>
       {!address ? (
-        <NoWallet ecosystem="evm" />
+        <NoWallet ecosystem="evm" isRelease />
       ) : (
         // this section needs to be on the publishersdk context (polygon SDK)
         <PublisherSDKContext>
@@ -195,242 +178,17 @@ const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
 
 const SOLDashboard: React.FC<DashboardProps> = ({ address }) => {
   const allProgramAccounts = useAllProgramsList(address);
-  console.log("***allProgramAccounts", allProgramAccounts);
+
   return (
     <Flex direction="column" gap={8}>
       {!address ? (
         <NoWallet ecosystem="solana" />
       ) : (
-        <Flex gap={4}>
-          {!allProgramAccounts.data?.length ? (
-            <>no programs</>
-          ) : (
-            allProgramAccounts.data?.map((program) => {
-              return (
-                <Card key={program.address}>
-                  {program.address}
-                  {program.name}
-                  {program.type}
-                </Card>
-              );
-            })
-          )}
-        </Flex>
+        <DeployedPrograms programListQuery={allProgramAccounts} />
       )}
     </Flex>
   );
 };
-
-const LearnMoreSection: React.FC = () => {
-  const trackEvent = useTrack();
-  return (
-    <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
-      <Card
-        p={6}
-        as={LinkBox}
-        _hover={{ borderColor: "primary.600" }}
-        role="group"
-      >
-        <Flex flexDir="column" gap={3}>
-          <Flex>
-            <Flex
-              borderRadius="full"
-              boxSize={9}
-              justifyContent="center"
-              alignItems="center"
-              border="1px solid"
-              borderColor="borderColor"
-              overflow="hidden"
-              bg="yellow"
-              p={1.5}
-              shadow="md"
-            >
-              <Icon boxSize="full" as={SiJavascript} bg="black" fill="yellow" />
-            </Flex>
-            <Flex
-              bgColor="backgroundCardHighlight"
-              borderRadius="full"
-              boxSize={9}
-              justifyContent="center"
-              alignItems="center"
-              ml={-4}
-              border="1px solid"
-              borderColor="borderColor"
-              p={1.5}
-              overflow="hidden"
-              shadow="md"
-              _groupHover={{
-                ml: -2,
-              }}
-              transition="all 0.2s"
-            >
-              <Icon as={SiPython} boxSize="full" fill="#3e7aac" />
-            </Flex>
-            <Flex
-              bgColor="backgroundCardHighlight"
-              borderRadius="full"
-              boxSize={9}
-              justifyContent="center"
-              alignItems="center"
-              ml={-4}
-              border="1px solid"
-              borderColor="borderColor"
-              p={1.5}
-              overflow="hidden"
-              shadow="md"
-              _groupHover={{
-                ml: -2,
-              }}
-              transition="all 0.2s"
-            >
-              <Icon as={SiReact} boxSize="full" fill="#61dafb" />
-            </Flex>
-            <Flex
-              bgColor="backgroundCardHighlight"
-              borderRadius="full"
-              boxSize={9}
-              justifyContent="center"
-              alignItems="center"
-              ml={-4}
-              border="1px solid"
-              borderColor="borderColor"
-              p={1.5}
-              overflow="hidden"
-              shadow="md"
-              _groupHover={{
-                ml: -2,
-              }}
-              transition="all 0.2s"
-            >
-              <Icon as={SiGo} boxSize="full" fill="#50b7e0" />
-            </Flex>
-            <Flex
-              bgColor="backgroundCardHighlight"
-              borderRadius="full"
-              boxSize={9}
-              justifyContent="center"
-              alignItems="center"
-              ml={-4}
-              border="1px solid"
-              borderColor="borderColor"
-              p={1.5}
-              overflow="hidden"
-              shadow="md"
-              _groupHover={{
-                ml: -2,
-              }}
-              transition="all 0.2s"
-            >
-              <Icon
-                as={SiSolidity}
-                boxSize="full"
-                fill="#1C1C1C"
-                _dark={{ filter: "invert(1)" }}
-              />
-            </Flex>
-          </Flex>
-          <Flex flexDir="column" gap={1}>
-            <LinkOverlay
-              href="https://portal.thirdweb.com/"
-              isExternal
-              onClick={() =>
-                trackEvent({
-                  category: "learn-more",
-                  action: "click",
-                  label: "sdks",
-                })
-              }
-            >
-              <Heading size="title.sm">
-                Discover our{" "}
-                <Heading
-                  as="span"
-                  size="title.sm"
-                  bgGradient="linear(to-tl, blue.300, purple.400)"
-                  _light={{
-                    bgGradient: "linear(to-tl, purple.500, blue.500)",
-                  }}
-                  bgClip="text"
-                >
-                  SDKs
-                </Heading>
-              </Heading>
-            </LinkOverlay>
-            <Text size="body.md">JavaScript, Python, React, Go, etc.</Text>
-          </Flex>
-        </Flex>
-      </Card>
-      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
-        <Flex flexDir="column" gap={3}>
-          <Icon as={AiFillCode} boxSize={9} />
-          <Flex flexDir="column" gap={1}>
-            <LinkOverlay
-              href="https://portal.thirdweb.com/deploy"
-              isExternal
-              onClick={() =>
-                trackEvent({
-                  category: "learn-more",
-                  action: "click",
-                  label: "thirdweb-deploy",
-                })
-              }
-            >
-              <Heading size="title.sm">
-                <Heading
-                  as="span"
-                  size="title.sm"
-                  bgGradient="linear(to-tr, blue.300, purple.400)"
-                  _light={{
-                    bgGradient: "linear(to-tr, purple.500, blue.500)",
-                  }}
-                  bgClip="text"
-                >
-                  thirdweb deploy
-                </Heading>
-              </Heading>
-            </LinkOverlay>
-            <Text size="body.md">Your own contracts, all of our tools.</Text>
-          </Flex>
-        </Flex>
-      </Card>
-      <Card p={6} as={LinkBox} _hover={{ borderColor: "primary.600" }}>
-        <Flex flexDir="column" gap={3}>
-          <Icon as={AiFillLayout} boxSize={9} />
-          <Flex flexDir="column" gap={1}>
-            <LinkOverlay
-              href="https://portal.thirdweb.com/pre-built-contracts"
-              isExternal
-              onClick={() =>
-                trackEvent({
-                  category: "learn-more",
-                  action: "click",
-                  label: "pre-built-contracts",
-                })
-              }
-            >
-              <Heading size="title.sm">
-                Explore our{" "}
-                <Heading
-                  as="span"
-                  size="title.sm"
-                  bgGradient="linear(to-l, blue.300, purple.400)"
-                  _light={{
-                    bgGradient: "linear(to-l, purple.500, blue.500)",
-                  }}
-                  bgClip="text"
-                >
-                  prebuilt contracts
-                </Heading>
-              </Heading>
-            </LinkOverlay>
-            <Text size="body.md">Your Solidity quick-start</Text>
-          </Flex>
-        </Flex>
-      </Card>
-    </SimpleGrid>
-  );
-};
-
 interface ContractTableProps {
   combinedList: {
     chainId: ChainId;
