@@ -1,10 +1,10 @@
-import { MetadataHeader } from "./metadata-header";
+import { MetadataHeader } from "../../components/custom-contract/contract-header/metadata-header";
 import { Box } from "@chakra-ui/react";
-import { useAccount, useAccountMetadata } from "components/pages/program";
 import {
   FeatureIconMap,
   PREBUILT_SOLANA_CONTRACTS_MAP,
 } from "constants/mappings";
+import { useAccount, useAccountMetadata } from "program-ui/hooks/program";
 import { useMemo } from "react";
 import { DashboardSolanaNetwork } from "utils/network";
 

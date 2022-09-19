@@ -15,10 +15,7 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import {
-  MutationObserverIdleResult,
-  UseMutationResult,
-} from "@tanstack/react-query";
+import { UseMutationResult } from "@tanstack/react-query";
 import { MintNFTParams, NFTContract, useAddress } from "@thirdweb-dev/react";
 import { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
