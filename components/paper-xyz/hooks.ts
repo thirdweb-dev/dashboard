@@ -42,7 +42,7 @@ export function usePaperContractQuery(jwt: string, contractAddress?: string) {
         options,
       );
 
-      return await response.json();
+      return (await response.json()) || null;
     },
     { enabled: !!sdk && !!contractAddress && !!paperChain && !!jwt },
   );

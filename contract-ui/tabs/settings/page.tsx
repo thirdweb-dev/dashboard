@@ -52,35 +52,36 @@ export const CustomContractSettingsTab: React.FC<
             />
           </GridItem>
 
-          <GridItem order={detectedPrimarySale === "enabled" ? 1 : 101}>
+          {/* paper.xyz settings */}
+          {isPaperSupportedContract(
+            contractQuery.contract,
+            contractType.data,
+          ) && (
+            <GridItem order={1}>
+              <PaperCheckoutSetting contract={contractQuery.contract} />
+            </GridItem>
+          )}
+
+          <GridItem order={detectedPrimarySale === "enabled" ? 2 : 101}>
             <SettingsPrimarySale
               contract={contractQuery.contract}
               detectedState={detectedPrimarySale}
             />
           </GridItem>
 
-          <GridItem order={detectedRoyalties === "enabled" ? 2 : 102}>
+          <GridItem order={detectedRoyalties === "enabled" ? 3 : 102}>
             <SettingsRoyalties
               contract={contractQuery.contract}
               detectedState={detectedRoyalties}
             />
           </GridItem>
 
-          <GridItem order={detectedPlatformFees === "enabled" ? 3 : 103}>
+          <GridItem order={detectedPlatformFees === "enabled" ? 4 : 103}>
             <SettingsPlatformFees
               contract={contractQuery.contract}
               detectedState={detectedPlatformFees}
             />
           </GridItem>
-          {/* paper.xyz settings */}
-          {isPaperSupportedContract(
-            contractQuery.contract,
-            contractType.data,
-          ) && (
-            <GridItem order={4}>
-              <PaperCheckoutSetting contract={contractQuery.contract} />
-            </GridItem>
-          )}
 
           {/* end paper.xyz settings */}
           <GridItem order={50}>

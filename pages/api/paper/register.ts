@@ -1,10 +1,10 @@
 import { withSentry } from "@sentry/nextjs";
+import { PAPER_API_URL } from "@thirdweb-dev/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const POSSIBLE_METHODS = ["GET", "POST"];
 
-const PAPER_URL =
-  "https://paper.xyz/api/2022-08-12/register-contract-via-thirdweb";
+const registerUrl = `${PAPER_API_URL}/register-contract`;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!req.method || !POSSIBLE_METHODS.includes(req.method)) {
@@ -28,9 +28,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!contractAddress || !chain) {
       return res.status(400).json({ error: "invalid query" });
     }
-    const url = new URL(PAPER_URL);
+    const url = new URL(registerUrl);
     url.searchParams.append("contractAddress", contractAddress as string);
     url.searchParams.append("chain", chain as string);
+
     try {
       const response = await fetch(url, {
         headers,
@@ -56,7 +57,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     try {
-      const response = await fetch(PAPER_URL, {
+      const response = await fetch(registerUrl, {
         method: "POST",
         headers,
         body: JSON.stringify(proxyBody),

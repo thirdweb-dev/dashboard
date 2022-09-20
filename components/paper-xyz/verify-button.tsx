@@ -37,7 +37,7 @@ export const PaperKYBButton: React.FC<PaperKYBButtonProps> = ({
         {...restButtonProps}
         onClick={() => {
           windowRef.current = window.open(
-            "https://paper.xyz/sdk/2022-08-12/seller-onboarding/verify-email?platformId=0xE668ec126bE007602F520E9dFcF9aefA870E3148",
+            `https://paper.xyz/sdk/2022-08-12/seller-onboarding/verify-email?platformId=0xE668ec126bE007602F520E9dFcF9aefA870E3148`,
             "_blank",
           );
         }}
