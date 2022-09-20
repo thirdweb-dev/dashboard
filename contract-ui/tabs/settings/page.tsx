@@ -8,6 +8,7 @@ import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContract, useContractType } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { isPaperSupportedContract } from "contract-ui/utils";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -16,6 +17,9 @@ interface CustomContractOverviewPageProps {
 export const CustomContractSettingsTab: React.FC<
   CustomContractOverviewPageProps
 > = ({ contractAddress }) => {
+  // TODO remove this
+  const paperEnabled = useSingleQueryParam("paper-enabled");
+
   const contractQuery = useContract(contractAddress);
   const contractType = useContractType(contractAddress);
 
@@ -53,14 +57,15 @@ export const CustomContractSettingsTab: React.FC<
           </GridItem>
 
           {/* paper.xyz settings */}
-          {isPaperSupportedContract(
-            contractQuery.contract,
-            contractType.data,
-          ) && (
-            <GridItem order={1}>
-              <PaperCheckoutSetting contract={contractQuery.contract} />
-            </GridItem>
-          )}
+          {!!paperEnabled &&
+            isPaperSupportedContract(
+              contractQuery.contract,
+              contractType.data,
+            ) && (
+              <GridItem order={1}>
+                <PaperCheckoutSetting contract={contractQuery.contract} />
+              </GridItem>
+            )}
 
           <GridItem order={detectedPrimarySale === "enabled" ? 2 : 101}>
             <SettingsPrimarySale
