@@ -5,13 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePlatformFees, useUpdatePlatformFees } from "@thirdweb-dev/react";
 import {
   CommonPlatformFeeSchema,
-  SmartContract,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 import { ExtensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
-import { PotentialContractInstance } from "contract-ui/types/types";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
@@ -26,7 +24,7 @@ import {
 import { z } from "zod";
 
 export const SettingsPlatformFees = <
-  TContract extends PotentialContractInstance,
+  TContract extends ValidContractInstance | undefined,
 >({
   contract,
   detectedState,
@@ -35,8 +33,8 @@ export const SettingsPlatformFees = <
   detectedState: ExtensionDetectedState;
 }) => {
   const trackEvent = useTrack();
-  const query = usePlatformFees(contract as SmartContract);
-  const mutation = useUpdatePlatformFees(contract as SmartContract);
+  const query = usePlatformFees(contract);
+  const mutation = useUpdatePlatformFees(contract);
   const {
     handleSubmit,
     getFieldState,

@@ -1,15 +1,14 @@
 import { RequiredParam } from "@thirdweb-dev/react";
 import {
   ContractType,
-  EditionDrop,
-  NFTDrop,
-  SmartContract,
+  EditionDropImpl,
+  NFTDropImpl,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
 
 export function isPrebuiltContract(
-  contract: SmartContract | ValidContractInstance | null,
-  contractType: RequiredParam<ContractType>,
+  contract: ValidContractInstance | null | undefined,
+  contractType: RequiredParam<ContractType> | null,
 ): contract is ValidContractInstance {
   if (!contract || !contractType) {
     return false;
@@ -21,9 +20,9 @@ export function isPrebuiltContract(
 }
 
 export function isPaperSupportedContract(
-  contract: SmartContract | ValidContractInstance | null,
-  contractType: RequiredParam<ContractType>,
-): contract is EditionDrop | NFTDrop {
+  contract: ValidContractInstance | null | undefined,
+  contractType: RequiredParam<ContractType> | null,
+): contract is EditionDropImpl | NFTDropImpl {
   return (
     isPrebuiltContract(contract, contractType) &&
     (contractType === "edition-drop" || contractType === "nft-drop")

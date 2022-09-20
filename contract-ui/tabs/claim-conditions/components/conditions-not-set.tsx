@@ -1,22 +1,23 @@
 import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, Stack } from "@chakra-ui/react";
-import { useClaimConditions } from "@thirdweb-dev/react";
-import { SmartContract, ValidContractInstance } from "@thirdweb-dev/sdk";
-import { detectClaimable } from "contract-ui/tabs/nfts/components/nft-drawer";
+import { DropContract, useClaimConditions } from "@thirdweb-dev/react";
+import { detectFeatures } from "components/contract-components/utils";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useState } from "react";
 import { Button, LinkButton, Text } from "tw-components";
 
 interface ConditionsNotSetProps {
-  contract: SmartContract | null;
+  contract: DropContract | null | undefined;
 }
 
 export const ConditionsNotSet: React.FC<ConditionsNotSetProps> = ({
   contract,
 }) => {
   const [dismissed, setDismissed] = useState(false);
-  const isClaimable = detectClaimable(contract?.nft);
-  const claimConditions = useClaimConditions(contract?.nft);
+  const isClaimable = detectFeatures(contract, [
+    "ERC721ClaimableWithConditions",
+  ]);
+  const claimConditions = useClaimConditions(contract);
 
   const noClaimConditions =
     !claimConditions?.data?.length ||
@@ -24,12 +25,12 @@ export const ConditionsNotSet: React.FC<ConditionsNotSetProps> = ({
 
   const chainName = useSingleQueryParam("networkOrAddress");
 
-  if (dismissed || !isClaimable || !noClaimConditions) {
+  if (dismissed || !isClaimable || !noClaimConditions || !contract) {
     return null;
   }
 
   return (
-    <AdminOnly contract={contract as unknown as ValidContractInstance}>
+    <AdminOnly contract={contract}>
       <Flex
         padding="20px"
         borderRadius="md"

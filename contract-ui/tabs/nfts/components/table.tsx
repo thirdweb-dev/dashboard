@@ -14,11 +14,19 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { NFT, NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
-import { Erc721, Erc1155, Json } from "@thirdweb-dev/sdk";
+import {
+  Erc721OrErc1155,
+  NFT,
+  NFTContract,
+  useNFTs,
+  useTotalCount,
+} from "@thirdweb-dev/react";
+import { Erc721, Erc1155 } from "@thirdweb-dev/sdk";
+import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
+import { FiArrowRight } from "react-icons/fi";
 import {
   MdFirstPage,
   MdLastPage,
@@ -26,22 +34,19 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Cell, Column, usePagination, useTable } from "react-table";
-import {
-  AddressCopyButton,
-  Card,
-  CodeBlock,
-  Heading,
-  Text,
-} from "tw-components";
+import { AddressCopyButton, Card, Heading, Text } from "tw-components";
 
-interface ContractOverviewNftGetAllProps {
+interface ContractOverviewNFTGetAllProps {
   contract: NFTContract;
 }
-export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
+export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   contract,
 }) => {
+  const isErc721 = detectFeatures(contract, ["ERC721"]);
+  const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+
   const tableColumns = useMemo(() => {
-    const cols: Column<NFT<NFTContract>>[] = [
+    const cols: Column<NFT<Erc721OrErc1155>>[] = [
       {
         Header: "Token Id",
         accessor: (row) => row.metadata.id.toString(),
@@ -59,39 +64,24 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
         Header: "Description",
         accessor: (row) => row.metadata.description,
       },
-      {
-        Header: "Properties",
-        accessor: (row) => row.metadata.attributes || row.metadata.properties,
-        Cell: ({ cell }: { cell: Cell<NFT<NFTContract>, Json> }) =>
-          cell.value ? (
-            <CodeBlock
-              code={JSON.stringify(cell.value, null, 2) || ""}
-              language="json"
-              canCopy={false}
-              wrap={false}
-            />
-          ) : (
-            <Text fontStyle="italic">none set</Text>
-          ),
-      },
     ];
-    if (contract instanceof Erc721) {
+    if (isErc721) {
       cols.push({
         Header: "Owned By",
         accessor: (row) => row.owner,
-        Cell: ({ cell }: { cell: Cell<NFT<NFTContract>, string> }) => (
+        Cell: ({ cell }: { cell: Cell<NFT<Erc721OrErc1155>, string> }) => (
           <AddressCopyButton address={cell.value} />
         ),
       });
     }
-    if (contract instanceof Erc1155) {
+    if (isErc1155) {
       cols.push({
         Header: "Supply",
         accessor: (row) => BigNumber.from(row.supply).toString(),
       });
     }
     return cols;
-  }, [contract]);
+  }, [isErc721, isErc1155]);
 
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
   const getAllQueryResult = useNFTs(contract, queryParams);
@@ -171,6 +161,8 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
                     </Text>
                   </Th>
                 ))}
+                {/* // Need to add an empty header for the drawer button */}
+                <Th />
               </Tr>
             ))}
           </Thead>
@@ -197,10 +189,13 @@ export const NftGetAllTable: React.FC<ContractOverviewNftGetAllProps> = ({
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth={"inherit"}>
+                    <Td {...cell.getCellProps()} borderBottomWidth="inherit">
                       {cell.render("Cell")}
                     </Td>
                   ))}
+                  <Td borderBottomWidth="inherit">
+                    <Icon as={FiArrowRight} />
+                  </Td>
                 </Tr>
               );
             })}

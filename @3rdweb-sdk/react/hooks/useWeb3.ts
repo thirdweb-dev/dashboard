@@ -6,7 +6,7 @@ import Ethereum from "@thirdweb-dev/chain-icons/dist/ethereum";
 import Fantom from "@thirdweb-dev/chain-icons/dist/fantom";
 import Optimism from "@thirdweb-dev/chain-icons/dist/optimism";
 import Polygon from "@thirdweb-dev/chain-icons/dist/polygon";
-import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
+import { ChainId, useNetwork } from "@thirdweb-dev/react";
 import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { useCallback } from "react";
 
@@ -24,10 +24,12 @@ export const FAUCETS: Partial<Record<ChainId, string>> = {
   [ChainId.Mumbai]: "https://mumbaifaucet.com",
   [ChainId.AvalancheFujiTestnet]: "https://faucet.avax.network/",
   [ChainId.FantomTestnet]: "https://faucet.fantom.network/",
-  [ChainId.OptimismTestnet]: "https://kovan.optifaucet.com/",
-  [ChainId.ArbitrumTestnet]: "https://faucet.paradigm.xyz/",
+  [ChainId.OptimismKovan]: "https://kovan.optifaucet.com/",
+  [ChainId.ArbitrumRinkeby]: "https://faucet.paradigm.xyz/",
   [ChainId.BinanceSmartChainTestnet]:
     "https://testnet.binance.org/faucet-smart",
+  [ChainId.OptimismGoerli]: "https://app.optimism.io/bridge/deposit",
+  [ChainId.ArbitrumGoerli]: "https://bridge.arbitrum.io/?l2ChainId=421613",
 };
 
 const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
@@ -101,12 +103,19 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Optimism,
   },
-  [ChainId.OptimismTestnet]: {
-    chainName: "Optimism Testnet",
+  [ChainId.OptimismKovan]: {
+    chainName: "Optimism Kovan",
     icon: Optimism,
-    symbol: NATIVE_TOKENS[ChainId.OptimismTestnet].symbol,
+    symbol: NATIVE_TOKENS[ChainId.OptimismKovan].symbol,
     isTestnet: true,
-    chainId: ChainId.OptimismTestnet,
+    chainId: ChainId.OptimismKovan,
+  },
+  [ChainId.OptimismGoerli]: {
+    chainName: "Optimism Goerli",
+    icon: Optimism,
+    symbol: NATIVE_TOKENS[ChainId.OptimismGoerli].symbol,
+    isTestnet: true,
+    chainId: ChainId.OptimismGoerli,
   },
   [ChainId.Arbitrum]: {
     chainName: "Arbitrum",
@@ -115,12 +124,19 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Arbitrum,
   },
-  [ChainId.ArbitrumTestnet]: {
-    chainName: "Arbitrum Testnet",
+  [ChainId.ArbitrumRinkeby]: {
+    chainName: "Arbitrum Rinkeby",
     icon: Arbitrum,
-    symbol: NATIVE_TOKENS[ChainId.ArbitrumTestnet].symbol,
+    symbol: NATIVE_TOKENS[ChainId.ArbitrumRinkeby].symbol,
     isTestnet: true,
-    chainId: ChainId.ArbitrumTestnet,
+    chainId: ChainId.ArbitrumRinkeby,
+  },
+  [ChainId.ArbitrumGoerli]: {
+    chainName: "Arbitrum Goerli",
+    icon: Arbitrum,
+    symbol: NATIVE_TOKENS[ChainId.ArbitrumGoerli].symbol,
+    isTestnet: true,
+    chainId: ChainId.ArbitrumGoerli,
   },
   [ChainId.BinanceSmartChainMainnet]: {
     chainName: "Binance Smart Chain",
@@ -139,7 +155,6 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
 };
 
 export function useWeb3() {
-  const address = useAddress();
   const [network] = useNetwork();
 
   const getNetworkMetadata = useCallback(
@@ -170,8 +185,5 @@ export function useWeb3() {
 
   return {
     getNetworkMetadata,
-    // error: account.error,
-    address,
-    chainId: network.data.chain?.id,
   };
 }

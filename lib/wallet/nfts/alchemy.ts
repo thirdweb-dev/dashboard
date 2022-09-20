@@ -15,17 +15,15 @@ const alchemyUrlMap = {
   // optimism
   [ChainId.Optimism]: `https://opt-mainnet.g.alchemy.com`,
   // deprecated
-  [ChainId.OptimismTestnet]: `https://opt-kovan.g.alchemy.com`,
+  [ChainId.OptimismKovan]: `https://opt-kovan.g.alchemy.com`,
   // new optimism testnet
-  // TODO @jnsdls get this from `ChainId`
-  [420]: `https://opt-goerli.g.alchemy.com`,
+  [ChainId.OptimismGoerli]: `https://opt-goerli.g.alchemy.com`,
 
   [ChainId.Arbitrum]: `https://arb-mainnet.g.alchemy.com`,
   // deprecated
-  [ChainId.ArbitrumTestnet]: `https://arb-rinkeby.g.alchemy.com`,
+  [ChainId.ArbitrumRinkeby]: `https://arb-rinkeby.g.alchemy.com`,
   // arbitrum testnet
-  // TODO @jnsdls get this from `ChainId`
-  [421613]: `https://arb-goerli.g.alchemy.com`,
+  [ChainId.ArbitrumGoerli]: `https://arb-goerli.g.alchemy.com`,
 } as const;
 
 type AlchemySupportedChainId = keyof typeof alchemyUrlMap;
@@ -51,22 +49,28 @@ export async function transformAlchemyResponseToNFT(
   alchemyResponse: AlchemyResponse,
   owner: string,
 ): Promise<WalletNFT[]> {
-  return await Promise.all(
-    alchemyResponse.ownedNfts.map(async (alchemyNFT) => {
-      const rawUri = alchemyNFT.tokenUri.raw;
+  return (
+    await Promise.all(
+      alchemyResponse.ownedNfts.map(async (alchemyNFT) => {
+        const rawUri = alchemyNFT.tokenUri.raw;
 
-      return {
-        contractAddress: alchemyNFT.contract.address,
-        tokenId: parseInt(alchemyNFT.id.tokenId, 16),
-        metadata: shouldDownloadURI(rawUri)
-          ? await StorageSingleton.get(handleArbitraryTokenURI(rawUri))
-          : rawUri,
-        owner,
-        supply: parseInt(alchemyNFT.balance || "1"),
-        type: alchemyNFT.id.tokenMetadata.tokenType,
-      } as WalletNFT;
-    }),
-  );
+        try {
+          return {
+            contractAddress: alchemyNFT.contract.address,
+            tokenId: parseInt(alchemyNFT.id.tokenId, 16),
+            metadata: shouldDownloadURI(rawUri)
+              ? await StorageSingleton.get(handleArbitraryTokenURI(rawUri))
+              : rawUri,
+            owner,
+            supply: parseInt(alchemyNFT.balance || "1"),
+            type: alchemyNFT.id.tokenMetadata.tokenType,
+          } as WalletNFT;
+        } catch (e) {
+          return undefined as unknown as WalletNFT;
+        }
+      }),
+    )
+  ).filter(Boolean);
 }
 
 type AlchemyResponse = {

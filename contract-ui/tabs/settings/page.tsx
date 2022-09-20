@@ -5,7 +5,7 @@ import { SettingsPlatformFees } from "./components/platform-fees";
 import { SettingsPrimarySale } from "./components/primary-sale";
 import { SettingsRoyalties } from "./components/royalties";
 import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useContractType } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { isPaperSupportedContract } from "contract-ui/utils";
 
@@ -16,26 +16,27 @@ interface CustomContractOverviewPageProps {
 export const CustomContractSettingsTab: React.FC<
   CustomContractOverviewPageProps
 > = ({ contractAddress }) => {
-  const contract = useContract(contractAddress);
+  const contractQuery = useContract(contractAddress);
+  const contractType = useContractType(contractAddress);
 
   const detectedMetadata = extensionDetectedState({
-    contract,
+    contractQuery,
     feature: "ContractMetadata",
   });
   const detectedPrimarySale = extensionDetectedState({
-    contract,
+    contractQuery,
     feature: "PrimarySale",
   });
   const detectedRoyalties = extensionDetectedState({
-    contract,
+    contractQuery,
     feature: "Royalty",
   });
   const detectedPlatformFees = extensionDetectedState({
-    contract,
+    contractQuery,
     feature: "PlatformFee",
   });
 
-  if (contract.isLoading) {
+  if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
@@ -46,44 +47,44 @@ export const CustomContractSettingsTab: React.FC<
         <SimpleGrid columns={1} w="100%" gap={8}>
           <GridItem order={detectedMetadata === "enabled" ? 0 : 100}>
             <SettingsMetadata
-              contract={contract.contract}
+              contract={contractQuery.contract}
               detectedState={detectedMetadata}
             />
           </GridItem>
 
           <GridItem order={detectedPrimarySale === "enabled" ? 1 : 101}>
             <SettingsPrimarySale
-              contract={contract.contract}
+              contract={contractQuery.contract}
               detectedState={detectedPrimarySale}
             />
           </GridItem>
 
           <GridItem order={detectedRoyalties === "enabled" ? 2 : 102}>
             <SettingsRoyalties
-              contract={contract.contract}
+              contract={contractQuery.contract}
               detectedState={detectedRoyalties}
             />
           </GridItem>
 
           <GridItem order={detectedPlatformFees === "enabled" ? 3 : 103}>
             <SettingsPlatformFees
-              contract={contract.contract}
+              contract={contractQuery.contract}
               detectedState={detectedPlatformFees}
             />
           </GridItem>
           {/* paper.xyz settings */}
           {isPaperSupportedContract(
-            contract.contract,
-            contract.data?.contractType,
+            contractQuery.contract,
+            contractType.data,
           ) && (
             <GridItem order={4}>
-              <PaperCheckoutSetting contract={contract.contract} />
+              <PaperCheckoutSetting contract={contractQuery.contract} />
             </GridItem>
           )}
 
           {/* end paper.xyz settings */}
           <GridItem order={50}>
-            <OnDashboard contract={contract.contract} />
+            <OnDashboard contractAddress={contractAddress} />
           </GridItem>
         </SimpleGrid>
       </Flex>

@@ -1,10 +1,9 @@
 import { Route } from "@tanstack/react-location";
-import { useContract } from "@thirdweb-dev/react";
+import { contractType, useContract } from "@thirdweb-dev/react";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
-import React from "react";
 
 export type EnhancedRoute = Route & {
   title: string;
@@ -15,14 +14,15 @@ export type EnhancedRoute = Route & {
 export function useContractRouteConfig(
   contractAddress?: string,
 ): EnhancedRoute[] {
-  const contract = useContract(contractAddress);
-  const contractType = contract.data?.contractType;
+  const contractQuery = useContract(contractAddress);
+
+  const contractTypeQuery = contractType.useQuery(contractAddress);
   const embedEnabled =
-    contractType === "nft-drop" ||
-    contractType === "marketplace" ||
-    contractType === "edition-drop" ||
-    contractType === "token-drop" ||
-    contractType === "signature-drop";
+    contractTypeQuery.data === "nft-drop" ||
+    contractTypeQuery.data === "marketplace" ||
+    contractTypeQuery.data === "edition-drop" ||
+    contractTypeQuery.data === "token-drop" ||
+    contractTypeQuery.data === "signature-drop";
 
   return [
     {
@@ -47,7 +47,7 @@ export function useContractRouteConfig(
       title: "NFTs",
       path: "nfts",
       isEnabled: extensionDetectedState({
-        contract,
+        contractQuery,
         feature: ["ERC1155", "ERC721"],
       }),
       element: () =>
@@ -58,18 +58,60 @@ export function useContractRouteConfig(
     {
       title: "Tokens",
       path: "tokens",
-      isEnabled: extensionDetectedState({ contract, feature: "ERC20" }),
+      isEnabled: extensionDetectedState({ contractQuery, feature: "ERC20" }),
       element: () =>
         import("../tabs/tokens/page").then(({ ContractTokensPage }) => (
           <ContractTokensPage contractAddress={contractAddress} />
         )),
     },
     {
+      title: "Listings",
+      path: "listings",
+      isEnabled: contractTypeQuery.isLoading
+        ? "loading"
+        : contractTypeQuery.data === "marketplace"
+        ? "enabled"
+        : "disabled",
+      element: () =>
+        import("../tabs/listings/page").then(({ ContractListingsPage }) => (
+          <ContractListingsPage contractAddress={contractAddress} />
+        )),
+    },
+    {
+      title: "Balances",
+      path: "split",
+      isEnabled: contractTypeQuery.isLoading
+        ? "loading"
+        : contractTypeQuery.data === "split"
+        ? "enabled"
+        : "disabled",
+      element: () =>
+        import("../tabs/split/page").then(({ ContractSplitPage }) => (
+          <ContractSplitPage contractAddress={contractAddress} />
+        )),
+    },
+    {
+      title: "Proposals",
+      path: "proposals",
+      isEnabled: contractTypeQuery.isLoading
+        ? "loading"
+        : contractTypeQuery.data === "vote"
+        ? "enabled"
+        : "disabled",
+      element: () =>
+        import("../tabs/proposals/page").then(({ ContractProposalsPage }) => (
+          <ContractProposalsPage contractAddress={contractAddress} />
+        )),
+    },
+    {
       title: "Claim Conditions",
       path: "claim-conditions",
       isEnabled: extensionDetectedState({
-        contract,
-        feature: "ERC721Claimable",
+        contractQuery,
+        feature: [
+          "ERC721ClaimableWithConditions",
+          "ERC20ClaimableWithConditions",
+        ],
       }),
       element: () =>
         import("../tabs/claim-conditions/page").then(
@@ -81,7 +123,10 @@ export function useContractRouteConfig(
     {
       title: "Permissions",
       path: "permissions",
-      isEnabled: extensionDetectedState({ contract, feature: "Permissions" }),
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: "Permissions",
+      }),
       element: () =>
         import("../tabs/permissions/page").then(
           ({ ContractPermissionsPage }) => (
@@ -96,7 +141,11 @@ export function useContractRouteConfig(
         import("../tabs/embed/page").then(({ CustomContractEmbedPage }) => (
           <CustomContractEmbedPage contractAddress={contractAddress} />
         )),
-      isEnabled: embedEnabled ? "enabled" : "disabled",
+      isEnabled: contractTypeQuery.isLoading
+        ? "loading"
+        : embedEnabled
+        ? "enabled"
+        : "disabled",
     },
     {
       title: "Code",

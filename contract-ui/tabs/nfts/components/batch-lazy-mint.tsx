@@ -1,8 +1,8 @@
+import { BatchTable } from "./batch-table";
 import { SelectReveal } from "./select-reveal";
+import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import { NFTContract, useTotalCount } from "@thirdweb-dev/react";
-import { BatchTable } from "components/batch-upload/BatchTable";
-import { UploadStep } from "components/batch-upload/UploadStep";
+import { DropContract, useTotalCount } from "@thirdweb-dev/react";
 import { BigNumber } from "ethers";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";
@@ -17,7 +17,7 @@ import {
 } from "utils/batch";
 
 interface BatchLazyMintProps {
-  contract: NFTContract;
+  contract?: DropContract | null;
   isOpen: boolean;
   onClose: () => void;
 }

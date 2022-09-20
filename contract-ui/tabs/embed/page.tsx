@@ -1,6 +1,6 @@
 import { EmbedSetup } from "./components/embed-setup";
 import { Flex } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useContractType } from "@thirdweb-dev/react";
 
 interface CustomContractEmbedPageProps {
   contractAddress?: string;
@@ -9,19 +9,20 @@ interface CustomContractEmbedPageProps {
 export const CustomContractEmbedPage: React.FC<
   CustomContractEmbedPageProps
 > = ({ contractAddress }) => {
-  const contract = useContract(contractAddress);
+  const contractQuery = useContract(contractAddress);
+  const { data: contractType } = useContractType(contractAddress);
 
-  if (contract.isLoading) {
+  if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
   }
 
   return (
     <Flex direction="column" gap={6}>
-      {contract?.contract && (
+      {contractQuery?.contract && (
         <EmbedSetup
-          contract={contract.contract}
-          contractType={contract?.data?.contractType}
+          contract={contractQuery.contract}
+          contractType={contractType}
         />
       )}
     </Flex>
