@@ -15,7 +15,7 @@ import { ReleasedContract } from "components/contract-components/released-contra
 import { THIRDWEB_DEPLOYER_ADDRESS } from "constants/addresses";
 import { FeatureIconMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
-import { StorageSingleton } from "lib/sdk";
+import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { Heading, Text } from "tw-components";
@@ -68,10 +68,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
           {release?.logo ? (
             <Image
               borderRadius="full"
-              src={release.logo.replace(
-                "ipfs://",
-                `${StorageSingleton.gatewayUrl}/`,
-              )}
+              src={replaceIpfsUrl(release.logo)}
               boxSize={14}
             />
           ) : (

@@ -31,7 +31,7 @@ import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
 import { useOgImagePing } from "hooks/useOgImagePing";
 import { correctAndUniqueLicenses } from "lib/licenses";
-import { StorageSingleton } from "lib/sdk";
+import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { createReleaseOGUrl } from "pages/_og/release";
@@ -278,9 +278,8 @@ Deploy it in one click`,
                       <Icon as={BsShieldCheck} boxSize={5} color="green" />
                       <Text size="label.md">
                         <Link
-                          href={releasedContractInfo.data?.publishedMetadata?.audit.replace(
-                            "ipfs://",
-                            `${StorageSingleton.gatewayUrl}/`,
+                          href={replaceIpfsUrl(
+                            releasedContractInfo.data?.publishedMetadata?.audit,
                           )}
                           isExternal
                         >

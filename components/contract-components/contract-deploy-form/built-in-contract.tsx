@@ -42,7 +42,7 @@ import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { StorageSingleton } from "lib/sdk";
+import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import twAudited from "public/brand/thirdweb-audited-2.png";
 import { useEffect, useMemo } from "react";
@@ -300,7 +300,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                     >
                       <LinkOverlay
                         isExternal
-                        href={`${StorageSingleton.gatewayUrl}/${audit}`}
+                        href={replaceIpfsUrl(audit)}
                         onClick={() =>
                           trackEvent({
                             category: "visit-audit",

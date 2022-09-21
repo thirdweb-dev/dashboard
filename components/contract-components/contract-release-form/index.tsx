@@ -36,7 +36,7 @@ import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { StorageSingleton } from "lib/sdk";
+import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -239,10 +239,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                     <Image
                       w="100%"
                       h="100%"
-                      src={fileUrl.replace(
-                        "ipfs://",
-                        `${StorageSingleton.gatewayUrl}/`,
-                      )}
+                      src={replaceIpfsUrl(fileUrl)}
                       borderRadius="full"
                     />
                   )}

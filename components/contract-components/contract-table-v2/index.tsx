@@ -35,7 +35,7 @@ import {
 } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { StorageSingleton, getSOLThirdwebSDK } from "lib/sdk";
+import { getSOLThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import React, { useId, useMemo, useState } from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
@@ -196,7 +196,7 @@ export const ReleasedContractTable: ComponentWithChildren<
                   as={LinkButton}
                   noIcon
                   isExternal
-                  href={`${StorageSingleton.gatewayUrl}/${cell.value.audit}`}
+                  href={replaceIpfsUrl(cell.value.audit)}
                   category="deploy"
                   label="audited"
                   aria-label="Audited contract"

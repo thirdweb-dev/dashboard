@@ -460,7 +460,10 @@ interface ContractDeployMutationParams {
   addToDashboard?: boolean;
 }
 
-export function useCustomContractDeployMutation(ipfsHash: string) {
+export function useCustomContractDeployMutation(
+  ipfsHash: string,
+  forceDirectDeploy?: boolean,
+) {
   const sdk = useSDK();
   const queryClient = useQueryClient();
   const walletAddress = useAddress();
@@ -475,6 +478,9 @@ export function useCustomContractDeployMutation(ipfsHash: string) {
       const contractAddress = await sdk.deployer.deployContractFromUri(
         ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
         data.constructorParams,
+        {
+          forceDirectDeploy,
+        },
       );
       if (data.addToDashboard) {
         const registry = await sdk?.deployer.getRegistry();

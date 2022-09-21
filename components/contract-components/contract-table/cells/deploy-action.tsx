@@ -2,7 +2,7 @@ import { DeployableContractContractCellProps } from "../../types";
 import { Icon, Tooltip } from "@chakra-ui/react";
 import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
-import { StorageSingleton } from "lib/sdk";
+import { replaceIpfsUrl } from "lib/sdk";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { LinkButton, TrackedIconButton } from "tw-components";
 
@@ -21,7 +21,7 @@ export const ContractDeployActionCell: React.FC<
         as={LinkButton}
         noIcon
         isExternal
-        href={`${StorageSingleton.gatewayUrl}/${audit}`}
+        href={replaceIpfsUrl(audit)}
         category="deploy"
         label="audited"
         aria-label="Audited contract"

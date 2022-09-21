@@ -3,13 +3,15 @@ import {
   SUPPORTED_CHAIN_ID,
 } from "@thirdweb-dev/sdk";
 import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/solana";
-import { IpfsStorage } from "@thirdweb-dev/storage";
+import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { getEVMRPC, getSOLRPC } from "constants/rpc";
 import { DashboardSolanaNetwork } from "utils/network";
 
-export const StorageSingleton = new IpfsStorage(
-  process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL,
-);
+export const StorageSingleton = new ThirdwebStorage();
+
+export function replaceIpfsUrl(url: string) {
+  return StorageSingleton.resolveScheme(url);
+}
 
 // EVM SDK
 const EVM_SDK_MAP = new Map<SUPPORTED_CHAIN_ID, EVMThirdwebSDK>();

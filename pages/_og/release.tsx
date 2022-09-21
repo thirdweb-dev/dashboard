@@ -8,7 +8,7 @@ import {
   TWEMOJI_OPTIONS,
 } from "lib/constants";
 import { correctAndUniqueLicenses } from "lib/licenses";
-import { StorageSingleton } from "lib/sdk";
+import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import {
   VscBook,
@@ -129,10 +129,7 @@ export default function OGReleaseImage() {
             <Flex direction="row" align="center" gap="14px">
               {metadata.releaseLogo && (
                 <Image
-                  src={metadata.releaseLogo.replace(
-                    "ipfs://",
-                    `${StorageSingleton.gatewayUrl}/`,
-                  )}
+                  src={replaceIpfsUrl(metadata.releaseLogo)}
                   borderRadius="full"
                   boxSize="64px"
                 />

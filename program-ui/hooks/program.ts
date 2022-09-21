@@ -4,7 +4,6 @@ import { MintNFTParams, RequiredParam } from "@thirdweb-dev/react";
 import { NFTCollection } from "@thirdweb-dev/solana";
 import { NFTDrop } from "@thirdweb-dev/solana/dist/declarations/src/contracts/nft-drop";
 import { Token } from "@thirdweb-dev/solana/dist/declarations/src/contracts/token";
-import { CurrencyValue } from "@thirdweb-dev/solana/dist/declarations/src/types/common";
 import { NFTMetadataInput } from "@thirdweb-dev/solana/dist/declarations/src/types/nft";
 import { useSOLSDK } from "components/app-layouts/solana-provider";
 import invariant from "tiny-invariant";
