@@ -2,11 +2,7 @@ import { useActiveChainId } from "@3rdweb-sdk/react";
 import { QueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
-import {
-  IpfsUploader,
-  ThirdwebStorage,
-  replaceSchemeWithGatewayUrl,
-} from "@thirdweb-dev/storage";
+import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { ComponentWithChildren } from "types/component-with-children";
 
