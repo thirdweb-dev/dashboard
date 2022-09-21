@@ -4,7 +4,7 @@ import {
   FeatureIconMap,
   PREBUILT_SOLANA_CONTRACTS_MAP,
 } from "constants/mappings";
-import { useAccount, useAccountMetadata } from "program-ui/hooks/program";
+import { useProgram, useProgramMetadata } from "program-ui/hooks/program";
 import { useMemo } from "react";
 import { DashboardSolanaNetwork } from "utils/network";
 
@@ -17,8 +17,8 @@ export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
   address,
   network,
 }) => {
-  const { data: account } = useAccount(address, network);
-  const metadataQuery = useAccountMetadata(account);
+  const { data: account } = useProgram(address, network);
+  const metadataQuery = useProgramMetadata(account);
 
   const contractTypeImage = useMemo(() => {
     return account

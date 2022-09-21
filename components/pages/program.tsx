@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
-import { useAccount } from "program-ui/hooks/program";
+import { useProgram } from "program-ui/hooks/program";
 import { NFTDropPanel } from "program-ui/nft/nft-drop-panel";
 import { NFTCollectionPanel } from "program-ui/nft/nft-panel";
 import { TokenPanel } from "program-ui/token/token-panel";
@@ -15,7 +15,7 @@ export const ProgramPage: React.FC<ProgramPageProps> = ({
   address,
   network,
 }) => {
-  const { data: account } = useAccount(address, network);
+  const { data: account } = useProgram(address, network);
   return (
     <Flex gap={4} direction="column">
       <ProgramMetadata address={address} network={network} />

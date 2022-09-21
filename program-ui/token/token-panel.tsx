@@ -6,7 +6,7 @@ import { TokenMetadata } from "@thirdweb-dev/solana/dist/declarations/src/types/
 import { TokenSupplyLayout } from "contract-ui/tabs/tokens/components/supply-layout";
 import { BigNumber } from "ethers";
 import {
-  useAccountMetadata,
+  useProgramMetadata,
   useSolOwnedTokenSupply,
 } from "program-ui/hooks/program";
 import { Heading } from "tw-components";
@@ -29,9 +29,8 @@ export const TokenSupply: React.FC<{
 }> = ({ account }) => {
   const wallet = useWallet();
   const address = wallet?.publicKey?.toBase58();
-  const metadataQuery = useAccountMetadata(account);
+  const metadataQuery = useProgramMetadata(account);
   const ownedTokensQuery = useSolOwnedTokenSupply(account, address);
-
   return (
     <TokenSupplyLayout
       isTokenSupplySuccess={metadataQuery.isSuccess}
@@ -45,7 +44,7 @@ export const TokenSupply: React.FC<{
 
 // TODO (SOL) - consolidate schema types between sol and sdk
 const toDashboardSupply = (
-  query: ReturnType<typeof useAccountMetadata>,
+  query: ReturnType<typeof useProgramMetadata>,
   ownedTokensQuery?: ReturnType<typeof useSolOwnedTokenSupply>,
 ): CurrencyValue | undefined => {
   const data = query.data as TokenMetadata;

@@ -12,10 +12,10 @@ import { DashboardSolanaNetwork } from "utils/network";
 /** ****** QUERIES ********/
 
 // TODO this could be typed better
-export function useAccount(address?: string, network?: DashboardSolanaNetwork) {
+export function useProgram(address?: string, network?: DashboardSolanaNetwork) {
   const sdk = useSOLSDK();
   return useQuery(
-    [network, address, "account", "contract-instance"],
+    [network, address, "program", "contract-instance"],
     async () => {
       invariant(sdk, "sdk is required");
       invariant(address, "Address is required");
@@ -37,60 +37,60 @@ export function useAccount(address?: string, network?: DashboardSolanaNetwork) {
   );
 }
 
-export function useAccountMetadata(
-  account: ReturnType<typeof useAccount>["data"],
+export function useProgramMetadata(
+  program: ReturnType<typeof useProgram>["data"],
 ) {
   return useQuery(
-    [account?.publicKey.toBase58(), "account-metadata"],
+    [program?.publicKey.toBase58(), "program-metadata"],
     async () => {
-      invariant(account, "Account is required");
-      return await account.getMetadata();
+      invariant(program, "Program is required");
+      return await program.getMetadata();
     },
     {
-      enabled: !!account,
+      enabled: !!program,
     },
   );
 }
 
-export function useSolNFTs(account: NFTCollection | NFTDrop) {
+export function useSolNFTs(program: NFTCollection | NFTDrop) {
   return useQuery(
-    [account?.publicKey.toBase58(), "account-nfts"],
+    [program?.publicKey.toBase58(), "program-nfts"],
     async () => {
-      invariant(account, "Account is required");
-      return await account.getAll();
+      invariant(program, "Program is required");
+      return await program.getAll();
     },
     {
-      enabled: !!account,
+      enabled: !!program,
     },
   );
 }
 
 export function useSolOwnedTokenSupply(
-  account: Token,
+  program: Token,
   walletAddress: string | undefined,
 ) {
   return useQuery(
-    [account?.publicKey.toBase58(), walletAddress, "account-token-supply"],
+    [program?.publicKey.toBase58(), walletAddress, "program-token-supply"],
     async () => {
-      invariant(account, "Account is required");
+      invariant(program, "Program is required");
       invariant(walletAddress, "Address is required");
-      return await account.balanceOf(walletAddress);
+      return await program.balanceOf(walletAddress);
     },
     {
-      enabled: !!account && !!walletAddress,
+      enabled: !!program && !!walletAddress,
     },
   );
 }
 
 /** ****** MUTATIONS ********/
 
-export function useSolMintNFT(account: RequiredParam<NFTCollection>) {
+export function useSolMintNFT(program: RequiredParam<NFTCollection>) {
   return useMutationWithInvalidate(
     async (data: MintNFTParams) => {
-      invariant(account, "account not provided");
+      invariant(program, "program not provided");
       invariant(typeof data.metadata === "object");
       // TODO consolidate NFT types between EVM/SOL
-      return await account.mintTo(data.to, data.metadata as NFTMetadataInput);
+      return await program.mintTo(data.to, data.metadata as NFTMetadataInput);
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
@@ -101,17 +101,17 @@ export function useSolMintNFT(account: RequiredParam<NFTCollection>) {
   );
 }
 
-export function useSolLazyMintNFT(account: RequiredParam<NFTDrop>) {
+export function useSolLazyMintNFT(program: RequiredParam<NFTDrop>) {
   return useMutationWithInvalidate(
     async (data: { metadatas: NFTMetadataInput[] }) => {
       console.log({
-        account,
+        account: program,
         data,
       });
-      invariant(account, "account not provided");
+      invariant(program, "program not provided");
       invariant(data.metadatas.length > 0, "No NFTs to lazy mint");
       // TODO (SOL) consolidate NFT types between EVM/SOL
-      return await account.lazyMint(data.metadatas);
+      return await program.lazyMint(data.metadatas);
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
