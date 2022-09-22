@@ -1784,11 +1784,6 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@microsoft/tsdoc@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.14.2.tgz#c3ec604a0b54b9a9b87e9735dfc59e1a5da6a5fb"
-  integrity sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==
-
 "@motionone/animation@^10.13.1":
   version "10.14.0"
   resolved "https://registry.yarnpkg.com/@motionone/animation/-/animation-10.14.0.tgz#2f2a3517183bb58d82e389aac777fe0850079de6"
@@ -2324,7 +2319,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@*":
+"@thirdweb-dev/contracts-js@^1.1.8":
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.8.tgz#4e4b840ac0f0f2abcb4c0d685f05a3a683e7f7bc"
   integrity sha512-RRO2VH6qz4SRFGsg6Tx40aeHoj3hUbTjj+zZX0C8H3MArNgbvjMgqV1PPaDVpFWb++hJamV49cJiT2RRxVqHIg==
@@ -2336,10 +2331,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.0.5-dev-535e754":
-  version "3.0.5-dev-535e754"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.5-dev-535e754.tgz#7d73a731089fa06cdec394cf770c3da1b584f0b8"
-  integrity sha512-a145PubQmTSB+RZa8HG9AVslmNEbXTjR9v4JSu3fpYqEW3C3mcxzs+hdBBIfQ8LOgckXJ0zglecdmmRzEAbpJA==
+"@thirdweb-dev/react@^3.0.5-nightly-b54f95d":
+  version "3.0.5-nightly-b54f95d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.5-nightly-b54f95d.tgz#62fb2592cdbb806fba5cdb1b7f62cd9f562b8358"
+  integrity sha512-vetiu9RGHcFDDX1E//yrpk3upr4a1gncLfZP27Yv4DBJ0A9PBwbY8ALu5UGn67SEAbMc88OE23Mv8CWxvfQK+g==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -2359,13 +2354,13 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.0.5-dev-535e754":
-  version "3.0.5-dev-535e754"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.5-dev-535e754.tgz#6db5427e52aa827c5e978d2107691bcbeff438be"
-  integrity sha512-tmfQDkbtWaUj54dW2400rPVQvkCINktM3oJI50ajgM5UbXWaekLbxLReRMCoQMdcQMMYl/pC+eGrUosHP1cglA==
+"@thirdweb-dev/sdk@^3.0.5-nightly-b54f95d":
+  version "3.0.5-nightly-b54f95d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.5-nightly-b54f95d.tgz#b095de0ab1228b6f08f2dde373b92fc6c1bc086a"
+  integrity sha512-712OVuItB8Ts3rUghujy3AIBVGtEIMRumcq7pFEootTEIhH+KY+0++WojGG4Mi7jjv7CUpgyEPapKWP5GqdxKA==
   dependencies:
-    "@thirdweb-dev/contracts-js" "*"
-    "@thirdweb-dev/storage" "1.0.2-dev-535e754"
+    "@thirdweb-dev/contracts-js" "^1.1.8"
+    "@thirdweb-dev/storage" "1.0.2-nightly-b54f95d"
     cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
@@ -2374,19 +2369,17 @@
     merkletreejs "^0.2.24"
     multihashes "^4.0.3"
     tiny-invariant "^1.2.0"
-    uuid "^8.3.2"
+    uuid "^9.0.0"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@1.0.2-dev-535e754", "@thirdweb-dev/storage@^1.0.2-dev-535e754":
-  version "1.0.2-dev-535e754"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.2-dev-535e754.tgz#253d0742b9b451218790d0eb30b7b210315747c9"
-  integrity sha512-qqdaSsQcCv8EjsnZ7w+xaA/YiC9ibMHhXtNtsT458y61XSmefXo4dtbvuWto/yJtyY+3j4hfwFqLKya1bs73Zw==
+"@thirdweb-dev/storage@1.0.2-nightly-b54f95d", "@thirdweb-dev/storage@^1.0.2-nightly-b54f95d":
+  version "1.0.2-nightly-b54f95d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.2-nightly-b54f95d.tgz#def755fb623e13b69a635e143bacd2c5c0141018"
+  integrity sha512-H/Ac6M29M+6Xo4PxDgXsJuq2bq7ehsbzKJt5Jk2RafbF6Zz5zZa/1LV4L9ammtugfEEno5t2LRYssZPuDPI8Qg==
   dependencies:
-    "@microsoft/tsdoc" "^0.14.2"
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
     uuid "^9.0.0"
-    zod "^3.11.6"
 
 "@trivago/prettier-plugin-sort-imports@^3.2.0":
   version "3.3.0"
