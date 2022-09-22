@@ -155,7 +155,7 @@ export function useTestnetsContractList(address: string | undefined) {
       .concat(
         optimismGoerliQuery.data?.map((d) => ({
           ...d,
-          chainId: ChainId.OptimismKovan,
+          chainId: ChainId.OptimismGoerli,
         })) || [],
       )
       .concat(
@@ -167,7 +167,7 @@ export function useTestnetsContractList(address: string | undefined) {
       .concat(
         arbitrumGoerliQuery.data?.map((d) => ({
           ...d,
-          chainId: ChainId.ArbitrumRinkeby,
+          chainId: ChainId.ArbitrumGoerli,
         })) || [],
       )
       .concat(
