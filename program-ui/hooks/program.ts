@@ -1,6 +1,6 @@
 import { useMutationWithInvalidate } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import { useQuery } from "@tanstack/react-query";
-import { MintNFTParams, RequiredParam } from "@thirdweb-dev/react";
+import { MintNFTParams, RequiredParam, TokenParams } from "@thirdweb-dev/react";
 import { NFTCollection } from "@thirdweb-dev/solana";
 import { NFTDrop } from "@thirdweb-dev/solana/dist/declarations/src/contracts/nft-drop";
 import { Token } from "@thirdweb-dev/solana/dist/declarations/src/contracts/token";
@@ -104,14 +104,26 @@ export function useSolMintNFT(program: RequiredParam<NFTCollection>) {
 export function useSolLazyMintNFT(program: RequiredParam<NFTDrop>) {
   return useMutationWithInvalidate(
     async (data: { metadatas: NFTMetadataInput[] }) => {
-      console.log({
-        account: program,
-        data,
-      });
       invariant(program, "program not provided");
       invariant(data.metadatas.length > 0, "No NFTs to lazy mint");
       // TODO (SOL) consolidate NFT types between EVM/SOL
       return await program.lazyMint(data.metadatas);
+    },
+    {
+      onSuccess: (_data, _variables, _options, invalidate) => {
+        // eslint-disable-next-line line-comment-position
+        return invalidate([]); // TODO (SOL) invalidation
+      },
+    },
+  );
+}
+
+export function useSolMintToken(program: RequiredParam<Token>) {
+  return useMutationWithInvalidate(
+    async (data: TokenParams) => {
+      invariant(program, "program not provided");
+      // TODO expose mintTo
+      return await program.mint(data.amount);
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {

@@ -7,27 +7,27 @@ import { FiPlus } from "react-icons/fi";
 import { Button, Drawer, Heading } from "tw-components";
 
 export const NFTDropPanel: React.FC<{
-  account: NFTDrop;
-}> = ({ account }) => {
+  program: NFTDrop;
+}> = ({ program }) => {
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Program NFTs</Heading>
         <Flex gap={2} flexDir={{ base: "column", md: "row" }}>
-          <NFTLazyMintButton account={account} />
+          <NFTLazyMintButton program={program} />
         </Flex>
       </Flex>
-      <NFTList account={account} />
+      <NFTList program={program} />
     </Flex>
   );
 };
 
-export const NFTLazyMintButton: React.FC<{ account: NFTDrop }> = ({
-  account,
+export const NFTLazyMintButton: React.FC<{ program: NFTDrop }> = ({
+  program,
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const mutation = useSolLazyMintNFT(account);
+  const mutation = useSolLazyMintNFT(program);
   // TODO (sol) not cast as any here
   return (
     <>

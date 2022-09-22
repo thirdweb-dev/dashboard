@@ -31,8 +31,8 @@ import { Column, usePagination, useTable } from "react-table";
 import { AddressCopyButton, Card, Heading, Text } from "tw-components";
 
 export const NFTList: React.FC<{
-  account: NFTCollection | NFTDrop;
-}> = ({ account }) => {
+  program: NFTCollection | NFTDrop;
+}> = ({ program }) => {
   const tableColumns = useMemo(() => {
     const cols: Column<NFTMetadataInput>[] = [
       {
@@ -63,7 +63,7 @@ export const NFTList: React.FC<{
 
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
 
-  const getAllQueryResult = useSolNFTs(account);
+  const getAllQueryResult = useSolNFTs(program);
   const totalCount = getAllQueryResult.data ? getAllQueryResult.data.length : 0;
 
   const {

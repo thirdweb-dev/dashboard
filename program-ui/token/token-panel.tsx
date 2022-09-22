@@ -1,36 +1,91 @@
-import { Flex } from "@chakra-ui/react";
+import { ButtonGroup, Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { CurrencyValue } from "@thirdweb-dev/sdk";
-import { Token } from "@thirdweb-dev/solana/dist/declarations/src/contracts/token";
-import { TokenMetadata } from "@thirdweb-dev/solana/dist/declarations/src/types/nft";
+import { Token, TokenMetadata } from "@thirdweb-dev/solana";
+import { TokenMintFormLayout } from "contract-ui/tabs/tokens/components/mint-form";
 import { TokenSupplyLayout } from "contract-ui/tabs/tokens/components/supply-layout";
 import { BigNumber } from "ethers";
 import {
   useProgramMetadata,
+  useSolMintToken,
   useSolOwnedTokenSupply,
 } from "program-ui/hooks/program";
-import { Heading } from "tw-components";
+import { FiPlus } from "react-icons/fi";
+import { Button, Drawer, Heading } from "tw-components";
 
 export const TokenPanel: React.FC<{
-  account: Token;
-}> = ({ account }) => {
+  program: Token;
+}> = ({ program }) => {
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract Tokens</Heading>
+        <ButtonGroup
+          flexDirection={{ base: "column", md: "row" }}
+          gap={2}
+          w="inherit"
+        >
+          {/* <TokenBurnButton contractQuery={contractQuery} />
+          <TokenAirdropButton contractQuery={contractQuery} />
+          <TokenTransferButton contractQuery={contractQuery} /> */}
+          <TokenMintButton program={program} />
+        </ButtonGroup>
       </Flex>
-      <TokenSupply account={account} />
+      <TokenSupply program={program} />
     </Flex>
   );
 };
 
+export const TokenMintButton: React.FC<{ program: Token }> = ({
+  program,
+  ...restButtonProps
+}) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Drawer
+        allowPinchZoom
+        preserveScrollBarGap
+        size="lg"
+        onClose={onClose}
+        isOpen={isOpen}
+      >
+        <TokenMintForm program={program} />
+      </Drawer>
+      <Button
+        colorScheme="primary"
+        leftIcon={<Icon as={FiPlus} />}
+        {...restButtonProps}
+        onClick={onOpen}
+      >
+        Mint
+      </Button>
+    </>
+  );
+};
+
+export const TokenMintForm: React.FC<{ program: Token }> = ({ program }) => {
+  const wallet = useWallet();
+  const mint = useSolMintToken(program);
+  const decimals = useProgramMetadata(program);
+
+  return (
+    <TokenMintFormLayout
+      ecosystem="solana"
+      mintQuery={mint}
+      decimals={(decimals.data as TokenMetadata)?.decimals}
+      address={wallet?.publicKey?.toBase58()}
+    />
+  );
+};
+
 export const TokenSupply: React.FC<{
-  account: Token;
-}> = ({ account }) => {
+  program: Token;
+}> = ({ program }) => {
   const wallet = useWallet();
   const address = wallet?.publicKey?.toBase58();
-  const metadataQuery = useProgramMetadata(account);
-  const ownedTokensQuery = useSolOwnedTokenSupply(account, address);
+  const metadataQuery = useProgramMetadata(program);
+  const ownedTokensQuery = useSolOwnedTokenSupply(program, address);
   return (
     <TokenSupplyLayout
       isTokenSupplySuccess={metadataQuery.isSuccess}

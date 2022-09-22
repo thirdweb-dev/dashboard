@@ -15,23 +15,19 @@ export const ProgramPage: React.FC<ProgramPageProps> = ({
   address,
   network,
 }) => {
-  const { data: account } = useProgram(address, network);
+  const { data: program } = useProgram(address, network);
   return (
     <Flex gap={4} direction="column">
       <ProgramMetadata address={address} network={network} />
-      {account?.accountType === "nft-collection" ? (
-        <NFTCollectionPanel account={account} />
+      {program?.accountType === "nft-collection" ? (
+        <NFTCollectionPanel program={program} />
       ) : null}
-      {account?.accountType === "nft-drop" ? (
-        <NFTDropPanel account={account} />
+      {program?.accountType === "nft-drop" ? (
+        <NFTDropPanel program={program} />
       ) : null}
-      {account?.accountType === "token" ? (
-        <TokenPanel account={account} />
+      {program?.accountType === "token" ? (
+        <TokenPanel program={program} />
       ) : null}
     </Flex>
   );
 };
-
-// /// COMPONENTS ///
-
-// /// HOOKS ///

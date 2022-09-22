@@ -7,27 +7,27 @@ import { FiPlus } from "react-icons/fi";
 import { Button, Drawer, Heading } from "tw-components";
 
 export const NFTCollectionPanel: React.FC<{
-  account: NFTCollection;
-}> = ({ account }) => {
+  program: NFTCollection;
+}> = ({ program }) => {
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Program NFTs</Heading>
         <Flex gap={2} flexDir={{ base: "column", md: "row" }}>
-          <NFTMintButton account={account} />
+          <NFTMintButton program={program} />
         </Flex>
       </Flex>
-      <NFTList account={account} />
+      <NFTList program={program} />
     </Flex>
   );
 };
 
-export const NFTMintButton: React.FC<{ account: NFTCollection }> = ({
-  account,
+export const NFTMintButton: React.FC<{ program: NFTCollection }> = ({
+  program,
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const mutation = useSolMintNFT(account);
+  const mutation = useSolMintNFT(program);
   return (
     <>
       <Drawer
