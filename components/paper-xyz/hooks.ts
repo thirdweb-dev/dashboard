@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChainId, useActiveChainId, useSDK } from "@thirdweb-dev/react";
+import { ChainId, useSDK, useSDKChainId } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
 
 export const PAPER_CHAIN_ID_MAP = {
@@ -18,7 +18,7 @@ const queryKey = (
 
 export function usePaperContractQuery(jwt: string, contractAddress?: string) {
   const sdk = useSDK();
-  const chainId = useActiveChainId();
+  const chainId = useSDKChainId();
   const paperChain =
     PAPER_CHAIN_ID_MAP[chainId as keyof typeof PAPER_CHAIN_ID_MAP];
   return useQuery(
@@ -52,7 +52,7 @@ export function usePaperRegisterContractMutation(
   contractAddress?: string,
 ) {
   const sdk = useSDK();
-  const chainId = useActiveChainId();
+  const chainId = useSDKChainId();
   const queryClient = useQueryClient();
   const paperChain =
     PAPER_CHAIN_ID_MAP[chainId as keyof typeof PAPER_CHAIN_ID_MAP];

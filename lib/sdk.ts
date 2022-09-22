@@ -7,9 +7,15 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { getEVMRPC, getSOLRPC } from "constants/rpc";
 import { DashboardSolanaNetwork } from "utils/network";
 
-export const StorageSingleton = new ThirdwebStorage();
+export const StorageSingleton = new ThirdwebStorage({
+  gatewayUrls: {
+    "ipfs://": [process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL as string],
+  },
+});
 
 export function replaceIpfsUrl(url: string) {
+  // sometimes the url passed in does not start with ipfs:// (because reasons but we should fix this)
+  url = url.startsWith("ipfs://") ? url : `ipfs://${url}`;
   return StorageSingleton.resolveScheme(url);
 }
 

@@ -9,10 +9,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import {
-  useActiveChainId,
   useAddress,
   useChainId,
   useSDK,
+  useSDKChainId,
 } from "@thirdweb-dev/react";
 import {
   ChainId,
@@ -311,7 +311,7 @@ export function useReleasesFromDeploy(
   contractAddress?: string,
   chainId?: SUPPORTED_CHAIN_ID,
 ) {
-  const activeChainId = useActiveChainId();
+  const activeChainId = useSDKChainId();
   const cId = chainId || activeChainId;
   return useQuery(
     (networkKeys.chain(cId) as readonly unknown[]).concat([
