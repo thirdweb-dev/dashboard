@@ -155,9 +155,8 @@ export const PaperCheckoutSetting: React.FC<{
           />
         ) : (
           <PaperKYBButton
-            onSuccess={(_jtw) => {
-              console.log("*** onSuccess", _jtw);
-              setJWT(_jtw);
+            onSuccess={(_jwt) => {
+              setJWT(_jwt);
             }}
             borderRadius="xl"
             borderTopLeftRadius="0"

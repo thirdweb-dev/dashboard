@@ -2336,10 +2336,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.0.5-dev-aa12bfc":
-  version "3.0.5-dev-aa12bfc"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.5-dev-aa12bfc.tgz#cc76bd2ed3d7e3650fa502a85b393a460f17fd1d"
-  integrity sha512-HWZuCTPJ1zUHffhmgfN8kdMp9/3RWsB9N9FDyL18X8153Ag9PSVDA+5gad9Ysvz5bqoJVwjXpqkREq7DNI66Rw==
+"@thirdweb-dev/react@^3.0.5-dev-535e754":
+  version "3.0.5-dev-535e754"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.5-dev-535e754.tgz#7d73a731089fa06cdec394cf770c3da1b584f0b8"
+  integrity sha512-a145PubQmTSB+RZa8HG9AVslmNEbXTjR9v4JSu3fpYqEW3C3mcxzs+hdBBIfQ8LOgckXJ0zglecdmmRzEAbpJA==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -2359,13 +2359,13 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.0.5-dev-aa12bfc":
-  version "3.0.5-dev-aa12bfc"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.5-dev-aa12bfc.tgz#ef200c978a4c01bc9e13a7742ae4fcea65b1f542"
-  integrity sha512-yQZv7D28l4z5eKTEQzouJawqHMU8jTjW6St6ge4UhrMS2788GTg4y2GL13PZuctAKTf5oPYW1oIdWrKcgOzjpw==
+"@thirdweb-dev/sdk@^3.0.5-dev-535e754":
+  version "3.0.5-dev-535e754"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.5-dev-535e754.tgz#6db5427e52aa827c5e978d2107691bcbeff438be"
+  integrity sha512-tmfQDkbtWaUj54dW2400rPVQvkCINktM3oJI50ajgM5UbXWaekLbxLReRMCoQMdcQMMYl/pC+eGrUosHP1cglA==
   dependencies:
     "@thirdweb-dev/contracts-js" "*"
-    "@thirdweb-dev/storage" "1.0.2-dev-aa12bfc"
+    "@thirdweb-dev/storage" "1.0.2-dev-535e754"
     cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
@@ -2377,10 +2377,10 @@
     uuid "^8.3.2"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@1.0.2-dev-aa12bfc", "@thirdweb-dev/storage@^1.0.2-dev-aa12bfc":
-  version "1.0.2-dev-aa12bfc"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.2-dev-aa12bfc.tgz#eb01ba7f1a24f08c31cd6a01ab749b242fc4fb9f"
-  integrity sha512-O9xPOAAHF+wxTEXlpjczrom+vBMgTIkqD3K2eBmyl02XC4D95YjDBO635Zv7eXDUIsz3ljDGuj8/m59NUvoCuA==
+"@thirdweb-dev/storage@1.0.2-dev-535e754", "@thirdweb-dev/storage@^1.0.2-dev-535e754":
+  version "1.0.2-dev-535e754"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.2-dev-535e754.tgz#253d0742b9b451218790d0eb30b7b210315747c9"
+  integrity sha512-qqdaSsQcCv8EjsnZ7w+xaA/YiC9ibMHhXtNtsT458y61XSmefXo4dtbvuWto/yJtyY+3j4hfwFqLKya1bs73Zw==
   dependencies:
     "@microsoft/tsdoc" "^0.14.2"
     cross-fetch "^3.1.5"
