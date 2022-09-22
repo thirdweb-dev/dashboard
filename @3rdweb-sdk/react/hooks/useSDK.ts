@@ -109,11 +109,13 @@ export function useTestnetsContractList(address: string | undefined) {
     ChainId.AvalancheFujiTestnet,
     address,
   );
-  const optimismTestnetQuery = useContractList(ChainId.OptimismKovan, address);
-  const arbitrumTestnetQuery = useContractList(
+  const optimismKovanQuery = useContractList(ChainId.OptimismKovan, address);
+  const optimismGoerliQuery = useContractList(ChainId.OptimismGoerli, address);
+  const arbitrumRinkebyQuery = useContractList(
     ChainId.ArbitrumRinkeby,
     address,
   );
+  const arbitrumGoerliQuery = useContractList(ChainId.ArbitrumGoerli, address);
   const binanceTestnetQuery = useContractList(
     ChainId.BinanceSmartChainTestnet,
     address,
@@ -142,15 +144,27 @@ export function useTestnetsContractList(address: string | undefined) {
         })) || [],
       )
       .concat(
-        optimismTestnetQuery.data?.map((d) => ({
+        optimismKovanQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.OptimismKovan,
         })) || [],
       )
       .concat(
-        arbitrumTestnetQuery.data?.map((d) => ({
+        optimismGoerliQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.OptimismGoerli,
+        })) || [],
+      )
+      .concat(
+        arbitrumRinkebyQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.ArbitrumRinkeby,
+        })) || [],
+      )
+      .concat(
+        arbitrumGoerliQuery.data?.map((d) => ({
+          ...d,
+          chainId: ChainId.ArbitrumGoerli,
         })) || [],
       )
       .concat(
@@ -165,8 +179,10 @@ export function useTestnetsContractList(address: string | undefined) {
     mumbaiQuery.data,
     fantomTestnetQuery.data,
     avalancheFujiTestnetQuery.data,
-    optimismTestnetQuery.data,
-    arbitrumTestnetQuery.data,
+    optimismKovanQuery.data,
+    optimismGoerliQuery.data,
+    arbitrumRinkebyQuery.data,
+    arbitrumGoerliQuery.data,
     binanceTestnetQuery.data,
   ]);
 
@@ -178,8 +194,10 @@ export function useTestnetsContractList(address: string | undefined) {
       mumbaiQuery.isLoading ||
       fantomTestnetQuery.isLoading ||
       avalancheFujiTestnetQuery.isLoading ||
-      optimismTestnetQuery.isLoading ||
-      arbitrumTestnetQuery.isLoading ||
+      optimismKovanQuery.isLoading ||
+      optimismGoerliQuery.isLoading ||
+      arbitrumRinkebyQuery.isLoading ||
+      arbitrumGoerliQuery.isLoading ||
       binanceTestnetQuery.isLoading,
     isFetched:
       rinkebyQuery.isFetched &&
@@ -187,8 +205,10 @@ export function useTestnetsContractList(address: string | undefined) {
       mumbaiQuery.isFetched &&
       fantomTestnetQuery.isFetched &&
       avalancheFujiTestnetQuery.isFetched &&
-      optimismTestnetQuery.isFetched &&
-      arbitrumTestnetQuery.isFetched &&
+      optimismKovanQuery.isFetched &&
+      optimismGoerliQuery.isFetched &&
+      arbitrumRinkebyQuery.isFetched &&
+      arbitrumGoerliQuery.isFetched &&
       binanceTestnetQuery.isFetched,
   };
 }
