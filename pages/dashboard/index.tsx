@@ -30,7 +30,6 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import Solana from "@thirdweb-dev/chain-icons/dist/solana";
 import { useAddress } from "@thirdweb-dev/react";
 import {
   ChainId,
@@ -89,54 +88,49 @@ const Dashboard: ThirdwebNextPage = () => {
       : publicKey?.toBase58();
   }, [publicKey, wallet]);
 
-  return (
-    <Tabs isLazy lazyBehavior="keepMounted">
-      <TabList
-        px={0}
-        borderBottomColor="borderColor"
-        borderBottomWidth="1px"
-        overflowX={{ base: "auto", md: "inherit" }}
-      >
-        <Tab gap={2} _selected={{ borderBottomColor: "purple.500" }}>
-          <Icon opacity={0.85} boxSize={6} as={FancyEVMIcon} />
-          <Heading size="label.lg">Contracts</Heading>
-        </Tab>
-        <Tab
-          gap={2}
-          _selected={{
-            borderBottomColor: "#FBFF5C",
-          }}
+  if (solAddress) {
+    return <SOLDashboard address={solAddress} />;
+  }
+
+  if (evmAddress) {
+    return (
+      <Tabs isLazy lazyBehavior="keepMounted">
+        <TabList
+          px={0}
+          borderBottomColor="borderColor"
+          borderBottomWidth="1px"
+          overflowX={{ base: "auto", md: "inherit" }}
         >
-          <ChakraNextImage
-            src={require("public/assets/product-icons/release.png")}
-            alt=""
-            boxSize={6}
-          />
-          <Heading size="label.lg">Releases</Heading>
-        </Tab>
-        <Tab
-          gap={2}
-          _selected={{
-            borderBottomColor: "#00ffa3",
-          }}
-        >
-          <Icon boxSize={6} as={Solana} />
-          <Heading size="label.lg">Programs</Heading>
-        </Tab>
-      </TabList>
-      <TabPanels px={0} py={2}>
-        <TabPanel px={0}>
-          <EVMDashboard address={evmAddress} />
-        </TabPanel>
-        <TabPanel px={0}>
-          <ReleaseDashboard address={evmAddress} />
-        </TabPanel>
-        <TabPanel px={0}>
-          <SOLDashboard address={solAddress} />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
+          <Tab gap={2} _selected={{ borderBottomColor: "purple.500" }}>
+            <Icon opacity={0.85} boxSize={6} as={FancyEVMIcon} />
+            <Heading size="label.lg">Deployed Contracts</Heading>
+          </Tab>
+          <Tab
+            gap={2}
+            _selected={{
+              borderBottomColor: "#FBFF5C",
+            }}
+          >
+            <ChakraNextImage
+              src={require("public/assets/product-icons/release.png")}
+              alt=""
+              boxSize={6}
+            />
+            <Heading size="label.lg">Released Contracts</Heading>
+          </Tab>
+        </TabList>
+        <TabPanels px={0} py={2}>
+          <TabPanel px={0}>
+            <EVMDashboard address={evmAddress} />
+          </TabPanel>
+          <TabPanel px={0}>
+            <ReleaseDashboard address={evmAddress} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    );
+  }
+  return <NoWallet />;
 };
 
 Dashboard.getLayout = (page: ReactElement) => <AppLayout>{page}</AppLayout>;
@@ -145,18 +139,14 @@ Dashboard.pageId = PageId.Dashboard;
 export default Dashboard;
 
 interface DashboardProps {
-  address?: string;
+  address: string;
 }
 
 const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
   const allContractList = useAllContractList(address);
   return (
     <Flex direction="column" gap={8}>
-      {!address ? (
-        <NoWallet ecosystem="evm" />
-      ) : (
-        <DeployedContracts contractListQuery={allContractList} limit={50} />
-      )}
+      <DeployedContracts contractListQuery={allContractList} limit={50} />
     </Flex>
   );
 };
@@ -164,14 +154,10 @@ const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
 const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
   return (
     <Flex direction="column" gap={8}>
-      {!address ? (
-        <NoWallet ecosystem="evm" isRelease />
-      ) : (
-        // this section needs to be on the publishersdk context (polygon SDK)
-        <PublisherSDKContext>
-          <ReleasedContracts address={address} />
-        </PublisherSDKContext>
-      )}
+      {/* this section needs to be on the publishersdk context (polygon SDK) */}
+      <PublisherSDKContext>
+        <ReleasedContracts address={address} />
+      </PublisherSDKContext>
     </Flex>
   );
 };
@@ -181,11 +167,7 @@ const SOLDashboard: React.FC<DashboardProps> = ({ address }) => {
 
   return (
     <Flex direction="column" gap={8}>
-      {!address ? (
-        <NoWallet ecosystem="solana" />
-      ) : (
-        <DeployedPrograms programListQuery={allProgramAccounts} />
-      )}
+      <DeployedPrograms programListQuery={allProgramAccounts} />
     </Flex>
   );
 };
