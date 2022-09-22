@@ -120,7 +120,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   const [tokenId, setTokenId] = useState(0);
   const [listingId, setListingId] = useState(0);
   const [theme, setTheme] = useState("light");
-  const [primaryColor, setPrimaryColor] = useState("blue");
+  const [primaryColor, setPrimaryColor] = useState("purple");
   const [secondaryColor, setSecondaryColor] = useState("orange");
 
   const chainId = useActiveChainId();
