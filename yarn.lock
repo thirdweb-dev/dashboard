@@ -3320,10 +3320,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.0.5-nightly-3580182":
-  version "3.0.5-nightly-3580182"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.5-nightly-3580182.tgz#74b917563e662cb334fca7763bcbb06776dc0e5e"
-  integrity sha512-tDYCtC8J7YVENdBebuOb5oLAwJqfpExHf3l411WGPm1wQHzX/NGCJhyGLCy8EaaMJFWdIm6JhTqrhizpQPjPBw==
+"@thirdweb-dev/react@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.0.5.tgz#93a21331367d1f791632051d47befdcafa15d87e"
+  integrity sha512-ZcT51GKiwcoMpU53OLLMDDUx5heKiSc7BcYePzNgeWBwM44CplGkv9YERXcsRL3WhiHaSSu5YXs0W7G3MKV4FA==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3343,13 +3343,13 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.0.5-nightly-3580182":
-  version "3.0.5-nightly-3580182"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.5-nightly-3580182.tgz#6bec75ce45218a97a5d13014eae6158e4296f140"
-  integrity sha512-gS4Oz+1d22dwkZgXeBvWdTDTkgRzIfRzy5oVluTKRHd93o+o32DVxRhAKwvLK0yH6N6nP3iEo0tkJAVfANZaBw==
+"@thirdweb-dev/sdk@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.0.5.tgz#963f6e7c68d0b79672ce90a4b4c5c6c1bd6d0d31"
+  integrity sha512-YW3hWnq0hUSZ4vpj8xkJuHiIZpUtberP3UH3FqXQsimnAiYNrtUB8f5cRmvddIU5eJZBpSI29m7zC+7/PzF3xA==
   dependencies:
     "@thirdweb-dev/contracts-js" "^1.1.8"
-    "@thirdweb-dev/storage" "1.0.2-nightly-3580182"
+    "@thirdweb-dev/storage" "^1.0.2"
     cbor-web "^8.1.0"
     cross-fetch "^3.1.5"
     eventemitter3 "^4.0.7"
@@ -3361,17 +3361,17 @@
     uuid "^9.0.0"
     zod "^3.11.6"
 
-"@thirdweb-dev/solana@^0.2.13-nightly-3580182":
-  version "0.2.13-nightly-3580182"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.13-nightly-3580182.tgz#45f63158c1b9925dc92c5f7229dccec7cc1fad34"
-  integrity sha512-euNX/VoVVKkcbw2gBK5TLhdOWzO+iasowpXf+AAK0t04BteM30NDGB0mayVae5fBjBTvsuENy/jv9scdvROAmQ==
+"@thirdweb-dev/solana@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/solana/-/solana-0.2.13.tgz#e6ab8a934b3ec83c4dea7384177e0f85e18ed8af"
+  integrity sha512-aQjh135gZEOFedcizV+jW5IJ8v7d8JIisoXgIWHaqicJjkGF5tX6l+c2Bwb9nu3/drd9XxB1FmxyVgoJlJZiLw==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
     "@project-serum/anchor" "^0.25.0"
     "@solana/spl-token" "^0.2.0"
     "@solana/web3.js" "^1.50.1"
-    "@thirdweb-dev/storage" "1.0.2-nightly-3580182"
+    "@thirdweb-dev/storage" "^1.0.2"
     bn.js "^5.2.1"
     eventemitter3 "^4.0.7"
     form-data "^4.0.0"
@@ -3380,10 +3380,10 @@
     yaml "^2.1.1"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@1.0.2-nightly-3580182", "@thirdweb-dev/storage@^1.0.2-nightly-3580182":
-  version "1.0.2-nightly-3580182"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.2-nightly-3580182.tgz#1e98d1b030ec89767cab9af79b78cbe91d9eebaa"
-  integrity sha512-+fprd7QPQjqSAc/AXTK1ZM7IvqqTPR86S9PeEUmFT8FvQQEBcJlF1OavDPg9B8ptmeeQg0VByzUvCqzdL2djQg==
+"@thirdweb-dev/storage@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.2.tgz#17bae94a7a4a31c7d3a4a1dcc88e47940a6ebf95"
+  integrity sha512-zoOr0wrqF9q1vLfp1Y8FAJ2RZVDte4XYuzTSgvVFRBCuY3/SbwZ0ml3GD2C2BV9wd6w9Du2W+GqIbcJOo7DeLQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"

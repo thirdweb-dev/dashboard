@@ -21,7 +21,7 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
   data,
 }) => {
   return (
-    <Flex align="center" gap={2}>
+    <Flex align="center" gap={4}>
       <Skeleton isLoaded={isLoaded}>
         {data?.image ? (
           <Image
@@ -43,7 +43,9 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
           <Heading size="title.md">{data?.name ? data?.name : ""}</Heading>
         </Skeleton>
         <Skeleton isLoaded={isLoaded}>
-          <Text size="body.md">{isLoaded ? data?.description : ""}</Text>
+          <Text size="body.md" noOfLines={3}>
+            {isLoaded ? data?.description : ""}
+          </Text>
         </Skeleton>
         <AddressCopyButton size="xs" address={address} />
       </Flex>

@@ -115,6 +115,15 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
     ctx.params,
     "networkOrAddress",
   ) as string;
+  // handle old contract paths
+  if (networkOrAddress === "contracts") {
+    return {
+      redirect: {
+        destination: "/contracts",
+        permanent: false,
+      },
+    };
+  }
   // handle old dashboard urls
   if (networkOrAddress === "dashboard") {
     const pathSegments = ctx.params?.catchAll as string[];

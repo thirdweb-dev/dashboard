@@ -3,6 +3,7 @@
 const ContentSecurityPolicy = `
   default-src 'self';
   img-src * data: blob:;
+  media-src * data: blob:;
   object-src 'none';
   style-src 'self' 'unsafe-inline' fonts.googleapis.com unpkg.com;
   font-src 'self' fonts.gstatic.com;
@@ -88,6 +89,12 @@ const moduleExports = {
         source:
           "/:network/(edition|nft-collection|token|pack|nft-drop|signature-drop|edition-drop|token-drop|marketplace|split|vote)/:address",
         destination: "/:network/:address",
+        permanent: false,
+      },
+      // prebuilt contract deploys
+      {
+        source: "/contracts/new/:slug*",
+        destination: "/contracts",
         permanent: false,
       },
     ];

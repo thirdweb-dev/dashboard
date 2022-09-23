@@ -1,6 +1,5 @@
 import {
   CONTRACTS_MAP,
-  ChainId,
   ContractType,
   FullPublishMetadata,
   Role,
@@ -48,20 +47,7 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
   token: [],
   vote: [],
   marketplace: [],
-  pack: [
-    ChainId.Mainnet,
-    ChainId.Polygon,
-    ChainId.Fantom,
-    ChainId.Avalanche,
-    ChainId.Optimism,
-    ChainId.Arbitrum,
-    ChainId.ArbitrumRinkeby,
-    ChainId.ArbitrumGoerli,
-    ChainId.OptimismKovan,
-    ChainId.OptimismGoerli,
-    ChainId.BinanceSmartChainMainnet,
-    ChainId.BinanceSmartChainTestnet,
-  ],
+  pack: [],
   split: [],
   "token-drop": [],
   "signature-drop": [],
@@ -103,7 +89,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "NFT Drop",
       description: "One NFT, one owner",
       erc: "ERC721",
-      audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+      audit: "ipfs://QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/drop/DropERC721.sol",
       ecosytem: "evm",
@@ -112,7 +99,8 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "Signature Drop",
       description: "ERC721A NFTs that other people can claim",
       erc: "ERC721A",
-      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      audit: "ipfs://QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/signature-drop/SignatureDrop.sol",
       ecosytem: "evm",
@@ -120,7 +108,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
     marketplace: buildContractForContractMap("marketplace", {
       title: "Marketplace",
       description: "Marketplace for ERC721/ERC1155 NFTs",
-      audit: "QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+      audit: "ipfs://QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/marketplace/Marketplace.sol",
       ecosytem: "evm",
@@ -129,7 +117,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "Edition Drop",
       description: "One NFT, multiple owners",
       erc: "ERC1155",
-      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      audit: "ipfs://QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/drop/DropERC1155.sol",
       ecosytem: "evm",
@@ -139,7 +127,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description:
         "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721",
       erc: "ERC721",
-      audit: "QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
+      audit: "ipfs://QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/multiwrap/Multiwrap.sol",
       ecosytem: "evm",
