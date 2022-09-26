@@ -11,7 +11,7 @@ const settingTypeMap = {
   },
   primarySale: {
     name: "Primary Sales",
-    portalLink: "hhttps://portal.thirdweb.com/extensions/primarysale",
+    portalLink: "https://portal.thirdweb.com/extensions/primarysale",
   },
   royalties: {
     name: "Royalties",
