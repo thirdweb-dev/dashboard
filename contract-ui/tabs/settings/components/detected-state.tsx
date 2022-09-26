@@ -50,6 +50,7 @@ export const SettingDetectedState: React.FC<SettingDetectedStateProps> = ({
       backdropFilter="blur(4px)"
       placeItems="center"
       px={{ base: 6, md: 0 }}
+      borderRadius="md"
     >
       {detectedState === "loading" ? (
         <Spinner size="sm" />
