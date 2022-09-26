@@ -306,7 +306,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               />
             )}
             <Link
-              href="https://www.notion.so/thirdweb/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+              href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
               mt="24px"
               isExternal
             >
@@ -495,7 +495,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                   />
                 )}
                 <Link
-                  href="https://www.notion.so/thirdweb/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+                  href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
                   mt="24px"
                   isExternal
                 >
