@@ -160,10 +160,7 @@ const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => {
         <Flex gap={2} align="center">
           <Icon boxSize={4} color="green.500" as={FiCheckCircle} />
           <LinkOverlay
-            href={`https://portal.thirdweb.com/extensions/${feature.docLinks.sdk.replace(
-              "sdk.",
-              "",
-            )}`}
+            href={`https://portal.thirdweb.com/contracts/${feature.docLinks.contracts}`}
             isExternal
             onClick={() =>
               trackEvent({

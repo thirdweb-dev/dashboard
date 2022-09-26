@@ -308,10 +308,7 @@ Deploy it in one click`,
                       <Icon as={FcCheckmark} boxSize={5} />
                       <Text size="label.md">
                         <TrackedLink
-                          href={`https://portal.thirdweb.com/extensions/${extension.docLinks.sdk.replace(
-                            "sdk.",
-                            "",
-                          )}`}
+                          href={`https://portal.thirdweb.com/contracts/${extension.docLinks.contracts}`}
                           isExternal
                           category="extension"
                           label={extension.name}
