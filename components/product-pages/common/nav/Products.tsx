@@ -61,6 +61,13 @@ export const PRODUCTS: IProduct[] = [
     link: "/deploy",
     icon: require("public/assets/product-icons/deploy.png"),
   },
+  {
+    name: "Storage",
+    label: "storage",
+    description: "Fast, reliable, decentralized storage",
+    link: "/storage",
+    icon: require("public/assets/product-icons/contracts.png"),
+  },
 ];
 
 export const Products: React.FC = () => {
