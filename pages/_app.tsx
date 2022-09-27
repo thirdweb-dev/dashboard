@@ -63,7 +63,9 @@ const persister: Persister = createSyncStoragePersister({
         clientState: {
           ...data.clientState,
           queries: data.clientState.queries.filter(
-            (q) => !q.queryKey.includes("contract-instance"),
+            // covers solana as well as evm
+            // TODO switch this to the new check (once it is exported)
+            (q) => !q.queryKey.includes("-instance"),
           ),
         },
       },
