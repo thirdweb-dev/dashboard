@@ -10,8 +10,11 @@ import {
   usePrevious,
 } from "@chakra-ui/react";
 import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
-import { AuctionListing, DirectListing } from "@thirdweb-dev/sdk";
-import { Marketplace } from "@thirdweb-dev/sdk/dist/declarations/src/contracts/prebuilt-implementations/marketplace";
+import type {
+  AuctionListing,
+  DirectListing,
+  Marketplace,
+} from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
 import { Card, Drawer, Heading, Text } from "tw-components";

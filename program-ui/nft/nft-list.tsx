@@ -15,8 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useNFTs } from "@thirdweb-dev/react/solana";
 import { NFTMetadataInput } from "@thirdweb-dev/sdk";
-import type { NFTCollection } from "@thirdweb-dev/solana";
-import { NFTDrop } from "@thirdweb-dev/solana/dist/declarations/src/contracts/nft-drop";
+import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import { useEffect, useMemo, useState } from "react";

@@ -1,7 +1,7 @@
 import { NFTList } from "./nft-list";
 import { Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { useMintNFT } from "@thirdweb-dev/react/solana";
-import { NFTCollection } from "@thirdweb-dev/solana";
+import type { NFTCollection } from "@thirdweb-dev/sdk/solana";
 import { NFTMintForm } from "contract-ui/tabs/nfts/components/mint-form";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer, Heading } from "tw-components";

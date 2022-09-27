@@ -1,8 +1,8 @@
 import {
   ThirdwebSDK as EVMThirdwebSDK,
   SUPPORTED_CHAIN_ID,
-} from "@thirdweb-dev/sdk";
-import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/solana";
+} from "@thirdweb-dev/sdk/evm";
+import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { getEVMRPC, getSOLRPC } from "constants/rpc";
 import { DashboardSolanaNetwork } from "utils/network";

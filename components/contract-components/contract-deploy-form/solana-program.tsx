@@ -4,7 +4,7 @@ import {
   NFTCollectionMetadataInputSchema,
   NFTDropContractInputSchema,
   TokenMetadataInputSchema,
-} from "@thirdweb-dev/solana";
+} from "@thirdweb-dev/sdk/solana";
 import { FileInput } from "components/shared/FileInput";
 import { SolContractType } from "constants/mappings";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";

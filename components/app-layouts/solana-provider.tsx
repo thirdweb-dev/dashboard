@@ -7,9 +7,8 @@ import {
 } from "@solana/wallet-adapter-react";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { ThirdwebSDKProvider } from "@thirdweb-dev/react/solana";
-import { ThirdwebSDK } from "@thirdweb-dev/solana";
 import { getSOLRPC } from "constants/rpc";
-import { createContext, useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
 const wallets = [new PhantomWalletAdapter()];

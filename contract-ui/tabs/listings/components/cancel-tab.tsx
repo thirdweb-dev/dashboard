@@ -1,7 +1,6 @@
 import { Stack } from "@chakra-ui/react";
 import { useCancelListing } from "@thirdweb-dev/react";
-import { ListingType } from "@thirdweb-dev/sdk";
-import { Marketplace } from "@thirdweb-dev/sdk/dist/declarations/src/contracts/prebuilt-implementations/marketplace";
+import { ListingType, Marketplace } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";

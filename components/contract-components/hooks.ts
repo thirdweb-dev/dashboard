@@ -19,6 +19,7 @@ import {
   ContractInfoSchema,
   ContractType,
   ExtraPublishMetadata,
+  FeatureWithEnabled,
   ProfileMetadata,
   PublishedContract,
   SUPPORTED_CHAIN_ID,
@@ -31,7 +32,6 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk";
-import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/constants/contract-features";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
 import { ENSResolveResult, isEnsName } from "lib/ens";

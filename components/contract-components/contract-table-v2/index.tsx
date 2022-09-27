@@ -20,11 +20,11 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
 import { Solana } from "@thirdweb-dev/chain-icons";
 import { ContractType } from "@thirdweb-dev/sdk";
-import {
+import type {
   NFTCollectionMetadataInput,
+  NFTDropContractInput,
   TokenMetadataInput,
-} from "@thirdweb-dev/solana/dist/declarations/src/types/contracts";
-import { NFTDropContractInput } from "@thirdweb-dev/solana/dist/declarations/src/types/contracts/nft-drop";
+} from "@thirdweb-dev/sdk/solana";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FancyEVMIcon } from "components/icons/Ethereum";

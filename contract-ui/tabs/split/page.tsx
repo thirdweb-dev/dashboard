@@ -13,7 +13,7 @@ import {
   StatNumber,
 } from "@chakra-ui/react";
 import { useAddress, useContract } from "@thirdweb-dev/react";
-import { Split } from "@thirdweb-dev/sdk/dist/declarations/src/contracts/prebuilt-implementations/split";
+import type { Split } from "@thirdweb-dev/sdk/evm";
 import { BigNumber, ethers } from "ethers";
 import { useMemo } from "react";
 import { Card, Heading, Text } from "tw-components";

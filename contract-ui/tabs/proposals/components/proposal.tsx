@@ -11,7 +11,7 @@ import {
   Proposal as ProposalType,
   VoteType,
 } from "@thirdweb-dev/sdk";
-import { Vote } from "@thirdweb-dev/sdk/dist/declarations/src/contracts/prebuilt-implementations/vote";
+import type { Vote } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { ethers } from "ethers";
 import { useTxNotifications } from "hooks/useTxNotifications";
