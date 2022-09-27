@@ -45,9 +45,7 @@ const CatchAllPage: ThirdwebNextPage = (
     );
   }
   if (props.pageType === "program") {
-    return (
-      <ProgramPage address={props.programAddress} network={props.network} />
-    );
+    return <ProgramPage address={props.programAddress} />;
   }
   if (props.pageType === "release") {
     return (

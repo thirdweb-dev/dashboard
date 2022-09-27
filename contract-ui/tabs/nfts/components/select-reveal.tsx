@@ -30,7 +30,7 @@ import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -39,6 +39,7 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
+  Link,
   Text,
 } from "tw-components";
 import { shuffleData } from "utils/batch";
@@ -180,6 +181,21 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     "ERC1155Revealable",
   ]);
 
+  const isFinished = progress.progress >= progress.total;
+  const [takingLong, setTakingLong] = useState(false);
+
+  useEffect(() => {
+    if (isFinished) {
+      const t = setTimeout(() => {
+        setTakingLong(true);
+      }, 10000);
+
+      return () => {
+        clearTimeout(t);
+      };
+    }
+  }, [isFinished]);
+
   return (
     <Flex flexDir="column">
       <Flex
@@ -229,8 +245,8 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               type="submit"
               isLoading={mintBatch.isLoading}
               loadingText={
-                progress.progress >= progress.total
-                  ? `Waiting for approval...`
+                isFinished
+                  ? `Finishing upload...`
                   : `Uploading ${mergedData.length} NFTs...`
               }
               onClick={() => {
@@ -274,6 +290,11 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
             >
               Upload {mergedData.length} NFTs
             </TransactionButton>
+            {takingLong && (
+              <Text size="body.sm" textAlign="center">
+                This may take a while.
+              </Text>
+            )}
             {mintBatch.isLoading && (
               <Progress
                 borderRadius="md"
@@ -284,6 +305,15 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                 value={(progress.progress / progress.total) * 100}
               />
             )}
+            <Link
+              href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+              mt="24px"
+              isExternal
+            >
+              <Text size="body.sm">
+                Experiencing issues uploading your files?
+              </Text>
+            </Link>
           </Flex>
         ) : selectedReveal === "delayed" ? (
           <>
@@ -442,13 +472,18 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                   type="submit"
                   isLoading={mintDelayedRevealBatch.isLoading}
                   loadingText={
-                    progress.progress >= progress.total
-                      ? `Waiting for approval...`
+                    isFinished
+                      ? `Finishing upload...`
                       : `Uploading ${mergedData.length} NFTs...`
                   }
                 >
                   Upload {mergedData.length} NFTs
                 </TransactionButton>
+                {takingLong && (
+                  <Text size="body.sm" textAlign="center">
+                    This may take a while.
+                  </Text>
+                )}
                 {mintDelayedRevealBatch.isLoading && (
                   <Progress
                     borderRadius="md"
@@ -459,6 +494,15 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                     value={(progress.progress / progress.total) * 100}
                   />
                 )}
+                <Link
+                  href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+                  mt="24px"
+                  isExternal
+                >
+                  <Text size="body.sm">
+                    Experiencing issues uploading your files?
+                  </Text>
+                </Link>
               </Stack>
             </Stack>
           </>

@@ -1,8 +1,8 @@
 import { NFTList } from "./nft-list";
 import { Flex, Icon, useDisclosure } from "@chakra-ui/react";
+import { useMintNFT } from "@thirdweb-dev/react/solana";
 import { NFTCollection } from "@thirdweb-dev/solana";
 import { NFTMintForm } from "contract-ui/tabs/nfts/components/mint-form";
-import { useSolMintNFT } from "program-ui/hooks/program";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer, Heading } from "tw-components";
 
@@ -27,7 +27,7 @@ export const NFTMintButton: React.FC<{ program: NFTCollection }> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const mutation = useSolMintNFT(program);
+  const mutation = useMintNFT(program);
   return (
     <>
       <Drawer

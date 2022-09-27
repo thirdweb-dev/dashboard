@@ -1,23 +1,20 @@
 import { MetadataHeader } from "../../components/custom-contract/contract-header/metadata-header";
 import { Box } from "@chakra-ui/react";
+import { useProgram, useProgramMetadata } from "@thirdweb-dev/react/solana";
 import {
   FeatureIconMap,
   PREBUILT_SOLANA_CONTRACTS_MAP,
 } from "constants/mappings";
-import { useProgram, useProgramMetadata } from "program-ui/hooks/program";
 import { useMemo } from "react";
-import { DashboardSolanaNetwork } from "utils/network";
 
 interface ProgramMetadataProps {
   address: string;
-  network: DashboardSolanaNetwork;
 }
 
 export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
   address,
-  network,
 }) => {
-  const { data: account } = useProgram(address, network);
+  const { data: account } = useProgram(address);
   const metadataQuery = useProgramMetadata(account);
 
   const contractTypeImage = useMemo(() => {

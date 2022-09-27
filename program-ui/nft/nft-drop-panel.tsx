@@ -1,8 +1,8 @@
 import { NFTList } from "./nft-list";
 import { Flex, Icon, useDisclosure } from "@chakra-ui/react";
+import { useLazyMintNFT } from "@thirdweb-dev/react/solana";
 import { NFTDrop } from "@thirdweb-dev/solana/dist/declarations/src/contracts/nft-drop";
 import { NFTMintForm } from "contract-ui/tabs/nfts/components/mint-form";
-import { useSolLazyMintNFT } from "program-ui/hooks/program";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer, Heading } from "tw-components";
 
@@ -27,7 +27,7 @@ export const NFTLazyMintButton: React.FC<{ program: NFTDrop }> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const mutation = useSolLazyMintNFT(program);
+  const mutation = useLazyMintNFT(program);
   // TODO (sol) not cast as any here
   return (
     <>

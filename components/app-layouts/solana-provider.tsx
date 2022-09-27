@@ -2,12 +2,14 @@ import { useDashboardSOLNetworkId } from "@3rdweb-sdk/react";
 import {
   ConnectionProvider,
   WalletProvider,
+  useConnection,
   useWallet,
 } from "@solana/wallet-adapter-react";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { ThirdwebSDKProvider } from "@thirdweb-dev/react/solana";
 import { ThirdwebSDK } from "@thirdweb-dev/solana";
 import { getSOLRPC } from "constants/rpc";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
 const wallets = [new PhantomWalletAdapter()];
@@ -31,46 +33,14 @@ export const SolanaProvider: ComponentWithChildren = ({ children }) => {
   );
 };
 
-interface TWSolanaProviderProps {}
-
-const TWSolanaContext = createContext<ThirdwebSDK | null>(null);
-
-export function useSOLSDK() {
-  return useContext(TWSolanaContext);
-}
-
-const TWSolanaProvider: ComponentWithChildren<TWSolanaProviderProps> = ({
-  children,
-}) => {
+const TWSolanaProvider: ComponentWithChildren = ({ children }) => {
   const wallet = useWallet();
 
-  const [solanaSDK, setSolanaSDK] = useState<ThirdwebSDK | null>(null);
-
-  const dashboardNetwork = useDashboardSOLNetworkId();
-  const endpoint = useMemo(
-    () => (dashboardNetwork ? getSOLRPC(dashboardNetwork) : undefined),
-    [dashboardNetwork],
-  );
-
-  useEffect(() => {
-    if (endpoint) {
-      setSolanaSDK(ThirdwebSDK.fromNetwork(endpoint));
-    }
-  }, [endpoint]);
-
-  useEffect(() => {
-    if (solanaSDK) {
-      if (wallet.publicKey) {
-        solanaSDK.wallet.connect(wallet);
-      } else {
-        solanaSDK.wallet.disconnect();
-      }
-    }
-  }, [solanaSDK, wallet]);
+  const { connection } = useConnection();
 
   return (
-    <TWSolanaContext.Provider value={solanaSDK}>
+    <ThirdwebSDKProvider wallet={wallet} connection={connection}>
       {children}
-    </TWSolanaContext.Provider>
+    </ThirdwebSDKProvider>
   );
 };

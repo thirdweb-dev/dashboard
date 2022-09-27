@@ -1,15 +1,15 @@
 import { ButtonGroup, Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  useMintToken,
+  useProgramMetadata,
+  useTokenBalance,
+} from "@thirdweb-dev/react/solana";
 import { CurrencyValue } from "@thirdweb-dev/sdk";
 import { Token, TokenMetadata } from "@thirdweb-dev/solana";
 import { TokenMintFormLayout } from "contract-ui/tabs/tokens/components/mint-form";
 import { TokenSupplyLayout } from "contract-ui/tabs/tokens/components/supply-layout";
 import { BigNumber } from "ethers";
-import {
-  useProgramMetadata,
-  useSolMintToken,
-  useSolOwnedTokenSupply,
-} from "program-ui/hooks/program";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer, Heading } from "tw-components";
 
@@ -66,7 +66,7 @@ export const TokenMintButton: React.FC<{ program: Token }> = ({
 
 export const TokenMintForm: React.FC<{ program: Token }> = ({ program }) => {
   const wallet = useWallet();
-  const mint = useSolMintToken(program);
+  const mint = useMintToken(program);
   const decimals = useProgramMetadata(program);
 
   return (
@@ -85,7 +85,7 @@ export const TokenSupply: React.FC<{
   const wallet = useWallet();
   const address = wallet?.publicKey?.toBase58();
   const metadataQuery = useProgramMetadata(program);
-  const ownedTokensQuery = useSolOwnedTokenSupply(program, address);
+  const ownedTokensQuery = useTokenBalance(program, address || null);
   return (
     <TokenSupplyLayout
       isTokenSupplySuccess={metadataQuery.isSuccess}
@@ -100,7 +100,7 @@ export const TokenSupply: React.FC<{
 // TODO (SOL) - consolidate schema types between sol and sdk
 const toDashboardSupply = (
   query: ReturnType<typeof useProgramMetadata>,
-  ownedTokensQuery?: ReturnType<typeof useSolOwnedTokenSupply>,
+  ownedTokensQuery?: ReturnType<typeof useTokenBalance>,
 ): CurrencyValue | undefined => {
   const data = query.data as TokenMetadata;
   if (!data) {

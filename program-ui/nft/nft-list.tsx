@@ -13,12 +13,12 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useNFTs } from "@thirdweb-dev/react/solana";
 import { NFTMetadataInput } from "@thirdweb-dev/sdk";
-import { NFTCollection } from "@thirdweb-dev/solana";
+import type { NFTCollection } from "@thirdweb-dev/solana";
 import { NFTDrop } from "@thirdweb-dev/solana/dist/declarations/src/contracts/nft-drop";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
-import { useSolNFTs } from "program-ui/hooks/program";
 import { useEffect, useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
@@ -63,7 +63,7 @@ export const NFTList: React.FC<{
 
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
 
-  const getAllQueryResult = useSolNFTs(program);
+  const getAllQueryResult = useNFTs(program);
   const totalCount = getAllQueryResult.data ? getAllQueryResult.data.length : 0;
 
   const {

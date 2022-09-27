@@ -7,7 +7,7 @@ import {
   Stack,
   useModalContext,
 } from "@chakra-ui/react";
-import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
+import { UseMutationResult } from "@tanstack/react-query";
 import {
   TokenParams,
   useAddress,

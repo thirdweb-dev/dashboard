@@ -54,7 +54,6 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
   multiwrap: [],
   custom: [],
 };
-
 function buildContractForContractMap(
   type: ContractType,
   details: Omit<
@@ -70,6 +69,7 @@ function buildContractForContractMap(
     contractType: sdkData.contractType,
     roles: sdkData.roles,
     icon,
+
     metadata: {
       name: details.title,
       description: details.description,
