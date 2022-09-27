@@ -30,7 +30,7 @@ interface EmbedSetupProps {
   contractType?: string | null;
 }
 
-const IPFS_URI = "ipfs://QmS6yKRXj8DqdQ8a6XpHrM3rmhNBHmVVKWAFX2M8nVyYPV";
+const IPFS_URI = "ipfs://QmRcP9Q89tCjmumNWSLvLmvKqypimEeWSAKQQSWaDKbHML";
 
 interface IframeSrcOptions {
   rpcUrl: string;
@@ -154,16 +154,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
     contractType as ContractType,
     {
       chainId,
-      ipfsGateway: watch("ipfsGateway"),
-      rpcUrl: watch("rpcUrl"),
-      tokenId: watch("tokenId"),
-      listingId: watch("listingId"),
-      relayUrl: watch("relayUrl"),
-      theme: watch("theme"),
-      primaryColor: watch("primaryColor"),
-      secondaryColor: watch("secondaryColor"),
-      biconomyApiKey: watch("biconomyApiKey"),
-      biconomyApiId: watch("biconomyApiId"),
+      ...watch(),
     },
   );
 
