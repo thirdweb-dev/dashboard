@@ -2953,7 +2953,7 @@
     superstruct "^0.14.2"
     tweetnacl "^1.0.3"
 
-"@solana/web3.js@^1.32.0", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.47.3", "@solana/web3.js@^1.50.1", "@solana/web3.js@^1.56.2":
+"@solana/web3.js@^1.32.0", "@solana/web3.js@^1.35.1", "@solana/web3.js@^1.36.0", "@solana/web3.js@^1.47.3", "@solana/web3.js@^1.50.1", "@solana/web3.js@^1.56.2":
   version "1.63.1"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.63.1.tgz#88a19a17f5f4aada73ad70a94044c1067cab2b4d"
   integrity sha512-wgEdGVK5FTS2zENxbcGSvKpGZ0jDS6BUdGu8Gn6ns0CzgJkK83u4ip3THSnBPEQ5i/jrqukg998BwV1H67+qiQ==
@@ -2974,7 +2974,7 @@
     rpc-websockets "^7.5.0"
     superstruct "^0.14.2"
 
-"@solana/web3.js@^1.36.0", "@solana/web3.js@^1.44.3", "@solana/web3.js@^1.61.1":
+"@solana/web3.js@^1.44.3", "@solana/web3.js@^1.61.1":
   version "1.62.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.62.0.tgz#8fef9fd443217161ddc25e701f603222047bc520"
   integrity sha512-rHnqJR5ECooUp8egurP9Qi1SKI1Q3pbF2ZkaHbEmFsSjBsyEe+Qqxa5h+7ueylqApYyk0zawnxz83y4kdrlNIA==
@@ -3351,10 +3351,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.1.0-nightly-1eaedc2":
-  version "3.1.0-nightly-1eaedc2"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.1.0-nightly-1eaedc2.tgz#d9f4c27c256ae01cf49d0ecd5aa270e992d3a636"
-  integrity sha512-QsNDvC1/bb3ivYkZYy3FdlEBbn78RIFYHhsqXf+Z4xbpKhFE2xtPllzGkwB2epINHlp3/dc9LTs4m4bUf9Ipjw==
+"@thirdweb-dev/react@^3.1.0-nightly-3c8f620":
+  version "3.1.0-nightly-3c8f620"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.1.0-nightly-3c8f620.tgz#d80f5121bb41a14834ead83f4a5f72af2806bf80"
+  integrity sha512-73Kcd07g5ZaN+YehvLgl6xDKf3StDMRtz7m1VxiMF3Ga0WKuJVILb8MxKguARQyQQti+RXqyIdJ6br5GKzSG4A==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3374,10 +3374,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.1.0-nightly-1eaedc2":
-  version "3.1.0-nightly-1eaedc2"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.1.0-nightly-1eaedc2.tgz#ff515d7ddf01826c0a5949bfd8c127733a141c36"
-  integrity sha512-xrC7yTdK83SfyLVdnPEuybhlupBA/aql3mJJPExlTJaPUmsvozD3fyAfc2XKt2xbDJBuLw24FbNN1vZXHVju/A==
+"@thirdweb-dev/sdk@^3.1.0-nightly-3c8f620":
+  version "3.1.0-nightly-3c8f620"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.1.0-nightly-3c8f620.tgz#170c637e38eb6a04811bf27873c8e905b93f90fb"
+  integrity sha512-mUSAjFHsxRJ+D43Mb1rT3ZhVkID6TiGyoBgD613Rt/CRIOuNyUOkvd+xU/KE5iVz2aNEW0aPTBc24r5dOB65mQ==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
