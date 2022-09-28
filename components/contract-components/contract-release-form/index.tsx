@@ -430,7 +430,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </Text>
             </Flex>
           </Flex>
-          {showProxyDeployment && isDeployableViaProxy && (
+          {isDeployableViaProxy && (
             <Flex flexDir={"column"} gap={2}>
               <Heading size="label.lg">
                 Addresses of your deployed implementations
