@@ -2,6 +2,9 @@ import { Flex } from "@chakra-ui/react";
 import { Text } from "tw-components";
 
 export const ChainDeprecation = () => {
+  const currentDate = new Date();
+  const deprecationDate = new Date("2021-10-05T00:00:00.000Z");
+
   return (
     <Flex
       padding="20px"
@@ -12,8 +15,10 @@ export const ChainDeprecation = () => {
       mb={8}
     >
       <Text color="white">
-        This network is being deprecated October 5th. Please migrate your
-        contract to a new network.
+        {currentDate < deprecationDate
+          ? "This network is deprecated."
+          : "This network is being deprecated October 5th."}{" "}
+        Please migrate your contract to a new network.
       </Text>
     </Flex>
   );
