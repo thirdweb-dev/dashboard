@@ -59,8 +59,6 @@ export const Permissions = <TContract extends ContractWithRoles>({
     BuiltinContractMap[contractType as keyof typeof BuiltinContractMap]
       .contractType !== "custom";
 
-  console.log(roles);
-
   return (
     <FormProvider {...form}>
       <Flex
