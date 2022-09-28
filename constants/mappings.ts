@@ -41,7 +41,7 @@ export interface BuiltinContractDetails {
   metadata: Omit<FullPublishMetadata, "logo"> & { logo: StaticImageData };
 }
 
-const deprecatedChains: SUPPORTED_CHAIN_ID[] = [
+export const deprecatedChains: SUPPORTED_CHAIN_ID[] = [
   ChainId.Rinkeby,
   ChainId.ArbitrumRinkeby,
   ChainId.OptimismKovan,
