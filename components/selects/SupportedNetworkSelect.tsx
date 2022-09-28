@@ -64,7 +64,8 @@ export const SupportedNetworkSelect = forwardRef<
             >
               {tn.chainName} ({tn.symbol})
               {deprecatedChains.includes(tn.chainId) && " - Deprecated"}
-              {disabledChainIds?.includes(tn.chainId)
+              {disabledChainIds?.includes(tn.chainId) &&
+              !deprecatedChains.includes(tn.chainId)
                 ? ` - ${disabledChainIdText}`
                 : ""}
             </option>
