@@ -196,6 +196,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   uris: contractId,
                   release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
                   version: data.version,
+                  is_proxy: data.isDeployableViaProxy,
+                  is_factory: data.isDeployableViaFactory,
                 });
                 if (successRedirectUrl) {
                   router.push(
@@ -215,6 +217,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   label: "error",
                   uris: contractId,
                   release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
+                  is_proxy: data.isDeployableViaProxy,
+                  is_factory: data.isDeployableViaFactory,
                 });
               },
             },
