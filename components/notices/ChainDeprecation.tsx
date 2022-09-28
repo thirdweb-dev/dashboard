@@ -16,9 +16,8 @@ export const ChainDeprecation = () => {
     >
       <Text color="white">
         {currentDate < deprecationDate
-          ? "This network is deprecated."
-          : "This network is being deprecated October 5th."}{" "}
-        Please migrate your contract to a new network.
+          ? "This network is deprecated. Please migrate your contract to a new network."
+          : "This network is being deprecated October 5th. Please migrate your contract to a new network before then."}
       </Text>
     </Flex>
   );
