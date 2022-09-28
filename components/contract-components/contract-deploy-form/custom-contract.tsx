@@ -7,7 +7,6 @@ import {
 } from "../hooks";
 import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
 import {
-  ChainId,
   ContractType,
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
