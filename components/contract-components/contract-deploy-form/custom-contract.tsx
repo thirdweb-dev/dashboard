@@ -116,6 +116,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           contractMetadata: d,
           publishMetadata: compilerMetadata.data,
           chainId: selectedChain,
+          is_proxy: fullReleaseMetadata.data?.isDeployableViaProxy,
+          is_factory: fullReleaseMetadata.data?.isDeployableViaProxy,
         };
         trackEvent({
           category: "custom-contract",
