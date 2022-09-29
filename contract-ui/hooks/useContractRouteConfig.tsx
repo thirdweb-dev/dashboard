@@ -49,7 +49,7 @@ export function useContractRouteConfig(
       isEnabled: extensionDetectedState({
         contractQuery,
         feature: ["ERC1155", "ERC721"],
-      }),
+      })  === "enabled" ? "enabled" : "disabled",
       element: () =>
         import("../tabs/nfts/page").then(({ ContractNFTPage }) => (
           <ContractNFTPage contractAddress={contractAddress} />
@@ -58,7 +58,7 @@ export function useContractRouteConfig(
     {
       title: "Tokens",
       path: "tokens",
-      isEnabled: extensionDetectedState({ contractQuery, feature: "ERC20" }),
+      isEnabled: extensionDetectedState({ contractQuery, feature: "ERC20" }) === "enabled" ? "enabled" : "disabled",
       element: () =>
         import("../tabs/tokens/page").then(({ ContractTokensPage }) => (
           <ContractTokensPage contractAddress={contractAddress} />
@@ -67,9 +67,7 @@ export function useContractRouteConfig(
     {
       title: "Listings",
       path: "listings",
-      isEnabled: contractTypeQuery.isLoading
-        ? "loading"
-        : contractTypeQuery.data === "marketplace"
+      isEnabled:         contractTypeQuery.data === "marketplace"
         ? "enabled"
         : "disabled",
       element: () =>
@@ -80,9 +78,8 @@ export function useContractRouteConfig(
     {
       title: "Balances",
       path: "split",
-      isEnabled: contractTypeQuery.isLoading
-        ? "loading"
-        : contractTypeQuery.data === "split"
+      isEnabled: 
+        contractTypeQuery.data === "split"
         ? "enabled"
         : "disabled",
       element: () =>
@@ -93,9 +90,7 @@ export function useContractRouteConfig(
     {
       title: "Proposals",
       path: "proposals",
-      isEnabled: contractTypeQuery.isLoading
-        ? "loading"
-        : contractTypeQuery.data === "vote"
+      isEnabled: contractTypeQuery.data === "vote"
         ? "enabled"
         : "disabled",
       element: () =>
@@ -112,7 +107,7 @@ export function useContractRouteConfig(
           "ERC721ClaimableWithConditions",
           "ERC20ClaimableWithConditions",
         ],
-      }),
+      })  === "enabled" ? "enabled" : "disabled",
       element: () =>
         import("../tabs/claim-conditions/page").then(
           ({ ContractClaimConditionsPage }) => (
@@ -126,7 +121,7 @@ export function useContractRouteConfig(
       isEnabled: extensionDetectedState({
         contractQuery,
         feature: "Permissions",
-      }),
+      })  === "enabled" ? "enabled" : "disabled",
       element: () =>
         import("../tabs/permissions/page").then(
           ({ ContractPermissionsPage }) => (
@@ -141,9 +136,7 @@ export function useContractRouteConfig(
         import("../tabs/embed/page").then(({ CustomContractEmbedPage }) => (
           <CustomContractEmbedPage contractAddress={contractAddress} />
         )),
-      isEnabled: contractTypeQuery.isLoading
-        ? "loading"
-        : embedEnabled
+      isEnabled: embedEnabled
         ? "enabled"
         : "disabled",
     },
