@@ -1,3 +1,4 @@
+import { NFTDrawer } from "./nft-drawer";
 import {
   Center,
   Flex,
@@ -14,8 +15,11 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useNFTs } from "@thirdweb-dev/react/solana";
-import { NFTMetadataInput } from "@thirdweb-dev/sdk";
-import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
+import type {
+  NFTCollection,
+  NFTDrop,
+  NFTMetadata,
+} from "@thirdweb-dev/sdk/solana";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import { useEffect, useMemo, useState } from "react";
@@ -29,11 +33,11 @@ import {
 import { Column, usePagination, useTable } from "react-table";
 import { AddressCopyButton, Card, Heading, Text } from "tw-components";
 
-export const NFTList: React.FC<{
+export const NFTGetAllTable: React.FC<{
   program: NFTCollection | NFTDrop;
 }> = ({ program }) => {
   const tableColumns = useMemo(() => {
-    const cols: Column<NFTMetadataInput>[] = [
+    const cols: Column<NFTMetadata>[] = [
       {
         Header: "Address",
         accessor: (row) =>
@@ -102,7 +106,7 @@ export const NFTList: React.FC<{
   }, [pageIndex, pageSize]);
 
   // TODO (SOL) NFTDrawer
-  const [, setTokenRow] = useState<NFTMetadataInput | null>(null);
+  const [tokenRow, setTokenRow] = useState<NFTMetadata | null>(null);
 
   return (
     <Flex gap={4} direction="column">
@@ -116,12 +120,12 @@ export const NFTList: React.FC<{
             right={4}
           />
         )}
-        {/* <NFTDrawer
-            contract={contract}
-            data={tokenRow}
-            isOpen={!!tokenRow}
-            onClose={() => setTokenRow(null)}
-          /> */}
+        <NFTDrawer
+          program={program}
+          data={tokenRow}
+          isOpen={!!tokenRow}
+          onClose={() => setTokenRow(null)}
+        />
         <Table {...getTableProps()}>
           <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
             {headerGroups.map((headerGroup) => (
