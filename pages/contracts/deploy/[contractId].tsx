@@ -9,7 +9,7 @@ import {
   LinkOverlay,
   Skeleton,
 } from "@chakra-ui/react";
-import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/constants/contract-features";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
 import {
@@ -65,7 +65,9 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
                 icon={<Icon boxSize={6} as={FiArrowLeft} />}
               />
             )}
-            <ContractIdImage boxSize={12} contractId={contractId || "custom"} />
+            {contractId && (
+              <ContractIdImage boxSize={12} contractId={contractId} />
+            )}
             <Flex direction="column" gap={1} align="flex-start">
               <Skeleton isLoaded={publishMetadataQuery.isSuccess}>
                 <Heading size="title.md">

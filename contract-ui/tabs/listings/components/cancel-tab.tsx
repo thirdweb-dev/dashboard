@@ -1,7 +1,8 @@
+import { useActiveNetwork } from "@3rdweb-sdk/react";
 import { Stack } from "@chakra-ui/react";
 import { useCancelListing } from "@thirdweb-dev/react";
 import { ListingType } from "@thirdweb-dev/sdk";
-import { Marketplace } from "@thirdweb-dev/sdk/dist/declarations/src/contracts/prebuilt-implementations/marketplace";
+import { Marketplace } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/prebuilt-implementations/marketplace";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -18,6 +19,7 @@ export const CancelTab: React.FC<CancelTabProps> = ({
   listingType,
 }) => {
   const trackEvent = useTrack();
+  const network = useActiveNetwork();
 
   const cancelListing = useCancelListing(contract);
 
@@ -33,8 +35,8 @@ export const CancelTab: React.FC<CancelTabProps> = ({
         isLoading={cancelListing.isLoading}
         onClick={() => {
           trackEvent({
-            category: "listing",
-            action: "cancel",
+            category: "marketplace",
+            action: "cancel-listing",
             label: "attempt",
           });
           cancelListing.mutate(
@@ -45,17 +47,19 @@ export const CancelTab: React.FC<CancelTabProps> = ({
             {
               onSuccess: () => {
                 trackEvent({
-                  category: "listing",
-                  action: "cancel",
+                  category: "marketplace",
+                  action: "cancel-listing",
                   label: "success",
+                  network,
                 });
                 onSuccess();
               },
               onError: (error) => {
                 trackEvent({
-                  category: "listing",
-                  action: "cancel",
+                  category: "marketplace",
+                  action: "cancel-listing",
                   label: "error",
+                  network,
                   error,
                 });
                 onError(error);
