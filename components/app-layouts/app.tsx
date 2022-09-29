@@ -1,5 +1,4 @@
 import { DashboardThirdwebProvider } from "./providers";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAddress, useBalance, useChainId } from "@thirdweb-dev/react";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
@@ -9,10 +8,9 @@ import React, { useEffect } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export const AppLayout: ComponentWithChildren<AppShellProps> = (props) => {
-  const queryClient = useQueryClient();
   return (
     <ErrorProvider>
-      <DashboardThirdwebProvider queryClient={queryClient}>
+      <DashboardThirdwebProvider>
         <PHIdentifier />
         <PrivacyNotice />
         <AppShell {...props} />
