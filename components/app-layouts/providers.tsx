@@ -1,6 +1,6 @@
 import { SolanaProvider } from "./solana-provider";
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
-import { QueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { EVM_RPC_URL_MAP, getEVMRPC } from "constants/rpc";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
@@ -23,10 +23,11 @@ if (process.env.NEXT_PUBLIC_MAGIC_KEY) {
   });
 }
 
-export const DashboardThirdwebProvider: ComponentWithChildren<{
-  queryClient: QueryClient;
-}> = ({ children, queryClient }) => {
+export const DashboardThirdwebProvider: ComponentWithChildren = ({
+  children,
+}) => {
   useNativeColorMode();
+  const queryClient = useQueryClient();
 
   const activeChainId = useDashboardEVMChainId();
 

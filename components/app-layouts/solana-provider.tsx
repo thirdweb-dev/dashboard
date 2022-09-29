@@ -5,6 +5,7 @@ import {
   useWallet,
 } from "@solana/wallet-adapter-react";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider } from "@thirdweb-dev/react/solana";
 import { Network } from "@thirdweb-dev/sdk/solana";
 import { getSOLRPC } from "constants/rpc";
@@ -35,8 +36,13 @@ const TWSolanaProvider: ComponentWithChildren<{ network?: Network }> = ({
   network,
 }) => {
   const wallet = useWallet();
+  const queryClient = useQueryClient();
   return (
-    <ThirdwebSDKProvider network={network} wallet={wallet}>
+    <ThirdwebSDKProvider
+      queryClient={queryClient}
+      network={network}
+      wallet={wallet}
+    >
       {children}
     </ThirdwebSDKProvider>
   );
