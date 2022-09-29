@@ -199,7 +199,7 @@ export const AirdropUpload: React.FC<AirdropUploadProps> = ({
                           color={noCsv ? "red.500" : "gray.600"}
                         >
                           {noCsv
-                            ? "No valid CSV file found, make sure you have an address column."
+                            ? `No valid CSV file found, make sure your CSV includes the "address" column.`
                             : "Drag & Drop a CSV file here"}
                         </Heading>
                       )}
