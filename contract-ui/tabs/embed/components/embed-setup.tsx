@@ -30,7 +30,7 @@ interface EmbedSetupProps {
   contractType?: string | null;
 }
 
-const IPFS_URI = "ipfs://QmbHM2tUJPsDxKo7wWGbu9Sca4Y8FRmtnJVNY2Mfots2yQ";
+const IPFS_URI = "ipfs://QmPaVYdGue8zEXFKqrtVHpvzBvufM1DYzw5n1of3KVPG88";
 
 interface IframeSrcOptions {
   rpcUrl: string;
@@ -313,7 +313,7 @@ frameborder="0"
         </Stack>
       </Flex>
 
-      <Stack align="center">
+      <Stack align="center" gap={2}>
         <Heading size="title.sm">Preview</Heading>
         {iframeSrc ? (
           <iframe
