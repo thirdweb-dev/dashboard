@@ -4,6 +4,9 @@ import {
   ExtensionDetectedState,
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
+import { ens } from "components/contract-components/hooks";
+
+// import { useEffect } from "react";
 
 export type EnhancedRoute = Route & {
   title: string;
@@ -11,10 +14,42 @@ export type EnhancedRoute = Route & {
   isEnabled?: ExtensionDetectedState;
 };
 
+export function useRouteConfig(ecosystem: "evm" | "solana", address: string) {
+  if (ecosystem === "evm") {
+    // we know what we're doing here, importantly ecosystem is NEVER allowed to change.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useContractRouteConfig(address);
+  }
+
+  // we know what we're doing here, importantly ecosystem is NEVER allowed to change.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useProgramRoueConfig(address);
+}
+
+export function useProgramRoueConfig(programAddress: string): EnhancedRoute[] {
+  return [
+    {
+      title: "Overview",
+      path: "/",
+      element: () =>
+        import("components/pages/program").then(({ ProgramOverviewTab }) => (
+          <ProgramOverviewTab address={programAddress} />
+        )),
+    },
+    { title: "Code", path: "/code", element: <>code tab goes here</> },
+    {
+      title: "Settings",
+      path: "/settings",
+      element: <>settings tab goes here</>,
+    },
+  ];
+}
+
 export function useContractRouteConfig(
-  contractAddress?: string,
+  contractAddress: string,
 ): EnhancedRoute[] {
-  const contractQuery = useContract(contractAddress);
+  const ensQuery = ens.useQuery(contractAddress);
+  const contractQuery = useContract(ensQuery.data?.address);
 
   const contractTypeQuery = contractType.useQuery(contractAddress);
   const embedEnabled =

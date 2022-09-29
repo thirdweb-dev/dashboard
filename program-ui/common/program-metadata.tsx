@@ -1,5 +1,5 @@
 import { MetadataHeader } from "../../components/custom-contract/contract-header/metadata-header";
-import { Box } from "@chakra-ui/react";
+import { Box, Container, Flex } from "@chakra-ui/react";
 import { useProgram, useProgramMetadata } from "@thirdweb-dev/react/solana";
 import {
   FeatureIconMap,
@@ -14,24 +14,43 @@ interface ProgramMetadataProps {
 export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
   address,
 }) => {
-  const { data: account } = useProgram(address);
-  const metadataQuery = useProgramMetadata(account);
+  const programQuery = useProgram(address);
+  const metadataQuery = useProgramMetadata(programQuery.data);
 
   const contractTypeImage = useMemo(() => {
-    return account
-      ? PREBUILT_SOLANA_CONTRACTS_MAP[account.accountType].icon
+    return programQuery.data
+      ? PREBUILT_SOLANA_CONTRACTS_MAP[programQuery.data.accountType].icon
       : FeatureIconMap["custom"];
-  }, [account]);
+  }, [programQuery.data]);
 
   if (metadataQuery.isError) {
-    return <Box>Failed to load contract metadata</Box>;
+    return <Box>Failed to load program metadata</Box>;
   }
   return (
-    <MetadataHeader
-      isLoaded={metadataQuery.isSuccess}
-      data={metadataQuery.data}
-      address={address}
-      contractTypeImage={contractTypeImage}
-    />
+    <Box
+      borderColor="borderColor"
+      borderTopWidth={1}
+      borderBottomWidth={1}
+      bg="backgroundHighlight"
+      w="full"
+      as="aside"
+      py={6}
+    >
+      <Container maxW="container.page">
+        <Flex
+          justify="space-between"
+          align={{ base: "inherit", md: "center" }}
+          direction={{ base: "column", md: "row" }}
+          gap={4}
+        >
+          <MetadataHeader
+            isLoaded={metadataQuery.isSuccess}
+            data={metadataQuery.data}
+            address={address}
+            contractTypeImage={contractTypeImage}
+          />
+        </Flex>
+      </Container>
+    </Box>
   );
 };

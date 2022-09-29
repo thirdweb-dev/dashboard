@@ -8,14 +8,13 @@ import {
   fetchReleasedContractInfo,
   fetchReleaserProfile,
 } from "components/contract-components/hooks";
-import { CustomContractPage } from "components/pages/custom-contract";
-import { ProgramPage } from "components/pages/program";
 import {
   ReleaseWithVersionPage,
   ReleaseWithVersionPageProps,
 } from "components/pages/release";
 import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
+import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { utils } from "ethers";
 import { isEnsName } from "lib/ens";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -28,8 +27,9 @@ import {
   DashboardSolanaNetwork,
   SupportedNetwork,
   SupportedNetworkToChainIdMap,
-  SupportedSolanaUrlToNetworkMap,
   getChainIdFromNetworkPath,
+  getSolNetworkFromNetworkPath,
+  isSupportedSOLNetwork,
 } from "utils/network";
 import { getSingleQueryValue } from "utils/router";
 
@@ -38,14 +38,21 @@ const CatchAllPage: ThirdwebNextPage = (
 ) => {
   if (props.pageType === "contract") {
     return (
-      <CustomContractPage
-        contractAddress={props.contractAddress}
+      <ContractTabRouter
+        address={props.contractAddress}
+        ecosystem="evm"
         network={props.network}
       />
     );
   }
   if (props.pageType === "program") {
-    return <ProgramPage address={props.programAddress} />;
+    return (
+      <ContractTabRouter
+        address={props.programAddress}
+        ecosystem="solana"
+        network={props.network}
+      />
+    );
   }
   if (props.pageType === "release") {
     return (
@@ -67,7 +74,7 @@ CatchAllPage.getLayout = function (
 ) {
   return (
     <AppLayout
-      layout={props.pageType === "contract" ? "custom-contract" : undefined}
+      layout={props.pageType !== "release" ? "custom-contract" : undefined}
     >
       {page}
     </AppLayout>
@@ -149,7 +156,6 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
   }
 
   const queryClient = new QueryClient();
-  const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
 
   // handle the case where the user is trying to access a EVM contract
   if (networkOrAddress in SupportedNetworkToChainIdMap) {
@@ -174,12 +180,29 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
     }
   }
   // handle the case where the user is trying to access a solana contract
-  else if (networkOrAddress in SupportedSolanaUrlToNetworkMap) {
+  else if (isSupportedSOLNetwork(networkOrAddress)) {
+    const network = getSolNetworkFromNetworkPath(networkOrAddress);
+    if (!network) {
+      return {
+        notFound: true,
+      };
+    }
     const [programAddress] = ctx.params?.catchAll as (string | undefined)[];
     if (programAddress && isPossibleSolanaAddress(programAddress)) {
+      // lets get the program type and metadata right here
+      // TODO this would be great if it was fast, but alas it is slow af!
+      // const solSDK = getSOLThirdwebSDK(network);
+      // const program = await queryClient.fetchQuery(
+      //   programQuery(queryClient, solSDK, programAddress),
+      // );
+      // await queryClient.prefetchQuery(programMetadataQuery(program));
       return {
         props: {
-          dehydratedState: dehydrate(queryClient),
+          dehydratedState: dehydrate(queryClient, {
+            shouldDehydrateQuery: (query) =>
+              // TODO this should use the util function, but for some reason it doesn't work
+              !query.queryHash.includes("-instance"),
+          }),
           pageType: "program",
           programAddress: programAddress as string,
           network: networkOrAddress as DashboardSolanaNetwork,
@@ -187,6 +210,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
       };
     }
   } else if (isPossibleAddress(networkOrAddress)) {
+    const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
     // we're in release world
     const [contractName, version = ""] = ctx.params?.catchAll as (
       | string

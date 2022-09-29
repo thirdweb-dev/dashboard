@@ -14,42 +14,39 @@ import {
   Router,
   useMatchRoute,
 } from "@tanstack/react-location";
-import { useContract } from "@thirdweb-dev/react";
-import { ens } from "components/contract-components/hooks";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { Logo } from "components/logo";
 import { ChainDeprecation } from "components/notices/ChainDeprecation";
 import {
   EnhancedRoute,
-  useContractRouteConfig,
-} from "contract-ui/hooks/useContractRouteConfig";
-import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/conditions-not-set";
+  useRouteConfig,
+} from "contract-ui/hooks/useRouteConfig";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
+import { ProgramMetadata } from "program-ui/common/program-metadata";
 import { useCallback, useRef, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
 import { VscExtensions } from "react-icons/vsc";
 import { Button, LinkButton } from "tw-components";
 import { isBrowser } from "utils/isBrowser";
 
-interface CustomContractPageProps {
-  contractAddress: string;
+interface ContractTabRouterProps {
+  address: string;
   network: string;
+  ecosystem: "evm" | "solana";
 }
 
-export const CustomContractPage: React.FC<CustomContractPageProps> = ({
-  contractAddress,
+export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
+  address,
   network,
+  ecosystem,
 }) => {
-  const ensQuery = ens.useQuery(contractAddress);
-  const { contract } = useContract(ensQuery.data?.address || contractAddress);
-
   const [location] = useState(() => new ReactLocation({}));
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollRef = useRef<any>(null);
   const scrollContainerRef = useRef<HTMLElement>();
-  const routes = useContractRouteConfig(ensQuery.data?.address || undefined);
+  const routes = useRouteConfig(ecosystem, address);
   useIsomorphicLayoutEffect(() => {
     const el = document.getElementById("tw-scroll-container");
 
@@ -75,13 +72,15 @@ export const CustomContractPage: React.FC<CustomContractPageProps> = ({
 
   return (
     <Router
-      basepath={`${network}/${contractAddress}`}
+      basepath={`${network}/${address}`}
       location={location}
       routes={routes}
     >
       <Flex direction="column" ref={scrollRef}>
         {/* sub-header */}
-        <ContractHeader contractAddress={contractAddress} />
+
+        {ecosystem === "evm" && <ContractHeader contractAddress={address} />}
+        {ecosystem === "solana" && <ProgramMetadata address={address} />}
         {/* sub-header-nav */}
         <Box
           position="sticky"
@@ -133,7 +132,8 @@ export const CustomContractPage: React.FC<CustomContractPageProps> = ({
         <Container maxW="container.page">
           <Box py={8}>
             <ChainDeprecation />
-            <ConditionsNotSet contract={contract} />
+            {/* TODO figure out where this belongs */}
+            {/* <ConditionsNotSet address={address} /> */}
             <Outlet />
           </Box>
         </Container>

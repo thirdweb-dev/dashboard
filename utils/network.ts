@@ -89,7 +89,7 @@ export type SupportedNetwork =
 export type DashboardChainIdMode = "evm" | "solana" | "both";
 
 export function getChainIdFromNetworkPath(
-  network?: SupportedNetwork,
+  network?: string,
 ): SUPPORTED_CHAIN_ID | undefined {
   if (isSupportedEVMNetwork(network)) {
     return SupportedNetworkToChainIdMap[network];
@@ -98,7 +98,7 @@ export function getChainIdFromNetworkPath(
 }
 
 export function getSolNetworkFromNetworkPath(
-  network?: SupportedNetwork,
+  network?: string,
 ): DashboardSolanaNetwork | undefined {
   if (isSupportedSOLNetwork(network)) {
     return SupportedSolanaUrlToNetworkMap[network];
@@ -106,13 +106,13 @@ export function getSolNetworkFromNetworkPath(
   return undefined;
 }
 
-function isSupportedEVMNetwork(
+export function isSupportedEVMNetwork(
   network?: string,
 ): network is keyof typeof SupportedNetworkToChainIdMap {
   return network ? network in SupportedNetworkToChainIdMap : false;
 }
 
-function isSupportedSOLNetwork(
+export function isSupportedSOLNetwork(
   network?: string,
 ): network is keyof typeof SupportedSolanaUrlToNetworkMap {
   return network ? network in SupportedSolanaUrlToNetworkMap : false;
@@ -127,7 +127,9 @@ function isChainIdSolanaNetwork(
 
   return false;
 }
-export function isSupportedNetwork(network?: string): boolean {
+export function isSupportedNetwork(
+  network?: string,
+): network is SupportedNetwork {
   return isSupportedEVMNetwork(network) || isSupportedSOLNetwork(network);
 }
 
