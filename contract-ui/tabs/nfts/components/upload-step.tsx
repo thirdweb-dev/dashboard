@@ -63,7 +63,7 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                     color={noFile ? "red.500" : "gray.600"}
                   >
                     {noFile
-                      ? "No valid CSV/JSON file found, make sure your NFTs have a `name` column and try again"
+                      ? `No valid CSV or JSON file found. Please make sure your NFT metadata includes at least a "name" field and try again.`
                       : "Drag & Drop files or folders here, or click to select files"}
                   </Heading>
                 )}
