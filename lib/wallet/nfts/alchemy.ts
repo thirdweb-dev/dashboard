@@ -49,22 +49,30 @@ export async function transformAlchemyResponseToNFT(
   alchemyResponse: AlchemyResponse,
   owner: string,
 ): Promise<WalletNFT[]> {
-  return await Promise.all(
-    alchemyResponse.ownedNfts.map(async (alchemyNFT) => {
-      const rawUri = alchemyNFT.tokenUri.raw;
+  return (
+    await Promise.all(
+      alchemyResponse.ownedNfts.map(async (alchemyNFT) => {
+        const rawUri = alchemyNFT.tokenUri.raw;
 
-      return {
-        contractAddress: alchemyNFT.contract.address,
-        tokenId: parseInt(alchemyNFT.id.tokenId, 16),
-        metadata: shouldDownloadURI(rawUri)
-          ? await StorageSingleton.get(handleArbitraryTokenURI(rawUri))
-          : rawUri,
-        owner,
-        supply: parseInt(alchemyNFT.balance || "1"),
-        type: alchemyNFT.id.tokenMetadata.tokenType,
-      } as WalletNFT;
-    }),
-  );
+        try {
+          return {
+            contractAddress: alchemyNFT.contract.address,
+            tokenId: parseInt(alchemyNFT.id.tokenId, 16),
+            metadata: shouldDownloadURI(rawUri)
+              ? await StorageSingleton.downloadJSON(
+                  handleArbitraryTokenURI(rawUri),
+                )
+              : rawUri,
+            owner,
+            supply: parseInt(alchemyNFT.balance || "1"),
+            type: alchemyNFT.id.tokenMetadata.tokenType,
+          } as WalletNFT;
+        } catch (e) {
+          return undefined as unknown as WalletNFT;
+        }
+      }),
+    )
+  ).filter(Boolean);
 }
 
 type AlchemyResponse = {

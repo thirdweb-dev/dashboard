@@ -1,3 +1,4 @@
+import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,11 +8,10 @@ import {
 } from "@thirdweb-dev/react";
 import {
   CommonPrimarySaleSchema,
-  SmartContract,
   ValidContractInstance,
 } from "@thirdweb-dev/sdk";
+import { ExtensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { PotentialContractInstance } from "contract-ui/types/types";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
@@ -26,15 +26,17 @@ import {
 import { z } from "zod";
 
 export const SettingsPrimarySale = <
-  TContract extends PotentialContractInstance,
+  TContract extends ValidContractInstance | undefined,
 >({
   contract,
+  detectedState,
 }: {
   contract: TContract;
+  detectedState: ExtensionDetectedState;
 }) => {
   const trackEvent = useTrack();
-  const query = usePrimarySaleRecipient(contract as SmartContract);
-  const mutation = useUpdatePrimarySaleRecipient(contract as SmartContract);
+  const query = usePrimarySaleRecipient(contract);
+  const mutation = useUpdatePrimarySaleRecipient(contract);
   const { handleSubmit, getFieldState, formState, register, reset } = useForm<
     z.input<typeof CommonPrimarySaleSchema>
   >({
@@ -54,7 +56,8 @@ export const SettingsPrimarySale = <
   );
 
   return (
-    <Card p={0}>
+    <Card p={0} position="relative">
+      <SettingDetectedState type="primarySale" detectedState={detectedState} />
       <Flex
         as="form"
         onSubmit={handleSubmit((d) => {

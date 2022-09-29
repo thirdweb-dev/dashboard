@@ -1,15 +1,12 @@
+import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMetadata, useUpdateMetadata } from "@thirdweb-dev/react";
-import {
-  CommonContractSchema,
-  SmartContract,
-  ValidContractInstance,
-} from "@thirdweb-dev/sdk";
+import { CommonContractSchema, ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ExtensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
-import { PotentialContractInstance } from "contract-ui/types/types";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -24,14 +21,18 @@ import {
 } from "tw-components";
 import { z } from "zod";
 
-export const SettingsMetadata = <TContract extends PotentialContractInstance>({
+export const SettingsMetadata = <
+  TContract extends ValidContractInstance | undefined,
+>({
   contract,
+  detectedState,
 }: {
   contract: TContract;
+  detectedState: ExtensionDetectedState;
 }) => {
   const trackEvent = useTrack();
-  const metadata = useMetadata(contract as SmartContract);
-  const metadataMutation = useUpdateMetadata(contract as SmartContract);
+  const metadata = useMetadata(contract);
+  const metadataMutation = useUpdateMetadata(contract);
   const {
     setValue,
     register,
@@ -56,7 +57,8 @@ export const SettingsMetadata = <TContract extends PotentialContractInstance>({
   );
 
   return (
-    <Card p={0}>
+    <Card p={0} position="relative">
+      <SettingDetectedState type="metadata" detectedState={detectedState} />
       <Flex
         as="form"
         onSubmit={handleSubmit((d) => {
@@ -89,7 +91,7 @@ export const SettingsMetadata = <TContract extends PotentialContractInstance>({
       >
         <Flex p={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
           <Flex direction="column">
-            <Heading size="title.md">General Settings</Heading>
+            <Heading size="title.md">Metadata</Heading>
             <Text size="body.md" fontStyle="italic">
               Settings to organize and distinguish between your different
               contracts.

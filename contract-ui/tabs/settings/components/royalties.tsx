@@ -1,3 +1,4 @@
+import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -5,14 +6,10 @@ import {
   useRoyaltySettings,
   useUpdateRoyaltySettings,
 } from "@thirdweb-dev/react";
-import {
-  CommonRoyaltySchema,
-  SmartContract,
-  ValidContractInstance,
-} from "@thirdweb-dev/sdk";
+import { CommonRoyaltySchema, ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ExtensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
-import { PotentialContractInstance } from "contract-ui/types/types";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
@@ -26,14 +23,18 @@ import {
 } from "tw-components";
 import { z } from "zod";
 
-export const SettingsRoyalties = <TContract extends PotentialContractInstance>({
+export const SettingsRoyalties = <
+  TContract extends ValidContractInstance | undefined,
+>({
   contract,
+  detectedState,
 }: {
   contract: TContract;
+  detectedState: ExtensionDetectedState;
 }) => {
   const trackEvent = useTrack();
-  const query = useRoyaltySettings(contract as SmartContract);
-  const mutation = useUpdateRoyaltySettings(contract as SmartContract);
+  const query = useRoyaltySettings(contract);
+  const mutation = useUpdateRoyaltySettings(contract);
   const {
     handleSubmit,
     getFieldState,
@@ -58,7 +59,8 @@ export const SettingsRoyalties = <TContract extends PotentialContractInstance>({
   );
 
   return (
-    <Card p={0}>
+    <Card p={0} position="relative">
+      <SettingDetectedState type="royalties" detectedState={detectedState} />
       <Flex
         as="form"
         onSubmit={handleSubmit((d) => {

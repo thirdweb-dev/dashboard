@@ -18,6 +18,7 @@ import { useContract } from "@thirdweb-dev/react";
 import { ens } from "components/contract-components/hooks";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { Logo } from "components/logo";
+import { ChainDeprecation } from "components/notices/ChainDeprecation";
 import {
   EnhancedRoute,
   useContractRouteConfig,
@@ -40,14 +41,14 @@ export const CustomContractPage: React.FC<CustomContractPageProps> = ({
   contractAddress,
   network,
 }) => {
-  const { contract } = useContract(contractAddress);
   const ensQuery = ens.useQuery(contractAddress);
+  const { contract } = useContract(ensQuery.data?.address || contractAddress);
+
   const [location] = useState(() => new ReactLocation({}));
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollRef = useRef<any>(null);
   const scrollContainerRef = useRef<HTMLElement>();
-
   const routes = useContractRouteConfig(ensQuery.data?.address || undefined);
   useIsomorphicLayoutEffect(() => {
     const el = document.getElementById("tw-scroll-container");
@@ -131,6 +132,7 @@ export const CustomContractPage: React.FC<CustomContractPageProps> = ({
         {/* main content */}
         <Container maxW="container.page">
           <Box py={8}>
+            <ChainDeprecation />
             <ConditionsNotSet contract={contract} />
             <Outlet />
           </Box>
@@ -166,7 +168,7 @@ const ContractSubnav: React.FC<ContractSubnavProps> = ({ routes }) => {
           }
         }, 10);
       }}
-      overflowX={{ base: "auto", md: "inherit" }}
+      overflowX="auto"
     >
       <Box
         position="absolute"
@@ -200,6 +202,9 @@ const ContractSubnav: React.FC<ContractSubnavProps> = ({ routes }) => {
             label={route.title}
             onHover={setHoveredEl}
             href={route.path}
+            isDisabled={
+              route.isEnabled === "disabled" || route.isEnabled === "loading"
+            }
           />
         ))}
     </Flex>
@@ -211,6 +216,7 @@ interface ContractSubNavLinkButton {
   onHover: (event: EventTarget & HTMLButtonElement) => void;
   label: string;
   icon?: JSX.Element;
+  isDisabled?: boolean;
 }
 
 const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
@@ -237,13 +243,18 @@ const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
 
   return (
     <LinkButton
+      isDisabled={props.isDisabled}
       _focus={{
         boxShadow: "none",
       }}
       display="flex"
       leftIcon={props.icon}
       variant="unstyled"
-      onMouseOverCapture={(e) => props.onHover(e.currentTarget)}
+      onMouseOverCapture={(e) => {
+        if (!props.isDisabled) {
+          props.onHover(e.currentTarget);
+        }
+      }}
       height="auto"
       p={3}
       color="heading"

@@ -26,7 +26,7 @@ import React, {
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import { isBrowser } from "utils/isBrowser";
 
-const __CACHE_BUSTER = "v2.0.4";
+const __CACHE_BUSTER = "v3.0.0-0";
 
 export function bigNumberReplacer(_key: string, value: any) {
   // if we find a BigNumber then make it into a string (since that is safe)
@@ -56,7 +56,20 @@ type AppPropsWithLayout = AppProps<{ dehydratedState?: DehydratedState }> & {
 
 const persister: Persister = createSyncStoragePersister({
   storage: isBrowser() ? window.localStorage : undefined,
-  serialize: (data) => JSON.stringify(data, bigNumberReplacer),
+  serialize: (data) => {
+    return JSON.stringify(
+      {
+        ...data,
+        clientState: {
+          ...data.clientState,
+          queries: data.clientState.queries.filter(
+            (q) => !q.queryKey.includes("contract-instance"),
+          ),
+        },
+      },
+      bigNumberReplacer,
+    );
+  },
   key: `tw-query-cache:${__CACHE_BUSTER}`,
 });
 
@@ -86,7 +99,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
         if (process.env.NODE_ENV === "production") {
           (window as any).routeTransitionTimeout = setTimeout(() => {
             (window as any).location = url;
-          }, 350);
+          }, 1000);
         }
         NProgress.start();
       }

@@ -8,15 +8,15 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
-import { useContractCall } from "@thirdweb-dev/react";
-import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk";
-import { MismatchButton } from "components/buttons/MismatchButton";
+import { useContractWrite } from "@thirdweb-dev/react";
+import { AbiFunction, ValidContractInstance } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BigNumber, utils } from "ethers";
-import { useId, useMemo } from "react";
+import { useEffect, useId, useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FiPlay } from "react-icons/fi";
 import {
+  Button,
   Card,
   CodeBlock,
   FormHelperText,
@@ -25,7 +25,7 @@ import {
   Text,
 } from "tw-components";
 
-function formatResponseData(data: unknown): string {
+export function formatResponseData(data: unknown): string {
   if (BigNumber.isBigNumber(data)) {
     data = data.toString();
   }
@@ -81,13 +81,13 @@ function formatInputType(type: string, components?: FunctionComponents): any {
 function formatHint(type: string, components?: FunctionComponents): string {
   const placeholder = formatInputType(type, components);
   return JSON.stringify(placeholder)
-    .replaceAll(",", ", ")
+    ?.replaceAll(",", ", ")
     .replaceAll(":", ": ")
     .replaceAll("{", "{ ")
     .replaceAll("}", " }");
 }
 
-function formatError(error: Error): string {
+export function formatError(error: Error): string {
   if (error.message) {
     return error.message.split("| Raw error |\n")[0].trim();
   }
@@ -126,7 +126,7 @@ function formatContractCall(params: unknown[], value?: BigNumber) {
 
 interface InteractiveAbiFunctionProps {
   abiFunction?: AbiFunction;
-  contract: SmartContract;
+  contract: ValidContractInstance;
 }
 
 export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
@@ -134,7 +134,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
   contract,
 }) => {
   const formId = useId();
-  const { register, control, getValues, handleSubmit } = useForm({
+  const { register, control, getValues, watch, handleSubmit } = useForm({
     defaultValues: {
       params:
         abiFunction?.inputs.map((i) => ({
@@ -163,7 +163,17 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
     data,
     error,
     isLoading: mutationLoading,
-  } = useContractCall(contract, abiFunction?.name);
+  } = useContractWrite(contract, abiFunction?.name);
+
+  useEffect(() => {
+    if (
+      watch("params").length === 0 &&
+      (abiFunction?.stateMutability === "view" ||
+        abiFunction?.stateMutability === "pure")
+    ) {
+      mutate([]);
+    }
+  }, [mutate, watch, abiFunction?.stateMutability]);
 
   return (
     <Card
@@ -278,7 +288,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
       <Divider mt="auto" />
       <ButtonGroup ml="auto">
         {isView ? (
-          <MismatchButton
+          <Button
             isDisabled={!abiFunction}
             rightIcon={<Icon as={FiPlay} />}
             colorScheme="primary"
@@ -287,7 +297,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
             form={formId}
           >
             Run
-          </MismatchButton>
+          </Button>
         ) : (
           <TransactionButton
             isDisabled={!abiFunction}

@@ -3,87 +3,85 @@ import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
-import { useContractMetadata } from "./useContract";
-import { useWeb3 } from "@3rdweb-sdk/react";
-import { useSDK, useToken, useVote } from "@thirdweb-dev/react";
-import { VoteType } from "@thirdweb-dev/sdk";
+import {
+  RequiredParam,
+  useAddress,
+  useContract,
+  useContractMetadata,
+  useSDK,
+} from "@thirdweb-dev/react";
+import type { Token, Vote, VoteType } from "@thirdweb-dev/sdk";
 import invariant from "tiny-invariant";
 
-export function useVoteContractMetadata(contractAddress?: string) {
-  return useContractMetadata(useVote(contractAddress));
-}
-
-export function useVoteProposalList(contractAddress?: string) {
-  const voteContract = useVote(contractAddress);
+export function useVoteProposalList(contract?: Vote) {
   return useQueryWithNetwork(
-    voteKeys.proposals(contractAddress),
-    async () => await voteContract?.getAll(),
+    voteKeys.proposals(contract?.getAddress()),
+    async () => await contract?.getAll(),
     {
-      enabled: !!voteContract && !!contractAddress,
+      enabled: !!contract,
     },
   );
 }
 
 export function useHasVotedOnProposal(
+  contract: RequiredParam<Vote>,
   proposalId: string,
-  contractAddress?: string,
 ) {
-  const { address } = useWeb3();
-  const voteContract = useVote(contractAddress);
+  const address = useAddress();
   return useQueryWithNetwork(
-    voteKeys.userHasVotedOnProposal(proposalId, contractAddress, address),
-    async () => await voteContract?.hasVoted(proposalId, address),
+    voteKeys.userHasVotedOnProposal(
+      proposalId,
+      contract?.getAddress(),
+      address,
+    ),
+    async () => await contract?.hasVoted(proposalId, address),
     {
-      enabled: !!voteContract && !!contractAddress,
+      enabled: !!contract,
     },
   );
 }
 
 export function useCanExecuteProposal(
+  contract: RequiredParam<Vote>,
   proposalId: string,
-  contractAddress?: string,
 ) {
-  const voteContract = useVote(contractAddress);
   return useQueryWithNetwork(
-    voteKeys.canExecuteProposal(proposalId, contractAddress),
-    async () => await voteContract?.canExecute(proposalId),
+    voteKeys.canExecuteProposal(proposalId, contract?.getAddress()),
+    async () => await contract?.canExecute(proposalId),
     {
-      enabled: !!voteContract && !!contractAddress,
+      enabled: !!contract,
     },
   );
 }
 
-export function useTokensDelegated(contractAddress?: string) {
+export function useTokensDelegated(contract?: Vote) {
   const sdk = useSDK();
-  const { address } = useWeb3();
-  const voteContract = useVote(contractAddress);
+  const address = useAddress();
+
   return useQueryWithNetwork(
-    voteKeys.delegation(contractAddress, address),
+    voteKeys.delegation(contract?.getAddress(), address),
     async () => {
       invariant(address, "address is required");
-      invariant(voteContract, "vote contract is required");
+      invariant(contract, "vote contract is required");
 
-      const metadata = await voteContract?.metadata.get();
+      const metadata = await contract?.metadata.get();
       const tokenAddress = metadata?.voting_token_address;
       const tokenContract = await sdk?.getToken(tokenAddress);
       const delegation = await tokenContract?.getDelegationOf(address);
       return delegation?.toLowerCase() === address.toLowerCase();
     },
     {
-      enabled: !!voteContract && !!address,
+      enabled: !!contract && !!address,
     },
   );
 }
 
-export function useVoteTokenBalances(
-  contractAddress?: string,
-  addresses?: string[],
-) {
-  const { data } = useVoteContractMetadata(contractAddress);
-  const tokenContract = useToken((data as any)?.voting_token_address || "");
+export function useVoteTokenBalances(contract?: Vote, addresses?: string[]) {
+  const { data } = useContractMetadata(contract);
+  const tokenContract = useContract<Token>(data?.voting_token_address).contract;
 
   return useQueryWithNetwork(
-    voteKeys.balances(contractAddress, addresses),
+    voteKeys.balances(contract?.getAddress(), addresses),
     async () => {
       invariant(data, "contract metadata is required");
       invariant(tokenContract, "voting contract is required");
@@ -99,7 +97,7 @@ export function useVoteTokenBalances(
       return await Promise.all(balances);
     },
     {
-      enabled: !!data && !!contractAddress && !!addresses?.length,
+      enabled: !!data && !!contract && !!addresses?.length,
     },
   );
 }
@@ -109,7 +107,7 @@ export interface IProposalInput {
 }
 
 export function useProposalCreateMutation(contractAddress?: string) {
-  const voteContract = useVote(contractAddress);
+  const voteContract = useContract<Vote>(contractAddress).contract;
   return useMutationWithInvalidate(
     (proposal: IProposalInput) => {
       invariant(voteContract, "contract is required");
@@ -124,17 +122,19 @@ export function useProposalCreateMutation(contractAddress?: string) {
   );
 }
 
-export function useDelegateMutation(contractAddress?: string) {
+export function useDelegateMutation(contract?: Vote) {
   const sdk = useSDK();
-  const { address } = useWeb3();
-  const voteContract = useVote(contractAddress);
+  const address = useAddress();
+
+  const contractAddress = contract?.getAddress();
+
   return useMutationWithInvalidate(
     async () => {
       invariant(address, "address is required");
       invariant(contractAddress, "contract address is required");
-      invariant(voteContract, "vote contract is required");
+      invariant(contract, "vote contract is required");
 
-      const metadata = await voteContract?.metadata.get();
+      const metadata = await contract?.metadata.get();
       const tokenAddress = metadata?.voting_token_address;
       const tokenContract = await sdk?.getToken(tokenAddress);
       return tokenContract?.delegateTo(address);
@@ -153,17 +153,18 @@ interface IVoteCast {
 }
 
 export function useCastVoteMutation(
+  contract: RequiredParam<Vote>,
   proposalId: string,
-  contractAddress?: string,
 ) {
-  const { address } = useWeb3();
-  const voteContract = useVote(contractAddress);
+  const address = useAddress();
+  const contractAddress = contract?.getAddress();
+
   return useMutationWithInvalidate(
     async (vote: IVoteCast) => {
-      invariant(voteContract, "contract is required");
+      invariant(contract, "contract is required");
       invariant(address, "address is required");
       const { voteType, reason } = vote;
-      return voteContract.vote(proposalId, voteType, reason);
+      return contract.vote(proposalId, voteType, reason);
     },
     {
       onSuccess: (_data, _options, _variables, invalidate) => {
@@ -178,14 +179,15 @@ export function useCastVoteMutation(
 }
 
 export function useExecuteProposalMutation(
+  contract: RequiredParam<Vote>,
   proposalId: string,
-  contractAddress?: string,
 ) {
-  const voteContract = useVote(contractAddress);
+  const contractAddress = contract?.getAddress();
+
   return useMutationWithInvalidate(
     async () => {
-      invariant(voteContract, "contract is required");
-      return voteContract.execute(proposalId);
+      invariant(contract, "contract is required");
+      return contract.execute(proposalId);
     },
     {
       onSuccess: (_data, _options, _variables, invalidate) => {

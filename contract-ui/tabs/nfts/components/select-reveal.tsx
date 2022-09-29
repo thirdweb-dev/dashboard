@@ -23,18 +23,14 @@ import {
   useDelayedRevealLazyMint,
   useLazyMint,
 } from "@thirdweb-dev/react";
-import {
-  EditionDrop,
-  NFTMetadataInput,
-  UploadProgressEvent,
-} from "@thirdweb-dev/sdk";
+import { NFTMetadataInput, UploadProgressEvent } from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -44,6 +40,7 @@ import {
   FormLabel,
   Heading,
   Text,
+  TrackedLink,
 } from "tw-components";
 import { shuffleData } from "utils/batch";
 import z from "zod";
@@ -115,7 +112,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 };
 
 interface SelectRevealProps {
-  contract: DropContract;
+  contract?: DropContract;
   mergedData: NFTMetadataInput[];
   onClose: () => void;
 }
@@ -184,6 +181,21 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     "ERC1155Revealable",
   ]);
 
+  const isFinished = progress.progress >= progress.total;
+  const [takingLong, setTakingLong] = useState(false);
+
+  useEffect(() => {
+    if (isFinished) {
+      const t = setTimeout(() => {
+        setTakingLong(true);
+      }, 10000);
+
+      return () => {
+        clearTimeout(t);
+      };
+    }
+  }, [isFinished]);
+
   return (
     <Flex flexDir="column">
       <Flex
@@ -213,7 +225,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               You&apos;re ready to go! Now you can upload the files, we will be
               uploading each file to IPFS so it might take a while.
             </Text>
-            {contract instanceof EditionDrop ? null : (
+            {contract && "erc1155" in contract ? null : (
               <Flex alignItems="center" gap={3}>
                 <Checkbox {...register("shuffle")} />
                 <Flex gap={1}>
@@ -233,8 +245,8 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               type="submit"
               isLoading={mintBatch.isLoading}
               loadingText={
-                progress.progress >= progress.total
-                  ? `Waiting for approval...`
+                isFinished
+                  ? `Finishing upload...`
                   : `Uploading ${mergedData.length} NFTs...`
               }
               onClick={() => {
@@ -278,6 +290,11 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
             >
               Upload {mergedData.length} NFTs
             </TransactionButton>
+            {takingLong && (
+              <Text size="body.sm" textAlign="center">
+                This may take a while.
+              </Text>
+            )}
             {mintBatch.isLoading && (
               <Progress
                 borderRadius="md"
@@ -288,6 +305,16 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                 value={(progress.progress / progress.total) * 100}
               />
             )}
+            <Text size="body.sm" mt={2}>
+              <TrackedLink
+                href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+                isExternal
+                category="batch-upload"
+                label="issues"
+              >
+                Experiencing issues uploading your files?
+              </TrackedLink>
+            </Text>
           </Flex>
         ) : selectedReveal === "delayed" ? (
           <>
@@ -446,13 +473,18 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                   type="submit"
                   isLoading={mintDelayedRevealBatch.isLoading}
                   loadingText={
-                    progress.progress >= progress.total
-                      ? `Waiting for approval...`
+                    isFinished
+                      ? `Finishing upload...`
                       : `Uploading ${mergedData.length} NFTs...`
                   }
                 >
                   Upload {mergedData.length} NFTs
                 </TransactionButton>
+                {takingLong && (
+                  <Text size="body.sm" textAlign="center">
+                    This may take a while.
+                  </Text>
+                )}
                 {mintDelayedRevealBatch.isLoading && (
                   <Progress
                     borderRadius="md"
@@ -463,6 +495,16 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                     value={(progress.progress / progress.total) * 100}
                   />
                 )}
+                <Text size="body.sm" mt={2}>
+                  <TrackedLink
+                    href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+                    isExternal
+                    category="batch-upload"
+                    label="issues"
+                  >
+                    Experiencing issues uploading your files?
+                  </TrackedLink>
+                </Text>
               </Stack>
             </Stack>
           </>

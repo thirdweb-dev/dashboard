@@ -1,12 +1,11 @@
-import { useActiveChainId, useContractMetadata } from ".";
 import { splitsKeys } from "..";
 import {
   useMutationWithInvalidate,
   useQueryWithNetwork,
 } from "./query/useQueryWithNetwork";
 import { useToast } from "@chakra-ui/react";
-import { useSplit, useToken } from "@thirdweb-dev/react";
-import { Split } from "@thirdweb-dev/sdk";
+import { useSDKChainId } from "@thirdweb-dev/react";
+import type { Split } from "@thirdweb-dev/sdk";
 import {
   BalanceQueryRequest,
   BalanceQueryResponse,
@@ -15,23 +14,17 @@ import invariant from "tiny-invariant";
 import { parseErrorToMessage } from "utils/errorParser";
 import { isAddressZero } from "utils/zeroAddress";
 
-export function useSplitContractMetadata(contractAddress?: string) {
-  return useContractMetadata(useToken(contractAddress));
-}
-
-export function useSplitData(contractAddress?: string) {
-  const splitsContract = useSplit(contractAddress);
-
+export function useSplitData(contract?: Split) {
   return useQueryWithNetwork(
-    splitsKeys.list(contractAddress),
-    async () => splitsContract?.getAllRecipients(),
+    splitsKeys.list(contract?.getAddress()),
+    async () => contract?.getAllRecipients(),
     {
-      enabled: !!splitsContract && !!contractAddress,
+      enabled: !!contract,
     },
   );
 }
 export function useSplitBalances(contractAddress?: string) {
-  const chainId = useActiveChainId();
+  const chainId = useSDKChainId();
   const currencies = useQueryWithNetwork(
     splitsKeys.currencies(contractAddress),
     () =>

@@ -1,5 +1,5 @@
 import { removeEmptyValues } from "./parseAttributes";
-import { Json, NFTMetadataInput } from "@thirdweb-dev/sdk";
+import { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
 
 export interface CSVData extends Record<string, string | undefined> {
@@ -63,12 +63,12 @@ export const getAcceptedFiles = async (acceptedFiles: File[]) => {
     .filter((f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"))
     .sort(sortAscending);
 
-  let json: Json[] = [];
+  let json: unknown[] = [];
 
   for (const f of jsonFiles) {
     const text = await f.text();
     // can be either a single json object or an array of json objects
-    const parsed: Json | Json[] = JSON.parse(text);
+    const parsed: unknown | unknown[] = JSON.parse(text);
     // just concat it always (even if it's a single object
     // this will add the object to the end of the array or append the array to the end of the array)
     json = json.concat(parsed);
@@ -123,6 +123,13 @@ export const useMergedData = (
 ) => {
   return useMemo(() => {
     if (csvData?.data) {
+      const isImageMapped = csvData.data.some((row) =>
+        imageFiles.find((img) => img?.name === row.image),
+      );
+      const isAnimationUrlMapped = csvData.data.some((row) =>
+        videoFiles.find((video) => video?.name === row.animation_url),
+      );
+
       return csvData.data.map((row, index) => {
         const {
           name,
@@ -145,29 +152,36 @@ export const useMergedData = (
             removeEmptyKeysFromObject(properties),
           ),
           image:
-            imageFiles.find((img) => img.name === image) ||
-            imageFiles[index] ||
+            imageFiles.find((img) => img?.name === image) ||
+            (!isImageMapped && imageFiles[index]) ||
             image ||
             undefined,
           animation_url:
-            videoFiles.find((video) => video.name === animation_url) ||
-            videoFiles[index] ||
+            videoFiles.find((video) => video?.name === animation_url) ||
+            (!isAnimationUrlMapped && videoFiles[index]) ||
             animation_url ||
             undefined,
         });
       });
     } else if (Array.isArray(jsonData)) {
+      const isImageMapped = jsonData.some((row) =>
+        imageFiles.find((img) => img?.name === row.image),
+      );
+      const isAnimationUrlMapped = jsonData.some((row) =>
+        videoFiles.find((video) => video?.name === row.animation_url),
+      );
+
       return jsonData.map((nft: any, index: number) => ({
         ...nft,
         image:
-          imageFiles.find((img) => img.name === nft.image) ||
-          imageFiles[index] ||
+          imageFiles.find((img) => img?.name === nft?.image) ||
+          (!isImageMapped && imageFiles[index]) ||
           nft.image ||
           nft.file_url ||
           undefined,
         animation_url:
-          videoFiles.find((video) => video.name === nft.animation_url) ||
-          videoFiles[index] ||
+          videoFiles.find((video) => video?.name === nft?.animation_url) ||
+          (!isAnimationUrlMapped && videoFiles[index]) ||
           nft.animation_url ||
           undefined,
       }));

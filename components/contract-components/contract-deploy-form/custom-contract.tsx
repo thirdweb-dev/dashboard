@@ -6,7 +6,11 @@ import {
   useFunctionParamsFromABI,
 } from "../hooks";
 import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
-import { ContractType, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import {
+  ContractType,
+  SUPPORTED_CHAIN_ID,
+  SUPPORTED_CHAIN_IDS,
+} from "@thirdweb-dev/sdk";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
@@ -29,7 +33,7 @@ interface CustomContractFormProps {
   ipfsHash: string;
   selectedChain: SUPPORTED_CHAIN_ID | undefined;
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
-  restrictToSelectedChainId?: boolean;
+  isImplementationDeploy?: boolean;
   onSuccessCallback?: (contractAddress: string) => void;
 }
 
@@ -37,7 +41,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   ipfsHash,
   selectedChain,
   onChainSelect,
-  restrictToSelectedChainId,
+  isImplementationDeploy,
   onSuccessCallback,
 }) => {
   const trackEvent = useTrack();
@@ -51,10 +55,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     fullReleaseMetadata.data?.factoryDeploymentData
       ?.implementationInitializerFunction || "initialize",
   );
-  const isFactoryDeployment = fullReleaseMetadata.data?.isDeployableViaFactory;
+  const isFactoryDeployment =
+    fullReleaseMetadata.data?.isDeployableViaFactory ||
+    (fullReleaseMetadata.data?.isDeployableViaProxy && !isImplementationDeploy);
   const deployParams = isFactoryDeployment
     ? initializerParams
     : constructorParams;
+
+  const disabledChains =
+    isFactoryDeployment && fullReleaseMetadata.data?.factoryDeploymentData
+      ? SUPPORTED_CHAIN_IDS.filter((chain) => {
+          const implementationAddress =
+            fullReleaseMetadata.data?.factoryDeploymentData
+              ?.implementationAddresses?.[chain];
+          return (
+            !implementationAddress ||
+            (implementationAddress && implementationAddress.length === 0)
+          );
+        })
+      : undefined;
 
   const form = useForm<{ addToDashboard: true }>();
 
@@ -68,7 +87,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     });
   }, []);
 
-  const deploy = useCustomContractDeployMutation(ipfsHash);
+  const deploy = useCustomContractDeployMutation(
+    ipfsHash,
+    isImplementationDeploy,
+  );
 
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
@@ -94,6 +116,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           contractMetadata: d,
           publishMetadata: compilerMetadata.data,
           chainId: selectedChain,
+          is_proxy: fullReleaseMetadata.data?.isDeployableViaProxy,
+          is_factory: fullReleaseMetadata.data?.isDeployableViaProxy,
         };
         trackEvent({
           category: "custom-contract",
@@ -184,7 +208,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           Select a network to deploy this contract on. We recommend starting
           with a testnet.{" "}
           <TrackedLink
-            href="https://portal.thirdweb.com/guides/which-network-should-you-use"
+            href="https://blog.thirdweb.com/guides/which-network-should-you-use"
             color="primary.500"
             category="deploy"
             label="learn-networks"
@@ -217,9 +241,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
           <SupportedNetworkSelect
-            disabledChainIds={DisabledChainsMap["custom" as ContractType]}
+            disabledChainIds={DisabledChainsMap[
+              "custom" as ContractType
+            ].concat(disabledChains || [])}
             isDisabled={
-              restrictToSelectedChainId ||
+              isImplementationDeploy ||
               deploy.isLoading ||
               !compilerMetadata.isSuccess
             }

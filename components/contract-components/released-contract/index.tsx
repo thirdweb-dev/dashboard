@@ -21,12 +21,16 @@ import {
 } from "@chakra-ui/react";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { useQuery } from "@tanstack/react-query";
+import { useAddress } from "@thirdweb-dev/react";
 import {
   PublishedContract,
   PublishedMetadata,
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk";
-import { StorageSingleton } from "components/app-layouts/providers";
+import {
+  StorageSingleton,
+  replaceIpfsUrl,
+} from "components/app-layouts/providers";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
@@ -73,6 +77,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 }) => {
   const [readmeShowMoreLimit, setReadmeShowMoreLimit] = useState(15);
   const [changelogShowMoreLimit, setChangelogShowMoreLimit] = useState(15);
+  const address = useAddress();
   const releasedContractInfo = useReleasedContractInfo(release);
   const { data: compilerInfo } = useReleasedContractCompilerMetadata(release);
 
@@ -208,7 +213,7 @@ Deploy it in one click`,
               position="relative"
               noOfLines={readmeShowMoreLimit}
             >
-              {ensQuery?.data?.address === release.releaser && (
+              {address === release.releaser && (
                 <TrackedIconButton
                   icon={<Icon as={BiPencil} />}
                   aria-label="Edit readme"
@@ -310,6 +315,14 @@ Deploy it in one click`,
               abi={contractReleaseMetadata.data?.abi}
             />
           )}
+          {contractFunctions && (
+            <ContractFunctionsOverview
+              functions={contractFunctions}
+              events={contractEvents}
+              sources={sources.data}
+              abi={contractReleaseMetadata.data?.abi}
+            />
+          )}
         </Flex>
       </GridItem>
       <GridItem colSpan={{ base: 12, md: 3 }}>
@@ -336,9 +349,8 @@ Deploy it in one click`,
                       <Icon as={BsShieldCheck} boxSize={5} color="green" />
                       <Text size="label.md">
                         <Link
-                          href={releasedContractInfo.data?.publishedMetadata?.audit.replace(
-                            "ipfs://",
-                            `${StorageSingleton.gatewayUrl}/`,
+                          href={replaceIpfsUrl(
+                            releasedContractInfo.data?.publishedMetadata?.audit,
                           )}
                           isExternal
                         >
