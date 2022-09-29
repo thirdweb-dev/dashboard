@@ -33,14 +33,12 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
   const [jsonData, setJsonData] = useState<any>();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [videoFiles, setVideoFiles] = useState<File[]>([]);
-  const [noFile, setNoFile] = useState(false);
 
   const reset = useCallback(() => {
     setCSVData(undefined);
     setJsonData(undefined);
     setImageFiles([]);
     setVideoFiles([]);
-    setNoFile(false);
   }, []);
 
   const _onClose = useCallback(() => {
@@ -51,8 +49,6 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
-      setNoFile(false);
-
       const { csv, json, images, videos } = await getAcceptedFiles(
         acceptedFiles,
       );
@@ -81,7 +77,6 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
         setJsonData(json);
       } else {
         console.error("No CSV or JSON found");
-        setNoFile(true);
         return;
       }
       setImageFiles(images);
