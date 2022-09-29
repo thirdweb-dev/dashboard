@@ -92,6 +92,8 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
 
   const mergedData = useMergedData(csvData, jsonData, imageFiles, videoFiles);
 
+  const invalidFiles = (csvData || jsonData) && mergedData.length === 0;
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
   });
@@ -124,7 +126,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                   <Heading size="title.md">Upload your NFTs</Heading>
                 </Flex>
                 <Flex direction="column" gap={6} h="100%">
-                  {csvData || jsonData ? (
+                  {mergedData.length > 0 ? (
                     <BatchTable
                       portalRef={paginationPortalRef}
                       data={mergedData}
@@ -136,7 +138,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                     <UploadStep
                       getRootProps={getRootProps}
                       getInputProps={getInputProps}
-                      noFile={noFile}
+                      noFile={invalidFiles}
                       isDragActive={isDragActive}
                     />
                   )}
@@ -169,7 +171,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                           <Button
                             borderRadius="md"
                             colorScheme="primary"
-                            isDisabled={!csvData && !jsonData}
+                            isDisabled={(!csvData && !jsonData) || invalidFiles}
                             onClick={() => setStep(1)}
                             w={{ base: "100%", md: "auto" }}
                           >
