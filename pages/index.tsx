@@ -349,7 +349,7 @@ const HomePage: ThirdwebNextPage = () => {
                       <>
                         Add features such as{" "}
                         <TrackedLink
-                          href="https://portal.thirdweb.com/contract-kit/permissions"
+                          href="https://portal.thirdweb.com/contractkit/permissions"
                           category="landing-contracts"
                           label="extension-permissions"
                           borderBottom="1px solid"
@@ -362,7 +362,7 @@ const HomePage: ThirdwebNextPage = () => {
                         </TrackedLink>
                         ,{" "}
                         <TrackedLink
-                          href="https://portal.thirdweb.com/contract-kit/royalty"
+                          href="https://portal.thirdweb.com/contractkit/royalty"
                           category="landing-contracts"
                           label="extension-royalties"
                           borderBottom="1px solid"
@@ -375,7 +375,7 @@ const HomePage: ThirdwebNextPage = () => {
                         </TrackedLink>
                         ,{" "}
                         <TrackedLink
-                          href="https://portal.thirdweb.com/contract-kit/erc721revealable"
+                          href="https://portal.thirdweb.com/contractkit/erc721revealable"
                           category="landing-contracts"
                           label="extension-delayed-reveal"
                           borderBottom="1px solid"
@@ -399,7 +399,7 @@ const HomePage: ThirdwebNextPage = () => {
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <LinkButton
-                    href="https://portal.thirdweb.com/contract-kit"
+                    href="https://portal.thirdweb.com/contractkit"
                     variant="solid"
                     colorScheme="whiteAlpha"
                     bg="white"

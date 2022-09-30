@@ -28,9 +28,9 @@ export const PRODUCTS: IProduct[] = [
   },
   {
     name: "ContractKit",
-    label: "contract-kit",
+    label: "contractkit",
     description: "Building blocks for your contracts",
-    link: "/contract-kit",
+    link: "/contractkit",
     icon: require("public/assets/product-icons/extensions.png"),
   },
   {

@@ -7,19 +7,19 @@ import { Heading, Text, TrackedLink } from "tw-components";
 const settingTypeMap = {
   metadata: {
     name: "Contract Metadata",
-    portalLink: "https://portal.thirdweb.com/contract-kit/contractmetadata",
+    portalLink: "https://portal.thirdweb.com/contractkit/contractmetadata",
   },
   primarySale: {
     name: "Primary Sales",
-    portalLink: "https://portal.thirdweb.com/contract-kit/primarysale",
+    portalLink: "https://portal.thirdweb.com/contractkit/primarysale",
   },
   royalties: {
     name: "Royalties",
-    portalLink: "https://portal.thirdweb.com/contract-kit/royalty",
+    portalLink: "https://portal.thirdweb.com/contractkit/royalty",
   },
   platformFee: {
     name: "Platform Fee",
-    portalLink: "https://portal.thirdweb.com/contract-kit/platformfee",
+    portalLink: "https://portal.thirdweb.com/contractkit/platformfee",
   },
 } as const;
 
