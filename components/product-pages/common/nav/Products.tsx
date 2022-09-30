@@ -27,10 +27,10 @@ export const PRODUCTS: IProduct[] = [
     icon: require("public/assets/product-icons/contracts.png"),
   },
   {
-    name: "Extensions",
-    label: "extensions",
+    name: "Contract Kit",
+    label: "contract-kit",
     description: "Building blocks for your contracts",
-    link: "/extensions",
+    link: "/contract-kit",
     icon: require("public/assets/product-icons/extensions.png"),
   },
   {

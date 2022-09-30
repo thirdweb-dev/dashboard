@@ -344,12 +344,12 @@ const HomePage: ThirdwebNextPage = () => {
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
-                    title="Extensions"
+                    title="Contract Kit"
                     description={
                       <>
                         Add features such as{" "}
                         <TrackedLink
-                          href="https://portal.thirdweb.com/extensions/permissions"
+                          href="https://portal.thirdweb.com/contract-kit/permissions"
                           category="landing-contracts"
                           label="extension-permissions"
                           borderBottom="1px solid"
@@ -362,7 +362,7 @@ const HomePage: ThirdwebNextPage = () => {
                         </TrackedLink>
                         ,{" "}
                         <TrackedLink
-                          href="https://portal.thirdweb.com/extensions/royalty"
+                          href="https://portal.thirdweb.com/contract-kit/royalty"
                           category="landing-contracts"
                           label="extension-royalties"
                           borderBottom="1px solid"
@@ -375,7 +375,7 @@ const HomePage: ThirdwebNextPage = () => {
                         </TrackedLink>
                         ,{" "}
                         <TrackedLink
-                          href="https://portal.thirdweb.com/extensions/erc721revealable"
+                          href="https://portal.thirdweb.com/contract-kit/erc721revealable"
                           category="landing-contracts"
                           label="extension-delayed-reveal"
                           borderBottom="1px solid"
@@ -399,7 +399,7 @@ const HomePage: ThirdwebNextPage = () => {
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <LinkButton
-                    href="https://portal.thirdweb.com/extensions"
+                    href="https://portal.thirdweb.com/contract-kit"
                     variant="solid"
                     colorScheme="whiteAlpha"
                     bg="white"
