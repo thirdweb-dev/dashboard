@@ -1,4 +1,4 @@
-import { useActiveNetwork } from "@3rdweb-sdk/react";
+import { useDashboardNetwork } from "@3rdweb-sdk/react";
 import { useWalletNFTs } from "@3rdweb-sdk/react/hooks/useWalletNFTs";
 import {
   Center,
@@ -55,7 +55,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
   formId,
 }) => {
   const trackEvent = useTrack();
-  const network = useActiveNetwork();
+  const network = useDashboardNetwork();
 
   const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
 
