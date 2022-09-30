@@ -27,7 +27,7 @@ import {
   MdNavigateBefore,
   MdNavigateNext,
 } from "react-icons/md";
-import { Cell, Column, usePagination, useTable } from "react-table";
+import { CellProps, Column, usePagination, useTable } from "react-table";
 import { AddressCopyButton, Card, Heading, Text } from "tw-components";
 
 interface ContractOverviewNFTGetAllProps {
@@ -44,34 +44,58 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
       {
         Header: "Token Id",
         accessor: (row) => row.metadata.id,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <Text size="body.md" fontFamily="mono">
+            {cell.value}
+          </Text>
+        ),
       },
       {
         Header: "Media",
         accessor: (row) => row.metadata,
-        Cell: (cell: any) => <MediaCell cell={cell} />,
+        Cell: (cell: CellProps<NFT, NFT["metadata"]>) => (
+          <MediaCell cell={cell} />
+        ),
       },
       {
         Header: "Name",
         accessor: (row) => row.metadata.name,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <Text size="label.md">{cell.value}</Text>
+        ),
       },
       {
         Header: "Description",
         accessor: (row) => row.metadata.description,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <Text
+            noOfLines={4}
+            size="body.md"
+            fontStyle={!cell.value ? "italic" : "normal"}
+          >
+            {cell.value || "No description"}
+          </Text>
+        ),
       },
     ];
     if (isErc721) {
       cols.push({
-        Header: "Owned By",
+        Header: "Owner",
         accessor: (row) => row.owner,
-        Cell: ({ cell }: { cell: Cell<NFT, string> }) => (
-          <AddressCopyButton address={cell.value} />
+        Cell: (cell: CellProps<NFT, string>) => (
+          <AddressCopyButton size="xs" address={cell.value} />
         ),
       });
     }
     if (isErc1155) {
       cols.push({
         Header: "Supply",
-        accessor: (row) => BigNumber.from(row.supply).toString(),
+        accessor: (row) => row.supply,
+        Cell: (cell: CellProps<NFT, number>) => (
+          <Text noOfLines={4} size="body.md" fontFamily="mono">
+            {cell.value}
+          </Text>
+        ),
       });
     }
     return cols;

@@ -48,7 +48,9 @@ export const NFTGetAllTable: React.FC<{
       {
         Header: "Media",
         accessor: (row) => row.metadata,
-        Cell: (cell: any) => <MediaCell cell={cell} />,
+        Cell: (cell: CellProps<NFT, NFT["metadata"]>) => (
+          <MediaCell cell={cell} />
+        ),
       },
       {
         Header: "Name",
@@ -61,8 +63,12 @@ export const NFTGetAllTable: React.FC<{
         Header: "Description",
         accessor: (row) => row.metadata.description,
         Cell: (cell: CellProps<NFT, string>) => (
-          <Text noOfLines={4} size="body.md">
-            {cell.value}
+          <Text
+            noOfLines={4}
+            size="body.md"
+            fontStyle={!cell.value ? "italic" : "normal"}
+          >
+            {cell.value || "No description"}
           </Text>
         ),
       },
@@ -127,7 +133,6 @@ export const NFTGetAllTable: React.FC<{
     setQueryParams({ start: pageIndex * pageSize, count: pageSize });
   }, [pageIndex, pageSize]);
 
-  // TODO (SOL) NFTDrawer
   const [tokenRow, setTokenRow] = useState<NFT | null>(null);
 
   return (
@@ -143,10 +148,10 @@ export const NFTGetAllTable: React.FC<{
           />
         )}
         <NFTDrawer
-          program={program}
           data={tokenRow}
           isOpen={!!tokenRow}
           onClose={() => setTokenRow(null)}
+          tabs={[]}
         />
         <Table {...getTableProps()}>
           <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>

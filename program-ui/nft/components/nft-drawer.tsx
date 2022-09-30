@@ -12,8 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { ThirdwebNftMedia } from "@thirdweb-dev/react";
 import type { NFT } from "@thirdweb-dev/sdk";
-import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
-import { useMemo } from "react";
+import React from "react";
 import {
   AddressCopyButton,
   Badge,
@@ -25,11 +24,17 @@ import {
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
+export type NFTDrawerTab = {
+  title: string;
+  isDisabled: boolean;
+  children: React.ReactNode;
+};
+
 interface NFTDrawerProps {
-  program: NFTCollection | NFTDrop;
   isOpen: boolean;
   onClose: () => void;
   data: NFT | null;
+  tabs: NFTDrawerTab[];
 }
 
 const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
@@ -38,88 +43,11 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   isOpen,
   onClose,
   data,
+  tabs,
 }) => {
   const prevData = usePrevious(data);
 
   const renderData = data || prevData;
-
-  const tokenId = renderData?.metadata.id;
-
-  const tabs = useMemo(() => {
-    if (!renderData) {
-      return [];
-    }
-    const t = [
-      {
-        title: "Details",
-        isDisabled: false,
-        children: () => (
-          <Flex flexDir="column" gap={4}>
-            <Card as={Flex} flexDir="column" gap={3}>
-              <SimpleGrid rowGap={3} columns={12} placeItems="center left">
-                <GridItem colSpan={3}>
-                  <Heading size="label.md">Token ID</Heading>
-                </GridItem>
-                <GridItem colSpan={9}>
-                  <Text fontFamily="mono" size="body.md">
-                    {shortenIfAddress(tokenId)}
-                  </Text>
-                </GridItem>
-                <GridItem colSpan={3}>
-                  <Heading size="label.md">Owner</Heading>
-                </GridItem>
-                <GridItem colSpan={9}>
-                  <AddressCopyButton size="xs" address={renderData.owner} />
-                </GridItem>
-                <GridItem colSpan={3}>
-                  <Heading size="label.md">Token Standard</Heading>
-                </GridItem>
-                <GridItem colSpan={9}>
-                  <Badge size="label.sm" variant="subtle">
-                    {renderData.type}
-                  </Badge>
-                </GridItem>
-                {renderData.type !== "ERC721" && (
-                  <>
-                    <GridItem colSpan={3}>
-                      <Heading size="label.md">Supply</Heading>
-                    </GridItem>
-                    <GridItem colSpan={9}>
-                      <Text fontFamily="mono" size="body.md">
-                        {renderData.supply}
-                      </Text>
-                    </GridItem>
-                  </>
-                )}
-              </SimpleGrid>
-            </Card>
-            {renderData.metadata.attributes ||
-            renderData.metadata.properties ? (
-              <Card as={Flex} flexDir="column" gap={4}>
-                <Heading size="label.md">Properties</Heading>
-                <CodeBlock
-                  code={
-                    JSON.stringify(
-                      renderData.metadata.attributes ||
-                        renderData.metadata.properties,
-                      null,
-                      2,
-                    ) || ""
-                  }
-                  language="json"
-                  canCopy={false}
-                  wrap={false}
-                  overflow="auto"
-                />
-              </Card>
-            ) : null}
-          </Flex>
-        ),
-      },
-    ];
-
-    return t;
-  }, [renderData, tokenId]);
 
   if (!renderData) {
     return null;
@@ -157,6 +85,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
             borderBottomWidth="1px"
             overflowX={{ base: "auto", md: "inherit" }}
           >
+            <Tab gap={2}>Details</Tab>
             {tabs.map((tab) => (
               <Tab key={tab.title} gap={2} isDisabled={tab.isDisabled}>
                 {tab.title}
@@ -164,10 +93,73 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
             ))}
           </TabList>
           <TabPanels px={0} py={2}>
+            {/* details tab always exists! */}
+            <TabPanel px={0}>
+              <Flex flexDir="column" gap={4}>
+                <Card as={Flex} flexDir="column" gap={3}>
+                  <SimpleGrid rowGap={3} columns={12} placeItems="center left">
+                    <GridItem colSpan={3}>
+                      <Heading size="label.md">Token ID</Heading>
+                    </GridItem>
+                    <GridItem colSpan={9}>
+                      <Text fontFamily="mono" size="body.md">
+                        {shortenIfAddress(renderData.metadata.id)}
+                      </Text>
+                    </GridItem>
+                    <GridItem colSpan={3}>
+                      <Heading size="label.md">Owner</Heading>
+                    </GridItem>
+                    <GridItem colSpan={9}>
+                      <AddressCopyButton size="xs" address={renderData.owner} />
+                    </GridItem>
+                    <GridItem colSpan={3}>
+                      <Heading size="label.md">Token Standard</Heading>
+                    </GridItem>
+                    <GridItem colSpan={9}>
+                      <Badge size="label.sm" variant="subtle">
+                        {renderData.type}
+                      </Badge>
+                    </GridItem>
+                    {renderData.type !== "ERC721" && (
+                      <>
+                        <GridItem colSpan={3}>
+                          <Heading size="label.md">Supply</Heading>
+                        </GridItem>
+                        <GridItem colSpan={9}>
+                          <Text fontFamily="mono" size="body.md">
+                            {renderData.supply}
+                          </Text>
+                        </GridItem>
+                      </>
+                    )}
+                  </SimpleGrid>
+                </Card>
+                {renderData.metadata.attributes ||
+                renderData.metadata.properties ? (
+                  <Card as={Flex} flexDir="column" gap={4}>
+                    <Heading size="label.md">Properties</Heading>
+                    <CodeBlock
+                      code={
+                        JSON.stringify(
+                          renderData.metadata.attributes ||
+                            renderData.metadata.properties,
+                          null,
+                          2,
+                        ) || ""
+                      }
+                      language="json"
+                      canCopy={false}
+                      wrap={false}
+                      overflow="auto"
+                    />
+                  </Card>
+                ) : null}
+              </Flex>
+            </TabPanel>
             {tabs.map((tab) => {
               return (
                 <TabPanel key={tab.title} px={0}>
-                  {tab.children()}
+                  {tab.children}
                 </TabPanel>
               );
             })}
