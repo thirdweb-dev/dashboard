@@ -87,6 +87,7 @@ const moduleExports = {
       {
         source: "/extensions",
         destination: "/contractkit",
+        permanent: false,
       },
       //  old (deprecated) routes
       {
