@@ -168,7 +168,7 @@ const ContractSubnav: React.FC<ContractSubnavProps> = ({ routes }) => {
           }
         }, 10);
       }}
-      overflowX={{ base: "auto", md: "inherit" }}
+      overflowX="auto"
     >
       <Box
         position="absolute"

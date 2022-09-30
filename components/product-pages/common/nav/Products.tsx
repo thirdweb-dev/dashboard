@@ -27,10 +27,10 @@ export const PRODUCTS: IProduct[] = [
     icon: require("public/assets/product-icons/contracts.png"),
   },
   {
-    name: "Extensions",
-    label: "extensions",
+    name: "ContractKit",
+    label: "contractkit",
     description: "Building blocks for your contracts",
-    link: "/extensions",
+    link: "/contractkit",
     icon: require("public/assets/product-icons/extensions.png"),
   },
   {
@@ -60,6 +60,13 @@ export const PRODUCTS: IProduct[] = [
     description: "Seamless contract deployment",
     link: "/deploy",
     icon: require("public/assets/product-icons/deploy.png"),
+  },
+  {
+    name: "UI Components",
+    label: "ui-components",
+    description: "Plug-and-play frontend components",
+    link: "/ui-components",
+    icon: require("public/assets/product-icons/ui-components.png"),
   },
 ];
 
