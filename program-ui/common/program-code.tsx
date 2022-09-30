@@ -6,7 +6,7 @@ export const ProgramCodeTab: React.FC<{ address: string }> = ({ address }) => {
   const accountType = useProgramAccountType(address);
   return accountType.isSuccess ? (
     <ContractCode
-      contract={null}
+      contractAddress={address}
       contractType={accountType.data}
       ecosystem="solana"
     />

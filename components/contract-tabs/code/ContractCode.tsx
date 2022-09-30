@@ -42,7 +42,7 @@ function replaceVariablesInCodeSnippet(
 }
 
 interface IContractCode {
-  contract?: ValidContractInstance | null;
+  contractAddress: string | undefined;
   contractType: string;
   ecosystem: "evm" | "solana";
 }
@@ -50,13 +50,13 @@ interface IContractCode {
 const INSTALL_COMMANDS = {
   typescript: "npm install @thirdweb-dev/sdk",
   javascript: "npm install @thirdweb-dev/sdk",
-  react: "npm install @thirdweb-dev/react",
+  react: "npm install @thirdweb-dev/sdk @thirdweb-dev/react",
   python: "pip install thirdweb-sdk",
   go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
 };
 
 export const ContractCode: React.FC<IContractCode> = ({
-  contract,
+  contractAddress,
   contractType,
   ecosystem,
 }) => {
@@ -74,13 +74,8 @@ export const ContractCode: React.FC<IContractCode> = ({
 
   const replaceSnippetVars = useCallback(
     (snip: Partial<Record<Environment, string>>) =>
-      replaceVariablesInCodeSnippet(
-        snip,
-        contract?.getAddress(),
-        address,
-        chainName,
-      ),
-    [address, contract, chainName],
+      replaceVariablesInCodeSnippet(snip, contractAddress, address, chainName),
+    [address, contractAddress, chainName],
   );
 
   if (isLoading) {

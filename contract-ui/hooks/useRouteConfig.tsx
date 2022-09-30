@@ -1,13 +1,10 @@
-import { Flex, Spacer, Spinner } from "@chakra-ui/react";
 import { Route } from "@tanstack/react-location";
 import { contractType, useContract } from "@thirdweb-dev/react";
-import { useProgramAccountType } from "@thirdweb-dev/react/solana";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
 import { ens } from "components/contract-components/hooks";
-import { ContractCode } from "components/contract-tabs/code/ContractCode";
 import { ProgramCodeTab } from "program-ui/common/program-code";
 
 // import { useEffect } from "react";
