@@ -1,4 +1,4 @@
-import { NFTList } from "./nft-list";
+import { NFTGetAllTable } from "./components/table";
 import { Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { useLazyMintNFT } from "@thirdweb-dev/react/solana";
 import type { NFTDrop } from "@thirdweb-dev/sdk/solana";
@@ -17,7 +17,7 @@ export const NFTDropPanel: React.FC<{
           <NFTLazyMintButton program={program} />
         </Flex>
       </Flex>
-      <NFTList program={program} />
+      <NFTGetAllTable program={program} />
     </Flex>
   );
 };

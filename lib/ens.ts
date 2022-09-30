@@ -1,5 +1,5 @@
 import { getEVMThirdwebSDK } from "./sdk";
-import { ChainId } from "@thirdweb-dev/sdk";
+import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { utils } from "ethers";
 import invariant from "tiny-invariant";
 

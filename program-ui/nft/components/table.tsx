@@ -15,11 +15,8 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useNFTs } from "@thirdweb-dev/react/solana";
-import type {
-  NFTCollection,
-  NFTDrop,
-  NFTMetadata,
-} from "@thirdweb-dev/sdk/solana";
+import type { NFT } from "@thirdweb-dev/sdk";
+import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
 import { useEffect, useMemo, useState } from "react";
@@ -30,35 +27,60 @@ import {
   MdNavigateBefore,
   MdNavigateNext,
 } from "react-icons/md";
-import { Column, usePagination, useTable } from "react-table";
+import { CellProps, Column, usePagination, useTable } from "react-table";
 import { AddressCopyButton, Card, Heading, Text } from "tw-components";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 export const NFTGetAllTable: React.FC<{
   program: NFTCollection | NFTDrop;
 }> = ({ program }) => {
   const tableColumns = useMemo(() => {
-    const cols: Column<NFTMetadata>[] = [
+    const cols: Column<NFT>[] = [
       {
-        Header: "Address",
-        accessor: (row) =>
-          row.id ? (
-            <AddressCopyButton size="xs" address={row.id.toString() || ""} />
-          ) : (
-            "-"
-          ),
+        Header: "Token Id",
+        accessor: (row) => row.metadata.id,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <Text size="body.md" fontFamily="mono">
+            {shortenIfAddress(cell.value)}
+          </Text>
+        ),
       },
       {
         Header: "Media",
-        accessor: (row) => row,
+        accessor: (row) => row.metadata,
         Cell: (cell: any) => <MediaCell cell={cell} />,
       },
       {
         Header: "Name",
-        accessor: (row) => row.name,
+        accessor: (row) => row.metadata.name,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <Text size="label.md">{cell.value}</Text>
+        ),
       },
       {
         Header: "Description",
-        accessor: (row) => row.description,
+        accessor: (row) => row.metadata.description,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <Text noOfLines={4} size="body.md">
+            {cell.value}
+          </Text>
+        ),
+      },
+      {
+        Header: "Owner",
+        accessor: (row) => row.owner,
+        Cell: (cell: CellProps<NFT, string>) => (
+          <AddressCopyButton size="xs" address={cell.value} />
+        ),
+      },
+      {
+        Header: "Supply",
+        accessor: (row) => row.supply,
+        Cell: (cell: CellProps<NFT, number>) => (
+          <Text noOfLines={4} size="body.md" fontFamily="mono">
+            {cell.value}
+          </Text>
+        ),
       },
     ];
     return cols;
@@ -106,7 +128,7 @@ export const NFTGetAllTable: React.FC<{
   }, [pageIndex, pageSize]);
 
   // TODO (SOL) NFTDrawer
-  const [tokenRow, setTokenRow] = useState<NFTMetadata | null>(null);
+  const [tokenRow, setTokenRow] = useState<NFT | null>(null);
 
   return (
     <Flex gap={4} direction="column">

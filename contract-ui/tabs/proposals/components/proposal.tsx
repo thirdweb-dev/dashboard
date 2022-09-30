@@ -10,7 +10,7 @@ import {
   ProposalState,
   Proposal as ProposalType,
   VoteType,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import type { Vote } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { ethers } from "ethers";

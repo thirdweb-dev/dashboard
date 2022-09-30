@@ -32,7 +32,7 @@ import {
   CONTRACT_ADDRESSES,
   ExtraPublishMetadata,
   SUPPORTED_CHAIN_IDS,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";

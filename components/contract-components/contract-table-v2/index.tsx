@@ -19,7 +19,7 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
 import { Solana } from "@thirdweb-dev/chain-icons";
-import { ContractType } from "@thirdweb-dev/sdk";
+import { ContractType } from "@thirdweb-dev/sdk/evm";
 import type {
   NFTCollectionMetadataInput,
   NFTDropContractInput,

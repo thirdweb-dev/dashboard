@@ -1,6 +1,6 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
-import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { deprecatedChains } from "constants/mappings";
 import { Text } from "tw-components";
 

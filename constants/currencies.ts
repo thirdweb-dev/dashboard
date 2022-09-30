@@ -1,4 +1,8 @@
-import { ChainId, NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import {
+  ChainId,
+  NATIVE_TOKENS,
+  SUPPORTED_CHAIN_ID,
+} from "@thirdweb-dev/sdk/evm";
 import { constants } from "ethers";
 import { OtherAddressZero } from "utils/zeroAddress";
 

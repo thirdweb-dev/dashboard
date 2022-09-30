@@ -13,7 +13,7 @@ import {
   useAddress,
   useTransferBatchToken,
 } from "@thirdweb-dev/react";
-import { Amount, Erc20 } from "@thirdweb-dev/sdk";
+import { Amount, Erc20 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import {
   AirdropAddressInput,

@@ -10,7 +10,7 @@ import {
   useContractMetadata,
   useSDK,
 } from "@thirdweb-dev/react";
-import type { Token, Vote, VoteType } from "@thirdweb-dev/sdk";
+import type { Token, Vote, VoteType } from "@thirdweb-dev/sdk/evm";
 import invariant from "tiny-invariant";
 
 export function useVoteProposalList(contract?: Vote) {

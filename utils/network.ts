@@ -1,5 +1,5 @@
 /* eslint-disable line-comment-position */
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 
 export const SUPPORTED_CHAIN_IDS_V1: SUPPORTED_CHAIN_ID[] = [
   ChainId.Mainnet,

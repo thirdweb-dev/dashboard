@@ -13,7 +13,7 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
-import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { useForm } from "react-hook-form";
 import { FiCopy } from "react-icons/fi";
 import {

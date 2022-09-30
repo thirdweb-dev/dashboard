@@ -1,6 +1,6 @@
 import { withSentry } from "@sentry/nextjs";
 import { QueryClient } from "@tanstack/react-query";
-import { ChainId } from "@thirdweb-dev/sdk";
+import { ChainId } from "@thirdweb-dev/sdk/evm";
 import {
   ens,
   fetchPublishedContracts,

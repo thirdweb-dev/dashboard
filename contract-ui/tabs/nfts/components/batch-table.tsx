@@ -18,7 +18,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { NFTMetadata } from "@thirdweb-dev/sdk";
+import type { NFTMetadata } from "@thirdweb-dev/sdk";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";

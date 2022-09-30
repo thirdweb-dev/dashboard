@@ -39,7 +39,7 @@ import {
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
   SchemaForPrebuiltContractType,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { useReleasesFromDeploy } from "components/contract-components/hooks";

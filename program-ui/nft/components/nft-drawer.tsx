@@ -1,9 +1,7 @@
-// import { AirdropTab } from "./airdrop-tab";
-// import { BurnTab } from "./burn-tab";
-// import { MintSupplyTab } from "./mint-supply-tab";
-// import { TransferTab } from "./transfer-tab";
 import {
   Flex,
+  GridItem,
+  SimpleGrid,
   Tab,
   TabList,
   TabPanel,
@@ -13,18 +11,25 @@ import {
   usePrevious,
 } from "@chakra-ui/react";
 import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-import { NFTCollection, NFTDrop, NFTMetadata } from "@thirdweb-dev/sdk/solana";
-// import { detectFeatures } from "components/contract-components/utils";
-// import { ClaimConditions } from "contract-ui/tabs/claim-conditions/components/claim-conditions";
-// import { BigNumber } from "ethers";
+import type { NFT } from "@thirdweb-dev/sdk";
+import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { useMemo } from "react";
-import { Card, CodeBlock, Drawer, Heading, Text } from "tw-components";
+import {
+  AddressCopyButton,
+  Badge,
+  Card,
+  CodeBlock,
+  Drawer,
+  Heading,
+  Text,
+} from "tw-components";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 interface NFTDrawerProps {
   program: NFTCollection | NFTDrop;
   isOpen: boolean;
   onClose: () => void;
-  data: NFTMetadata | null;
+  data: NFT | null;
 }
 
 const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
@@ -33,36 +38,12 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   isOpen,
   onClose,
   data,
-  // contract,
 }) => {
-  // const address = useAddress();
-  // const balanceOf = useNFTBalance(contract, address, data?.metadata.id);
-
-  // const { erc1155 } = getErcs(contract);
-
   const prevData = usePrevious(data);
 
   const renderData = data || prevData;
 
-  // const isERC1155 = detectFeatures(contract, ["ERC1155"]);
-  // const isERC721 = detectFeatures(contract, ["ERC721"]);
-
-  // const isBurnable = detectFeatures(contract, [
-  //   "ERC721Burnable",
-  //   "ERC1155Burnable",
-  // ]);
-
-  // const isMintable = detectFeatures(contract, ["ERC1155Mintable"]);
-
-  // const isClaimable = detectFeatures<DropContract>(contract, [
-  //   "ERC1155ClaimableWithConditions",
-  // ]);
-
-  // const isOwner =
-  //   (isERC1155 && BigNumber.from(balanceOf?.data || 0).gt(0)) ||
-  //   (isERC721 && renderData?.owner === address);
-
-  const tokenId = renderData?.id;
+  const tokenId = renderData?.metadata.id;
 
   const tabs = useMemo(() => {
     if (!renderData) {
@@ -75,24 +56,52 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
         children: () => (
           <Flex flexDir="column" gap={4}>
             <Card as={Flex} flexDir="column" gap={3}>
-              <Text size="label.md">Token ID: {tokenId}</Text>
-
-              {/* <Text size="label.md">Owned by: {renderData.}</Text> */}
-
-              {/* <Text size="label.md">Token Standard: {renderData.type}</Text> */}
-              {/* {isERC1155 && (
-                <Text size="label.md">
-                  Supply: {renderData.supply.toString()}
-                </Text>
-              )} */}
+              <SimpleGrid rowGap={3} columns={12} placeItems="center left">
+                <GridItem colSpan={3}>
+                  <Heading size="label.md">Token ID</Heading>
+                </GridItem>
+                <GridItem colSpan={9}>
+                  <Text fontFamily="mono" size="body.md">
+                    {shortenIfAddress(tokenId)}
+                  </Text>
+                </GridItem>
+                <GridItem colSpan={3}>
+                  <Heading size="label.md">Owner</Heading>
+                </GridItem>
+                <GridItem colSpan={9}>
+                  <AddressCopyButton size="xs" address={renderData.owner} />
+                </GridItem>
+                <GridItem colSpan={3}>
+                  <Heading size="label.md">Token Standard</Heading>
+                </GridItem>
+                <GridItem colSpan={9}>
+                  <Badge size="label.sm" variant="subtle">
+                    {renderData.type}
+                  </Badge>
+                </GridItem>
+                {renderData.type !== "ERC721" && (
+                  <>
+                    <GridItem colSpan={3}>
+                      <Heading size="label.md">Supply</Heading>
+                    </GridItem>
+                    <GridItem colSpan={9}>
+                      <Text fontFamily="mono" size="body.md">
+                        {renderData.supply}
+                      </Text>
+                    </GridItem>
+                  </>
+                )}
+              </SimpleGrid>
             </Card>
-            {/* {data?.metadata?.attributes || data?.metadata?.properties ? (
+            {renderData.metadata.attributes ||
+            renderData.metadata.properties ? (
               <Card as={Flex} flexDir="column" gap={4}>
                 <Heading size="label.md">Properties</Heading>
                 <CodeBlock
                   code={
                     JSON.stringify(
-                      data?.metadata.attributes || data?.metadata.properties,
+                      renderData.metadata.attributes ||
+                        renderData.metadata.properties,
                       null,
                       2,
                     ) || ""
@@ -103,56 +112,12 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                   overflow="auto"
                 />
               </Card>
-            ) : null} */}
+            ) : null}
           </Flex>
         ),
       },
-      // {
-      //   title: "Transfer",
-      //   isDisabled: !isOwner,
-      //   children: () => <TransferTab contract={contract} tokenId={tokenId} />,
-      // },
     ];
-    // if (erc1155) {
-    //   t = t.concat([
-    //     {
-    //       title: "Airdrop",
-    //       isDisabled: !isOwner,
-    //       children: () => <AirdropTab contract={erc1155} tokenId={tokenId} />,
-    //     },
-    //   ]);
-    // }
-    // if (isBurnable) {
-    //   t = t.concat([
-    //     {
-    //       title: "Burn",
-    //       isDisabled: !isOwner,
-    //       children: () => <BurnTab contract={contract} tokenId={tokenId} />,
-    //     },
-    //   ]);
-    // }
-    // if (isMintable && erc1155) {
-    //   t = t.concat([
-    //     {
-    //       title: "Mint",
-    //       isDisabled: false,
-    //       children: () => (
-    //         <MintSupplyTab contract={erc1155} tokenId={tokenId} />
-    //       ),
-    //     },
-    //   ]);
-    // }
-    // if (isClaimable && isERC1155) {
-    //   t = t.concat([
-    //     {
-    //       title: "Claim Conditions",
-    //       isDisabled: false,
-    //       children: () => (
-    //         <ClaimConditions contract={contract} tokenId={tokenId} isColumn />
-    //       ),
-    //     },
-    //   ]);
-    // }
+
     return t;
   }, [renderData, tokenId]);
 
@@ -171,16 +136,16 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
           <ChakraThirdwebNftMedia
-            metadata={renderData as any}
+            metadata={renderData.metadata}
             requireInteraction
             flexShrink={0}
             boxSize={32}
             objectFit="contain"
           />
           <Flex flexDir="column" gap={2} w="70%">
-            <Heading size="title.lg">{renderData.name}</Heading>
+            <Heading size="title.lg">{renderData.metadata.name}</Heading>
             <Text size="label.md" noOfLines={6}>
-              {renderData.description}
+              {renderData.metadata.description}
             </Text>
           </Flex>
         </Flex>

@@ -7,7 +7,7 @@ import Fantom from "@thirdweb-dev/chain-icons/dist/fantom";
 import Optimism from "@thirdweb-dev/chain-icons/dist/optimism";
 import Polygon from "@thirdweb-dev/chain-icons/dist/polygon";
 import { ChainId, useNetwork } from "@thirdweb-dev/react";
-import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { useCallback } from "react";
 
 interface NetworkMetadata {

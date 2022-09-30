@@ -15,7 +15,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useListings, useListingsCount } from "@thirdweb-dev/react";
-import { ListingType } from "@thirdweb-dev/sdk";
+import { ListingType } from "@thirdweb-dev/sdk/evm";
 import type {
   AuctionListing,
   DirectListing,

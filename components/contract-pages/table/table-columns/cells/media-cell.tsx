@@ -1,6 +1,6 @@
 import { chakra } from "@chakra-ui/react";
 import { ThirdwebNftMedia } from "@thirdweb-dev/react";
-import { NFTMetadata } from "@thirdweb-dev/sdk";
+import type { NFTMetadata } from "@thirdweb-dev/sdk";
 
 const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
 

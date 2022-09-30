@@ -23,7 +23,8 @@ import {
   useDelayedRevealLazyMint,
   useLazyMint,
 } from "@thirdweb-dev/react";
-import { NFTMetadataInput, UploadProgressEvent } from "@thirdweb-dev/sdk";
+import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
+import type { UploadProgressEvent } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { FileInput } from "components/shared/FileInput";

@@ -18,7 +18,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { UseMutationResult } from "@tanstack/react-query";
 import { NFTContract, useAddress } from "@thirdweb-dev/react";
 import type { useMintNFT } from "@thirdweb-dev/react/solana";
-import { NFTMetadataInput } from "@thirdweb-dev/sdk";
+import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { OpenSeaPropertyBadge } from "components/badges/opensea";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
@@ -245,7 +245,9 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           <FormControl isRequired isInvalid={!!errors.name}>
             <FormLabel>Name</FormLabel>
             <Input autoFocus {...register("name")} />
-            <FormErrorMessage>{errors?.name?.message}</FormErrorMessage>
+            <FormErrorMessage>
+              <>{errors?.name?.message}</>
+            </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!mediaFileError}>
             <FormLabel>Media</FormLabel>
@@ -294,7 +296,9 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           <FormControl isInvalid={!!errors.description}>
             <FormLabel>Description</FormLabel>
             <Textarea {...register("description")} />
-            <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
+            <FormErrorMessage>
+              <>{errors?.description?.message}</>
+            </FormErrorMessage>
           </FormControl>
           {isErc1155 && mintMutation && (
             <FormControl isRequired isInvalid={!!errors.supply}>
@@ -336,7 +340,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                     Must be a six-character hexadecimal with a pre-pended #.
                   </FormHelperText>
                   <FormErrorMessage>
-                    {errors?.background_color?.message}
+                    <>{errors?.background_color?.message}</>
                   </FormErrorMessage>
                 </FormControl>
                 {!externalIsTextFile && (

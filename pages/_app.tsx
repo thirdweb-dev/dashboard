@@ -7,6 +7,7 @@ import {
   PersistQueryClientProvider,
   Persister,
 } from "@tanstack/react-query-persist-client";
+import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
@@ -64,8 +65,7 @@ const persister: Persister = createSyncStoragePersister({
           ...data.clientState,
           queries: data.clientState.queries.filter(
             // covers solana as well as evm
-            // TODO switch this to the new check (once it is exported)
-            (q) => !q.queryKey.includes("-instance"),
+            (q) => !shouldNeverPersistQuery(q.queryKey),
           ),
         },
       },

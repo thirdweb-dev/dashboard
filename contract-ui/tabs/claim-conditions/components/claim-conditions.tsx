@@ -32,7 +32,7 @@ import {
   ClaimConditionInputArray,
   NATIVE_TOKEN_ADDRESS,
   ValidContractInstance,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { BigNumberInput } from "components/shared/BigNumberInput";

@@ -1,7 +1,7 @@
 import { useMainnetsContractList } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { ChainId } from "@thirdweb-dev/sdk";
+import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
 import {
   ens,

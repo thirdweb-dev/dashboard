@@ -1,6 +1,6 @@
 import { handleArbitraryTokenURI, shouldDownloadURI } from "./tokenUri";
 import { WalletNFT } from "./types";
-import { ChainId } from "@thirdweb-dev/sdk";
+import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { StorageSingleton } from "lib/sdk";
 
 const moralisUrlMap = {

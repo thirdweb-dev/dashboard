@@ -9,7 +9,7 @@ import { usePascalCaseContractName } from "@3rdweb-sdk/react";
 import { Flex, Spinner, Stack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
-import { ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useCallback, useMemo, useState } from "react";
 import { IoDocumentOutline } from "react-icons/io5";

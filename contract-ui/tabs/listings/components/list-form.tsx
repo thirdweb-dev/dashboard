@@ -22,7 +22,7 @@ import {
   NATIVE_TOKEN_ADDRESS,
   NewAuctionListing,
   NewDirectListing,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { WalletNFT } from "lib/wallet/nfts/types";

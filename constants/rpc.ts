@@ -1,4 +1,4 @@
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { isBrowser } from "utils/isBrowser";
 import { DashboardSolanaNetwork } from "utils/network";
 

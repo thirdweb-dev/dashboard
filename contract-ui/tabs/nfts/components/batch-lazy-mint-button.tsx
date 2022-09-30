@@ -2,7 +2,7 @@ import { BatchLazyMint } from "./batch-lazy-mint";
 import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import { DropContract, UseContractResult } from "@thirdweb-dev/react";
-import { ValidContractInstance } from "@thirdweb-dev/sdk";
+import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Drawer } from "tw-components";

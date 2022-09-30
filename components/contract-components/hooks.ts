@@ -14,6 +14,7 @@ import {
   useSDK,
   useSDKChainId,
 } from "@thirdweb-dev/react";
+import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import {
   ChainId,
   ContractInfoSchema,
@@ -30,8 +31,7 @@ import {
   extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
-} from "@thirdweb-dev/sdk";
-import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
+} from "@thirdweb-dev/sdk/evm";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
 import { ENSResolveResult, isEnsName } from "lib/ens";

@@ -37,6 +37,7 @@ const TWSolanaProvider: ComponentWithChildren<{ network?: Network }> = ({
 }) => {
   const wallet = useWallet();
   const queryClient = useQueryClient();
+
   return (
     <ThirdwebSDKProvider
       queryClient={queryClient}

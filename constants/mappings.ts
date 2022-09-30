@@ -5,7 +5,7 @@ import {
   FullPublishMetadata,
   Role,
   SUPPORTED_CHAIN_ID,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { StaticImageData } from "next/image";
 
 export const FeatureIconMap: Record<ContractType, StaticImageData> = {

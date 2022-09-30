@@ -5,8 +5,9 @@ import {
   useProgramMetadata,
   useTokenBalance,
 } from "@thirdweb-dev/react/solana";
-import { CurrencyValue } from "@thirdweb-dev/sdk";
-import type { Token, TokenMetadata } from "@thirdweb-dev/sdk/solana";
+import type { TokenMetadata } from "@thirdweb-dev/sdk";
+import type { CurrencyValue } from "@thirdweb-dev/sdk/evm";
+import type { Token } from "@thirdweb-dev/sdk/solana";
 import { TokenMintFormLayout } from "contract-ui/tabs/tokens/components/mint-form";
 import { TokenSupplyLayout } from "contract-ui/tabs/tokens/components/supply-layout";
 import { BigNumber } from "ethers";

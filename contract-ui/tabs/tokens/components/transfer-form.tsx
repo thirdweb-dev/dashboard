@@ -8,7 +8,7 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import { useTokenDecimals, useTransferToken } from "@thirdweb-dev/react";
-import type { Erc20 } from "@thirdweb-dev/sdk";
+import type { Erc20 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";

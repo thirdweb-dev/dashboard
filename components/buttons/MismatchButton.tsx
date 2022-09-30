@@ -26,7 +26,7 @@ import {
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
-import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useRef } from "react";

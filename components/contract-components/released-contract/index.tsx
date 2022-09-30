@@ -25,7 +25,7 @@ import {
   PublishedContract,
   PublishedMetadata,
   fetchSourceFilesFromMetadata,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";

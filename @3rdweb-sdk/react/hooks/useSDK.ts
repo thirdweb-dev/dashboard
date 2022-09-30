@@ -1,6 +1,6 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";

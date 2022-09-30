@@ -21,7 +21,7 @@ import {
   Tr,
   UnorderedList,
 } from "@chakra-ui/react";
-import { ClaimCondition, SnapshotAddressInput } from "@thirdweb-dev/sdk";
+import { ClaimCondition, SnapshotAddressInput } from "@thirdweb-dev/sdk/evm";
 import { Logo } from "components/logo";
 import { utils } from "ethers";
 import Papa from "papaparse";

@@ -1,4 +1,4 @@
-import type { AbiSchema, ContractType } from "@thirdweb-dev/sdk";
+import type { AbiSchema, ContractType } from "@thirdweb-dev/sdk/evm";
 import { z } from "zod";
 
 export type ContractId = ContractType | string;

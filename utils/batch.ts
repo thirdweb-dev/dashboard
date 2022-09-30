@@ -1,5 +1,5 @@
 import { removeEmptyValues } from "./parseAttributes";
-import { NFTMetadataInput } from "@thirdweb-dev/sdk";
+import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
 
 export interface CSVData extends Record<string, string | undefined> {

@@ -30,7 +30,7 @@ import {
   PREBUILT_CONTRACTS_MAP,
   PrebuiltContractType,
   SUPPORTED_CHAIN_ID,
-} from "@thirdweb-dev/sdk";
+} from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { RecipientForm } from "components/deployment/splits/recipients";
