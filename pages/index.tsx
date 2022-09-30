@@ -344,7 +344,7 @@ const HomePage: ThirdwebNextPage = () => {
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
-                    title="Contract Kit"
+                    title="ContractKit"
                     description={
                       <>
                         Add features such as{" "}

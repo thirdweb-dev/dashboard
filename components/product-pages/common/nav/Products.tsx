@@ -27,7 +27,7 @@ export const PRODUCTS: IProduct[] = [
     icon: require("public/assets/product-icons/contracts.png"),
   },
   {
-    name: "Contract Kit",
+    name: "ContractKit",
     label: "contract-kit",
     description: "Building blocks for your contracts",
     link: "/contract-kit",
