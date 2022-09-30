@@ -32,6 +32,7 @@ export const ContractCodePage: React.FC<ContractCodePageProps> = ({
           <ContractCode
             contract={contractQuery.contract}
             contractType={contractType}
+            ecosystem="evm"
           />
         )
       )}

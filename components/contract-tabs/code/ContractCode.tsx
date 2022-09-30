@@ -44,6 +44,7 @@ function replaceVariablesInCodeSnippet(
 interface IContractCode {
   contract?: ValidContractInstance | null;
   contractType: string;
+  ecosystem: "evm" | "solana";
 }
 
 const INSTALL_COMMANDS = {
@@ -57,8 +58,9 @@ const INSTALL_COMMANDS = {
 export const ContractCode: React.FC<IContractCode> = ({
   contract,
   contractType,
+  ecosystem,
 }) => {
-  const { data, isLoading } = useContractCodeSnippetQuery();
+  const { data, isLoading } = useContractCodeSnippetQuery(ecosystem);
   const chainName = useSingleQueryParam<SupportedNetwork>("networkOrAddress");
 
   const contractName = usePascalCaseContractName(contractType);
@@ -166,10 +168,11 @@ function getContractSnippets(
   return contractName && snippets ? snippets[contractName] : null;
 }
 
-function useContractCodeSnippetQuery() {
+function useContractCodeSnippetQuery(ecosystem: "evm" | "solana") {
   return useQuery(["code-snippet"], async () => {
+    const filename = ecosystem === "evm" ? "snippets" : "snippets_solana";
     const res = await fetch(
-      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/snippets.json`,
+      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/${filename}.json`,
     );
     return (await res.json()) as SnippetApiResponse;
   });
