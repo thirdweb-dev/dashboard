@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { FC } from "react";
 import { Button, Text } from "tw-components";
 
-const CTA: FC = () => {
+export const CTA: React.FC = () => {
   return (
     <Flex
       bg="url(/assets/faucet/cta-bg.png) no-repeat center"
