@@ -1,4 +1,3 @@
-import { NFTDrawer } from "./nft-drawer";
 import {
   Center,
   Flex,
@@ -18,6 +17,8 @@ import { NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
 import type { NFT } from "@thirdweb-dev/sdk";
 import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
+import { NFTDrawer } from "core-ui/nft-drawer/nft-drawer";
+import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 import { BigNumber } from "ethers";
 import React, { useEffect, useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
@@ -146,6 +147,8 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
 
   const [tokenRow, setTokenRow] = useState<NFT | null>(null);
 
+  const drawerTabs = useNFTDrawerTabs("evm", contract, tokenRow);
+
   return (
     <Flex gap={4} direction="column">
       <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
@@ -159,10 +162,10 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
           />
         )}
         <NFTDrawer
-          contract={contract}
           data={tokenRow}
           isOpen={!!tokenRow}
           onClose={() => setTokenRow(null)}
+          tabs={drawerTabs}
         />
         <Table {...getTableProps()}>
           <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>

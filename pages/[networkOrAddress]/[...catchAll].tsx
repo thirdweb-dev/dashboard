@@ -15,10 +15,11 @@ import {
 import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
-import { utils } from "ethers";
-import { isEnsName } from "lib/ens";
+import {
+  isPossibleEVMAddress,
+  isPossibleSolanaAddress,
+} from "lib/address-utils";
 import { getEVMThirdwebSDK } from "lib/sdk";
-import { isPossibleSolanaAddress } from "lib/sol-utils";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
@@ -159,9 +160,9 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
 
   // handle the case where the user is trying to access a EVM contract
   if (networkOrAddress in SupportedNetworkToChainIdMap) {
-    const [contractAddress] = ctx.params?.catchAll as (string | undefined)[];
+    const [contractAddress] = ctx.params?.catchAll as string[];
 
-    if (contractAddress && isPossibleAddress(contractAddress)) {
+    if (isPossibleSolanaAddress(contractAddress)) {
       await queryClient.prefetchQuery(ens.queryKey(contractAddress), () =>
         ens.fetch(contractAddress),
       );
@@ -188,7 +189,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
       };
     }
     const [programAddress] = ctx.params?.catchAll as (string | undefined)[];
-    if (programAddress && isPossibleSolanaAddress(programAddress)) {
+    if (isPossibleSolanaAddress(programAddress)) {
       // lets get the program type and metadata right here
       // TODO this would be great if it was fast, but alas it is slow af!
       // const solSDK = getSOLThirdwebSDK(network);
@@ -209,7 +210,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
         },
       };
     }
-  } else if (isPossibleAddress(networkOrAddress)) {
+  } else if (isPossibleEVMAddress(networkOrAddress)) {
     const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
     // we're in release world
     const [contractName, version = ""] = ctx.params?.catchAll as (
@@ -290,10 +291,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-// if a string is a valid address or ens name
-function isPossibleAddress(address: string) {
-  return utils.isAddress(address) || isEnsName(address);
-}
 function generateBuildTimePaths() {
   return Object.values(BuiltinContractMap)
     .filter((c) => c.contractType !== "custom")

@@ -1,3 +1,4 @@
+import { NFTDrawerTab } from "./types";
 import {
   Flex,
   GridItem,
@@ -23,12 +24,6 @@ import {
   Text,
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
-
-export type NFTDrawerTab = {
-  title: string;
-  isDisabled: boolean;
-  children: React.ReactNode;
-};
 
 interface NFTDrawerProps {
   isOpen: boolean;
@@ -159,7 +154,8 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
             {tabs.map((tab) => {
               return (
                 <TabPanel key={tab.title} px={0}>
-                  {tab.children}
+                  {/* lol this is weird */}
+                  {<tab.children />}
                 </TabPanel>
               );
             })}

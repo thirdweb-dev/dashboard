@@ -52,7 +52,7 @@ import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { isPossibleSolanaAddress } from "lib/sol-utils";
+import { isPossibleSolanaAddress } from "lib/address-utils";
 import OriginalNextLink from "next/link";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
