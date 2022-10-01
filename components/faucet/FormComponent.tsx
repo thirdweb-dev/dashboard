@@ -3,7 +3,7 @@ import axios from "axios";
 import { FC, useState } from "react";
 import { Button } from "tw-components";
 
-const FormComponent: FC = () => {
+export const FormComponent: React.FC = () => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
