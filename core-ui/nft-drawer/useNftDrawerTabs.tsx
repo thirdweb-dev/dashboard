@@ -1,4 +1,5 @@
 import { NFTDrawerTab } from "./types";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   DropContract,
   NFTContract,
@@ -26,7 +27,38 @@ export function useNFTDrawerTabs(
 
   if (ecosystem === "solana") {
     // solana land
-    return [];
+    // this is ok because ecosystem can never change!
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const solAddress = useWallet().publicKey?.toBase58();
+    // this is ok because ecosystem can never change!
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useMemo(() => {
+      const isOwner = token?.owner === solAddress;
+      return [
+        {
+          title: "Transfer",
+          isDisabled: !isOwner,
+          children: dynamic(() =>
+            import("program-ui/nft/drawer-tabs/transfer").then(
+              ({ TransferTab }) =>
+                // eslint-disable-next-line react/display-name
+                () =>
+                  <TransferTab program={contractOrProgram} tokenId={tokenId} />,
+            ),
+          ),
+        },
+        {
+          title: "Burn",
+          isDisabled: !isOwner,
+          children: dynamic(() =>
+            import("program-ui/nft/drawer-tabs/burn").then(({ BurnTab }) =>
+              // eslint-disable-next-line react/display-name
+              () => <BurnTab program={contractOrProgram} tokenId={tokenId} />,
+            ),
+          ),
+        },
+      ];
+    }, [contractOrProgram, solAddress, token, tokenId]);
   }
 
   if (ecosystem === "evm") {

@@ -2224,9 +2224,9 @@
   integrity sha512-Rk4SkJFaXZiznFyC/t77Q0NKS4FL7TLJJsVG2V2oiEq3kJVeTdxysEe/yRWSpnWMe808XRDJ+VFh5pt/FN5plw==
 
 "@noble/hashes@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.2.tgz#e9e035b9b166ca0af657a7848eb2718f0f22f183"
-  integrity sha512-KYRCASVTv6aeUi1tsF8/vpyR7zpfs3FUzy2Jqm+MU+LmUKhQ0y2FpfwqkCcxSg2ua4GALJd8k2R76WxwZGbQpA==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.1.3.tgz#360afc77610e0a61f3417e497dcf36862e4f8111"
+  integrity sha512-CE0FCR57H2acVI5UOzIGSSIYxZ6v/HOhDR0Ro9VLyhnzLwx0o8W1mmgaqlEUx4049qJDlIBRztv5k+MM8vbO3A==
 
 "@noble/secp256k1@^1.6.3":
   version "1.7.0"
@@ -3337,10 +3337,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.2.0-nightly-1136d95":
-  version "3.2.0-nightly-e662408"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.2.0-nightly-e662408.tgz#f4e288fe7ab52360c6366651d8abeefbc7834bb5"
-  integrity sha512-S9Rfu7Ts5HoDjENkGUmwhtKuBYGPnkMMSXDY/MH3eDyJl2LPGY8HgzgTIE1w4P2OxaUPIOGbENau9oZ6mdYC2w==
+"@thirdweb-dev/react@^3.2.0-nightly-1972f3e":
+  version "3.2.0-nightly-1972f3e"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.2.0-nightly-1972f3e.tgz#d662b8367a81cb4f97a761b29954b9e2fce99c09"
+  integrity sha512-8eOjWfphXfJjTkVRQbE6v2QR+QT4+wW7qZth7szNKlAKjK/PqDHU318LgQy+HPKIwur7XRJUzGg+FBGu+Ks10Q==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3360,10 +3360,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.2.0-nightly-1136d95":
-  version "3.2.0-nightly-e662408"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.0-nightly-e662408.tgz#fa2f35e06a41d468bc581128c2ea120a7f311ebb"
-  integrity sha512-p6m2Y+xaQuhnSrZHLBI7OR6VcXRaww13KsSVN9BhqJqRbM+xscfCVaWWVuEExrTup6cXq87V/FHCFjUFy7/xZg==
+"@thirdweb-dev/sdk@^3.2.0-nightly-1972f3e":
+  version "3.2.0-nightly-1972f3e"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.0-nightly-1972f3e.tgz#6b1cb23ee4ac615019a7eeb10228602907fb7cdf"
+  integrity sha512-DlrLlBu6ZbUa3g2x/YBs2PAkLFFJsxZ/jGF7BrV9ZDGHp6wmTNq+/MjPm4JvU95/39S2cDG/VHKfOj6imw8xbg==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
@@ -6047,9 +6047,9 @@ eip1193-provider@1.0.1, eip1193-provider@^1.0.1:
     "@json-rpc-tools/provider" "^1.5.5"
 
 electron-to-chromium@^1.4.251:
-  version "1.4.269"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.269.tgz#93ea2724b07f5f562daa7dd3740a1d28572b028b"
-  integrity sha512-7mHFONwp7MNvdyto1v70fCwk28NJMFgsK79op+iYHzz1BLE8T66a1B2qW5alb8XgE0yi3FL3ZQjSYZpJpF6snw==
+  version "1.4.270"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.270.tgz#2c6ea409b45cdb5c3e0cb2c08cf6c0ba7e0f2c26"
+  integrity sha512-KNhIzgLiJmDDC444dj9vEOpZEgsV96ult9Iff98Vanumn+ShJHd5se8aX6KeVxdc0YQeqdrezBZv89rleDbvSg==
 
 elliptic@6.5.4, elliptic@^6.4.0, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4:
   version "6.5.4"
