@@ -1,49 +1,47 @@
-import { Flex } from "@chakra-ui/react";
-import Link from "next/link";
-import type { FC } from "react";
-import { Button, Text } from "tw-components";
+import { AspectRatio, Flex } from "@chakra-ui/react";
+import { Card, LinkButton, Text } from "tw-components";
 
 export const CTA: React.FC = () => {
   return (
-    <Flex
-      bg="url(/assets/faucet/cta-bg.png) no-repeat center"
-      bgSize="cover"
-      flexDir="column"
-      gap="6"
-      h="226px"
-      justify="center"
-      mt="10"
-      px="10"
-      rounded="lg"
-      w="full"
-    >
-      <Text color="white" fontSize="28px" fontWeight="bold" maxW="450px">
-        Now that you have testnet funds, build your web3 app
-      </Text>
-      <Flex gap="4">
-        <Link href="/dashboard" passHref>
-          <Button
+    <AspectRatio ratio={4 / 1}>
+      <Card
+        bg="url(/assets/faucet/cta-bg.png) no-repeat center"
+        bgSize="cover"
+        gap="6"
+        mt={10}
+        flexDir="column"
+        px={10}
+        alignItems="flex-start !important"
+      >
+        <Text color="white" fontSize="28px" fontWeight="bold" maxW="450px">
+          Now that you have testnet funds, build your web3 app
+        </Text>
+        <Flex gap="4">
+          <LinkButton
+            href="/dashboard"
+            fontSize="20px"
+            color="black"
+            background="rgba(255,255,255,1)"
             _hover={{
-              bg: "rgba(255, 255, 255, 0.8)",
+              background: "rgba(255,255,255,0.9) !important",
             }}
-            bg="white"
-            textColor="black"
             px="6"
+            py="4"
           >
-            Start Building
-          </Button>
-        </Link>
-        <Link href="https://portal.thirdweb.com" passHref>
-          <Button
+            Start building
+          </LinkButton>
+
+          <LinkButton
+            href="https://portal.thirdweb.com"
             bg="rgba(255, 255, 255, 0.1)"
             border="1px solid rgba(255, 255, 255, 0.2)"
             px="6"
+            isExternal
           >
             View docs
-          </Button>
-        </Link>
-      </Flex>
-    </Flex>
+          </LinkButton>
+        </Flex>
+      </Card>
+    </AspectRatio>
   );
 };
-export default CTA;

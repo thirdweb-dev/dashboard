@@ -1,71 +1,70 @@
-import { Input, InputGroup, Spinner, chakra, useToast } from "@chakra-ui/react";
+import { FormControl, Input, Spinner, useToast } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Button } from "tw-components";
 
 export const FormComponent: React.FC = () => {
-  const toast = useToast();
-  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
-
-  const sendFunds = async () => {
-    try {
-      setLoading(true);
-
-      const res = await axios.post("/api/faucet/solana", {
+  const toast = useToast();
+  const { mutate, isLoading } = useMutation(
+    async () => {
+      console.log("mutate");
+      return await axios.post("/api/faucet/solana", {
         address,
       });
-      toast({
-        title: "Success",
-        description: res.data.message || "Funds sent",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-      setAddress("");
-    } catch (err) {
-      toast({
-        title: "Error",
-        description:
-          (err as any).response.data.message || "Something went wrong",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    {
+      onSuccess: (res) =>
+        toast({
+          title: "Success",
+          description: res.data.message || "Funds sent",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        }),
+      onError: (error) =>
+        toast({
+          title: "Error",
+          description:
+            (error as any).response.data.message || "Something went wrong",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        }),
+    },
+  );
 
   return (
-    <chakra.form
+    <FormControl
       alignItems="center"
       display="flex"
       gap="4"
       justifyContent="center"
+      onSubmit={() => mutate()}
     >
-      <InputGroup>
-        <Input
-          bg="#0F1318"
-          borderColor="#0F1318"
-          color="#F2F2F7"
-          onChange={(e) => setAddress(e.target.value)}
-          placeholder="Enter your address"
-          value={address}
-        />
-      </InputGroup>
+      <Input
+        bg="#0F1318"
+        borderColor="#0F1318"
+        color="#F2F2F7"
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder="Enter your address"
+        value={address}
+      />
 
       <Button
         bg="#0098EE"
         borderColor="#0098EE"
         color="#F2F2F7"
-        disabled={loading}
-        onClick={sendFunds}
+        disabled={isLoading}
         w="175px"
+        onClick={() => {
+          mutate();
+        }}
       >
-        {loading ? <Spinner /> : "Request Funds"}
+        {isLoading ? <Spinner /> : "Request Funds"}
       </Button>
-    </chakra.form>
+    </FormControl>
   );
 };
 export default FormComponent;

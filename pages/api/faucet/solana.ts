@@ -1,4 +1,5 @@
-import * as web3 from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import { getSOLRPC } from "constants/rpc";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -7,14 +8,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const { address } = req.body;
+  const rpcUrl = getSOLRPC("devnet");
 
   try {
-    const connection = new web3.Connection("https://api.devnet.solana.com");
-    const wallet = new web3.PublicKey(address);
+    const connection = new Connection(rpcUrl);
+    const wallet = new PublicKey(address);
 
     const txHash = await connection.requestAirdrop(
       wallet,
-      web3.LAMPORTS_PER_SOL * Number("1"),
+      Number(LAMPORTS_PER_SOL),
     );
 
     return res.status(200).json({

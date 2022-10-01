@@ -1,10 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import CTA from "components/faucet/CTA";
+import { CTA } from "components/faucet/CTA";
 import FormComponent from "components/faucet/FormComponent";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
-import { Heading, Text } from "tw-components";
+import { Heading } from "tw-components";
 
 const SolanaFaucet: NextPage = () => {
   return (
@@ -19,15 +19,9 @@ const SolanaFaucet: NextPage = () => {
       />
       <Flex flexDir="column" maxW="900px" w="full">
         <Heading color="#F2F2F7">Solana faucet</Heading>
-        <Text
-          as="h2"
-          color="whiteAlpha.800"
-          fontSize="2xl"
-          fontWeight="bold"
-          mb="4"
-        >
+        <Heading fontSize="20px" color="whiteAlpha.800" my="4">
           Get Solana devnet tokens for free
-        </Text>
+        </Heading>
         <FormComponent />
         <CTA />
       </Flex>
