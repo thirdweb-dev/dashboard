@@ -46,7 +46,7 @@ const FileVideo: React.FC<
 interface BatchTableProps {
   data: NFTMetadata[];
   portalRef: React.RefObject<HTMLDivElement>;
-  nextTokenIdToMint?: number;
+  nextTokenIdToMint: number;
 }
 
 export const BatchTable: React.FC<BatchTableProps> = ({
@@ -58,8 +58,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({
     return [
       {
         Header: "Token ID",
-        accessor: (_row, index) =>
-          nextTokenIdToMint ? nextTokenIdToMint + index : index,
+        accessor: (_row, index) => nextTokenIdToMint + index,
       },
       {
         Header: "Image",

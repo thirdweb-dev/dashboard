@@ -2,8 +2,7 @@ import { BatchTable } from "./batch-table";
 import { SelectReveal } from "./select-reveal";
 import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import { DropContract, useTotalCount } from "@thirdweb-dev/react";
-import { BigNumber } from "ethers";
+import { DropContract } from "@thirdweb-dev/react";
 import Papa from "papaparse";
 import { useCallback, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
@@ -20,14 +19,15 @@ interface BatchLazyMintProps {
   contract?: DropContract | null;
   isOpen: boolean;
   onClose: () => void;
+  nextTokenIdToMint?: number;
 }
 
 export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
   contract,
   isOpen,
   onClose,
+  nextTokenIdToMint = 0,
 }) => {
-  const nextTokenIdToMint = useTotalCount(contract);
   const [step, setStep] = useState(0);
   const [csvData, setCSVData] = useState<Papa.ParseResult<CSVData>>();
   const [jsonData, setJsonData] = useState<any>();
@@ -124,9 +124,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                     <BatchTable
                       portalRef={paginationPortalRef}
                       data={mergedData}
-                      nextTokenIdToMint={BigNumber.from(
-                        nextTokenIdToMint.data || 0,
-                      ).toNumber()}
+                      nextTokenIdToMint={nextTokenIdToMint}
                     />
                   ) : (
                     <UploadStep

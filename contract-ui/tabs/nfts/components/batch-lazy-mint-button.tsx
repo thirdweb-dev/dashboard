@@ -1,9 +1,14 @@
 import { BatchLazyMint } from "./batch-lazy-mint";
 import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { DropContract, UseContractResult } from "@thirdweb-dev/react";
+import {
+  DropContract,
+  UseContractResult,
+  useTotalCount,
+} from "@thirdweb-dev/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
+import { BigNumber } from "ethers";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Drawer } from "tw-components";
 
@@ -16,6 +21,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
   ...restButtonProps
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const nextTokenIdToMint = useTotalCount(contractQuery.contract);
 
   const detectedState = extensionDetectedState({
     contractQuery,
@@ -41,6 +47,9 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
           contract={contractQuery.contract}
           isOpen={isOpen}
           onClose={onClose}
+          nextTokenIdToMint={BigNumber.from(
+            nextTokenIdToMint.data || 0,
+          ).toNumber()}
         />
       </Drawer>
       <Button
