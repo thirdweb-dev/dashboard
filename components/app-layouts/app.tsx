@@ -1,5 +1,7 @@
 import { DashboardThirdwebProvider } from "./providers";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress, useBalance, useChainId } from "@thirdweb-dev/react";
+import { useSDK } from "@thirdweb-dev/react/solana";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { ErrorProvider } from "contexts/error-handler";
@@ -20,21 +22,28 @@ export const AppLayout: ComponentWithChildren<AppShellProps> = (props) => {
 };
 
 const PHIdentifier: React.FC = () => {
+  const publicKey = useWallet().publicKey;
   const address = useAddress();
   const chainId = useChainId();
   const balance = useBalance();
+  const solSDKNetwork = useSDK()?.network;
 
   useEffect(() => {
     if (address) {
       posthog.identify(address);
     }
-  }, [address]);
+    if (publicKey) {
+      posthog.identify(publicKey.toBase58());
+    }
+  }, [address, publicKey]);
 
   useEffect(() => {
     if (chainId) {
-      posthog.register({ chain_id: chainId });
+      posthog.register({ chain_id: chainId, ecosystem: "evm" });
+    } else if (solSDKNetwork) {
+      posthog.register({ network: solSDKNetwork, ecosystem: "solana" });
     }
-  }, [chainId]);
+  }, [chainId, solSDKNetwork]);
 
   useEffect(() => {
     if (balance?.data?.displayValue) {

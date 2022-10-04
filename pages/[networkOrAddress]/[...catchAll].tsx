@@ -162,7 +162,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
   if (networkOrAddress in SupportedNetworkToChainIdMap) {
     const [contractAddress] = ctx.params?.catchAll as string[];
 
-    if (isPossibleSolanaAddress(contractAddress)) {
+    if (isPossibleEVMAddress(contractAddress)) {
       await queryClient.prefetchQuery(ens.queryKey(contractAddress), () =>
         ens.fetch(contractAddress),
       );

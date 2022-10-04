@@ -456,9 +456,10 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
         contractType={contractDetails.contractType as SolContractType}
         onSubmitForm={(d) => {
           trackEvent({
-            category: "sol-contract",
+            category: "program",
             action: "deploy",
             label: "attempt",
+            programId: contractDetails.contractType,
             deployData: d,
           });
           deployMutation.mutate(
@@ -466,9 +467,10 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
             {
               onSuccess: (contractAddress, variables) => {
                 trackEvent({
-                  category: "sol-contract",
+                  category: "program",
                   action: "deploy",
                   label: "success",
+                  programId: contractDetails.contractType,
                   deployData: variables,
                   contractAddress,
                 });
@@ -485,9 +487,10 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
               },
               onError: (error, variables) => {
                 trackEvent({
-                  category: "sol-contract",
+                  category: "program",
                   action: "deploy",
                   label: "error",
+                  programId: contractDetails.contractType,
                   deployData: variables,
                   error,
                 });
