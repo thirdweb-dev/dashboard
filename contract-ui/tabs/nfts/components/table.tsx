@@ -16,7 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
 import { NFT } from "@thirdweb-dev/sdk";
-import type { Erc721, Erc1155 } from "@thirdweb-dev/sdk/evm";
 import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
