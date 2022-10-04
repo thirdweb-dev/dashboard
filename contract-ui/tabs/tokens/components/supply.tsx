@@ -1,6 +1,5 @@
 import { TokenSupplyLayout } from "./supply-layout";
 import {
-  getErcs,
   useAddress,
   useContract,
   useTokenBalance,
@@ -15,12 +14,12 @@ export const TokenSupply: React.FC<TokenBalancesProps> = ({
   contractQuery,
 }) => {
   const address = useAddress();
-  const { erc20 } = getErcs(contractQuery.contract);
-  const { data: tokenSupply, isSuccess: isTokenSupplySuccess } =
-    useTokenSupply(erc20);
-  const { data: ownedBalance, isSuccess: isOwnedBalanceSuccess } =
-    useTokenBalance(erc20, address);
 
+  const { data: tokenSupply, isSuccess: isTokenSupplySuccess } = useTokenSupply(
+    contractQuery.contract,
+  );
+  const { data: ownedBalance, isSuccess: isOwnedBalanceSuccess } =
+    useTokenBalance(contractQuery.contract, address);
   return (
     <TokenSupplyLayout
       isTokenSupplySuccess={isTokenSupplySuccess}

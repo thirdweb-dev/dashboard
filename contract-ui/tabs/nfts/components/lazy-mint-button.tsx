@@ -1,7 +1,7 @@
 import { NFTMintForm } from "./mint-form";
 import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
-import { useContract, useLazyMint } from "@thirdweb-dev/react/evm";
+import { useContract, useLazyMint } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer } from "tw-components";
