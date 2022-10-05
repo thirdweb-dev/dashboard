@@ -148,7 +148,7 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<DelayedRevealInput>({
     resolver: zodResolver(DelayedRevealSchema),
   });
@@ -205,7 +205,7 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
               transactionCount={1}
               isDisabled={!nftData.length}
               type="submit"
-              isLoading={isSubmitting}
+              isLoading={isSubmitting || isSubmitSuccessful}
               loadingText={`Uploading ${nftData.length} NFTs...`}
             >
               Upload {nftData.length} NFTs
@@ -325,7 +325,7 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                 transactionCount={1}
                 isDisabled={!nftData.length}
                 type="submit"
-                isLoading={isSubmitting}
+                isLoading={isSubmitting || isSubmitSuccessful}
                 loadingText={`Uploading ${nftData.length} NFTs...`}
               >
                 Upload {nftData.length} NFTs
