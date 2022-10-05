@@ -16,13 +16,13 @@ import { Heading, Text } from "tw-components";
 interface UploadStepProps {
   getRootProps: any;
   getInputProps: any;
-  noFile: boolean;
+  hasFailed: boolean;
   isDragActive: boolean;
 }
 
 export const UploadStep: React.FC<UploadStepProps> = ({
   getRootProps,
-  noFile,
+  hasFailed,
   isDragActive,
   getInputProps,
 }) => {
@@ -35,9 +35,9 @@ export const UploadStep: React.FC<UploadStepProps> = ({
               borderRadius="md"
               {...getRootProps()}
               cursor="pointer"
-              bg={noFile ? "red.200" : "inputBg"}
+              bg={hasFailed ? "red.200" : "inputBg"}
               _hover={{
-                bg: noFile ? "red.200" : "inputBgHover",
+                bg: hasFailed ? "red.200" : "inputBgHover",
                 borderColor: "blue.500",
               }}
               borderColor="inputBorder"
@@ -49,7 +49,7 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                   as={BsFillCloudUploadFill}
                   boxSize={8}
                   mb={2}
-                  color={noFile ? "red.500" : "gray.600"}
+                  color={hasFailed ? "red.500" : "gray.600"}
                 />
                 {isDragActive ? (
                   <Heading as={Text} size="label.md" color="gray.600">
@@ -60,9 +60,9 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                     as={Text}
                     size="label.md"
                     lineHeight={1.2}
-                    color={noFile ? "red.500" : "gray.600"}
+                    color={hasFailed ? "red.500" : "gray.600"}
                   >
-                    {noFile
+                    {hasFailed
                       ? `No valid CSV or JSON file found. Please make sure your NFT metadata includes at least a "name" field and try again.`
                       : "Drag & Drop files or folders here, or click to select files"}
                   </Heading>

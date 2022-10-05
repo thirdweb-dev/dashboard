@@ -35,14 +35,10 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
   children,
 }) => {
   const [step, setStep] = useState(0);
-  const [hasTried, setHasTried] = useState(false);
+  const [hasFailed, setHasFailed] = useState(false);
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
-      if (acceptedFiles) {
-        setHasTried(true);
-      }
-
       const { csv, json, images, videos } = await getAcceptedFiles(
         acceptedFiles,
       );
@@ -70,13 +66,12 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
         setNftData(getMergedData(undefined, json, images, videos));
       } else {
         console.error("No CSV or JSON found");
+        setHasFailed(true);
         return;
       }
     },
     [setNftData],
   );
-
-  const invalidFiles = hasTried && nftData.length === 0;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -113,7 +108,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                   <UploadStep
                     getRootProps={getRootProps}
                     getInputProps={getInputProps}
-                    noFile={invalidFiles}
+                    hasFailed={hasFailed}
                     isDragActive={isDragActive}
                   />
                 )}
@@ -135,10 +130,10 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                       >
                         <Button
                           borderRadius="md"
-                          isDisabled={!hasTried}
+                          isDisabled={nftData.length === 0}
                           onClick={() => {
                             setNftData([]);
-                            setHasTried(false);
+                            setHasFailed(false);
                           }}
                           w={{ base: "100%", md: "auto" }}
                         >
