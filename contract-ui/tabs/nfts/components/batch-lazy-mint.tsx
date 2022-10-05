@@ -39,13 +39,13 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
+      if (acceptedFiles) {
+        setHasTried(true);
+      }
+
       const { csv, json, images, videos } = await getAcceptedFiles(
         acceptedFiles,
       );
-
-      if (csv || json) {
-        setHasTried(true);
-      }
 
       if (csv) {
         Papa.parse<CSVData>(csv, {
