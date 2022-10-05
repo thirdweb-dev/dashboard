@@ -8,9 +8,9 @@ export const CTA: React.FC = () => {
         bg="url(/assets/faucet/cta-bg.png) no-repeat center"
         bgSize="cover"
         gap="6"
-        mt={10}
         flexDir="column"
         px={10}
+        my={4}
         alignItems="flex-start !important"
       >
         <Text color="white" fontSize="28px" fontWeight="bold" maxW="450px">

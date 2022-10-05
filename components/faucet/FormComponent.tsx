@@ -6,25 +6,22 @@ import { Button, Link, Text } from "tw-components";
 
 export const FormComponent: React.FC = () => {
   const [address, setAddress] = useState("");
-  const [transactionLink, setTransactionLink] = useState("");
+  const [transactionLink, setTransactionLink] = useState("abc");
   const [error, setError] = useState("");
 
   const { mutate, isLoading } = useMutation(
     async () => {
-      console.log("mutate");
       return await axios.post("/api/faucet/solana", {
         address,
       });
     },
     {
       onSuccess: (res) => {
-        console.log("onSuccess", res);
         setTransactionLink(
           `https://explorer.solana.com/tx/${res.data.txHash}?cluster=devnet`,
         );
       },
-      onError: (err) => {
-        console.error("onError", err);
+      onError: () => {
         setError("Please try again in sometime");
       },
     },

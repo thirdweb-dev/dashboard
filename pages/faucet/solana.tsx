@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { CTA } from "components/faucet/CTA";
+import { FaqSection } from "components/faucet/FAQSection";
 import FormComponent from "components/faucet/FormComponent";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -24,6 +25,7 @@ const SolanaFaucet: NextPage = () => {
         </Heading>
         <FormComponent />
         <CTA />
+        <FaqSection />
       </Flex>
     </AppLayout>
   );
