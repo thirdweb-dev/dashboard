@@ -14,7 +14,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
-import type { NFT } from "@thirdweb-dev/sdk";
+import { NFT } from "@thirdweb-dev/sdk";
 import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { NFTDrawer } from "core-ui/nft-drawer/nft-drawer";

@@ -1,7 +1,6 @@
 import { useContract } from "@thirdweb-dev/react";
 import { FeatureName } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import { ContractWrapper } from "@thirdweb-dev/sdk/dist/declarations/src/evm/core/classes/contract-wrapper";
-import { DetectableFeature } from "@thirdweb-dev/sdk/dist/declarations/src/evm/core/interfaces/DetectableFeature";
 import { detectContractFeature } from "@thirdweb-dev/sdk/evm";
 import { ButtonProps } from "tw-components";
 
@@ -17,7 +16,7 @@ export interface ExtensionDetectedStateParams {
   /**
    * The contract instance to check
    */
-  contractQuery: ReturnType<typeof useContract> | DetectableFeature;
+  contractQuery: ReturnType<typeof useContract>;
 
   /**
    * the feature match strategy (default: any)
