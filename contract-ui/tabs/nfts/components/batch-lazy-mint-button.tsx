@@ -70,18 +70,16 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
     "Error uploading batch",
   );
 
-  const onSubmit = (
-    formData: {
-      description?: string | undefined;
-      image?: any;
-      name: string;
-      password: string;
-      shuffle: boolean;
-      confirmPassword: string;
-    },
-    selectedReveal: string,
-  ) => {
-    if (selectedReveal === "delayed") {
+  const onSubmit = (formData: {
+    description?: string | undefined;
+    image?: any;
+    name: string;
+    password: string;
+    shuffle: boolean;
+    confirmPassword: string;
+    selectedReveal: string;
+  }) => {
+    if (formData.selectedReveal === "delayed") {
       trackEvent({
         category: "nft",
         action: "batch-upload-delayed",
@@ -127,7 +125,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
         },
       );
     }
-    if (selectedReveal === "instant") {
+    if (formData.selectedReveal === "instant") {
       trackEvent({
         category: "nft",
         action: "batch-upload-instant",

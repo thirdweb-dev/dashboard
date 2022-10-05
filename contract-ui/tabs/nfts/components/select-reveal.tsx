@@ -107,6 +107,7 @@ const DelayedRevealSchema = z
     description: z.string().or(z.string().length(0)).optional(),
     password: z.string().min(1, "A password is required."),
     shuffle: z.boolean().default(false),
+    selectedReveal: z.string().default("unselected"),
     confirmPassword: z.string().min(1, "Please confirm your password."),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -129,9 +130,6 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
   onSubmit,
   children,
 }) => {
-  const [selectedReveal, setSelectedReveal] = useState<
-    "unselected" | "instant" | "delayed"
-  >("instant");
   const [show, setShow] = useState(false);
 
   const {
@@ -155,26 +153,26 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
         <SelectOption
           name="Reveal upon mint"
           description="Collectors will immediately see the final NFT when they complete the minting"
-          isActive={selectedReveal === "instant"}
-          onClick={() => setSelectedReveal("instant")}
+          isActive={watch("selectedReveal") === "instant"}
+          onClick={() => setValue("selectedReveal", "instant")}
         />
         <SelectOption
           name="Delayed Reveal"
           description="Collectors will mint your placeholder image, then you reveal at a later time"
-          isActive={selectedReveal === "delayed"}
-          onClick={() => setSelectedReveal("delayed")}
+          isActive={watch("selectedReveal") === "delayed"}
+          onClick={() => setValue("selectedReveal", "delayed")}
           disabled={!isRevealable}
           disabledText="Your contract doesn't implement Delayed Reveal"
         />
       </Flex>
       <Flex>
-        {selectedReveal === "instant" ? (
+        {watch("selectedReveal") === "instant" ? (
           <Flex
             flexDir="column"
             gap={2}
             as="form"
             onSubmit={handleSubmit((formData) => {
-              onSubmit(formData, selectedReveal);
+              onSubmit(formData);
             })}
           >
             <Text size="body.md" color="gray.600">
@@ -205,13 +203,13 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
             </TransactionButton>
             {children}
           </Flex>
-        ) : selectedReveal === "delayed" && isRevealable ? (
+        ) : watch("selectedReveal") === "delayed" ? (
           <>
             <Stack
               spacing={6}
               as="form"
               onSubmit={handleSubmit((formData) => {
-                onSubmit(formData, selectedReveal);
+                onSubmit(formData);
               })}
             >
               <Stack spacing={3}>

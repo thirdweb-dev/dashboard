@@ -82,18 +82,16 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
     "Error uploading batch",
   );
 
-  const onSubmit = (
-    formData: {
-      description?: string | undefined;
-      image?: any;
-      name: string;
-      password: string;
-      shuffle: boolean;
-      confirmPassword: string;
-    },
-    selectedReveal: string,
-  ) => {
-    if (selectedReveal === "instant") {
+  const onSubmit = (formData: {
+    description?: string | undefined;
+    image?: any;
+    name: string;
+    password: string;
+    shuffle: boolean;
+    confirmPassword: string;
+    selectedReveal: string;
+  }) => {
+    if (formData.selectedReveal === "instant") {
       trackEvent({
         category: "nft",
         action: "batch-upload-instant",
