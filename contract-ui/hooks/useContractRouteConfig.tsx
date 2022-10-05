@@ -24,6 +24,8 @@ export function useContractRouteConfig(
     contractTypeQuery.data === "token-drop" ||
     contractTypeQuery.data === "signature-drop";
 
+  const appUriEnabled = contractQuery.data?.appURI.get() !== undefined;
+
   return [
     {
       title: "Explorer",
@@ -147,6 +149,20 @@ export function useContractRouteConfig(
         ? "enabled"
         : "disabled",
     },
+    {
+      title: "App",
+      path: "app",
+      element: () =>
+        import("../tabs/appuri/page").then(({ CustomContractAppURIPage }) => (
+          <CustomContractAppURIPage contractAddress={contractAddress} />
+        )),
+      isEnabled: contractTypeQuery.isLoading
+        ? "loading"
+        : appUriEnabled
+        ? "enabled"
+        : "disabled",
+    },
+
     {
       title: "Code",
       path: "code",

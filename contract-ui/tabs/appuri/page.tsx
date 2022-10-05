@@ -1,17 +1,22 @@
-import { EmbedSetup } from "./components/embed-setup";
+import { AppURISetup } from "./components/appuri-setup";
 import { Flex } from "@chakra-ui/react";
 import { useContract, useContractType } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
+import { useEffect } from "react";
 
-interface CustomContractEmbedPageProps {
+interface CustomContractAppURIPageProps {
   contractAddress?: string;
 }
 
-export const CustomContractEmbedPage: React.FC<
-  CustomContractEmbedPageProps
+export const CustomContractAppURIPage: React.FC<
+  CustomContractAppURIPageProps
 > = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress);
-  const { data: contractType } = useContractType(contractAddress);
+  useEffect(() => {
+    contractQuery.data?.appURI.get().then((appUri) => {
+      console.log(appUri);
+    });
+  }, [contractQuery]);
 
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this
@@ -20,12 +25,7 @@ export const CustomContractEmbedPage: React.FC<
 
   return (
     <Flex direction="column" gap={6}>
-      contractQuery?.contract && (
-      <EmbedSetup
-        contract={contractQuery.contract}
-        contractType={contractType}
-      />
-      )
+      <AppURISetup appUri={""} />
     </Flex>
   );
 };
