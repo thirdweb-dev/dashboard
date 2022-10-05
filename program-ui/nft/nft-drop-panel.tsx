@@ -81,7 +81,8 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
         isOpen={isOpen}
       >
         <BatchLazyMint
-          mintBatch={mintBatch as any}
+          mintBatch={mintBatch}
+          mintDelayedRevealBatch={null}
           progress={progress}
           setProgress={setProgress}
           isOpen={isOpen}

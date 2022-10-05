@@ -30,6 +30,7 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
           This may take a while.
         </Text>
       )}
+      {console.log(progress.progress)}
       {progress.progress !== 0 && (
         <Progress
           borderRadius="md"

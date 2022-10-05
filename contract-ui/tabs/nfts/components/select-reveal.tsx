@@ -17,8 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
 import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
 import {
-  DropContract,
-  RevealableContract,
   useDelayedRevealLazyMint,
   useLazyMint as useLazyMintEvm,
 } from "@thirdweb-dev/react";
@@ -26,19 +24,11 @@ import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import type { UploadProgressEvent } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { detectFeatures } from "components/contract-components/utils";
 import { FileInput } from "components/shared/FileInput";
-import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import {
-  Dispatch,
-  MouseEventHandler,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -48,7 +38,6 @@ import {
   FormLabel,
   Heading,
   Text,
-  TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import { shuffleData } from "utils/batch";
@@ -136,7 +125,6 @@ const DelayedRevealSchema = z
 
 type DelayedRevealInput = z.infer<typeof DelayedRevealSchema>;
 interface SelectRevealProps {
-  contract?: DropContract;
   mergedData: NFTMetadataInput[];
   onClose: () => void;
   progress: UploadProgressEvent;
@@ -144,16 +132,17 @@ interface SelectRevealProps {
   mintBatch:
     | ReturnType<typeof useLazyMintEvm>
     | ReturnType<typeof useLazyMintSolana>;
-  ecosystem: "evm" | "solana";
+  mintDelayedRevealBatch: ReturnType<typeof useDelayedRevealLazyMint> | null;
+  ecosystem?: "evm" | "solana";
 }
 
 export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
-  contract,
   mergedData,
   onClose,
   progress,
   setProgress,
   mintBatch,
+  mintDelayedRevealBatch,
   ecosystem = "evm",
   children,
 }) => {
@@ -175,26 +164,10 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
 
   const imageUrl = useImageFileOrUrl(watch("image"));
 
-  /*     const mintBatch = useLazyMint(contract, (event: UploadProgressEvent) => {
-    setProgress(event);
-  }); */
-
-  const mintDelayedRevealBatch = useDelayedRevealLazyMint(
-    contract as RevealableContract,
-    (event: UploadProgressEvent) => {
-      setProgress(event);
-    },
-  );
-
   const { onSuccess, onError } = useTxNotifications(
     "Batch uploaded successfully",
     "Error uploading batch",
   );
-
-  const isRevealable = detectFeatures(contract, [
-    "ERC721Revealable",
-    "ERC1155Revealable",
-  ]);
 
   return (
     <Flex flexDir="column">
@@ -214,7 +187,7 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
           description="Collectors will mint your placeholder image, then you reveal at a later time"
           isActive={selectedReveal === "delayed"}
           onClick={() => setSelectedReveal("delayed")}
-          disabled={!isRevealable}
+          disabled={!mintDelayedRevealBatch}
           disabledText="Your contract doesn't implement Delayed Reveal"
         />
       </Flex>
@@ -225,17 +198,15 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
               You&apos;re ready to go! Now you can upload the files, we will be
               uploading each file to IPFS so it might take a while.
             </Text>
-            {contract && "erc1155" in contract ? null : (
-              <Flex alignItems="center" gap={3}>
-                <Checkbox {...register("shuffle")} />
-                <Flex gap={1}>
-                  <Text>Shuffle the order of the NFTs before uploading.</Text>
-                  <Text fontStyle="italic">
-                    This is an off-chain operation and is not provable.
-                  </Text>
-                </Flex>
+            <Flex alignItems="center" gap={3}>
+              <Checkbox {...register("shuffle")} />
+              <Flex gap={1}>
+                <Text>Shuffle the order of the NFTs before uploading.</Text>
+                <Text fontStyle="italic">
+                  This is an off-chain operation and is not provable.
+                </Text>
               </Flex>
-            )}
+            </Flex>
             <TransactionButton
               ecosystem={ecosystem}
               mt={4}
@@ -271,6 +242,10 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                       });
                       onSuccess();
                       onClose();
+                      setProgress({
+                        progress: 0,
+                        total: 100,
+                      });
                     },
                     onError: (error) => {
                       trackEvent({
@@ -293,7 +268,7 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
             </TransactionButton>
             {children}
           </Flex>
-        ) : selectedReveal === "delayed" ? (
+        ) : selectedReveal === "delayed" && !!mintDelayedRevealBatch ? (
           <>
             <Stack
               spacing={6}
@@ -325,6 +300,10 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                       });
                       onSuccess();
                       onClose();
+                      setProgress({
+                        progress: 0,
+                        total: 100,
+                      });
                     },
                     onError: (error) => {
                       trackEvent({

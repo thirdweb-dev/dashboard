@@ -3,7 +3,7 @@ import { SelectReveal } from "./select-reveal";
 import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
 import {
-  DropContract,
+  useDelayedRevealLazyMint,
   useLazyMint as useLazyMintEvm,
 } from "@thirdweb-dev/react";
 import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
@@ -22,7 +22,6 @@ import {
 } from "utils/batch";
 
 interface BatchLazyMintProps {
-  contract?: DropContract | null;
   isOpen: boolean;
   onClose: () => void;
   nextTokenIdToMint?: number;
@@ -31,17 +30,18 @@ interface BatchLazyMintProps {
   mintBatch:
     | ReturnType<typeof useLazyMintEvm>
     | ReturnType<typeof useLazyMintSolana>;
-  ecosystem: "evm" | "solana";
+  mintDelayedRevealBatch: ReturnType<typeof useDelayedRevealLazyMint> | null;
+  ecosystem?: "evm" | "solana";
 }
 
 export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
-  contract,
   isOpen,
   onClose,
   nextTokenIdToMint = 0,
   progress,
   setProgress,
   mintBatch,
+  mintDelayedRevealBatch,
   ecosystem = "evm",
   children,
 }) => {
@@ -215,12 +215,12 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                   </HStack>
                 </Flex>
                 <SelectReveal
-                  contract={contract}
                   mergedData={mergedData}
                   onClose={_onClose}
                   progress={progress}
                   setProgress={setProgress}
                   mintBatch={mintBatch}
+                  mintDelayedRevealBatch={mintDelayedRevealBatch}
                   ecosystem={ecosystem}
                 >
                   {children}
