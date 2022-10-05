@@ -102,13 +102,16 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 
 const DelayedRevealSchema = z
   .object({
-    name: z.string().min(1, "A name is required"),
+    name: z.string().min(1, "A name is required").optional(),
     image: z.any().optional(),
     description: z.string().or(z.string().length(0)).optional(),
-    password: z.string().min(1, "A password is required."),
+    password: z.string().min(1, "A password is required.").optional(),
     shuffle: z.boolean().default(false),
     selectedReveal: z.string(),
-    confirmPassword: z.string().min(1, "Please confirm your password."),
+    confirmPassword: z
+      .string()
+      .min(1, "Please confirm your password.")
+      .optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -222,11 +225,13 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                 flexDir={{ base: "column", md: "row" }}
                 gap={{ base: 4, md: 0 }}
               >
-                <FormControl isRequired isInvalid={!!errors.password} mr={4}>
+                <FormControl isInvalid={!!errors.password} mr={4}>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
-                      {...register("password")}
+                      {...register("password", {
+                        required: watch("selectedReveal") === "delayed",
+                      })}
                       placeholder="Choose password"
                       type={show ? "text" : "password"}
                     />
@@ -245,10 +250,12 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                     {errors?.password?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl isRequired isInvalid={!!errors.confirmPassword}>
+                <FormControl isInvalid={!!errors.confirmPassword}>
                   <FormLabel>Confirm password</FormLabel>
                   <Input
-                    {...register("confirmPassword")}
+                    {...register("confirmPassword", {
+                      required: watch("selectedReveal") === "delayed",
+                    })}
                     placeholder="Confirm password"
                     type="password"
                   />
@@ -282,10 +289,12 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                   {errors?.image?.message as unknown as string}
                 </FormErrorMessage>
               </FormControl>
-              <FormControl isRequired isInvalid={!!errors.name}>
+              <FormControl isInvalid={!!errors.name}>
                 <FormLabel>Name</FormLabel>
                 <Input
-                  {...register("name")}
+                  {...register("name", {
+                    required: watch("selectedReveal") === "delayed",
+                  })}
                   placeholder="eg. My NFT (Coming soon)"
                 />
                 <FormErrorMessage>{errors?.name?.message}</FormErrorMessage>
