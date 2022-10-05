@@ -10,14 +10,14 @@ const SolanaFaucet: NextPage = () => {
   return (
     <AppLayout>
       <NextSeo
-        title="Solana faucet"
+        title="Solana (SOL) faucet | thirdweb"
         description="Get Solana devnet tokens for free"
         openGraph={{
-          title: "Solana faucet | thirdweb",
+          title: "Solana (SOL) faucet | thirdweb",
           url: `https://thirdweb.com/faucet/solana`,
         }}
       />
-      <Flex flexDir="column" maxW="900px" w="full">
+      <Flex flexDir="column" maxW="900px" w="full" mx="auto" px="4">
         <Heading color="#F2F2F7">Solana faucet</Heading>
         <Heading fontSize="20px" color="whiteAlpha.800" my="4">
           Get Solana devnet tokens for free
