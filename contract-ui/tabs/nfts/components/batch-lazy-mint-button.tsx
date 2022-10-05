@@ -71,16 +71,16 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
   );
 
   const onSubmit = (formData: {
-    description?: string | undefined;
+    name?: string | undefined;
     image?: any;
-    name: string;
-    password: string;
+    description?: string | undefined;
+    password?: string | undefined;
+    confirmPassword?: string | undefined;
     shuffle: boolean;
-    confirmPassword: string;
     selectedReveal: string;
   }) => {
     console.log(formData);
-    if (formData.selectedReveal === "delayed") {
+    if (formData.selectedReveal === "delayed" && formData.password) {
       trackEvent({
         category: "nft",
         action: "batch-upload-delayed",

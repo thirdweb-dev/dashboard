@@ -124,12 +124,12 @@ interface SelectRevealProps {
   ecosystem?: "evm" | "solana";
   isRevealable: boolean;
   onSubmit: (formData: {
-    description?: string | undefined;
+    name?: string | undefined;
     image?: any;
-    name: string;
-    password: string;
+    description?: string | undefined;
+    password?: string | undefined;
+    confirmPassword?: string | undefined;
     shuffle: boolean;
-    confirmPassword: string;
     selectedReveal: string;
   }) => void;
 }
@@ -182,7 +182,7 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
             flexDir="column"
             gap={2}
             as="form"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit((data) => onSubmit(data))}
           >
             <Text size="body.md" color="gray.600">
               You&apos;re ready to go! Now you can upload the files, we will be

@@ -83,15 +83,14 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
   );
 
   const onSubmit = (formData: {
-    description?: string | undefined;
+    name?: string | undefined;
     image?: any;
-    name: string;
-    password: string;
+    description?: string | undefined;
+    password?: string | undefined;
+    confirmPassword?: string | undefined;
     shuffle: boolean;
-    confirmPassword: string;
     selectedReveal: string;
   }) => {
-    console.log(formData);
     if (formData.selectedReveal === "instant") {
       trackEvent({
         category: "nft",
