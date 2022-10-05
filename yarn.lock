@@ -3380,10 +3380,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.2.0-nightly-028cb78":
-  version "3.2.0-nightly-028cb78"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.0-nightly-028cb78.tgz#3a4b435f6cfc1b6c111d6b4486979605ae575e2b"
-  integrity sha512-Ze4zW6FvFB4DUvrPOm+ok3MKU3Xbi3XTVzXGbC+KfEhxSlcN+pxI0DKYC9fYaA85gr5m0eMmqq4UHO5Y7ldayA==
+"@thirdweb-dev/sdk@^3.2.2-nightly-57b9c67":
+  version "3.2.2-nightly-57b9c67"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.2-nightly-57b9c67.tgz#055070c216ee2efe1736320e7e1dcfce14cf1fd4"
+  integrity sha512-ifGZ1mSrBx4YmqjXT+NKB/6g+XGBcAiiB7BRbp9feXjZMEb/Qx/XdHt9rtIebOJ/cDLL6MAOv6br/JcBvz0Uow==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
@@ -3406,7 +3406,7 @@
     yaml "^2.1.1"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@^1.0.3", "@thirdweb-dev/storage@^1.0.4":
+"@thirdweb-dev/storage@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.4.tgz#acb51ef998ef7bd9488f49b1cbbb94e328f0cc9f"
   integrity sha512-gQohaPDWf5cv/3cfbZESg+c5++eE9dH2C+uwe6LVQukkTZoGxB3J33/qVtSLn7br85f3m1WC31FQ/SkiEht06w==
