@@ -18,7 +18,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import type { NFTMetadata, NFTMetadataInput } from "@thirdweb-dev/sdk";
+import type { NFTMetadata } from "@thirdweb-dev/sdk";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";
@@ -44,13 +44,13 @@ const FileVideo: React.FC<
   return <Box as="video" {...props} src={video} />;
 };
 interface BatchTableProps {
-  nftData: NFTMetadataInput[];
+  data: NFTMetadata[];
   portalRef: React.RefObject<HTMLDivElement>;
   nextTokenIdToMint: number;
 }
 
 export const BatchTable: React.FC<BatchTableProps> = ({
-  nftData,
+  data,
   portalRef,
   nextTokenIdToMint,
 }) => {
@@ -151,7 +151,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({
   } = useTable(
     {
       columns,
-      nftData,
+      data,
       initialState: {
         pageSize: 50,
         pageIndex: 0,

@@ -2,7 +2,7 @@ import { BatchTable } from "./batch-table";
 import { SelectReveal } from "./select-reveal";
 import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import { NFTMetadataInput } from "@thirdweb-dev/sdk";
+import { NFTMetadata, NFTMetadataInput } from "@thirdweb-dev/sdk";
 import Papa from "papaparse";
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
@@ -101,7 +101,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                 {nftData.length > 0 ? (
                   <BatchTable
                     portalRef={paginationPortalRef}
-                    nftData={nftData}
+                    data={nftData as NFTMetadata[]}
                     nextTokenIdToMint={nextTokenIdToMint}
                   />
                 ) : (
