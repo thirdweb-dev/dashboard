@@ -135,9 +135,10 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                       >
                         <Button
                           borderRadius="md"
-                          isDisabled={!nftData}
+                          isDisabled={!hasTried}
                           onClick={() => {
                             setNftData([]);
+                            setHasTried(false);
                           }}
                           w={{ base: "100%", md: "auto" }}
                         >
@@ -146,7 +147,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                         <Button
                           borderRadius="md"
                           colorScheme="primary"
-                          isDisabled={!nftData || invalidFiles}
+                          isDisabled={nftData.length === 0}
                           onClick={() => setStep(1)}
                           w={{ base: "100%", md: "auto" }}
                         >
