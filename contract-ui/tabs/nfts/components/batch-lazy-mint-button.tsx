@@ -79,6 +79,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
     confirmPassword: string;
     selectedReveal: string;
   }) => {
+    console.log(formData);
     if (formData.selectedReveal === "delayed") {
       trackEvent({
         category: "nft",

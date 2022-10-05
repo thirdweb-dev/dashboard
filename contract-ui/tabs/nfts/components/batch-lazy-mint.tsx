@@ -20,7 +20,15 @@ interface BatchLazyMintProps {
   nextTokenIdToMint?: number;
   ecosystem: "evm" | "solana";
   isRevealable: boolean;
-  onSubmit: any;
+  onSubmit: (formData: {
+    description?: string | undefined;
+    image?: any;
+    name: string;
+    password: string;
+    shuffle: boolean;
+    confirmPassword: string;
+    selectedReveal: string;
+  }) => void;
   nftData: NFTMetadataInput[];
   setNftData: Dispatch<SetStateAction<NFTMetadataInput[]>>;
 }
