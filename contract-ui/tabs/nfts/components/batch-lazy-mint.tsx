@@ -33,14 +33,12 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
   const [jsonData, setJsonData] = useState<any>();
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [videoFiles, setVideoFiles] = useState<File[]>([]);
-  const [noFile, setNoFile] = useState(false);
 
   const reset = useCallback(() => {
     setCSVData(undefined);
     setJsonData(undefined);
     setImageFiles([]);
     setVideoFiles([]);
-    setNoFile(false);
   }, []);
 
   const _onClose = useCallback(() => {
@@ -51,8 +49,6 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
-      setNoFile(false);
-
       const { csv, json, images, videos } = await getAcceptedFiles(
         acceptedFiles,
       );
@@ -76,12 +72,10 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
             setCSVData(validResults);
           },
         });
-        // we know this array will always exist, but it might be empty
-      } else if (json.length > 0) {
+      } else if (json) {
         setJsonData(json);
       } else {
         console.error("No CSV or JSON found");
-        setNoFile(true);
         return;
       }
       setImageFiles(images);
@@ -91,6 +85,8 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
   );
 
   const mergedData = useMergedData(csvData, jsonData, imageFiles, videoFiles);
+
+  const invalidFiles = (csvData || jsonData) && mergedData.length === 0;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -124,7 +120,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                   <Heading size="title.md">Upload your NFTs</Heading>
                 </Flex>
                 <Flex direction="column" gap={6} h="100%">
-                  {csvData || jsonData ? (
+                  {mergedData.length > 0 ? (
                     <BatchTable
                       portalRef={paginationPortalRef}
                       data={mergedData}
@@ -136,7 +132,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                     <UploadStep
                       getRootProps={getRootProps}
                       getInputProps={getInputProps}
-                      noFile={noFile}
+                      noFile={invalidFiles}
                       isDragActive={isDragActive}
                     />
                   )}
@@ -169,7 +165,7 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                           <Button
                             borderRadius="md"
                             colorScheme="primary"
-                            isDisabled={!csvData && !jsonData}
+                            isDisabled={(!csvData && !jsonData) || invalidFiles}
                             onClick={() => setStep(1)}
                             w={{ base: "100%", md: "auto" }}
                           >

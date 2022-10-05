@@ -36,6 +36,9 @@ export enum PageId {
   // thirdweb.com/web3-storage
   StorageLanding = "storage-landing",
 
+  // thirdweb.com/ui-components
+  UIComponentsLanding = "ui-components-landing",
+
   // thirdweb.com/gas
   GasEstimator = "gas-estimator",
 
