@@ -2,12 +2,18 @@ import { BatchTable } from "./batch-table";
 import { SelectReveal } from "./select-reveal";
 import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import { DropContract } from "@thirdweb-dev/react";
+import {
+  DropContract,
+  useLazyMint as useLazyMintEvm,
+} from "@thirdweb-dev/react";
+import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
+import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import Papa from "papaparse";
-import { useCallback, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { IoChevronBack } from "react-icons/io5";
 import { Button, Card, Drawer, Heading } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 import {
   CSVData,
   getAcceptedFiles,
@@ -20,13 +26,24 @@ interface BatchLazyMintProps {
   isOpen: boolean;
   onClose: () => void;
   nextTokenIdToMint?: number;
+  progress: UploadProgressEvent;
+  setProgress: Dispatch<SetStateAction<UploadProgressEvent>>;
+  mintBatch:
+    | ReturnType<typeof useLazyMintEvm>
+    | ReturnType<typeof useLazyMintSolana>;
+  ecosystem: "evm" | "solana";
 }
 
-export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
+export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
   contract,
   isOpen,
   onClose,
   nextTokenIdToMint = 0,
+  progress,
+  setProgress,
+  mintBatch,
+  ecosystem = "evm",
+  children,
 }) => {
   const [step, setStep] = useState(0);
   const [csvData, setCSVData] = useState<Papa.ParseResult<CSVData>>();
@@ -201,7 +218,13 @@ export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
                   contract={contract}
                   mergedData={mergedData}
                   onClose={_onClose}
-                />
+                  progress={progress}
+                  setProgress={setProgress}
+                  mintBatch={mintBatch}
+                  ecosystem={ecosystem}
+                >
+                  {children}
+                </SelectReveal>
               </>
             )}
           </Flex>

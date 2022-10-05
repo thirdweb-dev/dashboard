@@ -8,7 +8,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Progress,
   Radio,
   Stack,
   Textarea,
@@ -21,17 +20,25 @@ import {
   DropContract,
   RevealableContract,
   useDelayedRevealLazyMint,
-  useLazyMint,
+  useLazyMint as useLazyMintEvm,
 } from "@thirdweb-dev/react";
+import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import type { UploadProgressEvent } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { FileInput } from "components/shared/FileInput";
+import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { MouseEventHandler, useEffect, useState } from "react";
+import {
+  Dispatch,
+  MouseEventHandler,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -43,6 +50,7 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 import { shuffleData } from "utils/batch";
 import z from "zod";
 
@@ -112,12 +120,6 @@ const SelectOption: React.FC<SelectOptionProps> = ({
   );
 };
 
-interface SelectRevealProps {
-  contract?: DropContract;
-  mergedData: NFTMetadataInput[];
-  onClose: () => void;
-}
-
 const DelayedRevealSchema = z
   .object({
     name: z.string().min(1, "A name is required"),
@@ -133,21 +135,33 @@ const DelayedRevealSchema = z
   });
 
 type DelayedRevealInput = z.infer<typeof DelayedRevealSchema>;
+interface SelectRevealProps {
+  contract?: DropContract;
+  mergedData: NFTMetadataInput[];
+  onClose: () => void;
+  progress: UploadProgressEvent;
+  setProgress: Dispatch<SetStateAction<UploadProgressEvent>>;
+  mintBatch:
+    | ReturnType<typeof useLazyMintEvm>
+    | ReturnType<typeof useLazyMintSolana>;
+  ecosystem: "evm" | "solana";
+}
 
-export const SelectReveal: React.FC<SelectRevealProps> = ({
+export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
   contract,
   mergedData,
   onClose,
+  progress,
+  setProgress,
+  mintBatch,
+  ecosystem = "evm",
+  children,
 }) => {
   const trackEvent = useTrack();
   const [selectedReveal, setSelectedReveal] = useState<
     "unselected" | "instant" | "delayed"
   >("instant");
   const [show, setShow] = useState(false);
-  const [progress, setProgress] = useState<UploadProgressEvent>({
-    progress: 0,
-    total: 100,
-  });
 
   const {
     register,
@@ -161,9 +175,9 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
 
   const imageUrl = useImageFileOrUrl(watch("image"));
 
-  const mintBatch = useLazyMint(contract, (event: UploadProgressEvent) => {
+  /*     const mintBatch = useLazyMint(contract, (event: UploadProgressEvent) => {
     setProgress(event);
-  });
+  }); */
 
   const mintDelayedRevealBatch = useDelayedRevealLazyMint(
     contract as RevealableContract,
@@ -181,21 +195,6 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     "ERC721Revealable",
     "ERC1155Revealable",
   ]);
-
-  const isFinished = progress.progress >= progress.total;
-  const [takingLong, setTakingLong] = useState(false);
-
-  useEffect(() => {
-    if (isFinished) {
-      const t = setTimeout(() => {
-        setTakingLong(true);
-      }, 10000);
-
-      return () => {
-        clearTimeout(t);
-      };
-    }
-  }, [isFinished]);
 
   return (
     <Flex flexDir="column">
@@ -238,6 +237,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               </Flex>
             )}
             <TransactionButton
+              ecosystem={ecosystem}
               mt={4}
               size="lg"
               colorScheme="primary"
@@ -246,7 +246,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
               type="submit"
               isLoading={mintBatch.isLoading}
               loadingText={
-                isFinished
+                progress.progress >= progress.total
                   ? `Finishing upload...`
                   : `Uploading ${mergedData.length} NFTs...`
               }
@@ -291,31 +291,7 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
             >
               Upload {mergedData.length} NFTs
             </TransactionButton>
-            {takingLong && (
-              <Text size="body.sm" textAlign="center">
-                This may take a while.
-              </Text>
-            )}
-            {mintBatch.isLoading && (
-              <Progress
-                borderRadius="md"
-                mt="12px"
-                size="lg"
-                hasStripe
-                colorScheme="blue"
-                value={(progress.progress / progress.total) * 100}
-              />
-            )}
-            <Text size="body.sm" mt={2}>
-              <TrackedLink
-                href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
-                isExternal
-                category="batch-upload"
-                label="issues"
-              >
-                Experiencing issues uploading your files?
-              </TrackedLink>
-            </Text>
+            {children}
           </Flex>
         ) : selectedReveal === "delayed" ? (
           <>
@@ -474,38 +450,14 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
                   type="submit"
                   isLoading={mintDelayedRevealBatch.isLoading}
                   loadingText={
-                    isFinished
+                    progress.progress >= progress.total
                       ? `Finishing upload...`
                       : `Uploading ${mergedData.length} NFTs...`
                   }
                 >
                   Upload {mergedData.length} NFTs
                 </TransactionButton>
-                {takingLong && (
-                  <Text size="body.sm" textAlign="center">
-                    This may take a while.
-                  </Text>
-                )}
-                {mintDelayedRevealBatch.isLoading && (
-                  <Progress
-                    borderRadius="md"
-                    mt="12px"
-                    size="lg"
-                    hasStripe
-                    colorScheme="blue"
-                    value={(progress.progress / progress.total) * 100}
-                  />
-                )}
-                <Text size="body.sm" mt={2}>
-                  <TrackedLink
-                    href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
-                    isExternal
-                    category="batch-upload"
-                    label="issues"
-                  >
-                    Experiencing issues uploading your files?
-                  </TrackedLink>
-                </Text>
+                {children}
               </Stack>
             </Stack>
           </>
