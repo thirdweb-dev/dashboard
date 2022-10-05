@@ -35,12 +35,17 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
   children,
 }) => {
   const [step, setStep] = useState(0);
+  const [hasTried, setHasTried] = useState(false);
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
       const { csv, json, images, videos } = await getAcceptedFiles(
         acceptedFiles,
       );
+
+      if (csv || json) {
+        setHasTried(true);
+      }
 
       if (csv) {
         Papa.parse<CSVData>(csv, {
@@ -71,7 +76,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
     [setNftData],
   );
 
-  const invalidFiles = nftData && nftData.length === 0;
+  const invalidFiles = hasTried && nftData.length === 0;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
