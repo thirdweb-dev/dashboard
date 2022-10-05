@@ -16,19 +16,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
 import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
-import {
-  useDelayedRevealLazyMint,
-  useLazyMint as useLazyMintEvm,
-} from "@thirdweb-dev/react";
-import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
-import type { UploadProgressEvent } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
-import { useTxNotifications } from "hooks/useTxNotifications";
-import { Dispatch, MouseEventHandler, SetStateAction, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -40,7 +32,6 @@ import {
   Text,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
-import { shuffleData } from "utils/batch";
 import z from "zod";
 
 interface SelectOptionProps {

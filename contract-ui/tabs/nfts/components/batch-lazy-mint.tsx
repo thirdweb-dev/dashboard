@@ -2,18 +2,12 @@ import { BatchTable } from "./batch-table";
 import { SelectReveal } from "./select-reveal";
 import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
-import {
-  useDelayedRevealLazyMint,
-  useLazyMint as useLazyMintEvm,
-} from "@thirdweb-dev/react";
-import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
 import { NFTMetadataInput } from "@thirdweb-dev/sdk";
-import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import Papa from "papaparse";
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { IoChevronBack } from "react-icons/io5";
-import { Button, Card, Drawer, Heading } from "tw-components";
+import { Button, Card, Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import {
   CSVData,
