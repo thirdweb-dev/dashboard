@@ -19,8 +19,7 @@ const Storage: ThirdwebNextPage = () => {
         description="A blazing fast API for all your decentralized storage needs"
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/web3-storage"
-        image={require("public/assets/product-pages/deploy/hero.png")}
-        gradient="linear-gradient(147.15deg, #410AB6 30.17%, #5CFFE1 100.01%)"
+        gradient="linear-gradient(147.15deg, #410AB6 30.17%, #FFAE63 100.01%)"
       >
         <SimpleGrid
           justifyContent="flex-start"
@@ -30,7 +29,7 @@ const Storage: ThirdwebNextPage = () => {
         >
           <ProductCard
             title="Industry leading performance"
-            icon={require("/public/assets/product-pages/deploy/hero-icon-1.png")}
+            icon={require("/public/assets/product-pages/storage/hero-icon-1.png")}
           >
             Experience the fastest upload and download times of any
             decentralized storage solution, enabled by industry leading
@@ -38,7 +37,7 @@ const Storage: ThirdwebNextPage = () => {
           </ProductCard>
           <ProductCard
             title="Gauranteed availability"
-            icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+            icon={require("/public/assets/product-pages/storage/hero-icon-2.png")}
           >
             Upload and forget - we ensure that you&apos;re files are stored in
             decentralized, redundant, and permanent way and are always
@@ -46,7 +45,7 @@ const Storage: ThirdwebNextPage = () => {
           </ProductCard>
           <ProductCard
             title="Transparent pricing"
-            icon={require("/public/assets/product-pages/deploy/hero-icon-3.png")}
+            icon={require("/public/assets/product-pages/storage/hero-icon-3.png")}
           >
             No need to worry about spending protocol specific tokens,
             negotiationg storage deals, or pinning files - pay as you go and
