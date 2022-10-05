@@ -30,6 +30,7 @@ import {
   FormLabel,
   Heading,
   Text,
+  TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import z from "zod";
@@ -177,163 +178,156 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
         />
       </Flex>
       <Flex>
-        {watch("selectedReveal") === "instant" ? (
-          <Flex
-            flexDir="column"
-            gap={2}
-            as="form"
-            onSubmit={handleSubmit((data) => onSubmit(data))}
-          >
-            <Text size="body.md" color="gray.600">
-              You&apos;re ready to go! Now you can upload the files, we will be
-              uploading each file to IPFS so it might take a while.
-            </Text>
-            <Flex alignItems="center" gap={3}>
-              <Checkbox {...register("shuffle")} />
-              <Flex gap={1}>
-                <Text>Shuffle the order of the NFTs before uploading.</Text>
-                <Text fontStyle="italic">
-                  This is an off-chain operation and is not provable.
-                </Text>
-              </Flex>
-            </Flex>
-            <TransactionButton
-              ecosystem={ecosystem}
-              mt={4}
-              size="lg"
-              colorScheme="primary"
-              transactionCount={1}
-              isDisabled={!nftData.length}
-              type="submit"
-              isLoading={isSubmitting || isSubmitSuccessful}
-              loadingText={`Uploading ${nftData.length} NFTs...`}
-            >
-              Upload {nftData.length} NFTs
-            </TransactionButton>
-            {children}
-          </Flex>
-        ) : watch("selectedReveal") === "delayed" ? (
-          <Stack spacing={6} as="form" onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={3}>
-              <Heading size="title.sm">Let&apos;s set a password</Heading>
-              <Alert status="warning" borderRadius="lg">
-                <AlertIcon />
-                You&apos;ll need this password to reveal your NFTs. Please save
-                it somewhere safe.
-              </Alert>
-              <Flex
-                flexDir={{ base: "column", md: "row" }}
-                gap={{ base: 4, md: 0 }}
-              >
-                <FormControl isInvalid={!!errors.password} mr={4}>
-                  <FormLabel>Password</FormLabel>
-                  <InputGroup>
+        <Stack spacing={6} as="form" onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={3}>
+            {watch("selectedReveal") === "delayed" && (
+              <>
+                <Heading size="title.sm">Let&apos;s set a password</Heading>
+                <Alert status="warning" borderRadius="lg">
+                  <AlertIcon />
+                  You&apos;ll need this password to reveal your NFTs. Please
+                  save it somewhere safe.
+                </Alert>
+
+                <Flex
+                  flexDir={{ base: "column", md: "row" }}
+                  gap={{ base: 4, md: 0 }}
+                >
+                  <FormControl
+                    isRequired={watch("selectedReveal") === "delayed"}
+                    isInvalid={!!errors.password}
+                    mr={4}
+                  >
+                    <FormLabel>Password</FormLabel>
+                    <InputGroup>
+                      <Input
+                        {...register("password", {
+                          required: watch("selectedReveal") === "delayed",
+                        })}
+                        placeholder="Choose password"
+                        type={show ? "text" : "password"}
+                      />
+                      <InputRightElement
+                        cursor="pointer"
+                        children={
+                          <Icon
+                            as={show ? AiFillEye : AiFillEyeInvisible}
+                            onClick={() => setShow(!show)}
+                          />
+                        }
+                      />
+                    </InputGroup>
+
+                    <FormErrorMessage>
+                      {errors?.password?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isRequired={watch("selectedReveal") === "delayed"}
+                    isInvalid={!!errors.confirmPassword}
+                  >
+                    <FormLabel>Confirm password</FormLabel>
                     <Input
-                      {...register("password", {
+                      {...register("confirmPassword", {
                         required: watch("selectedReveal") === "delayed",
                       })}
-                      placeholder="Choose password"
-                      type={show ? "text" : "password"}
+                      placeholder="Confirm password"
+                      type="password"
                     />
-                    <InputRightElement
-                      cursor="pointer"
-                      children={
-                        <Icon
-                          as={show ? AiFillEye : AiFillEyeInvisible}
-                          onClick={() => setShow(!show)}
-                        />
-                      }
-                    />
-                  </InputGroup>
-
-                  <FormErrorMessage>
-                    {errors?.password?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors.confirmPassword}>
-                  <FormLabel>Confirm password</FormLabel>
-                  <Input
-                    {...register("confirmPassword", {
-                      required: watch("selectedReveal") === "delayed",
-                    })}
-                    placeholder="Confirm password"
-                    type="password"
-                  />
-                  <FormErrorMessage>
-                    {errors?.confirmPassword?.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </Flex>
-            </Stack>
-            <Stack spacing={5}>
-              <Heading size="title.sm">Placeholder</Heading>
-              <FormControl isInvalid={!!errors.image}>
-                <FormLabel>Image</FormLabel>
-                <Box width={{ base: "auto", md: "350px" }}>
-                  <FileInput
-                    accept={{ "image/*": [] }}
-                    value={imageUrl}
-                    showUploadButton
-                    setValue={(file) => setValue("image", file)}
-                    border="1px solid"
-                    borderColor="gray.200"
-                    borderRadius="md"
-                    transition="all 200ms ease"
-                    _hover={{ shadow: "sm" }}
-                  />
-                </Box>
-                <FormHelperText>
-                  You can optionally upload an image as the placeholder.
-                </FormHelperText>
-                <FormErrorMessage>
-                  {errors?.image?.message as unknown as string}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={!!errors.name}>
-                <FormLabel>Name</FormLabel>
-                <Input
-                  {...register("name", {
-                    required: watch("selectedReveal") === "delayed",
-                  })}
-                  placeholder="eg. My NFT (Coming soon)"
-                />
-                <FormErrorMessage>{errors?.name?.message}</FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={!!errors.description}>
-                <FormLabel>Description</FormLabel>
-                <Textarea
-                  {...register("description")}
-                  placeholder="eg. Reveal on July 15th!"
-                />
-                <FormErrorMessage>
-                  {errors?.description?.message}
-                </FormErrorMessage>
-              </FormControl>
-              <Flex alignItems="center" gap={3}>
-                <Checkbox {...register("shuffle")} />
-                <Flex gap={1}>
-                  <Text>Shuffle the order of the NFTs before uploading.</Text>
-                  <Text fontStyle="italic">
-                    This is an off-chain operation and is not provable.
-                  </Text>
+                    <FormErrorMessage>
+                      {errors?.confirmPassword?.message}
+                    </FormErrorMessage>
+                  </FormControl>
                 </Flex>
-              </Flex>
-              <TransactionButton
-                mt={4}
-                size="lg"
-                colorScheme="primary"
-                transactionCount={1}
-                isDisabled={!nftData.length}
-                type="submit"
-                isLoading={isSubmitting || isSubmitSuccessful}
-                loadingText={`Uploading ${nftData.length} NFTs...`}
-              >
-                Upload {nftData.length} NFTs
-              </TransactionButton>
-              {children}
-            </Stack>
+                <Stack spacing={5}>
+                  <Heading size="title.sm">Placeholder</Heading>
+                  <FormControl isInvalid={!!errors.image}>
+                    <FormLabel>Image</FormLabel>
+                    <Box width={{ base: "auto", md: "350px" }}>
+                      <FileInput
+                        accept={{ "image/*": [] }}
+                        value={imageUrl}
+                        showUploadButton
+                        setValue={(file) => setValue("image", file)}
+                        border="1px solid"
+                        borderColor="gray.200"
+                        borderRadius="md"
+                        transition="all 200ms ease"
+                        _hover={{ shadow: "sm" }}
+                      />
+                    </Box>
+                    <FormHelperText>
+                      You can optionally upload an image as the placeholder.
+                    </FormHelperText>
+                    <FormErrorMessage>
+                      {errors?.image?.message as unknown as string}
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl
+                    isRequired={watch("selectedReveal") === "delayed"}
+                    isInvalid={!!errors.name}
+                  >
+                    <FormLabel>Name</FormLabel>
+                    <Input
+                      {...register("name", {
+                        required: watch("selectedReveal") === "delayed",
+                      })}
+                      placeholder="eg. My NFT (Coming soon)"
+                    />
+                    <FormErrorMessage>{errors?.name?.message}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={!!errors.description}>
+                    <FormLabel>Description</FormLabel>
+                    <Textarea
+                      {...register("description")}
+                      placeholder="eg. Reveal on July 15th!"
+                    />
+                    <FormErrorMessage>
+                      {errors?.description?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </Stack>
+              </>
+            )}
+            {watch("selectedReveal") && (
+              <>
+                <Flex alignItems="center" gap={3}>
+                  <Checkbox {...register("shuffle")} />
+                  <Flex gap={1}>
+                    <Text>Shuffle the order of the NFTs before uploading.</Text>
+                    <Text fontStyle="italic">
+                      This is an off-chain operation and is not provable.
+                    </Text>
+                  </Flex>
+                </Flex>
+                <TransactionButton
+                  ecosystem={ecosystem}
+                  mt={4}
+                  size="lg"
+                  colorScheme="primary"
+                  transactionCount={1}
+                  isDisabled={!nftData.length}
+                  type="submit"
+                  isLoading={isSubmitting || isSubmitSuccessful}
+                  loadingText={`Uploading ${nftData.length} NFTs...`}
+                >
+                  Upload {nftData.length} NFTs
+                </TransactionButton>
+                {children}
+                <Text size="body.sm" mt={2}>
+                  <TrackedLink
+                    href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+                    isExternal
+                    category="batch-upload"
+                    label="issues"
+                  >
+                    Experiencing issues uploading your files?
+                  </TrackedLink>
+                </Text>
+              </>
+            )}
           </Stack>
-        ) : null}
+        </Stack>
       </Flex>
     </Flex>
   );

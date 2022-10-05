@@ -25,11 +25,6 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
 
   return (
     <>
-      {takingLong && (
-        <Text size="body.sm" textAlign="center">
-          This may take a while.
-        </Text>
-      )}
       {progress.progress !== 0 && (
         <Progress
           borderRadius="md"
@@ -40,16 +35,11 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
           value={(progress.progress / progress.total) * 100}
         />
       )}
-      <Text size="body.sm" mt={2}>
-        <TrackedLink
-          href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
-          isExternal
-          category="batch-upload"
-          label="issues"
-        >
-          Experiencing issues uploading your files?
-        </TrackedLink>
-      </Text>
+      {takingLong && (
+        <Text size="body.sm" textAlign="center">
+          This may take a while.
+        </Text>
+      )}
     </>
   );
 };
