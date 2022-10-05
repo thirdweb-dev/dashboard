@@ -6,7 +6,6 @@ import type { NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { BatchLazyMint } from "contract-ui/tabs/nfts/components/batch-lazy-mint";
 import { NFTMintForm } from "contract-ui/tabs/nfts/components/mint-form";
-import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
@@ -110,10 +109,6 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
             });
             onSuccess();
             onClose();
-            setProgress({
-              progress: 0,
-              total: 100,
-            });
           },
           onError: (error) => {
             trackEvent({
@@ -122,11 +117,13 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
               label: "error",
               error,
             });
+            onError(error);
+          },
+          onSettled: () => {
             setProgress({
               progress: 0,
               total: 100,
             });
-            onError(error);
           },
         },
       );
@@ -146,10 +143,9 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
           isRevealable={false}
           nftData={nftData}
           setNftData={setNftData}
+          progress={progress}
           onSubmit={onSubmit}
-        >
-          <ProgressBox progress={progress} />
-        </BatchLazyMint>
+        />
       </Drawer>
       <Button
         colorScheme="primary"

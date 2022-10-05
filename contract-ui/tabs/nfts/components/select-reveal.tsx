@@ -17,8 +17,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AiFillEye } from "@react-icons/all-files/ai/AiFillEye";
 import { AiFillEyeInvisible } from "@react-icons/all-files/ai/AiFillEyeInvisible";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
+import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FileInput } from "components/shared/FileInput";
+import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { MouseEventHandler, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,7 +34,6 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import { ComponentWithChildren } from "types/component-with-children";
 import z from "zod";
 
 interface SelectOptionProps {
@@ -124,6 +125,7 @@ interface SelectRevealProps {
   nftData: NFTMetadataInput[];
   ecosystem?: "evm" | "solana";
   isRevealable: boolean;
+  progress: UploadProgressEvent;
   onSubmit: (formData: {
     name?: string | undefined;
     image?: any;
@@ -135,12 +137,12 @@ interface SelectRevealProps {
   }) => void;
 }
 
-export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
+export const SelectReveal: React.FC<SelectRevealProps> = ({
   nftData,
   ecosystem = "evm",
   isRevealable,
+  progress,
   onSubmit,
-  children,
 }) => {
   const [show, setShow] = useState(false);
 
@@ -149,10 +151,12 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<DelayedRevealInput>({
     resolver: zodResolver(DelayedRevealSchema),
   });
+
+  console.log(progress);
 
   const imageUrl = useImageFileOrUrl(watch("image"));
   return (
@@ -308,12 +312,12 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                   transactionCount={1}
                   isDisabled={!nftData.length}
                   type="submit"
-                  isLoading={isSubmitting || isSubmitSuccessful}
+                  isLoading={isSubmitting || progress?.progress > 0}
                   loadingText={`Uploading ${nftData.length} NFTs...`}
                 >
                   Upload {nftData.length} NFTs
                 </TransactionButton>
-                {children}
+                <ProgressBox progress={progress} />
                 <Text size="body.sm" mt={2}>
                   <TrackedLink
                     href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"

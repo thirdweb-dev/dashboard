@@ -3,12 +3,12 @@ import { SelectReveal } from "./select-reveal";
 import { UploadStep } from "./upload-step";
 import { Box, Container, Flex, HStack, Icon } from "@chakra-ui/react";
 import { NFTMetadata, NFTMetadataInput } from "@thirdweb-dev/sdk";
+import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import Papa from "papaparse";
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { IoChevronBack } from "react-icons/io5";
 import { Button, Card, Heading } from "tw-components";
-import { ComponentWithChildren } from "types/component-with-children";
 import {
   CSVData,
   getAcceptedFiles,
@@ -22,6 +22,7 @@ interface BatchLazyMintProps {
   isRevealable: boolean;
   nftData: NFTMetadataInput[];
   setNftData: Dispatch<SetStateAction<NFTMetadataInput[]>>;
+  progress: UploadProgressEvent;
   onSubmit: (formData: {
     name?: string | undefined;
     image?: any;
@@ -33,14 +34,14 @@ interface BatchLazyMintProps {
   }) => void;
 }
 
-export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
+export const BatchLazyMint: React.FC<BatchLazyMintProps> = ({
   nextTokenIdToMint = 0,
   ecosystem,
   isRevealable,
   onSubmit,
   nftData,
   setNftData,
-  children,
+  progress,
 }) => {
   const [step, setStep] = useState(0);
   const [hasFailed, setHasFailed] = useState(false);
@@ -188,10 +189,9 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                 nftData={nftData}
                 ecosystem={ecosystem}
                 isRevealable={isRevealable}
+                progress={progress}
                 onSubmit={onSubmit}
-              >
-                {children}
-              </SelectReveal>
+              />
             </>
           )}
         </Flex>

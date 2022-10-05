@@ -15,7 +15,6 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { detectFeatures } from "components/contract-components/utils";
-import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -145,10 +144,6 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
             });
             onSuccess();
             onClose();
-            setProgress({
-              progress: 0,
-              total: 100,
-            });
           },
           onError: (error) => {
             trackEvent({
@@ -157,11 +152,13 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
               label: "error",
               error,
             });
+            onError(error);
+          },
+          onSettled: () => {
             setProgress({
               progress: 0,
               total: 100,
             });
-            onError(error);
           },
         },
       );
@@ -192,9 +189,8 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
           isRevealable={isRevealable}
           nftData={nftData}
           setNftData={setNftData}
-        >
-          <ProgressBox progress={progress} />
-        </BatchLazyMint>
+          progress={progress}
+        />
       </Drawer>
       <Button
         colorScheme="primary"
