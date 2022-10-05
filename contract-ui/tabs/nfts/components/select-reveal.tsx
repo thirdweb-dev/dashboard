@@ -125,28 +125,19 @@ const DelayedRevealSchema = z
 
 type DelayedRevealInput = z.infer<typeof DelayedRevealSchema>;
 interface SelectRevealProps {
-  mergedData: NFTMetadataInput[];
-  onClose: () => void;
-  progress: UploadProgressEvent;
-  setProgress: Dispatch<SetStateAction<UploadProgressEvent>>;
-  mintBatch:
-    | ReturnType<typeof useLazyMintEvm>
-    | ReturnType<typeof useLazyMintSolana>;
-  mintDelayedRevealBatch: ReturnType<typeof useDelayedRevealLazyMint> | null;
+  nftData: NFTMetadataInput[];
   ecosystem?: "evm" | "solana";
+  isRevealable: boolean;
+  onSubmit: any;
 }
 
 export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
-  mergedData,
-  onClose,
-  progress,
-  setProgress,
-  mintBatch,
-  mintDelayedRevealBatch,
+  nftData,
   ecosystem = "evm",
+  isRevealable,
+  onSubmit,
   children,
 }) => {
-  const trackEvent = useTrack();
   const [selectedReveal, setSelectedReveal] = useState<
     "unselected" | "instant" | "delayed"
   >("instant");
@@ -157,18 +148,12 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<DelayedRevealInput>({
     resolver: zodResolver(DelayedRevealSchema),
   });
 
   const imageUrl = useImageFileOrUrl(watch("image"));
-
-  const { onSuccess, onError } = useTxNotifications(
-    "Batch uploaded successfully",
-    "Error uploading batch",
-  );
-
   return (
     <Flex flexDir="column">
       <Flex
@@ -187,13 +172,20 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
           description="Collectors will mint your placeholder image, then you reveal at a later time"
           isActive={selectedReveal === "delayed"}
           onClick={() => setSelectedReveal("delayed")}
-          disabled={!mintDelayedRevealBatch}
+          disabled={!isRevealable}
           disabledText="Your contract doesn't implement Delayed Reveal"
         />
       </Flex>
       <Flex>
         {selectedReveal === "instant" ? (
-          <Flex flexDir="column" gap={2}>
+          <Flex
+            flexDir="column"
+            gap={2}
+            as="form"
+            onSubmit={handleSubmit((formData) => {
+              onSubmit(formData, selectedReveal);
+            })}
+          >
             <Text size="body.md" color="gray.600">
               You&apos;re ready to go! Now you can upload the files, we will be
               uploading each file to IPFS so it might take a while.
@@ -213,113 +205,22 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
               size="lg"
               colorScheme="primary"
               transactionCount={1}
-              isDisabled={!mergedData.length}
+              isDisabled={!nftData.length}
               type="submit"
-              isLoading={mintBatch.isLoading}
-              loadingText={
-                progress.progress >= progress.total
-                  ? `Finishing upload...`
-                  : `Uploading ${mergedData.length} NFTs...`
-              }
-              onClick={() => {
-                trackEvent({
-                  category: "nft",
-                  action: "batch-upload-instant",
-                  label: "attempt",
-                });
-                mintBatch.mutate(
-                  {
-                    metadatas: watch("shuffle")
-                      ? shuffleData(mergedData)
-                      : mergedData,
-                  },
-                  {
-                    onSuccess: () => {
-                      trackEvent({
-                        category: "nft",
-                        action: "batch-upload-instant",
-                        label: "success",
-                      });
-                      onSuccess();
-                      onClose();
-                      setProgress({
-                        progress: 0,
-                        total: 100,
-                      });
-                    },
-                    onError: (error) => {
-                      trackEvent({
-                        category: "nft",
-                        action: "batch-upload-instant",
-                        label: "error",
-                        error,
-                      });
-                      setProgress({
-                        progress: 0,
-                        total: 100,
-                      });
-                      onError(error);
-                    },
-                  },
-                );
-              }}
+              isLoading={isSubmitting}
+              loadingText={`Uploading ${nftData.length} NFTs...`}
             >
-              Upload {mergedData.length} NFTs
+              Upload {nftData.length} NFTs
             </TransactionButton>
             {children}
           </Flex>
-        ) : selectedReveal === "delayed" && !!mintDelayedRevealBatch ? (
+        ) : selectedReveal === "delayed" && isRevealable ? (
           <>
             <Stack
               spacing={6}
               as="form"
-              onSubmit={handleSubmit((data) => {
-                trackEvent({
-                  category: "nft",
-                  action: "batch-upload-delayed",
-                  label: "attempt",
-                });
-                mintDelayedRevealBatch.mutate(
-                  {
-                    placeholder: {
-                      name: data.name,
-                      description: data.description || "",
-                      image: data.image,
-                    },
-                    metadatas: watch("shuffle")
-                      ? shuffleData(mergedData)
-                      : mergedData,
-                    password: data.password,
-                  },
-                  {
-                    onSuccess: () => {
-                      trackEvent({
-                        category: "nft",
-                        action: "batch-upload-delayed",
-                        label: "success",
-                      });
-                      onSuccess();
-                      onClose();
-                      setProgress({
-                        progress: 0,
-                        total: 100,
-                      });
-                    },
-                    onError: (error) => {
-                      trackEvent({
-                        category: "nft",
-                        action: "batch-upload-delayed",
-                        label: "error",
-                        error,
-                      });
-                      setProgress({
-                        progress: 0,
-                        total: 100,
-                      });
-                      onError(error);
-                    },
-                  },
-                );
+              onSubmit={handleSubmit((formData) => {
+                onSubmit(formData, selectedReveal);
               })}
             >
               <Stack spacing={3}>
@@ -425,16 +326,12 @@ export const SelectReveal: ComponentWithChildren<SelectRevealProps> = ({
                   size="lg"
                   colorScheme="primary"
                   transactionCount={1}
-                  isDisabled={!mergedData.length}
+                  isDisabled={!nftData.length}
                   type="submit"
-                  isLoading={mintDelayedRevealBatch.isLoading}
-                  loadingText={
-                    progress.progress >= progress.total
-                      ? `Finishing upload...`
-                      : `Uploading ${mergedData.length} NFTs...`
-                  }
+                  isLoading={isSubmitting}
+                  loadingText={`Uploading ${nftData.length} NFTs...`}
                 >
-                  Upload {mergedData.length} NFTs
+                  Upload {nftData.length} NFTs
                 </TransactionButton>
                 {children}
               </Stack>

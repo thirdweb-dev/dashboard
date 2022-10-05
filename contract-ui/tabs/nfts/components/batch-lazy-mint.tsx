@@ -7,6 +7,7 @@ import {
   useLazyMint as useLazyMintEvm,
 } from "@thirdweb-dev/react";
 import { useLazyMint as useLazyMintSolana } from "@thirdweb-dev/react/solana";
+import { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import Papa from "papaparse";
 import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
@@ -17,52 +18,29 @@ import { ComponentWithChildren } from "types/component-with-children";
 import {
   CSVData,
   getAcceptedFiles,
+  getMergedData,
   transformHeader,
-  useMergedData,
 } from "utils/batch";
 
 interface BatchLazyMintProps {
-  isOpen: boolean;
-  onClose: () => void;
   nextTokenIdToMint?: number;
-  progress: UploadProgressEvent;
-  setProgress: Dispatch<SetStateAction<UploadProgressEvent>>;
-  mintBatch:
-    | ReturnType<typeof useLazyMintEvm>
-    | ReturnType<typeof useLazyMintSolana>;
-  mintDelayedRevealBatch: ReturnType<typeof useDelayedRevealLazyMint> | null;
-  ecosystem?: "evm" | "solana";
+  ecosystem: "evm" | "solana";
+  isRevealable: boolean;
+  onSubmit: any;
+  nftData: NFTMetadataInput[];
+  setNftData: Dispatch<SetStateAction<NFTMetadataInput[]>>;
 }
 
 export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
-  isOpen,
-  onClose,
   nextTokenIdToMint = 0,
-  progress,
-  setProgress,
-  mintBatch,
-  mintDelayedRevealBatch,
-  ecosystem = "evm",
+  ecosystem,
+  isRevealable,
+  onSubmit,
+  nftData,
+  setNftData,
   children,
 }) => {
   const [step, setStep] = useState(0);
-  const [csvData, setCSVData] = useState<Papa.ParseResult<CSVData>>();
-  const [jsonData, setJsonData] = useState<any>();
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [videoFiles, setVideoFiles] = useState<File[]>([]);
-
-  const reset = useCallback(() => {
-    setCSVData(undefined);
-    setJsonData(undefined);
-    setImageFiles([]);
-    setVideoFiles([]);
-  }, []);
-
-  const _onClose = useCallback(() => {
-    reset();
-    setStep(0);
-    onClose();
-  }, [onClose, setStep, reset]);
 
   const onDrop = useCallback<Required<DropzoneOptions>["onDrop"]>(
     async (acceptedFiles) => {
@@ -86,150 +64,135 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = ({
                 }
               }
             }
-            setCSVData(validResults);
+            setNftData(getMergedData(validResults, undefined, images, videos));
           },
         });
       } else if (json) {
-        setJsonData(json);
+        setNftData(getMergedData(undefined, json, images, videos));
       } else {
         console.error("No CSV or JSON found");
         return;
       }
-      setImageFiles(images);
-      setVideoFiles(videos);
     },
-    [],
+    [setNftData],
   );
 
-  const mergedData = useMergedData(csvData, jsonData, imageFiles, videoFiles);
-
-  const invalidFiles = (csvData || jsonData) && mergedData.length === 0;
+  const invalidFiles = nftData && nftData.length === 0;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
   });
   const paginationPortalRef = useRef<HTMLDivElement>(null);
   return (
-    <Drawer
-      allowPinchZoom
-      preserveScrollBarGap
-      size="full"
-      onClose={_onClose}
-      isOpen={isOpen}
+    <Container
+      maxW="container.page"
+      borderRadius={{ base: 0, md: "2xl" }}
+      my={{ base: 0, md: 12 }}
+      p={{ base: 0, md: 4 }}
     >
-      <Container
-        maxW="container.page"
-        borderRadius={{ base: 0, md: "2xl" }}
-        my={{ base: 0, md: 12 }}
-        p={{ base: 0, md: 4 }}
-      >
-        <Card bg="backgroundCardHighlight">
-          <Flex flexDir="column" width="100%" p={4}>
-            {step === 0 ? (
-              <>
-                <Flex
-                  align="center"
-                  justify="space-between"
-                  py={{ base: 2, md: 4 }}
-                  w="100%"
-                  mb={2}
-                >
-                  <Heading size="title.md">Upload your NFTs</Heading>
-                </Flex>
-                <Flex direction="column" gap={6} h="100%">
-                  {mergedData.length > 0 ? (
-                    <BatchTable
-                      portalRef={paginationPortalRef}
-                      data={mergedData}
-                      nextTokenIdToMint={nextTokenIdToMint}
-                    />
-                  ) : (
-                    <UploadStep
-                      getRootProps={getRootProps}
-                      getInputProps={getInputProps}
-                      noFile={invalidFiles}
-                      isDragActive={isDragActive}
-                    />
-                  )}
-                  <Flex borderTop="1px solid" borderTopColor="borderColor">
-                    <Container maxW="container.page">
+      <Card bg="backgroundCardHighlight">
+        <Flex flexDir="column" width="100%" p={4}>
+          {step === 0 ? (
+            <>
+              <Flex
+                align="center"
+                justify="space-between"
+                py={{ base: 2, md: 4 }}
+                w="100%"
+                mb={2}
+              >
+                <Heading size="title.md">Upload your NFTs</Heading>
+              </Flex>
+              <Flex direction="column" gap={6} h="100%">
+                {nftData.length > 0 ? (
+                  <BatchTable
+                    portalRef={paginationPortalRef}
+                    nftData={nftData}
+                    nextTokenIdToMint={nextTokenIdToMint}
+                  />
+                ) : (
+                  <UploadStep
+                    getRootProps={getRootProps}
+                    getInputProps={getInputProps}
+                    noFile={invalidFiles}
+                    isDragActive={isDragActive}
+                  />
+                )}
+                <Flex borderTop="1px solid" borderTopColor="borderColor">
+                  <Container maxW="container.page">
+                    <Flex
+                      align="center"
+                      justify="space-between"
+                      p={{ base: 0, md: 4 }}
+                      flexDir={{ base: "column", md: "row" }}
+                      mt={{ base: 4, md: 0 }}
+                    >
+                      <Box ref={paginationPortalRef} />
                       <Flex
+                        gap={2}
                         align="center"
-                        justify="space-between"
-                        p={{ base: 0, md: 4 }}
-                        flexDir={{ base: "column", md: "row" }}
                         mt={{ base: 4, md: 0 }}
+                        w={{ base: "100%", md: "auto" }}
                       >
-                        <Box ref={paginationPortalRef} />
-                        <Flex
-                          gap={2}
-                          align="center"
-                          mt={{ base: 4, md: 0 }}
+                        <Button
+                          borderRadius="md"
+                          isDisabled={!nftData}
+                          onClick={() => {
+                            setNftData([]);
+                          }}
                           w={{ base: "100%", md: "auto" }}
                         >
-                          <Button
-                            borderRadius="md"
-                            isDisabled={!csvData && !jsonData}
-                            onClick={() => {
-                              reset();
-                            }}
-                            w={{ base: "100%", md: "auto" }}
-                          >
-                            Reset
-                          </Button>
-                          <Button
-                            borderRadius="md"
-                            colorScheme="primary"
-                            isDisabled={(!csvData && !jsonData) || invalidFiles}
-                            onClick={() => setStep(1)}
-                            w={{ base: "100%", md: "auto" }}
-                          >
-                            Next
-                          </Button>
-                        </Flex>
+                          Reset
+                        </Button>
+                        <Button
+                          borderRadius="md"
+                          colorScheme="primary"
+                          isDisabled={!nftData || invalidFiles}
+                          onClick={() => setStep(1)}
+                          w={{ base: "100%", md: "auto" }}
+                        >
+                          Next
+                        </Button>
                       </Flex>
-                    </Container>
-                  </Flex>
+                    </Flex>
+                  </Container>
                 </Flex>
-              </>
-            ) : (
-              <>
-                <Flex
-                  align="center"
-                  justify="space-between"
-                  py={4}
-                  w="100%"
-                  mb={2}
-                >
-                  <HStack>
-                    <Icon
-                      boxSize={5}
-                      as={IoChevronBack}
-                      color="gray.600"
-                      onClick={() => setStep(0)}
-                      cursor="pointer"
-                    />
-                    <Heading size="title.md">
-                      When will you reveal your NFTs?
-                    </Heading>
-                  </HStack>
-                </Flex>
-                <SelectReveal
-                  mergedData={mergedData}
-                  onClose={_onClose}
-                  progress={progress}
-                  setProgress={setProgress}
-                  mintBatch={mintBatch}
-                  mintDelayedRevealBatch={mintDelayedRevealBatch}
-                  ecosystem={ecosystem}
-                >
-                  {children}
-                </SelectReveal>
-              </>
-            )}
-          </Flex>
-        </Card>
-      </Container>
-    </Drawer>
+              </Flex>
+            </>
+          ) : (
+            <>
+              <Flex
+                align="center"
+                justify="space-between"
+                py={4}
+                w="100%"
+                mb={2}
+              >
+                <HStack>
+                  <Icon
+                    boxSize={5}
+                    as={IoChevronBack}
+                    color="gray.600"
+                    onClick={() => setStep(0)}
+                    cursor="pointer"
+                  />
+                  <Heading size="title.md">
+                    When will you reveal your NFTs?
+                  </Heading>
+                </HStack>
+              </Flex>
+              <SelectReveal
+                nftData={nftData}
+                ecosystem={ecosystem}
+                isRevealable={isRevealable}
+                onSubmit={onSubmit}
+              >
+                {children}
+              </SelectReveal>
+            </>
+          )}
+        </Flex>
+      </Card>
+    </Container>
   );
 };
