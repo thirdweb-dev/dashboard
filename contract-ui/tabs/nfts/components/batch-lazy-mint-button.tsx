@@ -1,9 +1,9 @@
 import { BatchLazyMint } from "./batch-lazy-mint";
 import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
+import type { useContract } from "@thirdweb-dev/react";
 import {
   DropContract,
-  UseContractResult,
   useTotalCount,
 } from "@thirdweb-dev/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
@@ -13,7 +13,7 @@ import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Drawer } from "tw-components";
 
 interface BatchLazyMintButtonProps {
-  contractQuery: UseContractResult<NonNullable<DropContract>>;
+  contractQuery: ReturnType<typeof useContract>;
 }
 
 export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({

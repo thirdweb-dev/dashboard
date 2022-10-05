@@ -3356,10 +3356,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.2.0-nightly-2ea3f00":
-  version "3.2.0-nightly-2ea3f00"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.2.0-nightly-2ea3f00.tgz#580bc0b5fd84bd6ea429ebf9c511ea73586285d3"
-  integrity sha512-s9SEXQIxH9J8E6kXpGYDmqmCjZpLvgC3uI9t8HTEMeR7s1b9um6XNW+djOb4ippoQsVu7ywAcK5idEG2FkEiQg==
+"@thirdweb-dev/react@^3.2.0-nightly-028cb78":
+  version "3.2.0-nightly-028cb78"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.2.0-nightly-028cb78.tgz#d9b846fca60ffdf3f9ab667f85ad3d6b17423e3f"
+  integrity sha512-+Gj7dtRnljVFfZcus6YS7IJi0F/XeTj+57DlzE0zVP2I65fTB+8j4ESdutfjByLTp1HpJlnY7xyK7dwPHLKz7w==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3370,6 +3370,7 @@
     "@tanstack/react-query" "^4.0.10"
     "@zag-js/menu" "0.1.14"
     "@zag-js/react" "0.1.16"
+    buffer "^6.0.3"
     color "^4.2.3"
     copy-to-clipboard "^3.3.2"
     detect-browser "^5.3.0"
@@ -3379,10 +3380,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.2.0-nightly-2ea3f00":
-  version "3.2.0-nightly-2ea3f00"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.0-nightly-2ea3f00.tgz#5ce72eec0015856a04d5f8da900e3d8a1b1280a2"
-  integrity sha512-K5uOh12MlpcKFfgFvgZ4fOfkKr4taTxqBt3kaxKEDkf52Y3PebDXA9CR8lguR9fR8IT+eSuzcTOBYZl5DLy/Qg==
+"@thirdweb-dev/sdk@^3.2.0-nightly-028cb78":
+  version "3.2.0-nightly-028cb78"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.0-nightly-028cb78.tgz#3a4b435f6cfc1b6c111d6b4486979605ae575e2b"
+  integrity sha512-Ze4zW6FvFB4DUvrPOm+ok3MKU3Xbi3XTVzXGbC+KfEhxSlcN+pxI0DKYC9fYaA85gr5m0eMmqq4UHO5Y7ldayA==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
