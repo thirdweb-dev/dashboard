@@ -1,7 +1,7 @@
 import { Progress } from "@chakra-ui/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { useEffect, useState } from "react";
-import { Text, TrackedLink } from "tw-components";
+import { Text } from "tw-components";
 
 interface ProgressBoxProps {
   progress: UploadProgressEvent;
