@@ -300,9 +300,9 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
               />
               {form.watch("revealType") && (
                 <>
-                  <Flex alignItems="center" gap={3}>
+                  <Flex alignItems="center" gap={3} mt={3}>
                     <Checkbox {...form.register("shuffle")} />
-                    <Flex gap={1}>
+                    <Flex gap={1} flexDir={{ base: "column", md: "row" }}>
                       <Text>
                         Shuffle the order of the NFTs before uploading.
                       </Text>
@@ -320,6 +320,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
                     type="submit"
                     isLoading={form.formState.isSubmitting}
                     loadingText={`Uploading ${nftMetadatas.length} NFTs...`}
+                    maxW={{ base: "100%", md: "61%" }}
                   >
                     Upload {nftMetadatas.length} NFTs
                   </TransactionButton>
