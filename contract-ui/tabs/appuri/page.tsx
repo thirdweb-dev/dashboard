@@ -2,7 +2,7 @@ import { AppURISetup } from "./components/appuri-setup";
 import { Flex } from "@chakra-ui/react";
 import { useContract, useContractType } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface CustomContractAppURIPageProps {
   contractAddress?: string;
@@ -12,9 +12,10 @@ export const CustomContractAppURIPage: React.FC<
   CustomContractAppURIPageProps
 > = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress);
+  const [appURI, setAppURI] = useState<string | undefined>();
   useEffect(() => {
-    contractQuery.data?.appURI.get().then((appUri) => {
-      console.log(appUri);
+    contractQuery.data?.appURI.get().then((ap) => {
+      setAppURI(ap.toString());
     });
   }, [contractQuery]);
 
@@ -25,7 +26,7 @@ export const CustomContractAppURIPage: React.FC<
 
   return (
     <Flex direction="column" gap={6}>
-      <AppURISetup appUri={""} />
+      <AppURISetup appURI={appURI} contract={contractQuery.data} />
     </Flex>
   );
 };
