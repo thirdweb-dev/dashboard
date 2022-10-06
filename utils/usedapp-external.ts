@@ -15,11 +15,8 @@ export function shortenIfAddress(
   if (!address) {
     return "";
   }
-  if (
-    typeof address === "string" &&
-    (isPossibleSolanaAddress(address) || isPossibleEVMAddress(address, true))
-  ) {
+  if (isPossibleSolanaAddress(address) || isPossibleEVMAddress(address, true)) {
     return shortenString(address, extraShort);
   }
-  return address ? address : "";
+  return address;
 }
