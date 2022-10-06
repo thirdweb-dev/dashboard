@@ -114,6 +114,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({
               canCopy={false}
               code={JSON.stringify(cell.value || {}, null, 2)}
               language="json"
+              width={300}
             />
           ) : null,
       },
