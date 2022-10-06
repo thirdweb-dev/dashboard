@@ -156,8 +156,6 @@ export const SelectReveal: React.FC<SelectRevealProps> = ({
     resolver: zodResolver(DelayedRevealSchema),
   });
 
-  console.log(progress);
-
   const imageUrl = useImageFileOrUrl(watch("image"));
   return (
     <Flex flexDir="column">

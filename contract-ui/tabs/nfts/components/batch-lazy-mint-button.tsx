@@ -1,4 +1,4 @@
-import { BatchLazyMint } from "./batch-lazy-mint";
+import { BatchLazyMint } from "../../../../core-ui/batch-upload/batch-lazy-mint";
 import { MinterOnly } from "@3rdweb-sdk/react";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import {
