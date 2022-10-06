@@ -30,6 +30,7 @@ import { useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
 import {
   Button,
+  Card,
   Checkbox,
   FormErrorMessage,
   FormHelperText,
@@ -43,11 +44,11 @@ import { processInputData, shuffleData } from "utils/batch";
 import { z } from "zod";
 
 type DelayedSubmit = {
-  reavealType: "delayed";
+  revealType: "delayed";
   data: DelayedRevealLazyMintInput;
 };
 type InstantSubmit = {
-  reavealType: "instant";
+  revealType: "instant";
   data: { metadatas: NFTMetadataInput[] };
 };
 
@@ -139,6 +140,10 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
   const paginationPortalRef = useRef<HTMLDivElement>(null);
   return (
     <Container
+      maxW="container.page"
+      borderRadius={{ base: 0, md: "2xl" }}
+      my={{ base: 0, md: 12 }}
+      p={{ base: 0, md: 4 }}
       as="form"
       onSubmit={form.handleSubmit((data) => {
         // first shuffle
@@ -148,14 +153,14 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
         // in solana there is only instant submit
         if (props.ecosystem === "solana") {
           return props.onSubmit({
-            reavealType: "instant",
+            revealType: "instant",
             data: { metadatas: shuffledMetadatas },
           });
         } else {
           // check submit is instant
           if (data.revealType === "instant") {
             return props.onSubmit({
-              reavealType: "instant",
+              revealType: "instant",
               data: { metadatas: shuffledMetadatas },
             });
           } else {
@@ -176,7 +181,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
             }
             // submit
             return props.onSubmit({
-              reavealType: "delayed",
+              revealType: "delayed",
               data: {
                 metadatas: shuffledMetadatas,
                 password: data.password,
@@ -190,145 +195,152 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
           }
         }
       })}
-      maxW="container.page"
-      borderRadius={{ base: 0, md: "2xl" }}
-      my={{ base: 0, md: 12 }}
-      p={{ base: 0, md: 4 }}
     >
-      <Flex flexDir="column" width="100%" p={4}>
-        {step === 0 ? (
-          <>
-            <Flex
-              align="center"
-              justify="space-between"
-              py={{ base: 2, md: 4 }}
-              w="100%"
-              mb={2}
-            >
-              <Heading size="title.md">Upload your NFTs</Heading>
-            </Flex>
-            <Flex direction="column" gap={6} h="100%">
-              {nftMetadatas.length > 0 ? (
-                <BatchTable
-                  portalRef={paginationPortalRef}
-                  data={nftMetadatas}
-                  {...(props.ecosystem === "evm"
-                    ? { nextTokenIdToMint: props.nextTokenIdToMint }
-                    : {})}
-                />
-              ) : (
-                <UploadStep
-                  getRootProps={getRootProps}
-                  getInputProps={getInputProps}
-                  hasFailed={
-                    !!form.getFieldState("metadatas", form.formState).error
-                  }
-                  isDragActive={isDragActive}
-                />
-              )}
-              <Flex borderTop="1px solid" borderTopColor="borderColor">
-                <Container maxW="container.page">
-                  <Flex
-                    align="center"
-                    justify="space-between"
-                    p={{ base: 0, md: 4 }}
-                    flexDir={{ base: "column", md: "row" }}
-                    mt={{ base: 4, md: 0 }}
-                  >
-                    <Box ref={paginationPortalRef} />
+      <Card bg="backgroundCardHighlight">
+        <Flex flexDir="column" width="100%" p={4}>
+          {step === 0 ? (
+            <>
+              <Flex
+                align="center"
+                justify="space-between"
+                py={{ base: 2, md: 4 }}
+                w="100%"
+                mb={2}
+              >
+                <Heading size="title.md">Upload your NFTs</Heading>
+              </Flex>
+              <Flex direction="column" gap={6} h="100%">
+                {nftMetadatas.length > 0 ? (
+                  <BatchTable
+                    portalRef={paginationPortalRef}
+                    data={nftMetadatas}
+                    {...(props.ecosystem === "evm"
+                      ? { nextTokenIdToMint: props.nextTokenIdToMint }
+                      : {})}
+                  />
+                ) : (
+                  <UploadStep
+                    getRootProps={getRootProps}
+                    getInputProps={getInputProps}
+                    hasFailed={
+                      !!form.getFieldState("metadatas", form.formState).error
+                    }
+                    isDragActive={isDragActive}
+                  />
+                )}
+                <Flex borderTop="1px solid" borderTopColor="borderColor">
+                  <Container maxW="container.page">
                     <Flex
-                      gap={2}
                       align="center"
+                      justify="space-between"
+                      p={{ base: 0, md: 4 }}
+                      flexDir={{ base: "column", md: "row" }}
                       mt={{ base: 4, md: 0 }}
-                      w={{ base: "100%", md: "auto" }}
                     >
-                      <Button
-                        borderRadius="md"
-                        isDisabled={nftMetadatas.length === 0}
-                        onClick={() => {
-                          form.reset();
-                        }}
+                      <Box ref={paginationPortalRef} />
+                      <Flex
+                        gap={2}
+                        align="center"
+                        mt={{ base: 4, md: 0 }}
                         w={{ base: "100%", md: "auto" }}
                       >
-                        Reset
-                      </Button>
-                      <Button
-                        borderRadius="md"
-                        colorScheme="primary"
-                        isDisabled={nftMetadatas.length === 0}
-                        onClick={() => setStep(1)}
-                        w={{ base: "100%", md: "auto" }}
-                      >
-                        Next
-                      </Button>
+                        <Button
+                          borderRadius="md"
+                          isDisabled={nftMetadatas.length === 0}
+                          onClick={() => {
+                            form.reset();
+                          }}
+                          w={{ base: "100%", md: "auto" }}
+                        >
+                          Reset
+                        </Button>
+                        <Button
+                          borderRadius="md"
+                          colorScheme="primary"
+                          isDisabled={nftMetadatas.length === 0}
+                          onClick={() => setStep(1)}
+                          w={{ base: "100%", md: "auto" }}
+                        >
+                          Next
+                        </Button>
+                      </Flex>
+                    </Flex>
+                  </Container>
+                </Flex>
+              </Flex>
+            </>
+          ) : (
+            <>
+              <Flex
+                align="center"
+                justify="space-between"
+                py={4}
+                w="100%"
+                mb={2}
+              >
+                <HStack>
+                  <Icon
+                    boxSize={5}
+                    as={IoChevronBack}
+                    color="gray.600"
+                    onClick={() => setStep(0)}
+                    cursor="pointer"
+                  />
+                  <Heading size="title.md">
+                    When will you reveal your NFTs?
+                  </Heading>
+                </HStack>
+              </Flex>
+              <SelectReveal
+                form={form}
+                ecosystem={props.ecosystem}
+                isRevealable={
+                  props.ecosystem === "evm" ? props.isRevealable : false
+                }
+              />
+              {form.watch("revealType") && (
+                <>
+                  <Flex alignItems="center" gap={3} mt={3}>
+                    <Checkbox {...form.register("shuffle")} />
+                    <Flex gap={1} flexDir={{ base: "column", md: "row" }}>
+                      <Text>
+                        Shuffle the order of the NFTs before uploading.
+                      </Text>
+                      <Text fontStyle="italic">
+                        This is an off-chain operation and is not provable.
+                      </Text>
                     </Flex>
                   </Flex>
-                </Container>
-              </Flex>
-            </Flex>
-          </>
-        ) : (
-          <>
-            <Flex align="center" justify="space-between" py={4} w="100%" mb={2}>
-              <HStack>
-                <Icon
-                  boxSize={5}
-                  as={IoChevronBack}
-                  color="gray.600"
-                  onClick={() => setStep(0)}
-                  cursor="pointer"
-                />
-                <Heading size="title.md">
-                  When will you reveal your NFTs?
-                </Heading>
-              </HStack>
-            </Flex>
-            <SelectReveal
-              form={form}
-              ecosystem={props.ecosystem}
-              isRevealable={
-                props.ecosystem === "evm" ? props.isRevealable : false
-              }
-            />
-            {form.watch("revealType") && (
-              <>
-                <Flex alignItems="center" gap={3}>
-                  <Checkbox {...form.register("shuffle")} />
-                  <Flex gap={1}>
-                    <Text>Shuffle the order of the NFTs before uploading.</Text>
-                    <Text fontStyle="italic">
-                      This is an off-chain operation and is not provable.
-                    </Text>
-                  </Flex>
-                </Flex>
-                <TransactionButton
-                  ecosystem={props.ecosystem}
-                  mt={4}
-                  colorScheme="primary"
-                  transactionCount={1}
-                  isDisabled={!nftMetadatas.length}
-                  type="submit"
-                  isLoading={form.formState.isSubmitting}
-                  loadingText={`Uploading ${nftMetadatas.length} NFTs...`}
-                >
-                  Upload {nftMetadatas.length} NFTs
-                </TransactionButton>
-                {props.children}
-                <Text size="body.sm" mt={2}>
-                  <TrackedLink
-                    href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
-                    isExternal
-                    category="batch-upload"
-                    label="issues"
+                  <TransactionButton
+                    ecosystem={props.ecosystem}
+                    mt={4}
+                    colorScheme="primary"
+                    transactionCount={1}
+                    isDisabled={!nftMetadatas.length}
+                    type="submit"
+                    isLoading={form.formState.isSubmitting}
+                    loadingText={`Uploading ${nftMetadatas.length} NFTs...`}
+                    maxW={{ base: "100%", md: "61%" }}
                   >
-                    Experiencing issues uploading your files?
-                  </TrackedLink>
-                </Text>
-              </>
-            )}
-          </>
-        )}
-      </Flex>
+                    Upload {nftMetadatas.length} NFTs
+                  </TransactionButton>
+                  {props.children}
+                  <Text size="body.sm" mt={2}>
+                    <TrackedLink
+                      href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
+                      isExternal
+                      category="batch-upload"
+                      label="issues"
+                    >
+                      Experiencing issues uploading your files?
+                    </TrackedLink>
+                  </Text>
+                </>
+              )}
+            </>
+          )}
+        </Flex>
+      </Card>
     </Container>
   );
 };

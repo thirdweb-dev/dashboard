@@ -73,14 +73,16 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
-        size="xl"
+        size="full"
         onClose={onClose}
         isOpen={isOpen}
       >
         <BatchLazyMint
-          onSubmit={async ({ reavealType, data }) => {
+          onSubmit={async ({ revealType, data }) => {
             // nice, we can set up everything the same for both the only thing that changes is the action string
-            const action = `batch-upload-${reavealType}` as const;
+            const action = `batch-upload-${revealType}` as const;
+
+            console.log({ revealType });
 
             trackEvent({
               category: "nft",
@@ -88,7 +90,7 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
               label: "attempt",
             });
             try {
-              if (reavealType === "instant") {
+              if (revealType === "instant") {
                 // instant reveal
                 await mintBatchMutation.mutateAsync(data);
               } else {

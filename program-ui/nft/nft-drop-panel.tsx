@@ -87,7 +87,7 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
-        size="xl"
+        size="full"
         onClose={onClose}
         isOpen={isOpen}
       >
