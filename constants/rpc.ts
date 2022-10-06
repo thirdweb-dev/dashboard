@@ -7,10 +7,6 @@ export const EVM_RPC_URL_MAP: Record<SUPPORTED_CHAIN_ID, string> = addAPIKey({
     process.env.SSR_RPC_MAINNET ||
     process.env.NEXT_PUBLIC_RPC_MAINNET ||
     `https://eth-mainnet.g.alchemy.com/v2/`,
-  [ChainId.Rinkeby]:
-    process.env.SSR_RPC_RINKEBY ||
-    process.env.NEXT_PUBLIC_RPC_RINKEBY ||
-    `https://eth-rinkeby.g.alchemy.com/v2/`,
   [ChainId.Goerli]:
     process.env.SSR_RPC_GOERLI ||
     process.env.NEXT_PUBLIC_RPC_GOERLI ||
@@ -43,10 +39,6 @@ export const EVM_RPC_URL_MAP: Record<SUPPORTED_CHAIN_ID, string> = addAPIKey({
     process.env.SSR_RPC_OPTIMISM ||
     process.env.NEXT_PUBLIC_RPC_OPTIMISM ||
     `https://opt-mainnet.g.alchemy.com/v2/`,
-  [ChainId.OptimismKovan]:
-    process.env.SSR_RPC_OPTIMISM_KOVAN ||
-    process.env.NEXT_PUBLIC_RPC_OPTIMISM_KOVAN ||
-    `https://opt-kovan.g.alchemy.com/v2/`,
   [ChainId.OptimismGoerli]:
     process.env.SSR_RPC_OPTIMISM_GOERLI ||
     process.env.NEXT_PUBLIC_RPC_OPTIMISM_GOERLI ||
@@ -55,10 +47,6 @@ export const EVM_RPC_URL_MAP: Record<SUPPORTED_CHAIN_ID, string> = addAPIKey({
     process.env.SSR_RPC_ARBITRUM ||
     process.env.NEXT_PUBLIC_RPC_ARBITRUM ||
     `https://arb-mainnet.g.alchemy.com/v2/`,
-  [ChainId.ArbitrumRinkeby]:
-    process.env.SSR_RPC_ARBITRUM_RINKEBY ||
-    process.env.NEXT_PUBLIC_RPC_ARBITRUM_RINKEBY ||
-    `https://arb-rinkeby.g.alchemy.com/v2/`,
   [ChainId.ArbitrumGoerli]:
     process.env.SSR_RPC_ARBITRUM_GOERLI ||
     process.env.NEXT_PUBLIC_RPC_ARBITRUM_GOERLI ||
