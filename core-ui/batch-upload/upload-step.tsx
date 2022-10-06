@@ -29,8 +29,8 @@ export const UploadStep: React.FC<UploadStepProps> = ({
   return (
     <Flex flexGrow={1} align="center" overflow="auto">
       <Container maxW="container.page">
-        <Flex gap={8} flexDir={{ base: "column", md: "row" }}>
-          <AspectRatio w={{ base: "100%", md: "50%" }}>
+        <Flex gap={8} flexDir={{ base: "column" }}>
+          <AspectRatio w={{ base: "100%" }} ratio={16 / 9}>
             <Center
               borderRadius="md"
               {...getRootProps()}
@@ -70,62 +70,71 @@ export const UploadStep: React.FC<UploadStepProps> = ({
               </VStack>
             </Center>
           </AspectRatio>
-          <Flex gap={2} flexDir="column" w={{ base: "100%", md: "50%" }}>
-            <Heading size="subtitle.sm">Requirements</Heading>
-            <UnorderedList>
-              <ListItem>
-                Files <em>must</em> contain one .csv or .json file with
-                metadata. -{" "}
-                <Link download color="blue.500" href="/example.csv">
-                  Download example.csv
-                </Link>
-                .{" "}
-                <Link download color="blue.500" href="/example.json">
-                  Download example.json
-                </Link>
-                .
-              </ListItem>
-              <ListItem>
-                The csv <em>must</em> have a <Code>name</Code> column, which
-                defines the name of the NFT.
-              </ListItem>
-              <ListItem>
-                Asset names <em>must</em> be sequential 0,1,2,3...n.[extension].
-                It doesn&apos;t matter at what number you begin. (Example:{" "}
-                <Code>131.png</Code>, <Code>132.png</Code>).
-              </ListItem>
-            </UnorderedList>
-            <Heading size="subtitle.sm" mt={4}>
-              Options
-            </Heading>
-            <UnorderedList>
-              <ListItem>
-                Images and other file types can be used in combination.
-                <br />
-                <small>
-                  They both have to follow the asset naming convention above.
-                  (Example: <Code>0.png</Code> and <Code>0.mp4</Code>,{" "}
-                  <Code>1.png</Code> and <Code>1.glb</Code>, etc.)
-                </small>
-              </ListItem>
-              <ListItem>
-                When uploading files, we will upload them and pin them to IPFS
-                automatically for you. If you already have the files uploaded,
-                you can add an <Code>image</Code> and/or{" "}
-                <Code>animation_url</Code> column and add the IPFS hashes there.{" "}
-                <Link download color="blue.500" href="/example-with-ipfs.csv">
-                  Download example.csv
-                </Link>
-              </ListItem>
-              <ListItem>
-                If you want to make your media files map to your NFTs, you can
-                add add the name of your files to the <Code>image</Code> and{" "}
-                <Code>animation_url</Code> column.{" "}
-                <Link download color="blue.500" href="/example-with-maps.csv">
-                  Download example.csv
-                </Link>
-              </ListItem>
-            </UnorderedList>
+          <Flex
+            gap={{ base: 4, md: 8 }}
+            direction={{ base: "column", md: "row" }}
+          >
+            <Flex direction={"column"} gap={2} w={{ base: "100%", md: "50%" }}>
+              <Heading size="subtitle.sm">Requirements</Heading>
+              <UnorderedList>
+                <ListItem>
+                  Files <em>must</em> contain one .csv or .json file with
+                  metadata. -{" "}
+                  <Link download color="blue.500" href="/example.csv">
+                    Download example.csv
+                  </Link>
+                  .{" "}
+                  <Link download color="blue.500" href="/example.json">
+                    Download example.json
+                  </Link>
+                  .
+                </ListItem>
+                <ListItem>
+                  The csv <em>must</em> have a <Code>name</Code> column, which
+                  defines the name of the NFT.
+                </ListItem>
+                <ListItem>
+                  Asset names <em>must</em> be sequential
+                  0,1,2,3...n.[extension]. It doesn&apos;t matter at what number
+                  you begin. (Example: <Code>131.png</Code>,{" "}
+                  <Code>132.png</Code>).
+                </ListItem>
+              </UnorderedList>
+            </Flex>
+            <Flex direction={"column"} gap={2} w={{ base: "100%", md: "50%" }}>
+              <Heading size="subtitle.sm" mt={4}>
+                Options
+              </Heading>
+              <UnorderedList>
+                <ListItem>
+                  Images and other file types can be used in combination.
+                  <br />
+                  <small>
+                    They both have to follow the asset naming convention above.
+                    (Example: <Code>0.png</Code> and <Code>0.mp4</Code>,{" "}
+                    <Code>1.png</Code> and <Code>1.glb</Code>, etc.)
+                  </small>
+                </ListItem>
+                <ListItem>
+                  When uploading files, we will upload them and pin them to IPFS
+                  automatically for you. If you already have the files uploaded,
+                  you can add an <Code>image</Code> and/or{" "}
+                  <Code>animation_url</Code> column and add the IPFS hashes
+                  there.{" "}
+                  <Link download color="blue.500" href="/example-with-ipfs.csv">
+                    Download example.csv
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  If you want to make your media files map to your NFTs, you can
+                  add add the name of your files to the <Code>image</Code> and{" "}
+                  <Code>animation_url</Code> column.{" "}
+                  <Link download color="blue.500" href="/example-with-maps.csv">
+                    Download example.csv
+                  </Link>
+                </ListItem>
+              </UnorderedList>
+            </Flex>
           </Flex>
         </Flex>
       </Container>

@@ -47,6 +47,7 @@ export const ContractIdImage: React.FC<ContractIdImageProps> = ({
     <Skeleton isLoaded={publishMetadata.isSuccess}>
       {logo ? (
         <Image
+          alt=""
           boxSize={boxSize}
           src={replaceIpfsUrl(logo)}
           borderRadius="full"

@@ -1,5 +1,6 @@
 import { removeEmptyValues } from "./parseAttributes";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
+import Papa from "papaparse";
 
 export interface CSVData extends Record<string, string | undefined> {
   name: string;
@@ -57,7 +58,7 @@ function sortAscending(a: File, b: File) {
   );
 }
 
-export const getAcceptedFiles = async (acceptedFiles: File[]) => {
+const getAcceptedFiles = async (acceptedFiles: File[]) => {
   const jsonFiles = acceptedFiles
     .filter((f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"))
     .sort(sortAscending);
@@ -119,7 +120,7 @@ export const convertToOsStandard = (obj: NFTMetadataInput["attributes"]) => {
   return removeEmptyValues(attributes);
 };
 
-export const getMergedData = (
+const getMergedData = (
   csvData: Papa.ParseResult<CSVData> | undefined,
   jsonData: any,
   imageFiles: File[],
@@ -190,6 +191,37 @@ export const getMergedData = (
     return [];
   }
 };
+
+export async function processInputData(
+  files: File[],
+): Promise<NFTMetadataInput[]> {
+  const { csv, json, images, videos } = await getAcceptedFiles(files);
+  if (json) {
+    return getMergedData(undefined, json, images, videos);
+  } else if (csv) {
+    Papa.parse<CSVData>(csv, {
+      header: true,
+      transformHeader,
+      complete: (results) => {
+        const validResults: Papa.ParseResult<CSVData> = {
+          ...results,
+          data: [],
+        };
+        for (let i = 0; i < results.data.length; i++) {
+          if (!results.errors.find((e) => e.row === i)) {
+            if (results.data[i].name) {
+              validResults.data.push(results.data[i]);
+            }
+          }
+        }
+        return getMergedData(validResults, undefined, images, videos);
+      },
+    });
+  }
+  throw new Error(
+    'No valid files found. Please upload a ".csv" or ".json" file.',
+  );
+}
 
 export const shuffleData = (array: NFTMetadataInput[]) =>
   array

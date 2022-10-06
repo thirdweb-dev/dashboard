@@ -1,18 +1,17 @@
 import { NFTGetAllTable } from "./components/table";
 import { Flex, Icon, useDisclosure } from "@chakra-ui/react";
 import { useLazyMint } from "@thirdweb-dev/react/solana";
-import { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import type { NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { NFTMintForm } from "contract-ui/tabs/nfts/components/mint-form";
 import { BatchLazyMint } from "core-ui/batch-upload/batch-lazy-mint";
+import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Drawer, Heading } from "tw-components";
-import { shuffleData } from "utils/batch";
 
 export const NFTDropPanel: React.FC<{
   program: NFTDrop;
@@ -37,7 +36,6 @@ export const NFTSingleUploadButton: React.FC<{ program: NFTDrop }> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mutation = useLazyMint(program);
-  // TODO (sol) not cast as any here
   return (
     <>
       <Drawer
@@ -47,7 +45,7 @@ export const NFTSingleUploadButton: React.FC<{ program: NFTDrop }> = ({
         onClose={onClose}
         isOpen={isOpen}
       >
-        <NFTMintForm lazyMintMutation={mutation as any} ecosystem="solana" />
+        <NFTMintForm lazyMintMutation={mutation} ecosystem="solana" />
       </Drawer>
       <Button
         colorScheme="primary"
@@ -71,81 +69,63 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
     progress: 0,
     total: 100,
   });
-  const [nftData, setNftData] = useState<NFTMetadataInput[]>([]);
-  const mintBatch = useLazyMint(program, (event: UploadProgressEvent) => {
-    setProgress(event);
-  });
+
+  const mintBatchMutation = useLazyMint(
+    program,
+    (event: UploadProgressEvent) => {
+      setProgress(event);
+    },
+  );
 
   const { onSuccess, onError } = useTxNotifications(
     "Batch uploaded successfully",
     "Error uploading batch",
   );
 
-  const onSubmit = (formData: {
-    name?: string | undefined;
-    image?: any;
-    description?: string | undefined;
-    password?: string | undefined;
-    confirmPassword?: string | undefined;
-    shuffle: boolean;
-    selectedReveal: string;
-  }) => {
-    if (formData.selectedReveal === "instant") {
-      trackEvent({
-        category: "nft",
-        action: "batch-upload-instant",
-        label: "attempt",
-      });
-      mintBatch.mutate(
-        {
-          metadatas: formData.shuffle ? shuffleData(nftData) : nftData,
-        },
-        {
-          onSuccess: () => {
-            trackEvent({
-              category: "nft",
-              action: "batch-upload-instant",
-              label: "success",
-            });
-            onSuccess();
-            onClose();
-          },
-          onError: (error) => {
-            trackEvent({
-              category: "nft",
-              action: "batch-upload-instant",
-              label: "error",
-              error,
-            });
-            onError(error);
-          },
-          onSettled: () => {
-            setProgress({
-              progress: 0,
-              total: 100,
-            });
-          },
-        },
-      );
-    }
-  };
   return (
     <>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
-        size="full"
+        size="xl"
         onClose={onClose}
         isOpen={isOpen}
       >
         <BatchLazyMint
           ecosystem="solana"
-          isRevealable={false}
-          nftData={nftData}
-          setNftData={setNftData}
-          progress={progress}
-          onSubmit={onSubmit}
-        />
+          onSubmit={async ({ data }) => {
+            trackEvent({
+              category: "nft",
+              action: "batch-upload-instant",
+              label: "attempt",
+            });
+            try {
+              await mintBatchMutation.mutateAsync(data);
+              trackEvent({
+                category: "nft",
+                action: "batch-upload-instant",
+                label: "success",
+              });
+              onSuccess();
+              onClose();
+            } catch (error) {
+              trackEvent({
+                category: "nft",
+                action: "batch-upload-instant",
+                label: "error",
+                error,
+              });
+              onError(error);
+            } finally {
+              setProgress({
+                progress: 0,
+                total: 100,
+              });
+            }
+          }}
+        >
+          <ProgressBox progress={progress} />
+        </BatchLazyMint>
       </Drawer>
       <Button
         colorScheme="primary"

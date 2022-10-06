@@ -8,20 +8,16 @@ import {
   useLazyMint,
   useTotalCount,
 } from "@thirdweb-dev/react";
-import { NFTMetadataInput } from "@thirdweb-dev/sdk";
-import {
-  UploadProgressEvent,
-  ValidContractInstance,
-} from "@thirdweb-dev/sdk/evm";
+import { UploadProgressEvent } from "@thirdweb-dev/sdk/evm";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { detectFeatures } from "components/contract-components/utils";
+import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { Button, Drawer } from "tw-components";
-import { shuffleData } from "utils/batch";
 
 interface BatchLazyMintButtonProps {
   contractQuery: ReturnType<typeof useContract>;
@@ -38,7 +34,6 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
     progress: 0,
     total: 100,
   });
-  const [nftData, setNftData] = useState<NFTMetadataInput[]>([]);
 
   const detectedState = extensionDetectedState({
     contractQuery,
@@ -50,147 +45,87 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
     "ERC1155Revealable",
   ]);
 
-  const mintBatch = useLazyMint(
+  const mintBatchMutation = useLazyMint(
     contractQuery.contract,
     (event: UploadProgressEvent) => {
       setProgress(event);
     },
   );
 
-  const mintDelayedRevealBatch = useDelayedRevealLazyMint(
+  const mintDelayedRevealBatchMutation = useDelayedRevealLazyMint(
     contractQuery.contract as RevealableContract,
     (event: UploadProgressEvent) => {
       setProgress(event);
     },
   );
 
-  const { onSuccess, onError } = useTxNotifications(
+  const txNotifications = useTxNotifications(
     "Batch uploaded successfully",
     "Error uploading batch",
   );
-
-  const onSubmit = (formData: {
-    name?: string | undefined;
-    image?: any;
-    description?: string | undefined;
-    password?: string | undefined;
-    confirmPassword?: string | undefined;
-    shuffle: boolean;
-    selectedReveal: string;
-  }) => {
-    if (formData.selectedReveal === "delayed" && formData.password) {
-      trackEvent({
-        category: "nft",
-        action: "batch-upload-delayed",
-        label: "attempt",
-      });
-      mintDelayedRevealBatch.mutate(
-        {
-          placeholder: {
-            name: formData.name,
-            description: formData.description || "",
-            image: formData.image,
-          },
-          metadatas: formData.shuffle ? shuffleData(nftData) : nftData,
-          password: formData.password,
-        },
-        {
-          onSuccess: () => {
-            trackEvent({
-              category: "nft",
-              action: "batch-upload-delayed",
-              label: "success",
-            });
-            onSuccess();
-            setNftData([]);
-            onClose();
-            setProgress({
-              progress: 0,
-              total: 100,
-            });
-          },
-          onError: (error) => {
-            trackEvent({
-              category: "nft",
-              action: "batch-upload-delayed",
-              label: "error",
-              error,
-            });
-            setProgress({
-              progress: 0,
-              total: 100,
-            });
-            onError(error);
-          },
-        },
-      );
-    }
-    if (formData.selectedReveal === "instant") {
-      trackEvent({
-        category: "nft",
-        action: "batch-upload-instant",
-        label: "attempt",
-      });
-      mintBatch.mutate(
-        {
-          metadatas: formData.shuffle ? shuffleData(nftData) : nftData,
-        },
-        {
-          onSuccess: () => {
-            trackEvent({
-              category: "nft",
-              action: "batch-upload-instant",
-              label: "success",
-            });
-            onSuccess();
-            onClose();
-          },
-          onError: (error) => {
-            trackEvent({
-              category: "nft",
-              action: "batch-upload-instant",
-              label: "error",
-              error,
-            });
-            onError(error);
-          },
-          onSettled: () => {
-            setProgress({
-              progress: 0,
-              total: 100,
-            });
-          },
-        },
-      );
-    }
-  };
 
   if (detectedState !== "enabled") {
     return null;
   }
 
   return (
-    <MinterOnly
-      contract={contractQuery?.contract as unknown as ValidContractInstance}
-    >
+    <MinterOnly contract={contractQuery?.contract}>
       <Drawer
         allowPinchZoom
         preserveScrollBarGap
-        size="full"
+        size="xl"
         onClose={onClose}
         isOpen={isOpen}
       >
         <BatchLazyMint
-          onSubmit={onSubmit}
+          onSubmit={async ({ reavealType, data }) => {
+            // nice, we can set up everything the same for both the only thing that changes is the action string
+            const action = `batch-upload-${reavealType}` as const;
+
+            trackEvent({
+              category: "nft",
+              action,
+              label: "attempt",
+            });
+            try {
+              if (reavealType === "instant") {
+                // instant reveal
+                await mintBatchMutation.mutateAsync(data);
+              } else {
+                // otherwise it's delayed reveal
+                await mintDelayedRevealBatchMutation.mutateAsync(data);
+              }
+
+              trackEvent({
+                category: "nft",
+                action,
+                label: "success",
+              });
+              txNotifications.onSuccess();
+              onClose();
+            } catch (error) {
+              trackEvent({
+                category: "nft",
+                action,
+                label: "error",
+                error,
+              });
+              txNotifications.onError(error);
+            } finally {
+              setProgress({
+                progress: 0,
+                total: 100,
+              });
+            }
+          }}
           nextTokenIdToMint={BigNumber.from(
             nextTokenIdToMint.data || 0,
           ).toNumber()}
           ecosystem="evm"
           isRevealable={isRevealable}
-          nftData={nftData}
-          setNftData={setNftData}
-          progress={progress}
-        />
+        >
+          <ProgressBox progress={progress} />
+        </BatchLazyMint>
       </Drawer>
       <Button
         colorScheme="primary"

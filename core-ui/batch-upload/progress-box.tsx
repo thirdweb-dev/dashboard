@@ -1,4 +1,4 @@
-import { Progress } from "@chakra-ui/react";
+import { Flex, Progress } from "@chakra-ui/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { useEffect, useState } from "react";
 import { Text } from "tw-components";
@@ -24,14 +24,14 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
   }, [isFinished]);
 
   return (
-    <>
+    <Flex w="full" gap={3} direction="column">
       {progress.progress !== 0 && (
         <Progress
           borderRadius="md"
           mt="12px"
-          size="lg"
           hasStripe
           colorScheme="blue"
+          transition="500ms ease"
           value={(progress.progress / progress.total) * 100}
         />
       )}
@@ -40,6 +40,6 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
           This may take a while.
         </Text>
       )}
-    </>
+    </Flex>
   );
 };

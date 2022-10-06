@@ -2,7 +2,6 @@ import {
   Box,
   BoxProps,
   Center,
-  Code,
   Flex,
   HStack,
   Icon,
@@ -18,7 +17,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import type { NFTMetadata } from "@thirdweb-dev/sdk";
+import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";
@@ -29,24 +28,32 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Column, usePagination, useTable } from "react-table";
-import { Text } from "tw-components";
+import { Card, CodeBlock, Text } from "tw-components";
 import { parseDescription } from "utils/parseDescription";
 
 const FileImage: React.FC<ImageProps> = ({ src, ...props }) => {
-  const img = useImageFileOrUrl(src);
-  return <Image {...props} src={img} />;
+  const img = useImageFileOrUrl(
+    typeof src === "string" && src.startsWith("ipfs://")
+      ? replaceIpfsUrl(src)
+      : src,
+  );
+  return <Image alt="" {...props} src={img} />;
 };
 
 const FileVideo: React.FC<
   BoxProps & Omit<React.ComponentProps<"video">, "ref">
 > = ({ src, ...props }) => {
-  const video = useImageFileOrUrl(src);
+  const video = useImageFileOrUrl(
+    typeof src === "string" && src.startsWith("ipfs://")
+      ? replaceIpfsUrl(src)
+      : src,
+  );
   return <Box as="video" {...props} src={video} />;
 };
 interface BatchTableProps {
-  data: NFTMetadata[];
+  data: NFTMetadataInput[];
   portalRef: React.RefObject<HTMLDivElement>;
-  nextTokenIdToMint: number;
+  nextTokenIdToMint?: number;
 }
 
 export const BatchTable: React.FC<BatchTableProps> = ({
@@ -55,62 +62,43 @@ export const BatchTable: React.FC<BatchTableProps> = ({
   nextTokenIdToMint,
 }) => {
   const columns = useMemo(() => {
-    return [
-      {
+    let cols: Column<NFTMetadataInput>[] = [];
+    if (nextTokenIdToMint !== undefined) {
+      cols = cols.concat({
         Header: "Token ID",
         accessor: (_row, index) => nextTokenIdToMint + index,
-      },
+      });
+    }
+
+    cols = cols.concat([
       {
         Header: "Image",
         accessor: (row) => row.image,
-        Cell: ({ cell: { value } }: { cell: { value?: string } }) =>
-          // We do this so users can see a preview of their IPFS hashes when batch uploading
-          typeof value === "string" && value.startsWith("ipfs://") ? (
-            <FileImage
-              flexShrink={0}
-              boxSize={24}
-              objectFit="contain"
-              src={value ? replaceIpfsUrl(value) : undefined}
-              alt=""
-            />
-          ) : value ? (
-            <FileImage
-              flexShrink={0}
-              boxSize={24}
-              objectFit="contain"
-              src={value}
-              alt=""
-            />
-          ) : null,
+        Cell: ({ cell: { value } }: { cell: { value?: string } }) => (
+          <FileImage
+            flexShrink={0}
+            boxSize={24}
+            objectFit="contain"
+            src={value}
+            alt=""
+          />
+        ),
       },
       {
         Header: "Animation Url",
         accessor: (row) => row.animation_url,
-        Cell: ({ cell: { value } }: { cell: { value?: string } }) =>
-          // We do this so users can see a preview of their IPFS hashes when batch uploading
-          typeof value === "string" && value.startsWith("ipfs://") ? (
-            <FileVideo
-              flexShrink={0}
-              boxSize={24}
-              objectFit="contain"
-              src={value ? replaceIpfsUrl(value) : undefined}
-              autoPlay
-              playsInline
-              muted
-              loop
-            />
-          ) : value ? (
-            <FileVideo
-              flexShrink={0}
-              boxSize={24}
-              objectFit="contain"
-              src={value}
-              autoPlay
-              playsInline
-              muted
-              loop
-            />
-          ) : null,
+        Cell: ({ cell: { value } }: { cell: { value?: string } }) => (
+          <FileVideo
+            flexShrink={0}
+            boxSize={24}
+            objectFit="contain"
+            src={value}
+            autoPlay
+            playsInline
+            muted
+            loop
+          />
+        ),
       },
       { Header: "Name", accessor: (row) => row.name },
       {
@@ -120,13 +108,19 @@ export const BatchTable: React.FC<BatchTableProps> = ({
       {
         Header: "Properties",
         accessor: (row) => row.attributes || row.properties,
-        Cell: ({ cell }: { cell: any }) => (
-          <Code whiteSpace="pre">{JSON.stringify(cell.value, null, 2)}</Code>
-        ),
+        Cell: ({ cell }: { cell: any }) =>
+          cell.value ? (
+            <CodeBlock
+              canCopy={false}
+              code={JSON.stringify(cell.value || {}, null, 2)}
+              language="json"
+            />
+          ) : null,
       },
       { Header: "External URL", accessor: (row) => row.external_url },
       { Header: "Background Color", accessor: (row) => row.background_color },
-    ] as Column<NFTMetadata>[];
+    ]);
+    return cols;
   }, [nextTokenIdToMint]);
 
   const {
@@ -163,15 +157,15 @@ export const BatchTable: React.FC<BatchTableProps> = ({
   // Render the UI for your table
   return (
     <Flex flexGrow={1} overflow="auto">
-      <Box w="100%">
+      <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
         <Table {...getTableProps()}>
-          <Thead>
+          <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
             {headerGroups.map((headerGroup) => (
               // eslint-disable-next-line react/jsx-key
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()}>
+                  <Th {...column.getHeaderProps()} py={5}>
                     <Text as="label" size="label.md">
                       {column.render("Header")}
                     </Text>
@@ -185,11 +179,17 @@ export const BatchTable: React.FC<BatchTableProps> = ({
               prepareRow(row);
               return (
                 // eslint-disable-next-line react/jsx-key
-                <Tr {...row.getRowProps()}>
+                <Tr
+                  {...row.getRowProps()}
+                  borderBottomWidth={1}
+                  _last={{ borderBottomWidth: 0 }}
+                >
                   {row.cells.map((cell) => {
                     return (
                       // eslint-disable-next-line react/jsx-key
-                      <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
+                      <Td {...cell.getCellProps()} borderBottomWidth="inherit">
+                        {cell.render("Cell")}
+                      </Td>
                     );
                   })}
                 </Tr>
@@ -197,7 +197,7 @@ export const BatchTable: React.FC<BatchTableProps> = ({
             })}
           </Tbody>
         </Table>
-      </Box>
+      </Card>
 
       <Portal containerRef={portalRef}>
         <Center w="100%">
