@@ -5,6 +5,7 @@ import {
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
 import { ens } from "components/contract-components/hooks";
+import { ProgramClaimConditionsTab } from "program-ui/common/program-claim-conditions";
 import { ProgramCodeTab } from "program-ui/common/program-code";
 
 // import { useEffect } from "react";
@@ -24,10 +25,10 @@ export function useRouteConfig(ecosystem: "evm" | "solana", address: string) {
 
   // we know what we're doing here, importantly ecosystem is NEVER allowed to change.
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useProgramRoueConfig(address);
+  return useProgramRouteConfig(address);
 }
 
-export function useProgramRoueConfig(programAddress: string): EnhancedRoute[] {
+export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
   return [
     {
       title: "Overview",
@@ -36,6 +37,11 @@ export function useProgramRoueConfig(programAddress: string): EnhancedRoute[] {
         import("components/pages/program").then(({ ProgramOverviewTab }) => (
           <ProgramOverviewTab address={programAddress} />
         )),
+    },
+    {
+      title: "Claim Conditions",
+      path: "/claim-conditions",
+      element: <ProgramClaimConditionsTab address={programAddress} />,
     },
     {
       title: "Code",
