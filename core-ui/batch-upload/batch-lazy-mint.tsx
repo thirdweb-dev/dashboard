@@ -43,11 +43,11 @@ import { processInputData, shuffleData } from "utils/batch";
 import { z } from "zod";
 
 type DelayedSubmit = {
-  reavealType: "delayed";
+  revealType: "delayed";
   data: DelayedRevealLazyMintInput;
 };
 type InstantSubmit = {
-  reavealType: "instant";
+  revealType: "instant";
   data: { metadatas: NFTMetadataInput[] };
 };
 
@@ -148,14 +148,14 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
         // in solana there is only instant submit
         if (props.ecosystem === "solana") {
           return props.onSubmit({
-            reavealType: "instant",
+            revealType: "instant",
             data: { metadatas: shuffledMetadatas },
           });
         } else {
           // check submit is instant
           if (data.revealType === "instant") {
             return props.onSubmit({
-              reavealType: "instant",
+              revealType: "instant",
               data: { metadatas: shuffledMetadatas },
             });
           } else {
@@ -176,7 +176,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
             }
             // submit
             return props.onSubmit({
-              reavealType: "delayed",
+              revealType: "delayed",
               data: {
                 metadatas: shuffledMetadatas,
                 password: data.password,
