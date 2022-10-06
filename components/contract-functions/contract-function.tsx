@@ -162,7 +162,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
       >
         <List
           overflow="auto"
-          h={{ base: "300px", md: "500px" }}
+          h={{ base: "300px", md: "100%" }}
           minH="100%"
           pr={{ base: 0, md: 3 }}
           mb={{ base: 3, md: 0 }}

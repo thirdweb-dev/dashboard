@@ -1,5 +1,9 @@
 import { Route } from "@tanstack/react-location";
-import { contractType, useContract } from "@thirdweb-dev/react";
+import {
+  contractType,
+  useContract,
+  useContractRead,
+} from "@thirdweb-dev/react";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
@@ -15,6 +19,7 @@ export function useContractRouteConfig(
   contractAddress?: string,
 ): EnhancedRoute[] {
   const contractQuery = useContract(contractAddress);
+  const { data: appURI } = useContractRead(contractQuery.contract, "appURI");
 
   const contractTypeQuery = contractType.useQuery(contractAddress);
   const embedEnabled =
@@ -23,8 +28,6 @@ export function useContractRouteConfig(
     contractTypeQuery.data === "edition-drop" ||
     contractTypeQuery.data === "token-drop" ||
     contractTypeQuery.data === "signature-drop";
-
-  const appUriEnabled = contractQuery.data?.appURI.get() !== undefined;
 
   return [
     {
@@ -152,14 +155,14 @@ export function useContractRouteConfig(
     },
     {
       title: "App",
-      path: "app",
+      path: "appuri",
       element: () =>
         import("../tabs/appuri/page").then(({ CustomContractAppURIPage }) => (
           <CustomContractAppURIPage contractAddress={contractAddress} />
         )),
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
-        : appUriEnabled
+        : appURI
         ? "enabled"
         : "disabled",
     },

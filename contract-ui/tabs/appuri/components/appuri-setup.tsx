@@ -1,7 +1,7 @@
-import { useBreakpointValue } from "@chakra-ui/media-query";
-import { Flex, FormControl, Input, Stack } from "@chakra-ui/react";
+import { Center, Flex, FormControl, Input, Stack } from "@chakra-ui/react";
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
 import { BaseContract } from "ethers";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Card, CodeBlock, FormLabel, Heading } from "tw-components";
 
@@ -25,7 +25,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   appURI,
   contract,
 }) => {
-  const { register, watch, getValues, getFieldState } = useForm<{
+  const { register, watch, getValues, setValue } = useForm<{
     appURI: string;
   }>({
     defaultValues: {
@@ -34,6 +34,9 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
     reValidateMode: "onChange",
   });
 
+  useEffect(() => {
+    setValue("appURI", appURI || "");
+  }, [appURI, setValue]);
   const iframeSrc = buildIframeSrc(appURI);
 
   const embedCode = `<iframe
@@ -52,14 +55,16 @@ frameborder="0"
             <FormLabel>Current App URI</FormLabel>
             <Input type="url" {...register("appURI")} />
           </FormControl>
-          <Button
-            colorScheme="purple"
-            w="auto"
-            variant="outline"
-            onClick={() => contract?.appURI.set(getValues("appURI"))}
-          >
-            Save
-          </Button>
+          <Center>
+            <Button
+              colorScheme="purple"
+              w="50%"
+              disabled={watch("appURI") === appURI}
+              onClick={() => contract?.appURI.set(getValues("appURI"))}
+            >
+              Save
+            </Button>
+          </Center>
         </Stack>
         <Stack as={Card} w={{ base: "100%", md: "50%" }}>
           <Heading size="title.sm">Embed Code</Heading>
