@@ -6,7 +6,7 @@ import { Button, Link, Text } from "tw-components";
 
 export const FormComponent: React.FC = () => {
   const [address, setAddress] = useState("");
-  const [transactionLink, setTransactionLink] = useState("abc");
+  const [transactionLink, setTransactionLink] = useState("");
   const [error, setError] = useState("");
 
   const { mutate, isLoading } = useMutation(
@@ -49,13 +49,19 @@ export const FormComponent: React.FC = () => {
           bg="#0098EE"
           borderColor="#0098EE"
           color="#F2F2F7"
-          disabled={isLoading}
+          disabled={isLoading || transactionLink.length > 0}
           w="175px"
           onClick={() => {
             mutate();
           }}
         >
-          {isLoading ? <Spinner /> : "Request Funds"}
+          {isLoading ? (
+            <Spinner />
+          ) : transactionLink ? (
+            "Funds Sent!"
+          ) : (
+            "Request Funds"
+          )}
         </Button>
       </FormControl>
 
