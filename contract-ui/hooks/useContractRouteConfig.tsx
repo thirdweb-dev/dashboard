@@ -127,7 +127,8 @@ export function useContractRouteConfig(
       path: "permissions",
       isEnabled: extensionDetectedState({
         contractQuery,
-        feature: "Permissions",
+        matchStrategy: "any",
+        feature: ["Permissions", "PermissionsEnumerable"],
       }),
       element: () =>
         import("../tabs/permissions/page").then(
