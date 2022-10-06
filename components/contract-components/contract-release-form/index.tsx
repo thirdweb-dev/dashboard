@@ -242,6 +242,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   _hover={{ shadow: "sm" }}
                   renderPreview={(fileUrl) => (
                     <Image
+                      alt=""
                       w="100%"
                       h="100%"
                       src={replaceIpfsUrl(fileUrl)}

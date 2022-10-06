@@ -129,6 +129,7 @@ export default function OGReleaseImage() {
             <Flex direction="row" align="center" gap="14px">
               {metadata.releaseLogo && (
                 <Image
+                  alt={metadata.name}
                   src={replaceIpfsUrl(metadata.releaseLogo)}
                   borderRadius="full"
                   boxSize="64px"

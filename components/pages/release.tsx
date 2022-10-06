@@ -67,6 +67,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
         <Flex gap={4} alignItems="center">
           {release?.logo ? (
             <Image
+              alt={release.name}
               borderRadius="full"
               src={replaceIpfsUrl(release.logo)}
               boxSize={14}

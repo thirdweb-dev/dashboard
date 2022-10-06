@@ -1,4 +1,4 @@
-import { useWeb3 } from "@3rdweb-sdk/react";
+import { useWeb3 } from "@3rdweb-sdk/react/hooks/useWeb3";
 import {
   Center,
   Flex,
@@ -155,7 +155,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
           rightIcon={<FiChevronDown />}
         >
           <Flex direction="row" gap={3} align="center">
-            <Image boxSize={6} src={solWallet.wallet?.adapter.icon} />
+            <Image alt="" boxSize={6} src={solWallet.wallet?.adapter.icon} />
             <Text size="label.sm">
               {shortenString(solWallet.publicKey.toBase58())}
             </Text>

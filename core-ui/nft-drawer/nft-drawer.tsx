@@ -8,10 +8,8 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  chakra,
   usePrevious,
 } from "@chakra-ui/react";
-import { ThirdwebNftMedia } from "@thirdweb-dev/react";
 import type { NFT } from "@thirdweb-dev/sdk";
 import React from "react";
 import {
@@ -21,6 +19,7 @@ import {
   CodeBlock,
   Drawer,
   Heading,
+  NFTMedia,
   Text,
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -31,8 +30,6 @@ interface NFTDrawerProps {
   data: NFT | null;
   tabs: NFTDrawerTab[];
 }
-
-const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
 
 export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   isOpen,
@@ -58,7 +55,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     >
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
-          <ChakraThirdwebNftMedia
+          <NFTMedia
             metadata={renderData.metadata}
             requireInteraction
             flexShrink={0}
