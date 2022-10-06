@@ -14,9 +14,12 @@ export function isPossibleSolanaAddress(address?: string) {
 }
 
 // if a string is a valid address or ens name
-export function isPossibleEVMAddress(address?: string) {
+export function isPossibleEVMAddress(address?: string, ignoreEns?: boolean) {
   if (!address) {
     return false;
   }
-  return utils.isAddress(address) || isEnsName(address);
+  if (isEnsName(address) && !ignoreEns) {
+    return true;
+  }
+  return utils.isAddress(address);
 }

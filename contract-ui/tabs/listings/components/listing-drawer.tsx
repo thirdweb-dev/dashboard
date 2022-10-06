@@ -6,10 +6,9 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  chakra,
   usePrevious,
 } from "@chakra-ui/react";
-import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
+import { useAddress } from "@thirdweb-dev/react";
 import type {
   AuctionListing,
   DirectListing,
@@ -17,7 +16,14 @@ import type {
 } from "@thirdweb-dev/sdk/evm";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
-import { Card, CodeBlock, Drawer, Heading, Text } from "tw-components";
+import {
+  Card,
+  CodeBlock,
+  Drawer,
+  Heading,
+  NFTMedia,
+  Text,
+} from "tw-components";
 
 interface NFTDrawerProps {
   contract: Marketplace;
@@ -25,9 +31,6 @@ interface NFTDrawerProps {
   onClose: () => void;
   data: AuctionListing | DirectListing | null;
 }
-
-const ChakraThirdwebNftMedia = chakra(ThirdwebNftMedia);
-
 export const ListingDrawer: React.FC<NFTDrawerProps> = ({
   isOpen,
   onClose,
@@ -112,7 +115,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
     >
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
-          <ChakraThirdwebNftMedia
+          <NFTMedia
             metadata={renderData.asset}
             requireInteraction
             flexShrink={0}
