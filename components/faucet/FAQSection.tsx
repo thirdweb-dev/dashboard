@@ -7,39 +7,88 @@ import {
   Box,
   Flex,
 } from "@chakra-ui/react";
-import { Heading } from "tw-components";
+import { Heading, Link } from "tw-components";
 
 const FAQs = [
   {
-    question: "What is the Solana faucet?",
+    question: "What are devnet funds?",
     answer:
-      "The Solana faucet is a tool that allows you to get free Solana tokens for testing and development purposes. You can use the tokens to build your web3 app on the Solana blockchain.",
+      "Solana Devnet is a test network where developers can test out their applications before deploying them to mainnet. Devnet transactions use test SOL tokens, so that developers do not need to spend money to test their applications.",
   },
   {
-    question: "How do I get free Solana tokens?",
+    question: "How much will I get?",
+    answer: "You will receive 1 SOL ",
+  },
+  {
+    question: "How long will it take to get my devnet tokens?",
     answer:
-      "To get free Solana tokens, you need to enter your Solana address and click on the Get tokens button. You will receive 1 SOL token in your wallet.",
+      "You should receive your testnet funds immediately. If not, please click the “View on Solscan” link and see if your transaction has been confirmed.",
   },
 ];
 
 export const FaqSection: React.FC = () => {
   return (
     <Flex mt={12} flexDir="column">
-      <Heading>FAQ</Heading>
-      <Accordion mt="2" allowMultiple>
-        {FAQs.map(({ question, answer }) => (
-          <AccordionItem key={question}>
-            <h2>
-              <AccordionButton>
-                <Box flex="1" textAlign="left">
-                  {question}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>{answer}</AccordionPanel>
+      <Heading>FAQs</Heading>
+      <Accordion
+        mt="4"
+        allowMultiple
+        border="1px solid #E5E7EB1F !important"
+        rounded="lg !important"
+      >
+        {FAQs.map(({ question, answer }, i) => (
+          <AccordionItem
+            key={question}
+            roundedTop={i === 0 ? "lg !important" : "none"}
+          >
+            <AccordionButton
+              bg="#161A21"
+              roundedTop={i === 0 ? "lg !important" : "none"}
+            >
+              <Box
+                flex="1"
+                textAlign="left"
+                color="white"
+                fontSize="18px"
+                fontWeight="semibold"
+                py={1}
+              >
+                {question}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel pb={4} bg="#1B2129">
+              {answer}
+            </AccordionPanel>
           </AccordionItem>
         ))}
+        <AccordionItem roundedBottom="lg">
+          <AccordionButton bg="#161A21" roundedBottom="lg">
+            <Box
+              flex="1"
+              textAlign="left"
+              color="white"
+              fontSize="18px"
+              fontWeight="semibold"
+              py={1}
+            >
+              Why am I not able to get funds?
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+          <AccordionPanel pb={4} bg="#1B2129">
+            Please try again after a few minutes. If the issue persists, please
+            contact us on
+            <Link href="https://discord.gg/thirdweb" textDecor="underline">
+              Discord
+            </Link>
+            or
+            <Link href="https://twitter.com/thirdweb_" textDecor="underline">
+              Twitter
+            </Link>
+            .
+          </AccordionPanel>
+        </AccordionItem>
       </Accordion>
     </Flex>
   );
