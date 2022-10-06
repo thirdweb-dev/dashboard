@@ -311,20 +311,22 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
                       </Text>
                     </Flex>
                   </Flex>
-                  <TransactionButton
-                    ecosystem={props.ecosystem}
-                    mt={4}
-                    colorScheme="primary"
-                    transactionCount={1}
-                    isDisabled={!nftMetadatas.length}
-                    type="submit"
-                    isLoading={form.formState.isSubmitting}
-                    loadingText={`Uploading ${nftMetadatas.length} NFTs...`}
-                    maxW={{ base: "100%", md: "61%" }}
-                  >
-                    Upload {nftMetadatas.length} NFTs
-                  </TransactionButton>
-                  {props.children}
+                  <Box maxW={{ base: "100%", md: "61%" }}>
+                    <TransactionButton
+                      ecosystem={props.ecosystem}
+                      mt={4}
+                      colorScheme="primary"
+                      transactionCount={1}
+                      isDisabled={!nftMetadatas.length}
+                      type="submit"
+                      isLoading={form.formState.isSubmitting}
+                      loadingText={`Uploading ${nftMetadatas.length} NFTs...`}
+                      w="full"
+                    >
+                      Upload {nftMetadatas.length} NFTs
+                    </TransactionButton>
+                    {props.children}
+                  </Box>
                   <Text size="body.sm" mt={2}>
                     <TrackedLink
                       href="https://thirdweb.notion.site/Batch-Upload-Troubleshooting-dbfc0d3afa6e4d1b98b6199b449c1596"
