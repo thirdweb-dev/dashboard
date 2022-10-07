@@ -20,7 +20,10 @@ import {
 import { NFTDropUpdateableConditionsInputSchema } from "@thirdweb-dev/sdk/solana";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
-import { PriceInput } from "contract-ui/tabs/claim-conditions/components/claim-conditions";
+import {
+  PriceInput,
+  QuantityInputWithUnlimited,
+} from "contract-ui/tabs/claim-conditions/components/claim-conditions";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect, useMemo, useState } from "react";
@@ -73,7 +76,7 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
   const program = useProgram(address, "nft-drop");
   const query = useClaimConditions(program.data);
   const mutation = useSetClaimConditions(program.data);
-  const [seeForm, setSeeForm] = useState(!!query.data?.goLiveDate);
+  const [seeForm, setSeeForm] = useState(query.data?.maxClaimable !== "0");
 
   const transformedQueryData = useMemo(() => {
     const data = query.data;
@@ -83,11 +86,12 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
     }
 
     return {
-      goLiveDate: data.goLiveDate ? new Date(data.goLiveDate) : new Date(),
+      startTime: data.startTime ? new Date(data.startTime) : new Date(),
       price: data.price.value,
       currencyAddress: data.currencyAddress || "SOLANA_NATIVE_TOKEN",
       primarySaleRecipient: data.primarySaleRecipient,
       sellerFeeBasisPoints: data.sellerFeeBasisPoints,
+      maxClaimable: data.maxClaimable,
     };
   }, [query.data]);
 
@@ -140,7 +144,7 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
             {
               primarySaleRecipient: d.primarySaleRecipient,
               sellerFeeBasisPoints: d.sellerFeeBasisPoints,
-              goLiveDate: d.goLiveDate,
+              startTime: d.startTime,
               price: d.price,
               ...(d.currencyAddress !== "SOL (Solana)" && {
                 currencyAddress: d.currencyAddress,
@@ -200,23 +204,46 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
                   gap={4}
                 >
                   <FormControl
-                    isInvalid={!!getFieldState(`goLiveDate`, formState).error}
+                    isInvalid={!!getFieldState(`startTime`, formState).error}
                   >
                     <Heading as={FormLabel} size="label.md">
                       When will this drop start?
                     </Heading>
                     <Input
                       type="datetime-local"
-                      value={toDateTimeLocal(watch("goLiveDate"))}
+                      value={toDateTimeLocal(watch("startTime"))}
                       onChange={(e) =>
-                        setValue(`goLiveDate`, new Date(e.target.value))
+                        setValue(`startTime`, new Date(e.target.value))
                       }
                     />
                     <FormErrorMessage>
-                      {getFieldState(`goLiveDate`, formState).error?.message}
+                      {getFieldState(`startTime`, formState).error?.message}
                     </FormErrorMessage>
                     <FormHelperText>
                       This time is in your local timezone.
+                    </FormHelperText>
+                  </FormControl>
+                  <FormControl
+                    isInvalid={!!getFieldState(`maxClaimable`, formState).error}
+                  >
+                    <Heading as={FormLabel} size="label.md">
+                      How many total NFTs can be claimed?
+                    </Heading>
+
+                    <QuantityInputWithUnlimited
+                      isRequired
+                      decimals={9}
+                      value={watch("maxClaimable")?.toString() || "0"}
+                      onChange={(value) =>
+                        setValue(`maxClaimable`, value.toString())
+                      }
+                    />
+
+                    <FormErrorMessage>
+                      {getFieldState(`maxClaimable`, formState).error?.message}
+                    </FormErrorMessage>
+                    <FormHelperText>
+                      This number includes NFTs that have already been claimed.
                     </FormHelperText>
                   </FormControl>
                 </Flex>
