@@ -82,8 +82,6 @@ export const BatchLazyMintButton: React.FC<BatchLazyMintButtonProps> = ({
             // nice, we can set up everything the same for both the only thing that changes is the action string
             const action = `batch-upload-${revealType}` as const;
 
-            console.log({ revealType });
-
             trackEvent({
               category: "nft",
               action,
