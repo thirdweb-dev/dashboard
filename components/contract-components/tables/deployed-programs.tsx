@@ -25,16 +25,17 @@ const columnHelper =
   createColumnHelper<ReturnType<typeof useAllProgramsList>["data"][number]>();
 
 const columns = [
-  columnHelper.accessor("name", {
+  columnHelper.accessor("programName", {
+    header: "Name",
     cell: (info) => <Heading size="label.md">{info.getValue()}</Heading>,
   }),
 
-  columnHelper.accessor("type", {
-    header: "Conctract Type",
+  columnHelper.accessor("programType", {
+    header: "Program Type",
     cell: (info) => (
       <Flex align="center" gap={2}>
         <ChakraNextImage
-          src={FeatureIconMap[info.getValue()]}
+          src={FeatureIconMap[info.getValue() as keyof typeof FeatureIconMap]}
           alt={info.getValue().toString()}
           boxSize={8}
         />
@@ -49,7 +50,8 @@ const columns = [
       </Flex>
     ),
   }),
-  columnHelper.accessor("address", {
+  columnHelper.accessor("programAddress", {
+    header: "Address",
     cell: (info) => <AddressCopyButton address={info.getValue()} />,
   }),
   columnHelper.accessor("network", {
@@ -108,7 +110,9 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
         showMore={{ pageSize: limit }}
         onRowClick={(row) => {
           router.push(
-            `/${SupportedSolanaNetworkToUrlMap[row.network]}/${row.address}`,
+            `/${SupportedSolanaNetworkToUrlMap[row.network]}/${
+              row.programAddress
+            }`,
             undefined,
             { shallow: true },
           );

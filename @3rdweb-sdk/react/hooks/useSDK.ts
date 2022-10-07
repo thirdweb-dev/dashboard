@@ -216,8 +216,8 @@ function useProgramList(
       invariant(address, "address is required");
       const sdk = getSOLThirdwebSDK(network);
       // TODO remove this sorting when we have a stable return array from the SDK
-      return (await sdk.registry.getAccountsForWallet(address))
-        .sort((a, b) => (a.name > b.name ? 1 : -1))
+      return (await sdk.registry.getDeployedPrograms(address))
+        .sort((a, b) => (a.programName > b.programName ? 1 : -1))
         .map((p) => ({ ...p, network }));
     },
     { enabled: !!address && !!network },
