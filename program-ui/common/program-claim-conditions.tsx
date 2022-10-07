@@ -146,7 +146,7 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
               sellerFeeBasisPoints: d.sellerFeeBasisPoints,
               startTime: d.startTime,
               price: d.price,
-              ...(d.currencyAddress !== "SOL (Solana)" && {
+              ...(d.currencyAddress !== "SOLANA_NATIVE_TOKEN" && {
                 currencyAddress: d.currencyAddress,
               }),
             },

@@ -1,9 +1,6 @@
 import { useDashboardSOLNetworkId } from "@3rdweb-sdk/react";
 import { Flex, Input, Select, SelectProps } from "@chakra-ui/react";
-import {
-  ProgramCurrencyMetadata,
-  SOLANA_CURRENCIES,
-} from "constants/currencies";
+import { CurrencyMetadata, SOLANA_CURRENCIES } from "constants/currencies";
 import React, { useMemo, useState } from "react";
 import { Button } from "tw-components";
 
@@ -32,8 +29,7 @@ export const ProgramCurrencySelector: React.FC<
       initialValue !== customCurrency
     ) {
       return !currencies?.find(
-        (currency: ProgramCurrencyMetadata) =>
-          currency.address === initialValue,
+        (currency: CurrencyMetadata) => currency.address === initialValue,
       );
     }
 
@@ -128,7 +124,7 @@ export const ProgramCurrencySelector: React.FC<
       >
         {dashboardNetwork &&
           !hideDefaultCurrencies &&
-          currencies.map((currency: ProgramCurrencyMetadata) => (
+          currencies.map((currency: CurrencyMetadata) => (
             <option key={currency.address} value={currency.address}>
               {currency.symbol} ({currency.name})
             </option>

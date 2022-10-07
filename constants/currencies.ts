@@ -12,12 +12,6 @@ export interface CurrencyMetadata {
   symbol: string;
 }
 
-export interface ProgramCurrencyMetadata {
-  address: string | undefined;
-  name: string;
-  symbol: string;
-}
-
 const Ethereum: CurrencyMetadata[] = [
   {
     address: constants.AddressZero,
@@ -371,7 +365,7 @@ const BinanceTestnet: CurrencyMetadata[] = [
   },
 ];
 
-const Solana: ProgramCurrencyMetadata[] = [
+const Solana: CurrencyMetadata[] = [
   {
     address: "SOLANA_NATIVE_TOKEN",
     name: "Solana",
@@ -394,9 +388,9 @@ const Solana: ProgramCurrencyMetadata[] = [
   },
 ];
 
-const SolanaDevnet: ProgramCurrencyMetadata[] = [
+const SolanaDevnet: CurrencyMetadata[] = [
   {
-    address: undefined,
+    address: "SOLANA_NATIVE_TOKEN",
     name: "Solana",
     symbol: "SOL",
   },
@@ -426,7 +420,7 @@ export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.BinanceSmartChainTestnet]: BinanceTestnet,
 } as const;
 
-export const SOLANA_CURRENCIES: Record<string, ProgramCurrencyMetadata[]> = {
+export const SOLANA_CURRENCIES: Record<string, CurrencyMetadata[]> = {
   solana: Solana,
   devnet: SolanaDevnet,
 } as const;
