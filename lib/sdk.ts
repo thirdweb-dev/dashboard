@@ -3,7 +3,7 @@ import {
   SUPPORTED_CHAIN_ID,
 } from "@thirdweb-dev/sdk/evm";
 import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
-import { ThirdwebStorage } from "@thirdweb-dev/storage";
+import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
 import { getEVMRPC, getSOLRPC } from "constants/rpc";
 import { DashboardSolanaNetwork } from "utils/network";
 
@@ -49,7 +49,12 @@ export function getSOLThirdwebSDK(
     return SOL_SDK_MAP.get(network) as SOLThirdwebSDK;
   }
   const rpcUrl = getSOLRPC(network);
-  const sdk = SOLThirdwebSDK.fromNetwork(rpcUrl, StorageSingleton);
+  const sdk = SOLThirdwebSDK.fromNetwork(
+    rpcUrl,
+    new ThirdwebStorage({
+      uploader: new IpfsUploader({ uploadWithGatewayUrl: true }),
+    }),
+  );
   SOL_SDK_MAP.set(network, sdk);
   return sdk;
 }
