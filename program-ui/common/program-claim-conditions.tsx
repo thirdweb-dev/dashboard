@@ -87,7 +87,7 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
 
     return {
       startTime: data.startTime ? new Date(data.startTime) : new Date(),
-      price: data.price.value,
+      price: data.price.displayValue,
       currencyAddress: data.currencyAddress || "SOLANA_NATIVE_TOKEN",
       primarySaleRecipient: data.primarySaleRecipient,
       sellerFeeBasisPoints: data.sellerFeeBasisPoints,
@@ -145,6 +145,7 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
               primarySaleRecipient: d.primarySaleRecipient,
               sellerFeeBasisPoints: d.sellerFeeBasisPoints,
               startTime: d.startTime,
+              maxClaimable: d.maxClaimable,
               price: d.price,
               ...(d.currencyAddress !== "SOLANA_NATIVE_TOKEN" && {
                 currencyAddress: d.currencyAddress,
