@@ -1,12 +1,6 @@
 import { AppURISetup } from "./components/appuri-setup";
 import { Flex } from "@chakra-ui/react";
-import {
-  useContract,
-  useContractRead,
-  useContractType,
-} from "@thirdweb-dev/react";
-import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { useEffect, useState } from "react";
+import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 interface CustomContractAppURIPageProps {
   contractAddress?: string;
