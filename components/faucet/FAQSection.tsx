@@ -78,11 +78,11 @@ export const FaqSection: React.FC = () => {
           </AccordionButton>
           <AccordionPanel pb={4} bg="#1B2129">
             Please try again after a few minutes. If the issue persists, please
-            contact us on
+            contact us on{" "}
             <Link href="https://discord.gg/thirdweb" textDecor="underline">
-              Discord
+              Discord{" "}
             </Link>
-            or
+            or{" "}
             <Link href="https://twitter.com/thirdweb_" textDecor="underline">
               Twitter
             </Link>
