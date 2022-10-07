@@ -16,7 +16,6 @@ import {
 } from "@tanstack/react-location";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { Logo } from "components/logo";
-import { ChainDeprecation } from "components/notices/ChainDeprecation";
 import {
   EnhancedRoute,
   useRouteConfig,
@@ -131,7 +130,6 @@ export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
         {/* main content */}
         <Container maxW="container.page">
           <Box py={8}>
-            <ChainDeprecation />
             {/* TODO figure out where this belongs */}
             {/* <ConditionsNotSet address={address} /> */}
             <Outlet />
