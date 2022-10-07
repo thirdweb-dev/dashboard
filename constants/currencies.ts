@@ -12,6 +12,12 @@ export interface CurrencyMetadata {
   symbol: string;
 }
 
+export interface ProgramCurrencyMetadata {
+  address: string | undefined;
+  name: string;
+  symbol: string;
+}
+
 const Ethereum: CurrencyMetadata[] = [
   {
     address: constants.AddressZero,
@@ -365,6 +371,42 @@ const BinanceTestnet: CurrencyMetadata[] = [
   },
 ];
 
+const Solana: ProgramCurrencyMetadata[] = [
+  {
+    address: "SOLANA_NATIVE_TOKEN",
+    name: "Solana",
+    symbol: "SOL",
+  },
+  {
+    address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    name: "USD Coin",
+    symbol: "USDC",
+  },
+  {
+    address: "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+    name: "Wrapped ETH",
+    symbol: "WETH",
+  },
+  {
+    address: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+    name: "Tether",
+    symbol: "USDT",
+  },
+];
+
+const SolanaDevnet: ProgramCurrencyMetadata[] = [
+  {
+    address: undefined,
+    name: "Solana",
+    symbol: "SOL",
+  },
+  {
+    address: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    name: "USD Coin",
+    symbol: "USDC",
+  },
+];
+
 export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.Mainnet]: Ethereum,
   [ChainId.Goerli]: Goerli,
@@ -382,4 +424,9 @@ export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.ArbitrumGoerli]: ArbitrumTestnet, // TODO adjust wrapped token address
   [ChainId.BinanceSmartChainMainnet]: BinanceMainnet,
   [ChainId.BinanceSmartChainTestnet]: BinanceTestnet,
+} as const;
+
+export const SOLANA_CURRENCIES: Record<string, ProgramCurrencyMetadata[]> = {
+  solana: Solana,
+  devnet: SolanaDevnet,
 } as const;

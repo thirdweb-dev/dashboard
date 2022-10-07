@@ -1,3 +1,4 @@
+import { ProgramCurrencySelector } from "./program-currency-selector";
 import {
   Alert,
   AlertDescription,
@@ -19,7 +20,6 @@ import {
 import { NFTDropUpdateableConditionsInputSchema } from "@thirdweb-dev/sdk/solana";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
-import { CurrencySelector } from "components/shared/CurrencySelector";
 import { PriceInput } from "contract-ui/tabs/claim-conditions/components/claim-conditions";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -85,14 +85,14 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
     return {
       goLiveDate: data.goLiveDate ? new Date(data.goLiveDate) : new Date(),
       price: data.price.value,
-      currencyAddress: data.currencyAddress,
+      currencyAddress: data.currencyAddress || "SOLANA_NATIVE_TOKEN",
       primarySaleRecipient: data.primarySaleRecipient,
       sellerFeeBasisPoints: data.sellerFeeBasisPoints,
     };
   }, [query.data]);
 
-  console.log("claimConditions", query.data);
-  console.log({ transformedQueryData });
+  /*   console.log("claimConditions", query.data);
+  console.log({ transformedQueryData }); */
   const {
     register,
     setValue,
@@ -136,25 +136,35 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
             label: "attempt",
           });
           console.log("handleSubmit", d);
-          mutation.mutateAsync(d, {
-            onSuccess: () => {
-              trackEvent({
-                category: "nft",
-                action: "set-claim-conditions",
-                label: "success",
-              });
-              /*                 form.reset({ phases: variables.phases }); */
-              onSuccess();
+          mutation.mutateAsync(
+            {
+              primarySaleRecipient: d.primarySaleRecipient,
+              sellerFeeBasisPoints: d.sellerFeeBasisPoints,
+              goLiveDate: d.goLiveDate,
+              price: d.price,
+              ...(d.currencyAddress !== "SOL (Solana)" && {
+                currencyAddress: d.currencyAddress,
+              }),
             },
-            onError: (error) => {
-              trackEvent({
-                category: "nft",
-                action: "set-claim-conditions",
-                label: "error",
-              });
-              onError(error);
+            {
+              onSuccess: () => {
+                trackEvent({
+                  category: "nft",
+                  action: "set-claim-conditions",
+                  label: "success",
+                });
+                onSuccess();
+              },
+              onError: (error) => {
+                trackEvent({
+                  category: "nft",
+                  action: "set-claim-conditions",
+                  label: "error",
+                });
+                onError(error);
+              },
             },
-          });
+          );
         })}
         direction="column"
         as="form"
@@ -245,14 +255,20 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
                     >
                       What currency do you want to use?
                     </Heading>
-                    <CurrencySelector
-                      // TODO get native_token_address
-                      /*                           value={currencyAddress || NATIVE_TOKEN_ADDRESS} */
-                      value={watch("currencyAddress") || ""}
+                    <ProgramCurrencySelector
+                      value={watch("currencyAddress") || "SOLANA_NATIVE_TOKEN"}
                       onChange={(e) =>
                         setValue(`currencyAddress`, e.target.value)
                       }
                     />
+                    {/*                     <CurrencySelector
+                      // TODO get native_token_address
+                                                value={currencyAddress || NATIVE_TOKEN_ADDRESS}
+                      value={watch("currencyAddress") || ""}
+                      onChange={(e) =>
+                        setValue(`currencyAddress`, e.target.value)
+                      }
+                    /> */}
                     <FormErrorMessage>
                       {
                         getFieldState(`currencyAddress`, formState).error
