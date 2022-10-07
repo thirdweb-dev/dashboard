@@ -1,21 +1,20 @@
 import { Flex, FormControl, Input, Spinner } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useEffect, useState } from "react";
 import { Button, Link, Text } from "tw-components";
 
 export const FormComponent: React.FC = () => {
   const { publicKey } = useWallet();
-  const [address, setAddress] = useState(publicKey?.toString() || "");
+  const [address, setAddress] = useState("abc");
   const [transactionLink, setTransactionLink] = useState("");
   const [error, setError] = useState("");
   const trackEvent = useTrack();
 
   useEffect(() => {
     if (publicKey) {
-      setAddress(publicKey.toString());
+      setAddress("abc");
     }
   }, [publicKey]);
 
@@ -26,28 +25,37 @@ export const FormComponent: React.FC = () => {
         action: "request-funds",
         label: "attempt",
       });
-      return await axios.post("/api/faucet/solana", {
-        address,
+      const response = await fetch("/api/faucet/solana", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ address }),
       });
+      const data = await response.json();
+      return data;
     },
     {
-      onSuccess: (res) => {
-        setTransactionLink(
-          `https://explorer.solana.com/tx/${res.data.txHash}?cluster=devnet`,
-        );
-        trackEvent({
-          category: "solana-faucet",
-          action: "request-funds",
-          label: "success",
-        });
-      },
-      onError: () => {
-        setError("Please try again in sometime");
-        trackEvent({
-          category: "solana-faucet",
-          action: "request-funds",
-          label: "error",
-        });
+      onSuccess: (data) => {
+        if (data.txHash) {
+          setTransactionLink(
+            `https://explorer.solana.com/tx/${data.txHash}?cluster=devnet`,
+          );
+          setError("");
+          trackEvent({
+            category: "solana-faucet",
+            action: "request-funds",
+            label: "success",
+          });
+        }
+        if (data.error) {
+          setError(data.error);
+          trackEvent({
+            category: "solana-faucet",
+            action: "request-funds",
+            label: "error",
+          });
+        }
       },
     },
   );
@@ -74,7 +82,7 @@ export const FormComponent: React.FC = () => {
           bg="#0098EE"
           borderColor="#0098EE"
           color="#F2F2F7"
-          disabled={isLoading || transactionLink.length > 0}
+          disabled={isLoading || transactionLink.length > 0 || !address}
           w="175px"
           onClick={() => {
             mutate();
