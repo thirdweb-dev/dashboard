@@ -95,8 +95,6 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
     };
   }, [query.data]);
 
-  /*   console.log("claimConditions", query.data);
-  console.log({ transformedQueryData }); */
   const {
     register,
     setValue,
@@ -139,7 +137,6 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
             action: "set-claim-conditions",
             label: "attempt",
           });
-          console.log("handleSubmit", d);
           mutation.mutateAsync(
             {
               primarySaleRecipient: d.primarySaleRecipient,
