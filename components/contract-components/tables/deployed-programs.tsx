@@ -35,17 +35,17 @@ const columns = [
     cell: (info) => (
       <Flex align="center" gap={2}>
         <ChakraNextImage
-          src={FeatureIconMap[info.getValue() as keyof typeof FeatureIconMap]}
-          alt={info.getValue().toString()}
+          src={FeatureIconMap[info?.getValue() as keyof typeof FeatureIconMap]}
+          alt={info?.getValue()?.toString()}
           boxSize={8}
         />
         <Text size="label.md" textTransform="capitalize">
           {info
-            .getValue()
-            .toString()
-            .split("-")
-            .join(" ")
-            .replace("nft", "NFT")}
+            ?.getValue()
+            ?.toString()
+            ?.split("-")
+            ?.join(" ")
+            ?.replace("nft", "NFT")}
         </Text>
       </Flex>
     ),
