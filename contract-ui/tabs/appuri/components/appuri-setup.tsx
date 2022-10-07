@@ -1,4 +1,11 @@
-import { Center, Flex, FormControl, Input, Stack } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  FormControl,
+  HStack,
+  Input,
+  Stack,
+} from "@chakra-ui/react";
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
 import { BaseContract } from "ethers";
 import { useEffect } from "react";
@@ -56,14 +63,25 @@ frameborder="0"
             <Input type="url" {...register("appURI")} />
           </FormControl>
           <Center>
-            <Button
-              colorScheme="purple"
-              w="50%"
-              disabled={watch("appURI") === appURI}
-              onClick={() => contract?.appURI.set(getValues("appURI"))}
-            >
-              Save
-            </Button>
+            <HStack>
+              <Button
+                colorScheme="purple"
+                w="auto"
+                variant="outline"
+                onClick={() => window.open(iframeSrc, "_blank")}
+              >
+                View App
+              </Button>
+
+              <Button
+                colorScheme="purple"
+                w="50%"
+                disabled={watch("appURI") === appURI}
+                onClick={() => contract?.appURI.set(getValues("appURI"))}
+              >
+                Save
+              </Button>
+            </HStack>
           </Center>
         </Stack>
         <Stack as={Card} w={{ base: "100%", md: "50%" }}>
@@ -77,17 +95,6 @@ frameborder="0"
           />
         </Stack>
       </Flex>
-
-      <Stack align="center" gap={2}>
-        <Button
-          colorScheme="purple"
-          w="auto"
-          variant="outline"
-          onClick={() => window.open(iframeSrc, "_blank")}
-        >
-          Open App
-        </Button>
-      </Stack>
     </Flex>
   );
 };
