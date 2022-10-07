@@ -7,14 +7,14 @@ import { Button, Link, Text } from "tw-components";
 
 export const FormComponent: React.FC = () => {
   const { publicKey } = useWallet();
-  const [address, setAddress] = useState("abc");
+  const [address, setAddress] = useState(publicKey?.toBase58() || "");
   const [transactionLink, setTransactionLink] = useState("");
   const [error, setError] = useState("");
   const trackEvent = useTrack();
 
   useEffect(() => {
     if (publicKey) {
-      setAddress("abc");
+      setAddress(publicKey?.toBase58());
     }
   }, [publicKey]);
 
