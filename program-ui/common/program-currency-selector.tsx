@@ -1,46 +1,47 @@
+import { useDashboardSOLNetworkId } from "@3rdweb-sdk/react";
 import { Flex, Input, Select, SelectProps } from "@chakra-ui/react";
-import { useSDKChainId } from "@thirdweb-dev/react";
-import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
-import { constants, utils } from "ethers";
+import { CurrencyMetadata, SOLANA_CURRENCIES } from "constants/currencies";
 import React, { useMemo, useState } from "react";
 import { Button } from "tw-components";
-import { OtherAddressZero } from "utils/zeroAddress";
 
-interface CurrencySelectorProps extends SelectProps {
+interface ProgramCurrencySelectorProps extends SelectProps {
   value: string;
   small?: boolean;
   hideDefaultCurrencies?: boolean;
 }
 
-export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
-  value,
-  onChange,
-  small,
-  hideDefaultCurrencies,
-  ...props
-}) => {
-  const chainId = useSDKChainId();
-
+export const ProgramCurrencySelector: React.FC<
+  ProgramCurrencySelectorProps
+> = ({ value, onChange, small, hideDefaultCurrencies, ...props }) => {
   const [isAddingCurrency, setIsAddingCurrency] = useState(false);
   const [editCustomCurrency, setEditCustomCurrency] = useState("");
   const [customCurrency, setCustomCurrency] = useState("");
   const [initialValue] = useState(value);
 
+  const dashboardNetwork = useDashboardSOLNetworkId();
+
+  const currencies =
+    SOLANA_CURRENCIES[dashboardNetwork as keyof typeof SOLANA_CURRENCIES];
+
   const isCustomCurrency: boolean = useMemo(() => {
-    if (initialValue && chainId && initialValue !== customCurrency) {
-      return !CURRENCIES[chainId]?.find(
-        (currency: CurrencyMetadata) =>
-          currency.address.toLowerCase() === initialValue.toLowerCase(),
+    if (
+      initialValue !== "SOLANA_NATIVE_TOKEN" &&
+      initialValue !== customCurrency
+    ) {
+      return !currencies?.find(
+        (currency: CurrencyMetadata) => currency.address === initialValue,
       );
     }
 
     return false;
-  }, [chainId, customCurrency, initialValue]);
+  }, [initialValue, customCurrency, currencies]);
+
+  console.log({ value, currencies, isCustomCurrency });
 
   const addCustomCurrency = () => {
-    if (!utils.isAddress(editCustomCurrency)) {
+    /*     if (!utils.isAddress(editCustomCurrency)) {
       return;
-    }
+    } */
     if (editCustomCurrency) {
       setCustomCurrency(editCustomCurrency);
       if (onChange) {
@@ -86,7 +87,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             borderRadius="0px 4px 4px 0px"
             colorScheme="primary"
             onClick={addCustomCurrency}
-            isDisabled={!utils.isAddress(editCustomCurrency)}
+            /*             isDisabled={!utils.isAddress(editCustomCurrency)} */
           >
             +
           </Button>
@@ -116,38 +117,25 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
       )}
       <Select
         position="relative"
-        value={
-          value?.toLowerCase() === constants.AddressZero.toLowerCase()
-            ? OtherAddressZero.toLowerCase()
-            : value?.toLowerCase()
-        }
+        value={value}
         onChange={onChange}
         placeholder="Select Currency"
         {...props}
       >
-        {chainId &&
+        {dashboardNetwork &&
           !hideDefaultCurrencies &&
-          CURRENCIES[chainId]
-            .filter(
-              (currency: CurrencyMetadata) =>
-                currency.address.toLowerCase() !==
-                constants.AddressZero.toLowerCase(),
-            )
-            .map((currency: CurrencyMetadata) => (
-              <option
-                key={currency.address}
-                value={currency.address.toLowerCase()}
-              >
-                {currency.symbol} ({currency.name})
-              </option>
-            ))}
+          currencies.map((currency: CurrencyMetadata) => (
+            <option key={currency.address} value={currency.address}>
+              {currency.symbol} ({currency.name})
+            </option>
+          ))}
         {isCustomCurrency && (
-          <option key={initialValue} value={initialValue.toLowerCase()}>
+          <option key={initialValue} value={initialValue}>
             {initialValue}
           </option>
         )}
         {customCurrency && (
-          <option key={customCurrency} value={customCurrency.toLowerCase()}>
+          <option key={customCurrency} value={customCurrency}>
             {customCurrency}
           </option>
         )}
