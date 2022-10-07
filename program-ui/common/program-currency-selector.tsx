@@ -36,12 +36,7 @@ export const ProgramCurrencySelector: React.FC<
     return false;
   }, [initialValue, customCurrency, currencies]);
 
-  console.log({ value, currencies, isCustomCurrency });
-
   const addCustomCurrency = () => {
-    /*     if (!utils.isAddress(editCustomCurrency)) {
-      return;
-    } */
     if (editCustomCurrency) {
       setCustomCurrency(editCustomCurrency);
       if (onChange) {
