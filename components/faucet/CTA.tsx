@@ -1,5 +1,5 @@
 import { AspectRatio, Flex } from "@chakra-ui/react";
-import { Card, LinkButton, Text } from "tw-components";
+import { Button, Card, Text, TrackedLink } from "tw-components";
 
 export const CTA: React.FC = () => {
   return (
@@ -17,29 +17,34 @@ export const CTA: React.FC = () => {
           Now that you have testnet funds, build your web3 app
         </Text>
         <Flex gap="4">
-          <LinkButton
-            href="/dashboard"
-            fontSize="20px"
-            color="black"
-            background="rgba(255,255,255,1)"
-            _hover={{
-              background: "rgba(255,255,255,0.9) !important",
-            }}
-            px="6"
-            py="4"
-          >
-            Start building
-          </LinkButton>
+          <TrackedLink href="/dashboard" category="solana-faucet">
+            <Button
+              px="6"
+              py="4"
+              fontSize="18px"
+              color="black"
+              background="rgba(255,255,255,1)"
+              _hover={{
+                background: "rgba(255,255,255,0.9) !important",
+              }}
+            >
+              Start building
+            </Button>
+          </TrackedLink>
 
-          <LinkButton
+          <TrackedLink
             href="https://portal.thirdweb.com"
-            bg="rgba(255, 255, 255, 0.1)"
-            border="1px solid rgba(255, 255, 255, 0.2)"
-            px="6"
+            category="solana-faucet"
             isExternal
           >
-            View docs
-          </LinkButton>
+            <Button
+              bg="rgba(255, 255, 255, 0.1)"
+              border="1px solid rgba(255, 255, 255, 0.2)"
+              px="6"
+            >
+              View docs
+            </Button>
+          </TrackedLink>
         </Flex>
       </Card>
     </AspectRatio>

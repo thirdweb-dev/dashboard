@@ -1,16 +1,31 @@
 import { Flex, FormControl, Input, Spinner } from "@chakra-ui/react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useEffect, useState } from "react";
 import { Button, Link, Text } from "tw-components";
 
 export const FormComponent: React.FC = () => {
-  const [address, setAddress] = useState("");
+  const { publicKey } = useWallet();
+  const [address, setAddress] = useState(publicKey?.toString() || "");
   const [transactionLink, setTransactionLink] = useState("");
   const [error, setError] = useState("");
+  const trackEvent = useTrack();
+
+  useEffect(() => {
+    if (publicKey) {
+      setAddress(publicKey.toString());
+    }
+  }, [publicKey]);
 
   const { mutate, isLoading } = useMutation(
     async () => {
+      trackEvent({
+        category: "solana-faucet",
+        action: "request-funds",
+        label: "attempt",
+      });
       return await axios.post("/api/faucet/solana", {
         address,
       });
@@ -20,9 +35,19 @@ export const FormComponent: React.FC = () => {
         setTransactionLink(
           `https://explorer.solana.com/tx/${res.data.txHash}?cluster=devnet`,
         );
+        trackEvent({
+          category: "solana-faucet",
+          action: "request-funds",
+          label: "success",
+        });
       },
       onError: () => {
         setError("Please try again in sometime");
+        trackEvent({
+          category: "solana-faucet",
+          action: "request-funds",
+          label: "error",
+        });
       },
     },
   );
@@ -69,7 +94,7 @@ export const FormComponent: React.FC = () => {
         <Text fontSize="18px" color="whiteAlpha.800" mt="4">
           Funds sent successfully!{" "}
           <Link textDecor="underline" isExternal href={transactionLink}>
-            View on Solscan
+            View on Solana Explorer
           </Link>
         </Text>
       )}

@@ -22,7 +22,7 @@ const FAQs = [
   {
     question: "How long will it take to get my devnet tokens?",
     answer:
-      "You should receive your testnet funds immediately. If not, please click the “View on Solscan” link and see if your transaction has been confirmed.",
+      "You should receive your testnet funds immediately. If not, please click the “View on Solana Explorer” link and see if your transaction has been confirmed.",
   },
 ];
 
