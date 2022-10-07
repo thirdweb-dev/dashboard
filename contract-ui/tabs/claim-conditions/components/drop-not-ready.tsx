@@ -1,10 +1,7 @@
-import { AdminOnly } from "@3rdweb-sdk/react";
 import { Flex, Stack } from "@chakra-ui/react";
 import { useClaimConditions, useProgram } from "@thirdweb-dev/react/solana";
-import { detectFeatures } from "components/contract-components/utils";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useState } from "react";
-import { Button, LinkButton, Text } from "tw-components";
+import { Button, Text } from "tw-components";
 
 interface DropNotReadyProps {
   address: string;
@@ -17,11 +14,9 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
 
   const claimConditions = useClaimConditions(program);
 
-  const dropNotReady = true;
-
-  console.log(claimConditions.data);
-
-  const chainName = useSingleQueryParam("networkOrAddress");
+  const dropNotReady =
+    claimConditions.data?.lazyMintedSupply !==
+    claimConditions.data?.totalAvailableSupply;
 
   if (dismissed || !isClaimable || !dropNotReady || !program) {
     return null;
@@ -37,21 +32,16 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
       mb={8}
     >
       <Text color="white">
-        The supply you set for your drop is{" "}
-        {claimConditions.data?.totalAvailableSupply} but you have only lazy
-        minted {claimConditions.data?.lazyMintedSupply} NFTs. You need to lazy
-        mint the rest of your NFTs in order for users to claim them.
+        The supply you&apos;ve set for your drop is{" "}
+        {claimConditions.data?.totalAvailableSupply}{" "}
+        {claimConditions.data?.lazyMintedSupply === 0
+          ? "and you have not lazy minted any yet."
+          : ` but you have only lazy
+        minted ${claimConditions.data?.lazyMintedSupply} NFTs.`}{" "}
+        You need to lazy mint all of your NFTs and set your claim conditions in
+        order for users to start claiming them.
       </Text>
       <Stack direction="row" mt="8px">
-        <LinkButton
-          size="sm"
-          bg="white"
-          color="orange.800"
-          href={`/${chainName}/${program?.publicKey}/nfts`}
-          onClick={() => setDismissed(false)}
-        >
-          Go to my NFTs
-        </LinkButton>
         <Button
           size="sm"
           bg="white"

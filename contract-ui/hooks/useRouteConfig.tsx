@@ -30,7 +30,7 @@ export function useRouteConfig(ecosystem: "evm" | "solana", address: string) {
 }
 
 export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
-  const { data: program } = useProgram(programAddress);
+  const { data: program, isLoading } = useProgram(programAddress);
 
   return [
     {
@@ -45,7 +45,11 @@ export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
       title: "Claim Conditions",
       path: "/claim-conditions",
       element: <ProgramClaimConditionsTab address={programAddress} />,
-      isEnabled: program?.accountType === "nft-drop" ? "enabled" : "disabled",
+      isEnabled: isLoading
+        ? "loading"
+        : program?.accountType === "nft-drop"
+        ? "enabled"
+        : "disabled",
     },
     {
       title: "Code",

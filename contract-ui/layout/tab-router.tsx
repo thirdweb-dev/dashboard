@@ -132,7 +132,6 @@ export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
         {/* main content */}
         <Container maxW="container.page">
           <Box py={8}>
-            {/* TODO figure out where this belongs */}
             {ecosystem === "solana" ? (
               <DropNotReady address={address} />
             ) : (
