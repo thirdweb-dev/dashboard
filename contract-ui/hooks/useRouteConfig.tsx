@@ -1,5 +1,6 @@
 import { Route } from "@tanstack/react-location";
 import { contractType, useContract } from "@thirdweb-dev/react";
+import { useProgram } from "@thirdweb-dev/react/solana";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
@@ -29,6 +30,8 @@ export function useRouteConfig(ecosystem: "evm" | "solana", address: string) {
 }
 
 export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
+  const { data: program } = useProgram(programAddress);
+
   return [
     {
       title: "Overview",
@@ -42,6 +45,7 @@ export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
       title: "Claim Conditions",
       path: "/claim-conditions",
       element: <ProgramClaimConditionsTab address={programAddress} />,
+      isEnabled: program?.accountType === "nft-drop" ? "enabled" : "disabled",
     },
     {
       title: "Code",

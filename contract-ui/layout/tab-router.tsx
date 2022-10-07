@@ -20,6 +20,8 @@ import {
   EnhancedRoute,
   useRouteConfig,
 } from "contract-ui/hooks/useRouteConfig";
+import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/conditions-not-set";
+import { DropNotReady } from "contract-ui/tabs/claim-conditions/components/drop-not-ready";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
@@ -131,7 +133,11 @@ export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
         <Container maxW="container.page">
           <Box py={8}>
             {/* TODO figure out where this belongs */}
-            {/* <ConditionsNotSet address={address} /> */}
+            {ecosystem === "solana" ? (
+              <DropNotReady address={address} />
+            ) : (
+              <ConditionsNotSet address={address} />
+            )}
             <Outlet />
           </Box>
         </Container>
