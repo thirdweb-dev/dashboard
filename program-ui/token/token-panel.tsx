@@ -26,9 +26,6 @@ export const TokenPanel: React.FC<{
           gap={2}
           w="inherit"
         >
-          {/* <TokenBurnButton contractQuery={contractQuery} />
-          <TokenAirdropButton contractQuery={contractQuery} />
-          <TokenTransferButton contractQuery={contractQuery} /> */}
           <TokenMintButton program={program} />
         </ButtonGroup>
       </Flex>
