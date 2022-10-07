@@ -7,7 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: "Please use POST method" });
   }
 
-  const { address } = req.body;
+  const { address } = JSON.parse(req.body);
   const rpcUrl = getSOLRPC("devnet");
 
   try {

@@ -9,7 +9,6 @@ export const FormComponent: React.FC = () => {
   const { publicKey } = useWallet();
   const [address, setAddress] = useState(publicKey?.toBase58() || "");
   const [transactionLink, setTransactionLink] = useState("");
-  const [error, setError] = useState("");
   const trackEvent = useTrack();
 
   useEffect(() => {
@@ -18,22 +17,27 @@ export const FormComponent: React.FC = () => {
     }
   }, [publicKey]);
 
-  const { mutate, isLoading } = useMutation(
+  const { mutate, isLoading, error, isError } = useMutation(
     async () => {
       trackEvent({
         category: "solana-faucet",
         action: "request-funds",
         label: "attempt",
       });
-      const response = await fetch("/api/faucet/solana", {
+      const query = await fetch("/api/faucet/solana", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ address }),
       });
-      const data = await response.json();
-      return data;
+
+      if (query.status >= 400) {
+        throw new Error(
+          await query.json().then((r) => {
+            console.log(r.error);
+            return r.error;
+          }),
+        );
+      }
+      return query.json();
     },
     {
       onSuccess: (data) => {
@@ -41,21 +45,19 @@ export const FormComponent: React.FC = () => {
           setTransactionLink(
             `https://explorer.solana.com/tx/${data.txHash}?cluster=devnet`,
           );
-          setError("");
           trackEvent({
             category: "solana-faucet",
             action: "request-funds",
             label: "success",
           });
         }
-        if (data.error) {
-          setError(data.error);
-          trackEvent({
-            category: "solana-faucet",
-            action: "request-funds",
-            label: "error",
-          });
-        }
+      },
+      onError: () => {
+        trackEvent({
+          category: "solana-faucet",
+          action: "request-funds",
+          label: "error",
+        });
       },
     },
   );
@@ -107,9 +109,9 @@ export const FormComponent: React.FC = () => {
         </Text>
       )}
 
-      {error && (
+      {isError && (
         <Text fontSize="18px" mt="4" color="red.800">
-          {error}
+          {(error as Error).message}
         </Text>
       )}
     </Flex>
