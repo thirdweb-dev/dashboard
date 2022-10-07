@@ -1,4 +1,3 @@
-import { AdminOnly } from "@3rdweb-sdk/react";
 import {
   Alert,
   AlertDescription,
@@ -8,9 +7,7 @@ import {
   Flex,
   FormControl,
   Icon,
-  IconButton,
   Input,
-  Spacer,
   Spinner,
   Stack,
 } from "@chakra-ui/react";
@@ -19,12 +16,7 @@ import {
   useProgram,
   useSetClaimConditions,
 } from "@thirdweb-dev/react/solana";
-import { ValidContractInstance } from "@thirdweb-dev/sdk";
-import {
-  NFTDropConditionsInput,
-  NFTDropUpdateableConditionsInputSchema,
-  NFTDropUpdateableConditionsOutputSchema,
-} from "@thirdweb-dev/sdk/solana";
+import { NFTDropUpdateableConditionsInputSchema } from "@thirdweb-dev/sdk/solana";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
@@ -33,7 +25,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FiPlus, FiTrash } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import {
   Button,
   Card,
