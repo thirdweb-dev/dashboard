@@ -78,6 +78,7 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
   limit = 50,
 }) => {
   const router = useRouter();
+
   return (
     <>
       {!noHeader && (
@@ -107,6 +108,8 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
       <TWTable
         columns={columns}
         data={programListQuery.data}
+        isLoading={programListQuery.isLoading}
+        isFetched={programListQuery.isFetched}
         showMore={{ pageSize: limit }}
         onRowClick={(row) => {
           router.push(
