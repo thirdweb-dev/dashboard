@@ -5,6 +5,7 @@ import { ChakraNextImage } from "components/Image";
 import { TWTable } from "components/shared/TWTable";
 import { FeatureIconMap } from "constants/mappings";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import {
   AddressCopyButton,
@@ -35,17 +36,17 @@ const columns = [
     cell: (info) => (
       <Flex align="center" gap={2}>
         <ChakraNextImage
-          src={FeatureIconMap[info.getValue() as keyof typeof FeatureIconMap]}
-          alt={info.getValue().toString()}
+          src={FeatureIconMap[info?.getValue() as keyof typeof FeatureIconMap]}
+          alt={info?.getValue()?.toString()}
           boxSize={8}
         />
         <Text size="label.md" textTransform="capitalize">
           {info
-            .getValue()
-            .toString()
-            .split("-")
-            .join(" ")
-            .replace("nft", "NFT")}
+            ?.getValue()
+            ?.toString()
+            ?.split("-")
+            ?.join(" ")
+            ?.replace("nft", "NFT")}
         </Text>
       </Flex>
     ),
@@ -78,6 +79,17 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
   limit = 50,
 }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    if (
+      programListQuery.isFetched &&
+      programListQuery.data.length === 0 &&
+      router.asPath === "/dashboard"
+    ) {
+      router.replace("/programs");
+    }
+  }, [programListQuery, router]);
+
   return (
     <>
       {!noHeader && (
@@ -107,6 +119,8 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
       <TWTable
         columns={columns}
         data={programListQuery.data}
+        isLoading={programListQuery.isLoading}
+        isFetched={programListQuery.isFetched}
         showMore={{ pageSize: limit }}
         onRowClick={(row) => {
           router.push(

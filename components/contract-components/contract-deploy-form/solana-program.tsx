@@ -15,7 +15,13 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { FormErrorMessage, FormLabel, Heading, Text } from "tw-components";
+import {
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 import { z } from "zod";
 
 const SOL_DEPLOY_SCHEMAS = {
@@ -122,7 +128,12 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
         </Text>
       </Flex>
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
-        <Flex flexShrink={0} flexGrow={1} maxW={{ base: "100%", md: "160px" }}>
+        <Flex
+          flexShrink={0}
+          flexGrow={1}
+          minW="100px"
+          maxW={{ base: "100%", md: "160px" }}
+        >
           <FormControl
             isRequired={isRequired("image")}
             display="flex"
@@ -140,6 +151,7 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               borderColor="gray.200"
               borderRadius="md"
               transition="all 200ms ease"
+              w="50"
             />
             <FormErrorMessage>
               {getFieldState("image", formState).error?.message}
@@ -207,12 +219,16 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               isRequired={isRequired("itemsAvailable")}
               isInvalid={!!getFieldState("itemsAvailable", formState).error}
             >
-              <FormLabel>Maximum supply</FormLabel>
-
+              <FormLabel>Supply</FormLabel>
               <Input variant="filled" {...register("itemsAvailable")} />
               <FormErrorMessage>
                 {getFieldState("itemsAvailable", formState).error?.message}
               </FormErrorMessage>
+              <FormHelperText>
+                Total amount of NFTs for your drop. All NFTs will need to be
+                lazy minted before any can be claimed. This setting can&apos;t
+                be changed later.
+              </FormHelperText>
             </FormControl>
           )}
         </Flex>

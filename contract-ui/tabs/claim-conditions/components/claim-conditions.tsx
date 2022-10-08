@@ -322,7 +322,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   trackEvent({
                     category: isErc20 ? "token" : "nft",
                     action: "set-claim-conditions",
-                    label: "attempt",
+                    label: "error",
                   });
                   onError(error);
                 },

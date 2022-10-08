@@ -3356,10 +3356,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
   integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
 
-"@thirdweb-dev/react@^3.2.2-nightly-41507d3":
-  version "3.2.2-nightly-41507d3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.2.2-nightly-41507d3.tgz#df8c3c7d4cb1fd609a0b448f5ca7bd7dd212579a"
-  integrity sha512-5pmBy7rE6O+t4OizHnjBWCC2j2/GcSuWg72kCo5Mk6qKSpTO9omVOyJbonYxkWV29DcURY5ourZ6T7PoCVNdVQ==
+"@thirdweb-dev/react@^3.2.2-nightly-b1fa171":
+  version "3.2.2-nightly-b1fa171"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.2.2-nightly-b1fa171.tgz#ae0aa2fc736c6c9a9c57999bcd6c54fc9952e8b5"
+  integrity sha512-C4ZecpHndQZawo96d725CntZybgzdd9vZD2jc7AkZwOuKdJpbsqk85SUGFKk4iSluonG0rrzRXI0pF3uOgAvkw==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3380,10 +3380,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.2.2-nightly-41507d3":
-  version "3.2.2-nightly-41507d3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.2-nightly-41507d3.tgz#b514a303acf34efeebc59096e0f023e50fb201f7"
-  integrity sha512-7qxvLxUuepAITt/ttH9KwLyRwEE6wQ8APpOQOvd/MVA5sZH5qBJK926oPmN6626jbGiWpzKhWGfOpmVJMDvXTg==
+"@thirdweb-dev/sdk@^3.2.2-nightly-b1fa171":
+  version "3.2.2-nightly-b1fa171"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.2.2-nightly-b1fa171.tgz#6f8033c773b900189cf5ef4321a946f62d87c5ec"
+  integrity sha512-QyoEnOYuKdqtm8tg0XymxhasE/GpL4B3XiRCl9Zv/k2jxf5/PXenV0xBC3+mM8V2LhamA8f+KJqe/JIqfTbIFw==
   dependencies:
     "@metaplex-foundation/js" "^0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "^2.2.2"
@@ -3402,6 +3402,7 @@
     merkletreejs "^0.2.24"
     multihashes "^4.0.3"
     tiny-invariant "^1.2.0"
+    tweetnacl "^1.0.3"
     uuid "^9.0.0"
     yaml "^2.1.1"
     zod "^3.11.6"

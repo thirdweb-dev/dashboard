@@ -87,10 +87,7 @@ const BatchLazyMintFormSchema = z
 
     // shared logic
     shuffle: z.boolean().default(false),
-    revealType: z
-      .literal("instant")
-      .or(z.literal("delayed"))
-      .default("instant"),
+    revealType: z.literal("instant").or(z.literal("delayed")).optional(),
 
     // metadata
     metadatas: z.array(z.any()),
@@ -104,12 +101,12 @@ type BatchLazyMintFormType = z.output<typeof BatchLazyMintFormSchema> & {
   metadatas: NFTMetadataInput[];
 };
 
-function useBatchLazyMintForm() {
+function useBatchLazyMintForm(ecosystem: "solana" | "evm") {
   return useForm<BatchLazyMintFormType>({
     resolver: zodResolver(BatchLazyMintFormSchema),
     defaultValues: {
       metadatas: [],
-      revealType: "instant",
+      revealType: ecosystem === "solana" ? "instant" : undefined,
       shuffle: false,
     },
   });
@@ -120,14 +117,25 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
 ) => {
   const [step, setStep] = useState(0);
 
-  const form = useBatchLazyMintForm();
+  const form = useBatchLazyMintForm(props.ecosystem);
+
+  const nftMetadatas = form.watch("metadatas");
+  const hasError = !!form.getFieldState("metadatas", form.formState).error;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles) => {
       try {
-        const data = await processInputData(acceptedFiles);
-        form.setValue("metadatas", data);
+        await processInputData(acceptedFiles, (data) =>
+          form.setValue("metadatas", data),
+        );
       } catch (err) {
+        form.setError("metadatas", {
+          message: "Invalid metadata files",
+          type: "validate",
+        });
+      }
+
+      if (nftMetadatas.length === 0) {
         form.setError("metadatas", {
           message: "Invalid metadata files",
           type: "validate",
@@ -135,9 +143,9 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
       }
     },
   });
-  const nftMetadatas = form.watch("metadatas");
 
   const paginationPortalRef = useRef<HTMLDivElement>(null);
+
   return (
     <Container
       maxW="container.page"
@@ -222,9 +230,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
                   <UploadStep
                     getRootProps={getRootProps}
                     getInputProps={getInputProps}
-                    hasFailed={
-                      !!form.getFieldState("metadatas", form.formState).error
-                    }
+                    hasFailed={hasError}
                     isDragActive={isDragActive}
                   />
                 )}
@@ -246,7 +252,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
                       >
                         <Button
                           borderRadius="md"
-                          isDisabled={nftMetadatas.length === 0}
+                          isDisabled={nftMetadatas.length === 0 || !hasError}
                           onClick={() => {
                             form.reset();
                           }}
@@ -298,7 +304,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
                   props.ecosystem === "evm" ? props.isRevealable : false
                 }
               />
-              {form.watch("revealType") && (
+              {(form.watch("revealType") || props.ecosystem === "solana") && (
                 <>
                   <Flex alignItems="center" gap={3} mt={3}>
                     <Checkbox {...form.register("shuffle")} />

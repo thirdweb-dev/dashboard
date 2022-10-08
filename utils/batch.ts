@@ -194,10 +194,11 @@ const getMergedData = (
 
 export async function processInputData(
   files: File[],
-): Promise<NFTMetadataInput[]> {
+  setData: (data: NFTMetadataInput[]) => void,
+) {
   const { csv, json, images, videos } = await getAcceptedFiles(files);
-  if (json) {
-    return getMergedData(undefined, json, images, videos);
+  if (json.length > 0) {
+    setData(getMergedData(undefined, json, images, videos));
   } else if (csv) {
     Papa.parse<CSVData>(csv, {
       header: true,
@@ -214,13 +215,14 @@ export async function processInputData(
             }
           }
         }
-        return getMergedData(validResults, undefined, images, videos);
+        setData(getMergedData(validResults, undefined, images, videos));
       },
     });
+  } else {
+    throw new Error(
+      'No valid files found. Please upload a ".csv" or ".json" file.',
+    );
   }
-  throw new Error(
-    'No valid files found. Please upload a ".csv" or ".json" file.',
-  );
 }
 
 export const shuffleData = (array: NFTMetadataInput[]) =>
