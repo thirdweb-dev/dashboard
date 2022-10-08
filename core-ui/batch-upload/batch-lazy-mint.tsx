@@ -101,12 +101,12 @@ type BatchLazyMintFormType = z.output<typeof BatchLazyMintFormSchema> & {
   metadatas: NFTMetadataInput[];
 };
 
-function useBatchLazyMintForm() {
+function useBatchLazyMintForm(ecosystem: "solana" | "evm") {
   return useForm<BatchLazyMintFormType>({
     resolver: zodResolver(BatchLazyMintFormSchema),
     defaultValues: {
       metadatas: [],
-      revealType: undefined,
+      revealType: ecosystem === "solana" ? "instant" : undefined,
       shuffle: false,
     },
   });
@@ -117,7 +117,7 @@ export const BatchLazyMint: ComponentWithChildren<BatchLazyMintProps> = (
 ) => {
   const [step, setStep] = useState(0);
 
-  const form = useBatchLazyMintForm();
+  const form = useBatchLazyMintForm(props.ecosystem);
 
   const nftMetadatas = form.watch("metadatas");
   const hasError = !!form.getFieldState("metadatas", form.formState).error;
