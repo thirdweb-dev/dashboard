@@ -12,7 +12,7 @@ const Programs: ThirdwebNextPage = () => {
 
   return (
     <>
-      <Flex gap={8} direction="column">
+      <Flex gap={6} direction="column">
         <Heading>Programs</Heading>
         <Text fontStyle="italic">
           Prebuilt solana progams for you to deploy.

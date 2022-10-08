@@ -4,6 +4,7 @@ import {
   Divider,
   Flex,
   Icon,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -26,6 +27,8 @@ import { Button, Card, Text } from "tw-components";
 type TWTableProps<TRowData> = {
   columns: ColumnDef<TRowData, any>[];
   data: TRowData[];
+  isLoading: boolean;
+  isFetched: boolean;
   onRowClick?: (row: TRowData) => void;
   pagination?: {
     pageSize: number;
@@ -191,7 +194,21 @@ export function TWTable<TRowData>(tableProps: TWTableProps<TRowData>) {
           })}
         </Tbody>
       </Table>
-
+      {tableProps.isLoading && (
+        <Center>
+          <Flex py={4} direction="row" gap={4} align="center">
+            <Spinner size="sm" />
+            <Text>Loading programs</Text>
+          </Flex>
+        </Center>
+      )}
+      {tableProps.data.length === 0 && tableProps.isFetched && (
+        <Center>
+          <Flex py={4} direction="column" gap={4} align="center">
+            <Text>No programs found.</Text>
+          </Flex>
+        </Center>
+      )}
       <ShowMoreButton
         shouldShowMore={slicedData.length < tableProps.data.length}
         shouldShowLess={
