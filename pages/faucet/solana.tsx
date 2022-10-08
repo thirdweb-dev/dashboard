@@ -2,12 +2,15 @@ import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { CTA } from "components/faucet/CTA";
 import { FaqSection } from "components/faucet/FAQSection";
-import FormComponent from "components/faucet/FormComponent";
+import { FormComponent } from "components/faucet/FormComponent";
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
+import { useState } from "react";
 import { Heading } from "tw-components";
 
 const SolanaFaucet: NextPage = () => {
+  const [transactionLink, setTransactionLink] = useState("");
+
   return (
     <AppLayout>
       <NextSeo
@@ -23,8 +26,11 @@ const SolanaFaucet: NextPage = () => {
         <Heading fontSize="20px" color="whiteAlpha.800" my="4">
           Get Solana devnet tokens for free
         </Heading>
-        <FormComponent />
-        <CTA />
+        <FormComponent
+          transactionLink={transactionLink}
+          setTransactionLink={setTransactionLink}
+        />
+        <CTA transactionLink={transactionLink} />
         <FaqSection />
       </Flex>
     </AppLayout>

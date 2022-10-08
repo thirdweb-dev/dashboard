@@ -1,15 +1,23 @@
-import { Flex, FormControl, Input, Spinner } from "@chakra-ui/react";
+import { Flex, FormControl, Input, Spinner, useToast } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useEffect, useState } from "react";
-import { Button, Link, Text } from "tw-components";
+import { Button, Text } from "tw-components";
 
-export const FormComponent: React.FC = () => {
+interface IFormComponentProps {
+  transactionLink: string;
+  setTransactionLink: (link: string) => void;
+}
+
+export const FormComponent: React.FC<IFormComponentProps> = ({
+  transactionLink,
+  setTransactionLink,
+}) => {
   const { publicKey } = useWallet();
   const [address, setAddress] = useState(publicKey?.toBase58() || "");
-  const [transactionLink, setTransactionLink] = useState("");
   const trackEvent = useTrack();
+  const toast = useToast();
 
   useEffect(() => {
     if (publicKey) {
@@ -50,6 +58,13 @@ export const FormComponent: React.FC = () => {
             action: "request-funds",
             label: "success",
           });
+          toast({
+            title: "Success",
+            description: "Funds have been sent to your wallet",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
         }
       },
       onError: (err) => {
@@ -79,6 +94,7 @@ export const FormComponent: React.FC = () => {
           onChange={(e) => setAddress(e.target.value)}
           placeholder="Enter your address"
           value={address}
+          isDisabled={isLoading || transactionLink.length > 0}
         />
 
         <Button
@@ -101,15 +117,6 @@ export const FormComponent: React.FC = () => {
         </Button>
       </FormControl>
 
-      {transactionLink && (
-        <Text fontSize="18px" color="whiteAlpha.800" mt="4">
-          Funds sent successfully!{" "}
-          <Link textDecor="underline" isExternal href={transactionLink}>
-            View on Solana Explorer
-          </Link>
-        </Text>
-      )}
-
       {isError && (
         <Text fontSize="18px" mt="4" color="red.800">
           {(error as Error).message}
@@ -118,4 +125,3 @@ export const FormComponent: React.FC = () => {
     </Flex>
   );
 };
-export default FormComponent;

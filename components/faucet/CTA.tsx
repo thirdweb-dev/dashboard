@@ -1,8 +1,12 @@
 import { AspectRatio, Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import { Card, LinkButton, Text } from "tw-components";
+import { Card, LinkButton, Text, TrackedLink } from "tw-components";
 
-export const CTA: React.FC = () => {
+interface ICTA {
+  transactionLink: string;
+}
+
+export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
   const trackEvent = useTrack();
 
   return (
@@ -19,7 +23,7 @@ export const CTA: React.FC = () => {
         <Text color="white" fontSize="28px" fontWeight="bold" maxW="450px">
           Now that you have testnet funds, build your web3 app
         </Text>
-        <Flex gap="4">
+        <Flex gap="4" align="center">
           <LinkButton
             px="6"
             py="4"
@@ -59,6 +63,17 @@ export const CTA: React.FC = () => {
           >
             View docs
           </LinkButton>
+          {transactionLink && (
+            <TrackedLink
+              fontSize="18px"
+              color="white"
+              href={transactionLink}
+              isExternal
+              category="solana-faucet"
+            >
+              View on Solana Explorer
+            </TrackedLink>
+          )}
         </Flex>
       </Card>
     </AspectRatio>
