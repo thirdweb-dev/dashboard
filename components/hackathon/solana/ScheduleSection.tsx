@@ -23,14 +23,7 @@ export const ScheduleSection: React.FC = () => {
   ];
 
   return (
-    <Flex
-      w="full"
-      flexDir="column"
-      align="center"
-      justify="center"
-      mt={20}
-      px={20}
-    >
+    <VStack mt={20} px={20}>
       <Heading>Schedule</Heading>
       <Flex
         w="full"
@@ -75,6 +68,6 @@ export const ScheduleSection: React.FC = () => {
           </Flex>
         ))}
       </Flex>
-    </Flex>
+    </VStack>
   );
 };

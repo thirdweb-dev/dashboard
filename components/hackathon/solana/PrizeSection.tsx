@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
 export const PrizeSection: React.FC = () => {
@@ -17,7 +17,7 @@ export const PrizeSection: React.FC = () => {
     },
   ];
   return (
-    <Flex w="full" align="center" justify="center" mt={20}>
+    <VStack mt={20}>
       {prizes.map(({ title, prize }, i) => (
         <Flex
           flexDir="column"
@@ -36,6 +36,6 @@ export const PrizeSection: React.FC = () => {
           </Text>
         </Flex>
       ))}
-    </Flex>
+    </VStack>
   );
 };

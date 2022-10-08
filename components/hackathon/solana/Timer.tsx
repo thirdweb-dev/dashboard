@@ -9,7 +9,7 @@ interface ITimeLeft {
   seconds: number;
 }
 
-export const Timer: React.FC = () => {
+const Timer: React.FC = () => {
   const calculateTimeLeft = () => {
     const difference =
       Number(new Date("2022-10-18T18:20:00+05:30")) - Number(new Date());
@@ -63,3 +63,5 @@ export const Timer: React.FC = () => {
     </Flex>
   );
 };
+
+export default Timer;

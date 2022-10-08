@@ -1,8 +1,12 @@
-import { Timer } from "./Timer";
 import { Flex, Image } from "@chakra-ui/react";
 import { HackathonNav } from "components/hackathon/solana/HackathonNav";
 import { useTrack } from "hooks/analytics/useTrack";
+import dynamic from "next/dynamic";
 import { Heading, LinkButton } from "tw-components";
+
+const Timer = dynamic(() => import("./Timer"), {
+  ssr: false,
+});
 
 export const Hero: React.FC = () => {
   const trackEvent = useTrack();

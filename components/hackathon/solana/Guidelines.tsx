@@ -1,11 +1,11 @@
-import { Flex } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
 export const Guidelines: React.FC = () => {
   return (
-    <Flex w="full" flexDir="column" align="center" justify="center" my={20}>
+    <VStack mt={20}>
       <Heading fontSize="48px">Guidelines</Heading>
-      <Text color="white" mt={4} px={40} fontSize="16px">
+      <Text color="white" mt={8} px={40} fontSize="16px">
         Join a community of the most hype builders in web3 for thirdweb’s first
         official hack event – Solanathon - a 7 day hackathon with more than
         $10,000 in rewards for innovative and inspiring builds on the Solana
@@ -23,6 +23,6 @@ export const Guidelines: React.FC = () => {
         before submitting your participation. We couldn’t be more thrilled to
         see what y’all will build. WAGMI.
       </Text>
-    </Flex>
+    </VStack>
   );
 };

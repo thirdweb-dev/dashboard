@@ -1,10 +1,12 @@
 import { DarkMode, Flex } from "@chakra-ui/react";
 import { Guidelines } from "components/hackathon/solana/Guidelines";
+import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
 import { Hero } from "components/hackathon/solana/Hero";
+import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
+import { Resources } from "components/hackathon/solana/Resources";
 import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { Sponsors } from "components/hackathon/solana/Sponsors";
-import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { NextPage } from "next";
 
 const SolanaHackathon: NextPage = () => {
@@ -27,8 +29,9 @@ const SolanaHackathon: NextPage = () => {
         <PrizeSection />
         <ScheduleSection />
         <Guidelines />
-
-        <HomepageFooter />
+        <Resources />
+        <Judges />
+        <HackathonFooter />
       </Flex>
     </DarkMode>
   );
