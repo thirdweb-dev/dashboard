@@ -52,11 +52,12 @@ export const FormComponent: React.FC = () => {
           });
         }
       },
-      onError: () => {
+      onError: (err) => {
         trackEvent({
           category: "solana-faucet",
           action: "request-funds",
           label: "error",
+          error: (err as Error).message,
         });
       },
     },
