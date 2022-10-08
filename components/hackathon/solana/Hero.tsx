@@ -31,10 +31,10 @@ export const Hero: React.FC = () => {
         <Image
           src="/assets/hackathon/tw-solana.svg"
           alt="Solana Hackathon"
-          w="600px"
+          w={{ base: "300px", md: "600px" }}
           objectFit="contain"
         />
-        <Heading fontSize="72px">
+        <Heading fontSize={{ base: "40px", md: "72px" }}>
           $10,000 in prizes.
           <br /> Hack it your way.
         </Heading>
@@ -52,8 +52,8 @@ export const Hero: React.FC = () => {
               title: "Register Now",
             })
           }
-          h="68px"
-          w={{ base: "100%", md: "700px" }}
+          h={{ base: "48px", md: "78px" }}
+          w={{ base: "8x0%", md: "700px" }}
           fontSize="20px"
           color="black"
           flexShrink={0}

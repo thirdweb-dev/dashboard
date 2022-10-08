@@ -28,16 +28,19 @@ export const Resources: React.FC = () => {
 
   return (
     <VStack mt={20}>
-      <Heading fontSize="48px">Useful Resources</Heading>
+      <Heading fontSize={{ base: "32px", md: "48px" }}>
+        Useful Resources
+      </Heading>
 
-      <Flex>
+      <Flex flexWrap="wrap" justify="space-between" align="center">
         {resources.map(({ label, link, image }) => (
           <Flex
             key={label}
             flexDir="column"
             align="center"
             justify="center"
-            w="200px"
+            w={{ base: "40%", md: "25%" }}
+            maxW="200px"
             h="200px"
             bg="#0000004D"
             borderRadius="10px"

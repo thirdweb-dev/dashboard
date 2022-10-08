@@ -5,7 +5,15 @@ export const Guidelines: React.FC = () => {
   return (
     <VStack mt={20}>
       <Heading fontSize="48px">Guidelines</Heading>
-      <Text color="white" mt={8} px={40} fontSize="16px">
+      <Text
+        color="white"
+        mt={8}
+        px={{
+          base: 4,
+          md: 20,
+        }}
+        fontSize="16px"
+      >
         Join a community of the most hype builders in web3 for thirdweb’s first
         official hack event – Solanathon - a 7 day hackathon with more than
         $10,000 in rewards for innovative and inspiring builds on the Solana

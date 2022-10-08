@@ -48,10 +48,10 @@ const Timer: React.FC = () => {
       {items.map(({ label, value }) => (
         <Flex flexDir="column" key={label} align="center">
           <Text
-            fontSize="48px"
+            fontSize={{ base: "36px", md: "48px" }}
             bg="#FFFFFF14"
             border="1px solid #FFFFFF1A"
-            w="80px"
+            w={{ base: "60px", md: "80px" }}
             align="center"
             color="white"
           >

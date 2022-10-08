@@ -22,7 +22,7 @@ export const Judges: React.FC = () => {
   ];
 
   return (
-    <VStack my={20}>
+    <VStack mb={20} mt="-50px">
       <Heading fontSize="48px">Judges</Heading>
       <Flex>
         {judges.map(({ name, handle, image }) => (

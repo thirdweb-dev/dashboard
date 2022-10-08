@@ -1,4 +1,4 @@
-import { DarkMode, Flex } from "@chakra-ui/react";
+import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { Guidelines } from "components/hackathon/solana/Guidelines";
 import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
 import { Hero } from "components/hackathon/solana/Hero";
@@ -25,11 +25,27 @@ const SolanaHackathon: NextPage = () => {
         bg="#030A1A"
       >
         <Hero />
-        <Sponsors />
-        <PrizeSection />
-        <ScheduleSection />
+        <Flex
+          flexDir="column"
+          w="full"
+          align="center"
+          bg='url("/assets/hackathon/mid-section-bg.svg") no-repeat center'
+          py={10}
+        >
+          <Sponsors />
+          <PrizeSection />
+          <ScheduleSection />
+        </Flex>
         <Guidelines />
         <Resources />
+        <Box
+          w="full"
+          h="250px"
+          background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+          filter="blur(100px)"
+          transform="matrix(-1, 0, 0, 1, 0, 0)"
+          mt="-100px"
+        />
         <Judges />
         <HackathonFooter />
       </Flex>

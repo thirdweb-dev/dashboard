@@ -1,4 +1,4 @@
-import { Flex, VStack } from "@chakra-ui/react";
+import { Flex, HStack } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
 export const PrizeSection: React.FC = () => {
@@ -17,16 +17,30 @@ export const PrizeSection: React.FC = () => {
     },
   ];
   return (
-    <VStack mt={20}>
+    <HStack
+      w="full"
+      mt={20}
+      align="center"
+      mx="auto"
+      justify="center"
+      alignSelf="center"
+      flexDir={{ base: "column", md: "row" }}
+    >
       {prizes.map(({ title, prize }, i) => (
         <Flex
           flexDir="column"
           key={title}
           align="center"
-          px={20}
-          borderRight={
-            i !== prizes.length - 1 ? "1px solid #FFFFFF1A" : undefined
-          }
+          px={{ base: 0, md: 10 }}
+          py={{ base: 10, md: 0 }}
+          borderRight={{
+            base: "none",
+            md: i !== prizes.length - 1 ? "1px solid #FFFFFF1A" : undefined,
+          }}
+          borderBottom={{
+            base: i !== prizes.length - 1 ? "1px solid #FFFFFF1A" : undefined,
+            md: "none",
+          }}
         >
           <Heading fontSize="40px" color="white">
             {prize}
@@ -36,6 +50,6 @@ export const PrizeSection: React.FC = () => {
           </Text>
         </Flex>
       ))}
-    </VStack>
+    </HStack>
   );
 };
