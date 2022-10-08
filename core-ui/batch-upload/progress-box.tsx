@@ -24,7 +24,7 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
   }, [isFinished]);
 
   return (
-    <Flex w="full" gap={3} direction="column">
+    <Flex w="full" direction="column">
       {progress.progress !== 0 && (
         <Progress
           borderRadius="md"
@@ -36,7 +36,7 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
         />
       )}
       {takingLong && (
-        <Text size="body.sm" textAlign="center">
+        <Text size="body.sm" textAlign="center" mt={3}>
           This may take a while.
         </Text>
       )}
