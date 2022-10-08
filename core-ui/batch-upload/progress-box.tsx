@@ -35,7 +35,7 @@ export const ProgressBox: React.FC<ProgressBoxProps> = ({ progress }) => {
           value={(progress.progress / progress.total) * 100}
         />
       )}
-      {takingLong && (
+      {takingLong && progress.progress !== 0 && (
         <Text size="body.sm" textAlign="center" mt={3}>
           This may take a while.
         </Text>
