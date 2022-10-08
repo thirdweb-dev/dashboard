@@ -5,6 +5,7 @@ import { ChakraNextImage } from "components/Image";
 import { TWTable } from "components/shared/TWTable";
 import { FeatureIconMap } from "constants/mappings";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import {
   AddressCopyButton,
@@ -78,6 +79,16 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
   limit = 50,
 }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    if (
+      programListQuery.isFetched &&
+      programListQuery.data.length === 0 &&
+      router.asPath === "/dashboard"
+    ) {
+      router.replace("/programs");
+    }
+  }, [programListQuery, router]);
 
   return (
     <>
