@@ -83,7 +83,7 @@ export const FormComponent: React.FC<IFormComponentProps> = ({
       <FormControl
         alignItems="center"
         display="flex"
-        gap="4"
+        gap={{ base: 2, md: 4 }}
         justifyContent="center"
         onSubmit={() => mutate()}
       >
@@ -102,7 +102,8 @@ export const FormComponent: React.FC<IFormComponentProps> = ({
           borderColor="#0098EE"
           color="#F2F2F7"
           disabled={isLoading || transactionLink.length > 0 || !address}
-          w="175px"
+          w={{ base: "full", md: "175px" }}
+          fontSize={{ base: "sm", md: "md" }}
           onClick={() => {
             mutate();
           }}

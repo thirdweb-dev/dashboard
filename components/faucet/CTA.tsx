@@ -11,7 +11,7 @@ export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
   const trackEvent = useTrack();
 
   return (
-    <AspectRatio ratio={4 / 1}>
+    <AspectRatio ratio={{ base: 1 / 1, md: 4 / 1 }}>
       <Card
         bg="url(/assets/faucet/cta-bg.png) no-repeat center"
         bgSize="cover"
@@ -21,10 +21,15 @@ export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
         mt={8}
         alignItems="flex-start !important"
       >
-        <Text color="white" fontSize="28px" fontWeight="bold" maxW="450px">
-          Now that you have testnet funds, build your web3 app
+        <Text
+          color="white"
+          fontSize={{ base: "24px", md: "32px" }}
+          fontWeight="bold"
+          maxW="450px"
+        >
+          Now that you have devnet funds, build your web3 app
         </Text>
-        <Flex gap="4" align="center">
+        <Flex gap="4" align="center" flexWrap="wrap">
           <LinkButton
             px="6"
             py="4"
