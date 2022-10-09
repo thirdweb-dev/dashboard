@@ -28,7 +28,7 @@ const FAQs = [
 
 export const FaqSection: React.FC = () => {
   return (
-    <Flex mt={12} flexDir="column">
+    <Flex mt={20} flexDir="column">
       <Heading>FAQs</Heading>
       <Accordion
         mt="4"

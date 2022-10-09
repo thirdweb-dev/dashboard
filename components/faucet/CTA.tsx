@@ -1,5 +1,6 @@
-import { AspectRatio, Flex } from "@chakra-ui/react";
+import { AspectRatio, Flex, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import { FiExternalLink } from "react-icons/fi";
 import { Card, LinkButton, Text, TrackedLink } from "tw-components";
 
 interface ICTA {
@@ -17,7 +18,7 @@ export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
         gap="6"
         flexDir="column"
         px={10}
-        my={4}
+        mt={8}
         alignItems="flex-start !important"
       >
         <Text color="white" fontSize="28px" fontWeight="bold" maxW="450px">
@@ -70,8 +71,12 @@ export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
               href={transactionLink}
               isExternal
               category="solana-faucet"
+              display="flex"
+              alignItems="center"
+              gap={2}
             >
               View on Solana Explorer
+              <Icon as={FiExternalLink} />
             </TrackedLink>
           )}
         </Flex>

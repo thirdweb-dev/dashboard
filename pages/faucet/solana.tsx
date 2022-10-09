@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Heading } from "tw-components";
 
 const SolanaFaucet: NextPage = () => {
-  const [transactionLink, setTransactionLink] = useState("");
+  const [transactionLink, setTransactionLink] = useState("abc");
 
   return (
     <AppLayout>
