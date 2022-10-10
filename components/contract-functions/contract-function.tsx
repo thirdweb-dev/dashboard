@@ -1,5 +1,6 @@
 import { InteractiveAbiFunction } from "./interactive-abi-function";
 import {
+  Box,
   Divider,
   Flex,
   GridItem,
@@ -7,7 +8,12 @@ import {
   List,
   ListItem,
   SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
   Table,
+  Tabs,
   Tbody,
   Td,
   Th,
@@ -160,57 +166,54 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
         borderBottomWidth={{ base: "1px", md: "0px" }}
         borderColor="borderColor"
       >
-        <List
-          overflow="auto"
-          h={{ base: "300px", md: "100%" }}
-          minH="100%"
-          pr={{ base: 0, md: 3 }}
-          mb={{ base: 3, md: 0 }}
-          overflowX="hidden"
-        >
-          {writeFunctions.length ? (
-            <Flex mt={3} mb={3} gap={2}>
-              <Icon boxSize={3} as={FiEdit2} />
-              <Text size="label.sm">WRITE</Text>
-            </Flex>
-          ) : null}
-          {writeFunctions.map((fn) => (
-            <FunctionsOrEventsListItem
-              key={fn.signature}
-              fn={fn}
-              isFunction={isFunction}
-              selectedFunction={selectedFunction}
-              setSelectedFunction={setSelectedFunction}
-            />
-          ))}
-          {viewFunctions.length ? (
-            <>
-              <Divider my={3} />
-              <Flex mt={5} mb={3} gap={2}>
-                <Icon boxSize={3} as={FiEye} />
-                <Text size="label.sm">READ</Text>
-              </Flex>
-            </>
-          ) : null}
-          {viewFunctions.map((fn) => (
-            <FunctionsOrEventsListItem
-              key={fn.name}
-              fn={fn}
-              isFunction={isFunction}
-              selectedFunction={selectedFunction}
-              setSelectedFunction={setSelectedFunction}
-            />
-          ))}
-          {events.map((fn) => (
-            <FunctionsOrEventsListItem
-              key={isFunction ? (fn as AbiFunction).signature : fn.name}
-              fn={fn}
-              isFunction={isFunction}
-              selectedFunction={selectedFunction}
-              setSelectedFunction={setSelectedFunction}
-            />
-          ))}
-        </List>
+        <Tabs>
+          <TabList>
+            {writeFunctions.length ? (
+              <Tab>
+                <Flex>
+                  <Icon mr={2} boxSize={3} as={FiEdit2} />
+                  <Text size="label.sm">WRITE</Text>
+                </Flex>
+              </Tab>
+            ) : null}
+            {viewFunctions.length ? (
+              <Tab>
+                <Flex>
+                  <Icon mr={2} boxSize={3} as={FiEye} />
+                  <Text size="label.sm">READ</Text>
+                </Flex>
+              </Tab>
+            ) : null}
+          </TabList>
+          <TabPanels>
+            {writeFunctions.length ? (
+              <TabPanel>
+                {writeFunctions.map((fn) => (
+                  <FunctionsOrEventsListItem
+                    key={fn.signature}
+                    fn={fn}
+                    isFunction={isFunction}
+                    selectedFunction={selectedFunction}
+                    setSelectedFunction={setSelectedFunction}
+                  />
+                ))}
+              </TabPanel>
+            ) : null}
+            {viewFunctions.length ? (
+              <TabPanel>
+                {viewFunctions.map((fn) => (
+                  <FunctionsOrEventsListItem
+                    key={fn.name}
+                    fn={fn}
+                    isFunction={isFunction}
+                    selectedFunction={selectedFunction}
+                    setSelectedFunction={setSelectedFunction}
+                  />
+                ))}
+              </TabPanel>
+            ) : null}
+          </TabPanels>
+        </Tabs>
       </GridItem>
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Card ml={{ base: 0, md: 3 }} mt={{ base: 3, md: 0 }} flexGrow={1}>
@@ -235,7 +238,7 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
   setSelectedFunction,
 }) => {
   return (
-    <ListItem my={0.5}>
+    <Box my={0.5}>
       <Button
         size="sm"
         fontWeight={
@@ -264,6 +267,6 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
       >
         {fn.name}
       </Button>
-    </ListItem>
+    </Box>
   );
 };

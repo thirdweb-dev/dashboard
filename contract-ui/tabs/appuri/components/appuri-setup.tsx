@@ -22,7 +22,10 @@ const buildIframeSrc = (appUri: string | undefined): string => {
     return "";
   }
   appUri = appUri.startsWith("ipfs://")
-    ? `${process.env.DEFAULT_IPFS_GATEWAY}/${appUri.replace("ipfs://", "")}`
+    ? `${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/${appUri.replace(
+        "ipfs://",
+        "",
+      )}`
     : appUri;
 
   return appUri;
