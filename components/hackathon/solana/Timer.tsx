@@ -12,7 +12,7 @@ interface ITimeLeft {
 const Timer: React.FC = () => {
   const calculateTimeLeft = () => {
     const difference =
-      Number(new Date("2022-10-18T18:20:00+05:30")) - Number(new Date());
+      Number(new Date("2022-10-19T22:00:00")) - Number(new Date());
     let timeLeft = {};
 
     if (difference > 0) {
