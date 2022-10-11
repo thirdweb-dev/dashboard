@@ -7,6 +7,7 @@ import {
 } from "./types";
 import { usePascalCaseContractName } from "@3rdweb-sdk/react";
 import { Flex, Spinner, Stack } from "@chakra-ui/react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -26,6 +27,7 @@ function replaceVariablesInCodeSnippet(
     if (contractAddress) {
       snippet[env] = snippet[env]
         ?.replace(/{{contract_address}}/gm, contractAddress)
+        ?.replace(/{{program_address}}/gm, contractAddress)
         ?.replace(/{{chainName}}/gm, chainName || "goerli")
         .replace(/<YOUR-CONTRACT-ADDRESS>/gm, contractAddress);
     }
@@ -68,7 +70,9 @@ export const ContractCode: React.FC<IContractCode> = ({
     return getContractSnippets(data, contractName);
   }, [data, contractName]);
 
-  const address = useAddress();
+  const evmAddress = useAddress();
+  const solanaAddress = useWallet().publicKey?.toBase58();
+  const address = evmAddress || solanaAddress;
   const [environment, setEnvironment] = useState<Environment>("react");
 
   const replaceSnippetVars = useCallback(

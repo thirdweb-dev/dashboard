@@ -35,11 +35,11 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
         The supply you&apos;ve set for your drop is{" "}
         {claimConditions.data?.totalAvailableSupply}{" "}
         {claimConditions.data?.lazyMintedSupply === 0
-          ? "and you have not lazy minted any yet."
-          : ` but you have only lazy
-        minted ${claimConditions.data?.lazyMintedSupply} NFTs.`}{" "}
-        You need to lazy mint all of your NFTs and set your claim conditions in
-        order for users to start claiming them.
+          ? "and you have not uploaded NFTs any yet."
+          : ` but you have only uploaded ${claimConditions.data?.lazyMintedSupply} NFTs.`}{" "}
+        You need to <b>upload all of your NFTs</b> and{" "}
+        <b>set your claim conditions</b> in order for users to start claiming
+        them.
       </Text>
       <Stack direction="row" mt="8px">
         <Button
