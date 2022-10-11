@@ -97,7 +97,11 @@ export enum PageId {
   // example: thirdweb.com/contracts/new/pre-built/drop/nft-drop
   PreBuiltContractType = "new-pre-built-contract-type",
 
-  // thirdweb.com/:network/:contractAddress
+  // thirdweb.com/:network/:contractAddress (evm)
   // example: thirdweb.com/goerli/0x2eaDAa60dBB74Ead3E20b23E4C5A0Dd789932846
   DeployedContract = "deployed-contract",
+
+  // thirdweb.com/:network/:contractAddress (solana)
+  // example: thirdweb.com/solana/5GYspMpsfw3Vrf7FQ37Jbhpg4PeVZHEPrfPcXY9sGQzy
+  DeployedProgram = "deployed-program",
 }
