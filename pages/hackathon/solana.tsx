@@ -62,13 +62,12 @@ const SolanaHackathon: NextPage = () => {
             <Timer />
 
             <LinkButton
-              href="/dashboard"
+              href="https://thirdweb.typeform.com/to/zfrq8Jx0"
               onClick={() =>
                 trackEvent({
-                  category: "solana-faucet",
+                  category: "solana-hackathon",
                   action: "click",
-                  label: "start",
-                  title: "Start building",
+                  label: "register-now",
                 })
               }
               h="68px"
@@ -81,6 +80,8 @@ const SolanaHackathon: NextPage = () => {
               _hover={{
                 background: "rgba(255,255,255,0.9)!important",
               }}
+              isExternal
+              noIcon
             >
               Register now
             </LinkButton>
