@@ -22,13 +22,13 @@ const FAQs = [
   {
     question: "How long will it take to get my devnet tokens?",
     answer:
-      "You should receive your testnet funds immediately. If not, please click the “View on Solscan” link and see if your transaction has been confirmed.",
+      "You should receive your testnet funds immediately. If not, please click the “View on Solana Explorer link and see if your transaction has been confirmed.",
   },
 ];
 
 export const FaqSection: React.FC = () => {
   return (
-    <Flex mt={12} flexDir="column">
+    <Flex flexDir="column" mt={4}>
       <Heading>FAQs</Heading>
       <Accordion
         mt="4"
@@ -78,12 +78,12 @@ export const FaqSection: React.FC = () => {
           </AccordionButton>
           <AccordionPanel pb={4} bg="#1B2129">
             Please try again after a few minutes. If the issue persists, please
-            contact us on
+            contact us on{" "}
             <Link href="https://discord.gg/thirdweb" textDecor="underline">
-              Discord
+              Discord{" "}
             </Link>
-            or
-            <Link href="https://twitter.com/thirdweb_" textDecor="underline">
+            or{" "}
+            <Link href="https://twitter.com/thirdweb" textDecor="underline">
               Twitter
             </Link>
             .

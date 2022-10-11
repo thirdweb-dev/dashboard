@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
-    return res.status(400).json({ message: "Please use POST method" });
+    return res.status(400).json({ error: "Please use POST method" });
   }
 
-  const { address } = req.body;
+  const { address } = JSON.parse(req.body);
   const rpcUrl = getSOLRPC("devnet");
 
   try {
@@ -20,11 +20,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     );
 
     return res.status(200).json({
-      message: "Sent funds successfully",
       txHash,
     });
   } catch (err) {
-    return res.status(500).json({ message: (err as Error).message });
+    return res.status(500).json({ error: (err as Error).message });
   }
 };
 
