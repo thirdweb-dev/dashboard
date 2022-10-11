@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { CTA } from "components/faucet/CTA";
 import { FaqSection } from "components/faucet/FAQSection";
@@ -14,10 +14,11 @@ const SolanaFaucet: NextPage = () => {
   return (
     <AppLayout>
       <NextSeo
-        title="Solana (SOL) faucet | thirdweb"
-        description="Get Solana devnet tokens for free"
+        title="Solana (SOL) Faucet | thirdweb"
+        description="Get Solana devnet tokens for free—using our fast and reliable Solana Faucet for blockchain developers. Powered by thirdweb."
         openGraph={{
-          title: "Solana (SOL) faucet | thirdweb",
+          title:
+            "Get Solana devnet tokens for free—using our fast and reliable Solana Faucet for blockchain developers. Powered by thirdweb.",
           url: `https://thirdweb.com/faucet/solana`,
         }}
       />
@@ -32,12 +33,15 @@ const SolanaFaucet: NextPage = () => {
         <Heading fontSize="20px" color="whiteAlpha.800" my="4">
           Get Solana devnet tokens for free
         </Heading>
-        <FormComponent
-          transactionLink={transactionLink}
-          setTransactionLink={setTransactionLink}
-        />
-        {transactionLink && <CTA transactionLink={transactionLink} />}
-        <Box h={transactionLink ? 20 : 10} />
+        {!transactionLink ? (
+          <FormComponent
+            transactionLink={transactionLink}
+            setTransactionLink={setTransactionLink}
+          />
+        ) : (
+          <CTA transactionLink={transactionLink} />
+        )}
+
         <FaqSection />
       </Flex>
     </AppLayout>

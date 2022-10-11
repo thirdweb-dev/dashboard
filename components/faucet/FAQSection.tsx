@@ -22,13 +22,13 @@ const FAQs = [
   {
     question: "How long will it take to get my devnet tokens?",
     answer:
-      "You should receive your testnet funds immediately. If not, please click the “View on Solana Explorer” link and see if your transaction has been confirmed.",
+      "You should receive your testnet funds immediately. If not, please click the “View on Solana Explorer link and see if your transaction has been confirmed.",
   },
 ];
 
 export const FaqSection: React.FC = () => {
   return (
-    <Flex flexDir="column">
+    <Flex flexDir="column" mt={4}>
       <Heading>FAQs</Heading>
       <Accordion
         mt="4"
@@ -83,7 +83,7 @@ export const FaqSection: React.FC = () => {
               Discord{" "}
             </Link>
             or{" "}
-            <Link href="https://twitter.com/thirdweb_" textDecor="underline">
+            <Link href="https://twitter.com/thirdweb" textDecor="underline">
               Twitter
             </Link>
             .

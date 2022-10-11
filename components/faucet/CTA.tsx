@@ -11,16 +11,36 @@ export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
   const trackEvent = useTrack();
 
   return (
-    <AspectRatio ratio={{ base: 1 / 1, md: 4 / 1 }}>
+    <AspectRatio ratio={{ base: 1 / 1, md: transactionLink ? 3 / 1 : 4 / 1 }}>
       <Card
         bg="url(/assets/faucet/cta-bg.png) no-repeat center"
         bgSize="cover"
-        gap="6"
         flexDir="column"
         px={10}
-        mt={8}
+        gap={6}
         alignItems="flex-start !important"
       >
+        {transactionLink && (
+          <Flex gap="2">
+            <Text fontSize="20px">🎉 Funds sent successfully!</Text>
+
+            <TrackedLink
+              fontSize="18px"
+              color="white"
+              href={transactionLink}
+              isExternal
+              category="solana-faucet"
+              display="flex"
+              alignItems="center"
+              gap={2}
+              textDecoration="underline"
+            >
+              View on Solana Explorer
+              <Icon as={FiExternalLink} />
+            </TrackedLink>
+          </Flex>
+        )}
+
         <Text
           color="white"
           fontSize={{ base: "24px", md: "32px" }}
@@ -69,21 +89,6 @@ export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
           >
             View docs
           </LinkButton>
-          {transactionLink && (
-            <TrackedLink
-              fontSize="18px"
-              color="white"
-              href={transactionLink}
-              isExternal
-              category="solana-faucet"
-              display="flex"
-              alignItems="center"
-              gap={2}
-            >
-              View on Solana Explorer
-              <Icon as={FiExternalLink} />
-            </TrackedLink>
-          )}
         </Flex>
       </Card>
     </AspectRatio>
