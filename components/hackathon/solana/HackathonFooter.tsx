@@ -1,4 +1,5 @@
-import { Image, VStack } from "@chakra-ui/react";
+import { Icon, Image, VStack } from "@chakra-ui/react";
+import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { useTrack } from "hooks/analytics/useTrack";
 import type { FC } from "react";
 import { Heading, LinkButton } from "tw-components";
@@ -23,33 +24,34 @@ export const HackathonFooter: FC = () => {
         w={{ base: "300px", md: "600px" }}
         objectFit="contain"
       />
-      <Heading fontSize={{ base: "40px", md: "72px" }}>
+      <Heading size="display.lg" textAlign="center">
         $10,000 in prizes.
         <br /> Hack it your way.
       </Heading>
 
       <LinkButton
-        // TODO: update this link
-        href="/"
+        href="https://thirdweb.typeform.com/to/zfrq8Jx0"
         onClick={() =>
           trackEvent({
             category: "solana-hackathon",
             action: "click",
-            label: "register",
-            title: "Register Now",
+            label: "register-now",
           })
         }
-        h={{ base: "48px", md: "78px" }}
-        w={{ base: "8x0%", md: "700px" }}
+        h="68px"
+        w={{ base: "90%", md: 96 }}
         fontSize="20px"
+        leftIcon={<Icon as={ImMagicWand} />}
         color="black"
         flexShrink={0}
         background="rgba(255,255,255,1)"
         _hover={{
           background: "rgba(255,255,255,0.9)!important",
         }}
+        isExternal
+        noIcon
       >
-        🪄 Register Now
+        Register now
       </LinkButton>
     </VStack>
   );

@@ -1,9 +1,7 @@
-import { Box, DarkMode, Flex, Icon } from "@chakra-ui/react";
+import { Box, DarkMode, Divider, Flex, Icon } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
-import { Guidelines } from "components/hackathon/solana/Guidelines";
 import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
-import { Hero } from "components/hackathon/solana/Hero";
 import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
 import { Resources } from "components/hackathon/solana/Resources";
@@ -15,7 +13,7 @@ import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { Heading, LinkButton } from "tw-components";
+import { Heading, LinkButton, Text } from "tw-components";
 
 const Timer = dynamic(() => import("components/hackathon/solana/Timer"), {
   ssr: false,
@@ -35,11 +33,11 @@ const SolanaHackathon: NextPage = () => {
         justify="center"
         flexDir="column"
         as="main"
-        bg="#030A1A"
+        bg="#000"
       >
         <HomepageTopNav />
 
-        <HomepageSection id="header">
+        <HomepageSection id="header" topGradient>
           <Flex
             flexDir="column"
             align="center"
@@ -54,7 +52,7 @@ const SolanaHackathon: NextPage = () => {
               w={{ base: "300px", md: "600px" }}
               objectFit="contain"
             />
-            <Heading fontSize={{ base: "40px", md: "72px" }}>
+            <Heading size="display.lg" textAlign="center">
               $10,000 in prizes.
               <br /> Hack it your way.
             </Heading>
@@ -87,30 +85,47 @@ const SolanaHackathon: NextPage = () => {
             </LinkButton>
           </Flex>
         </HomepageSection>
-              <Flex
-          flexDir="column"
-          w="full"
-          align="center"
-          bg='url("/assets/hackathon/mid-section-bg.svg") no-repeat center'
-          py={10}
-        >
-          <Sponsors />
+
+{/*           <Sponsors /> */}
+          <Divider mt={16} />
           <PrizeSection />
-          <ScheduleSection />
-        </Flex>
-          {/* 
-        <Guidelines />
-        <Resources />
+{/*           <ScheduleSection /> */}
+
+        <HomepageSection>
+          <Flex flexDir="column" alignItems="center" gap={8}>
+          <Heading size="title.2xl" textStyle="center">Guidelines</Heading>
+          <Flex flexDir="column" gap={4}>
+            <Text size="body.lg">
+              To qualify for this hackathon, participants must use a thirdweb
+              pre-built program or an existing program on Solana and interface
+              with the thirdweb SDKs. Submissions must be submitted through GitHub
+              with a descriptive ReadMe file detailing any information. The
+              submission must be deployed to Solana mainnet or devnet in order to
+              be eligible. Additionally, valid participants will be asked to
+              provide their Github repo, a link to their thirdweb dashboard
+              project, a written/video breakdown of the project and tech stack
+              used published to a dev forum like stackoverflow, dev.to or youtube,
+              depending on what format you choose.
+            </Text>
+            <Text size="body.lg">
+              To submit, participants will link their decentralized app repository
+              from GitHub in the submission form with the corresponding track(s)
+              that they are competing for.
+            </Text>
+          </Flex>
+          </Flex>
+        </HomepageSection>
+{/*          <Resources /> */}
         <Box
           w="full"
           h="250px"
           background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
           filter="blur(100px)"
           transform="matrix(-1, 0, 0, 1, 0, 0)"
-          mt="-100px"
+          mt="-150px"
         />
         <Judges />
-        <HackathonFooter /> */}
+        <HackathonFooter /> 
       </Flex>
     </DarkMode>
   );

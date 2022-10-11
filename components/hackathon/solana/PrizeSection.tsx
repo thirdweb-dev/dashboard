@@ -1,4 +1,4 @@
-import { Center, Divider, Flex, HStack } from "@chakra-ui/react";
+import { Center, Divider, Flex } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
 export const PrizeSection: React.FC = () => {
@@ -17,15 +17,11 @@ export const PrizeSection: React.FC = () => {
     },
   ];
   return (
-    <HStack
+    <Flex
       w="full"
-      mt={20}
-      align="center"
-      mx="auto"
-      justify="center"
-      alignSelf="center"
-      flexDir="row"
-      gap={4}
+      my={20}
+      justifyContent="center"
+      gap={{ base: 6, md: 8 }}
     >
       {prizes.map(({ title, prize }, i) => (
         <>
@@ -42,6 +38,6 @@ export const PrizeSection: React.FC = () => {
           )}
         </>
       ))}
-    </HStack>
+    </Flex>
   );
 };
