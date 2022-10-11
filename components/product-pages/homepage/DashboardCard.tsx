@@ -8,7 +8,7 @@ import { Heading, Text } from "tw-components";
 
 interface DashboardCardProps {
   headingTitle: string;
-  headingIcon: IconType;
+  headingIcon?: IconType;
   title: string | JSX.Element;
   subtitle: string;
   rightImage: StaticImageData;
@@ -53,7 +53,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
         bgColor="blackAlpha.300"
       >
         <Flex alignItems="center" gap={1.5}>
-          <Icon as={headingIcon} boxSize={4} />
+          {headingIcon && <Icon as={headingIcon} boxSize={4} />}
           <Text size="label.sm" textTransform="uppercase">
             {headingTitle}
           </Text>
