@@ -8,7 +8,7 @@ export function usePrebuiltSource(contractAddress: string | undefined) {
   const prebuilt = BuiltinContractMap[contractType as ContractType];
   return useQuery(["prebuilt-source", contractType], async () => {
     if (contractType === "custom") {
-      return undefined;
+      return null;
     }
 
     const res = await fetch(prebuilt?.sourceUrl);
