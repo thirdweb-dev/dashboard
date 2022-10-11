@@ -86,7 +86,7 @@ const SolanaHackathon: NextPage = () => {
             </LinkButton>
           </Flex>
         </HomepageSection>
-        {/*         <Flex
+              <Flex
           flexDir="column"
           w="full"
           align="center"
@@ -97,6 +97,7 @@ const SolanaHackathon: NextPage = () => {
           <PrizeSection />
           <ScheduleSection />
         </Flex>
+          {/* 
         <Guidelines />
         <Resources />
         <Box
