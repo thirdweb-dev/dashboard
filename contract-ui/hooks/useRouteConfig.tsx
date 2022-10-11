@@ -1,3 +1,4 @@
+import { Flex } from "@chakra-ui/react";
 import { Route } from "@tanstack/react-location";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { useProgram } from "@thirdweb-dev/react/solana";
@@ -8,6 +9,7 @@ import {
 import { ens } from "components/contract-components/hooks";
 import { ProgramClaimConditionsTab } from "program-ui/common/program-claim-conditions";
 import { ProgramCodeTab } from "program-ui/common/program-code";
+import { Card, Heading, Text } from "tw-components";
 
 // import { useEffect } from "react";
 
@@ -59,7 +61,19 @@ export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
     {
       title: "Settings",
       path: "/settings",
-      element: <>settings tab goes here</>,
+      element: (
+        <>
+          <Card>
+            <Flex direction="column" gap={4}>
+              <Heading size="label.lg">⚠️ Coming soon</Heading>
+              <Text>
+                Here you will be able to configure Metadata, Creators,
+                Royalties, etc for your program.
+              </Text>
+            </Flex>
+          </Card>
+        </>
+      ),
     },
   ];
 }

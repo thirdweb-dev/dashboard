@@ -219,7 +219,7 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               isRequired={isRequired("totalSupply")}
               isInvalid={!!getFieldState("totalSupply", formState).error}
             >
-              <FormLabel>Supply</FormLabel>
+              <FormLabel>Total Supply</FormLabel>
               <Input variant="filled" {...register("totalSupply")} />
               <FormErrorMessage>
                 {getFieldState("totalSupply", formState).error?.message}
