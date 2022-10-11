@@ -103,6 +103,9 @@ const moduleExports = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
+  sentry: {
+    hideSourceMaps: true,
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -124,8 +127,6 @@ const sentryWebpackPluginOptions = {
   silent: true,
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
-
-  hideSourceMaps: false,
 };
 module.exports = withBundleAnalyzer(
   withSentryConfig(moduleExports, sentryWebpackPluginOptions),
