@@ -1,4 +1,12 @@
-import { Box, DarkMode, Divider, Flex, Icon } from "@chakra-ui/react";
+import {
+  Box,
+  DarkMode,
+  Divider,
+  Flex,
+  Icon,
+  List,
+  ListItem,
+} from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
 import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
@@ -13,7 +21,7 @@ import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
-import { Heading, LinkButton, Text } from "tw-components";
+import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 const Timer = dynamic(() => import("components/hackathon/solana/Timer"), {
   ssr: false,
@@ -109,21 +117,44 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             </Heading>
             <Flex flexDir="column" gap={4}>
               <Text size="body.lg">
-                To qualify for this hackathon, participants must use a thirdweb
-                pre-built program or an existing program on Solana and interface
-                with the thirdweb SDKs. Submissions must be submitted through
-                GitHub with a descriptive ReadMe file detailing any information.
-                The submission must be deployed to Solana mainnet or devnet in
-                order to be eligible. Additionally, valid participants will be
-                asked to provide their Github repo, a link to their thirdweb
-                dashboard project, a written/video breakdown of the project and
-                tech stack used published to a dev forum like stackoverflow,
-                dev.to or youtube, depending on what format you choose.
+                In order to be eligible for the Hackathon, submissions must:
+              </Text>
+              <Text size="body.lg">
+                <List>
+                  <ListItem>
+                    - Use a thirdweb prebuilt program or an existing program on
+                    Solana and interface with the thirdweb SDKs
+                  </ListItem>
+                  <ListItem>
+                    - Be submitted through GitHub with a descriptive Readme file
+                    detailing the project
+                  </ListItem>
+                  <ListItem>- Be deployed to Solana mainnet or devnet</ListItem>
+                  <ListItem>
+                    - Provide their GitHub repo and a link to their project on
+                    thirdweb dashboard
+                  </ListItem>
+                  <ListItem>
+                    - Include a written/video breakdown of the project to a dev forum like
+                    Hashnode, dev.to or YouTube
+                  </ListItem>
+                </List>
               </Text>
               <Text size="body.lg">
                 To submit, participants will link their decentralized app
-                repository from GitHub in the submission form with the
-                corresponding track(s) that they are competing for.
+                repository from GitHub in the submission form by Oct 26th 22:00
+                UTC and indicate the corresponding track(s) that they are
+                competing for. Please don't hesitate to reach out to our team in
+                our{" "}
+                <TrackedLink
+                  href="https://discord.gg/thirdweb"
+                  category="solana-hackathon"
+                  label="discord"
+                  textDecoration="underline"
+                >
+                  discord
+                </TrackedLink>{" "}
+                if you have any questions.
               </Text>
             </Flex>
           </Flex>
