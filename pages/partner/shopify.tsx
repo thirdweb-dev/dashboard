@@ -125,7 +125,7 @@ const Shopify: ThirdwebNextPage = () => {
               <ProductButton
                 maxW="260px"
                 title="Start building"
-                href="/programs"
+                href="https://blog.thirdweb.com/guides/shopify-selling-an-nft-as-a-digital-asset-on-shopify-store/"
                 color="blackAlpha.900"
                 bg="white"
               />
