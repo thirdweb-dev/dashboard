@@ -1,5 +1,12 @@
 import Icon from "@chakra-ui/icon";
-import { AspectRatio, Box, Flex, Stack } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  Flex,
+  LinkBox,
+  LinkOverlay,
+  Stack,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import * as React from "react";
@@ -13,6 +20,7 @@ interface DashboardCardProps {
   subtitle: string;
   rightImage: StaticImageData;
   gradientBGs?: CardGradientBackgroundProps;
+  href?: string;
 }
 
 export const DashboardCard: React.FC<DashboardCardProps> = ({
@@ -22,43 +30,53 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
   subtitle,
   rightImage,
   gradientBGs,
+  href,
 }) => {
+  const titleElem = href ? (
+    <LinkOverlay isExternal={href.startsWith("http")} href={href}>
+      <Heading size="title.sm">{title}</Heading>
+    </LinkOverlay>
+  ) : (
+    <Heading size="title.sm">{title}</Heading>
+  );
   return (
-    <Stack
-      borderRadius="2xl"
-      border="1px solid"
-      borderColor="#ffffff26"
-      overflow="hidden"
-    >
-      <Flex
-        justifyContent="center"
-        alignItems="center"
-        position="relative"
+    <LinkBox>
+      <Stack
+        borderRadius="2xl"
+        border="1px solid"
+        borderColor="#ffffff26"
         overflow="hidden"
-        h={64}
       >
-        <CardGradientBackground {...gradientBGs} />
-        <ChakraNextImage p={6} alt="" src={rightImage} w="100%" />
-      </Flex>
-      <Flex
-        flexDir="column"
-        p={{ base: 6, md: 10 }}
-        flexGrow={1}
-        gap={4}
-        bgColor="blackAlpha.300"
-      >
-        {headingTitle && (
-          <Flex alignItems="center" gap={1.5}>
-            {headingIcon && <Icon as={headingIcon} boxSize={4} />}
-            <Text size="label.sm" textTransform="uppercase">
-              {headingTitle}
-            </Text>
-          </Flex>
-        )}
-        <Heading size="title.sm">{title}</Heading>
-        <Text size="body.lg">{subtitle}</Text>
-      </Flex>
-    </Stack>
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          position="relative"
+          overflow="hidden"
+          h={64}
+        >
+          <CardGradientBackground {...gradientBGs} />
+          <ChakraNextImage p={6} alt="" src={rightImage} w="100%" />
+        </Flex>
+        <Flex
+          flexDir="column"
+          p={{ base: 6, md: 10 }}
+          flexGrow={1}
+          gap={4}
+          bgColor="blackAlpha.300"
+        >
+          {headingTitle && (
+            <Flex alignItems="center" gap={1.5}>
+              {headingIcon && <Icon as={headingIcon} boxSize={4} />}
+              <Text size="label.sm" textTransform="uppercase">
+                {headingTitle}
+              </Text>
+            </Flex>
+          )}
+          {titleElem}
+          <Text size="body.lg">{subtitle}</Text>
+        </Flex>
+      </Stack>
+    </LinkBox>
   );
 };
 

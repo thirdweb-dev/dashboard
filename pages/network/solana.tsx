@@ -161,6 +161,7 @@ const Solana: ThirdwebNextPage = () => {
                 rightGradient: "#9945FF",
                 leftGradient: "#19FB9B",
               }}
+              href="https://portal.thirdweb.com/solana"
             />
             <DashboardCard
               headingTitle="Launch"
@@ -173,6 +174,7 @@ const Solana: ThirdwebNextPage = () => {
                 bottomGradient: "#9945FF",
                 topGradient: "#19FB9B",
               }}
+              href="https://portal.thirdweb.com/solana/creating-programs"
             />
             <DashboardCard
               headingTitle="Manage"
@@ -185,6 +187,7 @@ const Solana: ThirdwebNextPage = () => {
                 leftGradient: "#9945FF",
                 rightGradient: "#19FB9B",
               }}
+              href="/dashboard"
             />
           </SimpleGrid>
         </Flex>
