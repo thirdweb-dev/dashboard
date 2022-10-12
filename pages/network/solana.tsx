@@ -59,9 +59,9 @@ const Solana: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Solana",
+        title: "Web3 Solana Smart Contracts, APIs, and Developer Tools",
         description:
-          "We're excited to announce that thirdweb developer tools are coming to Solana!",
+          "Deploy Solana smart contracts, build web3 apps, and manage it all using our developer tools, SDKs, and more. Start building with thirdweb now.",
       }}
     >
       <Center
