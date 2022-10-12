@@ -22,32 +22,19 @@ import { Heading, LinkButton, TrackedLink } from "tw-components";
 
 const SOLANA_GUIDES = [
   {
-    title:
-      "Getting Started with Solana: How to Create a Phantom Wallet and Get Funds",
+    title: "How to Create an NFT Drop on Solana",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--12-.png",
+    link: "https://blog.thirdweb.com/guides/how-to-create-an-nft-collection-on-solana-without-code/",
+  },
+  {
+    title: "How to Create a Phantom Wallet and Get Devnet Tokens",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2022/09/Getting-started-with-solana-thirdweb.png",
     link: "https://blog.thirdweb.com/guides/getting-started-with-solana/",
   },
   {
-    title: "How to Create An NFT Drop on Solana",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/create-nft-drop-on-sol.png",
-    link: "https://blog.thirdweb.com/guides/how-to-build-an-nft-drop-on-solana/",
-  },
-  {
-    title: "How to Create A Solana NFT Collection with TypeScript",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one-2-.png",
-    link: "https://blog.thirdweb.com/guides/mint-a-solana-nft-collection-with-typescript/",
-  },
-  {
-    title: "Create your own token on Solana in less than 5 minutes!",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/09/This-is-the-one-6.png",
-    link: "https://blog.thirdweb.com/guides/create-your-own-token-on-solana-in-less-than-2-minutes/",
-  },
-  {
-    title: "Building on Solana (SOL): Pros and Cons",
+    title: "Why You Should Build on Solana: Pros and Cons",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2022/09/This-is-the-one-5.png",
     link: "https://blog.thirdweb.com/guides/solana-development-pros-and-cons/",
