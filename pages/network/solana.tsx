@@ -263,38 +263,6 @@ const Solana: ThirdwebNextPage = () => {
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
         opacity="0.8"
       />
-
-      {/* <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
-        <Flex
-          flexDir="column"
-          pt={{ base: 24, md: 36 }}
-          pb={{ base: 20, md: 32 }}
-          px={"20px"}
-          align="center"
-        >
-          <Text
-            size="body.2xl"
-            maxWidth="820px"
-            color="white"
-            textAlign="center"
-          >
-            &quot;We&apos;re excited to announce that thirdweb developer tools
-            are coming to Solana. Quickly learn how to ship web3 apps on Solana
-            ecosystem with the same effortless workflow that you&apos;re already
-            used to&quot;
-          </Text>
-          <AspectRatio ratio={1} w="320px" height="180px">
-            <ChakraNextImage
-              alt=""
-              src={require("public/assets/network-pages/solana/solana-logo.png")}
-              layout="fill"
-              objectFit="contain"
-              priority
-            />
-          </AspectRatio>
-        </Flex>
-      </Box> */}
-
       <Box
         h="1px"
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
@@ -317,7 +285,7 @@ const Solana: ThirdwebNextPage = () => {
               fontWeight={700}
               textAlign="center"
             >
-              Build, launch, and manage web3 apps on Solana today
+              Join the thirdweb Solanathon on October 19th
             </Heading>
             <Stack
               spacing={5}
@@ -326,12 +294,12 @@ const Solana: ThirdwebNextPage = () => {
             >
               <ProductButton
                 maxW="260px"
-                title="Start building"
-                href="/programs"
+                title="Learn More"
+                href="/hackathon/solanathon"
                 color="blackAlpha.900"
                 bg="white"
               />
-              <LinkButton
+              {/* <LinkButton
                 variant="outline"
                 href="https://portal.thirdweb.com/solana"
                 px={"64px"}
@@ -341,7 +309,7 @@ const Solana: ThirdwebNextPage = () => {
                 isExternal
               >
                 Explore docs
-              </LinkButton>
+              </LinkButton> */}
             </Stack>
           </Stack>
         </Flex>

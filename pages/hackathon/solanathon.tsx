@@ -6,6 +6,7 @@ import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
 import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
+import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
@@ -134,6 +135,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
         />
         <Judges />
         <HackathonFooter />
+        <HomepageFooter />
       </Flex>
     </DarkMode>
   );
