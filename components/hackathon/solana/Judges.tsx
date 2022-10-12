@@ -42,7 +42,7 @@ export const Judges: React.FC = () => {
               category="solanathon"
               label={judge.name}
             >
-              <Text size="label.lg" color="gray.500">
+              <Text size="body.lg" color="gray.500">
                 {judge.company}
               </Text>
               <Text size="label.md" color="gray.500">
