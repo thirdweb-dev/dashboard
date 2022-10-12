@@ -24,7 +24,7 @@ export const HackathonFooter: FC = () => {
         w={{ base: "300px", md: "600px" }}
         objectFit="contain"
       />
-      <Heading size="display.lg" textAlign="center">
+      <Heading size="display.sm" textAlign="center">
         $10,000 in prizes.
         <br /> Hack it your way.
       </Heading>

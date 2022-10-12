@@ -1,73 +1,91 @@
-import { Flex, VStack } from "@chakra-ui/react";
-import { SiBurgerking } from "react-icons/si";
-import { Heading, Text } from "tw-components";
+import { Flex, Icon, LinkBox, LinkOverlay, VStack } from "@chakra-ui/react";
+import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
+import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
+import { Heading, Link, Text } from "tw-components";
 
 export const ScheduleSection: React.FC = () => {
   const items = [
     {
-      date: 12,
-      title: "Build any app with thirdweb on Solana Blockchain",
+      day: 13,
+      title: "Introduction to Solana",
+      href: "https://lu.ma/sol-1",
     },
     {
-      date: 13,
-      title: "Build xyz.com",
+      day: 19,
+      title: "Solana-thon NYC Kickoff",
+      href: "https://lu.ma/solanathonkickoff.thirdweb",
     },
     {
-      date: 14,
-      title: "Use thirdweb sdk and print “hello world”",
-    },
-    {
-      date: 15,
-      title: "Build any app with thirdweb on Solana Blockchain",
+      day: 20,
+      title: "Introduction to Phantom Wallet",
+      href: "https://lu.ma/tw-phantom",
     },
   ];
 
   return (
-    <VStack w="full" mt={20} px={{ base: 6, md: 20 }}>
-      <Heading>Schedule</Heading>
+    <Flex
+      flexDir="column"
+      mt={{ base: 4, md: 12 }}
+      px={{ base: 6, md: 20 }}
+      alignItems="center"
+    >
+      <Heading size="title.2xl">Schedule</Heading>
       <Flex
         w="full"
         justify="space-between"
         flexDir="column"
         align="center"
-        mt={4}
+        mt={8}
+        borderRadius="lg"
+        overflow="hidden"
       >
-        {items.map(({ date, title }, i) => (
+        {items.map(({ day, title, href }, i) => (
           <Flex
+            role="group"
+            as={LinkBox}
             key={title}
             align="center"
             justify="space-between"
             w="full"
             px={10}
-            bg="#FFFFFF0A"
-            borderTopRadius={i === 0 ? 10 : 0}
-            borderBottomRadius={i === items.length - 1 ? 10 : 0}
+            bg="whiteAlpha.100"
+            _hover={{ bg: "whiteAlpha.200" }}
             py={2}
           >
-            <VStack>
-              <Heading fontSize="40px" color="white">
-                {date}
+            <Flex flexDir="column">
+              <Heading size="title.lg" color="white">
+                {day}
               </Heading>
-              <Text color="#FFFFFF99">OCT</Text>
-            </VStack>
-
-            <Flex gap="2" align="center">
-              <SiBurgerking size="28px" color="#FFFFFF66" />
-              <Heading
-                textAlign="left"
-                mt={1}
-                fontSize="20px"
-                maxW="350px"
-                fontWeight={500}
-              >
-                {title}
-              </Heading>
+              <Text color="gray.300">Oct</Text>
             </Flex>
-
-            <Text>--</Text>
+            <Flex gap={4} width={96} alignItems="center">
+              <Icon
+                as={AiOutlineBuild}
+                boxSize={6}
+                color="gray.300"
+                display={{ base: "none", md: "block" }}
+              />
+              <LinkOverlay href={href} isExternal>
+                <Heading
+                  textAlign={{ base: "right", md: "left" }}
+                  mt={1}
+                  fontSize="20px"
+                  maxW="350px"
+                  fontWeight={500}
+                >
+                  {title}
+                </Heading>
+              </LinkOverlay>
+            </Flex>
+            <Icon
+              as={BiRightArrowAlt}
+              boxSize={6}
+              color="gray.300"
+              display={{ base: "none", md: "block" }}
+            />
           </Flex>
         ))}
       </Flex>
-    </VStack>
+    </Flex>
   );
 };
