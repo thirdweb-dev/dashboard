@@ -421,6 +421,6 @@ export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
 } as const;
 
 export const SOLANA_CURRENCIES: Record<string, CurrencyMetadata[]> = {
-  solana: Solana,
+  "mainnet-beta": Solana,
   devnet: SolanaDevnet,
 } as const;

@@ -119,7 +119,7 @@ export const ProgramCurrencySelector: React.FC<
       >
         {dashboardNetwork &&
           !hideDefaultCurrencies &&
-          currencies.map((currency: CurrencyMetadata) => (
+          currencies?.map((currency: CurrencyMetadata) => (
             <option key={currency.address} value={currency.address}>
               {currency.symbol} ({currency.name})
             </option>
