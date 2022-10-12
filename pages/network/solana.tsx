@@ -319,7 +319,11 @@ const Solana: ThirdwebNextPage = () => {
             >
               Build, launch, and manage web3 apps on Solana today
             </Heading>
-            <HStack spacing={5}>
+            <Stack
+              spacing={5}
+              direction={{ base: "column", md: "row" }}
+              align={{ base: "center", md: "flex-start" }}
+            >
               <ProductButton
                 maxW="260px"
                 title="Start building"
@@ -338,7 +342,7 @@ const Solana: ThirdwebNextPage = () => {
               >
                 Explore docs
               </LinkButton>
-            </HStack>
+            </Stack>
           </Stack>
         </Flex>
       </Box>

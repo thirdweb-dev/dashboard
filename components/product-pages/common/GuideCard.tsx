@@ -20,8 +20,7 @@ export const GuideCard: React.FC<GuideCardProps> = ({ image, title, link }) => {
       >
         <Image alt="" borderTopRadius="2xl" src={image} w="100%" />
         <Flex
-          flexShrink={0}
-          flexGrow={0}
+          flexGrow={1}
           flexDir="column"
           justifyContent="space-between"
           p={8}

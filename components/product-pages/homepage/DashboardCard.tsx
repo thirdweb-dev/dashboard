@@ -43,6 +43,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
       <Flex
         flexDir="column"
         p={{ base: 6, md: 10 }}
+        flexGrow={1}
         gap={4}
         bgColor="blackAlpha.300"
       >
