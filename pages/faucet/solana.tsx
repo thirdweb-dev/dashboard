@@ -53,6 +53,6 @@ SolanaFaucet.getLayout = (page: ReactElement) => (
   <AppLayout ecosystem="solana">{page}</AppLayout>
 );
 
-SolanaFaucet.pageId = PageId.Contracts;
+SolanaFaucet.pageId = PageId.FaucetSolana;
 
 export default SolanaFaucet;

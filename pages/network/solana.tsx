@@ -92,9 +92,7 @@ const Solana: ThirdwebNextPage = () => {
           >
             <Heading
               as="h2"
-              fontSize="48px"
-              fontWeight="bold"
-              size="display.sm"
+              size="title.2xl"
               textAlign={{ base: "center", md: "left" }}
             >
               We&apos;re bringing engineering excellence to Solana
@@ -140,7 +138,10 @@ const Solana: ThirdwebNextPage = () => {
             </Stack>
           </Flex>
 
-          <Center gridColumnEnd={{ base: undefined, md: "span 3" }}>
+          <Center
+            display={{ base: "none", md: "block" }}
+            gridColumnEnd={{ base: undefined, md: "span 3" }}
+          >
             <Flex justifyContent={{ base: "center", md: "flex-end" }} w="100%">
               <AspectRatio ratio={1} w="100%">
                 <ChakraNextImage
@@ -349,6 +350,6 @@ const Solana: ThirdwebNextPage = () => {
   );
 };
 
-Solana.pageId = PageId.Solana;
+Solana.pageId = PageId.NetworkSolana;
 
 export default Solana;

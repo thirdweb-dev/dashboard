@@ -23,13 +23,8 @@ const SolanaHackathon: ThirdwebNextPage = () => {
   return (
     <DarkMode>
       <NextSeo
-        title="thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000"
+        title="thirdweb Solanathon: October 19 – 26 | Build web3 apps, win $10,000"
         description="Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more."
-        openGraph={{
-          title:
-            "thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000",
-          url: `https://thirdweb.com/hackathon/solana`,
-        }}
       />
       <Flex
         sx={{

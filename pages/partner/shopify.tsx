@@ -39,9 +39,9 @@ const Shopify: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Shopify",
+        title: "Shopify | Partners & Integrations",
         description:
-          "thirdweb and Shopify to accelerate web3-enabled e-commerce",
+          "Create web3 e-commerce apps, build token-gated websites, and sell NFTs to your audience—all with thirdweb's Shopify integration. Start here.",
       }}
     >
       <Center
@@ -71,27 +71,40 @@ const Shopify: ThirdwebNextPage = () => {
             align={{ base: "initial", md: "start" }}
             justify={{ base: "start", md: "center" }}
           >
-            <Heading
-              as="h2"
-              fontSize="48px"
-              fontWeight="bold"
-              size="display.sm"
-              textAlign={{ base: "center", md: "left" }}
-            >
-              thirdweb and Shopify to accelerate web3-enabled ecommerce
-            </Heading>
+            <Flex gap={4}>
+              <AspectRatio
+                display={{ base: "block", md: "none" }}
+                ratio={1}
+                flexShrink={0}
+                w="48px"
+              >
+                <ChakraNextImage
+                  alt=""
+                  src={require("public/assets/partner-pages/shopify/hero.png")}
+                  layout="fill"
+                  objectFit="contain"
+                  priority
+                />
+              </AspectRatio>
+              <Heading
+                as="h2"
+                size="title.xl"
+                textAlign={{ base: "left", md: "left" }}
+              >
+                Build web3 ecommerce apps with thirdweb and Shopify
+              </Heading>
+            </Flex>
             <Heading
               as="h3"
               size="subtitle.md"
-              color="white"
-              opacity={0.8}
+              fontSize={{ base: "18px", md: "24px" }}
               textAlign={{ base: "center", md: "left" }}
             >
-              Start building web3 ecommerce apps easily. We&apos;re excited
-              about web3-enabled ecommerce which unlocks new value for merchants
-              and customers - from rewarding customer loyalty with NFTs to
-              token-gated commerce and more. Begin your web3 ecommerce journey
-              with thirdweb today.
+              Build web3 ecommerce apps easily. Add powerful web3 functionality
+              to your ecommerce store with token-gated commerce, NFT loyalty
+              programs, and more. We have simplified the development workflow so
+              that you can focus on creating value for your users and leave all
+              the complexity to us.
             </Heading>
             <Stack
               spacing={5}
@@ -109,7 +122,10 @@ const Shopify: ThirdwebNextPage = () => {
             </Stack>
           </Flex>
 
-          <Center gridColumnEnd={{ base: undefined, md: "span 3" }}>
+          <Center
+            display={{ base: "none", md: "block" }}
+            gridColumnEnd={{ base: undefined, md: "span 3" }}
+          >
             <Flex justifyContent={{ base: "center", md: "flex-end" }} w="100%">
               <AspectRatio ratio={1} w="100%">
                 <ChakraNextImage
@@ -313,6 +329,6 @@ const Shopify: ThirdwebNextPage = () => {
   );
 };
 
-Shopify.pageId = PageId.Shopify;
+Shopify.pageId = PageId.PartnerShopify;
 
 export default Shopify;
