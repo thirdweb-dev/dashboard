@@ -169,7 +169,7 @@ export const MismatchButton = React.forwardRef<
               <NoFundsNotice
                 symbol={ecosystem === "solana" ? "SOL" : symbol}
                 faucetUrl={
-                  ecosystem === "solana" ? "" : FAUCETS[resolvedChainId]
+                  ecosystem === "solana" ? "/faucet/solana" : FAUCETS[resolvedChainId]
                 }
                 label={
                   (ecosystem === "solana"
@@ -304,7 +304,7 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
           size="sm"
           colorScheme="orange"
           href={faucetUrl}
-          isExternal={faucetUrl.startsWith("http")}
+          isExternal
           onClick={() =>
             trackEvent({
               category: "no-funds",
