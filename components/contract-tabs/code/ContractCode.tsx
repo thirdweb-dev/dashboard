@@ -66,6 +66,11 @@ const INSTALL_COMMANDS = {
   },
 };
 
+const CREATE_APP_COMMANDS = {
+  evm: "npx thirdweb@latest create --app",
+  solana: "npx thirdweb create --template next-typescript-solana-starter",
+};
+
 export const ContractCode: React.FC<IContractCode> = ({
   contractAddress,
   contractType,
@@ -145,12 +150,27 @@ export const ContractCode: React.FC<IContractCode> = ({
     <Stack spacing={4}>
       <Card>
         <Stack spacing={3}>
-          <Heading size="title.sm">Getting Started</Heading>
-          <Text>First, install the latest version of the SDK.</Text>
-          <CodeBlock
-            language="bash"
-            code={INSTALL_COMMANDS[ecosystem][environment]}
-          />
+          {environment === "react" ? (
+            <>
+              <Heading size="title.sm">Create a new Project</Heading>
+              <Text>
+                Get up and running in seconds using a template React project
+              </Text>
+              <CodeBlock
+                language="bash"
+                code={CREATE_APP_COMMANDS[ecosystem]}
+              />
+            </>
+          ) : (
+            <>
+              <Heading size="title.sm">Getting started</Heading>
+              <Text>First, install the latest version of the SDK.</Text>
+              <CodeBlock
+                language="bash"
+                code={INSTALL_COMMANDS[ecosystem][environment]}
+              />
+            </>
+          )}
           <Text>
             Follow along below to get started using this contract in your code.
           </Text>
