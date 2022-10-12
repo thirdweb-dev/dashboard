@@ -3,8 +3,10 @@ import { Text } from "tw-components";
 
 export const Sponsors: React.FC = () => {
   return (
-    <Flex w="full" pb={20} flexDir="column" >
-      <Text size="label.md" textAlign="center">OUR SPONSORS</Text>
+    <Flex w="full" pb={20} flexDir="column">
+      <Text size="label.md" textAlign="center">
+        OUR SPONSORS
+      </Text>
       <SimpleGrid
         columns={4}
         gap={4}
