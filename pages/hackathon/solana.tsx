@@ -8,6 +8,7 @@ import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
+import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
@@ -21,6 +22,15 @@ const SolanaHackathon: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
   return (
     <DarkMode>
+      <NextSeo
+        title="thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000"
+        description="Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more."
+        openGraph={{
+          title:
+            "thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000",
+          url: `https://thirdweb.com/hackathon/solana`,
+        }}
+      />
       <Flex
         sx={{
           // overwrite the theme colors because the home page is *always* in "dark mode"
