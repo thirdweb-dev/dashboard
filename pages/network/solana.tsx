@@ -264,7 +264,7 @@ const Solana: ThirdwebNextPage = () => {
         opacity="0.8"
       />
 
-      <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
+      {/* <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
         <Flex
           flexDir="column"
           pt={{ base: 24, md: 36 }}
@@ -293,7 +293,7 @@ const Solana: ThirdwebNextPage = () => {
             />
           </AspectRatio>
         </Flex>
-      </Box>
+      </Box> */}
 
       <Box
         h="1px"
