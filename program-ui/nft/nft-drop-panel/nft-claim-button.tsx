@@ -3,7 +3,7 @@ import { NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { GiDiamondHard } from "@react-icons/all-files/gi/GiDiamondHard";
 import { NFTClaimForm } from "./nft-claim";
 import { Button, Drawer } from "tw-components"
-import { useDropTotalClaimedSupply, useDropUnclaimedSupply } from "@thirdweb-dev/react/solana";
+import { useDropUnclaimedSupply } from "@thirdweb-dev/react/solana";
 
 export const NFTClaimButton: React.FC<{ program: NFTDrop }> = ({
   program,
