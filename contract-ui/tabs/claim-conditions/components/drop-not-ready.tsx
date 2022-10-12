@@ -18,7 +18,14 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
     claimConditions.data?.lazyMintedSupply !==
     claimConditions.data?.totalAvailableSupply;
 
-  if (dismissed || !isClaimable || !dropNotReady || !program) {
+  const maxClaimableZero = claimConditions.data?.maxClaimable === "0";
+
+  if (
+    dismissed ||
+    !isClaimable ||
+    (!dropNotReady && !maxClaimableZero) ||
+    !program
+  ) {
     return null;
   }
 
@@ -31,16 +38,27 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
       direction="column"
       mb={8}
     >
-      <Text color="white">
-        The supply you&apos;ve set for your drop is{" "}
-        {claimConditions.data?.totalAvailableSupply}{" "}
-        {claimConditions.data?.lazyMintedSupply === 0
-          ? "and you have not uploaded NFTs any yet."
-          : ` but you have only uploaded ${claimConditions.data?.lazyMintedSupply} NFTs.`}{" "}
-        You need to <b>upload all of your NFTs</b> and{" "}
-        <b>set your claim conditions</b> in order for users to start claiming
-        them.
-      </Text>
+      {dropNotReady ? (
+        <Text color="white">
+          The supply you&apos;ve set for your drop is{" "}
+          {claimConditions.data?.totalAvailableSupply}{" "}
+          {claimConditions.data?.lazyMintedSupply === 0
+            ? "and you have not uploaded NFTs any yet."
+            : ` but you have only uploaded ${
+                claimConditions.data?.lazyMintedSupply
+              } NFT${
+                claimConditions.data?.lazyMintedSupply === 1 ? "" : "s"
+              }.`}{" "}
+          You need to <strong>upload all of your NFTs</strong> and{" "}
+          <strong>set your claim conditions</strong> in order for users to start
+          claiming them.
+        </Text>
+      ) : (
+        <Text color="white">
+          You need to <strong>set your claim conditions</strong> in order for
+          users to start claiming your lazy minted NFTs.
+        </Text>
+      )}
       <Stack direction="row" mt="8px">
         <Button
           size="sm"
