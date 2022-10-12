@@ -52,6 +52,7 @@ import {
   LinkButton,
   Text,
   TrackedIconButton,
+  TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import {
@@ -445,27 +446,49 @@ const WrappedSolanaDeployDrawer: React.FC<
       }}
       footer={{
         children: (
-          <Flex w="100%" gap={4} direction={{ base: "column", md: "row" }}>
-            <Select
-              isDisabled={deployMutation.isLoading}
-              onChange={(e) => {
-                setNetwork(e.target.value as DashboardSolanaNetwork);
-              }}
-            >
-              <option value="mainnet-beta">Mainnet Beta</option>
-              <option value="devnet">Devnet</option>
-            </Select>
-            <TransactionButton
-              flexShrink={0}
-              type="submit"
-              form={formId}
-              ecosystem="solana"
-              isLoading={deployMutation.isLoading}
-              colorScheme="primary"
-              transactionCount={1}
-            >
-              Deploy Now
-            </TransactionButton>
+          <Flex direction="column" gap={4}>
+            <Flex direction="column">
+              <Heading size="subtitle.md">Network</Heading>
+              <Text size="body.md" fontStyle="italic">
+                Select a network to deploy this program on. We recommend
+                starting with Devnet.{" "}
+                <TrackedLink
+                  href="https://blog.thirdweb.com/guides/which-network-should-you-use"
+                  color="primary.600"
+                  category="deploy"
+                  label="learn-networks"
+                  isExternal
+                >
+                  Learn more about the different networks.
+                </TrackedLink>{" "}
+              </Text>
+              <Text fontWeight="600" mt={2}>
+                To deploy on Devnet, you'll need to manually switch networks on
+                the Developer Settings of your Phantom wallet.
+              </Text>
+            </Flex>
+            <Flex w="100%" gap={4} direction={{ base: "column", md: "row" }}>
+              <Select
+                isDisabled={deployMutation.isLoading}
+                onChange={(e) => {
+                  setNetwork(e.target.value as DashboardSolanaNetwork);
+                }}
+              >
+                <option value="mainnet-beta">Mainnet Beta</option>
+                <option value="devnet">Devnet</option>
+              </Select>
+              <TransactionButton
+                flexShrink={0}
+                type="submit"
+                form={formId}
+                ecosystem="solana"
+                isLoading={deployMutation.isLoading}
+                colorScheme="primary"
+                transactionCount={1}
+              >
+                Deploy Now
+              </TransactionButton>
+            </Flex>
           </Flex>
         ),
       }}
