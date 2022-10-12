@@ -260,6 +260,10 @@ async function fetchConstructorParams(
     const txDeployBytecode = data.result[0].input;
     let constructorArgs = "";
 
+    if (contract.deploy.inputs.length === 0) {
+      return "";
+    }
+
     // first: attempt to get it from Release
     try {
       const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
