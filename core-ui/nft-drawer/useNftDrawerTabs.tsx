@@ -13,7 +13,6 @@ import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { ClaimTab } from "program-ui/nft/drawer-tabs/claim";
 
 type UseNFTDrawerTabsParams =
   | [ecosystem: "evm", contract: NFTContract, token: NFT | null]
@@ -55,16 +54,6 @@ export function useNFTDrawerTabs(
             import("program-ui/nft/drawer-tabs/burn").then(({ BurnTab }) =>
               // eslint-disable-next-line react/display-name
               () => <BurnTab program={contractOrProgram} tokenId={tokenId} />,
-            ),
-          ),
-        },
-        {
-          title: "Claim",
-          isDisabled: false,
-          children: dynamic(() =>
-            import("program-ui/nft/drawer-tabs/claim").then(({ ClaimTab }) =>
-              // eslint-disable-next-line react/display-name
-              () => <ClaimTab program={contractOrProgram as NFTDrop} tokenId={tokenId} />,
             ),
           ),
         },
