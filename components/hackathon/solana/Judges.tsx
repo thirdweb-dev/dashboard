@@ -1,6 +1,5 @@
 import { Flex, SimpleGrid, VStack } from "@chakra-ui/react";
 import { MaskedAvatar } from "components/contract-components/releaser/masked-avatar";
-import Image from "next/image";
 import { Heading, Text, TrackedLink } from "tw-components";
 
 export const Judges: React.FC = () => {
@@ -41,7 +40,7 @@ export const Judges: React.FC = () => {
             <TrackedLink
               href={`https://twitter.com/${judge.twitter}`}
               isExternal
-              category="team"
+              category="solana-hackathon"
               label={judge.name}
             >
               <Text size="label.md" color="gray.500">

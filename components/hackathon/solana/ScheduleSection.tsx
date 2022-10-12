@@ -1,9 +1,11 @@
 import { Flex, Icon, LinkBox, LinkOverlay, VStack } from "@chakra-ui/react";
 import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
 import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
-import { Heading, Link, Text } from "tw-components";
+import { useTrack } from "hooks/analytics/useTrack";
+import { Heading, Text } from "tw-components";
 
 export const ScheduleSection: React.FC = () => {
+  const trackEvent = useTrack();
   const items = [
     {
       day: 13,
@@ -65,7 +67,17 @@ export const ScheduleSection: React.FC = () => {
                 color="gray.300"
                 display={{ base: "none", md: "block" }}
               />
-              <LinkOverlay href={href} isExternal>
+              <LinkOverlay
+                href={href}
+                isExternal
+                onClick={() =>
+                  trackEvent({
+                    category: "solana-hackathon",
+                    action: "event",
+                    label: title,
+                  })
+                }
+              >
                 <Heading
                   textAlign={{ base: "right", md: "left" }}
                   mt={1}
@@ -81,6 +93,7 @@ export const ScheduleSection: React.FC = () => {
               as={BiRightArrowAlt}
               boxSize={6}
               color="gray.300"
+              _groupHover={{ color: "purple.500" }}
               display={{ base: "none", md: "block" }}
             />
           </Flex>

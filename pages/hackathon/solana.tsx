@@ -87,7 +87,7 @@ const SolanaHackathon: NextPage = () => {
         </HomepageSection>
 
         {/*           <Sponsors /> */}
-        <Divider mt={16} />
+        <Divider mt={16}  />
         <PrizeSection />
 
         <HomepageSection>
