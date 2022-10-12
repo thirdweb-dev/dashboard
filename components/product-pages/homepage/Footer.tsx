@@ -185,7 +185,6 @@ export const HomepageFooter: React.FC = () => {
                 <Heading size="label.lg">Partners</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
-                    isExternal
                     href="/partner/shopify"
                     category="footer"
                     label="partners"
@@ -233,7 +232,6 @@ export const HomepageFooter: React.FC = () => {
                 <Heading size="label.lg">Networks</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
-                    isExternal
                     href="/network/solana"
                     category="footer"
                     label="networks"
