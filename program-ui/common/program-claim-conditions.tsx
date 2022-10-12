@@ -131,14 +131,14 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
         />
       )}
       <Flex
-        onSubmit={handleSubmit((d) => {
+        onSubmit={handleSubmit(async (d) => {
           trackEvent({
             category: "nft",
             action: "set-claim-conditions",
             label: "attempt",
           });
-          mutation.mutateAsync(
-            {
+          try {
+            await mutation.mutateAsync({
               primarySaleRecipient: d.primarySaleRecipient,
               sellerFeeBasisPoints: d.sellerFeeBasisPoints,
               startTime: d.startTime,
@@ -147,26 +147,21 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
               ...(d.currencyAddress !== "SOLANA_NATIVE_TOKEN" && {
                 currencyAddress: d.currencyAddress,
               }),
-            },
-            {
-              onSuccess: () => {
-                trackEvent({
-                  category: "nft",
-                  action: "set-claim-conditions",
-                  label: "success",
-                });
-                onSuccess();
-              },
-              onError: (error) => {
-                trackEvent({
-                  category: "nft",
-                  action: "set-claim-conditions",
-                  label: "error",
-                });
-                onError(error);
-              },
-            },
-          );
+            });
+            trackEvent({
+              category: "nft",
+              action: "set-claim-conditions",
+              label: "success",
+            });
+            onSuccess();
+          } catch (error) {
+            trackEvent({
+              category: "nft",
+              action: "set-claim-conditions",
+              label: "error",
+            });
+            onError(error);
+          }
         })}
         direction="column"
         as="form"
@@ -175,24 +170,6 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
         <Flex direction={"column"} gap={4} px={{ base: 6, md: 10 }}>
           {seeForm ? (
             <Card position="relative">
-              {/*               <IconButton
-                variant="ghost"
-                aria-label="Delete Claim Conditions"
-                colorScheme="red"
-                icon={<Icon as={FiTrash} />}
-                top="16px"
-                right="16px"
-                position="absolute"
-                isDisabled={mutation.isLoading}
-                // Todo: Add reset to default
-                /                     onClick={() => {
-                        removePhase(index);
-                        if (!isMultiPhase) {
-                          setResetFlag(true);
-                        }
-                      }}
-              /> */}
-
               <Flex direction="column" gap={8}>
                 <Flex
                   direction={{

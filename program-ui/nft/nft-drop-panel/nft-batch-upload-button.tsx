@@ -1,4 +1,4 @@
-import { useDisclosure, Icon } from "@chakra-ui/react";
+import { Icon, useDisclosure } from "@chakra-ui/react";
 import { useClaimConditions, useLazyMint } from "@thirdweb-dev/react/solana";
 import { NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
@@ -8,7 +8,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { Button, Drawer } from "tw-components"
+import { Button, Drawer } from "tw-components";
 
 export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
   program,
@@ -18,7 +18,8 @@ export const NFTBatchUploadButton: React.FC<{ program: NFTDrop }> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { data: claimConditions } = useClaimConditions(program);
-  const allLazyMinted = claimConditions?.totalAvailableSupply === claimConditions?.lazyMintedSupply;
+  const allLazyMinted =
+    claimConditions?.totalAvailableSupply === claimConditions?.lazyMintedSupply;
 
   const [progress, setProgress] = useState<UploadProgressEvent>({
     progress: 0,

@@ -40,8 +40,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
   const isCustomContractLayout = layout === "custom-contract";
   return (
     <Flex
-      h="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
-      w="calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right))"
+      minH="calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
       position="relative"
       overflow="hidden"
       backgroundColor="backgroundBody"

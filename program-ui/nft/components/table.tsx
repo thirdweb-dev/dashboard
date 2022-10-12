@@ -97,7 +97,6 @@ export const NFTGetAllTable: React.FC<{
 
   const getAllQueryResult = useNFTs(program);
   const totalCount = getAllQueryResult.data ? getAllQueryResult.data.length : 0;
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -116,7 +115,11 @@ export const NFTGetAllTable: React.FC<{
   } = useTable(
     {
       columns: tableColumns,
-      data: getAllQueryResult.data || [],
+      data:
+        getAllQueryResult.data?.slice(
+          queryParams.start,
+          queryParams.start + queryParams.count,
+        ) || [],
       initialState: {
         pageSize: queryParams.count,
         pageIndex: 0,

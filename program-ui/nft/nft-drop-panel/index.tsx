@@ -1,10 +1,10 @@
 import { NFTGetAllTable } from "../components/table";
-import { Flex } from "@chakra-ui/react";
-import type { NFTDrop } from "@thirdweb-dev/sdk/solana";
-import { Heading } from "tw-components";
 import { NFTBatchUploadButton } from "./nft-batch-upload-button";
 import { NFTClaimButton } from "./nft-claim-button";
 import { NFTSingleUploadButton } from "./nft-single-upload-button";
+import { Flex } from "@chakra-ui/react";
+import type { NFTDrop } from "@thirdweb-dev/sdk/solana";
+import { Heading } from "tw-components";
 
 export const NFTDropPanel: React.FC<{
   program: NFTDrop;
@@ -23,6 +23,3 @@ export const NFTDropPanel: React.FC<{
     </Flex>
   );
 };
-
-
-
