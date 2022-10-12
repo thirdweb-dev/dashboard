@@ -17,8 +17,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Solana } from "@thirdweb-dev/chain-icons";
+import { ThirdwebSDKProvider, useSDK } from "@thirdweb-dev/react/solana";
 import { ContractType } from "@thirdweb-dev/sdk/evm";
 import type {
   NFTCollectionMetadataInput,
@@ -33,9 +34,10 @@ import {
   FeatureIconMap,
   SolContractType,
 } from "constants/mappings";
+import { getSOLRPC } from "constants/rpc";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { getSOLThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
+import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import React, { useId, useMemo, useState } from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
@@ -337,36 +339,30 @@ const ContractTableRow: React.FC<ContractTableRowProps> = ({ row }) => {
     </>
   );
 };
-type UseDpeloySolanaParams<TContractType extends SolContractType> = {
-  network: DashboardSolanaNetwork;
-  data: TContractType extends "token"
+type UseDpeloySolanaParams<TContractType extends SolContractType> =
+  TContractType extends "token"
     ? TokenMetadataInput
     : TContractType extends "nft-collection"
     ? NFTCollectionMetadataInput
     : TContractType extends "nft-drop"
     ? NFTDropContractInput
     : never;
-};
 
 function useDeploySolana<TContractType extends SolContractType>(
   contractType: TContractType,
 ) {
-  const wallet = useWallet();
-  return useMutation(async (params: UseDpeloySolanaParams<TContractType>) => {
-    invariant(wallet.publicKey, "Wallet not connected");
-    const sdk = getSOLThirdwebSDK(params.network);
-    sdk.wallet.connect(wallet);
+  const sdk = useSDK();
+  return useMutation(async (data: UseDpeloySolanaParams<TContractType>) => {
+    invariant(sdk, "SDK not initialized");
 
     if (contractType === "token") {
-      return await sdk.deployer.createToken(params.data as TokenMetadataInput);
+      return await sdk.deployer.createToken(data as TokenMetadataInput);
     } else if (contractType === "nft-collection") {
       return await sdk.deployer.createNftCollection(
-        params.data as NFTCollectionMetadataInput,
+        data as NFTCollectionMetadataInput,
       );
     } else if (contractType === "nft-drop") {
-      return await sdk.deployer.createNftDrop(
-        params.data as NFTDropContractInput,
-      );
+      return await sdk.deployer.createNftDrop(data as NFTDropContractInput);
     }
     throw new Error("invalid contract type");
   }, {});
@@ -377,17 +373,39 @@ interface SolanaDeployDrawerProps {
   disclosure: UseDisclosureReturn;
 }
 
-const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
-  contractDetails,
-  disclosure,
-}) => {
+const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = (props) => {
+  const [network, setNetwork] =
+    useState<DashboardSolanaNetwork>("mainnet-beta");
+  const wallet = useWallet();
+  const queryClient = useQueryClient();
+
+  const endpoint = useMemo(() => network && getSOLRPC(network), [network]);
+
+  return (
+    <ThirdwebSDKProvider
+      wallet={wallet}
+      queryClient={queryClient}
+      network={endpoint}
+    >
+      <WrappedSolanaDeployDrawer
+        {...props}
+        network={network}
+        setNetwork={setNetwork}
+      />
+    </ThirdwebSDKProvider>
+  );
+};
+
+const WrappedSolanaDeployDrawer: React.FC<
+  SolanaDeployDrawerProps & {
+    network: DashboardSolanaNetwork;
+    setNetwork: React.Dispatch<React.SetStateAction<"mainnet-beta" | "devnet">>;
+  }
+> = ({ contractDetails, disclosure, network, setNetwork }) => {
   const formId = useId();
   const deployMutation = useDeploySolana(
     contractDetails.contractType as SolContractType,
   );
-
-  const [network, setNetwork] =
-    useState<DashboardSolanaNetwork>("mainnet-beta");
 
   const trackEvent = useTrack();
 
@@ -429,6 +447,7 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
         children: (
           <Flex w="100%" gap={4} direction={{ base: "column", md: "row" }}>
             <Select
+              isDisabled={deployMutation.isLoading}
               onChange={(e) => {
                 setNetwork(e.target.value as DashboardSolanaNetwork);
               }}
@@ -462,42 +481,39 @@ const SolanaDeployDrawer: React.FC<SolanaDeployDrawerProps> = ({
             programId: contractDetails.contractType,
             deployData: d,
           });
-          deployMutation.mutate(
-            { network, data: d },
-            {
-              onSuccess: (contractAddress, variables) => {
-                trackEvent({
-                  category: "program",
-                  action: "deploy",
-                  label: "success",
-                  programId: contractDetails.contractType,
-                  deployData: variables,
-                  contractAddress,
-                });
-                onSuccess();
-                router.push(
-                  `/${
-                    SupportedSolanaNetworkToUrlMap[
-                      variables.network as DashboardSolanaNetwork
-                    ]
-                  }/${contractAddress}`,
-                  undefined,
-                  { shallow: true },
-                );
-              },
-              onError: (error, variables) => {
-                trackEvent({
-                  category: "program",
-                  action: "deploy",
-                  label: "error",
-                  programId: contractDetails.contractType,
-                  deployData: variables,
-                  error,
-                });
-                onError(error);
-              },
+          deployMutation.mutate(d, {
+            onSuccess: (contractAddress, variables) => {
+              trackEvent({
+                category: "program",
+                action: "deploy",
+                label: "success",
+                programId: contractDetails.contractType,
+                deployData: variables,
+                contractAddress,
+              });
+              onSuccess();
+              router.push(
+                `/${
+                  SupportedSolanaNetworkToUrlMap[
+                    network as DashboardSolanaNetwork
+                  ]
+                }/${contractAddress}`,
+                undefined,
+                { shallow: true },
+              );
             },
-          );
+            onError: (error, variables) => {
+              trackEvent({
+                category: "program",
+                action: "deploy",
+                label: "error",
+                programId: contractDetails.contractType,
+                deployData: variables,
+                error,
+              });
+              onError(error);
+            },
+          });
         }}
       />
     </Drawer>
