@@ -10,6 +10,7 @@ import {
   Tabs,
   usePrevious,
 } from "@chakra-ui/react";
+import { PublicKey } from "@solana/web3.js";
 import type { NFT } from "@thirdweb-dev/sdk";
 import React from "react";
 import {
@@ -44,6 +45,11 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
   if (!renderData) {
     return null;
   }
+
+  const tokenId =
+    renderData.metadata.id === PublicKey.default.toBase58()
+      ? "Unclaimed"
+      : renderData.metadata.id;
 
   return (
     <Drawer
@@ -95,7 +101,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                     </GridItem>
                     <GridItem colSpan={9}>
                       <Text fontFamily="mono" size="body.md">
-                        {shortenIfAddress(renderData.metadata.id)}
+                        {shortenIfAddress(tokenId)}
                       </Text>
                     </GridItem>
                     <GridItem colSpan={3}>
