@@ -88,9 +88,6 @@ export const FormComponent: React.FC<IFormComponentProps> = ({
         onSubmit={() => mutate()}
       >
         <Input
-          bg="#0F1318"
-          borderColor="#0F1318"
-          color="#F2F2F7"
           onChange={(e) => setAddress(e.target.value)}
           placeholder="Enter your address"
           value={address}
@@ -98,9 +95,7 @@ export const FormComponent: React.FC<IFormComponentProps> = ({
         />
 
         <Button
-          bg="#0098EE"
-          borderColor="#0098EE"
-          color="#F2F2F7"
+          colorScheme="blue"
           disabled={isLoading || transactionLink.length > 0 || !address}
           w={{ base: "full", md: "175px" }}
           fontSize={{ base: "sm", md: "md" }}

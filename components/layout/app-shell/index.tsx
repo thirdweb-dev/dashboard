@@ -29,11 +29,13 @@ import { ComponentWithChildren } from "types/component-with-children";
 
 export interface AppShellProps {
   layout?: "custom-contract";
+  ecosystem?: "evm" | "solana" | "either";
 }
 
 export const AppShell: ComponentWithChildren<AppShellProps> = ({
   children,
   layout,
+  ecosystem = "either",
 }) => {
   const { pathname } = useRouter();
 
@@ -159,7 +161,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 />
               </ButtonGroup>
               <ColorModeToggle />
-              <ConnectWallet colorScheme="primary" />
+              <ConnectWallet colorScheme="primary" ecosystem={ecosystem} />
             </Stack>
           </Container>
         </Box>

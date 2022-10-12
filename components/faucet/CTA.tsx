@@ -1,46 +1,38 @@
-import { AspectRatio, Flex, Icon } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import { FiExternalLink } from "react-icons/fi";
-import { Card, LinkButton, Text, TrackedLink } from "tw-components";
+import { Card, LinkButton, Text } from "tw-components";
 
 interface ICTA {
   transactionLink: string;
 }
 
-export const CTA: React.FC<ICTA> = ({ transactionLink }) => {
+export const CTA: React.FC<ICTA> = () => {
   const trackEvent = useTrack();
 
   return (
-    <AspectRatio ratio={{ base: 1 / 1, md: transactionLink ? 3 / 1 : 4 / 1 }}>
+    <AspectRatio ratio={{ base: 1 / 1, md: 4 / 1 }}>
       <Card
-        bg="url(/assets/faucet/cta-bg.png) no-repeat center"
-        bgSize="cover"
+        position="relative"
+        bg="rgba(0,0,0,0.5)"
+        backdropFilter="blur(10px)"
         flexDir="column"
         px={10}
         gap={6}
         alignItems="flex-start !important"
+        border="1px solid inset rgba(255,255,255,.2)"
       >
-        {transactionLink && (
-          <Flex gap="2">
-            <Text fontSize="20px">🎉 Funds sent successfully!</Text>
-
-            <TrackedLink
-              fontSize="18px"
-              color="white"
-              href={transactionLink}
-              isExternal
-              category="solana-faucet"
-              display="flex"
-              alignItems="center"
-              gap={2}
-              textDecoration="underline"
-            >
-              View on Solana Explorer
-              <Icon as={FiExternalLink} />
-            </TrackedLink>
-          </Flex>
-        )}
-
+        <Box
+          bgImage="url(/assets/solana-gradient.png)"
+          bgSize="initial"
+          bgRepeat="no-repeat"
+          bgPosition="center"
+          position="absolute"
+          top={0}
+          bottom={0}
+          left={0}
+          right={0}
+          zIndex={-1}
+        />
         <Text
           color="white"
           fontSize={{ base: "24px", md: "32px" }}
