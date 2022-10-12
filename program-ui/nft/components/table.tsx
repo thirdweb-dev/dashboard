@@ -13,6 +13,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { PublicKey } from "@solana/web3.js";
 import { useNFTs } from "@thirdweb-dev/react/solana";
 import type { NFT } from "@thirdweb-dev/sdk";
 import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
@@ -39,7 +40,12 @@ export const NFTGetAllTable: React.FC<{
     const cols: Column<NFT>[] = [
       {
         Header: "Token Id",
-        accessor: (row) => row.metadata.id,
+        accessor: (row) => {
+          if (row.metadata.id === PublicKey.default.toBase58()) {
+            return "Unclaimed";
+          }
+          return row.metadata.id;
+        },
         Cell: (cell: CellProps<NFT, string>) => (
           <Text size="body.md" fontFamily="mono">
             {shortenIfAddress(cell.value)}
