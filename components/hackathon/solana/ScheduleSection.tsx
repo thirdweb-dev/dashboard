@@ -73,7 +73,7 @@ export const ScheduleSection: React.FC = () => {
                 isExternal
                 onClick={() =>
                   trackEvent({
-                    category: "solana-hackathon",
+                    category: "solanathon",
                     action: "event",
                     label: title,
                   })

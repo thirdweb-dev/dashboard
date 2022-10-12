@@ -37,7 +37,7 @@ export const HackathonFooter: FC = () => {
         href="https://thirdweb.typeform.com/to/zfrq8Jx0"
         onClick={() =>
           trackEvent({
-            category: "solana-hackathon",
+            category: "solanathon",
             action: "click",
             label: "register-now",
           })

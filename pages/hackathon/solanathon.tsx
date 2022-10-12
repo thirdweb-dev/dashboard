@@ -13,6 +13,7 @@ import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
 import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
 import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
+import { Sponsors } from "components/hackathon/solana/Sponsors";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -79,7 +80,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
               href="https://thirdweb.typeform.com/to/zfrq8Jx0"
               onClick={() =>
                 trackEvent({
-                  category: "solana-hackathon",
+                  category: "solanathon",
                   action: "click",
                   label: "register-now",
                 })
@@ -102,7 +103,9 @@ const SolanaHackathon: ThirdwebNextPage = () => {
           </Flex>
         </HomepageSection>
 
-        {/*           <Sponsors /> */}
+        <HomepageSection>
+          <Sponsors />
+        </HomepageSection>
         <Divider mt={16} />
         <PrizeSection />
 
@@ -125,6 +128,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
                     - Use a thirdweb prebuilt program or an existing program on
                     Solana and interface with the thirdweb SDKs
                   </ListItem>
+                  <ListItem>- Project submissions must be open-source</ListItem>
                   <ListItem>
                     - Be submitted through GitHub with a descriptive Readme file
                     detailing the project
@@ -148,7 +152,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
                 team in our{" "}
                 <TrackedLink
                   href="https://discord.gg/thirdweb"
-                  category="solana-hackathon"
+                  category="solanathon"
                   label="discord"
                   textDecoration="underline"
                 >

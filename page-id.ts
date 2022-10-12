@@ -43,7 +43,7 @@ export enum PageId {
   GasEstimator = "gas-estimator",
 
   // thirdweb.com/hackathon/solanathon
-  SolanaHackathonLanding = "solana-hackathon",
+  SolanaHackathonLanding = "solanathon",
 
   // ---------------------------------------------------------------------------
   //  general product pages

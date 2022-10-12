@@ -36,7 +36,7 @@ export const Judges: React.FC = () => {
             <TrackedLink
               href={`https://twitter.com/${judge.twitter}`}
               isExternal
-              category="solana-hackathon"
+              category="solanathon"
               label={judge.name}
             >
               <Text size="label.md" color="gray.500">
