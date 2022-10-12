@@ -35,6 +35,21 @@ const SolanaHackathon: ThirdwebNextPage = () => {
       <NextSeo
         title="thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000"
         description="Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more."
+        openGraph={{
+          title:
+            "thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000",
+          url: "https://thirdweb.com/hackathon/solanathon",
+          description:
+            "Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more.",
+          images: [
+            {
+              url: "https://thirdweb.com/assets/og-image/solanathon.jpg",
+              width: 1200,
+              height: 630,
+              alt: "thirdweb Solanathon: October 19 - 26",
+            },
+          ],
+        }}
       />
       <Flex
         sx={{
