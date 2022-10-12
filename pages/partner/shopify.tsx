@@ -42,6 +42,16 @@ const Shopify: ThirdwebNextPage = () => {
         title: "Shopify | Partners & Integrations",
         description:
           "Create web3 e-commerce apps, build token-gated websites, and sell NFTs to your audience—all with thirdweb's Shopify integration. Start here.",
+        openGraph: {
+          images: [
+            {
+              url: "https://thirdweb.com/thirdwebxshopify.png",
+              width: 1200,
+              height: 630,
+              alt: "thirdweb x shopify",
+            },
+          ],
+        },
       }}
     >
       <Center

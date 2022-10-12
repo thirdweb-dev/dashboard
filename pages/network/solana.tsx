@@ -48,6 +48,16 @@ const Solana: ThirdwebNextPage = () => {
         title: "Web3 Solana Smart Contracts, APIs, and Developer Tools",
         description:
           "Deploy Solana smart contracts, build web3 apps, and manage it all using our developer tools, SDKs, and more. Start building with thirdweb now.",
+        openGraph: {
+          images: [
+            {
+              url: "https://thirdweb.com/thirdwebxsolana.png",
+              width: 1200,
+              height: 630,
+              alt: "thirdweb x solana",
+            },
+          ],
+        },
       }}
     >
       <Center
@@ -161,6 +171,7 @@ const Solana: ThirdwebNextPage = () => {
                 rightGradient: "#9945FF",
                 leftGradient: "#19FB9B",
               }}
+              href="https://portal.thirdweb.com/solana"
             />
             <DashboardCard
               headingTitle="Launch"
@@ -173,6 +184,7 @@ const Solana: ThirdwebNextPage = () => {
                 bottomGradient: "#9945FF",
                 topGradient: "#19FB9B",
               }}
+              href="https://portal.thirdweb.com/solana/creating-programs"
             />
             <DashboardCard
               headingTitle="Manage"
@@ -185,6 +197,7 @@ const Solana: ThirdwebNextPage = () => {
                 leftGradient: "#9945FF",
                 rightGradient: "#19FB9B",
               }}
+              href="/dashboard"
             />
           </SimpleGrid>
         </Flex>
