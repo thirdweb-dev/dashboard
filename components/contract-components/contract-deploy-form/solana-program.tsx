@@ -91,8 +91,8 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
     [deploySchema],
   );
 
-  const hasItemsAvailable = useMemo(
-    () => "itemsAvailable" in deploySchema.shape,
+  const hasTotalSupply = useMemo(
+    () => "totalSupply" in deploySchema.shape,
     [deploySchema],
   );
 
@@ -214,15 +214,15 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
             </FormControl>
           )}
 
-          {hasItemsAvailable && (
+          {hasTotalSupply && (
             <FormControl
-              isRequired={isRequired("itemsAvailable")}
-              isInvalid={!!getFieldState("itemsAvailable", formState).error}
+              isRequired={isRequired("totalSupply")}
+              isInvalid={!!getFieldState("totalSupply", formState).error}
             >
-              <FormLabel>Supply</FormLabel>
-              <Input variant="filled" {...register("itemsAvailable")} />
+              <FormLabel>Total Supply</FormLabel>
+              <Input variant="filled" {...register("totalSupply")} />
               <FormErrorMessage>
-                {getFieldState("itemsAvailable", formState).error?.message}
+                {getFieldState("totalSupply", formState).error?.message}
               </FormErrorMessage>
               <FormHelperText>
                 Total amount of NFTs for your drop. All NFTs will need to be
