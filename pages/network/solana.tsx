@@ -5,6 +5,8 @@ import {
   Container,
   Flex,
   HStack,
+  Icon,
+  Link,
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
@@ -16,7 +18,8 @@ import { ProductSection } from "components/product-pages/common/ProductSection";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
-import { Button, Heading, LinkButton, Text } from "tw-components";
+import { FiArrowRight } from "react-icons/fi";
+import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 const SOLANA_GUIDES = [
   {
@@ -79,7 +82,7 @@ const Solana: ThirdwebNextPage = () => {
           minHeight="578px"
         >
           <Flex
-            gridColumnEnd={{ base: undefined, md: "span 5" }}
+            gridColumnEnd={{ base: undefined, md: "span 6" }}
             padding={{ base: "24px", md: "48px" }}
             pt={{ base: "36px", md: undefined }}
             borderLeftRadius={{ base: 0, md: 24 }}
@@ -95,7 +98,7 @@ const Solana: ThirdwebNextPage = () => {
               size="display.sm"
               textAlign={{ base: "center", md: "left" }}
             >
-              Start building on Solana
+              We&apos;re bringing engineering excellence to Solana
             </Heading>
             <Heading
               as="h3"
@@ -104,12 +107,11 @@ const Solana: ThirdwebNextPage = () => {
               opacity={0.8}
               textAlign={{ base: "center", md: "left" }}
             >
-              We&apos;re excited to announce that thirdweb developer tools are
-              now coming to Solana!
-              <br />
-              <br />
-              Quickly learn how to ship web3 apps on Solana ecosystem with the
-              same effortless workflow that you&apos;re already familiar with!
+              <strong>Building on Solana has never been easier.</strong>{" "}
+              We&apos;ve simplified the Solana development workflow with our
+              intuitive Dashboard and SDKs to deploy and interact with your
+              programs. Focus on creating value for your users and leave all the
+              web3 complexity to us.
             </Heading>
             <Stack
               spacing={5}
@@ -132,13 +134,14 @@ const Solana: ThirdwebNextPage = () => {
                 fontSize="20px"
                 maxW="260px"
                 fontWeight="bold"
+                isExternal
               >
                 Explore docs
               </LinkButton>
             </Stack>
           </Flex>
 
-          <Center gridColumnEnd={{ base: undefined, md: "span 4" }}>
+          <Center gridColumnEnd={{ base: undefined, md: "span 3" }}>
             <Flex justifyContent={{ base: "center", md: "flex-end" }} w="100%">
               <AspectRatio ratio={1} w="100%">
                 <ChakraNextImage
@@ -164,7 +167,7 @@ const Solana: ThirdwebNextPage = () => {
           <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
             <DashboardCard
               headingTitle="Build"
-              title={"Build applications with ease"}
+              title={"Powerful Solana SDKs"}
               subtitle="Create frontend and backend applications with Solana using our fully-featured SDKs."
               rightImage={require("public/assets/landingpage/thirdweb-teams.png")}
               gradientBGs={{
@@ -176,7 +179,7 @@ const Solana: ThirdwebNextPage = () => {
             />
             <DashboardCard
               headingTitle="Launch"
-              title={"Fast and simple deployment"}
+              title={"Easily Deploy Programs"}
               subtitle="Deploy NFT Collections, Drops, and Tokens in a single click or single line of code."
               rightImage={require("public/assets/landingpage/contracts.png")}
               gradientBGs={{
@@ -188,7 +191,7 @@ const Solana: ThirdwebNextPage = () => {
             />
             <DashboardCard
               headingTitle="Manage"
-              title={"Intuitive admin dashboards"}
+              title={"Intuitive Dashboard"}
               subtitle="Monitor, configure, and interact with your programs from an intuitive admin dashboard."
               rightImage={require("public/assets/landingpage/analytics.png")}
               gradientBGs={{
@@ -217,7 +220,7 @@ const Solana: ThirdwebNextPage = () => {
             fontWeight={700}
             textAlign="center"
           >
-            What can you build?
+            Learn how to build on Solana
           </Heading>
           <Heading
             as="h3"
@@ -234,6 +237,24 @@ const Solana: ThirdwebNextPage = () => {
               <GuideCard key={title} image={image} title={title} link={link} />
             ))}
           </SimpleGrid>
+          <TrackedLink
+            href="https://blog.thirdweb.com/tag/solana/"
+            category="solana"
+            label="see-all-guides"
+            isExternal
+          >
+            <HStack>
+              <Heading
+                fontSize="20px"
+                fontWeight="medium"
+                as="p"
+                lineHeight={{ base: 1.5, md: undefined }}
+              >
+                See all of our Solana guides
+              </Heading>
+              <Icon as={FiArrowRight} />
+            </HStack>
+          </TrackedLink>
         </Flex>
       </ProductSection>
 
@@ -283,7 +304,8 @@ const Solana: ThirdwebNextPage = () => {
       <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
         <Flex
           flexDir="column"
-          py={{ base: 12, lg: 24 }}
+          pb={{ base: 24, md: 36 }}
+          pt={{ base: 20, md: 32 }}
           align="center"
           gap={{ base: 6, md: 8 }}
         >
@@ -295,7 +317,7 @@ const Solana: ThirdwebNextPage = () => {
               fontWeight={700}
               textAlign="center"
             >
-              Start building with thirdweb and Solana today
+              Build, launch, and manage web3 apps on Solana today
             </Heading>
             <HStack spacing={5}>
               <ProductButton
@@ -312,6 +334,7 @@ const Solana: ThirdwebNextPage = () => {
                 py={"28px"}
                 fontSize="20px"
                 fontWeight="bold"
+                isExternal
               >
                 Explore docs
               </LinkButton>
