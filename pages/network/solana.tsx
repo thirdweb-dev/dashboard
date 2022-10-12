@@ -82,7 +82,7 @@ const Solana: ThirdwebNextPage = () => {
               size="title.2xl"
               textAlign={{ base: "center", md: "left" }}
             >
-              We&apos;re bringing engineering excellence to Solana
+              Bringing engineering excellence to Solana
             </Heading>
             <Heading
               as="h3"
@@ -91,11 +91,9 @@ const Solana: ThirdwebNextPage = () => {
               opacity={0.8}
               textAlign={{ base: "center", md: "left" }}
             >
-              <strong>Building on Solana has never been easier.</strong>{" "}
-              We&apos;ve simplified the Solana development workflow with our
-              intuitive Dashboard and SDKs to deploy and interact with your
-              programs. Focus on creating value for your users and leave all the
-              web3 complexity to us.
+              <strong>Building on Solana has never been easier.</strong> A
+              simplified Solana development workflow. Intuitive dashboard and
+              SDKs to deploy and interact with your programs.
             </Heading>
             <Stack
               spacing={5}
