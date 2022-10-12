@@ -20,7 +20,7 @@ export const ScheduleSection: React.FC = () => {
     {
       day: 19,
       title: "Learn to build on Solana",
-      href: "https://lu.ma/sol-1",
+      href: "https://lu.ma/build-on-sol",
     },
     {
       day: 19,
