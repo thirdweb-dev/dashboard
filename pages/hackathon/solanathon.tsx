@@ -56,10 +56,14 @@ const SolanaHackathon: ThirdwebNextPage = () => {
               w={{ base: "300px", md: "600px" }}
               objectFit="contain"
             />
-            <Heading size="display.lg" textAlign="center">
-              $10,000 in prizes.
-              <br /> Hack it your way.
-            </Heading>
+            <Flex flexDir="column">
+              <Heading size="display.lg" textAlign="center">
+                $10,000 in prizes.
+              </Heading>
+              <Heading size="display.sm" textAlign="center">
+                Oct 19th - Oct 26th.
+              </Heading>
+            </Flex>
 
             <Timer />
 

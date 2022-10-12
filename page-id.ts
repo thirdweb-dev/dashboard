@@ -42,10 +42,7 @@ export enum PageId {
   // thirdweb.com/gas
   GasEstimator = "gas-estimator",
 
-  // thirdweb.com/solana
-  SolanaLanding = "solana-landing",
-
-  // thirdweb.com/hackathon/solana
+  // thirdweb.com/hackathon/solanathon
   SolanaHackathonLanding = "solana-hackathon",
 
   // ---------------------------------------------------------------------------

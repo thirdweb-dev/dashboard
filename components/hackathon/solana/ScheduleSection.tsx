@@ -1,4 +1,4 @@
-import { Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { Badge, Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
 import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -16,6 +16,7 @@ export const ScheduleSection: React.FC = () => {
       day: 19,
       title: "Solana-thon NYC Kickoff",
       href: "https://lu.ma/solanathonkickoff.thirdweb",
+      irl: "NYC",
     },
     {
       day: 20,
@@ -41,7 +42,7 @@ export const ScheduleSection: React.FC = () => {
         borderRadius="lg"
         overflow="hidden"
       >
-        {items.map(({ day, title, href }) => (
+        {items.map(({ day, title, href, irl }) => (
           <Flex
             role="group"
             as={LinkBox}
@@ -78,15 +79,29 @@ export const ScheduleSection: React.FC = () => {
                   })
                 }
               >
-                <Heading
-                  textAlign={{ base: "right", md: "left" }}
-                  mt={1}
-                  fontSize="20px"
-                  maxW="350px"
-                  fontWeight={500}
+                <Flex
+                  alignItems="center"
+                  width={{ base: "full", md: "500px" }}
+                  gap={2}
                 >
-                  {title}
-                </Heading>
+                  <Heading
+                    textAlign={{ base: "right", md: "left" }}
+                    mt={1}
+                    fontSize="20px"
+                    maxW="350px"
+                    fontWeight={500}
+                  >
+                    {title}
+                  </Heading>
+                  {irl && (
+                    <Badge
+                      display={{ base: "none", md: "block" }}
+                      colorScheme="purple"
+                    >
+                      At our {irl} Office!
+                    </Badge>
+                  )}
+                </Flex>
               </LinkOverlay>
             </Flex>
             <Icon

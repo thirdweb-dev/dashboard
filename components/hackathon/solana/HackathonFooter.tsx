@@ -1,4 +1,4 @@
-import { Icon, Image, VStack } from "@chakra-ui/react";
+import { Flex, Icon, Image, VStack } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { useTrack } from "hooks/analytics/useTrack";
 import type { FC } from "react";
@@ -24,10 +24,14 @@ export const HackathonFooter: FC = () => {
         w={{ base: "300px", md: "600px" }}
         objectFit="contain"
       />
-      <Heading size="display.sm" textAlign="center">
-        $10,000 in prizes.
-        <br /> Hack it your way.
-      </Heading>
+      <Flex flexDir="column" gap={2}>
+        <Heading size="display.sm" textAlign="center">
+          $10,000 in prizes.
+        </Heading>
+        <Heading size="title.2xl" textAlign="center">
+          Oct 19th - Oct 26th.
+        </Heading>
+      </Flex>
 
       <LinkButton
         href="https://thirdweb.typeform.com/to/zfrq8Jx0"

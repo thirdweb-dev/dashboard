@@ -30,7 +30,7 @@ export const Judges: React.FC = () => {
         justifyContent="space-evenly"
       >
         {judges.map((judge) => (
-          <Flex key={judge.name} flexDir="column" gap={1}>
+          <Flex key={judge.name} flexDir="column" gap={2} alignItems="center">
             <MaskedAvatar src={judge.image} alt="" boxSize={40} />
             <Heading size="title.sm">{judge.name}</Heading>
             <TrackedLink
