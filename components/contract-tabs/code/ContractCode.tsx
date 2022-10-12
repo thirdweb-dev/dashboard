@@ -49,11 +49,21 @@ interface IContractCode {
 }
 
 const INSTALL_COMMANDS = {
-  typescript: "npm install @thirdweb-dev/sdk",
-  javascript: "npm install @thirdweb-dev/sdk",
-  react: "npm install @thirdweb-dev/sdk @thirdweb-dev/react",
-  python: "pip install thirdweb-sdk",
-  go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+  evm: {
+    typescript: "npm install @thirdweb-dev/sdk ethers",
+    javascript: "npm install @thirdweb-dev/sdk ethers",
+    react: "npm install @thirdweb-dev/sdk @thirdweb-dev/react ethers",
+    python: "pip install thirdweb-sdk",
+    go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+  },
+  solana: {
+    typescript: "npm install @thirdweb-dev/sdk",
+    javascript: "npm install @thirdweb-dev/sdk",
+    react:
+      "npm install @thirdweb-dev/sdk @thirdweb-dev/react @solana/wallet-adapter-wallets @solana/wallet-adapter-react",
+    python: "pip install thirdweb-sdk",
+    go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+  },
 };
 
 export const ContractCode: React.FC<IContractCode> = ({
@@ -137,7 +147,10 @@ export const ContractCode: React.FC<IContractCode> = ({
         <Stack spacing={3}>
           <Heading size="title.sm">Getting Started</Heading>
           <Text>First, install the latest version of the SDK.</Text>
-          <CodeBlock language="bash" code={INSTALL_COMMANDS[environment]} />
+          <CodeBlock
+            language="bash"
+            code={INSTALL_COMMANDS[ecosystem][environment]}
+          />
           <Text>
             Follow along below to get started using this contract in your code.
           </Text>
