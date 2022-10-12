@@ -18,7 +18,7 @@ import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { FiArrowRight } from "react-icons/fi";
-import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 const SHOPIFY_GUIDES = [
   {

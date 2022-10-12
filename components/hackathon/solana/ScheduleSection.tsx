@@ -41,7 +41,7 @@ export const ScheduleSection: React.FC = () => {
         borderRadius="lg"
         overflow="hidden"
       >
-        {items.map(({ day, title, href }, i) => (
+        {items.map(({ day, title, href }) => (
           <Flex
             role="group"
             as={LinkBox}
