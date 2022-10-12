@@ -9,9 +9,9 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
 import dynamic from "next/dynamic";
-import { Heading, LinkButton, Text } from "tw-components";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
+import { Heading, LinkButton, Text } from "tw-components";
 
 const Timer = dynamic(() => import("components/hackathon/solana/Timer"), {
   ssr: false,
@@ -85,14 +85,14 @@ const SolanaHackathon: ThirdwebNextPage = () => {
         </HomepageSection>
 
         {/*           <Sponsors /> */}
-        <Divider mt={16}  />
+        <Divider mt={16} />
         <PrizeSection />
 
         <HomepageSection>
           <ScheduleSection />
         </HomepageSection>
 
-        <HomepageSection mt={{base: 12, md: 24}}>
+        <HomepageSection mt={{ base: 12, md: 24 }}>
           <Flex flexDir="column" alignItems="center" gap={8}>
             <Heading size="title.2xl" textStyle="center">
               Guidelines
@@ -121,7 +121,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
         {/*          <Resources /> */}
         <Box
           w="full"
-          h={{base: "200px", md: "250px"}}
+          h={{ base: "200px", md: "250px" }}
           background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
           filter="blur(100px)"
           transform="matrix(-1, 0, 0, 1, 0, 0)"
