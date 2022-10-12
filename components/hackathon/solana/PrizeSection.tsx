@@ -17,12 +17,7 @@ export const PrizeSection: React.FC = () => {
     },
   ];
   return (
-    <Flex
-      w="full"
-      my={20}
-      justifyContent="center"
-      gap={{ base: 6, md: 8 }}
-    >
+    <Flex w="full" my={20} justifyContent="center" gap={{ base: 6, md: 8 }}>
       {prizes.map(({ title, prize }, i) => (
         <>
           <Flex flexDir="column" key={title} align="center">
