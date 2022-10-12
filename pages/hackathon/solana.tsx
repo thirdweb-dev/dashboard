@@ -4,22 +4,20 @@ import { ChakraNextImage } from "components/Image";
 import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
 import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
-import { Resources } from "components/hackathon/solana/Resources";
 import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
-import { Sponsors } from "components/hackathon/solana/Sponsors";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { GeneralCta } from "components/shared/GeneralCta";
 import { useTrack } from "hooks/analytics/useTrack";
-import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { Heading, LinkButton, Text } from "tw-components";
+import { PageId } from "page-id";
+import { ThirdwebNextPage } from "pages/_app";
 
 const Timer = dynamic(() => import("components/hackathon/solana/Timer"), {
   ssr: false,
 });
 
-const SolanaHackathon: NextPage = () => {
+const SolanaHackathon: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
   return (
     <DarkMode>
@@ -135,5 +133,7 @@ const SolanaHackathon: NextPage = () => {
     </DarkMode>
   );
 };
+
+SolanaHackathon.pageId = PageId.SolanaHackathonLanding;
 
 export default SolanaHackathon;

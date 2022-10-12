@@ -42,6 +42,12 @@ export enum PageId {
   // thirdweb.com/gas
   GasEstimator = "gas-estimator",
 
+  // thirdweb.com/solana
+  SolanaLanding = "solana-landing",
+
+  // thirdweb.com/hackathon/solana
+  SolanaHackathonLanding = "solana-hackathon",
+
   // ---------------------------------------------------------------------------
   //  general product pages
   // ---------------------------------------------------------------------------
