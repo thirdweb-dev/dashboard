@@ -32,7 +32,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
   return (
     <DarkMode>
       <NextSeo
-        title="thirdweb Solanathon: October 19 – 26 | Build web3 apps, win $10,000"
+        title="thirdweb Solanathon: October 19 - 26 | Build web3 apps, win $10,000"
         description="Join thirdweb's first-ever official hackathon! Solanathon is a 7-day event with $10,000 in prizes for inspiring web3 builders on Solana. Learn more."
       />
       <Flex
@@ -135,8 +135,8 @@ const SolanaHackathon: ThirdwebNextPage = () => {
                     thirdweb dashboard
                   </ListItem>
                   <ListItem>
-                    - Include a written/video breakdown of the project to a dev forum like
-                    Hashnode, dev.to or YouTube
+                    - Include a written/video breakdown of the project to a dev
+                    forum like Hashnode, dev.to or YouTube
                   </ListItem>
                 </List>
               </Text>
@@ -144,8 +144,8 @@ const SolanaHackathon: ThirdwebNextPage = () => {
                 To submit, participants will link their decentralized app
                 repository from GitHub in the submission form by Oct 26th 22:00
                 UTC and indicate the corresponding track(s) that they are
-                competing for. Please don't hesitate to reach out to our team in
-                our{" "}
+                competing for. Please don&apos;t hesitate to reach out to our
+                team in our{" "}
                 <TrackedLink
                   href="https://discord.gg/thirdweb"
                   category="solana-hackathon"

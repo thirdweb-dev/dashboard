@@ -1,8 +1,8 @@
-import { Badge, Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
 import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
 import { useTrack } from "hooks/analytics/useTrack";
-import { Heading, Text } from "tw-components";
+import { Badge, Heading, Text } from "tw-components";
 
 export const ScheduleSection: React.FC = () => {
   const trackEvent = useTrack();

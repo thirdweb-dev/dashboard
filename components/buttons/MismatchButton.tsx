@@ -169,7 +169,9 @@ export const MismatchButton = React.forwardRef<
               <NoFundsNotice
                 symbol={ecosystem === "solana" ? "SOL" : symbol}
                 faucetUrl={
-                  ecosystem === "solana" ? "/faucet/solana" : FAUCETS[resolvedChainId]
+                  ecosystem === "solana"
+                    ? "/faucet/solana"
+                    : FAUCETS[resolvedChainId]
                 }
                 label={
                   (ecosystem === "solana"

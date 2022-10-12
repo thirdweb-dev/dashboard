@@ -463,8 +463,8 @@ const WrappedSolanaDeployDrawer: React.FC<
                 </TrackedLink>{" "}
               </Text>
               <Text fontWeight="600" mt={2}>
-                To deploy on Devnet, you'll need to manually switch networks on
-                the Developer Settings of your Phantom wallet.
+                To deploy on Devnet, you&apos;ll need to manually switch
+                networks on the Developer Settings of your Phantom wallet.
               </Text>
             </Flex>
             <Flex w="100%" gap={4} direction={{ base: "column", md: "row" }}>
