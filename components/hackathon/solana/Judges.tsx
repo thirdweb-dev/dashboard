@@ -10,7 +10,7 @@ export const Judges: React.FC = () => {
       image: "/assets/landingpage/furqan-rydhan.png",
     },
     {
-      name: "Samina",
+      name: "Samina Kabir",
       twitter: "saminacodes",
       image: "/assets/landingpage/samina.jpeg",
     },
