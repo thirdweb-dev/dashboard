@@ -26,16 +26,12 @@ export const Judges: React.FC = () => {
       <Heading size="title.2xl">Judges</Heading>
       <SimpleGrid
         columns={{ base: 1, md: 3 }}
-        gap={{base: 8, md: 24}}
+        gap={{ base: 8, md: 24 }}
         justifyContent="space-evenly"
       >
         {judges.map((judge) => (
           <Flex key={judge.name} flexDir="column" gap={1}>
-            <MaskedAvatar
-              src={judge.image}
-              alt=""
-              boxSize={40}
-            />
+            <MaskedAvatar src={judge.image} alt="" boxSize={40} />
             <Heading size="title.sm">{judge.name}</Heading>
             <TrackedLink
               href={`https://twitter.com/${judge.twitter}`}
