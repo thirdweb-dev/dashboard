@@ -211,6 +211,12 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
               <FormErrorMessage>
                 {getFieldState("initialSupply", formState).error?.message}
               </FormErrorMessage>
+              <FormHelperText>
+                This is the initial amount of tokens that will be minted at
+                creation time.
+                <br />
+                You can always mint more tokens later from the dashboard.
+              </FormHelperText>
             </FormControl>
           )}
 
@@ -225,9 +231,15 @@ const BuiltinSolanaDeployForm = <TContractType extends SolContractType>({
                 {getFieldState("totalSupply", formState).error?.message}
               </FormErrorMessage>
               <FormHelperText>
-                Total amount of NFTs for your drop. All NFTs will need to be
-                lazy minted before any can be claimed. This setting can&apos;t
-                be changed later.
+                ⚠️ This is the maximum amount of NFTs that will be available on
+                your drop.
+                <br />
+                ⚠️ All NFTs will need to be uploaded before any can be claimed.
+                <br />
+                ⚠️ This setting cannot be changed later.
+                <br />
+                ⚠️ The larger the number, the more expensive the transaction
+                will be to be able to cover storage rent costs.
               </FormHelperText>
             </FormControl>
           )}

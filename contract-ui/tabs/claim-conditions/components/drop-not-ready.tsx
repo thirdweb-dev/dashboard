@@ -41,7 +41,7 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
       {dropNotReady ? (
         <Text color="white">
           The supply you&apos;ve set for your drop is{" "}
-          {claimConditions.data?.totalAvailableSupply}{" "}
+          <b>{claimConditions.data?.totalAvailableSupply}</b>{" "}
           {claimConditions.data?.lazyMintedSupply === 0
             ? "and you have not uploaded NFTs any yet."
             : ` but you have only uploaded ${
@@ -49,6 +49,7 @@ export const DropNotReady: React.FC<DropNotReadyProps> = ({ address }) => {
               } NFT${
                 claimConditions.data?.lazyMintedSupply === 1 ? "" : "s"
               }.`}{" "}
+          <br />
           You need to <strong>upload all of your NFTs</strong> and{" "}
           <strong>set your claim conditions</strong> in order for users to start
           claiming them.
