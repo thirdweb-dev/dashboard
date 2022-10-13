@@ -1,3 +1,5 @@
+import { Layout } from "../Layout";
+import { NetworkSwitcherModal } from "../NetworkSwitcher";
 import { useWeb3 } from "@3rdweb/hooks";
 import {
   Badge,
@@ -18,8 +20,6 @@ import type { FTUXStepProps } from "pages/start";
 import React, { useCallback, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { Layout } from "../Layout";
-import { NetworkSwitcherModal } from "../NetworkSwitcher";
 
 export const FTUXChooseNetworkStep: React.FC<FTUXStepProps> = ({
   onPrev,
@@ -102,9 +102,8 @@ export const FTUXChooseNetworkStep: React.FC<FTUXStepProps> = ({
             <>
               <Text borderRadius="8px" bg="blue.50" padding="12px">
                 We recommend starting on a testnet like{" "}
-                <strong>Rinkeby (ETH)</strong> or{" "}
-                <strong>Mumbai (MATIC)</strong>, if this is your first
-                experience with Web3.
+                <strong>Goerli (ETH)</strong> or <strong>Mumbai (MATIC)</strong>
+                , if this is your first experience with Web3.
               </Text>
             </>
           )}

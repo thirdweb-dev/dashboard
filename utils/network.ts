@@ -2,7 +2,6 @@ import invariant from "ts-invariant";
 
 export enum SupportedChainId {
   Mainnet = 1,
-  Rinkeby = 4,
   Polygon = 137,
   Mumbai = 80001,
   Fantom = 250,
@@ -11,7 +10,6 @@ export enum SupportedChainId {
 
 export const SupportedChainIdToNetworkMap = {
   [SupportedChainId.Mainnet]: "mainnet",
-  [SupportedChainId.Rinkeby]: "rinkeby",
   [SupportedChainId.Polygon]: "polygon",
   [SupportedChainId.Mumbai]: "mumbai",
   [SupportedChainId.Fantom]: "fantom",
@@ -25,7 +23,6 @@ export const SupportedNetworkToChainIdMap: Record<
   SupportedChainId
 > = {
   mainnet: SupportedChainId.Mainnet,
-  rinkeby: SupportedChainId.Rinkeby,
   polygon: SupportedChainId.Polygon,
   mumbai: SupportedChainId.Mumbai,
   fantom: SupportedChainId.Fantom,

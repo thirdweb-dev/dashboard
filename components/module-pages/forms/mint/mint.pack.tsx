@@ -1,3 +1,6 @@
+import { PropertiesFormControl } from "../properties.shared";
+import { NFT } from "./shared/nft";
+import { IMintFormProps } from "./types";
 import {
   useModuleMetadataList,
   usePackCreateMutation,
@@ -50,9 +53,6 @@ import { FiChevronRight, FiEdit, FiPlus, FiTrash } from "react-icons/fi";
 import { PackTokenInput, PackTokenSchema } from "schema/tokens";
 import { zodResolver } from "schema/zodResolver";
 import { parseErrorToMessage } from "utils/errorParser";
-import { PropertiesFormControl } from "../properties.shared";
-import { NFT } from "./shared/nft";
-import { IMintFormProps } from "./types";
 
 const MINT_FORM_ID = "pack-mint-form";
 interface IPackMintForm extends IMintFormProps {
@@ -220,9 +220,7 @@ export const PackMintForm: React.FC<IPackMintForm> = ({ module }) => {
 
   const noBundles = !bundles?.length;
 
-  if (
-    ["mainnet", "rinkeby", "polygon", "mumbai"].indexOf(network as string) < 0
-  ) {
+  if (["mainnet", "polygon", "mumbai"].indexOf(network as string) < 0) {
     return (
       <DrawerBody>
         <Flex height="80vh" align="center" justify="center" direction="column">
