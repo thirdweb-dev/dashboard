@@ -1,4 +1,8 @@
-import { ChainId, NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import {
+  ChainId,
+  NATIVE_TOKENS,
+  SUPPORTED_CHAIN_ID,
+} from "@thirdweb-dev/sdk/evm";
 import { constants } from "ethers";
 import { OtherAddressZero } from "utils/zeroAddress";
 
@@ -43,34 +47,6 @@ const Ethereum: CurrencyMetadata[] = [
     address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
     name: "Polygon",
     symbol: "WMATIC",
-  },
-];
-
-const Rinkeby: CurrencyMetadata[] = [
-  {
-    address: constants.AddressZero,
-    name: "Ethereum",
-    symbol: "ETH",
-  },
-  {
-    address: OtherAddressZero,
-    name: "Ethereum",
-    symbol: "ETH",
-  },
-  {
-    address: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-    name: "Wrapped Ether",
-    symbol: "WETH",
-  },
-  {
-    address: "0xeb8f08a975ab53e34d8a0330e0d34de942c95926",
-    name: "USD Coin",
-    symbol: "USDC",
-  },
-  {
-    address: "0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad",
-    name: "Tether USD",
-    symbol: "USDT",
   },
 ];
 
@@ -389,9 +365,44 @@ const BinanceTestnet: CurrencyMetadata[] = [
   },
 ];
 
+const Solana: CurrencyMetadata[] = [
+  {
+    address: "SOLANA_NATIVE_TOKEN",
+    name: "Solana",
+    symbol: "SOL",
+  },
+  {
+    address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    name: "USD Coin",
+    symbol: "USDC",
+  },
+  {
+    address: "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+    name: "Wrapped ETH",
+    symbol: "WETH",
+  },
+  {
+    address: "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+    name: "Tether",
+    symbol: "USDT",
+  },
+];
+
+const SolanaDevnet: CurrencyMetadata[] = [
+  {
+    address: "SOLANA_NATIVE_TOKEN",
+    name: "Solana",
+    symbol: "SOL",
+  },
+  {
+    address: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    name: "USD Coin",
+    symbol: "USDC",
+  },
+];
+
 export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.Mainnet]: Ethereum,
-  [ChainId.Rinkeby]: Rinkeby,
   [ChainId.Goerli]: Goerli,
   [ChainId.Polygon]: Polygon,
   [ChainId.Mumbai]: Mumbai,
@@ -400,13 +411,16 @@ export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.Avalanche]: Avalanche,
   [ChainId.AvalancheFujiTestnet]: AvalancheFujiTestnet,
   [ChainId.Optimism]: Optimism,
-  [ChainId.OptimismKovan]: OptimismTestnet,
   // eslint-disable-next-line line-comment-position
   [ChainId.OptimismGoerli]: OptimismTestnet, // TODO adjust wrapped token address
   [ChainId.Arbitrum]: Arbitrum,
-  [ChainId.ArbitrumRinkeby]: ArbitrumTestnet,
   // eslint-disable-next-line line-comment-position
   [ChainId.ArbitrumGoerli]: ArbitrumTestnet, // TODO adjust wrapped token address
   [ChainId.BinanceSmartChainMainnet]: BinanceMainnet,
   [ChainId.BinanceSmartChainTestnet]: BinanceTestnet,
+} as const;
+
+export const SOLANA_CURRENCIES: Record<string, CurrencyMetadata[]> = {
+  "mainnet-beta": Solana,
+  devnet: SolanaDevnet,
 } as const;

@@ -2,18 +2,14 @@
 import {
   ChainId,
   SUPPORTED_CHAIN_ID,
-  ThirdwebSDK,
   extractConstructorParamsFromAbi,
   fetchSourceFilesFromMetadata,
   resolveContractUriFromAddress,
-} from "@thirdweb-dev/sdk";
-import { StorageSingleton } from "components/app-layouts/providers";
+} from "@thirdweb-dev/sdk/evm";
 import { Abi } from "components/contract-components/types";
-import { ethers } from "ethers";
-import { Interface } from "ethers/lib/utils";
-import { getSSRSDK } from "lib/ssr-sdk";
+import { ethers, utils } from "ethers";
+import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
-import { SupportedChainIdToNetworkMap } from "utils/network";
 
 interface VerifyPayload {
   contractAddress: string;
@@ -105,7 +101,6 @@ export const blockExplorerMap: Record<number, { name: string; url: string }> = {
 
 export const apiKeyMap: Record<number, string> = {
   [ChainId.Mainnet]: process.env.ETHERSCAN_KEY as string,
-  [ChainId.Rinkeby]: process.env.ETHERSCAN_KEY as string,
   [ChainId.Goerli]: process.env.ETHERSCAN_KEY as string,
   [ChainId.Polygon]: process.env.POLYGONSCAN_KEY as string,
   [ChainId.Mumbai]: process.env.POLYGONSCAN_KEY as string,
@@ -114,10 +109,8 @@ export const apiKeyMap: Record<number, string> = {
   [ChainId.Avalanche]: process.env.SNOWTRACE_KEY as string,
   [ChainId.AvalancheFujiTestnet]: process.env.SNOWTRACE_KEY as string,
   [ChainId.Arbitrum]: process.env.ARBITRUMSCAN_KEY as string,
-  [ChainId.ArbitrumRinkeby]: process.env.ARBITRUMSCAN_KEY as string,
   [ChainId.ArbitrumGoerli]: process.env.ARBITRUMSCAN_KEY as string,
   [ChainId.Optimism]: process.env.OPTIMISMSCAN_KEY as string,
-  [ChainId.OptimismKovan]: process.env.OPTIMISMSCAN_KEY as string,
   [ChainId.OptimismGoerli]: process.env.OPTIMISMSCAN_KEY as string,
   [ChainId.BinanceSmartChainMainnet]: process.env.BSCSCAN_KEY as string,
   [ChainId.BinanceSmartChainTestnet]: process.env.BSCSCAN_KEY as string,
@@ -138,10 +131,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `ChainId ${chainId} is not supported for etherscan verification`,
       );
     }
-
-    // TODO can't use alchemyMap here because the domain is not in the allowlist
-    const rpc = SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID];
-    const sdk = new ThirdwebSDK(rpc, {}, StorageSingleton);
+    const sdk = getEVMThirdwebSDK(chainId as SUPPORTED_CHAIN_ID);
     const compilerMetadata = await sdk
       .getPublisher()
       .fetchCompilerMetadataFromAddress(contractAddress);
@@ -245,7 +235,6 @@ async function fetchConstructorParams(
   if (constructorParamTypes.length === 0) {
     return "";
   }
-  const construtctorParamByteLength = constructorParamTypes.length * 64;
   const requestBody = {
     apiKey: apiKeyMap[chainId],
     module: "account",
@@ -267,51 +256,73 @@ async function fetchConstructorParams(
     data.status === RequestStatus.OK &&
     data.result[0] !== undefined
   ) {
-    const txData = data.result[0].input;
-    let constructorArgs = txData.substring(
-      txData.length - construtctorParamByteLength,
-    );
-    const contract = new Interface(abi);
+    const contract = new utils.Interface(abi);
+    const txDeployBytecode = data.result[0].input;
+    let constructorArgs = "";
+
+    if (contract.deploy.inputs.length === 0) {
+      return "";
+    }
+
+    // first: attempt to get it from Release
+    try {
+      const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
+        contractAddress,
+        provider,
+      );
+
+      if (bytecode) {
+        // contract was realeased, use the deployable bytecode method (proper solution)
+        const bytecodeHex = bytecode.startsWith("0x")
+          ? bytecode
+          : `0x${bytecode}`;
+
+        constructorArgs = txDeployBytecode.substring(bytecodeHex.length);
+      }
+    } catch (e) {
+      // contracts not released through thirdweb
+    }
+
+    // second: attempt to decode it from solc metadata bytecode
+    if (!constructorArgs) {
+      // couldn't find bytecode from release, using regex to locate consturctor args thruogh solc metadata
+      // https://docs.soliditylang.org/en/v0.8.17/metadata.html#encoding-of-the-metadata-hash-in-the-bytecode
+      // {6} = solc version
+      // {4} = 0033, but noticed some contracts have values other than 00 33. (uniswap)
+      const matches = [
+        ...txDeployBytecode.matchAll(
+          /(64736f6c6343[\w]{6}[\w]{4})(?!.*\1)(.*)$/g,
+        ),
+      ];
+
+      // regex finds the LAST occurence of solc metadata bytes, result always in same position
+      if (matches.length > 0) {
+        // TODO: we currently don't handle error string embedded in the bytecode, need to strip ascii (upgradeableProxy) in patterns[2]
+        // https://etherscan.io/address/0xee6a57ec80ea46401049e92587e52f5ec1c24785#code
+        constructorArgs = matches[0][2];
+      }
+    }
+
+    // third: attempt to guess it from the ABI inputs
+    if (!constructorArgs) {
+      // TODO: need to guess array / struct properly
+      const constructorParamByteLength = constructorParamTypes.length * 64;
+      constructorArgs = txDeployBytecode.substring(
+        txDeployBytecode.length - constructorParamByteLength,
+      );
+    }
+
     try {
       // sanity check that the constructor params are valid
+      // TODO: should we sanity check after each attempt?
       ethers.utils.defaultAbiCoder.decode(
         contract.deploy.inputs,
         `0x${constructorArgs}`,
       );
     } catch (e) {
-      // if that fails, try to grab the deployable bytecode from the release metadata
-      try {
-        const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
-          contractAddress,
-          provider,
-        );
-        if (bytecode) {
-          // contract was realeased, use the deployable bytecode method (proper solution)
-          const bytecodeHex = bytecode.startsWith("0x")
-            ? bytecode
-            : `0x${bytecode}`;
-          constructorArgs = txData.substring(bytecodeHex.length);
-          try {
-            // re-do the sanity check
-            ethers.utils.defaultAbiCoder.decode(
-              contract.deploy.inputs,
-              `0x${constructorArgs}`,
-            );
-          } catch (err) {
-            throw new Error(`Error decoding contract parameters: ${err}`);
-          }
-        } else {
-          // contract was not released, throw an error
-          throw new Error(
-            "Verifying this contract requires a release. Run `npx thirdweb release` to create a release for this contract, then try again.",
-          );
-        }
-      } catch (err) {
-        // contract was not released, throw an error
-        throw new Error(
-          "Verifying this contract requires a release. Run `npx thirdweb release` to create a release for this contract, then try again.",
-        );
-      }
+      throw new Error(
+        "Verifying this contract requires a release. Run `npx thirdweb release` to create a release for this contract, then try again.",
+      );
     }
 
     return constructorArgs;
@@ -336,7 +347,7 @@ async function fetchDeployBytecodeFromReleaseMetadata(
     provider,
   );
   if (compialierMetaUri) {
-    const pubmeta = await getSSRSDK(ChainId.Polygon)
+    const pubmeta = await getEVMThirdwebSDK(ChainId.Polygon)
       .getPublisher()
       .resolvePublishMetadataFromCompilerMetadata(compialierMetaUri);
     return pubmeta.length > 0

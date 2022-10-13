@@ -25,16 +25,13 @@ import {
   PublishedContract,
   PublishedMetadata,
   fetchSourceFilesFromMetadata,
-} from "@thirdweb-dev/sdk";
-import {
-  StorageSingleton,
-  replaceIpfsUrl,
-} from "components/app-layouts/providers";
+} from "@thirdweb-dev/sdk/evm";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
 import { useOgImagePing } from "hooks/useOgImagePing";
 import { correctAndUniqueLicenses } from "lib/licenses";
+import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { createReleaseOGUrl } from "pages/_og/release";
@@ -143,7 +140,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
       "text",
-      `Check out this ${release.name} contract on @thirdweb_
+      `Check out this ${release.name} contract on @thirdweb
       
 Deploy it in one click`,
     );

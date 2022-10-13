@@ -1,4 +1,4 @@
-import { QuestionIcon } from "@chakra-ui/icons";
+import { VscQuestion } from "@react-icons/all-files/vsc/VscQuestion";
 import Arbitrum from "@thirdweb-dev/chain-icons/dist/arbitrum";
 import Avalanche from "@thirdweb-dev/chain-icons/dist/avalanche";
 import BinanceCoin from "@thirdweb-dev/chain-icons/dist/binance-coin";
@@ -7,7 +7,7 @@ import Fantom from "@thirdweb-dev/chain-icons/dist/fantom";
 import Optimism from "@thirdweb-dev/chain-icons/dist/optimism";
 import Polygon from "@thirdweb-dev/chain-icons/dist/polygon";
 import { ChainId, useNetwork } from "@thirdweb-dev/react";
-import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
+import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { useCallback } from "react";
 
 interface NetworkMetadata {
@@ -19,13 +19,11 @@ interface NetworkMetadata {
 }
 
 export const FAUCETS: Partial<Record<ChainId, string>> = {
-  [ChainId.Rinkeby]: "https://rinkebyfaucet.com",
   [ChainId.Goerli]: "https://faucet.paradigm.xyz/",
   [ChainId.Mumbai]: "https://mumbaifaucet.com",
   [ChainId.AvalancheFujiTestnet]: "https://faucet.avax.network/",
   [ChainId.FantomTestnet]: "https://faucet.fantom.network/",
-  [ChainId.OptimismKovan]: "https://kovan.optifaucet.com/",
-  [ChainId.ArbitrumRinkeby]: "https://faucet.paradigm.xyz/",
+
   [ChainId.BinanceSmartChainTestnet]:
     "https://testnet.binance.org/faucet-smart",
   [ChainId.OptimismGoerli]: "https://app.optimism.io/bridge/deposit",
@@ -40,13 +38,7 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Mainnet,
   },
-  [ChainId.Rinkeby]: {
-    chainName: "Rinkeby",
-    icon: Ethereum,
-    symbol: NATIVE_TOKENS[ChainId.Rinkeby].symbol,
-    isTestnet: true,
-    chainId: ChainId.Rinkeby,
-  },
+
   [ChainId.Goerli]: {
     chainName: "Goerli",
     icon: Ethereum,
@@ -103,13 +95,7 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Optimism,
   },
-  [ChainId.OptimismKovan]: {
-    chainName: "Optimism Kovan",
-    icon: Optimism,
-    symbol: NATIVE_TOKENS[ChainId.OptimismKovan].symbol,
-    isTestnet: true,
-    chainId: ChainId.OptimismKovan,
-  },
+
   [ChainId.OptimismGoerli]: {
     chainName: "Optimism Goerli",
     icon: Optimism,
@@ -124,13 +110,7 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
     isTestnet: false,
     chainId: ChainId.Arbitrum,
   },
-  [ChainId.ArbitrumRinkeby]: {
-    chainName: "Arbitrum Rinkeby",
-    icon: Arbitrum,
-    symbol: NATIVE_TOKENS[ChainId.ArbitrumRinkeby].symbol,
-    isTestnet: true,
-    chainId: ChainId.ArbitrumRinkeby,
-  },
+
   [ChainId.ArbitrumGoerli]: {
     chainName: "Arbitrum Goerli",
     icon: Arbitrum,
@@ -161,7 +141,7 @@ export function useWeb3() {
     (chainId: SUPPORTED_CHAIN_ID) => {
       const cData: NetworkMetadata = {
         chainName: "Unsupported Chain",
-        icon: QuestionIcon,
+        icon: VscQuestion,
         isTestnet: false,
         symbol: "",
         chainId,

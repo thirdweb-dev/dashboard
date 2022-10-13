@@ -1,28 +1,25 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
-import { useReadonlySDK } from "@thirdweb-dev/react";
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
-import {
-  StorageSingleton,
-  alchemyUrlMap,
-} from "components/app-layouts/providers";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
+import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
+import invariant from "tiny-invariant";
+import { DashboardSolanaNetwork } from "utils/network";
 
 export function useContractList(
   chainId: SUPPORTED_CHAIN_ID,
   walletAddress?: string,
 ) {
-  const sdk = useReadonlySDK(
-    alchemyUrlMap[chainId],
-    undefined,
-    StorageSingleton,
-  );
   return useQuery(
     [...networkKeys.chain(chainId), ...contractKeys.list(walletAddress)],
-    async () =>
-      [...((await sdk?.getContractList(walletAddress || "")) || [])].reverse(),
+    async () => {
+      const sdk = getEVMThirdwebSDK(chainId);
+      return [
+        ...((await sdk.getContractList(walletAddress || "")) || []),
+      ].reverse();
+    },
     {
-      enabled: !!sdk && !!walletAddress && !!chainId,
+      enabled: !!walletAddress && !!chainId,
     },
   );
 }
@@ -104,7 +101,7 @@ export function useMainnetsContractList(address: string | undefined) {
 }
 
 export function useTestnetsContractList(address: string | undefined) {
-  const rinkebyQuery = useContractList(ChainId.Rinkeby, address);
+  // const rinkebyQuery = useContractList(ChainId.Rinkeby, address);
   const goerliQuery = useContractList(ChainId.Goerli, address);
   const mumbaiQuery = useContractList(ChainId.Mumbai, address);
   const fantomTestnetQuery = useContractList(ChainId.FantomTestnet, address);
@@ -112,12 +109,12 @@ export function useTestnetsContractList(address: string | undefined) {
     ChainId.AvalancheFujiTestnet,
     address,
   );
-  const optimismKovanQuery = useContractList(ChainId.OptimismKovan, address);
+  // const optimismKovanQuery = useContractList(ChainId.OptimismKovan, address);
   const optimismGoerliQuery = useContractList(ChainId.OptimismGoerli, address);
-  const arbitrumRinkebyQuery = useContractList(
-    ChainId.ArbitrumRinkeby,
-    address,
-  );
+  // const arbitrumRinkebyQuery = useContractList(
+  //   ChainId.ArbitrumRinkeby,
+  //   address,
+  // );
   const arbitrumGoerliQuery = useContractList(ChainId.ArbitrumGoerli, address);
   const binanceTestnetQuery = useContractList(
     ChainId.BinanceSmartChainTestnet,
@@ -126,11 +123,8 @@ export function useTestnetsContractList(address: string | undefined) {
 
   const testnetList = useMemo(() => {
     return (
-      rinkebyQuery.data?.map((d) => ({ ...d, chainId: ChainId.Rinkeby })) || []
+      goerliQuery.data?.map((d) => ({ ...d, chainId: ChainId.Goerli })) || []
     )
-      .concat(
-        goerliQuery.data?.map((d) => ({ ...d, chainId: ChainId.Goerli })) || [],
-      )
       .concat(
         mumbaiQuery.data?.map((d) => ({ ...d, chainId: ChainId.Mumbai })) || [],
       )
@@ -146,24 +140,14 @@ export function useTestnetsContractList(address: string | undefined) {
           chainId: ChainId.FantomTestnet,
         })) || [],
       )
-      .concat(
-        optimismKovanQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.OptimismKovan,
-        })) || [],
-      )
+
       .concat(
         optimismGoerliQuery.data?.map((d) => ({
           ...d,
           chainId: ChainId.OptimismGoerli,
         })) || [],
       )
-      .concat(
-        arbitrumRinkebyQuery.data?.map((d) => ({
-          ...d,
-          chainId: ChainId.ArbitrumRinkeby,
-        })) || [],
-      )
+
       .concat(
         arbitrumGoerliQuery.data?.map((d) => ({
           ...d,
@@ -177,14 +161,11 @@ export function useTestnetsContractList(address: string | undefined) {
         })) || [],
       );
   }, [
-    rinkebyQuery.data,
     goerliQuery.data,
     mumbaiQuery.data,
     fantomTestnetQuery.data,
     avalancheFujiTestnetQuery.data,
-    optimismKovanQuery.data,
     optimismGoerliQuery.data,
-    arbitrumRinkebyQuery.data,
     arbitrumGoerliQuery.data,
     binanceTestnetQuery.data,
   ]);
@@ -192,25 +173,19 @@ export function useTestnetsContractList(address: string | undefined) {
   return {
     data: testnetList,
     isLoading:
-      rinkebyQuery.isLoading ||
       goerliQuery.isLoading ||
       mumbaiQuery.isLoading ||
       fantomTestnetQuery.isLoading ||
       avalancheFujiTestnetQuery.isLoading ||
-      optimismKovanQuery.isLoading ||
       optimismGoerliQuery.isLoading ||
-      arbitrumRinkebyQuery.isLoading ||
       arbitrumGoerliQuery.isLoading ||
       binanceTestnetQuery.isLoading,
     isFetched:
-      rinkebyQuery.isFetched &&
       goerliQuery.isFetched &&
       mumbaiQuery.isFetched &&
       fantomTestnetQuery.isFetched &&
       avalancheFujiTestnetQuery.isFetched &&
-      optimismKovanQuery.isFetched &&
       optimismGoerliQuery.isFetched &&
-      arbitrumRinkebyQuery.isFetched &&
       arbitrumGoerliQuery.isFetched &&
       binanceTestnetQuery.isFetched,
   };
@@ -228,5 +203,38 @@ export function useAllContractList(address: string | undefined) {
     data: allList,
     isLoading: mainnetQuery.isLoading || testnetQuery.isLoading,
     isFetched: mainnetQuery.isFetched && testnetQuery.isFetched,
+  };
+}
+
+function useProgramList(
+  address: string | undefined,
+  network: DashboardSolanaNetwork,
+) {
+  return useQuery(
+    ["sol", network, address, "program-list"],
+    async () => {
+      invariant(address, "address is required");
+      const sdk = getSOLThirdwebSDK(network);
+      // TODO remove this sorting when we have a stable return array from the SDK
+      return (await sdk.registry.getDeployedPrograms(address))
+        .sort((a, b) => (a.programName > b.programName ? 1 : -1))
+        .map((p) => ({ ...p, network }));
+    },
+    { enabled: !!address && !!network },
+  );
+}
+
+export function useAllProgramsList(address: string | undefined) {
+  const mainnetQuery = useProgramList(address, "mainnet-beta");
+  const devnetQuery = useProgramList(address, "devnet");
+
+  const allList = useMemo(() => {
+    return (mainnetQuery.data || []).concat(devnetQuery.data || []);
+  }, [mainnetQuery.data, devnetQuery.data]);
+
+  return {
+    data: allList,
+    isLoading: mainnetQuery.isLoading || devnetQuery.isLoading,
+    isFetched: mainnetQuery.isFetched && devnetQuery.isFetched,
   };
 }

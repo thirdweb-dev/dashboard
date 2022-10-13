@@ -45,7 +45,7 @@ export const HomepageFooter: React.FC = () => {
                 as={LinkButton}
                 isExternal
                 noIcon
-                href="https://twitter.com/thirdweb_"
+                href="https://twitter.com/thirdweb"
                 icon={<SiTwitter fontSize="1.25rem" />}
                 category="footer"
                 aria-label="Twitter"
@@ -181,6 +181,17 @@ export const HomepageFooter: React.FC = () => {
                     Careers
                   </TrackedLink>
                 </Stack>
+
+                <Heading size="label.lg">Partners</Heading>
+                <Stack spacing="3" shouldWrapChildren>
+                  <TrackedLink
+                    href="/partner/shopify"
+                    category="footer"
+                    label="partners"
+                  >
+                    Shopify
+                  </TrackedLink>
+                </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
                 <Heading size="label.lg">SDKs</Heading>
@@ -216,6 +227,16 @@ export const HomepageFooter: React.FC = () => {
                     label="contracts"
                   >
                     Contracts
+                  </TrackedLink>
+                </Stack>
+                <Heading size="label.lg">Networks</Heading>
+                <Stack spacing="3" shouldWrapChildren>
+                  <TrackedLink
+                    href="/network/solana"
+                    category="footer"
+                    label="networks"
+                  >
+                    Solana
                   </TrackedLink>
                 </Stack>
               </Stack>
