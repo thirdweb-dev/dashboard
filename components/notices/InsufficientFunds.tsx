@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import { AiOutlineWarning } from "react-icons/ai";
 
 const FAUCETS: Record<number, string> = {
-  4: "https://faucets.chain.link/rinkeby",
   80001: "https://faucet.polygon.technology/",
 };
 

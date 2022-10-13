@@ -5,9 +5,9 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import posthog from "posthog-js";
 import { createContext, useEffect, useMemo, useState } from "react";
 import {
-  getChainIdFromNetwork,
   SupportedChainId,
   SupportedNetwork,
+  getChainIdFromNetwork,
 } from "utils/network";
 
 interface ISDKContext {
@@ -23,7 +23,6 @@ export const ThirdwebSDKContext = createContext<ISDKContext>({
 
 export const alchemyUrlMap: Record<SupportedChainId, string> = {
   [SupportedChainId.Mainnet]: `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
-  [SupportedChainId.Rinkeby]: `https://eth-rinkeby.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,
   [SupportedChainId.Fantom]: "https://rpc.ftm.tools",
   [SupportedChainId.Avalanche]: "https://api.avax.network/ext/bc/C/rpc",
   [SupportedChainId.Polygon]: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_KEY}`,

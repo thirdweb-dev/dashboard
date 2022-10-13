@@ -45,34 +45,6 @@ const Ethereum: CurrencyMetadata[] = [
   },
 ];
 
-const Rinkeby: CurrencyMetadata[] = [
-  {
-    address: "0x0000000000000000000000000000000000000000",
-    name: "Ethereum",
-    symbol: "ETH",
-  },
-  {
-    address: OtherAddressZero,
-    name: "Ethereum",
-    symbol: "ETH",
-  },
-  {
-    address: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-    name: "Wrapped Ether",
-    symbol: "WETH",
-  },
-  {
-    address: "0xeb8f08a975ab53e34d8a0330e0d34de942c95926",
-    name: "USD Coin",
-    symbol: "USDC",
-  },
-  {
-    address: "0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad",
-    name: "Tether USD",
-    symbol: "USDT",
-  },
-];
-
 const Polygon: CurrencyMetadata[] = [
   {
     address: "0x0000000000000000000000000000000000000000",
@@ -207,7 +179,6 @@ const Mumbai: CurrencyMetadata[] = [
 
 export const CURRENCIES: Record<SupportedChainId, CurrencyMetadata[]> = {
   1: Ethereum,
-  4: Rinkeby,
   137: Polygon,
   250: Fantom,
   43114: Avalanche,

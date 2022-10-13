@@ -1,4 +1,4 @@
-import { alchemyUrlMap, ThirdwebSDKProvider } from "@3rdweb-sdk/react/Provider";
+import { ThirdwebSDKProvider, alchemyUrlMap } from "@3rdweb-sdk/react/Provider";
 import { ThirdwebWeb3Provider } from "@3rdweb/hooks";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import React, { useEffect, useMemo } from "react";
@@ -6,9 +6,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import {
-  getChainIdFromNetwork,
   SupportedChainId,
   SupportedNetwork,
+  getChainIdFromNetwork,
 } from "utils/network";
 
 const __CACHE_BUSTER = "tw_v1.0.3";
@@ -19,7 +19,6 @@ export const SUPPORTED_CHAINS = [
   SupportedChainId.Avalanche,
   SupportedChainId.Fantom,
   SupportedChainId.Mumbai,
-  SupportedChainId.Rinkeby,
 ];
 
 const queryClient = new QueryClient({
