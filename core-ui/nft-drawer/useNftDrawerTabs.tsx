@@ -57,6 +57,23 @@ export function useNFTDrawerTabs(
             ),
           ),
         },
+        {
+          title: "Mint",
+          isDisabled: contractOrProgram.accountType !== "nft-collection",
+          children: dynamic(() =>
+            import("program-ui/nft/drawer-tabs/mint-supply").then(
+              ({ MintSupplyTab }) =>
+                // eslint-disable-next-line react/display-name
+                () =>
+                  (
+                    <MintSupplyTab
+                      program={contractOrProgram as NFTCollection}
+                      tokenId={tokenId}
+                    />
+                  ),
+            ),
+          ),
+        },
       ];
     }, [contractOrProgram, solAddress, token, tokenId]);
   }
