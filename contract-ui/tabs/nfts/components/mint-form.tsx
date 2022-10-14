@@ -212,7 +212,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 {
                   to: address,
                   metadata: parseAttributes(data),
-                  amount: data.supply,
+                  supply: data.supply,
                 },
                 {
                   onSuccess: () => {
