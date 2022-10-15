@@ -23,7 +23,7 @@ export const PrivacyNotice: React.FC = () => {
   const address = useAddress();
   const { register, watch, handleSubmit } = useForm<{ accepted: false }>();
 
-  return hasAcceptedTOS.data || hasAcceptedTOS.isLoading || !address ? null : (
+  return hasAcceptedTOS || !address ? null : (
     <Modal
       size={isMobile ? "full" : "xl"}
       closeOnEsc={false}
