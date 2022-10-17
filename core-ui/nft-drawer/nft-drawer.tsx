@@ -100,9 +100,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                       <Heading size="label.md">Token ID</Heading>
                     </GridItem>
                     <GridItem colSpan={9}>
-                      <Text fontFamily="mono" size="body.md">
-                        {shortenIfAddress(tokenId)}
-                      </Text>
+                      <AddressCopyButton size="xs" address={tokenId} tokenId />
                     </GridItem>
                     <GridItem colSpan={3}>
                       <Heading size="label.md">Owner</Heading>
@@ -158,7 +156,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
               return (
                 <TabPanel key={tab.title} px={0}>
                   {/* lol this is weird */}
-                  {<tab.children />}
+                  <tab.children />
                 </TabPanel>
               );
             })}
