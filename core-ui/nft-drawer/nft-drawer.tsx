@@ -23,7 +23,6 @@ import {
   NFTMedia,
   Text,
 } from "tw-components";
-import { shortenIfAddress } from "utils/usedapp-external";
 
 interface NFTDrawerProps {
   isOpen: boolean;
