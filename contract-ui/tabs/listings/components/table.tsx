@@ -1,6 +1,5 @@
 import { ListingDrawer } from "./listing-drawer";
 import {
-  Button,
   ButtonGroup,
   Center,
   Flex,
@@ -38,7 +37,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Cell, Column, usePagination, useTable } from "react-table";
-import { AddressCopyButton, Card, Heading, Text } from "tw-components";
+import { AddressCopyButton, Button, Card, Text } from "tw-components";
 
 type ListingMetadata = AuctionListing | DirectListing;
 
