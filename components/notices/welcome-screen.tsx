@@ -9,7 +9,6 @@ import {
   ModalFooter,
   ModalOverlay,
   SimpleGrid,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Logo } from "components/logo";
@@ -27,7 +26,6 @@ export const WelcomeScreen: React.FC = () => {
 
   const [step, setStep] = useState<number>(0);
 
-  const isMobile = useBreakpointValue({ base: true, md: false });
   if (!showWelcomeScreen) {
     return null;
   }
