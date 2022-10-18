@@ -14,6 +14,7 @@ import {
   Th,
   Thead,
   Tr,
+  usePrevious,
 } from "@chakra-ui/react";
 import {
   useActiveListings,
@@ -28,7 +29,7 @@ import type {
 } from "@thirdweb-dev/sdk/evm";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
 import { BigNumber } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
   MdFirstPage,
@@ -37,7 +38,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Cell, Column, usePagination, useTable } from "react-table";
-import { AddressCopyButton, Button, Card, Text } from "tw-components";
+import { AddressCopyButton, Button, Card, Heading, Text } from "tw-components";
 
 type ListingMetadata = AuctionListing | DirectListing;
 
@@ -91,6 +92,16 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
 
   const [listingsToShow, setListingsToShow] = useState<"all" | "active">("all");
 
+  const prevData = usePrevious(getAllQueryResult?.data);
+
+  const renderData = useMemo(() => {
+    if (listingsToShow === "all") {
+      return getAllQueryResult?.data || prevData;
+    } else {
+      return getActiveQueryResult?.data || prevData;
+    }
+  }, [getAllQueryResult, getActiveQueryResult, listingsToShow, prevData]);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -104,15 +115,11 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
     nextPage,
     previousPage,
     setPageSize,
-
     state: { pageIndex, pageSize },
   } = useTable(
     {
       columns: tableColumns,
-      data:
-        listingsToShow === "all"
-          ? getAllQueryResult.data || []
-          : getActiveQueryResult.data || [],
+      data: renderData || [],
       initialState: {
         pageSize: queryParams.count,
         pageIndex: 0,
@@ -221,6 +228,29 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                 </Tr>
               );
             })}
+            {(getAllQueryResult.isPreviousData ||
+              getActiveQueryResult.isPreviousData) && (
+              <Flex
+                zIndex="above"
+                position="absolute"
+                top={0}
+                bottom={0}
+                left={0}
+                right={0}
+                backdropFilter="blur(5px)"
+                bg="blackAlpha.100"
+                _dark={{ bg: "whiteAlpha.50" }}
+                borderRadius="md"
+                align="flex-end"
+                justify="center"
+                p={8}
+              >
+                <Flex align="center" gap={4}>
+                  <Spinner size="sm" />
+                  <Heading size="label.lg">Fetching new page</Heading>
+                </Flex>
+              </Flex>
+            )}
           </Tbody>
         </Table>
       </Card>
