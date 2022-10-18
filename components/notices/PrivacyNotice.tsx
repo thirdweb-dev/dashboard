@@ -8,22 +8,38 @@ import {
   ModalOverlay,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from "@thirdweb-dev/react";
 import { Logo } from "components/logo";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { useForm } from "react-hook-form";
 import { Button, Checkbox, Heading, Text, TrackedLink } from "tw-components";
 
-export const PrivacyNotice: React.FC = () => {
-  const [hasAcceptedTOS, setHasAcceptedTOS] = useLocalStorage(
-    "accepted-tos",
-    false,
-  );
-  const isMobile = useBreakpointValue({ base: true, md: false });
+function useAcceptTOSState() {
+  return useLocalStorage("privacy-notice", false);
+}
+
+export function useShouldShowTOSNotice() {
+  const [acceptedTOS] = useAcceptTOSState();
   const address = useAddress();
+  const solAddress = useWallet().publicKey?.toBase58();
+
+  return !acceptedTOS && (address || solAddress);
+}
+
+export const PrivacyNotice: React.FC = () => {
+  const [, setHasAcceptedTOS] = useAcceptTOSState();
+
+  const shouldSHowPrivacyNotice = useShouldShowTOSNotice();
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   const { register, watch, handleSubmit } = useForm<{ accepted: false }>();
 
-  return hasAcceptedTOS || !address ? null : (
+  if (!shouldSHowPrivacyNotice) {
+    return null;
+  }
+
+  return (
     <Modal
       size={isMobile ? "full" : "xl"}
       closeOnEsc={false}
