@@ -1,5 +1,7 @@
 import { ListingDrawer } from "./listing-drawer";
 import {
+  Button,
+  ButtonGroup,
   Center,
   Flex,
   Icon,
@@ -14,7 +16,11 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useListings, useListingsCount } from "@thirdweb-dev/react";
+import {
+  useActiveListings,
+  useListings,
+  useListingsCount,
+} from "@thirdweb-dev/react";
 import { ListingType } from "@thirdweb-dev/sdk/evm";
 import type {
   AuctionListing,
@@ -81,7 +87,10 @@ interface ListingsTableProps {
 export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
   const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
   const getAllQueryResult = useListings(contract, queryParams);
+  const getActiveQueryResult = useActiveListings(contract, queryParams);
   const totalCountQuery = useListingsCount(contract);
+
+  const [listingsToShow, setListingsToShow] = useState<"all" | "active">("all");
 
   const {
     getTableProps,
@@ -101,7 +110,10 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
   } = useTable(
     {
       columns: tableColumns,
-      data: getAllQueryResult.data || [],
+      data:
+        listingsToShow === "all"
+          ? getAllQueryResult.data || []
+          : getActiveQueryResult.data || [],
       initialState: {
         pageSize: queryParams.count,
         pageIndex: 0,
@@ -126,8 +138,25 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
 
   return (
     <Flex gap={4} direction="column">
+      <ButtonGroup variant="outline" isAttached>
+        <Button
+          onClick={() => setListingsToShow("all")}
+          variant={listingsToShow === "all" ? "solid" : "outline"}
+        >
+          All
+        </Button>
+        <Button
+          onClick={() => setListingsToShow("active")}
+          variant={listingsToShow === "active" ? "solid" : "outline"}
+        >
+          Active
+        </Button>
+      </ButtonGroup>
+
       <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
-        {getAllQueryResult.isFetching && (
+        {((listingsToShow === "all" && getAllQueryResult.isFetching) ||
+          listingsToShow === "active" ||
+          getActiveQueryResult.isFetching) && (
           <Spinner
             color="primary"
             size="xs"
@@ -193,28 +222,6 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                 </Tr>
               );
             })}
-            {getAllQueryResult.isPreviousData && (
-              <Flex
-                zIndex="above"
-                position="absolute"
-                top={0}
-                bottom={0}
-                left={0}
-                right={0}
-                backdropFilter="blur(5px)"
-                bg="blackAlpha.100"
-                _dark={{ bg: "whiteAlpha.50" }}
-                borderRadius="md"
-                align="flex-end"
-                justify="center"
-                p={8}
-              >
-                <Flex align="center" gap={4}>
-                  <Spinner size="sm" />
-                  <Heading size="label.lg">Fetching new page</Heading>
-                </Flex>
-              </Flex>
-            )}
           </Tbody>
         </Table>
       </Card>
