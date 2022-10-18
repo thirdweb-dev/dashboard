@@ -68,7 +68,7 @@ export const WelcomeScreen: React.FC = () => {
           mb={{ base: 0, md: "auto" }}
           minH={{ base: "75vh", md: "auto" }}
           mt="auto"
-          pb="env(safe-area-inset-bottom)"
+          pb="--env(safe-area-inset-bottom)"
         >
           <ModalBody p={0}>
             <SimpleGrid
