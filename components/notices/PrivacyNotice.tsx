@@ -15,22 +15,22 @@ import { useLocalStorage } from "hooks/useLocalStorage";
 import { useForm } from "react-hook-form";
 import { Button, Checkbox, Heading, Text, TrackedLink } from "tw-components";
 
-function useAcceptTOSState() {
-  return useLocalStorage("privacy-notice", false);
-}
-
-export function useShouldShowTOSNotice() {
-  const [acceptedTOS] = useAcceptTOSState();
+function useShouldShowTOSNotice() {
+  const [acceptedTOS, setHasAcceptedTOS] = useLocalStorage(
+    "has-accepted-tos",
+    false,
+  );
   const address = useAddress();
   const solAddress = useWallet().publicKey?.toBase58();
-
-  return !acceptedTOS && (address || solAddress);
+  return [
+    !!(address || solAddress) && !acceptedTOS,
+    setHasAcceptedTOS,
+  ] as const;
 }
 
 export const PrivacyNotice: React.FC = () => {
-  const [, setHasAcceptedTOS] = useAcceptTOSState();
+  const [shouldSHowPrivacyNotice, setHasAcceptedTOS] = useShouldShowTOSNotice();
 
-  const shouldSHowPrivacyNotice = useShouldShowTOSNotice();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const { register, watch, handleSubmit } = useForm<{ accepted: false }>();
