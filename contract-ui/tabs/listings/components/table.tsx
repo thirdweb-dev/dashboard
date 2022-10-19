@@ -157,7 +157,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
 
   return (
     <Flex gap={4} direction="column">
-      <ButtonGroup variant="outline" isAttached>
+      <ButtonGroup size="sm" variant="outline" isAttached>
         <Button
           onClick={() => setListingsToShow("all")}
           variant={listingsToShow === "all" ? "solid" : "outline"}
