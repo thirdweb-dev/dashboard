@@ -47,8 +47,6 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
 
   const { hasCopied, onCopy } = useClipboard(badgeCode, 3000);
 
-  console.log(badgeUrl);
-
   return (
     <Popover isLazy isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <PopoverTrigger>
