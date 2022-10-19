@@ -50,7 +50,7 @@ const Contracts: ThirdwebNextPage = () => {
           description={
             <>
               Browse our selection of secure, gas-optimized, and audited
-              contracts that are ready to be deployed with 1-click.
+              contracts that are ready to be deployed with one-click.
             </>
           }
           icon={require("public/assets/product-icons/contracts.png")}
