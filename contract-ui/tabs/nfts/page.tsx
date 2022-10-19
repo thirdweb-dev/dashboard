@@ -7,6 +7,7 @@ import { SupplyCards } from "./components/supply-cards";
 import { NFTGetAllTable } from "./components/table";
 import { Box, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
+import { ContractBadge } from "components/badges/contract-badge";
 import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -70,6 +71,13 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
         </Card>
       ) : (
         <>
+          {contractAddress && (
+            <ContractBadge
+              contractAddress={contractAddress}
+              audited={false}
+              theme="light"
+            />
+          )}
           {isErc721Claimable && (
             <SupplyCards contract={contractQuery.contract} />
           )}
