@@ -15,7 +15,7 @@ import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo, useState } from "react";
 import { FiCopy } from "react-icons/fi";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Button, Card, Text } from "tw-components";
 
 interface ContractBadgeProps {
   address: string;
