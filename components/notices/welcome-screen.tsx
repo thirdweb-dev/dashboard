@@ -16,7 +16,7 @@ import { Logo } from "components/logo";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { Button, Heading, Text, TrackedLink } from "tw-components";
 
