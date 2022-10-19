@@ -63,7 +63,6 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
         <PopoverArrow bg="backgroundCardHighlight" />
         <PopoverBody>
           <Flex flexDir="column" gap={4}>
-            <Heading size="title.sm">Embed badge</Heading>
             <Flex alignItems="center" gap={3}>
               <Text>Theme</Text>
               <Select
@@ -75,7 +74,10 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
                 <option value="light">Light</option>
               </Select>
             </Flex>
-            <Image src={badgeUrl} w="200px" alt={address} />
+            <Flex alignItems="center" gap={3}>
+              <Text>Preview</Text>
+              <Image src={badgeUrl} w="200px" alt={address} />
+            </Flex>
             <Button
               size="sm"
               colorScheme="purple"
