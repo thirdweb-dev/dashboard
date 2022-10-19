@@ -10,10 +10,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: "Please use GET method" });
   }
 
+  const proto = req.headers["x-forwarded-proto"] ? "https" : "http";
+
   try {
     const { searchParams } = new URL(
       req.url as string,
-      `http://${req.headers.host}`,
+      `${proto}://${req.headers.host}`,
     );
 
     const address = searchParams.get("address") || "0x...";
@@ -22,7 +24,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const audited = false;
 
     const font = await fetch(
-      new URL(`/assets/fonts/Inter-medium.ttf`, `http://${req.headers.host}`),
+      new URL(
+        `/assets/fonts/Inter-medium.ttf`,
+        `${proto}://${req.headers.host}`,
+      ),
     ).then((resp) => resp.arrayBuffer());
 
     const svg = await satori(
