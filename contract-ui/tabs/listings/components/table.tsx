@@ -21,7 +21,6 @@ import {
   useListings,
   useListingsCount,
 } from "@thirdweb-dev/react";
-import { ListingType } from "@thirdweb-dev/sdk/evm";
 import type {
   AuctionListing,
   DirectListing,
@@ -76,23 +75,37 @@ const tableColumns: Column<ListingMetadata>[] = [
   },
   {
     Header: "Type",
-    accessor: (row) =>
-      row.type === ListingType.Direct ? "Direct Listing" : "Auction",
+    // 0 = Direct, 1 = Auction
+    accessor: (row) => (row.type === 0 ? "Direct Listing" : "Auction"),
   },
 ];
 
 interface ListingsTableProps {
   contract: Marketplace;
 }
+
+const DEFAULT_QUERY_STATE = { count: 50, start: 0 };
+
 export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
-  const [queryParams, setQueryParams] = useState({ count: 50, start: 0 });
+  const [queryParams, setQueryParams] = useState(DEFAULT_QUERY_STATE);
   const getAllQueryResult = useListings(contract, queryParams);
   const getActiveQueryResult = useActiveListings(contract, queryParams);
   const totalCountQuery = useListingsCount(contract);
 
-  const [listingsToShow, setListingsToShow] = useState<"all" | "active">("all");
+  const [listingsToShow, setListingsToShow_] = useState<"all" | "active">(
+    "all",
+  );
 
-  const prevData = usePrevious(getAllQueryResult?.data);
+  const setListingsToShow = (value: "all" | "active") => {
+    setQueryParams(DEFAULT_QUERY_STATE);
+    setListingsToShow_(value);
+  };
+
+  const prevData = usePrevious(
+    listingsToShow === "all"
+      ? getAllQueryResult?.data
+      : getActiveQueryResult?.data,
+  );
 
   const renderData = useMemo(() => {
     if (listingsToShow === "all") {
@@ -161,8 +174,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
 
       <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
         {((listingsToShow === "all" && getAllQueryResult.isFetching) ||
-          listingsToShow === "active" ||
-          getActiveQueryResult.isFetching) && (
+          (listingsToShow === "active" && getActiveQueryResult.isFetching)) && (
           <Spinner
             color="primary"
             size="xs"
@@ -228,8 +240,9 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                 </Tr>
               );
             })}
-            {(getAllQueryResult.isPreviousData ||
-              getActiveQueryResult.isPreviousData) && (
+            {((listingsToShow === "all" && getAllQueryResult.isPreviousData) ||
+              (listingsToShow === "active" &&
+                getActiveQueryResult.isPreviousData)) && (
               <Flex
                 zIndex="above"
                 position="absolute"
