@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 /* eslint-disable react/forbid-dom-props */
-import { readFile } from "fs/promises";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { resolve } from "path";
 import satori from "satori";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -13,7 +11,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    console.log(req.url);
     const { searchParams } = new URL(
       req.url as string,
       `http://${req.headers.host}`,
@@ -24,9 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Ignoring audited for now
     const audited = false;
 
-    const fontBuffer = await readFile(
-      resolve("./public/assets/fonts", "Inter-medium.ttf"),
-    );
+    const font = await fetch(
+      new URL(`/assets/fonts/Inter-medium.ttf`, `http://${req.headers.host}`),
+    ).then((resp) => resp.arrayBuffer());
 
     const svg = await satori(
       <div
@@ -101,7 +98,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         fonts: [
           {
             name: "Inter",
-            data: fontBuffer,
+            data: font,
             weight: 400,
             style: "normal",
           },
