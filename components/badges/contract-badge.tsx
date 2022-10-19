@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo, useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { Button, Card, Heading, Text } from "tw-components";
@@ -21,6 +22,7 @@ interface ContractBadgeProps {
 }
 
 export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
+  const trackEvent = useTrack();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const network = useDashboardNetwork();
   const [theme, setTheme] = useState<"light" | "dark">("dark");
@@ -39,8 +41,8 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
   }, [address, audited, theme]);
 
   const badgeCode = `
-    <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank" rel="noopener noreferrer">
-      <img src="https://thirdweb.com${badgeUrl}" alt="View contract on thirdweb.com" />
+    <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank">
+      <img src="https://thirdweb.com${badgeUrl}" alt="View contract" />
     </a>`;
 
   const { hasCopied, onCopy } = useClipboard(badgeCode, 3000);
@@ -50,7 +52,18 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
   return (
     <Popover isLazy isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <PopoverTrigger>
-        <Button size="xs">Embed badge</Button>
+        <Button
+          size="xs"
+          onClick={() => {
+            trackEvent({
+              category: "contract_badge",
+              action: "click",
+              label: "embed_badge",
+            });
+          }}
+        >
+          Embed badge
+        </Button>
       </PopoverTrigger>
       <Card
         maxW="sm"
@@ -82,7 +95,14 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
               size="sm"
               colorScheme="purple"
               w="auto"
-              onClick={onCopy}
+              onClick={() => {
+                onCopy();
+                trackEvent({
+                  category: "contract_badge",
+                  action: "click",
+                  label: "copy_code",
+                });
+              }}
               leftIcon={hasCopied ? <IoMdCheckmark /> : <FiCopy />}
             >
               {hasCopied ? "Copied!" : "Copy code to clipboard"}
