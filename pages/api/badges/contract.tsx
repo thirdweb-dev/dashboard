@@ -8,13 +8,22 @@ import satori from "satori";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "POST") {
-    return res.status(400).json({ error: "Please use POST method" });
+  if (req.method !== "GET") {
+    return res.status(400).json({ error: "Please use GET method" });
   }
 
-  const { address } = JSON.parse(req.body);
-
   try {
+    console.log(req.url);
+    const { searchParams } = new URL(
+      req.url as string,
+      `http://${req.headers.host}`,
+    );
+
+    const address = searchParams.get("address") || "0x...";
+    const audited = Boolean(searchParams.get("audited"));
+    const theme = searchParams.get("theme") || "dark";
+
+    console.log({ address, audited, theme });
     const fontBuffer = await readFile(
       resolve("./public/assets/fonts", "Inter-medium.ttf"),
     );
@@ -22,12 +31,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const svg = await satori(
       <div
         style={{
-          backgroundColor: "#272727",
-          color: "white",
+          backgroundColor: theme === "dark" ? "#272727" : "#F2F2F7",
+          color: theme === "dark" ? "white" : "black",
           fontSize: "14px",
           padding: "10px 12px",
           borderRadius: "6px",
           display: "flex",
+          borderWidth: "1px",
+          borderColor: theme === "dark" ? "#414141" : "#F2F2F7",
         }}
       >
         <div
@@ -45,17 +56,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             alt=""
             width={28}
             height={18}
+            style={{ objectFit: "contain" }}
           />
         </div>
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: "column",
             height: "100%",
           }}
         >
-          {shortenIfAddress(address)}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {shortenIfAddress(address)}
+          </div>
         </div>
       </div>,
       {
@@ -72,8 +91,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     );
 
-    return res.status(200).json({ svg });
+    res.setHeader("Content-Type", "image/svg+xml");
+    res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
+    res.status(200).send(svg);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: (error as Error).message });
   }
 };

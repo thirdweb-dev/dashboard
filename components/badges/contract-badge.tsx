@@ -1,11 +1,10 @@
-import { useContractBadge } from "@3rdweb-sdk/react/useContractBadge";
 import { Image } from "@chakra-ui/react";
-import parse from "html-react-parser";
+import { useMemo } from "react";
 
 interface ContractBadgeProps {
   contractAddress: string;
-  audited: boolean;
-  theme: "light" | "dark";
+  audited?: boolean;
+  theme?: "light" | "dark";
 }
 
 export const ContractBadge: React.FC<ContractBadgeProps> = ({
@@ -13,13 +12,19 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({
   audited,
   theme,
 }) => {
-  const contractBadge = useContractBadge(contractAddress);
+  const badgeUrl = useMemo(() => {
+    const params = new URLSearchParams();
+    params.set("address", contractAddress);
+    if (audited) {
+      params.set("audited", "true");
+    }
+    if (theme) {
+      params.set("theme", theme);
+    }
+    return `/api/badges/contract?${params.toString()}`;
+  }, [contractAddress, audited, theme]);
 
-  console.log(contractBadge);
+  console.log(badgeUrl);
 
-  if (!contractBadge?.data?.svg) {
-    return null;
-  }
-
-  return <div>{parse(contractBadge.data.svg)}</div>;
+  return <Image src={badgeUrl} w="200px" />;
 };
