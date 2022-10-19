@@ -1,5 +1,6 @@
 import { Flex, Image, Skeleton } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { ContractBadge } from "components/badges/contract-badge";
 import { StaticImageData } from "next/image";
 import { AddressCopyButton, Heading, Text } from "tw-components";
 
@@ -47,7 +48,10 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
             {isLoaded ? data?.description : ""}
           </Text>
         </Skeleton>
-        <AddressCopyButton size="xs" address={address} />
+        <Flex gap={2}>
+          <AddressCopyButton size="xs" address={address} />
+          {address && <ContractBadge address={address} />}
+        </Flex>
       </Flex>
     </Flex>
   );
