@@ -11,10 +11,8 @@ export const config = {
   runtime: "experimental-edge",
 };
 
-function shortenString(str, extraShort) {
-  return `${str.substring(0, extraShort ? 4 : 6)}...${str.substring(
-    str.length - (extraShort ? 3 : 4),
-  )}`;
+function shortenString(str) {
+  return `${str.substring(0, 6)}...${str.substring(str.length - 4)}`;
 }
 
 export const badgeWidth = 200;
