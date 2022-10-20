@@ -6,7 +6,7 @@ import { SiPython } from "@react-icons/all-files/si/SiPython";
 import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { SiTypescript } from "@react-icons/all-files/si/SiTypescript";
 import { Dispatch, SetStateAction, useMemo } from "react";
-import { Button, CodeBlock } from "tw-components";
+import { Button, CodeBlock, Text, TrackedLink } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface ICodeSegment {
@@ -124,6 +124,19 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
             : activeEnvironment
         }
       />
+      {activeEnvironment === "web3button" && (
+        <Text>
+          <TrackedLink
+            href="https://portal.thirdweb.com/ui-components/web3button"
+            isExternal
+            category="code-tab"
+            label="web3button"
+          >
+            Read the full documentation on Web3Button
+          </TrackedLink>
+          .
+        </Text>
+      )}
     </Stack>
   );
 };
