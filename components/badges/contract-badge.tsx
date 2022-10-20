@@ -13,6 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { useTrack } from "hooks/analytics/useTrack";
+import {
+  auditedHeight,
+  badgeHeight,
+  badgeWidth,
+} from "pages/api/badges/contract";
 import { useMemo, useState } from "react";
 import { FiCopy } from "react-icons/fi";
 import { Button, Card, Text } from "tw-components";
@@ -42,7 +47,9 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
 
   const badgeCode = `
     <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank">
-      <img src="https://thirdweb.com${badgeUrl}" alt="View contract" />
+      <img width=${badgeWidth} height="${
+    audited ? auditedHeight : badgeHeight
+  } src="https://thirdweb.com${badgeUrl}" alt="View contract" />
     </a>`;
 
   const { hasCopied, onCopy } = useClipboard(badgeCode, 3000);

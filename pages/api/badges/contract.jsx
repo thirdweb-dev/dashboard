@@ -17,6 +17,10 @@ function shortenString(str, extraShort) {
   )}`;
 }
 
+export const badgeWidth = 200;
+export const auditedHeight = 60;
+export const badgeHeight = 45;
+
 const handler = async (req) => {
   try {
     const yoga = await getYoga;
@@ -100,8 +104,8 @@ const handler = async (req) => {
         </div>
       </div>,
       {
-        width: 200,
-        height: audited ? 60 : 45,
+        width: badgeWidth,
+        height: audited ? auditedHeight : badgeHeight,
         fonts: [
           {
             name: "Inter",
