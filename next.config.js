@@ -109,10 +109,6 @@ const moduleExports = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
-  webpack(config) {
-    config.experiments = { asyncWebAssembly: true, layers: true };
-    return config;
-  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
