@@ -12174,6 +12174,11 @@ yoga-layout-prebuilt@^1.10.0:
   dependencies:
     "@types/yoga-layout" "1.9.2"
 
+yoga-wasm-web@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/yoga-wasm-web/-/yoga-wasm-web-0.1.2.tgz#05d3fc9cbdfd57ac9682debb5001aca075489a39"
+  integrity sha512-8SkgawHcA0RUbMrnhxbaQkZDBi8rMed8pQHixkFF9w32zGhAwZ9/cOHWlpYfr6RCx42Yp3siV45/jPEkJxsk6w==
+
 zod@^3.11.6, zod@^3.8.2:
   version "3.19.1"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"

@@ -65,6 +65,7 @@
     "satori": "^0.0.42",
     "spdx-correct": "^3.1.1",
     "tiny-invariant": "^1.2.0",
+    "yoga-wasm-web": "^0.1.2",
     "zod": "^3.8.2"
   },
   "devDependencies": {

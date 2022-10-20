@@ -1,22 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 
 /* eslint-disable react/forbid-dom-props */
-import type { NextApiRequest, NextApiResponse } from "next";
-import satori from "satori";
-import { shortenIfAddress } from "utils/usedapp-external";
+import yoga_wasm from "../../../lib/yoga.wasm?module";
+import satori, { init } from "satori/wasm";
+import initYoga from "yoga-wasm-web";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "GET") {
-    return res.status(400).json({ error: "Please use GET method" });
-  }
+const getYoga = initYoga(yoga_wasm);
 
-  const proto = req.headers["x-forwarded-proto"] ? "https" : "http";
+export const config = {
+  runtime: "experimental-edge",
+};
 
+function shortenString(str, extraShort) {
+  return `${str.substring(0, extraShort ? 4 : 6)}...${str.substring(
+    str.length - (extraShort ? 3 : 4),
+  )}`;
+}
+
+const handler = async (req) => {
   try {
-    const { searchParams } = new URL(
-      req.url as string,
-      `${proto}://${req.headers.host}`,
-    );
+    const yoga = await getYoga;
+    init(yoga);
+    const { searchParams } = new URL(req.url);
 
     const address = searchParams.get("address") || "0x...";
     const theme = searchParams.get("theme") || "dark";
@@ -24,10 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const audited = false;
 
     const font = await fetch(
-      new URL(
-        `/assets/fonts/Inter-medium.ttf`,
-        `${proto}://${req.headers.host}`,
-      ),
+      new URL(`../../../public/assets/fonts/Inter-Medium.ttf`, import.meta.url),
     ).then((resp) => resp.arrayBuffer());
 
     const svg = await satori(
@@ -70,7 +72,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             flexDirection: "column",
           }}
         >
-          <div>{shortenIfAddress(address)}</div>
+          <div>{shortenString(address)}</div>
           {audited ? (
             <div
               style={{
@@ -110,13 +112,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         ],
       },
     );
-
-    res.setHeader("Content-Type", "image/svg+xml");
-    res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate");
-    res.status(200).send(svg);
+    return new Response(svg, {
+      headers: {
+        "Content-Type": "image/svg+xml",
+        "Cache-Control": `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`,
+      },
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: (error as Error).message });
+    return new Response(`Failed to generate the image: ${error.message}`, {
+      status: 500,
+    });
   }
 };
 
