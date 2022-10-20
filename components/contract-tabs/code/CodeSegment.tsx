@@ -25,6 +25,12 @@ const Environments: SupportedEnvironment[] = [
     colorScheme: "purple",
   },
   {
+    environment: "web3button",
+    title: "Web3Button",
+    icon: SiReact,
+    colorScheme: "purple",
+  },
+  {
     environment: "javascript",
     title: "JavaScript",
     icon: SiJavascript,
@@ -112,7 +118,8 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         language={
           isInstallCommand
             ? "bash"
-            : activeEnvironment === "react"
+            : activeEnvironment === "react" ||
+              activeEnvironment === "web3button"
             ? "jsx"
             : activeEnvironment
         }
