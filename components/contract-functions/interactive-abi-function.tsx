@@ -202,7 +202,14 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
           if (d.params) {
             mutate(
               formatContractCall(
-                d.params.map((p) => p.value),
+                d.params.map((p) => {
+                  console.log(p);
+                  return p.type === "bool"
+                    ? p.value === "false"
+                      ? false
+                      : true
+                    : p.value;
+                }),
                 utils.parseEther(d.value),
               ),
             );
