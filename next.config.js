@@ -110,7 +110,7 @@ const moduleExports = {
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
   webpack(config) {
-    config.experiments = { asyncWebAssembly: true };
+    config.experiments = { asyncWebAssembly: true, layers: true };
     return config;
   },
 };
