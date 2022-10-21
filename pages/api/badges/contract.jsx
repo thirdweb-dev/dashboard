@@ -2,6 +2,11 @@
 
 /* eslint-disable react/forbid-dom-props */
 import yoga_wasm from "../../../lib/yoga.wasm?module";
+import {
+  AUDITED_BADGE_HEIGHT,
+  BADGE_HEIGHT,
+  BADGE_WIDTH,
+} from "constants/badge-size";
 import satori, { init } from "satori/wasm";
 import initYoga from "yoga-wasm-web";
 
@@ -14,12 +19,7 @@ export const config = {
 function shortenString(str) {
   return `${str.substring(0, 6)}...${str.substring(str.length - 4)}`;
 }
-
-export const badgeWidth = 200;
-export const auditedHeight = 60;
-export const badgeHeight = 45;
-
-const handler = async (req) => {
+export default async function handler(req) {
   try {
     const yoga = await getYoga;
     init(yoga);
@@ -102,8 +102,8 @@ const handler = async (req) => {
         </div>
       </div>,
       {
-        width: badgeWidth,
-        height: audited ? auditedHeight : badgeHeight,
+        width: BADGE_WIDTH,
+        height: audited ? AUDITED_BADGE_HEIGHT : BADGE_HEIGHT,
         fonts: [
           {
             name: "Inter",
@@ -126,6 +126,4 @@ const handler = async (req) => {
       status: 500,
     });
   }
-};
-
-export default handler;
+}

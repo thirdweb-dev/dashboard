@@ -11,15 +11,14 @@ import {
   useClipboard,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
-import { useTrack } from "hooks/analytics/useTrack";
 import {
-  auditedHeight,
-  badgeHeight,
-  badgeWidth,
-} from "pages/api/badges/contract";
+  AUDITED_BADGE_HEIGHT,
+  BADGE_HEIGHT,
+  BADGE_WIDTH,
+} from "constants/badge-size";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo, useState } from "react";
-import { FiCopy } from "react-icons/fi";
+import { FiCheck, FiCopy, FiShare } from "react-icons/fi";
 import { Button, Card, Text } from "tw-components";
 
 interface ContractBadgeProps {
@@ -47,8 +46,8 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
 
   const badgeCode = `
     <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank">
-      <img width=${badgeWidth} height="${
-    audited ? auditedHeight : badgeHeight
+      <img width=${BADGE_WIDTH} height="${
+    audited ? AUDITED_BADGE_HEIGHT : BADGE_HEIGHT
   } src="https://thirdweb.com${badgeUrl}" alt="View contract" />
     </a>`;
 
@@ -58,6 +57,7 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
     <Popover isLazy isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <PopoverTrigger>
         <Button
+          variant="outline"
           size="xs"
           onClick={() => {
             trackEvent({
@@ -66,8 +66,9 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
               label: "embed_badge",
             });
           }}
+          leftIcon={<FiShare />}
         >
-          Embed badge
+          Contract Badge
         </Button>
       </PopoverTrigger>
       <Card
@@ -94,7 +95,12 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
             </Flex>
             <Flex alignItems="center" gap={3}>
               <Text>Preview</Text>
-              <Image src={badgeUrl} w="200px" alt={address} />
+              <Image
+                src={badgeUrl}
+                w={BADGE_WIDTH}
+                h={audited ? AUDITED_BADGE_HEIGHT : BADGE_HEIGHT}
+                alt={address}
+              />
             </Flex>
             <Button
               size="sm"
@@ -108,7 +114,7 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
                   label: "copy_code",
                 });
               }}
-              leftIcon={hasCopied ? <IoMdCheckmark /> : <FiCopy />}
+              leftIcon={hasCopied ? <FiCheck /> : <FiCopy />}
             >
               {hasCopied ? "Copied!" : "Copy code to clipboard"}
             </Button>

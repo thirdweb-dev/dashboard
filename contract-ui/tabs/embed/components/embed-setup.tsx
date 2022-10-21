@@ -12,10 +12,9 @@ import {
   Stack,
   useClipboard,
 } from "@chakra-ui/react";
-import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { useForm } from "react-hook-form";
-import { FiCopy } from "react-icons/fi";
+import { FiCheck, FiCopy } from "react-icons/fi";
 import {
   Button,
   Card,
@@ -306,7 +305,7 @@ frameborder="0"
             w="auto"
             variant="outline"
             onClick={onCopy}
-            leftIcon={hasCopied ? <IoMdCheckmark /> : <FiCopy />}
+            leftIcon={hasCopied ? <FiCheck /> : <FiCopy />}
           >
             {hasCopied ? "Copied!" : "Copy to clipboard"}
           </Button>

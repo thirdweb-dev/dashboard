@@ -36,6 +36,7 @@ const securityHeaders = [
   },
 ];
 
+/** @type {import('next').NextConfig} */
 const moduleExports = {
   reactStrictMode: true,
   async headers() {
@@ -109,6 +110,7 @@ const moduleExports = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
+  swcMinify: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

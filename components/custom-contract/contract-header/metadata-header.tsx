@@ -23,7 +23,7 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
 }) => {
   return (
     <Flex align="center" gap={4}>
-      <Skeleton isLoaded={isLoaded}>
+      <Skeleton isLoaded={isLoaded} flexShrink={0}>
         {data?.image ? (
           <Image
             objectFit="contain"
@@ -39,16 +39,22 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
           />
         ) : null}
       </Skeleton>
-      <Flex direction="column" gap={1} align="flex-start">
+
+      <Flex direction="column" gap={2} align="flex-start">
         <Skeleton isLoaded={isLoaded}>
           <Heading size="title.md">{data?.name ? data?.name : ""}</Heading>
         </Skeleton>
         <Skeleton isLoaded={isLoaded}>
-          <Text size="body.md" noOfLines={3}>
+          <Text
+            title={data?.description || undefined}
+            size="body.md"
+            noOfLines={2}
+          >
             {isLoaded ? data?.description : ""}
           </Text>
         </Skeleton>
-        <Flex gap={2}>
+
+        <Flex gap={2} direction="row">
           <AddressCopyButton size="xs" address={address} />
           {address && <ContractBadge address={address} />}
         </Flex>

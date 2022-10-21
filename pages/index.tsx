@@ -19,7 +19,6 @@ import {
 import { AiOutlineTeam } from "@react-icons/all-files/ai/AiOutlineTeam";
 import { FiCheck } from "@react-icons/all-files/fi/FiCheck";
 import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
-import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { ChakraNextImage } from "components/Image";
 import { CLISection } from "components/homepage/CLISection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -163,7 +162,7 @@ const HomePage: ThirdwebNextPage = () => {
                         }}
                         icon={
                           <Icon
-                            as={hasCopied ? IoMdCheckmark : FiCopy}
+                            as={hasCopied ? FiCheck : FiCopy}
                             fill={hasCopied ? "green.500" : undefined}
                           />
                         }

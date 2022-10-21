@@ -8,14 +8,13 @@ import {
   useClipboard,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import Highlight, { Language, defaultProps } from "prism-react-renderer";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import Prism from "prism-react-renderer/prism";
 import darkTheme from "prism-react-renderer/themes/oceanicNext";
 import lightTheme from "prism-react-renderer/themes/vsLight";
-import { FiCopy } from "react-icons/fi";
+import { FiCheck, FiCopy } from "react-icons/fi";
 
 // add solidity lang support for code
 ((typeof global !== "undefined" ? global : window) as any).Prism = Prism;
@@ -87,7 +86,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
               size="sm"
               icon={
                 <Icon
-                  as={hasCopied ? IoMdCheckmark : FiCopy}
+                  as={hasCopied ? FiCheck : FiCopy}
                   fill={hasCopied ? "green.500" : undefined}
                 />
               }
