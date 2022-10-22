@@ -154,4 +154,7 @@ const sentryWebpackPluginOptions = {
 
   hideSourceMaps: false,
 };
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
+
+module.exports = process.env.VERCEL_ENV
+  ? withSentryConfig(moduleExports, sentryWebpackPluginOptions)
+  : moduleExports;
