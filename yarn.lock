@@ -2180,13 +2180,6 @@
   resolved "https://registry.yarnpkg.com/@n8tb1t/use-scroll-position/-/use-scroll-position-2.0.3.tgz#207c54d584285cac0954d556964f83cf5774940b"
   integrity sha512-6GO4FHVJTMI4jbRHborzemuL6B319qh2cVLOLj8DApJhjyT71eLgANbQ4bNKSZ51zBm3uJ3WmqnyNF17eSsDyw==
 
-"@next/bundle-analyzer@^12.1.5":
-  version "12.3.1"
-  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-12.3.1.tgz#df168652c43ed0dc3e91a5108e34cdcc8fc7f05a"
-  integrity sha512-2f/eei0YqZZBMTs4g1+HbgHyAFH5MbI/w9wLXmE8ly9SFze2D40sRH46JcC//EFVM/TIynVBh5sxn9CVO/vtxg==
-  dependencies:
-    webpack-bundle-analyzer "4.3.0"
-
 "@next/env@12.3.1":
   version "12.3.1"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-12.3.1.tgz#18266bd92de3b4aa4037b1927aa59e6f11879260"
@@ -5490,10 +5483,15 @@ commander@^4.0.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-4.1.1.tgz#9fd602bd936294e9e9ef46a3f4d6964044b18068"
   integrity sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
 
-commander@^6.2.0, commander@^6.2.1:
+commander@^6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.1.tgz#0792eb682dfbc325999bb2b84fddddba110ac73c"
   integrity sha512-U7VdrJFnJgo4xjrHpTzu0yrHPGImdsmD95ZlgYSEajAn2JKzDhDTPG9kBTefmObL2w/ngeZnilk+OV9CG3d7UA==
+
+commander@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
+  integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
 
 commander@^8.2.0:
   version "8.3.0"
@@ -11938,15 +11936,15 @@ webidl-conversions@^5.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-5.0.0.tgz#ae59c8a00b121543a2acc65c0434f57b0fc11aff"
   integrity sha512-VlZwKPCkYKxQgeSbH5EyngOmRp7Ww7I9rQLERETtf5ofd9pGeswWiOtogpEO850jziPRarreGxn5QIiTqpb2wA==
 
-webpack-bundle-analyzer@4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-4.3.0.tgz#2f3c0ca9041d5ee47fa418693cf56b4a518b578b"
-  integrity sha512-J3TPm54bPARx6QG8z4cKBszahnUglcv70+N+8gUqv2I5KOFHJbzBiLx+pAp606so0X004fxM7hqRu10MLjJifA==
+webpack-bundle-analyzer@^4.5.0:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-4.6.1.tgz#bee2ee05f4ba4ed430e4831a319126bb4ed9f5a6"
+  integrity sha512-oKz9Oz9j3rUciLNfpGFjOb49/jEpXNmWdVH8Ls//zNcnLlQdTGXQQMsBbb/gR7Zl8WNLxVCq+0Hqbx3zv6twBw==
   dependencies:
     acorn "^8.0.4"
     acorn-walk "^8.0.0"
     chalk "^4.1.0"
-    commander "^6.2.0"
+    commander "^7.2.0"
     gzip-size "^6.0.0"
     lodash "^4.17.20"
     opener "^1.5.2"

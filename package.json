@@ -69,7 +69,6 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@chakra-ui/cli": "^2.0.0",
-    "@next/bundle-analyzer": "^12.1.5",
     "@tanstack/react-location-devtools": "^3.4.4",
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "@types/color": "^3.0.2",
@@ -95,7 +94,8 @@
     "next-sitemap": "^3.0.0",
     "next-unused": "^0.0.6",
     "prettier": "^2.4.1",
-    "typescript": "^4.7.0"
+    "typescript": "^4.7.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   },
   "resolutions": {
     "@types/react": "^18",
@@ -122,5 +122,10 @@
       "tw-components"
     ],
     "entrypoints": []
+  },
+  "nextBundleAnalysis": {
+    "budget": null,
+    "budgetPercentIncreaseRed": 10,
+    "showDetails": true
   }
 }

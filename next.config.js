@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const ContentSecurityPolicy = `
   default-src 'self';
   img-src * data: blob:;
@@ -36,8 +34,8 @@ const securityHeaders = [
   },
 ];
 
+/** @type {import('next').NextConfig} */
 const moduleExports = {
-  reactStrictMode: true,
   async headers() {
     return [
       {
@@ -109,12 +107,35 @@ const moduleExports = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
-};
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
+  reactStrictMode: true,
+  swcMinify: true,
+  experimental: {
+    browsersListForSwc: true,
+    legacyBrowsers: false,
+    scrollRestoration: true,
+  },
+
+  webpack: (config, { isServer }) => {
+    if (process.env.ANALYZE) {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+          reportFilename: isServer
+            ? "../analyze/server.html"
+            : "./analyze/client.html",
+        }),
+      );
+    }
+
+    // Don't bundle the shim unnecessarily.
+    config.resolve.alias["use-sync-external-store/shim"] = "react";
+
+    return config;
+  },
+};
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
@@ -133,6 +154,4 @@ const sentryWebpackPluginOptions = {
 
   hideSourceMaps: false,
 };
-module.exports = withBundleAnalyzer(
-  withSentryConfig(moduleExports, sentryWebpackPluginOptions),
-);
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
