@@ -123,6 +123,10 @@
     ],
     "entrypoints": []
   },
+  "browserList": [
+    "defaults",
+    "not op_mini all"
+  ],
   "nextBundleAnalysis": {
     "budget": null,
     "budgetPercentIncreaseRed": 10,
