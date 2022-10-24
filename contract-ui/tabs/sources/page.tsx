@@ -89,6 +89,7 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
     isOpen,
     contractAddress,
   );
+  console.log("why", contractAddress);
   const { data: verificationStatus } = useCheckVerificationStatus(
     verifyResult?.guid,
   );
