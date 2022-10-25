@@ -33,8 +33,6 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
   const audited = false;
   const activeChainId = useDashboardEVMChainId();
 
-  console.log("activeChainId", activeChainId);
-
   const badgeUrl = useMemo(() => {
     const url = new URL("https://badges.thirdweb.com/contract");
     if (address) {
@@ -53,7 +51,7 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
     <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank">
       <img width=${BADGE_WIDTH} height="${
     audited ? AUDITED_BADGE_HEIGHT : BADGE_HEIGHT
-  } src="https://thirdweb.com${badgeUrl}" alt="View contract" />
+  } src="${badgeUrl}" alt="View contract" />
     </a>`;
 
   const { hasCopied, onCopy } = useClipboard(badgeCode, 3000);
