@@ -49,9 +49,9 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
 
   const badgeCode = `
     <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank">
-      <img width=${BADGE_WIDTH} height="${
+      <img width="${BADGE_WIDTH}" height="${
     audited ? AUDITED_BADGE_HEIGHT : BADGE_HEIGHT
-  } src="${badgeUrl}" alt="View contract" />
+  }" src="${badgeUrl}" alt="View contract" />
     </a>`;
 
   const { hasCopied, onCopy } = useClipboard(badgeCode, 3000);
