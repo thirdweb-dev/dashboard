@@ -30,7 +30,7 @@ const SolanaFaucet: ThirdwebNextPage = () => {
         mx="auto"
         px={{ base: 0, md: 4 }}
       >
-        <Heading mr={3} as="h1">Solana Faucet</Heading>
+        <Heading as="h1">Solana Faucet</Heading>
         <Heading fontSize="20px" my="4" as="h2">
           Get Solana devnet tokens for free to build your blockchain app.
         </Heading>
