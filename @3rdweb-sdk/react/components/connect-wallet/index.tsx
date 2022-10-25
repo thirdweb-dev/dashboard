@@ -37,11 +37,11 @@ import {
   useChainId,
   useConnect,
   useDisconnect,
-  useGnosis,
-  useMagic,
   useMetamask,
   useNetwork,
-} from "@thirdweb-dev/react";
+} from "@thirdweb-dev/react/evm";
+import { useGnosis } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
+import { useMagic } from "@thirdweb-dev/react/evm/connectors/magic";
 import { ChakraNextImage } from "components/Image";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { ens } from "components/contract-components/hooks";
@@ -100,16 +100,28 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   const { getNetworkMetadata } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const disconnect = useDisconnect();
-  const disconnectFully = useDisconnect({ reconnectAfterGnosis: false });
+  const disconnectFully = useDisconnect({ reconnectPrevious: false });
   const [network, switchNetwork] = useNetwork();
   const address = useAddress();
   const chainId = useChainId();
 
-  const { hasCopied, onCopy } = useClipboard(address || "");
-
+  const { hasCopied, onCopy, setValue } = useClipboard(address || "");
   const { hasCopied: hasCopiedSol, onCopy: onCopySol } = useClipboard(
     solWallet.publicKey?.toBase58() || "",
   );
+
+  useEffect(() => {
+    if (address) {
+      setValue(address);
+    }
+  }, [address, setValue]);
+
+  useEffect(() => {
+    if (solWallet.publicKey) {
+      setValue(solWallet.publicKey?.toBase58());
+    }
+  }, [solWallet.publicKey, setValue]);
+
   function handleConnect(_connector: Connector<any, any>) {
     if (_connector.name.toLowerCase() === "magic") {
       onOpen();
