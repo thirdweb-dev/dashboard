@@ -135,6 +135,4 @@ const sentryWebpackPluginOptions = {
 
   hideSourceMaps: false,
 };
-module.exports = withBundleAnalyzer(
-  withSentryConfig(moduleExports, sentryWebpackPluginOptions),
-);
+module.exports = withBundleAnalyzer(moduleExports, sentryWebpackPluginOptions);
