@@ -39,7 +39,7 @@ export const ChakraNextImage = (props: ChakraNextImageProps) => {
     src,
     alt,
     width,
-    layout,
+    layout = "responsive",
     quality = 90,
     height,
     objectFit,
