@@ -14,11 +14,12 @@ import {
   useButtonGroup,
   useClipboard,
 } from "@chakra-ui/react";
+import { FiCheck } from "@react-icons/all-files/fi/FiCheck";
 import { Link as LocationLink, useMatch } from "@tanstack/react-location";
 import { useTrack } from "hooks/analytics/useTrack";
 import NextLink from "next/link";
-import React from "react";
-import { FiCheck, FiCopy, FiExternalLink } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FiCopy, FiExternalLink } from "react-icons/fi";
 import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -184,7 +185,14 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   tokenId,
   ...restButtonProps
 }) => {
-  const { onCopy, hasCopied } = useClipboard(address || "");
+  const { onCopy, hasCopied, setValue } = useClipboard(address || "");
+
+  useEffect(() => {
+    if (address) {
+      setValue(address);
+    }
+  }, [address, setValue]);
+
   const trackEvent = useTrack();
 
   return (
