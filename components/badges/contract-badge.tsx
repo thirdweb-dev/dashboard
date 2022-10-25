@@ -1,4 +1,4 @@
-import { useDashboardNetwork } from "@3rdweb-sdk/react";
+import { useDashboardEVMChainId, useDashboardNetwork } from "@3rdweb-sdk/react";
 import {
   Flex,
   Image,
@@ -31,6 +31,9 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
   const network = useDashboardNetwork();
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const audited = false;
+  const activeChainId = useDashboardEVMChainId();
+
+  console.log("activeChainId", activeChainId);
 
   const badgeUrl = useMemo(() => {
     const url = new URL("https://badges.thirdweb.com/contract");
@@ -40,8 +43,11 @@ export const ContractBadge: React.FC<ContractBadgeProps> = ({ address }) => {
     if (theme) {
       url.searchParams.append("theme", theme);
     }
+    if (activeChainId) {
+      url.searchParams.append("chainId", activeChainId.toString());
+    }
     return url.toString();
-  }, [address, theme]);
+  }, [address, theme, activeChainId]);
 
   const badgeCode = `
     <a href="https://thirdweb.com/${network}/${address}?utm_source=contract_badge" target="_blank">
