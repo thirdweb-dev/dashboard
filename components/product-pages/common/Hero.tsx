@@ -125,7 +125,6 @@ export const Hero: ComponentWithChildren<IHero> = ({
                 <ChakraNextImage
                   alt=""
                   src={image}
-                  layout="fill"
                   objectFit="contain"
                   priority
                 />

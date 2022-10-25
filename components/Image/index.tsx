@@ -4,7 +4,7 @@ import {
   ImageProps as ChakraImageProps,
   chakra,
 } from "@chakra-ui/react";
-import NextImage, { ImageProps } from "next/image";
+import NextImage, { ImageProps } from "next/legacy/image";
 import { useMemo } from "react";
 import useDimensions from "react-cool-dimensions";
 import { isBrowser } from "utils/isBrowser";
@@ -20,7 +20,6 @@ const ChakraNextUnwrappedImage = chakra(NextImage, {
       "placeholder",
       "blurDataURL",
       "loader ",
-      "layout",
       "sizes",
       "onLoadingComplete",
       "priority",
@@ -40,9 +39,9 @@ export const ChakraNextImage = (props: ChakraNextImageProps) => {
     src,
     alt,
     width,
+    layout,
     quality = 90,
     height,
-    layout = "responsive",
     objectFit,
     objectPosition,
     placeholder = typeof src === "string" ? "empty" : "blur",

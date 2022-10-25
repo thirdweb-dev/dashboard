@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const ContentSecurityPolicy = `
   default-src 'self';
   img-src * data: blob:;
@@ -36,8 +34,8 @@ const securityHeaders = [
   },
 ];
 
+/** @type {import('next').NextConfig} */
 const moduleExports = {
-  reactStrictMode: true,
   async headers() {
     return [
       {
@@ -109,6 +107,7 @@ const moduleExports = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
+  reactStrictMode: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
