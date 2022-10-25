@@ -1,0 +1,18 @@
+import { Flex } from "@chakra-ui/react";
+import { useProgram } from "@thirdweb-dev/react/solana";
+import { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
+import { SettingsRoyalties } from "program-ui/settings/royalties";
+
+export const ProgramSettingsTab: React.FC<{ address: string }> = ({
+  address,
+}) => {
+  const { program } = useProgram(address);
+
+  return (
+    <Flex direction="column" height="100%">
+      {program instanceof NFTDrop || program instanceof NFTCollection ? (
+        <SettingsRoyalties program={program} />
+      ) : null}
+    </Flex>
+  );
+};

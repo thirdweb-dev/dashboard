@@ -328,8 +328,8 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
                       }
                     />
                     <FormHelperText>
-                      Determine the address that should receive the revenue from
-                      royalties earned from secondary sales of the assets.
+                      Determine the percentage you&apos;ll receive from
+                      secondary sales of the assets.
                     </FormHelperText>
                     <FormErrorMessage>
                       {
