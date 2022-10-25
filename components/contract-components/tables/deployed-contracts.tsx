@@ -81,13 +81,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
     }
   }, [contractListQuery, router]);
 
-  console.log(
-    "contractListQuery",
-    contractListQuery.data.find(
-      (c) => c.address === "0x88025A100C83651B8F10f7A8D32F50671BAA72b7",
-    ),
-  );
-
   const slicedData = useMemo(() => {
     if (contractListQuery.data) {
       return contractListQuery.data.slice(0, showMoreLimit);
@@ -391,8 +384,6 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   cell,
 }) => {
   const isPrebuiltContract = cell.contractType !== "custom";
-
-  console.log();
 
   const releasesFromDeploy = useReleasesFromDeploy(
     isPrebuiltContract ? undefined : cell.address || undefined,
