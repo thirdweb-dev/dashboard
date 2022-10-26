@@ -1,7 +1,6 @@
 import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
-  chakra,
   forwardRef,
 } from "@chakra-ui/react";
 import { Link as LocationLink, useMatch } from "@tanstack/react-location";
