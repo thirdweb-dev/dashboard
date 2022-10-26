@@ -6,18 +6,15 @@ import {
   FormControl,
   IconButton,
   Input,
+  InputGroup,
+  InputRightAddon,
 } from "@chakra-ui/react";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { IoMdRemove } from "@react-icons/all-files/io/IoMdRemove";
 import { PublicKey } from "@solana/web3.js";
 import { useCreators, useUpdateCreators } from "@thirdweb-dev/react/solana";
-import {
-  CreatorInputSchema,
-  NFTCollection,
-  NFTDrop,
-} from "@thirdweb-dev/sdk/solana";
+import { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
@@ -36,17 +33,8 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
   const query = useCreators(program);
   const mutation = useUpdateCreators(program);
 
-  console.log(query.data);
-
-  const {
-    register,
-    control,
-    getFieldState,
-    formState,
-    watch,
-    setValue,
-    handleSubmit,
-  } = useForm<any>();
+  const { register, control, getFieldState, formState, watch, handleSubmit } =
+    useForm<any>();
   const { fields, append, remove, replace } = useFieldArray({
     name: "creators",
     control,
@@ -72,7 +60,10 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
   );
 
   const totalPercentage =
-    watch("creators")?.reduce((a: any, b: any) => a + b.share, 0) || 0;
+    watch("creators")?.reduce(
+      (a: any, b: any) => Number(a) + Number(b.share),
+      0,
+    ) || 0;
 
   return (
     <Card p={0} position="relative">
@@ -84,7 +75,6 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
             action: "set-creators",
             label: "attempt",
           });
-          console.log(d);
           mutation.mutateAsync(d.creators, {
             onSuccess: () => {
               trackEvent({
@@ -162,17 +152,13 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                           .error
                       }
                     >
-                      <BasisPointsInput
-                        variant="filled"
-                        value={watch(`creators.${index}.share`)}
-                        onChange={(value) =>
-                          setValue(`creators.${index}.share`, value, {
-                            shouldTouch: true,
-                            shouldValidate: true,
-                            shouldDirty: true,
-                          })
-                        }
-                      />
+                      <InputGroup>
+                        <Input
+                          {...register(`creators.${index}.share`)}
+                          type="number"
+                        />
+                        <InputRightAddon children="%" />
+                      </InputGroup>
                       <FormErrorMessage>
                         {
                           getFieldState(`creators.${index}.share`, formState)
@@ -210,7 +196,9 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
           ecosystem="solana"
           colorScheme="primary"
           transactionCount={1}
-          isDisabled={query.isLoading || !formState.isDirty}
+          isDisabled={
+            query.isLoading || !formState.isDirty || totalPercentage !== 100
+          }
           type="submit"
           isLoading={mutation.isLoading}
           loadingText="Saving..."
