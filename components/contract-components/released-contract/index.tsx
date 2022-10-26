@@ -7,9 +7,11 @@ import {
   useReleasedContractFunctions,
   useReleasedContractInfo,
   useReleaserProfile,
+  useUnrelease,
 } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
 import { MarkdownRenderer } from "./markdown-renderer";
+import { UnreleaseButton } from "./unrelease-button";
 import {
   Divider,
   Flex,
@@ -29,6 +31,7 @@ import {
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useOgImagePing } from "hooks/useOgImagePing";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
@@ -71,6 +74,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   release,
   walletOrEns,
 }) => {
+  const trackEvent = useTrack();
   const address = useAddress();
   const releasedContractInfo = useReleasedContractInfo(release);
   const { data: compilerInfo } = useReleasedContractCompilerMetadata(release);
@@ -199,17 +203,26 @@ Deploy it in one click`,
       <GridItem colSpan={{ base: 12, md: 9 }}>
         <Flex flexDir="column" gap={6}>
           {address === release.releaser && (
-            <LinkButton
-              ml="auto"
-              size="sm"
-              variant="outline"
-              leftIcon={<Icon as={BiPencil} />}
-              href={`/contracts/release/${encodeURIComponent(
-                release.metadataUri.replace("ipfs://", ""),
-              )}`}
-            >
-              Edit Release
-            </LinkButton>
+            <Flex justifyContent="end" gap={2}>
+              <LinkButton
+                size="sm"
+                variant="outline"
+                leftIcon={<Icon as={BiPencil} />}
+                href={`/contracts/release/${encodeURIComponent(
+                  release.metadataUri.replace("ipfs://", ""),
+                )}`}
+                onClick={() => {
+                  trackEvent({
+                    category: "released-contract",
+                    action: "click",
+                    label: "edit-release",
+                  });
+                }}
+              >
+                Edit Release
+              </LinkButton>
+              <UnreleaseButton contractId={release.name} />
+            </Flex>
           )}
           {releasedContractInfo.data?.publishedMetadata?.readme && (
             <Card as={Flex} flexDir="column" gap={2} p={6} position="relative">

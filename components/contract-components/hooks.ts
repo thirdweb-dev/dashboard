@@ -420,7 +420,7 @@ export function usePublishMutation() {
     async ({ predeployUri, extraMetadata }: PublishMutationData) => {
       invariant(
         sdk && "getPublisher" in sdk,
-        "sdk is not ready or does not support publishing",
+        "sdk is not ready or does not support releasing",
       );
       const contractIdIpfsHash = toContractIdIpfsHash(predeployUri);
       await sdk.getPublisher().publish(contractIdIpfsHash, extraMetadata);
@@ -433,6 +433,31 @@ export function usePublishMutation() {
             `/api/revalidate/release?address=${address}&contractName=${variables.contractName}`,
           ).catch((err) => console.error("failed to revalidate", err)),
         ]);
+      },
+    },
+  );
+}
+
+export function useUnrelease() {
+  const sdk = useSDK();
+  const address = useAddress();
+
+  return useMutationWithInvalidate(
+    async (contractId: string) => {
+      invariant(
+        sdk && "getPublisher" in sdk,
+        "sdk is not ready or does not support unreleasing",
+      );
+      invariant(
+        address,
+        "No wallet connected, please connect your wallet to unrelease",
+      );
+      console.log({ address, contractId });
+      await sdk.getPublisher().unpublish(address, contractId);
+    },
+    {
+      onSuccess: (_data, variables, _options, invalidate) => {
+        return undefined;
       },
     },
   );
@@ -478,7 +503,7 @@ export function useCustomContractDeployMutation(
     async (data: ContractDeployMutationParams) => {
       invariant(
         sdk && "getPublisher" in sdk,
-        "sdk is not ready or does not support publishing",
+        "sdk is not ready or does not support releasing",
       );
       const contractAddress = await sdk.deployer.deployContractFromUri(
         ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
