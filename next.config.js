@@ -108,6 +108,9 @@ const moduleExports = {
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
   },
   reactStrictMode: true,
+  experimental: {
+    scrollRestoration: true,
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
