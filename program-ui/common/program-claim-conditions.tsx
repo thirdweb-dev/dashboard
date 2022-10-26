@@ -263,14 +263,6 @@ const ClaimConditionsProgramForm: React.FC<{ address: string }> = ({
                         setValue(`currencyAddress`, e.target.value)
                       }
                     />
-                    {/*                     <CurrencySelector
-                      // TODO get native_token_address
-                                                value={currencyAddress || NATIVE_TOKEN_ADDRESS}
-                      value={watch("currencyAddress") || ""}
-                      onChange={(e) =>
-                        setValue(`currencyAddress`, e.target.value)
-                      }
-                    /> */}
                     <FormErrorMessage>
                       {
                         getFieldState(`currencyAddress`, formState).error

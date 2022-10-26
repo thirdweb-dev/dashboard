@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { useProgram } from "@thirdweb-dev/react/solana";
 import { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
+import { SettingsCreators } from "program-ui/settings/creators";
 import { SettingsRoyalties } from "program-ui/settings/royalties";
 
 export const ProgramSettingsTab: React.FC<{ address: string }> = ({
@@ -11,7 +12,10 @@ export const ProgramSettingsTab: React.FC<{ address: string }> = ({
   return (
     <Flex direction="column" height="100%">
       {program instanceof NFTDrop || program instanceof NFTCollection ? (
-        <SettingsRoyalties program={program} />
+        <>
+          <SettingsRoyalties program={program} />
+          <SettingsCreators program={program} />
+        </>
       ) : null}
     </Flex>
   );
