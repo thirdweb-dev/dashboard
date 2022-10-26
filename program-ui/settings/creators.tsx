@@ -45,7 +45,6 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
     formState,
     watch,
     setValue,
-    reset,
     handleSubmit,
   } = useForm<any>();
   const { fields, append, remove, replace } = useFieldArray({
@@ -86,14 +85,13 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
             label: "attempt",
           });
           console.log(d);
-          mutation.mutateAsync(d, {
+          mutation.mutateAsync(d.creators, {
             onSuccess: () => {
               trackEvent({
                 category: "settings",
                 action: "set-creators",
                 label: "success",
               });
-              reset();
               onSuccess();
             },
             onError: (error) => {
