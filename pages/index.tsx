@@ -8,6 +8,9 @@ import {
   Flex,
   Icon,
   IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   LightMode,
   List,
   ListIcon,
@@ -40,10 +43,18 @@ import Hero from "public/assets/landingpage/hero.png";
 import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
+import { useForm } from "react-hook-form";
 // end images
 import { BsLightningCharge, BsMenuButtonWide } from "react-icons/bs";
 import { MdMarkEmailRead, MdOutlineAnalytics } from "react-icons/md";
-import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import {
+  Button,
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+  TrackedLink,
+} from "tw-components";
 
 const HomePage: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
@@ -753,6 +764,12 @@ const ContractsDescriptorItem: React.FC<ContractsDescriptorItemProps> = ({
 };
 
 const NewsLetterSection: React.FC = () => {
+  const form = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
+
   return (
     <Box bgColor="rgba(0,0,0,.6)" zIndex="100">
       <Container as="section" maxW="container.page" color="gray.500">
@@ -776,15 +793,25 @@ const NewsLetterSection: React.FC = () => {
             </Stack>
           </Stack>
 
-          <Box
-            as="iframe"
-            src="https://embeds.beehiiv.com/42f51ba6-da56-42f9-92d8-24a339b9acd0?slim=true"
-            data-test-id="beehiiv-embed"
-            frameBorder="0"
-            scrolling="no"
-            h="50px"
-            borderRadius="md"
-          />
+          <form>
+            <InputGroup minW="300px" size="lg">
+              <Input
+                type="email"
+                _hover={{ borderColor: "purple.500" }}
+                _focus={{ borderColor: "purple.500" }}
+                placeholder="Enter your email"
+                {...form.register("email")}
+              />
+              <InputRightElement
+                w="auto"
+                children={
+                  <Button type="submit" mr={2} colorScheme="purple" size="sm">
+                    Sign up
+                  </Button>
+                }
+              />
+            </InputGroup>
+          </form>
         </Stack>
       </Container>
     </Box>
