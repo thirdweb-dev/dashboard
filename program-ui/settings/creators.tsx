@@ -48,14 +48,14 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
     reset,
     handleSubmit,
   } = useForm<any>();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     name: "creators",
     control,
   });
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ address: "", sharePercentage: 100 }, { shouldFocus: false });
+      append({ address: "", share: 100 }, { shouldFocus: false });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,10 +63,10 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
 
   useEffect(() => {
     if (query.data && !formState.isDirty) {
-      reset();
+      replace(query.data);
       /*         query.data.map((c) => ({
           address: c.address,
-          sharePercentage: c.sharePercentage,
+          share: c.share,
         })), */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,8 +78,7 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
   );
 
   const totalPercentage =
-    watch("creators")?.reduce((a: any, b: any) => a + b.sharePercentage, 0) ||
-    0;
+    watch("creators")?.reduce((a: any, b: any) => a + b.share, 0) || 0;
 
   return (
     <Card p={0} position="relative">
@@ -166,17 +165,15 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                     </FormControl>
                     <FormControl
                       isInvalid={
-                        !!getFieldState(
-                          `creators.${index}.sharePercentage`,
-                          formState,
-                        ).error
+                        !!getFieldState(`creators.${index}.share`, formState)
+                          .error
                       }
                     >
                       <BasisPointsInput
                         variant="filled"
-                        value={watch(`creators.${index}.sharePercentage`)}
+                        value={watch(`creators.${index}.share`)}
                         onChange={(value) =>
-                          setValue(`creators.${index}.sharePercentage`, value, {
+                          setValue(`creators.${index}.share`, value, {
                             shouldTouch: true,
                             shouldValidate: true,
                             shouldDirty: true,
@@ -185,10 +182,8 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                       />
                       <FormErrorMessage>
                         {
-                          getFieldState(
-                            `creators.${index}.sharePercentage`,
-                            formState,
-                          ).error?.message
+                          getFieldState(`creators.${index}.share`, formState)
+                            .error?.message
                         }
                       </FormErrorMessage>
                     </FormControl>
@@ -209,7 +204,7 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
             <Flex>
               <Button
                 leftIcon={<IoMdAdd />}
-                onClick={() => append({ address: "", sharePercentage: 0 })}
+                onClick={() => append({ address: "", share: 0 })}
               >
                 Add Recipient
               </Button>
