@@ -57,17 +57,12 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
     if (fields.length === 0) {
       append({ address: "", share: 100 }, { shouldFocus: false });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (query.data && !formState.isDirty) {
       replace(query.data);
-      /*         query.data.map((c) => ({
-          address: c.address,
-          share: c.share,
-        })), */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.data, formState.isDirty]);
@@ -189,7 +184,9 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                     </FormControl>
                     <IconButton
                       borderRadius="md"
-                      isDisabled={index === 0 || formState.isSubmitting}
+                      isDisabled={
+                        watch("creators").length === 1 || formState.isSubmitting
+                      }
                       colorScheme="red"
                       icon={<IoMdRemove />}
                       aria-label="remove row"
