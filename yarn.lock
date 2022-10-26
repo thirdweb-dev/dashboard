@@ -3407,22 +3407,22 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@*":
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.1.9.tgz#a386634775db149e9db1128319e057e266f57a4c"
-  integrity sha512-CD6K+ddGd20iFzw/NqgUxuZqM5K4jBNncJBPJjFXrbuR8ppfTiN6AOtYOUHI+nAyeLKckRit3ulfkjCbYewpTg==
+"@thirdweb-dev/contracts-js@1.2.0-dev-96f8704":
+  version "1.2.0-dev-96f8704"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.2.0-dev-96f8704.tgz#ac448a175e7253452702f23e78dd6927b4d4ac2c"
+  integrity sha512-mDfua5EkQ+Mr7i5gTDt98gHpW3PTu6B1GGKdCFIynJkHZXIks5AFJDF1OszN2x8XDOtoFGvKx40NzfyCagdxkg==
   dependencies:
-    "@thirdweb-dev/contracts" "3.1.8-0"
+    "@thirdweb-dev/contracts" "3.2.0-1"
 
-"@thirdweb-dev/contracts@3.1.8-0":
-  version "3.1.8-0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.1.8-0.tgz#847af3fe9a53368e7be04b7b6e6afe076d3d1676"
-  integrity sha512-PiQjdRcAUBlu3poc4g6dN9KvjTgYsA1Vi+B/IgryptCgcJeMY4cldMabKCgPaCg9dPVpUq4O+SOM00P6mBNvGw==
+"@thirdweb-dev/contracts@3.2.0-1":
+  version "3.2.0-1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.2.0-1.tgz#216007dcee5ea9d48edd859b193b2f88267f5194"
+  integrity sha512-hZLy3+LNlU2MTfXU57n4FKq+T55U4glTofsKehPQalNalYt3FjDs69dt0oPwZdl5aq0hN3IBPWONT+72VPmC/Q==
 
-"@thirdweb-dev/react@^3.5.0-dev-d4ef6f1":
-  version "3.5.0-dev-d4ef6f1"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.5.0-dev-d4ef6f1.tgz#13da8f28d818f1dc2cdaf2e2a8d94fa643f93541"
-  integrity sha512-Q4f1dco5B1ef0A3raRqyMyQ9bmF6FlRJ6V7W5fN2ReEiZkVdzg7xIB7oDl0W+wQPCZ79ooC29fgfj6LSIsfBwQ==
+"@thirdweb-dev/react@3.5.0-dev-96f8704":
+  version "3.5.0-dev-96f8704"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.5.0-dev-96f8704.tgz#ef3797d5f65d2f1c1f52bbaca1a035f158fbfd2b"
+  integrity sha512-CHGLWJMYtWcSM3pFyLOfUXTIQ8ZKqcLKf3Wsdr+bVfZrkE2TddjTWou6mOx9P/+jHuKl4t6+1hjiQqC3oAAPjg==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3444,17 +3444,17 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.5.0-dev-d4ef6f1":
-  version "3.5.0-dev-d4ef6f1"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.5.0-dev-d4ef6f1.tgz#de56ce9d0dea6bcc12a09343cbb9f5a966e35777"
-  integrity sha512-SZZMoTLGQmZ443quvAWva1xreWnoLj/FDNyyPbV+djNf/KV4+uLhvHFe6WuI+E7mMMc8KaXAOZ58JD9GOy4nOg==
+"@thirdweb-dev/sdk@3.5.0-dev-96f8704":
+  version "3.5.0-dev-96f8704"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.5.0-dev-96f8704.tgz#740cf786da3d32e0bc9cc71121b31ca9566aa4db"
+  integrity sha512-K3gysEpET7I/Gg9+DSX8NyDcBMieBLfCEZoli/nqZZvwsObln+8tivC5Y1xyYqSsADR0xKMOv3Gv/eDsr3qIIA==
   dependencies:
     "@metaplex-foundation/js" "0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "2.2.2"
     "@project-serum/anchor" "0.25.0"
     "@solana/spl-token" "0.2.0"
     "@solana/web3.js" "1.62.0"
-    "@thirdweb-dev/contracts-js" "*"
+    "@thirdweb-dev/contracts-js" "1.2.0-dev-96f8704"
     "@thirdweb-dev/storage" "*"
     bn.js "^5.2.1"
     bs58 "^5.0.0"
