@@ -12,14 +12,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: "invalid method" });
   }
 
-  const { email, send_welcome_email = false } = req.body as EmailSignupPayload;
+  const { email, send_welcome_email = false } = JSON.parse(
+    req.body,
+  ) as EmailSignupPayload;
 
-  invariant(process.env.BEEHIVE_API_KEY, "missing BEEHIVE_API_KEY URL");
+  invariant(process.env.BEEHIIV_API_KEY, "missing BEEHIIV_API_KEY");
 
   const response = await fetch("https://api.beehiiv.com/v1/subscribers", {
     headers: {
       "Content-Type": "application/json",
-      "X-ApiKey": process.env.BEEHIVE_API_KEY,
+      "X-ApiKey": process.env.BEEHIIV_API_KEY,
     },
     method: "POST",
     body: JSON.stringify({

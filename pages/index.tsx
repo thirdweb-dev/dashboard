@@ -6,11 +6,10 @@ import {
   DarkMode,
   Divider,
   Flex,
+  FormControl,
   Icon,
   IconButton,
   Input,
-  InputGroup,
-  InputRightElement,
   LightMode,
   List,
   ListIcon,
@@ -793,24 +792,44 @@ const NewsLetterSection: React.FC = () => {
             </Stack>
           </Stack>
 
-          <form>
-            <InputGroup minW="300px" size="lg">
-              <Input
-                type="email"
-                _hover={{ borderColor: "purple.500" }}
-                _focus={{ borderColor: "purple.500" }}
-                placeholder="Enter your email"
-                {...form.register("email")}
-              />
-              <InputRightElement
-                w="auto"
-                children={
-                  <Button type="submit" mr={2} colorScheme="purple" size="sm">
-                    Sign up
-                  </Button>
-                }
-              />
-            </InputGroup>
+          <form
+            onSubmit={form.handleSubmit(async (data) => {
+              try {
+                await fetch("/api/email-signup", {
+                  method: "POST",
+                  body: JSON.stringify({ email: data.email }),
+                });
+                form.setValue("email", "");
+              } catch (err) {
+                console.error(err);
+              }
+            })}
+          >
+            <Flex gap={0} minW={{ base: "100%", md: "350px" }}>
+              <FormControl isRequired>
+                <Input
+                  borderRightRadius={0}
+                  type="email"
+                  borderColor="purple.500"
+                  borderRight={0}
+                  _hover={{ borderColor: "purple.500" }}
+                  _focus={{ borderColor: "purple.500" }}
+                  placeholder="Enter your email"
+                  {...form.register("email")}
+                  autoComplete="email"
+                />
+              </FormControl>
+              <Button
+                borderLeftRadius={0}
+                flexShrink={0}
+                isLoading={form.formState.isSubmitting}
+                type="submit"
+                mr={2}
+                colorScheme="purple"
+              >
+                Sign up
+              </Button>
+            </Flex>
           </form>
         </Stack>
       </Container>
