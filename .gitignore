@@ -64,3 +64,5 @@ yalc.lock
 public/sitemap*.xml
 # Sentry
 .sentryclirc
+
+.vscode
