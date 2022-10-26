@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { IoMdRemove } from "@react-icons/all-files/io/IoMdRemove";
+import { PublicKey } from "@solana/web3.js";
 import { useCreators, useUpdateCreators } from "@thirdweb-dev/react/solana";
 import {
   CreatorInputSchema,
@@ -20,7 +21,7 @@ import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button, Card, FormErrorMessage, Heading, Text } from "tw-components";
 import { z } from "zod";
 
@@ -35,6 +36,8 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
   const query = useCreators(program);
   const mutation = useUpdateCreators(program);
 
+  console.log(query.data);
+
   const {
     register,
     control,
@@ -44,7 +47,7 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
     setValue,
     reset,
     handleSubmit,
-  } = useFormContext<any>();
+  } = useForm<any>();
   const { fields, append, remove } = useFieldArray({
     name: "creators",
     control,
@@ -115,12 +118,11 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
         <Flex p={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
           <Heading size="title.sm">Creators</Heading>
           <Text size="body.md" fontStyle="italic">
-            Determine the percentage you&apos;ll receive from secondary sales of
-            the assets.
+            Determine the creators that will receive royalties for this program.
           </Text>
-          <Flex gap={4} direction={{ base: "column", md: "row" }}>
+          <Flex gap={4} direction="column">
             {totalPercentage < 100 ? (
-              <Alert status="warning">
+              <Alert status="warning" borderRadius="lg">
                 <AlertIcon />
                 <AlertDescription>
                   Total shares need to add up to 100%. Total shares currently
@@ -152,7 +154,7 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                     >
                       <Input
                         variant="filled"
-                        placeholder={""}
+                        placeholder={PublicKey.default.toBase58()}
                         {...register(`creators.${index}.address`)}
                       />
                       <FormErrorMessage>

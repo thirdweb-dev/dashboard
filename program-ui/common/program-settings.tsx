@@ -12,10 +12,10 @@ export const ProgramSettingsTab: React.FC<{ address: string }> = ({
   return (
     <Flex direction="column" height="100%">
       {program instanceof NFTDrop || program instanceof NFTCollection ? (
-        <>
-          <SettingsRoyalties program={program} />
+        <Flex gap={8} direction="column">
           <SettingsCreators program={program} />
-        </>
+          <SettingsRoyalties program={program} />
+        </Flex>
       ) : null}
     </Flex>
   );
