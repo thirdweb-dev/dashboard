@@ -198,7 +198,9 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   const [resetFlag, setResetFlag] = useState(false);
   const isAdmin = useIsAdmin(contract);
 
-  const query = useClaimConditions(contract, tokenId);
+  const query = useClaimConditions(contract, tokenId, {
+    withAllowList: true,
+  });
   const mutation = useSetClaimConditions(contract, tokenId);
   const isErc20 = detectFeatures<TokenContract>(contract, ["ERC20"]);
 

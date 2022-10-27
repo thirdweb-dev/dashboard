@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FiCopy } from "react-icons/fi";
 import {
@@ -30,7 +31,7 @@ interface EmbedSetupProps {
   contractType?: string | null;
 }
 
-const IPFS_URI = "ipfs://QmPaVYdGue8zEXFKqrtVHpvzBvufM1DYzw5n1of3KVPG88";
+const IPFS_URI = "ipfs://QmXe7gUzvkqmT6Pey8vUkwFZMaKRVzzvGc55TTFUzdQq3m";
 
 interface IframeSrcOptions {
   rpcUrl: string;
@@ -57,6 +58,18 @@ const colorOptions = [
   "cyan",
   "yellow",
 ];
+
+const isValidUrl = (url: string | undefined) => {
+  if (!url) {
+    return false;
+  }
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 const buildIframeSrc = (
   contract?: ValidContractInstance,
@@ -97,8 +110,8 @@ const buildIframeSrc = (
   if (rpcUrl) {
     url.searchParams.append("rpcUrl", rpcUrl);
   }
-  if (relayUrl) {
-    url.searchParams.append("relayUrl", relayUrl);
+  if (isValidUrl(relayUrl)) {
+    url.searchParams.append("relayUrl", relayUrl || "");
   }
   if (biconomyApiKey) {
     url.searchParams.append("biconomyApiKey", biconomyApiKey);
@@ -158,15 +171,25 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
     },
   );
 
-  const embedCode = `<iframe
-src="${iframeSrc}"
-width="600px"
-height="600px"
-style="max-width:100%;"
-frameborder="0"
-></iframe>`;
+  const embedCode = useMemo(
+    () =>
+      `<iframe
+    src="${iframeSrc}"
+    width="600px"
+    height="600px"
+    style="max-width:100%;"
+    frameborder="0"
+    ></iframe>`,
+    [iframeSrc],
+  );
 
-  const { hasCopied, onCopy } = useClipboard(embedCode, 3000);
+  const { hasCopied, onCopy, setValue } = useClipboard(embedCode, 3000);
+
+  useEffect(() => {
+    if (embedCode) {
+      setValue(embedCode);
+    }
+  }, [embedCode, setValue]);
 
   return (
     <Flex gap={8} direction="column">

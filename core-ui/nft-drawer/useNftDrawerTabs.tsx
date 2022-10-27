@@ -34,7 +34,7 @@ export function useNFTDrawerTabs(
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useMemo(() => {
       const isOwner = token?.owner === solAddress;
-      return [
+      let tabs: NFTDrawerTab[] = [
         {
           title: "Transfer",
           isDisabled: !isOwner,
@@ -58,6 +58,30 @@ export function useNFTDrawerTabs(
           ),
         },
       ];
+
+      if (contractOrProgram.accountType === "nft-collection") {
+        tabs = tabs.concat([
+          {
+            title: "Mint",
+            // TODO: Disable if the user is not the authority
+            isDisabled: false,
+            children: dynamic(() =>
+              import("program-ui/nft/drawer-tabs/mint-supply").then(
+                ({ MintSupplyTab }) =>
+                  // eslint-disable-next-line react/display-name
+                  () =>
+                    (
+                      <MintSupplyTab
+                        program={contractOrProgram as NFTCollection}
+                        tokenId={tokenId}
+                      />
+                    ),
+              ),
+            ),
+          },
+        ]);
+      }
+      return tabs;
     }, [contractOrProgram, solAddress, token, tokenId]);
   }
 
@@ -82,8 +106,12 @@ export function useNFTDrawerTabs(
       const isERC721 = detectFeatures(contractOrProgram, ["ERC721"]);
       const isMintable = detectFeatures(contractOrProgram, ["ERC1155Mintable"]);
       const isClaimable = detectFeatures<DropContract>(contractOrProgram, [
-        "ERC1155ClaimableWithConditions",
+        "ERC1155Claimable",
       ]);
+      const isClaimableWithConditions = detectFeatures<DropContract>(
+        contractOrProgram,
+        ["ERC1155ClaimableWithConditions"],
+      );
       const isBurnable = detectFeatures(contractOrProgram, [
         "ERC721Burnable",
         "ERC1155Burnable",
@@ -159,7 +187,7 @@ export function useNFTDrawerTabs(
           },
         ]);
       }
-      if (isClaimable && isERC1155) {
+      if (isClaimableWithConditions && isERC1155) {
         tabs = tabs.concat([
           {
             title: "Claim Conditions",
@@ -179,6 +207,10 @@ export function useNFTDrawerTabs(
               ),
             ),
           },
+        ]);
+      }
+      if (isClaimable && isERC1155) {
+        tabs = tabs.concat([
           {
             title: "Claim",
             isDisabled: false,

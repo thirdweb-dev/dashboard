@@ -93,7 +93,6 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description: "One NFT, one owner",
       erc: "ERC721",
       audit: "ipfs://QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
-
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/drop/DropERC721.sol",
       ecosytem: "evm",
@@ -103,7 +102,6 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description: "ERC721A NFTs that other people can claim",
       erc: "ERC721A",
       audit: "ipfs://QmWfueeKQrggrVQNjWkF4sYJECp56vNnuAXCPVecFFKz2j",
-
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/signature-drop/SignatureDrop.sol",
       ecosytem: "evm",
@@ -139,6 +137,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "Token",
       description: "ERC20 token",
       erc: "ERC20",
+      audit: "ipfs://QmaMiezCMfmo5zWmwNc2WXLex11BuRZJ9p9ZhWj638Tdws",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/token/TokenERC20.sol",
       ecosytem: "evm",
@@ -147,6 +146,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "Edition",
       description: "ERC1155 mintable NFTs",
       erc: "ERC1155",
+      audit: "ipfs://QmaMiezCMfmo5zWmwNc2WXLex11BuRZJ9p9ZhWj638Tdws",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/token/TokenERC1155.sol",
       ecosytem: "evm",
@@ -155,6 +155,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "Token Drop",
       description: "ERC20 token that you can sell for other tokens",
       erc: "ERC20",
+      audit: "ipfs://QmfKqeUfUgNwFn5B1fUAxzikj89mneZEETKrF7JfaJg5St",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/drop/DropERC20.sol",
       ecosytem: "evm",
@@ -162,6 +163,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
     split: buildContractForContractMap("split", {
       title: "Split",
       description: "Fee splitting for your primary sales and royalties",
+      audit: "ipfs://QmaMiezCMfmo5zWmwNc2WXLex11BuRZJ9p9ZhWj638Tdws",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/Split.sol",
       ecosytem: "evm",
@@ -170,6 +172,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       title: "NFT Collection",
       description: "ERC721 mintable NFTs",
       erc: "ERC721",
+      audit: "ipfs://QmaMiezCMfmo5zWmwNc2WXLex11BuRZJ9p9ZhWj638Tdws",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/token/TokenERC721.sol",
       ecosytem: "evm",
@@ -177,6 +180,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
     vote: buildContractForContractMap("vote", {
       title: "Vote",
       description: "On-chain ERC20-based voting",
+      audit: "ipfs://QmaMiezCMfmo5zWmwNc2WXLex11BuRZJ9p9ZhWj638Tdws",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/vote/VoteERC20.sol",
       ecosytem: "evm",
@@ -186,6 +190,7 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       description:
         "Bundle ERC721/ERC1155/ERC20 into a single token, with lootbox mechanics",
       erc: "ERC1155",
+      audit: "ipfs://QmfKqeUfUgNwFn5B1fUAxzikj89mneZEETKrF7JfaJg5St",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/pack/Pack.sol",
       ecosytem: "evm",
