@@ -225,7 +225,6 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
             <Input type="url" {...register("rpcUrl")} />
             <FormHelperText>
               Provide your own RPC url to use for this embed.
-              <strong>(Recommended for production use!)</strong>
             </FormHelperText>
           </FormControl>
 
