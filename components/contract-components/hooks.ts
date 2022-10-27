@@ -441,6 +441,7 @@ export function usePublishMutation() {
 export function useUnrelease() {
   const sdk = useSDK();
   const address = useAddress();
+  const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (contractId: string) => {
@@ -456,8 +457,10 @@ export function useUnrelease() {
       await sdk.getPublisher().unpublish(address, contractId);
     },
     {
-      onSuccess: (_data, variables, _options, invalidate) => {
-        return undefined;
+      onSuccess: async () => {
+        return await queryClient.invalidateQueries([
+          ...contractKeys.list(address),
+        ]);
       },
     },
   );

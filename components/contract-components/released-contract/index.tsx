@@ -7,7 +7,6 @@ import {
   useReleasedContractFunctions,
   useReleasedContractInfo,
   useReleaserProfile,
-  useUnrelease,
 } from "../hooks";
 import { ReleaserHeader } from "../releaser/releaser-header";
 import { MarkdownRenderer } from "./markdown-renderer";
