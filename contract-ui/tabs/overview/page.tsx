@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { useContractFunctions } from "components/contract-components/hooks";
+import { ImportContract } from "components/contract-components/import-contract";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { Heading } from "tw-components";
 
@@ -29,6 +30,7 @@ export const CustomContractOverviewPage: React.FC<
             contract={contract}
           />
         )}
+        <ImportContract contractAddress={contractAddress} />
       </Flex>
     </Flex>
   );
