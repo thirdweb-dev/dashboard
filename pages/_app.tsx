@@ -237,7 +237,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
         <DefaultSeo
           defaultTitle="thirdweb: The complete web3 development framework"
           titleTemplate="%s | thirdweb"
-          description="Build, launch, and manage web3 apps with thirdweb’s powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more."
+          description="Build, launch, and manage web3 apps with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more."
           additionalLinkTags={[
             {
               rel: "icon",
@@ -245,10 +245,9 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
             },
           ]}
           openGraph={{
-            title:
-              "thirdweb: The complete web3 development framework",
+            title: "thirdweb: The complete web3 development framework",
             description:
-              "Build, launch, and manage web3 apps with thirdweb’s powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more.",
+              "Build, launch, and manage web3 apps with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more.",
             type: "website",
             locale: "en_US",
             url: "https://thirdweb.com",
