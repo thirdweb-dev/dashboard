@@ -1,7 +1,7 @@
 import { Inter } from "@next/font/google";
 
 // eslint-disable-next-line new-cap
-const inter = Inter();
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
