@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FiCopy } from "react-icons/fi";
@@ -31,7 +32,7 @@ interface EmbedSetupProps {
   contractType?: string | null;
 }
 
-const IPFS_URI = "ipfs://QmXe7gUzvkqmT6Pey8vUkwFZMaKRVzzvGc55TTFUzdQq3m";
+const IPFS_URI = "ipfs://QmPuyhD9TN9gp29M2YCvhRCjQbj3dBoN87omyBUnFAJiQM";
 
 interface IframeSrcOptions {
   rpcUrl: string;
@@ -135,6 +136,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   contract,
   contractType,
 }) => {
+  const trackEvent = useTrack();
   const { register, watch } = useForm<{
     ipfsGateway: string;
     rpcUrl: string;
@@ -225,7 +227,6 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
             <Input type="url" {...register("rpcUrl")} />
             <FormHelperText>
               Provide your own RPC url to use for this embed.
-              <strong>(Recommended for production use!)</strong>
             </FormHelperText>
           </FormControl>
 
@@ -328,7 +329,16 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
             colorScheme="purple"
             w="auto"
             variant="outline"
-            onClick={onCopy}
+            onClick={() => {
+              onCopy();
+              trackEvent({
+                category: "embed",
+                action: "click",
+                label: "copy-code",
+                address: contract?.getAddress(),
+                chainId,
+              });
+            }}
             leftIcon={hasCopied ? <IoMdCheckmark /> : <FiCopy />}
           >
             {hasCopied ? "Copied!" : "Copy to clipboard"}
