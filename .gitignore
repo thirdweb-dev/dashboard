@@ -66,3 +66,8 @@ public/sitemap*.xml
 .sentryclirc
 
 .vscode
+
+
+
+# future_app dir
+future_app/

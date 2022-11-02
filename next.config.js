@@ -110,7 +110,6 @@ const moduleExports = {
   reactStrictMode: true,
   experimental: {
     scrollRestoration: true,
-    appDir: true,
   },
 };
 
