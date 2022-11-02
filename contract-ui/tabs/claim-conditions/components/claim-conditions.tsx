@@ -186,6 +186,7 @@ const DEFAULT_PHASE = {
   currencyAddress: NATIVE_TOKEN_ADDRESS,
   snapshot: undefined,
   merkleRootHash: undefined,
+  metadata: {},
 };
 const ClaimConditionsSchema = z.object({
   phases: ClaimConditionInputArray,
@@ -212,7 +213,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
 
   const transformedQueryData = useMemo(() => {
     return (query.data || [])
-      .map((phase) => ({
+      .map((phase, idx) => ({
         ...phase,
         price: Number(phase.currencyMetadata.displayValue),
         maxClaimableSupply: phase.maxClaimableSupply.toString(),
@@ -228,6 +229,9 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
           address,
           maxClaimable: maxClaimable || "0",
         })),
+        metadata: phase?.metadata || {
+          name: `Phase ${idx + 1}`,
+        },
       }))
       .filter((phase) => phase.maxClaimableSupply !== "0");
   }, [query.data]);
@@ -281,6 +285,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   );
 
   const { data: contractType } = useContractType(contract?.getAddress());
+
   const isMultiPhase = useMemo(
     () =>
       contractType === "nft-drop" ||
@@ -288,6 +293,17 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
       contractType === "token-drop",
     [contractType],
   );
+
+  const isClaimPhaseV1 = !detectFeatures(contract, [
+    "ERC721ClaimableWithConditionsV1",
+  ]);
+  const [dropType, setDropType] = useState<"specific" | "overrides" | "any">(
+    "any",
+  );
+
+  if (!contract) {
+    return null;
+  }
 
   return (
     <>
@@ -556,23 +572,36 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       <Flex direction={{ base: "column", md: "row" }} gap={4}>
                         <Select
                           w={{ base: "100%", md: "50%" }}
-                          value={
-                            Array.isArray(field.snapshot) ? "specific" : "any"
-                          }
+                          value={dropType}
                           onChange={(e) => {
-                            const val = e.currentTarget.value;
+                            const val = e.currentTarget.value as
+                              | "any"
+                              | "specific"
+                              | "overrides";
                             if (val === "any") {
                               form.setValue(
                                 `phases.${index}.snapshot`,
                                 undefined,
                               );
                             } else {
+                              if (val === "specific" && !isClaimPhaseV1) {
+                                form.setValue(
+                                  `phases.${index}.maxClaimablePerWallet`,
+                                  0,
+                                );
+                              }
                               form.setValue(`phases.${index}.snapshot`, []);
                               setOpenIndex(index);
                             }
+                            setDropType(val);
                           }}
                         >
                           <option value="any">Any wallet</option>
+                          {!isClaimPhaseV1 ? (
+                            <option value="overrides">
+                              Any wallet (with overrides)
+                            </option>
+                          ) : null}
                           <option value="specific">
                             Only specific wallets
                           </option>
@@ -655,6 +684,9 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                         <QuantityInputWithUnlimited
                           isRequired
                           decimals={decimals}
+                          isDisabled={
+                            !isClaimPhaseV1 && dropType === "specific"
+                          }
                           value={
                             field?.maxClaimablePerWallet?.toString() || "0"
                           }
@@ -674,41 +706,43 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                           }
                         </FormErrorMessage>
                       </FormControl>
-                      <FormControl
-                        isInvalid={
-                          !!form.getFieldState(
-                            `phases.${index}.waitInSeconds`,
-                            form.formState,
-                          ).error
-                        }
-                      >
-                        <Heading as={FormLabel} size="label.md">
-                          How many seconds do wallets have to wait in-between
-                          claiming?
-                        </Heading>
-                        <BigNumberInput
-                          isRequired
-                          value={field.waitInSeconds?.toString() || "0"}
-                          onChange={(value) =>
-                            form.setValue(
-                              `phases.${index}.waitInSeconds`,
-                              value.toString(),
-                            )
-                          }
-                        />
-                        <FormHelperText>
-                          Set this to &quot;Unlimited&quot; to only allow one
-                          claim transaction per wallet.
-                        </FormHelperText>
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
+                      {isClaimPhaseV1 && (
+                        <FormControl
+                          isInvalid={
+                            !!form.getFieldState(
                               `phases.${index}.waitInSeconds`,
                               form.formState,
-                            ).error?.message
+                            ).error
                           }
-                        </FormErrorMessage>
-                      </FormControl>
+                        >
+                          <Heading as={FormLabel} size="label.md">
+                            How many seconds do wallets have to wait in-between
+                            claiming?
+                          </Heading>
+                          <BigNumberInput
+                            isRequired
+                            value={field.waitInSeconds?.toString() || "0"}
+                            onChange={(value) =>
+                              form.setValue(
+                                `phases.${index}.waitInSeconds`,
+                                value.toString(),
+                              )
+                            }
+                          />
+                          <FormHelperText>
+                            Set this to &quot;Unlimited&quot; to only allow one
+                            claim transaction per wallet.
+                          </FormHelperText>
+                          <FormErrorMessage>
+                            {
+                              form.getFieldState(
+                                `phases.${index}.waitInSeconds`,
+                                form.formState,
+                              ).error?.message
+                            }
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
                     </Flex>
                   </Flex>
                 </Card>
