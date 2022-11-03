@@ -1,15 +1,11 @@
 import chakraTheme from "../theme";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
-import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
-import {
-  PersistQueryClientProvider,
-  Persister,
-} from "@tanstack/react-query-persist-client";
-import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { BigNumber } from "ethers";
+import { createIDBPersister } from "lib/query-cache";
 import { NextPage } from "next";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
@@ -17,15 +13,8 @@ import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import { PageId } from "page-id";
 import posthog from "posthog-js";
-import React, {
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
-import { isBrowser } from "utils/isBrowser";
 
 const __CACHE_BUSTER = "v3.5.1";
 
@@ -55,25 +44,7 @@ type AppPropsWithLayout = AppProps<{ dehydratedState?: DehydratedState }> & {
   Component: ThirdwebNextPage;
 };
 
-const persister: Persister = createSyncStoragePersister({
-  storage: isBrowser() ? window.localStorage : undefined,
-  serialize: (data) => {
-    return JSON.stringify(
-      {
-        ...data,
-        clientState: {
-          ...data.clientState,
-          queries: data.clientState.queries.filter(
-            // covers solana as well as evm
-            (q) => !shouldNeverPersistQuery(q.queryKey),
-          ),
-        },
-      },
-      bigNumberReplacer,
-    );
-  },
-  key: `tw-query-cache:${__CACHE_BUSTER}`,
-});
+const persister = createIDBPersister(`tw-query-cache`);
 
 function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   // has to be constructed in here because it may otherwise share state between SSR'd pages
@@ -196,7 +167,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister }}
+      persistOptions={{ persister, buster: __CACHE_BUSTER }}
     >
       <Hydrate state={pageProps.dehydratedState}>
         <Global

@@ -46,6 +46,7 @@
     "ethers": "^5.4.6",
     "flat": "^5.0.2",
     "framer-motion": "^7.0.0",
+    "idb-keyval": "^6.2.0",
     "next": "^13.0.0",
     "next-seo": "^5.0.0",
     "nprogress": "^0.2.0",
