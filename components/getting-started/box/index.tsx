@@ -22,7 +22,7 @@ export const GettingStartedBox: ComponentWithChildren<
   const lengthOfChildren = Math.min(Children.count(children), 3);
   return (
     <Card
-      bg={isOpen ? undefined : "transparent"}
+      bg={"transparent"}
       boxShadow={isOpen ? undefined : "none"}
       as={Flex}
       flexDirection="column"
@@ -33,39 +33,41 @@ export const GettingStartedBox: ComponentWithChildren<
       position="relative"
       overflow="hidden"
     >
-      <Flex align="center" justify="space-between" gap={4}>
-        <Box display={{ base: "none", md: "block" }} boxSize={8} />
-        <Heading
-          textAlign={{ base: "left", md: "center" }}
-          size="title.md"
-          transition="all 0.2s"
-          fontSize={isOpen ? "24px" : "18px"}
-        >
-          {title}
-        </Heading>
-        <IconButton
-          onClick={() => setIsOpen(!isOpen)}
-          icon={isOpen ? <FiX /> : <FiArrowDown />}
-          aria-label={isOpen ? "Close" : "Open"}
-          size="sm"
-          variant="ghost"
-        />
-      </Flex>
+      <Flex direction="column">
+        <Flex align="center" justify="space-between" gap={4}>
+          <Box display={{ base: "none", md: "block" }} boxSize={8} />
+          <Heading
+            textAlign={{ base: "left", md: "center" }}
+            size="title.md"
+            transition="all 0.2s"
+            fontSize="18px"
+          >
+            {title}
+          </Heading>
+          <IconButton
+            onClick={() => setIsOpen(!isOpen)}
+            icon={isOpen ? <FiX /> : <FiArrowDown />}
+            aria-label={isOpen ? "Close" : "Open"}
+            size="sm"
+            variant="ghost"
+          />
+        </Flex>
 
-      <Text
-        fontStyle="italic"
-        textAlign={{ base: "left", md: "center" }}
-        size="body.lg"
-        transition="all 200ms"
-        transform={`scaleY(${isOpen ? 1 : 0})`}
-        transformOrigin="top"
-        maxH={isOpen ? "100px" : "0px"}
-        opacity={isOpen ? 1 : 0}
-        overflow="hidden"
-        aria-hidden={!isOpen}
-      >
-        {description}
-      </Text>
+        <Text
+          fontStyle="italic"
+          textAlign={{ base: "left", md: "center" }}
+          size="body.md"
+          transition="all 200ms"
+          transform={`scaleY(${isOpen ? 1 : 0})`}
+          transformOrigin="top"
+          maxH={isOpen ? "100px" : "0px"}
+          opacity={isOpen ? 1 : 0}
+          overflow="hidden"
+          aria-hidden={!isOpen}
+        >
+          {description}
+        </Text>
+      </Flex>
       <SimpleGrid
         columns={{ base: 1, md: lengthOfChildren }}
         gap={6}

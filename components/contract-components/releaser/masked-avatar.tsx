@@ -1,11 +1,12 @@
 import { ens, useReleaserProfile } from "../hooks";
 import hexagon from "./hexagon.png";
-import { Img, ImgProps } from "@chakra-ui/react";
+import { Img, ImgProps, Skeleton } from "@chakra-ui/react";
 import "react";
 
 interface MaskedAvatarProps
   extends Omit<ImgProps, "as" | "viewBox" | "boxSize"> {
   src: string;
+  isLoading?: boolean;
   name?: string;
   boxSize?: number;
 }
@@ -14,31 +15,38 @@ export const MaskedAvatar: React.FC<MaskedAvatarProps> = ({
   src,
   name,
   boxSize = 12,
+  isLoading,
   ...restBoxProps
 }) => {
   return (
-    <Img
-      boxSize={boxSize}
-      objectFit="cover"
-      {...restBoxProps}
+    <Skeleton
+      isLoaded={!isLoading}
       style={{
         WebkitMaskImage: `url("${hexagon.src}")`,
         WebkitMaskSize: "cover",
         mask: `url("${hexagon.src}")`,
         maskSize: "cover",
       }}
-      src={src}
-      alt={name || ""}
-    />
+      boxSize={boxSize}
+    >
+      <Img
+        boxSize={boxSize}
+        objectFit="cover"
+        {...restBoxProps}
+        src={src}
+        alt={name || ""}
+      />
+    </Skeleton>
   );
 };
 
-interface ReleaserAvatar extends Omit<MaskedAvatarProps, "src"> {
+export interface ReleaserAvatarProps extends Omit<MaskedAvatarProps, "src"> {
   address: string;
 }
 
-export const ReleaserAvatar: React.FC<ReleaserAvatar> = ({
+export const ReleaserAvatar: React.FC<ReleaserAvatarProps> = ({
   address,
+  isLoading,
   ...restProps
 }) => {
   const ensQuery = ens.useQuery(address);
@@ -47,6 +55,7 @@ export const ReleaserAvatar: React.FC<ReleaserAvatar> = ({
   );
   return (
     <MaskedAvatar
+      isLoading={isLoading || ensQuery.isLoading || releaserProfile.isLoading}
       src={
         releaserProfile.data?.avatar ||
         `https://source.boringavatars.com/marble/120/${

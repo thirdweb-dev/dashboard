@@ -161,7 +161,7 @@ async function fetchFullPublishMetadata(
         ens.queryKey(rawPublishMetadata.publisher),
         () =>
           rawPublishMetadata.publisher
-            ? fetchEns(rawPublishMetadata.publisher)
+            ? ens.fetch(rawPublishMetadata.publisher)
             : undefined,
       )
     : undefined;
@@ -201,25 +201,22 @@ export function useContractFullPublishMetadata(uri: string) {
     },
   );
 }
+export function useReleaserProfile(publisherAddress?: string) {
+  return useQuery(releaserProfileQuery(publisherAddress));
+}
 
-export async function fetchReleaserProfile(
-  sdk?: ThirdwebSDK,
-  publisherAddress?: string | null,
-) {
+async function fetchReleaserProfile(publisherAddress?: string | null) {
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   invariant(publisherAddress, "address is not defined");
-  invariant(sdk, "sdk not provided");
   return await sdk.getPublisher().getPublisherProfile(publisherAddress);
 }
 
-export function useReleaserProfile(publisherAddress?: string) {
-  const sdk = useSDK();
-  return useQuery(
-    ["releaser-profile", publisherAddress],
-    () => fetchReleaserProfile(sdk, publisherAddress),
-    {
-      enabled: !!publisherAddress,
-    },
-  );
+export function releaserProfileQuery(releaserAddress?: string) {
+  return {
+    queryKey: ["releaser-profile", releaserAddress],
+    queryFn: () => fetchReleaserProfile(releaserAddress),
+    enabled: !!releaserAddress,
+  };
 }
 
 export function useLatestRelease(
@@ -543,7 +540,7 @@ export function usePublishedContractsQuery(address?: string) {
 
 const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
 
-function extractExtensions(
+export function extractExtensions(
   input: ReturnType<typeof detectFeatures>,
   enabledExtensions: FeatureWithEnabled[] = [],
   suggestedExtensions: FeatureWithEnabled[] = [],
@@ -612,47 +609,53 @@ function getAbsoluteUrlForSSR(path: string) {
   url.pathname = path;
   return url;
 }
-
-async function fetchEns(addressOrEnsName: string): Promise<ENSResolveResult> {
-  const res = await fetch(getAbsoluteUrlForSSR(`/api/ens/${addressOrEnsName}`));
-  return await res.json();
-}
-
-const ensQueryKey = (addressOrEnsName: string) => {
-  return ["ens", addressOrEnsName] as const;
-};
-
-function useEns(addressOrEnsName?: string) {
-  return useQuery(
-    ensQueryKey(addressOrEnsName || ""),
-    () =>
-      addressOrEnsName
-        ? fetchEns(addressOrEnsName)
-        : { address: null, ensName: null },
-    {
-      enabled:
-        !!addressOrEnsName &&
-        (utils.isAddress(addressOrEnsName) || isEnsName(addressOrEnsName)),
-      // 24h
-      cacheTime: 60 * 60 * 24 * 1000,
-      // 1h
-      staleTime: 60 * 60 * 1000,
-      // default to the one we know already
-      placeholderData: {
-        address: utils.isAddress(addressOrEnsName || "")
-          ? addressOrEnsName
-          : null,
-        ensName: isEnsName(addressOrEnsName || "") ? addressOrEnsName : null,
-      },
+export function ensQuery(addressOrEnsName?: string) {
+  const placeholderData = {
+    address: utils.isAddress(addressOrEnsName || "")
+      ? addressOrEnsName || null
+      : null,
+    ensName: isEnsName(addressOrEnsName || "")
+      ? addressOrEnsName || null
+      : null,
+  };
+  return {
+    queryKey: ["ens", addressOrEnsName],
+    queryFn: async () => {
+      if (!addressOrEnsName) {
+        return placeholderData;
+      }
+      const res = await fetch(
+        getAbsoluteUrlForSSR(`/api/ens/${addressOrEnsName}`),
+      );
+      return res.json() as Promise<ENSResolveResult>;
     },
-  );
+    enabled:
+      !!addressOrEnsName &&
+      (utils.isAddress(addressOrEnsName) || isEnsName(addressOrEnsName)),
+    // 24h
+    cacheTime: 60 * 60 * 24 * 1000,
+    // 1h
+    staleTime: 60 * 60 * 1000,
+    // default to the one we know already
+    placeholderData,
+  } as const;
 }
 
+export function useEns(addressOrEnsName?: string) {
+  return useQuery(ensQuery(addressOrEnsName));
+}
+
+/**
+ * @deperecated use useEns / ensQuery instead
+ */
 export const ens = {
-  queryKey: ensQueryKey,
   useQuery: useEns,
-  fetch: fetchEns,
+  queryKey: (addressOrEnsName?: string) => ensQuery(addressOrEnsName).queryKey,
+  fetch: (addressOrEnsName?: string) => {
+    return ensQuery(addressOrEnsName).queryFn();
+  },
 };
+
 export function useContractFunctions(
   contract: ValidContractInstance | null | undefined,
 ) {

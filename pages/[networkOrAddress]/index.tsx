@@ -6,7 +6,7 @@ import { AppLayout } from "components/app-layouts/app";
 import {
   ens,
   fetchPublishedContracts,
-  fetchReleaserProfile,
+  releaserProfileQuery,
   usePublishedContractsQuery,
   useReleaserProfile,
 } from "components/contract-components/hooks";
@@ -196,9 +196,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   await Promise.all([
     ...ensQueries,
-    queryClient.prefetchQuery(["releaser-profile", address], () =>
-      fetchReleaserProfile(polygonSdk, address),
-    ),
+    queryClient.prefetchQuery(releaserProfileQuery(address)),
     queryClient.prefetchQuery(["published-contracts", address], () =>
       fetchPublishedContracts(polygonSdk, queryClient, address),
     ),

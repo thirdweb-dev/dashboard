@@ -6,7 +6,7 @@ import {
   fetchAllVersions,
   fetchContractPublishMetadataFromURI,
   fetchReleasedContractInfo,
-  fetchReleaserProfile,
+  releaserProfileQuery,
 } from "components/contract-components/hooks";
 import {
   ReleaseWithVersionPage,
@@ -262,9 +262,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
           ["publish-metadata", release.metadataUri],
           () => fetchContractPublishMetadataFromURI(release.metadataUri),
         ),
-        queryClient.prefetchQuery(["releaser-profile", address], () =>
-          fetchReleaserProfile(polygonSdk, address),
-        ),
+        queryClient.prefetchQuery(releaserProfileQuery(release.releaser)),
       ]);
 
       return {
@@ -292,12 +290,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 function generateBuildTimePaths() {
-  return Object.values(BuiltinContractMap)
-    .filter((c) => c.contractType !== "custom")
-    .map((v) => ({
+  return [
+    ...Object.values(BuiltinContractMap)
+      .filter((c) => c.contractType !== "custom")
+      .map((v) => ({
+        params: {
+          networkOrAddress: "deployer.thirdweb.eth",
+          catchAll: [v.id],
+        },
+      })),
+    ...communityReleases.map((v) => ({
       params: {
-        networkOrAddress: "deployer.thirdweb.eth",
-        catchAll: [v.id],
+        networkOrAddress: v.releaser,
+        catchAll: [v.contractId],
       },
-    }));
+    })),
+  ];
 }
+
+const communityReleases = [
+  {
+    releaser: "unlock-protocol.eth",
+    contractId: "PublicLock",
+  },
+] as const;
