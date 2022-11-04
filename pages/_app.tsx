@@ -27,7 +27,7 @@ import React, {
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import { isBrowser } from "utils/isBrowser";
 
-const __CACHE_BUSTER = "v3.2.6-dev-d92ce32";
+const __CACHE_BUSTER = "v3.5.1";
 
 export function bigNumberReplacer(_key: string, value: any) {
   // if we find a BigNumber then make it into a string (since that is safe)
@@ -92,6 +92,21 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   );
 
   const router = useRouter();
+
+  useEffect(() => {
+    // Taken from StackOverflow. Trying to detect both Safari desktop and mobile.
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) {
+      // This is kind of a lie.
+      // We still rely on the manual Next.js scrollRestoration logic.
+      // However, we *also* don't want Safari grey screen during the back swipe gesture.
+      // Seems like it doesn't hurt to enable auto restore *and* Next.js logic at the same time.
+      history.scrollRestoration = "auto";
+    } else {
+      // For other browsers, let Next.js set scrollRestoration to 'manual'.
+      // It seems to work better for Chrome and Firefox which don't animate the back swipe.
+    }
+  }, []);
 
   useEffect(() => {
     // setup route cancellation
@@ -235,9 +250,9 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
           `}
         />
         <DefaultSeo
-          defaultTitle="Web3 SDKs for developers ⸱ No-code for NFT artists | thirdweb"
+          defaultTitle="thirdweb: The complete web3 development framework"
           titleTemplate="%s | thirdweb"
-          description="Build web3 apps easily. Implement web3 features with powerful SDKs for developers. Drop NFTs with no code. — Ethereum, Polygon, Avalanche, & more."
+          description="Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now."
           additionalLinkTags={[
             {
               rel: "icon",
@@ -245,10 +260,9 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
             },
           ]}
           openGraph={{
-            title:
-              "Web3 SDKs for developers ⸱ No-code for NFT artists | thirdweb",
+            title: "thirdweb: The complete web3 development framework",
             description:
-              "Build web3 apps easily. Implement web3 features with powerful SDKs for developers. Drop NFTs with no code. — Ethereum, Polygon, Avalanche, & more.",
+              "Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now.",
             type: "website",
             locale: "en_US",
             url: "https://thirdweb.com",
