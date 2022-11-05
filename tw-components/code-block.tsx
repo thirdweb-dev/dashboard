@@ -55,7 +55,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         ...theme,
         plain: {
           backgroundColor:
-            (backgroundColor as string) || theme.plain.backgroundColor,
+            (backgroundColor as string) || "var(--chakra-colors-accent-100)",
         },
       }}
     >

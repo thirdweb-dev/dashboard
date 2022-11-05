@@ -77,7 +77,25 @@ export const MarkdownRenderer: React.FC<
         h6: (props) => (
           <Heading size="label.md" {...commonHeadingProps} {...props} mt={4} />
         ),
-        a: (props) => <Link color="primary.500" isExternal {...props} mt={4} />,
+        a: (props) => (
+          <Link
+            _dark={{
+              color: "primary.300",
+              _hover: {
+                color: "primary.400",
+              },
+            }}
+            _light={{
+              color: "primary.500",
+              _hover: {
+                color: "primary.600",
+              },
+            }}
+            isExternal
+            {...props}
+            mt={4}
+          />
+        ),
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         code: ({ inline, ...props }) => {
           if (props?.className) {

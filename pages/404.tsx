@@ -58,7 +58,7 @@ const PageNotFound: ThirdwebNextPage = () => {
               category="page-not-found"
               label="homepage"
               href="/"
-              color="blue.500"
+              color="primary.500"
             >
               homepage
             </TrackedLink>
@@ -67,7 +67,7 @@ const PageNotFound: ThirdwebNextPage = () => {
               category="page-not-found"
               label="homepage"
               href="/dashboard"
-              color="blue.500"
+              color="primary.500"
             >
               dashboard
             </TrackedLink>{" "}
@@ -76,7 +76,7 @@ const PageNotFound: ThirdwebNextPage = () => {
               category="page-not-found"
               label="portal"
               href="https://portal.thirdweb.com"
-              color="blue.500"
+              color="primary.500"
             >
               developer portal
             </TrackedLink>{" "}

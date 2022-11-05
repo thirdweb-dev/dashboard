@@ -22,7 +22,7 @@ export const GettingStartedBox: ComponentWithChildren<
   const lengthOfChildren = Math.min(Children.count(children), 3);
   return (
     <Card
-      bg={"transparent"}
+      // bg={"transparent"}
       boxShadow={isOpen ? undefined : "none"}
       as={Flex}
       flexDirection="column"

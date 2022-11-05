@@ -38,7 +38,7 @@ export const UploadStep: React.FC<UploadStepProps> = ({
               bg={hasFailed ? "red.200" : "inputBg"}
               _hover={{
                 bg: hasFailed ? "red.200" : "inputBgHover",
-                borderColor: "blue.500",
+                borderColor: "primary.500",
               }}
               borderColor="inputBorder"
               borderWidth="1px"
@@ -76,11 +76,11 @@ export const UploadStep: React.FC<UploadStepProps> = ({
               <ListItem>
                 Files <em>must</em> contain one .csv or .json file with
                 metadata. -{" "}
-                <Link download color="blue.500" href="/example.csv">
+                <Link download color="primary.500" href="/example.csv">
                   Download example.csv
                 </Link>
                 .{" "}
-                <Link download color="blue.500" href="/example.json">
+                <Link download color="primary.500" href="/example.json">
                   Download example.json
                 </Link>
                 .
@@ -113,7 +113,11 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                 automatically for you. If you already have the files uploaded,
                 you can add an <Code>image</Code> and/or{" "}
                 <Code>animation_url</Code> column and add the IPFS hashes there.{" "}
-                <Link download color="blue.500" href="/example-with-ipfs.csv">
+                <Link
+                  download
+                  color="primary.500"
+                  href="/example-with-ipfs.csv"
+                >
                   Download example.csv
                 </Link>
               </ListItem>
@@ -121,7 +125,11 @@ export const UploadStep: React.FC<UploadStepProps> = ({
                 If you want to make your media files map to your NFTs, you can
                 add add the name of your files to the <Code>image</Code> and{" "}
                 <Code>animation_url</Code> column.{" "}
-                <Link download color="blue.500" href="/example-with-maps.csv">
+                <Link
+                  download
+                  color="primary.500"
+                  href="/example-with-maps.csv"
+                >
                   Download example.csv
                 </Link>
               </ListItem>

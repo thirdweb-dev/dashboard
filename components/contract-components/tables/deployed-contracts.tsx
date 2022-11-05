@@ -105,7 +105,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </Flex>
           <LinkButton
             leftIcon={<FiPlus />}
-            colorScheme="primary"
+            colorScheme="contrast"
             href="/contracts"
           >
             Deploy new contract
@@ -297,7 +297,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         borderTopRadius="lg"
         overflow="hidden"
       >
-        <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
+        <Thead>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
             <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -327,12 +327,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
               <Tr
                 {...row.getRowProps()}
                 role="group"
-                _hover={{ bg: "blackAlpha.50" }}
-                _dark={{
-                  _hover: {
-                    bg: "whiteAlpha.50",
-                  },
-                }}
+                _hover={{ bg: "accent.100" }}
                 // this is a hack to get around the fact that safari does not handle position: relative on table rows
                 style={{ cursor: "pointer" }}
                 onClick={() => {
@@ -480,8 +475,8 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
     <Skeleton isLoaded={!metadataQuery.isLoading}>
       <ChakraNextLink href={href} passHref>
         <Text
-          color="blue.700"
-          _dark={{ color: "blue.300" }}
+          color="primary.700"
+          _dark={{ color: "primary.300" }}
           size="label.md"
           _groupHover={{ textDecor: "underline" }}
         >

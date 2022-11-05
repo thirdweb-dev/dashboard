@@ -218,13 +218,13 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             <Flex direction="row" gap={3} align="center">
               <Icon boxSize={6} as={SVG} />
               <Flex gap={0.5} direction="column" textAlign="left">
-                <Text size="label.sm">
+                <Heading size="label.sm">
                   <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>
                     {balanceQuery.data?.displayValue.slice(0, 6) || "0.000"}
                   </Skeleton>{" "}
                   {getNetworkMetadata(chainId).symbol}
-                </Text>
-                <Text size="label.sm" color="gray.500">
+                </Heading>
+                <Text size="label.sm" color="accent.600">
                   {shortenIfAddress(ensQuery.data?.ensName || address, true)} (
                   {getNetworkMetadata(chainId).chainName})
                 </Text>

@@ -180,7 +180,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                     bg={noCsv ? "red.200" : "inputBg"}
                     _hover={{
                       bg: "inputBgHover",
-                      borderColor: "blue.500",
+                      borderColor: "primary.500",
                     }}
                     borderColor="inputBorder"
                     borderWidth="1px"
@@ -217,7 +217,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                     <ListItem>
                       Files <em>must</em> contain one .csv file with a list of
                       addresses. -{" "}
-                      <Link download color="blue.500" href="/snapshot.csv">
+                      <Link download color="primary.500" href="/snapshot.csv">
                         Download an example CSV
                       </Link>
                     </ListItem>
@@ -228,7 +228,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                       value is the one you have set on your claim phase. -{" "}
                       <Link
                         download
-                        color="blue.500"
+                        color="primary.500"
                         href="/snapshot-with-maxclaimable.csv"
                       >
                         Download an example CSV with maxClaimable

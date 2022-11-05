@@ -263,7 +263,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
                 end user.{" "}
                 <Link
                   isExternal
-                  color="blue.500"
+                  color="primary.500"
                   href="https://blog.thirdweb.com/guides/setup-gasless-transactions"
                 >
                   Learn more

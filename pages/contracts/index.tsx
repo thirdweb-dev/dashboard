@@ -1,5 +1,5 @@
 import {
-  Box,
+  AspectRatio,
   Flex,
   FlexProps,
   Icon,
@@ -35,7 +35,7 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement } from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiChevronsRight } from "react-icons/fi";
 import { VscVerified } from "react-icons/vsc";
 import invariant from "tiny-invariant";
 import {
@@ -43,6 +43,7 @@ import {
   CodeBlock,
   Heading,
   Link,
+  LinkButton,
   Text,
   TextProps,
   TrackedLink,
@@ -219,7 +220,7 @@ const Contracts: ThirdwebNextPage = () => {
           label="pre-built"
           href="https://portal.thirdweb.com/pre-built-contracts"
           isExternal
-          color="blue.500"
+          color="primary.500"
         >
           prebuilt contracts
         </TrackedLink>{" "}
@@ -229,7 +230,7 @@ const Contracts: ThirdwebNextPage = () => {
           label="released"
           href="https://portal.thirdweb.com/release"
           isExternal
-          color="blue.500"
+          color="primary.500"
         >
           released contracts
         </TrackedLink>
@@ -239,7 +240,7 @@ const Contracts: ThirdwebNextPage = () => {
           label="take-quiz"
           href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
           isExternal
-          color="blue.500"
+          color="primary.500"
         >
           Help me choose.
         </TrackedLink>
@@ -286,138 +287,128 @@ const ReleaseCard: React.FC<ReleaseCardProps> = ({ releaseQuery }) => {
   const contractLogo = releaseQuery.data?.logo
     ? replaceIpfsUrl(releaseQuery.data.logo)
     : undefined;
-  return (
-    <Flex gap={0} direction="column" minH="200px">
-      <Card
-        bg="white"
-        _dark={{
-          bg: "black",
-        }}
-        position="relative"
-        as={LinkBox}
-        overflow="hidden"
-        p={0}
-        flexGrow={1}
-        border="none"
-      >
-        <Flex
-          p={3}
-          gap={3}
-          direction="column"
-          h="full"
-          backdropFilter="saturate(180%) blur(20px)"
-          zIndex={2}
-          pos="relative"
-          bg="rgba(255,255,255,.8)"
-          _dark={{
-            bg: contractLogo ? "rgba(0,0,0,.8)" : "transparent",
-          }}
-        >
-          <Flex direction="column" gap={2}>
-            <Flex align="center" gap={2}>
-              {(contractLogo || showSkeleton) && (
-                <Skeleton
-                  isLoaded={!showSkeleton}
-                  boxSize={8}
-                  borderRadius="full"
-                  flexShrink={0}
-                  overflow="hidden"
-                >
-                  <Image
-                    alt={releaseQuery.data?.name}
-                    src={contractLogo}
-                    boxSize="100%"
-                  />
-                </Skeleton>
-              )}
-              <LinkOverlay
-                as={Link}
-                href={`/${
-                  releaserEns.data?.ensName || releaseQuery.data?.releaser
-                }/${releaseQuery.data?.id}`}
-              >
-                <Skeleton
-                  isLoaded={!showSkeleton}
-                  noOfLines={1}
-                  h={showSkeleton ? "20px" : "auto"}
-                  as="span"
-                >
-                  <Heading
-                    minW="100px"
-                    lineHeight={8}
-                    size="label.lg"
-                    noOfLines={1}
-                  >
-                    {releaseQuery.data?.name}
-                  </Heading>
-                </Skeleton>
-              </LinkOverlay>
-            </Flex>
 
-            <SkeletonText isLoaded={!showSkeleton} noOfLines={3}>
-              <Text size="body.sm" noOfLines={3}>
-                {releaseQuery.data?.description}
-              </Text>
-            </SkeletonText>
-          </Flex>
-          <Flex mt="auto" gap={3} align="center">
-            <SkeletonText minH="12px" isLoaded={!showSkeleton} noOfLines={1}>
-              <Text minW="30px" size="label.sm">
-                v{releaseQuery.data?.version}
-              </Text>
-            </SkeletonText>
-            {releaseQuery.data?.audit && (
-              <TrackedLink
-                size="xs"
-                isExternal
-                href={replaceIpfsUrl(releaseQuery.data.audit)}
-                category="deploy"
-                label="audited"
-                display="flex"
-                alignItems="center"
-                gap={1}
-                color="green.500"
-                _dark={{
-                  color: "green.300",
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <Icon as={BsShieldFillCheck} boxSize={3} />
-                <Text color="inherit" size="label.sm">
-                  Audited
+  const releaseUrl = `/${
+    releaserEns.data?.ensName || releaseQuery.data?.releaser
+  }/${releaseQuery.data?.id}`;
+  return (
+    <Flex gap={0} direction="column">
+      <AspectRatio ratio={1280 / 600} w="100%">
+        <Card
+          position="relative"
+          as={LinkBox}
+          overflow="hidden"
+          p={0}
+          flexGrow={1}
+        >
+          <Flex
+            w="100%"
+            p={3}
+            gap={3}
+            direction="column"
+            h="full"
+            zIndex={2}
+            pos="relative"
+          >
+            <Flex direction="column" gap={2}>
+              <Flex align="center" gap={2}>
+                {(contractLogo || showSkeleton) && (
+                  <Skeleton
+                    isLoaded={!showSkeleton}
+                    boxSize={8}
+                    borderRadius="full"
+                    flexShrink={0}
+                    overflow="hidden"
+                  >
+                    <Image
+                      alt={releaseQuery.data?.name}
+                      src={contractLogo}
+                      boxSize="100%"
+                    />
+                  </Skeleton>
+                )}
+                <LinkOverlay as={Link} href={releaseUrl}>
+                  <Skeleton
+                    isLoaded={!showSkeleton}
+                    noOfLines={1}
+                    h={showSkeleton ? "20px" : "auto"}
+                    as="span"
+                  >
+                    <Heading
+                      minW="100px"
+                      lineHeight={8}
+                      size="label.lg"
+                      noOfLines={1}
+                    >
+                      {releaseQuery.data?.name}
+                    </Heading>
+                  </Skeleton>
+                </LinkOverlay>
+              </Flex>
+
+              <SkeletonText isLoaded={!showSkeleton} noOfLines={3}>
+                <Text size="body.sm" noOfLines={3}>
+                  {releaseQuery.data?.description}
                 </Text>
-              </TrackedLink>
-            )}
+              </SkeletonText>
+            </Flex>
+            <Flex mt="auto" gap={3} align="center">
+              <SkeletonText minH="12px" isLoaded={!showSkeleton} noOfLines={1}>
+                <Text minW="30px" size="label.sm">
+                  v{releaseQuery.data?.version}
+                </Text>
+              </SkeletonText>
+              {releaseQuery.data?.audit && (
+                <TrackedLink
+                  size="xs"
+                  isExternal
+                  href={replaceIpfsUrl(releaseQuery.data.audit)}
+                  category="deploy"
+                  label="audited"
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  color="green.500"
+                  _dark={{
+                    color: "green.300",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <Icon as={BsShieldFillCheck} boxSize={3} />
+                  <Text color="inherit" size="label.sm">
+                    Audited
+                  </Text>
+                </TrackedLink>
+              )}
+            </Flex>
           </Flex>
-        </Flex>
-        {contractLogo && (
-          <Box
-            backgroundImage={`url(${contractLogo})`}
-            backgroundSize="cover"
-            backgroundPosition="center"
-            backgroundRepeat="no-repeat"
-            position="absolute"
-            filter="blur(20px)"
-            top={0}
-            bottom={0}
-            left={0}
-            right={0}
-            borderRadius="lg"
-          />
-        )}
-      </Card>
-      <Releaser
-        isLoading={showSkeleton}
-        containerProps={{
-          mt: "auto",
-          py: 3,
-          px: 0,
-          gap: 1.5,
-        }}
-        addressOrEns={releaseQuery.data?.releaser || ""}
-      />
+        </Card>
+      </AspectRatio>
+      <Flex justify="space-between" align="center">
+        <Releaser
+          isLoading={showSkeleton}
+          containerProps={{
+            mt: "auto",
+            py: 3,
+            px: 0,
+            gap: 1.5,
+          }}
+          addressOrEns={releaseQuery.data?.releaser || ""}
+        />
+        <LinkButton
+          // variant="outline"
+          href={releaseUrl}
+          rightIcon={<FiChevronsRight />}
+          iconSpacing={1}
+          borderRadius="full"
+          colorScheme="contrast"
+          size="sm"
+        >
+          Deploy
+        </LinkButton>
+      </Flex>
     </Flex>
   );
 };

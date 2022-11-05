@@ -92,7 +92,7 @@ const chakraTheme: Theme = extendTheme({
           backdropFilter: "blur(5px)",
         },
         dialog: {
-          background: "backgroundHighlight",
+          background: "accent.100",
         },
       },
     },
@@ -102,7 +102,7 @@ const chakraTheme: Theme = extendTheme({
           backdropFilter: "blur(5px)",
         },
         dialog: {
-          background: "backgroundHighlight",
+          background: "accent.100",
         },
       },
     },
@@ -118,7 +118,7 @@ const chakraTheme: Theme = extendTheme({
             background: "inputBg",
             _hover: {
               background: "inputBgHover",
-              borderColor: "blue.500",
+              borderColor: "primary.500",
             },
           },
         },
@@ -136,7 +136,7 @@ const chakraTheme: Theme = extendTheme({
             background: "inputBg",
             _hover: {
               background: "inputBgHover",
-              borderColor: "blue.500",
+              borderColor: "primary.500",
             },
           },
         },
@@ -169,7 +169,7 @@ const chakraTheme: Theme = extendTheme({
           background: "inputBg",
           _hover: {
             background: "inputBgHover",
-            borderColor: "blue.500",
+            borderColor: "primary.500",
           },
         },
       },
@@ -177,7 +177,7 @@ const chakraTheme: Theme = extendTheme({
     Menu: {
       baseStyle: {
         list: {
-          bg: "backgroundHighlight",
+          bg: "accent.100",
           py: 0,
         },
         item: {
@@ -187,6 +187,9 @@ const chakraTheme: Theme = extendTheme({
     },
     Table: {
       baseStyle: {
+        thead: {
+          background: "accent.100",
+        },
         cell: {
           borderColor: "borderColor",
         },
@@ -205,6 +208,48 @@ const chakraTheme: Theme = extendTheme({
   },
   semanticTokens: {
     colors: {
+      // accent color
+      "accent.100": {
+        default: "gray.100",
+        _dark: "gray.800",
+      },
+      "accent.200": {
+        default: "gray.200",
+        _dark: "gray.700",
+      },
+      "accent.300": {
+        default: "gray.300",
+        _dark: "gray.600",
+      },
+      "accent.400": {
+        default: "gray.400",
+        _dark: "gray.500",
+      },
+      "accent.500": {
+        default: "gray.500",
+        _dark: "gray.400",
+      },
+      "accent.600": {
+        default: "gray.600",
+        _dark: "gray.300",
+      },
+      "accent.700": {
+        default: "gray.700",
+        _dark: "gray.200",
+      },
+      "accent.800": {
+        default: "gray.800",
+        _dark: "gray.100",
+      },
+      backgroundColor: {
+        default: "white",
+        _dark: "black",
+      },
+      textColor: {
+        default: "black",
+        _dark: "white",
+      },
+
       // inputs
       inputBg: { default: "gray.50", _dark: "whiteAlpha.50" },
       inputBgHover: { default: "gray.100", _dark: "whiteAlpha.100" },
@@ -212,18 +257,18 @@ const chakraTheme: Theme = extendTheme({
       // other
       bgBlack: { default: "black", _dark: "white" },
       bgWhite: { default: "white", _dark: "black" },
-      backgroundBody: { default: "backgroundLight", _dark: "backgroundDark" },
-      backgroundHighlight: { default: "white", _dark: "#1B2129" },
-      backgroundCardHighlight: { default: "white", _dark: "#0F1318" },
+      backgroundBody: { default: "gray.100", _dark: "gray.800" },
+      backgroundHighlight: { default: "white", _dark: "black" },
+      backgroundCardHighlight: { default: "white", _dark: "gray.800" },
       wordmark: { default: "#262A36", _dark: "whiteAlpha.900" },
-      heading: { default: "#262A36", _dark: "whiteAlpha.900" },
-      paragraph: { default: "rgba(39, 46, 54, 0.9)", _dark: "gray.500" },
+      heading: { default: "black", _dark: "white" },
+      paragraph: { default: "gray.800", _dark: "gray.100" },
       headingLight: { default: "#F2FBFF", _dark: "#262A36" },
       paragraphLight: {
         default: "rgba(242, 251, 255, 0.8)",
         _dark: "rgba(39, 46, 54, 0.9)",
       },
-      borderColor: { default: "gray.200", _dark: "whiteAlpha.100" },
+      borderColor: "accent.200",
       opaqueBg: {
         default: "whiteAlpha.500",
         _dark: "blackAlpha.600",

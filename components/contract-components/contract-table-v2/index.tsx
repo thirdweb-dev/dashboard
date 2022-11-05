@@ -245,7 +245,7 @@ export const ReleasedContractTable: ComponentWithChildren<
         />
       )}
       <Table {...tableInstance.getTableProps()}>
-        <Thead bg="blackAlpha.50" _dark={{ bg: "whiteAlpha.50" }}>
+        <Thead>
           {tableInstance.headerGroups.map((headerGroup) => (
             <Tr
               {...headerGroup.getHeaderGroupProps()}

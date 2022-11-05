@@ -53,7 +53,7 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
             </Text>
           </Flex>
           <LinkButton
-            colorScheme="primary"
+            colorScheme="contrast"
             href="https://portal.thirdweb.com/release"
             isExternal
             onClick={() => {

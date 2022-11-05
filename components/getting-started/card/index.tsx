@@ -31,10 +31,10 @@ export const GettingStartedCard: ComponentWithChildren<
         <TrackedLink
           mt="auto"
           gap={1.5}
-          color="blue.500"
+          color="primary.500"
           transition="all 0.2s"
           _light={{
-            color: "blue.600",
+            color: "primary.600",
           }}
           alignSelf="flex-end"
           alignItems="center"
