@@ -182,7 +182,8 @@ export function useContractRouteConfig(
       isEnabled: extensionDetectedState({
         contractQuery,
         feature: [
-          "ERC721ClaimableWithConditions",
+          "ERC721ClaimableWithConditionsV1",
+          "ERC721ClaimableWithConditionsV2",
           "ERC20ClaimableWithConditions",
         ],
       }),
