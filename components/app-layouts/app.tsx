@@ -6,7 +6,6 @@ import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { WelcomeScreen } from "components/notices/welcome-screen";
 import { ErrorProvider } from "contexts/error-handler";
-import PlausibleProvider from "next-plausible";
 import posthog from "posthog-js";
 import React, { useEffect } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -14,22 +13,12 @@ import { ComponentWithChildren } from "types/component-with-children";
 export const AppLayout: ComponentWithChildren<AppShellProps> = (props) => {
   return (
     <ErrorProvider>
-      <PlausibleProvider
-        domain="thirdweb.com"
-        customDomain="https://pl.thirdweb.com"
-        selfHosted
-        trackFileDownloads
-        scriptProps={{
-          src: "https://pl.thirdweb.com/js/plausible.js",
-        }}
-      >
-        <DashboardThirdwebProvider>
-          <PHIdentifier />
-          <PrivacyNotice />
-          <WelcomeScreen />
-          <AppShell {...props} />
-        </DashboardThirdwebProvider>
-      </PlausibleProvider>
+      <DashboardThirdwebProvider>
+        <PHIdentifier />
+        <PrivacyNotice />
+        <WelcomeScreen />
+        <AppShell {...props} />
+      </DashboardThirdwebProvider>
     </ErrorProvider>
   );
 };
