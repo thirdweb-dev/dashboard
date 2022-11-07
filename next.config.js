@@ -121,9 +121,6 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { withPlausibleProxy } = require("next-plausible");
-
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
   // the following options are set automatically, and overriding them is not
@@ -138,11 +135,6 @@ const sentryWebpackPluginOptions = {
 
   hideSourceMaps: false,
 };
-module.exports = withPlausibleProxy({
-  customDomain: "https://pl.thirdweb.com",
-  scriptName: "plausible",
-})(
-  withBundleAnalyzer(
-    withSentryConfig(moduleExports, sentryWebpackPluginOptions),
-  ),
+module.exports = withBundleAnalyzer(
+  withSentryConfig(moduleExports, sentryWebpackPluginOptions),
 );
