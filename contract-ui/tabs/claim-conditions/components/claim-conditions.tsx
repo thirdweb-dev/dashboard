@@ -674,6 +674,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                             gap={1.5}
                           >
                             <Button
+                              isDisabled={!canEdit || isAdmin}
                               colorScheme="purple"
                               borderRadius="md"
                               onClick={() => setOpenIndex(index)}
