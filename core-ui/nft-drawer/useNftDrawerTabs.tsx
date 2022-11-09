@@ -110,7 +110,7 @@ export function useNFTDrawerTabs(
       ]);
       const isClaimableWithConditions = detectFeatures<DropContract>(
         contractOrProgram,
-        ["ERC1155ClaimableWithConditions"],
+        ["ERC1155ClaimConditionsV1", "ERC1155ClaimConditionsV2"],
       );
       const isBurnable = detectFeatures(contractOrProgram, [
         "ERC721Burnable",

@@ -117,7 +117,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
               <Flex direction="column">
                 <Heading size="title.md">Claim Eligibility</Heading>
                 <Text size="body.md" fontStyle="italic">
-                  This contracts claim eligibility stores who has already
+                  This contract&apos;s claim eligibility stores who has already
                   claimed {nftsOrToken} from this contract and carries across
                   claim phases. Resetting claim eligibility will reset this
                   state permanently, and people who have already claimed to
@@ -186,7 +186,9 @@ const DEFAULT_PHASE = {
   currencyAddress: NATIVE_TOKEN_ADDRESS,
   snapshot: undefined,
   merkleRootHash: undefined,
-  metadata: {},
+  metadata: {
+    name: "",
+  },
 };
 const ClaimConditionsSchema = z.object({
   phases: ClaimConditionInputArray,
@@ -216,21 +218,22 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
       .map((phase, idx) => ({
         ...phase,
         price: Number(phase.currencyMetadata.displayValue),
-        maxClaimableSupply: phase.maxClaimableSupply.toString(),
+        maxClaimableSupply: phase.maxClaimableSupply?.toString() || "0",
         currencyMetadata: {
           ...phase.currencyMetadata,
-          value: phase.currencyMetadata.value.toString(),
+          value: phase.currencyMetadata.value?.toString() || "0",
         },
-        currencyAddress: phase.currencyAddress.toLowerCase(),
-        maxClaimablePerWallet: phase.maxClaimablePerWallet.toString(),
-        waitInSeconds: phase.waitInSeconds.toString(),
+        currencyAddress: phase.currencyAddress?.toLowerCase() || "0",
+        maxClaimablePerWallet: phase.maxClaimablePerWallet?.toString() || "0",
+        waitInSeconds: phase.waitInSeconds?.toString() || "0",
         startTime: new Date(phase.startTime),
         snapshot: phase.snapshot?.map(({ address, maxClaimable }) => ({
           address,
           maxClaimable: maxClaimable || "0",
         })),
-        metadata: phase?.metadata || {
-          name: `Phase ${idx + 1}`,
+        metadata: {
+          ...phase.metadata,
+          name: phase?.metadata?.name || `Phase ${idx + 1}`,
         },
       }))
       .filter((phase) => phase.maxClaimableSupply !== "0");
@@ -295,7 +298,8 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   );
 
   const isClaimPhaseV1 = !detectFeatures(contract, [
-    "ERC721ClaimableWithConditionsV1",
+    "ERC721ClaimConditionsV1",
+    "ERC20ClaimConditionsV1",
   ]);
   const [dropType, setDropType] = useState<"specific" | "overrides" | "any">(
     "any",
