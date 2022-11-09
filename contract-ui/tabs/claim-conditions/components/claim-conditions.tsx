@@ -308,11 +308,6 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   );
 
   const isMultiPhase = hasMultiphaseClaimConditions(contract);
-
-  const [dropType, setDropType] = useState<"specific" | "overrides" | "any">(
-    "any",
-  );
-
   const canEdit = useIsAdmin(contract) && !mutation.isLoading;
 
   if (!contract) {
@@ -384,6 +379,11 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
           px={isColumn ? 6 : { base: 6, md: 10 }}
         >
           {controlledFields.map((field, index) => {
+            const dropType: "any" | "specific" | "overrides" = field.snapshot
+              ? field.maxClaimablePerWallet === 0
+                ? "specific"
+                : "overrides"
+              : "any";
             return (
               <React.Fragment key={`snapshot_${field.id}_${index}`}>
                 <SnapshotUpload
@@ -646,10 +646,19 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                                   0,
                                 );
                               }
+                              if (
+                                val === "overrides" &&
+                                !isClaimPhaseV1 &&
+                                field.maxClaimablePerWallet === 0
+                              ) {
+                                form.setValue(
+                                  `phases.${index}.maxClaimablePerWallet`,
+                                  1,
+                                );
+                              }
                               form.setValue(`phases.${index}.snapshot`, []);
                               setOpenIndex(index);
                             }
-                            setDropType(val);
                           }}
                         >
                           <option value="any">Any wallet</option>
