@@ -7,6 +7,7 @@ import {
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
 import { ens } from "components/contract-components/hooks";
+import { claimConditionExtensionDetection } from "lib/claimcondition-utils";
 import { ProgramClaimConditionsTab } from "program-ui/common/program-claim-conditions";
 import { ProgramCodeTab } from "program-ui/common/program-code";
 import { Card, Heading, Text } from "tw-components";
@@ -174,15 +175,10 @@ export function useContractRouteConfig(
     {
       title: "Claim Conditions",
       path: "claim-conditions",
-      isEnabled: extensionDetectedState({
-        contractQuery,
-        feature: [
-          "ERC721ClaimConditionsV1",
-          "ERC721ClaimConditionsV2",
-          "ERC20ClaimConditionsV1",
-          "ERC20ClaimConditionsV2",
-        ],
-      }),
+      isEnabled: claimConditionExtensionDetection(contractQuery, [
+        "erc721",
+        "erc20",
+      ]),
       element: () =>
         import("../tabs/claim-conditions/page").then(
           ({ ContractClaimConditionsPage }) => (

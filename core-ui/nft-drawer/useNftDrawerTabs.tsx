@@ -11,6 +11,7 @@ import type { NFT } from "@thirdweb-dev/sdk";
 import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
+import { claimConditionExtensionDetection } from "lib/claimcondition-utils";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
@@ -108,9 +109,9 @@ export function useNFTDrawerTabs(
       const isClaimable = detectFeatures<DropContract>(contractOrProgram, [
         "ERC1155Claimable",
       ]);
-      const isClaimableWithConditions = detectFeatures<DropContract>(
-        contractOrProgram,
-        ["ERC1155ClaimConditionsV1", "ERC1155ClaimConditionsV2"],
+      const isClaimableWithConditions = claimConditionExtensionDetection(
+        { contract: contractOrProgram || undefined, isLoading: false },
+        ["erc1155"],
       );
       const isBurnable = detectFeatures(contractOrProgram, [
         "ERC721Burnable",
@@ -199,7 +200,7 @@ export function useNFTDrawerTabs(
                 // eslint-disable-next-line react/display-name
                 () => (
                   <ClaimConditions
-                    contract={contractOrProgram}
+                    contract={contractOrProgram as DropContract}
                     tokenId={tokenId}
                     isColumn
                   />

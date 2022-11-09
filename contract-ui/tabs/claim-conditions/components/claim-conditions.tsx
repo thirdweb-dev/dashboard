@@ -22,7 +22,6 @@ import {
   DropContract,
   TokenContract,
   useClaimConditions,
-  useContractType,
   useResetClaimConditions,
   useSetClaimConditions,
   useTokenDecimals,
@@ -38,9 +37,15 @@ import { detectFeatures } from "components/contract-components/utils";
 import { BigNumberInput } from "components/shared/BigNumberInput";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
+import { UpdateNotice } from "core-ui/update-notice/update-notice";
 import { ethers } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import {
+  hasLegacyClaimConditions,
+  hasMultiphaseClaimConditions,
+  hasNewClaimConditions,
+} from "lib/claimcondition-utils";
 import React, { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BsCircleFill } from "react-icons/bs";
@@ -77,6 +82,8 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
 
   const isErc20 = detectFeatures<TokenContract>(contract, ["ERC20"]);
 
+  const newClaimConditions = hasNewClaimConditions(contract);
+
   const nftsOrToken = isErc20 ? "tokens" : "NFTs";
 
   return (
@@ -84,7 +91,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
       <Card p={0} position="relative">
         <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
           <Flex
-            px={{ base: 6, md: 10 }}
+            px={isColumn ? 6 : { base: 6, md: 10 }}
             as="section"
             direction="column"
             gap={4}
@@ -96,6 +103,19 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
                 and more.
               </Text>
             </Flex>
+            {newClaimConditions && (
+              <UpdateNotice
+                learnMoreHref="https://blog.thirdweb.com"
+                trackingLabel="claim_conditions"
+                versions={[
+                  { version: "3.6.0", sdk: "react" },
+                  { version: "3.6.0", sdk: "typescript" },
+                ]}
+              >
+                Define claim conditions on a per-wallet basis and rename your
+                claim phases.
+              </UpdateNotice>
+            )}
           </Flex>
           <Divider />
           <ClaimConditionsForm
@@ -109,7 +129,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
         <Card p={0} position="relative">
           <Flex pt={{ base: 6, md: 10 }} direction="column" gap={8}>
             <Flex
-              px={{ base: 6, md: 10 }}
+              px={isColumn ? 6 : { base: 6, md: 10 }}
               as="section"
               direction="column"
               gap={4}
@@ -287,27 +307,20 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
     "Failed to save claim phases",
   );
 
-  const { data: contractType } = useContractType(contract?.getAddress());
+  const isMultiPhase = hasMultiphaseClaimConditions(contract);
 
-  const isMultiPhase = useMemo(
-    () =>
-      contractType === "nft-drop" ||
-      contractType === "edition-drop" ||
-      contractType === "token-drop",
-    [contractType],
-  );
-
-  const isClaimPhaseV1 = !detectFeatures(contract, [
-    "ERC721ClaimConditionsV1",
-    "ERC20ClaimConditionsV1",
-  ]);
   const [dropType, setDropType] = useState<"specific" | "overrides" | "any">(
     "any",
   );
 
+  const canEdit = useIsAdmin(contract) && !mutation.isLoading;
+
   if (!contract) {
     return null;
   }
+
+  const isClaimPhaseV1 = hasLegacyClaimConditions(contract);
+  const canEditPhaseTitle = !isClaimPhaseV1;
 
   return (
     <>
@@ -365,7 +378,11 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
         as="form"
         gap={10}
       >
-        <Flex direction={"column"} gap={4} px={{ base: 6, md: 10 }}>
+        <Flex
+          direction={"column"}
+          gap={4}
+          px={isColumn ? 6 : { base: 6, md: 10 }}
+        >
           {controlledFields.map((field, index) => {
             return (
               <React.Fragment key={`snapshot_${field.id}_${index}`}>
@@ -414,7 +431,34 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   </AdminOnly>
 
                   <Flex direction="column" gap={8}>
-                    <Heading size="label.lg">Phase {index + 1}</Heading>
+                    {isMultiPhase ? (
+                      canEditPhaseTitle ? (
+                        <Box w="auto">
+                          <Input
+                            isDisabled={!canEdit}
+                            // size="sm"
+                            borderColor="borderColor"
+                            variant="outline"
+                            w="auto"
+                            type="text"
+                            value={field.metadata?.name}
+                            placeholder={`Phase ${index + 1}`}
+                            onChange={(e) => {
+                              form.setValue(
+                                `phases.${index}.metadata.name`,
+                                e.target.value,
+                              );
+                            }}
+                          />
+                        </Box>
+                      ) : (
+                        <Heading size="label.lg">
+                          {field.metadata?.name || `Phase ${index + 1}`}
+                        </Heading>
+                      )
+                    ) : (
+                      <Heading size="label.lg">Claim Conditions</Heading>
+                    )}
 
                     <Flex
                       direction={{
@@ -424,6 +468,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       gap={4}
                     >
                       <FormControl
+                        isDisabled={!canEdit}
                         isInvalid={
                           !!form.getFieldState(
                             `phases.${index}.startTime`,
@@ -458,6 +503,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       </FormControl>
 
                       <FormControl
+                        isDisabled={!canEdit}
                         isInvalid={
                           !!form.getFieldState(
                             `phases.${index}.maxClaimableSupply`,
@@ -471,6 +517,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
 
                         <QuantityInputWithUnlimited
                           isRequired
+                          isDisabled={!canEdit}
                           decimals={decimals}
                           value={field.maxClaimableSupply?.toString() || "0"}
                           onChange={(value) =>
@@ -500,6 +547,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       gap={4}
                     >
                       <FormControl
+                        isDisabled={!canEdit}
                         isInvalid={
                           !!form.getFieldState(
                             `phases.${index}.price`,
@@ -528,6 +576,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       </FormControl>
 
                       <FormControl
+                        isDisabled={!canEdit}
                         isInvalid={
                           !!form.getFieldState(
                             `phases.${index}.currencyAddress`,
@@ -543,6 +592,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                           What currency do you want to use?
                         </Heading>
                         <CurrencySelector
+                          isDisabled={!canEdit}
                           value={field?.currencyAddress || NATIVE_TOKEN_ADDRESS}
                           onChange={(e) =>
                             form.setValue(
@@ -563,6 +613,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                     </Flex>
 
                     <FormControl
+                      isDisabled={!canEdit}
                       isInvalid={
                         !!form.getFieldState(
                           `phases.${index}.snapshot`,
@@ -575,6 +626,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       </Heading>
                       <Flex direction={{ base: "column", md: "row" }} gap={4}>
                         <Select
+                          isDisabled={!canEdit}
                           w={{ base: "100%", md: "50%" }}
                           value={dropType}
                           onChange={(e) => {
@@ -611,7 +663,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                           </option>
                         </Select>
                         {/* snapshot below */}
-                        {field.snapshot && (
+                        {field.snapshot ? (
                           <Flex
                             w={{ base: "100%", md: "50%" }}
                             direction={{
@@ -619,7 +671,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               md: isColumn ? "column" : "row",
                             }}
                             align="center"
-                            gap={4}
+                            gap={1.5}
                           >
                             <Button
                               colorScheme="purple"
@@ -637,9 +689,15 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               justify="center"
                               color={
                                 field.snapshot?.length === 0
-                                  ? "orange.500"
-                                  : "green.500"
+                                  ? "red.400"
+                                  : "green.400"
                               }
+                              _light={{
+                                color:
+                                  field.snapshot?.length === 0
+                                    ? "red.500"
+                                    : "green.500",
+                              }}
                             >
                               <Icon as={BsCircleFill} boxSize={2} />
                               <Text size="body.sm" color="inherit">
@@ -650,14 +708,44 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               </Text>
                             </Flex>
                           </Flex>
+                        ) : (
+                          <Box
+                            w={{ base: "100%", md: "50%" }}
+                            display={{ base: "none", md: "block" }}
+                          />
                         )}
                       </Flex>
-                      <FormHelperText>
-                        Snapshot spots are one-time-use! Once a wallet has
-                        claimed the drop, it cannot claim again, even if it did
-                        not claim the entire amount assigned to it in the
-                        snapshot.
-                      </FormHelperText>
+                      {isClaimPhaseV1 ? (
+                        <FormHelperText>
+                          Snapshot spots are one-time-use! Once a wallet has
+                          claimed the drop, it cannot claim again, even if it
+                          did not claim the entire amount assigned to it in the
+                          snapshot.
+                        </FormHelperText>
+                      ) : (
+                        <FormHelperText>
+                          {dropType === "specific" ? (
+                            <>
+                              <b>Only</b> wallets on the <b>allowlist</b> can
+                              claim. (&quot;Private Mint&quot; /
+                              &quot;Whitelist&quot;)
+                            </>
+                          ) : dropType === "any" ? (
+                            <>
+                              <b>Anyone</b> can claim based on the rules defined
+                              in this phase. (&quot;Public Mint&quot;)
+                            </>
+                          ) : (
+                            <>
+                              <b>Anyone</b> can claim based on the rules defined
+                              in this phase.
+                              <br />
+                              <b>Wallets in the snapshot</b> can claim with
+                              special rules defined in the snapshot.
+                            </>
+                          )}
+                        </FormHelperText>
+                      )}
                       <FormErrorMessage>
                         {
                           form.getFieldState(
@@ -675,6 +763,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                       }}
                     >
                       <FormControl
+                        isDisabled={!canEdit}
                         isInvalid={
                           !!form.getFieldState(
                             `phases.${index}.maxClaimablePerWallet`,
@@ -683,13 +772,15 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                         }
                       >
                         <Heading as={FormLabel} size="label.md">
-                          How many {nftsOrToken} can be claimed per transaction?
+                          How many {nftsOrToken} can be claimed per{" "}
+                          {isClaimPhaseV1 ? "transaction" : "wallet"}?
                         </Heading>
                         <QuantityInputWithUnlimited
                           isRequired
                           decimals={decimals}
                           isDisabled={
-                            !isClaimPhaseV1 && dropType === "specific"
+                            (!isClaimPhaseV1 && dropType === "specific") ||
+                            !canEdit
                           }
                           value={
                             field?.maxClaimablePerWallet?.toString() || "0"
@@ -710,8 +801,9 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                           }
                         </FormErrorMessage>
                       </FormControl>
-                      {isClaimPhaseV1 && (
+                      {isClaimPhaseV1 ? (
                         <FormControl
+                          isDisabled={!canEdit}
                           isInvalid={
                             !!form.getFieldState(
                               `phases.${index}.waitInSeconds`,
@@ -725,6 +817,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                           </Heading>
                           <BigNumberInput
                             isRequired
+                            isDisabled={!canEdit}
                             value={field.waitInSeconds?.toString() || "0"}
                             onChange={(value) =>
                               form.setValue(
@@ -746,6 +839,8 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                             }
                           </FormErrorMessage>
                         </FormControl>
+                      ) : (
+                        <Box w="100%" display={{ base: "none", md: "block" }} />
                       )}
                     </Flex>
                   </Flex>
@@ -779,7 +874,8 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                 Claim Phase
               </Button>
             ) : (
-              watchFieldArray?.length === 0 && (
+              watchFieldArray?.length === 0 &&
+              hasMultiphaseClaimConditions(contract) && (
                 <Button
                   colorScheme="purple"
                   variant="solid"
@@ -830,6 +926,7 @@ interface PriceInputProps
 export const PriceInput: React.FC<PriceInputProps> = ({
   value = 0,
   onChange,
+  isDisabled,
   ...restInputProps
 }) => {
   const [stringValue, setStringValue] = useState<string>(
@@ -852,6 +949,7 @@ export const PriceInput: React.FC<PriceInputProps> = ({
   return (
     <InputGroup {...restInputProps}>
       <Input
+        isDisabled={isDisabled}
         value={stringValue}
         onChange={(e) => setStringValue(e.target.value)}
         onBlur={() => {
@@ -881,6 +979,7 @@ export const QuantityInputWithUnlimited: React.FC<
   onChange,
   hideMaxButton,
   isDisabled,
+  isRequired,
   decimals,
   ...restInputProps
 }) => {
@@ -906,8 +1005,10 @@ export const QuantityInputWithUnlimited: React.FC<
   };
 
   return (
-    <InputGroup {...restInputProps} isDisabled={decimals === undefined}>
+    <InputGroup {...restInputProps}>
       <Input
+        isRequired={isRequired}
+        isDisabled={decimals === undefined || isDisabled}
         value={stringValue === "unlimited" ? "Unlimited" : stringValue}
         onChange={(e) => updateValue(e.currentTarget.value)}
         onBlur={() => {
@@ -923,7 +1024,7 @@ export const QuantityInputWithUnlimited: React.FC<
       {hideMaxButton ? null : (
         <InputRightElement w="auto">
           <Button
-            isDisabled={isDisabled}
+            isDisabled={decimals === undefined || isDisabled}
             colorScheme="primary"
             variant="ghost"
             size="sm"

@@ -18,13 +18,7 @@ import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import { PageId } from "page-id";
 import posthog from "posthog-js";
-import React, {
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import { isBrowser } from "utils/isBrowser";
 
@@ -73,7 +67,7 @@ const persister: Persister = createSyncStoragePersister({
       bigNumberReplacer,
     );
   },
-  key: `tw-query-cache:${__CACHE_BUSTER}`,
+  key: `tw-query-cache`,
 });
 
 function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -202,7 +196,13 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
     >
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister }}
+        persistOptions={{
+          persister,
+          buster: __CACHE_BUSTER,
+          dehydrateOptions: {
+            shouldDehydrateQuery: (q) => !shouldNeverPersistQuery(q.queryKey),
+          },
+        }}
       >
         <Hydrate state={pageProps.dehydratedState}>
           <Global

@@ -1,7 +1,7 @@
 import { ClaimConditions } from "./components/claim-conditions";
 import { ButtonGroup, Divider, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { detectFeatures } from "components/contract-components/utils";
+import { claimConditionExtensionDetection } from "lib/claimcondition-utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface ContractClaimConditionsPageProps {
@@ -13,11 +13,9 @@ export const ContractClaimConditionsPage: React.FC<
 > = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress);
 
-  const detectedFeature = detectFeatures(contractQuery.contract, [
-    "ERC721ClaimConditionsV1",
-    "ERC721ClaimConditionsV2",
-    "ERC20ClaimConditionsV1",
-    "ERC20ClaimConditionsV2",
+  const detectedFeature = claimConditionExtensionDetection(contractQuery, [
+    "erc721",
+    "erc20",
   ]);
 
   if (contractQuery.isLoading) {
