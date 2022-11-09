@@ -105,7 +105,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
             </Flex>
             {newClaimConditions && (
               <UpdateNotice
-                learnMoreHref="https://blog.thirdweb.com"
+                learnMoreHref="https://blog.thirdweb.com/guides/announcing-our-improved-claim-conditions"
                 trackingLabel="claim_conditions"
                 versions={[
                   { version: "3.6.0", sdk: "react" },
