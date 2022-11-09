@@ -86,6 +86,16 @@ function buildContractForContractMap(
   };
 }
 
+export const OSRoyaltyToPrebuilt: Record<string, Partial<ContractType>> = {
+  DropERC721_OSRoyaltyFilter: "nft-drop",
+  TokenERC721_OSRoyaltyFilter: "nft-collection",
+  DropERC1155_OSRoyaltyFilter: "edition-drop",
+  TokenERC1155_OSRoyaltyFilter: "edition",
+  SignatureDrop_OSRoyaltyFilter: "signature-drop",
+  Multiwrap_OSRoyaltyFilter: "multiwrap",
+  Pack_OSRoyaltyFilter: "pack",
+};
+
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
     "nft-drop": buildContractForContractMap("nft-drop", {
