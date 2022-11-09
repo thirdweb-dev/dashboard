@@ -861,7 +861,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
             </Alert>
           )}
           <AdminOnly contract={contract as ValidContractInstance}>
-            {isMultiPhase ? (
+            {isMultiPhase || watchFieldArray?.length === 0 ? (
               <Button
                 colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
                 variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
