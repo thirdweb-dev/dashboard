@@ -257,9 +257,9 @@ const chakraTheme: Theme = extendTheme({
       // other
       bgBlack: { default: "black", _dark: "white" },
       bgWhite: { default: "white", _dark: "black" },
-      backgroundBody: { default: "gray.100", _dark: "gray.800" },
-      backgroundHighlight: { default: "white", _dark: "black" },
-      backgroundCardHighlight: { default: "white", _dark: "gray.800" },
+      backgroundBody: { default: "gray.100", _dark: "#18191a" },
+      backgroundHighlight: { default: "white", _dark: "#242526" },
+      backgroundCardHighlight: { default: "white", _dark: "#18191a" },
       wordmark: { default: "#262A36", _dark: "whiteAlpha.900" },
       heading: { default: "black", _dark: "white" },
       paragraph: { default: "gray.800", _dark: "gray.100" },
