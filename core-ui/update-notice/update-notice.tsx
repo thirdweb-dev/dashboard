@@ -5,7 +5,7 @@ import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiReact } from "@react-icons/all-files/si/SiReact";
 // import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import type { IconType } from "react-icons";
-import { Badge, Card, Text, TrackedLink } from "tw-components";
+import { Badge, Card, Heading, Text, TrackedLink } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 type SDKTypes = "react" | "typescript";
@@ -102,56 +102,62 @@ export const UpdateNotice: ComponentWithChildren<UpdatenoticeProps> = ({
         </TrackedLink>
       </Text>
 
-      <Flex
-        maxW="66%"
-        flexWrap="wrap"
-        ml="auto"
-        order={{ base: 2, md: 3 }}
-        gap={2}
-        css={`
-          order: 2 !important;
-          @container (min-width: 48em) {
-            order: 3 !important;
-          }
-        `}
-      >
-        {versions?.map((v) => (
-          <TrackedLink
-            isExternal
-            href={SDKTypeMap[v.sdk].ghUrl + v.version}
-            category="update_notice"
-            label={`release_note_${v.sdk}`}
-            key={v.sdk}
-            role="group"
-          >
-            <Badge
-              textTransform="none"
-              borderWidth="1px"
-              borderRadius="sm"
-              variant="solid"
-              _light={{
-                color: "#000",
-                bg: "transparent",
-                borderColor: "borderColor",
-              }}
-              _dark={{
-                color: "#fff",
-                bg: "transparent",
-                borderColor: "borderColor",
-              }}
+      {versions && (
+        <Flex
+          maxW="66%"
+          flexWrap="wrap"
+          ml="auto"
+          order={{ base: 2, md: 3 }}
+          gap={2}
+          align="center"
+          css={`
+            order: 2 !important;
+            @container (min-width: 48em) {
+              order: 3 !important;
+            }
+          `}
+        >
+          <Heading as="h4" size="label.sm">
+            Requires:
+          </Heading>
+          {versions?.map((v) => (
+            <TrackedLink
+              isExternal
+              href={SDKTypeMap[v.sdk].ghUrl + v.version}
+              category="update_notice"
+              label={`release_note_${v.sdk}`}
+              key={v.sdk}
+              role="group"
             >
-              <Flex as="span" direction="row" align="center" gap={1.5}>
-                <Icon
-                  _groupHover={{ fill: SDKTypeMap[v.sdk].color }}
-                  borderRadius="sm"
-                  as={SDKTypeMap[v.sdk].icon}
-                />
-                <span>{v.version}</span>
-              </Flex>
-            </Badge>
-          </TrackedLink>
-        ))}
-      </Flex>
+              <Badge
+                textTransform="none"
+                borderWidth="1px"
+                borderRadius="sm"
+                variant="solid"
+                _light={{
+                  color: "#000",
+                  bg: "transparent",
+                  borderColor: "borderColor",
+                }}
+                _dark={{
+                  color: "#fff",
+                  bg: "transparent",
+                  borderColor: "borderColor",
+                }}
+              >
+                <Flex as="span" direction="row" align="center" gap={1.5}>
+                  <Icon
+                    _groupHover={{ fill: SDKTypeMap[v.sdk].color }}
+                    borderRadius="sm"
+                    as={SDKTypeMap[v.sdk].icon}
+                  />
+                  <span>{v.version}</span>
+                </Flex>
+              </Badge>
+            </TrackedLink>
+          ))}
+        </Flex>
+      )}
     </Flex>
   );
 };

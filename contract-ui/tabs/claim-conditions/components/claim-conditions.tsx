@@ -315,6 +315,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   }
 
   const isClaimPhaseV1 = hasLegacyClaimConditions(contract);
+
   const canEditPhaseTitle = !isClaimPhaseV1;
 
   return (
@@ -380,10 +381,11 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
         >
           {controlledFields.map((field, index) => {
             const dropType: "any" | "specific" | "overrides" = field.snapshot
-              ? field.maxClaimablePerWallet === 0
+              ? field.maxClaimablePerWallet?.toString() === "0"
                 ? "specific"
                 : "overrides"
               : "any";
+
             return (
               <React.Fragment key={`snapshot_${field.id}_${index}`}>
                 <SnapshotUpload
@@ -863,15 +865,21 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
             <Alert status="warning" borderRadius="md">
               <AlertIcon />
               <Flex direction="column">
-                <AlertTitle>No claim phases set.</AlertTitle>
-                <AlertDescription>
-                  Without a claim phase no-one will be able to claim this drop.
+                <AlertTitle as={Heading} size="label.lg">
+                  {isMultiPhase
+                    ? "Missing Claim Phases"
+                    : "Missing Claim Conditions"}
+                </AlertTitle>
+                <AlertDescription as={Text}>
+                  {isMultiPhase
+                    ? "While no Claim Phase is defined no-one will be able to claim this drop."
+                    : "While no Claim Conditions are defined no-one will be able to claim this drop."}
                 </AlertDescription>
               </Flex>
             </Alert>
           )}
           <AdminOnly contract={contract as ValidContractInstance}>
-            {isMultiPhase || watchFieldArray?.length === 0 ? (
+            {isMultiPhase ? (
               <Button
                 colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
                 variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
@@ -884,8 +892,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                 Claim Phase
               </Button>
             ) : (
-              watchFieldArray?.length === 0 &&
-              hasMultiphaseClaimConditions(contract) && (
+              watchFieldArray?.length === 0 && (
                 <Button
                   colorScheme="purple"
                   variant="solid"
@@ -894,7 +901,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   onClick={addPhase}
                   isDisabled={mutation.isLoading}
                 >
-                  Add Claim Phase
+                  Add Claim Condition
                 </Button>
               )
             )}

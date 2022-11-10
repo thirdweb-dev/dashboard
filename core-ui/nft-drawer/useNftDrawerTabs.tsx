@@ -11,7 +11,6 @@ import type { NFT } from "@thirdweb-dev/sdk";
 import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
-import { claimConditionExtensionDetection } from "lib/claimcondition-utils";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
@@ -107,11 +106,22 @@ export function useNFTDrawerTabs(
       const isERC721 = detectFeatures(contractOrProgram, ["ERC721"]);
       const isMintable = detectFeatures(contractOrProgram, ["ERC1155Mintable"]);
       const isClaimable = detectFeatures<DropContract>(contractOrProgram, [
-        "ERC1155Claimable",
+        // erc1155
+        "ERC1155ClaimPhasesV1",
+        "ERC1155ClaimPhasesV2",
+        "ERC1155ClaimConditionsV1",
+        "ERC1155ClaimConditionsV2",
+        "ERC1155ClaimCustom",
       ]);
-      const isClaimableWithConditions = claimConditionExtensionDetection(
-        { contract: contractOrProgram || undefined, isLoading: false },
-        ["erc1155"],
+      const hasClaimConditions = detectFeatures<DropContract>(
+        contractOrProgram,
+        [
+          // erc1155
+          "ERC1155ClaimPhasesV1",
+          "ERC1155ClaimPhasesV2",
+          "ERC1155ClaimConditionsV1",
+          "ERC1155ClaimConditionsV2",
+        ],
       );
       const isBurnable = detectFeatures(contractOrProgram, [
         "ERC721Burnable",
@@ -188,7 +198,7 @@ export function useNFTDrawerTabs(
           },
         ]);
       }
-      if (isClaimableWithConditions && isERC1155) {
+      if (hasClaimConditions && isERC1155) {
         tabs = tabs.concat([
           {
             title: "Claim Conditions",
@@ -200,7 +210,7 @@ export function useNFTDrawerTabs(
                 // eslint-disable-next-line react/display-name
                 () => (
                   <ClaimConditions
-                    contract={contractOrProgram as DropContract}
+                    contract={contractOrProgram}
                     tokenId={tokenId}
                     isColumn
                   />
