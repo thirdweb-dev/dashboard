@@ -105,7 +105,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </Flex>
           <LinkButton
             leftIcon={<FiPlus />}
-            colorScheme="contrast"
+            colorScheme="primary"
             href="/contracts"
           >
             Deploy new contract

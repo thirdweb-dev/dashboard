@@ -36,7 +36,6 @@ import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement } from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { FiArrowRight, FiChevronsRight } from "react-icons/fi";
-import { VscVerified } from "react-icons/vsc";
 import invariant from "tiny-invariant";
 import {
   Card,
@@ -403,7 +402,7 @@ const ReleaseCard: React.FC<ReleaseCardProps> = ({ releaseQuery }) => {
           rightIcon={<FiChevronsRight />}
           iconSpacing={1}
           borderRadius="full"
-          colorScheme="contrast"
+          colorScheme="primary"
           size="sm"
         >
           Deploy
@@ -447,15 +446,6 @@ const Releaser: React.FC<ReleaserProps> = (props) => {
           </Text>
         </SkeletonText>
       </LinkOverlay>
-      {ensResult.data?.ensName === "deployer.thirdweb.eth" && (
-        <Icon
-          color="green.500"
-          _dark={{
-            color: "green.300",
-          }}
-          as={VscVerified}
-        />
-      )}
     </Flex>
   );
 };

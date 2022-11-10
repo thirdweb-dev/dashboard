@@ -108,7 +108,7 @@ export const DeployedPrograms: React.FC<DeployedProgramsProps> = ({
           </Flex>
           <LinkButton
             leftIcon={<FiPlus />}
-            colorScheme="contrast"
+            colorScheme="primary"
             href="/programs"
           >
             Deploy new program
