@@ -3434,10 +3434,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@1.2.1-dev-89d987c":
-  version "1.2.1-dev-89d987c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.2.1-dev-89d987c.tgz#f723a2832fbc95b18be1494176b09e8d51208480"
-  integrity sha512-hzw504EhUSiB4xuME7REqIzUCekVisx9vjh0rVXWZy+CEg2hPWwSh212esyjyx3S34JkwFHipn24K0zGP2I8dg==
+"@thirdweb-dev/contracts-js@1.2.1-dev-2e62a1b":
+  version "1.2.1-dev-2e62a1b"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.2.1-dev-2e62a1b.tgz#4b118dc983484606d46b7c9b0dc838dad78f5f20"
+  integrity sha512-2BtiusxfIt+lFyze5tcDi2J7LxtjWYD67UX7dy9WDScwVjumhFBbt5lze+7qquM2BW2dkjnqDz1ZLpR1L0ADAg==
   dependencies:
     "@thirdweb-dev/contracts" "^3.2.2"
 
@@ -3446,10 +3446,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.2.2.tgz#dac0587337258369081fa1e2edb2570f79d61e95"
   integrity sha512-s5ZHZBF8iyoWtEKFJJDdpdwQ2TMuF0sCGdvIYxLLdoRsEtW1gPOp2icis+LTtdvly5+uaSF8ZW3RVdX9A/b4Nw==
 
-"@thirdweb-dev/react@^3.6.0-dev-89d987c":
-  version "3.6.0-dev-89d987c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.0-dev-89d987c.tgz#6e5465cded57676f12f95f0f694270d9bbff797e"
-  integrity sha512-FkqZvUi6oQfZ0ur4jnzBiqYA+8PoGz0XTGjs/CM9qx/K1jFWM4X2OPWhcyAJtbEQsWzWD32E+DtlRu/2Lw6T3Q==
+"@thirdweb-dev/react@^3.6.0-dev-2e62a1b":
+  version "3.6.0-dev-2e62a1b"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.0-dev-2e62a1b.tgz#29bec0054696d568df5515ca932c00688a2b3c16"
+  integrity sha512-fyt+bH8vLdPKZXIfxRsj1QNTmg/bK/EW/dKeTzllxLRP702RUFvVS2+mrKm0WHlqA3qPJgjuI6IHCouXdpeq+A==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3471,17 +3471,17 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.6.0-dev-89d987c":
-  version "3.6.0-dev-89d987c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0-dev-89d987c.tgz#29f17f9247e797f2b195d45d6f3903a021fa1c36"
-  integrity sha512-65ZO3z7yMbJynh+qiYNqlGbqP05fnJG2FfcTFuxA77iQrT9grePjf4P/2z6R1WBKllVTcOd6WVgUUMHL4+Q1lQ==
+"@thirdweb-dev/sdk@^3.6.0-dev-2e62a1b":
+  version "3.6.0-dev-2e62a1b"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0-dev-2e62a1b.tgz#f63f9456c98c6171aa722bb8be199279ce432a0a"
+  integrity sha512-pTGcIOZicieA49+FdE72p61AYZN7lbjkeB4DHAGCXLcyQTRIm06LaXfcCo9ObCMpA+Hcrh0Qztiwpja+NEJiDQ==
   dependencies:
     "@metaplex-foundation/js" "0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "2.2.2"
     "@project-serum/anchor" "0.25.0"
     "@solana/spl-token" "0.2.0"
     "@solana/web3.js" "1.62.0"
-    "@thirdweb-dev/contracts-js" "1.2.1-dev-89d987c"
+    "@thirdweb-dev/contracts-js" "1.2.1-dev-2e62a1b"
     "@thirdweb-dev/storage" "*"
     bn.js "^5.2.1"
     bs58 "^5.0.0"
@@ -9405,10 +9405,10 @@ next-plausible@^3.6.4:
   resolved "https://registry.yarnpkg.com/next-plausible/-/next-plausible-3.6.4.tgz#15684340736e47d3ffa49f9c8fae598e3cfefca6"
   integrity sha512-aHL4IL+gkkjs5ScB18LZ3LMEWXKR5VTvnMDs/fHNFHadOh23i37fD+VP5oAQLALR8Mde63l9JJljrw9DkvjWjQ==
 
-next-seo@^5.0.0:
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.14.0.tgz#961376571d50c76c3d469c607900774065f62907"
-  integrity sha512-VpbVFXbDzy31qoKBH7xoxtzh+nDhEWYOBnlc18zkXmypRd3X9vxdwh7rlr3q2BQTfbfk2J/a6Y2vEb+oTcCW0w==
+next-seo@^5.14.1:
+  version "5.14.1"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.14.1.tgz#d07322edc37634fbd9beca51fb04177910d8031c"
+  integrity sha512-NiJeQbxYP3z+EMp52q8k3Q+OfX2+Yv2WehERDj98r2wjXxL+woKpRBdsSVYolTD0Hm8IWs42SzaISE93RoQdOw==
 
 next-sitemap@^3.0.0:
   version "3.1.30"
@@ -10332,10 +10332,10 @@ react-focus-lock@^2.9.1:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-hook-form@^7.32.2:
-  version "7.39.1"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.39.1.tgz#ded87d4b3f6692d1f9219515f78ca282b6e1ebf7"
-  integrity sha512-MiF9PCILN5KulhSGbnjohMiTOrB47GerDTichMNP0y2cPUu1GTRFqbunOxCE9N1499YTLMV/ne4gFzqCp1rxrQ==
+react-hook-form@^7.39.2:
+  version "7.39.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.39.2.tgz#1003ed63dcc4efc96be686e9aef481f63b58715b"
+  integrity sha512-rCeCa1+sIcgI9PjgGmev9bVqHCwYwhjkbsXitr+giQ/P0mf/AGwUBtCdKC1lRu7egrxbLwqO9cWNWpXW4FrsHA==
 
 react-icons@^4.2.0:
   version "4.6.0"
