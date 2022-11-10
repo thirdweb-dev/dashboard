@@ -1,5 +1,6 @@
 import {
   CONTRACTS_MAP,
+  ChainId,
   ContractType,
   FullPublishMetadata,
   Role,
@@ -95,6 +96,22 @@ export const OSRoyaltyToPrebuilt: Record<string, Partial<ContractType>> = {
   Multiwrap_OSRoyaltyFilter: "multiwrap",
   Pack_OSRoyaltyFilter: "pack",
 };
+
+export const OSRoyaltyDisabledChains: SUPPORTED_CHAIN_ID[] = [
+  ...deprecatedChains,
+  ChainId.Arbitrum,
+  ChainId.ArbitrumGoerli,
+  ChainId.Optimism,
+  ChainId.OptimismGoerli,
+  ChainId.Avalanche,
+  ChainId.AvalancheFujiTestnet,
+  ChainId.BinanceSmartChainMainnet,
+  ChainId.BinanceSmartChainTestnet,
+  ChainId.Fantom,
+  ChainId.FantomTestnet,
+  ChainId.Polygon,
+  ChainId.Mumbai,
+];
 
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {

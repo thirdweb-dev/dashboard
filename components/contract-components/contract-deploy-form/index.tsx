@@ -3,7 +3,10 @@ import { ContractId } from "../types";
 import { isContractIdBuiltInContract } from "../utils";
 import { useChainId } from "@thirdweb-dev/react";
 import { SUPPORTED_CHAIN_ID, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
-import { OSRoyaltyToPrebuilt } from "constants/mappings";
+import {
+  OSRoyaltyDisabledChains,
+  OSRoyaltyToPrebuilt,
+} from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -40,12 +43,14 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
     }
   }, [chainId, selectedChain]);
 
+  const OSRoyaltyContract =
+    OSRoyaltyToPrebuilt[
+      publishMetadata.data?.name as keyof typeof OSRoyaltyToPrebuilt
+    ];
+
   const contractType = useMemo(
-    () =>
-      OSRoyaltyToPrebuilt[
-        publishMetadata.data?.name as keyof typeof OSRoyaltyToPrebuilt
-      ] || contractId,
-    [contractId, publishMetadata.data?.name],
+    () => OSRoyaltyContract || contractId,
+    [contractId, OSRoyaltyContract],
   );
 
   if (!contractId) {
@@ -62,6 +67,7 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
           contractType={contractType}
           selectedChain={selectedChain}
           onChainSelect={setSelectedChain}
+          disabledChains={OSRoyaltyContract ? OSRoyaltyDisabledChains : []}
         />
       ) : (
         <CustomContractForm
