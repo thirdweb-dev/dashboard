@@ -8,7 +8,7 @@ import {
   Persister,
 } from "@tanstack/react-query-persist-client";
 import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
-import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
+// import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import PlausibleProvider from "next-plausible";
@@ -291,7 +291,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
           />
 
           <ChakraProvider theme={chakraTheme}>
-            <AnnouncementBanner />
+            {/* <AnnouncementBanner /> */}
             {getLayout(<Component {...pageProps} />, pageProps)}
           </ChakraProvider>
         </Hydrate>
