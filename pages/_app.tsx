@@ -11,6 +11,7 @@ import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
+import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
@@ -27,7 +28,7 @@ import React, {
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import { isBrowser } from "utils/isBrowser";
 
-const __CACHE_BUSTER = "v3.2.6-dev-d92ce32";
+const __CACHE_BUSTER = "v3.5.1";
 
 export function bigNumberReplacer(_key: string, value: any) {
   // if we find a BigNumber then make it into a string (since that is safe)
@@ -92,6 +93,21 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   );
 
   const router = useRouter();
+
+  useEffect(() => {
+    // Taken from StackOverflow. Trying to detect both Safari desktop and mobile.
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) {
+      // This is kind of a lie.
+      // We still rely on the manual Next.js scrollRestoration logic.
+      // However, we *also* don't want Safari grey screen during the back swipe gesture.
+      // Seems like it doesn't hurt to enable auto restore *and* Next.js logic at the same time.
+      history.scrollRestoration = "auto";
+    } else {
+      // For other browsers, let Next.js set scrollRestoration to 'manual'.
+      // It seems to work better for Chrome and Firefox which don't animate the back swipe.
+    }
+  }, []);
 
   useEffect(() => {
     // setup route cancellation
@@ -179,13 +195,18 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   }
 
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister }}
+    <PlausibleProvider
+      domain="thirdweb.com"
+      customDomain="https://pl.thirdweb.com"
+      selfHosted
     >
-      <Hydrate state={pageProps.dehydratedState}>
-        <Global
-          styles={css`
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        <Hydrate state={pageProps.dehydratedState}>
+          <Global
+            styles={css`
             #walletconnect-wrapper {
               color: #000;
             }
@@ -233,49 +254,49 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
                   -ms-transform: rotate(3deg) translate(0px, -4px);
                       transform: rotate(3deg) translate(0px, -4px);
           `}
-        />
-        <DefaultSeo
-          defaultTitle="Web3 SDKs for developers ⸱ No-code for NFT artists | thirdweb"
-          titleTemplate="%s | thirdweb"
-          description="Build web3 apps easily. Implement web3 features with powerful SDKs for developers. Drop NFTs with no code. — Ethereum, Polygon, Avalanche, & more."
-          additionalLinkTags={[
-            {
-              rel: "icon",
-              href: "/favicon.ico",
-            },
-          ]}
-          openGraph={{
-            title:
-              "Web3 SDKs for developers ⸱ No-code for NFT artists | thirdweb",
-            description:
-              "Build web3 apps easily. Implement web3 features with powerful SDKs for developers. Drop NFTs with no code. — Ethereum, Polygon, Avalanche, & more.",
-            type: "website",
-            locale: "en_US",
-            url: "https://thirdweb.com",
-            site_name: "thirdweb",
-            images: [
+          />
+          <DefaultSeo
+            defaultTitle="thirdweb: The complete web3 development framework"
+            titleTemplate="%s | thirdweb"
+            description="Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now."
+            additionalLinkTags={[
               {
-                url: "https://thirdweb.com/thirdweb.png",
-                width: 1200,
-                height: 630,
-                alt: "thirdweb",
+                rel: "icon",
+                href: "/favicon.ico",
               },
-            ],
-          }}
-          twitter={{
-            handle: "@thirdweb",
-            site: "@thirdweb",
-            cardType: "summary_large_image",
-          }}
-          canonical={`https://thirdweb.com${router.asPath}`}
-        />
+            ]}
+            openGraph={{
+              title: "thirdweb: The complete web3 development framework",
+              description:
+                "Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now.",
+              type: "website",
+              locale: "en_US",
+              url: "https://thirdweb.com",
+              site_name: "thirdweb",
+              images: [
+                {
+                  url: "https://thirdweb.com/thirdweb.png",
+                  width: 1200,
+                  height: 630,
+                  alt: "thirdweb",
+                },
+              ],
+            }}
+            twitter={{
+              handle: "@thirdweb",
+              site: "@thirdweb",
+              cardType: "summary_large_image",
+            }}
+            canonical={`https://thirdweb.com${router.asPath}`}
+          />
 
-        <ChakraProvider theme={chakraTheme}>
-          <AnnouncementBanner />
-          {getLayout(<Component {...pageProps} />, pageProps)}
-        </ChakraProvider>
-      </Hydrate>
-    </PersistQueryClientProvider>
+          <ChakraProvider theme={chakraTheme}>
+            <AnnouncementBanner />
+            {getLayout(<Component {...pageProps} />, pageProps)}
+          </ChakraProvider>
+        </Hydrate>
+      </PersistQueryClientProvider>
+    </PlausibleProvider>
   );
 }
 export default ConsoleApp;
