@@ -3434,10 +3434,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/contracts-js@1.2.1-dev-2e62a1b":
-  version "1.2.1-dev-2e62a1b"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.2.1-dev-2e62a1b.tgz#4b118dc983484606d46b7c9b0dc838dad78f5f20"
-  integrity sha512-2BtiusxfIt+lFyze5tcDi2J7LxtjWYD67UX7dy9WDScwVjumhFBbt5lze+7qquM2BW2dkjnqDz1ZLpR1L0ADAg==
+"@thirdweb-dev/contracts-js@*":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.2.1.tgz#e99c7fceb5b7bccde3196f654645deae1259b98d"
+  integrity sha512-YrLTdfwnapiMpgH6bT4+p6Xw0/1IVNDVhZAukU1q9REmnSOxQZfsdHuq8+ZdSKfRt85p5tzmxpoE7jpyzFSRuQ==
   dependencies:
     "@thirdweb-dev/contracts" "^3.2.2"
 
@@ -3446,10 +3446,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.2.2.tgz#dac0587337258369081fa1e2edb2570f79d61e95"
   integrity sha512-s5ZHZBF8iyoWtEKFJJDdpdwQ2TMuF0sCGdvIYxLLdoRsEtW1gPOp2icis+LTtdvly5+uaSF8ZW3RVdX9A/b4Nw==
 
-"@thirdweb-dev/react@^3.6.0-dev-2e62a1b":
-  version "3.6.0-dev-2e62a1b"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.0-dev-2e62a1b.tgz#29bec0054696d568df5515ca932c00688a2b3c16"
-  integrity sha512-fyt+bH8vLdPKZXIfxRsj1QNTmg/bK/EW/dKeTzllxLRP702RUFvVS2+mrKm0WHlqA3qPJgjuI6IHCouXdpeq+A==
+"@thirdweb-dev/react@3.6.0-dev-462019d":
+  version "3.6.0-dev-462019d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.0-dev-462019d.tgz#ead01e472e535d0725379a5af3c7c6b74f60c87e"
+  integrity sha512-rz01vwG+G1bVmam8PIKQgFn4uqFa7wiBgWh4KB2jNynk/42dnR/QU89VJ7eqSD3IkF6iHJkHwwr7snU8g5OwpA==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3471,17 +3471,17 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.6.0-dev-2e62a1b":
-  version "3.6.0-dev-2e62a1b"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0-dev-2e62a1b.tgz#f63f9456c98c6171aa722bb8be199279ce432a0a"
-  integrity sha512-pTGcIOZicieA49+FdE72p61AYZN7lbjkeB4DHAGCXLcyQTRIm06LaXfcCo9ObCMpA+Hcrh0Qztiwpja+NEJiDQ==
+"@thirdweb-dev/sdk@3.6.0-dev-462019d":
+  version "3.6.0-dev-462019d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0-dev-462019d.tgz#1e5d532a70b908010213dea28aa454539174288d"
+  integrity sha512-kytASJDvBjERTUwHrYb4NGBKcNiCqa08DuwVZv68hpjIYr9aJhgDRZEHz6em/qisavojeQ+T7uqPjGJIPQdLkA==
   dependencies:
     "@metaplex-foundation/js" "0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "2.2.2"
     "@project-serum/anchor" "0.25.0"
     "@solana/spl-token" "0.2.0"
     "@solana/web3.js" "1.62.0"
-    "@thirdweb-dev/contracts-js" "1.2.1-dev-2e62a1b"
+    "@thirdweb-dev/contracts-js" "*"
     "@thirdweb-dev/storage" "*"
     bn.js "^5.2.1"
     bs58 "^5.0.0"
