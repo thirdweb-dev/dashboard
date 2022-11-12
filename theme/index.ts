@@ -177,7 +177,7 @@ const chakraTheme: Theme = extendTheme({
     Menu: {
       baseStyle: {
         list: {
-          bg: "accent.100",
+          bg: "backgroundCardHighlight",
           py: 0,
         },
         item: {
@@ -188,7 +188,7 @@ const chakraTheme: Theme = extendTheme({
     Table: {
       baseStyle: {
         thead: {
-          background: "accent.100",
+          background: "backgroundCardHighlight",
         },
         cell: {
           borderColor: "borderColor",
@@ -211,43 +211,39 @@ const chakraTheme: Theme = extendTheme({
       // accent color
       "accent.100": {
         default: "gray.100",
-        _dark: "gray.800",
+        _dark: "gray.900",
       },
       "accent.200": {
         default: "gray.200",
-        _dark: "gray.700",
+        _dark: "gray.800",
       },
       "accent.300": {
         default: "gray.300",
-        _dark: "gray.600",
+        _dark: "gray.700",
       },
       "accent.400": {
         default: "gray.400",
-        _dark: "gray.500",
+        _dark: "gray.600",
       },
       "accent.500": {
         default: "gray.500",
-        _dark: "gray.400",
+        _dark: "gray.500",
       },
       "accent.600": {
         default: "gray.600",
-        _dark: "gray.300",
+        _dark: "gray.400",
       },
       "accent.700": {
         default: "gray.700",
-        _dark: "gray.200",
+        _dark: "gray.300",
       },
       "accent.800": {
         default: "gray.800",
+        _dark: "gray.200",
+      },
+      "accent.900": {
+        default: "gray.900",
         _dark: "gray.100",
-      },
-      backgroundColor: {
-        default: "white",
-        _dark: "black",
-      },
-      textColor: {
-        default: "black",
-        _dark: "white",
       },
 
       // inputs
@@ -255,20 +251,16 @@ const chakraTheme: Theme = extendTheme({
       inputBgHover: { default: "gray.100", _dark: "whiteAlpha.100" },
       inputBorder: { default: "gray.200", _dark: "transparent" },
       // other
-      bgBlack: { default: "black", _dark: "white" },
-      bgWhite: { default: "white", _dark: "black" },
-      backgroundBody: { default: "gray.100", _dark: "#18191a" },
-      backgroundHighlight: { default: "white", _dark: "#242526" },
-      backgroundCardHighlight: { default: "white", _dark: "#18191a" },
+
+      backgroundBody: "accent.100",
+      backgroundHighlight: { default: "white", _dark: "accent.200" },
+      backgroundCardHighlight: { default: "white", _dark: "accent.100" },
+      backgroundNavbar: { default: "white", _dark: "accent.200" },
       wordmark: { default: "#262A36", _dark: "whiteAlpha.900" },
       heading: { default: "black", _dark: "white" },
-      paragraph: { default: "gray.800", _dark: "gray.100" },
-      headingLight: { default: "#F2FBFF", _dark: "#262A36" },
-      paragraphLight: {
-        default: "rgba(242, 251, 255, 0.8)",
-        _dark: "rgba(39, 46, 54, 0.9)",
-      },
-      borderColor: "accent.200",
+      paragraph: "accent.800",
+
+      borderColor: { default: "accent.200", _dark: "accent.300" },
       opaqueBg: {
         default: "whiteAlpha.500",
         _dark: "blackAlpha.600",

@@ -34,13 +34,11 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
-import { ENSResolveResult, isEnsName } from "lib/ens";
+import { isEnsName } from "lib/ens";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
-import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
-import { isBrowser } from "utils/isBrowser";
 import { z } from "zod";
 
 export interface ContractPublishMetadata {
@@ -157,13 +155,7 @@ async function fetchFullPublishMetadata(
     .fetchFullPublishMetadata(uri);
 
   const ensResult = rawPublishMetadata.publisher
-    ? await queryClient.fetchQuery(
-        ens.queryKey(rawPublishMetadata.publisher),
-        () =>
-          rawPublishMetadata.publisher
-            ? ens.fetch(rawPublishMetadata.publisher)
-            : undefined,
-      )
+    ? await queryClient.fetchQuery(ensQuery(rawPublishMetadata.publisher))
     : undefined;
 
   return {
@@ -216,6 +208,11 @@ export function releaserProfileQuery(releaserAddress?: string) {
     queryKey: ["releaser-profile", releaserAddress],
     queryFn: () => fetchReleaserProfile(releaserAddress),
     enabled: !!releaserAddress,
+    // 24h
+    cacheTime: 60 * 60 * 24 * 1000,
+    // 1h
+    staleTime: 60 * 60 * 1000,
+    // default to the one we know already
   };
 }
 
@@ -595,20 +592,6 @@ export function useContractEnabledExtensions(abi?: any) {
   return extensions ? extensions.enabledExtensions : [];
 }
 
-function getAbsoluteUrlForSSR(path: string) {
-  if (isBrowser()) {
-    return path;
-  }
-  const url = new URL(
-    process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
-      ? `https://thirdweb.com`
-      : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000",
-  );
-  url.pathname = path;
-  return url;
-}
 export function ensQuery(addressOrEnsName?: string) {
   const placeholderData = {
     address: utils.isAddress(addressOrEnsName || "")
@@ -624,10 +607,22 @@ export function ensQuery(addressOrEnsName?: string) {
       if (!addressOrEnsName) {
         return placeholderData;
       }
-      const res = await fetch(
-        getAbsoluteUrlForSSR(`/api/ens/${addressOrEnsName}`),
-      );
-      return res.json() as Promise<ENSResolveResult>;
+      // if it is neither an address or an esn name then return the placeholder data only
+      if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
+        return placeholderData;
+      }
+      const ethProvider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
+      const ensName = isEnsName(addressOrEnsName)
+        ? addressOrEnsName
+        : await ethProvider.lookupAddress(addressOrEnsName);
+      const address = utils.isAddress(addressOrEnsName)
+        ? addressOrEnsName
+        : await ethProvider.resolveName(addressOrEnsName);
+
+      return {
+        address,
+        ensName,
+      };
     },
     enabled:
       !!addressOrEnsName &&
@@ -644,17 +639,6 @@ export function ensQuery(addressOrEnsName?: string) {
 export function useEns(addressOrEnsName?: string) {
   return useQuery(ensQuery(addressOrEnsName));
 }
-
-/**
- * @deperecated use useEns / ensQuery instead
- */
-export const ens = {
-  useQuery: useEns,
-  queryKey: (addressOrEnsName?: string) => ensQuery(addressOrEnsName).queryKey,
-  fetch: (addressOrEnsName?: string) => {
-    return ensQuery(addressOrEnsName).queryFn();
-  },
-};
 
 export function useContractFunctions(
   contract: ValidContractInstance | null | undefined,

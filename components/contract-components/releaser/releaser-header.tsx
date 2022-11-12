@@ -1,4 +1,4 @@
-import { ens, useReleaserProfile } from "../hooks";
+import { useEns, useReleaserProfile } from "../hooks";
 import { EditProfile } from "./edit-profile";
 import { ReleaserAvatar } from "./masked-avatar";
 import { ReleaserSocials } from "./releaser-socials";
@@ -17,7 +17,7 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
   wallet,
   page,
 }) => {
-  const ensQuery = ens.useQuery(wallet);
+  const ensQuery = useEns(wallet);
   const releaserProfile = useReleaserProfile(
     ensQuery.data?.address || undefined,
   );

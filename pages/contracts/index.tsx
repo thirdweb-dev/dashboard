@@ -15,7 +15,6 @@ import { dehydrate, useQueries, useQueryClient } from "@tanstack/react-query";
 import { ChainId, detectFeatures } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
 import {
-  ens,
   ensQuery,
   extractExtensions,
   fetchContractPublishMetadataFromURI,
@@ -115,23 +114,6 @@ function filterExists<T>(item: T | undefined): item is T {
 }
 
 const Contracts: ThirdwebNextPage = () => {
-  // const walletAddress = useAddress();
-  // const releasedContractsQuery = usePublishedContractsQuery(walletAddress);
-
-  // const prebuiltContracts = Object.values(BuiltinContractMap).filter(
-  //   (contract) => contract.contractType !== "custom",
-  // );
-  // const releasedContracts = useMemo(
-  //   () => releasedContractsQuery.data || [],
-  //   [releasedContractsQuery],
-  // );
-
-  // const allContracts = useMemo(
-  //   () => [...releasedContracts, ...prebuiltContracts],
-
-  //   [prebuiltContracts, releasedContracts],
-  // );
-
   const releasesQueries = useReleases(CONTRACTS_TO_LOAD);
 
   const categoriesWithQueries = RENDER_CATEGORIES.map((category) => ({
@@ -282,7 +264,7 @@ interface ReleaseCardProps {
 const ReleaseCard: React.FC<ReleaseCardProps> = ({ releaseQuery }) => {
   const showSkeleton =
     releaseQuery.status !== "success" || releaseQuery.isPlaceholderData;
-  const releaserEns = ens.useQuery(releaseQuery.data?.releaser);
+  const releaserEns = useEns(releaseQuery.data?.releaser);
   const contractLogo = releaseQuery.data?.logo
     ? replaceIpfsUrl(releaseQuery.data.logo)
     : undefined;

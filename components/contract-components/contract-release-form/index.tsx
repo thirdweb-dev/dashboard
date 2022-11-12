@@ -1,8 +1,8 @@
 import { DeployFormDrawer } from "../contract-deploy-form/drawer";
 import {
-  ens,
   useContractPrePublishMetadata,
   useContractPublishMetadataFromURI,
+  useEns,
   usePublishMutation,
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
@@ -143,7 +143,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prePublishMetadata.data, address, placeholderVersion, isDirty]);
 
-  const ensQuery = ens.useQuery(address);
+  const ensQuery = useEns(address);
 
   const ensNameOrAddress = useMemo(() => {
     return ensQuery?.data?.ensName || ensQuery.data?.address;

@@ -2,7 +2,7 @@ import { ReleaserAvatar } from "../releaser/masked-avatar";
 import { Flex, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
-  ens,
+  useEns,
   useReleasesFromDeploy,
 } from "components/contract-components/hooks";
 import { useMemo } from "react";
@@ -14,7 +14,7 @@ interface ReleasedByProps {
 }
 
 export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
-  const contractEnsQuery = ens.useQuery(contractAddress);
+  const contractEnsQuery = useEns(contractAddress);
 
   const releasesFromDeploy = useReleasesFromDeploy(
     contractEnsQuery.data?.address || undefined,
@@ -32,7 +32,7 @@ export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
     );
   }, [releasesFromDeploy.data, address]);
 
-  const releaserEnsQuery = ens.useQuery(releaseToShow?.publisher);
+  const releaserEnsQuery = useEns(releaseToShow?.publisher);
   const releaserAddress =
     releaserEnsQuery.data?.ensName || releaserEnsQuery.data?.address;
 

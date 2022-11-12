@@ -10,7 +10,7 @@ import {
 import { PREBUILT_CONTRACTS_MAP } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
 import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
-import { ens, useAllVersions } from "components/contract-components/hooks";
+import { useAllVersions, useEns } from "components/contract-components/hooks";
 import { ReleasedContract } from "components/contract-components/released-contract";
 import { THIRDWEB_DEPLOYER_ADDRESS } from "constants/addresses";
 import { FeatureIconMap } from "constants/mappings";
@@ -32,7 +32,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
   version: initialVersion,
 }) => {
   const trackEvent = useTrack();
-  const ensQuery = ens.useQuery(author);
+  const ensQuery = useEns(author);
 
   const [version, setVersion] = useState(initialVersion);
 

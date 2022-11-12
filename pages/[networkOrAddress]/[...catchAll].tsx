@@ -2,7 +2,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
 import {
-  ens,
+  ensQuery,
   fetchAllVersions,
   fetchContractPublishMetadataFromURI,
   fetchReleasedContractInfo,
@@ -163,9 +163,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
     const [contractAddress] = ctx.params?.catchAll as string[];
 
     if (isPossibleEVMAddress(contractAddress)) {
-      await queryClient.prefetchQuery(ens.queryKey(contractAddress), () =>
-        ens.fetch(contractAddress),
-      );
+      await queryClient.prefetchQuery(ensQuery(contractAddress));
 
       return {
         props: {
@@ -220,8 +218,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
 
     if (contractName) {
       const { address, ensName } = await queryClient.fetchQuery(
-        ens.queryKey(networkOrAddress),
-        () => ens.fetch(networkOrAddress),
+        ensQuery(networkOrAddress),
       );
 
       if (!address) {
@@ -240,17 +237,9 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
       const release =
         allVersions.find((v) => v.version === version) || allVersions[0];
 
-      const ensQueries = [
-        queryClient.prefetchQuery(ens.queryKey(address), () =>
-          ens.fetch(address),
-        ),
-      ];
+      const ensQueries = [queryClient.prefetchQuery(ensQuery(address))];
       if (ensName) {
-        ensQueries.push(
-          queryClient.prefetchQuery(ens.queryKey(ensName), () =>
-            ens.fetch(ensName),
-          ),
-        );
+        ensQueries.push(queryClient.prefetchQuery(ensQuery(ensName)));
       }
 
       await Promise.all([

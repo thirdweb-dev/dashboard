@@ -1,4 +1,4 @@
-import { ens, useReleaserProfile } from "../hooks";
+import { useEns, useReleaserProfile } from "../hooks";
 import hexagon from "./hexagon.png";
 import { Img, ImgProps, Skeleton } from "@chakra-ui/react";
 import "react";
@@ -49,7 +49,7 @@ export const ReleaserAvatar: React.FC<ReleaserAvatarProps> = ({
   isLoading,
   ...restProps
 }) => {
-  const ensQuery = ens.useQuery(address);
+  const ensQuery = useEns(address);
   const releaserProfile = useReleaserProfile(
     ensQuery.data?.address || undefined,
   );

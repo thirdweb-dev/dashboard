@@ -32,12 +32,10 @@ export const buttonSizesMap = {
 
 export type PossibleButtonSize = keyof typeof buttonSizesMap;
 
-export interface ButtonProps
-  extends Omit<ChakraButtonprops, "size" | "colorScheme"> {
+export interface ButtonProps extends Omit<ChakraButtonprops, "size"> {
   size?: PossibleButtonSize;
   fromcolor?: string;
   tocolor?: string;
-  colorScheme?: ChakraButtonprops["colorScheme"] | "contrast";
 }
 
 export const Button = forwardRef<ButtonProps, "button">(
@@ -58,22 +56,9 @@ export const Button = forwardRef<ButtonProps, "button">(
       size: _size,
       ...buttonGroupContext,
       ...restButtonProps,
-      ...(restButtonProps.colorScheme === "contrast"
-        ? {
-            background: "textColor",
-            color: "backgroundColor",
-            borderColor: "textColor",
-            borderWidth: "1px",
-            _hover: {
-              background: "transparent",
-              color: "textColor",
-            },
-          }
-        : {}),
     };
     if (
       props.colorScheme &&
-      props.colorScheme !== "contrast" &&
       props.variant !== "outline" &&
       props.variant !== "ghost"
     ) {

@@ -1,7 +1,7 @@
 import {
-  ens,
   useContractEnabledExtensions,
   useContractPublishMetadataFromURI,
+  useEns,
   useReleasedContractCompilerMetadata,
   useReleasedContractEvents,
   useReleasedContractFunctions,
@@ -91,7 +91,7 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const contractFunctions = useReleasedContractFunctions(release);
   const contractEvents = useReleasedContractEvents(release);
 
-  const ensQuery = ens.useQuery(release.releaser);
+  const ensQuery = useEns(release.releaser);
 
   const releaserEnsOrAddress = shortenIfAddress(
     ensQuery.data?.ensName || release.releaser,

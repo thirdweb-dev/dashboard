@@ -44,7 +44,7 @@ import { useGnosis } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
 import { useMagic } from "@thirdweb-dev/react/evm/connectors/magic";
 import { ChakraNextImage } from "components/Image";
 import { MismatchButton } from "components/buttons/MismatchButton";
-import { ens } from "components/contract-components/hooks";
+import { useEns } from "components/contract-components/hooks";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
@@ -161,7 +161,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
 
   const gnosisModalState = useDisclosure();
 
-  const ensQuery = ens.useQuery(address);
+  const ensQuery = useEns(address);
 
   // if solana is connected we hit this
   if (solWallet.publicKey && ecosystem !== "evm") {
