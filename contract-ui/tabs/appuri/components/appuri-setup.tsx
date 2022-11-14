@@ -1,4 +1,5 @@
 import {
+  Box,
   Center,
   Flex,
   FormControl,
@@ -98,6 +99,11 @@ frameborder="0"
           />
         </Stack>
       </Flex>
+      <Center>
+        <Box maxW="90%" maxH="90%" w="600px" h="600px">
+          <iframe src={iframeSrc} width="100%" height="100%"></iframe>
+        </Box>
+      </Center>
     </Flex>
   );
 };
