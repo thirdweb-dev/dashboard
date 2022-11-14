@@ -66,10 +66,11 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
     <CustomSDKContext desiredChainId={selectedChain}>
       {isContractIdBuiltInContract(contractType) && !isImplementationDeploy ? (
         <BuiltinContractForm
+          ipfsHash={contractId}
           contractType={contractType}
           selectedChain={selectedChain}
           onChainSelect={setSelectedChain}
-          disabledChains={OSRoyaltyContract ? OSRoyaltyDisabledChains : []}
+          isOSRoyaltyContract={!!OSRoyaltyContract}
         />
       ) : (
         <CustomContractForm

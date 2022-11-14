@@ -1,4 +1,7 @@
-import { useContractPublishMetadataFromURI } from "../hooks";
+import {
+  useContractPublishMetadataFromURI,
+  useCustomContractDeployMutation,
+} from "../hooks";
 import { ContractIdImage } from "../shared/contract-id-image";
 import { useDeploy } from "@3rdweb-sdk/react";
 import {
@@ -23,7 +26,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAddress } from "@thirdweb-dev/react";
+import { useAddress, useStorageUpload } from "@thirdweb-dev/react";
 import {
   ContractType,
   DeploySchemaForPrebuiltContractType,
@@ -37,7 +40,11 @@ import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
-import { BuiltinContractMap, DisabledChainsMap } from "constants/mappings";
+import {
+  BuiltinContractMap,
+  DisabledChainsMap,
+  OSRoyaltyDisabledChains,
+} from "constants/mappings";
 import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
@@ -103,16 +110,18 @@ function stripNullishKeys<T extends object>(obj: T) {
 
 interface BuiltinContractFormProps {
   contractType: ContractType;
+  ipfsHash: string;
   selectedChain: SUPPORTED_CHAIN_ID | undefined;
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
-  disabledChains: SUPPORTED_CHAIN_ID[];
+  isOSRoyaltyContract: boolean;
 }
 
 const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
+  ipfsHash,
   contractType,
   selectedChain,
   onChainSelect,
-  disabledChains,
+  isOSRoyaltyContract,
 }) => {
   const publishMetadata = useContractPublishMetadataFromURI(contractType);
 
@@ -120,6 +129,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
     PREBUILT_CONTRACTS_MAP[contractType as keyof typeof PREBUILT_CONTRACTS_MAP];
 
   const form = useDeployForm(contract.schema.deploy);
+  const { mutateAsync: storageUpload } = useStorageUpload();
 
   const {
     handleSubmit,
@@ -214,6 +224,8 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
 
   const deploy = useDeploy(contract.contractType);
 
+  const customDeploy = useCustomContractDeployMutation(ipfsHash, false);
+
   const { onSuccess, onError } = useTxNotifications(
     "Successfully deployed contract",
     "Failed to deploy contract",
@@ -232,7 +244,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
         gap={4}
         direction="column"
         as="form"
-        onSubmit={handleSubmit((d) => {
+        onSubmit={handleSubmit(async (d) => {
           if (!selectedChain) {
             return;
           }
@@ -248,35 +260,87 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             label: "attempt",
             deployData,
           });
-          deploy.mutate(d, {
-            onSuccess: ({ contractAddress }) => {
-              console.info("contract deployed:", {
-                chainId: selectedChain,
-                address: contractAddress,
-              });
-              trackEvent({
-                category: "builtin-contract",
-                action: "deploy",
-                label: "success",
-                deployData,
-                contractAddress,
-              });
-              onSuccess();
-              router.replace(
-                `/${SupportedChainIdToNetworkMap[selectedChain]}/${contractAddress}`,
-              );
-            },
-            onError: (err) => {
-              trackEvent({
-                category: "builtin-contract",
-                action: "deploy",
-                label: "error",
-                deployData,
-                error: err,
-              });
-              onError(err);
-            },
-          });
+          if (isOSRoyaltyContract) {
+            const metadata = contract.schema.deploy.parse(d);
+            const [contractURI] = await storageUpload({ data: [metadata] });
+
+            customDeploy.mutate(
+              {
+                constructorParams: [
+                  address,
+                  d.name,
+                  (d as any).symbol,
+                  contractURI,
+                  d.trusted_forwarders,
+                  (d as any).primary_sale_recipient,
+                  (d as any).fee_recipient,
+                  (d as any).seller_fee_basis_points,
+                  (d as any).platform_fee_basis_points,
+                  (d as any).platform_fee_recipient,
+                ],
+                addToDashboard: true,
+              },
+              {
+                onSuccess: (deployedContractAddress) => {
+                  console.info("contract deployed:", {
+                    chainId: selectedChain,
+                    address: deployedContractAddress,
+                  });
+                  trackEvent({
+                    category: "custom-contract",
+                    action: "deploy",
+                    label: "success",
+                    deployData,
+                    deployedContractAddress,
+                  });
+                  onSuccess();
+                  router.replace(
+                    `/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
+                  );
+                },
+                onError: (err) => {
+                  trackEvent({
+                    category: "custom-contract",
+                    action: "deploy",
+                    label: "error",
+                    deployData,
+                    error: err,
+                  });
+                  onError(err);
+                },
+              },
+            );
+          } else {
+            deploy.mutate(d, {
+              onSuccess: ({ contractAddress }) => {
+                console.info("contract deployed:", {
+                  chainId: selectedChain,
+                  address: contractAddress,
+                });
+                trackEvent({
+                  category: "builtin-contract",
+                  action: "deploy",
+                  label: "success",
+                  deployData,
+                  contractAddress,
+                });
+                onSuccess();
+                router.replace(
+                  `/${SupportedChainIdToNetworkMap[selectedChain]}/${contractAddress}`,
+                );
+              },
+              onError: (err) => {
+                trackEvent({
+                  category: "builtin-contract",
+                  action: "deploy",
+                  label: "error",
+                  deployData,
+                  error: err,
+                });
+                onError(err);
+              },
+            });
+          }
         })}
       >
         <Flex
@@ -832,8 +896,9 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 )
               }
               disabledChainIds={
-                disabledChains ||
-                DisabledChainsMap[contractType as ContractType]
+                isOSRoyaltyContract
+                  ? OSRoyaltyDisabledChains
+                  : DisabledChainsMap[contractType as ContractType]
               }
               disabledChainIdText="Coming Soon"
             />
@@ -841,10 +906,10 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           <TransactionButton
             flexShrink={0}
             type="submit"
-            isLoading={deploy.isLoading}
+            isLoading={deploy.isLoading || customDeploy.isLoading}
             isDisabled={!publishMetadata.isSuccess || !selectedChain}
             colorScheme="primary"
-            transactionCount={1}
+            transactionCount={isOSRoyaltyContract ? 2 : 1}
           >
             Deploy Now
           </TransactionButton>
