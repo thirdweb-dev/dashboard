@@ -322,8 +322,8 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                           override the currency and price you would like to
                           charge per wallet you specified.{" "}
                           <strong>
-                            These cannot be specified independently, you must
-                            override both.
+                            When defining a custom currency address, you must
+                            also define a price override.
                           </strong>
                           <br />
                           <Link
