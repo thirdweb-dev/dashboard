@@ -542,7 +542,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
                     </Text>
                   </Card>
                 }
-                shouldWrapChildren
+                // shouldWrapChildren
               >
                 <MenuItem
                   py={3}

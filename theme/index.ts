@@ -181,6 +181,10 @@ const chakraTheme: Theme = extendTheme({
           py: 0,
         },
         item: {
+          bg: "backgroundCardHighlight",
+          _hover: {
+            bg: "accent.200",
+          },
           py: 2,
         },
       },

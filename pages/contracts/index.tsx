@@ -25,8 +25,6 @@ import {
   ReleaserAvatar,
   ReleaserAvatarProps,
 } from "components/contract-components/releaser/masked-avatar";
-import { GettingStartedBox } from "components/getting-started/box";
-import { GettingStartedCard } from "components/getting-started/card";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { GetStaticProps } from "next";
@@ -34,11 +32,10 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import { ReactElement } from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
-import { FiArrowRight, FiChevronsRight } from "react-icons/fi";
+import { FiChevronsRight } from "react-icons/fi";
 import invariant from "tiny-invariant";
 import {
   Card,
-  CodeBlock,
   Heading,
   Link,
   LinkButton,
@@ -128,104 +125,7 @@ const Contracts: ThirdwebNextPage = () => {
   }));
   return (
     <Flex gap={8} direction="column">
-      <GettingStartedBox
-        title="Begin your journey with building contracts"
-        description="Which best describes your contract needs?"
-        storageId="contract"
-      >
-        <GettingStartedCard
-          title="I want to get started with a prebuilt contract"
-          description={
-            <>
-              Browse our selection of secure, gas-optimized, and audited
-              contracts that are ready to be deployed with one-click.
-            </>
-          }
-          icon={require("public/assets/product-icons/contracts.png")}
-          linkProps={{
-            category: "getting-started",
-            label: "browse-contracts",
-            href: "#release-contract-table",
-            children: (
-              <>
-                Get Started <Icon as={FiArrowRight} />
-              </>
-            ),
-          }}
-        />
-        <GettingStartedCard
-          title="I want to build my own customized contract"
-          description={
-            <>
-              Get started with <b>ContractKit</b> to create custom contracts
-              that is specific to your use case.
-            </>
-          }
-          icon={require("public/assets/product-icons/extensions.png")}
-          linkProps={{
-            category: "getting-started",
-            label: "custom-contracts",
-            href: "https://portal.thirdweb.com/contractkit",
-            isExternal: true,
-            children: (
-              <>
-                View Docs <Icon as={FiArrowRight} />
-              </>
-            ),
-          }}
-        />
-        <GettingStartedCard
-          title="I already have an existing contract"
-          description={
-            <>
-              You are ready to deploy your contract with our interactive{" "}
-              <b>CLI</b>.
-            </>
-          }
-          icon={require("public/assets/product-icons/deploy.png")}
-        >
-          <CodeBlock
-            mt="auto"
-            language="bash"
-            code="npx thirdweb@latest deploy"
-          />
-        </GettingStartedCard>
-      </GettingStartedBox>
-      <Heading id="release-contract-table" size="title.lg">
-        Contracts
-      </Heading>
-      {/* <Text fontStyle="italic">
-        A combination of our{" "}
-        <TrackedLink
-          category="contracts"
-          label="pre-built"
-          href="https://portal.thirdweb.com/pre-built-contracts"
-          isExternal
-          color="primary.500"
-        >
-          prebuilt contracts
-        </TrackedLink>{" "}
-        and your{" "}
-        <TrackedLink
-          category="contracts"
-          label="released"
-          href="https://portal.thirdweb.com/release"
-          isExternal
-          color="primary.500"
-        >
-          released contracts
-        </TrackedLink>
-        . Not sure which contract is right for your use-case?{" "}
-        <TrackedLink
-          category="contracts"
-          label="take-quiz"
-          href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
-          isExternal
-          color="primary.500"
-        >
-          Help me choose.
-        </TrackedLink>
-      </Text> */}
+      <Heading size="title.lg">Contracts</Heading>
 
       {categoriesWithQueries.map((category) => (
         <Flex gap={6} direction="column" key={category.title}>

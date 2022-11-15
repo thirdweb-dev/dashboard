@@ -1,64 +1,44 @@
-import { ButtonGroup, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractRow } from "components/explore/contract-row";
+import { DeployUpsellCard } from "components/explore/upsells/deploy-your-own";
+import { ReleaseUpsellCard } from "components/explore/upsells/release-submit";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
+import {
+  EXPLORE_PAGE_DATA,
+  ExploreCategory,
+  prefetchCategory,
+} from "data/explore";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
-import { ReactElement } from "react";
-import { Button, Card, Heading, Text } from "tw-components";
+import React, { ReactElement } from "react";
+import { Heading, Text } from "tw-components";
 
-const ExplorePage: ThirdwebNextPage = () => {
+const ExplorePage: ThirdwebNextPage = (
+  props: InferGetStaticPropsType<typeof getStaticProps>,
+) => {
   return (
-    <Flex direction="column" gap={{ base: 6, md: 12 }}>
-      <Heading as="h1">Explore Contracts</Heading>
-      <ContractRow />
-      <ContractRow />
-
-      <Card
-        my={3}
-        bg="black"
-        borderColor="transparent"
-        _light={{
-          bg: "white",
-          borderColor: "borderColor",
-        }}
-        p={8}
-        borderRadius="lg"
-        as={Flex}
-        gap={3}
-        flexDirection="column"
-      >
-        <Heading size="title.sm">Feature your contract</Heading>
-        <Text size="body.lg">
-          Releasing your contract is the best way to get your contract in front
-          of our network of web3 builders.
+    <Flex direction="column" gap={{ base: 12, md: 16 }}>
+      <Flex direction="column" gap={2}>
+        <Heading as="h1" size="display.md">
+          Explore
+        </Heading>
+        <Text size="body.xl" maxW="container.md">
+          Welcome to the front page for smart contracts. Deploy contracts made
+          by the best web3 developers with one-click.
         </Text>
-
-        <ButtonGroup size="md">
-          <Button
-            bg="accent.900"
-            color="accent.100"
-            borderColor="accent.900"
-            borderWidth="1px"
-            _hover={{
-              bg: "accent.100",
-              color: "accent.900",
-            }}
-          >
-            Submit Your Contract
-          </Button>
-          <Button
-            variant="ghost"
-            _hover={{
-              bg: "accent.200",
-            }}
-          >
-            Learn More
-          </Button>
-        </ButtonGroup>
-      </Card>
-
-      <ContractRow />
+      </Flex>
+      {props.categories.map((category, idx) => (
+        <React.Fragment key={category.id}>
+          {Math.floor(props.categories.length / 2) === idx && (
+            <ReleaseUpsellCard />
+          )}
+          <ContractRow category={category} />
+        </React.Fragment>
+      ))}
+      <DeployUpsellCard />
     </Flex>
   );
 };
@@ -69,6 +49,22 @@ ExplorePage.getLayout = (page: ReactElement) => (
   </AppLayout>
 );
 
-ExplorePage.pageId = PageId.Contracts;
+ExplorePage.pageId = PageId.Explore;
 
 export default ExplorePage;
+
+interface ExplorePageProps {
+  categories: ExploreCategory[];
+}
+
+export const getStaticProps: GetStaticProps<ExplorePageProps> = async () => {
+  const categories = EXPLORE_PAGE_DATA;
+
+  // pre load the data as well
+  const queryClient = new QueryClient();
+  await Promise.all(categories.map((c) => prefetchCategory(c, queryClient)));
+
+  return {
+    props: { categories, dehydratedState: dehydrate(queryClient) },
+  };
+};

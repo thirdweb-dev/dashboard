@@ -1,29 +1,61 @@
 import { ContractCard } from "../contract-card";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
-import { Heading } from "tw-components";
+import { Flex, Icon, SimpleGrid } from "@chakra-ui/react";
+import { ExploreCategory } from "data/explore";
+import { FiArrowRight } from "react-icons/fi";
+import { Heading, LinkButton } from "tw-components";
 
-export const ContractRow: React.FC = () => {
+interface ContractRowProps {
+  category: ExploreCategory;
+}
+
+export const ContractRow: React.FC<ContractRowProps> = ({ category }) => {
   return (
     <Flex gap={5} direction="column" as="section">
-      <Flex gap={2} direction="column" as="header">
-        <Heading as="h2" size="label.xl">
-          Popular
-        </Heading>
-        <Heading as="h3" size="label.md" fontWeight={400}>
-          Contracts that are popular among the community
-        </Heading>
+      <Flex align="center" justify="space-between" gap={4}>
+        <Flex gap={2} direction="column" as="header">
+          <Heading as="h2" size="label.xl">
+            {category.name}
+          </Heading>
+          <Heading as="h3" size="label.md" fontWeight={400}>
+            {category.description}
+          </Heading>
+        </Flex>
+        {category.contracts.length > 6 && (
+          <LinkButton
+            flexShrink={0}
+            size="sm"
+            rightIcon={<Icon as={FiArrowRight} />}
+            variant="link"
+            href={`/explore/${category.id}`}
+            fontWeight={500}
+            _dark={{
+              color: "blue.300",
+              _hover: {
+                color: "blue.500",
+              },
+            }}
+            _light={{
+              color: "blue.500",
+              _hover: {
+                color: "blue.700",
+              },
+            }}
+          >
+            View all
+          </LinkButton>
+        )}
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
-        <ContractCard
-          publisher="deployer.thirdweb.eth"
-          contractId="DropERC721"
-        />
-        <ContractCard publisher="unlock-protocol.eth" contractId="PublicLock" />
-        <ContractCard
-          publisher="flairsdk.eth"
-          contractId="ERC721CommunityStream"
-        />
-        <ContractCard publisher="doubledev.eth" contractId="ERC4907" />
+        {category.contracts.slice(0, 6).map((publishedContractId) => {
+          const [publisher, contractId] = publishedContractId.split("/");
+          return (
+            <ContractCard
+              key={publishedContractId}
+              publisher={publisher}
+              contractId={contractId}
+            />
+          );
+        })}
       </SimpleGrid>
     </Flex>
   );

@@ -160,7 +160,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   if (!networkOrAddress) {
     return {
       redirect: {
-        destination: "/contracts",
+        destination: "/explore",
         permanent: false,
       },
       props: {},
@@ -174,7 +174,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   if (!address) {
     return {
       redirect: {
-        destination: "/contracts",
+        destination: "/explore",
         permanent: false,
       },
       props: {},

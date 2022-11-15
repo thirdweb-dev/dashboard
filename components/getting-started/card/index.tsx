@@ -31,20 +31,22 @@ export const GettingStartedCard: ComponentWithChildren<
         <TrackedLink
           mt="auto"
           gap={1.5}
-          color="primary.500"
           transition="all 0.2s"
           _light={{
-            color: "primary.600",
+            color: "primary.500",
+            _hover: {
+              color: "primary.700",
+            },
+          }}
+          _dark={{
+            color: "primary.300",
+            _hover: {
+              color: "primary.500",
+            },
           }}
           alignSelf="flex-end"
           alignItems="center"
           display="flex"
-          _hover={{
-            opacity: 0.8,
-            textDecor: "underline",
-            gap: 2,
-            transform: "translateX(2px)",
-          }}
           {...linkProps}
         />
       )}

@@ -97,7 +97,7 @@ const moduleExports = {
       // prebuilt contract deploys
       {
         source: "/contracts/new/:slug*",
-        destination: "/contracts",
+        destination: "/explore",
         permanent: false,
       },
     ];

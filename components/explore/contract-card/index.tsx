@@ -10,12 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { QueryClient } from "@tanstack/query-core";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { detectFeatures } from "@thirdweb-dev/sdk/evm";
-import {
-  ensQuery,
-  extractExtensions,
-  fetchContractPublishMetadataFromURI,
-} from "components/contract-components/hooks";
+import { ensQuery } from "components/contract-components/hooks";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { BsShieldCheck } from "react-icons/bs";
 import { VscVersions } from "react-icons/vsc";
@@ -136,47 +131,48 @@ export const ContractCard: React.FC<ContractCardProps> = ({
           />
           <Flex
             align="center"
-            gap={3}
+            gap={4}
             color="rgba(255,255,255,.7)"
             _light={{ color: "rgba(0,0,0,.6)" }}
           >
-            {showSkeleton ||
-              (publishedContractResult.data?.audit && (
-                <Flex
-                  isExternal
-                  as={Link}
-                  align="center"
-                  gap={1}
-                  href={replaceIpfsUrl(publishedContractResult.data.audit)}
-                  _hover={{
-                    _dark: {
-                      color: "green.300",
-                    },
-                    _light: {
-                      color: "green.500",
-                    },
-                  }}
-                >
-                  <Skeleton boxSize={5} isLoaded={!showSkeleton}>
-                    <Icon as={BsShieldCheck} />
-                  </Skeleton>
-                  <Skeleton isLoaded={!showSkeleton}>
-                    <Text color="inherit" size="label.sm" fontWeight={500}>
-                      Audited
-                    </Text>
-                  </Skeleton>
-                </Flex>
-              ))}
-            <Flex align="center" gap={1}>
-              <Skeleton boxSize={5} isLoaded={!showSkeleton}>
-                <Icon as={VscVersions} />
-              </Skeleton>
-              <Skeleton isLoaded={!showSkeleton}>
-                <Text color="inherit" size="label.sm" fontWeight={500}>
-                  1.0.3
-                </Text>
-              </Skeleton>
-            </Flex>
+            {(showSkeleton || publishedContractResult.data?.audit) && (
+              <Flex
+                isExternal
+                as={Link}
+                align="center"
+                gap={0.5}
+                href={replaceIpfsUrl(publishedContractResult.data?.audit || "")}
+                _hover={{
+                  _dark: {
+                    color: "green.300",
+                  },
+                  _light: {
+                    color: "green.500",
+                  },
+                }}
+              >
+                <Skeleton boxSize={5} isLoaded={!showSkeleton}>
+                  <Icon as={BsShieldCheck} />
+                </Skeleton>
+                <Skeleton isLoaded={!showSkeleton}>
+                  <Text color="inherit" size="label.sm" fontWeight={500}>
+                    Audited
+                  </Text>
+                </Skeleton>
+              </Flex>
+            )}
+            {(showSkeleton || publishedContractResult.data?.version) && (
+              <Flex align="center" gap={0.5}>
+                <Skeleton boxSize={5} isLoaded={!showSkeleton}>
+                  <Icon as={VscVersions} />
+                </Skeleton>
+                <Skeleton isLoaded={!showSkeleton}>
+                  <Text color="inherit" size="label.sm" fontWeight={500}>
+                    {publishedContractResult.data?.version}
+                  </Text>
+                </Skeleton>
+              </Flex>
+            )}
           </Flex>
         </Flex>
       </Card>
@@ -219,20 +215,20 @@ async function queryFn(
     .getPublisher()
     .fetchPublishedContractInfo(latestPublishedVersion);
 
-  const publishMetadata = await fetchContractPublishMetadataFromURI(
-    latestPublishedVersion.metadataUri,
-  );
+  // const publishMetadata = await fetchContractPublishMetadataFromURI(
+  //   latestPublishedVersion.metadataUri,
+  // );
 
   return {
     ...latestPublishedVersion,
     ...contractInfo.publishedMetadata,
-    detectedExtensions: extractExtensions(
-      detectFeatures(publishMetadata.abi || []),
-    ).enabledExtensions.map((extension) => ({
-      name: extension.name,
-      docLinks: extension.docLinks,
-      namespace: extension.namespace,
-    })),
+    // detectedExtensions: extractExtensions(
+    //   detectFeatures(publishMetadata.abi || []),
+    // ).enabledExtensions.map((extension) => ({
+    //   name: extension.name,
+    //   docLinks: extension.docLinks,
+    //   namespace: extension.namespace,
+    // })),
     publishedContractId: `${publisher}/${contractId}`,
   };
 }

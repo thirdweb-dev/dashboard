@@ -125,7 +125,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
   if (networkOrAddress === "contracts") {
     return {
       redirect: {
-        destination: "/contracts",
+        destination: "/explore",
         permanent: false,
       },
     };
