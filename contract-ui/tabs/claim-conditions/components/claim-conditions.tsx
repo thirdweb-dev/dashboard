@@ -105,7 +105,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
             </Flex>
             {newClaimConditions && (
               <UpdateNotice
-                learnMoreHref="https://blog.thirdweb.com/guides/announcing-our-improved-claim-conditions"
+                learnMoreHref="https://blog.thirdweb.com/announcing-improved-claim-conditions"
                 trackingLabel="claim_conditions"
                 versions={[
                   { version: "3.6.0", sdk: "react" },
@@ -426,7 +426,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                         canEditPhaseTitle ? (
                           <FormControl>
                             <Heading as={FormLabel} size="label.md">
-                              Claimphase Name
+                              Name
                             </Heading>
                             <Input
                               w="auto"
@@ -754,8 +754,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                           {dropType === "specific" ? (
                             <>
                               <b>Only</b> wallets on the <b>allowlist</b> can
-                              claim. (&quot;Private Mint&quot; /
-                              &quot;Whitelist&quot;)
+                              claim.
                             </>
                           ) : dropType === "any" ? (
                             <>
@@ -819,6 +818,13 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                             )
                           }
                         />
+                        {!isClaimPhaseV1 && (
+                          <FormHelperText>
+                            This value applies for <strong>all</strong> wallets,
+                            and can be overriden for specific wallets in the
+                            snapshot.
+                          </FormHelperText>
+                        )}
                         <FormErrorMessage>
                           {
                             form.getFieldState(
