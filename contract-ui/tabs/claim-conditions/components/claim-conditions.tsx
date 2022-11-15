@@ -650,6 +650,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               | "any"
                               | "specific"
                               | "overrides";
+
                             if (val === "any") {
                               form.setValue(
                                 `phases.${index}.snapshot`,
@@ -665,7 +666,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                               if (
                                 val === "overrides" &&
                                 !isClaimPhaseV1 &&
-                                field.maxClaimablePerWallet === 0
+                                field.maxClaimablePerWallet !== 1
                               ) {
                                 form.setValue(
                                   `phases.${index}.maxClaimablePerWallet`,

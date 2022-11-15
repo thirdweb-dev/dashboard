@@ -104,7 +104,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             .map(({ address, maxClaimable, price, currencyAddress }) => ({
               address: (address || "").trim(),
               maxClaimable: (maxClaimable || "0").trim(),
-              price: (price || "").trim() || undefined,
+              price: (price || "").trim() || "unlimited",
               currencyAddress: (currencyAddress || "").trim() || undefined,
             }))
             .filter(({ address }) => address !== "");
@@ -445,7 +445,11 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
         {
           Header: "Price",
           accessor: ({ price }) => {
-            return price === "0" || !price ? "Default" : price;
+            return price === "0"
+              ? "Free"
+              : !price || price === "unlimited"
+              ? "Default"
+              : price;
           },
         },
         {
