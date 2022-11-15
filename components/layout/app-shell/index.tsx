@@ -67,7 +67,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         id="tw-scroll-container"
       >
         <Box
-          background="backgroundNavbar"
+          background="backgroundHighlight"
           zIndex="banner"
           shadow={isCustomContractLayout ? undefined : "sm"}
           position={isCustomContractLayout ? undefined : "sticky"}
