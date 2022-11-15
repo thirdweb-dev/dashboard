@@ -176,7 +176,7 @@ async function fetchFullPublishMetadata(
 // Metadata POST release, contains all the extra information filled in by the user
 export function useContractFullPublishMetadata(uri: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   const queryClient = useQueryClient();
 
   return useQuery(
