@@ -75,8 +75,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         })
       : undefined;
 
-  console.log({ compilerMetadata, fullReleaseMetadata });
-
   const form = useForm<{ addToDashboard: true }>();
 
   const { register, watch, handleSubmit } = form;
@@ -189,8 +187,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             const contructorParams =
               fullReleaseMetadata.data?.constructorParams || {};
             const extraMetadataParam = contructorParams[param.name];
-
-            console.log({ param, extraMetadataParam });
 
             return (
               <FormControl isRequired key={param.name}>
