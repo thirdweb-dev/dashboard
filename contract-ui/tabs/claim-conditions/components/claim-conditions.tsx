@@ -288,7 +288,10 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   }, [query.data, form.formState.isDirty]);
 
   const addPhase = () => {
-    append(DEFAULT_PHASE);
+    append({
+      ...DEFAULT_PHASE,
+      metadata: { name: `Phase ${fields.length + 1}` },
+    });
   };
   const removePhase = (index: number) => {
     remove(index);
@@ -381,7 +384,9 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
         >
           {controlledFields.map((field, index) => {
             const dropType: "any" | "specific" | "overrides" = field.snapshot
-              ? field.maxClaimablePerWallet?.toString() === "0"
+              ? isClaimPhaseV1
+                ? "specific"
+                : field.maxClaimablePerWallet?.toString() === "0"
                 ? "specific"
                 : "overrides"
               : "any";
@@ -389,6 +394,8 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
             return (
               <React.Fragment key={`snapshot_${field.id}_${index}`}>
                 <SnapshotUpload
+                  dropType={dropType}
+                  isV1ClaimCondition={isClaimPhaseV1}
                   isOpen={openIndex === index}
                   onClose={() => setOpenIndex(-1)}
                   value={field.snapshot?.map((v) =>
@@ -413,54 +420,61 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   }
                 />
                 <Card position="relative">
-                  <AdminOnly contract={contract as ValidContractInstance}>
-                    <IconButton
-                      variant="ghost"
-                      aria-label="Delete Claim Phase"
-                      colorScheme="red"
-                      icon={<Icon as={FiTrash} />}
-                      top="16px"
-                      right="16px"
-                      position="absolute"
-                      isDisabled={mutation.isLoading}
-                      onClick={() => {
-                        removePhase(index);
-                        if (!isMultiPhase) {
-                          setResetFlag(true);
-                        }
-                      }}
-                    />
-                  </AdminOnly>
-
                   <Flex direction="column" gap={8}>
-                    {isMultiPhase ? (
-                      canEditPhaseTitle ? (
-                        <Box w="auto">
-                          <Input
-                            isDisabled={!canEdit}
-                            // size="sm"
-                            borderColor="borderColor"
-                            variant="outline"
-                            w="auto"
-                            type="text"
-                            value={field.metadata?.name}
-                            placeholder={`Phase ${index + 1}`}
-                            onChange={(e) => {
-                              form.setValue(
-                                `phases.${index}.metadata.name`,
-                                e.target.value,
-                              );
-                            }}
-                          />
-                        </Box>
+                    <Flex align="flex-start" justify="space-between">
+                      {isMultiPhase ? (
+                        canEditPhaseTitle ? (
+                          <FormControl>
+                            <Heading as={FormLabel} size="label.md">
+                              Claimphase Name
+                            </Heading>
+                            <Input
+                              w="auto"
+                              isDisabled={!canEdit}
+                              // size="sm"
+                              // borderColor="borderColor"
+                              // variant="outline"
+                              // w="auto"
+                              type="text"
+                              value={field.metadata?.name}
+                              placeholder={`Phase ${index + 1}`}
+                              onChange={(e) => {
+                                form.setValue(
+                                  `phases.${index}.metadata.name`,
+                                  e.target.value,
+                                );
+                              }}
+                            />
+                            <FormHelperText>
+                              This does not affect how your claim phase
+                              functions and is for organizational purposes only.
+                            </FormHelperText>
+                          </FormControl>
+                        ) : (
+                          <Heading size="label.lg">
+                            {field.metadata?.name || `Phase ${index + 1}`}
+                          </Heading>
+                        )
                       ) : (
-                        <Heading size="label.lg">
-                          {field.metadata?.name || `Phase ${index + 1}`}
-                        </Heading>
-                      )
-                    ) : (
-                      <Heading size="label.lg">Claim Conditions</Heading>
-                    )}
+                        <Heading size="label.lg">Claim Conditions</Heading>
+                      )}
+                      <AdminOnly contract={contract as ValidContractInstance}>
+                        <IconButton
+                          size="sm"
+                          variant="ghost"
+                          aria-label="Delete Claim Phase"
+                          colorScheme="red"
+                          icon={<Icon as={FiTrash} />}
+                          isDisabled={mutation.isLoading}
+                          onClick={() => {
+                            removePhase(index);
+                            if (!isMultiPhase) {
+                              setResetFlag(true);
+                            }
+                          }}
+                        />
+                      </AdminOnly>
+                    </Flex>
 
                     <Flex
                       direction={{
