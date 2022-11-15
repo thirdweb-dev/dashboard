@@ -119,6 +119,11 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           ?.publishedMetadata,
         changelog: "",
         version: placeholderVersion,
+        displayName:
+          prePublishMetadata.data?.latestPublishedContractMetadata
+            ?.publishedMetadata.title ||
+          prePublishMetadata.data?.preDeployMetadata.info.notice ||
+          "",
         description:
           prePublishMetadata.data?.latestPublishedContractMetadata
             ?.publishedMetadata.description ||
@@ -282,7 +287,12 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               )}
             </Flex>
           </Flex>
-          <FormControl isInvalid={!!errors.Description}>
+          <FormControl isInvalid={!!errors.displayName}>
+            <FormLabel>Display Name</FormLabel>
+            <Input {...register("displayName")} disabled={isDisabled} />
+            <FormErrorMessage>{errors?.displayName?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.description}>
             <FormLabel>Description</FormLabel>
             <Input {...register("description")} disabled={isDisabled} />
             <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
