@@ -13,6 +13,7 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
+import { DropContract } from "@thirdweb-dev/react";
 import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useEffect, useMemo } from "react";
@@ -28,11 +29,11 @@ import {
 } from "tw-components";
 
 interface EmbedSetupProps {
-  contract?: ValidContractInstance | null;
-  contractType?: string | null;
+  contract: DropContract;
+  ercOrMarketplace: string;
 }
 
-const IPFS_URI = "ipfs://QmeuAdknvp9AjoeHKAJujou9j9z1nmVERBPsMNaMLQs2As";
+const IPFS_URI = "ipfs://QmceLPomgQXYXFoWNeTZniRF3MRwBFEEsrRq5XC9LEujp9";
 
 interface IframeSrcOptions {
   rpcUrl: string;
@@ -73,11 +74,11 @@ const isValidUrl = (url: string | undefined) => {
 };
 
 const buildIframeSrc = (
-  contract?: ValidContractInstance,
-  contractType?: ContractType,
+  contract?: DropContract,
+  ercOrMarketplace?: string,
   options?: IframeSrcOptions,
 ): string => {
-  const contractEmbedHash = `${IPFS_URI}/${contractType}.html`;
+  const contractEmbedHash = `${IPFS_URI}/${ercOrMarketplace}.html`;
 
   if (!contract || !options || !contractEmbedHash || !options.chainId) {
     return "";
@@ -102,10 +103,10 @@ const buildIframeSrc = (
   url.searchParams.append("contract", contract.getAddress());
   url.searchParams.append("chainId", chainId.toString());
 
-  if (tokenId !== undefined && contractType === "edition-drop") {
+  if (tokenId !== undefined && ercOrMarketplace === "erc1155") {
     url.searchParams.append("tokenId", tokenId.toString());
   }
-  if (listingId !== undefined && contractType === "marketplace") {
+  if (listingId !== undefined && ercOrMarketplace === "marketplace") {
     url.searchParams.append("listingId", listingId.toString());
   }
   if (rpcUrl) {
@@ -134,7 +135,7 @@ const buildIframeSrc = (
 
 export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   contract,
-  contractType,
+  ercOrMarketplace,
 }) => {
   const trackEvent = useTrack();
   const { register, watch } = useForm<{
@@ -164,14 +165,10 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   const chainId = useDashboardEVMChainId();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const iframeSrc = buildIframeSrc(
-    contract as unknown as ValidContractInstance,
-    contractType as ContractType,
-    {
-      chainId,
-      ...watch(),
-    },
-  );
+  const iframeSrc = buildIframeSrc(contract, ercOrMarketplace, {
+    chainId,
+    ...watch(),
+  });
 
   const embedCode = useMemo(
     () =>
@@ -204,7 +201,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
             <FormLabel>IPFS Gateway</FormLabel>
             <Input type="url" {...register("ipfsGateway")} />
           </FormControl>
-          {contractType === "marketplace" ? (
+          {ercOrMarketplace === "marketplace" ? (
             <FormControl>
               <FormLabel>Listing ID</FormLabel>
               <Input type="number" {...register("listingId")} />
@@ -213,7 +210,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
               </FormHelperText>
             </FormControl>
           ) : null}
-          {contractType === "edition-drop" ? (
+          {ercOrMarketplace === "erc1155" ? (
             <FormControl>
               <FormLabel>Token ID</FormLabel>
               <Input type="number" {...register("tokenId")} />
@@ -230,7 +227,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
             </FormHelperText>
           </FormControl>
 
-          {contractType === "marketplace" ? null : (
+          {ercOrMarketplace === "marketplace" ? null : (
             <FormControl gap={4}>
               <Heading size="title.sm" my={4}>
                 Gasless
@@ -299,7 +296,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
               Used for the main actions button backgrounds.
             </FormHelperText>
           </FormControl>
-          {contractType === "marketplace" ? (
+          {ercOrMarketplace === "marketplace" ? (
             <FormControl>
               <FormLabel>Secondary Color</FormLabel>
               <Select {...register("secondaryColor")}>
