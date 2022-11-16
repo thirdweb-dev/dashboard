@@ -10,21 +10,9 @@ import posthog from "posthog-js";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
-function safeVersionAsInt(version = "latest") {
-  try {
-    const parsed = parseInt(version);
-    if (isNaN(parsed)) {
-      return undefined;
-    }
-    return parsed;
-  } catch (e) {
-    return undefined;
-  }
-}
-
 export function useDeploy<TContractType extends PrebuiltContractType>(
   contractType?: TContractType,
-  contractVersion?: string,
+  contractVersion = "latest",
 ) {
   const sdk = useSDK();
   return useMutationWithInvalidate(
@@ -39,7 +27,7 @@ export function useDeploy<TContractType extends PrebuiltContractType>(
       const contractAddress = await sdk.deployer.deployBuiltInContract(
         contractType,
         metadata,
-        safeVersionAsInt(contractVersion),
+        contractVersion,
       );
       return { contractAddress };
     },
