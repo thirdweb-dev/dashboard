@@ -220,10 +220,23 @@ export function useContractRouteConfig(
             contractQuery,
             matchStrategy: "any",
             feature: [
-              "ERC721ClaimableWithConditionsV1",
-              "ERC721ClaimableWithConditionsV2",
-              "ERC20ClaimableWithConditions",
-              "ERC1155ClaimableWithConditions",
+              // erc 721
+              "ERC721ClaimPhasesV1",
+              "ERC721ClaimPhasesV2",
+              "ERC721ClaimConditionsV1",
+              "ERC721ClaimConditionsV2",
+
+              // erc 1155
+              "ERC1155ClaimPhasesV1",
+              "ERC1155ClaimPhasesV2",
+              "ERC1155ClaimConditionsV1",
+              "ERC1155ClaimConditionsV2",
+
+              // erc 20
+              "ERC20ClaimConditionsV1",
+              "ERC20ClaimConditionsV2",
+              "ERC20ClaimPhasesV1",
+              "ERC20ClaimPhasesV2",
             ],
           }),
     },
