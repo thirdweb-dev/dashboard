@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { DropContract } from "@thirdweb-dev/react";
-import { ContractType, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
