@@ -1,7 +1,6 @@
 import { EmbedSetup } from "./components/embed-setup";
 import { Flex } from "@chakra-ui/react";
-import { useContract, useContractType } from "@thirdweb-dev/react";
-import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
+import { getErcs, useContract, useContractType } from "@thirdweb-dev/react";
 
 interface CustomContractEmbedPageProps {
   contractAddress?: string;
@@ -13,6 +12,19 @@ export const CustomContractEmbedPage: React.FC<
   const contractQuery = useContract(contractAddress);
   const { data: contractType } = useContractType(contractAddress);
 
+  const { erc20, erc1155, erc721 } = getErcs(contractQuery?.contract);
+
+  const ercOrMarketplace =
+    contractType === "marketplace"
+      ? "marketplace"
+      : erc20
+      ? "erc20"
+      : erc1155
+      ? "erc1155"
+      : erc721
+      ? "erc721"
+      : null;
+
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
@@ -20,12 +32,12 @@ export const CustomContractEmbedPage: React.FC<
 
   return (
     <Flex direction="column" gap={6}>
-      contractQuery?.contract && (
-      <EmbedSetup
-        contract={contractQuery.contract}
-        contractType={contractType}
-      />
-      )
+      {contractQuery?.contract && ercOrMarketplace && (
+        <EmbedSetup
+          contract={contractQuery.contract}
+          ercOrMarketplace={ercOrMarketplace}
+        />
+      )}
     </Flex>
   );
 };

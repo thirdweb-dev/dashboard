@@ -90,12 +90,6 @@ export function useContractRouteConfig(
   const { data: appURI } = useContractRead(contractQuery.contract, "appURI");
 
   const contractTypeQuery = contractType.useQuery(contractAddress);
-  const embedEnabled =
-    contractTypeQuery.data === "nft-drop" ||
-    contractTypeQuery.data === "marketplace" ||
-    contractTypeQuery.data === "edition-drop" ||
-    contractTypeQuery.data === "token-drop" ||
-    contractTypeQuery.data === "signature-drop";
 
   return [
     {
@@ -218,9 +212,18 @@ export function useContractRouteConfig(
         )),
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
-        : embedEnabled
+        : contractTypeQuery.data === "marketplace"
         ? "enabled"
-        : "disabled",
+        : extensionDetectedState({
+            contractQuery,
+            matchStrategy: "any",
+            feature: [
+              "ERC721ClaimableWithConditionsV1",
+              "ERC721ClaimableWithConditionsV2",
+              "ERC20ClaimableWithConditions",
+              "ERC1155ClaimableWithConditions",
+            ],
+          }),
     },
     {
       title: "App",
