@@ -3442,14 +3442,14 @@
     "@thirdweb-dev/contracts" "^3.2.2"
 
 "@thirdweb-dev/contracts@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.2.2.tgz#dac0587337258369081fa1e2edb2570f79d61e95"
-  integrity sha512-s5ZHZBF8iyoWtEKFJJDdpdwQ2TMuF0sCGdvIYxLLdoRsEtW1gPOp2icis+LTtdvly5+uaSF8ZW3RVdX9A/b4Nw==
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.2.4.tgz#cff142fbd2d7cad0cab32b2019d4a1c26406abf8"
+  integrity sha512-P1CyGONe3OO2aqsdS4vroTP/VKrdRDEXG75231I3Cy7DmO7BXkKEq58myzTbcA6Xf1F8+ek/XFW6HqFGNsxuVw==
 
-"@thirdweb-dev/react@3.6.0-dev-ae6bb8a":
-  version "3.6.0-dev-ae6bb8a"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.0-dev-ae6bb8a.tgz#e478a86e8e5178144d41be508a9fc1145a1bb8c3"
-  integrity sha512-gG14kIAaQIKTwD7sIut/shAd4qV2dFdO1cKcdnKvlut2Wh83ZseFjlG1Zp1xpIYVkBHfowjGjdUZZFEBRHqI6Q==
+"@thirdweb-dev/react@3.6.0-dev-e14518a":
+  version "3.6.0-dev-e14518a"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.0-dev-e14518a.tgz#af57279b826b5025b1287f531abddcbd69aea8dc"
+  integrity sha512-JfIYFQf7weq/jJPIlh6KH8ikvleYnpg2ntg/6/Xfl1Tq182VxQoLVL8fRlnqkg37uzWl1ONvV7y1pziEfHye1A==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3471,10 +3471,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@3.6.0-dev-ae6bb8a":
-  version "3.6.0-dev-ae6bb8a"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0-dev-ae6bb8a.tgz#88ab3cfabc319802ce28ee2addf466679c3a8216"
-  integrity sha512-qD6nHpPpdivywi5GjCRbkfWLX5FKyqVr0B4Ofb4iIkAnwARqlXba8yNFZhEIFnchvLe/8z6xTX9QYtdjotcQGw==
+"@thirdweb-dev/sdk@3.6.0-dev-e14518a":
+  version "3.6.0-dev-e14518a"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0-dev-e14518a.tgz#c3b3858883c62f702f3be00b86bdd618b4030c1a"
+  integrity sha512-sXwuhCqkwZG4kA77rfHHj+sXTCKFWDEph1S/1gVFOI0l4djqA9EuS2EX/FU3x8SNyBvvhqA4Xe8cBNC6DPy4HA==
   dependencies:
     "@metaplex-foundation/js" "0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "2.2.2"
@@ -8505,9 +8505,9 @@ lines-and-columns@^1.1.6:
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
 loader-utils@^1.0.2:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.1.tgz#278ad7006660bccc4d2c0c1578e17c5c78d5c0e0"
-  integrity sha512-1Qo97Y2oKaU+Ro2xnDMR26g1BwMT29jNbem1EvcujW2jqt+j5COXyscjM7bLQkM9HaxI7pkWeW7gnI072yMI9Q==
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.2.tgz#29a957f3a63973883eb684f10ffd3d151fec01a3"
+  integrity sha512-I5d00Pd/jwMD2QCduo657+YM/6L3KZu++pmX9VFncxaxvHcru9jx1lBaFft+r4Mt2jK0Yhp41XlRAihzPxHNCg==
   dependencies:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
