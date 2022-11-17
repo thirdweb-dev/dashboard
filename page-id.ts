@@ -78,6 +78,7 @@ export enum PageId {
   // ---------------------------------------------------------------------------
 
   FaucetSolana = "faucet-solana",
+  MumbaiFaucet = "faucet-mumbai",
 
   // ---------------------------------------------------------------------------
   //  "release" product pages

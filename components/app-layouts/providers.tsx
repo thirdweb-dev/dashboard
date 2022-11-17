@@ -65,6 +65,11 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
       }}
       storageInterface={StorageSingleton}
       walletConnectors={walletConnectors}
+      authConfig={{
+        authUrl: "/api/auth",
+        domain: "thirdweb.com",
+        loginRedirect: "/faucet/mumbai",
+      }}
     >
       <SolanaProvider>{children}</SolanaProvider>
     </ThirdwebProvider>
