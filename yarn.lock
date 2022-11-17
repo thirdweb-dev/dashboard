@@ -3471,17 +3471,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-<<<<<<< HEAD
-"@thirdweb-dev/sdk@3.6.1-dev-48f6f8e":
-  version "3.6.1-dev-48f6f8e"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.1-dev-48f6f8e.tgz#00159b859be62573e965eafd8d17334467fc7714"
-  integrity sha512-Y+dlF5ZcdFo+U5N19ZqFkKmG6wuh/td8BUE39yXfs+icWcxSUdVOOf0z5cKZRepnfrCoHHzymkuiZ31XZsQtFg==
-=======
-"@thirdweb-dev/sdk@^3.6.0":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.0.tgz#102e73ce7fc26114e41e2217d0c753559a170a1f"
-  integrity sha512-45SWHUuUjbRTBTWB5cDHWCM2Z1QnDpnX/O5dvq9CvhYTYlWlQzUrmUvvS/f69xbU43rL+IHBPubQ1PDpKX+QHQ==
->>>>>>> main
+"@thirdweb-dev/sdk@3.6.1-dev-8d510d7":
+  version "3.6.1-dev-8d510d7"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.1-dev-8d510d7.tgz#8bde29e004474eea1dc98d38cec0963e283b99ff"
+  integrity sha512-rA+0AFqndvGMslTQaZDdwN1QZevLt0VXL1ubgLeKy8B6lCLI3sbBXJrlzKg4LzilYzKVVwqCT24mg2haJ2fvhw==
   dependencies:
     "@metaplex-foundation/js" "0.15.0"
     "@metaplex-foundation/mpl-token-metadata" "2.2.2"
