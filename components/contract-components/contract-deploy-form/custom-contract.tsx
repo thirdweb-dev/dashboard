@@ -314,7 +314,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             !!disabledChains?.find((chain) => chain === selectedChain)
           }
           colorScheme="primary"
-          transactionCount={!watch("addToDashboard") ? 1 : 2}
+          transactionCount={isTwFactory ? 1 : !watch("addToDashboard") ? 1 : 2}
         >
           Deploy Now
         </TransactionButton>
