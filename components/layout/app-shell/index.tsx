@@ -33,12 +33,14 @@ import { ComponentWithChildren } from "types/component-with-children";
 export interface AppShellProps {
   layout?: "custom-contract";
   ecosystem?: "evm" | "solana" | "either";
+  noSEOOverride?: boolean;
 }
 
 export const AppShell: ComponentWithChildren<AppShellProps> = ({
   children,
   layout,
   ecosystem = "either",
+  noSEOOverride,
 }) => {
   const { pathname } = useRouter();
   const address = useAddress();
@@ -52,13 +54,15 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
       overflow="hidden"
       backgroundColor="backgroundBody"
     >
-      <NextSeo
-        title="Dashboard"
-        openGraph={{
-          title: "Dashboard | thirdweb",
-          url: `https://thirdweb.com/dashboard`,
-        }}
-      />
+      {!noSEOOverride && (
+        <NextSeo
+          title="Dashboard"
+          openGraph={{
+            title: "Dashboard | thirdweb",
+            url: `https://thirdweb.com/dashboard`,
+          }}
+        />
+      )}
       <Flex
         transition="margin 350ms ease"
         zIndex="docked"

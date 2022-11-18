@@ -1,5 +1,5 @@
 import { ContractPublisher, replaceDeployerAddress } from "../publisher";
-import { ExtensionBar } from "./extension-bar";
+// import { ExtensionBar } from "./extension-bar";
 import {
   Center,
   Flex,
@@ -19,29 +19,17 @@ import {
   fetchContractPublishMetadataFromURI,
 } from "components/contract-components/hooks";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BsShieldCheck } from "react-icons/bs";
 import { FiExternalLink, FiImage } from "react-icons/fi";
 import invariant from "tiny-invariant";
-import { Button, Card, Heading, Link, Text } from "tw-components";
-import { isBrowser } from "utils/isBrowser";
+import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
 interface ContractCardProps {
   publisher: string;
   contractId: string;
   version?: string;
   slim?: boolean;
-}
-
-function appendViaParam(url: string) {
-  if (isBrowser()) {
-    let via = window.location.pathname;
-    if (via.endsWith("/")) {
-      via = via.slice(0, -1);
-    }
-    return `${url + (url.includes("?") ? "&" : "?")}via=${via}`;
-  }
-  return url;
 }
 
 export const ContractCard: React.FC<ContractCardProps> = ({
@@ -57,6 +45,10 @@ export const ContractCard: React.FC<ContractCardProps> = ({
   const showSkeleton =
     publishedContractResult.isLoading ||
     publishedContractResult.isPlaceholderData;
+  const [via, setVia] = useState("");
+  useEffect(() => {
+    setVia(window.location.pathname.slice(0, -1));
+  }, []);
 
   const href = useMemo(() => {
     let h: string;
@@ -65,9 +57,12 @@ export const ContractCard: React.FC<ContractCardProps> = ({
     } else {
       h = `/${publisher}/${contractId}`;
     }
+    if (via) {
+      h += `?via=${via}`;
+    }
 
-    return appendViaParam(replaceDeployerAddress(h));
-  }, [contractId, publisher, version]);
+    return replaceDeployerAddress(h);
+  }, [contractId, publisher, version, via]);
 
   return (
     <LinkBox as="article" minW="300px">
@@ -200,8 +195,10 @@ export const ContractCard: React.FC<ContractCardProps> = ({
                 w={showSkeleton ? "50%" : "auto"}
               >
                 <LinkOverlay
+                  as={TrackedLink}
+                  category="contract_card"
+                  label={contractId}
                   noMatch
-                  as={Link}
                   href={href}
                   _hover={{ textDecor: "none" }}
                 >
@@ -280,9 +277,9 @@ export const ContractCard: React.FC<ContractCardProps> = ({
             </Flex>
           </Flex>
         </Flex>
-        <ExtensionBar
+        {/* <ExtensionBar
           extensions={publishedContractResult.data?.extensions || []}
-        />
+        /> */}
       </Card>
     </LinkBox>
   );

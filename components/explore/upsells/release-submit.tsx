@@ -1,5 +1,5 @@
 import { ButtonGroup, Flex } from "@chakra-ui/react";
-import { Button, Card, Heading, LinkButton, Text } from "tw-components";
+import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 export const ReleaseUpsellCard: React.FC = () => {
   return (
@@ -24,26 +24,35 @@ export const ReleaseUpsellCard: React.FC = () => {
       </Text>
 
       <ButtonGroup size="size">
-        <Button
+        <TrackedLink
+          as={LinkButton}
+          category="release_upsell"
+          label="contact_us"
           bg="accent.900"
           color="accent.100"
           borderColor="accent.900"
           borderWidth="1px"
+          href="https://form.typeform.com/to/FAwehBFl"
+          isExternal
+          noIcon
           _hover={{
             bg: "transparent",
             color: "accent.900",
           }}
         >
           Contact us
-        </Button>
-        <LinkButton
+        </TrackedLink>
+        <TrackedLink
+          as={LinkButton}
+          category="release_upsell"
+          label="learn_more"
           variant="ghost"
           href="https://portal.thirdweb.com/release"
           isExternal
           noIcon
         >
           Learn More
-        </LinkButton>
+        </TrackedLink>
       </ButtonGroup>
     </Card>
   );

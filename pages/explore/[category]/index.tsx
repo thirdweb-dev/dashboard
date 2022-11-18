@@ -1,7 +1,7 @@
 import {
-  Box,
   Breadcrumb,
   BreadcrumbItem,
+  BreadcrumbLink,
   Flex,
   Icon,
   SimpleGrid,
@@ -36,29 +36,38 @@ const ExploreCategoryPage: ThirdwebNextPage = (
       />
       <Flex direction="column" gap={{ base: 6, md: 12 }}>
         <Flex direction="column" gap={{ base: 2, md: 4 }}>
-          <Heading as="span" size="display.sm">
-            <Breadcrumb fontWeight={400} separator={<Box mx={2}>/</Box>}>
+          <Flex direction="column" gap={0}>
+            <Breadcrumb fontWeight={400}>
               <BreadcrumbItem>
-                <Link href="/explore">
-                  <Flex as="span" align="center">
+                <Link as={BreadcrumbLink} href="/explore">
+                  <Flex
+                    gap={1}
+                    as={Heading}
+                    size="label.md"
+                    fontWeight={400}
+                    align="center"
+                  >
                     <Icon as={FiChevronLeft} />
                     Explore
                   </Flex>
                 </Link>
               </BreadcrumbItem>
-              <BreadcrumbItem>
-                <Heading as="h1" size="display.sm">
-                  <Box as="span" display={{ base: "none", md: "block" }}>
-                    {props.category.name}
-                  </Box>
-                  <Box as="span" display={{ base: "block", md: "none" }}>
-                    {props.category.shortName || props.category.name}
-                  </Box>
-                </Heading>
+              <BreadcrumbItem isCurrentPage>
+                <Link
+                  as={BreadcrumbLink}
+                  href={`/explore/${props.category.id}`}
+                  aria-current="page"
+                >
+                  <Heading size="label.md">{props.category.name}</Heading>
+                </Link>
               </BreadcrumbItem>
             </Breadcrumb>
-          </Heading>
-          <Text size="body.xl" maxW="container.md">
+
+            <Heading as="h1" size="display.sm">
+              {props.category.name}
+            </Heading>
+          </Flex>
+          <Text as="h2" size="body.xl" maxW="container.md">
             {props.category.description}
           </Text>
         </Flex>
@@ -80,7 +89,7 @@ const ExploreCategoryPage: ThirdwebNextPage = (
 };
 
 ExploreCategoryPage.getLayout = (page: ReactElement) => (
-  <AppLayout>
+  <AppLayout noSEOOverride>
     <PublisherSDKContext>{page}</PublisherSDKContext>
   </AppLayout>
 );

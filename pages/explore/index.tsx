@@ -53,7 +53,7 @@ const ExplorePage: ThirdwebNextPage = (
 };
 
 ExplorePage.getLayout = (page: ReactElement) => (
-  <AppLayout>
+  <AppLayout noSEOOverride>
     <PublisherSDKContext>{page}</PublisherSDKContext>
   </AppLayout>
 );

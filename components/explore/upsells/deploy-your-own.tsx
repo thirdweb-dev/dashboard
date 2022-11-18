@@ -1,5 +1,11 @@
 import { Flex } from "@chakra-ui/react";
-import { Card, CodeBlock, Heading, LinkButton } from "tw-components";
+import {
+  Card,
+  CodeBlock,
+  Heading,
+  LinkButton,
+  TrackedLink,
+} from "tw-components";
 
 export const DeployUpsellCard: React.FC = () => {
   return (
@@ -27,7 +33,10 @@ export const DeployUpsellCard: React.FC = () => {
           <Heading size="label.lg" as="h3">
             Create your contract using our CLI.
           </Heading>
-          <LinkButton
+          <TrackedLink
+            as={LinkButton}
+            category="deploy_upsell"
+            label="contract_kit"
             size="sm"
             colorScheme="blue"
             href="https://portal.thirdweb.com/contractkit"
@@ -35,7 +44,7 @@ export const DeployUpsellCard: React.FC = () => {
             variant="ghost"
           >
             Learn about ContractKit
-          </LinkButton>
+          </TrackedLink>
         </Flex>
 
         <CodeBlock
@@ -50,7 +59,10 @@ export const DeployUpsellCard: React.FC = () => {
             Deploy effortlessly and get access to all the same benefits as
             released contracts.
           </Heading>
-          <LinkButton
+          <TrackedLink
+            as={LinkButton}
+            category="deploy_upsell"
+            label="contract_kit"
             size="sm"
             colorScheme="blue"
             href="https://portal.thirdweb.com/deploy"
@@ -58,7 +70,7 @@ export const DeployUpsellCard: React.FC = () => {
             variant="ghost"
           >
             Learn about Deploy
-          </LinkButton>
+          </TrackedLink>
         </Flex>
 
         <CodeBlock
