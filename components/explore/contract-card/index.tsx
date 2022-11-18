@@ -1,7 +1,9 @@
-import { ContractPublisher } from "../publisher";
+import { ContractPublisher, replaceDeployerAddress } from "../publisher";
 import {
+  Center,
   Flex,
   Icon,
+  IconButton,
   Image,
   LinkBox,
   LinkOverlay,
@@ -12,37 +14,65 @@ import { QueryClient } from "@tanstack/query-core";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ensQuery } from "components/contract-components/hooks";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
+import { useMemo } from "react";
 import { BsShieldCheck } from "react-icons/bs";
-import { VscVersions } from "react-icons/vsc";
+import { FiExternalLink, FiImage } from "react-icons/fi";
 import invariant from "tiny-invariant";
-import { Card, Heading, Link, LinkButton, Text } from "tw-components";
+import { Button, Card, Heading, Link, Text } from "tw-components";
+import { isBrowser } from "utils/isBrowser";
 
 interface ContractCardProps {
   publisher: string;
   contractId: string;
+  version?: string;
+  slim?: boolean;
+}
+
+function appendViaParam(url: string) {
+  if (isBrowser()) {
+    let via = window.location.pathname;
+    if (via.endsWith("/")) {
+      via = via.slice(0, -1);
+    }
+    return `${url + (url.includes("?") ? "&" : "?")}via=${via}`;
+  }
+  return url;
 }
 
 export const ContractCard: React.FC<ContractCardProps> = ({
   publisher,
   contractId,
+  version = "latest",
+  slim,
 }) => {
   const publishedContractResult = usePublishedContract(
-    `${publisher}/${contractId}`,
+    `${publisher}/${contractId}/${version}`,
   );
 
   const showSkeleton =
     publishedContractResult.isLoading ||
     publishedContractResult.isPlaceholderData;
 
+  const href = useMemo(() => {
+    let h: string;
+    if (version !== "latest") {
+      h = `/${publisher}/${contractId}/${version}`;
+    } else {
+      h = `/${publisher}/${contractId}`;
+    }
+
+    return appendViaParam(replaceDeployerAddress(h));
+  }, [contractId, publisher, version]);
+
   return (
-    <LinkBox as="article">
+    <LinkBox as="article" minW="300px">
       <Card
         role="group"
         p={3}
         display="flex"
         gap={3}
         flexDir="column"
-        minHeight="170px"
+        minHeight={slim ? undefined : "170px"}
         borderColor="borderColor"
         transition="150ms border-color ease-in-out"
         _hover={{
@@ -54,66 +84,131 @@ export const ContractCard: React.FC<ContractCardProps> = ({
           },
         }}
       >
-        <Flex align="center" justify="space-between">
-          <Skeleton
-            boxSize={8}
+        {slim ? (
+          <IconButton
+            variant="solid"
+            icon={<Icon as={FiExternalLink} />}
+            size="sm"
+            p={0}
             borderRadius="full"
-            overflow="hidden"
-            isLoaded={!showSkeleton}
-          >
-            {(publishedContractResult.data?.logo || showSkeleton) && (
-              <Image
-                alt={
-                  publishedContractResult.data?.displayName ||
-                  publishedContractResult.data?.name
-                }
-                boxSize="full"
-                src={replaceIpfsUrl(publishedContractResult.data?.logo || "")}
-              />
-            )}
-          </Skeleton>
-          <Skeleton isLoaded={!showSkeleton} borderRadius="full">
-            <LinkOverlay
-              as={LinkButton}
-              href={`/${publisher}/${contractId}`}
-              size="sm"
-              variant="outline"
+            position="absolute"
+            top={0}
+            right={0}
+            transform="translate(33%, -33%)"
+            aria-label="Open release"
+            opacity={0}
+            _dark={{
+              bg: "white",
+              color: "black",
+            }}
+            _light={{
+              bg: "black",
+              color: "white",
+            }}
+            _groupHover={{
+              opacity: 1,
+            }}
+          />
+        ) : (
+          <Flex align="center" justify="space-between">
+            <Skeleton
+              boxSize={8}
               borderRadius="full"
-              borderColor="borderColor"
-              fontSize={12}
-              _groupHover={{
-                _dark: {
-                  bg: "white",
-                  color: "black",
-                },
-                _light: {
-                  bg: "black",
-                  color: "white",
-                },
-              }}
+              overflow="hidden"
+              isLoaded={!showSkeleton}
             >
-              Deploy
-            </LinkOverlay>
-          </Skeleton>
-        </Flex>
+              {publishedContractResult.data?.logo ? (
+                <Image
+                  alt={
+                    publishedContractResult.data?.displayName ||
+                    publishedContractResult.data?.name
+                  }
+                  boxSize="full"
+                  src={replaceIpfsUrl(publishedContractResult.data?.logo || "")}
+                />
+              ) : (
+                <Center
+                  boxSize="full"
+                  borderWidth="1px"
+                  borderColor="borderColor"
+                  borderRadius="50%"
+                >
+                  <Icon boxSize="50%" color="accent.300" as={FiImage} />
+                </Center>
+              )}
+            </Skeleton>
+            <Skeleton isLoaded={!showSkeleton} borderRadius="full">
+              <Button
+                size="sm"
+                variant="outline"
+                borderRadius="full"
+                borderColor="borderColor"
+                fontSize={12}
+                _groupHover={{
+                  _dark: {
+                    bg: "white",
+                    color: "black",
+                  },
+                  _light: {
+                    bg: "black",
+                    color: "white",
+                  },
+                }}
+              >
+                Deploy
+              </Button>
+            </Skeleton>
+          </Flex>
+        )}
+
         <Flex direction="column" gap={2}>
-          <Skeleton
-            noOfLines={1}
-            isLoaded={!showSkeleton}
-            w={showSkeleton ? "50%" : "auto"}
-          >
-            <Heading as="h3" noOfLines={1} size="label.lg">
-              {publishedContractResult.data?.displayName ||
-                publishedContractResult.data?.name}
-            </Heading>
-          </Skeleton>
+          <Flex gap={1} align="center">
+            {slim && (publishedContractResult.data?.logo || showSkeleton) && (
+              <Skeleton
+                boxSize={5}
+                borderRadius="full"
+                overflow="hidden"
+                isLoaded={!showSkeleton}
+              >
+                {publishedContractResult.data?.logo && (
+                  <Image
+                    alt={
+                      publishedContractResult.data?.displayName ||
+                      publishedContractResult.data?.name
+                    }
+                    boxSize="full"
+                    src={replaceIpfsUrl(
+                      publishedContractResult.data?.logo || "",
+                    )}
+                  />
+                )}
+              </Skeleton>
+            )}
+            <Skeleton
+              noOfLines={1}
+              isLoaded={!showSkeleton}
+              w={showSkeleton ? "50%" : "auto"}
+            >
+              <LinkOverlay
+                noMatch
+                as={Link}
+                href={href}
+                _hover={{ textDecor: "none" }}
+              >
+                <Heading as="h3" noOfLines={1} size="label.lg">
+                  {publishedContractResult.data?.displayName ||
+                    publishedContractResult.data?.name}
+                </Heading>
+              </LinkOverlay>
+            </Skeleton>
+          </Flex>
           <SkeletonText
             isLoaded={!showSkeleton}
             spacing={3}
             noOfLines={2}
             my={showSkeleton ? 2 : 0}
           >
-            <Text size="body.md" noOfLines={2}>
+            <Text size="body.md" noOfLines={slim ? 1 : 2}>
               {publishedContractResult.data?.description}
             </Text>
           </SkeletonText>
@@ -163,12 +258,9 @@ export const ContractCard: React.FC<ContractCardProps> = ({
             )}
             {(showSkeleton || publishedContractResult.data?.version) && (
               <Flex align="center" gap={0.5}>
-                <Skeleton boxSize={5} isLoaded={!showSkeleton}>
-                  <Icon as={VscVersions} />
-                </Skeleton>
                 <Skeleton isLoaded={!showSkeleton}>
                   <Text color="inherit" size="label.sm" fontWeight={500}>
-                    {publishedContractResult.data?.version}
+                    v{publishedContractResult.data?.version}
                   </Text>
                 </Skeleton>
               </Flex>
@@ -181,11 +273,14 @@ export const ContractCard: React.FC<ContractCardProps> = ({
 };
 
 // data fetching
-export type PublishedContractId = `${string}/${string}`;
+export type PublishedContractId =
+  | `${string}/${string}`
+  | `${string}/${string}/${string}`;
 
 async function queryFn(
   publisher: string,
   contractId: string,
+  version = "latest",
   queryClient: QueryClient,
 ) {
   // polygon is chainID 137
@@ -209,7 +304,7 @@ async function queryFn(
   invariant(publisherEns.address, "publisher address not found");
   const latestPublishedVersion = await polygonSdk
     .getPublisher()
-    .getLatest(publisherEns.address, contractId);
+    .getVersion(publisherEns.address, contractId, version);
   invariant(latestPublishedVersion, "no release found");
   const contractInfo = await polygonSdk
     .getPublisher()
@@ -229,7 +324,7 @@ async function queryFn(
     //   docLinks: extension.docLinks,
     //   namespace: extension.namespace,
     // })),
-    publishedContractId: `${publisher}/${contractId}`,
+    publishedContractId: `${publisher}/${contractId}/${version}`,
   };
 }
 
@@ -237,10 +332,10 @@ export function publishedContractQuery(
   publishedContractId: PublishedContractId,
   queryClient: QueryClient,
 ) {
-  const [publisher, contractId] = publishedContractId.split("/");
+  const [publisher, contractId, version] = publishedContractId.split("/");
   return {
-    queryKey: ["published-contract", { publisher, contractId }],
-    queryFn: () => queryFn(publisher, contractId, queryClient),
+    queryKey: ["published-contract", { publisher, contractId, version }],
+    queryFn: () => queryFn(publisher, contractId, version, queryClient),
     enabled: !!publisher || !!contractId,
     placeholderData: {
       publishedContractId,

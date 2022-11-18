@@ -1,10 +1,12 @@
-import { ButtonGroup, Flex } from "@chakra-ui/react";
-import { Button, Card, CodeBlock, Heading, Text } from "tw-components";
+import { Flex } from "@chakra-ui/react";
+import { Card, CodeBlock, Heading, LinkButton } from "tw-components";
 
 export const DeployUpsellCard: React.FC = () => {
   return (
     <Card
+      as="section"
       my={3}
+      display="flex"
       bg="black"
       borderColor="transparent"
       _light={{
@@ -13,14 +15,28 @@ export const DeployUpsellCard: React.FC = () => {
       }}
       p={8}
       borderRadius="lg"
-      as={Flex}
       gap={6}
       flexDirection="column"
     >
-      <Heading size="title.xl">Need something more custom?</Heading>
+      <Heading as="h2" size="title.xl">
+        Need something more custom?
+      </Heading>
 
-      <Flex direction="column" gap={1}>
-        <Text size="body.lg">Create your contract using our CLI</Text>
+      <Flex direction="column" gap={4}>
+        <Flex gap={1} align="center">
+          <Heading size="label.lg" as="h3">
+            Create your contract using our CLI.
+          </Heading>
+          <LinkButton
+            size="sm"
+            colorScheme="blue"
+            href="https://portal.thirdweb.com/contractkit"
+            isExternal
+            variant="ghost"
+          >
+            Learn about ContractKit
+          </LinkButton>
+        </Flex>
 
         <CodeBlock
           code="npx thirdweb@latest create --contract"
@@ -28,11 +44,22 @@ export const DeployUpsellCard: React.FC = () => {
           prefix=">"
         />
       </Flex>
-      <Flex direction="column" gap={1}>
-        <Text size="body.lg">
-          Deploy effortlessly and get access to all the same benefits as
-          released contracts.
-        </Text>
+      <Flex direction="column" gap={4}>
+        <Flex gap={1} align="center">
+          <Heading size="label.lg" as="h3">
+            Deploy effortlessly and get access to all the same benefits as
+            released contracts.
+          </Heading>
+          <LinkButton
+            size="sm"
+            colorScheme="blue"
+            href="https://portal.thirdweb.com/deploy"
+            isExternal
+            variant="ghost"
+          >
+            Learn about Deploy
+          </LinkButton>
+        </Flex>
 
         <CodeBlock
           code="npx thirdweb@latest deploy"
@@ -40,29 +67,6 @@ export const DeployUpsellCard: React.FC = () => {
           prefix=">"
         />
       </Flex>
-
-      <ButtonGroup size="size" mt={2}>
-        <Button
-          bg="accent.900"
-          color="accent.100"
-          borderColor="accent.900"
-          borderWidth="1px"
-          _hover={{
-            bg: "accent.100",
-            color: "accent.900",
-          }}
-        >
-          Contact us
-        </Button>
-        <Button
-          variant="ghost"
-          _hover={{
-            bg: "accent.200",
-          }}
-        >
-          Learn More
-        </Button>
-      </ButtonGroup>
     </Card>
   );
 };

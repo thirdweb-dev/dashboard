@@ -1,5 +1,5 @@
 import { ButtonGroup, Flex } from "@chakra-ui/react";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Button, Card, Heading, LinkButton, Text } from "tw-components";
 
 export const ReleaseUpsellCard: React.FC = () => {
   return (
@@ -36,14 +36,17 @@ export const ReleaseUpsellCard: React.FC = () => {
         >
           Contact us
         </Button>
-        <Button
+        <LinkButton
           variant="ghost"
           _hover={{
             bg: "accent.200",
           }}
+          href="https://portal.thirdweb.com/release"
+          isExternal
+          noIcon
         >
           Learn More
-        </Button>
+        </LinkButton>
       </ButtonGroup>
     </Card>
   );

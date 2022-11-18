@@ -95,7 +95,7 @@ const TESTNET = {
   name: "Testnet Only",
   shortName: "Testnet",
   description:
-    "Contracts fresh of the presses, available only on testnet for feedback and testing.",
+    "Contracts fresh off the presses, available only on testnet for feedback and testing.",
   contracts: [
     "deployer.thirdweb.eth/NFTStake",
     "deployer.thirdweb.eth/TieredDrop",
@@ -140,7 +140,9 @@ export function prefetchCategory(
 ) {
   return Promise.all(
     category.contracts.map((contract) =>
-      queryClient.fetchQuery(publishedContractQuery(contract, queryClient)),
+      queryClient.fetchQuery(
+        publishedContractQuery(`${contract}/latest`, queryClient),
+      ),
     ),
   );
 }

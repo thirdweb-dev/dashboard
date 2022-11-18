@@ -409,7 +409,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
         <MenuButton
           isLoading={connector.loading}
           as={Button}
-          colorScheme="primary"
+          colorScheme="blue"
           rightIcon={<FiChevronDown />}
           {...buttonProps}
         >
@@ -722,7 +722,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
                 isLoading={isSubmitting}
                 type="submit"
                 borderRadius="md"
-                colorScheme="primary"
+                colorScheme="blue"
               >
                 Connect to Gnosis Safe
               </MismatchButton>
@@ -792,7 +792,7 @@ const MagicModal: React.FC<ConnectorModalProps> = ({ isOpen, onClose }) => {
               isLoading={isSubmitting}
               type="submit"
               borderRadius="md"
-              colorScheme="primary"
+              colorScheme="blue"
             >
               Sign In
             </Button>

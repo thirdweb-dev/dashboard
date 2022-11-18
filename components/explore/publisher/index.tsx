@@ -22,9 +22,10 @@ export const ContractPublisher: React.FC<ContractPublisherProps> = ({
       gap={1.5}
       align="center"
       flexShrink={0}
-      href={`/${
-        ensQuery.data?.ensName || ensQuery.data?.address || addressOrEns
-      }`}
+      noMatch
+      href={replaceDeployerAddress(
+        `/${ensQuery.data?.ensName || ensQuery.data?.address || addressOrEns}`,
+      )}
     >
       <ReleaserAvatar
         isLoading={showSkeleton}
@@ -50,9 +51,10 @@ export const ContractPublisher: React.FC<ContractPublisherProps> = ({
   );
 };
 
-function treatAddress(address: string) {
-  if (address === "deployer.thirdweb.eth") {
-    address = "thirdweb.eth";
-  }
-  return shortenIfAddress(address);
+export function replaceDeployerAddress(address: string) {
+  return address.replace("deployer.thirdweb.eth", "thirdweb.eth");
+}
+
+export function treatAddress(address: string) {
+  return shortenIfAddress(replaceDeployerAddress(address));
 }

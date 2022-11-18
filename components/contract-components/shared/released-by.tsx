@@ -1,13 +1,12 @@
-import { ReleaserAvatar } from "../releaser/masked-avatar";
-import { Flex, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
   useEns,
   useReleasesFromDeploy,
 } from "components/contract-components/hooks";
+import { ContractCard } from "components/explore/contract-card";
 import { useMemo } from "react";
-import { Badge, Card, Heading, Link, Text } from "tw-components";
-import { shortenIfAddress } from "utils/usedapp-external";
+import { CardElevationWrapper } from "tw-components";
 
 interface ReleasedByProps {
   contractAddress: string;
@@ -40,37 +39,16 @@ export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
     return null;
   }
 
-  const releaseUrl = `/${releaserAddress}/${releaseToShow?.name}/${releaseToShow?.version}`;
   return (
-    <Card
-      w={{ base: "100%", md: "330px" }}
-      flexShrink={0}
-      bg="backgroundCardHighlight"
-      as={LinkBox}
-    >
-      <Flex gap={2} direction="column">
-        <Flex justify="space-between" gap={4} align="center">
-          <LinkOverlay as={Link} href={releaseUrl} noMatch>
-            <Heading noOfLines={1} size="label.lg">
-              {releaseToShow.name}
-            </Heading>
-          </LinkOverlay>
-          <Badge flexShrink={0} borderRadius="sm" textTransform="lowercase">
-            v{releaseToShow.version}
-          </Badge>
-        </Flex>
-
-        <Link
-          noMatch
-          display="flex"
-          alignItems="center"
-          gap={1}
-          href={`/${releaserAddress}`}
-        >
-          <ReleaserAvatar address={releaserAddress} boxSize={6} />
-          <Text size="label.md">{shortenIfAddress(releaserAddress, true)}</Text>
-        </Link>
-      </Flex>
-    </Card>
+    <Box maxW="330px">
+      <CardElevationWrapper>
+        <ContractCard
+          contractId={releaseToShow.name}
+          publisher={releaserAddress}
+          version={releaseToShow.version}
+          slim
+        />
+      </CardElevationWrapper>
+    </Box>
   );
 };

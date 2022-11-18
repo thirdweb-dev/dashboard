@@ -121,10 +121,10 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
 }
 
 // metadata PRE release, only contains the compiler output
-// if passing an addres, also fetches the latest version of the matching contract
+// if passing an address, also fetches the latest version of the matching contract
 export function useContractPrePublishMetadata(uri: string, address?: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["pre-publish-metadata", uri, address],
     async () => {
@@ -168,7 +168,7 @@ async function fetchFullPublishMetadata(
 // Metadata POST release, contains all the extra information filled in by the user
 export function useContractFullPublishMetadata(uri: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   const queryClient = useQueryClient();
 
   return useQuery(
@@ -193,9 +193,6 @@ export function useContractFullPublishMetadata(uri: string) {
     },
   );
 }
-export function useReleaserProfile(publisherAddress?: string) {
-  return useQuery(releaserProfileQuery(publisherAddress));
-}
 
 async function fetchReleaserProfile(publisherAddress?: string | null) {
   const sdk = getEVMThirdwebSDK(ChainId.Polygon);
@@ -216,11 +213,15 @@ export function releaserProfileQuery(releaserAddress?: string) {
   };
 }
 
+export function useReleaserProfile(publisherAddress?: string) {
+  return useQuery(releaserProfileQuery(publisherAddress));
+}
+
 export function useLatestRelease(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["latest-release", publisherAddress, contractName],
     async () => {
@@ -293,7 +294,7 @@ export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["all-releases", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
@@ -345,7 +346,7 @@ export async function fetchReleasedContractInfo(
 }
 
 export function useReleasedContractInfo(contract: PublishedContract) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["released-contract", contract],
     () => fetchReleasedContractInfo(sdk, contract),
@@ -408,6 +409,7 @@ interface PublishMutationData {
 }
 
 export function usePublishMutation() {
+  // this has to actually have the signer!
   const sdk = useSDK();
 
   const address = useAddress();
@@ -523,7 +525,7 @@ export type ReleasedContractDetails = Awaited<
 >[number];
 
 export function usePublishedContractsQuery(address?: string) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   const queryClient = useQueryClient();
   return useQuery<ReleasedContractDetails[]>(
     ["published-contracts", address],

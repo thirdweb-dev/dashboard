@@ -2,6 +2,19 @@ import { colors } from "./colors";
 import { fontWeights, letterSpacings, lineHeights } from "./typography";
 import { Theme, extendTheme } from "@chakra-ui/react";
 import { getColor, mode } from "@chakra-ui/theme-tools";
+import { IBM_Plex_Mono, Inter } from "@next/font/google";
+
+// eslint-disable-next-line new-cap
+const inter = Inter({
+  subsets: ["latin"],
+});
+// eslint-disable-next-line new-cap
+const ibmFont = IBM_Plex_Mono({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+// console.log("*** inter", inter);
 
 const chakraTheme: Theme = extendTheme({
   config: {
@@ -9,9 +22,9 @@ const chakraTheme: Theme = extendTheme({
     useSystemColorMode: false,
   } as Theme["config"],
   fonts: {
-    heading: `"Inter", -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif`,
-    body: `"Inter", -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif`,
-    mono: `'IBM Plex Mono', monospace`,
+    heading: inter.style.fontFamily,
+    body: inter.style.fontFamily,
+    mono: ibmFont.style.fontFamily,
   },
   styles: {
     global: {
@@ -92,7 +105,7 @@ const chakraTheme: Theme = extendTheme({
           backdropFilter: "blur(5px)",
         },
         dialog: {
-          background: "accent.100",
+          background: "backgroundHighlight",
         },
       },
     },
@@ -102,7 +115,7 @@ const chakraTheme: Theme = extendTheme({
           backdropFilter: "blur(5px)",
         },
         dialog: {
-          background: "accent.100",
+          background: "backgroundHighlight",
         },
       },
     },
@@ -215,7 +228,7 @@ const chakraTheme: Theme = extendTheme({
       // accent color
       "accent.100": {
         default: "gray.100",
-        _dark: "gray.900",
+        _dark: "gray.800",
       },
       "accent.200": {
         default: "gray.200",

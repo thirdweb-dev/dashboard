@@ -384,7 +384,6 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
               <Tr
                 {...row.getRowProps()}
                 role="group"
-                _hover={{ bg: "accent.100" }}
                 // this is a hack to get around the fact that safari does not handle position: relative on table rows
                 style={{ cursor: "pointer" }}
                 onClick={() => {
@@ -532,8 +531,8 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
     <Skeleton isLoaded={!metadataQuery.isLoading}>
       <ChakraNextLink href={href} passHref>
         <Text
-          color="primary.700"
-          _dark={{ color: "primary.300" }}
+          color="blue.700"
+          _dark={{ color: "blue.300" }}
           size="label.md"
           _groupHover={{ textDecor: "underline" }}
         >

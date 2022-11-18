@@ -12,12 +12,13 @@ import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiGithub } from "@react-icons/all-files/si/SiGithub";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useAddress } from "@thirdweb-dev/react";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
 import { InsufficientFunds } from "components/notices/InsufficientFunds";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
-import { FiExternalLink } from "react-icons/fi";
 import { RiGasStationFill } from "react-icons/ri";
 import {
   Heading,
@@ -40,6 +41,8 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
   ecosystem = "either",
 }) => {
   const { pathname } = useRouter();
+  const address = useAddress();
+  const publicKey = useWallet().publicKey?.toBase58();
 
   const isCustomContractLayout = layout === "custom-contract";
   return (
@@ -82,7 +85,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
             as="header"
             alignItems="center"
           >
-            <Link href="/dashboard">
+            <Link href={address || publicKey ? "/dashboard" : "/explore"}>
               <Logo />
             </Link>
             <Stack
@@ -103,8 +106,68 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 alignItems="center"
               >
                 <Heading size="label.md">Docs</Heading>
-                <Icon boxSize={3} as={FiExternalLink} />
               </TrackedLink>
+              <ButtonGroup
+                variant="ghost"
+                display={{ base: "none", md: "block" }}
+              >
+                <TrackedIconButton
+                  as={LinkButton}
+                  isExternal
+                  noIcon
+                  href="https://twitter.com/thirdweb"
+                  // bg="transparent"
+                  aria-label="twitter"
+                  _hover={{
+                    bg: "accent.200",
+                  }}
+                  icon={<Icon boxSize="1rem" as={SiTwitter} />}
+                  category="header"
+                  label="twitter"
+                />
+                <TrackedIconButton
+                  as={LinkButton}
+                  isExternal
+                  noIcon
+                  href="https://discord.gg/thirdweb"
+                  // bg="transparent"
+                  _hover={{
+                    bg: "accent.200",
+                  }}
+                  aria-label="discord"
+                  icon={<Icon boxSize="1rem" as={SiDiscord} />}
+                  category="header"
+                  label="discord"
+                />
+                <TrackedIconButton
+                  as={LinkButton}
+                  isExternal
+                  noIcon
+                  href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
+                  // bg="transparent"
+                  _hover={{
+                    bg: "accent.200",
+                  }}
+                  aria-label="YouTube"
+                  icon={<Icon boxSize="1rem" as={SiYoutube} />}
+                  category="header"
+                  label="youtube"
+                />
+                <TrackedIconButton
+                  as={LinkButton}
+                  isExternal
+                  noIcon
+                  href="https://github.com/thirdweb-dev"
+                  // bg="transparent"
+                  _hover={{
+                    bg: "accent.200",
+                  }}
+                  aria-label="github"
+                  icon={<Icon boxSize="1rem" as={SiGithub} />}
+                  category="header"
+                  label="github"
+                />
+              </ButtonGroup>
               <TrackedIconButton
                 as={LinkButton}
                 noIcon
@@ -117,7 +180,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 label="gas-estimator"
               />
               <ColorModeToggle />
-              <ConnectWallet colorScheme="primary" ecosystem={ecosystem} />
+              <ConnectWallet colorScheme="blue" ecosystem={ecosystem} />
             </Stack>
           </Container>
         </Box>
@@ -176,67 +239,6 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                     Terms of Service
                   </TrackedLink>
                 </Flex>
-                <ButtonGroup
-                  variant="ghost"
-                  display={{ base: "none", md: "block" }}
-                >
-                  <TrackedIconButton
-                    as={LinkButton}
-                    isExternal
-                    noIcon
-                    href="https://twitter.com/thirdweb"
-                    // bg="transparent"
-                    aria-label="twitter"
-                    _hover={{
-                      bg: "accent.200",
-                    }}
-                    icon={<Icon boxSize="1rem" as={SiTwitter} />}
-                    category="header"
-                    label="twitter"
-                  />
-                  <TrackedIconButton
-                    as={LinkButton}
-                    isExternal
-                    noIcon
-                    href="https://discord.gg/thirdweb"
-                    // bg="transparent"
-                    _hover={{
-                      bg: "accent.200",
-                    }}
-                    aria-label="discord"
-                    icon={<Icon boxSize="1rem" as={SiDiscord} />}
-                    category="header"
-                    label="discord"
-                  />
-                  <TrackedIconButton
-                    as={LinkButton}
-                    isExternal
-                    noIcon
-                    href="https://www.youtube.com/channel/UCdzMx7Zhy5va5End1-XJFbA"
-                    // bg="transparent"
-                    _hover={{
-                      bg: "accent.200",
-                    }}
-                    aria-label="YouTube"
-                    icon={<Icon boxSize="1rem" as={SiYoutube} />}
-                    category="header"
-                    label="youtube"
-                  />
-                  <TrackedIconButton
-                    as={LinkButton}
-                    isExternal
-                    noIcon
-                    href="https://github.com/thirdweb-dev"
-                    // bg="transparent"
-                    _hover={{
-                      bg: "accent.200",
-                    }}
-                    aria-label="github"
-                    icon={<Icon boxSize="1rem" as={SiGithub} />}
-                    category="header"
-                    label="github"
-                  />
-                </ButtonGroup>
               </Flex>
             </Flex>
           </Stack>

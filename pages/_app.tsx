@@ -8,7 +8,6 @@ import {
   Persister,
 } from "@tanstack/react-query-persist-client";
 import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
-// import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import PlausibleProvider from "next-plausible";
@@ -67,7 +66,7 @@ const persister: Persister = createSyncStoragePersister({
       bigNumberReplacer,
     );
   },
-  key: `tw-query-cache:${__CACHE_BUSTER}`,
+  key: `tw-query-cache`,
 });
 
 function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -196,7 +195,13 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
     >
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister }}
+        persistOptions={{
+          persister,
+          buster: __CACHE_BUSTER,
+          dehydrateOptions: {
+            shouldDehydrateQuery: (q) => !shouldNeverPersistQuery(q.queryKey),
+          },
+        }}
       >
         <Hydrate state={pageProps.dehydratedState}>
           <Global

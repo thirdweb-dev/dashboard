@@ -11,6 +11,7 @@ import {
   prefetchCategory,
 } from "data/explore";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
 import React, { ReactElement } from "react";
@@ -20,26 +21,34 @@ const ExplorePage: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) => {
   return (
-    <Flex direction="column" gap={{ base: 12, md: 16 }}>
-      <Flex direction="column" gap={2}>
-        <Heading as="h1" size="display.md">
-          Explore
-        </Heading>
-        <Text size="body.xl" maxW="container.md">
-          Welcome to the front page for smart contracts. Deploy contracts made
-          by the best web3 developers with one-click.
-        </Text>
+    <>
+      <NextSeo
+        title="Explore"
+        description="Welcome to the front page for smart contracts. Deploy contracts made
+            by the best web3 developers with one-click."
+      />
+
+      <Flex direction="column" gap={{ base: 12, md: 16 }}>
+        <Flex direction="column" gap={2}>
+          <Heading as="h1" size="display.md">
+            Explore
+          </Heading>
+          <Text size="body.xl" maxW="container.md">
+            Welcome to the front page for smart contracts. Deploy contracts made
+            by the best web3 developers with one-click.
+          </Text>
+        </Flex>
+        {props.categories.map((category, idx) => (
+          <React.Fragment key={category.id}>
+            {Math.floor(props.categories.length / 2) === idx && (
+              <ReleaseUpsellCard />
+            )}
+            <ContractRow category={category} />
+          </React.Fragment>
+        ))}
+        <DeployUpsellCard />
       </Flex>
-      {props.categories.map((category, idx) => (
-        <React.Fragment key={category.id}>
-          {Math.floor(props.categories.length / 2) === idx && (
-            <ReleaseUpsellCard />
-          )}
-          <ContractRow category={category} />
-        </React.Fragment>
-      ))}
-      <DeployUpsellCard />
-    </Flex>
+    </>
   );
 };
 

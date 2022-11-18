@@ -2,7 +2,7 @@ import { ContractCard } from "../contract-card";
 import { Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { ExploreCategory } from "data/explore";
 import { FiArrowRight } from "react-icons/fi";
-import { Heading, LinkButton } from "tw-components";
+import { Heading, Link, LinkButton } from "tw-components";
 
 interface ContractRowProps {
   category: ExploreCategory;
@@ -13,9 +13,11 @@ export const ContractRow: React.FC<ContractRowProps> = ({ category }) => {
     <Flex gap={5} direction="column" as="section">
       <Flex align="center" justify="space-between" gap={4}>
         <Flex gap={2} direction="column" as="header">
-          <Heading as="h2" size="label.xl">
-            {category.name}
-          </Heading>
+          <Link href={`/explore/${category.id}`}>
+            <Heading as="h2" size="label.xl">
+              {category.name}
+            </Heading>
+          </Link>
           <Heading as="h3" size="label.md" fontWeight={400}>
             {category.description}
           </Heading>

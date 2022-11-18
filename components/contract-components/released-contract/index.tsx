@@ -27,6 +27,7 @@ import {
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk/evm";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
+import { replaceDeployerAddress } from "components/explore/publisher";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
 import { useOgImagePing } from "hooks/useOgImagePing";
@@ -93,8 +94,8 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   const ensQuery = useEns(release.releaser);
 
-  const releaserEnsOrAddress = shortenIfAddress(
-    ensQuery.data?.ensName || release.releaser,
+  const releaserEnsOrAddress = replaceDeployerAddress(
+    shortenIfAddress(ensQuery.data?.ensName || release.releaser),
   );
 
   const releasedDate = format(
@@ -254,47 +255,81 @@ Deploy it in one click`,
           {walletOrEns && <ReleaserHeader wallet={walletOrEns} />}
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading size="title.sm">Contract details</Heading>
+            <Heading as="h3" size="title.sm">
+              Details
+            </Heading>
             <List as={Flex} flexDir="column" gap={3}>
               <>
                 {releasedContractInfo.data?.publishedTimestamp && (
                   <ListItem>
-                    <Flex gap={2} alignItems="center">
+                    <Flex gap={2} alignItems="flex-start">
                       <Icon color="paragraph" as={VscCalendar} boxSize={5} />
-                      <Text size="label.md" lineHeight={1.2}>
-                        Released: {releasedDate}
-                      </Text>
+                      <Flex direction="column" gap={1}>
+                        <Heading as="h4" size="label.sm">
+                          Release Date
+                        </Heading>
+                        <Text size="body.md" lineHeight={1.2}>
+                          {releasedDate}
+                        </Text>
+                      </Flex>
                     </Flex>
                   </ListItem>
                 )}
                 {releasedContractInfo.data?.publishedMetadata?.audit && (
                   <ListItem>
-                    <Flex gap={2} alignItems="center">
+                    <Flex gap={2} alignItems="flex-start">
                       <Icon as={BsShieldCheck} boxSize={5} color="green" />
-                      <Text size="label.md">
-                        <Link
-                          href={replaceIpfsUrl(
-                            releasedContractInfo.data?.publishedMetadata?.audit,
-                          )}
-                          isExternal
-                        >
-                          Audited
-                        </Link>
-                      </Text>
+                      <Flex direction="column" gap={1}>
+                        <Heading as="h4" size="label.sm">
+                          Audit Report
+                        </Heading>
+                        <Text size="body.md" lineHeight={1.2}>
+                          <Link
+                            href={replaceIpfsUrl(
+                              releasedContractInfo.data.publishedMetadata.audit,
+                            )}
+                            isExternal
+                            _dark={{
+                              color: "blue.300",
+                              _hover: { color: "blue.500" },
+                            }}
+                            _light={{
+                              color: "blue.500",
+                              _hover: { color: "blue.700" },
+                            }}
+                          >
+                            View Audit Report
+                          </Link>
+                        </Text>
+                      </Flex>
                     </Flex>
                   </ListItem>
                 )}
                 <ListItem>
-                  <Flex gap={2} alignItems="center">
+                  <Flex gap={2} alignItems="flex-start">
                     <Icon color="paragraph" as={VscBook} boxSize={5} />
-                    <Text size="label.md" lineHeight={1.2}>
-                      License
-                      {licenses.length > 1 ? "s" : ""}:{" "}
-                      {licenses.join(", ") || "None"}
-                    </Text>
+                    <Flex direction="column" gap={1}>
+                      <Heading as="h4" size="label.sm">
+                        License
+                        {licenses.length > 1 ? "s" : ""}
+                      </Heading>
+                      <Text size="body.md" lineHeight={1.2}>
+                        {licenses.join(", ") || "None"}
+                      </Text>
+                    </Flex>
                   </Flex>
                 </ListItem>
-                {(enabledExtensions || []).map((extension) => (
+              </>
+            </List>
+          </Flex>
+          <Divider />
+          <Flex flexDir="column" gap={4}>
+            <Heading as="h3" size="title.sm">
+              Extensions
+            </Heading>
+            <List as={Flex} flexDir="column" gap={3}>
+              {enabledExtensions.length ? (
+                enabledExtensions.map((extension) => (
                   <ListItem key={extension.name}>
                     <Flex gap={2} alignItems="center">
                       <Icon as={FcCheckmark} boxSize={5} />
@@ -310,13 +345,21 @@ Deploy it in one click`,
                       </Text>
                     </Flex>
                   </ListItem>
-                ))}
-              </>
+                ))
+              ) : (
+                <ListItem>
+                  <Text size="body.md" fontStyle="italic">
+                    No extensions detected
+                  </Text>
+                </ListItem>
+              )}
             </List>
           </Flex>
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading size="title.sm">Share</Heading>
+            <Heading as="h3" size="title.sm">
+              Share
+            </Heading>
             <Flex gap={2} alignItems="center">
               <ShareButton
                 url={currentRoute}
@@ -344,12 +387,13 @@ Deploy it in one click`,
           <Flex flexDir="column" gap={4}>
             <Flex gap={2} alignItems="center">
               <LinkButton
+                colorScheme="blue"
                 href="https://portal.thirdweb.com/release"
                 w="full"
-                variant="outline"
+                variant="ghost"
                 isExternal
               >
-                Learn more about Release
+                Learn about Release
               </LinkButton>
             </Flex>
           </Flex>
