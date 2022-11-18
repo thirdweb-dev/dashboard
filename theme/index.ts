@@ -2,19 +2,6 @@ import { colors } from "./colors";
 import { fontWeights, letterSpacings, lineHeights } from "./typography";
 import { Theme, extendTheme } from "@chakra-ui/react";
 import { getColor, mode } from "@chakra-ui/theme-tools";
-import { IBM_Plex_Mono, Inter } from "@next/font/google";
-
-// eslint-disable-next-line new-cap
-const inter = Inter({
-  subsets: ["latin"],
-});
-// eslint-disable-next-line new-cap
-const ibmFont = IBM_Plex_Mono({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-});
-
-// console.log("*** inter", inter);
 
 const chakraTheme: Theme = extendTheme({
   config: {
@@ -22,9 +9,9 @@ const chakraTheme: Theme = extendTheme({
     useSystemColorMode: false,
   } as Theme["config"],
   fonts: {
-    heading: inter.style.fontFamily,
-    body: inter.style.fontFamily,
-    mono: ibmFont.style.fontFamily,
+    heading: "Inter, sans-serif",
+    body: "Inter, sans-serif",
+    mono: "IBM Plex Mono, monospace",
   },
   styles: {
     global: {
