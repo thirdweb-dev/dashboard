@@ -1,4 +1,5 @@
 import { ContractPublisher, replaceDeployerAddress } from "../publisher";
+import { ExtensionBar } from "./extension-bar";
 import {
   Center,
   Flex,
@@ -12,7 +13,11 @@ import {
 } from "@chakra-ui/react";
 import { QueryClient } from "@tanstack/query-core";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ensQuery } from "components/contract-components/hooks";
+import { Abi, getAllDetectedFeatures } from "@thirdweb-dev/sdk/evm";
+import {
+  ensQuery,
+  fetchContractPublishMetadataFromURI,
+} from "components/contract-components/hooks";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";
 import { BsShieldCheck } from "react-icons/bs";
@@ -67,11 +72,11 @@ export const ContractCard: React.FC<ContractCardProps> = ({
   return (
     <LinkBox as="article" minW="300px">
       <Card
+        p={0}
         role="group"
-        p={3}
         display="flex"
-        gap={3}
-        flexDir="column"
+        flexDirection="column"
+        gap={0}
         minHeight={slim ? undefined : "170px"}
         borderColor="borderColor"
         transition="150ms border-color ease-in-out"
@@ -83,94 +88,44 @@ export const ContractCard: React.FC<ContractCardProps> = ({
             borderColor: "black",
           },
         }}
+        h="full"
+        overflow="hidden"
       >
-        {slim ? (
-          <IconButton
-            variant="solid"
-            icon={<Icon as={FiExternalLink} />}
-            size="sm"
-            p={0}
-            borderRadius="full"
-            position="absolute"
-            top={0}
-            right={0}
-            transform="translate(33%, -33%)"
-            aria-label="Open release"
-            opacity={0}
-            _dark={{
-              bg: "white",
-              color: "black",
-            }}
-            _light={{
-              bg: "black",
-              color: "white",
-            }}
-            _groupHover={{
-              opacity: 1,
-            }}
-          />
-        ) : (
-          <Flex align="center" justify="space-between">
-            <Skeleton
-              boxSize={8}
+        <Flex p={3} gap={3} flexDir="column" h="full">
+          {slim ? (
+            <IconButton
+              variant="solid"
+              icon={<Icon as={FiExternalLink} />}
+              size="sm"
+              p={0}
               borderRadius="full"
-              overflow="hidden"
-              isLoaded={!showSkeleton}
-            >
-              {publishedContractResult.data?.logo ? (
-                <Image
-                  alt={
-                    publishedContractResult.data?.displayName ||
-                    publishedContractResult.data?.name
-                  }
-                  boxSize="full"
-                  src={replaceIpfsUrl(publishedContractResult.data?.logo || "")}
-                />
-              ) : (
-                <Center
-                  boxSize="full"
-                  borderWidth="1px"
-                  borderColor="borderColor"
-                  borderRadius="50%"
-                >
-                  <Icon boxSize="50%" color="accent.300" as={FiImage} />
-                </Center>
-              )}
-            </Skeleton>
-            <Skeleton isLoaded={!showSkeleton} borderRadius="full">
-              <Button
-                size="sm"
-                variant="outline"
-                borderRadius="full"
-                borderColor="borderColor"
-                fontSize={12}
-                _groupHover={{
-                  _dark: {
-                    bg: "white",
-                    color: "black",
-                  },
-                  _light: {
-                    bg: "black",
-                    color: "white",
-                  },
-                }}
-              >
-                Deploy
-              </Button>
-            </Skeleton>
-          </Flex>
-        )}
-
-        <Flex direction="column" gap={2}>
-          <Flex gap={1} align="center">
-            {slim && (publishedContractResult.data?.logo || showSkeleton) && (
+              position="absolute"
+              top={0}
+              right={0}
+              transform="translate(33%, -33%)"
+              aria-label="Open release"
+              opacity={0}
+              _dark={{
+                bg: "white",
+                color: "black",
+              }}
+              _light={{
+                bg: "black",
+                color: "white",
+              }}
+              _groupHover={{
+                opacity: 1,
+              }}
+            />
+          ) : (
+            <Flex align="center" justify="space-between">
               <Skeleton
-                boxSize={5}
+                boxSize={8}
                 borderRadius="full"
                 overflow="hidden"
                 isLoaded={!showSkeleton}
               >
-                {publishedContractResult.data?.logo && (
+                {publishedContractResult.data?.logo ? (
                   <Image
                     alt={
                       publishedContractResult.data?.displayName ||
@@ -181,92 +136,153 @@ export const ContractCard: React.FC<ContractCardProps> = ({
                       publishedContractResult.data?.logo || "",
                     )}
                   />
+                ) : (
+                  <Center
+                    boxSize="full"
+                    borderWidth="1px"
+                    borderColor="borderColor"
+                    borderRadius="50%"
+                  >
+                    <Icon boxSize="50%" color="accent.300" as={FiImage} />
+                  </Center>
                 )}
               </Skeleton>
-            )}
-            <Skeleton
-              noOfLines={1}
+              <Skeleton isLoaded={!showSkeleton} borderRadius="full">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  borderRadius="full"
+                  borderColor="borderColor"
+                  fontSize={12}
+                  _groupHover={{
+                    _dark: {
+                      bg: "white",
+                      color: "black",
+                    },
+                    _light: {
+                      bg: "black",
+                      color: "white",
+                    },
+                  }}
+                >
+                  Deploy
+                </Button>
+              </Skeleton>
+            </Flex>
+          )}
+
+          <Flex direction="column" gap={2}>
+            <Flex gap={1} align="center">
+              {slim && (publishedContractResult.data?.logo || showSkeleton) && (
+                <Skeleton
+                  boxSize={5}
+                  borderRadius="full"
+                  overflow="hidden"
+                  isLoaded={!showSkeleton}
+                >
+                  {publishedContractResult.data?.logo && (
+                    <Image
+                      alt={
+                        publishedContractResult.data?.displayName ||
+                        publishedContractResult.data?.name
+                      }
+                      boxSize="full"
+                      src={replaceIpfsUrl(
+                        publishedContractResult.data?.logo || "",
+                      )}
+                    />
+                  )}
+                </Skeleton>
+              )}
+              <Skeleton
+                noOfLines={1}
+                isLoaded={!showSkeleton}
+                w={showSkeleton ? "50%" : "auto"}
+              >
+                <LinkOverlay
+                  noMatch
+                  as={Link}
+                  href={href}
+                  _hover={{ textDecor: "none" }}
+                >
+                  <Heading as="h3" noOfLines={1} size="label.lg">
+                    {publishedContractResult.data?.displayName ||
+                      publishedContractResult.data?.name}
+                  </Heading>
+                </LinkOverlay>
+              </Skeleton>
+            </Flex>
+            <SkeletonText
               isLoaded={!showSkeleton}
-              w={showSkeleton ? "50%" : "auto"}
+              spacing={3}
+              noOfLines={2}
+              my={showSkeleton ? 2 : 0}
             >
-              <LinkOverlay
-                noMatch
-                as={Link}
-                href={href}
-                _hover={{ textDecor: "none" }}
-              >
-                <Heading as="h3" noOfLines={1} size="label.lg">
-                  {publishedContractResult.data?.displayName ||
-                    publishedContractResult.data?.name}
-                </Heading>
-              </LinkOverlay>
-            </Skeleton>
+              <Text size="body.md" noOfLines={slim ? 1 : 2}>
+                {publishedContractResult.data?.description}
+              </Text>
+            </SkeletonText>
           </Flex>
-          <SkeletonText
-            isLoaded={!showSkeleton}
-            spacing={3}
-            noOfLines={2}
-            my={showSkeleton ? 2 : 0}
-          >
-            <Text size="body.md" noOfLines={slim ? 1 : 2}>
-              {publishedContractResult.data?.description}
-            </Text>
-          </SkeletonText>
-        </Flex>
-        <Flex
-          mt="auto"
-          pt={1}
-          justify="space-between"
-          align="center"
-          as="footer"
-        >
-          <ContractPublisher
-            addressOrEns={publishedContractResult.data?.publisher}
-            showSkeleton={showSkeleton}
-          />
           <Flex
+            mt="auto"
+            pt={1}
+            justify="space-between"
             align="center"
-            gap={4}
-            color="rgba(255,255,255,.7)"
-            _light={{ color: "rgba(0,0,0,.6)" }}
+            as="footer"
           >
-            {(showSkeleton || publishedContractResult.data?.audit) && (
-              <Flex
-                isExternal
-                as={Link}
-                align="center"
-                gap={0.5}
-                href={replaceIpfsUrl(publishedContractResult.data?.audit || "")}
-                _hover={{
-                  _dark: {
-                    color: "green.300",
-                  },
-                  _light: {
-                    color: "green.500",
-                  },
-                }}
-              >
-                <Skeleton boxSize={5} isLoaded={!showSkeleton}>
-                  <Icon as={BsShieldCheck} />
-                </Skeleton>
-                <Skeleton isLoaded={!showSkeleton}>
-                  <Text color="inherit" size="label.sm" fontWeight={500}>
-                    Audited
-                  </Text>
-                </Skeleton>
-              </Flex>
-            )}
-            {(showSkeleton || publishedContractResult.data?.version) && (
-              <Flex align="center" gap={0.5}>
-                <Skeleton isLoaded={!showSkeleton}>
-                  <Text color="inherit" size="label.sm" fontWeight={500}>
-                    v{publishedContractResult.data?.version}
-                  </Text>
-                </Skeleton>
-              </Flex>
-            )}
+            <ContractPublisher
+              addressOrEns={publishedContractResult.data?.publisher}
+              showSkeleton={showSkeleton}
+            />
+            <Flex
+              align="center"
+              gap={4}
+              color="rgba(255,255,255,.7)"
+              _light={{ color: "rgba(0,0,0,.6)" }}
+            >
+              {(showSkeleton || publishedContractResult.data?.audit) && (
+                <Flex
+                  isExternal
+                  as={Link}
+                  align="center"
+                  gap={0.5}
+                  href={replaceIpfsUrl(
+                    publishedContractResult.data?.audit || "",
+                  )}
+                  _hover={{
+                    _dark: {
+                      color: "green.300",
+                    },
+                    _light: {
+                      color: "green.500",
+                    },
+                  }}
+                >
+                  <Skeleton boxSize={5} isLoaded={!showSkeleton}>
+                    <Icon as={BsShieldCheck} />
+                  </Skeleton>
+                  <Skeleton isLoaded={!showSkeleton}>
+                    <Text color="inherit" size="label.sm" fontWeight={500}>
+                      Audited
+                    </Text>
+                  </Skeleton>
+                </Flex>
+              )}
+              {(showSkeleton || publishedContractResult.data?.version) && (
+                <Flex align="center" gap={0.5}>
+                  <Skeleton isLoaded={!showSkeleton}>
+                    <Text color="inherit" size="label.sm" fontWeight={500}>
+                      v{publishedContractResult.data?.version}
+                    </Text>
+                  </Skeleton>
+                </Flex>
+              )}
+            </Flex>
           </Flex>
         </Flex>
+        <ExtensionBar
+          extensions={publishedContractResult.data?.extensions || []}
+        />
       </Card>
     </LinkBox>
   );
@@ -310,20 +326,20 @@ async function queryFn(
     .getPublisher()
     .fetchPublishedContractInfo(latestPublishedVersion);
 
-  // const publishMetadata = await fetchContractPublishMetadataFromURI(
-  //   latestPublishedVersion.metadataUri,
-  // );
+  const publishMetadata = await fetchContractPublishMetadataFromURI(
+    latestPublishedVersion.metadataUri,
+  );
 
   return {
     ...latestPublishedVersion,
     ...contractInfo.publishedMetadata,
-    // detectedExtensions: extractExtensions(
-    //   detectFeatures(publishMetadata.abi || []),
-    // ).enabledExtensions.map((extension) => ({
-    //   name: extension.name,
-    //   docLinks: extension.docLinks,
-    //   namespace: extension.namespace,
-    // })),
+    extensions: publishMetadata.abi
+      ? getAllDetectedFeatures(publishMetadata.abi as Abi).map((feature) => ({
+          name: feature.name,
+          docLinks: feature.docLinks || [],
+          // namespace: feature.namespace,
+        }))
+      : [],
     publishedContractId: `${publisher}/${contractId}/${version}`,
   };
 }
@@ -345,7 +361,7 @@ export function publishedContractQuery(
       publisher: "",
       audit: "",
       logo: "",
-      detectedExtensions: [],
+      extensions: [],
       id: "",
       metadataUri: "",
       timestamp: "",

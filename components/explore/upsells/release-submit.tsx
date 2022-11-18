@@ -30,7 +30,7 @@ export const ReleaseUpsellCard: React.FC = () => {
           borderColor="accent.900"
           borderWidth="1px"
           _hover={{
-            bg: "accent.100",
+            bg: "transparent",
             color: "accent.900",
           }}
         >
@@ -38,9 +38,6 @@ export const ReleaseUpsellCard: React.FC = () => {
         </Button>
         <LinkButton
           variant="ghost"
-          _hover={{
-            bg: "accent.200",
-          }}
           href="https://portal.thirdweb.com/release"
           isExternal
           noIcon
