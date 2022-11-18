@@ -82,6 +82,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
           ) : null}
           {release?.logo ? (
             <Image
+              flexShrink={0}
               alt={release.name}
               borderRadius="full"
               src={replaceIpfsUrl(release.logo)}
@@ -89,6 +90,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
             />
           ) : (
             <Center
+              flexShrink={0}
               boxSize={14}
               borderRadius="full"
               borderWidth="1px"

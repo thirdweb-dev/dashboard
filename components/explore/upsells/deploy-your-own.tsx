@@ -29,14 +29,16 @@ export const DeployUpsellCard: React.FC = () => {
       </Heading>
 
       <Flex direction="column" gap={4}>
-        <Flex gap={1} align="center">
+        <Flex gap={1} align="center" direction={{ base: "column", md: "row" }}>
           <Heading size="label.lg" as="h3">
             Create your contract using our CLI.
           </Heading>
-          <TrackedLink
-            as={LinkButton}
-            category="deploy_upsell"
-            label="contract_kit"
+          <LinkButton
+            as={TrackedLink}
+            {...{
+              category: "deploy_upsell",
+              label: "contract_kit",
+            }}
             size="sm"
             colorScheme="blue"
             href="https://portal.thirdweb.com/contractkit"
@@ -44,7 +46,7 @@ export const DeployUpsellCard: React.FC = () => {
             variant="ghost"
           >
             Learn about ContractKit
-          </TrackedLink>
+          </LinkButton>
         </Flex>
 
         <CodeBlock
@@ -54,15 +56,17 @@ export const DeployUpsellCard: React.FC = () => {
         />
       </Flex>
       <Flex direction="column" gap={4}>
-        <Flex gap={1} align="center">
+        <Flex gap={1} align="center" direction={{ base: "column", md: "row" }}>
           <Heading size="label.lg" as="h3">
             Deploy effortlessly and get access to all the same benefits as
             released contracts.
           </Heading>
-          <TrackedLink
-            as={LinkButton}
-            category="deploy_upsell"
-            label="contract_kit"
+          <LinkButton
+            as={TrackedLink}
+            {...{
+              category: "deploy_upsell",
+              label: "portal_deploy",
+            }}
             size="sm"
             colorScheme="blue"
             href="https://portal.thirdweb.com/deploy"
@@ -70,7 +74,7 @@ export const DeployUpsellCard: React.FC = () => {
             variant="ghost"
           >
             Learn about Deploy
-          </TrackedLink>
+          </LinkButton>
         </Flex>
 
         <CodeBlock
