@@ -41,7 +41,7 @@ export const DeployUpsellCard: React.FC = () => {
         <CodeBlock
           code="npx thirdweb@latest create --contract"
           language="bash"
-          prefix=">"
+          prefix="$"
         />
       </Flex>
       <Flex direction="column" gap={4}>
@@ -64,7 +64,7 @@ export const DeployUpsellCard: React.FC = () => {
         <CodeBlock
           code="npx thirdweb@latest deploy"
           language="bash"
-          prefix=">"
+          prefix="$"
         />
       </Flex>
     </Card>
