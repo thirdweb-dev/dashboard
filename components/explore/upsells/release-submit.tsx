@@ -17,9 +17,9 @@ export const ReleaseUpsellCard: React.FC = () => {
       gap={3}
       flexDirection="column"
     >
-      <Heading size="title.xl">Get your contract featured</Heading>
+      <Heading size="title.xl">Get your protocol featured here</Heading>
       <Text size="body.lg">
-        Releasing your contract is the best way to get your contract in front of
+        Releasing your contract is the best way to get your protocol in front of
         our network of web3 builders.
       </Text>
 
