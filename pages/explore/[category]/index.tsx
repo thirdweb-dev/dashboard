@@ -68,7 +68,20 @@ const ExploreCategoryPage: ThirdwebNextPage = (
             </Heading>
           </Flex>
           <Text as="h2" size="body.xl" maxW="container.md">
-            {props.category.description}
+            {props.category.description}{" "}
+            {props.category.learnMore && (
+              <Link
+                _light={{
+                  color: "blue.500",
+                  _hover: { color: "blue.700" },
+                }}
+                _dark={{ color: "blue.300", _hover: { color: "blue.500" } }}
+                isExternal
+                href={props.category.learnMore}
+              >
+                Learn more
+              </Link>
+            )}
           </Text>
         </Flex>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>

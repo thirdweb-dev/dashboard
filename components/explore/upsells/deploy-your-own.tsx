@@ -11,9 +11,11 @@ export const DeployUpsellCard: React.FC = () => {
   return (
     <Box
       bg="linear-gradient(147.15deg, #410AB6 30.17%, #D45CFF 100.01%)"
-      p="2px"
       my={3}
       borderRadius="lg"
+      p="16px"
+      mx="-16px"
+      boxShadow="inset 0 0 12px 12px var(--chakra-colors-backgroundBody), inset 0 0 3px 2px var(--chakra-colors-backgroundBody)"
     >
       <Card
         as="section"
