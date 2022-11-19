@@ -31,7 +31,7 @@ const ExploreCategoryPage: ThirdwebNextPage = (
   return (
     <>
       <NextSeo
-        title={`Explore > ${props.category.name}`}
+        title={`${props.category.name} | Explore`}
         description={props.category.description}
       />
       <Flex direction="column" gap={{ base: 6, md: 12 }}>
