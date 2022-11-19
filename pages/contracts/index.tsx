@@ -70,7 +70,7 @@ const Contracts: ThirdwebNextPage = () => {
           description={
             <>
               Get started with <b>ContractKit</b> to create custom contracts
-              that is specific to your use case.
+              that are specific to your use case.
             </>
           }
           icon={require("public/assets/product-icons/extensions.png")}
