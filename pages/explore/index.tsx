@@ -23,12 +23,12 @@ const ExplorePage: ThirdwebNextPage = (
   return (
     <>
       <NextSeo
-        title="Explore"
-        description="Find the smart contract that suits your needs. Deploy with one click to Ethereum and other EVM compatible blockchains with thirdweb."
+        title="Explore | Smart Contracts"
+        description="Discover secure, audited and gas-optimized protocols & smart contracts. Deploy with one click to Ethereum, Polygon, Optimism, and other EVM blockchains with thirdweb."
         openGraph={{
-          title: "thirdweb Explore",
+          title: "thirdweb Explore: Smart Contracts & Protocols",
           description:
-            "Find the smart contract that suits your needs. Deploy with one click to Ethereum and other EVM compatible blockchains with thirdweb.",
+            "Discover secure, audited and gas-optimized protocols & smart contracts. Deploy with one click to Ethereum, Polygon, Optimism, and other EVM blockchains with thirdweb.",
         }}
       />
 

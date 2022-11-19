@@ -15,7 +15,7 @@ export const ContractRow: React.FC<ContractRowProps> = ({ category }) => {
         <Flex gap={2} direction="column" as="header">
           <Link href={`/explore/${category.id}`}>
             <Heading as="h2" size="label.xl">
-              {category.name}
+              {category.displayName || category.name}
             </Heading>
           </Link>
           <Flex align="center" gap={1}>

@@ -6,7 +6,7 @@ export type PublishedContractID = `${string}/${string}`;
 export interface ExploreCategory {
   id: string;
   name: string;
-  shortName?: string;
+  displayName?: string;
   description: string;
   learnMore?: string;
   contracts: Readonly<PublishedContractID[]>;
@@ -28,7 +28,8 @@ const POPULAR = {
 
 const NFTS = {
   id: "nft",
-  name: "NFTs",
+  name: "NFT",
+  displayName: "NFTs",
   description:
     "NFT Collections, Editions, Drops and everything else NFT-related.",
   contracts: [
@@ -82,7 +83,8 @@ const GOVERNANCE = {
 
 const DROPS = {
   id: "drops",
-  name: "Drops",
+  name: "Drop",
+  displayName: "Drops",
   description: "Release NFTs and Tokens based on preset Claim Conditions.",
   contracts: [
     "deployer.thirdweb.eth/DropERC721",
@@ -94,7 +96,8 @@ const DROPS = {
 
 const MARKETS = {
   id: "marketplace",
-  name: "Marketplaces",
+  name: "Marketplace",
+  displayName: "Marketplaces",
   description: "Quickly spin up your own on-chain marketplace for NFTs.",
   contracts: [
     "deployer.thirdweb.eth/Marketplace",
@@ -105,7 +108,8 @@ const MARKETS = {
 
 const AIRDROP = {
   id: "airdrop",
-  name: "Airdrops",
+  name: "Airdrop",
+  displayName: "Airdrops",
   description:
     "Efficiently transfer large numbers of on-chain assets to a large number of recipients.",
   contracts: [

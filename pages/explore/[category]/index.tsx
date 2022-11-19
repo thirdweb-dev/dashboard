@@ -32,8 +32,8 @@ const ExploreCategoryPage: ThirdwebNextPage = (
   return (
     <>
       <NextSeo
-        title={`${props.category.name} | Explore`}
-        description={props.category.description}
+        title={`${props.category.name} Smart Contracts | Explore`}
+        description={`${props.category.description} Deploy with one click to Ethereum, Polygon, Optimism, and other EVM blockchains with thirdweb.`}
       />
       <Flex direction="column" gap={{ base: 6, md: 12 }}>
         <Flex direction="column" gap={{ base: 2, md: 4 }}>
@@ -59,13 +59,15 @@ const ExploreCategoryPage: ThirdwebNextPage = (
                   href={`/explore/${props.category.id}`}
                   aria-current="page"
                 >
-                  <Heading size="label.md">{props.category.name}</Heading>
+                  <Heading size="label.md">
+                    {props.category.displayName || props.category.name}
+                  </Heading>
                 </Link>
               </BreadcrumbItem>
             </Breadcrumb>
 
             <Heading as="h1" size="display.sm">
-              {props.category.name}
+              {props.category.displayName || props.category.name}
             </Heading>
           </Flex>
           <Text as="h2" size="body.xl" maxW="container.md">
