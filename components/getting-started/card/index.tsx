@@ -33,15 +33,15 @@ export const GettingStartedCard: ComponentWithChildren<
           gap={1.5}
           transition="all 0.2s"
           _light={{
-            color: "primary.500",
+            color: "blue.500",
             _hover: {
-              color: "primary.700",
+              color: "blue.700",
             },
           }}
           _dark={{
-            color: "primary.300",
+            color: "blue.300",
             _hover: {
-              color: "primary.500",
+              color: "blue.500",
             },
           }}
           alignSelf="flex-end"

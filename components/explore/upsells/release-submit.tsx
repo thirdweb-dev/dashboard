@@ -33,10 +33,12 @@ export const ReleaseUpsellCard: React.FC = () => {
         </Text>
 
         <ButtonGroup size="size" spacing={4}>
-          <TrackedLink
-            as={LinkButton}
-            category="release_upsell"
-            label="contact_us"
+          <LinkButton
+            as={TrackedLink}
+            {...{
+              category: "release_upsell",
+              label: "contact_us",
+            }}
             bg="accent.900"
             color="accent.100"
             borderColor="accent.900"
@@ -50,18 +52,20 @@ export const ReleaseUpsellCard: React.FC = () => {
             }}
           >
             Contact us
-          </TrackedLink>
-          <TrackedLink
-            as={LinkButton}
-            category="release_upsell"
-            label="learn_more"
+          </LinkButton>
+          <LinkButton
+            as={TrackedLink}
+            {...{
+              category: "release_upsell",
+              label: "learn_more",
+            }}
             variant="ghost"
             href="https://portal.thirdweb.com/release"
             isExternal
             noIcon
           >
             Learn More
-          </TrackedLink>
+          </LinkButton>
         </ButtonGroup>
       </Card>
     </Box>
