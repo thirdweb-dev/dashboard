@@ -83,7 +83,9 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
 
           <Skeleton isLoaded={allVersions.isSuccess}>
             <Flex direction="column" gap={2}>
-              <Heading size="title.md">{release?.name}</Heading>
+              <Heading size="title.md">
+                {release?.displayName || release?.name}
+              </Heading>
               <Text>{release?.description}</Text>
             </Flex>
           </Skeleton>
@@ -118,7 +120,10 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
             ))}
           </Select>
           {deployContractId && (
-            <DeployFormDrawer contractId={deployContractId} />
+            <DeployFormDrawer
+              contractId={deployContractId}
+              contractVersion={version}
+            />
           )}
         </Flex>
       </GridItem>

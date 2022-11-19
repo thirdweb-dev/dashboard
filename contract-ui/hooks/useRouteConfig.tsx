@@ -11,8 +11,6 @@ import { ProgramClaimConditionsTab } from "program-ui/common/program-claim-condi
 import { ProgramCodeTab } from "program-ui/common/program-code";
 import { Card, Heading, Text } from "tw-components";
 
-// import { useEffect } from "react";
-
 export type EnhancedRoute = Route & {
   title: string;
   path: string;
@@ -85,13 +83,23 @@ export function useContractRouteConfig(
   const contractQuery = useContract(ensQuery.data?.address);
 
   const contractTypeQuery = contractType.useQuery(contractAddress);
-  const embedEnabled =
-    contractTypeQuery.data === "nft-drop" ||
-    contractTypeQuery.data === "marketplace" ||
-    contractTypeQuery.data === "edition-drop" ||
-    contractTypeQuery.data === "token-drop" ||
-    contractTypeQuery.data === "signature-drop";
 
+  const claimconditionExtensionDetection = extensionDetectedState({
+    contractQuery,
+    feature: [
+      // erc 721
+      "ERC721ClaimPhasesV1",
+      "ERC721ClaimPhasesV2",
+      "ERC721ClaimConditionsV1",
+      "ERC721ClaimConditionsV2",
+
+      // erc 20
+      "ERC20ClaimConditionsV1",
+      "ERC20ClaimConditionsV2",
+      "ERC20ClaimPhasesV1",
+      "ERC20ClaimPhasesV2",
+    ],
+  });
   return [
     {
       title: "Explorer",
@@ -174,14 +182,7 @@ export function useContractRouteConfig(
     {
       title: "Claim Conditions",
       path: "claim-conditions",
-      isEnabled: extensionDetectedState({
-        contractQuery,
-        feature: [
-          "ERC721ClaimableWithConditionsV1",
-          "ERC721ClaimableWithConditionsV2",
-          "ERC20ClaimableWithConditions",
-        ],
-      }),
+      isEnabled: claimconditionExtensionDetection,
       element: () =>
         import("../tabs/claim-conditions/page").then(
           ({ ContractClaimConditionsPage }) => (
@@ -213,9 +214,31 @@ export function useContractRouteConfig(
         )),
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
-        : embedEnabled
+        : contractTypeQuery.data === "marketplace"
         ? "enabled"
-        : "disabled",
+        : extensionDetectedState({
+            contractQuery,
+            matchStrategy: "any",
+            feature: [
+              // erc 721
+              "ERC721ClaimPhasesV1",
+              "ERC721ClaimPhasesV2",
+              "ERC721ClaimConditionsV1",
+              "ERC721ClaimConditionsV2",
+
+              // erc 1155
+              "ERC1155ClaimPhasesV1",
+              "ERC1155ClaimPhasesV2",
+              "ERC1155ClaimConditionsV1",
+              "ERC1155ClaimConditionsV2",
+
+              // erc 20
+              "ERC20ClaimConditionsV1",
+              "ERC20ClaimConditionsV2",
+              "ERC20ClaimPhasesV1",
+              "ERC20ClaimPhasesV2",
+            ],
+          }),
     },
     {
       title: "Code",

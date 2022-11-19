@@ -103,16 +103,16 @@ function stripNullishKeys<T extends object>(obj: T) {
 
 interface BuiltinContractFormProps {
   contractType: ContractType;
+  contractVersion: string;
   selectedChain: SUPPORTED_CHAIN_ID | undefined;
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
-  disabledChains: SUPPORTED_CHAIN_ID[];
 }
 
 const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   contractType,
+  contractVersion,
   selectedChain,
   onChainSelect,
-  disabledChains,
 }) => {
   const publishMetadata = useContractPublishMetadataFromURI(contractType);
 
@@ -212,7 +212,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
 
   const seconds = selectedChain && NetworkToBlockTimeMap[selectedChain];
 
-  const deploy = useDeploy(contract.contractType);
+  const deploy = useDeploy(contract.contractType, contractVersion);
 
   const { onSuccess, onError } = useTxNotifications(
     "Successfully deployed contract",
@@ -831,10 +831,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                   parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
                 )
               }
-              disabledChainIds={
-                disabledChains ||
-                DisabledChainsMap[contractType as ContractType]
-              }
+              disabledChainIds={DisabledChainsMap[contractType as ContractType]}
               disabledChainIdText="Coming Soon"
             />
           </FormControl>

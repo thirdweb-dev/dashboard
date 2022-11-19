@@ -87,32 +87,6 @@ function buildContractForContractMap(
   };
 }
 
-export const OSRoyaltyToPrebuilt: Record<string, Partial<ContractType>> = {
-  DropERC721_OSRoyaltyFilter: "nft-drop",
-  TokenERC721_OSRoyaltyFilter: "nft-collection",
-  DropERC1155_OSRoyaltyFilter: "edition-drop",
-  TokenERC1155_OSRoyaltyFilter: "edition",
-  SignatureDrop_OSRoyaltyFilter: "signature-drop",
-  Multiwrap_OSRoyaltyFilter: "multiwrap",
-  Pack_OSRoyaltyFilter: "pack",
-};
-
-export const OSRoyaltyDisabledChains: SUPPORTED_CHAIN_ID[] = [
-  ...deprecatedChains,
-  ChainId.Arbitrum,
-  ChainId.ArbitrumGoerli,
-  ChainId.Optimism,
-  ChainId.OptimismGoerli,
-  ChainId.Avalanche,
-  ChainId.AvalancheFujiTestnet,
-  ChainId.BinanceSmartChainMainnet,
-  ChainId.BinanceSmartChainTestnet,
-  ChainId.Fantom,
-  ChainId.FantomTestnet,
-  ChainId.Polygon,
-  ChainId.Mumbai,
-];
-
 export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
   {
     "nft-drop": buildContractForContractMap("nft-drop", {
@@ -425,12 +399,13 @@ export const ROLE_DESCRIPTION_MAP: Record<Role | string, string> = {
 // gnosis mappings
 export const GNOSIS_TO_CHAIN_ID = {
   // supported mainnets
-  eth: 1,
-  matic: 137,
-  avax: 43114,
+  eth: ChainId.Mainnet,
+  matic: ChainId.Polygon,
+  avax: ChainId.Avalanche,
+  bnb: ChainId.BinanceSmartChainMainnet,
+  oeth: ChainId.Optimism,
   // supported testnets
-  rin: 4,
-  gor: 5,
+  gor: ChainId.Goerli,
 } as const;
 
 export const CHAIN_ID_TO_GNOSIS = Object.entries(GNOSIS_TO_CHAIN_ID).reduce(
