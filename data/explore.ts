@@ -8,17 +8,21 @@ export interface ExploreCategory {
   name: string;
   shortName?: string;
   description: string;
+  learnMore?: string;
   contracts: Readonly<PublishedContractID[]>;
 }
 
 const POPULAR = {
   id: "popular",
   name: "Popular",
-  description: "Contracts that are popular among the community.",
+  description: "A collection of our most deployed contracts.",
   contracts: [
     "deployer.thirdweb.eth/DropERC721",
     "deployer.thirdweb.eth/Marketplace",
     "unlock-protocol.eth/PublicLock",
+    "deployer.thirdweb.eth/DropERC1155",
+    "deployer.thirdweb.eth/SignatureDrop",
+    "deployer.thirdweb.eth/TokenERC20",
   ],
 } as const;
 
@@ -29,45 +33,31 @@ const NFTS = {
     "NFT Collections, Editions, Drops and everything else NFT-related.",
   contracts: [
     "deployer.thirdweb.eth/Multiwrap",
+    "doubledev.eth/ERC4907",
     "deployer.thirdweb.eth/TokenERC721",
     "deployer.thirdweb.eth/TokenERC1155",
     "flairsdk.eth/ERC721CommunityStream",
     "deployer.thirdweb.eth/Pack",
-    "doubledev.eth/ERC4907",
     "unlock-protocol.eth/PublicLock",
-    "deployer.thirdweb.eth/DropERC721",
-  ],
-} as const;
-
-const MARKETS = {
-  id: "marketplace",
-  name: "Marketplaces",
-  description:
-    "Spin up your own marketplace in minutes with these pre-built contracts.",
-  contracts: [
-    "deployer.thirdweb.eth/Marketplace",
-    "deployer.thirdweb.eth/TokenERC20",
-    "deployer.thirdweb.eth/Split",
-  ],
-} as const;
-
-const DROPS = {
-  id: "drops",
-  name: "Drops",
-  description:
-    "NFT Collections, Editions, Drops and everything else NFT-related.",
-  contracts: [
     "deployer.thirdweb.eth/DropERC721",
     "deployer.thirdweb.eth/DropERC1155",
     "deployer.thirdweb.eth/SignatureDrop",
-    "deployer.thirdweb.eth/DropERC20",
+    "deployer.thirdweb.eth/DropERC721_OSRoyaltyFilter",
+    "deployer.thirdweb.eth/DropERC1155_OSRoyaltyFilter",
+    "deployer.thirdweb.eth/Multiwrap_OSRoyaltyFilter",
+    "deployer.thirdweb.eth/Pack_OSRoyaltyFilter",
+    "deployer.thirdweb.eth/SignatureDrop_OSRoyaltyFilter",
+    "deployer.thirdweb.eth/TokenERC1155_OSRoyaltyFilter",
+    "deployer.thirdweb.eth/TokenERC721_OSRoyaltyFilter",
   ],
 } as const;
+
 const OSRoyalty = {
   id: "opensea-royalty-filter",
   name: "Opensea Royalty Filter",
-  shortName: "OS-RF",
-  description: "Contracts that implement the Opensea Royalty Filter.",
+  description:
+    "Contracts that comply with Opensea's on-chain royalty enforcement mechanisms.",
+  learnMore: "https://opensea.io/blog/announcements/on-creator-fees/",
   contracts: [
     "deployer.thirdweb.eth/DropERC721_OSRoyaltyFilter",
     "deployer.thirdweb.eth/DropERC1155_OSRoyaltyFilter",
@@ -80,28 +70,48 @@ const OSRoyalty = {
 } as const;
 
 const GOVERNANCE = {
-  id: "governance",
-  name: "Governance",
-  description:
-    "Create your own DAO, vote on proposals, and more with these contracts.",
+  id: "daos-governance",
+  name: "DAOs & Governance",
+  description: "Create your own DAO, vote on proposals, and manage a treasury.",
   contracts: [
     "deployer.thirdweb.eth/VoteERC20",
     "deployer.thirdweb.eth/TokenERC20",
+    "deployer.thirdweb.eth/Split",
   ],
 } as const;
 
-const TESTNET = {
-  id: "testnet",
-  name: "Testnet Only",
-  shortName: "Testnet",
-  description:
-    "Contracts fresh off the presses, available only on testnet for feedback and testing.",
+const DROPS = {
+  id: "drops",
+  name: "Drops",
+  description: "Release NFTs and Tokens based on preset Claim Conditions.",
   contracts: [
-    "deployer.thirdweb.eth/NFTStake",
-    "deployer.thirdweb.eth/TieredDrop",
-    "deployer.thirdweb.eth/AirdropERC20",
-    "deployer.thirdweb.eth/AirdropERC721",
-    "deployer.thirdweb.eth/AirdropERC1155",
+    "deployer.thirdweb.eth/DropERC721",
+    "deployer.thirdweb.eth/DropERC1155",
+    "deployer.thirdweb.eth/SignatureDrop",
+    "deployer.thirdweb.eth/DropERC20",
+  ],
+} as const;
+
+const MARKETS = {
+  id: "marketplace",
+  name: "Marketplaces",
+  description: "Quickly spin up your own on-chain marketplace for NFTs.",
+  contracts: [
+    "deployer.thirdweb.eth/Marketplace",
+    "deployer.thirdweb.eth/TokenERC20",
+    "deployer.thirdweb.eth/Split",
+  ],
+} as const;
+
+const AIRDROP = {
+  id: "airdrop",
+  name: "Airdrops",
+  description:
+    "Efficiently transfer large numbers of on-chain assets to a large number of recipients.",
+  contracts: [
+    "deployer.thirdweb.eth/Marketplace",
+    "deployer.thirdweb.eth/TokenERC20",
+    "deployer.thirdweb.eth/Split",
   ],
 } as const;
 
@@ -112,7 +122,7 @@ const CATEGORIES = {
   [DROPS.id]: DROPS,
   [GOVERNANCE.id]: GOVERNANCE,
   [OSRoyalty.id]: OSRoyalty,
-  [TESTNET.id]: TESTNET,
+  [AIRDROP.id]: AIRDROP,
 } as const;
 
 export function getCategory(id: string): ExploreCategory | null {

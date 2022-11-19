@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Divider, Flex } from "@chakra-ui/react";
 import {
   Card,
   CodeBlock,
@@ -9,80 +9,98 @@ import {
 
 export const DeployUpsellCard: React.FC = () => {
   return (
-    <Card
-      as="section"
+    <Box
+      bg="linear-gradient(147.15deg, #410AB6 30.17%, #D45CFF 100.01%)"
+      p="2px"
       my={3}
-      display="flex"
-      bg="black"
-      borderColor="transparent"
-      _light={{
-        bg: "white",
-        borderColor: "borderColor",
-      }}
-      p={8}
       borderRadius="lg"
-      gap={6}
-      flexDirection="column"
     >
-      <Heading as="h2" size="title.xl">
-        Need something more custom?
-      </Heading>
+      <Card
+        as="section"
+        display="flex"
+        bg="black"
+        borderColor="transparent"
+        _light={{
+          bg: "white",
+          borderColor: "borderColor",
+        }}
+        p={8}
+        borderRadius="lg"
+        gap={6}
+        flexDirection="column"
+      >
+        <Heading as="h3" size="title.md">
+          Didn&apos;t find what you&apos;re looking for? Build your own!
+        </Heading>
 
-      <Flex direction="column" gap={4}>
-        <Flex gap={1} align="center" direction={{ base: "column", md: "row" }}>
-          <Heading size="label.lg" as="h3">
-            Create your contract using our CLI.
-          </Heading>
-          <LinkButton
-            as={TrackedLink}
-            {...{
-              category: "deploy_upsell",
-              label: "contract_kit",
-            }}
-            size="sm"
-            colorScheme="blue"
-            href="https://portal.thirdweb.com/contractkit"
-            isExternal
-            variant="ghost"
+        <Flex direction="column" gap={4}>
+          <Flex
+            gap={1}
+            align="center"
+            direction={{ base: "column", md: "row" }}
           >
-            Learn about ContractKit
-          </LinkButton>
-        </Flex>
+            <Heading size="label.md" as="h4">
+              Create a contract with a single command.
+            </Heading>
+            <LinkButton
+              as={TrackedLink}
+              {...{
+                category: "deploy_upsell",
+                label: "contract_kit",
+              }}
+              fontWeight={400}
+              _light={{ color: "blue.500", _hover: { color: "blue.700" } }}
+              _dark={{ color: "blue.300", _hover: { color: "blue.500" } }}
+              size="sm"
+              href="https://portal.thirdweb.com/contractkit"
+              isExternal
+              variant="link"
+            >
+              Learn more about ContractKit
+            </LinkButton>
+          </Flex>
 
-        <CodeBlock
-          code="npx thirdweb@latest create --contract"
-          language="bash"
-          prefix="$"
-        />
-      </Flex>
-      <Flex direction="column" gap={4}>
-        <Flex gap={1} align="center" direction={{ base: "column", md: "row" }}>
-          <Heading size="label.lg" as="h3">
-            Deploy effortlessly and get access to all the same benefits as
-            released contracts.
-          </Heading>
-          <LinkButton
-            as={TrackedLink}
-            {...{
-              category: "deploy_upsell",
-              label: "portal_deploy",
-            }}
-            size="sm"
-            colorScheme="blue"
-            href="https://portal.thirdweb.com/deploy"
-            isExternal
-            variant="ghost"
+          <CodeBlock
+            code="npx thirdweb@latest create --contract"
+            language="bash"
+            prefix="$"
+          />
+        </Flex>
+        <Divider />
+        <Flex direction="column" gap={4}>
+          <Flex
+            gap={1}
+            align="center"
+            direction={{ base: "column", md: "row" }}
           >
-            Learn about Deploy
-          </LinkButton>
-        </Flex>
+            <Heading size="label.md" as="h4">
+              Deploy a contract with a single command.
+            </Heading>
+            <LinkButton
+              as={TrackedLink}
+              {...{
+                category: "deploy_upsell",
+                label: "portal_deploy",
+              }}
+              size="sm"
+              fontWeight={400}
+              _light={{ color: "blue.500", _hover: { color: "blue.700" } }}
+              _dark={{ color: "blue.300", _hover: { color: "blue.500" } }}
+              href="https://portal.thirdweb.com/deploy"
+              isExternal
+              variant="link"
+            >
+              Learn more about Deploy
+            </LinkButton>
+          </Flex>
 
-        <CodeBlock
-          code="npx thirdweb@latest deploy"
-          language="bash"
-          prefix="$"
-        />
-      </Flex>
-    </Card>
+          <CodeBlock
+            code="npx thirdweb@latest deploy"
+            language="bash"
+            prefix="$"
+          />
+        </Flex>
+      </Card>
+    </Box>
   );
 };

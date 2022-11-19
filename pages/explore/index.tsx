@@ -24,8 +24,12 @@ const ExplorePage: ThirdwebNextPage = (
     <>
       <NextSeo
         title="Explore"
-        description="Welcome to the front page for smart contracts. Deploy contracts made
-            by the best web3 developers with one-click."
+        description="Find the smart contract that suits your needs. Deploy with one click to Ethereum and other EVM compatible blockchains with thirdweb."
+        openGraph={{
+          title: "thirdweb Explore",
+          description:
+            "Find the smart contract that suits your needs. Deploy with one click to Ethereum and other EVM compatible blockchains with thirdweb.",
+        }}
       />
 
       <Flex direction="column" gap={{ base: 12, md: 16 }}>
@@ -34,8 +38,8 @@ const ExplorePage: ThirdwebNextPage = (
             Explore
           </Heading>
           <Text size="body.xl" maxW="container.md">
-            Welcome to the front page for smart contracts. Deploy contracts made
-            by the best web3 developers with one-click.
+            Find the smart contract that suits your needs. Deploy with one click
+            to Ethereum and other EVM compatible blockchains.
           </Text>
         </Flex>
         {props.categories.map((category, idx) => (

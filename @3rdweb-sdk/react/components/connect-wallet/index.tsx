@@ -226,7 +226,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             <Flex direction="row" gap={3} align="center">
               <Icon boxSize={6} as={SVG} />
               <Flex gap={0.5} direction="column" textAlign="left">
-                <Heading size="label.sm">
+                <Heading as="p" size="label.sm">
                   <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>
                     {balanceQuery.data?.displayValue.slice(0, 6) || "0.000"}
                   </Skeleton>{" "}

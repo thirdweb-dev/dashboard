@@ -18,9 +18,24 @@ export const ContractRow: React.FC<ContractRowProps> = ({ category }) => {
               {category.name}
             </Heading>
           </Link>
-          <Heading as="h3" size="label.md" fontWeight={400}>
-            {category.description}
-          </Heading>
+          <Flex align="center" gap={1}>
+            <Heading as="h3" size="label.md" fontWeight={400}>
+              {category.description}{" "}
+              {category.learnMore && (
+                <Link
+                  _light={{
+                    color: "blue.500",
+                    _hover: { color: "blue.700" },
+                  }}
+                  _dark={{ color: "blue.300", _hover: { color: "blue.500" } }}
+                  isExternal
+                  href={category.learnMore}
+                >
+                  Learn more
+                </Link>
+              )}
+            </Heading>
+          </Flex>
         </Flex>
         {category.contracts.length > 6 && (
           <LinkButton

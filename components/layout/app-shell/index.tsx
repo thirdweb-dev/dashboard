@@ -109,7 +109,9 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 gap={1}
                 alignItems="center"
               >
-                <Heading size="label.md">Docs</Heading>
+                <Heading as="h4" size="label.md">
+                  Docs
+                </Heading>
               </TrackedLink>
               <ButtonGroup
                 variant="ghost"

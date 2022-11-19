@@ -55,6 +55,7 @@ import { shortenIfAddress } from "utils/usedapp-external";
 
 export interface ExtendedReleasedContractInfo extends PublishedContract {
   name: string;
+  displayName?: string;
   description: string;
   version: string;
   releaser: string;
@@ -109,25 +110,36 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   const licenses = correctAndUniqueLicenses(compilerInfo?.licenses || []);
 
+  const releaseName = useMemo(() => {
+    if (release.displayName) {
+      return release.displayName;
+    }
+    return release.name;
+  }, [release.displayName, release.name]);
+
+  const extensionNames = useMemo(() => {
+    return enabledExtensions.map((ext) => ext.name);
+  }, [enabledExtensions]);
+
   const ogImageUrl = useMemo(
     () =>
       createReleaseOGUrl({
-        name: release.name,
+        name: releaseName,
         description: release.description,
         version: release.version,
         releaser: releaserEnsOrAddress,
-        extension: enabledExtensions.map((e) => e.name),
+        extension: extensionNames,
         license: licenses,
         releaseDate: releasedDate,
         releaserAvatar: releaserProfile.data?.avatar || undefined,
         releaseLogo: release.logo,
       }),
     [
-      enabledExtensions,
+      extensionNames,
       licenses,
       release.description,
       release.logo,
-      release.name,
+      releaseName,
       release.version,
       releasedDate,
       releaserEnsOrAddress,
@@ -141,13 +153,13 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
       "text",
-      `Check out this ${release.name} contract on @thirdweb
+      `Check out this ${releaseName} contract on @thirdweb
       
 Deploy it in one click`,
     );
     url.searchParams.append("url", currentRoute);
     return url.href;
-  }, [release, currentRoute]);
+  }, [releaseName, currentRoute]);
 
   const sources = useQuery(
     ["sources", release],
@@ -177,22 +189,39 @@ Deploy it in one click`,
     },
     { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
   );
+
+  const title = useMemo(() => {
+    let clearType = "";
+    if (extensionNames.includes("ERC721")) {
+      clearType = "ERC721";
+    } else if (extensionNames.includes("ERC20")) {
+      clearType = "ERC20";
+    } else if (extensionNames.includes("ERC1155")) {
+      clearType = "ERC1155";
+    }
+    if (clearType) {
+      return `${releaseName} - ${clearType} | Smart Contract Release`;
+    }
+
+    return `${releaseName} | Smart Contract Release`;
+  }, [extensionNames, releaseName]);
+
   return (
     <>
       <NextSeo
-        title={`${shortenIfAddress(releaserEnsOrAddress)}/${release.name}`}
+        title={title}
         description={`${release.description}${
           release.description ? ". " : ""
-        }Deploy ${release.name} in one click with thirdweb.`}
+        }Deploy ${releaseName} in one click with thirdweb.`}
         openGraph={{
-          title: `${shortenIfAddress(releaserEnsOrAddress)}/${release.name}`,
+          title,
           url: currentRoute,
           images: [
             {
               url: ogImageUrl,
               width: 1200,
               height: 630,
-              alt: `${release.name} contract on thirdweb`,
+              alt: `${releaseName} contract on thirdweb`,
             },
           ],
         }}
@@ -255,7 +284,7 @@ Deploy it in one click`,
           {walletOrEns && <ReleaserHeader wallet={walletOrEns} />}
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading as="h3" size="title.sm">
+            <Heading as="h4" size="title.sm">
               Details
             </Heading>
             <List as={Flex} flexDir="column" gap={3}>
@@ -265,7 +294,7 @@ Deploy it in one click`,
                     <Flex gap={2} alignItems="flex-start">
                       <Icon color="paragraph" as={VscCalendar} boxSize={5} />
                       <Flex direction="column" gap={1}>
-                        <Heading as="h4" size="label.sm">
+                        <Heading as="h5" size="label.sm">
                           Release Date
                         </Heading>
                         <Text size="body.md" lineHeight={1.2}>
@@ -280,7 +309,7 @@ Deploy it in one click`,
                     <Flex gap={2} alignItems="flex-start">
                       <Icon as={BsShieldCheck} boxSize={5} color="green" />
                       <Flex direction="column" gap={1}>
-                        <Heading as="h4" size="label.sm">
+                        <Heading as="h5" size="label.sm">
                           Audit Report
                         </Heading>
                         <Text size="body.md" lineHeight={1.2}>
@@ -309,7 +338,7 @@ Deploy it in one click`,
                   <Flex gap={2} alignItems="flex-start">
                     <Icon color="paragraph" as={VscBook} boxSize={5} />
                     <Flex direction="column" gap={1}>
-                      <Heading as="h4" size="label.sm">
+                      <Heading as="h5" size="label.sm">
                         License
                         {licenses.length > 1 ? "s" : ""}
                       </Heading>
@@ -324,7 +353,7 @@ Deploy it in one click`,
           </Flex>
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading as="h3" size="title.sm">
+            <Heading as="h4" size="title.sm">
               Extensions
             </Heading>
             <List as={Flex} flexDir="column" gap={3}>
@@ -357,18 +386,18 @@ Deploy it in one click`,
           </Flex>
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading as="h3" size="title.sm">
+            <Heading as="h4" size="title.sm">
               Share
             </Heading>
             <Flex gap={2} alignItems="center">
               <ShareButton
                 url={currentRoute}
-                title={`${shortenIfAddress(releaserEnsOrAddress)}/${
-                  release.name
-                }`}
-                text={`Deploy ${shortenIfAddress(releaserEnsOrAddress)}/${
-                  release.name
-                } in one click with thirdweb.`}
+                title={`${shortenIfAddress(
+                  releaserEnsOrAddress,
+                )}/${releaseName}`}
+                text={`Deploy ${shortenIfAddress(
+                  releaserEnsOrAddress,
+                )}/${releaseName} in one click with thirdweb.`}
               />
               <TrackedIconButton
                 as={LinkButton}

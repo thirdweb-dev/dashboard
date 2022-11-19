@@ -47,7 +47,8 @@ export const ContractCard: React.FC<ContractCardProps> = ({
     publishedContractResult.isPlaceholderData;
   const [via, setVia] = useState("");
   useEffect(() => {
-    setVia(window.location.pathname.slice(0, -1));
+    const pn = window.location.pathname;
+    setVia(pn.endsWith("/") ? pn.slice(0, -1) : pn);
   }, []);
 
   const href = useMemo(() => {

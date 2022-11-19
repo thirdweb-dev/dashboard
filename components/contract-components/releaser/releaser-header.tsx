@@ -37,7 +37,11 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
       align="center"
     >
       <Flex direction="column" gap={4} w="full">
-        {isProfilePage ? null : <Heading size="title.sm">Released by</Heading>}
+        {isProfilePage ? null : (
+          <Heading as="h4" size="title.sm">
+            Released by
+          </Heading>
+        )}
         <Flex gap={4} alignItems="center">
           <Skeleton isLoaded={releaserProfile.isSuccess}>
             <Link
