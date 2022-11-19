@@ -9,6 +9,7 @@ import {
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
+import { DeployUpsellCard } from "components/explore/upsells/deploy-your-own";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import {
   ALL_CATEGORIES,
@@ -96,6 +97,7 @@ const ExploreCategoryPage: ThirdwebNextPage = (
             );
           })}
         </SimpleGrid>
+        <DeployUpsellCard />
       </Flex>
     </>
   );
