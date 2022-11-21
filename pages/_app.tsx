@@ -1,6 +1,7 @@
 import chakraTheme from "../theme";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
+import { IBM_Plex_Mono, Inter } from "@next/font/google";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
 import {
@@ -8,7 +9,6 @@ import {
   Persister,
 } from "@tanstack/react-query-persist-client";
 import { shouldNeverPersistQuery } from "@thirdweb-dev/react";
-import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import { BigNumber } from "ethers";
 import { NextPage } from "next";
 import PlausibleProvider from "next-plausible";
@@ -18,15 +18,30 @@ import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import { PageId } from "page-id";
 import posthog from "posthog-js";
-import React, {
-  ReactElement,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import { isBrowser } from "utils/isBrowser";
+
+// eslint-disable-next-line new-cap
+const inter = Inter({
+  subsets: ["latin"],
+});
+
+// eslint-disable-next-line new-cap
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+const chakraThemeWithFonts = {
+  ...chakraTheme,
+  fonts: {
+    ...chakraTheme.fonts,
+    heading: inter.style.fontFamily,
+    body: inter.style.fontFamily,
+    mono: ibmPlexMono.style.fontFamily,
+  },
+};
 
 const __CACHE_BUSTER = "v3.5.1";
 
@@ -73,7 +88,7 @@ const persister: Persister = createSyncStoragePersister({
       bigNumberReplacer,
     );
   },
-  key: `tw-query-cache:${__CACHE_BUSTER}`,
+  key: `tw-query-cache`,
 });
 
 function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
@@ -187,7 +202,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
             }
           `}
         />
-        <ChakraProvider theme={chakraTheme}>
+        <ChakraProvider theme={chakraThemeWithFonts}>
           <Component {...pageProps} />
         </ChakraProvider>
       </>
@@ -202,7 +217,13 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
     >
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister }}
+        persistOptions={{
+          persister,
+          buster: __CACHE_BUSTER,
+          dehydrateOptions: {
+            shouldDehydrateQuery: (q) => !shouldNeverPersistQuery(q.queryKey),
+          },
+        }}
       >
         <Hydrate state={pageProps.dehydratedState}>
           <Global
@@ -290,8 +311,8 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
             canonical={`https://thirdweb.com${router.asPath}`}
           />
 
-          <ChakraProvider theme={chakraTheme}>
-            <AnnouncementBanner />
+          <ChakraProvider theme={chakraThemeWithFonts}>
+            {/* <AnnouncementBanner /> */}
             {getLayout(<Component {...pageProps} />, pageProps)}
           </ChakraProvider>
         </Hydrate>

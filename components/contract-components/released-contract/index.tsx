@@ -1,7 +1,7 @@
 import {
-  ens,
   useContractEnabledExtensions,
   useContractPublishMetadataFromURI,
+  useEns,
   useReleasedContractCompilerMetadata,
   useReleasedContractEvents,
   useReleasedContractFunctions,
@@ -28,6 +28,7 @@ import {
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk/evm";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
+import { replaceDeployerAddress } from "components/explore/publisher";
 import { ShareButton } from "components/share-buttom";
 import { format } from "date-fns";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -56,6 +57,7 @@ import { shortenIfAddress } from "utils/usedapp-external";
 
 export interface ExtendedReleasedContractInfo extends PublishedContract {
   name: string;
+  displayName?: string;
   description: string;
   version: string;
   releaser: string;
@@ -94,10 +96,10 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
   const contractFunctions = useReleasedContractFunctions(release);
   const contractEvents = useReleasedContractEvents(release);
 
-  const ensQuery = ens.useQuery(release.releaser);
+  const ensQuery = useEns(release.releaser);
 
-  const releaserEnsOrAddress = shortenIfAddress(
-    ensQuery.data?.ensName || release.releaser,
+  const releaserEnsOrAddress = replaceDeployerAddress(
+    shortenIfAddress(ensQuery.data?.ensName || release.releaser),
   );
 
   const releasedDate = format(
@@ -111,25 +113,36 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   const licenses = correctAndUniqueLicenses(compilerInfo?.licenses || []);
 
+  const releaseName = useMemo(() => {
+    if (release.displayName) {
+      return release.displayName;
+    }
+    return release.name;
+  }, [release.displayName, release.name]);
+
+  const extensionNames = useMemo(() => {
+    return enabledExtensions.map((ext) => ext.name);
+  }, [enabledExtensions]);
+
   const ogImageUrl = useMemo(
     () =>
       createReleaseOGUrl({
-        name: release.name,
+        name: releaseName,
         description: release.description,
         version: release.version,
         releaser: releaserEnsOrAddress,
-        extension: enabledExtensions.map((e) => e.name),
+        extension: extensionNames,
         license: licenses,
         releaseDate: releasedDate,
         releaserAvatar: releaserProfile.data?.avatar || undefined,
         releaseLogo: release.logo,
       }),
     [
-      enabledExtensions,
+      extensionNames,
       licenses,
       release.description,
       release.logo,
-      release.name,
+      releaseName,
       release.version,
       releasedDate,
       releaserEnsOrAddress,
@@ -143,13 +156,13 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
     const url = new URL("https://twitter.com/intent/tweet");
     url.searchParams.append(
       "text",
-      `Check out this ${release.name} contract on @thirdweb
+      `Check out this ${releaseName} contract on @thirdweb
       
 Deploy it in one click`,
     );
     url.searchParams.append("url", currentRoute);
     return url.href;
-  }, [release, currentRoute]);
+  }, [releaseName, currentRoute]);
 
   const sources = useQuery(
     ["sources", release],
@@ -179,22 +192,39 @@ Deploy it in one click`,
     },
     { enabled: !!contractReleaseMetadata.data?.compilerMetadata?.sources },
   );
+
+  const title = useMemo(() => {
+    let clearType = "";
+    if (extensionNames.includes("ERC721")) {
+      clearType = "ERC721";
+    } else if (extensionNames.includes("ERC20")) {
+      clearType = "ERC20";
+    } else if (extensionNames.includes("ERC1155")) {
+      clearType = "ERC1155";
+    }
+    if (clearType) {
+      return `${releaseName} - ${clearType} | Smart Contract Release`;
+    }
+
+    return `${releaseName} | Smart Contract Release`;
+  }, [extensionNames, releaseName]);
+
   return (
     <>
       <NextSeo
-        title={`${shortenIfAddress(releaserEnsOrAddress)}/${release.name}`}
+        title={title}
         description={`${release.description}${
           release.description ? ". " : ""
-        }Deploy ${release.name} in one click with thirdweb.`}
+        }Deploy ${releaseName} in one click with thirdweb.`}
         openGraph={{
-          title: `${shortenIfAddress(releaserEnsOrAddress)}/${release.name}`,
+          title,
           url: currentRoute,
           images: [
             {
               url: ogImageUrl,
               width: 1200,
               height: 630,
-              alt: `${release.name} contract on thirdweb`,
+              alt: `${releaseName} contract on thirdweb`,
             },
           ],
         }}
@@ -266,47 +296,81 @@ Deploy it in one click`,
           {walletOrEns && <ReleaserHeader wallet={walletOrEns} />}
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading size="title.sm">Contract details</Heading>
+            <Heading as="h4" size="title.sm">
+              Details
+            </Heading>
             <List as={Flex} flexDir="column" gap={3}>
               <>
                 {releasedContractInfo.data?.publishedTimestamp && (
                   <ListItem>
-                    <Flex gap={2} alignItems="center">
+                    <Flex gap={2} alignItems="flex-start">
                       <Icon color="paragraph" as={VscCalendar} boxSize={5} />
-                      <Text size="label.md" lineHeight={1.2}>
-                        Released: {releasedDate}
-                      </Text>
+                      <Flex direction="column" gap={1}>
+                        <Heading as="h5" size="label.sm">
+                          Release Date
+                        </Heading>
+                        <Text size="body.md" lineHeight={1.2}>
+                          {releasedDate}
+                        </Text>
+                      </Flex>
                     </Flex>
                   </ListItem>
                 )}
                 {releasedContractInfo.data?.publishedMetadata?.audit && (
                   <ListItem>
-                    <Flex gap={2} alignItems="center">
+                    <Flex gap={2} alignItems="flex-start">
                       <Icon as={BsShieldCheck} boxSize={5} color="green" />
-                      <Text size="label.md">
-                        <Link
-                          href={replaceIpfsUrl(
-                            releasedContractInfo.data?.publishedMetadata?.audit,
-                          )}
-                          isExternal
-                        >
-                          Audited
-                        </Link>
-                      </Text>
+                      <Flex direction="column" gap={1}>
+                        <Heading as="h5" size="label.sm">
+                          Audit Report
+                        </Heading>
+                        <Text size="body.md" lineHeight={1.2}>
+                          <Link
+                            href={replaceIpfsUrl(
+                              releasedContractInfo.data.publishedMetadata.audit,
+                            )}
+                            isExternal
+                            _dark={{
+                              color: "blue.300",
+                              _hover: { color: "blue.500" },
+                            }}
+                            _light={{
+                              color: "blue.500",
+                              _hover: { color: "blue.700" },
+                            }}
+                          >
+                            View Audit Report
+                          </Link>
+                        </Text>
+                      </Flex>
                     </Flex>
                   </ListItem>
                 )}
                 <ListItem>
-                  <Flex gap={2} alignItems="center">
+                  <Flex gap={2} alignItems="flex-start">
                     <Icon color="paragraph" as={VscBook} boxSize={5} />
-                    <Text size="label.md" lineHeight={1.2}>
-                      License
-                      {licenses.length > 1 ? "s" : ""}:{" "}
-                      {licenses.join(", ") || "None"}
-                    </Text>
+                    <Flex direction="column" gap={1}>
+                      <Heading as="h5" size="label.sm">
+                        License
+                        {licenses.length > 1 ? "s" : ""}
+                      </Heading>
+                      <Text size="body.md" lineHeight={1.2}>
+                        {licenses.join(", ") || "None"}
+                      </Text>
+                    </Flex>
                   </Flex>
                 </ListItem>
-                {(enabledExtensions || []).map((extension) => (
+              </>
+            </List>
+          </Flex>
+          <Divider />
+          <Flex flexDir="column" gap={4}>
+            <Heading as="h4" size="title.sm">
+              Extensions
+            </Heading>
+            <List as={Flex} flexDir="column" gap={3}>
+              {enabledExtensions.length ? (
+                enabledExtensions.map((extension) => (
                   <ListItem key={extension.name}>
                     <Flex gap={2} alignItems="center">
                       <Icon as={FcCheckmark} boxSize={5} />
@@ -322,22 +386,30 @@ Deploy it in one click`,
                       </Text>
                     </Flex>
                   </ListItem>
-                ))}
-              </>
+                ))
+              ) : (
+                <ListItem>
+                  <Text size="body.md" fontStyle="italic">
+                    No extensions detected
+                  </Text>
+                </ListItem>
+              )}
             </List>
           </Flex>
           <Divider />
           <Flex flexDir="column" gap={4}>
-            <Heading size="title.sm">Share</Heading>
+            <Heading as="h4" size="title.sm">
+              Share
+            </Heading>
             <Flex gap={2} alignItems="center">
               <ShareButton
                 url={currentRoute}
-                title={`${shortenIfAddress(releaserEnsOrAddress)}/${
-                  release.name
-                }`}
-                text={`Deploy ${shortenIfAddress(releaserEnsOrAddress)}/${
-                  release.name
-                } in one click with thirdweb.`}
+                title={`${shortenIfAddress(
+                  releaserEnsOrAddress,
+                )}/${releaseName}`}
+                text={`Deploy ${shortenIfAddress(
+                  releaserEnsOrAddress,
+                )}/${releaseName} in one click with thirdweb.`}
               />
               <TrackedIconButton
                 as={LinkButton}
@@ -356,12 +428,13 @@ Deploy it in one click`,
           <Flex flexDir="column" gap={4}>
             <Flex gap={2} alignItems="center">
               <LinkButton
+                colorScheme="blue"
                 href="https://portal.thirdweb.com/release"
                 w="full"
-                variant="outline"
+                variant="ghost"
                 isExternal
               >
-                Learn more about Release
+                Learn about Release
               </LinkButton>
             </Flex>
           </Flex>

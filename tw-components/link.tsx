@@ -36,7 +36,6 @@ interface LinkProps
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ({ href, isExternal, children, noMatch, scroll, ...restLinkProps }, ref) => {
     const match = useMatch();
-
     if (isExternal) {
       return (
         <ChakraLink isExternal href={href} ref={ref} {...restLinkProps}>
@@ -73,6 +72,7 @@ Link.displayName = "Link";
 interface TrackedLinkProps extends LinkProps {
   category: string;
   label?: string;
+  trackingProps?: Record<string, string>;
 }
 
 /**
@@ -81,12 +81,13 @@ interface TrackedLinkProps extends LinkProps {
 export const TrackedLink = React.forwardRef<
   HTMLAnchorElement,
   TrackedLinkProps
->(({ category, label, ...props }, ref) => {
+>(({ category, label, trackingProps, ...props }, ref) => {
   const trackEvent = useTrack();
 
   const onClick = useCallback(() => {
     trackEvent({ category, action: "click", label });
-  }, [trackEvent, category, label]);
+    trackEvent({ category, action: "click", ...trackingProps });
+  }, [trackEvent, category, label, trackingProps]);
 
   return <Link ref={ref} onClick={onClick} {...props} />;
 });

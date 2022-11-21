@@ -9,6 +9,7 @@ import { Button, Drawer } from "tw-components";
 interface DeployFormDrawerProps {
   contractId: ContractId;
   chainId?: SUPPORTED_CHAIN_ID;
+  contractVersion?: string;
   onSuccessCallback?: (contractAddress: string) => void;
   onDrawerVisibilityChanged?: (isVisible: boolean) => void;
 }
@@ -16,6 +17,7 @@ interface DeployFormDrawerProps {
 export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
   contractId,
   chainId,
+  contractVersion = "latest",
   onSuccessCallback,
   onDrawerVisibilityChanged,
 }) => {
@@ -26,7 +28,7 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
     <>
       <Button
         flexShrink={0}
-        colorScheme="purple"
+        colorScheme="primary"
         onClick={() => {
           trackEvent({
             category: "specific-release",
@@ -57,6 +59,7 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
           <ContractDeployForm
             contractId={contractId}
             chainId={chainId}
+            contractVersion={contractVersion}
             onSuccessCallback={
               onSuccessCallback
                 ? (address) => {
