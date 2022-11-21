@@ -55,6 +55,7 @@ interface SnapshotUploadProps {
   value?: ClaimCondition["snapshot"];
   dropType: "specific" | "any" | "overrides";
   isV1ClaimCondition: boolean;
+  isDisabled: boolean;
 }
 
 export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
@@ -64,6 +65,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   value,
   dropType,
   isV1ClaimCondition,
+  isDisabled,
 }) => {
   const [validSnapshot, setValidSnapshot] = useState<SnapshotAddressInput[]>(
     value || [],
@@ -104,7 +106,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             .map(({ address, maxClaimable, price, currencyAddress }) => ({
               address: (address || "").trim(),
               maxClaimable: (maxClaimable || "0").trim(),
-              price: (price || "").trim() || "unlimited",
+              price: (price || "").trim() || undefined,
               currencyAddress: (currencyAddress || "").trim() || undefined,
             }))
             .filter(({ address }) => address !== "");
@@ -194,7 +196,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                     bg={noCsv ? "red.200" : "inputBg"}
                     _hover={{
                       bg: "inputBgHover",
-                      borderColor: "blue.500",
+                      borderColor: "primary.500",
                     }}
                     borderColor="inputBorder"
                     borderWidth="1px"
@@ -370,7 +372,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
               >
                 <Button
                   borderRadius="md"
-                  disabled={validSnapshot.length === 0}
+                  disabled={isDisabled || validSnapshot.length === 0}
                   onClick={() => {
                     reset();
                   }}
@@ -383,7 +385,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                   colorScheme="primary"
                   onClick={onSave}
                   w={{ base: "100%", md: "auto" }}
-                  disabled={invalidFound || validSnapshot.length === 0}
+                  disabled={
+                    isDisabled || invalidFound || validSnapshot.length === 0
+                  }
                 >
                   Next
                 </Button>
