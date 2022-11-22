@@ -92,7 +92,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
             </Text>
           </Stack>
           <Heading
-            as="h2"
+            as="h1"
             fontSize="48px"
             fontWeight="bold"
             size="display.sm"
