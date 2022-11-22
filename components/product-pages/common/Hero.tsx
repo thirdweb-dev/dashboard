@@ -10,11 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
+import { ReactElement } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
-export interface IHero {
+export interface HeroProps {
   name: string;
   title: string;
   description: string;
@@ -23,9 +24,10 @@ export interface IHero {
   gradient: string;
   image?: StaticImageData;
   type?: "Products" | "Solutions";
+  underGetStarted?: ReactElement;
 }
 
-export const Hero: ComponentWithChildren<IHero> = ({
+export const Hero: ComponentWithChildren<HeroProps> = ({
   name,
   title,
   description,
@@ -34,6 +36,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
   image,
   gradient,
   type = "Products",
+  underGetStarted,
   children,
 }) => {
   return (
@@ -109,13 +112,16 @@ export const Hero: ComponentWithChildren<IHero> = ({
           >
             {description}
           </Heading>
-          <ProductButton
-            mt="32px"
-            title={buttonText}
-            href={buttonLink}
-            color="blackAlpha.900"
-            bg="white"
-          />
+          <Flex flexDirection="column">
+            <ProductButton
+              mt="32px"
+              title={buttonText}
+              href={buttonLink}
+              color="blackAlpha.900"
+              bg="white"
+            />
+            <>{underGetStarted}</>
+          </Flex>
         </Flex>
         {image && (
           <Center

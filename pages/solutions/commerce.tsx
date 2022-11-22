@@ -62,12 +62,22 @@ const Commerce: ThirdwebNextPage = () => {
       <Hero
         name="Commerce"
         title="Build Web3 Commerce apps easily"
-        description="We have partnered with Shopify so that you can add powerful web3 primitives to your storefront with token gated commerce, NFT loyalty programs, and more."
+        description="With thirdweb you can now add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more."
         buttonText="Get started"
         buttonLink="https://blog.thirdweb.com/tag/shopify/"
         gradient="linear-gradient(147.15deg, #9BC055 30.17%, #7629E7 100.01%)"
         image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         type="Solutions"
+        underGetStarted={
+          <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
+            <Heading size="subtitle.xs">In partnership with</Heading>
+            <ChakraNextImage
+              src={require("public/assets/solutions-pages/commerce/shopify.png")}
+              width="80px"
+              alt="Shopify"
+            />
+          </Flex>
+        }
       >
         <SimpleGrid
           justifyContent="flex-start"
@@ -180,7 +190,7 @@ const Commerce: ThirdwebNextPage = () => {
               </Flex>
               <Text size="body.lg" mt="16px">
                 Powerful SDKs enables you to build commerce apps that connects
-                to users wallets. Easily bootstrap projects with a single
+                to users&apos; wallets. Easily bootstrap projects with a single
                 command.
               </Text>
             </Flex>
@@ -279,7 +289,7 @@ const Commerce: ThirdwebNextPage = () => {
         opacity="0.8"
       />
 
-      <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
+      {/*       <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
         <Flex
           flexDir="column"
           pt={{ base: 24, md: 36 }}
@@ -303,7 +313,7 @@ const Commerce: ThirdwebNextPage = () => {
             - Zain Manji, Lazer Technologies Co-Founder
           </Text>
         </Flex>
-      </Box>
+      </Box> */}
 
       <Box
         h="1px"
