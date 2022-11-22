@@ -177,7 +177,7 @@ const Commerce: ThirdwebNextPage = () => {
               <Text size="body.lg" mt="16px">
                 Powerful SDKs enables you to build commerce apps that connects
                 to users wallets. Easily bootstrap projects with a single
-                command. Easily bootstrap projects with a single command.
+                command.
               </Text>
             </Flex>
             <LinkButton
