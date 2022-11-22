@@ -91,10 +91,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 
   const form = useForm<{ addToDashboard: true }>();
 
-  const isTwFactory = isThirdwebFactory(
-    selectedChain,
-    fullReleaseMetadata.data?.factoryDeploymentData?.factoryAddresses,
-  );
+  const isTwFactory =
+    (fullReleaseMetadata.data?.isDeployableViaFactory ||
+      fullReleaseMetadata.data?.isDeployableViaProxy) &&
+    isThirdwebFactory(
+      selectedChain,
+      fullReleaseMetadata.data?.factoryDeploymentData?.factoryAddresses,
+    );
 
   const { register, watch, handleSubmit } = form;
   const [contractParams, _setContractParams] = useState<any[]>([]);
@@ -251,7 +254,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           with a testnet.{" "}
           <TrackedLink
             href="https://blog.thirdweb.com/guides/which-network-should-you-use"
-            color="primary.500"
+            color="blue.500"
             category="deploy"
             label="learn-networks"
             isExternal
@@ -260,24 +263,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </TrackedLink>
         </Text>
       </Flex>
-      <Flex alignItems="center" gap={3}>
-        {!isTwFactory && (
+      {!isTwFactory && (
+        <Flex alignItems="center" gap={3}>
           <Checkbox {...register("addToDashboard")} defaultChecked />
-        )}
-        <Text mt={1}>
-          Add to dashboard so I can find it in the list of my contracts at{" "}
-          <TrackedLink
-            href="https://thirdweb.com/dashboard"
-            isExternal
-            category="custom-contract"
-            label="visit-dashboard"
-            color="primary.500"
-          >
-            /dashboard
-          </TrackedLink>
-          .
-        </Text>
-      </Flex>
+
+          <Text mt={1}>
+            Add to dashboard so I can find it in the list of my contracts at{" "}
+            <TrackedLink
+              href="https://thirdweb.com/dashboard"
+              isExternal
+              category="custom-contract"
+              label="visit-dashboard"
+              color="blue.500"
+            >
+              /dashboard
+            </TrackedLink>
+            .
+          </Text>
+        </Flex>
+      )}
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
           <SupportedNetworkSelect
@@ -313,7 +317,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             !selectedChain ||
             !!disabledChains?.find((chain) => chain === selectedChain)
           }
-          colorScheme="primary"
+          colorScheme="blue"
           transactionCount={isTwFactory ? 1 : !watch("addToDashboard") ? 1 : 2}
         >
           Deploy Now
