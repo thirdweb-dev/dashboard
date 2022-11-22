@@ -23,7 +23,7 @@ export const ProductCard: ComponentWithChildren<ProductCardProps> = ({
       padding="24px"
     >
       <ChakraNextImage src={icon} placeholder="empty" alt="" w={12} />
-      <Heading size="title.sm" mt="32px">
+      <Heading size="title.sm" mt="32px" as="h1">
         {title}
       </Heading>
       <Text size="body.lg" mt="16px">

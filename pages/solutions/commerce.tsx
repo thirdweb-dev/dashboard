@@ -148,7 +148,9 @@ const Commerce: ThirdwebNextPage = () => {
                   alt=""
                   w={8}
                 />
-                <Heading size="title.sm">Build</Heading>
+                <Heading size="title.sm" as="h3">
+                  Build
+                </Heading>
               </Flex>
               <Text size="body.lg" mt="16px">
                 Pre-built contracts or build your own with ContractKit to
@@ -172,7 +174,9 @@ const Commerce: ThirdwebNextPage = () => {
                   alt=""
                   w={8}
                 />
-                <Heading size="title.sm">Launch</Heading>
+                <Heading size="title.sm" as="h3">
+                  Launch
+                </Heading>
               </Flex>
               <Text size="body.lg" mt="16px">
                 Powerful SDKs enables you to build commerce apps that connects
@@ -197,7 +201,9 @@ const Commerce: ThirdwebNextPage = () => {
                   alt=""
                   w={8}
                 />
-                <Heading size="title.sm">Manage</Heading>
+                <Heading size="title.sm" as="h3">
+                  Manage
+                </Heading>
               </Flex>
               <Text size="body.lg" mt="16px">
                 View and interact with your Shopify store smart contracts
@@ -287,6 +293,7 @@ const Commerce: ThirdwebNextPage = () => {
             maxWidth="820px"
             color="gray.200"
             textAlign="center"
+            as="h3"
           >
             Working with thirdweb has been super easy, we did in a couple weeks
             what it would have taken us months to do. We are very happy with the
