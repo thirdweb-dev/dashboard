@@ -213,8 +213,8 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                 </FormLabel>
               </Flex>
               <FormHelperText>
-                This will update the creators for all NFTs already minted on
-                this program.
+                Enabling this will update the creators for all NFTs already minted on
+                this program. (This may be expensive depending on how many NFTs have already been minted.)
               </FormHelperText>
             </FormControl>
           </Flex>
