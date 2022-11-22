@@ -132,8 +132,9 @@ export const SettingsRoyalties: React.FC<SettingsRoyaltiesProps> = ({
               </FormLabel>
             </Flex>
             <FormHelperText>
-              Enabling this will  will update the royalties for all NFTs already minted on this
-              program. (This may be expensive depending on how many NFTs have already been minted.)
+              Enabling this will will update the royalties for all NFTs already
+              minted on this program. (This may be expensive depending on how
+              many NFTs have already been minted.)
             </FormHelperText>
           </FormControl>
         </Flex>
