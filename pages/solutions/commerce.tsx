@@ -104,7 +104,7 @@ const Commerce: ThirdwebNextPage = () => {
       <ProductSection>
         <Stack
           direction={{ base: "column", md: "row" }}
-          spacing={{ base: 12, md: 6 }}
+          spacing={{ base: 12, md: 12 }}
           alignItems="center"
           py={{ base: 12, md: 24 }}
         >
