@@ -83,7 +83,7 @@ const Commerce: ThirdwebNextPage = () => {
             segments for future campaigns.
           </ProductCard>
           <ProductCard
-            title="Verify on-chain identities"
+            title="Reward customers with exclusive access"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
             Reward your customers and collab with other brands by tokengating
