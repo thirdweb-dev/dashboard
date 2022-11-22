@@ -62,7 +62,7 @@ const Commerce: ThirdwebNextPage = () => {
       <Hero
         name="Commerce"
         title="Build Web3 Commerce apps easily"
-        description="Add powerful web3 primitives to your Shopify store with tokengated commerce, NFT loyalty programs, and more. We have partnered with Shopify to simplify the development workflow to a few simple APIs so that you can focus on creating value for your users and leave all the web3 complexity to us. "
+        description="We have partnered with Shopify so that you can add powerful web3 primitives to your storefront with token gated commerce, NFT loyalty programs, and more."
         buttonText="Get started"
         buttonLink="https://blog.thirdweb.com/tag/shopify/"
         gradient="linear-gradient(147.15deg, #9BC055 30.17%, #7629E7 100.01%)"
