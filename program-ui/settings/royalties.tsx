@@ -1,4 +1,4 @@
-import { Flex, FormControl } from "@chakra-ui/react";
+import { Flex, FormControl, Switch } from "@chakra-ui/react";
 import {
   useRoyaltySettings,
   useUpdateRoyaltySettings,
@@ -28,8 +28,15 @@ export const SettingsRoyalties: React.FC<SettingsRoyaltiesProps> = ({
   const trackEvent = useTrack();
   const query = useRoyaltySettings(program);
   const mutation = useUpdateRoyaltySettings(program);
-  const { handleSubmit, getFieldState, formState, reset, watch, setValue } =
-    useForm<{ sellerFeeBasisPoints: number }>();
+  const {
+    handleSubmit,
+    getFieldState,
+    formState,
+    reset,
+    watch,
+    setValue,
+    register,
+  } = useForm<{ sellerFeeBasisPoints: number; updateAll: boolean }>();
   useEffect(() => {
     if (query.data && !formState.isDirty) {
       reset({ sellerFeeBasisPoints: query.data });
@@ -52,34 +59,40 @@ export const SettingsRoyalties: React.FC<SettingsRoyaltiesProps> = ({
             action: "set-royalty",
             label: "attempt",
           });
-          mutation.mutateAsync(d.sellerFeeBasisPoints, {
-            onSuccess: () => {
-              trackEvent({
-                category: "settings",
-                action: "set-royalty",
-                label: "success",
-              });
-              reset();
-              onSuccess();
+          mutation.mutateAsync(
+            {
+              sellerFeeBasisPoints: d.sellerFeeBasisPoints,
+              updateAll: d.updateAll,
             },
-            onError: (error) => {
-              trackEvent({
-                category: "settings",
-                action: "set-royalty",
-                label: "error",
-                error,
-              });
-              onError(error);
+            {
+              onSuccess: () => {
+                trackEvent({
+                  category: "settings",
+                  action: "set-royalty",
+                  label: "success",
+                });
+                reset();
+                onSuccess();
+              },
+              onError: (error) => {
+                trackEvent({
+                  category: "settings",
+                  action: "set-royalty",
+                  label: "error",
+                  error,
+                });
+                onError(error);
+              },
             },
-          });
+          );
         })}
         direction="column"
       >
         <Flex p={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>
           <Heading size="title.sm">Royalties</Heading>
           <Text size="body.md" fontStyle="italic">
-            Determine the percentage you&apos;ll receive from secondary sales of
-            the assets.
+            Determine the percentage creators will receive from secondary sales
+            of the assets.
           </Text>
           <Flex gap={4} direction={{ base: "column", md: "row" }}>
             <FormControl
@@ -104,6 +117,18 @@ export const SettingsRoyalties: React.FC<SettingsRoyaltiesProps> = ({
                     ?.message
                 }
               </FormErrorMessage>
+            </FormControl>
+          </Flex>
+          <Flex>
+            <FormControl display="flex" alignItems="center" as={Flex} gap={2}>
+              <Switch
+                id="update-all"
+                colorScheme="primary"
+                {...register("updateAll")}
+              />
+              <FormLabel htmlFor="update-all" mb="0">
+                Apply retroactively to NFTs already minted
+              </FormLabel>
             </FormControl>
           </Flex>
         </Flex>

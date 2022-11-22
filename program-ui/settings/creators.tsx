@@ -8,6 +8,7 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  Switch,
 } from "@chakra-ui/react";
 import { IoMdAdd } from "@react-icons/all-files/io/IoMdAdd";
 import { IoMdRemove } from "@react-icons/all-files/io/IoMdRemove";
@@ -19,8 +20,14 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { Button, Card, FormErrorMessage, Heading, Text } from "tw-components";
-import { z } from "zod";
+import {
+  Button,
+  Card,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 
 interface SettingsCreatorsProps {
   program: NFTCollection | NFTDrop;
@@ -75,25 +82,28 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
             action: "set-creators",
             label: "attempt",
           });
-          mutation.mutateAsync(d.creators, {
-            onSuccess: () => {
-              trackEvent({
-                category: "settings",
-                action: "set-creators",
-                label: "success",
-              });
-              onSuccess();
+          mutation.mutateAsync(
+            { creators: d.creators, updateAll: d.updateAll },
+            {
+              onSuccess: () => {
+                trackEvent({
+                  category: "settings",
+                  action: "set-creators",
+                  label: "success",
+                });
+                onSuccess();
+              },
+              onError: (error) => {
+                trackEvent({
+                  category: "settings",
+                  action: "set-creators",
+                  label: "error",
+                  error,
+                });
+                onError(error);
+              },
             },
-            onError: (error) => {
-              trackEvent({
-                category: "settings",
-                action: "set-creators",
-                label: "error",
-                error,
-              });
-              onError(error);
-            },
-          });
+          );
         })}
         direction="column"
       >
@@ -189,6 +199,18 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
               >
                 Add Recipient
               </Button>
+            </Flex>
+            <Flex>
+              <FormControl display="flex" alignItems="center" as={Flex} gap={2}>
+                <Switch
+                  id="update-all"
+                  colorScheme="primary"
+                  {...register("updateAll")}
+                />
+                <FormLabel htmlFor="update-all" mb="0">
+                  Apply retroactively to NFTs already minted
+                </FormLabel>
+              </FormControl>
             </Flex>
           </Flex>
         </Flex>
