@@ -24,6 +24,7 @@ import {
   Button,
   Card,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Heading,
   Text,
@@ -200,18 +201,22 @@ export const SettingsCreators: React.FC<SettingsCreatorsProps> = ({
                 Add Recipient
               </Button>
             </Flex>
-            <Flex>
-              <FormControl display="flex" alignItems="center" as={Flex} gap={2}>
+            <FormControl display="flex" as={Flex} flexDir="column">
+              <Flex gap={2} alignItems="center">
                 <Switch
                   id="update-all"
                   colorScheme="primary"
                   {...register("updateAll")}
                 />
                 <FormLabel htmlFor="update-all" mb="0">
-                  Apply retroactively to NFTs already minted
+                  Apply retroactively
                 </FormLabel>
-              </FormControl>
-            </Flex>
+              </Flex>
+              <FormHelperText>
+                This will update the creators for all NFTs already minted on
+                this program.
+              </FormHelperText>
+            </FormControl>
           </Flex>
         </Flex>
         <TransactionButton

@@ -61,7 +61,9 @@ export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
       title: "Settings",
       path: "/settings",
       element:
-        program?.accountType === "token" ? (
+        program?.accountType === "nft-collection" ? (
+          <ProgramSettingsTab address={programAddress} />
+        ) : (
           <>
             <Card>
               <Flex direction="column" gap={4}>
@@ -73,8 +75,6 @@ export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
               </Flex>
             </Card>
           </>
-        ) : (
-          <ProgramSettingsTab address={programAddress} />
         ),
     },
   ];
