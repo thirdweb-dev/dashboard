@@ -22,6 +22,7 @@ export interface IHero {
   buttonLink: string;
   gradient: string;
   image?: StaticImageData;
+  type?: "Products" | "Solutions";
 }
 
 export const Hero: ComponentWithChildren<IHero> = ({
@@ -32,6 +33,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
   buttonLink,
   image,
   gradient,
+  type = "Products",
   children,
 }) => {
   return (
@@ -77,7 +79,7 @@ export const Hero: ComponentWithChildren<IHero> = ({
               color="whiteAlpha.800"
               size="body.lg"
             >
-              Products
+              {type}
             </Text>
             <Icon as={FiChevronRight} color="whiteAlpha.800" />
             <Text
