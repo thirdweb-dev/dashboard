@@ -172,7 +172,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
       <Flex direction="column" gap={4}>
         <Heading size="label.lg">
           <Flex gap={2} align="center">
-            <Icon color="blue.500" boxSize={6} as={FiInfo} />
+            <Icon color="primary.500" boxSize={6} as={FiInfo} />
             <span>Execute Transaction</span>
           </Flex>
         </Heading>
@@ -193,7 +193,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
           ref={initialFocusRef}
           colorScheme="primary"
           size="sm"
-          href={`https://app.safe.global/app/${
+          href={`https://app.safe.global/${
             CHAIN_ID_TO_GNOSIS[chainId as keyof typeof CHAIN_ID_TO_GNOSIS]
           }:${address}/transactions/queue`}
           isExternal
@@ -207,7 +207,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
       <Flex direction="column" gap={4}>
         <Heading size="label.lg">
           <Flex gap={2} align="center">
-            <Icon color="blue.500" boxSize={6} as={FiInfo} />
+            <Icon color="primary.500" boxSize={6} as={FiInfo} />
             <span>Approve Transaction</span>
           </Flex>
         </Heading>
