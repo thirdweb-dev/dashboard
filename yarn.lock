@@ -3465,6 +3465,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.2.5.tgz#f1bb933a51503e2d65e264c5bbeac828af9de7be"
   integrity sha512-fYrHxSdIpLleJkDImWUVcve66VAKQHYDk+LXj04GqoM+asbnKEQQpCtKKnJcrfujwW0aWE5cyMZXVctDSwRe7g==
 
+
 "@thirdweb-dev/react@^3.6.2":
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.2.tgz#891ed378ce308f10cb1757077f3414a9c191f1ec"
@@ -3489,6 +3490,7 @@
     react-cool-dimensions "^2.0.7"
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
+
 
 "@thirdweb-dev/sdk@^3.6.2":
   version "3.6.2"
