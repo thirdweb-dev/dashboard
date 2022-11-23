@@ -42,6 +42,7 @@ export const NavCard: React.FC<NavCardProps> = ({
               as={iconType}
               color={comingSoon ? "whiteAlpha.400" : "white"}
               boxSize={6}
+              mr={2}
             />
           )}
           <Flex direction="column">
