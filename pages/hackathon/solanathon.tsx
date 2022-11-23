@@ -8,7 +8,6 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
-import { ChakraNextImage } from "components/Image";
 import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
 import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
@@ -72,14 +71,14 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             gap={12}
             mt={{ base: 12, md: 24 }}
           >
-            <ChakraNextImage
+            {/* <ChakraNextImage
               src="/assets/hackathon/tw-solana.svg"
               alt="Solana Hackathon"
               width={300}
               height={30}
               w={{ base: "300px", md: "600px" }}
               objectFit="contain"
-            />
+            /> */}
             <Flex flexDir="column" gap={2}>
               <Heading size="title.xl" textAlign="center">
                 Build Web3 apps on Solana
