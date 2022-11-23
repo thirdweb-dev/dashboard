@@ -23,7 +23,7 @@ export const HoverMenu: React.FC<HoverMenuProps> = ({
   const { onOpen, isOpen, onClose } = useDisclosure();
 
   return (
-    <Box onMouseEnter={onOpen} onMouseLeave={onClose} zIndex={isOpen ? 10 : 1}>
+    <Box onMouseLeave={onClose}>
       <Text
         color="white"
         fontWeight="bold"
@@ -32,16 +32,15 @@ export const HoverMenu: React.FC<HoverMenuProps> = ({
         py={3}
         opacity={isOpen ? 0.8 : 1}
         transition="opacity 0.1s"
+        onMouseEnter={onOpen}
       >
         {title}
       </Text>
 
-      <Box position="relative">
+      <Box position="relative" display={isOpen ? "block" : "none"}>
         <Fade in={isOpen}>
           <Card
-            pointerEvents={isOpen ? "all" : "none"}
             p="20px"
-            onMouseEnter={onOpen}
             position="absolute"
             top={0}
             left={columns === 2 ? "-280px" : "-124px"}
