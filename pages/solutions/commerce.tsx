@@ -164,7 +164,7 @@ const Commerce: ThirdwebNextPage = () => {
                 </Heading>
               </Flex>
               <Text size="body.lg" mt="16px">
-                Pre-built contracts or build your own with ContractKit to
+                Prebuilt contracts or build your own with ContractKit to
                 distribute NFTs through your commerce app.
               </Text>
             </Flex>
