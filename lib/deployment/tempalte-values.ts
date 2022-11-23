@@ -29,6 +29,9 @@ const ADDRESS_TEMPLATE_VALUES: TemplateValue[] = [
       );
     },
   },
+];
+
+const ADDRESS_ARRAY_TEMPLATE_VALUES: TemplateValue[] = [
   {
     value: "{{trusted_forwarders}}",
     helperText:
@@ -49,6 +52,8 @@ export function getTemplateValuesForType(type: SolidityType): TemplateValue[] {
   switch (type) {
     case "address":
       return ADDRESS_TEMPLATE_VALUES;
+    case "address[]":
+      return ADDRESS_ARRAY_TEMPLATE_VALUES;
     default:
       return [];
   }
