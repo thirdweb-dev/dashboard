@@ -1,5 +1,12 @@
 import { NavCard, NavCardProps } from "./NavCard";
-import { Box, Fade, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Fade,
+  Flex,
+  SimpleGrid,
+  Stack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Card, Text } from "tw-components";
 
 export const PRODUCTS: NavCardProps[] = [
@@ -11,39 +18,18 @@ export const PRODUCTS: NavCardProps[] = [
     icon: require("public/assets/product-icons/sdks.png"),
   },
   {
-    name: "Smart Contracts",
-    label: "smart-contracts",
-    description: "Prebuilt and audited",
-    link: "/smart-contracts",
-    icon: require("public/assets/product-icons/contracts.png"),
-  },
-  {
-    name: "ContractKit",
-    label: "contractkit",
-    description: "Building blocks for your contracts",
-    link: "/contractkit",
-    icon: require("public/assets/product-icons/extensions.png"),
-  },
-  {
-    name: "Dashboards",
-    label: "dashboards",
-    description: "On-chain analytics and management",
-    link: "/dashboards",
-    icon: require("public/assets/product-icons/dashboards.png"),
-  },
-  {
-    name: "UI Components",
-    label: "ui-components",
-    description: "Plug-and-play frontend components",
-    link: "/ui-components",
-    icon: require("public/assets/product-icons/ui-components.png"),
-  },
-  {
     name: "Auth",
     label: "auth",
     description: "Decentralized login for your app",
     link: "/auth",
     icon: require("public/assets/product-icons/auth.png"),
+  },
+  {
+    name: "Smart Contracts",
+    label: "smart-contracts",
+    description: "Prebuilt and audited",
+    link: "/smart-contracts",
+    icon: require("public/assets/product-icons/contracts.png"),
   },
   {
     name: "Release",
@@ -53,6 +39,13 @@ export const PRODUCTS: NavCardProps[] = [
     icon: require("public/assets/product-icons/release.png"),
   },
   {
+    name: "ContractKit",
+    label: "contractkit",
+    description: "Building blocks for your contracts",
+    link: "/contractkit",
+    icon: require("public/assets/product-icons/extensions.png"),
+  },
+  {
     name: "Deploy",
     label: "deploy",
     description: "Seamless contract deployment",
@@ -60,11 +53,25 @@ export const PRODUCTS: NavCardProps[] = [
     icon: require("public/assets/product-icons/deploy.png"),
   },
   {
+    name: "Dashboards",
+    label: "dashboards",
+    description: "On-chain analytics and management",
+    link: "/dashboards",
+    icon: require("public/assets/product-icons/dashboards.png"),
+  },
+  {
     name: "Storage",
     label: "storage",
     description: "Fast, reliable, decentralized storage",
     link: "/storage",
     icon: require("public/assets/product-icons/storage.png"),
+  },
+  {
+    name: "UI Components",
+    label: "ui-components",
+    description: "Plug-and-play frontend components",
+    link: "/ui-components",
+    icon: require("public/assets/product-icons/ui-components.png"),
   },
 ];
 
@@ -99,20 +106,12 @@ export const Products: React.FC = () => {
             borderWidth="2px"
           >
             <Flex>
-              <Stack width="300px">
-                {PRODUCTS.slice(0, Math.ceil(PRODUCTS.length / 2)).map(
-                  (product, id) => (
-                    <NavCard key={id} {...product} />
-                  ),
-                )}
-              </Stack>
-              <Stack width="300px">
-                {PRODUCTS.slice(
-                  Math.ceil(PRODUCTS.length / 2),
-                  PRODUCTS.length,
-                ).map((product, id) => (
-                  <NavCard key={id} {...product} />
-                ))}
+              <Stack width="600px">
+                <SimpleGrid columns={2}>
+                  {PRODUCTS.map((product) => (
+                    <NavCard key={product.label} {...product} />
+                  ))}
+                </SimpleGrid>
               </Stack>
             </Flex>
           </Card>

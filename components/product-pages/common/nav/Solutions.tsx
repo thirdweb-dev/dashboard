@@ -47,25 +47,15 @@ export const Solutions: React.FC = () => {
             onMouseEnter={onOpen}
             position="absolute"
             top={0}
-            left="-280px"
+            left="-124px"
             borderColor="whiteAlpha.100"
             bg="black"
             borderWidth="2px"
           >
             <Flex>
               <Stack width="300px">
-                {SOLUTIONS.slice(0, Math.ceil(SOLUTIONS.length / 2)).map(
-                  (solution, id) => (
-                    <NavCard key={id} {...solution} />
-                  ),
-                )}
-              </Stack>
-              <Stack width="300px">
-                {SOLUTIONS.slice(
-                  Math.ceil(SOLUTIONS.length / 2),
-                  SOLUTIONS.length,
-                ).map((product, id) => (
-                  <NavCard key={id} {...product} />
+                {SOLUTIONS.map((solution) => (
+                  <NavCard key={solution.label} {...solution} />
                 ))}
               </Stack>
             </Flex>

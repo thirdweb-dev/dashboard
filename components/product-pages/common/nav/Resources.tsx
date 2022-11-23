@@ -1,17 +1,8 @@
+import { NavCard, NavCardProps } from "./NavCard";
 import { Box, Fade, Flex, Stack, useDisclosure } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
-import { StaticImageData } from "next/image";
-import { Card, Text, TrackedLink } from "tw-components";
+import { Card, Text } from "tw-components";
 
-interface IResource {
-  name: string;
-  label: string;
-  description: string;
-  link: string;
-  icon: StaticImageData;
-}
-
-export const RESOURCES: IResource[] = [
+export const RESOURCES: NavCardProps[] = [
   {
     name: "About",
     label: "about",
@@ -74,8 +65,8 @@ export const Resources: React.FC = () => {
           >
             <Flex>
               <Stack width="300px">
-                {RESOURCES.map((resource, id) => (
-                  <Resource key={id} {...resource} />
+                {RESOURCES.map((resource) => (
+                  <NavCard key={resource.label} {...resource} />
                 ))}
               </Stack>
             </Flex>
@@ -83,35 +74,5 @@ export const Resources: React.FC = () => {
         </Fade>
       </Box>
     </Box>
-  );
-};
-
-const Resource: React.FC<IResource> = ({
-  name,
-  description,
-  label,
-  link,
-  icon,
-}) => {
-  return (
-    <TrackedLink
-      href={link}
-      category="topnav"
-      label={label}
-      textDecor="none !important"
-      isExternal={link.startsWith("http")}
-    >
-      <Box _hover={{ bg: "whiteAlpha.50" }} p="8px" borderRadius="md">
-        <Stack direction="row" align="center" spacing={3}>
-          <ChakraNextImage boxSize={6} mb="-4px" src={icon} alt="icon" />
-          <Flex direction="column">
-            <Text fontWeight="bold" color="white">
-              {name}
-            </Text>
-            <Text color="whiteAlpha.500">{description}</Text>
-          </Flex>
-        </Stack>
-      </Box>
-    </TrackedLink>
   );
 };
