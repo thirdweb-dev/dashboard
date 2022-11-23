@@ -70,7 +70,9 @@ const Commerce: ThirdwebNextPage = () => {
         type="Solutions"
         underGetStarted={
           <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
-            <Heading size="subtitle.xs">In partnership with</Heading>
+            <Heading size="subtitle.xs" as="span">
+              In partnership with
+            </Heading>
             <ChakraNextImage
               src={require("public/assets/solutions-pages/commerce/shopify.png")}
               width="80px"
