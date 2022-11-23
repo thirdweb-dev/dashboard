@@ -33,7 +33,7 @@ const SHOPIFY_GUIDES = [
     link: "https://blog.thirdweb.com/guides/generate-shopify-discount-codes-for-nft-holders/",
   },
   {
-    title: "Sell NFTs on a Shopify Store",
+    title: "Distribute NFTs on a Shopify Store",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--11-.png",
     link: "https://blog.thirdweb.com/guides/shopify-selling-an-nft-as-a-digital-asset-on-shopify-store/",
