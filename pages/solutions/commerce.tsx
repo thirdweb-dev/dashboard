@@ -170,13 +170,15 @@ const Commerce: ThirdwebNextPage = () => {
                 distribute NFTs through your commerce app.
               </Text>
             </Flex>
-            <LinkButton
-              href="https://portal.thirdweb.com/contractkit"
-              isExternal
-              mt={6}
-            >
-              Learn more
-            </LinkButton>
+            <Box>
+              <LinkButton
+                href="https://portal.thirdweb.com/contractkit"
+                isExternal
+                mt={6}
+              >
+                Learn more
+              </LinkButton>
+            </Box>
           </Flex>
           <Flex direction="column" justifyContent="space-between">
             <Flex direction="column">
@@ -197,13 +199,15 @@ const Commerce: ThirdwebNextPage = () => {
                 command.
               </Text>
             </Flex>
-            <LinkButton
-              href="https://portal.thirdweb.com/sdk"
-              isExternal
-              mt={6}
-            >
-              Learn more
-            </LinkButton>
+            <Box>
+              <LinkButton
+                href="https://portal.thirdweb.com/sdk"
+                isExternal
+                mt={6}
+              >
+                Learn more
+              </LinkButton>
+            </Box>
           </Flex>
           <Flex direction="column" justifyContent="space-between">
             <Flex direction="column">
@@ -224,13 +228,16 @@ const Commerce: ThirdwebNextPage = () => {
                 been minted to your most loyal customers.
               </Text>
             </Flex>
-            <LinkButton
-              href="https://portal.thirdweb.com/dashboard"
-              isExternal
-              mt={6}
-            >
-              Learn more
-            </LinkButton>
+            <Box>
+              <LinkButton
+                href="https://portal.thirdweb.com/dashboard"
+                isExternal
+                mt={6}
+                w="auto"
+              >
+                Learn more
+              </LinkButton>
+            </Box>
           </Flex>
         </SimpleGrid>
       </ProductSection>
