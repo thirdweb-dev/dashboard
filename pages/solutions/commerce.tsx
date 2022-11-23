@@ -78,6 +78,7 @@ const Commerce: ThirdwebNextPage = () => {
             />
           </Flex>
         }
+        largeImage
       >
         <SimpleGrid
           justifyContent="flex-start"

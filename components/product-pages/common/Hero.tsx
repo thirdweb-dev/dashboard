@@ -25,6 +25,7 @@ export interface HeroProps {
   image?: StaticImageData;
   type?: "Products" | "Solutions";
   underGetStarted?: ReactElement;
+  largeImage?: boolean;
 }
 
 export const Hero: ComponentWithChildren<HeroProps> = ({
@@ -37,6 +38,7 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
   gradient,
   type = "Products",
   underGetStarted,
+  largeImage = false,
   children,
 }) => {
   return (
@@ -125,11 +127,11 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
         </Flex>
         {image && (
           <Center
-            padding={{ base: "24px", md: "48px" }}
+            padding={{ base: "24px", md: largeImage ? "8px" : "48px" }}
             gridColumnEnd={{ base: undefined, md: "span 3" }}
           >
             <Flex justifyContent={{ base: "center", md: "flex-end" }} w="100%">
-              <AspectRatio ratio={1} maxW={96} w="100%">
+              <AspectRatio ratio={1} w="100%">
                 <ChakraNextImage alt="" src={image} priority />
               </AspectRatio>
             </Flex>
