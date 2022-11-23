@@ -1,28 +1,8 @@
-import {
-  Box,
-  Divider,
-  Fade,
-  Flex,
-  Icon,
-  SimpleGrid,
-  Stack,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
-import { StaticImageData } from "next/image";
-import { FiShoppingCart } from "react-icons/fi";
-import { IoGameControllerOutline } from "react-icons/io5";
-import { Card, Text, TrackedLink } from "tw-components";
+import { NavCard, NavCardProps } from "./NavCard";
+import { Box, Fade, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import { Card, Text } from "tw-components";
 
-interface IProduct {
-  name: string;
-  label: string;
-  description: string;
-  link: string;
-  icon: StaticImageData;
-}
-
-export const PRODUCTS: IProduct[] = [
+export const PRODUCTS: NavCardProps[] = [
   {
     name: "SDKs",
     label: "sdk",
@@ -122,7 +102,7 @@ export const Products: React.FC = () => {
               <Stack width="300px">
                 {PRODUCTS.slice(0, Math.ceil(PRODUCTS.length / 2)).map(
                   (product, id) => (
-                    <Product key={id} {...product} />
+                    <NavCard key={id} {...product} />
                   ),
                 )}
               </Stack>
@@ -131,74 +111,13 @@ export const Products: React.FC = () => {
                   Math.ceil(PRODUCTS.length / 2),
                   PRODUCTS.length,
                 ).map((product, id) => (
-                  <Product key={id} {...product} />
+                  <NavCard key={id} {...product} />
                 ))}
               </Stack>
-            </Flex>
-            <Divider py={3} />
-            {/* Temporary until we have two+ solutions and it gets their own section */}
-            <Flex flexDir="column" gap={3}>
-              <Text
-                size="body.sm"
-                mt={4}
-                fontWeight={700}
-                textTransform="uppercase"
-              >
-                Solutions
-              </Text>
-              <SimpleGrid flexDir="row" gap={3} w="full" columns={2}>
-                <Flex alignItems="center" gap={2}>
-                  <Icon as={FiShoppingCart} />
-                  <Text fontWeight={700}>
-                    <TrackedLink
-                      href="/solutions/commerce"
-                      color="white"
-                      category="topnav"
-                      label="commerce"
-                    >
-                      Commerce
-                    </TrackedLink>
-                  </Text>
-                </Flex>
-                <Flex alignItems="center" gap={2}>
-                  <Icon as={IoGameControllerOutline} />
-                  <Text fontWeight={700}>Gaming (Coming Soon)</Text>
-                </Flex>
-              </SimpleGrid>
             </Flex>
           </Card>
         </Fade>
       </Box>
     </Box>
-  );
-};
-
-const Product: React.FC<IProduct> = ({
-  name,
-  description,
-  label,
-  link,
-  icon,
-}) => {
-  return (
-    <TrackedLink
-      href={link}
-      category="topnav"
-      label={label}
-      textDecor="none !important"
-      isExternal={link.startsWith("http")}
-    >
-      <Box _hover={{ bg: "whiteAlpha.50" }} p="8px" borderRadius="md">
-        <Stack direction="row" align="center" spacing={3}>
-          <ChakraNextImage boxSize={7} mb="-4px" src={icon} alt="icon" />
-          <Flex direction="column">
-            <Text fontWeight="bold" color="white">
-              {name}
-            </Text>
-            <Text color="whiteAlpha.500">{description}</Text>
-          </Flex>
-        </Stack>
-      </Box>
-    </TrackedLink>
   );
 };
