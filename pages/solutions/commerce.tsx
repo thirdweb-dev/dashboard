@@ -137,7 +137,7 @@ const Commerce: ThirdwebNextPage = () => {
           </Box>
           <Box flex="1">
             <Heading as="h2" size="display.sm" mb={4}>
-              Reimagine customer experiences with web3 primitives
+              Reimagine customer experiences with web3 technologies
             </Heading>
           </Box>
         </Stack>
