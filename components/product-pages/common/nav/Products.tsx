@@ -1,6 +1,17 @@
-import { Box, Fade, Flex, Stack, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Fade,
+  Flex,
+  Icon,
+  SimpleGrid,
+  Stack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
+import { FiShoppingCart } from "react-icons/fi";
+import { IoGameControllerOutline } from "react-icons/io5";
 import { Card, Text, TrackedLink } from "tw-components";
 
 interface IProduct {
@@ -123,6 +134,37 @@ export const Products: React.FC = () => {
                   <Product key={id} {...product} />
                 ))}
               </Stack>
+            </Flex>
+            <Divider py={3} />
+            {/* Temporary until we have two+ solutions and it gets their own section */}
+            <Flex flexDir="column" gap={3}>
+              <Text
+                size="body.sm"
+                mt={4}
+                fontWeight={700}
+                textTransform="uppercase"
+              >
+                Solutions
+              </Text>
+              <SimpleGrid flexDir="row" gap={3} w="full" columns={2}>
+                <Flex alignItems="center" gap={2}>
+                  <Icon as={FiShoppingCart} />
+                  <Text fontWeight={700}>
+                    <TrackedLink
+                      href="/solutions/commerce"
+                      color="white"
+                      category="topnav"
+                      label="commerce"
+                    >
+                      Commerce
+                    </TrackedLink>
+                  </Text>
+                </Flex>
+                <Flex alignItems="center" gap={2}>
+                  <Icon as={IoGameControllerOutline} />
+                  <Text fontWeight={700}>Gaming (Coming Soon)</Text>
+                </Flex>
+              </SimpleGrid>
             </Flex>
           </Card>
         </Fade>
