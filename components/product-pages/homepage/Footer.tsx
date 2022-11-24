@@ -1,10 +1,8 @@
-import { PRODUCTS } from "../common/nav/Products";
+import { PRODUCTS } from "../common/nav/DesktopMenu";
 import {
   Box,
   ButtonGroup,
   Container,
-  DarkMode,
-  Divider,
   Flex,
   SimpleGrid,
   Stack,
@@ -28,10 +26,6 @@ export const HomepageFooter: React.FC = () => {
   return (
     <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page" color="gray.500">
-        <DarkMode>
-          <Divider borderColor="rgba(255,255,255,0.1)" />
-        </DarkMode>
-
         <Stack
           spacing="8"
           direction={{ base: "column", md: "row" }}
@@ -118,11 +112,13 @@ export const HomepageFooter: React.FC = () => {
           >
             <SimpleGrid columns={{ base: 2, lg: 4 }} spacing="8">
               <Stack spacing="4" minW="36" flex="1">
-                <Heading size="label.lg">Products</Heading>
+                <Heading as="h5" size="label.lg">
+                  Products
+                </Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  {PRODUCTS.map((product, id) => (
+                  {PRODUCTS.map((product) => (
                     <TrackedLink
-                      key={id}
+                      key={product.label}
                       href={product.link}
                       category="footer"
                       label={product.label}
@@ -133,7 +129,9 @@ export const HomepageFooter: React.FC = () => {
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
-                <Heading size="label.lg">Resources</Heading>
+                <Heading as="h5" size="label.lg">
+                  Resources
+                </Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink href="/about" category="footer" label="about">
                     About
@@ -182,19 +180,21 @@ export const HomepageFooter: React.FC = () => {
                   </TrackedLink>
                 </Stack>
 
-                {/* <Heading size="label.lg">Partners</Heading>
+                <Heading size="label.lg">Solutions</Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
-                    href="/partner/shopify"
+                    href="/solutions/commerce"
                     category="footer"
-                    label="partners"
+                    label="commerce"
                   >
-                    Shopify
+                    Commerce
                   </TrackedLink>
-                </Stack> */}
+                </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
-                <Heading size="label.lg">SDKs</Heading>
+                <Heading as="h5" size="label.lg">
+                  SDKs
+                </Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
                     isExternal
@@ -229,7 +229,9 @@ export const HomepageFooter: React.FC = () => {
                     Contracts
                   </TrackedLink>
                 </Stack>
-                <Heading size="label.lg">Networks</Heading>
+                <Heading as="h5" size="label.lg">
+                  Networks
+                </Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
                     href="/network/solana"
@@ -239,7 +241,9 @@ export const HomepageFooter: React.FC = () => {
                     Solana
                   </TrackedLink>
                 </Stack>
-                <Heading size="label.lg">Faucets</Heading>
+                <Heading as="h5" size="label.lg">
+                  Faucets
+                </Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
                     href="/faucet/solana"
@@ -251,7 +255,9 @@ export const HomepageFooter: React.FC = () => {
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
-                <Heading size="label.lg">Legal</Heading>
+                <Heading as="h5" size="label.lg">
+                  Legal
+                </Heading>
                 <Stack spacing="3" shouldWrapChildren>
                   <TrackedLink
                     isExternal

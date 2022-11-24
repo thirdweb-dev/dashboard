@@ -58,14 +58,20 @@ export enum PageId {
   // thridweb.com/contracts
   Contracts = "contracts",
 
+  // thridweb.com/explore
+  Explore = "explore",
+
+  // thridweb.com/explore/[category]
+  ExploreCategory = "explore-category",
+
   // thridweb.com/contracts
   Programs = "programs",
 
   // ---------------------------------------------------------------------------
-  //  partner pages
+  //  solutions pages
   // ---------------------------------------------------------------------------
 
-  PartnerShopify = "partner-shopify",
+  SolutionsCommerce = "solutions-commerce",
 
   // ---------------------------------------------------------------------------
   //  network pages
