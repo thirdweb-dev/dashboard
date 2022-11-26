@@ -2,63 +2,67 @@ import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { isBrowser } from "utils/isBrowser";
 import { DashboardSolanaNetwork } from "utils/network";
 
+const twRPCUrl = (chainName: string) => {
+  return `https://${chainName}.rpc.thirdweb.com`;
+};
+
 export const EVM_RPC_URL_MAP: Record<SUPPORTED_CHAIN_ID, string> = addAPIKey({
   [ChainId.Mainnet]:
     process.env.SSR_RPC_MAINNET ||
     process.env.NEXT_PUBLIC_RPC_MAINNET ||
-    `https://eth-mainnet.g.alchemy.com/v2/`,
+    twRPCUrl("ethererum"),
   [ChainId.Goerli]:
     process.env.SSR_RPC_GOERLI ||
     process.env.NEXT_PUBLIC_RPC_GOERLI ||
-    `https://eth-goerli.g.alchemy.com/v2/`,
+    twRPCUrl("goerli"),
   [ChainId.Polygon]:
     process.env.SSR_RPC_POLYGON ||
     process.env.NEXT_PUBLIC_RPC_POLYGON ||
-    `https://polygon-mainnet.g.alchemy.com/v2/`,
+    twRPCUrl("polygon"),
   [ChainId.Mumbai]:
     process.env.SSR_RPC_MUMBAI ||
     process.env.NEXT_PUBLIC_RPC_MUMBAI ||
-    `https://polygon-mumbai.g.alchemy.com/v2/`,
+    twRPCUrl("mumbai"),
   [ChainId.Fantom]:
     process.env.SSR_RPC_FANTOM ||
     process.env.NEXT_PUBLIC_RPC_FANTOM ||
-    "https://rpc.ftm.tools",
+    twRPCUrl("fantom"),
   [ChainId.FantomTestnet]:
     process.env.SSR_RPC_FANTOM_TESTNET ||
     process.env.NEXT_PUBLIC_RPC_FANTOM_TESTNET ||
-    "https://rpc.testnet.fantom.network",
+    twRPCUrl("fantom-testnet"),
   [ChainId.Avalanche]:
     process.env.SSR_RPC_AVALANCHE ||
     process.env.NEXT_PUBLIC_RPC_AVALANCHE ||
-    "https://api.avax.network/ext/bc/C/rpc",
+    twRPCUrl("avalanche"),
   [ChainId.AvalancheFujiTestnet]:
     process.env.SSR_RPC_AVALANCHE_FUJI_TESTNET ||
     process.env.NEXT_PUBLIC_RPC_AVALANCHE_FUJI_TESTNET ||
-    "https://api.avax-test.network/ext/bc/C/rpc",
+    twRPCUrl("avalanche-fuji"),
   [ChainId.Optimism]:
     process.env.SSR_RPC_OPTIMISM ||
     process.env.NEXT_PUBLIC_RPC_OPTIMISM ||
-    `https://opt-mainnet.g.alchemy.com/v2/`,
+    twRPCUrl("optimism"),
   [ChainId.OptimismGoerli]:
     process.env.SSR_RPC_OPTIMISM_GOERLI ||
     process.env.NEXT_PUBLIC_RPC_OPTIMISM_GOERLI ||
-    `https://opt-goerli.g.alchemy.com/v2/`,
+    twRPCUrl("optimism-goerli"),
   [ChainId.Arbitrum]:
     process.env.SSR_RPC_ARBITRUM ||
     process.env.NEXT_PUBLIC_RPC_ARBITRUM ||
-    `https://arb-mainnet.g.alchemy.com/v2/`,
+    twRPCUrl("arbitrum"),
   [ChainId.ArbitrumGoerli]:
     process.env.SSR_RPC_ARBITRUM_GOERLI ||
     process.env.NEXT_PUBLIC_RPC_ARBITRUM_GOERLI ||
-    `https://arb-goerli.g.alchemy.com/v2/`,
+    twRPCUrl("arbitrum-goerli"),
   [ChainId.BinanceSmartChainMainnet]:
     process.env.SSR_RPC_BINANCE_MAINNET ||
     process.env.NEXT_PUBLIC_RPC_BINANCE_MAINNET ||
-    "https://bsc-dataseed1.binance.org",
+    twRPCUrl("binance"),
   [ChainId.BinanceSmartChainTestnet]:
     process.env.SSR_RPC_BINANCE_TESTNET ||
     process.env.NEXT_PUBLIC_RPC_BINANCE_TESTNET ||
-    "https://data-seed-prebsc-1-s1.binance.org:8545",
+    twRPCUrl("binance-testnet"),
 });
 
 const SOLANA_RPC_URL_MAP: Record<DashboardSolanaNetwork, string> = {
