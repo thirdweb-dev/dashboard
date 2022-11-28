@@ -78,8 +78,10 @@ const HomePage: ThirdwebNextPage = () => {
         <HomepageSection id="home" topGradient bottomPattern>
           <SimpleGrid
             pt={{
-              base: 24,
-              md: 48,
+              base: 0,
+              sm: 0,
+              md: 16,
+              lg: 24,
             }}
             columns={{ base: 1, md: 2 }}
             spacing={{ base: 6, md: 8 }}
