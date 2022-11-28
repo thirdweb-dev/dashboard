@@ -79,7 +79,6 @@ const HomePage: ThirdwebNextPage = () => {
           <SimpleGrid
             pt={{
               base: 0,
-              sm: 0,
               md: 16,
               lg: 24,
             }}
