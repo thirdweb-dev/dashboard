@@ -202,6 +202,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 addToDashboard,
                 deployer: ensQuery.data?.ensName || address,
                 contractName: compilerMetadata.data?.name,
+                deployerAndContractName: `${
+                  ensQuery.data?.ensName || address
+                }__${compilerMetadata.data?.name}`,
               });
               trackEvent({
                 category: "custom-contract",
