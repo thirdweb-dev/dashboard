@@ -1,10 +1,8 @@
-import { PRODUCTS } from "../common/nav/Products";
+import { PRODUCTS } from "../common/nav/DesktopMenu";
 import {
   Box,
   ButtonGroup,
   Container,
-  DarkMode,
-  Divider,
   Flex,
   SimpleGrid,
   Stack,
@@ -28,10 +26,6 @@ export const HomepageFooter: React.FC = () => {
   return (
     <Box bgColor="#111315" zIndex="100">
       <Container as="footer" maxW="container.page" color="gray.500">
-        <DarkMode>
-          <Divider borderColor="rgba(255,255,255,0.1)" />
-        </DarkMode>
-
         <Stack
           spacing="8"
           direction={{ base: "column", md: "row" }}
@@ -122,9 +116,9 @@ export const HomepageFooter: React.FC = () => {
                   Products
                 </Heading>
                 <Stack spacing="3" shouldWrapChildren>
-                  {PRODUCTS.map((product, id) => (
+                  {PRODUCTS.map((product) => (
                     <TrackedLink
-                      key={id}
+                      key={product.label}
                       href={product.link}
                       category="footer"
                       label={product.label}
