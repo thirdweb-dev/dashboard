@@ -62,7 +62,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 }) => {
   const address = useAddress();
   const ensQuery = useEns(address);
-
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
   const fullReleaseMetadata = useContractFullPublishMetadata(ipfsHash);
