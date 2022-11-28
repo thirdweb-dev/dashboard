@@ -260,7 +260,7 @@ const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
           name: phase?.metadata?.name || `Phase ${idx + 1}`,
         },
       }))
-      .filter((phase) => phase.maxClaimableSupply !== "0");
+      .filter((phase) => phase.maxClaimableSupply !== "0" && !phase.snapshot);
   }, [query.data]);
 
   const form = useForm<z.input<typeof ClaimConditionsSchema>>({
