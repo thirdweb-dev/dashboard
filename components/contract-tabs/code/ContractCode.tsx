@@ -67,7 +67,7 @@ const INSTALL_COMMANDS = {
 };
 
 const CREATE_APP_COMMANDS = {
-  evm: "npx thirdweb@latest create --app --evm",
+  evm: "npx thirdweb@latest create app --evm",
   solana: "npx thirdweb@latest create app --solana",
 };
 
