@@ -11,8 +11,10 @@ import { ChakraNextImage } from "components/Image";
 import { GuideCard } from "components/product-pages/common/GuideCard";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
+import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
+import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
 import { PageId } from "page-id";
 import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
@@ -114,37 +116,10 @@ const Commerce: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Hero>
 
-      <ProductSection>
-        <Stack
-          direction={{ base: "column", md: "row" }}
-          spacing={{ base: 12, md: 12 }}
-          alignItems="center"
-          py={{ base: 12, md: 24 }}
-        >
-          <Box flex="1">
-            <AspectRatio
-              ratio={1}
-              w="100%"
-              maxW="600px"
-              mx="auto"
-              borderRadius="lg"
-              overflow="hidden"
-            >
-              <ChakraNextImage
-                src={require("public/assets/solutions-pages/commerce/hero.png")}
-                layout="fill"
-                objectFit="cover"
-                alt=""
-              />
-            </AspectRatio>
-          </Box>
-          <Box flex="1">
-            <Heading as="h2" size="display.sm" mb={4}>
-              Reimagine customer experiences with web3 technologies
-            </Heading>
-          </Box>
-        </Stack>
-      </ProductSection>
+      <SolutionsTextImage
+        image={require("public/assets/solutions-pages/commerce/hero.png")}
+        title="Reimagine customer experiences with web3 technologies"
+      />
 
       <ProductSection>
         <SimpleGrid
@@ -152,95 +127,29 @@ const Commerce: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
           py={{ base: 12, md: 24 }}
         >
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction="column">
-              <Flex alignItems="center" gap={2}>
-                <ChakraNextImage
-                  src={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-                  placeholder="empty"
-                  alt=""
-                  w={8}
-                />
-                <Heading size="title.sm" as="h3">
-                  Build
-                </Heading>
-              </Flex>
-              <Text size="body.lg" mt="16px">
-                Prebuilt contracts or build your own with ContractKit to
-                distribute NFTs through your commerce app.
-              </Text>
-            </Flex>
-            <Box>
-              <LinkButton
-                href="https://portal.thirdweb.com/contractkit"
-                isExternal
-                color="white"
-                mt={6}
-              >
-                Learn more
-              </LinkButton>
-            </Box>
-          </Flex>
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction="column">
-              <Flex alignItems="center" gap={2}>
-                <ChakraNextImage
-                  src={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-                  placeholder="empty"
-                  alt=""
-                  w={8}
-                />
-                <Heading size="title.sm" as="h3">
-                  Launch
-                </Heading>
-              </Flex>
-              <Text size="body.lg" mt="16px">
-                Powerful SDKs enables you to build commerce apps that connects
-                to users&apos; wallets. Easily bootstrap projects with a single
-                command.
-              </Text>
-            </Flex>
-            <Box>
-              <LinkButton
-                href="https://portal.thirdweb.com/sdk"
-                isExternal
-                color="white"
-                mt={6}
-              >
-                Learn more
-              </LinkButton>
-            </Box>
-          </Flex>
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction="column">
-              <Flex alignItems="center" gap={2}>
-                <ChakraNextImage
-                  src={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
-                  placeholder="empty"
-                  alt=""
-                  w={8}
-                />
-                <Heading size="title.sm" as="h3">
-                  Manage
-                </Heading>
-              </Flex>
-              <Text size="body.lg" mt="16px">
-                View and interact with your Shopify store smart contracts
-                directly from a user interface, e.g. view all the NFTs that have
-                been minted to your most loyal customers.
-              </Text>
-            </Flex>
-            <Box>
-              <LinkButton
-                href="https://portal.thirdweb.com/dashboard"
-                isExternal
-                color="white"
-                mt={6}
-              >
-                Learn more
-              </LinkButton>
-            </Box>
-          </Flex>
+          <ProductLearnMoreCard
+            title="Build"
+            description="Prebuilt contracts or build your own with ContractKit to
+                distribute NFTs through your commerce app."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+            href="https://portal.thirdweb.com/contractkit"
+          />
+          <ProductLearnMoreCard
+            title="Launch"
+            description="Powerful SDKs enables you to build commerce apps that connects
+            to users' wallets. Easily bootstrap projects with a single
+            command."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+            href="https://portal.thirdweb.com/sdk"
+          />
+          <ProductLearnMoreCard
+            title="Manage"
+            description="View and interact with your Shopify store smart contracts
+            directly from a user interface, e.g. view all the NFTs that have
+            been minted to your most loyal customers."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
+            href="https://portal.thirdweb.com/dashboard"
+          />
         </SimpleGrid>
       </ProductSection>
 

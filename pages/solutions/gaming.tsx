@@ -11,8 +11,10 @@ import { ChakraNextImage } from "components/Image";
 import { GuideCard } from "components/product-pages/common/GuideCard";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
+import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
+import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
 import { PageId } from "page-id";
 import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
@@ -61,25 +63,13 @@ const Gaming: ThirdwebNextPage = () => {
     >
       <Hero
         name="Gaming"
-        title="Build Web3 Gaming apps easily"
-        description="With thirdweb you can now add powerful web3 features to your Shopify storefront enabling tokengated gaming, NFT loyalty programs, digital collectible sales, and more."
+        title="Reimagine gaming with web3 technologies"
+        description="Easily integrate web3 features into your games. Build a stronger community around your game by giving players ownership of in-game assets."
         buttonText="Get started"
-        buttonLink="https://blog.thirdweb.com/tag/shopify/"
-        gradient="linear-gradient(147.15deg, #9BC055 30.17%, #7629E7 100.01%)"
-        image={require("public/assets/solutions-pages/gaming/reimagine.png")}
+        buttonLink="https://portal.thirdweb.com/gamingkit"
+        gradient="linear-gradient(147.15deg, #5CFFE1 30.17%, #410AB6 100.01%)"
+        image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         type="Solutions"
-        underGetStarted={
-          <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
-            <Heading size="subtitle.xs" as="span">
-              In partnership with
-            </Heading>
-            <ChakraNextImage
-              src={require("public/assets/solutions-pages/gaming/shopify.png")}
-              width="80px"
-              alt="Shopify"
-            />
-          </Flex>
-        }
         largeImage
       >
         <SimpleGrid
@@ -89,62 +79,35 @@ const Gaming: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
         >
           <ProductCard
-            title="Recognize loyal customers with NFTs "
+            title="Monetize with in-game asset sales"
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
-            Distribute NFTs to your most loyal customers and create new customer
-            segments for future campaigns.
+            Get additional revenue streams with primary sales and royalty fees
+            from secondary sales for in-game assets represented as NFTs
           </ProductCard>
           <ProductCard
-            title="Reward customers with exclusive access"
+            title="Grow your gaming community"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
-            Reward your customers and collab with other brands by tokengating
-            your storefront. Give token holders exclusive access to products,
-            discounts, and more when they connect their wallet to your store.
+            Foster a more engaged community by empowering players to become
+            owners of in-game assets, turning them into advocates for your
+            games.
           </ProductCard>
           <ProductCard
-            title="Grow your revenue with NFT sales"
+            title="Interoperable in-game assets"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            Create additional revenue streams with NFT sales. Sell NFTs directly
-            through your storefront as a new product category or bundle with a
-            physical product.
+            Game assets represented by NFTs can be designed to be interoperable
+            across environments on the same blockchain. Assets can unlock perks
+            and rewards throughout the web3 ecosystem.
           </ProductCard>
         </SimpleGrid>
       </Hero>
 
-      <ProductSection>
-        <Stack
-          direction={{ base: "column", md: "row" }}
-          spacing={{ base: 12, md: 12 }}
-          alignItems="center"
-          py={{ base: 12, md: 24 }}
-        >
-          <Box flex="1">
-            <AspectRatio
-              ratio={1}
-              w="100%"
-              maxW="600px"
-              mx="auto"
-              borderRadius="lg"
-              overflow="hidden"
-            >
-              <ChakraNextImage
-                src={require("public/assets/solutions-pages/gaming/hero.png")}
-                layout="fill"
-                objectFit="cover"
-                alt=""
-              />
-            </AspectRatio>
-          </Box>
-          <Box flex="1">
-            <Heading as="h2" size="display.sm" mb={4}>
-              Reimagine customer experiences with web3 technologies
-            </Heading>
-          </Box>
-        </Stack>
-      </ProductSection>
+      <SolutionsTextImage
+        image={require("public/assets/solutions-pages/commerce/hero.png")}
+        title="Build creative gaming experiences with web3 technologies"
+      />
 
       <ProductSection>
         <SimpleGrid
@@ -152,95 +115,24 @@ const Gaming: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
           py={{ base: 12, md: 24 }}
         >
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction="column">
-              <Flex alignItems="center" gap={2}>
-                <ChakraNextImage
-                  src={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-                  placeholder="empty"
-                  alt=""
-                  w={8}
-                />
-                <Heading size="title.sm" as="h3">
-                  Build
-                </Heading>
-              </Flex>
-              <Text size="body.lg" mt="16px">
-                Prebuilt contracts or build your own with ContractKit to
-                distribute NFTs through your gaming app.
-              </Text>
-            </Flex>
-            <Box>
-              <LinkButton
-                href="https://portal.thirdweb.com/contractkit"
-                isExternal
-                color="white"
-                mt={6}
-              >
-                Learn more
-              </LinkButton>
-            </Box>
-          </Flex>
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction="column">
-              <Flex alignItems="center" gap={2}>
-                <ChakraNextImage
-                  src={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-                  placeholder="empty"
-                  alt=""
-                  w={8}
-                />
-                <Heading size="title.sm" as="h3">
-                  Launch
-                </Heading>
-              </Flex>
-              <Text size="body.lg" mt="16px">
-                Powerful SDKs enables you to build gaming apps that connects to
-                users&apos; wallets. Easily bootstrap projects with a single
-                command.
-              </Text>
-            </Flex>
-            <Box>
-              <LinkButton
-                href="https://portal.thirdweb.com/sdk"
-                isExternal
-                color="white"
-                mt={6}
-              >
-                Learn more
-              </LinkButton>
-            </Box>
-          </Flex>
-          <Flex direction="column" justifyContent="space-between">
-            <Flex direction="column">
-              <Flex alignItems="center" gap={2}>
-                <ChakraNextImage
-                  src={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
-                  placeholder="empty"
-                  alt=""
-                  w={8}
-                />
-                <Heading size="title.sm" as="h3">
-                  Manage
-                </Heading>
-              </Flex>
-              <Text size="body.lg" mt="16px">
-                View and interact with your Shopify store smart contracts
-                directly from a user interface, e.g. view all the NFTs that have
-                been minted to your most loyal customers.
-              </Text>
-            </Flex>
-            <Box>
-              <LinkButton
-                href="https://portal.thirdweb.com/dashboard"
-                isExternal
-                color="white"
-                mt={6}
-              >
-                Learn more
-              </LinkButton>
-            </Box>
-          </Flex>
+          <ProductLearnMoreCard
+            title="Build"
+            description="Prebuilt contracts to start building for gaming use cases quickly, e.g. in-game currencies, airdrop free-to-own NFTs, and more. Enforceable fees for NFT primary and secondary sales with marketplace contract."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+            href=""
+          />
+          <ProductLearnMoreCard
+            title="Launch"
+            description="Powerful Unity SDK enables you to integrate web3 into games built on Unity game engine. Easy integration with popular wallets. Easily bootstrap projects with a single command."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+            href="https://portal.thirdweb.com/sdk"
+          />
+          <ProductLearnMoreCard
+            title="Manage"
+            description="View and interact with your game smart contracts directly from a user interface, e.g. view all the NFTs owned by a player."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
+            href="https://portal.thirdweb.com/dashboard"
+          />
         </SimpleGrid>
       </ProductSection>
 
