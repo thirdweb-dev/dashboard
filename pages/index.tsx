@@ -103,7 +103,7 @@ const HomePage: ThirdwebNextPage = () => {
                 textAlign={{ base: "center", md: "left" }}
               >
                 Smart contracts you control. Powerful SDKs and intuitive tools
-                for developers. Ship on-chain faster.
+                for developers. Ship on-chain faster.{" "}
               </Heading>
 
               <Flex direction="column">
