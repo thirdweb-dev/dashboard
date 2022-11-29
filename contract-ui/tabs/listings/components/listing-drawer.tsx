@@ -68,7 +68,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
                   <AddressCopyButton size="xs" address={tokenId} tokenId />
                 </GridItem>
                 <GridItem colSpan={3}>
-                  <Heading size="label.md">Owner</Heading>
+                  <Heading size="label.md">Seller</Heading>
                 </GridItem>
                 <GridItem colSpan={9}>
                   <AddressCopyButton
