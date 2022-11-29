@@ -1,4 +1,4 @@
-import { PRODUCTS } from "./Products";
+import { PRODUCTS } from "./DesktopMenu";
 import {
   Divider,
   IconButton,
@@ -22,9 +22,9 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
       />
       <MenuList bgColor="black" color="white">
         <MenuGroup title={<>Products</>} ml="12px">
-          {PRODUCTS.map((product, id) => (
+          {PRODUCTS.map((product) => (
             <MenuItem
-              key={id}
+              key={product.label}
               as={TrackedLink}
               href={product.link}
               category="topnav"
@@ -73,6 +73,19 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
             target="_blank"
           >
             Careers
+          </MenuItem>
+        </MenuGroup>
+
+        <Divider mt={2} opacity="0.3" />
+
+        <MenuGroup title={<>Solutions</>} ml="12px">
+          <MenuItem
+            as={TrackedLink}
+            href="/solutions/commerce"
+            category="topnav"
+            label="commerce"
+          >
+            Commerce
           </MenuItem>
         </MenuGroup>
 

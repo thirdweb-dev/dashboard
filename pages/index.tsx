@@ -24,6 +24,7 @@ import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { ChakraNextImage } from "components/Image";
 import { CLISection } from "components/homepage/CLISection";
+import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
@@ -77,8 +78,9 @@ const HomePage: ThirdwebNextPage = () => {
         <HomepageSection id="home" topGradient bottomPattern>
           <SimpleGrid
             pt={{
-              base: 24,
-              md: 48,
+              base: 0,
+              md: 16,
+              lg: 24,
             }}
             columns={{ base: 1, md: 2 }}
             spacing={{ base: 6, md: 8 }}
@@ -212,6 +214,7 @@ const HomePage: ThirdwebNextPage = () => {
             </Flex>
           </SimpleGrid>
         </HomepageSection>
+        <PartnerCarousel />
         <HomepageSection id="contracts" middleGradient>
           <Flex
             flexDir="column"
@@ -762,7 +765,7 @@ const ContractsDescriptorItem: React.FC<ContractsDescriptorItemProps> = ({
   );
 };
 
-const NewsLetterSection: React.FC = () => {
+export const NewsLetterSection: React.FC = () => {
   const form = useForm({
     defaultValues: {
       email: "",
