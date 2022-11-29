@@ -1,14 +1,5 @@
-import {
-  AspectRatio,
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  SimpleGrid,
-  Stack,
-} from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
-import { GuideCard } from "components/product-pages/common/GuideCard";
+import { Box, SimpleGrid } from "@chakra-ui/react";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
@@ -18,8 +9,6 @@ import { SolutionsTextImage } from "components/product-pages/common/SolutionsTex
 import { PageId } from "page-id";
 import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
-import { FiArrowRight } from "react-icons/fi";
-import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 const GAMING_GUIDES = [
   {
@@ -119,13 +108,13 @@ const Gaming: ThirdwebNextPage = () => {
             title="Build"
             description="Prebuilt contracts to start building for gaming use cases quickly, e.g. in-game currencies, airdrop free-to-own NFTs, and more. Enforceable fees for NFT primary and secondary sales with marketplace contract."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href=""
+            href="https://portal.thirdweb.com/contractkit"
           />
           <ProductLearnMoreCard
             title="Launch"
             description="Powerful Unity SDK enables you to integrate web3 into games built on Unity game engine. Easy integration with popular wallets. Easily bootstrap projects with a single command."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-            href="https://portal.thirdweb.com/sdk"
+            href="https://portal.thirdweb.com/gamingkit"
           />
           <ProductLearnMoreCard
             title="Manage"
@@ -136,63 +125,18 @@ const Gaming: ThirdwebNextPage = () => {
         </SimpleGrid>
       </ProductSection>
 
-      <ProductSection>
-        <Flex
-          flexDir="column"
-          py={{ base: 24, lg: 36 }}
-          align="center"
-          gap={{ base: 6, lg: 8 }}
-        >
-          <Heading
-            as="h2"
-            size="display.sm"
-            fontWeight={700}
-            textAlign="center"
-          >
-            Start building web3 apps on Shopify
-          </Heading>
-          <Heading
-            as="h3"
-            maxW="820px"
-            textAlign="center"
-            color="whiteAlpha.600"
-            size="subtitle.md"
-          >
-            Check out our comprehensive guides to get you started building on
-            Shopify with thirdweb
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
-            {GAMING_GUIDES.map(({ title, image, link }) => (
-              <GuideCard key={title} image={image} title={title} link={link} />
-            ))}
-          </SimpleGrid>
-          <TrackedLink
-            href="https://blog.thirdweb.com/tag/shopify/"
-            category="shopify"
-            label="see-all-guides"
-            isExternal
-          >
-            <HStack>
-              <Heading
-                fontSize="20px"
-                fontWeight="medium"
-                as="p"
-                lineHeight={{ base: 1.5, md: undefined }}
-              >
-                See all of our Shopify guides
-              </Heading>
-              <Icon as={FiArrowRight} />
-            </HStack>
-          </TrackedLink>
-        </Flex>
-      </ProductSection>
+      <GuidesShowcase
+        title="Start building web3 games"
+        description="Check out our comprehensive guides to get you started building games with thirdweb"
+        solution="Gaming"
+        guides={GAMING_GUIDES}
+      />
 
       <Box
         h="1px"
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
         opacity="0.8"
       />
-
       <Box
         h="1px"
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"

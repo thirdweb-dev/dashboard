@@ -1,14 +1,6 @@
-import {
-  AspectRatio,
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  SimpleGrid,
-  Stack,
-} from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { GuideCard } from "components/product-pages/common/GuideCard";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
@@ -18,8 +10,7 @@ import { SolutionsTextImage } from "components/product-pages/common/SolutionsTex
 import { PageId } from "page-id";
 import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
-import { FiArrowRight } from "react-icons/fi";
-import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { Heading } from "tw-components";
 
 const SHOPIFY_GUIDES = [
   {
@@ -153,89 +144,19 @@ const Commerce: ThirdwebNextPage = () => {
         </SimpleGrid>
       </ProductSection>
 
-      <ProductSection>
-        <Flex
-          flexDir="column"
-          py={{ base: 24, lg: 36 }}
-          align="center"
-          gap={{ base: 6, lg: 8 }}
-        >
-          <Heading
-            as="h2"
-            size="display.sm"
-            fontWeight={700}
-            textAlign="center"
-          >
-            Start building web3 apps on Shopify
-          </Heading>
-          <Heading
-            as="h3"
-            maxW="820px"
-            textAlign="center"
-            color="whiteAlpha.600"
-            size="subtitle.md"
-          >
-            Check out our comprehensive guides to get you started building on
-            Shopify with thirdweb
-          </Heading>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
-            {SHOPIFY_GUIDES.map(({ title, image, link }) => (
-              <GuideCard key={title} image={image} title={title} link={link} />
-            ))}
-          </SimpleGrid>
-          <TrackedLink
-            href="https://blog.thirdweb.com/tag/shopify/"
-            category="shopify"
-            label="see-all-guides"
-            isExternal
-          >
-            <HStack>
-              <Heading
-                fontSize="20px"
-                fontWeight="medium"
-                as="p"
-                lineHeight={{ base: 1.5, md: undefined }}
-              >
-                See all of our Shopify guides
-              </Heading>
-              <Icon as={FiArrowRight} />
-            </HStack>
-          </TrackedLink>
-        </Flex>
-      </ProductSection>
+      <GuidesShowcase
+        title="Start building web3 apps on Shopify"
+        description="Check out our comprehensive guides to get you started building on
+            Shopify with thirdweb"
+        solution="Shopify"
+        guides={SHOPIFY_GUIDES}
+      />
 
       <Box
         h="1px"
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
         opacity="0.8"
       />
-
-      {/*       <Box w="100%" as="section" zIndex={2} position="relative" bg="#030A1A">
-        <Flex
-          flexDir="column"
-          pt={{ base: 24, md: 36 }}
-          pb={{ base: 20, md: 32 }}
-          px={"20px"}
-          align="center"
-          gap={6}
-        >
-          <Heading
-            size="title.lg"
-            maxWidth="820px"
-            color="gray.200"
-            textAlign="center"
-            as="h3"
-          >
-            Working with thirdweb has been super easy, we did in a couple weeks
-            what it would have taken us months to do. We are very happy with the
-            results.
-          </Heading>
-          <Text fontSize="20px" color="white">
-            - Zain Manji, Lazer Technologies Co-Founder
-          </Text>
-        </Flex>
-      </Box> */}
-
       <Box
         h="1px"
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
