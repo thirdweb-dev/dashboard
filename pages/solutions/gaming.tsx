@@ -12,22 +12,22 @@ import { ThirdwebNextPage } from "pages/_app";
 
 const GAMING_GUIDES = [
   {
-    title: "How to Create a Token Gated Website on Shopify using thirdweb",
+    title: "Get Started with the Unity SDK",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/create-token-gated-website-with-shopify-storefront-and-thirdweb.png",
-    link: "https://blog.thirdweb.com/guides/token-nft-gated-shopify-website-thirdweb/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Group-625859--1-.png",
+    link: "https://blog.thirdweb.com/guides/get-started-with-thirdwebs-unity-sdk/",
   },
   {
-    title: "Generate Shopify Discount Codes For NFT Holders",
+    title: "Add A Connect Wallet Button In A Unity Game",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--10-.png",
-    link: "https://blog.thirdweb.com/guides/generate-shopify-discount-codes-for-nft-holders/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Group-625859--6-.png",
+    link: "https://blog.thirdweb.com/guides/add-a-connect-wallet-button-in-a-unity-game/",
   },
   {
-    title: "Distribute NFTs on a Shopify Store",
+    title: "Airdrop Free-To-Own NFTs For Your Web3 Game",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--11-.png",
-    link: "https://blog.thirdweb.com/guides/shopify-selling-an-nft-as-a-digital-asset-on-shopify-store/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Group-625859--4-.png",
+    link: "https://blog.thirdweb.com/guides/airdrop-free-to-own-nfts-for-a-web3-game/",
   },
 ];
 
