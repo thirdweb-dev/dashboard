@@ -106,13 +106,13 @@ const Gaming: ThirdwebNextPage = () => {
         >
           <ProductLearnMoreCard
             title="Build"
-            description="Prebuilt contracts to start building for gaming use cases quickly, e.g. in-game currencies, airdrop free-to-own NFTs, and more. Enforceable fees for NFT primary and secondary sales with marketplace contract."
+            description="Discover already built contracts or build your own with ContractKit for gaming use cases, e.g. in-game currencies, airdrop free-to-own NFTs, and more. Integrate marketplace contract in-game to enforce royalty fees."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
             href="https://portal.thirdweb.com/contractkit"
           />
           <ProductLearnMoreCard
             title="Launch"
-            description="Powerful Unity SDK enables you to integrate web3 into games built on Unity game engine. Easy integration with popular wallets. Easily bootstrap projects with a single command."
+            description="Powerful Gaming Engine SDK enables you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
             href="https://portal.thirdweb.com/gamingkit"
           />
