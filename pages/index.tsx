@@ -423,18 +423,21 @@ const HomePage: ThirdwebNextPage = () => {
                     icon={require("public/assets/landingpage/icons/sdk-dashboard.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
-                  <LinkButton
-                    href="https://portal.thirdweb.com/contractkit"
-                    variant="solid"
-                    colorScheme="whiteAlpha"
-                    bg="white"
-                    color="black"
-                    py={6}
-                    isExternal
-                    noIcon
-                  >
-                    Start building contracts
-                  </LinkButton>
+                  <Flex w="full" h="full" alignItems="end">
+                    <LinkButton
+                      href="https://portal.thirdweb.com/contractkit"
+                      variant="solid"
+                      colorScheme="whiteAlpha"
+                      bg="white"
+                      color="black"
+                      py={6}
+                      isExternal
+                      noIcon
+                      w="full"
+                    >
+                      Start building contracts
+                    </LinkButton>
+                  </Flex>
                 </Card>
               </SimpleGrid>
             </Flex>
