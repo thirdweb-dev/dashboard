@@ -269,7 +269,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                 </Button>
               </Tooltip>
               <Text fontFamily="mono" noOfLines={1}>
-                {transaction.transactionHash.slice(0, 32)}...
+                {transaction.transactionHash.slice(0, 32)}...{" "}
               </Text>
             </Stack>
           </Box>
