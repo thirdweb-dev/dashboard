@@ -1,4 +1,4 @@
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -6,9 +6,11 @@ import { ProductLearnMoreCard } from "components/product-pages/common/ProductLea
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
+import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { PageId } from "page-id";
 import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
+import { Heading } from "tw-components";
 
 const GAMING_GUIDES = [
   {
@@ -93,6 +95,29 @@ const Gaming: ThirdwebNextPage = () => {
           </ProductCard>
         </SimpleGrid>
       </Hero>
+
+      <ProductSection pb={{ base: 12, lg: 24 }}>
+        <Flex
+          flexDir="column"
+          pt={{ base: 12, lg: 24 }}
+          align="center"
+          gap={{ base: 6, md: 8 }}
+        >
+          <Heading as="h2" size="display.sm" textAlign="center">
+            Connect to web3 easily.
+          </Heading>
+          <Heading
+            as="h3"
+            size="subtitle.lg"
+            textAlign="center"
+            maxW="container.md"
+          >
+            Powerful SDKs to integrate decentralized technologies into your
+            apps, backends, and games.
+          </Heading>
+          <CodeSelector defaultLanguage="unity" />
+        </Flex>
+      </ProductSection>
 
       <SolutionsTextImage
         image={require("public/assets/solutions-pages/commerce/hero.png")}

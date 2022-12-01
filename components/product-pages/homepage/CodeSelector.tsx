@@ -63,47 +63,55 @@ func main() {
   b, _ := json.MarshalIndent(nfts, "", "  ")
   fmt.Printf(string(b))
 }`,
+  unity: `using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Thirdweb;
+
+public class Example : MonoBehaviour
+{
+  void Start()
+  {
+    ThirdwebSDK sdk = new ThirdwebSDK("goerli");
+
+    // Add your NFT Collection contract address here
+    string address = "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e";
+    NFTCollection nft = sdk.GetNFTCollection(address);
+
+    // Now you can use any of the read-only SDK contract functions
+    NFT[] nfts = nft.GetAll();
+  }
+}`,
 };
 
-export const CodeSelector: React.FC = () => {
+interface CodeSelector {
+  defaultLanguage?: CodeOptions;
+}
+
+export const CodeSelector: React.FC<CodeSelector> = ({
+  defaultLanguage = "javascript",
+}) => {
   const [activeLanguage, setActiveLanguage] =
-    useState<CodeOptions>("javascript");
+    useState<CodeOptions>(defaultLanguage);
   const trackEvent = useTrack();
   return (
     <>
       <SimpleGrid
         gap={{ base: 2, md: 3 }}
-        columns={{ base: 2, md: 4 }}
+        columns={{ base: 2, md: 5 }}
         justifyContent={{ base: "space-between", md: "center" }}
       >
-        <CodeOptionButton
-          setActiveLanguage={setActiveLanguage}
-          activeLanguage={activeLanguage}
-          language="javascript"
-        >
-          JavaScript
-        </CodeOptionButton>
-        <CodeOptionButton
-          setActiveLanguage={setActiveLanguage}
-          activeLanguage={activeLanguage}
-          language="python"
-        >
-          Python
-        </CodeOptionButton>
-        <CodeOptionButton
-          setActiveLanguage={setActiveLanguage}
-          activeLanguage={activeLanguage}
-          language="react"
-        >
-          React
-        </CodeOptionButton>
-        <CodeOptionButton
-          setActiveLanguage={setActiveLanguage}
-          activeLanguage={activeLanguage}
-          language="go"
-        >
-          Go
-        </CodeOptionButton>
+        {Object.keys(codeSnippets).map((key) => (
+          <CodeOptionButton
+            key={key}
+            setActiveLanguage={setActiveLanguage}
+            activeLanguage={activeLanguage}
+            language={key as CodeOptions}
+            textTransform="capitalize"
+          >
+            {key === "javascript" ? "JavaScript" : key}
+          </CodeOptionButton>
+        ))}
       </SimpleGrid>
 
       <Card
@@ -120,7 +128,13 @@ export const CodeSelector: React.FC = () => {
           w="full"
           py={4}
           code={codeSnippets[activeLanguage]}
-          language={activeLanguage === "react" ? "jsx" : activeLanguage}
+          language={
+            activeLanguage === "react"
+              ? "jsx"
+              : activeLanguage === "unity"
+              ? "cpp"
+              : activeLanguage
+          }
           backgroundColor="#0d0e10"
         />
       </Card>
