@@ -76,10 +76,10 @@ public class Example : MonoBehaviour
 
     // Add your NFT Collection contract address here
     string address = "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e";
-    NFTCollection nft = sdk.GetNFTCollection(address);
+    NFTCollection nft = sdk.GetContract(address);
 
     // Now you can use any of the read-only SDK contract functions
-    NFT[] nfts = nft.GetAll();
+    List<NFT> nfts = await contract.ERC721.GetAll()
   }
 }`,
 };
