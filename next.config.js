@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const ContentSecurityPolicy = `
   default-src 'self';
   img-src * data: blob:;
@@ -36,8 +34,8 @@ const securityHeaders = [
   },
 ];
 
+/** @type {import('next').NextConfig} */
 const moduleExports = {
-  reactStrictMode: true,
   async headers() {
     return [
       {
@@ -99,8 +97,31 @@ const moduleExports = {
       // prebuilt contract deploys
       {
         source: "/contracts/new/:slug*",
-        destination: "/contracts",
+        destination: "/explore",
         permanent: false,
+      },
+      // deployer to non-deployer url
+      {
+        source: "/deployer.thirdweb.eth",
+        destination: "/thirdweb.eth",
+        permanent: false,
+      },
+      {
+        source: "/deployer.thirdweb.eth/:path*",
+        destination: "/thirdweb.eth/:path*",
+        permanent: false,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/thirdweb.eth",
+        destination: "/deployer.thirdweb.eth",
+      },
+      {
+        source: "/thirdweb.eth/:path*",
+        destination: "/deployer.thirdweb.eth/:path*",
       },
     ];
   },
@@ -108,6 +129,11 @@ const moduleExports = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     domains: ["thirdweb.com", "portal.thirdweb.com", "blog.thirdweb.com"],
+  },
+  reactStrictMode: true,
+  experimental: {
+    // appDir: true,
+    scrollRestoration: true,
   },
 };
 
@@ -118,6 +144,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { withPlausibleProxy } = require("next-plausible");
 
 const sentryWebpackPluginOptions = {
   // Additional config options for the Sentry Webpack plugin. Keep in mind that
@@ -133,6 +162,11 @@ const sentryWebpackPluginOptions = {
 
   hideSourceMaps: false,
 };
-module.exports = withBundleAnalyzer(
-  withSentryConfig(moduleExports, sentryWebpackPluginOptions),
+module.exports = withPlausibleProxy({
+  customDomain: "https://pl.thirdweb.com",
+  scriptName: "pl",
+})(
+  withBundleAnalyzer(
+    withSentryConfig(moduleExports, sentryWebpackPluginOptions),
+  ),
 );

@@ -2,6 +2,7 @@ import {
   AspectRatio,
   Box,
   Center,
+  Code,
   Container,
   Flex,
   HStack,
@@ -29,6 +30,7 @@ import Papa from "papaparse";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { BsFillCloudUploadFill } from "react-icons/bs";
+import { FiDownload } from "react-icons/fi";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import {
   MdFirstPage,
@@ -43,12 +45,17 @@ import { csvMimeTypes } from "utils/batch";
 export interface SnapshotAddressInput {
   address: string;
   maxClaimable?: string;
+  price?: string;
+  currencyAddress?: string;
 }
 interface SnapshotUploadProps {
   setSnapshot: (snapshot: SnapshotAddressInput[]) => void;
   isOpen: boolean;
   onClose: () => void;
   value?: ClaimCondition["snapshot"];
+  dropType: "specific" | "any" | "overrides";
+  isV1ClaimCondition: boolean;
+  isDisabled: boolean;
 }
 
 export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
@@ -56,6 +63,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
   isOpen,
   onClose,
   value,
+  dropType,
+  isV1ClaimCondition,
+  isDisabled,
 }) => {
   const [validSnapshot, setValidSnapshot] = useState<SnapshotAddressInput[]>(
     value || [],
@@ -93,9 +103,11 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
           const data: SnapshotAddressInput[] = (
             results.data as SnapshotAddressInput[]
           )
-            .map(({ address, maxClaimable }) => ({
+            .map(({ address, maxClaimable, price, currencyAddress }) => ({
               address: (address || "").trim(),
               maxClaimable: (maxClaimable || "0").trim(),
+              price: (price || "").trim() || undefined,
+              currencyAddress: (currencyAddress || "").trim() || undefined,
             }))
             .filter(({ address }) => address !== "");
 
@@ -167,7 +179,11 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
         </Flex>
 
         {validSnapshot.length > 0 ? (
-          <SnapshotTable portalRef={paginationPortalRef} data={data} />
+          <SnapshotTable
+            portalRef={paginationPortalRef}
+            data={data}
+            isV1ClaimCondition={isV1ClaimCondition}
+          />
         ) : (
           <Flex flexGrow={1} align="center" overflow="auto">
             <Container maxW="container.page">
@@ -180,7 +196,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                     bg={noCsv ? "red.200" : "inputBg"}
                     _hover={{
                       bg: "inputBgHover",
-                      borderColor: "blue.500",
+                      borderColor: "primary.500",
                     }}
                     borderColor="inputBorder"
                     borderWidth="1px"
@@ -212,32 +228,125 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                   </Center>
                 </AspectRatio>
                 <Flex gap={2} flexDir="column">
-                  <Heading size="subtitle.sm">Requirements</Heading>
-                  <UnorderedList>
-                    <ListItem>
-                      Files <em>must</em> contain one .csv file with a list of
-                      addresses. -{" "}
-                      <Link download color="blue.500" href="/snapshot.csv">
-                        Download an example CSV
-                      </Link>
-                    </ListItem>
-                    <ListItem>
-                      You can also add a column &quot;maxClaimable&quot; to
-                      specify how many NFTs can be claimed by that specific
-                      address per transaction, if not specified, the default
-                      value is the one you have set on your claim phase. -{" "}
-                      <Link
-                        download
-                        color="blue.500"
-                        href="/snapshot-with-maxclaimable.csv"
-                      >
-                        Download an example CSV with maxClaimable
-                      </Link>
-                    </ListItem>
-                    <ListItem>
-                      Repeated addresses will be removed and only the first
-                      found will be kept.
-                    </ListItem>
+                  <Heading size="label.md">Requirements</Heading>
+                  <UnorderedList spacing={1}>
+                    {isV1ClaimCondition ? (
+                      <>
+                        <Text as={ListItem}>
+                          Files <em>must</em> contain one .csv file with a list
+                          of addresses.
+                          <br />
+                          <Link download color="blue.500" href="/snapshot.csv">
+                            <Icon as={FiDownload} /> Example snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          You may optionally add a <Code>maxClaimable</Code>{" "}
+                          column to specify how many NFTs can be claimed by that
+                          specific address per transaction, if not specified,
+                          the default value is the one you have set on your
+                          claim phase.
+                          <br />
+                          <Link
+                            download
+                            color="blue.500"
+                            href="/snapshot-with-maxclaimable.csv"
+                          >
+                            <Icon as={FiDownload} /> Example snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          Repeated addresses will be removed and only the first
+                          found will be kept.
+                        </Text>
+                      </>
+                    ) : dropType === "specific" ? (
+                      <>
+                        <Text as={ListItem}>
+                          Files <em>must</em> contain one .csv file with a list
+                          of addresses and their <Code>maxClaimable</Code>.{" "}
+                          (amount each wallet is allowed to claim)
+                          <br />
+                          <Link
+                            download
+                            color="blue.500"
+                            href="/snapshot-with-maxclaimable.csv"
+                          >
+                            <Icon boxSize="1em" as={FiDownload} /> Example
+                            snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          You may optionally add <Code>price</Code> and{" "}
+                          <Code>currencyAddress</Code> overrides as well. This
+                          lets you override the currency and price you would
+                          like to charge per wallet you specified
+                          <br />
+                          <Link
+                            download
+                            color="blue.500"
+                            href="/snapshot-with-overrides.csv"
+                          >
+                            <Icon boxSize="1em" as={FiDownload} /> Example
+                            snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          Repeated addresses will be removed and only the first
+                          found will be kept.
+                        </Text>
+                      </>
+                    ) : (
+                      <>
+                        <Text as={ListItem}>
+                          Files <em>must</em> contain one .csv file with a list
+                          of addresses.
+                          <br />
+                          <Link download color="blue.500" href="/snapshot.csv">
+                            <Icon boxSize="1em" as={FiDownload} /> Example
+                            snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          You may optionally add a <Code>maxClaimable</Code>{" "}
+                          column override. (amount each wallet is allowed to
+                          claim) If not specified, the default value is the one
+                          you have set on your claim phase.
+                          <br />
+                          <Link
+                            download
+                            color="blue.500"
+                            href="/snapshot-with-maxclaimable.csv"
+                          >
+                            <Icon boxSize="1em" as={FiDownload} /> Example
+                            snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          You may optionally add <Code>price</Code> and{" "}
+                          <Code>currencyAddress</Code> overrides. This lets you
+                          override the currency and price you would like to
+                          charge per wallet you specified.{" "}
+                          <strong>
+                            When defining a custom currency address, you must
+                            also define a price override.
+                          </strong>
+                          <br />
+                          <Link
+                            download
+                            color="blue.500"
+                            href="/snapshot-with-overrides.csv"
+                          >
+                            <Icon boxSize="1em" as={FiDownload} /> Example
+                            snapshot
+                          </Link>
+                        </Text>
+                        <Text as={ListItem}>
+                          Repeated addresses will be removed and only the first
+                          found will be kept.
+                        </Text>
+                      </>
+                    )}
                   </UnorderedList>
                 </Flex>
               </Flex>
@@ -263,7 +372,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
               >
                 <Button
                   borderRadius="md"
-                  disabled={validSnapshot.length === 0}
+                  disabled={isDisabled || validSnapshot.length === 0}
                   onClick={() => {
                     reset();
                   }}
@@ -276,7 +385,9 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                   colorScheme="primary"
                   onClick={onSave}
                   w={{ base: "100%", md: "auto" }}
-                  disabled={invalidFound || validSnapshot.length === 0}
+                  disabled={
+                    isDisabled || invalidFound || validSnapshot.length === 0
+                  }
                 >
                   Next
                 </Button>
@@ -292,11 +403,16 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
 interface SnapshotTableProps {
   data: SnapshotAddressInput[];
   portalRef: React.RefObject<HTMLDivElement>;
+  isV1ClaimCondition: boolean;
 }
 
-const SnapshotTable: React.FC<SnapshotTableProps> = ({ data, portalRef }) => {
+const SnapshotTable: React.FC<SnapshotTableProps> = ({
+  data,
+  portalRef,
+  isV1ClaimCondition,
+}) => {
   const columns = useMemo(() => {
-    return [
+    let cols = [
       {
         Header: "Address",
         accessor: ({ address }) => {
@@ -331,7 +447,33 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({ data, portalRef }) => {
         },
       },
     ] as Column<SnapshotAddressInput>[];
-  }, []);
+
+    if (!isV1ClaimCondition) {
+      cols = cols.concat([
+        {
+          Header: "Price",
+          accessor: ({ price }) => {
+            return price === "0"
+              ? "Free"
+              : !price || price === "unlimited"
+              ? "Default"
+              : price;
+          },
+        },
+        {
+          Header: "Currency Address",
+          accessor: ({ currencyAddress }) => {
+            return currencyAddress ===
+              "0x0000000000000000000000000000000000000000" || !currencyAddress
+              ? "Default"
+              : currencyAddress;
+          },
+        },
+      ]);
+    }
+
+    return cols;
+  }, [isV1ClaimCondition]);
 
   const {
     getTableProps,

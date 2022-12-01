@@ -68,7 +68,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
           pl={
             isLoading
               ? undefined
-              : `calc(${width * 2}px + var(--chakra-space-${
+              : `calc(${(width || 0) * 2}px + var(--chakra-space-${
                   size === "sm" ? 3 : size === "lg" ? 6 : size === "xs" ? 2 : 4
                 }))`
           }
@@ -172,7 +172,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
       <Flex direction="column" gap={4}>
         <Heading size="label.lg">
           <Flex gap={2} align="center">
-            <Icon color="blue.500" boxSize={6} as={FiInfo} />
+            <Icon color="primary.500" boxSize={6} as={FiInfo} />
             <span>Execute Transaction</span>
           </Flex>
         </Heading>
@@ -193,7 +193,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
           ref={initialFocusRef}
           colorScheme="primary"
           size="sm"
-          href={`https://gnosis-safe.io/app/${
+          href={`https://app.safe.global/${
             CHAIN_ID_TO_GNOSIS[chainId as keyof typeof CHAIN_ID_TO_GNOSIS]
           }:${address}/transactions/queue`}
           isExternal
@@ -207,7 +207,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
       <Flex direction="column" gap={4}>
         <Heading size="label.lg">
           <Flex gap={2} align="center">
-            <Icon color="blue.500" boxSize={6} as={FiInfo} />
+            <Icon color="primary.500" boxSize={6} as={FiInfo} />
             <span>Approve Transaction</span>
           </Flex>
         </Heading>

@@ -34,13 +34,11 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
-import { ENSResolveResult, isEnsName } from "lib/ens";
+import { isEnsName } from "lib/ens";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
-import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
-import { isBrowser } from "utils/isBrowser";
 import { z } from "zod";
 
 export interface ContractPublishMetadata {
@@ -123,10 +121,10 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
 }
 
 // metadata PRE release, only contains the compiler output
-// if passing an addres, also fetches the latest version of the matching contract
+// if passing an address, also fetches the latest version of the matching contract
 export function useContractPrePublishMetadata(uri: string, address?: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["pre-publish-metadata", uri, address],
     async () => {
@@ -157,13 +155,7 @@ async function fetchFullPublishMetadata(
     .fetchFullPublishMetadata(uri);
 
   const ensResult = rawPublishMetadata.publisher
-    ? await queryClient.fetchQuery(
-        ens.queryKey(rawPublishMetadata.publisher),
-        () =>
-          rawPublishMetadata.publisher
-            ? fetchEns(rawPublishMetadata.publisher)
-            : undefined,
-      )
+    ? await queryClient.fetchQuery(ensQuery(rawPublishMetadata.publisher))
     : undefined;
 
   return {
@@ -176,7 +168,7 @@ async function fetchFullPublishMetadata(
 // Metadata POST release, contains all the extra information filled in by the user
 export function useContractFullPublishMetadata(uri: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   const queryClient = useQueryClient();
 
   return useQuery(
@@ -202,31 +194,34 @@ export function useContractFullPublishMetadata(uri: string) {
   );
 }
 
-export async function fetchReleaserProfile(
-  sdk?: ThirdwebSDK,
-  publisherAddress?: string | null,
-) {
+async function fetchReleaserProfile(publisherAddress?: string | null) {
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   invariant(publisherAddress, "address is not defined");
-  invariant(sdk, "sdk not provided");
   return await sdk.getPublisher().getPublisherProfile(publisherAddress);
 }
 
+export function releaserProfileQuery(releaserAddress?: string) {
+  return {
+    queryKey: ["releaser-profile", releaserAddress],
+    queryFn: () => fetchReleaserProfile(releaserAddress),
+    enabled: !!releaserAddress,
+    // 24h
+    cacheTime: 60 * 60 * 24 * 1000,
+    // 1h
+    staleTime: 60 * 60 * 1000,
+    // default to the one we know already
+  };
+}
+
 export function useReleaserProfile(publisherAddress?: string) {
-  const sdk = useSDK();
-  return useQuery(
-    ["releaser-profile", publisherAddress],
-    () => fetchReleaserProfile(sdk, publisherAddress),
-    {
-      enabled: !!publisherAddress,
-    },
-  );
+  return useQuery(releaserProfileQuery(publisherAddress));
 }
 
 export function useLatestRelease(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["latest-release", publisherAddress, contractName],
     async () => {
@@ -248,6 +243,7 @@ export function useLatestRelease(
         ...latestRelease,
         version: contractInfo.publishedMetadata.version,
         name: contractInfo.publishedMetadata.name,
+        displayName: contractInfo.publishedMetadata.displayName || "",
         description: contractInfo.publishedMetadata.description || "",
         releaser: contractInfo.publishedMetadata.publisher || "",
         audit: contractInfo.publishedMetadata.audit || "",
@@ -283,6 +279,7 @@ export async function fetchAllVersions(
       ...allVersions[i],
       version: contractInfo.publishedMetadata.version,
       name: contractInfo.publishedMetadata.name,
+      displayName: contractInfo.publishedMetadata.displayName || "",
       description: contractInfo.publishedMetadata.description || "",
       releaser: contractInfo.publishedMetadata.publisher || "",
       audit: contractInfo.publishedMetadata.audit || "",
@@ -297,7 +294,7 @@ export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["all-releases", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
@@ -349,7 +346,7 @@ export async function fetchReleasedContractInfo(
 }
 
 export function useReleasedContractInfo(contract: PublishedContract) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   return useQuery(
     ["released-contract", contract],
     () => fetchReleasedContractInfo(sdk, contract),
@@ -412,6 +409,7 @@ interface PublishMutationData {
 }
 
 export function usePublishMutation() {
+  // this has to actually have the signer!
   const sdk = useSDK();
 
   const address = useAddress();
@@ -527,7 +525,7 @@ export type ReleasedContractDetails = Awaited<
 >[number];
 
 export function usePublishedContractsQuery(address?: string) {
-  const sdk = useSDK();
+  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
   const queryClient = useQueryClient();
   return useQuery<ReleasedContractDetails[]>(
     ["published-contracts", address],
@@ -543,7 +541,7 @@ export function usePublishedContractsQuery(address?: string) {
 
 const ALWAYS_SUGGESTED = ["ContractMetadata", "Permissions"];
 
-function extractExtensions(
+export function extractExtensions(
   input: ReturnType<typeof detectFeatures>,
   enabledExtensions: FeatureWithEnabled[] = [],
   suggestedExtensions: FeatureWithEnabled[] = [],
@@ -598,61 +596,54 @@ export function useContractEnabledExtensions(abi?: any) {
   return extensions ? extensions.enabledExtensions : [];
 }
 
-function getAbsoluteUrlForSSR(path: string) {
-  if (isBrowser()) {
-    return path;
-  }
-  const url = new URL(
-    process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
-      ? `https://thirdweb.com`
-      : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000",
-  );
-  url.pathname = path;
-  return url;
-}
+export function ensQuery(addressOrEnsName?: string) {
+  const placeholderData = {
+    address: utils.isAddress(addressOrEnsName || "")
+      ? addressOrEnsName || null
+      : null,
+    ensName: isEnsName(addressOrEnsName || "")
+      ? addressOrEnsName || null
+      : null,
+  };
+  return {
+    queryKey: ["ens", addressOrEnsName],
+    queryFn: async () => {
+      if (!addressOrEnsName) {
+        return placeholderData;
+      }
+      // if it is neither an address or an esn name then return the placeholder data only
+      if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
+        return placeholderData;
+      }
+      const ethProvider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
+      const ensName = isEnsName(addressOrEnsName)
+        ? addressOrEnsName
+        : await ethProvider.lookupAddress(addressOrEnsName);
+      const address = utils.isAddress(addressOrEnsName)
+        ? addressOrEnsName
+        : await ethProvider.resolveName(addressOrEnsName);
 
-async function fetchEns(addressOrEnsName: string): Promise<ENSResolveResult> {
-  const res = await fetch(getAbsoluteUrlForSSR(`/api/ens/${addressOrEnsName}`));
-  return await res.json();
-}
-
-const ensQueryKey = (addressOrEnsName: string) => {
-  return ["ens", addressOrEnsName] as const;
-};
-
-function useEns(addressOrEnsName?: string) {
-  return useQuery(
-    ensQueryKey(addressOrEnsName || ""),
-    () =>
-      addressOrEnsName
-        ? fetchEns(addressOrEnsName)
-        : { address: null, ensName: null },
-    {
-      enabled:
-        !!addressOrEnsName &&
-        (utils.isAddress(addressOrEnsName) || isEnsName(addressOrEnsName)),
-      // 24h
-      cacheTime: 60 * 60 * 24 * 1000,
-      // 1h
-      staleTime: 60 * 60 * 1000,
-      // default to the one we know already
-      placeholderData: {
-        address: utils.isAddress(addressOrEnsName || "")
-          ? addressOrEnsName
-          : null,
-        ensName: isEnsName(addressOrEnsName || "") ? addressOrEnsName : null,
-      },
+      return {
+        address,
+        ensName,
+      };
     },
-  );
+    enabled:
+      !!addressOrEnsName &&
+      (utils.isAddress(addressOrEnsName) || isEnsName(addressOrEnsName)),
+    // 24h
+    cacheTime: 60 * 60 * 24 * 1000,
+    // 1h
+    staleTime: 60 * 60 * 1000,
+    // default to the one we know already
+    placeholderData,
+  } as const;
 }
 
-export const ens = {
-  queryKey: ensQueryKey,
-  useQuery: useEns,
-  fetch: fetchEns,
-};
+export function useEns(addressOrEnsName?: string) {
+  return useQuery(ensQuery(addressOrEnsName));
+}
+
 export function useContractFunctions(
   contract: ValidContractInstance | null | undefined,
 ) {

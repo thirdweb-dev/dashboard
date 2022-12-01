@@ -3,21 +3,24 @@ import {
   useContractFullPublishMetadata,
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
+  useEns,
   useFunctionParamsFromABI,
 } from "../hooks";
 import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import {
   ContractType,
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
+  getContractAddressByChainId,
 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { replaceTemplateValues } from "lib/deployment/tempalte-values";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Checkbox,
@@ -28,6 +31,19 @@ import {
   TrackedLink,
 } from "tw-components";
 import { SupportedChainIdToNetworkMap } from "utils/network";
+
+function isThirdwebFactory(
+  chainId: SUPPORTED_CHAIN_ID | undefined,
+  factoryAddressMap: Record<string, string> = {},
+) {
+  if (!chainId) {
+    return false;
+  }
+  const factoryAddress =
+    chainId in factoryAddressMap ? factoryAddressMap[chainId] : "";
+  const chainFactoryAddress = getContractAddressByChainId(chainId, "twFactory");
+  return chainFactoryAddress === factoryAddress;
+}
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -44,6 +60,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   isImplementationDeploy,
   onSuccessCallback,
 }) => {
+  const address = useAddress();
+  const ensQuery = useEns(address);
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
   const fullReleaseMetadata = useContractFullPublishMetadata(ipfsHash);
@@ -58,6 +76,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const isFactoryDeployment =
     fullReleaseMetadata.data?.isDeployableViaFactory ||
     (fullReleaseMetadata.data?.isDeployableViaProxy && !isImplementationDeploy);
+
   const deployParams = isFactoryDeployment
     ? initializerParams
     : constructorParams;
@@ -75,17 +94,52 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         })
       : undefined;
 
-  const form = useForm<{ addToDashboard: true }>();
+  const isTwFactory =
+    (fullReleaseMetadata.data?.isDeployableViaFactory ||
+      fullReleaseMetadata.data?.isDeployableViaProxy) &&
+    isThirdwebFactory(
+      selectedChain,
+      fullReleaseMetadata.data?.factoryDeploymentData?.factoryAddresses,
+    );
 
-  const { register, watch, handleSubmit } = form;
-  const [contractParams, _setContractParams] = useState<any[]>([]);
-  const setContractParams = useCallback((idx: number, value: any) => {
-    _setContractParams((prev) => {
-      const newArr = [...prev];
-      newArr.splice(idx, 1, value);
-      return newArr;
-    });
-  }, []);
+  const form = useForm<{
+    addToDashboard: boolean;
+    deployParams: Record<string, string>;
+  }>({
+    defaultValues: {
+      addToDashboard: !isTwFactory,
+      deployParams: deployParams.reduce((acc, param) => {
+        acc[param.name] = replaceTemplateValues(
+          fullReleaseMetadata.data?.constructorParams?.[param.name]
+            .defaultValue || "",
+          param.type,
+          {
+            connectedWallet: address,
+            chainId: selectedChain,
+          },
+        );
+        return acc;
+      }, {} as Record<string, string>),
+    },
+    values: {
+      addToDashboard: !isTwFactory,
+      deployParams: deployParams.reduce((acc, param) => {
+        acc[param.name] = replaceTemplateValues(
+          fullReleaseMetadata.data?.constructorParams?.[param.name]
+            .defaultValue || "",
+          param.type,
+          {
+            connectedWallet: address,
+            chainId: selectedChain,
+          },
+        );
+        return acc;
+      }, {} as Record<string, string>),
+    },
+    resetOptions: {
+      keepDirtyValues: true,
+    },
+  });
 
   const deploy = useCustomContractDeployMutation(
     ipfsHash,
@@ -98,6 +152,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "Failed to deploy contract",
   );
 
+  const formDeployParams = form.watch("deployParams");
+
   return (
     <Flex
       flexGrow={1}
@@ -106,19 +162,20 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       direction="column"
       id="custom-contract-form"
       as="form"
-      onSubmit={handleSubmit((d) => {
+      onSubmit={form.handleSubmit((d) => {
         if (!selectedChain) {
           return;
         }
         const deployData = {
           ipfsHash,
-          constructorParams: contractParams,
+          constructorParams: d.deployParams,
           contractMetadata: d,
           publishMetadata: compilerMetadata.data,
           chainId: selectedChain,
           is_proxy: fullReleaseMetadata.data?.isDeployableViaProxy,
           is_factory: fullReleaseMetadata.data?.isDeployableViaProxy,
         };
+        const addToDashboard = isTwFactory ? false : d.addToDashboard;
         trackEvent({
           category: "custom-contract",
           action: "deploy",
@@ -127,8 +184,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         });
         deploy.mutate(
           {
-            constructorParams: contractParams,
-            addToDashboard: d.addToDashboard,
+            constructorParams: Object.values(d.deployParams),
+            addToDashboard,
           },
           {
             onSuccess: (deployedContractAddress) => {
@@ -142,7 +199,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 label: "success",
                 deployData,
                 contractAddress: deployedContractAddress,
-                addToDashboard: d.addToDashboard,
+                addToDashboard,
+                deployer: ensQuery.data?.ensName || address,
+                contractName: compilerMetadata.data?.name,
+                deployerAndContractName: `${
+                  ensQuery.data?.ensName || address
+                }__${compilerMetadata.data?.name}`,
               });
               trackEvent({
                 category: "custom-contract",
@@ -173,7 +235,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         );
       })}
     >
-      {deployParams?.length ? (
+      {Object.keys(formDeployParams).length > 0 && (
         <>
           <Flex direction="column">
             <Heading size="subtitle.md">Contract Parameters</Heading>
@@ -182,26 +244,41 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               deployment.
             </Text>
           </Flex>
-          {/* TODO make this part of the actual form */}
-          {deployParams.map((param, idx) => (
-            <FormControl isRequired key={param.name}>
-              <Flex alignItems="center" my={1}>
-                <FormLabel mb={0} flex="1">
-                  {param.name}
-                </FormLabel>
-                <FormHelperText mt={0}>{param.type}</FormHelperText>
-              </Flex>
-              <Input
-                fontFamily={param.type === "address" ? "monospace" : undefined}
-                value={contractParams[idx] || ""}
-                onChange={(e) => setContractParams(idx, e.currentTarget.value)}
-                type="text"
-              />
-            </FormControl>
-          ))}
+          {Object.keys(formDeployParams).map((paramKey) => {
+            const deployParam = deployParams.find((p) => p.name === paramKey);
+            const contructorParams =
+              fullReleaseMetadata.data?.constructorParams || {};
+            const extraMetadataParam = contructorParams[paramKey];
+            return (
+              <FormControl isRequired key={paramKey}>
+                <Flex alignItems="center" my={1}>
+                  <FormLabel mb={0} flex="1" display="flex">
+                    {extraMetadataParam?.displayName ? (
+                      <Flex alignItems="center" gap={1}>
+                        {extraMetadataParam?.displayName}
+                        <Text size="label.sm">({paramKey})</Text>
+                      </Flex>
+                    ) : (
+                      paramKey
+                    )}
+                  </FormLabel>
+                  {deployParam && (
+                    <FormHelperText mt={0}>{deployParam.type}</FormHelperText>
+                  )}
+                </Flex>
+                <Input {...form.register(`deployParams.${paramKey}`)} />
+                {extraMetadataParam?.description && (
+                  <FormHelperText>
+                    {extraMetadataParam?.description}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            );
+          })}
           <Divider mt="auto" />
         </>
-      ) : null}
+      )}
+
       <Flex direction="column">
         <Heading size="subtitle.md">Network / Chain</Heading>
         <Text size="body.md">
@@ -209,7 +286,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           with a testnet.{" "}
           <TrackedLink
             href="https://blog.thirdweb.com/guides/which-network-should-you-use"
-            color="primary.500"
+            color="blue.500"
             category="deploy"
             label="learn-networks"
             isExternal
@@ -218,26 +295,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </TrackedLink>
         </Text>
       </Flex>
-      <Flex alignItems="center" gap={3}>
-        <Checkbox
-          autoFocus={true}
-          {...register("addToDashboard")}
-          defaultChecked
-        />
-        <Text mt={1}>
-          Add to dashboard so I can find it in the list of my contracts at{" "}
-          <TrackedLink
-            href="https://thirdweb.com/dashboard"
-            isExternal
-            category="custom-contract"
-            label="visit-dashboard"
-            color="primary.500"
-          >
-            /dashboard
-          </TrackedLink>
-          .
-        </Text>
-      </Flex>
+      {!isTwFactory && (
+        <Flex alignItems="center" gap={3}>
+          <Checkbox {...form.register("addToDashboard")} defaultChecked />
+
+          <Text mt={1}>
+            Add to dashboard so I can find it in the list of my contracts at{" "}
+            <TrackedLink
+              href="https://thirdweb.com/dashboard"
+              isExternal
+              category="custom-contract"
+              label="visit-dashboard"
+              color="blue.500"
+            >
+              /dashboard
+            </TrackedLink>
+            .
+          </Text>
+        </Flex>
+      )}
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl>
           <SupportedNetworkSelect
@@ -273,8 +349,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             !selectedChain ||
             !!disabledChains?.find((chain) => chain === selectedChain)
           }
-          colorScheme="primary"
-          transactionCount={!watch("addToDashboard") ? 1 : 2}
+          colorScheme="blue"
+          transactionCount={
+            isTwFactory ? 1 : !form.watch("addToDashboard") ? 1 : 2
+          }
         >
           Deploy Now
         </TransactionButton>

@@ -6,8 +6,10 @@ import {
   DarkMode,
   Divider,
   Flex,
+  FormControl,
   Icon,
   IconButton,
+  Input,
   LightMode,
   List,
   ListIcon,
@@ -22,6 +24,7 @@ import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { ChakraNextImage } from "components/Image";
 import { CLISection } from "components/homepage/CLISection";
+import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
@@ -40,10 +43,18 @@ import Hero from "public/assets/landingpage/hero.png";
 import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import ThirdwebTeams from "public/assets/landingpage/thirdweb-teams.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
+import { useForm } from "react-hook-form";
 // end images
 import { BsLightningCharge, BsMenuButtonWide } from "react-icons/bs";
 import { MdMarkEmailRead, MdOutlineAnalytics } from "react-icons/md";
-import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import {
+  Button,
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+  TrackedLink,
+} from "tw-components";
 
 const HomePage: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
@@ -67,8 +78,9 @@ const HomePage: ThirdwebNextPage = () => {
         <HomepageSection id="home" topGradient bottomPattern>
           <SimpleGrid
             pt={{
-              base: 24,
-              md: 48,
+              base: 0,
+              md: 16,
+              lg: 24,
             }}
             columns={{ base: 1, md: 2 }}
             spacing={{ base: 6, md: 8 }}
@@ -80,18 +92,19 @@ const HomePage: ThirdwebNextPage = () => {
             >
               <Heading
                 as="h2"
-                size="display.md"
+                size="display.sm"
                 textAlign={{ base: "center", md: "left" }}
               >
-                Build web3 apps, easily.
+                The complete web3 development framework.
               </Heading>
               <Heading
                 as="h3"
                 size="subtitle.md"
                 textAlign={{ base: "center", md: "left" }}
               >
-                Smart contracts you control. Powerful SDKs and intuitive tools
-                for developers. Ship on-chain faster.
+                Everything you need to connect your apps or games to
+                decentralized networks. Powerful tools that simplify web3
+                development.
               </Heading>
 
               <Flex direction="column">
@@ -101,31 +114,41 @@ const HomePage: ThirdwebNextPage = () => {
                     align="center"
                     gap={6}
                   >
-                    <LinkButton
-                      href="/dashboard"
-                      onClick={() =>
-                        trackEvent({
-                          category: "cta-button",
-                          action: "click",
-                          label: "start",
-                          title: "Start building",
-                        })
-                      }
-                      h="68px"
-                      w={{ base: "100%", md: "290px" }}
-                      fontSize="20px"
-                      leftIcon={
-                        <Icon as={BsLightningCharge} color="yellow.500" />
-                      }
-                      color="black"
-                      flexShrink={0}
-                      background="rgba(255,255,255,1)"
-                      _hover={{
-                        background: "rgba(255,255,255,0.9)!important",
-                      }}
-                    >
-                      Start building
-                    </LinkButton>
+                    <Flex flexDir="column" gap={3}>
+                      <LinkButton
+                        href="/dashboard"
+                        onClick={() =>
+                          trackEvent({
+                            category: "cta-button",
+                            action: "click",
+                            label: "start",
+                            title: "Start building",
+                          })
+                        }
+                        h="68px"
+                        w={{ base: "100%", md: "290px" }}
+                        fontSize="20px"
+                        leftIcon={
+                          <Icon as={BsLightningCharge} color="yellow.500" />
+                        }
+                        color="black"
+                        flexShrink={0}
+                        background="rgba(255,255,255,1)"
+                        _hover={{
+                          background: "rgba(255,255,255,0.9)!important",
+                        }}
+                      >
+                        Start building
+                      </LinkButton>
+                      <Text
+                        color="gray.600"
+                        size="label.sm"
+                        fontStyle="italic"
+                        textAlign="center"
+                      >
+                        Completely free to use. No hidden fees.
+                      </Text>
+                    </Flex>
                     <Flex
                       background="rgba(255, 255, 255, 0.08)"
                       border="1px solid rgba(255, 255, 255, 0.2)"
@@ -136,6 +159,7 @@ const HomePage: ThirdwebNextPage = () => {
                       minW={{ base: "100%", lg: "240px" }}
                       gap={4}
                       align="center"
+                      alignSelf="start"
                     >
                       <Text
                         color="white"
@@ -202,6 +226,7 @@ const HomePage: ThirdwebNextPage = () => {
             </Flex>
           </SimpleGrid>
         </HomepageSection>
+        <PartnerCarousel />
         <HomepageSection id="contracts" middleGradient>
           <Flex
             flexDir="column"
@@ -242,20 +267,20 @@ const HomePage: ThirdwebNextPage = () => {
                 >
                   <Flex direction="column" gap={1.5}>
                     <Heading w="100%" size="title.lg" lineHeight={1.2}>
-                      Prebuilt
+                      Explore
                     </Heading>
                   </Flex>
                   <Divider borderColor="rgba(255,255,255,0.1)" />
 
                   <ContractsDescriptorItem
-                    title="Secure"
-                    description="Contracts are audited and follow the highest security standards."
+                    title="Discover"
+                    description="The front page for contracts. Get inspired by contracts built by other web3 developers. Find contracts for your specific app's use case."
                     icon={require("public/assets/landingpage/icons/secure.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <ContractsDescriptorItem
-                    title="Optimized"
-                    description="Up to 10x lower gas-fees for contract deployment delivering industry-leading efficiency."
+                    title="Powerful"
+                    description="Deploy contracts to take full advantage of our product suite. Unlock access to powerful SDKs and Dashboard to easily build your app."
                     icon={require("public/assets/landingpage/icons/optimized.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
@@ -266,14 +291,14 @@ const HomePage: ThirdwebNextPage = () => {
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
                   <LinkButton
-                    href="/contracts"
+                    href="/explore"
                     variant="solid"
                     colorScheme="whiteAlpha"
                     bg="white"
                     color="black"
                     py={6}
                   >
-                    Explore prebuilt contracts
+                    Explore contracts
                   </LinkButton>
                 </Card>
                 <Card
@@ -398,18 +423,21 @@ const HomePage: ThirdwebNextPage = () => {
                     icon={require("public/assets/landingpage/icons/sdk-dashboard.png")}
                   />
                   <Divider borderColor="rgba(255,255,255,0.1)" />
-                  <LinkButton
-                    href="https://portal.thirdweb.com/contractkit"
-                    variant="solid"
-                    colorScheme="whiteAlpha"
-                    bg="white"
-                    color="black"
-                    py={6}
-                    isExternal
-                    noIcon
-                  >
-                    Start building contracts
-                  </LinkButton>
+                  <Flex h="full" alignItems="end">
+                    <LinkButton
+                      href="https://portal.thirdweb.com/contractkit"
+                      variant="solid"
+                      colorScheme="whiteAlpha"
+                      bg="white"
+                      color="black"
+                      py={6}
+                      isExternal
+                      noIcon
+                      w="full"
+                    >
+                      Start building contracts
+                    </LinkButton>
+                  </Flex>
                 </Card>
               </SimpleGrid>
             </Flex>
@@ -752,7 +780,13 @@ const ContractsDescriptorItem: React.FC<ContractsDescriptorItemProps> = ({
   );
 };
 
-const NewsLetterSection: React.FC = () => {
+export const NewsLetterSection: React.FC = () => {
+  const form = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
+
   return (
     <Box bgColor="rgba(0,0,0,.6)" zIndex="100">
       <Container as="section" maxW="container.page" color="gray.500">
@@ -776,15 +810,45 @@ const NewsLetterSection: React.FC = () => {
             </Stack>
           </Stack>
 
-          <Box
-            as="iframe"
-            src="https://embeds.beehiiv.com/42f51ba6-da56-42f9-92d8-24a339b9acd0?slim=true"
-            data-test-id="beehiiv-embed"
-            frameBorder="0"
-            scrolling="no"
-            h="50px"
-            borderRadius="md"
-          />
+          <form
+            onSubmit={form.handleSubmit(async (data) => {
+              try {
+                await fetch("/api/email-signup", {
+                  method: "POST",
+                  body: JSON.stringify({ email: data.email }),
+                });
+                form.setValue("email", "");
+              } catch (err) {
+                console.error(err);
+              }
+            })}
+          >
+            <Flex gap={0} minW={{ base: "100%", md: "350px" }}>
+              <FormControl isRequired>
+                <Input
+                  borderRightRadius={0}
+                  type="email"
+                  borderColor="purple.500"
+                  borderRight={0}
+                  _hover={{ borderColor: "purple.500" }}
+                  _focus={{ borderColor: "purple.500" }}
+                  placeholder="Enter your email"
+                  {...form.register("email")}
+                  autoComplete="email"
+                />
+              </FormControl>
+              <Button
+                borderLeftRadius={0}
+                flexShrink={0}
+                isLoading={form.formState.isSubmitting}
+                type="submit"
+                mr={2}
+                colorScheme="purple"
+              >
+                Sign up
+              </Button>
+            </Flex>
+          </form>
         </Stack>
       </Container>
     </Box>
