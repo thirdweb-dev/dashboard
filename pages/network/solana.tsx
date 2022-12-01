@@ -4,13 +4,10 @@ import {
   Center,
   Container,
   Flex,
-  HStack,
-  Icon,
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { GuideCard } from "components/product-pages/common/GuideCard";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { ProductButton } from "components/product-pages/common/ProductButton";
 import { ProductPage } from "components/product-pages/common/ProductPage";
@@ -18,8 +15,7 @@ import { ProductSection } from "components/product-pages/common/ProductSection";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "pages/_app";
-import { FiArrowRight } from "react-icons/fi";
-import { Heading, LinkButton, TrackedLink } from "tw-components";
+import { Heading, LinkButton } from "tw-components";
 
 const SOLANA_GUIDES = [
   {
