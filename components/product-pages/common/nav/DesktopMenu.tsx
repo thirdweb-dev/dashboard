@@ -159,7 +159,6 @@ export const SOLUTIONS: NavCardProps[] = [
     description: "Integrate web3 into games",
     link: "/solutions/gaming",
     iconType: IoGameControllerOutline,
-    comingSoon: true,
   },
 ];
 

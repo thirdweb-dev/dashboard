@@ -1,4 +1,5 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -62,6 +63,18 @@ const Gaming: ThirdwebNextPage = () => {
         gradient="linear-gradient(147.15deg, #5CFFE1 30.17%, #410AB6 100.01%)"
         image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         type="Solutions"
+        underGetStarted={
+          <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
+            <Heading size="subtitle.xs" as="span">
+              In partnership with
+            </Heading>
+            <ChakraNextImage
+              src={require("public/assets/investors/coinbase.svg")}
+              width="80px"
+              alt="Coinbase"
+            />
+          </Flex>
+        }
         largeImage
       >
         <SimpleGrid
