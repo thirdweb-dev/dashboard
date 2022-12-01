@@ -87,6 +87,14 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
           >
             Commerce
           </MenuItem>
+          <MenuItem
+            as={TrackedLink}
+            href="/solutions/gaming"
+            category="topnav"
+            label="gaming"
+          >
+            Gaming
+          </MenuItem>
         </MenuGroup>
 
         <Divider mt={2} opacity="0.3" />

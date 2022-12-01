@@ -189,6 +189,13 @@ export const HomepageFooter: React.FC = () => {
                   >
                     Commerce
                   </TrackedLink>
+                  <TrackedLink
+                    href="/solutions/gaming"
+                    category="footer"
+                    label="gaming"
+                  >
+                    Gaming
+                  </TrackedLink>
                 </Stack>
               </Stack>
               <Stack spacing="4" minW="36" flex="1">
