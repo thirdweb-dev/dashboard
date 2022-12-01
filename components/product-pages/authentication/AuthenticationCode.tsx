@@ -4,8 +4,6 @@ import { GeneralCta } from "components/shared/GeneralCta";
 import { useState } from "react";
 import { Card, CodeBlock } from "tw-components";
 
-//
-
 const codeSnippets = {
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 
@@ -49,6 +47,7 @@ func main() {
   // And verify the address of the logged in wallet
   address, err := sdk.Auth.Verify(payload)
 }`,
+  unity: ``,
 };
 
 export const AuthenticationCode: React.FC = () => {
@@ -107,7 +106,13 @@ export const AuthenticationCode: React.FC = () => {
           w="full"
           py={4}
           code={codeSnippets[activeLanguage]}
-          language={activeLanguage === "react" ? "jsx" : activeLanguage}
+          language={
+            activeLanguage === "react"
+              ? "jsx"
+              : activeLanguage === "unity"
+              ? "cpp"
+              : activeLanguage
+          }
         />
       </Card>
 
