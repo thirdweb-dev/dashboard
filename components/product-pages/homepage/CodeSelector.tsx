@@ -6,23 +6,24 @@ import { useState } from "react";
 import { Card, CodeBlock, LinkButton } from "tw-components";
 
 const codeSnippets = {
-  javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+  javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-const sdk = new ThirdwebSDK("goerli");
-const nftCollection = sdk.getNFTCollection("0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e");
+const sdk = new ThirdwebSDK("mumbai");
+const contract = await sdk.getContract("0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c");
 
-const nfts = await nftCollection.getAll();`,
+const nfts = await contract.erc721.getAll();
+console.log(nfts);`,
   react: `import {
   ThirdwebNftMedia,
-  useNFTCollection,
+  useContract,
   useNFTs,
 } from "@thirdweb-dev/react";
 
 export default function App() {
-  const nftCollection = useNFTCollection(
-    "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e",
+  const nftDrop = useContract(
+    "0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c",
   );
-  const { data: nfts } = useNFTs(nftCollection);
+  const { data: nfts } = useNFTs(nftDrop);
 
   return (nfts || []).map((nft) => (
     <div key={nft.metadata.id.toString()}>
@@ -34,31 +35,30 @@ export default function App() {
   python: `from thirdweb import ThirdwebSDK
 from pprint import pprint
 
-sdk = ThirdwebSDK("goerli")
+sdk = ThirdwebSDK("mumbai")
 
-nftCollection = sdk.get_nft_collection(
-    "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e")
+nftCollection = sdk.get_nft_drop("0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c")
 
 nfts = nftCollection.get_all()
-pprint(nfts)
-  `,
+pprint(nfts)`,
   go: `package main
 
 import (
+  "context"
   "encoding/json"
   "fmt"
-  "github.com/thirdweb-dev/go-sdk/thirdweb"
+  "github.com/thirdweb-dev/go-sdk/v2/thirdweb"
 )
 
 func main() {
-  sdk, _ := thirdweb.NewThirdwebSDK("goerli", nil)
+  sdk, _ := thirdweb.NewThirdwebSDK("mumbai", nil)
 
-  // Add your NFT Collection contract address here
-  address := "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e"
-  nft, _ := sdk.GetNFTCollection(address)
+  // Add your NFT Drop contract address here
+  address := "0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c"
+  nft, _ := sdk.GetNFTDrop(address)
 
   // Now you can use any of the read-only SDK contract functions
-  nfts, _ := nft.GetAll()
+  nfts, _ := nft.GetAll(context.Background())
 
   b, _ := json.MarshalIndent(nfts, "", "  ")
   fmt.Printf(string(b))
