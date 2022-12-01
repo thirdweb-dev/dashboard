@@ -35,9 +35,10 @@ const Gaming: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Gaming | Solutions",
+        title:
+          "thirdweb GamingKit | SDKs, Smart Contracts & Dev Tools for Web3 Games",
         description:
-          "Create web3 gaming apps, build token-gated websites, and sell NFTs to your audience—all with thirdweb's Shopify integration. Start here.",
+          "Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets.",
         openGraph: {
           images: [
             {
@@ -53,7 +54,7 @@ const Gaming: ThirdwebNextPage = () => {
       <Hero
         name="Gaming"
         title="Reimagine gaming with web3 technologies"
-        description="Easily integrate web3 features into your games. Build a stronger community around your game by giving players ownership of in-game assets."
+        description="Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
         gradient="linear-gradient(147.15deg, #5CFFE1 30.17%, #410AB6 100.01%)"
