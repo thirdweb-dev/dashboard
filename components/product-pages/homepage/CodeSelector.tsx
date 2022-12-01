@@ -20,7 +20,7 @@ console.log(nfts);`,
 } from "@thirdweb-dev/react";
 
 export default function App() {
-  const nftDrop = useContract(
+  const { contract: nftDrop } = useContract(
     "0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c",
   );
   const { data: nfts } = useNFTs(nftDrop);
@@ -30,8 +30,7 @@ export default function App() {
       <ThirdwebNftMedia metadata={nft.metadata} />
       <h3>{nft.metadata.name}</h3>
     </div>
-  ));
-}`,
+));`,
   python: `from thirdweb import ThirdwebSDK
 from pprint import pprint
 
