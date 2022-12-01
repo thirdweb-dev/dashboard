@@ -21,7 +21,7 @@ import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 const SHOPIFY_GUIDES = [
   {
-    title: "How to Create a Token Gated Website on Shopify using thirdweb",
+    title: "How to Create a Token Gated Website on Shopify using thirdweb ",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2022/11/create-token-gated-website-with-shopify-storefront-and-thirdweb.png",
     link: "https://blog.thirdweb.com/guides/token-nft-gated-shopify-website-thirdweb/",
