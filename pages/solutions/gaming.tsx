@@ -60,7 +60,7 @@ const Gaming: ThirdwebNextPage = () => {
         description="Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
-        gradient="linear-gradient(147.15deg, #5CFFE1 30.17%, #410AB6 100.01%)"
+        gradient="linear-gradient(147.15deg, #5CFFE1 50.17%, #410AB6 100.01%)"
         image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         type="Solutions"
         underGetStarted={
