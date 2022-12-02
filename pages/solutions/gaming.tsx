@@ -62,7 +62,7 @@ const Gaming: ThirdwebNextPage = () => {
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
-        image={require("public/assets/solutions-pages/commerce/reimagine.png")}
+        image={require("public/assets/solutions-pages/gaming/hero.png")}
         type="Solutions"
         underGetStarted={
           <Flex gap={3} justify="center" align="center" mt={4}>
@@ -89,7 +89,7 @@ const Gaming: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
             Get additional revenue streams with primary sales and royalty fees
-            from secondary sales for in-game assets represented as NFTs
+            from secondary sales for in-game assets represented as NFTs.
           </ProductCard>
           <ProductCard
             title="Grow your gaming community"
@@ -100,7 +100,7 @@ const Gaming: ThirdwebNextPage = () => {
             games.
           </ProductCard>
           <ProductCard
-            title="Interoperable in-game assets"
+            title="Create new gaming universes"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
             Game assets represented by NFTs can be designed to be interoperable
@@ -126,8 +126,9 @@ const Gaming: ThirdwebNextPage = () => {
             textAlign="center"
             maxW="container.md"
           >
-            Powerful SDKs to integrate decentralized technologies into your
-            apps, backends, and games.
+            The ultimate development framework for all types of web3 games:
+            free-to-own, play-to-earn, nft game, etc. Powerful Gaming Engine
+            SDKs to integrate web3 features into your game.
           </Heading>
           <CodeSelector defaultLanguage="unity" />
         </Flex>
@@ -135,7 +136,7 @@ const Gaming: ThirdwebNextPage = () => {
 
       <SolutionsTextImage
         image={require("public/assets/solutions-pages/commerce/hero.png")}
-        title="Build creative gaming experiences with web3 technologies"
+        title="Bring your web2 game to web3 with Game Engine SDK, across any EVM blockchain"
       />
 
       <ProductSection>
@@ -152,13 +153,13 @@ const Gaming: ThirdwebNextPage = () => {
           />
           <ProductLearnMoreCard
             title="Launch"
-            description="Powerful Gaming Engine SDK enables you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game."
+            description="Powerful Gaming Engine SDK enables you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game. Unreal Engine SDK coming soon."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
             href="https://portal.thirdweb.com/gamingkit"
           />
           <ProductLearnMoreCard
             title="Manage"
-            description="View and interact with your game smart contracts directly from a user interface, e.g. view all the NFTs owned by a player."
+            description="View and interact with your web3 game smart contracts directly from a user interface, e.g. view all NFTs owned by a player."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
             href="https://portal.thirdweb.com/dashboard"
           />
@@ -167,7 +168,7 @@ const Gaming: ThirdwebNextPage = () => {
 
       <GuidesShowcase
         title="Start building web3 games"
-        description="Check out our comprehensive guides to get you started building games with thirdweb"
+        description="Check out our guides and templates to start building games with thirdweb"
         solution="Gaming"
         guides={GAMING_GUIDES}
       />

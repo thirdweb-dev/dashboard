@@ -59,7 +59,7 @@ const Commerce: ThirdwebNextPage = () => {
         buttonText="Get started"
         buttonLink="https://blog.thirdweb.com/tag/shopify/"
         gradient="linear-gradient(147.15deg, #9BC055 30.17%, #7629E7 100.01%)"
-        image={require("public/assets/solutions-pages/commerce/reimagine.png")}
+        image={require("public/assets/solutions-pages/commerce/hero.png")}
         type="Solutions"
         underGetStarted={
           <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
@@ -108,7 +108,7 @@ const Commerce: ThirdwebNextPage = () => {
       </Hero>
 
       <SolutionsTextImage
-        image={require("public/assets/solutions-pages/commerce/hero.png")}
+        image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         title="Reimagine customer experiences with web3 technologies"
       />
 
