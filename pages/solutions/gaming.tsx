@@ -151,7 +151,7 @@ const Gaming: ThirdwebNextPage = () => {
         >
           <ProductLearnMoreCard
             title="Build"
-            description="Discover already built contracts or build your own with ContractKit for gaming use cases, e.g. in-game currencies, airdrop free-to-own NFTs, and more. Integrate marketplace contract in-game to enforce royalty fees."
+            description="Discover ready-to-go contracts or build your own with ContractKit for gaming use cases, e.g. NFT Marketplace, Multiwrap, Packs, Soulbound Tokens, and more. Integrate NFT marketplace into your game to enforce royalty fees."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
             href="https://portal.thirdweb.com/contractkit"
           />
