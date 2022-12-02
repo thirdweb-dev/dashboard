@@ -66,7 +66,7 @@ const Gaming: ThirdwebNextPage = () => {
         type="Solutions"
         underGetStarted={
           <Flex gap={3} justify="center" align="center" mt={4}>
-            <Heading size="subtitle.xs" as="span" mt="3px">
+            <Heading size="subtitle.xs" as="span" mt="4px">
               In partnership with
             </Heading>
             <ChakraNextImage
