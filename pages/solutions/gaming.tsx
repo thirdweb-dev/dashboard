@@ -138,7 +138,7 @@ const Gaming: ThirdwebNextPage = () => {
       </ProductSection>
 
       <SolutionsTextImage
-        image={require("public/assets/solutions-pages/commerce/hero.png")}
+        image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         title="Bring your web2 game to web3 with Game Engine SDK, across any EVM blockchain"
       />
 
