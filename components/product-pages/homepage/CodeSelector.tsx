@@ -5,7 +5,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useState } from "react";
 import { Card, CodeBlock, LinkButton } from "tw-components";
 
-const codeSnippets = {
+const landingSnippets = {
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 const sdk = new ThirdwebSDK("mumbai");
@@ -83,34 +83,88 @@ public class Example : MonoBehaviour
 }`,
 };
 
+const authSnippets = {
+  javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+
+const sdk = new ThirdwebSDK("goerli");
+
+// Login with a single line of code
+const payload = await sdk.auth.login();
+
+// And verify the address of the logged in wallet
+const address = await sdk.auth.verify(payload);`,
+  react: `import { useSDK } from "@thirdweb-dev/react";
+
+export default function App() {
+ const sdk = useSDK();
+
+ async function login() {
+  // Login with a single line of code
+  const payload = await sdk.auth.login();
+
+  // And verify the address of the logged in wallet
+  const address = await sdk.auth.verify(payload);
+ }
+}`,
+  python: `from thirdweb import ThirdwebSDK
+
+sdk = ThirdwebSDK("goerli")
+
+# Login with a single line of code
+payload = sdk.auth.login();
+
+# And verify the address of the logged in wallet
+address = sdk.auth.verify(payload);`,
+  go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
+
+func main() {
+  sdk, err := thirdweb.NewThirdwebSDK("goerli", nil)
+
+  // Login with a single line of code
+  payload, err := sdk.Auth.Login()
+
+  // And verify the address of the logged in wallet
+  address, err := sdk.Auth.Verify(payload)
+}`,
+  unity: ``,
+};
+
 interface CodeSelector {
   defaultLanguage?: CodeOptions;
+  snippets?: "landing" | "auth";
 }
 
 export const CodeSelector: React.FC<CodeSelector> = ({
   defaultLanguage = "javascript",
+  snippets = "landing",
 }) => {
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>(defaultLanguage);
   const trackEvent = useTrack();
+
+  const actualSnippets =
+    snippets === "landing" ? landingSnippets : authSnippets;
+
   return (
     <>
       <SimpleGrid
         gap={{ base: 2, md: 3 }}
-        columns={{ base: 2, md: 5 }}
+        columns={{ base: 2, md: snippets === "landing" ? 5 : 4 }}
         justifyContent={{ base: "space-between", md: "center" }}
       >
-        {Object.keys(codeSnippets).map((key) => (
-          <CodeOptionButton
-            key={key}
-            setActiveLanguage={setActiveLanguage}
-            activeLanguage={activeLanguage}
-            language={key as CodeOptions}
-            textTransform="capitalize"
-          >
-            {key === "javascript" ? "JavaScript" : key}
-          </CodeOptionButton>
-        ))}
+        {Object.keys(actualSnippets).map((key) =>
+          key === "unity" && snippets === "auth" ? null : (
+            <CodeOptionButton
+              key={key}
+              setActiveLanguage={setActiveLanguage}
+              activeLanguage={activeLanguage}
+              language={key as CodeOptions}
+              textTransform="capitalize"
+            >
+              {key === "javascript" ? "JavaScript" : key}
+            </CodeOptionButton>
+          ),
+        )}
       </SimpleGrid>
 
       <Card
@@ -126,7 +180,7 @@ export const CodeSelector: React.FC<CodeSelector> = ({
           borderWidth={0}
           w="full"
           py={4}
-          code={codeSnippets[activeLanguage]}
+          code={actualSnippets[activeLanguage]}
           language={
             activeLanguage === "react"
               ? "jsx"
@@ -145,27 +199,29 @@ export const CodeSelector: React.FC<CodeSelector> = ({
         w="100%"
         maxW="container.sm"
       >
-        <LinkButton
-          role="group"
-          borderRadius="md"
-          p={6}
-          variant="gradient"
-          fromcolor="#1D64EF"
-          tocolor="#E0507A"
-          isExternal
-          colorScheme="primary"
-          w="full"
-          href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
-          rightIcon={
-            <Icon
-              color="#E0507A"
-              _groupHover={{ color: "#1D64EF" }}
-              as={SiReplDotIt}
-            />
-          }
-        >
-          <Box as="span">Try it on Replit</Box>
-        </LinkButton>
+        {snippets === "landing" && (
+          <LinkButton
+            role="group"
+            borderRadius="md"
+            p={6}
+            variant="gradient"
+            fromcolor="#1D64EF"
+            tocolor="#E0507A"
+            isExternal
+            colorScheme="primary"
+            w="full"
+            href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
+            rightIcon={
+              <Icon
+                color="#E0507A"
+                _groupHover={{ color: "#1D64EF" }}
+                as={SiReplDotIt}
+              />
+            }
+          >
+            <Box as="span">Try it on Replit</Box>
+          </LinkButton>
+        )}
         <LinkButton
           variant="outline"
           borderRadius="md"
