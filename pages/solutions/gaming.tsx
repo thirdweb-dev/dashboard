@@ -45,7 +45,7 @@ const Gaming: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: "https://thirdweb.com/thirdwebxshopify.png",
+              url: "https://thirdweb.com/thirdwebxcoinbase.png",
               width: 1200,
               height: 630,
               alt: "thirdweb x shopify",
