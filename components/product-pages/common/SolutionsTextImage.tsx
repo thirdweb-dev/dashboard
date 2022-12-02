@@ -29,12 +29,7 @@ export const SolutionsTextImage: React.FC<SolutionsTextImageProps> = ({
             borderRadius="lg"
             overflow="hidden"
           >
-            <ChakraNextImage
-              src={image}
-              layout="fill"
-              objectFit="cover"
-              alt=""
-            />
+            <ChakraNextImage src={image} objectFit="cover" alt="" />
           </AspectRatio>
         </Box>
         <Box flex="1">
