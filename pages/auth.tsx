@@ -129,7 +129,10 @@ const Authentication: ThirdwebNextPage = () => {
             languages.
           </Heading>
 
-          <CodeSelector snippets="auth" />
+          <CodeSelector
+            snippets="auth"
+            docs="https://portal.thirdweb.com/auth"
+          />
         </Flex>
       </ProductSection>
 

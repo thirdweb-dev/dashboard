@@ -130,7 +130,10 @@ const Gaming: ThirdwebNextPage = () => {
             free-to-own, play-to-earn, nft game, etc. Powerful Gaming Engine
             SDKs to integrate web3 features into your game.
           </Heading>
-          <CodeSelector defaultLanguage="unity" />
+          <CodeSelector
+            defaultLanguage="unity"
+            docs="https://portal.thirdweb.com/gamingkit"
+          />
         </Flex>
       </ProductSection>
 

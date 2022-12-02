@@ -126,11 +126,13 @@ func main() {
 interface CodeSelector {
   defaultLanguage?: CodeOptions;
   snippets?: "landing" | "auth";
+  docs?: string;
 }
 
 export const CodeSelector: React.FC<CodeSelector> = ({
   defaultLanguage = "javascript",
   snippets = "landing",
+  docs = "https://portal.thirdweb.com/",
 }) => {
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>(defaultLanguage);
@@ -226,7 +228,7 @@ export const CodeSelector: React.FC<CodeSelector> = ({
           _hover={{
             bg: "whiteAlpha.800",
           }}
-          href="https://portal.thirdweb.com/"
+          href={docs}
           isExternal
           p={6}
           onClick={() =>
