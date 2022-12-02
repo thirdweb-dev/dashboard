@@ -8,7 +8,7 @@ import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import { BsLightningCharge } from "react-icons/bs";
 import { Heading, LinkButton, Text } from "tw-components";
 
-export function HeroSection() {
+export const HeroSection = () => {
   const trackEvent = useTrack();
   return (
     <HomepageSection id="home" topGradient bottomPattern>
@@ -113,4 +113,4 @@ export function HeroSection() {
       </SimpleGrid>
     </HomepageSection>
   );
-}
+};

@@ -1,5 +1,6 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -10,7 +11,6 @@ import { SolutionsTextImage } from "components/product-pages/common/SolutionsTex
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
 import { Heading } from "tw-components";
 
@@ -182,7 +182,7 @@ const Gaming: ThirdwebNextPage = () => {
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
         opacity="0.8"
       />
-      <NewsLetterSection />
+      <NewsletterSection />
     </ProductPage>
   );
 };

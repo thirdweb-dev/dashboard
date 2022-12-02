@@ -6,7 +6,7 @@ import { Heading } from "tw-components";
 /**
  * Simple Wrapper for the ExamplesSection for HomePage
  */
-export function ExamplesSection_HomePage() {
+export const ExamplesSectionHomepage = () => {
   return (
     <HomepageSection id="examples" middleGradient>
       <Flex
@@ -28,4 +28,4 @@ export function ExamplesSection_HomePage() {
       </Flex>
     </HomepageSection>
   );
-}
+};
