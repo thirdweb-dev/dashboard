@@ -1,5 +1,6 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { NewsLetterSection } from "components/homepage/sections/NewsLetterSection";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -10,7 +11,6 @@ import { SolutionsTextImage } from "components/product-pages/common/SolutionsTex
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
 import { Heading } from "tw-components";
 
