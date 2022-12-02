@@ -157,7 +157,7 @@ const Gaming: ThirdwebNextPage = () => {
           />
           <ProductLearnMoreCard
             title="Launch"
-            description="Powerful Gaming Engine SDK enables you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game. Unreal Engine SDK coming soon."
+            description="Powerful Game Engine SDK enables you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game. Unreal Engine SDK coming soon."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
             href="https://portal.thirdweb.com/gamingkit"
           />
