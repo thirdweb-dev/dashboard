@@ -1,6 +1,8 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
+import { NewsLetterSection } from "components/homepage/sections/NewsLetterSection";
+import { GuideCard } from "components/product-pages/common/GuideCard";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
@@ -8,7 +10,6 @@ import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
 import { PageId } from "page-id";
-import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
 import { Heading } from "tw-components";
 
