@@ -61,12 +61,12 @@ const Gaming: ThirdwebNextPage = () => {
         description="Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
-        gradient="linear-gradient(147.15deg, #5CFFE1 50.17%, #410AB6 100.01%)"
+        gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
         image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         type="Solutions"
         underGetStarted={
-          <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
-            <Heading size="subtitle.xs" as="span">
+          <Flex gap={3} justify="center" align="center" mt={4}>
+            <Heading size="subtitle.xs" as="span" mt="3px">
               In partnership with
             </Heading>
             <ChakraNextImage
