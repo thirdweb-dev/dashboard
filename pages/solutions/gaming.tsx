@@ -1,6 +1,6 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
+import { NewsletterSection } from "components/homepage/sections/NewsletterSectionTemp";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";

@@ -6,7 +6,7 @@ import { DashboardFeaturesSection } from "components/homepage/sections/Dashboard
 import { ExamplesSectionHomepage } from "components/homepage/sections/ExamplesSectionHomePage";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
-import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
+import { NewsletterSection } from "components/homepage/sections/NewsletterSectionTemp";
 import { NetworksSection } from "components/homepage/sections/NextworksSection";
 import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
