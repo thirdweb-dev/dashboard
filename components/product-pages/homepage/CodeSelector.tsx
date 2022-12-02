@@ -67,17 +67,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Thirdweb;
 
-public class Example : MonoBehaviour
-{
-  void Start()
-  {
+public class Example : MonoBehaviour {
+  void Start() {
     ThirdwebSDK sdk = new ThirdwebSDK("goerli");
-
-    // Add your NFT Collection contract address here
     string address = "0xb1c42E0C4289E68f1C337Eb0Da6a38C4c9F3f58e";
     NFTCollection nft = sdk.GetContract(address);
-
-    // Now you can use any of the read-only SDK contract functions
     List<NFT> nfts = await contract.ERC721.GetAll()
   }
 }`,
