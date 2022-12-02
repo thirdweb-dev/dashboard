@@ -1,6 +1,7 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
+import { GameShowcase } from "components/product-pages/common/GameShowcase";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -168,6 +169,8 @@ const Gaming: ThirdwebNextPage = () => {
           />
         </SimpleGrid>
       </ProductSection>
+
+      <GameShowcase />
 
       <GuidesShowcase
         title="Start building web3 games"
