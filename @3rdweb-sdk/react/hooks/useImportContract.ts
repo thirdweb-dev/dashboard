@@ -19,9 +19,6 @@ export function useImportContract() {
       },
     );
     if (res.status >= 400) {
-      console.log("*********************");
-      await res.text().then((r) => console.log(r));
-      console.log("*********************");
       throw new Error(await res.text().then((r) => r));
     }
     return res.json();
