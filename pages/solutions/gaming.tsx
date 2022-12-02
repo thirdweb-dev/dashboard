@@ -8,6 +8,7 @@ import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { NewsLetterSection } from "pages";
 import { ThirdwebNextPage } from "pages/_app";
@@ -45,10 +46,10 @@ const Gaming: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: "https://thirdweb.com/thirdwebxshopify.png",
+              url: `${getAbsoluteUrl()}/thirdwebxcoinbase.png`,
               width: 1200,
               height: 630,
-              alt: "thirdweb x shopify",
+              alt: "thirdweb x coinbase",
             },
           ],
         },
@@ -60,12 +61,12 @@ const Gaming: ThirdwebNextPage = () => {
         description="Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
-        gradient="linear-gradient(147.15deg, #5CFFE1 50.17%, #410AB6 100.01%)"
+        gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
         image={require("public/assets/solutions-pages/commerce/reimagine.png")}
         type="Solutions"
         underGetStarted={
-          <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
-            <Heading size="subtitle.xs" as="span">
+          <Flex gap={3} justify="center" align="center" mt={4}>
+            <Heading size="subtitle.xs" as="span" mt="4px">
               In partnership with
             </Heading>
             <ChakraNextImage

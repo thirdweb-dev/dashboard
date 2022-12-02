@@ -28,7 +28,7 @@ const LOGO_OPTIONS = {
   },
   unity: {
     icon: SiUnity,
-    fill: "#000000",
+    fill: "#ffffff",
   },
 } as const;
 
