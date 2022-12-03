@@ -1,8 +1,9 @@
+import { useDashboardNetwork } from "@3rdweb-sdk/react";
 import { useImportContract } from "@3rdweb-sdk/react/hooks/useImportContract";
 import { Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { Button, Heading } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 
 interface ImportContractProps {
   contractAddress: string;
@@ -12,6 +13,7 @@ export const ImportContract: React.FC<ImportContractProps> = ({
   contractAddress,
 }) => {
   const trackEvent = useTrack();
+  const network = useDashboardNetwork();
   const importContract = useImportContract();
 
   const { onSuccess, onError } = useTxNotifications(
@@ -20,41 +22,62 @@ export const ImportContract: React.FC<ImportContractProps> = ({
   );
 
   return (
-    <Flex direction="column" gap={8}>
-      <Flex direction="column" gap={6}>
-        <Heading size="title.sm">Import Contract</Heading>
-        <Button
-          onClick={() => {
-            trackEvent({
-              category: "import-contract",
-              action: "click",
-              label: "attempt",
-            });
-            importContract.mutate(contractAddress, {
-              onSuccess: () => {
-                trackEvent({
-                  category: "import-contract",
-                  action: "click",
-                  label: "success",
-                });
-                onSuccess();
-                window.location.reload();
-              },
-              onError: (error) => {
-                trackEvent({
-                  category: "import-contract",
-                  action: "click",
-                  label: "error",
-                  error,
-                });
-                onError(error);
-              },
-            });
-          }}
-          isLoading={importContract.isLoading}
-        >
-          Import Contract
-        </Button>
+    <Flex
+      direction="column"
+      gap={8}
+      w="full"
+      alignItems="center"
+      mt={{ base: 4, md: 12 }}
+    >
+      <Flex direction="column" gap={6} w={96}>
+        <Heading size="title.sm" textAlign="center">
+          This contract can&apos;t be found on thirdweb
+        </Heading>
+        <Text textAlign="center">
+          Import this contract and unlock thirdweb&apos;s toolkit
+        </Text>
+        <Flex justifyContent="center">
+          <Button
+            colorScheme="purple"
+            onClick={() => {
+              trackEvent({
+                category: "import-contract",
+                action: "click",
+                label: "attempt",
+                contractAddress,
+                network,
+              });
+              importContract.mutate(contractAddress, {
+                onSuccess: () => {
+                  trackEvent({
+                    category: "import-contract",
+                    action: "click",
+                    label: "success",
+                    contractAddress,
+                    network,
+                  });
+                  onSuccess();
+                  window.location.reload();
+                },
+                onError: (error) => {
+                  trackEvent({
+                    category: "import-contract",
+                    action: "click",
+                    label: "error",
+                    error,
+                    contractAddress,
+                    network,
+                  });
+                  onError(error);
+                },
+              });
+            }}
+            isLoading={importContract.isLoading}
+            w="auto"
+          >
+            Import Contract
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );

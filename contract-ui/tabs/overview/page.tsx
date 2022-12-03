@@ -18,11 +18,15 @@ export const CustomContractOverviewPage: React.FC<
   if (!contractAddress) {
     return <div>No contract address provided</div>;
   }
+
+  if (!contract?.abi) {
+    return <ImportContract contractAddress={contractAddress} />;
+  }
+
   return (
     <Flex direction="column" gap={8}>
       <Flex direction="column" gap={6}>
         <Heading size="title.sm">Contract Explorer</Heading>
-
         {contract && (
           <ContractFunctionsOverview
             onlyFunctions
@@ -30,7 +34,6 @@ export const CustomContractOverviewPage: React.FC<
             contract={contract}
           />
         )}
-        <ImportContract contractAddress={contractAddress} />
       </Flex>
     </Flex>
   );
