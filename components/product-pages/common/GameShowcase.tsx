@@ -5,12 +5,10 @@ import {
   Box,
   Flex,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
   SimpleGrid,
-  useBreakpointValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Heading } from "tw-components";
@@ -41,7 +39,6 @@ const games = [
 
 export const GameShowcase = () => {
   const [selectedGame, setSelectedGame] = useState("");
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <ProductSection>
