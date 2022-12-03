@@ -1,3 +1,4 @@
+import { pipeFunctionExecutor } from "./helper";
 import { removeEmptyValues } from "./parseAttributes";
 import type { NFTMetadataInput } from "@thirdweb-dev/sdk";
 import Papa from "papaparse";
@@ -63,21 +64,15 @@ const getAcceptedFiles = async (acceptedFiles: File[]) => {
     .filter((f) => jsonMimeTypes.includes(f.type) || f.name.endsWith(".json"))
     .sort(sortAscending);
 
-  let json: unknown[] = [];
-
-  for (const f of jsonFiles) {
-    const text = await f.text();
-    // can be either a single json object or an array of json objects
-    let parsed: unknown | unknown[] = [];
+  const jsonFilesText = await Promise.all(jsonFiles.map((f) => f.text()));
+  const json = jsonFilesText.reduce((result, text) => {
     try {
-      parsed = JSON.parse(text);
-    } catch (e) {
-      console.error(e);
+      return [...result, JSON.parse(text)];
+    } catch (error) {
+      console.error(error);
+      return result;
     }
-    // just concat it always (even if it's a single object
-    // this will add the object to the end of the array or append the array to the end of the array)
-    json = json.concat(parsed);
-  }
+  }, [] as unknown[]);
 
   const csv = acceptedFiles.find(
     (f) => csvMimeTypes.includes(f.type) || f.name.endsWith(".csv"),
@@ -102,22 +97,24 @@ const getAcceptedFiles = async (acceptedFiles: File[]) => {
   return { csv, json, images, videos };
 };
 
-export const removeEmptyKeysFromObject = (obj: any) => {
-  Object.keys(obj).forEach((key) => {
-    if (obj[key] === "" || obj[key] === null || obj[key] === undefined) {
-      delete obj[key];
-    }
-  });
-  return obj;
-};
+export const removeEmptyKeysFromObject = (obj: any) =>
+  Object.keys(obj).reduce((result, key) => {
+    if (!obj(key) || obj(key).length === 0) return result;
+    return { ...result, [key]: obj[key] };
+  }, {} as any);
 
 export const convertToOsStandard = (obj: NFTMetadataInput["attributes"]) => {
-  const attributes = Object.entries(obj || {}).map(([trait_type, value]) => ({
-    trait_type,
-    value,
-  }));
-
-  return removeEmptyValues(attributes);
+  const constructAttributesFromObj = (
+    obj: NFTMetadataInput["attributes"] = {},
+  ) =>
+    Object.entries(obj || {}).map(([trait_type, value]) => ({
+      trait_type,
+      value,
+    }));
+  return pipeFunctionExecutor(
+    constructAttributesFromObj,
+    removeEmptyValues,
+  )(obj);
 };
 
 const getMergedData = (
@@ -152,7 +149,10 @@ const getMergedData = (
         external_url,
         background_color,
         youtube_url,
-        attributes: convertToOsStandard(removeEmptyKeysFromObject(properties)),
+        attributes: pipeFunctionExecutor(
+          removeEmptyKeysFromObject,
+          convertToOsStandard,
+        )(properties),
         image:
           imageFiles.find((img) => img?.name === image) ||
           (!isImageMapped && imageFiles[index]) ||
@@ -204,18 +204,27 @@ export async function processInputData(
       header: true,
       transformHeader,
       complete: (results) => {
-        const validResults: Papa.ParseResult<CSVData> = {
-          ...results,
-          data: [],
-        };
-        for (let i = 0; i < results.data.length; i++) {
-          if (!results.errors.find((e) => e.row === i)) {
-            if (results.data[i].name) {
-              validResults.data.push(results.data[i]);
+        const { data, errors } = results;
+        const validResults = data.reduce(
+          (acc, _, index) => {
+            if (errors.find(({ row }) => row === index)) {
+              if (data[index] && data[index].name) {
+                return { ...acc, data: [...acc.data, data[index]] };
+              }
             }
-          }
-        }
-        setData(getMergedData(validResults, undefined, images, videos));
+            return acc;
+          },
+          {
+            ...results,
+            data: [],
+          } as Papa.ParseResult<CSVData>,
+        );
+        pipeFunctionExecutor(getMergedData, setData)(
+          validResults,
+          undefined,
+          images,
+          videos,
+        );
       },
     });
   } else {

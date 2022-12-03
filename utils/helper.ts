@@ -10,3 +10,8 @@ export const mergeObjects = (a: any, b: any) => ({ ...a, ...b });
 const STR_UNDEFINED = "undefined";
 export const hasWindow = typeof window !== STR_UNDEFINED;
 export const hasDocument = typeof document !== STR_UNDEFINED;
+
+export const pipeFunctionExecutor =
+  (...fns: any) =>
+  (...value: any) =>
+    fns.reduce((result: any, fn: any) => fn(result), ...value);
