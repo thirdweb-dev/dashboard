@@ -187,14 +187,14 @@ export const HomepageFooter: React.FC = () => {
                     category="footer"
                     label="commerce"
                   >
-                    Commerce
+                    CommerceKit
                   </TrackedLink>
                   <TrackedLink
                     href="/solutions/gaming"
                     category="footer"
                     label="gaming"
                   >
-                    Gaming
+                    GamingKit
                   </TrackedLink>
                 </Stack>
               </Stack>

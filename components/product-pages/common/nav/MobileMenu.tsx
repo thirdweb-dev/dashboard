@@ -85,7 +85,7 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
             category="topnav"
             label="commerce"
           >
-            Commerce
+            CommerceKit
           </MenuItem>
           <MenuItem
             as={TrackedLink}
@@ -93,7 +93,7 @@ export const MobileMenu: React.FC<IconButtonProps> = (props) => {
             category="topnav"
             label="gaming"
           >
-            Gaming
+            GamingKit
           </MenuItem>
         </MenuGroup>
 
