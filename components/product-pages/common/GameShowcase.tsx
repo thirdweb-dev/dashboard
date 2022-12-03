@@ -1,6 +1,17 @@
 import { GameCard } from "./GameCard";
 import { ProductSection } from "./ProductSection";
-import { Flex, SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  SimpleGrid,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Heading } from "tw-components";
 
@@ -52,7 +63,7 @@ export const GameShowcase = () => {
         >
           Try out our demo games and start building your own
         </Heading>
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={{ base: 6, lg: 8 }}>
           {games.map((game) => (
             <GameCard
               key={game.name}
@@ -61,15 +72,33 @@ export const GameShowcase = () => {
             />
           ))}
         </SimpleGrid>
-        {selectedGame && (
-          <Flex justifyContent="center">
-            <iframe
-              src={selectedGame}
-              width={isMobile ? "100%" : "800px"}
-              height="450px"
-            />
-          </Flex>
-        )}
+
+        <Modal
+          isCentered
+          isOpen={!!selectedGame}
+          onClose={() => setSelectedGame("")}
+          size="6xl"
+        >
+          <ModalOverlay />
+
+          <ModalContent>
+            <Box
+              position="absolute"
+              top={{ base: "-50px", md: "-10px" }}
+              right={{ base: "-10px", md: "-50px" }}
+            >
+              <ModalCloseButton />
+            </Box>
+            <AspectRatio ratio={{ base: 16 / 9, md: 16 / 9 }} w="100%">
+              <Box
+                bg="#000"
+                borderRadius={{ base: "md", md: "lg" }}
+                as="iframe"
+                src={selectedGame}
+              />
+            </AspectRatio>
+          </ModalContent>
+        </Modal>
       </Flex>
     </ProductSection>
   );

@@ -1,6 +1,7 @@
 import { ProductButton } from "./ProductButton";
 import {
   AspectRatio,
+  Box,
   Center,
   Container,
   Flex,
@@ -8,8 +9,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
-import { StaticImageData } from "next/image";
+import NextImage, { StaticImageData } from "next/image";
 import { ReactElement } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
@@ -58,20 +58,22 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
         padding={0}
         margin={{ base: "0px", md: "40px" }}
         mb={0}
-        minHeight="578px"
+        minHeight={{ base: undefined, md: "578px" }}
+        overflow="hidden"
       >
         <Flex
           gridColumnEnd={{ base: undefined, md: image ? "span 4" : "span 7" }}
           padding={{ base: "24px", md: "48px" }}
           pt={{ base: "36px", md: undefined }}
-          bg="rgba(0, 0, 0, 0.5)"
-          borderLeftRadius={{ base: 0, md: 24 }}
+          bg="linear-gradient(90deg, rgba(3,10,25,.75) 0%, rgba(3,10,25,0) 100%)"
+          position="relative"
           flexDir="column"
           gap={{ base: 6, md: "32px" }}
           align={{ base: "initial", md: "start" }}
           justify={{ base: "start", md: "center" }}
         >
           <Stack
+            display={{ base: "none", md: "flex" }}
             direction="row"
             align="center"
             spacing={1}
@@ -127,14 +129,22 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
         </Flex>
         {image && (
           <Center
+            display={{ base: "none", md: "flex" }}
             padding={{ base: "24px", md: largeImage ? "8px" : "48px" }}
             gridColumnEnd={{ base: undefined, md: "span 3" }}
           >
-            <Flex justifyContent={{ base: "center", md: "flex-end" }} w="100%">
-              <AspectRatio ratio={1} w="100%">
-                <ChakraNextImage alt="" src={image} priority />
-              </AspectRatio>
-            </Flex>
+            <AspectRatio ratio={1} w="100%">
+              <Box position="relative">
+                <NextImage
+                  fill
+                  style={{ objectFit: "contain" }}
+                  alt=""
+                  loading="eager"
+                  src={image}
+                  priority
+                />
+              </Box>
+            </AspectRatio>
           </Center>
         )}
       </SimpleGrid>
