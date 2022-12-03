@@ -50,7 +50,7 @@ export const GameShowcase = () => {
           color="whiteAlpha.600"
           size="subtitle.md"
         >
-          Try out our prebuilt games and start building your own!
+          Try out our demo games and start building your own
         </Heading>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
           {games.map((game) => (
