@@ -57,7 +57,7 @@ const Gaming: ThirdwebNextPage = () => {
       }}
     >
       <Hero
-        name="Gaming"
+        name="GamingKit"
         title="Reimagine gaming with web3 technologies"
         description="Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets."
         buttonText="Get started"

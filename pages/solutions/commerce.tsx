@@ -53,7 +53,7 @@ const Commerce: ThirdwebNextPage = () => {
       }}
     >
       <Hero
-        name="Commerce"
+        name="CommerceKit"
         title="Build Web3 Commerce apps easily"
         description="With thirdweb you can now add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more."
         buttonText="Get started"
