@@ -14,6 +14,7 @@ import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageFooter } from "components/product-pages/homepage/Footer";
 import { PageId } from "page-id";
+import { Suspense } from "react";
 
 const HomePage: ThirdwebNextPage = () => {
   return (
@@ -36,16 +37,18 @@ const HomePage: ThirdwebNextPage = () => {
         <HeroSection />
         <PartnerCarousel />
         <ContractsSection />
-        <NewsletterSection />
-        <SDKSection />
-        <CLISection />
-        <DashboardFeaturesSection />
-        <NetworksSection />
-        <PricingSection />
-        <ExamplesSectionHomepage />
-        <GetStartedSection />
+        <Suspense>
+          <NewsletterSection />
+          <SDKSection />
+          <CLISection />
+          <DashboardFeaturesSection />
+          <NetworksSection />
+          <PricingSection />
+          <ExamplesSectionHomepage />
+          <GetStartedSection />
 
-        <HomepageFooter />
+          <HomepageFooter />
+        </Suspense>
       </Flex>
     </DarkMode>
   );
