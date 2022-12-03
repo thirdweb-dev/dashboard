@@ -75,7 +75,7 @@ export function HeroSection() {
                   >
                     Start building
                   </LinkButton>
-                  <Link href="#fees">
+                  <Link href="#pricing">
                     <Text
                       color="gray.600"
                       size="label.sm"
