@@ -12,9 +12,9 @@ import {
   ReleaseWithVersionPage,
   ReleaseWithVersionPageProps,
 } from "components/pages/release";
-import { BuiltinContractMap } from "constants/mappings";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
+import { getAllExploreReleases } from "data/explore";
 import {
   isPossibleEVMAddress,
   isPossibleSolanaAddress,
@@ -156,6 +156,18 @@ export const getStaticProps: GetStaticProps<PossiblePageProps> = async (
     };
   }
 
+  // handle deployer.thirdweb.eth urls
+  if (networkOrAddress === "deployer.thirdweb.eth") {
+    const pathSegments = ctx.params?.catchAll as string[];
+
+    return {
+      redirect: {
+        destination: `/thirdweb.eth/${pathSegments.join("/")}`,
+        permanent: true,
+      },
+    };
+  }
+
   const queryClient = new QueryClient();
 
   // handle the case where the user is trying to access a EVM contract
@@ -279,27 +291,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 function generateBuildTimePaths() {
-  return [
-    ...Object.values(BuiltinContractMap)
-      .filter((c) => c.contractType !== "custom")
-      .map((v) => ({
-        params: {
-          networkOrAddress: "deployer.thirdweb.eth",
-          catchAll: [v.id],
-        },
-      })),
-    ...communityReleases.map((v) => ({
+  const paths = getAllExploreReleases();
+  return paths.map((path) => {
+    const [networkOrAddress, contractId] = path.split("/");
+    return {
       params: {
-        networkOrAddress: v.releaser,
-        catchAll: [v.contractId],
+        networkOrAddress,
+        catchAll: [contractId],
       },
-    })),
-  ];
+    };
+  });
 }
-
-const communityReleases = [
-  {
-    releaser: "unlock-protocol.eth",
-    contractId: "PublicLock",
-  },
-] as const;
