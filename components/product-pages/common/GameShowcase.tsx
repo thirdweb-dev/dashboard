@@ -24,7 +24,7 @@ const games = [
     description:
       "Purchase NFT loot boxes from a marketplace and open them to reveal randomly selected NFTs inside!",
     image: require("public/assets/solutions-pages/gaming/nft-lootbox.png"),
-    href: "https://game3.com",
+    href: "https://unity-nft-lootboxes.thirdweb-example.com/",
   },
 ];
 
