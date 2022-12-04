@@ -22,6 +22,7 @@ import {
   ExtraPublishMetadata,
   ProfileMetadata,
   PublishedContract,
+  PublishedContractFetched,
   SUPPORTED_CHAIN_ID,
   ThirdwebSDK,
   ValidContractInstance,
@@ -268,24 +269,36 @@ export async function fetchAllVersions(
     .getPublisher()
     .getAllVersions(publisherAddress, contractName);
 
-  const releasedVersions = [];
-
-  for (let i = 0; i < allVersions.length; i++) {
-    const contractInfo = await sdk
-      .getPublisher()
-      .fetchPublishedContractInfo(allVersions[i]);
-
-    releasedVersions.unshift({
-      ...allVersions[i],
-      version: contractInfo.publishedMetadata.version,
-      name: contractInfo.publishedMetadata.name,
-      displayName: contractInfo.publishedMetadata.displayName || "",
-      description: contractInfo.publishedMetadata.description || "",
-      releaser: contractInfo.publishedMetadata.publisher || "",
-      audit: contractInfo.publishedMetadata.audit || "",
-      logo: contractInfo.publishedMetadata.logo || "",
-    });
-  }
+  const releasedVersions = (
+    await Promise.all(
+      allVersions.map((version) =>
+        sdk?.getPublisher().fetchPublishedContractInfo(version),
+      ),
+    )
+  ).reduce(
+    (
+      acc: Array<PublishedContractFetched>,
+      contractInfo: PublishedContractFetched,
+    ) => {
+      if (contractInfo.publishedMetadata) {
+        return [
+          {
+            ...contractInfo,
+            version: contractInfo.publishedMetadata.version,
+            name: contractInfo.publishedMetadata.name,
+            displayName: contractInfo.publishedMetadata.displayName || "",
+            description: contractInfo.publishedMetadata.description || "",
+            releaser: contractInfo.publishedMetadata.publisher || "",
+            audit: contractInfo.publishedMetadata.audit || "",
+            logo: contractInfo.publishedMetadata.logo || "",
+          },
+          ...acc,
+        ];
+      }
+      return acc;
+    },
+    [],
+  );
 
   return releasedVersions;
 }
