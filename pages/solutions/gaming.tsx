@@ -38,6 +38,7 @@ const GAMING_GUIDES = [
 const Gaming: ThirdwebNextPage = () => {
   return (
     <ProductPage
+      accentColor="rgba(22,82,240,.75)"
       seo={{
         title:
           "thirdweb GamingKit | SDKs, Smart Contracts & Dev Tools for Web3 Games",
@@ -155,7 +156,7 @@ const Gaming: ThirdwebNextPage = () => {
 
       <SolutionsTextImage
         image={require("public/assets/solutions-pages/commerce/reimagine.png")}
-        title="Bring your web2 game to web3 with Game Engine SDK, across any EVM blockchain"
+        title="Bring your web2 game to web3 with GamingKit, across any EVM blockchain"
       />
 
       <ProductSection>
@@ -172,7 +173,7 @@ const Gaming: ThirdwebNextPage = () => {
           />
           <ProductLearnMoreCard
             title="Launch"
-            description="Powerful Game Engine SDK enables you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game. Unreal Engine SDK coming soon."
+            description="Powerful Game Engine SDKs enable you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game. Unreal Engine SDK coming soon."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
             href="https://portal.thirdweb.com/gamingkit"
           />
@@ -196,12 +197,7 @@ const Gaming: ThirdwebNextPage = () => {
 
       <Box
         h="1px"
-        bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
-        opacity="0.8"
-      />
-      <Box
-        h="1px"
-        bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
+        bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, var(--product-accent-color) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
         opacity="0.8"
       />
       <NewsletterSection />
