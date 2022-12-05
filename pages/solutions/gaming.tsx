@@ -155,8 +155,8 @@ const Gaming: ThirdwebNextPage = () => {
       </ProductSection>
 
       <SolutionsTextImage
-        image={require("public/assets/solutions-pages/commerce/reimagine.png")}
-        title="Bring your web2 game to web3 with GamingKit, across any EVM blockchain"
+        image={require("public/assets/solutions-pages/gaming/marketplace.png")}
+        title="Bring your web2 game to web3 with GamingKit."
       />
 
       <ProductSection>

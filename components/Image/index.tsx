@@ -16,6 +16,7 @@ export const ChakraNextImage = chakra(NextImage, {
       "blurDataURL",
       "unoptimized",
       "onLoadingComplete",
+      "sizes",
     ].includes(prop),
 });
 

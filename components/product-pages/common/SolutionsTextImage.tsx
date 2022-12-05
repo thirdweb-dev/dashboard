@@ -1,5 +1,5 @@
 import { ProductSection } from "./ProductSection";
-import { AspectRatio, Box, Stack } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Heading } from "tw-components";
 
@@ -14,30 +14,26 @@ export const SolutionsTextImage: React.FC<SolutionsTextImageProps> = ({
 }) => {
   return (
     <ProductSection>
-      <Stack
+      <Flex
         direction={{ base: "column", md: "row" }}
-        spacing={{ base: 12, md: 12 }}
+        gap={12}
         alignItems="center"
-        py={{ base: 12, md: 24 }}
+        py={{ base: 6, md: 12 }}
       >
-        <Box flex="1">
-          <AspectRatio
-            ratio={1}
-            w="100%"
-            maxW="600px"
-            mx="auto"
-            borderRadius="lg"
-            overflow="hidden"
-          >
-            <ChakraNextImage src={image} objectFit="cover" alt="" />
-          </AspectRatio>
-        </Box>
-        <Box flex="1">
-          <Heading as="h2" size="display.sm" mb={4}>
-            {title}
-          </Heading>
-        </Box>
-      </Stack>
+        <ChakraNextImage
+          maxW={{ base: "100%", md: "50%" }}
+          objectFit="contain"
+          src={image}
+          sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+          alt=""
+        />
+
+        <Heading as="h2" size="display.sm" mb={4}>
+          {title}
+        </Heading>
+      </Flex>
     </ProductSection>
   );
 };

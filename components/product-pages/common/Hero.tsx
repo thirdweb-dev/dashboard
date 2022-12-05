@@ -1,7 +1,5 @@
 import { ProductButton } from "./ProductButton";
 import {
-  AspectRatio,
-  Box,
   Center,
   Container,
   Flex,
@@ -9,7 +7,8 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import NextImage, { StaticImageData } from "next/image";
+import { ChakraNextImage } from "components/Image";
+import { StaticImageData } from "next/image";
 import { ReactElement } from "react";
 import { FiChevronRight } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
@@ -133,18 +132,17 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
             padding={{ base: "24px", md: largeImage ? "8px" : "48px" }}
             gridColumnEnd={{ base: undefined, md: "span 3" }}
           >
-            <AspectRatio ratio={1} w="100%">
-              <Box position="relative">
-                <NextImage
-                  fill
-                  style={{ objectFit: "contain" }}
-                  alt=""
-                  loading="eager"
-                  src={image}
-                  priority
-                />
-              </Box>
-            </AspectRatio>
+            <ChakraNextImage
+              maxH={{ base: "480px" }}
+              style={{ objectFit: "contain" }}
+              alt=""
+              loading="eager"
+              src={image}
+              priority
+              sizes="(max-width: 768px) 100vw,
+                  (max-width: 1200px) 50vw,
+                  33vw"
+            />
           </Center>
         )}
       </SimpleGrid>

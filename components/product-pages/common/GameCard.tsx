@@ -1,4 +1,4 @@
-import { AspectRatio, Center, Flex } from "@chakra-ui/react";
+import { Box, Center, Flex } from "@chakra-ui/react";
 import NextImage, { StaticImageData } from "next/image";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { Button, Card, Heading, Text } from "tw-components";
@@ -35,9 +35,16 @@ export const GameCard: React.FC<GameCardProps> = ({
         setSelectedGame(game.href);
       }}
     >
-      <AspectRatio ratio={16 / 9} w="100%">
-        <Center>
-          <NextImage fill src={game.image} placeholder="blur" alt="" />
+      <Box position="relative">
+        <NextImage
+          src={game.image}
+          placeholder="blur"
+          alt=""
+          sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+        />
+        <Center position="absolute" top={0} bottom={0} left={0} right={0}>
           <Button
             leftIcon={<IoGameControllerOutline />}
             color="white"
@@ -49,7 +56,8 @@ export const GameCard: React.FC<GameCardProps> = ({
             Play Game
           </Button>
         </Center>
-      </AspectRatio>
+      </Box>
+
       <Flex direction="column" gap={2} pb={4}>
         <Heading px={4} as="h3" size="title.sm">
           {game.name}
