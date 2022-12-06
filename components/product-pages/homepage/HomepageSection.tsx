@@ -109,9 +109,17 @@ interface AuroraBgProps {
   orientation: "top" | "bottom" | "middle";
 }
 
+let hasEverLoaded = false;
+
 const AuroraBg: React.FC<AuroraBgProps> = ({ orientation }) => {
   return (
     <ChakraNextImage
+      aria-hidden
+      opacity={hasEverLoaded ? 1 : 0}
+      zIndex={-1}
+      transition="opacity 0.1s ease"
+      willChange="opacity"
+      pointerEvents="none"
       position="absolute"
       w="400%"
       maxW={{ base: "200vw", md: "120vw", xl: "66vw" }}
@@ -119,6 +127,10 @@ const AuroraBg: React.FC<AuroraBgProps> = ({ orientation }) => {
       top={
         orientation === "top" ? "0" : orientation === "bottom" ? "100%" : "50%"
       }
+      onLoadingComplete={(el) => {
+        hasEverLoaded = true;
+        el.style.opacity = "1";
+      }}
       objectFit="cover"
       alt=""
       transform="translate(-50%, -50%)"
