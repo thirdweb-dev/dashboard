@@ -8,7 +8,7 @@ import MobileHero from "public/assets/landingpage/mobile-hero.png";
 import { BsLightningCharge } from "react-icons/bs";
 import { Heading, Link, LinkButton, Text } from "tw-components";
 
-export function HeroSection() {
+export const HeroSection = () => {
   const trackEvent = useTrack();
   return (
     <HomepageSection id="home" topGradient bottomPattern>
@@ -75,7 +75,16 @@ export function HeroSection() {
                   >
                     Start building
                   </LinkButton>
-                  <Link href="#pricing">
+                  <Link
+                    href="#pricing"
+                    onClick={(e) => {
+                      const el = document.getElementById("pricing");
+                      if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView();
+                      }
+                    }}
+                  >
                     <Text
                       color="gray.600"
                       size="label.sm"
@@ -100,6 +109,7 @@ export function HeroSection() {
             src={Hero}
             mr={12}
             priority
+            quality={95}
           />
         </Flex>
         <Flex display={{ base: "flex", md: "none" }} justifyContent="center">
@@ -115,4 +125,4 @@ export function HeroSection() {
       </SimpleGrid>
     </HomepageSection>
   );
-}
+};

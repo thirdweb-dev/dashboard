@@ -1,3 +1,4 @@
+import redirects from "../../redirects";
 import { useMainnetsContractList } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
@@ -21,13 +22,14 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
+// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "pages/_app";
 import { createProfileOGUrl } from "pages/_og/profile";
-import { ReactElement, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Heading, Text } from "tw-components";
 import { getSingleQueryValue } from "utils/router";
+import { ThirdwebNextPage } from "utils/types";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 const UserPage: ThirdwebNextPage = () => {
@@ -51,9 +53,15 @@ const UserPage: ThirdwebNextPage = () => {
 
   const releaserProfile = useReleaserProfile(ens.data?.address || undefined);
 
-  const displayName = shortenIfAddress(ens?.data?.ensName || wallet);
+  const displayName = shortenIfAddress(ens?.data?.ensName || wallet).replace(
+    "deployer.thirdweb.eth",
+    "thirdweb.eth",
+  );
 
-  const currentRoute = `https://thirdweb.com${router.asPath}`;
+  const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
+    "deployer.thirdweb.eth",
+    "thirdweb.eth",
+  );
 
   const publishedContracts = usePublishedContractsQuery(
     ens.data?.address || undefined,
@@ -96,6 +104,7 @@ const UserPage: ThirdwebNextPage = () => {
             : undefined,
           url: currentRoute,
         }}
+        canonical={currentRoute}
       />
 
       <Flex flexDir="column" gap={12}>
@@ -138,9 +147,13 @@ const UserPage: ThirdwebNextPage = () => {
   );
 };
 
-UserPage.getLayout = function getLayout(page: ReactElement) {
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
+
+UserPage.getLayout = function getLayout(page, props) {
   return (
-    <AppLayout>
+    <AppLayout {...props}>
       <PublisherSDKContext>{page}</PublisherSDKContext>
     </AppLayout>
   );
@@ -150,6 +163,10 @@ UserPage.pageId = PageId.Profile;
 
 export default UserPage;
 
+const possibleRedirects = redirects().filter(
+  (r) => r.source.split("/").length === 2,
+);
+
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const queryClient = new QueryClient();
   // TODO make this use alchemy / other RPC
@@ -158,13 +175,24 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const networkOrAddress = getSingleQueryValue(ctx.params, "networkOrAddress");
 
+  const foundRedirect = possibleRedirects.find(
+    (r) => r.source.split("/")[1] === networkOrAddress,
+  );
+  if (foundRedirect) {
+    return {
+      redirect: {
+        destination: foundRedirect.destination,
+        permanent: foundRedirect.permanent,
+      },
+    };
+  }
+
   if (!networkOrAddress) {
     return {
       redirect: {
         destination: "/explore",
         permanent: false,
       },
-      props: {},
     };
   }
 

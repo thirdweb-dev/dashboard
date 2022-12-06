@@ -1,9 +1,9 @@
-import { ThirdwebNextPage } from "./_app";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { PageId } from "page-id";
+import { ThirdwebNextPage } from "utils/types";
 
 const PreBuiltContracts: ThirdwebNextPage = () => {
   return (
@@ -14,6 +14,7 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="smart_contracts"
         name="Smart Contracts"
         title="Ready-to-go contracts for your needs."
         description="Deploy contracts written by the best web3 developers in a single click."

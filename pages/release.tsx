@@ -1,10 +1,10 @@
-import { ThirdwebNextPage } from "./_app";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { ReleasesGetDeploysCard } from "components/marketing/release/releases-get-deploys";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { PageId } from "page-id";
+import { ThirdwebNextPage } from "utils/types";
 
 const Release: ThirdwebNextPage = () => {
   return (
@@ -15,6 +15,7 @@ const Release: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="release"
         name="Release"
         title="Share your contracts with the world."
         description="Releasing contracts is the best way to make them easily discoverable and deployable."

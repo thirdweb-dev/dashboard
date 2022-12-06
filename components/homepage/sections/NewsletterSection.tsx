@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { MdMarkEmailRead } from "react-icons/md";
 import { Button, Text } from "tw-components";
 
-export function NewsLetterSection() {
+export const NewsletterSection = () => {
   const form = useForm({
     defaultValues: {
       email: "",
@@ -19,7 +19,7 @@ export function NewsLetterSection() {
   });
 
   return (
-    <Box bgColor="rgba(0,0,0,.6)" zIndex="100">
+    <Box bg="rgba(0,0,0,.6)" zIndex="100">
       <Container as="section" maxW="container.page" color="gray.500">
         <Stack
           spacing="8"
@@ -84,4 +84,4 @@ export function NewsLetterSection() {
       </Container>
     </Box>
   );
-}
+};

@@ -12,10 +12,11 @@ import {
 } from "data/explore";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "pages/_app";
-import React, { ReactElement } from "react";
+import React from "react";
 import { Heading, Text } from "tw-components";
+import { ThirdwebNextPage } from "utils/types";
 
 const ExplorePage: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -24,11 +25,11 @@ const ExplorePage: ThirdwebNextPage = (
     <>
       <NextSeo
         title="Explore | Smart Contracts"
-        description="Discover secure, audited and gas-optimized protocols & smart contracts. Deploy with one click to Ethereum, Polygon, Optimism, and other EVM blockchains with thirdweb."
+        description="Browse a large collection of ready-to-deploy contracts that have been built by thirdweb and other contract developers. Find a contract for your specific app's or game's needs."
         openGraph={{
           title: "thirdweb Explore: Smart Contracts & Protocols",
           description:
-            "Discover secure, audited and gas-optimized protocols & smart contracts. Deploy with one click to Ethereum, Polygon, Optimism, and other EVM blockchains with thirdweb.",
+            "Browse a large collection of ready-to-deploy contracts that have been built by thirdweb and other contract developers. Find a contract for your specific app's or game's needs.",
           images: [
             {
               url: "https://thirdweb.com/thirdweb-explore.png",
@@ -64,8 +65,12 @@ const ExplorePage: ThirdwebNextPage = (
   );
 };
 
-ExplorePage.getLayout = (page: ReactElement) => (
-  <AppLayout noSEOOverride>
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
+
+ExplorePage.getLayout = (page, props) => (
+  <AppLayout {...props} noSEOOverride>
     <PublisherSDKContext>{page}</PublisherSDKContext>
   </AppLayout>
 );
