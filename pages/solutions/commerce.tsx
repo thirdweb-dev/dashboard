@@ -53,6 +53,7 @@ const Commerce: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="commerce_kit"
         name="CommerceKit"
         title="Build Web3 Commerce apps easily"
         description="With thirdweb you can now add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more."
@@ -62,8 +63,8 @@ const Commerce: ThirdwebNextPage = () => {
         image={require("public/assets/solutions-pages/commerce/hero.png")}
         type="Solutions"
         underGetStarted={
-          <Flex gap={3} justifyContent="center" alignItems="center" mt={4}>
-            <Heading size="subtitle.xs" as="span">
+          <Flex gap={2} justifyContent="center" alignItems="center">
+            <Heading size="subtitle.xs" as="span" mt={1}>
               In partnership with
             </Heading>
             <ChakraNextImage
@@ -73,7 +74,10 @@ const Commerce: ThirdwebNextPage = () => {
             />
           </Flex>
         }
-        largeImage
+        secondaryButton={{
+          text: "Request demo",
+          link: "https://thirdweb.typeform.com/tw-solutions",
+        }}
       >
         <SimpleGrid
           justifyContent="flex-start"

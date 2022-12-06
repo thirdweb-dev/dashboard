@@ -65,9 +65,10 @@ const Gaming: ThirdwebNextPage = () => {
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
         image={require("public/assets/solutions-pages/gaming/hero.png")}
         type="Solutions"
+        trackingCategory="gaming_kit"
         underGetStarted={
-          <Flex gap={3} justify="center" align="center" mt={4}>
-            <Heading size="subtitle.xs" as="span" mt="4px">
+          <Flex gap={2} justify="center" align="center">
+            <Heading size="subtitle.xs" as="span" mt={1}>
               In partnership with
             </Heading>
             <AspectRatio w="80px" ratio={359 / 64}>
@@ -93,7 +94,10 @@ const Gaming: ThirdwebNextPage = () => {
             </AspectRatio>
           </Flex>
         }
-        largeImage
+        secondaryButton={{
+          text: "Request demo",
+          link: "https://thirdweb.typeform.com/tw-solutions",
+        }}
       >
         <SimpleGrid
           justifyContent="flex-start"

@@ -3,6 +3,7 @@ import {
   Center,
   Container,
   Flex,
+  GridItem,
   Icon,
   SimpleGrid,
   Stack,
@@ -11,7 +12,7 @@ import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import { ReactElement } from "react";
 import { FiChevronRight } from "react-icons/fi";
-import { Heading, Text } from "tw-components";
+import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export interface HeroProps {
@@ -24,7 +25,11 @@ export interface HeroProps {
   image?: StaticImageData;
   type?: "Products" | "Solutions";
   underGetStarted?: ReactElement;
-  largeImage?: boolean;
+  trackingCategory: string;
+  secondaryButton?: {
+    text: string;
+    link: string;
+  };
 }
 
 export const Hero: ComponentWithChildren<HeroProps> = ({
@@ -37,7 +42,8 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
   gradient,
   type = "Products",
   underGetStarted,
-  largeImage = false,
+  secondaryButton,
+  trackingCategory,
   children,
 }) => {
   return (
@@ -115,21 +121,39 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
           >
             {description}
           </Heading>
-          <Flex flexDirection="column">
-            <ProductButton
-              mt="32px"
-              title={buttonText}
-              href={buttonLink}
-              color="blackAlpha.900"
-              bg="white"
-            />
-            <>{underGetStarted}</>
-          </Flex>
+
+          <SimpleGrid mt={8} columns={2} gap={0} rowGap={4} placeItems="center">
+            <GridItem>
+              <ProductButton
+                title={buttonText}
+                href={buttonLink}
+                color="blackAlpha.900"
+                bg="white"
+              />
+            </GridItem>
+            <GridItem>
+              {secondaryButton && (
+                <LinkButton
+                  as={TrackedLink}
+                  variant="ghost"
+                  {...{ category: trackingCategory }}
+                  href={secondaryButton.link}
+                  isExternal={secondaryButton.link.startsWith("http")}
+                  noIcon
+                >
+                  {secondaryButton.text}
+                </LinkButton>
+              )}
+            </GridItem>
+            <GridItem>
+              <>{underGetStarted}</>
+            </GridItem>
+          </SimpleGrid>
         </Flex>
         {image && (
           <Center
             display={{ base: "none", md: "flex" }}
-            padding={{ base: "24px", md: largeImage ? "8px" : "48px" }}
+            padding={{ base: "24px", md: "48px" }}
             gridColumnEnd={{ base: undefined, md: "span 3" }}
           >
             <ChakraNextImage

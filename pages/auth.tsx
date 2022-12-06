@@ -22,6 +22,7 @@ const Authentication: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="auth"
         name="Auth"
         title="Simple wallet sign-in for your apps"
         description="Authenticate users with just their wallet. Add web3 functionality to any application."
