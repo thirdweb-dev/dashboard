@@ -1,6 +1,6 @@
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import {
   ensQuery,
   fetchAllVersions,
@@ -21,7 +21,7 @@ import {
 } from "lib/address-utils";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { ReactElement } from "react";
 import {
@@ -70,9 +70,9 @@ const CatchAllPage: ThirdwebNextPage = (
   return null;
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 CatchAllPage.getLayout = function (
   page: ReactElement,

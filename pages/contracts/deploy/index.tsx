@@ -1,7 +1,7 @@
 import { Flex, Link } from "@chakra-ui/react";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import { DeployableContractTable } from "components/contract-components/contract-table";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { useMemo } from "react";
@@ -40,9 +40,9 @@ const ContractsDeployPage: ThirdwebNextPage = () => {
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 ContractsDeployPage.getLayout = function getLayout(page, props) {
   return <AppLayout {...props}>{page}</AppLayout>;

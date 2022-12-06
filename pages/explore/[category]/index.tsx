@@ -7,7 +7,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
 import { DeployUpsellCard } from "components/explore/upsells/deploy-your-own";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
@@ -19,7 +19,7 @@ import {
 } from "data/explore";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { FiChevronLeft } from "react-icons/fi";
 import { Heading, Link, Text } from "tw-components";
@@ -109,9 +109,9 @@ const ExploreCategoryPage: ThirdwebNextPage = (
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 ExploreCategoryPage.getLayout = (page, props) => (
   <AppLayout {...props} noSEOOverride>

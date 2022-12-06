@@ -11,7 +11,7 @@ import {
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import { NoWallet } from "components/contract-components/shared/no-wallet";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { DeployedPrograms } from "components/contract-components/tables/deployed-programs";
@@ -22,7 +22,7 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { isPossibleSolanaAddress } from "lib/address-utils";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { useMemo } from "react";
 import { Heading } from "tw-components";
@@ -94,9 +94,9 @@ const Dashboard: ThirdwebNextPage = () => {
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 Dashboard.getLayout = (page, props) => <AppLayout {...props}>{page}</AppLayout>;
 Dashboard.pageId = PageId.Dashboard;

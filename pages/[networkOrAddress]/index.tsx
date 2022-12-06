@@ -3,6 +3,7 @@ import { useMainnetsContractList } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { ChainId } from "@thirdweb-dev/sdk/evm";
+import { AppLayout } from "components/app-layouts/app";
 import {
   ensQuery,
   fetchPublishedContracts,
@@ -21,7 +22,7 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { createProfileOGUrl } from "pages/_og/profile";
@@ -146,9 +147,9 @@ const UserPage: ThirdwebNextPage = () => {
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 UserPage.getLayout = function getLayout(page, props) {
   return (

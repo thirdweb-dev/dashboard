@@ -1,10 +1,10 @@
 import { useGas } from "@3rdweb-sdk/react/hooks/useGas";
 import { Flex, SimpleGrid, Switch } from "@chakra-ui/react";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import { GasEstimatorBox } from "components/gas-estimator/GasEstimatorBox";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { useState } from "react";
 import { Badge, Card, Heading, Text } from "tw-components";
@@ -104,9 +104,9 @@ const GasPage: ThirdwebNextPage = () => {
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 GasPage.getLayout = function getLayout(page, props) {
   return <AppLayout {...props}>{page}</AppLayout>;

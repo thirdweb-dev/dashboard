@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import { ContractRow } from "components/explore/contract-row";
 import { DeployUpsellCard } from "components/explore/upsells/deploy-your-own";
 import { ReleaseUpsellCard } from "components/explore/upsells/release-submit";
@@ -12,7 +12,7 @@ import {
 } from "data/explore";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import React from "react";
 import { Heading, Text } from "tw-components";
@@ -65,9 +65,9 @@ const ExplorePage: ThirdwebNextPage = (
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 ExplorePage.getLayout = (page, props) => (
   <AppLayout {...props} noSEOOverride>

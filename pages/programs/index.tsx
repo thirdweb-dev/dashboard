@@ -1,8 +1,8 @@
 import { Box, Flex } from "@chakra-ui/react";
-// import { AppLayout } from "components/app-layouts/app";
+import { AppLayout } from "components/app-layouts/app";
 import { ReleasedContractTable } from "components/contract-components/contract-table-v2";
 import { PREBUILT_SOLANA_CONTRACTS_MAP } from "constants/mappings";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -25,9 +25,9 @@ const Programs: ThirdwebNextPage = () => {
   );
 };
 
-const AppLayout = dynamic(
-  async () => (await import("components/app-layouts/app")).AppLayout,
-);
+// const AppLayout = dynamic(
+//   async () => (await import("components/app-layouts/app")).AppLayout,
+// );
 
 Programs.getLayout = (page, props) => <AppLayout {...props}>{page}</AppLayout>;
 
