@@ -49,7 +49,7 @@ interface CustomContractFormProps {
   ipfsHash: string;
   selectedChain: SUPPORTED_CHAIN_ID | undefined;
   onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
-  isImplementationDeploy?: boolean;
+  isImplementationDeploy?: true;
   onSuccessCallback?: (contractAddress: string) => void;
 }
 
