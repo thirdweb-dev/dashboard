@@ -38,7 +38,6 @@ const HomePage: ThirdwebNextPage = () => {
           <PartnerCarousel />
           <ContractsSection />
           <Suspense>
-            <NewsletterSection />
             <SDKSection />
             <CLISection />
             <DashboardFeaturesSection />
@@ -46,7 +45,7 @@ const HomePage: ThirdwebNextPage = () => {
             <PricingSection />
             <ExamplesSectionHomepage />
             <GetStartedSection />
-
+            <NewsletterSection />
             <HomepageFooter />
           </Suspense>
         </Box>
