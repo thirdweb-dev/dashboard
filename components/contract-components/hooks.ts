@@ -22,7 +22,6 @@ import {
   ExtraPublishMetadata,
   ProfileMetadata,
   PublishedContract,
-  PublishedContractFetched,
   SUPPORTED_CHAIN_ID,
   ThirdwebSDK,
   ValidContractInstance,
@@ -32,6 +31,7 @@ import {
   extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
+  PublishedContractFetched,
 } from "@thirdweb-dev/sdk/evm";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
@@ -53,6 +53,19 @@ export interface ContractPublishMetadata {
   licenses?: string[];
   compilerMetadata?: Record<string, any>;
   analytics?: Record<string, any>;
+}
+export interface ExtendedReleasedContractInfo {
+  name: string;
+  displayName?: string;
+  description: string;
+  version: string;
+  releaser: string;
+  tags?: string[];
+  logo?: string;
+  audit?: string;
+  id?: string;
+  metadataUri?: string;
+  timestamp?: string;
 }
 
 function removeUndefinedFromObject(obj: Record<string, any>) {
@@ -275,30 +288,25 @@ export async function fetchAllVersions(
         sdk?.getPublisher().fetchPublishedContractInfo(version),
       ),
     )
-  ).reduce(
-    (
-      acc: Array<PublishedContractFetched>,
-      contractInfo: PublishedContractFetched,
-    ) => {
-      if (contractInfo.publishedMetadata) {
-        return [
-          {
-            ...contractInfo,
-            version: contractInfo.publishedMetadata.version,
-            name: contractInfo.publishedMetadata.name,
-            displayName: contractInfo.publishedMetadata.displayName || "",
-            description: contractInfo.publishedMetadata.description || "",
-            releaser: contractInfo.publishedMetadata.publisher || "",
-            audit: contractInfo.publishedMetadata.audit || "",
-            logo: contractInfo.publishedMetadata.logo || "",
-          },
-          ...acc,
-        ];
-      }
-      return acc;
-    },
-    [],
-  );
+  ).reduce((acc: Array<ExtendedReleasedContractInfo>, contractInfo) => {
+    const {publishedMetadata} = contractInfo; 
+    if (publishedMetadata) {
+      return [
+        {
+          ...contractInfo,
+          version: publishedMetadata.version,
+          name: publishedMetadata.name,
+          displayName: publishedMetadata.displayName || "",
+          description: publishedMetadata.description || "",
+          releaser: publishedMetadata.publisher || "",
+          audit: publishedMetadata.audit || "",
+          logo: publishedMetadata.logo || "",
+        },
+        ...acc,
+      ];
+    }
+    return acc;
+  }, []);
 
   return releasedVersions;
 }
