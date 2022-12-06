@@ -1,7 +1,8 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
-import { Heading, LinkButton, Text } from "tw-components";
+import { FiArrowRight } from "react-icons/fi";
+import { Heading, Link, Text } from "tw-components";
 
 interface ProductLearnMoreCardProps {
   icon: StaticImageData;
@@ -17,7 +18,7 @@ export const ProductLearnMoreCard: React.FC<ProductLearnMoreCardProps> = ({
   href,
 }) => {
   return (
-    <Flex direction="column" justifyContent="space-between">
+    <Flex direction="column" justify="space-between" align="flex-start" gap={4}>
       <Flex direction="column">
         <Flex alignItems="center" gap={2}>
           <ChakraNextImage src={icon} placeholder="empty" alt="" w={8} />
@@ -29,11 +30,24 @@ export const ProductLearnMoreCard: React.FC<ProductLearnMoreCardProps> = ({
           {description}
         </Text>
       </Flex>
-      <Box>
-        <LinkButton href={href} isExternal color="white" mt={6}>
-          Learn more
-        </LinkButton>
-      </Box>
+      <Link
+        width="auto"
+        href={href}
+        isExternal
+        color="white"
+        display="flex"
+        alignItems="center"
+        gap={1}
+        role="group"
+      >
+        <span>Learn more</span>{" "}
+        <Icon
+          as={FiArrowRight}
+          transform="rotate(-45deg)"
+          transition="transform 0.2s"
+          _groupHover={{ transform: "rotate(-45deg) translateX(2px)" }}
+        />
+      </Link>
     </Flex>
   );
 };

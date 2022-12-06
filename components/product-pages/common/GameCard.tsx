@@ -1,22 +1,39 @@
 import { Box, Center, Flex } from "@chakra-ui/react";
+import { SiGithub } from "@react-icons/all-files/si/SiGithub";
+import { useTrack } from "hooks/analytics/useTrack";
 import NextImage, { StaticImageData } from "next/image";
 import { IoGameControllerOutline } from "react-icons/io5";
-import { Button, Card, Heading, Text } from "tw-components";
+import {
+  Button,
+  Card,
+  Heading,
+  Link,
+  Text,
+  TrackedIconButton,
+} from "tw-components";
+import { isMobile } from "utils/isMobile";
+
+export type Game = {
+  id: string;
+  name: string;
+  description: string;
+  href: string;
+  github: string;
+  image: StaticImageData;
+};
 
 interface GameCardProps {
-  game: {
-    name: string;
-    description: string;
-    href: string;
-    image: StaticImageData;
-  };
+  game: Game;
   setSelectedGame: (game: string) => void;
 }
+
+const TRACK_CATEGORY = "game_template_card";
 
 export const GameCard: React.FC<GameCardProps> = ({
   game,
   setSelectedGame,
 }) => {
+  const track = useTrack();
   return (
     <Card
       bg="rgba(0,0,0,.5)"
@@ -32,7 +49,16 @@ export const GameCard: React.FC<GameCardProps> = ({
       role="group"
       cursor="pointer"
       onClick={() => {
-        setSelectedGame(game.href);
+        if (isMobile()) {
+          window.open(game.href, "_blank");
+        } else {
+          setSelectedGame(game.href);
+        }
+        track({
+          category: TRACK_CATEGORY,
+          action: "play_game",
+          label: game.id,
+        });
       }}
     >
       <Box position="relative">
@@ -48,7 +74,6 @@ export const GameCard: React.FC<GameCardProps> = ({
           <Button
             leftIcon={<IoGameControllerOutline />}
             color="white"
-            // variant="outline"
             bg="rgba(0,0,0,.5)"
             _groupHover={{ bg: "rgba(0,0,0,.9)" }}
             transition="background .2s ease-in-out"
@@ -58,11 +83,27 @@ export const GameCard: React.FC<GameCardProps> = ({
         </Center>
       </Box>
 
-      <Flex direction="column" gap={2} pb={4}>
-        <Heading px={4} as="h3" size="title.sm">
+      <Flex direction="column" gap={2} pb={4} px={4}>
+        <Heading as="h3" size="title.sm">
           {game.name}
         </Heading>
-        <Text px={4}>{game.description}</Text>
+        <Text>{game.description}</Text>
+        <Flex justify="flex-end">
+          <TrackedIconButton
+            as={Link}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            size="sm"
+            variant="ghost"
+            icon={<SiGithub />}
+            aria-label="GitHub"
+            category={TRACK_CATEGORY}
+            label={game.id}
+            href={game.github}
+            isExternal
+          />
+        </Flex>
       </Flex>
     </Card>
   );

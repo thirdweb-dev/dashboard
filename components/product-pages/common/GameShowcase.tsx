@@ -1,4 +1,4 @@
-import { GameCard } from "./GameCard";
+import { Game, GameCard } from "./GameCard";
 import { ProductSection } from "./ProductSection";
 import {
   AspectRatio,
@@ -10,30 +10,36 @@ import {
   ModalOverlay,
   SimpleGrid,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Heading } from "tw-components";
 
-const games = [
+const games: Game[] = [
   {
+    id: "karting",
     name: "3D Racer",
     description:
       "Purchase Vehicle NFTs from an in-game marketplace and start earning ERC20 tokens used to buy upgrades.",
     image: require("public/assets/solutions-pages/gaming/3d-racer.png"),
     href: "https://unity-karting-game.thirdweb-example.com/",
+    github: "https://github.com/thirdweb-example/unity-karting-game",
   },
   {
+    id: "rpg",
     name: "2D RPG",
     description:
       "Complete quests to earn in-game currency and buy NFTs from a marketplace that you can view in your inventory.",
     image: require("public/assets/solutions-pages/gaming/2d-rpg.png"),
     href: "https://unity-rpg-game.thirdweb-example.com/",
+    github: "https://github.com/thirdweb-example/unity-rpg-game",
   },
   {
+    id: "lootbox",
     name: "NFT Lootbox",
     description:
       "Purchase NFT loot boxes from a marketplace and open them to reveal randomly selected NFTs inside!",
     image: require("public/assets/solutions-pages/gaming/nft-lootbox.png"),
     href: "https://unity-nft-lootboxes.thirdweb-example.com/",
+    github: "https://github.com/thirdweb-example/unity-nft-lootboxes",
   },
 ];
 
