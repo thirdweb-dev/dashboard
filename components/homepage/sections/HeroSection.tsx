@@ -75,7 +75,16 @@ export const HeroSection = () => {
                   >
                     Start building
                   </LinkButton>
-                  <Link href="#pricing">
+                  <Link
+                    href="#pricing"
+                    onClick={(e) => {
+                      const el = document.getElementById("pricing");
+                      if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView();
+                      }
+                    }}
+                  >
                     <Text
                       color="gray.600"
                       size="label.sm"

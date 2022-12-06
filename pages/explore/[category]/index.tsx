@@ -7,7 +7,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { AppLayout } from "components/app-layouts/app";
+// import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
 import { DeployUpsellCard } from "components/explore/upsells/deploy-your-own";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
@@ -19,12 +19,12 @@ import {
 } from "data/explore";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
+import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "pages/_app";
-import { ReactElement } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { Heading, Link, Text } from "tw-components";
 import { getSingleQueryValue } from "utils/router";
+import { ThirdwebNextPage } from "utils/types";
 
 const ExploreCategoryPage: ThirdwebNextPage = (
   props: InferGetStaticPropsType<typeof getStaticProps>,
@@ -109,8 +109,12 @@ const ExploreCategoryPage: ThirdwebNextPage = (
   );
 };
 
-ExploreCategoryPage.getLayout = (page: ReactElement) => (
-  <AppLayout noSEOOverride>
+const AppLayout = dynamic(
+  async () => (await import("components/app-layouts/app")).AppLayout,
+);
+
+ExploreCategoryPage.getLayout = (page, props) => (
+  <AppLayout {...props} noSEOOverride>
     <PublisherSDKContext>{page}</PublisherSDKContext>
   </AppLayout>
 );

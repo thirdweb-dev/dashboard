@@ -10,7 +10,7 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import type { FeatureWithEnabled } from "@thirdweb-dev/sdk/evm";
-import { AppLayout } from "components/app-layouts/app";
+// import { AppLayout } from "components/app-layouts/app";
 import { ContractDeployForm } from "components/contract-components/contract-deploy-form";
 import {
   useContractEnabledExtensions,
@@ -19,13 +19,14 @@ import {
 import { ContractIdImage } from "components/contract-components/shared/contract-id-image";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "pages/_app";
-import { ReactElement, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { FiArrowLeft, FiCheckCircle, FiExternalLink } from "react-icons/fi";
 import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { pushToPreviousRoute } from "utils/pushToPreviousRoute";
+import { ThirdwebNextPage } from "utils/types";
 
 const ContractDeployDetailPage: ThirdwebNextPage = () => {
   const router = useRouter();
@@ -136,8 +137,12 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
   );
 };
 
-ContractDeployDetailPage.getLayout = function getLayout(page: ReactElement) {
-  return <AppLayout>{page}</AppLayout>;
+const AppLayout = dynamic(
+  async () => (await import("components/app-layouts/app")).AppLayout,
+);
+
+ContractDeployDetailPage.getLayout = function getLayout(page, props) {
+  return <AppLayout {...props}>{page}</AppLayout>;
 };
 
 ContractDeployDetailPage.pageId = PageId.DeploySingle;
