@@ -113,19 +113,20 @@ const AuroraBg: React.FC<AuroraBgProps> = ({ orientation }) => {
   return (
     <ChakraNextImage
       position="absolute"
-      w={{ base: "200%", md: "100%" }}
-      maxW={{ base: "200%", md: "100%" }}
+      w="400%"
+      maxW={{ base: "200vw", md: "120vw", xl: "66vw" }}
       left="50%"
       top={
         orientation === "top" ? "0" : orientation === "bottom" ? "100%" : "50%"
       }
+      objectFit="cover"
       alt=""
       transform="translate(-50%, -50%)"
       src={require("./aurora.png")}
       priority
-      sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
+      sizes="(max-width: 768px) 200vw,
+              (max-width: 1200px) 120vw,
+              66vw"
     />
   );
 };

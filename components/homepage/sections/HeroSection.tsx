@@ -109,6 +109,7 @@ export const HeroSection = () => {
             src={Hero}
             mr={12}
             priority
+            quality={95}
           />
         </Flex>
         <Flex display={{ base: "flex", md: "none" }} justifyContent="center">
