@@ -70,10 +70,11 @@ const moduleExports = {
   },
   reactStrictMode: true,
   experimental: {
-    // appDir: true,
+    appDir: true,
     scrollRestoration: true,
     modern: true,
   },
+
   compiler: {
     emotion: true,
   },
@@ -104,7 +105,8 @@ const sentryWebpackPluginOptions = {
 
   hideSourceMaps: false,
 };
-module.exports = withPlausibleProxy({
+
+const withMergedConfig = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",
   scriptName: "pl",
 })(
@@ -112,3 +114,11 @@ module.exports = withPlausibleProxy({
     withSentryConfig(moduleExports, sentryWebpackPluginOptions),
   ),
 );
+
+module.exports = {
+  ...withMergedConfig,
+  experimental: {
+    ...withMergedConfig.experimental,
+    ...moduleExports.experimental,
+  },
+};

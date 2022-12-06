@@ -1,5 +1,5 @@
 import chakraTheme from "../theme";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { IBM_Plex_Mono, Inter } from "@next/font/google";
 import type { DehydratedState } from "@tanstack/react-query";
@@ -181,7 +181,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
             }
             
             #nprogress .bar {
-              background: ${theme.colors.purple[500]};
+              background: ${chakraTheme.colors.purple[500]};
             
               position: fixed;
               z-index: 1031;
@@ -199,7 +199,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
               right: 0px;
               width: 100px;
               height: 100%;
-              box-shadow: 0 0 10px ${theme.colors.purple[500]}, 0 0 5px ${theme.colors.purple[500]};
+              box-shadow: 0 0 10px ${chakraTheme.colors.purple[500]}, 0 0 5px ${chakraTheme.colors.purple[500]};
               opacity: 1.0;
             
               -webkit-transform: rotate(3deg) translate(0px, -4px);

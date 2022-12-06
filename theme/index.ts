@@ -1,3 +1,5 @@
+"use-client";
+
 import { colors } from "./colors";
 import { fontWeights, letterSpacings, lineHeights } from "./typography";
 import { Theme, extendTheme } from "@chakra-ui/react";
