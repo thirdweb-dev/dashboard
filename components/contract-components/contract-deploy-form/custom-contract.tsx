@@ -74,8 +74,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       ?.implementationInitializerFunction || "initialize",
   );
   const isFactoryDeployment =
-    fullReleaseMetadata.data?.isDeployableViaFactory ||
-    (fullReleaseMetadata.data?.isDeployableViaProxy && !isImplementationDeploy);
+    (fullReleaseMetadata.data?.isDeployableViaFactory ||
+      fullReleaseMetadata.data?.isDeployableViaProxy) &&
+    !isImplementationDeploy;
 
   const deployParams = isFactoryDeployment
     ? initializerParams
