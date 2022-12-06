@@ -122,6 +122,7 @@ const AuroraBg: React.FC<AuroraBgProps> = ({ orientation }) => {
       alt=""
       transform="translate(-50%, -50%)"
       src={require("./aurora.png")}
+      priority
       sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
