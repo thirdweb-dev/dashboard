@@ -25,10 +25,7 @@ export const ContractMetadata: React.FC<ContractMetadataProps> = ({
   );
 
   const contractTypeImage = useMemo(() => {
-    return (
-      (cType && cType !== "custom" && FeatureIconMap[cType]) ||
-      FeatureIconMap["custom"]
-    );
+    return cType && cType !== "custom" ? FeatureIconMap[cType] : undefined;
   }, [cType]);
 
   if (metadataQuery.isError) {
