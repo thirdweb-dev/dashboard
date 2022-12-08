@@ -55,25 +55,19 @@ function FooterLinkGroup(props: FooterLinkGroupProps) {
 
 function FooterLinksGrid() {
   return (
-    <Flex
-      mb={10}
-      direction={{ base: "column-reverse", md: "column", lg: "row" }}
-      gap={{ base: "12", md: "8" }}
-    >
-      <SimpleGrid columns={{ base: 2, lg: 4 }} spacing="8">
-        <FooterLinkGroup heading="Products" links={PRODUCTS} />
-        <FooterLinkGroup heading="Resources" links={RESOURCES} />
-        <div>
-          <FooterLinkGroup heading="SDKs" links={SDKs} />
-          <FooterLinkGroup heading="Solutions" links={SOLUTIONS} />
-        </div>
-        <div>
-          <FooterLinkGroup heading="Networks" links={NETWORKS} />
-          <FooterLinkGroup heading="Faucets" links={FAUCETS} />
-          <FooterLinkGroup heading="Legal" links={LEGAL} />
-        </div>
-      </SimpleGrid>
-    </Flex>
+    <SimpleGrid columns={{ base: 2, lg: 4 }} spacing="8">
+      <FooterLinkGroup heading="Products" links={PRODUCTS} />
+      <FooterLinkGroup heading="Resources" links={RESOURCES} />
+      <div>
+        <FooterLinkGroup heading="SDKs" links={SDKs} />
+        <FooterLinkGroup heading="Solutions" links={SOLUTIONS} />
+      </div>
+      <div>
+        <FooterLinkGroup heading="Networks" links={NETWORKS} />
+        <FooterLinkGroup heading="Faucets" links={FAUCETS} />
+        <FooterLinkGroup heading="Legal" links={LEGAL} />
+      </div>
+    </SimpleGrid>
   );
 }
 
