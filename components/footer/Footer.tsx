@@ -12,8 +12,8 @@ import {
   Box,
   ButtonGroup,
   Container,
+  Flex,
   SimpleGrid,
-  Stack,
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
 import { PRODUCTS } from "components/product-pages/common/nav/DesktopMenu";
@@ -31,11 +31,17 @@ interface FooterLinkGroupProps {
 
 function FooterLinkGroup(props: FooterLinkGroupProps) {
   return (
-    <Stack spacing={4} minW={36} flex={1} mb={{ md: 12, base: 14 }}>
+    <Flex
+      direction="column"
+      gap={4}
+      minW={36}
+      flex={1}
+      mb={{ md: 12, base: 14 }}
+    >
       <Heading as="h5" size="label.lg">
         {props.heading}
       </Heading>
-      <Stack spacing={3} shouldWrapChildren>
+      <Flex gap={3} direction="column">
         {props.links.map((linkData) => (
           <TrackedLink
             isExternal={linkData.link.startsWith("http")}
@@ -47,8 +53,8 @@ function FooterLinkGroup(props: FooterLinkGroupProps) {
             {linkData.name}
           </TrackedLink>
         ))}
-      </Stack>
-    </Stack>
+      </Flex>
+    </Flex>
   );
 }
 
@@ -94,24 +100,25 @@ export function HomepageFooter() {
   return (
     <Box bgColor="#111315" zIndex={100}>
       <Container as="footer" maxW="container.page" color="gray.500">
-        <Stack
-          spacing={8}
+        <Flex
+          gap={8}
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           py={{ base: 12, md: 16 }}
         >
           {/* logo + social icons */}
-          <Stack
-            spacing={{ base: 6, md: 8 }}
+          <Flex
+            direction="column"
+            gap={{ base: 6, md: 8 }}
             align={{ base: "center", md: "start" }}
             mb={12}
           >
             <Logo color="#fff" />
             <SocialIcons />
-          </Stack>
+          </Flex>
 
           <FooterLinksGrid />
-        </Stack>
+        </Flex>
       </Container>
     </Box>
   );
