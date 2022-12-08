@@ -1,9 +1,9 @@
-import { ThirdwebNextPage } from "./_app";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { PageId } from "page-id";
+import { ThirdwebNextPage } from "utils/types";
 
 const UIComponents: ThirdwebNextPage = () => {
   return (
@@ -14,6 +14,7 @@ const UIComponents: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="ui_components"
         name="UI Components"
         title="Plug-and-play frontend components"
         description="A collection of plug-and-play UI components that let you easily add web3 functionality to your apps."

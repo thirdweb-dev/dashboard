@@ -25,9 +25,9 @@ import {
   CodeBlock,
   Drawer,
   Heading,
-  NFTMedia,
   Text,
 } from "tw-components";
+import { NFTMedia } from "tw-components/nft-media";
 
 interface NFTDrawerProps {
   contract: Marketplace;
@@ -150,6 +150,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
           <NFTMedia
+            borderRadius="lg"
             metadata={renderData.asset}
             requireInteraction
             flexShrink={0}

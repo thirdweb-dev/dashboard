@@ -1,9 +1,9 @@
-import { ThirdwebNextPage } from "./_app";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { PageId } from "page-id";
+import { ThirdwebNextPage } from "utils/types";
 
 const Web3SDK: ThirdwebNextPage = () => {
   return (
@@ -14,6 +14,7 @@ const Web3SDK: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="sdks"
         name="SDKs"
         title="Everything you need to build web3 apps."
         description="Build applications on top of your smart contracts. Seamlessly integrate them into your apps."

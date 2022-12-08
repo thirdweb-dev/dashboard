@@ -7,11 +7,13 @@ class ConsoleDocument extends Document {
     return (
       <Html lang="en-US">
         <Head>
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/react-vis/dist/style.css"
-          ></link>
-          <script>global = globalThis;</script>
+          {/* preconnect to domains we know we'll be using */}
+          <link rel="preconnect" href="https://a.thirdweb.com" />
+          <link rel="dns-prefetch" href="https://a.thirdweb.com" />
+          <link rel="preconnect" href="https://pl.thirdweb.com" />
+          <link rel="dns-prefetch" href="https://pl.thirdweb.com" />
+          {/* prefetch domains we are likely to use */}
+          <link rel="dns-prefetch" href="https://gateway.ipfscdn.io" />
         </Head>
         <body id="tw-body-root">
           <ColorModeScript
