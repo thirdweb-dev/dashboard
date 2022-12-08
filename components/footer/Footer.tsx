@@ -99,11 +99,11 @@ export function HomepageFooter() {
           spacing="8"
           direction={{ base: "column", md: "row" }}
           justify="space-between"
-          py={{ base: "12", md: "16" }}
+          py={{ base: 12, md: 16 }}
         >
           {/* logo + social icons */}
           <Stack
-            spacing={{ base: "6", md: "8" }}
+            spacing={{ base: 6, md: 8 }}
             align={{ base: "center", md: "start" }}
             mb={12}
           >
