@@ -1,7 +1,6 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { Flex, Image, Skeleton } from "@chakra-ui/react";
 import type { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
-import { ChakraNextImage } from "components/Image";
 import { ContractBadge } from "components/badges/contract-badge";
 import { NextSeo } from "next-seo";
 import { StaticImageData } from "next/image";
@@ -47,7 +46,6 @@ function getChainIdToHumanReadable(chainId?: number) {
 
 export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
   isLoaded,
-  contractTypeImage,
   address,
   data,
 }) => {
@@ -65,7 +63,7 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
     <>
       {isLoaded && title ? <NextSeo title={title} /> : null}
       <Flex align={{ base: "flex-start", md: "center" }} gap={4}>
-        {data?.image || contractTypeImage || !isLoaded ? (
+        {data?.image || !isLoaded ? (
           <Skeleton
             isLoaded={isLoaded}
             flexShrink={0}
@@ -83,16 +81,6 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
                 left={0}
                 objectFit="contain"
                 src={data.image}
-                alt={data?.name?.toString() || ""}
-              />
-            ) : contractTypeImage ? (
-              <ChakraNextImage
-                position="absolute"
-                top={0}
-                bottom={0}
-                right={0}
-                left={0}
-                src={contractTypeImage}
                 alt={data?.name?.toString() || ""}
               />
             ) : null}
