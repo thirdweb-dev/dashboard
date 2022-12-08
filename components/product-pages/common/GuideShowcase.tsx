@@ -97,7 +97,9 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
           </SimpleGrid>
         </Flex>
         <TrackedLink
-          href={`https://blog.thirdweb.com/tag/${solution.toLowerCase()}/`}
+          href={`https://blog.thirdweb.com/tag/${
+            mode === "case-studies" ? "case-study" : solution.toLowerCase()
+          }/`}
           category={solution.toLowerCase()}
           label="see-all-guides"
           isExternal
