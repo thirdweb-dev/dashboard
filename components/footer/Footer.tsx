@@ -37,15 +37,15 @@ function FooterLinkGroup(props: FooterLinkGroupProps) {
         {props.heading}
       </Heading>
       <Stack spacing="3" shouldWrapChildren>
-        {props.links.map((link) => (
+        {props.links.map((linkData) => (
           <TrackedLink
-            isExternal={link.isExternal}
-            key={link.label}
-            href={link.link}
+            isExternal={linkData.link.startsWith("http")}
+            key={linkData.label}
+            href={linkData.link}
             category="footer"
-            label={link.label}
+            label={linkData.label}
           >
-            {link.name}
+            {linkData.name}
           </TrackedLink>
         ))}
       </Stack>
