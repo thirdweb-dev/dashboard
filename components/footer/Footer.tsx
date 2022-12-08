@@ -29,7 +29,7 @@ interface FooterLinkGroupProps {
   links: FooterLinkInfo[];
 }
 
-function FooterLinkGroup(props: FooterLinkGroupProps) {
+const FooterLinkGroup: React.FC<FooterLinkGroupProps> = (props) => {
   return (
     <Flex
       direction="column"
@@ -56,9 +56,9 @@ function FooterLinkGroup(props: FooterLinkGroupProps) {
       </Flex>
     </Flex>
   );
-}
+};
 
-function FooterLinksGrid() {
+const FooterLinksGrid: React.FC = () => {
   return (
     <SimpleGrid columns={{ base: 2, lg: 4 }} spacing={8}>
       <FooterLinkGroup heading="Products" links={PRODUCTS} />
@@ -74,9 +74,9 @@ function FooterLinksGrid() {
       </div>
     </SimpleGrid>
   );
-}
+};
 
-function SocialIcons() {
+const SocialIcons: React.FC = () => {
   return (
     <ButtonGroup variant="ghost">
       {SOCIALS.map((data) => (
@@ -94,9 +94,9 @@ function SocialIcons() {
       ))}
     </ButtonGroup>
   );
-}
+};
 
-export function HomepageFooter() {
+export const HomepageFooter: React.FC = () => {
   return (
     <Box bgColor="#111315" zIndex={100}>
       <Container as="footer" maxW="container.page" color="gray.500">
@@ -122,4 +122,4 @@ export function HomepageFooter() {
       </Container>
     </Box>
   );
-}
+};
