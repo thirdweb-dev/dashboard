@@ -12,7 +12,6 @@ import {
   Box,
   ButtonGroup,
   Container,
-  Flex,
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
@@ -32,11 +31,11 @@ interface FooterLinkGroupProps {
 
 function FooterLinkGroup(props: FooterLinkGroupProps) {
   return (
-    <Stack spacing="4" minW="36" flex="1" mb={{ md: 12, base: 14 }}>
+    <Stack spacing={4} minW={36} flex={1} mb={{ md: 12, base: 14 }}>
       <Heading as="h5" size="label.lg">
         {props.heading}
       </Heading>
-      <Stack spacing="3" shouldWrapChildren>
+      <Stack spacing={3} shouldWrapChildren>
         {props.links.map((linkData) => (
           <TrackedLink
             isExternal={linkData.link.startsWith("http")}
@@ -55,7 +54,7 @@ function FooterLinkGroup(props: FooterLinkGroupProps) {
 
 function FooterLinksGrid() {
   return (
-    <SimpleGrid columns={{ base: 2, lg: 4 }} spacing="8">
+    <SimpleGrid columns={{ base: 2, lg: 4 }} spacing={8}>
       <FooterLinkGroup heading="Products" links={PRODUCTS} />
       <FooterLinkGroup heading="Resources" links={RESOURCES} />
       <div>
@@ -93,10 +92,10 @@ function SocialIcons() {
 
 export function HomepageFooter() {
   return (
-    <Box bgColor="#111315" zIndex="100">
+    <Box bgColor="#111315" zIndex={100}>
       <Container as="footer" maxW="container.page" color="gray.500">
         <Stack
-          spacing="8"
+          spacing={8}
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           py={{ base: 12, md: 16 }}
