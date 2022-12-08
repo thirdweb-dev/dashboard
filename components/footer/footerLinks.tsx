@@ -1,9 +1,9 @@
-export type FooterLinkInfo = {
+export interface FooterLinkInfo {
   label: string;
   name: string;
   link: string;
   isExternal?: boolean;
-};
+}
 
 export const SOLUTIONS: FooterLinkInfo[] = [
   {

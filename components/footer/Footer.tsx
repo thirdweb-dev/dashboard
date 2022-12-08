@@ -25,10 +25,10 @@ import {
   TrackedLink,
 } from "tw-components";
 
-type FooterLinkGroupProps = {
+interface FooterLinkGroupProps {
   heading: string;
   links: FooterLinkInfo[];
-};
+}
 
 function FooterLinkGroup(props: FooterLinkGroupProps) {
   return (

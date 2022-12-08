@@ -6,12 +6,12 @@ import { SiTiktok } from "@react-icons/all-files/si/SiTiktok";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
 
-type socialLinkInfo = {
+interface socialLinkInfo {
   link: string;
   icon: JSX.Element;
   ariaLabel: string;
   label?: string;
-};
+}
 
 const socialIconSize = "1.25rem";
 
