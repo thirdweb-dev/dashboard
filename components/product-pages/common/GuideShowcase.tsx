@@ -1,13 +1,7 @@
 import { GuideCard } from "./GuideCard";
 import { ProductSection } from "./ProductSection";
-import {
-  Flex,
-  HStack,
-  Icon,
-  LightMode,
-  SimpleGrid,
-  Switch,
-} from "@chakra-ui/react";
+import { Flex, Icon, LightMode, SimpleGrid, Switch } from "@chakra-ui/react";
+import { AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import { Heading, TrackedLink } from "tw-components";
@@ -85,16 +79,19 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
               </Heading>
             </Flex>
           ) : null}
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
-            {renderData.map(({ title: guideTitle, image, link }) => (
-              <GuideCard
-                key={guideTitle}
-                image={image}
-                title={guideTitle}
-                link={link}
-              />
-            ))}
-          </SimpleGrid>
+          <AnimatePresence initial>
+            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
+              {renderData.map(({ title: guideTitle, image, link }, idx) => (
+                <GuideCard
+                  index={idx}
+                  key={guideTitle}
+                  image={image}
+                  title={guideTitle}
+                  link={link}
+                />
+              ))}
+            </SimpleGrid>
+          </AnimatePresence>
         </Flex>
         <TrackedLink
           href={`https://blog.thirdweb.com/tag/${
@@ -104,18 +101,19 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
           label="see-all-guides"
           isExternal
         >
-          <HStack>
+          <Flex align="center" gap={2}>
             <Heading
               fontSize="20px"
               fontWeight="medium"
               as="p"
               lineHeight={{ base: 1.5, md: undefined }}
+              position="relative"
             >
               See all of our {solution}{" "}
               {mode === "case-studies" ? "case studies" : "guides"}
             </Heading>
             <Icon as={FiArrowRight} />
-          </HStack>
+          </Flex>
         </TrackedLink>
       </Flex>
     </ProductSection>
