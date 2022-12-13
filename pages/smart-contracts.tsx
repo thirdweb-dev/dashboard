@@ -11,22 +11,23 @@ import { ThirdwebNextPage } from "utils/types";
 
 const CONTRACTS_GUIDES = [
   {
-    title: "Interact with Any Smart Contract in the SDK using ABIs",
+    title: "Build An ERC721A NFT Collection using Solidity",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/how-to-use-any-contract-3.png",
-    link: "https://blog.thirdweb.com/guides/how-to-use-any-smart-contract-with-thirdweb-sdk-using-abi/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/08/thumbnail-19.png",
+    link: "https://blog.thirdweb.com/guides/get-started-with-the-contracts-sdk/",
   },
   {
-    title: "How to Render NFT Metadata In a React App",
+    title: "Build A Mutant Ape Yacht Club (MAYC) NFT Collection Clone",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/This-is-the-one--18-.png",
-    link: "https://blog.thirdweb.com/guides/how-to-render-nft-metadata-in-a-react-app-using-thirdwebnftmedia/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/09/This-is-the-one-4.png",
+    link: "https://blog.thirdweb.com/guides/create-an-mayc-collection-clone/",
   },
   {
-    title: "Get Started with the Unity SDK",
+    title:
+      "How To Build An Upgradeable Smart Contract and Upgrade it Using a Proxy Contract",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/This-is-the-one--36-.png",
-    link: "https://blog.thirdweb.com/guides/get-started-with-thirdwebs-unity-sdk/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/This-is-the-one--17-.png",
+    link: "https://blog.thirdweb.com/guides/how-to-upgrade-smart-contracts-upgradeable-smart-contracts/",
   },
 ];
 
