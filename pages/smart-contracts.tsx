@@ -1,23 +1,49 @@
 import { SimpleGrid } from "@chakra-ui/react";
+import { SDKSection } from "components/homepage/sections/SDKSection";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
+import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
+import { ProductSection } from "components/product-pages/common/ProductSection";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
+
+const CONTRACTS_GUIDES = [
+  {
+    title: "Interact with Any Smart Contract in the SDK using ABIs",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/how-to-use-any-contract-3.png",
+    link: "https://blog.thirdweb.com/guides/how-to-use-any-smart-contract-with-thirdweb-sdk-using-abi/",
+  },
+  {
+    title: "How to Render NFT Metadata In a React App",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/This-is-the-one--18-.png",
+    link: "https://blog.thirdweb.com/guides/how-to-render-nft-metadata-in-a-react-app-using-thirdwebnftmedia/",
+  },
+  {
+    title: "Get Started with the Unity SDK",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/This-is-the-one--36-.png",
+    link: "https://blog.thirdweb.com/guides/get-started-with-thirdwebs-unity-sdk/",
+  },
+];
 
 const PreBuiltContracts: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Ready-to-deploy contracts",
-        description: "Ready-to-go contracts for your needs.",
+        title: "Discover and deploy contracts in 1-click",
+        description:
+          "Explore gives developers a trusted place to discover contracts that have been built by thirdweb and other contract developers. Discover contracts for every use case.",
       }}
     >
       <Hero
         trackingCategory="smart_contracts"
         name="Explore"
-        title="Ready-to-deploy contracts"
-        description="Explore gives developers around the world a trusted place to discover ready-to-deploy contracts that have been built by thirdweb and other contract developers. Discover contracts for every use case."
+        title="Discover and deploy contracts in 1-click"
+        description="Explore gives developers a trusted place to discover contracts that have been built by thirdweb and other contract developers. Discover contracts for every use case."
         buttonText="Get started"
         buttonLink="/explore"
         image={require("public/assets/product-pages/pre-builts/hero.png")}
@@ -30,28 +56,59 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
         >
           <ProductCard
-            title="A contract for your use-case"
+            title="Designed to be discovered"
             icon={require("/public/assets/product-pages/pre-builts/hero-icon-1.png")}
           >
-            Whether you need NFTs, Tokens, Marketplaces, or something else,
-            we&apos;ve got you covered with contracts for the most common
-            use-cases.
+            Get inspired with our curated library of contracts- organized and
+            categorized by the most common builds and use cases.
           </ProductCard>
           <ProductCard
-            title="Powerful tooling to build apps"
+            title="Unlock powerful tooling"
             icon={require("/public/assets/product-pages/pre-builts/hero-icon-2.png")}
           >
-            When you deploy a contract, you automatically get custom tools that
-            make building and managing your web3 app seamless.
+            When you deploy a contract from Explore, you unlock access to our
+            tools that makes building and managing your web3 apps seamless.
           </ProductCard>
           <ProductCard
-            title="One-click deploy"
+            title="1-click deploy"
             icon={require("/public/assets/product-pages/pre-builts/hero-icon-3.png")}
           >
-            Deploy to any supported chain with a single click.
+            Deploy to any supported chain with a single click. No need for
+            private keys or scripts.
           </ProductCard>
         </SimpleGrid>
       </Hero>
+      <ProductSection py={{ base: 12, lg: 24 }}>
+        <SDKSection title="Integrate web3 into your apps and games." />
+      </ProductSection>
+
+      <ProductSection>
+        <SimpleGrid
+          columns={{ base: 1, md: 2 }}
+          gap={{ base: 12, md: 6 }}
+          py={{ base: 12, md: 24 }}
+        >
+          <ProductLearnMoreCard
+            title="Frontend applications"
+            description="Build the frontend of your apps and games using our SDKs. This is best suited for when you need users to connect their wallets to interact with contracts."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
+            href="https://portal.thirdweb.com/sdk/set-up-the-sdk/frontend"
+          />
+          <ProductLearnMoreCard
+            title="Backend applications"
+            description="Build the backend of your apps and games using our SDKs. Backend apps are best suited for when you need to perform actions from your wallet or simply need to read data."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+            href="https://portal.thirdweb.com/sdk/set-up-the-sdk/backend"
+          />
+        </SimpleGrid>
+      </ProductSection>
+
+      <GuidesShowcase
+        title="Learn how to build"
+        description="Check out our guides to starty building with our SDKs."
+        solution="SDK"
+        guides={CONTRACTS_GUIDES}
+      />
     </ProductPage>
   );
 };
