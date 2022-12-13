@@ -95,8 +95,8 @@ const Web3SDK: ThirdwebNextPage = () => {
           </ProductCard>
         </SimpleGrid>
       </Hero>
-      <ProductSection pb={{ base: 12, lg: 24 }}>
-        <SDKSection />
+      <ProductSection py={{ base: 12, lg: 24 }}>
+        <SDKSection title="Integrate web3 into your apps and games." />
       </ProductSection>
 
       <ProductSection>

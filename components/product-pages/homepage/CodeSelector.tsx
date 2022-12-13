@@ -123,13 +123,13 @@ func main() {
   unity: ``,
 };
 
-interface CodeSelector {
+export interface CodeSelectorProps {
   defaultLanguage?: CodeOptions;
   snippets?: "landing" | "auth";
   docs?: string;
 }
 
-export const CodeSelector: React.FC<CodeSelector> = ({
+export const CodeSelector: React.FC<CodeSelectorProps> = ({
   defaultLanguage = "javascript",
   snippets = "landing",
   docs = "https://portal.thirdweb.com/",
