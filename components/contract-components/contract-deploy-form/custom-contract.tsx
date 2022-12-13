@@ -153,8 +153,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "Failed to deploy contract",
   );
 
-  console.log(router);
-
   const formDeployParams = form.watch("deployParams");
 
   return (
