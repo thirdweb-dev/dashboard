@@ -37,14 +37,14 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
       seo={{
         title: "Discover and deploy contracts in 1-click",
         description:
-          "Explore gives developers a trusted place to discover contracts that have been built by thirdweb and other contract developers. Discover contracts for every use case.",
+          "The best place for web3 developers to explore secure smart contracts from world-class web3 protocols & engineers — all deployable with one click to EVM-compatible blockchains. Contracts for every use case.",
       }}
     >
       <Hero
         trackingCategory="smart_contracts"
         name="Explore"
         title="Discover and deploy contracts in 1-click"
-        description="Explore gives developers a trusted place to discover contracts that have been built by thirdweb and other contract developers. Discover contracts for every use case."
+        description="The best place for web3 developers to explore secure smart contracts from world-class web3 protocols & engineers — all deployable with one click to EVM-compatible blockchains. Contracts for every use case."
         buttonText="Get started"
         buttonLink="/explore"
         image={require("public/assets/product-pages/pre-builts/hero.png")}
@@ -57,11 +57,11 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
         >
           <ProductCard
-            title="Designed to be discovered"
+            title="1-click deploy"
             icon={require("/public/assets/product-pages/pre-builts/hero-icon-1.png")}
           >
-            Get inspired with our curated library of contracts- organized and
-            categorized by the most common builds and use cases.
+            Deploy to any supported chain with a single click. No need for
+            private keys or scripts.
           </ProductCard>
           <ProductCard
             title="Unlock powerful tooling"
@@ -71,11 +71,11 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
             tools that makes building and managing your web3 apps seamless.
           </ProductCard>
           <ProductCard
-            title="1-click deploy"
+            title="Designed to be discovered"
             icon={require("/public/assets/product-pages/pre-builts/hero-icon-3.png")}
           >
-            Deploy to any supported chain with a single click. No need for
-            private keys or scripts.
+            Get inspired with our curated library of contracts- organized and
+            categorized by the most common builds and use cases.
           </ProductCard>
         </SimpleGrid>
       </Hero>
