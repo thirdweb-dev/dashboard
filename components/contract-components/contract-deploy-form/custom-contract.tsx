@@ -153,6 +153,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "Failed to deploy contract",
   );
 
+  console.log(router);
+
   const formDeployParams = form.watch("deployParams");
 
   return (
@@ -206,6 +208,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 deployerAndContractName: `${
                   ensQuery.data?.ensName || address
                 }__${compilerMetadata.data?.name}`,
+                releaseAsPath: router.asPath,
               });
               trackEvent({
                 category: "custom-contract",
