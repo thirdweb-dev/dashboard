@@ -83,7 +83,7 @@ const Web3SDK: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/sdk/hero-icon-2.png")}
           >
             Utilities for common use cases so that you do not have to reinvent
-            the wheel every time and have shorter development cycles.
+            the wheel every time and have faster development cycles.
           </ProductCard>
           <ProductCard
             title="Simplifying web3 complexity"
@@ -122,7 +122,7 @@ const Web3SDK: ThirdwebNextPage = () => {
 
       <GuidesShowcase
         title="Learn how to build"
-        description="Check out our guides to starty building with our SDKs."
+        description="Check out our SDK guides to start building web3 apps."
         solution="SDK"
         guides={SDK_GUIDES}
       />
