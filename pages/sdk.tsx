@@ -1,5 +1,6 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { SDKSection } from "components/homepage/sections/SDKSection";
+import { LOGO_OPTIONS } from "components/product-pages/common/CodeOptionButton";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -60,6 +61,21 @@ const Web3SDK: ThirdwebNextPage = () => {
           >
             Use SDKs in programming languages that you are most comfortable
             with.
+            <Flex
+              h="full"
+              justifyContent="flex-end"
+              alignItems="flex-end"
+              gap={3}
+            >
+              {Object.keys(LOGO_OPTIONS).map((key) => (
+                <Icon
+                  boxSize={6}
+                  key={key}
+                  as={LOGO_OPTIONS[key as keyof typeof LOGO_OPTIONS].icon}
+                  fill={LOGO_OPTIONS[key as keyof typeof LOGO_OPTIONS].fill}
+                />
+              ))}
+            </Flex>
           </ProductCard>
           <ProductCard
             title="Accelerate time-to-market"
