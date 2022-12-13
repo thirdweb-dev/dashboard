@@ -122,7 +122,7 @@ const Web3SDK: ThirdwebNextPage = () => {
 
       <GuidesShowcase
         title="Learn how to build"
-        description="Check out our guides to starty building with our SDKs."
+        description="Check out our SDK guides to start building web3 apps."
         solution="SDK"
         guides={SDK_GUIDES}
       />
