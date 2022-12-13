@@ -9,7 +9,6 @@ import { ProductLearnMoreCard } from "components/product-pages/common/ProductLea
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
-import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
