@@ -35,14 +35,15 @@ const Web3SDK: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "SDKs",
-        description: "Everything you need to build web3 apps",
+        title: "Powerful SDKs for every stack",
+        description:
+          "Build web3 applications that can interact with your smart contracts using our powerful SDKs and CLI.",
       }}
     >
       <Hero
         trackingCategory="sdks"
         name="SDKs"
-        title="Everything you need to build web3 apps"
+        title="Powerful SDKs for every stack"
         description="Build web3 applications that can interact with your smart contracts using our powerful SDKs and CLI."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/sdk"
