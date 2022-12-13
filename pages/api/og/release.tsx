@@ -2,7 +2,6 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 import { ReleaseOG } from "og-lib/url-utils";
-import { shortenIfAddress } from "utils/usedapp-external";
 
 // Make sure the font exists in the specified path:
 export const config = {
@@ -225,7 +224,7 @@ export default async function handler(req: NextRequest) {
                 }
               />
               <h2 tw="text-2xl text-white font-medium max-w-full">
-                {shortenIfAddress(releaseData.publisher, true)}
+                {releaseData.publisher}
               </h2>
             </div>
           </div>

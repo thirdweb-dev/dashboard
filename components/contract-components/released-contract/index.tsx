@@ -125,17 +125,6 @@ export const ReleasedContract: React.FC<ReleasedContractProps> = ({
 
   const ogImageUrl = useMemo(
     () =>
-      // createReleaseOGUrl({
-      //   name: releaseName,
-      //   description: release.description,
-      //   version: release.version,
-      //   releaser: releaserEnsOrAddress,
-      //   extension: extensionNames,
-      //   license: licenses,
-      //   releaseDate: releasedDate,
-      //   releaserAvatar: releaserProfile.data?.avatar || undefined,
-      //   releaseLogo: release.logo,
-      // })
       ReleaseOG.toUrl({
         name: releaseName,
         description: release.description,
