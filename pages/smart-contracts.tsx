@@ -9,15 +9,15 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Smart Contracts",
+        title: "Ready-to-deploy contracts",
         description: "Ready-to-go contracts for your needs.",
       }}
     >
       <Hero
         trackingCategory="smart_contracts"
-        name="Smart Contracts"
-        title="Ready-to-go contracts for your needs."
-        description="Deploy contracts written by the best web3 developers in a single click."
+        name="Explore"
+        title="Ready-to-deploy contracts"
+        description="Explore gives developers around the world a trusted place to discover ready-to-deploy contracts that have been built by thirdweb and other contract developers. Discover contracts for every use case."
         buttonText="Get started"
         buttonLink="/explore"
         image={require("public/assets/product-pages/pre-builts/hero.png")}
