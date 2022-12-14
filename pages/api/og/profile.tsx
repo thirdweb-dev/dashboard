@@ -143,7 +143,7 @@ export default async function handler(req: NextRequest) {
                 `https://source.boringavatars.com/marble/120/${profileData.displayName}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51&square=true`
               }
             />
-            <h1 tw="text-7xl text-white font-bold">
+            <h1 tw="text-7xl text-white font-bold my-3">
               {profileData.displayName}
             </h1>
             {profileData.bio && (
