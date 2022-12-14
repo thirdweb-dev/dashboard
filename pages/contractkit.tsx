@@ -1,9 +1,9 @@
-import { ThirdwebNextPage } from "./_app";
 import { SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { PageId } from "page-id";
+import { ThirdwebNextPage } from "utils/types";
 
 const ContractExtensions: ThirdwebNextPage = () => {
   return (
@@ -14,6 +14,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
       }}
     >
       <Hero
+        trackingCategory="contract_kit"
         name="ContractKit"
         title="Contract development made simple."
         description="Fast-track your contract development pipeline with our plug-and-play base contracts and extensions."

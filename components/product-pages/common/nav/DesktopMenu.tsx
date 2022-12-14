@@ -95,9 +95,9 @@ export const PRODUCTS: NavCardProps[] = [
     icon: require("public/assets/product-icons/auth.png"),
   },
   {
-    name: "Smart Contracts",
-    label: "smart-contracts",
-    description: "Prebuilt and audited",
+    name: "Explore",
+    label: "explore",
+    description: "Ready-to-deploy contracts",
     link: "/smart-contracts",
     icon: require("public/assets/product-icons/contracts.png"),
   },
@@ -147,19 +147,18 @@ export const PRODUCTS: NavCardProps[] = [
 
 export const SOLUTIONS: NavCardProps[] = [
   {
-    name: "Commerce",
+    name: "CommerceKit",
     label: "commerce",
     description: "Integrate web3 into commerce apps",
     link: "/solutions/commerce",
     iconType: FiShoppingCart,
   },
   {
-    name: "Gaming",
+    name: "GamingKit",
     label: "gaming",
     description: "Integrate web3 into games",
     link: "/solutions/gaming",
     iconType: IoGameControllerOutline,
-    comingSoon: true,
   },
 ];
 

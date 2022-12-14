@@ -34,11 +34,12 @@ const sections = [
 /**
  * Highlights 3 Core Feature of the ThirdWeb CLI: Create, Release, Deploy
  */
-export function CLISection() {
+export const CLISection = () => {
   return (
     <HomepageSection
       id="developers"
       py={{ base: 24, md: 48 }}
+      topGradient
       middleGradient
       bottomGradient
     >
@@ -98,7 +99,13 @@ export function CLISection() {
                     </TrackedLink>
                   </Flex>
 
-                  <ChakraNextImage src={activeSection.img} alt="" w="100%" />
+                  <ChakraNextImage
+                    src={activeSection.img}
+                    alt=""
+                    w="100%"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    loading="lazy"
+                  />
                 </SimpleGrid>
                 {idx !== sections.length - 1 && (
                   <SimpleGrid
@@ -125,4 +132,4 @@ export function CLISection() {
       </Flex>
     </HomepageSection>
   );
-}
+};

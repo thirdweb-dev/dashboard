@@ -3,12 +3,13 @@ import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiPython } from "@react-icons/all-files/si/SiPython";
 import { SiReact } from "@react-icons/all-files/si/SiReact";
+import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction } from "react";
 import { flushSync } from "react-dom";
 import { Button, ButtonProps, PossibleButtonSize } from "tw-components";
 
-const LOGO_OPTIONS = {
+export const LOGO_OPTIONS = {
   javascript: {
     icon: SiJavascript,
     fill: "yellow",
@@ -24,6 +25,10 @@ const LOGO_OPTIONS = {
   go: {
     icon: SiGo,
     fill: "#50b7e0",
+  },
+  unity: {
+    icon: SiUnity,
+    fill: "#ffffff",
   },
 } as const;
 

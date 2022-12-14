@@ -18,16 +18,9 @@ import type {
 } from "@thirdweb-dev/sdk/evm";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
-import {
-  AddressCopyButton,
-  Badge,
-  Card,
-  CodeBlock,
-  Drawer,
-  Heading,
-  NFTMedia,
-  Text,
-} from "tw-components";
+import { Badge, Card, CodeBlock, Drawer, Heading, Text } from "tw-components";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
+import { NFTMedia } from "tw-components/nft-media";
 
 interface NFTDrawerProps {
   contract: Marketplace;
@@ -150,6 +143,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
           <NFTMedia
+            borderRadius="lg"
             metadata={renderData.asset}
             requireInteraction
             flexShrink={0}

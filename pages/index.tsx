@@ -1,20 +1,21 @@
-import { ThirdwebNextPage } from "./_app";
-import { DarkMode, Flex } from "@chakra-ui/react";
+import { Box, DarkMode, Flex } from "@chakra-ui/react";
+import { HomepageFooter } from "components/footer/Footer";
 import { CLISection } from "components/homepage/sections/CLISection";
 import { ContractsSection } from "components/homepage/sections/ContractsSection";
 import { DashboardFeaturesSection } from "components/homepage/sections/DashboardFeaturesSection";
-import { ExamplesSection_HomePage } from "components/homepage/sections/ExamplesSection_HomePage";
+import { ExamplesSectionHomepage } from "components/homepage/sections/ExamplesSectionHomePage";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
-import { NewsLetterSection } from "components/homepage/sections/NewsLetterSection";
+import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { NetworksSection } from "components/homepage/sections/NextworksSection";
 import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
-import { HomepageFooter } from "components/product-pages/homepage/Footer";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { PageId } from "page-id";
 import { Suspense } from "react";
+import { ThirdwebNextPage } from "utils/types";
 
 const HomePage: ThirdwebNextPage = () => {
   return (
@@ -32,23 +33,25 @@ const HomePage: ThirdwebNextPage = () => {
         bg="#000"
       >
         <HomepageTopNav />
-
-        {/* sections */}
-        <HeroSection />
-        <PartnerCarousel />
-        <ContractsSection />
-        <Suspense>
-          <NewsLetterSection />
-          <SDKSection />
-          <CLISection />
-          <DashboardFeaturesSection />
-          <NetworksSection />
-          <PricingSection />
-          <ExamplesSection_HomePage />
-          <GetStartedSection />
-          {/* end sections */}
-          <HomepageFooter />
-        </Suspense>
+        <Box mt="-80px" pt="100px" overflowX="hidden">
+          {/* sections */}
+          <HeroSection />
+          <PartnerCarousel />
+          <ContractsSection />
+          <Suspense>
+            <HomepageSection id="sdks" bottomPattern middleGradient>
+              <SDKSection />
+            </HomepageSection>
+            <CLISection />
+            <DashboardFeaturesSection />
+            <NetworksSection />
+            <PricingSection />
+            <ExamplesSectionHomepage />
+            <GetStartedSection />
+            <NewsletterSection />
+            <HomepageFooter />
+          </Suspense>
+        </Box>
       </Flex>
     </DarkMode>
   );
