@@ -9,7 +9,7 @@ import {
   treatAddress,
 } from "components/explore/publisher";
 import { useTrack } from "hooks/analytics/useTrack";
-import { Heading, Link, LinkButton, Text } from "tw-components";
+import { Heading, Link, LinkButton } from "tw-components";
 
 interface ReleaserHeaderProps {
   wallet: string;

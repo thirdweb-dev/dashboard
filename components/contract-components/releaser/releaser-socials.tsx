@@ -1,4 +1,5 @@
 import { ButtonGroup, Icon } from "@chakra-ui/react";
+// eslint-disable-next-line no-duplicate-imports
 import type { ButtonGroupProps } from "@chakra-ui/react";
 import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiFacebook } from "@react-icons/all-files/si/SiFacebook";
@@ -22,7 +23,7 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
   size = "sm",
   ...props
 }) => (
-  <ButtonGroup size={size} spacing={0} {...props}>
+  <ButtonGroup size={size} spacing={spacing} {...props}>
     {releaserProfile.twitter && (
       <TrackedIconButton
         as={LinkButton}

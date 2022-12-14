@@ -15,7 +15,6 @@ import {
 } from "components/contract-components/hooks";
 import { EditProfile } from "components/contract-components/releaser/edit-profile";
 import { ReleaserAvatar } from "components/contract-components/releaser/masked-avatar";
-import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
 import { ReleaserSocials } from "components/contract-components/releaser/releaser-socials";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
@@ -25,7 +24,6 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
-// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { ProfileOG } from "og-lib/url-utils";
 import { PageId } from "page-id";
