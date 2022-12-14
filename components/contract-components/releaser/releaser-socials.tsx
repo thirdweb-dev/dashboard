@@ -1,4 +1,5 @@
 import { ButtonGroup, Icon } from "@chakra-ui/react";
+import type { ButtonGroupProps } from "@chakra-ui/react";
 import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiFacebook } from "@react-icons/all-files/si/SiFacebook";
 import { SiGithub } from "@react-icons/all-files/si/SiGithub";
@@ -11,14 +12,17 @@ import type { ProfileMetadata } from "@thirdweb-dev/sdk/evm";
 import { FiGlobe } from "react-icons/fi";
 import { LinkButton, TrackedIconButton } from "tw-components";
 
-interface ReleaserSocialsProps {
+interface ReleaserSocialsProps extends ButtonGroupProps {
   releaserProfile: ProfileMetadata;
 }
 
 export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
   releaserProfile,
+  spacing = 0,
+  size = "sm",
+  ...props
 }) => (
-  <ButtonGroup size="sm" spacing={0}>
+  <ButtonGroup size={size} spacing={0} {...props}>
     {releaserProfile.twitter && (
       <TrackedIconButton
         as={LinkButton}
