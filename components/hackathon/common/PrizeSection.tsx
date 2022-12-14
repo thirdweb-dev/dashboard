@@ -2,21 +2,14 @@ import { Center, Divider, Flex } from "@chakra-ui/react";
 import React from "react";
 import { Heading, Text } from "tw-components";
 
-export const PrizeSection: React.FC = () => {
-  const prizes = [
-    {
-      title: "1st Place",
-      prize: "$5,000",
-    },
-    {
-      title: "2nd Place",
-      prize: "$3,000",
-    },
-    {
-      title: "3rd Place",
-      prize: "$2,000",
-    },
-  ];
+interface IPrizeSection {
+  prizes: {
+    title: string;
+    prize: string;
+  }[];
+}
+
+export const PrizeSection: React.FC<IPrizeSection> = ({ prizes }) => {
   return (
     <Flex w="full" my={20} justifyContent="center" gap={{ base: 6, md: 8 }}>
       {prizes.map(({ title, prize }, i) => (

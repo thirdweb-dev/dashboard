@@ -4,46 +4,21 @@ import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Badge, Heading, Text } from "tw-components";
 
-export const ScheduleSection: React.FC = () => {
+interface IScheduleSection {
+  scheduleItems: {
+    day: number;
+    title: string;
+    href: string;
+    irl?: string;
+  }[];
+  month: string;
+}
+
+export const ScheduleSection: React.FC<IScheduleSection> = ({
+  scheduleItems,
+  month,
+}) => {
   const trackEvent = useTrack();
-  const items = [
-    {
-      day: 13,
-      title: "Introduction to Solana",
-      href: "https://lu.ma/sol-1",
-    },
-    {
-      day: 18,
-      title: "Build an NFT Minting Site With Solana",
-      href: "https://lu.ma/eng-2",
-    },
-    {
-      day: 19,
-      title: "Learn to build on Solana",
-      href: "https://lu.ma/build-on-sol",
-    },
-    {
-      day: 19,
-      title: "Solana-thon NYC Kickoff",
-      href: "https://lu.ma/solanathonkickoff.thirdweb",
-      irl: "NYC",
-    },
-    {
-      day: 20,
-      title: "Introduction to Solana with Phantom Wallet",
-      href: "https://lu.ma/tw-phantom",
-    },
-    {
-      day: 25,
-      title: "Create A Token Gated Website With Web3 Auth and Solana",
-      href: "https://lu.ma/eng-3",
-    },
-    {
-      day: 27,
-      title: "Meet Solana University",
-      href: "https://lu.ma/tw-sol-u",
-    },
-  ];
 
   return (
     <Flex
@@ -62,7 +37,7 @@ export const ScheduleSection: React.FC = () => {
         borderRadius="lg"
         overflow="hidden"
       >
-        {items.map(({ day, title, href, irl }) => (
+        {scheduleItems.map(({ day, title, href, irl }) => (
           <Flex
             role="group"
             as={LinkBox}
@@ -77,7 +52,9 @@ export const ScheduleSection: React.FC = () => {
             gap={4}
           >
             <Flex flexDir="column">
-              <Text color="gray.300">Oct</Text>
+              <Text color="gray.300" textTransform="uppercase">
+                {month}
+              </Text>
               <Heading size="title.lg" color="white">
                 {day}
               </Heading>
