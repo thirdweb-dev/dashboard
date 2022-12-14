@@ -125,7 +125,7 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
       <GuidesShowcase
         title="Learn how to build"
         description="Check out our guides to learn how to build with contracts on Explore."
-        solution="SDK"
+        solution="Contracts"
         guides={CONTRACTS_GUIDES}
       />
     </ProductPage>
