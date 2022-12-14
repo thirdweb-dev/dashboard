@@ -13,16 +13,9 @@ import {
 import { PublicKey } from "@solana/web3.js";
 import type { NFT } from "@thirdweb-dev/sdk";
 import React from "react";
-import {
-  AddressCopyButton,
-  Badge,
-  Card,
-  CodeBlock,
-  Drawer,
-  Heading,
-  Text,
-} from "tw-components";
-import { NFTMedia } from "tw-components/nft-media";
+import { Badge, Card, CodeBlock, Drawer, Heading, Text } from "tw-components";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
+import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 
 interface NFTDrawerProps {
   isOpen: boolean;
@@ -60,11 +53,12 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     >
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
-          <NFTMedia
+          <NFTMediaWithEmptyState
             metadata={renderData.metadata}
             requireInteraction
             flexShrink={0}
             boxSize={32}
+            borderRadius="lg"
             objectFit="contain"
           />
           <Flex flexDir="column" gap={2} w="70%">

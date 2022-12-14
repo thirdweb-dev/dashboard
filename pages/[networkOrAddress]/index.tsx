@@ -1,7 +1,8 @@
 import redirects from "../../redirects";
 import { useMainnetsContractList } from "@3rdweb-sdk/react";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { useAddress } from "@thirdweb-dev/react/evm";
 import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
 import {
@@ -12,20 +13,20 @@ import {
   usePublishedContractsQuery,
   useReleaserProfile,
 } from "components/contract-components/hooks";
-import { ReleaserHeader } from "components/contract-components/releaser/releaser-header";
+import { EditProfile } from "components/contract-components/releaser/edit-profile";
+import { ReleaserAvatar } from "components/contract-components/releaser/masked-avatar";
+import { ReleaserSocials } from "components/contract-components/releaser/releaser-socials";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
-import { useOgImagePing } from "hooks/useOgImagePing";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
-// import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { ProfileOG } from "og-lib/url-utils";
 import { PageId } from "page-id";
-import { createProfileOGUrl } from "pages/_og/profile";
 import { useEffect, useMemo } from "react";
 import { Heading, Text } from "tw-components";
 import { getSingleQueryValue } from "utils/router";
@@ -71,19 +72,20 @@ const UserPage: ThirdwebNextPage = () => {
     ens.data?.address || undefined,
   );
 
+  const address = useAddress();
+
   const ogImage = useMemo(() => {
     if (!releaserProfile.data || !publishedContracts.data) {
       return undefined;
     }
-    return createProfileOGUrl({
+
+    return ProfileOG.toUrl({
       displayName,
       bio: releaserProfile.data?.bio,
       avatar: releaserProfile.data?.avatar || undefined,
       releaseCnt: publishedContracts.data?.length.toString(),
     });
   }, [displayName, publishedContracts.data, releaserProfile.data]);
-
-  useOgImagePing(ogImage);
 
   return (
     <>
@@ -95,7 +97,7 @@ const UserPage: ThirdwebNextPage = () => {
           images: ogImage
             ? [
                 {
-                  url: ogImage,
+                  url: ogImage.toString(),
                   alt: `${displayName}'s profile on thirdweb.com`,
                   width: 1200,
                   height: 630,
@@ -108,12 +110,55 @@ const UserPage: ThirdwebNextPage = () => {
       />
 
       <Flex flexDir="column" gap={12}>
-        {wallet && <ReleaserHeader wallet={wallet} />}
+        {wallet && (
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            justify="space-between"
+            w="full"
+            align="center"
+            gap={4}
+          >
+            <Flex gap={{ base: 4, md: 8 }} align="center" w="full">
+              <ReleaserAvatar
+                address={ens.data?.ensName || wallet}
+                boxSize={28}
+              />
+              <Flex direction="column" gap={0}>
+                <Heading
+                  as="h1"
+                  size="title.xl"
+                  color="white"
+                  _light={{ color: "black" }}
+                  _dark={{ color: "white" }}
+                >
+                  {displayName}
+                </Heading>
+                {releaserProfile.data?.bio && (
+                  <Text size="body.lg" noOfLines={2}>
+                    {releaserProfile.data.bio}
+                  </Text>
+                )}
+                {releaserProfile.data && (
+                  <ReleaserSocials
+                    mt={1}
+                    size="md"
+                    releaserProfile={releaserProfile.data}
+                  />
+                )}
+              </Flex>
+            </Flex>
+            {ens.data?.address === address && releaserProfile.data && (
+              <Box flexShrink={0}>
+                <EditProfile releaserProfile={releaserProfile.data} />
+              </Box>
+            )}
+          </Flex>
+        )}
         <Flex flexDir="column" gap={4}>
           <Flex gap={2} direction="column">
-            <Heading size="title.md">Released contracts</Heading>
+            <Heading size="title.md">Published contracts</Heading>
             <Text fontStyle="italic" maxW="container.md">
-              The list of contract instances that this wallet has released
+              All contracts published by this wallet
             </Text>
           </Flex>
           {ens.data?.address && (
@@ -153,7 +198,7 @@ const UserPage: ThirdwebNextPage = () => {
 
 UserPage.getLayout = function getLayout(page, props) {
   return (
-    <AppLayout {...props}>
+    <AppLayout {...props} noSEOOverride>
       <PublisherSDKContext>{page}</PublisherSDKContext>
     </AppLayout>
   );

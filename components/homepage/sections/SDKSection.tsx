@@ -1,34 +1,35 @@
 import { Flex } from "@chakra-ui/react";
-import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
-import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import {
+  CodeSelector,
+  CodeSelectorProps,
+} from "components/product-pages/homepage/CodeSelector";
 import { Heading } from "tw-components";
 
-/**
- * Highlights JavaScript, React, Python and Go SDKs
- */
-export const SDKSection = () => {
+interface SDKSectionProps {
+  title?: string;
+  description?: string;
+  codeSelectorProps?: CodeSelectorProps;
+}
+
+export const SDKSection: React.FC<SDKSectionProps> = ({
+  title = "Connect to web3 easily.",
+  description = "Powerful SDKs to integrate decentralized technologies into your apps, backends, and games.",
+  codeSelectorProps,
+}) => {
   return (
-    <HomepageSection id="sdks" bottomPattern middleGradient>
-      <Flex
-        flexDir="column"
-        pt={{ base: 12, lg: 24 }}
-        align="center"
-        gap={{ base: 6, md: 8 }}
+    <Flex flexDir="column" align="center" gap={{ base: 6, md: 8 }}>
+      <Heading as="h2" size="display.sm" textAlign="center">
+        {title}
+      </Heading>
+      <Heading
+        as="h3"
+        size="subtitle.lg"
+        textAlign="center"
+        maxW="container.md"
       >
-        <Heading as="h2" size="display.sm" textAlign="center">
-          Connect to web3 easily.
-        </Heading>
-        <Heading
-          as="h3"
-          size="subtitle.lg"
-          textAlign="center"
-          maxW="container.md"
-        >
-          Powerful SDKs to integrate decentralized technologies into your apps,
-          backends, and games.
-        </Heading>
-        <CodeSelector />
-      </Flex>
-    </HomepageSection>
+        {description}
+      </Heading>
+      <CodeSelector {...codeSelectorProps} />
+    </Flex>
   );
 };

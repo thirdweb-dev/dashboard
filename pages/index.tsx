@@ -1,4 +1,5 @@
 import { Box, DarkMode, Flex } from "@chakra-ui/react";
+import { HomepageFooter } from "components/footer/Footer";
 import { CLISection } from "components/homepage/sections/CLISection";
 import { ContractsSection } from "components/homepage/sections/ContractsSection";
 import { DashboardFeaturesSection } from "components/homepage/sections/DashboardFeaturesSection";
@@ -11,7 +12,7 @@ import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
-import { HomepageFooter } from "components/product-pages/homepage/Footer";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { PageId } from "page-id";
 import { Suspense } from "react";
 import { ThirdwebNextPage } from "utils/types";
@@ -38,7 +39,9 @@ const HomePage: ThirdwebNextPage = () => {
           <PartnerCarousel />
           <ContractsSection />
           <Suspense>
-            <SDKSection />
+            <HomepageSection id="sdks" bottomPattern middleGradient>
+              <SDKSection />
+            </HomepageSection>
             <CLISection />
             <DashboardFeaturesSection />
             <NetworksSection />

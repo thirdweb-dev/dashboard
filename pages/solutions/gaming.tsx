@@ -1,5 +1,6 @@
 import { AspectRatio, Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
+import { SDKSection } from "components/homepage/sections/SDKSection";
 import { GameShowcase } from "components/product-pages/common/GameShowcase";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
@@ -8,7 +9,6 @@ import { ProductLearnMoreCard } from "components/product-pages/common/ProductLea
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
-import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
@@ -22,16 +22,38 @@ const GAMING_GUIDES = [
     link: "https://blog.thirdweb.com/guides/get-started-with-thirdwebs-unity-sdk/",
   },
   {
-    title: "Add A Connect Wallet Button In A Unity Game",
+    title: "Add a Connect Wallet Button in a Unity Game",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Group-625859--6-.png",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/This-is-the-one--33-.png",
     link: "https://blog.thirdweb.com/guides/add-a-connect-wallet-button-in-a-unity-game/",
   },
   {
-    title: "Airdrop Free-To-Own NFTs For Your Web3 Game",
+    title: "Set up Coinbase Pay in your Unity Project",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Group-625859--4-.png",
-    link: "https://blog.thirdweb.com/guides/airdrop-free-to-own-nfts-for-a-web3-game/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/Coinbase-Pay-guide.png",
+    link: "https://blog.thirdweb.com/guides/set-up-coinbase-pay-in-your-unity-project/",
+  },
+];
+
+const GAMING_CASE_STUDIES = [
+  {
+    title: "Evolved Camels Builds Immersive Web3 Gaming Experiences",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/Chicago-Bulls.png",
+    link: "https://blog.thirdweb.com/evolved-camels-builds-immersive-web3-gaming-experiences-for-their-community/",
+  },
+  {
+    title: "Fractal, Web3 Gaming Platform and Marketplace for Blockchain Games",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Fractal.png",
+    link: "https://blog.thirdweb.com/fractal-web3-gaming-platform-and-marketplace-for-blockchain-games-expands-to-evm-chains/",
+  },
+  {
+    title:
+      "Dreamworks Launches NFT Avatars for the Metaverse in Collaboration with Gala's VOX",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/DreamWorks-Launches-NFT-Avatars-with-Gala-s-VOX---thirdweb-Case-Study-2.png",
+    link: "https://blog.thirdweb.com/dreamworks-launches-nft-avatars-for-web3-games-with-gala-and-the-sims-creators-voxverse/",
   },
 ];
 
@@ -131,31 +153,16 @@ const Gaming: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Hero>
 
-      <ProductSection pb={{ base: 12, lg: 24 }}>
-        <Flex
-          flexDir="column"
-          pt={{ base: 12, lg: 24 }}
-          align="center"
-          gap={{ base: 6, md: 8 }}
-        >
-          <Heading as="h2" size="display.sm" textAlign="center">
-            Connect to web3 easily.
-          </Heading>
-          <Heading
-            as="h3"
-            size="subtitle.lg"
-            textAlign="center"
-            maxW="container.md"
-          >
-            The ultimate development framework for all types of web3 games:
+      <ProductSection py={{ base: 12, lg: 24 }}>
+        <SDKSection
+          description="The ultimate development framework for all types of web3 games:
             free-to-own, play-to-earn, nft game, etc. Powerful Gaming Engine
-            SDKs to integrate web3 features into your game.
-          </Heading>
-          <CodeSelector
-            defaultLanguage="unity"
-            docs="https://portal.thirdweb.com/gamingkit"
-          />
-        </Flex>
+            SDKs to integrate web3 features into your game."
+          codeSelectorProps={{
+            defaultLanguage: "unity",
+            docs: "https://portal.thirdweb.com/gamingkit",
+          }}
+        />
       </ProductSection>
 
       <SolutionsTextImage
@@ -194,9 +201,10 @@ const Gaming: ThirdwebNextPage = () => {
 
       <GuidesShowcase
         title="Start building web3 games"
-        description="Check out our guides and templates to start building games with thirdweb"
+        description="Check out our guides and case studies to start building games with thirdweb"
         solution="Gaming"
         guides={GAMING_GUIDES}
+        caseStudies={GAMING_CASE_STUDIES}
       />
 
       <Box
