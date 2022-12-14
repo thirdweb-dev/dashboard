@@ -1,15 +1,22 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import { SDKSection } from "components/homepage/sections/SDKSection";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
+import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 
 const CONTRACTS_GUIDES = [
+  {
+    title: "Build an NFT Subscription using Unlock",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/subscribe_with_unlock-1.png",
+    link: "https://blog.thirdweb.com/guides/build-a-subscription-with-unlock/",
+  },
   {
     title: "Build An ERC721A NFT Collection using Solidity",
     image:
@@ -22,13 +29,6 @@ const CONTRACTS_GUIDES = [
       "https://blog.thirdweb.com/content/images/size/w2000/2022/09/This-is-the-one-4.png",
     link: "https://blog.thirdweb.com/guides/create-an-mayc-collection-clone/",
   },
-  {
-    title:
-      "How To Build An Upgradeable Smart Contract and Upgrade it Using a Proxy Contract",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/This-is-the-one--17-.png",
-    link: "https://blog.thirdweb.com/guides/how-to-upgrade-smart-contracts-upgradeable-smart-contracts/",
-  },
 ];
 
 const PreBuiltContracts: ThirdwebNextPage = () => {
@@ -37,14 +37,24 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
       seo={{
         title: "Discover and deploy contracts in 1-click",
         description:
-          "The best place for web3 developers to explore secure smart contracts from world-class web3 protocols & engineers — all deployable with one click to EVM-compatible blockchains. Contracts for every use case.",
+          "The best place for web3 developers to explore smart contracts from world-class web3 protocols & engineers — all deployable with one click.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/product-pages/pre-builts/solution.png`,
+              width: 1200,
+              height: 630,
+              alt: "thirdweb Explore",
+            },
+          ],
+        },
       }}
     >
       <Hero
         trackingCategory="smart_contracts"
         name="Explore"
         title="Discover and deploy contracts in 1-click"
-        description="The best place for web3 developers to explore secure smart contracts from world-class web3 protocols & engineers — all deployable with one click to EVM-compatible blockchains. Contracts for every use case."
+        description="The best place for web3 developers to explore smart contracts from world-class web3 protocols & engineers — all deployable with one click."
         buttonText="Get started"
         buttonLink="/explore"
         image={require("public/assets/product-pages/pre-builts/hero.png")}
@@ -79,34 +89,42 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
           </ProductCard>
         </SimpleGrid>
       </Hero>
-      <ProductSection py={{ base: 12, lg: 24 }}>
-        <SDKSection title="Integrate web3 into your apps and games." />
-      </ProductSection>
+
+      <SolutionsTextImage
+        image={require("/public/assets/product-pages/pre-builts/solution-cut.png")}
+        title="Discover contracts that inspire you to build web3 apps and games"
+      />
 
       <ProductSection>
         <SimpleGrid
-          columns={{ base: 1, md: 2 }}
+          columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
           py={{ base: 12, md: 24 }}
         >
           <ProductLearnMoreCard
-            title="Frontend applications"
-            description="Build the frontend of your apps and games using our SDKs. This is best suited for when you need users to connect their wallets to interact with contracts."
-            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
-            href="https://portal.thirdweb.com/sdk/set-up-the-sdk/frontend"
+            title="Gaming"
+            description="Integrate marketplace contracts directly in-game to enforce royalty fees. Staking contracts for play-to-earn blockchain games."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+            href="/explore/gaming"
           />
           <ProductLearnMoreCard
-            title="Backend applications"
-            description="Build the backend of your apps and games using our SDKs. Backend apps are best suited for when you need to perform actions from your wallet or simply need to read data."
-            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href="https://portal.thirdweb.com/sdk/set-up-the-sdk/backend"
+            title="Commerce"
+            description="NFTs contracts that enable you to reward loyal customers, sell digital collectibles as a new product category, and create token-gated storefronts."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+            href="/explore/commerce"
+          />
+          <ProductLearnMoreCard
+            title="NFTs"
+            description="NFT Collections, Editions, Drops and everything else NFT-related."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
+            href="/explore/nft"
           />
         </SimpleGrid>
       </ProductSection>
 
       <GuidesShowcase
         title="Learn how to build"
-        description="Check out our guides to starty building with our SDKs."
+        description="Check out our guides to learn how to build with contracts on Explore."
         solution="SDK"
         guides={CONTRACTS_GUIDES}
       />
