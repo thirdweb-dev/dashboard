@@ -65,8 +65,7 @@ const Release: ThirdwebNextPage = () => {
               icon={require("/public/assets/product-pages/release/hero-icon-1.png")}
             >
               Focus on protocol development and save time by not having to build
-              middleware layer yourself. Use our SDKs and UI to enable end
-              contract deployment.
+              middleware layer yourself.
             </ProductCard>
             <ProductCard
               title="Unlock powerful tooling"
