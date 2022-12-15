@@ -4,6 +4,7 @@ import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -30,6 +31,16 @@ const Release: ThirdwebNextPage = () => {
         title: "Release",
         description:
           "Accelerate your protocol's growth. Publishing your contract is the best way to get your contracts in front of 60k+ web3 developers.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/product-pages/pre-builts/solution.png`,
+              width: 1200,
+              height: 630,
+              alt: "thirdweb Explore",
+            },
+          ],
+        },
       }}
     >
       <Hero
