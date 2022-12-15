@@ -6,6 +6,7 @@ import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
+import SubmissionRequirements from "components/hackathon/gaming/SubmissionRequirements";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -178,14 +179,30 @@ const GamingHackathon: ThirdwebNextPage = () => {
             <Sponsors sponsors={sponsors} />
           </HomepageSection>
           <Divider mt={16} />
-          <PrizeSection prizes={prizes} />
+
+          <HomepageSection mt={12}>
+            <PrizeSection prizes={prizes} />
+          </HomepageSection>
 
           <HomepageSection>
             <ScheduleSection scheduleItems={scheduleItems} month="jan" />
           </HomepageSection>
 
+          <Box
+            w="full"
+            h={{ base: "200px", md: "250px" }}
+            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+            filter="blur(100px)"
+            transform="matrix(-1, 0, 0, 1, 0, 0)"
+            mt="-150px"
+          />
+
           <HomepageSection>
             <FaqSection />
+          </HomepageSection>
+
+          <HomepageSection mt={{ base: 12, md: 24 }}>
+            <SubmissionRequirements />
           </HomepageSection>
 
           <Box
