@@ -58,7 +58,7 @@ export const FaqSection: React.FC = () => {
     >
       <Heading size="title.2xl">FAQs</Heading>
       <Flex
-        w="3xl"
+        w={{ base: "full", md: "3xl" }}
         justify={{ base: "center", md: "space-between" }}
         flexDir="column"
         align="center"
@@ -73,7 +73,7 @@ export const FaqSection: React.FC = () => {
               _first={{ borderTop: "none" }}
               _last={{ borderBottom: "none" }}
               role="group"
-              w="3xl"
+              w="full"
               px={{ base: 4, md: 8 }}
               bg="whiteAlpha.100"
               _hover={{ bg: "whiteAlpha.200" }}

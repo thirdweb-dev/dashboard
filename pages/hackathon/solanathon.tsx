@@ -12,8 +12,8 @@ import { HomepageFooter } from "components/footer/Footer";
 import { HackathonFooter } from "components/hackathon/common/HackathonFooter";
 import { Judges } from "components/hackathon/common/Judges";
 import { PrizeSection } from "components/hackathon/common/PrizeSection";
-import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
+import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -205,7 +205,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection>
-            <Sponsors sponsors={sponsors} />
+            <Sponsors sponsors={sponsors} hackathonName="solanathon" />
           </HomepageSection>
           <Divider mt={16} />
           <PrizeSection prizes={prizes} />

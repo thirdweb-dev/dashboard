@@ -2,10 +2,12 @@ import { Box, DarkMode, Divider, Flex, Icon } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { HomepageFooter } from "components/footer/Footer";
 import { Judges } from "components/hackathon/common/Judges";
+import { Mentors } from "components/hackathon/common/Mentors";
 import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
+import { Resources } from "components/hackathon/gaming/Resources";
 import SubmissionRequirements from "components/hackathon/gaming/SubmissionRequirements";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -69,19 +71,48 @@ const sponsors = [
 const scheduleItems = [
   {
     day: 2,
-    title: "Registration Opens",
-    // TODO: add href
-    href: "",
+    items: [
+      {
+        title: "test event",
+        link: "",
+        time: "10:00 PM PST",
+      },
+      {
+        title: "Registration Opens",
+        link: "",
+        time: "12:00 PM PST",
+      },
+    ],
+  },
+  {
+    day: 4,
+    items: [
+      {
+        title: "abc",
+        link: "",
+        time: "12:00 PM PST",
+      },
+    ],
   },
   {
     day: 16,
-    title: "Hackathon Starts",
-    href: "",
+    items: [
+      {
+        title: "Hackathon Starts",
+        link: "",
+        time: "12:00 PM PST",
+      },
+    ],
   },
   {
     day: 31,
-    title: "Hackathon Ends",
-    href: "",
+    items: [
+      {
+        title: "Hackathon Ends",
+        link: "",
+        time: "12:00 PM PST",
+      },
+    ],
   },
 ];
 
@@ -176,7 +207,7 @@ const GamingHackathon: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection>
-            <Sponsors sponsors={sponsors} />
+            <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
           </HomepageSection>
           <Divider mt={16} />
 
@@ -213,7 +244,21 @@ const GamingHackathon: ThirdwebNextPage = () => {
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
           />
+
+          <HomepageSection mt={{ base: 12, md: 24 }}>
+            <Resources />
+          </HomepageSection>
+
           <Judges />
+          <Box
+            w="full"
+            h={{ base: "200px", md: "250px" }}
+            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+            filter="blur(100px)"
+            transform="matrix(-1, 0, 0, 1, 0, 0)"
+            mt="-150px"
+          />
+          <Mentors />
           <HomepageFooter />
         </Box>
       </Flex>

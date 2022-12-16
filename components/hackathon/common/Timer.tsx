@@ -9,11 +9,11 @@ interface ITimeLeft {
   seconds: number;
 }
 
-interface ITimerProps {
+interface TimerProps {
   date: string;
 }
 
-const Timer: React.FC<ITimerProps> = ({ date }) => {
+const Timer: React.FC<TimerProps> = ({ date }) => {
   const calculateTimeLeft = () => {
     const difference = Number(new Date(date)) - Number(new Date());
     let timeLeft = {};

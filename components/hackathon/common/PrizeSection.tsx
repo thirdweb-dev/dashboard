@@ -1,15 +1,17 @@
-import { Center, Divider, Flex } from "@chakra-ui/react";
+import { Divider, Flex } from "@chakra-ui/react";
 import React from "react";
 import { Heading, Text } from "tw-components";
 
-interface IPrizeSection {
-  prizes: {
-    title: string;
-    prize: string;
-  }[];
+interface Prize {
+  title: string;
+  prize: string;
 }
 
-export const PrizeSection: React.FC<IPrizeSection> = ({ prizes }) => {
+interface PrizeSectionProps {
+  prizes: Prize[];
+}
+
+export const PrizeSection: React.FC<PrizeSectionProps> = ({ prizes }) => {
   return (
     <Flex flexDir="column">
       <Heading size="title.2xl" textAlign="center">
@@ -30,11 +32,7 @@ export const PrizeSection: React.FC<IPrizeSection> = ({ prizes }) => {
                 {title}
               </Text>
             </Flex>
-            {i < prizes.length - 1 && (
-              <Center height={14}>
-                <Divider orientation="vertical" />
-              </Center>
-            )}
+            {i < prizes.length - 1 && <Divider orientation="vertical" my={7} />}
           </React.Fragment>
         ))}
       </Flex>

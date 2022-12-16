@@ -45,10 +45,10 @@ const SubmissionRequirements: FC = () => {
       <Heading>Submission Requirements</Heading>
       {requirements.map(({ items, title }) => (
         <>
-          <Heading fontSize="20px" mt="4">
+          <Heading fontSize="20px" mt="6">
             {title}
           </Heading>
-          <List>
+          <List mt="2">
             {items.map((item) => (
               <ListItem key={item}>{item}</ListItem>
             ))}

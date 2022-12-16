@@ -1,25 +1,27 @@
-import { Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
-import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
-import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
-import { useTrack } from "hooks/analytics/useTrack";
-import { Badge, Heading, Text } from "tw-components";
+import { Flex, Grid, LinkBox } from "@chakra-ui/react";
+import { Badge, Heading, Text, TrackedLink } from "tw-components";
 
-interface IScheduleSection {
-  scheduleItems: {
-    day: number;
-    title: string;
-    href: string;
-    irl?: string;
-  }[];
+interface ScheduleItemDetail {
+  title: string;
+  time: string;
+  link: string;
+  irl?: string;
+}
+
+interface ScheduleItem {
+  day: number;
+  items: ScheduleItemDetail[];
+}
+
+interface ScheduleSectionProps {
+  scheduleItems: ScheduleItem[];
   month: string;
 }
 
-export const ScheduleSection: React.FC<IScheduleSection> = ({
+export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
   scheduleItems,
   month,
 }) => {
-  const trackEvent = useTrack();
-
   return (
     <Flex
       flexDir="column"
@@ -28,84 +30,51 @@ export const ScheduleSection: React.FC<IScheduleSection> = ({
       alignItems="center"
     >
       <Heading size="title.2xl">Schedule</Heading>
-      <Flex
-        w="full"
-        justify={{ base: "center", md: "space-between" }}
-        flexDir="column"
-        align="center"
-        mt={8}
-        borderRadius="lg"
-        overflow="hidden"
-      >
-        {scheduleItems.map(({ day, title, href, irl }) => (
+      <Grid gap={6} templateColumns="repeat(4, 1fr)" mt="4">
+        {scheduleItems.map(({ day, items }) => (
           <Flex
             role="group"
-            as={LinkBox}
-            key={title}
             align="center"
-            justify="space-between"
             w="full"
-            px={{ base: 4, md: 8 }}
-            bg="whiteAlpha.100"
-            _hover={{ bg: "whiteAlpha.200" }}
-            py={2}
+            p={{ base: 4, md: 8 }}
             gap={4}
+            flexDir="column"
+            key={day}
+            bg="whiteAlpha.100"
+            _hover={{
+              bg: "whiteAlpha.200",
+            }}
           >
-            <Flex flexDir="column">
-              <Text color="gray.300" textTransform="uppercase">
-                {month}
-              </Text>
-              <Heading size="title.lg" color="white">
-                {day}
-              </Heading>
-            </Flex>
-            <Flex gap={4} width={96} alignItems="center">
-              <Icon
-                as={AiOutlineBuild}
-                boxSize={6}
-                color="gray.300"
-                display={{ base: "none", md: "block" }}
-              />
-              <LinkOverlay
-                href={href}
-                isExternal
-                onClick={() =>
-                  trackEvent({
-                    category: "solanathon",
-                    action: "event",
-                    label: title,
-                  })
-                }
-              >
-                <Flex
-                  alignItems="center"
-                  width={{ base: "full", md: "500px" }}
-                  gap={2}
+            <Heading>
+              {day} {month}
+            </Heading>
+            {items.map(({ title, time, link, irl }) => (
+              <LinkBox key={title} w="full" p={4} borderRadius="md">
+                <TrackedLink
+                  category="Hackathon"
+                  href={link}
+                  isExternal
+                  label={title}
                 >
-                  <Heading size="subtitle.sm" fontWeight={500}>
-                    {title}
-                  </Heading>
+                  <Text fontWeight="bold">{title}</Text>
+                  <Text fontSize="sm">{time}</Text>
                   {irl && (
                     <Badge
-                      display={{ base: "none", md: "block" }}
-                      colorScheme="purple"
+                      colorScheme="green"
+                      fontSize="xs"
+                      mt={2}
+                      px={2}
+                      py={1}
                     >
-                      At our {irl} Office!
+                      In Real Life
                     </Badge>
                   )}
-                </Flex>
-              </LinkOverlay>
-            </Flex>
-            <Icon
-              as={BiRightArrowAlt}
-              boxSize={6}
-              color="gray.300"
-              _groupHover={{ color: "purple.500" }}
-              display={{ base: "none", md: "block" }}
-            />
+                </TrackedLink>
+              </LinkBox>
+            ))}
           </Flex>
         ))}
-      </Flex>
+      </Grid>
     </Flex>
   );
 };
