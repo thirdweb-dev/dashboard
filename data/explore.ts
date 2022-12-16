@@ -10,6 +10,7 @@ export interface ExploreCategory {
   description: string;
   learnMore?: string;
   contracts: Readonly<PublishedContractID[]>;
+  showInExplore?: boolean;
 }
 
 const POPULAR = {
@@ -43,30 +44,6 @@ const NFTS = {
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/DropERC1155",
     "thirdweb.eth/SignatureDrop",
-    "thirdweb.eth/DropERC721_OSRoyaltyFilter",
-    "thirdweb.eth/DropERC1155_OSRoyaltyFilter",
-    "thirdweb.eth/Multiwrap_OSRoyaltyFilter",
-    "thirdweb.eth/Pack_OSRoyaltyFilter",
-    "thirdweb.eth/SignatureDrop_OSRoyaltyFilter",
-    "thirdweb.eth/TokenERC1155_OSRoyaltyFilter",
-    "thirdweb.eth/TokenERC721_OSRoyaltyFilter",
-  ],
-} as const;
-
-const OSRoyalty = {
-  id: "opensea-royalty-filter",
-  name: "Opensea Royalty Filter",
-  description:
-    "Contracts that comply with Opensea's on-chain royalty enforcement mechanisms.",
-  learnMore: "https://opensea.io/blog/announcements/on-creator-fees/",
-  contracts: [
-    "thirdweb.eth/DropERC721_OSRoyaltyFilter",
-    "thirdweb.eth/DropERC1155_OSRoyaltyFilter",
-    "thirdweb.eth/Multiwrap_OSRoyaltyFilter",
-    "thirdweb.eth/Pack_OSRoyaltyFilter",
-    "thirdweb.eth/SignatureDrop_OSRoyaltyFilter",
-    "thirdweb.eth/TokenERC1155_OSRoyaltyFilter",
-    "thirdweb.eth/TokenERC721_OSRoyaltyFilter",
   ],
 } as const;
 
@@ -119,6 +96,39 @@ const AIRDROP = {
   ],
 } as const;
 
+const GAMING = {
+  id: "gaming",
+  name: "Gaming",
+  displayName: "Gaming",
+  description:
+    "A collection of contracts that are popular for building play-to-earn and free-to-own web3 games.",
+  contracts: [
+    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/DropERC721",
+    "thirdweb.eth/TokenERC20",
+    "thirdweb.eth/TokenERC1155",
+    "thirdweb.eth/Multiwrap",
+    "thirdweb.eth/Pack",
+    "thirdweb.eth/NFTStake",
+  ],
+  showInExplore: false,
+} as const;
+
+const COMMERCE = {
+  id: "commerce",
+  name: "Commerce",
+  displayName: "Commerce",
+  description:
+    "Most popular contracts for building web3 commerce apps. Reward loyal customers and sell NFTs through your storefront.",
+  contracts: [
+    "thirdweb.eth/TokenERC721",
+    "thirdweb.eth/TokenERC1155",
+    "thirdweb.eth/TokenERC20",
+    "thirdweb.eth/Split",
+  ],
+  showInExplore: false,
+} as const;
+
 const CATEGORIES = {
   [POPULAR.id]: POPULAR,
   [NFTS.id]: NFTS,
@@ -126,6 +136,8 @@ const CATEGORIES = {
   [DROPS.id]: DROPS,
   [GOVERNANCE.id]: GOVERNANCE,
   [AIRDROP.id]: AIRDROP,
+  [GAMING.id]: GAMING,
+  [COMMERCE.id]: COMMERCE,
 } as const;
 
 export function getCategory(id: string): ExploreCategory | null {
@@ -143,7 +155,9 @@ export function isExploreCategory(
 
 export type ExploreCategoryName = keyof typeof CATEGORIES;
 
-export const EXPLORE_PAGE_DATA = Object.values(CATEGORIES);
+export const EXPLORE_PAGE_DATA = Object.values(CATEGORIES).filter(
+  (v) => (v as ExploreCategory).showInExplore !== false,
+);
 
 export const ALL_CATEGORIES = Object.values(CATEGORIES).map((v) => v.id);
 

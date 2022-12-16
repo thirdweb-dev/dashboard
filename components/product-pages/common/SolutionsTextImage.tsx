@@ -2,16 +2,16 @@ import { ProductSection } from "./ProductSection";
 import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Heading } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface SolutionsTextImageProps {
   image: string;
   title: string;
 }
 
-export const SolutionsTextImage: React.FC<SolutionsTextImageProps> = ({
-  image,
-  title,
-}) => {
+export const SolutionsTextImage: ComponentWithChildren<
+  SolutionsTextImageProps
+> = ({ image, title, children }) => {
   return (
     <ProductSection>
       <Flex
@@ -29,11 +29,15 @@ export const SolutionsTextImage: React.FC<SolutionsTextImageProps> = ({
               (max-width: 1200px) 50vw,
               33vw"
           alt=""
+          borderRadius={{ base: "none", md: "lg" }}
         />
 
-        <Heading as="h2" size="display.sm" mb={4}>
-          {title}
-        </Heading>
+        <Flex flexDir="column" gap={4}>
+          <Heading as="h2" size="display.sm" mb={4}>
+            {title}
+          </Heading>
+          {children}
+        </Flex>
       </Flex>
     </ProductSection>
   );

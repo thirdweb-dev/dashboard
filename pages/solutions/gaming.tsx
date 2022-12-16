@@ -1,5 +1,6 @@
 import { AspectRatio, Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
+import { SDKSection } from "components/homepage/sections/SDKSection";
 import { GameShowcase } from "components/product-pages/common/GameShowcase";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
@@ -8,7 +9,6 @@ import { ProductLearnMoreCard } from "components/product-pages/common/ProductLea
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
-import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
@@ -153,31 +153,16 @@ const Gaming: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Hero>
 
-      <ProductSection pb={{ base: 12, lg: 24 }}>
-        <Flex
-          flexDir="column"
-          pt={{ base: 12, lg: 24 }}
-          align="center"
-          gap={{ base: 6, md: 8 }}
-        >
-          <Heading as="h2" size="display.sm" textAlign="center">
-            Connect to web3 easily.
-          </Heading>
-          <Heading
-            as="h3"
-            size="subtitle.lg"
-            textAlign="center"
-            maxW="container.md"
-          >
-            The ultimate development framework for all types of web3 games:
+      <ProductSection py={{ base: 12, lg: 24 }}>
+        <SDKSection
+          description="The ultimate development framework for all types of web3 games:
             free-to-own, play-to-earn, nft game, etc. Powerful Gaming Engine
-            SDKs to integrate web3 features into your game.
-          </Heading>
-          <CodeSelector
-            defaultLanguage="unity"
-            docs="https://portal.thirdweb.com/gamingkit"
-          />
-        </Flex>
+            SDKs to integrate web3 features into your game."
+          codeSelectorProps={{
+            defaultLanguage: "unity",
+            docs: "https://portal.thirdweb.com/gamingkit",
+          }}
+        />
       </ProductSection>
 
       <SolutionsTextImage
@@ -195,7 +180,7 @@ const Gaming: ThirdwebNextPage = () => {
             title="Build"
             description="Discover ready-to-go contracts or build your own with ContractKit for gaming use cases, e.g. NFT Marketplace, Multiwrap, Packs, Tokens, and more. Enable fiat-to-crypto capabilities with Coinbase Pay integration. Integrate NFT marketplace to enforce royalty fees."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href="https://portal.thirdweb.com/contractkit"
+            href="/explore/gaming"
           />
           <ProductLearnMoreCard
             title="Launch"
