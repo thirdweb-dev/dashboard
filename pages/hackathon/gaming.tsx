@@ -228,14 +228,6 @@ const GamingHackathon: ThirdwebNextPage = () => {
             mt="-150px"
           />
 
-          <HomepageSection>
-            <FaqSection />
-          </HomepageSection>
-
-          <HomepageSection mt={{ base: 12, md: 24 }}>
-            <SubmissionRequirements />
-          </HomepageSection>
-
           <Box
             w="full"
             h={{ base: "200px", md: "250px" }}
@@ -250,6 +242,13 @@ const GamingHackathon: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <Judges />
+
+          <Mentors />
+
+          <HomepageSection>
+            <FaqSection />
+          </HomepageSection>
+
           <Box
             w="full"
             h={{ base: "200px", md: "250px" }}
@@ -258,7 +257,9 @@ const GamingHackathon: ThirdwebNextPage = () => {
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
           />
-          <Mentors />
+          <HomepageSection my={{ base: 12, md: 24 }}>
+            <SubmissionRequirements />
+          </HomepageSection>
           <HomepageFooter />
         </Box>
       </Flex>
