@@ -173,7 +173,7 @@ const GamingHackathon: ThirdwebNextPage = () => {
                   $15,000 in prizes
                 </Heading>
                 <Heading size="title.xl" textAlign="center">
-                  Oct 19th - Oct 26th
+                  Jan 16th - Jan 31st
                 </Heading>
               </Flex>
 
