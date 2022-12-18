@@ -157,7 +157,7 @@ const GamingHackathon: ThirdwebNextPage = () => {
             <Flex
               flexDir="column"
               align="center"
-              gap={12}
+              gap={4}
               mt={{ base: 12, md: 24 }}
             >
               <Flex flexDir="column" gap={2}>
@@ -172,37 +172,40 @@ const GamingHackathon: ThirdwebNextPage = () => {
                 >
                   $15,000 in prizes
                 </Heading>
-                <Heading size="title.xl" textAlign="center">
+
+                <LinkButton
+                  href="https://thirdweb.typeform.com/to/jta0ye4M"
+                  onClick={() =>
+                    trackEvent({
+                      category: "gaming-hackathon",
+                      action: "click",
+                      label: "register-now",
+                    })
+                  }
+                  h="68px"
+                  w={{ base: "100%", md: 96 }}
+                  fontSize="20px"
+                  leftIcon={<Icon as={ImMagicWand} />}
+                  color="black"
+                  flexShrink={0}
+                  background="rgba(255,255,255,1)"
+                  _hover={{
+                    background: "rgba(255,255,255,0.9)!important",
+                  }}
+                  isExternal
+                  noIcon
+                  mx="auto"
+                  mt={4}
+                >
+                  Register Now
+                </LinkButton>
+
+                <Heading size="title.xl" textAlign="center" mt={6}>
                   Jan 16th - Jan 31st
                 </Heading>
               </Flex>
 
               <Timer date="2023-01-16T22:00:00" />
-
-              <LinkButton
-                href="https://thirdweb.typeform.com/to/jta0ye4M"
-                onClick={() =>
-                  trackEvent({
-                    category: "gaming-hackathon",
-                    action: "click",
-                    label: "register-now",
-                  })
-                }
-                h="68px"
-                w={{ base: "100%", md: 96 }}
-                fontSize="20px"
-                leftIcon={<Icon as={ImMagicWand} />}
-                color="black"
-                flexShrink={0}
-                background="rgba(255,255,255,1)"
-                _hover={{
-                  background: "rgba(255,255,255,0.9)!important",
-                }}
-                isExternal
-                noIcon
-              >
-                Register Now
-              </LinkButton>
             </Flex>
           </HomepageSection>
 
