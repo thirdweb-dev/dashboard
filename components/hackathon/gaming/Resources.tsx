@@ -37,6 +37,8 @@ export const Resources: FC = () => {
             category="readyplayer3"
             label={name}
             key={i}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <Flex flexDir="column" rounded="lg" bg="whiteAlpha.100" p={4}>
               <Image

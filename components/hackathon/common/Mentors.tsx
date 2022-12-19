@@ -1,6 +1,5 @@
-import { Flex, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Avatar, Flex, SimpleGrid, VStack } from "@chakra-ui/react";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { MaskedAvatar } from "tw-components/masked-avatar";
 
 export const Mentors: React.FC = () => {
   const mentors = [
@@ -40,7 +39,7 @@ export const Mentors: React.FC = () => {
       >
         {mentors.map(({ name, image, company, twitter }) => (
           <Flex key={name} flexDir="column" gap={2} alignItems="center">
-            <MaskedAvatar src={image} alt="" boxSize={40} />
+            <Avatar src={image} rounded="full" name={name} boxSize={40} />
             <Heading size="title.sm">{name}</Heading>
             <Text size="body.lg" color="gray.500">
               {company}

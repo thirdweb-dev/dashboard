@@ -37,26 +37,21 @@ export const Judges: React.FC = () => {
         gap={{ base: 8, md: 24 }}
         justifyContent="space-evenly"
       >
-        {judges.map((judge) => (
-          <Flex key={judge.name} flexDir="column" gap={2} alignItems="center">
-            <Avatar
-              src={judge.image}
-              rounded="full"
-              name={judge.name}
-              boxSize={40}
-            />
-            <Heading size="title.sm">{judge.name}</Heading>
+        {judges.map(({ name, company, image, twitter }) => (
+          <Flex key={name} flexDir="column" gap={2} alignItems="center">
+            <Avatar src={image} rounded="full" name={name} boxSize={40} />
+            <Heading size="title.sm">{name}</Heading>
             <Text size="body.lg" color="gray.500">
-              {judge.company}
+              {company}
             </Text>
             <TrackedLink
-              href={`https://twitter.com/${judge.twitter}`}
+              href={`https://twitter.com/${twitter}`}
               isExternal
               category="solanathon"
-              label={judge.name}
+              label={name}
             >
               <Text size="label.md" color="gray.500">
-                @{judge.twitter}
+                @{twitter}
               </Text>
             </TrackedLink>
           </Flex>
