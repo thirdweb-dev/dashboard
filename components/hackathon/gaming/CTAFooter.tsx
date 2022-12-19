@@ -17,7 +17,7 @@ export const CTAFooter: FC = () => {
         size="display.lg"
         textAlign="center"
       >
-        $125,000 in prizes
+        $100,000 in prizes
       </Heading>
 
       <Heading size="title.lg" textAlign="center">

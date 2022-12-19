@@ -170,7 +170,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                   size="display.lg"
                   textAlign="center"
                 >
-                  $125,000 in prizes
+                  $100,000 in prizes
                 </Heading>
 
                 <LinkButton
