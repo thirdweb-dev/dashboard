@@ -30,7 +30,14 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
       alignItems="center"
     >
       <Heading size="title.2xl">Schedule</Heading>
-      <Grid gap={6} templateColumns="repeat(4, 1fr)" mt="4">
+      <Grid
+        gap={6}
+        templateColumns={{
+          base: "repeat(2, 1fr)",
+          md: "repeat(4, 1fr)",
+        }}
+        mt="4"
+      >
         {scheduleItems.map(({ day, items }) => (
           <Flex
             role="group"
