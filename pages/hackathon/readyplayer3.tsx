@@ -6,6 +6,7 @@ import { Mentors } from "components/hackathon/common/Mentors";
 import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
+import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
 import { Resources } from "components/hackathon/gaming/Resources";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -259,6 +260,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
           {/* <HomepageSection my={{ base: 12, md: 24 }}>
             <SubmissionRequirements />
           </HomepageSection> */}
+          <CTAFooter />
           <HomepageFooter />
         </Box>
       </Flex>
