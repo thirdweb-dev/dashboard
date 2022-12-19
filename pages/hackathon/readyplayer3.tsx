@@ -8,7 +8,6 @@ import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
 import { Resources } from "components/hackathon/gaming/Resources";
-import SubmissionRequirements from "components/hackathon/gaming/SubmissionRequirements";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -32,15 +31,15 @@ const metadata = {
 const prizes = [
   {
     title: "1st Place",
-    prize: "$8,000",
+    prize: "$5,000",
   },
   {
     title: "2nd Place",
-    prize: "$4,000",
+    prize: "$3,000",
   },
   {
     title: "3rd Place",
-    prize: "$3,000",
+    prize: "$2,000",
   },
 ];
 
@@ -116,7 +115,7 @@ const scheduleItems = [
   },
 ];
 
-const GamingHackathon: ThirdwebNextPage = () => {
+const ReadyPlayer3Landing: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
 
   return (
@@ -170,14 +169,14 @@ const GamingHackathon: ThirdwebNextPage = () => {
                   size="display.lg"
                   textAlign="center"
                 >
-                  $15,000 in prizes
+                  $125,000 in prizes
                 </Heading>
 
                 <LinkButton
                   href="https://thirdweb.typeform.com/to/jta0ye4M"
                   onClick={() =>
                     trackEvent({
-                      category: "gaming-hackathon",
+                      category: "readyplayer3",
                       action: "click",
                       label: "register-now",
                     })
@@ -218,35 +217,32 @@ const GamingHackathon: ThirdwebNextPage = () => {
             <PrizeSection prizes={prizes} />
           </HomepageSection>
 
+          <Judges />
+          <Box
+            w="full"
+            h={{ base: "200px", md: "250px" }}
+            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+            filter="blur(100px)"
+            transform="matrix(-1, 0, 0, 1, 0, 0)"
+            mt="-150px"
+          />
+          <Mentors />
           <HomepageSection>
             <ScheduleSection scheduleItems={scheduleItems} month="jan" />
           </HomepageSection>
-
-          <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(100px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-          />
-
-          <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(100px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-          />
 
           <HomepageSection mt={{ base: 12, md: 24 }}>
             <Resources />
           </HomepageSection>
 
-          <Judges />
-
-          <Mentors />
+          <Box
+            w="full"
+            h={{ base: "200px", md: "250px" }}
+            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+            filter="blur(100px)"
+            transform="matrix(-1, 0, 0, 1, 0, 0)"
+            mt="-150px"
+          />
 
           <HomepageSection>
             <FaqSection />
@@ -260,9 +256,9 @@ const GamingHackathon: ThirdwebNextPage = () => {
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
           />
-          <HomepageSection my={{ base: 12, md: 24 }}>
+          {/* <HomepageSection my={{ base: 12, md: 24 }}>
             <SubmissionRequirements />
-          </HomepageSection>
+          </HomepageSection> */}
           <HomepageFooter />
         </Box>
       </Flex>
@@ -270,6 +266,6 @@ const GamingHackathon: ThirdwebNextPage = () => {
   );
 };
 
-GamingHackathon.pageId = PageId.GamingHackathonLanding;
+ReadyPlayer3Landing.pageId = PageId.ReadyPlayer3Landing;
 
-export default GamingHackathon;
+export default ReadyPlayer3Landing;

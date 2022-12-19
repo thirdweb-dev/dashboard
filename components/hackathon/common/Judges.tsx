@@ -1,6 +1,5 @@
-import { Flex, SimpleGrid, VStack } from "@chakra-ui/react";
+import { Avatar, Flex, SimpleGrid, VStack } from "@chakra-ui/react";
 import { Heading, Text, TrackedLink } from "tw-components";
-import { MaskedAvatar } from "tw-components/masked-avatar";
 
 export const Judges: React.FC = () => {
   const judges = [
@@ -40,7 +39,12 @@ export const Judges: React.FC = () => {
       >
         {judges.map((judge) => (
           <Flex key={judge.name} flexDir="column" gap={2} alignItems="center">
-            <MaskedAvatar src={judge.image} alt="" boxSize={40} />
+            <Avatar
+              src={judge.image}
+              rounded="full"
+              name={judge.name}
+              boxSize={40}
+            />
             <Heading size="title.sm">{judge.name}</Heading>
             <Text size="body.lg" color="gray.500">
               {judge.company}
