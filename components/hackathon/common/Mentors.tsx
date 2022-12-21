@@ -4,28 +4,28 @@ import { Heading, Text, TrackedLink } from "tw-components";
 export const Mentors: React.FC = () => {
   const mentors = [
     {
-      name: "Samina Kabir",
-      twitter: "saminacodes",
-      image: "/assets/landingpage/samina.jpeg",
-      company: "thirdweb",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/mentors/tba.svg",
+      company: "TBA",
     },
     {
-      name: "Farza Majeed",
-      twitter: "FarzaTV",
-      image: "/assets/landingpage/farza.jpeg",
-      company: "buildspace",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/mentors/tba.svg",
+      company: "TBA",
     },
     {
-      name: "Noah Hein",
-      twitter: "nheindev",
-      image: "/assets/landingpage/noah.png",
-      company: "Phantom",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/mentors/tba.svg",
+      company: "TBA",
     },
     {
-      name: "Chris Ahn",
-      twitter: "ahnchrisj",
-      image: "/assets/landingpage/chris.jpg",
-      company: "Haun Ventures",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/mentors/tba.svg",
+      company: "TBA",
     },
   ];
 
@@ -50,9 +50,11 @@ export const Mentors: React.FC = () => {
               category="solanathon"
               label={name}
             >
-              <Text size="label.md" color="gray.500">
-                @{twitter}
-              </Text>
+              {twitter && (
+                <Text size="label.md" color="gray.500">
+                  @{twitter}
+                </Text>
+              )}
             </TrackedLink>
           </Flex>
         ))}

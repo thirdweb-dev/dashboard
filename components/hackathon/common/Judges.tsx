@@ -4,33 +4,33 @@ import { Heading, Text, TrackedLink } from "tw-components";
 export const Judges: React.FC = () => {
   const judges = [
     {
-      name: "Samina Kabir",
-      twitter: "saminacodes",
-      image: "/assets/landingpage/samina.jpeg",
-      company: "thirdweb",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/judges/tba.svg",
+      company: "TBA",
     },
     {
-      name: "Farza Majeed",
-      twitter: "FarzaTV",
-      image: "/assets/landingpage/farza.jpeg",
-      company: "buildspace",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/judges/tba.svg",
+      company: "TBA",
     },
     {
-      name: "Noah Hein",
-      twitter: "nheindev",
-      image: "/assets/landingpage/noah.png",
-      company: "Phantom",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/judges/tba.svg",
+      company: "TBA",
     },
     {
-      name: "Chris Ahn",
-      twitter: "ahnchrisj",
-      image: "/assets/landingpage/chris.jpg",
-      company: "Haun Ventures",
+      name: "TBA",
+      twitter: "",
+      image: "/assets/hackathon/judges/tba.svg",
+      company: "TBA",
     },
   ];
 
   return (
-    <VStack mb={20} spacing={8}>
+    <VStack spacing={8}>
       <Heading size="title.2xl">Judges</Heading>
       <SimpleGrid
         columns={{ base: 1, md: 4 }}
@@ -38,7 +38,13 @@ export const Judges: React.FC = () => {
         justifyContent="space-evenly"
       >
         {judges.map(({ name, company, image, twitter }) => (
-          <Flex key={name} flexDir="column" gap={2} alignItems="center">
+          <Flex
+            key={name}
+            flexDir="column"
+            gap={2}
+            alignItems="center"
+            zIndex={10}
+          >
             <Avatar src={image} rounded="full" name={name} boxSize={40} />
             <Heading size="title.sm">{name}</Heading>
             <Text size="body.lg" color="gray.500">
@@ -50,9 +56,11 @@ export const Judges: React.FC = () => {
               category="solanathon"
               label={name}
             >
-              <Text size="label.md" color="gray.500">
-                @{twitter}
-              </Text>
+              {twitter && (
+                <Text size="label.md" color="gray.500">
+                  @{twitter}
+                </Text>
+              )}
             </TrackedLink>
           </Flex>
         ))}

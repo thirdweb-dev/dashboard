@@ -58,13 +58,13 @@ const sponsors = [
   },
   {
     name: "AWS",
-    logo: "/assets/hackathon/sponsors/aws.png",
+    logo: "/assets/hackathon/sponsors/aws.svg",
     link: "https://aws.amazon.com/",
   },
   {
-    name: "CoinDesk",
-    logo: "/assets/hackathon/sponsors/coindesk.png",
-    link: "https://www.coindesk.com/",
+    name: "Consensus",
+    logo: "/assets/hackathon/sponsors/consensus.png",
+    link: "https://www.coindesk.com/consensus/",
   },
 ];
 
@@ -226,7 +226,9 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
             filter="blur(100px)"
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
+            zIndex={0}
           />
+
           <Mentors />
           <HomepageSection>
             <ScheduleSection scheduleItems={scheduleItems} month="jan" />
