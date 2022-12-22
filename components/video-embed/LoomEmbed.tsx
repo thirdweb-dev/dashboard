@@ -1,11 +1,11 @@
-interface LoomEmbed {
+interface LoomEmbedProps {
   maxWidth: number;
   aspectRatio: number;
   videoId: string;
   title: string;
 }
 
-export const LoomEmbed: React.FC<LoomEmbed> = (props) => {
+export const LoomEmbed: React.FC<LoomEmbedProps> = (props) => {
   return (
     <iframe
       width={props.maxWidth}

@@ -36,14 +36,14 @@ const ContractExtensions: ThirdwebNextPage = () => {
     <ProductPage
       seo={{
         title: "ContractKit",
-        description: "Build your own contract",
+        description: "Build your own contract easily",
       }}
     >
       {/* hero section */}
       <Hero
         trackingCategory="contract_kit"
         name="ContractKit"
-        title="Build your own contract"
+        title="Build your own contract easily"
         description="If you can’t find the contract that you need in Explore, you can build your own contracts using ContractKit. We have base contracts that can be configured with extensions to meet your specific use case."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/contractkit"
@@ -119,7 +119,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
         >
           <ProductLearnMoreCard
             title="Base Contracts"
-            description="ERC721, ERC1155 & ERC20 base contracts with varying levels of functionality, including: capability to mint NFTs to sell on a marketplace, signature-based minting, batch lazy mint NFTs, delayed reveal and claim conditions to define how your NFTs can be claimed."
+            description="Fully featured base contracts, including ERC721, ERC1155 & ERC20. This provides capability to mint NFTs to sell on a marketplace, signature-based minting, batch lazy mint NFTs, delayed reveal and claim conditions to define how your NFTs can be claimed."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
             href="https://portal.thirdweb.com/contractkit/base-contracts"
           />

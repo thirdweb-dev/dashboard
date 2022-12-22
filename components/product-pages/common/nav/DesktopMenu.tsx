@@ -111,14 +111,14 @@ export const PRODUCTS: NavCardProps[] = [
   {
     name: "ContractKit",
     label: "contractkit",
-    description: "Build your own contract",
+    description: "Build your own contract easily",
     link: "/contractkit",
     icon: require("public/assets/product-icons/extensions.png"),
   },
   {
     name: "Deploy",
     label: "deploy",
-    description: "Seamless contract workflow for teams",
+    description: "Seamless contract deployment for teams",
     link: "/deploy",
     icon: require("public/assets/product-icons/deploy.png"),
   },

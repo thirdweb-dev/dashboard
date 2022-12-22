@@ -45,7 +45,7 @@ const Authentication: ThirdwebNextPage = () => {
         trackingCategory="auth"
         name="Auth"
         title="Authenticate users with their wallets"
-        description="Authenticate users with just their wallet. Build powerful web2 experiences which users can access using their web3 wallets."
+        description="Authenticate users with just their wallet. Build powerful web3 functionality into web2 experiences."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/auth"
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #FF8D5C 100.01%)"

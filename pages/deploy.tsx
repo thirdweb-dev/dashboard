@@ -65,8 +65,7 @@ const Deploy: ThirdwebNextPage = () => {
               <Text as="span" size="body.lg" fontWeight="medium" color="white">
                 npx thirdweb deploy
               </Text>{" "}
-              command. No more copying ABIs or generating bindings. Contracts
-              stored in IPFS.
+              command. No more copying ABIs or generating bindings.
             </span>
           </ProductCard>
           <ProductCard
