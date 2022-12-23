@@ -11,7 +11,7 @@ import { Button, Heading } from "tw-components";
 
 interface SlideContentProps {
   slideIndex: number;
-  title: string;
+  title: React.ReactNode;
   content: React.ReactNode;
 }
 
@@ -39,7 +39,7 @@ const SlideContent: React.FC<SlideContentProps> = ({
       minHeight={{ base: "220px", md: "auto" }}
     >
       <motion.div {...titleAnimation}>
-        <Heading size="title.md" w="80%" mb={2}>
+        <Heading size="title.md" mb={2}>
           {title}
         </Heading>
       </motion.div>
