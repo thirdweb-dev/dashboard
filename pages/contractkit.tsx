@@ -44,7 +44,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
         trackingCategory="contract_kit"
         name="ContractKit"
         title="Build your own contract easily"
-        description="If you can’t find the contract that you need in Explore, you can build your own contracts using ContractKit. We have base contracts that can be configured with extensions to meet your specific use case."
+        description="Build your own contracts easily using ContractKit. Base contracts that can be configured with extensions to meet your specific use case."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/contractkit"
         image={require("public/assets/product-pages/extensions/hero.png")}
@@ -67,7 +67,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
             title="Extensions to add functionality"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            Use extensions to override or add functionality to fine tune
+            Use extensions to override or add functionality to fine-tune
             contract behavior, e.g. Royalties, Permissions, Staking, etc.
           </ProductCard>
           <ProductCard
@@ -112,11 +112,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
         >
           Contracts for every use case
         </Heading>
-        <SimpleGrid
-          columns={{ base: 1, md: 2 }}
-          gap={{ base: 12, md: 6 }}
-          // py={{ base: 12, md: 24 }}
-        >
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={14}>
           <ProductLearnMoreCard
             title="Base Contracts"
             description="Fully featured base contracts, including ERC721, ERC1155 & ERC20. This provides capability to mint NFTs to sell on a marketplace, signature-based minting, batch lazy mint NFTs, delayed reveal and claim conditions to define how your NFTs can be claimed."

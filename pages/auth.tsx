@@ -62,7 +62,7 @@ const Authentication: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/authentication/sign-in.png")}
           >
             Simplify sign in flow by allowing any user to sign-in to any app
-            using their web3 wallet
+            using their web3 wallet.
           </ProductCard>
           <ProductCard
             title="Verify on-chain identities"

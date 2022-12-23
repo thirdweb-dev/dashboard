@@ -4,7 +4,7 @@ import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { LoomEmbed } from "components/video-embed/LoomEmbed";
+import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { PageId } from "page-id";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -69,7 +69,7 @@ const Deploy: ThirdwebNextPage = () => {
             </span>
           </ProductCard>
           <ProductCard
-            title="Deploy directly from your wallet"
+            title="Deploy directly"
             icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
           >
             Enable non-technical team members to deploy contracts without
@@ -99,11 +99,11 @@ const Deploy: ThirdwebNextPage = () => {
           >
             Deploy contracts to unlock powerful SDKs and Dashboard
           </Heading>
-          <LoomEmbed
+          <YoutubeEmbed
             maxWidth={680}
             title="Deploy contracts to unlock powerful SDKs and Dashboard"
             aspectRatio={16 / 10}
-            videoId="593fa3988dc24a188f7a1aa2cbbeb3cd"
+            videoId="6EqumMCa-E8"
           />
         </Flex>
       </ProductSection>
