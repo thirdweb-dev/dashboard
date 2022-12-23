@@ -69,7 +69,7 @@ const Deploy: ThirdwebNextPage = () => {
             </span>
           </ProductCard>
           <ProductCard
-            title="Deploy directly"
+            title="Deploy from your wallet"
             icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
           >
             Enable non-technical team members to deploy contracts without
