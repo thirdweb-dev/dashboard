@@ -14,8 +14,7 @@ import { Badge, Heading, LinkButton, Text } from "tw-components";
 interface EventProps {
   type: string;
   title: string;
-  date: string;
-  time: string;
+  timestamp: string;
   location: string;
   description: string;
   link: string;
@@ -24,8 +23,7 @@ interface EventProps {
 const Event: FC<EventProps> = ({
   type,
   title,
-  date,
-  time,
+  timestamp,
   location,
   description,
   link,
@@ -67,11 +65,24 @@ const Event: FC<EventProps> = ({
           <Flex justify="space-between" mt={2}>
             <Flex align="center" gap={1}>
               <Icon as={FiCalendar} />
-              <Text>{date}</Text>
+              <Text>
+                {new Date(timestamp).toLocaleDateString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </Text>
             </Flex>
             <Flex align="center" gap={1}>
               <Icon as={FiClock} />
-              <Text>{time}</Text>
+              <Text>
+                {new Date(timestamp).toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </Text>
             </Flex>
 
             <Flex align="center" gap={1}>

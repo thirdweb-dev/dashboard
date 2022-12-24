@@ -5,6 +5,7 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
+import { useState } from "react";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -18,7 +19,7 @@ const featuredEvents = [
   },
   {
     type: "Hackathon",
-    title: "Solana Hackathon",
+    title: "Ready Player 3",
     date: "June 1st - 30th",
     banner: "/assets/og-image/solanathon.jpg",
     link: "/hackathon/solanathon",
@@ -29,29 +30,17 @@ const allEvents = [
   {
     type: "Hackathon",
     title: "Solana Hackathon",
-    date: "June 1st - 30th",
-    time: "5PM EST",
-    location: "New York",
+    timestamp: "2022-06-01T00:00:00.000Z",
+    location: "online",
     description:
       "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
     link: "",
   },
   {
-    type: "Hackathon",
-    title: "Solana Hackathon",
-    date: "June 1st - 30th",
-    time: "5PM EST",
-    location: "New York",
-    description:
-      "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-    link: "",
-  },
-  {
-    type: "Hackathon",
-    title: "Solana Hackathon",
-    date: "June 1st - 30th",
-    time: "5PM EST",
-    location: "New York",
+    type: "Workshop",
+    title: "Some workshop",
+    timestamp: "2023-01-16T00:00:00.000Z",
+    location: "earth",
     description:
       "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
     link: "",
@@ -59,6 +48,65 @@ const allEvents = [
 ];
 
 const EventsPage: ThirdwebNextPage = () => {
+  const [sortBy, setSortBy] = useState<"date" | "location" | "type" | "title">(
+    "date",
+  );
+  const [sortedEvents, setSortedEvents] = useState(allEvents);
+
+  const handleSort = (value: "date" | "location" | "type" | "title") => {
+    setSortBy(value);
+    switch (value) {
+      case "date":
+        setSortedEvents(
+          allEvents.sort((a, b) => {
+            const dateA = new Date(a.timestamp);
+            const dateB = new Date(b.timestamp);
+            return dateB.getTime() - dateA.getTime();
+          }),
+        );
+        break;
+      case "location":
+        setSortedEvents(
+          allEvents.sort((a, b) => {
+            if (a.location < b.location) {
+              return -1;
+            }
+            if (a.location > b.location) {
+              return 1;
+            }
+            return 0;
+          }),
+        );
+        break;
+      case "type":
+        setSortedEvents(
+          allEvents.sort((a, b) => {
+            if (a.type < b.type) {
+              return -1;
+            }
+            if (a.type > b.type) {
+              return 1;
+            }
+            return 0;
+          }),
+        );
+        break;
+      case "title":
+        setSortedEvents(
+          allEvents.sort((a, b) => {
+            if (a.title < b.title) {
+              return -1;
+            }
+            if (a.title > b.title) {
+              return 1;
+            }
+            return 0;
+          }),
+        );
+        break;
+    }
+  };
+
   return (
     <DarkMode>
       <NextSeo title="events" />
@@ -110,8 +158,23 @@ const EventsPage: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection mt={20}>
-            <Select w={40} mx="auto">
-              <option value="all">Sort by: Date</option>
+            <Select
+              w={40}
+              mx="auto"
+              value={sortBy}
+              onChange={(e) => {
+                const value = e.target.value as
+                  | "date"
+                  | "location"
+                  | "type"
+                  | "title";
+                handleSort(value);
+              }}
+            >
+              <option value="date">Sort by: Date</option>
+              <option value="location">Sort by: Location</option>
+              <option value="type">Sort by: Type</option>
+              <option value="type">Sort by: Title</option>
             </Select>
 
             <Accordion
@@ -121,14 +184,13 @@ const EventsPage: ThirdwebNextPage = () => {
               allowMultiple
               mx="auto"
             >
-              {allEvents.map(
-                ({ type, title, date, time, location, description, link }) => (
+              {sortedEvents.map(
+                ({ type, title, timestamp, location, description, link }) => (
                   <Event
                     key={title}
                     type={type}
                     title={title}
-                    date={date}
-                    time={time}
+                    timestamp={timestamp}
                     location={location}
                     description={description}
                     link={link}
