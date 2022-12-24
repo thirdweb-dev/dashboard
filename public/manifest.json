@@ -5,7 +5,7 @@
   "background_color": "#11031A",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./dashboard",
   "icons": [
     {
       "src": "app-icons/icon-48x48.png",
