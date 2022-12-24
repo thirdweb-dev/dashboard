@@ -33,14 +33,34 @@ const Event: FC<EventProps> = ({
   const trackEvent = useTrack();
 
   return (
-    <AccordionItem bg="whiteAlpha.100" p={10} my={4}>
+    <AccordionItem
+      bg="whiteAlpha.100"
+      py={10}
+      px={{
+        base: 2,
+        md: 10,
+      }}
+      my={4}
+    >
       <AccordionButton
         gap={6}
         _hover={{
           bg: "transparent",
         }}
+        display="flex"
+        flexDir={{
+          base: "column",
+          md: "row",
+        }}
       >
-        <Badge h="min">{type}</Badge>
+        <Badge
+          h="min"
+          alignSelf={{
+            base: "flex-start",
+          }}
+        >
+          {type}
+        </Badge>
         <Flex flexDir="column" w="full">
           <Heading textAlign="left">{title}</Heading>
 
@@ -67,7 +87,10 @@ const Event: FC<EventProps> = ({
         flexDir="column"
         alignItems="flex-start"
         gap={4}
-        ml={32}
+        ml={{
+          base: 0,
+          md: 32,
+        }}
         justifyContent="left"
       >
         <Text textAlign="left">{description}</Text>

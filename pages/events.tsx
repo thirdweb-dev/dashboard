@@ -88,7 +88,14 @@ const EventsPage: ThirdwebNextPage = () => {
                 Explore our Upcoming Events!
               </Heading>
             </Flex>
-            <Grid templateColumns="repeat(2, 1fr)" gap={12} mt={12}>
+            <Grid
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+              }}
+              gap={12}
+              mt={12}
+            >
               {featuredEvents.map(({ type, title, date, banner, link }) => (
                 <FeaturedCard
                   key={title}
