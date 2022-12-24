@@ -19,6 +19,7 @@ import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from "@thirdweb-dev/react";
+import { PWAInstallButton } from "components/PWA/PWAInstallButton";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
 import { InsufficientFunds } from "components/notices/InsufficientFunds";
@@ -99,7 +100,8 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
             <Link href={address || publicKey ? "/dashboard" : "/explore"}>
               <Logo />
             </Link>
-            <Flex align="center" gap={2} marginLeft="auto">
+            <Flex align="center" gap={4} marginLeft="auto">
+              <PWAInstallButton />
               <Button
                 as={TrackedLink}
                 variant="link"

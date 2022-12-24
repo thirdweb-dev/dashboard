@@ -1,8 +1,8 @@
 {
   "name": "Thirdweb",
   "short_name": "Thirdweb",
-  "theme_color": "#11031A",
-  "background_color": "#11031A",
+  "theme_color": "#1b2129",
+  "background_color": "#1b2129",
   "display": "standalone",
   "scope": "./",
   "start_url": "./dashboard",

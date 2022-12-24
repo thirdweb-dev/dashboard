@@ -7,7 +7,7 @@ export function PWAMeta() {
       <meta name="apple-mobile-web-app-title" content="Thirdweb" />
       <meta name="format-detection" content="telephone=no" />
       <meta name="mobile-web-app-capable" content="yes" />
-      <meta name="theme-color" content="#11031A" />
+      <meta name="theme-color" content="#1b2129" />
       <link
         rel="apple-touch-icon"
         sizes="192x192"

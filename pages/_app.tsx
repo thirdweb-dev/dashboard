@@ -3,6 +3,7 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import { IBM_Plex_Mono, Inter } from "@next/font/google";
 import type { DehydratedState } from "@tanstack/react-query";
+import { saveInstallPrompt } from "components/PWA/saveDeferredPrompt";
 import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
@@ -175,23 +176,23 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
               vertical-align: -0.1em;
               display: inline;
           }
-            
+
             #nprogress {
               pointer-events: none;
             }
-            
+
             #nprogress .bar {
               background: ${theme.colors.purple[500]};
-            
+
               position: fixed;
               z-index: 1031;
               top: 0;
               left: 0;
-            
+
               width: 100%;
               height: 2px;
             }
-            
+
             /* Fancy blur effect */
             #nprogress .peg {
               display: block;
@@ -201,7 +202,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
               height: 100%;
               box-shadow: 0 0 10px ${theme.colors.purple[500]}, 0 0 5px ${theme.colors.purple[500]};
               opacity: 1.0;
-            
+
               -webkit-transform: rotate(3deg) translate(0px, -4px);
                   -ms-transform: rotate(3deg) translate(0px, -4px);
                       transform: rotate(3deg) translate(0px, -4px);
@@ -250,3 +251,7 @@ function ConsoleApp({ Component, pageProps }: AppPropsWithLayout) {
   );
 }
 export default ConsoleApp;
+
+// this is to ensure that no matter which page the user starts visiting the website, we save the install prompt
+// and then we can use it on whichever page the Install button is rendered
+saveInstallPrompt();
