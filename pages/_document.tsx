@@ -1,5 +1,6 @@
 import chakraTheme from "../theme";
 import { ColorModeScript } from "@chakra-ui/react";
+import { PWAMeta } from "components/PWA/PWAMeta";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 
 class ConsoleDocument extends Document {
@@ -14,6 +15,7 @@ class ConsoleDocument extends Document {
           <link rel="dns-prefetch" href="https://pl.thirdweb.com" />
           {/* prefetch domains we are likely to use */}
           <link rel="dns-prefetch" href="https://gateway.ipfscdn.io" />
+          <PWAMeta />
         </Head>
         <body id="tw-body-root">
           <ColorModeScript

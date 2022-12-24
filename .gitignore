@@ -67,7 +67,9 @@ public/sitemap*.xml
 
 .vscode
 
-
+# Next PWA
+public/workbox-*.js*
+public/sw*.js*
 
 # future_app dir
 future_app/

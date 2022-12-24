@@ -36,6 +36,13 @@ const securityHeaders = [
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const redirects = require("./redirects");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+// const runtimeCaching = require("next-pwa/cache");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withPWA = require("next-pwa")({
+  dest: "public",
+  dynamicStartUrlRedirect: true,
+});
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
@@ -113,7 +120,7 @@ const enhancedModuleExports = withPlausibleProxy({
   scriptName: "pl",
 })(
   withBundleAnalyzer(
-    withSentryConfig(moduleExports, sentryWebpackPluginOptions),
+    withPWA(withSentryConfig(moduleExports, sentryWebpackPluginOptions)),
   ),
 );
 // eslint-disable-next-line @typescript-eslint/no-var-requires
