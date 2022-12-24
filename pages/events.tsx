@@ -205,6 +205,6 @@ const EventsPage: ThirdwebNextPage = () => {
   );
 };
 
-EventsPage.pageId = PageId.SolanaHackathonLanding;
+EventsPage.pageId = PageId.Events;
 
 export default EventsPage;
