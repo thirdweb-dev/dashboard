@@ -1,0 +1,306 @@
+import { Box, Flex, Icon, Image, SimpleGrid } from "@chakra-ui/react";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
+import { Hero } from "components/product-pages/common/Hero";
+import { ProductCard } from "components/product-pages/common/ProductCard";
+import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
+import { ProductPage } from "components/product-pages/common/ProductPage";
+import { ProductSection } from "components/product-pages/common/ProductSection";
+import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
+import { PageId } from "page-id";
+import { FiArrowRight } from "react-icons/fi";
+import { Card, Heading, Link, LinkButton, Text } from "tw-components";
+import { ThirdwebNextPage } from "utils/types";
+
+const RightIcon = <Icon as={FiArrowRight} />;
+
+type NFTContractInfo = {
+  name: string;
+  description: string;
+  img: string;
+  link: string;
+};
+
+const exploreNFTContracts: NFTContractInfo[] = [
+  {
+    name: "Multiwrap",
+    description:
+      "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721.",
+    img: "https://gateway.ipfscdn.io/ipfs/QmQm3UytP51wWMMwmDYdDHH4vCdokPqt52bUtBQoLsx5qy/edition.png",
+    link: "/thirdweb.eth/Multiwrap?via=/explore",
+  },
+  {
+    name: "ERC4907",
+    description: "Rental NFT, ERC-721 User And Expires Extension",
+    img: "https://gateway.ipfscdn.io/ipfs/QmaKC631DSxDtjDcveAFVuGpSwM84icnXSGQgqrLpw3Lkh/yellow%E2%80%94360x360.png",
+    link: "/doubledev.eth/ERC4907?via=/explore",
+  },
+  {
+    name: "NFT Collection",
+    description: "Create collection of unique NFTs.",
+    img: "https://gateway.ipfscdn.io/ipfs/QmWARxASHf4UcWkwxTUDJxAXVDUG5STu5yBePJg35GzqjZ/nft-collection.png",
+    link: "/thirdweb.eth/TokenERC721?via=/explore",
+  },
+  {
+    name: "Edition",
+    description: "Create editions of ERC1155 tokens",
+    img: "https://gateway.ipfscdn.io/ipfs/QmQm3UytP51wWMMwmDYdDHH4vCdokPqt52bUtBQoLsx5qy/edition.png",
+    link: "/thirdweb.eth/TokenERC1155?via=/explore",
+  },
+  {
+    name: "ERC721CommunityStream",
+    description: "Equally distribute any token to community of NFT holders",
+    img: "https://gateway.ipfscdn.io/ipfs/QmbGjq5DY6gW1T7W7j3HEgYSAB2g4TnpzrNADTuniDXsqU/0.png",
+    link: "/flairsdk.eth/ERC721CommunityStream?via=/explore",
+  },
+  {
+    name: "Pack",
+    description:
+      "Pack multiple tokens into ERC1155 NFTs that act as randomized loot boxes",
+    img: "https://gateway.ipfscdn.io/ipfs/QmaLYhDh2oKxSjAS6iA434z8fvY43oAEug2AHHEMYMBU3K/pack.png",
+    link: "https://thirdweb.com/thirdweb.eth/Pack?via=/explore",
+  },
+];
+
+const GUIDES = [
+  {
+    title: "Release an NFT Drop with an Allowlist and Multiple Claim Phases",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-13.png",
+    link: "https://blog.thirdweb.com/guides/create-nft-drop-with-claim-phases/",
+  },
+  {
+    title: "Create an ERC721A NFT Drop with Signature-Based Minting",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-39.png",
+    link: "https://blog.thirdweb.com/guides/signature-drop/",
+  },
+  {
+    title: "Create an Early Access NFT with TypeScript and React",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-22.png",
+    link: "https://blog.thirdweb.com/guides/early-access-nft-with-typescript/",
+  },
+];
+
+const Minting: ThirdwebNextPage = () => {
+  return (
+    <ProductPage
+      seo={{
+        title: "Minting | Solutions",
+        description: "Create powerful NFT experiences at scale",
+        // @TODO
+        // openGraph: {
+        //   images: [
+        //     {
+        //       url: "https://thirdweb.com/thirdwebxshopify.png",
+        //       width: 1200,
+        //       height: 630,
+        //       alt: "thirdweb x shopify",
+        //     },
+        //   ],
+        // },
+      }}
+    >
+      <Hero
+        trackingCategory="minting_kit"
+        name="MintingKit"
+        title="Build and mint NFTs at scale easily"
+        description={
+          <>
+            An all-in-one toolkit to build and mint NFTs. <br />
+            Create powerful NFT experiences at scale.
+          </>
+        }
+        buttonText="Get started"
+        buttonLink="https://blog.thirdweb.com/tag/shopify/"
+        gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%)"
+        image={require("public/assets/solutions-pages/minting/hero.png")}
+      >
+        <SimpleGrid
+          justifyContent="flex-start"
+          w="100%"
+          columns={{ base: 1, md: 3 }}
+          gap={{ base: 12, md: 6 }}
+        >
+          <ProductCard
+            title="Owned by you"
+            icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+          >
+            All contracts are non-custodial and 100% owned by the creator{"'"}s
+            wallet address.
+          </ProductCard>
+          <ProductCard
+            title="Minting for all use cases"
+            icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
+          >
+            We support all types of minting mechanics, including: gas-optimized
+            NFT collection, signature-based minting, delayed reveal, randomized
+            lootbox, and more.
+          </ProductCard>
+          <ProductCard
+            title="Unlock powerful tooling"
+            icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
+          >
+            Get auto-generated SDKs and dashboards to build apps on top of your
+            NFT contracts and easily manage them.
+          </ProductCard>
+        </SimpleGrid>
+      </Hero>
+
+      <SolutionsTextImage
+        image={require("public/assets/solutions-pages/minting/mint-nft-placeholder.png")}
+        title="Create powerful NFT experiences at scale"
+      />
+
+      {/* build, launch, manage */}
+      <ProductSection>
+        <SimpleGrid
+          columns={{ base: 1, md: 3 }}
+          gap={{ base: 12, md: 6 }}
+          py={{ base: 12, md: 24 }}
+        >
+          <ProductLearnMoreCard
+            title="Build"
+            description={
+              <>
+                Build your own NFT and Marketplace contracts with{" "}
+                <Link
+                  color="white"
+                  href="https://portal.thirdweb.com/contractkit"
+                  isExternal
+                >
+                  ContractKit
+                </Link>{" "}
+                or discover and deploy in 1-click via{" "}
+                <Link
+                  color="white"
+                  href="https://thirdweb.com/explore"
+                  isExternal
+                >
+                  Explore
+                </Link>
+                {". "}
+                Use our powerful SDKs to easily integrate NFT checkout into your
+                app for for easy fiat-on ramp.
+              </>
+            }
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+            href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
+          />
+          <ProductLearnMoreCard
+            title="Launch"
+            description="Deploy your NFT & Marketplace contracts on-chain with a simple contract deployment workflow designed for team collaboration"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+            href="https://portal.thirdweb.com/deploy"
+          />
+          <ProductLearnMoreCard
+            title="Manage"
+            description="All your on-chain analytics in one place. Monitor, configure, and interact with your NFT contracts directly from a user interface."
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
+            href="https://portal.thirdweb.com/dashboard"
+          />
+        </SimpleGrid>
+      </ProductSection>
+
+      {/* Explore NFT contracts */}
+      <ProductSection py={{ base: 12, md: 24 }}>
+        <Heading size="title.2xl" mb={4} as="h2">
+          Get started with our NFT contracts
+        </Heading>
+
+        <Flex
+          justify="space-between"
+          alignItems={{ base: "flex-start", md: "center" }}
+          mb={8}
+          gap={6}
+          direction={{ base: "column", md: "row" }}
+        >
+          <Text fontSize="large">
+            Go to{" "}
+            <Link color="white" href="https://thirdweb.com/explore" isExternal>
+              Explore
+            </Link>{" "}
+            to deploy NFT contracts in 1-click.
+          </Text>
+
+          <LinkButton
+            flexShrink={0}
+            size="sm"
+            isExternal
+            rightIcon={RightIcon}
+            variant="link"
+            href={`/explore/nft`}
+            fontWeight={500}
+            color="blue.300"
+            fontSize={"medium"}
+            _hover={{
+              color: "blue.500",
+            }}
+          >
+            View all NFT Contracts
+          </LinkButton>
+        </Flex>
+
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
+          {exploreNFTContracts.map((nftContractInfo) => {
+            return (
+              <article key={nftContractInfo.name}>
+                <Link
+                  href={nftContractInfo.link}
+                  isExternal
+                  textDecoration="none !important"
+                >
+                  <Card
+                    h="100%"
+                    bg="rgba(255, 255, 255, 0.05)"
+                    border="1px solid rgba(255, 255, 255, 0.05)"
+                    transition="border 200ms ease"
+                    _hover={{
+                      borderColor: "white",
+                    }}
+                  >
+                    <Image
+                      src={nftContractInfo.img}
+                      alt=""
+                      width={8}
+                      mb={4}
+                      borderRadius="full"
+                    />
+                    <Heading size="title.sm" mb={2}>
+                      {nftContractInfo.name}
+                    </Heading>
+                    <Text size="body.lg">{nftContractInfo.description}</Text>
+                  </Card>
+                </Link>
+              </article>
+            );
+          })}
+        </SimpleGrid>
+      </ProductSection>
+
+      {/* Guides */}
+      <GuidesShowcase
+        title="Start building NFT experiences"
+        description="Check out our guides to start building NFT experiences with thirdweb."
+        solution="NFT-Drop"
+        guides={GUIDES}
+      />
+
+      <Box
+        h="1px"
+        bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
+        opacity="0.8"
+      />
+      <Box
+        h="1px"
+        bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
+        opacity="0.8"
+      />
+      {/* <NewsletterSection /> */}
+    </ProductPage>
+  );
+};
+
+Minting.pageId = PageId.SolutionsCommerce;
+
+export default Minting;
