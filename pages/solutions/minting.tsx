@@ -112,7 +112,7 @@ const Minting: ThirdwebNextPage = () => {
           </>
         }
         buttonText="Get started"
-        buttonLink="https://blog.thirdweb.com/tag/shopify/"
+        buttonLink="https://blog.thirdweb.com/tag/nft-drop/"
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
       >
