@@ -58,7 +58,6 @@ export const StatsSection: React.FC = () => {
       position="relative"
       maxW={"container.page"}
       py={{ base: 12, md: 24 }}
-      px={8}
     >
       <SimpleGrid columns={{ lg: 3, base: 1 }} gap={6}>
         {stats.map((stat) => (

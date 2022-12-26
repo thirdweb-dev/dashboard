@@ -6,6 +6,7 @@ import { DashboardFeaturesSection } from "components/homepage/sections/Dashboard
 import { ExamplesSectionHomepage } from "components/homepage/sections/ExamplesSectionHomePage";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
+import { KeyFeatures } from "components/homepage/sections/KeyFeatures/KeyFeatures";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { NetworksSection } from "components/homepage/sections/NextworksSection";
 import { PricingSection } from "components/homepage/sections/PricingSection";
@@ -39,6 +40,7 @@ const HomePage: ThirdwebNextPage = () => {
           <HeroSection />
           <PartnerCarousel />
           <StatsSection />
+          <KeyFeatures />
           <ContractsSection />
           <Suspense>
             <HomepageSection id="sdks" bottomPattern middleGradient>

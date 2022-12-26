@@ -1,4 +1,4 @@
-import { Box, BoxProps, Container } from "@chakra-ui/react";
+import { Box, BoxProps, Container, ResponsiveValue } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -8,6 +8,7 @@ interface IHomepageSection extends BoxProps {
   middleGradient?: true;
   id?: string;
   bottomPattern?: true;
+  gradientOpacity?: ResponsiveValue<number>;
 }
 export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   children,
@@ -16,6 +17,7 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   middleGradient,
   id,
   bottomPattern,
+  gradientOpacity,
   ...restBoxProps
 }) => {
   return (
@@ -29,9 +31,15 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
     >
       <Container zIndex={1} position="relative" maxW="container.page" id={id}>
         {/* aurora effect */}
-        {topGradient && <AuroraBg orientation="top" />}
-        {middleGradient && <AuroraBg orientation="middle" />}
-        {bottomGradient && <AuroraBg orientation="bottom" />}
+        {topGradient && (
+          <AuroraBg orientation="top" gradientOpacity={gradientOpacity} />
+        )}
+        {middleGradient && (
+          <AuroraBg orientation="middle" gradientOpacity={gradientOpacity} />
+        )}
+        {bottomGradient && (
+          <AuroraBg orientation="bottom" gradientOpacity={gradientOpacity} />
+        )}
 
         {children}
 
@@ -106,12 +114,16 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
 
 interface AuroraBgProps {
   orientation: "top" | "bottom" | "middle";
+  gradientOpacity?: ResponsiveValue<number>;
 }
-const AuroraBg: React.FC<AuroraBgProps> = ({ orientation }) => {
+const AuroraBg: React.FC<AuroraBgProps> = ({
+  orientation,
+  gradientOpacity,
+}) => {
   return (
     <ChakraNextImage
       aria-hidden
-      opacity={1}
+      opacity={gradientOpacity || 1}
       zIndex={-1}
       transition="opacity 0.1s ease"
       willChange="opacity"
