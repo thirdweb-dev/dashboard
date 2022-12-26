@@ -1,6 +1,6 @@
+import BuildSVG from "./icons/Build.svg";
 import LaunchSVG from "./icons/Launch.svg";
 import ManangeSVG from "./icons/Manage.svg";
-import BuildSVG from "./icons/build.svg";
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { Heading, Text } from "tw-components";
