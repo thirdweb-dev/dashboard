@@ -1,6 +1,8 @@
+// Images
 import BuildSVG from "./icons/Build.svg";
 import LaunchSVG from "./icons/Launch.svg";
 import ManangeSVG from "./icons/Manage.svg";
+// ---
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { Heading, Text } from "tw-components";
@@ -14,21 +16,21 @@ interface FeatureCardProps {
 
 const features: FeatureCardProps[] = [
   {
-    title: "01 Build",
+    title: "01 Build.",
     gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
     description:
       "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
     img: BuildSVG.src,
   },
   {
-    title: "02 Launch",
+    title: "02 Launch.",
     gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
     description:
       "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
     img: LaunchSVG.src,
   },
   {
-    title: "03 Manage",
+    title: "03 Manage.",
     gradient: "linear-gradient(90deg, #DF85CD, #5F63E3)",
     description:
       "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
