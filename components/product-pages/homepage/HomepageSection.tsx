@@ -10,6 +10,7 @@ interface IHomepageSection extends BoxProps {
   bottomPattern?: true;
   gradientOpacity?: ResponsiveValue<number>;
 }
+
 export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   children,
   bottomGradient,
@@ -138,7 +139,7 @@ const AuroraBg: React.FC<AuroraBgProps> = ({
       objectFit="cover"
       alt=""
       transform="translate(-50%, -50%)"
-      src={require("./aurora.png")}
+      src={require("./aurora2.png")}
       priority
       sizes="(max-width: 768px) 200vw,
               (max-width: 1200px) 120vw,

@@ -29,7 +29,7 @@ export const ContractsDescriptorItem: React.FC<
  */
 export const ContractsSection = () => {
   return (
-    <HomepageSection id="contracts" middleGradient>
+    <HomepageSection id="contracts" middleGradient gradientOpacity={0.5}>
       <Flex
         flexDir="column"
         gap={{ base: 6, md: 8 }}

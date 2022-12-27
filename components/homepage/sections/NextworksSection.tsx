@@ -8,7 +8,7 @@ import { Heading } from "tw-components";
  */
 export const NetworksSection = () => {
   return (
-    <HomepageSection id="networks" middleGradient>
+    <HomepageSection id="networks" middleGradient gradientOpacity={0.4}>
       <Flex
         flexDir="column"
         py={{ base: 12, lg: 24 }}
@@ -27,6 +27,7 @@ export const NetworksSection = () => {
         <Heading size="subtitle.lg" as="h3" textAlign="center">
           Continuously adding support for the most in-demand chains.
         </Heading>
+
         <MultiChainSVG />
       </Flex>
     </HomepageSection>

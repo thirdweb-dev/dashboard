@@ -12,7 +12,7 @@ const sections = [
       "Bootstrap your contracts or web3 powered apps with one command.",
     link: "https://portal.thirdweb.com/create",
     img: require("/public/assets/landingpage/cli-create.png"),
-    gradient: "linear-gradient(90.78deg, #486AC2 5.13%, #E41CA7 44.51%)",
+    gradient: "linear-gradient(90deg, #A79AF9, #7AA8D2)",
   },
   {
     title: "Release",
@@ -20,14 +20,14 @@ const sections = [
       "Publish contracts to the on-chain registry to enable one-click deployment for everyone.",
     link: "https://portal.thirdweb.com/release",
     img: require("/public/assets/landingpage/cli-release.png"),
-    gradient: "linear-gradient(90.12deg, #6941DA 6.29%, #FFE768 47.27%)",
+    gradient: "linear-gradient(90deg, #F5BD90, #D67FDC)",
   },
   {
     title: "Deploy",
     description: "Deploy any smart contract with a single command.",
     link: "https://portal.thirdweb.com/deploy",
     img: require("/public/assets/landingpage/cli-deploy.png"),
-    gradient: "linear-gradient(128deg, #410AB6 -9.03%, #5CFFE1 98.25%)",
+    gradient: "linear-gradient(90deg, #CB79BB, #5F63E3)",
   },
 ] as const;
 
@@ -39,6 +39,7 @@ export const CLISection = () => {
     <HomepageSection
       id="developers"
       py={{ base: 24, md: 48 }}
+      gradientOpacity={0.3}
       topGradient
       middleGradient
       bottomGradient
@@ -66,8 +67,9 @@ export const CLISection = () => {
                   <Flex direction="column" gap={8}>
                     <Heading
                       bgClip="text"
+                      fontWeight={700}
                       bgImage={activeSection.gradient}
-                      size="display.sm"
+                      size="display.md"
                       mr="auto"
                       pr="100px"
                     >
@@ -105,6 +107,8 @@ export const CLISection = () => {
                     w="100%"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     loading="lazy"
+                    borderRadius="18px"
+                    boxShadow="0 0 40px #05030a"
                   />
                 </SimpleGrid>
                 {idx !== sections.length - 1 && (

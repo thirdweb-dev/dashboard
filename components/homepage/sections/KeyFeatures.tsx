@@ -1,8 +1,3 @@
-// Images
-import BuildSVG from "./icons/Build.svg";
-import LaunchSVG from "./icons/Launch.svg";
-import ManangeSVG from "./icons/Manage.svg";
-// ---
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { Heading, Text } from "tw-components";
@@ -20,21 +15,21 @@ const features: FeatureCardProps[] = [
     gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
     description:
       "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
-    img: BuildSVG.src,
+    img: "/assets/landingpage/icons/Build.svg",
   },
   {
     title: "02 Launch.",
     gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
     description:
       "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
-    img: LaunchSVG.src,
+    img: "/assets/landingpage/icons/Launch.svg",
   },
   {
     title: "03 Manage.",
     gradient: "linear-gradient(90deg, #DF85CD, #5F63E3)",
     description:
       "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
-    img: ManangeSVG.src,
+    img: "/assets/landingpage/icons/Manage.svg",
   },
 ];
 
@@ -48,12 +43,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     <Box
       zIndex={10}
       as="section"
-      background="rgba(0,0,0,0.7)"
+      background="rgba(0,0,0,0.6)"
       px={10}
       py={12}
       borderRadius="8px"
     >
-      <Image src={img} alt="" width={12} mb={12} />
+      <Image src={img} alt="" width={10} mb={12} />
       <Heading
         as="h3"
         fontSize="24px"

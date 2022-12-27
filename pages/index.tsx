@@ -3,14 +3,15 @@ import { HomepageFooter } from "components/footer/Footer";
 import { CLISection } from "components/homepage/sections/CLISection";
 import { ContractsSection } from "components/homepage/sections/ContractsSection";
 import { DashboardFeaturesSection } from "components/homepage/sections/DashboardFeaturesSection";
-import { ExamplesSectionHomepage } from "components/homepage/sections/ExamplesSectionHomePage";
+// import { ExamplesSectionHomepage } from "components/homepage/sections/ExamplesSectionHomePage";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
-import { KeyFeatures } from "components/homepage/sections/KeyFeatures/KeyFeatures";
+import { KeyFeatures } from "components/homepage/sections/KeyFeatures";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { NetworksSection } from "components/homepage/sections/NextworksSection";
 import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
+import { SolutionsSection } from "components/homepage/sections/Solutions";
 import { StatsSection } from "components/homepage/sections/StatsSection";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -36,21 +37,27 @@ const HomePage: ThirdwebNextPage = () => {
       >
         <HomepageTopNav />
         <Box mt="-80px" pt="100px" overflowX="hidden">
-          {/* sections */}
           <HeroSection />
           <PartnerCarousel />
           <StatsSection />
           <KeyFeatures />
           <ContractsSection />
           <Suspense>
-            <HomepageSection id="sdks" bottomPattern middleGradient>
+            <HomepageSection
+              id="sdks"
+              bottomPattern
+              middleGradient
+              gradientOpacity={0.3}
+              zIndex={10}
+            >
               <SDKSection />
             </HomepageSection>
             <CLISection />
             <DashboardFeaturesSection />
             <NetworksSection />
             <PricingSection />
-            <ExamplesSectionHomepage />
+            <SolutionsSection />
+            {/* <ExamplesSectionHomepage /> */}
             <GetStartedSection />
             <NewsletterSection />
             <HomepageFooter />
