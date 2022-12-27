@@ -33,6 +33,8 @@ const Stat: React.FC<StatBoxProps> = ({ title, description, gradient }) => {
       border="4px solid transparent"
       borderRadius="8px"
       padding={6}
+      pt={{ base: 6, md: 10 }}
+      alignItems={"center"}
       background={`linear-gradient(black, black) padding-box, ${gradient} border-box`}
     >
       <Heading
@@ -59,7 +61,7 @@ export const StatsSection: React.FC = () => {
       maxW={"container.page"}
       py={{ base: 12, md: 24 }}
     >
-      <SimpleGrid columns={{ lg: 3, base: 1 }} gap={6}>
+      <SimpleGrid columns={{ lg: 3, base: 1 }} gap={6} px={{ base: 4, md: 0 }}>
         {stats.map((stat) => (
           <Stat key={stat.title} {...stat} />
         ))}
