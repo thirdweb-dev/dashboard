@@ -108,11 +108,11 @@ const Minting: ThirdwebNextPage = () => {
         description={
           <>
             An all-in-one toolkit to build and mint NFTs. <br />
-            Create powerful NFT experiences at scale.
+            Create powerful NFT experiences.
           </>
         }
         buttonText="Get started"
-        buttonLink="https://blog.thirdweb.com/tag/nft-drop/"
+        buttonLink="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
       >
@@ -126,16 +126,71 @@ const Minting: ThirdwebNextPage = () => {
             title="Owned by you"
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
-            All contracts are non-custodial and 100% owned by the creator{"'"}s
-            wallet address.
+            All contracts are non-custodial and 100% owned by your wallet
           </ProductCard>
           <ProductCard
             title="Minting for all use cases"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
-            We support all types of minting mechanics, including: gas-optimized
-            NFT collection, signature-based minting, delayed reveal, randomized
-            lootbox, and more.
+            <span>
+              We support all types of configurable minting mechanics for{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
+                isExternal
+              >
+                EVM Contracts
+              </Link>{" "}
+              and{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/solana/nft-drop"
+                isExternal
+              >
+                Solana programs
+              </Link>
+              , including:{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/signature-drop"
+                isExternal
+              >
+                signature-based minting
+              </Link>
+              ,{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/nft-drop"
+                isExternal
+              >
+                releasing a collection of unique NFTs
+              </Link>
+              ,{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/multiwrap"
+                isExternal
+              >
+                wrap tokens into new wrapped NFT
+              </Link>
+              ,{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/pack"
+                isExternal
+              >
+                randomized lootbox
+              </Link>
+              {},{" "}
+              <Link
+                color="white"
+                href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
+                isExternal
+              >
+                and more
+              </Link>
+              .
+            </span>
           </ProductCard>
           <ProductCard
             title="Unlock powerful tooling"
@@ -149,7 +204,7 @@ const Minting: ThirdwebNextPage = () => {
 
       <SolutionsTextImage
         image={require("public/assets/solutions-pages/minting/mint-nft-placeholder.png")}
-        title="Create powerful NFT experiences at scale"
+        title="Focus on creating powerful NFT experiences and let us handle the complexity"
       />
 
       {/* build, launch, manage */}
@@ -181,7 +236,7 @@ const Minting: ThirdwebNextPage = () => {
                 </Link>
                 {". "}
                 Use our powerful SDKs to easily integrate NFT checkout into your
-                app for for easy fiat-on ramp.
+                app for easy fiat-on ramp.
               </>
             }
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
@@ -220,7 +275,7 @@ const Minting: ThirdwebNextPage = () => {
             <Link color="white" href="https://thirdweb.com/explore" isExternal>
               Explore
             </Link>{" "}
-            to deploy NFT contracts in 1-click.
+            to deploy in 1-click.
           </Text>
 
           <LinkButton
