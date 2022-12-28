@@ -259,44 +259,19 @@ const Minting: ThirdwebNextPage = () => {
 
       {/* Explore NFT contracts */}
       <ProductSection py={{ base: 12, md: 24 }}>
-        <Heading size="title.2xl" mb={4} as="h2">
+        <Heading size="title.2xl" mb={4} as="h2" textAlign="center">
           Get started with our NFT contracts
         </Heading>
 
-        <Flex
-          justify="space-between"
-          alignItems={{ base: "flex-start", md: "center" }}
-          mb={8}
-          gap={6}
-          direction={{ base: "column", md: "row" }}
-        >
-          <Text fontSize="large">
-            Go to{" "}
-            <Link color="white" href="https://thirdweb.com/explore" isExternal>
-              Explore
-            </Link>{" "}
-            to deploy in 1-click.
-          </Text>
+        <Text fontSize="large" textAlign="center" mb={12}>
+          Go to{" "}
+          <Link color="white" href="https://thirdweb.com/explore" isExternal>
+            Explore
+          </Link>{" "}
+          to deploy in 1-click.
+        </Text>
 
-          <LinkButton
-            flexShrink={0}
-            size="sm"
-            isExternal
-            rightIcon={RightIcon}
-            variant="link"
-            href={`/explore/nft`}
-            fontWeight={500}
-            color="blue.300"
-            fontSize={"medium"}
-            _hover={{
-              color: "blue.500",
-            }}
-          >
-            View all NFT Contracts
-          </LinkButton>
-        </Flex>
-
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} mb={12}>
           {exploreNFTContracts.map((nftContractInfo) => {
             return (
               <article key={nftContractInfo.name}>
@@ -331,6 +306,21 @@ const Minting: ThirdwebNextPage = () => {
             );
           })}
         </SimpleGrid>
+
+        <Flex justify="center" mb={8} gap={6}>
+          <LinkButton
+            flexShrink={0}
+            size="sm"
+            isExternal
+            rightIcon={RightIcon}
+            variant="link"
+            href={`/explore/nft`}
+            fontWeight={500}
+            fontSize="20px"
+          >
+            View all NFT Contracts
+          </LinkButton>
+        </Flex>
       </ProductSection>
 
       {/* Guides */}
