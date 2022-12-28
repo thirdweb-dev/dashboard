@@ -17,7 +17,7 @@ const solutions: SolutionCardProps[] = [
     title: "GamingKit",
     gradient: "linear-gradient(90deg, #A79AF9, #7AA8D2)",
     description:
-      "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
+      "The all-in-one platform for developers to easily bring their games onto web3. Build a stronger community around your game by giving players ownership of in-game assets.",
     img: "/assets/landingpage/GamingKit.png",
     partnerIcon: "/assets/landingpage/icons/Coinbase.svg",
     arrowIcon: "/assets/landingpage/icons/arrow-blue.svg",
@@ -27,7 +27,7 @@ const solutions: SolutionCardProps[] = [
     title: "CommerceKit",
     gradient: "linear-gradient(90deg, #E8B3E0, #A45B99)",
     description:
-      "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
+      "Add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more.",
     img: "/assets/landingpage/CommerceKit.png",
     partnerIcon: "/assets/landingpage/icons/Shopify.svg",
     arrowIcon: "/assets/landingpage/icons/arrow-pink.svg",
@@ -45,8 +45,9 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
   href,
 }) => {
   return (
-    <Box
+    <Flex
       overflow="hidden"
+      direction="column"
       zIndex={10}
       as="section"
       background="rgba(0,0,0,0.7)"
@@ -59,19 +60,28 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
         height={{ lg: 250, base: 180 }}
         objectFit="cover"
       />
-      <Box p={{ base: 6, lg: 12 }} py={{ base: 10 }}>
-        <Heading
-          as="h3"
-          fontSize="24px"
-          mb={6}
-          bgGradient={gradient}
-          bgClip="text"
-        >
-          {title}
-        </Heading>
-        <Text size="body.lg" lineHeight={1.7}>
-          {description}
-        </Text>
+      <Flex
+        direction="column"
+        justifyContent="space-between"
+        p={{ base: 6, lg: 12 }}
+        py={{ base: 10 }}
+        flexGrow={1}
+      >
+        <Box>
+          <Heading
+            as="h3"
+            fontSize="24px"
+            mb={6}
+            bgGradient={gradient}
+            bgClip="text"
+          >
+            {title}
+          </Heading>
+          <Text size="body.lg" lineHeight={1.7}>
+            {description}
+          </Text>
+        </Box>
+
         <Flex alignItems="center" gap={2} mt={10}>
           <Text lineHeight={1}>In partnership with</Text>
           <Image src={partnerIcon} alt="" width={100} />
@@ -79,8 +89,8 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
             <Image src={arrowIcon} alt="" width={8} />
           </Link>
         </Flex>
-      </Box>
-    </Box>
+      </Flex>
+    </Flex>
   );
 };
 

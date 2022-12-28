@@ -1,10 +1,11 @@
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { Heading, Text } from "tw-components";
+import { ReactNode } from "react";
+import { Heading, Link, Text } from "tw-components";
 
 interface FeatureCardProps {
   title: string;
-  description: string;
+  description: ReactNode;
   img: string;
   gradient: string;
 }
@@ -13,22 +14,70 @@ const features: FeatureCardProps[] = [
   {
     title: "01 Build.",
     gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
-    description:
-      "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
+    description: (
+      <>
+        Integrate web3 into your apps and games easily with our{" "}
+        <Link color="white" isExternal href="https://portal.thirdweb.com/sdk">
+          SDKs
+        </Link>
+        . Explore{" "}
+        <Link color="white" isExternal href="https://thirdweb.com/explore">
+          ready-to-deploy contracts
+        </Link>{" "}
+        or build your own contract with our{" "}
+        <Link
+          color="white"
+          isExternal
+          href="https://portal.thirdweb.com/contractkit"
+        >
+          ContractKit
+        </Link>
+        .
+      </>
+    ),
     img: "/assets/landingpage/icons/Build.svg",
   },
+
   {
     title: "02 Launch.",
     gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
-    description:
-      "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
+    description: (
+      <>
+        Ship your contracts on-chain with{" "}
+        <Link
+          color="white"
+          isExternal
+          href="https://portal.thirdweb.com/deploy"
+        >
+          Deploy
+        </Link>
+        , a simple deployment workflow for teams. Publish contracts with{" "}
+        <Link
+          color="white"
+          isExternal
+          href="https://portal.thirdweb.com/release"
+        >
+          Release
+        </Link>{" "}
+        and be discovered by global web3 devs.
+      </>
+    ),
     img: "/assets/landingpage/icons/Launch.svg",
   },
+
   {
     title: "03 Manage.",
     gradient: "linear-gradient(90deg, #DF85CD, #5F63E3)",
-    description:
-      "Integrate web3 into your apps and games easily with our SDKs. Explore ready-to-deploy contracts or build your own contract with our ContractKit.",
+    description: (
+      <>
+        Monitor, interact and configure your contracts directly from the{" "}
+        <Link color="white" isExternal href="https://thirdweb.com/dashboard">
+          Dashboard
+        </Link>
+        . Invite your team to collaborate and control their access with
+        permissions.
+      </>
+    ),
     img: "/assets/landingpage/icons/Manage.svg",
   },
 ];

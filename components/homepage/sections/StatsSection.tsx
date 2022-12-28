@@ -32,8 +32,8 @@ const Stat: React.FC<StatBoxProps> = ({ title, description, gradient }) => {
       textAlign="center"
       border="4px solid transparent"
       borderRadius="8px"
-      padding={6}
-      pt={{ base: 6, md: 10 }}
+      padding={4}
+      pt={{ base: 4, md: 6 }}
       alignItems={"center"}
       background={`linear-gradient(black, black) padding-box, ${gradient} border-box`}
     >
@@ -42,7 +42,7 @@ const Stat: React.FC<StatBoxProps> = ({ title, description, gradient }) => {
         bgGradient={gradient}
         bgClip="text"
         letterSpacing="-0.05em"
-        fontSize={{ md: "72px", base: "48px" }}
+        fontSize="36px"
         mb={2}
       >
         {title}
