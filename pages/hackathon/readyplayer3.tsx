@@ -1,9 +1,7 @@
-import { Box, DarkMode, Divider, Flex, Icon } from "@chakra-ui/react";
-import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
+import { Box, DarkMode, Divider, Flex, Image } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { Judges } from "components/hackathon/common/Judges";
 import { Mentors } from "components/hackathon/common/Mentors";
-import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
@@ -18,7 +16,7 @@ import { PageId } from "page-id";
 import { Heading, LinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const Timer = dynamic(() => import("components/hackathon/common/Timer"), {
+const Timer = dynamic(() => import("components/hackathon/gaming/Timer"), {
   ssr: false,
 });
 
@@ -29,22 +27,6 @@ const metadata = {
     "Unleash your full potential as a game dev and build the future of gaming with thirdweb's 'Ready Player 3' Hackathon. Supported by Coinbase and more.",
 };
 
-const prizes = [
-  {
-    title: "1st Place",
-    prize: "$5,000",
-  },
-  {
-    title: "2nd Place",
-    prize: "$3,000",
-  },
-  {
-    title: "3rd Place",
-    prize: "$2,000",
-  },
-];
-
-// TODO: need better logos
 const sponsors = [
   {
     name: "Coinbase",
@@ -152,119 +134,102 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
       >
         <HomepageTopNav />
 
-        <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
-          <HomepageSection id="header" topGradient>
-            <Flex
-              flexDir="column"
-              align="center"
-              gap={4}
-              mt={{ base: 12, md: 24 }}
-            >
-              <Flex flexDir="column" gap={2}>
-                <Heading size="title.xl" textAlign="center">
-                  BUILD THE FUTURE OF GAMING
-                </Heading>
-                <Heading
-                  bgImage="linear-gradient(128deg, #9945FF -9.03%, #14EE92 98.25%)"
-                  bgClip="text"
-                  size="display.lg"
-                  textAlign="center"
-                >
-                  $100,000 in prizes
-                </Heading>
+        <Flex
+          w="100vw"
+          h="90vh"
+          objectPosition="center"
+          bgRepeat="no-repeat"
+          bgSize="cover !important"
+          bg="url(/assets/hackathon/readyplayer3-hero.png)"
+        >
+          <Timer date="2023-01-16T22:00:00" ml="15%" mt="32%" showSec={false} />
+          <LinkButton
+            href="https://readyplayer3.devpost.com/"
+            onClick={() =>
+              trackEvent({
+                category: "readyplayer3",
+                action: "click",
+                label: "register-now",
+              })
+            }
+            h="68px"
+            w={{ base: "100%", md: 96 }}
+            fontSize="20px"
+            color="black"
+            flexShrink={0}
+            background="rgba(184, 252, 98, 1)"
+            _hover={{
+              background: "rgba(184, 252, 98, 0.9) !important",
+            }}
+            isExternal
+            noIcon
+            mt={4}
+            pos="absolute"
+            top="10%"
+            left="38%"
+          >
+            Register Now
+          </LinkButton>
+        </Flex>
 
-                <LinkButton
-                  href="https://thirdweb.typeform.com/to/jta0ye4M"
-                  onClick={() =>
-                    trackEvent({
-                      category: "readyplayer3",
-                      action: "click",
-                      label: "register-now",
-                    })
-                  }
-                  h="68px"
-                  w={{ base: "100%", md: 96 }}
-                  fontSize="20px"
-                  leftIcon={<Icon as={ImMagicWand} />}
-                  color="black"
-                  flexShrink={0}
-                  background="rgba(255,255,255,1)"
-                  _hover={{
-                    background: "rgba(255,255,255,0.9)!important",
-                  }}
-                  isExternal
-                  noIcon
-                  mx="auto"
-                  mt={4}
-                >
-                  Register Now
-                </LinkButton>
+        <HomepageSection>
+          <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
+        </HomepageSection>
+        <Divider mt={16} />
 
-                <Heading size="title.xl" textAlign="center" mt={6}>
-                  Jan 16th - Jan 31st
-                </Heading>
-              </Flex>
+        <HomepageSection mt={12}>
+          <Flex flexDir="column">
+            <Heading size="title.2xl" textAlign="center">
+              Prizes
+            </Heading>
+            <Image
+              src="/assets/hackathon/prizes.png"
+              alt="prizes"
+              mt={8}
+              mx="auto"
+              maxW="100%"
+              h={{ base: "auto", md: "400px" }}
+              w={{ base: "100%", md: "auto" }}
+            />
+          </Flex>
+        </HomepageSection>
 
-              <Timer date="2023-01-16T22:00:00" />
-            </Flex>
-          </HomepageSection>
+        <Judges />
+        <Mentors />
+        <Box
+          w="full"
+          h={{ base: "200px", md: "250px" }}
+          background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+          filter="blur(150px)"
+          transform="matrix(-1, 0, 0, 1, 0, 0)"
+          mt="-150px"
+          zIndex={0}
+        />
 
-          <HomepageSection>
-            <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
-          </HomepageSection>
-          <Divider mt={16} />
+        <HomepageSection>
+          <ScheduleSection scheduleItems={scheduleItems} month="jan" />
+        </HomepageSection>
 
-          <HomepageSection mt={12}>
-            <PrizeSection prizes={prizes} />
-          </HomepageSection>
+        <HomepageSection mt={{ base: 12, md: 24 }}>
+          <Resources />
+        </HomepageSection>
 
-          <Judges />
-          <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(100px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-            zIndex={0}
-          />
+        <Box
+          w="full"
+          h={{ base: "200px", md: "250px" }}
+          background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+          filter="blur(150px)"
+          transform="matrix(-1, 0, 0, 1, 0, 0)"
+          mt="-150px"
+          zIndex={0}
+        />
 
-          <Mentors />
-          <HomepageSection>
-            <ScheduleSection scheduleItems={scheduleItems} month="jan" />
-          </HomepageSection>
+        <HomepageSection>
+          <FaqSection />
+        </HomepageSection>
 
-          <HomepageSection mt={{ base: 12, md: 24 }}>
-            <Resources />
-          </HomepageSection>
-
-          <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(100px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-          />
-
-          <HomepageSection>
-            <FaqSection />
-          </HomepageSection>
-
-          <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(20, 253, 169, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(100px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-          />
-          {/* <HomepageSection my={{ base: 12, md: 24 }}>
-            <SubmissionRequirements />
-          </HomepageSection> */}
-          <CTAFooter />
-          <HomepageFooter />
-        </Box>
+        <CTAFooter />
+        <HomepageFooter />
       </Flex>
     </DarkMode>
   );

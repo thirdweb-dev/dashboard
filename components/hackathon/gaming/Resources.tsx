@@ -7,40 +7,34 @@ export const Resources: FC = () => {
     {
       name: "GamingKit",
       link: "https://portal.thirdweb.com/gamingkit",
-      image: "/thirdweb.png",
+      image: "/assets/hackathon/resources/readyplayer3/gamingkit.png",
     },
     {
-      name: "GamingKit QuickStart",
-      link: "https://portal.thirdweb.com/gamingkit/quickstart",
-      image: "/thirdweb.png",
+      name: "GamingKit Guides & Blog",
+      link: "https://blog.thirdweb.com/tag/gaming",
+      image: "/assets/hackathon/resources/readyplayer3/gamingkit-blogs.png",
     },
     {
-      name: "Gaming Guides/Blog",
-      link: "https://blog.thirdweb.com/tag/gaming/",
-      image: "/thirdweb.png",
-    },
-    {
-      name: "Gaming Guides/Blog",
-      link: "https://blog.thirdweb.com/tag/gaming/",
-      image: "/thirdweb.png",
+      name: "GamingKit Quickstart",
+      link: "/",
+      image: "/assets/hackathon/resources/readyplayer3/quickstart.png",
     },
   ];
 
   return (
     <Flex flexDir="column">
-      <Heading>Resources</Heading>
-      <Grid templateColumns="repeat(4, 1fr)" gap={6} mt={4}>
+      <Heading textAlign="center">Resources</Heading>
+      <Flex gap={6} mt={4} align="center" justify="center">
         {resources.map(({ name, link, image }, i) => (
-          <TrackedLink
-            href={link}
-            isExternal
-            category="readyplayer3"
-            label={name}
-            key={i}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Flex flexDir="column" rounded="lg" bg="whiteAlpha.100" p={4}>
+          <Flex flexDir="column" rounded="lg" bg="whiteAlpha.100" p={4} key={i}>
+            <TrackedLink
+              href={link}
+              isExternal
+              category="readyplayer3"
+              label={name}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image
                 src={image}
                 alt={name}
@@ -51,10 +45,10 @@ export const Resources: FC = () => {
               <Text mt={2} color="white" ml={2}>
                 {name}
               </Text>
-            </Flex>
-          </TrackedLink>
+            </TrackedLink>
+          </Flex>
         ))}
-      </Grid>
+      </Flex>
     </Flex>
   );
 };

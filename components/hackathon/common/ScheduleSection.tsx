@@ -1,5 +1,5 @@
 import { Flex, Grid, LinkBox } from "@chakra-ui/react";
-import { Badge, Heading, Text, TrackedLink } from "tw-components";
+import { Badge, Button, Heading, Text, TrackedLink } from "tw-components";
 
 interface ScheduleItemDetail {
   title: string;
@@ -29,7 +29,24 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
       px={{ base: 0, md: 20 }}
       alignItems="center"
     >
-      <Heading size="title.2xl">Schedule</Heading>
+      <Flex align="center" justify="space-between" w="full">
+        <Heading size="title.2xl">Schedule</Heading>
+        <Button
+          _hover={{
+            bg: "#B7FD18",
+            opacity: 0.8,
+          }}
+          _active={{
+            bg: "#B7FD18",
+            opacity: 0.9,
+          }}
+          bg="#B7FD18"
+          color="black"
+        >
+          Add to calendar
+        </Button>
+      </Flex>
+
       <Grid
         gap={6}
         templateColumns={{

@@ -30,7 +30,7 @@ export const Mentors: React.FC = () => {
   ];
 
   return (
-    <VStack mb={20} spacing={8}>
+    <VStack mt={20} spacing={8}>
       <Heading size="title.2xl">Mentors</Heading>
       <SimpleGrid
         columns={{ base: 1, md: 4 }}
@@ -38,7 +38,13 @@ export const Mentors: React.FC = () => {
         justifyContent="space-evenly"
       >
         {mentors.map(({ name, image, company, twitter }) => (
-          <Flex key={name} flexDir="column" gap={2} alignItems="center">
+          <Flex
+            key={name}
+            flexDir="column"
+            gap={2}
+            alignItems="center"
+            zIndex={10}
+          >
             <Avatar src={image} rounded="full" name={name} boxSize={40} />
             <Heading size="title.sm">{name}</Heading>
             <Text size="body.lg" color="gray.500">
