@@ -102,7 +102,7 @@ export const SolutionsSection: React.FC = () => {
         </Box>
       </Heading>
       <Text textAlign="center" size="body.lg" mb={12}>
-        Thirdweb powers the best web3 projects across verticals
+        thirdweb powers the best web3 projects across verticals
       </Text>
       <SimpleGrid
         columns={{ md: 2, base: 1 }}
