@@ -43,15 +43,7 @@ const HomePage: ThirdwebNextPage = () => {
           <KeyFeatures />
           <ContractsSection />
           <Suspense>
-            <HomepageSection
-              id="sdks"
-              bottomPattern
-              middleGradient
-              gradientOpacity={0.3}
-              zIndex={10}
-            >
-              <SDKSection />
-            </HomepageSection>
+            <SDKSection />
             <CLISection />
             <DashboardFeaturesSection />
             <NetworksSection />

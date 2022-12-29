@@ -3,6 +3,7 @@ import {
   CodeSelector,
   CodeSelectorProps,
 } from "components/product-pages/homepage/CodeSelector";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { Heading } from "tw-components";
 
 interface SDKSectionProps {
@@ -17,19 +18,39 @@ export const SDKSection: React.FC<SDKSectionProps> = ({
   codeSelectorProps,
 }) => {
   return (
-    <Flex flexDir="column" align="center" gap={{ base: 6, md: 8 }}>
-      <Heading as="h2" size="display.sm" textAlign="center">
-        {title}
-      </Heading>
-      <Heading
-        as="h3"
-        size="subtitle.lg"
-        textAlign="center"
-        maxW="container.md"
-      >
-        {description}
-      </Heading>
-      <CodeSelector {...codeSelectorProps} />
-    </Flex>
+    <HomepageSection
+      id="sdks"
+      bottomPattern
+      middleGradient
+      gradientOpacity={0.3}
+      zIndex={10}
+    >
+      <Flex flexDir="column" align="center" as="section">
+        <Heading
+          as="h2"
+          size="display.sm"
+          textAlign="center"
+          mb={4}
+          bgGradient="linear(to-r, #918DD8, white)"
+          bgClip="text"
+          fontWeight={700}
+        >
+          {title}
+        </Heading>
+        <Heading
+          as="h3"
+          size="subtitle.lg"
+          textAlign="center"
+          maxW={"container.md"}
+          color="white"
+          fontWeight={400}
+          fontSize="20px"
+          mb={8}
+        >
+          {description}
+        </Heading>
+        <CodeSelector {...codeSelectorProps} />
+      </Flex>
+    </HomepageSection>
   );
 };

@@ -1,27 +1,39 @@
 import { CodeOptionButton, CodeOptions } from "../common/CodeOptionButton";
-import { Box, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
-import { SiReplDotIt } from "@react-icons/all-files/si/SiReplDotIt";
+import { Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useState } from "react";
-import { Card, CodeBlock, LinkButton } from "tw-components";
+import { Card, CodeBlock, Link } from "tw-components";
+
+export const colors = {
+  bg: "hsl(243deg 57% 58% / 4%)",
+  border: "hsl(243deg 57% 58% / 20%)",
+  glow: "hsl(243deg 57% 58% / 8%)",
+};
 
 const landingSnippets = {
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
+// initialize the SDK
 const sdk = new ThirdwebSDK("mumbai");
+
+// connect to your smart contract
 const contract = await sdk.getContract("0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c");
 
+// get all NFTs
 const nfts = await contract.erc721.getAll();
+
 console.log(nfts);`,
   react: `import { ThirdwebNftMedia, useContract, useNFTs } from "@thirdweb-dev/react";
 
 export default function App() {
-  const { contract: nftDrop } = useContract(
-    "0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c",
-  );
-  const { data: nfts } = useNFTs(nftDrop);
+  // Connect to your smart contract
+  const contract = useContract("0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c");
 
-  return (nfts || []).map((nft) => (
+  // Get all NFTs
+  const nfts = useNFTs(contract);
+
+  // Render NFTs
+  return (nfts.data || []).map((nft) => (
     <ThirdwebNftMedia key={nft.metadata.id.toString()} metadata={nft.metadata} />
   ));
 }`,
@@ -137,10 +149,19 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
 
   return (
     <>
-      <SimpleGrid
-        gap={{ base: 2, md: 3 }}
-        columns={{ base: 2, md: snippets === "landing" ? 5 : 4 }}
-        justifyContent={{ base: "space-between", md: "center" }}
+      <Flex
+        border={`2px solid ${colors.border}`}
+        justify={"center"}
+        margin="0 auto"
+        background={colors.bg}
+        transform="translateY(30%)"
+        zIndex={100}
+        backdropFilter={"blur(10px)"}
+        borderRadius={"8px"}
+        overflow="hidden"
+        boxShadow={`0 0 14px ${colors.glow}`}
+        maxW="calc(100% - 60px)"
+        flexWrap="wrap"
       >
         {Object.keys(actualSnippets).map((key) =>
           key === "unity" && snippets === "auth" ? null : (
@@ -155,18 +176,21 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
             </CodeOptionButton>
           ),
         )}
-      </SimpleGrid>
+      </Flex>
 
       <Card
         w={{ base: "full", md: "69%" }}
-        borderWidth={0}
+        // borderWidth={0}
         p={0}
-        outlineBorder={{
-          gradient: "linear(147.15deg, #1D64EF 30.17%, #E0507A 100%)",
-          width: "5px",
-        }}
+        backgroundColor={colors.bg}
+        border={`2px solid ${colors.border}`}
+        boxShadow={`0 0 14px ${colors.glow}`}
+        mb={4}
+        position="relative"
       >
         <CodeBlock
+          color="white"
+          fontSize={{ base: "12px", md: "14px" }}
           borderWidth={0}
           w="full"
           py={4}
@@ -178,36 +202,25 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               ? "cpp"
               : activeLanguage
           }
-          backgroundColor="#0d0e10"
+          backgroundColor={"transparent"}
+          mb={4}
+          mt={4}
         />
-      </Card>
 
-      <Flex
-        gap={{ base: 4, md: 6 }}
-        align="center"
-        direction={{ base: "column", md: "row" }}
-        w="100%"
-        maxW="container.sm"
-      >
         {snippets === "landing" && (
-          <LinkButton
-            role="group"
-            borderRadius="md"
-            p={6}
-            variant="gradient"
-            fromcolor="#1D64EF"
-            tocolor="#E0507A"
+          <Link
             isExternal
-            colorScheme="primary"
-            w="full"
+            fontSize="14px"
+            position="absolute"
+            bottom="12px"
+            right="16px"
+            fontFamily="mono"
+            color="white"
             href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
-            rightIcon={
-              <Icon
-                color="#E0507A"
-                _groupHover={{ color: "#1D64EF" }}
-                as={SiReplDotIt}
-              />
-            }
+            _hover={{
+              color: "white",
+              textDecoration: "none",
+            }}
             onClick={() =>
               trackEvent({
                 category: "code-selector",
@@ -216,22 +229,20 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               })
             }
           >
-            <Box as="span">Try it on Replit</Box>
-          </LinkButton>
+            Open in Replit
+          </Link>
         )}
-        <LinkButton
-          variant="outline"
-          borderRadius="md"
-          bg="#fff"
-          color="#000"
-          w="full"
-          maxW="container.sm"
-          _hover={{
-            bg: "whiteAlpha.800",
-          }}
+      </Card>
+
+      <Flex justify="center" w="100%" maxW="container.sm">
+        <Link
           href={docs}
           isExternal
-          p={6}
+          fontSize="16px"
+          color={"white"}
+          _hover={{
+            textDecoration: "none",
+          }}
           onClick={() =>
             trackEvent({
               category: "code-selector",
@@ -240,8 +251,8 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
             })
           }
         >
-          Explore documentation
-        </LinkButton>
+          Explore Documentation
+        </Link>
       </Flex>
     </>
   );

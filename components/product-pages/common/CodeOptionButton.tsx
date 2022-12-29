@@ -1,4 +1,4 @@
-import { Icon, useBreakpointValue } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/react";
 import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiPython } from "@react-icons/all-files/si/SiPython";
@@ -7,7 +7,7 @@ import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import { useTrack } from "hooks/analytics/useTrack";
 import { Dispatch, SetStateAction } from "react";
 import { flushSync } from "react-dom";
-import { Button, ButtonProps, PossibleButtonSize } from "tw-components";
+import { Button, ButtonProps } from "tw-components";
 
 export const LOGO_OPTIONS = {
   javascript: {
@@ -47,28 +47,29 @@ export const CodeOptionButton: React.FC<CodeOptionButtonProps> = ({
   ...rest
 }) => {
   const trackEvent = useTrack();
-
   const logo = LOGO_OPTIONS[language];
-  const size = useBreakpointValue(
-    { base: "sm", md: "md" },
-    "md",
-  ) as PossibleButtonSize;
+
+  const isActive = language === activeLanguage;
 
   return (
     <Button
       leftIcon={<Icon as={logo.icon} fill={logo.fill} />}
-      borderRadius="md"
       variant="solid"
+      fontWeight="normal"
       colorScheme="blackAlpha"
-      bg="#1E1E24"
-      borderWidth="1px"
-      size={size}
-      borderColor={
-        language === activeLanguage ? "#0098EE" : "rgba(255, 255, 255, 0.1)"
-      }
-      _hover={{ borderColor: "#0098EE" }}
-      _active={{
-        borderColor: language === activeLanguage ? "#0098EE" : undefined,
+      bg={isActive ? "hsl(243deg 57% 58% / 20%)" : "transparent"}
+      minWidth="80px"
+      border="none"
+      borderRadius={{ base: "4px", md: 0 }}
+      fontFamily="mono"
+      fontSize={{ base: "12px", md: "14px" }}
+      position="relative"
+      color="white"
+      height="auto"
+      px={4}
+      py={3}
+      _hover={{
+        bg: "hsl(243deg 57% 58% / 20%)",
       }}
       onClick={() => {
         trackEvent({

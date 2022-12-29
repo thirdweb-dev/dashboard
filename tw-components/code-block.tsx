@@ -13,7 +13,7 @@ import Highlight, { Language, defaultProps } from "prism-react-renderer";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import Prism from "prism-react-renderer/prism";
-import darkTheme from "prism-react-renderer/themes/oceanicNext";
+import darkTheme from "prism-react-renderer/themes/dracula";
 import lightTheme from "prism-react-renderer/themes/vsLight";
 import { useEffect } from "react";
 import { FiCopy } from "react-icons/fi";
