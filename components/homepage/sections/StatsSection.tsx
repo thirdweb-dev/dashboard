@@ -1,3 +1,4 @@
+import { GradientBorder } from "../GradientBorder";
 import { Box, Container, SimpleGrid } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
@@ -28,14 +29,13 @@ interface StatBoxProps {
 const Stat: React.FC<StatBoxProps> = ({ title, description, gradient }) => {
   return (
     <Box
+      zIndex={10}
       position="relative"
       textAlign="center"
-      border="4px solid transparent"
-      borderRadius="8px"
+      background={"rgba(0,0,0,0.4)"}
       padding={4}
       pt={{ base: 4, md: 6 }}
       alignItems={"center"}
-      background={`linear-gradient(black, black) padding-box, ${gradient} border-box`}
     >
       <Heading
         as="h3"
@@ -47,6 +47,7 @@ const Stat: React.FC<StatBoxProps> = ({ title, description, gradient }) => {
       >
         {title}
       </Heading>
+      <GradientBorder width="4px" gradient={gradient} borderRadius="8px" />
       <Text size="body.lg" lineHeight={1.5}>
         {description}
       </Text>

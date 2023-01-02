@@ -13,6 +13,7 @@ import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { SolutionsSection } from "components/homepage/sections/Solutions";
 import { StatsSection } from "components/homepage/sections/StatsSection";
+import { ValuesSection } from "components/homepage/sections/ValuesSection";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -57,6 +58,7 @@ const HomePage: ThirdwebNextPage = () => {
             <NetworksSection />
             <PricingSection />
             <SolutionsSection />
+            <ValuesSection />
             {/* <ExamplesSectionHomepage /> */}
             <GetStartedSection />
             <NewsletterSection />
