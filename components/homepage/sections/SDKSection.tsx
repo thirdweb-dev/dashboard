@@ -22,7 +22,7 @@ export const SDKSection: React.FC<SDKSectionProps> = ({
       id="sdks"
       bottomPattern
       middleGradient
-      gradientOpacity={0.3}
+      gradientOpacity={0.4}
       zIndex={10}
     >
       <Flex flexDir="column" align="center" as="section">
@@ -31,7 +31,7 @@ export const SDKSection: React.FC<SDKSectionProps> = ({
           size="display.sm"
           textAlign="center"
           mb={4}
-          bgGradient="linear(to-r, #918DD8, white)"
+          bgGradient="linear(to right, #918DD8, white)"
           bgClip="text"
           fontWeight={700}
         >

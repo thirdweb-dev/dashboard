@@ -1,13 +1,16 @@
 import { CodeOptionButton, CodeOptions } from "../common/CodeOptionButton";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import darkTheme from "prism-react-renderer/themes/dracula";
 import { useState } from "react";
-import { Card, CodeBlock, Link } from "tw-components";
+import { AiOutlineCode } from "react-icons/ai";
+import { CgFileDocument } from "react-icons/cg";
+import { Card, CodeBlock, LinkButton } from "tw-components";
 
 export const colors = {
   bg: "hsl(243deg 57% 58% / 4%)",
   border: "hsl(243deg 57% 58% / 20%)",
-  glow: "hsl(243deg 57% 58% / 8%)",
+  icon: "hsl(243deg 57% 78% / 100%)",
 };
 
 const landingSnippets = {
@@ -154,12 +157,11 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
         justify={"center"}
         margin="0 auto"
         background={colors.bg}
-        transform="translateY(30%)"
+        transform={{ base: "translateY(20px)", md: "translateY(50%)" }}
         zIndex={100}
         backdropFilter={"blur(10px)"}
         borderRadius={"8px"}
         overflow="hidden"
-        boxShadow={`0 0 14px ${colors.glow}`}
         maxW="calc(100% - 60px)"
         flexWrap="wrap"
       >
@@ -180,15 +182,13 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
 
       <Card
         w={{ base: "full", md: "69%" }}
-        // borderWidth={0}
         p={0}
-        backgroundColor={colors.bg}
+        background={colors.bg}
         border={`2px solid ${colors.border}`}
-        boxShadow={`0 0 14px ${colors.glow}`}
-        mb={4}
         position="relative"
       >
         <CodeBlock
+          darkTheme={darkTheme}
           color="white"
           fontSize={{ base: "12px", md: "14px" }}
           borderWidth={0}
@@ -203,24 +203,15 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               : activeLanguage
           }
           backgroundColor={"transparent"}
-          mb={4}
           mt={4}
         />
 
-        {snippets === "landing" && (
-          <Link
-            isExternal
-            fontSize="14px"
-            position="absolute"
-            bottom="12px"
-            right="16px"
-            fontFamily="mono"
-            color="white"
-            href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
-            _hover={{
-              color: "white",
-              textDecoration: "none",
-            }}
+        {/* Links for Replit and Docs  */}
+        <Flex justify="end" gap={4} position="absolute" bottom={0} right="16px">
+          <CustomLinkButton
+            text="Docs"
+            href={docs}
+            icon={<Icon color={colors.icon} as={CgFileDocument} />}
             onClick={() =>
               trackEvent({
                 category: "code-selector",
@@ -228,32 +219,60 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
                 label: "try-it",
               })
             }
-          >
-            Open in Replit
-          </Link>
-        )}
-      </Card>
+          />
 
-      <Flex justify="center" w="100%" maxW="container.sm">
-        <Link
-          href={docs}
-          isExternal
-          fontSize="16px"
-          color={"white"}
-          _hover={{
-            textDecoration: "none",
-          }}
-          onClick={() =>
-            trackEvent({
-              category: "code-selector",
-              action: "click",
-              label: "documentation",
-            })
-          }
-        >
-          Explore Documentation
-        </Link>
-      </Flex>
+          {snippets === "landing" && (
+            <CustomLinkButton
+              text="Run"
+              href={`https://replit.com/@thirdweb/${activeLanguage}-sdk`}
+              icon={<Icon color={colors.icon} as={AiOutlineCode} />}
+              onClick={() =>
+                trackEvent({
+                  category: "code-selector",
+                  action: "click",
+                  label: "documentation",
+                })
+              }
+            />
+          )}
+        </Flex>
+      </Card>
     </>
+  );
+};
+
+interface CustomLinkButtonProps {
+  onClick: () => void;
+  text: string;
+  href: string;
+  icon: React.ReactElement;
+}
+
+const CustomLinkButton: React.FC<CustomLinkButtonProps> = ({
+  onClick,
+  href,
+  icon,
+  text,
+}) => {
+  return (
+    <LinkButton
+      href={href}
+      isExternal
+      leftIcon={icon}
+      bg="transparent"
+      noIcon
+      padding={0}
+      fontWeight={400}
+      fontSize="14px"
+      borderRadius={"10px"}
+      fontFamily={"mono"}
+      color={"white"}
+      _hover={{
+        bg: "trnasparent",
+      }}
+      onClick={onClick}
+    >
+      {text}
+    </LinkButton>
   );
 };
