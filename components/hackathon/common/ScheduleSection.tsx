@@ -9,18 +9,16 @@ interface ScheduleItemDetail {
 }
 
 interface ScheduleItem {
-  day: number;
+  day: string;
   items: ScheduleItemDetail[];
 }
 
 interface ScheduleSectionProps {
   scheduleItems: ScheduleItem[];
-  month: string;
 }
 
 export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
   scheduleItems,
-  month,
 }) => {
   return (
     <Flex
@@ -69,9 +67,7 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
               bg: "whiteAlpha.200",
             }}
           >
-            <Heading>
-              {day} {month}
-            </Heading>
+            <Heading>{day}</Heading>
             {items.map(({ title, time, link, irl }) => (
               <LinkBox key={title} w="full" p={4} borderRadius="md">
                 <TrackedLink

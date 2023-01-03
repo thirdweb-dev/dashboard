@@ -1,4 +1,4 @@
-import { Box, DarkMode, Divider, Flex, Image } from "@chakra-ui/react";
+import { Box, Center, DarkMode, Divider, Flex, Image } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { Judges } from "components/hackathon/common/Judges";
 import { Mentors } from "components/hackathon/common/Mentors";
@@ -52,47 +52,82 @@ const sponsors = [
 
 const scheduleItems = [
   {
-    day: 2,
+    day: "16 Jan",
     items: [
       {
-        title: "test event",
+        title: "Hackathon Kickoff + Intro to GamingKit",
         link: "",
-        time: "10:00 PM PST",
-      },
-      {
-        title: "Registration Opens",
-        link: "",
-        time: "12:00 PM PST",
+        time: "1:00 PM ET",
       },
     ],
   },
   {
-    day: 4,
+    day: "17 Jan",
     items: [
       {
-        title: "abc",
+        title: "Getting started with thirdweb",
         link: "",
-        time: "12:00 PM PST",
+        time: "1:00 PM ET",
       },
     ],
   },
   {
-    day: 16,
+    day: "19 Jan",
     items: [
       {
-        title: "Hackathon Starts",
+        title: "Code-along: build a game with GamingKit",
         link: "",
-        time: "12:00 PM PST",
+        time: "1:00 PM ET",
       },
     ],
   },
   {
-    day: 31,
+    day: "18 Jan",
     items: [
       {
-        title: "Hackathon Ends",
+        title: "Create AI-Generated in-game NFT Assets with Scenario.gg ",
         link: "",
-        time: "12:00 PM PST",
+        time: "1:00 PM ET",
+      },
+    ],
+  },
+  {
+    day: "20 Jan",
+    items: [
+      {
+        title: "Workshop with Optimism",
+        link: "",
+        time: "1:00 PM ET",
+      },
+    ],
+  },
+  {
+    day: "21 Jan",
+    items: [
+      {
+        title: "Workshop with Coinbase",
+        link: "",
+        time: "1:00 PM ET",
+      },
+    ],
+  },
+  {
+    day: "25 Jan",
+    items: [
+      {
+        title: "Devpost + Q/A",
+        link: "",
+        time: "1:00 PM ET",
+      },
+    ],
+  },
+  {
+    day: "6 Feb",
+    items: [
+      {
+        title: "Hackathon Closing Ceremony",
+        link: "",
+        time: "1:00 PM ET",
       },
     ],
   },
@@ -112,7 +147,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
           description: metadata.description,
           images: [
             {
-              url: "https://thirdweb.com/assets/og-image/solanathon.jpg",
+              url: "/assets/og-image/readyplayer3.jpg",
               width: 1200,
               height: 630,
               alt: "thirdweb gaming hackathon: January 16 - 31",
@@ -134,102 +169,107 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
       >
         <HomepageTopNav />
 
-        <Flex
-          w="100vw"
-          h="90vh"
-          objectPosition="center"
-          bgRepeat="no-repeat"
-          bgSize="cover !important"
-          bg="url(/assets/hackathon/readyplayer3-hero.png)"
-        >
-          <Timer date="2023-01-16T22:00:00" ml="15%" mt="32%" showSec={false} />
-          <LinkButton
-            href="https://readyplayer3.devpost.com/"
-            onClick={() =>
-              trackEvent({
-                category: "readyplayer3",
-                action: "click",
-                label: "register-now",
-              })
-            }
-            h="68px"
-            w={{ base: "100%", md: 96 }}
-            fontSize="20px"
-            color="black"
-            flexShrink={0}
-            background="rgba(184, 252, 98, 1)"
-            _hover={{
-              background: "rgba(184, 252, 98, 0.9) !important",
-            }}
-            isExternal
-            noIcon
-            mt={4}
-            pos="absolute"
-            top="10%"
-            left="38%"
+        <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
+          <Flex
+            w="full"
+            h="88vh"
+            objectPosition="center"
+            bgRepeat="no-repeat"
+            bgSize="cover !important"
+            bg="url(/assets/hackathon/readyplayer3/hero.png)"
+            align="center"
+            justify="center"
+            pt="200px"
+            backgroundSize="1440px auto"
           >
-            Register Now
-          </LinkButton>
-        </Flex>
-
-        <HomepageSection>
-          <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
-        </HomepageSection>
-        <Divider mt={16} />
-
-        <HomepageSection mt={12}>
-          <Flex flexDir="column">
-            <Heading size="title.2xl" textAlign="center">
-              Prizes
-            </Heading>
-            <Image
-              src="/assets/hackathon/prizes.png"
-              alt="prizes"
-              mt={8}
-              mx="auto"
-              maxW="100%"
-              h={{ base: "auto", md: "400px" }}
-              w={{ base: "100%", md: "auto" }}
-            />
+            <Timer date="2023-01-16T22:00:00" showSec={false} />
+            <Center>
+              <LinkButton
+                href="https://readyplayer3.devpost.com/"
+                onClick={() =>
+                  trackEvent({
+                    category: "readyplayer3",
+                    action: "click",
+                    label: "register-now",
+                  })
+                }
+                h="68px"
+                w={{ base: "100%", md: 96 }}
+                fontSize="20px"
+                color="black"
+                flexShrink={0}
+                background="rgba(184, 252, 98, 1)"
+                _hover={{
+                  background: "rgba(184, 252, 98, 0.9) !important",
+                }}
+                pos="absolute"
+                isExternal
+                noIcon
+              >
+                Register Now
+              </LinkButton>
+            </Center>
           </Flex>
-        </HomepageSection>
 
-        <Judges />
-        <Mentors />
-        <Box
-          w="full"
-          h={{ base: "200px", md: "250px" }}
-          background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-          filter="blur(150px)"
-          transform="matrix(-1, 0, 0, 1, 0, 0)"
-          mt="-150px"
-          zIndex={0}
-        />
+          <HomepageSection>
+            <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
+          </HomepageSection>
+          <Divider mt={16} />
 
-        <HomepageSection>
-          <ScheduleSection scheduleItems={scheduleItems} month="jan" />
-        </HomepageSection>
+          <HomepageSection mt={12}>
+            <Flex flexDir="column">
+              <Heading size="title.2xl" textAlign="center">
+                Prizes
+              </Heading>
+              <Image
+                src="/assets/hackathon/prizes.png"
+                alt="prizes"
+                mt={8}
+                mx="auto"
+                maxW="100%"
+                h={{ base: "auto", md: "400px" }}
+                w={{ base: "100%", md: "auto" }}
+              />
+            </Flex>
+          </HomepageSection>
 
-        <HomepageSection mt={{ base: 12, md: 24 }}>
-          <Resources />
-        </HomepageSection>
+          <Judges />
+          <Mentors />
+          <Box
+            w="full"
+            h={{ base: "200px", md: "250px" }}
+            background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+            filter="blur(150px)"
+            transform="matrix(-1, 0, 0, 1, 0, 0)"
+            mt="-150px"
+            zIndex={0}
+          />
 
-        <Box
-          w="full"
-          h={{ base: "200px", md: "250px" }}
-          background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-          filter="blur(150px)"
-          transform="matrix(-1, 0, 0, 1, 0, 0)"
-          mt="-150px"
-          zIndex={0}
-        />
+          <HomepageSection>
+            <ScheduleSection scheduleItems={scheduleItems} />
+          </HomepageSection>
 
-        <HomepageSection>
-          <FaqSection />
-        </HomepageSection>
+          <HomepageSection mt={{ base: 12, md: 24 }}>
+            <Resources />
+          </HomepageSection>
 
-        <CTAFooter />
-        <HomepageFooter />
+          <Box
+            w="full"
+            h={{ base: "200px", md: "250px" }}
+            background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
+            filter="blur(150px)"
+            transform="matrix(-1, 0, 0, 1, 0, 0)"
+            mt="-150px"
+            zIndex={0}
+          />
+
+          <HomepageSection>
+            <FaqSection />
+          </HomepageSection>
+
+          <CTAFooter />
+          <HomepageFooter />
+        </Box>
       </Flex>
     </DarkMode>
   );
