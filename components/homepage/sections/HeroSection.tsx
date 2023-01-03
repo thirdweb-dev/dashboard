@@ -10,7 +10,7 @@ import { Heading, Link, LinkButton, Text } from "tw-components";
 export const HeroSection = () => {
   const trackEvent = useTrack();
   return (
-    <HomepageSection id="home" topGradient gradientOpacity={0.8}>
+    <HomepageSection id="home" topGradient gradientOpacity={0.8} bottomPattern>
       <SimpleGrid
         pt={{
           base: 0,
