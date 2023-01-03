@@ -48,7 +48,7 @@ const Timer: React.FC<TimerProps> = ({ date, showSec, ...otherProps }) => {
   ];
 
   return (
-    <Flex gap="2" pos="absolute" left="210px" {...otherProps}>
+    <Flex {...otherProps}>
       {items.map(({ label, value }) => (
         <Flex flexDir="column" key={label} align="center">
           <Text

@@ -1,7 +1,6 @@
 import { Box, Center, DarkMode, Divider, Flex, Image } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
-import { Judges } from "components/hackathon/common/Judges";
-import { Mentors } from "components/hackathon/common/Mentors";
+import { AvatarShowcase } from "components/hackathon/common/AvatarShowcase";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
@@ -133,6 +132,60 @@ const scheduleItems = [
   },
 ];
 
+const judges = [
+  {
+    name: "Samina Kabir",
+    twitter: "saminacodes",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "thirdweb",
+  },
+  {
+    name: "Farza Majeed",
+    twitter: "FarzaTV",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "buildspace",
+  },
+  {
+    name: "Noah Hein",
+    twitter: "nheindev",
+    image: "/assets/landingpage/noah.png",
+    company: "Phantom",
+  },
+  {
+    name: "Chris Ahn",
+    twitter: "ahnchrisj",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Haun Ventures",
+  },
+];
+
+const mentors = [
+  {
+    name: "Samina Kabir",
+    twitter: "saminacodes",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "thirdweb",
+  },
+  {
+    name: "Farza Majeed",
+    twitter: "FarzaTV",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "buildspace",
+  },
+  {
+    name: "Noah Hein",
+    twitter: "nheindev",
+    image: "/assets/landingpage/noah.png",
+    company: "Phantom",
+  },
+  {
+    name: "Chris Ahn",
+    twitter: "ahnchrisj",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Haun Ventures",
+  },
+];
+
 const ReadyPlayer3Landing: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
 
@@ -170,45 +223,48 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
         <HomepageTopNav />
 
         <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
-          <Flex
-            w="full"
-            h="88vh"
-            objectPosition="center"
-            bgRepeat="no-repeat"
-            bgSize="cover !important"
-            bg="url(/assets/hackathon/readyplayer3/hero.png)"
-            align="center"
-            justify="center"
-            pt="200px"
-            backgroundSize="1440px auto"
-          >
-            <Timer date="2023-01-16T22:00:00" showSec={false} />
-            <Center>
-              <LinkButton
-                href="https://readyplayer3.devpost.com/"
-                onClick={() =>
-                  trackEvent({
-                    category: "readyplayer3",
-                    action: "click",
-                    label: "register-now",
-                  })
-                }
-                h="68px"
-                w={{ base: "100%", md: 96 }}
-                fontSize="20px"
-                color="black"
-                flexShrink={0}
-                background="rgba(184, 252, 98, 1)"
-                _hover={{
-                  background: "rgba(184, 252, 98, 0.9) !important",
-                }}
-                pos="absolute"
-                isExternal
-                noIcon
-              >
-                Register Now
-              </LinkButton>
-            </Center>
+          <Flex w="full" justifyContent="center">
+            <Flex
+              w="1440px"
+              h="88vh"
+              objectPosition="center"
+              bgRepeat="no-repeat"
+              bgSize="cover !important"
+              bg="url(/assets/hackathon/readyplayer3/hero.png)"
+              align="center"
+              justify="center"
+              pt="200px"
+              backgroundSize="1440px auto"
+              bgColor="black"
+            >
+              <Timer date="2023-01-16T22:00:00" showSec={false} />
+              <Center>
+                <LinkButton
+                  href="https://readyplayer3.devpost.com/"
+                  onClick={() =>
+                    trackEvent({
+                      category: "readyplayer3",
+                      action: "click",
+                      label: "register-now",
+                    })
+                  }
+                  h="68px"
+                  w={{ base: "100%", md: 96 }}
+                  fontSize="20px"
+                  color="black"
+                  flexShrink={0}
+                  background="rgba(184, 252, 98, 1)"
+                  _hover={{
+                    background: "rgba(184, 252, 98, 0.9) !important",
+                  }}
+                  pos="absolute"
+                  isExternal
+                  noIcon
+                >
+                  Register Now
+                </LinkButton>
+              </Center>
+            </Flex>
           </Flex>
 
           <HomepageSection>
@@ -233,8 +289,16 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
             </Flex>
           </HomepageSection>
 
-          <Judges />
-          <Mentors />
+          <AvatarShowcase
+            title="Judges"
+            trackingCategory="solanathon"
+            avatars={judges}
+          />
+          <AvatarShowcase
+            title="Mentors"
+            trackingCategory="solanathon"
+            avatars={mentors}
+          />
           <Box
             w="full"
             h={{ base: "200px", md: "250px" }}

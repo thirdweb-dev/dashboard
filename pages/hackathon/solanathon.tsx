@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { HomepageFooter } from "components/footer/Footer";
+import { AvatarShowcase } from "components/hackathon/common/AvatarShowcase";
 import { HackathonFooter } from "components/hackathon/common/HackathonFooter";
-import { Judges } from "components/hackathon/common/Judges";
 import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
@@ -101,6 +101,33 @@ const scheduleItems = [
     day: 27,
     title: "Meet Solana University",
     href: "https://lu.ma/tw-sol-u",
+  },
+];
+
+const judges = [
+  {
+    name: "Samina Kabir",
+    twitter: "saminacodes",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "thirdweb",
+  },
+  {
+    name: "Farza Majeed",
+    twitter: "FarzaTV",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "buildspace",
+  },
+  {
+    name: "Noah Hein",
+    twitter: "nheindev",
+    image: "/assets/landingpage/noah.png",
+    company: "Phantom",
+  },
+  {
+    name: "Chris Ahn",
+    twitter: "ahnchrisj",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Haun Ventures",
   },
 ];
 
@@ -277,7 +304,11 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
           />
-          <Judges />
+          <AvatarShowcase
+            title="Judges"
+            trackingCategory="solanathon"
+            avatars={judges}
+          />
           <HackathonFooter />
           <HomepageFooter />
         </Box>
