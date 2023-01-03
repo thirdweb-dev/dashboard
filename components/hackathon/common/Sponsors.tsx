@@ -21,7 +21,11 @@ export const Sponsors: React.FC<SponsorProps> = ({
       <Text size="label.lg" textAlign="center">
         OUR PARTNERS
       </Text>
-      <SimpleGrid columns={{ base: 2, md: 4 }} gap={8} placeItems="center">
+      <SimpleGrid
+        columns={{ base: 2, md: sponsors?.length || 2 }}
+        gap={8}
+        placeItems="center"
+      >
         {sponsors.map(({ name, link, logo }) => (
           <TrackedLink
             key={name}

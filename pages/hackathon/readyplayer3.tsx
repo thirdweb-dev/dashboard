@@ -31,24 +31,79 @@ const metadata = {
 
 const sponsors = [
   {
-    name: "Coinbase",
+    name: "Polygon",
     logo: "/assets/investors/coinbase.svg",
     link: "https://www.coinbase.com/",
   },
   {
-    name: "Scenario",
+    name: "Optimism",
     logo: "/assets/hackathon/sponsors/scenario.png",
     link: "https://scenario.gg/",
   },
   {
-    name: "AWS",
+    name: "Fractal",
     logo: "/assets/hackathon/sponsors/aws.svg",
     link: "https://aws.amazon.com/",
   },
+];
+
+const judges = [
   {
-    name: "Consensus",
-    logo: "/assets/hackathon/sponsors/consensus.png",
-    link: "https://www.coindesk.com/consensus/",
+    name: "Antonio Garcia Martinez",
+    twitter: "antoniogm",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "Spindl",
+  },
+  {
+    name: "Justin Kan",
+    twitter: "justinkan",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "Fractal",
+  },
+  {
+    name: "Emmanuel de Maistre",
+    twitter: "emmanuel_2m",
+    image: "/assets/landingpage/noah.png",
+    company: "Scenario",
+  },
+  {
+    name: "Kevin DeGods",
+    twitter: "kevindegods",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Dust Labs",
+  },
+  {
+    name: "Sam Frankel",
+    twitter: "sfrankel9",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Coinbase",
+  },
+];
+
+const mentors = [
+  {
+    name: "Ishan Sharma",
+    twitter: "Ishansharma7390",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "MarkItUp",
+  },
+  {
+    name: "Daniel Eugene Botha",
+    twitter: "hashlipsnft",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "Hashlips & Edenlans",
+  },
+  {
+    name: "Joaquim Verges",
+    twitter: "joenrv",
+    image: "/assets/landingpage/noah.png",
+    company: "thirdweb",
+  },
+  {
+    name: "Hubert Thieblot",
+    twitter: "hthieblot",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Founders, Inc.",
   },
 ];
 
@@ -132,60 +187,6 @@ const scheduleItems = [
         time: "1:00 PM ET",
       },
     ],
-  },
-];
-
-const judges = [
-  {
-    name: "Samina Kabir",
-    twitter: "saminacodes",
-    image: "/assets/landingpage/samina.jpeg",
-    company: "thirdweb",
-  },
-  {
-    name: "Farza Majeed",
-    twitter: "FarzaTV",
-    image: "/assets/landingpage/farza.jpeg",
-    company: "buildspace",
-  },
-  {
-    name: "Noah Hein",
-    twitter: "nheindev",
-    image: "/assets/landingpage/noah.png",
-    company: "Phantom",
-  },
-  {
-    name: "Chris Ahn",
-    twitter: "ahnchrisj",
-    image: "/assets/landingpage/chris.jpg",
-    company: "Haun Ventures",
-  },
-];
-
-const mentors = [
-  {
-    name: "Samina Kabir",
-    twitter: "saminacodes",
-    image: "/assets/landingpage/samina.jpeg",
-    company: "thirdweb",
-  },
-  {
-    name: "Farza Majeed",
-    twitter: "FarzaTV",
-    image: "/assets/landingpage/farza.jpeg",
-    company: "buildspace",
-  },
-  {
-    name: "Noah Hein",
-    twitter: "nheindev",
-    image: "/assets/landingpage/noah.png",
-    company: "Phantom",
-  },
-  {
-    name: "Chris Ahn",
-    twitter: "ahnchrisj",
-    image: "/assets/landingpage/chris.jpg",
-    company: "Haun Ventures",
   },
 ];
 
