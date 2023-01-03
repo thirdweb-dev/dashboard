@@ -27,8 +27,8 @@ export const GradientBorder: React.FC<GradientBorderProps> = ({
           position: "absolute",
           inset: 0,
           borderRadius,
-          "-webkit-mask": `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-          "-webkit-mask-composite": "xor",
+          WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
+          WebkitMaskComposite: "xor",
         } as React.CSSProperties
       }
     ></div>
