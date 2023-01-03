@@ -1,4 +1,13 @@
-import { Box, DarkMode, Divider, Flex, Icon, Image } from "@chakra-ui/react";
+import {
+  Box,
+  DarkMode,
+  Divider,
+  Flex,
+  Icon,
+  Image,
+  List,
+  ListItem,
+} from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
@@ -15,7 +24,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { Heading, LinkButton } from "tw-components";
+import { Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const Timer = dynamic(() => import("components/hackathon/gaming/Timer"), {
@@ -32,18 +41,18 @@ const metadata = {
 const sponsors = [
   {
     name: "Polygon",
-    logo: "/assets/investors/coinbase.svg",
-    link: "https://www.coinbase.com/",
+    logo: "/assets/hackathon/sponsors/polygon.png",
+    link: "https://www.polygon.com/",
   },
   {
     name: "Optimism",
-    logo: "/assets/hackathon/sponsors/scenario.png",
-    link: "https://scenario.gg/",
+    logo: "/assets/hackathon/sponsors/optimism.png",
+    link: "https://www.optimism.io/",
   },
   {
     name: "Fractal",
-    logo: "/assets/hackathon/sponsors/aws.svg",
-    link: "https://aws.amazon.com/",
+    logo: "/assets/hackathon/sponsors/fractal.png",
+    link: "https://www.fractal.is/",
   },
 ];
 
@@ -51,31 +60,31 @@ const judges = [
   {
     name: "Antonio Garcia Martinez",
     twitter: "antoniogm",
-    image: "/assets/landingpage/samina.jpeg",
+    image: "/assets/landingpage/antonio-garcia.jpg",
     company: "Spindl",
   },
   {
     name: "Justin Kan",
     twitter: "justinkan",
-    image: "/assets/landingpage/farza.jpeg",
+    image: "/assets/landingpage/justin-kan.jpg",
     company: "Fractal",
   },
   {
     name: "Emmanuel de Maistre",
     twitter: "emmanuel_2m",
-    image: "/assets/landingpage/noah.png",
+    image: "/assets/landingpage/emmanuel.jpg",
     company: "Scenario",
   },
   {
     name: "Kevin DeGods",
     twitter: "kevindegods",
-    image: "/assets/landingpage/chris.jpg",
+    image: "/assets/landingpage/kevin-degods.png",
     company: "Dust Labs",
   },
   {
     name: "Sam Frankel",
     twitter: "sfrankel9",
-    image: "/assets/landingpage/chris.jpg",
+    image: "/assets/landingpage/sam-frankel.jpg",
     company: "Coinbase",
   },
 ];
@@ -84,25 +93,25 @@ const mentors = [
   {
     name: "Ishan Sharma",
     twitter: "Ishansharma7390",
-    image: "/assets/landingpage/samina.jpeg",
+    image: "/assets/landingpage/ishan-sharma.jpeg",
     company: "MarkItUp",
   },
   {
     name: "Daniel Eugene Botha",
     twitter: "hashlipsnft",
-    image: "/assets/landingpage/farza.jpeg",
+    image: "/assets/landingpage/hashlips.jpg",
     company: "Hashlips & Edenlans",
   },
   {
     name: "Joaquim Verges",
     twitter: "joenrv",
-    image: "/assets/landingpage/noah.png",
+    image: "/assets/landingpage/joaquim-verges.png",
     company: "thirdweb",
   },
   {
     name: "Hubert Thieblot",
     twitter: "hthieblot",
-    image: "/assets/landingpage/chris.jpg",
+    image: "/assets/landingpage/hubert-thieblot.jpg",
     company: "Founders, Inc.",
   },
 ];
@@ -224,7 +233,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 <>
                   <Timer date="2023-01-16T22:00:00" showSec={false} />
                   <LinkButton
-                    href="https://thirdweb.typeform.com/to/zfrq8Jx0"
+                    href="https://readyplayer3.devpost.com/"
                     onClick={() =>
                       trackEvent({
                         category: "readyplayer3",
@@ -250,12 +259,12 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 </>
               ) : (
                 <LinkButton
-                  href="https://thirdweb.typeform.com/to/jta0ye4M"
+                  href=""
                   onClick={() =>
                     trackEvent({
                       category: "readyplayer3",
                       action: "click",
-                      label: "register-now",
+                      label: "submit-project",
                     })
                   }
                   h="68px"
@@ -286,7 +295,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
           <HomepageSection mt={12}>
             <Flex flexDir="column">
               <Heading size="title.2xl" textAlign="center">
-                Prizes
+                Prizes & Perks
               </Heading>
               <Image
                 src="/assets/hackathon/prizes.png"
@@ -297,6 +306,31 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 h={{ base: "auto", md: "400px" }}
                 w={{ base: "100%", md: "auto" }}
               />
+              <Flex flexDir="column" gap={4} mb={{ base: 8, md: 24 }}>
+                <Text size="body.lg">
+                  In addition to these prizes, we also have these perks:
+                </Text>
+                <Text size="body.lg">
+                  <List>
+                    <ListItem>
+                      - Top 3 teams will receive Pro Tickets ($1,700 value) to
+                      Consensus 2023 Presented by CoinDesk
+                    </ListItem>
+                    <ListItem>
+                      - Top 3 teams receive Annual Subscription to Scenario.gg
+                    </ListItem>
+                    <ListItem>
+                      - All participating teams with a project submitted will
+                      receive 1-month free of Scenario.gg
+                    </ListItem>
+                    <ListItem>
+                      - All participating teams with a submitted project are
+                      eligible for up to $5,000 in AWS credits (as long as
+                      they&apos;ve not previously been an AWS credit recipient)
+                    </ListItem>
+                  </List>
+                </Text>
+              </Flex>
             </Flex>
           </HomepageSection>
 
