@@ -11,23 +11,12 @@ import { useTrack } from "hooks/analytics/useTrack";
 import React, { useEffect } from "react";
 import { FiCopy } from "react-icons/fi";
 
-/**
- * 📝 @TODO
- * Write a custom alternative to `shortenIfAddress` function
- * Why? - it imports a lot of other stuff which can not be tree-shaken
- */
-import { shortenIfAddress } from "utils/usedapp-external";
-
-/**
- * ❗️❗️❗️ @DANGER
- * Importing this component will result in a HUGE bundle size because of `shortenIfAddress`
- */
-
 interface AddressCopyButtonProps extends Omit<ButtonProps, "onClick" | "size"> {
   address?: string;
   noIcon?: boolean;
   size?: PossibleButtonSize;
   tokenId?: boolean;
+  shortenAddress?: boolean;
 }
 
 export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
@@ -38,6 +27,7 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   borderRadius = "md",
   variant = "outline",
   tokenId,
+  shortenAddress = true,
   ...restButtonProps
 }) => {
   const { onCopy, setValue } = useClipboard(address || "");
@@ -50,6 +40,19 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
 
   const trackEvent = useTrack();
   const toast = useToast();
+
+  const shorten = (str?: string) => {
+      if (!str) {
+          return "";
+      }
+      if (shortenAddress) {
+        return `${str.substring(0, 6)}...${str.substring(
+          str.length - 4,
+        )}`;
+      } else {
+        return str;
+      }
+  };
 
   return (
     <Tooltip
@@ -96,9 +99,9 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
         fontFamily="mono"
       >
         <Text size={`label.${buttonSizesMap[size]}`}>
-          {shortenIfAddress(address)}
+          {shorten(address)}
         </Text>
       </Button>
     </Tooltip>
   );
-};
+};  
