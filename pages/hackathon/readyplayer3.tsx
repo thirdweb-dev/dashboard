@@ -1,4 +1,6 @@
-import { Box, Center, DarkMode, Divider, Flex, Image } from "@chakra-ui/react";
+import { Box, DarkMode, Divider, Flex, Icon, Image } from "@chakra-ui/react";
+import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
+import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
 import { AvatarShowcase } from "components/hackathon/common/AvatarShowcase";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
@@ -8,6 +10,7 @@ import { FaqSection } from "components/hackathon/gaming/FAQSection";
 import { Resources } from "components/hackathon/gaming/Resources";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { isAfter } from "date-fns";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
@@ -223,24 +226,69 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
         <HomepageTopNav />
 
         <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
-          <Flex w="full" justifyContent="center">
+          <HomepageSection id="header" topGradient>
             <Flex
-              w="1440px"
-              h="88vh"
-              objectPosition="center"
-              bgRepeat="no-repeat"
-              bgSize="cover !important"
-              bg="url(/assets/hackathon/readyplayer3/hero.png)"
+              flexDir="column"
               align="center"
-              justify="center"
-              pt="200px"
-              backgroundSize="1440px auto"
-              bgColor="black"
+              gap={12}
+              mt={{ base: 12, md: 24 }}
             >
-              <Timer date="2023-01-16T22:00:00" showSec={false} />
-              <Center>
+              {/*               <ChakraNextImage
+                src="/assets/hackathon/readyplayer3.png"
+                alt="Ready Player 3"
+                width={300}
+                height={30}
+                w={{ base: "300px", md: "600px" }}
+                objectFit="contain"
+              /> */}
+              <Flex flexDir="column" gap={2}>
+                <Heading size="title.xl" textAlign="center">
+                  Build the future of gaming
+                </Heading>
+                <Heading
+                  bgImage="linear-gradient(128deg, #9945FF -9.03%, #14EE92 98.25%)"
+                  bgClip="text"
+                  size="display.lg"
+                  textAlign="center"
+                >
+                  $10,000 in prizes
+                </Heading>
+                <Heading size="title.xl" textAlign="center">
+                  Jan 16th - Jan 31st
+                </Heading>
+              </Flex>
+
+              {isAfter(new Date(), new Date("2021-01-16T00:00:00.000Z")) ? (
+                <>
+                  <Timer date="2023-01-16T22:00:00" showSec={false} />
+                  <LinkButton
+                    href="https://thirdweb.typeform.com/to/zfrq8Jx0"
+                    onClick={() =>
+                      trackEvent({
+                        category: "readyplayer3",
+                        action: "click",
+                        label: "register-now",
+                      })
+                    }
+                    h="68px"
+                    w={{ base: "100%", md: 96 }}
+                    fontSize="20px"
+                    leftIcon={<Icon as={ImMagicWand} />}
+                    color="black"
+                    flexShrink={0}
+                    background="rgba(255,255,255,1)"
+                    _hover={{
+                      background: "rgba(255,255,255,0.9)!important",
+                    }}
+                    isExternal
+                    noIcon
+                  >
+                    Register now
+                  </LinkButton>
+                </>
+              ) : (
                 <LinkButton
-                  href="https://readyplayer3.devpost.com/"
+                  href="https://thirdweb.typeform.com/to/jta0ye4M"
                   onClick={() =>
                     trackEvent({
                       category: "readyplayer3",
@@ -251,21 +299,22 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                   h="68px"
                   w={{ base: "100%", md: 96 }}
                   fontSize="20px"
+                  leftIcon={<Icon as={ImMagicWand} />}
                   color="black"
                   flexShrink={0}
-                  background="rgba(184, 252, 98, 1)"
+                  background="rgba(255,255,255,1)"
                   _hover={{
-                    background: "rgba(184, 252, 98, 0.9) !important",
+                    background: "rgba(255,255,255,0.9)!important",
                   }}
-                  pos="absolute"
                   isExternal
                   noIcon
+                  isDisabled
                 >
-                  Register Now
+                  Submit Your Project
                 </LinkButton>
-              </Center>
+              )}
             </Flex>
-          </Flex>
+          </HomepageSection>
 
           <HomepageSection>
             <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
@@ -291,12 +340,12 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
 
           <AvatarShowcase
             title="Judges"
-            trackingCategory="solanathon"
+            trackingCategory="readyplayer3"
             avatars={judges}
           />
           <AvatarShowcase
             title="Mentors"
-            trackingCategory="solanathon"
+            trackingCategory="readyplayer3"
             avatars={mentors}
           />
           <Box
