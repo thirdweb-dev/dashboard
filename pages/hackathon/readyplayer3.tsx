@@ -3,11 +3,11 @@ import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
 import { AvatarShowcase } from "components/hackathon/common/AvatarShowcase";
-import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
 import { Resources } from "components/hackathon/gaming/Resources";
+import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { isAfter } from "date-fns";
@@ -109,84 +109,46 @@ const mentors = [
 
 const scheduleItems = [
   {
-    day: "16 Jan",
-    items: [
-      {
-        title: "Hackathon Kickoff + Intro to GamingKit",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 16,
+    month: "jan",
+    title: "Hackathon Kickoff + Intro to GamingKit",
+    href: "",
   },
   {
-    day: "17 Jan",
-    items: [
-      {
-        title: "Getting started with thirdweb",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 17,
+    month: "jan",
+    title: "Getting started with thirdweb",
+    href: "",
   },
   {
-    day: "19 Jan",
-    items: [
-      {
-        title: "Code-along: build a game with GamingKit",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 18,
+    month: "jan",
+    title: "Create AI-Generated in-game NFT Assets with Scenario.gg",
+    href: "https://lu.ma/solanathonkickoff.thirdweb",
   },
   {
-    day: "18 Jan",
-    items: [
-      {
-        title: "Create AI-Generated in-game NFT Assets with Scenario.gg ",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 19,
+    month: "jan",
+    title: "Code-along: build a game with GamingKit",
+    href: "",
   },
   {
-    day: "20 Jan",
-    items: [
-      {
-        title: "Workshop with Optimism",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 20,
+    month: "jan",
+    title: "Workshop with Optimism",
+    href: "",
   },
   {
-    day: "21 Jan",
-    items: [
-      {
-        title: "Workshop with Coinbase",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 21,
+    month: "jan",
+    title: "Workshop with Coinbase",
+    href: "https://lu.ma/eng-3",
   },
   {
-    day: "25 Jan",
-    items: [
-      {
-        title: "Devpost + Q/A",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
-  },
-  {
-    day: "6 Feb",
-    items: [
-      {
-        title: "Hackathon Closing Ceremony",
-        link: "",
-        time: "1:00 PM ET",
-      },
-    ],
+    day: 6,
+    month: "feb",
+    title: "Hackathon Closing Ceremony",
+    href: "",
   },
 ];
 
@@ -234,14 +196,13 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
               gap={12}
               mt={{ base: 12, md: 24 }}
             >
-              {/*               <ChakraNextImage
+              <ChakraNextImage
                 src="/assets/hackathon/readyplayer3.png"
                 alt="Ready Player 3"
-                width={300}
-                height={30}
-                w={{ base: "300px", md: "600px" }}
+                width={400}
+                height={28}
                 objectFit="contain"
-              /> */}
+              />
               <Flex flexDir="column" gap={2}>
                 <Heading size="title.xl" textAlign="center">
                   Build the future of gaming
@@ -252,7 +213,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                   size="display.lg"
                   textAlign="center"
                 >
-                  $10,000 in prizes
+                  $100,000 in prizes
                 </Heading>
                 <Heading size="title.xl" textAlign="center">
                   Jan 16th - Jan 31st

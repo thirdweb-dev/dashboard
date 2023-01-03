@@ -2,10 +2,11 @@ import { Flex, Icon, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { AiOutlineBuild } from "@react-icons/all-files/ai/AiOutlineBuild";
 import { BiRightArrowAlt } from "@react-icons/all-files/bi/BiRightArrowAlt";
 import { useTrack } from "hooks/analytics/useTrack";
-import { Badge, Heading, Text } from "tw-components";
+import { Badge, Heading, LinkButton, Text } from "tw-components";
 
 interface ScheduleItem {
   day: number;
+  month: string;
   title: string;
   href: string;
   irl?: string;
@@ -13,12 +14,12 @@ interface ScheduleItem {
 
 interface ScheduleSectionProps {
   scheduleItems: ScheduleItem[];
-  month: string;
+  addToCalendar?: string;
 }
 
 export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
   scheduleItems,
-  month,
+  addToCalendar,
 }) => {
   const trackEvent = useTrack();
 
@@ -29,7 +30,14 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
       px={{ base: 0, md: 20 }}
       alignItems="center"
     >
-      <Heading size="title.2xl">Schedule</Heading>
+      <Flex justifyContent="center" alignItems="center">
+        <Heading size="title.2xl">Schedule</Heading>
+        {addToCalendar ? (
+          <LinkButton href={addToCalendar} ml={4} isExternal>
+            Add to Calendar
+          </LinkButton>
+        ) : null}
+      </Flex>
       <Flex
         w="full"
         justify={{ base: "center", md: "space-between" }}
@@ -39,7 +47,7 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
         borderRadius="lg"
         overflow="hidden"
       >
-        {scheduleItems.map(({ day, title, href, irl }) => (
+        {scheduleItems.map(({ day, month, title, href, irl }) => (
           <Flex
             role="group"
             as={LinkBox}

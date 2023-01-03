@@ -68,37 +68,44 @@ const sponsors = [
 const scheduleItems = [
   {
     day: 13,
+    month: "oct",
     title: "Introduction to Solana",
     href: "https://lu.ma/sol-1",
   },
   {
     day: 18,
+    month: "oct",
     title: "Build an NFT Minting Site With Solana",
     href: "https://lu.ma/eng-2",
   },
   {
     day: 19,
+    month: "oct",
     title: "Learn to build on Solana",
     href: "https://lu.ma/build-on-sol",
   },
   {
     day: 19,
+    month: "oct",
     title: "Solana-thon NYC Kickoff",
     href: "https://lu.ma/solanathonkickoff.thirdweb",
     irl: "NYC",
   },
   {
     day: 20,
+    month: "oct",
     title: "Introduction to Solana with Phantom Wallet",
     href: "https://lu.ma/tw-phantom",
   },
   {
     day: 25,
+    month: "oct",
     title: "Create A Token Gated Website With Web3 Auth and Solana",
     href: "https://lu.ma/eng-3",
   },
   {
     day: 27,
+    month: "oct",
     title: "Meet Solana University",
     href: "https://lu.ma/tw-sol-u",
   },
@@ -238,7 +245,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
           <PrizeSection prizes={prizes} />
 
           <HomepageSection>
-            <ScheduleSection scheduleItems={scheduleItems} month="oct" />
+            <ScheduleSection scheduleItems={scheduleItems} />
           </HomepageSection>
 
           <HomepageSection mt={{ base: 12, md: 24 }}>
