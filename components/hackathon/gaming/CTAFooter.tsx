@@ -38,7 +38,7 @@ export const CTAFooter: FC = () => {
       </Heading>
 
       <LinkButton
-        href="https://thirdweb.typeform.com/to/jta0ye4M"
+        href="https://readyplayer3.devpost.com/"
         onClick={() =>
           trackEvent({
             category: "readyplayer3",
@@ -54,7 +54,7 @@ export const CTAFooter: FC = () => {
         flexShrink={0}
         background="rgba(255,255,255,1)"
         _hover={{
-          background: "rgba(255,255,255,0.9)!important",
+          background: "rgba(255,255,255,0.9) !important",
         }}
         isExternal
         noIcon

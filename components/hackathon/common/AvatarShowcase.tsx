@@ -29,7 +29,13 @@ export const AvatarShowcase: React.FC<AvatarShowcaseProps> = ({
         justifyContent="space-evenly"
       >
         {avatars.map((avatar) => (
-          <Flex key={avatar.name} flexDir="column" gap={5} alignItems="center">
+          <Flex
+            key={avatar.name}
+            flexDir="column"
+            gap={5}
+            alignItems="center"
+            zIndex={2}
+          >
             <Avatar
               src={avatar.image}
               rounded="full"

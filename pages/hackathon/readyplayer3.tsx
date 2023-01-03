@@ -45,29 +45,9 @@ const sponsors = [
     link: "https://www.coinbase.com/",
   },
   {
-    name: "Scenario",
-    logo: "/assets/hackathon/sponsors/scenario.png",
-    link: "https://scenario.gg/",
-  },
-  {
-    name: "AWS",
-    logo: "/assets/hackathon/sponsors/aws.svg",
-    link: "https://aws.amazon.com/",
-  },
-  {
     name: "Consensus",
     logo: "/assets/hackathon/sponsors/consensus.png",
     link: "https://www.coindesk.com/consensus/",
-  },
-  {
-    name: "Polygon",
-    logo: "/assets/hackathon/sponsors/polygon.png",
-    link: "https://www.polygon.com/",
-  },
-  {
-    name: "Optimism",
-    logo: "/assets/hackathon/sponsors/optimism.png",
-    link: "https://www.optimism.io/",
   },
   {
     name: "Fractal",
@@ -75,9 +55,19 @@ const sponsors = [
     link: "https://www.fractal.is/",
   },
   {
+    name: "AWS activate",
+    logo: "/assets/hackathon/sponsors/aws.svg",
+    link: "https://aws.amazon.com/",
+  },
+  {
     name: "Spindl",
     logo: "/assets/hackathon/sponsors/spindl.png",
     link: "https://www.spindl.xyz/",
+  },
+  {
+    name: "Scenario",
+    logo: "/assets/hackathon/sponsors/scenario.png",
+    link: "https://scenario.gg/",
   },
 ];
 
@@ -272,9 +262,9 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                     leftIcon={<Icon as={ImMagicWand} />}
                     color="black"
                     flexShrink={0}
-                    background="rgba(255,255,255,1)"
+                    background="rgba(184, 252, 98, 1)"
                     _hover={{
-                      background: "rgba(255,255,255,0.9)!important",
+                      background: "rgba(184, 252, 98, 0.9) !important",
                     }}
                     isExternal
                     noIcon
@@ -298,9 +288,9 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                   leftIcon={<Icon as={ImMagicWand} />}
                   color="black"
                   flexShrink={0}
-                  background="rgba(255,255,255,1)"
+                  background="rgba(184, 252, 98, 1)"
                   _hover={{
-                    background: "rgba(255,255,255,0.9)!important",
+                    background: "rgba(184, 252, 98, 0.9) !important",
                   }}
                   isExternal
                   noIcon
@@ -369,6 +359,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
             trackingCategory="readyplayer3"
             avatars={mentors}
           />
+
           <Box
             w="full"
             h={{ base: "200px", md: "250px" }}
