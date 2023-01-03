@@ -40,6 +40,26 @@ const metadata = {
 
 const sponsors = [
   {
+    name: "Coinbase",
+    logo: "/assets/investors/coinbase.svg",
+    link: "https://www.coinbase.com/",
+  },
+  {
+    name: "Scenario",
+    logo: "/assets/hackathon/sponsors/scenario.png",
+    link: "https://scenario.gg/",
+  },
+  {
+    name: "AWS",
+    logo: "/assets/hackathon/sponsors/aws.svg",
+    link: "https://aws.amazon.com/",
+  },
+  {
+    name: "Consensus",
+    logo: "/assets/hackathon/sponsors/consensus.png",
+    link: "https://www.coindesk.com/consensus/",
+  },
+  {
     name: "Polygon",
     logo: "/assets/hackathon/sponsors/polygon.png",
     link: "https://www.polygon.com/",
@@ -53,6 +73,11 @@ const sponsors = [
     name: "Fractal",
     logo: "/assets/hackathon/sponsors/fractal.png",
     link: "https://www.fractal.is/",
+  },
+  {
+    name: "Spindl",
+    logo: "/assets/hackathon/sponsors/spindl.png",
+    link: "https://www.spindl.xyz/",
   },
 ];
 
