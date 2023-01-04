@@ -10,87 +10,105 @@ import {
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from "@thirdweb-dev/react";
+import { ClientOnly } from "components/ClientOnly/ClientOnly";
+import { FTUX } from "components/FTUX/FTUX";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
-import { NoWallet } from "components/contract-components/shared/no-wallet";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { DeployedPrograms } from "components/contract-components/tables/deployed-programs";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { FancyEVMIcon } from "components/icons/Ethereum";
-import { WelcomeScreen } from "components/notices/welcome-screen";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { isPossibleSolanaAddress } from "lib/address-utils";
-// import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
+/**
+ *
+ * @TODO
+ * Initially the FTUX is shown, then the dashboard is shown. This creates a flash of wrong content.
+ * To fix this, we need to hold off rendering either the FTUX or the dashboard until we know which one to show.
+ */
+
 const Dashboard: ThirdwebNextPage = () => {
-  const wallet = useSingleQueryParam("address") || "dashboard";
+  const queryParam = useSingleQueryParam("address") || "dashboard";
   const address = useAddress();
   const { publicKey } = useWallet();
 
+  /** put the component is loading state for sometime to avoid layout shift */
+  const [isLoading, setIsLoading] = useState(true);
+
   const evmAddress = useMemo(() => {
-    return wallet === "dashboard"
+    return queryParam === "dashboard"
       ? address
-      : utils.isAddress(wallet)
-      ? wallet
+      : utils.isAddress(queryParam)
+      ? queryParam
       : address;
-  }, [address, wallet]);
+  }, [address, queryParam]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 200);
+  }, []);
 
   const solAddress = useMemo(() => {
-    return wallet === "dashboard"
+    return queryParam === "dashboard"
       ? publicKey?.toBase58()
-      : isPossibleSolanaAddress(wallet)
-      ? wallet
+      : isPossibleSolanaAddress(queryParam)
+      ? queryParam
       : publicKey?.toBase58();
-  }, [publicKey, wallet]);
+  }, [publicKey, queryParam]);
 
   return (
-    <>
-      <WelcomeScreen />
-      {solAddress && <SOLDashboard address={solAddress} />}
-      {evmAddress && (
-        <Tabs isLazy lazyBehavior="keepMounted">
-          <TabList
-            px={0}
-            borderBottomColor="borderColor"
-            borderBottomWidth="1px"
-            overflowX={{ base: "auto", md: "inherit" }}
-          >
-            <Tab gap={2} _selected={{ borderBottomColor: "purple.500" }}>
-              <Icon opacity={0.85} boxSize={6} as={FancyEVMIcon} />
-              <Heading size="label.lg">Deployed Contracts</Heading>
-            </Tab>
-            <Tab
-              gap={2}
-              _selected={{
-                borderBottomColor: "#FBFF5C",
-              }}
-            >
-              <ChakraNextImage
-                src={require("public/assets/product-icons/release.png")}
-                alt=""
-                boxSize={6}
-              />
-              <Heading size="label.lg">Released Contracts</Heading>
-            </Tab>
-          </TabList>
-          <TabPanels px={0} py={2}>
-            <TabPanel px={0}>
-              <EVMDashboard address={evmAddress} />
-            </TabPanel>
-            <TabPanel px={0}>
-              <ReleaseDashboard address={evmAddress} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+    <ClientOnly fadeInDuration={600} ssr={null}>
+      {!isLoading && (
+        <>
+          {solAddress && <SOLDashboard address={solAddress} />}
+          {evmAddress && (
+            <Tabs isLazy lazyBehavior="keepMounted">
+              <TabList
+                px={0}
+                borderBottomColor="borderColor"
+                borderBottomWidth="1px"
+                overflowX={{ base: "auto", md: "inherit" }}
+              >
+                <Tab gap={2} _selected={{ borderBottomColor: "purple.500" }}>
+                  <Icon opacity={0.85} boxSize={6} as={FancyEVMIcon} />
+                  <Heading size="label.lg">Deployed Contracts</Heading>
+                </Tab>
+                <Tab
+                  gap={2}
+                  _selected={{
+                    borderBottomColor: "#FBFF5C",
+                  }}
+                >
+                  <ChakraNextImage
+                    src={require("public/assets/product-icons/release.png")}
+                    alt=""
+                    boxSize={6}
+                  />
+                  <Heading size="label.lg">Released Contracts</Heading>
+                </Tab>
+              </TabList>
+              <TabPanels px={0} py={2}>
+                <TabPanel px={0}>
+                  <EVMDashboard address={evmAddress} />
+                </TabPanel>
+                <TabPanel px={0}>
+                  <ReleaseDashboard address={evmAddress} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          )}
+          {!evmAddress && !solAddress && <FTUX />}
+        </>
       )}
-      {!evmAddress && !solAddress && <NoWallet />}
-    </>
+    </ClientOnly>
   );
 };
 
