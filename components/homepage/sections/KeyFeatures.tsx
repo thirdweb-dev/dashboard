@@ -36,7 +36,7 @@ const features: FeatureCardProps[] = [
         {"."}
       </>
     ),
-    img: "/assets/landingpage/icons/Build.svg",
+    img: "/assets/landingpage/icons/Build2.svg",
   },
 
   {
@@ -64,7 +64,7 @@ const features: FeatureCardProps[] = [
         and be discovered by 60k+ web3 devs.
       </>
     ),
-    img: "/assets/landingpage/icons/Launch.svg",
+    img: "/assets/landingpage/icons/rocket.svg",
   },
 
   {
@@ -80,7 +80,7 @@ const features: FeatureCardProps[] = [
         permissions.
       </>
     ),
-    img: "/assets/landingpage/icons/Manage.svg",
+    img: "/assets/landingpage/icons/Dashboard.svg",
   },
 ];
 

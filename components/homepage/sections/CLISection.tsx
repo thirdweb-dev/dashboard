@@ -66,6 +66,7 @@ export const CLISection = () => {
                     letterSpacing="-0.04em"
                     bg="linear-gradient(180deg,#fff,hsla(0,0%,100%,.75))"
                     bgClip={"text"}
+                    textAlign={{ base: "center", md: "left" }}
                     mb={6}
                   >
                     {activeSection.title}
@@ -77,6 +78,7 @@ export const CLISection = () => {
                     maxW={{ base: "full", md: "75%" }}
                     mr="auto"
                     mb={4}
+                    textAlign={{ base: "center", md: "left" }}
                   >
                     {activeSection.description}
                   </Text>
@@ -87,9 +89,9 @@ export const CLISection = () => {
                     label={activeSection.title.toLowerCase()}
                     display="flex"
                     alignItems="center"
+                    justifyContent={{ base: "center", md: "flex-start" }}
                     gap={2}
                     size="label.lg"
-                    mr="auto"
                     isExternal
                     mb={4}
                   >

@@ -16,18 +16,12 @@ import { Heading } from "tw-components";
 export const DashboardFeaturesSection = () => {
   return (
     <HomepageSection id="features">
+      {/* Left */}
       <Aurora
         pos={{ left: "20%", top: "30%" }}
         size={{ width: "2400px", height: "1800px" }}
-        color="hsl(276deg 84% 42% / 15%)"
+        color="hsl(289deg 92% 54% / 15%)"
       />
-
-      <Aurora
-        pos={{ left: "80%", top: "70%" }}
-        size={{ width: "2400px", height: "1800px" }}
-        color="hsl(206deg 84% 42% / 15%)"
-      />
-
       <Flex
         flexDir="column"
         pb={{ base: 12, lg: 24 }}

@@ -12,16 +12,18 @@ export const HeroSection = () => {
   const trackEvent = useTrack();
   return (
     <HomepageSection id="home" bottomPattern>
+      {/* right */}
       <Aurora
-        pos={{ left: "70%", top: "30%" }}
-        size={{ width: "2200px", height: "1600px" }}
-        color="hsl(289deg 78% 30% / 35%)"
+        pos={{ left: "75%", top: "40%" }}
+        size={{ width: "1800px", height: "1800px" }}
+        color="hsl(260deg 78% 35% / 30%)"
       />
 
+      {/* left */}
       <Aurora
-        pos={{ left: "10%", top: "30%" }}
-        size={{ width: "1800px", height: "1600px" }}
-        color="hsl(340deg 78% 30% / 40%)"
+        pos={{ left: "30%", top: "20%" }}
+        size={{ width: "1800px", height: "1800px" }}
+        color="hsl(290deg 92% 54% / 30%)"
       />
       <SimpleGrid
         pt={{
