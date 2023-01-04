@@ -18,7 +18,7 @@ const features: FeatureCardProps[] = [
   {
     title: "Owned by you.",
     description:
-      "Every contract is 100% owned by the creator’s wallet. Developers own how they use their contracts and how to monetize from it.",
+      "Every contract is 100% owned by you. Developers own how they use their contracts and how to monetize from it.",
   },
 
   {

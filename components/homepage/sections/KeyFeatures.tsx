@@ -17,23 +17,23 @@ const features: FeatureCardProps[] = [
     // gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
     description: (
       <>
-        Integrate web3 into your apps and games easily with our{" "}
-        <Link color="white" isExternal href="https://portal.thirdweb.com/sdk">
-          SDKs
-        </Link>
-        . Explore{" "}
-        <Link color="white" isExternal href="https://thirdweb.com/explore">
-          ready-to-deploy contracts
-        </Link>{" "}
-        or build your own contract with our{" "}
+        Build your own contracts with{" "}
         <Link
           color="white"
           isExternal
           href="https://portal.thirdweb.com/contractkit"
         >
           ContractKit
+        </Link>{" "}
+        or discover ready-to-deploy contracts in{" "}
+        <Link color="white" isExternal href="https://thirdweb.com/explore">
+          Explore
         </Link>
-        .
+        . Integrate web3 into your apps and games easily with our{" "}
+        <Link color="white" isExternal href="https://portal.thirdweb.com/sdk">
+          SDKs
+        </Link>
+        {"."}
       </>
     ),
     img: "/assets/landingpage/icons/Build.svg",
@@ -44,7 +44,7 @@ const features: FeatureCardProps[] = [
     // gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
     description: (
       <>
-        Ship your contracts on-chain with{" "}
+        Ship your contracts on-chain easily with{" "}
         <Link
           color="white"
           isExternal
@@ -52,7 +52,8 @@ const features: FeatureCardProps[] = [
         >
           Deploy
         </Link>
-        , a simple deployment workflow for teams. Publish contracts with{" "}
+        , a deployment workflow designed for team collaboration. Publish
+        contracts with{" "}
         <Link
           color="white"
           isExternal
@@ -60,7 +61,7 @@ const features: FeatureCardProps[] = [
         >
           Release
         </Link>{" "}
-        and be discovered by global web3 devs.
+        and be discovered by 60k+ web3 devs.
       </>
     ),
     img: "/assets/landingpage/icons/Launch.svg",

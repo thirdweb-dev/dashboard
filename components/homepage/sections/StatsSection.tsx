@@ -11,7 +11,7 @@ const stats: StatBoxProps[] = [
     description: "Total contracts deployed",
   },
   {
-    title: "3M",
+    title: "3M+",
     description: "Total Transactions",
   },
 ];
