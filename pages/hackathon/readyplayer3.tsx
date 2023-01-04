@@ -12,11 +12,11 @@ import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
 import { AvatarShowcase } from "components/hackathon/common/AvatarShowcase";
+import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
 import { Resources } from "components/hackathon/gaming/Resources";
-import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { isAfter } from "date-fns";
@@ -148,7 +148,7 @@ const scheduleItems = [
     day: 18,
     month: "jan",
     title: "Create AI-Generated in-game NFT Assets with Scenario.gg",
-    href: "https://lu.ma/solanathonkickoff.thirdweb",
+    href: "",
   },
   {
     day: 19,
