@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Flex,
+  Link,
 } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
@@ -12,7 +13,7 @@ const FAQs = [
   {
     question: "Who can participate?",
     answer:
-      "Everyone from all development levels are encouraged to participate. ",
+      "Adults from all development levels are encouraged to participate. If you're under 18, please reach out to the team for necessary registration forms for minors",
   },
   {
     question: "Where will this event take place?",
@@ -45,6 +46,20 @@ const FAQs = [
     question: "When can I start working on my project?",
     answer:
       "To keep it fair, we ask participants to start their project on or after the start date. Any submissions with a repository created prior to the start date will be automatically disqualified. ",
+  },
+  {
+    question: "Where can I see all the build tracks?",
+    answer: (
+      <>
+        Check out{" "}
+        <Link
+          href="https://www.notion.so/thirdweb/thirdweb-s-Ready-Player-3-Hackathon-Build-Tracks-f1eede16a3e343f48a9ec25a395d0afc"
+          textDecor="underline"
+        >
+          this notion document.
+        </Link>
+      </>
+    ),
   },
 ];
 
