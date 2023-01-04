@@ -19,9 +19,14 @@ const stats: StatBoxProps[] = [
 interface StatBoxProps {
   title: string;
   description: string;
+  showRightBorder?: boolean;
 }
 
-const Stat: React.FC<StatBoxProps> = ({ title, description }) => {
+const Stat: React.FC<StatBoxProps> = ({
+  title,
+  description,
+  showRightBorder,
+}) => {
   return (
     <Box
       zIndex={10}
@@ -29,7 +34,7 @@ const Stat: React.FC<StatBoxProps> = ({ title, description }) => {
       textAlign="center"
       p={{ base: 4, md: 6 }}
       alignItems={"center"}
-      borderRadius="8px"
+      borderRight={showRightBorder ? "1px solid hsla(0,0%,100%,.1)" : "none"}
     >
       <Heading
         as="h3"
@@ -62,11 +67,11 @@ export const StatsSection: React.FC = () => {
         columns={{ lg: 3, base: 1 }}
         px={{ base: 4, md: 0 }}
         boxShadow="0 0 0 1px hsl(0deg 0% 100% / 10%)"
-        borderRadius="8px"
+        borderRadius="12px"
         background="rgba(0,0,0,0.2)"
       >
-        {stats.map((stat) => (
-          <Stat key={stat.title} {...stat} />
+        {stats.map((stat, i) => (
+          <Stat key={stat.title} {...stat} showRightBorder={i !== 2} />
         ))}
       </SimpleGrid>
     </Container>

@@ -18,9 +18,9 @@ export const DashboardFeaturesSection = () => {
     <HomepageSection id="features">
       {/* Left */}
       <Aurora
-        pos={{ left: "20%", top: "30%" }}
+        pos={{ left: "20%", top: "60%" }}
         size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 92% 54% / 15%)"
+        color="hsl(289deg 92% 54% / 10%)"
       />
       <Flex
         flexDir="column"

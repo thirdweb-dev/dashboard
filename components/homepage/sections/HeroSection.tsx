@@ -111,7 +111,7 @@ export const HeroSection = () => {
                   </Text>
                 </Link>
               </Flex>
-              <CLICommand text="npx thirdweb@latest" />
+              <CLICommand text="npx thirdweb" />
             </Flex>
           </LightMode>
         </Flex>

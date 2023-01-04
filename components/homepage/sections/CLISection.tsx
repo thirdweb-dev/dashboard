@@ -38,15 +38,6 @@ const sections = [
 export const CLISection = () => {
   return (
     <HomepageSection id="developers" py={{ base: 24, md: 48 }}>
-      <Heading
-        as="h2"
-        fontSize={{ base: "32px", md: "48px" }}
-        letterSpacing="-0.04em"
-        textAlign="center"
-        mb={{ base: 12, md: 40 }}
-      >
-        For Developers, By Developers.
-      </Heading>
       <Flex direction="column" w="full" gap={12}>
         {sections.map((activeSection, idx) => {
           return (
@@ -100,9 +91,9 @@ export const CLISection = () => {
                 </Flex>
 
                 <Aurora
-                  pos={{ left: "70%", top: "50%" }}
-                  size={{ width: "1400px", height: "1200px" }}
-                  color="hsla(0,0%,100%,0.07)"
+                  pos={{ left: "70%", top: "60%" }}
+                  size={{ width: "1200px", height: "1200px" }}
+                  color="hsl(280deg 78% 35% / 20%)"
                 />
 
                 <ChakraNextImage
