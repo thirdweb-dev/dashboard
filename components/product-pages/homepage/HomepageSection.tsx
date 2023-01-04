@@ -1,24 +1,15 @@
-import { Box, BoxProps, Container, ResponsiveValue } from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
+import { Box, BoxProps, Container } from "@chakra-ui/react";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface IHomepageSection extends BoxProps {
-  bottomGradient?: true;
-  topGradient?: true;
-  middleGradient?: true;
   id?: string;
   bottomPattern?: true;
-  gradientOpacity?: ResponsiveValue<number>;
 }
 
 export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
   children,
-  bottomGradient,
-  topGradient,
-  middleGradient,
   id,
   bottomPattern,
-  gradientOpacity,
   ...restBoxProps
 }) => {
   return (
@@ -31,17 +22,6 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
       {...restBoxProps}
     >
       <Container zIndex={1} position="relative" maxW="container.page" id={id}>
-        {/* aurora effect */}
-        {topGradient && (
-          <AuroraBg orientation="top" gradientOpacity={gradientOpacity} />
-        )}
-        {middleGradient && (
-          <AuroraBg orientation="middle" gradientOpacity={gradientOpacity} />
-        )}
-        {bottomGradient && (
-          <AuroraBg orientation="bottom" gradientOpacity={gradientOpacity} />
-        )}
-
         {children}
 
         {bottomPattern && (
@@ -110,40 +90,5 @@ export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({
         )}
       </Container>
     </Box>
-  );
-};
-
-interface AuroraBgProps {
-  orientation: "top" | "bottom" | "middle";
-  gradientOpacity?: ResponsiveValue<number>;
-}
-const AuroraBg: React.FC<AuroraBgProps> = ({
-  orientation,
-  gradientOpacity,
-}) => {
-  return (
-    <ChakraNextImage
-      aria-hidden
-      opacity={gradientOpacity || 1}
-      zIndex={-1}
-      transition="opacity 0.1s ease"
-      willChange="opacity"
-      pointerEvents="none"
-      position="absolute"
-      maxW="none"
-      w={{ base: "400%", md: "200%" }}
-      left="50%"
-      top={
-        orientation === "top" ? "0" : orientation === "bottom" ? "100%" : "50%"
-      }
-      objectFit="cover"
-      alt=""
-      transform="translate(-50%, -50%)"
-      src={require("./aurora2.png")}
-      priority
-      sizes="(max-width: 768px) 200vw,
-              (max-width: 1200px) 120vw,
-              66vw"
-    />
   );
 };

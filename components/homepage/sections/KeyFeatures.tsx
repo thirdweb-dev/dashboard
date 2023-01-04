@@ -1,3 +1,4 @@
+import { Aurora } from "../Aurora";
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { ReactNode } from "react";
@@ -7,13 +8,13 @@ interface FeatureCardProps {
   title: string;
   description: ReactNode;
   img: string;
-  gradient: string;
+  // gradient: string;
 }
 
 const features: FeatureCardProps[] = [
   {
-    title: "01 Build.",
-    gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
+    title: "Build.",
+    // gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
     description: (
       <>
         Integrate web3 into your apps and games easily with our{" "}
@@ -39,8 +40,8 @@ const features: FeatureCardProps[] = [
   },
 
   {
-    title: "02 Launch.",
-    gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
+    title: "Launch.",
+    // gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
     description: (
       <>
         Ship your contracts on-chain with{" "}
@@ -66,8 +67,8 @@ const features: FeatureCardProps[] = [
   },
 
   {
-    title: "03 Manage.",
-    gradient: "linear-gradient(90deg, #DF85CD, #5F63E3)",
+    title: "Manage.",
+    // gradient: "linear-gradient(90deg, #DF85CD, #5F63E3)",
     description: (
       <>
         Monitor, interact and configure your contracts directly from the{" "}
@@ -86,28 +87,39 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   description,
   img,
-  gradient,
 }) => {
   return (
     <Box
       zIndex={10}
       as="section"
-      background="rgba(0,0,0,0.6)"
-      px={10}
-      py={12}
+      background="rgba(0,0,0,0.4)"
+      boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 10%)"
+      p={8}
       borderRadius="8px"
     >
-      <Image src={img} alt="" width={10} mb={12} />
+      <Box
+        mb={8}
+        p={3}
+        background="hsl(0deg 0% 100% / 4%)"
+        borderRadius={8}
+        boxShadow="0 0 0px 1px hsl(0deg 0% 100% / 15%)"
+        display="inline-block"
+      >
+        <Image src={img} alt="" width={6} />
+      </Box>
       <Heading
         as="h3"
-        fontSize="24px"
-        mb={6}
-        bgGradient={gradient}
-        bgClip="text"
+        fontSize={{ base: "24px", md: "32px" }}
+        fontWeight={700}
+        letterSpacing="-0.02em"
+        mb={4}
+        bg="linear-gradient(296deg,#ffffff,#eee)"
+        bgClip={"text"}
       >
         {title}
       </Heading>
-      <Text size="body.lg" lineHeight={1.7}>
+
+      <Text size="body.lg" lineHeight={1.7} color="#888">
         {description}
       </Text>
     </Box>
@@ -116,19 +128,22 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 
 export const KeyFeatures: React.FC = () => {
   return (
-    <HomepageSection
-      py={24}
-      middleGradient
-      gradientOpacity={{ base: 1, md: 0.5 }}
-    >
-      <Heading as="h3" size="display.sm" mb={24} textAlign="center">
-        <Box
-          as="span"
-          bgGradient="linear-gradient(270.45deg, #ECC4FF 11.79%, #88B7FF 88.06%)"
-          bgClip="text"
-        >
-          Building for web3
-        </Box>
+    <HomepageSection my={20}>
+      <Aurora
+        pos={{ left: "50%", top: "10%" }}
+        size={{ width: "2400px", height: "1800px" }}
+        color="hsl(289deg 08% 30% / 20%)"
+      />
+
+      <Heading
+        as="h3"
+        fontSize={{ base: "32px", md: "48px" }}
+        lineHeight={1.1}
+        mb={{ base: 10, md: 16 }}
+        textAlign="center"
+        letterSpacing={"-0.04em"}
+      >
+        Building for web3
         <br />
         has never been easier.
       </Heading>

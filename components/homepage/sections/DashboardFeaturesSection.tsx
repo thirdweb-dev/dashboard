@@ -1,3 +1,4 @@
+import { Aurora } from "../Aurora";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { AiOutlineTeam } from "@react-icons/all-files/ai/AiOutlineTeam";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
@@ -15,25 +16,33 @@ import { Heading } from "tw-components";
 export const DashboardFeaturesSection = () => {
   return (
     <HomepageSection id="features">
+      <Aurora
+        pos={{ left: "20%", top: "30%" }}
+        size={{ width: "2400px", height: "1800px" }}
+        color="hsl(276deg 84% 42% / 15%)"
+      />
+
+      <Aurora
+        pos={{ left: "80%", top: "70%" }}
+        size={{ width: "2400px", height: "1800px" }}
+        color="hsl(206deg 84% 42% / 15%)"
+      />
+
       <Flex
         flexDir="column"
         pb={{ base: 12, lg: 24 }}
         pt={24}
         align="center"
-        gap={{ base: 12, lg: 24 }}
+        gap={{ base: 12, lg: 14 }}
       >
-        <Flex flexDir="column" gap={4}>
-          <Heading as="h2" size="display.sm" textAlign="center">
-            Dashboards for{" "}
-            <Heading as="span" fontSize="inherit" fontWeight={900}>
-              everything
-            </Heading>
-            .
-          </Heading>
-          {/* <Heading size="subtitle.lg" as="h3" textAlign="center">
-                Everything you need, in one place.
-              </Heading> */}
-        </Flex>
+        <Heading
+          as="h2"
+          textAlign="center"
+          fontSize={{ base: "32px", lg: "48px" }}
+          letterSpacing={"-0.04em"}
+        >
+          Dashboards for everything.
+        </Heading>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
           <DashboardCard
             headingTitle="teams"

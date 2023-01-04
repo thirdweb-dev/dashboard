@@ -24,12 +24,16 @@ export const DesktopMenu: React.FC = () => {
         <HoverMenu title="Solutions" items={SOLUTIONS} />
         <HoverMenu title="Resources" items={RESOURCES} />
         <TrackedLink
+          fontWeight={400}
           isExternal
-          href="https://careers.thirdweb.com"
+          href="https://portal.thirdweb.com"
           category="landing-page"
-          label="careers"
+          label="docs"
+          _hover={{
+            textDecor: "none",
+          }}
         >
-          Careers
+          Docs
         </TrackedLink>
       </Stack>
 
@@ -169,13 +173,6 @@ export const RESOURCES: NavCardProps[] = [
     description: "Learn more about our company",
     link: "/about",
     icon: require("public/assets/tw-icons/general.png"),
-  },
-  {
-    name: "Docs",
-    label: "docs",
-    description: "Complete thirdweb documentation",
-    link: "https://portal.thirdweb.com",
-    icon: require("public/assets/tw-icons/pack.png"),
   },
   {
     name: "Guides",

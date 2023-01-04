@@ -1,3 +1,4 @@
+import { Aurora } from "../Aurora";
 import {
   Box,
   Flex,
@@ -15,6 +16,12 @@ import { Heading, Text } from "tw-components";
 export const PricingSection = () => {
   return (
     <HomepageSection id="pricing">
+      <Aurora
+        pos={{ left: "80%", top: "40%" }}
+        size={{ width: "1400px", height: "1400px" }}
+        color="hsl(289deg 78% 30% / 30%)"
+      />
+
       <SimpleGrid
         py={{ base: 12, lg: 24 }}
         columns={{ base: 1, lg: 2 }}
@@ -37,11 +44,12 @@ export const PricingSection = () => {
           </Text>
         </Flex>
         <Box
-          border=".5px solid"
-          borderColor="#4953AF"
+          // border=".5px solid"
+          // borderColor="#4953AF"
           p={12}
           borderRadius="lg"
           backgroundColor="#0000004d"
+          boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
         >
           <Heading
             bgGradient="linear(to-r, #FFB8E6, #8689E3)"

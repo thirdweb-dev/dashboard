@@ -1,3 +1,4 @@
+import { Aurora } from "../Aurora";
 import { Box, Flex, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { Heading, Link, Text } from "tw-components";
@@ -50,7 +51,8 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
       direction="column"
       zIndex={10}
       as="section"
-      background="rgba(0,0,0,0.7)"
+      background="rgba(0,0,0,0.4)"
+      boxShadow="0 0 0 1px hsl(0deg 0% 100% / 10%)"
       borderRadius="8px"
     >
       <Image
@@ -96,22 +98,30 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
 
 export const SolutionsSection: React.FC = () => {
   return (
-    <HomepageSection
-      py={24}
-      middleGradient
-      gradientOpacity={{ base: 1, md: 0.5 }}
-    >
-      <Heading as="h3" size="display.sm" mb={6} textAlign="center">
-        Explore{" "}
-        <Box
-          as="span"
-          bgGradient="linear-gradient(270.45deg, #ECC4FF 11.79%, #88B7FF 88.06%)"
-          bgClip="text"
-        >
-          solutions.
-        </Box>
+    <HomepageSection py={24}>
+      <Aurora
+        pos={{ left: "10%", top: "60%" }}
+        size={{ width: "2400px", height: "1800px" }}
+        color="hsl(219deg 78% 30% / 20%)"
+      />
+
+      <Aurora
+        pos={{ left: "90%", top: "60%" }}
+        size={{ width: "2400px", height: "1800px" }}
+        color="hsl(289deg 78% 30% / 20%)"
+      />
+
+      <Heading
+        as="h3"
+        fontSize={{ base: "32px", md: "48px" }}
+        fontWeight={700}
+        letterSpacing="-0.04em"
+        mb={4}
+        textAlign="center"
+      >
+        Explore solutions.
       </Heading>
-      <Text textAlign="center" size="body.lg" mb={12}>
+      <Text textAlign="center" size="body.lg" mb={14}>
         thirdweb powers the best web3 projects across verticals
       </Text>
       <SimpleGrid

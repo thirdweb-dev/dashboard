@@ -1,4 +1,3 @@
-import { GradientBorder } from "../GradientBorder";
 import { Box, Container, SimpleGrid } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
@@ -6,49 +5,44 @@ const stats: StatBoxProps[] = [
   {
     title: "60k+",
     description: "Web3 developers use thirdweb",
-    gradient: "linear-gradient(90deg, #A79AF9, #7AA8D2)",
   },
   {
     title: "200k+",
     description: "Total contracts deployed",
-    gradient: "linear-gradient(90deg, #F5BD90, #D67FDC)",
   },
   {
-    title: "$4M+",
-    description: "Revenue per month generated from thirdweb contracts",
-    gradient: "linear-gradient(90deg, #CB79BB, #5F63E3)",
+    title: "3M",
+    description: "Total Transactions",
   },
 ];
 
 interface StatBoxProps {
   title: string;
   description: string;
-  gradient: string;
 }
 
-const Stat: React.FC<StatBoxProps> = ({ title, description, gradient }) => {
+const Stat: React.FC<StatBoxProps> = ({ title, description }) => {
   return (
     <Box
       zIndex={10}
       position="relative"
       textAlign="center"
-      background={"rgba(0,0,0,0.4)"}
-      padding={4}
-      pt={{ base: 4, md: 6 }}
+      p={{ base: 4, md: 6 }}
       alignItems={"center"}
+      borderRadius="8px"
     >
       <Heading
         as="h3"
-        bgGradient={gradient}
+        bg="linear-gradient(180deg,#fff,hsla(0,0%,100%,.75))"
         bgClip="text"
+        display={"inline-block"}
         letterSpacing="-0.05em"
-        fontSize="36px"
+        fontSize={{ md: "56px", base: "48px" }}
         mb={2}
       >
         {title}
       </Heading>
-      <GradientBorder width="4px" gradient={gradient} borderRadius="8px" />
-      <Text size="body.lg" lineHeight={1.5}>
+      <Text size="body.lg" lineHeight={1.5} fontWeight={400} color="#888">
         {description}
       </Text>
     </Box>
@@ -60,9 +54,17 @@ export const StatsSection: React.FC = () => {
     <Container
       position="relative"
       maxW={"container.page"}
-      py={{ base: 12, md: 24 }}
+      mt={12}
+      mb={{ base: 12, md: 40 }}
+      zIndex={10}
     >
-      <SimpleGrid columns={{ lg: 3, base: 1 }} gap={6} px={{ base: 4, md: 0 }}>
+      <SimpleGrid
+        columns={{ lg: 3, base: 1 }}
+        px={{ base: 4, md: 0 }}
+        boxShadow="0 0 0 1px hsl(0deg 0% 100% / 10%)"
+        borderRadius="8px"
+        background="rgba(0,0,0,0.2)"
+      >
         {stats.map((stat) => (
           <Stat key={stat.title} {...stat} />
         ))}

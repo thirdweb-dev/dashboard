@@ -14,6 +14,7 @@ import { Judges } from "components/hackathon/solana/Judges";
 import { PrizeSection } from "components/hackathon/solana/PrizeSection";
 import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
 import { Sponsors } from "components/hackathon/solana/Sponsors";
+import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -65,7 +66,13 @@ const SolanaHackathon: ThirdwebNextPage = () => {
         <HomepageTopNav />
 
         <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
-          <HomepageSection id="header" topGradient>
+          <HomepageSection id="header">
+            <Aurora
+              pos={{ left: "50%", top: "0%" }}
+              size={{ width: "2400px", height: "2400px" }}
+              color="hsl(289deg 78% 30% / 45%)"
+            />
+
             <Flex
               flexDir="column"
               align="center"

@@ -1,3 +1,4 @@
+import { Aurora } from "../Aurora";
 import { CLICommand } from "../CLICommand";
 import { Flex, Icon, LightMode, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
@@ -10,7 +11,18 @@ import { Heading, Link, LinkButton, Text } from "tw-components";
 export const HeroSection = () => {
   const trackEvent = useTrack();
   return (
-    <HomepageSection id="home" topGradient gradientOpacity={0.8} bottomPattern>
+    <HomepageSection id="home" bottomPattern>
+      <Aurora
+        pos={{ left: "70%", top: "30%" }}
+        size={{ width: "2200px", height: "1600px" }}
+        color="hsl(289deg 78% 30% / 35%)"
+      />
+
+      <Aurora
+        pos={{ left: "10%", top: "30%" }}
+        size={{ width: "1800px", height: "1600px" }}
+        color="hsl(340deg 78% 30% / 40%)"
+      />
       <SimpleGrid
         pt={{
           base: 0,
@@ -27,10 +39,13 @@ export const HeroSection = () => {
         >
           <Heading
             as="h2"
-            size="display.sm"
+            letterSpacing="-0.04em"
+            lineHeight={1.125}
+            fontWeight={700}
+            fontSize={{ base: "36px", md: "56px" }}
             textAlign={{ base: "center", md: "left" }}
           >
-            The complete web3 development framework.
+            The complete <br /> web3 development framework.
           </Heading>
           <Heading
             as="h3"
@@ -44,12 +59,11 @@ export const HeroSection = () => {
           <LightMode>
             <Flex
               direction={{ base: "column", md: "row" }}
-              align="center"
-              gap={6}
+              gap={4}
               w="100%"
               justify="space-between"
             >
-              <Flex flexDir="column" gap={3} flexGrow={1} w="100%" minW="320px">
+              <Flex flexDir="column" gap={3} flexGrow={1} minW={300}>
                 <LinkButton
                   href="/dashboard"
                   onClick={() =>
@@ -60,9 +74,11 @@ export const HeroSection = () => {
                       title: "Start building",
                     })
                   }
-                  h="68px"
+                  px={4}
+                  py={7}
+                  // h={{ base: "48px", md: "68px" }}
                   fontSize="20px"
-                  leftIcon={<Icon as={BsLightningCharge} color="yellow.500" />}
+                  leftIcon={<Icon as={BsLightningCharge} color="black" />}
                   color="black"
                   flexShrink={0}
                   background="rgba(255,255,255,1)"
@@ -70,7 +86,7 @@ export const HeroSection = () => {
                     background: "rgba(255,255,255,0.9)!important",
                   }}
                 >
-                  Start building
+                  Start Building
                 </LinkButton>
                 <Link
                   href="#pricing"
@@ -87,6 +103,7 @@ export const HeroSection = () => {
                     size="label.sm"
                     fontStyle="italic"
                     textAlign="center"
+                    whiteSpace={"nowrap"}
                   >
                     Completely free to use. No hidden fees.
                   </Text>
