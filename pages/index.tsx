@@ -45,14 +45,7 @@ const HomePage: ThirdwebNextPage = () => {
           <KeyFeatures />
           <ContractsSection />
           <Suspense>
-            <HomepageSection id="sdks" bottomPattern position="relative">
-              <SDKSection />
-              <Aurora
-                pos={{ left: "50%", top: "60%" }}
-                size={{ width: "2200px", height: "2000px" }}
-                color="hsl(280deg 78% 30% / 30%)"
-              />
-            </HomepageSection>
+            <SDKSection />
             <CLISection />
             <DashboardFeaturesSection />
             <NetworksSection />
