@@ -12,19 +12,19 @@ const features: FeatureCardProps[] = [
   {
     title: "Permissionless.",
     description:
-      "Anyone can use thirdweb tools without authorization. The code for our contracts, SDKs, dashboard and UI components is fully open source and available to everyone.",
+      "Anyone can use thirdweb tools without our permission. The code for our contracts, SDKs, dashboard and UI components are open source and available to everyone.",
   },
 
   {
     title: "Owned by you.",
     description:
-      "Every contract is 100% owned by you. Developers own how they use their contracts and how to monetize from it.",
+      "Apps and contracts built with our tools are completely owned by you. No other parties have controls over your apps.",
   },
 
   {
     title: "Composable.",
     description:
-      "Our tools are designed to ensure no vendor lock-ins. Developers can easily modify, assemble and reassemble components to use in our toolkit.",
+      "Our tools are designed to allow developers to assemble and reassemble different parts of our tools and provide their own configurations. No vendor lock-in.",
   },
 ];
 
