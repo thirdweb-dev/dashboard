@@ -24,7 +24,7 @@ console.log(nfts);`,
 
 export default function App() {
   // Connect to your smart contract
-  const contract = useContract("0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c");
+  const { contract } = useContract("0xe68904F3018fF980b6b64D06d7f7fBCeFF4cB06c");
 
   // Get all NFTs
   const nfts = useNFTs(contract);
