@@ -27,7 +27,7 @@ import { PageId } from "page-id";
 import { Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const Timer = dynamic(() => import("components/hackathon/gaming/Timer"), {
+const Timer = dynamic(() => import("components/hackathon/common/Timer"), {
   ssr: false,
 });
 
@@ -258,7 +258,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
 
               {isAfter(new Date(), new Date("2021-01-16T00:00:00.000Z")) ? (
                 <>
-                  <Timer date="2023-01-16T22:00:00" showSec={false} />
+                  <Timer date="2023-01-16T22:00:00" />
                   <LinkButton
                     href="https://readyplayer3.devpost.com/"
                     onClick={() =>
