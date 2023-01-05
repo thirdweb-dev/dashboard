@@ -45,7 +45,7 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
       if (!str) {
           return "";
       }
-      if (shortenAddress && str.length > 10) {
+      if (shortenAddress && str.length > 13) {
         return `${str.substring(0, 6)}...${str.substring(
           str.length - 4,
         )}`;
