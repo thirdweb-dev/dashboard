@@ -7,6 +7,7 @@ import { SettingsRoyalties } from "./components/royalties";
 import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContract, useContractType } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
+import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { isPaperSupportedContract } from "contract-ui/utils";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 
@@ -90,7 +91,9 @@ export const CustomContractSettingsTab: React.FC<
 
           {/* end paper.xyz settings */}
           <GridItem order={50}>
-            <OnDashboard contractAddress={contractAddress} />
+            <PublisherSDKContext>
+              <OnDashboard contractAddress={contractAddress} />
+            </PublisherSDKContext>
           </GridItem>
         </SimpleGrid>
       </Flex>

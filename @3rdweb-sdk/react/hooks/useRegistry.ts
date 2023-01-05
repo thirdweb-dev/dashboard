@@ -1,5 +1,6 @@
 import { contractKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
+import { useDashboardEVMChainId } from "./useActiveChainId";
 import { useAddress, useSDK } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
 
@@ -36,16 +37,23 @@ type AddContractParams = {
 export function useAddContractMutation() {
   const sdk = useSDK();
   const address = useAddress();
+  const chainId = useDashboardEVMChainId();
 
   return useMutationWithInvalidate(
     async (data: AddContractParams) => {
       invariant(address, "cannot add a contract without an address");
       invariant(sdk, "sdk not provided");
+      invariant(chainId, "cannot add a contract without a chainId");
 
       const { contractAddress } = data;
 
-      const registry = await sdk.deployer.getRegistry();
-      return await registry.addContract(contractAddress);
+      // TODO need to do remove and all the read / side of it
+      // const registry = await sdk.deployer.getRegistry();
+      // return await registry.addContract(contractAddress);
+      return await sdk.registry.addContract({
+        address: contractAddress,
+        chainId,
+      });
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
