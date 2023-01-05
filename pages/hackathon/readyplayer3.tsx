@@ -106,10 +106,10 @@ const judges = [
 
 const mentors = [
   {
-    name: "Ishan Sharma",
-    twitter: "Ishansharma7390",
-    image: "/assets/landingpage/ishan-sharma.jpeg",
-    company: "MarkItUp",
+    name: "Drew Falkman",
+    twitter: "drewfalkman",
+    image: "/assets/landingpage/drew-falkman2.jpg",
+    company: "frens",
   },
   {
     name: "Daniel Eugene Botha",
@@ -161,6 +161,18 @@ const scheduleItems = [
     month: "jan",
     title: "Workshop with Optimism",
     href: "https://lu.ma/rp3readylayer2",
+  },
+  {
+    day: 23,
+    month: "jan",
+    title: "Building and Launching web3 Games with Fractal",
+    href: "https://lu.ma/rp3fractal",
+  },
+  {
+    day: 24,
+    month: "jan",
+    title: "Tracking Web3 User Acquisition with Spindl",
+    href: "https://lu.ma/rp3spindl",
   },
   {
     day: 25,
@@ -323,25 +335,28 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
               />
               <Flex flexDir="column" gap={4} mb={{ base: 8, md: 24 }}>
                 <Text size="body.lg">
-                  In addition to these prizes, we also have these perks:
+                  In addition to these prizes, participating teams also have an
+                  opportunity to receive:
                 </Text>
                 <Text size="body.lg">
                   <List>
                     <ListItem>
-                      - Top 3 teams will receive Pro Tickets ($1,700 value) to
-                      Consensus 2023 Presented by CoinDesk
+                      - Top 3 teams of &apos;Main Build Track&apos; will receive
+                      Pro Tickets ($1,700 value each) to Consensus 2023
+                      Presented by CoinDesk
                     </ListItem>
                     <ListItem>
-                      - Top 3 teams receive Annual Subscription to Scenario.gg
-                    </ListItem>
-                    <ListItem>
-                      - All participating teams with a project submitted will
-                      receive 1-month free of Scenario.gg
+                      - Top 3 teams receive a complimentary 1-Year Subscription
+                      to Scenario.gg
                     </ListItem>
                     <ListItem>
                       - All participating teams with a submitted project are
                       eligible for up to $5,000 in AWS credits (as long as
                       they&apos;ve not previously been an AWS credit recipient)
+                    </ListItem>
+                    <ListItem>
+                      - All participating teams with a project submitted will
+                      receive 1-month free of Scenario.gg
                     </ListItem>
                   </List>
                 </Text>
