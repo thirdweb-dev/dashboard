@@ -23,7 +23,7 @@ export const NetworksSection = () => {
           Continuously adding support for the most in-demand chains.
         </Text>
 
-        <Box maxW="900px" width="100%">
+        <Box maxW="850px" width="100%">
           <MultiChainSVG />
         </Box>
       </Flex>

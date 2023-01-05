@@ -62,7 +62,7 @@ export const StatsSection: React.FC = () => {
     <Container
       position="relative"
       maxW={"container.page"}
-      mt={12}
+      mt={20}
       mb={{ base: 12, md: 40 }}
       zIndex={10}
     >

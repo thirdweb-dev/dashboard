@@ -52,7 +52,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
       zIndex={10}
       as="section"
       background="rgba(0,0,0,0.4)"
-      boxShadow="0 0 0 1px hsl(0deg 0% 100% / 10%)"
+      boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
       borderRadius="8px"
     >
       <Image
@@ -65,7 +65,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
       <Flex
         direction="column"
         justifyContent="space-between"
-        p={{ base: 6, lg: 12 }}
+        p={{ base: 6, lg: 8 }}
         py={{ base: 10 }}
         flexGrow={1}
       >
@@ -127,7 +127,7 @@ export const SolutionsSection: React.FC = () => {
       <SimpleGrid
         columns={{ md: 2, base: 1 }}
         gap={6}
-        maxW={1000}
+        maxW={950}
         margin="0 auto"
       >
         {solutions.map((feature) => (

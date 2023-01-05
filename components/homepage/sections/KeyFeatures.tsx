@@ -8,13 +8,11 @@ interface FeatureCardProps {
   title: string;
   description: ReactNode;
   img: string;
-  // gradient: string;
 }
 
 const features: FeatureCardProps[] = [
   {
     title: "Build.",
-    // gradient: "linear-gradient(90deg, #8877f1, #7AA8D2)",
     description: (
       <>
         Build your own contracts with{" "}
@@ -41,7 +39,6 @@ const features: FeatureCardProps[] = [
 
   {
     title: "Launch.",
-    // gradient: "linear-gradient(90deg, #F5BC91, #E386E9)",
     description: (
       <>
         Ship your contracts on-chain easily with{" "}
@@ -69,7 +66,6 @@ const features: FeatureCardProps[] = [
 
   {
     title: "Manage.",
-    // gradient: "linear-gradient(90deg, #DF85CD, #5F63E3)",
     description: (
       <>
         Monitor, interact and configure your contracts directly from the{" "}
@@ -94,7 +90,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
       zIndex={10}
       as="section"
       background="rgba(0,0,0,0.4)"
-      boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 10%)"
+      boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 15%)"
       p={8}
       borderRadius="8px"
     >
@@ -133,7 +129,7 @@ export const KeyFeatures: React.FC = () => {
       <Aurora
         pos={{ left: "50%", top: "10%" }}
         size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 08% 30% / 20%)"
+        color="hsl(289deg 08% 35% / 15%)"
       />
 
       <Heading

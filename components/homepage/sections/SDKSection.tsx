@@ -19,7 +19,7 @@ export const SDKSection: React.FC<SDKSectionProps> = ({
   codeSelectorProps,
 }) => {
   return (
-    <HomepageSection id="sdks" bottomPattern my={14}>
+    <HomepageSection id="sdks" bottomPattern my={40}>
       <Aurora
         pos={{ left: "50%", top: "50%" }}
         size={{ width: "2000px", height: "2000px" }}

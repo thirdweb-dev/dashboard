@@ -1,4 +1,3 @@
-import { Aurora } from "../Aurora";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { AiOutlineTeam } from "@react-icons/all-files/ai/AiOutlineTeam";
 import { DashboardCard } from "components/product-pages/homepage/DashboardCard";
@@ -15,20 +14,8 @@ import { Heading } from "tw-components";
  */
 export const DashboardFeaturesSection = () => {
   return (
-    <HomepageSection id="features">
-      {/* Left */}
-      <Aurora
-        pos={{ left: "20%", top: "60%" }}
-        size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 92% 54% / 10%)"
-      />
-      <Flex
-        flexDir="column"
-        pb={{ base: 12, lg: 24 }}
-        pt={24}
-        align="center"
-        gap={{ base: 12, lg: 14 }}
-      >
+    <HomepageSection id="features" my={48}>
+      <Flex flexDir="column" align="center" gap={{ base: 12, lg: 14 }}>
         <Heading
           as="h2"
           textAlign="center"

@@ -1,6 +1,6 @@
 import { Aurora } from "../Aurora";
 import { CLICommand } from "../CLICommand";
-import { Flex, Icon, LightMode, SimpleGrid } from "@chakra-ui/react";
+import { Flex, Grid, Icon, LightMode, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -14,8 +14,8 @@ export const HeroSection = () => {
     <HomepageSection id="home" bottomPattern>
       {/* right */}
       <Aurora
-        pos={{ left: "75%", top: "40%" }}
-        size={{ width: "1800px", height: "1800px" }}
+        pos={{ left: "80%", top: "40%" }}
+        size={{ width: "1400px", height: "1400px" }}
         color="hsl(260deg 78% 35% / 30%)"
       />
 
@@ -25,26 +25,28 @@ export const HeroSection = () => {
         size={{ width: "1800px", height: "1800px" }}
         color="hsl(290deg 92% 54% / 30%)"
       />
-      <SimpleGrid
+
+      <Grid
         pt={{
-          base: 0,
+          base: 8,
           md: 16,
           lg: 24,
         }}
-        columns={{ base: 1, lg: 2 }}
-        spacing={{ base: 6, lg: 8 }}
+        templateColumns={{ base: "1fr", md: "1fr auto" }}
+        gap={{ base: 6, lg: 8 }}
+        mb={{ base: 8, md: 0 }}
       >
         <Flex
           flexDir="column"
           gap={{ base: 6, md: 8 }}
-          align={{ base: "initial", md: "start" }}
+          align={{ base: "center", md: "start" }}
         >
           <Heading
             as="h2"
             letterSpacing="-0.04em"
-            lineHeight={1.125}
+            lineHeight={1.1}
             fontWeight={700}
-            fontSize={{ base: "36px", md: "56px" }}
+            fontSize={{ base: "36px", md: "64px" }}
             textAlign={{ base: "center", md: "left" }}
           >
             The complete <br /> web3 development framework.
@@ -53,17 +55,17 @@ export const HeroSection = () => {
             as="h3"
             size="subtitle.md"
             textAlign={{ base: "center", md: "left" }}
+            maxW="500px"
           >
             Everything you need to connect your apps or games to decentralized
             networks. Powerful tools that simplify web3 development.
           </Heading>
 
           <LightMode>
-            <Flex
-              direction={{ base: "column", md: "row" }}
+            <SimpleGrid
+              columns={{ base: 1, md: 2 }}
               gap={4}
-              w="100%"
-              justify="space-between"
+              mt={{ base: 8, md: 0 }}
             >
               <Flex flexDir="column" gap={3} flexGrow={1} minW={300}>
                 <LinkButton
@@ -101,7 +103,7 @@ export const HeroSection = () => {
                   }}
                 >
                   <Text
-                    color="gray.600"
+                    color="whiteAlpha.700"
                     size="label.sm"
                     fontStyle="italic"
                     textAlign="center"
@@ -112,7 +114,7 @@ export const HeroSection = () => {
                 </Link>
               </Flex>
               <CLICommand text="npx thirdweb" />
-            </Flex>
+            </SimpleGrid>
           </LightMode>
         </Flex>
 
@@ -129,7 +131,7 @@ export const HeroSection = () => {
           justifySelf="flex-end"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 30vw"
         />
-      </SimpleGrid>
+      </Grid>
     </HomepageSection>
   );
 };

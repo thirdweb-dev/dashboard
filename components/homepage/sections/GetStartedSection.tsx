@@ -1,4 +1,3 @@
-import { Aurora } from "../Aurora";
 import { Box, Center, Flex, LightMode } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -12,11 +11,6 @@ import { Heading } from "tw-components";
 export const GetStartedSection = () => {
   return (
     <HomepageSection id="get-started" bottomPattern>
-      <Aurora
-        pos={{ left: "50%", top: "50%" }}
-        size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 0% 54% / 9%)"
-      />
       <Flex
         flexDir="column"
         pt={{ base: 12, lg: 24 }}

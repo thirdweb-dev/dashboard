@@ -13,7 +13,6 @@ const sections = [
       "Bootstrap your contracts or web3 powered apps with one command.",
     link: "https://portal.thirdweb.com/create",
     img: require("/public/assets/landingpage/cli-create.png"),
-    // gradient: "linear-gradient(90deg, #A79AF9, #7AA8D2)",
   },
   {
     title: "Release.",
@@ -21,14 +20,12 @@ const sections = [
       "Publish contracts to the on-chain registry to enable one-click deployment for everyone.",
     link: "https://portal.thirdweb.com/release",
     img: require("/public/assets/landingpage/cli-release.png"),
-    // gradient: "linear-gradient(90deg, #F5BD90, #D67FDC)",
   },
   {
     title: "Deploy.",
     description: "Deploy any smart contract with a single command.",
     link: "https://portal.thirdweb.com/deploy",
     img: require("/public/assets/landingpage/cli-deploy.png"),
-    // gradient: "linear-gradient(90deg, #CB79BB, #5F63E3)",
   },
 ] as const;
 
@@ -37,7 +34,7 @@ const sections = [
  */
 export const CLISection = () => {
   return (
-    <HomepageSection id="developers" py={{ base: 24, md: 48 }}>
+    <HomepageSection id="developers" my={40}>
       <Flex direction="column" w="full" gap={12}>
         {sections.map((activeSection, idx) => {
           return (
@@ -50,6 +47,12 @@ export const CLISection = () => {
                 gap={4}
                 w="full"
               >
+                <Aurora
+                  pos={{ left: "75%", top: "60%" }}
+                  size={{ width: "1100px", height: "1100px" }}
+                  color="hsl(280deg 78% 35% / 25%)"
+                />
+
                 <Flex direction="column">
                   <Heading
                     fontWeight={700}
@@ -89,12 +92,6 @@ export const CLISection = () => {
                     <span>Learn More</span> <Icon as={FiArrowRight} />
                   </TrackedLink>
                 </Flex>
-
-                <Aurora
-                  pos={{ left: "70%", top: "60%" }}
-                  size={{ width: "1200px", height: "1200px" }}
-                  color="hsl(280deg 78% 35% / 20%)"
-                />
 
                 <ChakraNextImage
                   src={activeSection.img}
