@@ -34,7 +34,10 @@ const Stat: React.FC<StatBoxProps> = ({
       textAlign="center"
       p={{ base: 4, md: 6 }}
       alignItems={"center"}
-      borderRight={showRightBorder ? "1px solid hsla(0,0%,100%,.1)" : "none"}
+      borderRight={{
+        base: "none",
+        md: showRightBorder ? "1px solid hsl(0deg 0% 100% / 15%)" : "none",
+      }}
     >
       <Heading
         as="h3"
@@ -64,9 +67,9 @@ export const StatsSection: React.FC = () => {
       zIndex={10}
     >
       <SimpleGrid
-        columns={{ lg: 3, base: 1 }}
+        columns={{ md: 3, base: 1 }}
         px={{ base: 4, md: 0 }}
-        boxShadow="0 0 0 1px hsl(0deg 0% 100% / 10%)"
+        boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
         borderRadius="12px"
         background="rgba(0,0,0,0.2)"
       >
