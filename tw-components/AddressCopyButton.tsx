@@ -19,6 +19,21 @@ interface AddressCopyButtonProps extends Omit<ButtonProps, "onClick" | "size"> {
   shortenAddress?: boolean;
 }
 
+/**
+ * shorten the string to 13 characters with the format of 6 chars + ... + 4 chars
+ * does not shorten if string is less than 13 characters
+ *
+ * @param str string to shorten
+ * @returns shortened string to length 13
+ */
+const shorten = (str: string) => {
+  if (str.length > 13) {
+    return `${str.substring(0, 6)}...${str.substring(str.length - 4)}`;
+  } else {
+    return str;
+  }
+};
+
 export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   address,
   noIcon,
@@ -40,19 +55,6 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
 
   const trackEvent = useTrack();
   const toast = useToast();
-
-  const shorten = (str?: string) => {
-      if (!str) {
-          return "";
-      }
-      if (shortenAddress && str.length > 13) {
-        return `${str.substring(0, 6)}...${str.substring(
-          str.length - 4,
-        )}`;
-      } else {
-        return str;
-      }
-  };
 
   return (
     <Tooltip
@@ -92,16 +94,20 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
               tokenId: address,
             });
           } else {
-            trackEvent({ category: "address_button", action: "copy", address });
+            trackEvent({
+              category: "address_button",
+              action: "copy",
+              address,
+            });
           }
         }}
         leftIcon={noIcon ? undefined : <Icon boxSize={3} as={FiCopy} />}
         fontFamily="mono"
       >
         <Text size={`label.${buttonSizesMap[size]}`}>
-          {shorten(address)}
+          {address && (shortenAddress ? shorten(address) : address)}
         </Text>
       </Button>
     </Tooltip>
   );
-};  
+};
