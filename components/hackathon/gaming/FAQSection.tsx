@@ -13,17 +13,17 @@ const FAQs = [
   {
     question: "Who can participate?",
     answer:
-      "Adults from all development levels are encouraged to participate. If you're under 18, please reach out to the team for necessary registration forms for minors",
+      "18+ only. If you're under the age limit, please reach out to our team for the necessary registration forms for minors.",
   },
   {
     question: "Where will this event take place?",
     answer: (
       <>
-        Our hackathons run a hybrid model where each participants can attend
-        virtually & async. For attendees who want to hack alongside a team in
-        person we provide week-long access to our offices in San Francisco and
-        New York City. <br />
-        <br /> There are limited spots, register on our events forum.
+        The ReadyPlayer3 Hackathon will take place via{" "}
+        <Link href="https://readyplayer3.devpost.com/" color="primary.600">
+          DevPost
+        </Link>
+        .
       </>
     ),
   },

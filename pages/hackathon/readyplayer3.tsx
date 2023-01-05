@@ -45,19 +45,19 @@ const sponsors = [
     link: "https://www.coinbase.com/",
   },
   {
-    name: "Consensus",
-    logo: "/assets/hackathon/sponsors/consensus.png",
-    link: "https://www.coindesk.com/consensus/",
-  },
-  {
-    name: "Fractal",
-    logo: "/assets/hackathon/sponsors/fractal.png",
-    link: "https://www.fractal.is/",
-  },
-  {
     name: "AWS activate",
     logo: "/assets/hackathon/sponsors/aws.svg",
     link: "https://aws.amazon.com/",
+  },
+  {
+    name: "Scenario",
+    logo: "/assets/hackathon/sponsors/scenario.png",
+    link: "https://scenario.gg/",
+  },
+  {
+    name: "Consensus",
+    logo: "/assets/hackathon/sponsors/consensus.png",
+    link: "https://www.coindesk.com/consensus/",
   },
   {
     name: "Spindl",
@@ -65,9 +65,19 @@ const sponsors = [
     link: "https://www.spindl.xyz/",
   },
   {
-    name: "Scenario",
-    logo: "/assets/hackathon/sponsors/scenario.png",
-    link: "https://scenario.gg/",
+    name: "Optimism",
+    logo: "/assets/hackathon/sponsors/optimism.png",
+    link: "https://www.optimism.io/",
+  },
+  {
+    name: "Polygon",
+    logo: "/assets/hackathon/sponsors/polygon.png",
+    link: "https://www.polygon.com/",
+  },
+  {
+    name: "Fractal",
+    logo: "/assets/hackathon/sponsors/fractal.png",
+    link: "https://www.fractal.is/",
   },
 ];
 
@@ -153,37 +163,31 @@ const scheduleItems = [
   {
     day: 19,
     month: "jan",
-    title: "Code-along: build a game with GamingKit",
+    title: "thirdweb & Coinbase Cloud Code-Along: Build With GamingKit",
     href: "https://lu.ma/rp3gamecodealong",
-  },
-  {
-    day: 20,
-    month: "jan",
-    title: "Workshop with Optimism",
-    href: "https://lu.ma/rp3readylayer2",
   },
   {
     day: 23,
     month: "jan",
-    title: "Building and Launching web3 Games with Fractal",
+    title: "Fireside Chat with Fractal",
     href: "https://lu.ma/rp3fractal",
   },
   {
     day: 24,
     month: "jan",
-    title: "Tracking Web3 User Acquisition with Spindl",
+    title: "Workshop with Spindl",
     href: "https://lu.ma/rp3spindl",
   },
   {
     day: 25,
     month: "jan",
-    title: "Devpost + Q&A",
+    title: "How To Create Your Hackathon Submission on DevPost + Q&A",
     href: "https://lu.ma/rp3submissions",
   },
   {
     day: 6,
     month: "feb",
-    title: "Hackathon Closing Ceremony",
+    title: "Hackathon Closing Ceremony + Winners Announcement",
     href: "https://lu.ma/rp3closing",
   },
 ];

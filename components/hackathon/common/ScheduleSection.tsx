@@ -31,7 +31,7 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
       alignItems="center"
     >
       <Flex justifyContent="center" alignItems="center">
-        <Heading size="title.2xl">Schedule</Heading>
+        <Heading size="title.2xl">Schedule & Workshops</Heading>
         {addToCalendar ? (
           <LinkButton href={addToCalendar} ml={4} isExternal>
             Add to Calendar
