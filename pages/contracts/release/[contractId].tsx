@@ -15,12 +15,10 @@ const ContractsPublishPage: ThirdwebNextPage = () => {
     <>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Create a Release</Heading>
+          <Heading size="title.md">Publish your contract</Heading>
           <Text fontStyle="normal" maxW="container.lg">
-            Releases are recorded on chain, and enable others to deploy this
-            contract and track new versions.
-            <br /> Unlocks automatic SDKs in all languages, admin dashboards,
-            analytics and auto verification.{" "}
+            Publishing your contract makes it shareable, discoverable, and
+            deployable in a single click.{" "}
             <Link
               color="blue.500"
               isExternal
@@ -35,10 +33,6 @@ const ContractsPublishPage: ThirdwebNextPage = () => {
     </>
   );
 };
-
-// const AppLayout = dynamic(
-//   async () => (await import("components/app-layouts/app")).AppLayout,
-// );
 
 ContractsPublishPage.getLayout = (page, props) => (
   <AppLayout {...props}>

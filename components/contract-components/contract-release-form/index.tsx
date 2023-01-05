@@ -191,7 +191,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
   return (
-    <Card w="100%" p={{ base: 6, md: 10 }}>
+    <Box w="100%">
       <Flex
         as="form"
         id="contract-release-form"
@@ -255,10 +255,36 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
         direction="column"
         gap={6}
       >
-        <Flex gap={8} direction="column">
-          <Flex gap={4} alignItems="center">
+        <Flex gap={20} direction="column">
+          {/*           <Flex gap={4} alignItems="center">
+            <Flex direction="column">
+              <Skeleton
+                isLoaded={
+                  publishMetadata.isSuccess && !!publishMetadata.data.name
+                }
+              >
+                <Heading minW="60px" size="title.md" fontWeight="bold">
+                  {publishMetadata.data?.name || "Placeholder"}
+                </Heading>
+              </Skeleton>
+              {address ? (
+                <Text size="body.md" py={1}>
+                  Releasing as{" "}
+                  <strong>
+                    {shortenIfAddress(ensQuery.data?.ensName || address)}
+                  </strong>
+                </Text>
+              ) : (
+                <Text size="body.md" py={1}>
+                  Connect your wallet to create a release for this contract
+                </Text>
+              )}
+            </Flex>
+          </Flex> */}
+          <Flex gap={6} w="full">
             <FormControl isInvalid={!!errors.logo} w="auto">
-              <Box width={{ base: "auto", md: "90px" }}>
+              <FormLabel>Contract Logo</FormLabel>
+              <Box width={{ base: "auto", md: "141px" }}>
                 <FileInput
                   accept={{ "image/*": [] }}
                   value={logoUrl}
@@ -285,41 +311,29 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 {errors?.logo?.message as unknown as string}
               </FormErrorMessage>
             </FormControl>
+            <Flex flexDir="column" gap={4} w="full">
+              <FormControl isInvalid={!!errors.displayName}>
+                <FormLabel>Release Name</FormLabel>
+                <Input {...register("displayName")} disabled={isDisabled} />
+                <FormErrorMessage>
+                  {errors?.displayName?.message}
+                </FormErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!errors.description}>
+                <FormLabel>Description</FormLabel>
+                <Textarea
+                  {...register("description")}
+                  disabled={isDisabled}
+                  rows={2}
+                />
 
-            <Flex direction="column">
-              <Skeleton
-                isLoaded={
-                  publishMetadata.isSuccess && !!publishMetadata.data.name
-                }
-              >
-                <Heading minW="60px" size="title.md" fontWeight="bold">
-                  {publishMetadata.data?.name || "Placeholder"}
-                </Heading>
-              </Skeleton>
-              {address ? (
-                <Text size="body.md" py={1}>
-                  Releasing as{" "}
-                  <strong>
-                    {shortenIfAddress(ensQuery.data?.ensName || address)}
-                  </strong>
-                </Text>
-              ) : (
-                <Text size="body.md" py={1}>
-                  Connect your wallet to create a release for this contract
-                </Text>
-              )}
+                <FormErrorMessage>
+                  {errors?.description?.message}
+                </FormErrorMessage>
+              </FormControl>
             </Flex>
           </Flex>
-          <FormControl isInvalid={!!errors.displayName}>
-            <FormLabel>Release Name</FormLabel>
-            <Input {...register("displayName")} disabled={isDisabled} />
-            <FormErrorMessage>{errors?.displayName?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.description}>
-            <FormLabel>Description</FormLabel>
-            <Input {...register("description")} disabled={isDisabled} />
-            <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
-          </FormControl>
+
           <FormControl isInvalid={!!errors.readme}>
             <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
               <TabList
@@ -739,6 +753,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           </Flex>
         </Flex>
       </Flex>
-    </Card>
+    </Box>
   );
 };
