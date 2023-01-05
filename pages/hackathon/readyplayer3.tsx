@@ -35,7 +35,7 @@ const metadata = {
   title:
     "Join the 'Ready Player 3' Hackathon and Transform the Gaming World with Web3 and Unity!",
   description:
-    "Unleash your full potential as a game dev and build the future of gaming with thirdweb's 'Ready Player 3' Hackathon. Supported by Coinbase and more.",
+    "Unleash your full potential as a game dev and build the future of gaming with thirdweb's 'Ready Player 3' Hackathon. Supported by Coinbase Cloud and more.",
 };
 
 const sponsors = [
