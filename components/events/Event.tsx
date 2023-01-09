@@ -60,7 +60,9 @@ const Event: FC<EventProps> = ({
           {type}
         </Badge>
         <Flex flexDir="column" w="full">
-          <Heading textAlign="left">{title}</Heading>
+          <Heading textAlign="left" size="title.md">
+            {title}
+          </Heading>
 
           <Flex justify="space-between" mt={2}>
             <Flex align="center" gap={1}>

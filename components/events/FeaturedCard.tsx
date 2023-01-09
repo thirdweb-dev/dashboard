@@ -22,7 +22,13 @@ export const FeaturedCard: FC<FeaturedCardProps> = ({
   const trackEvent = useTrack();
 
   return (
-    <Flex pos="relative" flexDir="column" bg="whiteAlpha.100" rounded="lg">
+    <Flex
+      pos="relative"
+      flexDir="column"
+      bg="whiteAlpha.100"
+      rounded="lg"
+      maxW="500px"
+    >
       <Badge
         pos="absolute"
         top={4}

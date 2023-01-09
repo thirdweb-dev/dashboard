@@ -12,38 +12,84 @@ import { ThirdwebNextPage } from "utils/types";
 const featuredEvents = [
   {
     type: "Hackathon",
-    title: "Solana Hackathon",
-    date: "June 1st - 30th",
-    banner: "/assets/og-image/solanathon.jpg",
-    link: "/hackathon/solanathon",
-  },
-  {
-    type: "Hackathon",
-    title: "Ready Player 3",
-    date: "June 1st - 30th",
-    banner: "/assets/og-image/solanathon.jpg",
-    link: "/hackathon/solanathon",
+    title: "Ready Player 3 Hackathon",
+    date: "Jan 16th - 31st",
+    banner: "/assets/og-image/readyplayer3.png",
+    link: "https://thirdweb.com/hackathon/readyplayer3",
   },
 ];
 
 const allEvents = [
   {
     type: "Hackathon",
-    title: "Solana Hackathon",
-    timestamp: "2022-06-01T00:00:00.000Z",
+    title: "Hackathon Kickoff & Intro to GamingKit | Ready Player 3 Hackathon",
+    timestamp: "2023-01-16T13:00:00+05:00",
     location: "online",
     description:
-      "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-    link: "",
+      "Come learn about how to get started with thirdweb's GamingKit and then put your skills to the test in a boundary-pushing web3 gaming hackathon! This event is perfect for beginners who want to learn about game development, or for experienced developers who want to try out our new tools. We'll have prizes for the most innovative and seamless games created during the hackathon, so come ready to showcase your talents!",
+    link: "https://lu.ma/rp3kickoff",
   },
   {
     type: "Workshop",
-    title: "Some workshop",
-    timestamp: "2023-01-16T00:00:00.000Z",
-    location: "earth",
+    title: "Getting Started with thirdweb | Ready Player 3 Hackathon",
+    timestamp: "2023-01-17T13:00:00-05:00",
+    location: "online",
     description:
-      "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ",
-    link: "",
+      "Join us for a workshop on getting started with thirdweb, and then put your new skills to the test in our Ready Player 3 Hackathon!",
+    link: "https://lu.ma/rp3gettingstarted",
+  },
+  {
+    type: "Workshop",
+    title:
+      "Create AI Generated In-Game NFT Assets with Scenario.gg | Ready Player 3 Hackathon",
+    timestamp: "2023-01-18T13:00:00-05:00",
+    location: "online",
+    description:
+      "Come learn how to use the new AI game asset generation tool from scenario.gg in combination with thirdweb's GamingKit!",
+    link: "https://lu.ma/rp3scenario",
+  },
+  {
+    type: "Workshop",
+    title:
+      "thirdweb & Coinbase Cloud Code-Along: Build With GamingKit | Ready Player 3 Hackathon",
+    timestamp: "2023-01-19T13:00:00-05:00",
+    location: "online",
+    description:
+      "​Learn how to build a web3 game, powered by thirdweb's GamingKit!",
+    link: "https://lu.ma/rp3gamecodealong",
+  },
+  {
+    type: "Workshop",
+    title: "Workshop with Spindl.xyz | Ready Player 3 Hackathon",
+    timestamp: "2023-01-23T13:00:00-05:00",
+    location: "online",
+    description: "",
+    link: "https://lu.ma/rp3spindl",
+  },
+  {
+    type: "Workshop",
+    title: "Fireside Chat with Fractal | Ready Player 3 Hackathon",
+    timestamp: "2023-01-24T13:00:00-05:00",
+    location: "online",
+    description: "",
+    link: "https://lu.ma/rp3fractal",
+  },
+  {
+    type: "Workshop",
+    title:
+      "How to Create Your Hackathon Submission on DevPost + Q&A | Ready Player 3 Hackathon",
+    timestamp: "2023-01-25T13:00:00-05:00",
+    location: "online",
+    description: "",
+    link: "https://lu.ma/rp3submissions",
+  },
+  {
+    type: "Workshop",
+    title: "Ready Player 3 Hackathon | Closing Ceremony + Winners Announcement",
+    timestamp: "2023-02-06T13:00:00-05:00",
+    location: "online",
+    description: "",
+    link: "https://lu.ma/rp3closing",
   },
 ];
 
@@ -61,7 +107,7 @@ const EventsPage: ThirdwebNextPage = () => {
           allEvents.sort((a, b) => {
             const dateA = new Date(a.timestamp);
             const dateB = new Date(b.timestamp);
-            return dateB.getTime() - dateA.getTime();
+            return dateA.getTime() - dateB.getTime();
           }),
         );
         break;
@@ -137,12 +183,10 @@ const EventsPage: ThirdwebNextPage = () => {
               </Heading>
             </Flex>
             <Grid
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-              }}
+              column={{ base: 1, md: featuredEvents.length === 2 ? 2 : 1 }}
               gap={12}
               mt={12}
+              placeContent="center"
             >
               {featuredEvents.map(({ type, title, date, banner, link }) => (
                 <FeaturedCard
@@ -174,7 +218,7 @@ const EventsPage: ThirdwebNextPage = () => {
               <option value="date">Sort by: Date</option>
               <option value="location">Sort by: Location</option>
               <option value="type">Sort by: Type</option>
-              <option value="type">Sort by: Title</option>
+              <option value="title">Sort by: Title</option>
             </Select>
 
             <Accordion
