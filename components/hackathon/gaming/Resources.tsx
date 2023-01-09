@@ -24,29 +24,59 @@ export const Resources: FC = () => {
   return (
     <Flex flexDir="column">
       <Heading textAlign="center">Resources</Heading>
-      <Flex gap={6} mt={4} align="center" justify="center">
+      <Flex gap={6} mt={4} align="center" justify="center" wrap="wrap">
         {resources.map(({ name, link, image }, i) => (
-          <Flex flexDir="column" rounded="lg" bg="whiteAlpha.100" p={4} key={i}>
-            <TrackedLink
-              href={link}
-              isExternal
-              category="readyplayer3"
-              label={name}
-              target="_blank"
-              rel="noopener noreferrer"
+          <TrackedLink
+            href={link}
+            isExternal
+            category="readyplayer3"
+            label={name}
+            target="_blank"
+            rel="noopener noreferrer"
+            key={i}
+          >
+            <Flex
+              flexDir={{
+                base: "row",
+                md: "column",
+              }}
+              w={{
+                base: "90vw",
+                md: "auto",
+              }}
+              rounded="lg"
+              bg="whiteAlpha.100"
+              p={{
+                base: 2,
+                md: 4,
+              }}
+              align={{
+                base: "end",
+                md: "flex-start",
+              }}
             >
               <Image
                 src={image}
                 alt={name}
-                w="full"
+                w={{
+                  base: "40%",
+                  md: "auto",
+                }}
                 objectFit="contain"
                 rounded="lg"
               />
-              <Text mt={2} color="white" ml={2}>
+              <Text
+                mt={2}
+                color="white"
+                ml={{
+                  base: 4,
+                  md: 2,
+                }}
+              >
                 {name}
               </Text>
-            </TrackedLink>
-          </Flex>
+            </Flex>
+          </TrackedLink>
         ))}
       </Flex>
     </Flex>
