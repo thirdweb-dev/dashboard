@@ -74,7 +74,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   >("unselected");
   const [pageToShow, setPageToShow] = useState<
     "landing" | "proxy" | "factory" | "contractParams"
-  >("contractParams");
+  >("landing");
   const trackEvent = useTrack();
   const {
     reset,
@@ -175,8 +175,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   }, [ensNameOrAddress, publishMetadata.data?.name]);
 
   const isDisabled = !successRedirectUrl || !address;
-  const isDeployableViaFactory = watch("isDeployableViaFactory");
-  const isDeployableViaProxy = watch("isDeployableViaProxy");
 
   const fullReleaseMetadata = useContractFullPublishMetadata(contractId);
   const constructorParams = useConstructorParamsFromABI(
@@ -188,30 +186,11 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
       ?.implementationInitializerFunction || "initialize",
   );
 
-  const deployParams = watch("isDeployableViaProxy")
-    ? initializerParams
-    : constructorParams;
+  const deployParams =
+    contractSelection === "proxy" ? initializerParams : constructorParams;
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
-
-  const CreateReleaseButton = (
-    <Button
-      borderRadius="md"
-      position="relative"
-      role="group"
-      colorScheme={address ? "purple" : "blue"}
-      isDisabled={isDisabled}
-      isLoading={isLoading}
-      form="contract-release-form"
-      loadingText={
-        publishMutation.isSuccess ? "Preparing page" : "Releasing contract"
-      }
-      type="submit"
-    >
-      Create Release
-    </Button>
-  );
 
   return (
     <Box w="100%">
@@ -423,8 +402,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 Version information
               </Heading>
               <Text size="body.sm" mb={4}>
-                Describe what your contract does and how it should be used.
-                Markdown formatting is supported.
+                Set your contract version number, add release notes, and link to
+                your contract&apos;s audit report.
               </Text>
               <Flex flexDir="column" gap={6}>
                 <FormControl isRequired isInvalid={!!errors.version}>
@@ -540,20 +519,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 </FormControl>
               </Flex>
             </Box>
-            {/*           <Heading size="subtitle.lg">Advanced Settings</Heading>
-          <Flex alignItems="center" gap={4}>
-            <Checkbox
-              {...register("isDeployableViaProxy")}
-              isChecked={isDeployableViaProxy}
-            />
-            <Flex gap={1} alignItems="left" flexDir={"column"}>
-              <Heading size="label.lg">Deployable via proxy</Heading>
-              <Text>
-                Enable cheaper deploys for your users by using proxies of
-                pre-deployed contracts
-              </Text>
-            </Flex>
-          </Flex> */}
             <Box>
               <Heading size="title.md" mb={2}>
                 Choose your contract type
@@ -572,33 +537,16 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   name="Proxy contract"
                   onClick={() => setContractSelection("proxy")}
                   isActive={contractSelection === "proxy"}
-                  disabled={!isDeployableViaProxy}
-                  disabledText="Your contract needs to implement an initializer function to be deployable via proxy."
                   width="full"
                 />
                 <SelectOption
                   name="Factory contract"
                   onClick={() => setContractSelection("factory")}
                   isActive={contractSelection === "factory"}
-                  disabled={!isDeployableViaFactory}
-                  disabledText="Your contract can't be deployed via factory."
                   width="full"
                 />
               </Flex>
             </Box>
-            {/*             {deployParams?.length > 0 && (
-              <>
-                <Divider />
-                <Flex flexDir="column" gap={2}>
-                  <Heading size="subtitle.md">Contract Parameters</Heading>
-                  <Text>
-                    These are the parameters users will need to fill inwhen
-                    deploying this contract.
-                  </Text>
-
-                </Flex>
-              </>
-            )} */}
           </Flex>
         )}
         {pageToShow === "contractParams" && (
@@ -846,10 +794,38 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 Learn more
               </LinkButton>
             </Text>
-            <Button onClick={() => setPageToShow("contractParams")}>
-              Next
-            </Button>
-            {CreateReleaseButton}
+            {pageToShow === "landing" && contractSelection === "proxy" ? (
+              <Button onClick={() => setPageToShow("proxy")}>Next</Button>
+            ) : pageToShow === "landing" && contractSelection === "factory" ? (
+              <Button onClick={() => setPageToShow("factory")}>Next</Button>
+            ) : pageToShow !== "contractParams" && deployParams?.length > 0 ? (
+              <Button
+                disabled={
+                  pageToShow === "landing" && contractSelection === "unselected"
+                }
+                onClick={() => setPageToShow("contractParams")}
+              >
+                Next
+              </Button>
+            ) : (
+              <Button
+                borderRadius="md"
+                position="relative"
+                role="group"
+                colorScheme={address ? "purple" : "blue"}
+                isDisabled={isDisabled}
+                isLoading={isLoading}
+                form="contract-release-form"
+                loadingText={
+                  publishMutation.isSuccess
+                    ? "Preparing page"
+                    : "Releasing contract"
+                }
+                type="submit"
+              >
+                Create Release
+              </Button>
+            )}
           </Flex>
         </Flex>
       </Flex>

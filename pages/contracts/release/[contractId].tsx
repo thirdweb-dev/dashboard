@@ -1,4 +1,4 @@
-import { Flex, Link } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractReleaseForm } from "components/contract-components/contract-release-form";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
