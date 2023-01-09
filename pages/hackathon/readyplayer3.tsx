@@ -134,6 +134,12 @@ const mentors = [
     image: "/assets/landingpage/hubert-thieblot.jpg",
     company: "Founders, Inc.",
   },
+  {
+    name: "Shai Perednik",
+    twitter: "shaiss",
+    image: "/assets/landingpage/shai-perednik.jpeg",
+    company: "AWS",
+  },
 ];
 
 const scheduleItems = [
@@ -173,7 +179,6 @@ const scheduleItems = [
     title: "Fireside Chat with Fractal",
     href: "https://lu.ma/rp3fractal",
   },
-
   {
     day: 25,
     month: "jan",
