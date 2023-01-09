@@ -34,6 +34,10 @@ export const AvatarShowcase: React.FC<AvatarShowcaseProps> = ({
             gap={5}
             alignItems="center"
             zIndex={2}
+            w={{
+              base: "45vw",
+              md: "auto",
+            }}
           >
             <Avatar
               src={avatar.image}
