@@ -88,6 +88,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
       new QueryClient({
         defaultOptions: {
           queries: {
+            refetchOnWindowFocus: false,
             // 24 hours
             cacheTime: 1000 * 60 * 60 * 24,
             // 30 seconds
