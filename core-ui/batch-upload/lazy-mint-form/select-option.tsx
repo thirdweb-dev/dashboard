@@ -1,11 +1,11 @@
-import { Radio, Stack, Tooltip } from "@chakra-ui/react";
+import { Radio, Stack, StackProps, Tooltip } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
 import { Card, Heading, Text } from "tw-components";
 
-interface SelectOptionProps {
+interface SelectOptionProps extends StackProps {
   name: string;
-  description: string;
-  isActive: boolean;
+  description?: string;
+  isActive?: boolean;
   onClick: MouseEventHandler<HTMLDivElement>;
   disabled?: boolean;
   disabledText?: string;
@@ -14,10 +14,11 @@ interface SelectOptionProps {
 export const SelectOption: React.FC<SelectOptionProps> = ({
   name,
   description,
-  isActive,
+  isActive = true,
   onClick,
   disabled,
   disabledText,
+  ...stackProps
 }) => {
   return (
     <Tooltip
@@ -43,6 +44,7 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
         cursor={disabled ? "not-allowed" : "pointer"}
         pointerEvents={disabled ? "none" : undefined}
         bgColor={disabled ? "backgroundHighlight" : undefined}
+        {...stackProps}
       >
         <Stack flexDirection="row" alignItems="start" spacing={0} cursor="">
           <Radio
@@ -55,12 +57,19 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
             isDisabled={disabled}
           />
           <Stack ml={4} flexDirection="column" alignSelf="start">
-            <Heading size="subtitle.sm" fontWeight="700" mb={0}>
+            <Heading
+              size="subtitle.sm"
+              fontWeight="700"
+              mb={0}
+              color={disabled ? "gray.600" : "inherit"}
+            >
               {name}
             </Heading>
-            <Text size="body.sm" mt="4px">
-              {description}
-            </Text>
+            {description && (
+              <Text size="body.sm" mt="4px">
+                {description}
+              </Text>
+            )}
           </Stack>
         </Stack>
       </Stack>
