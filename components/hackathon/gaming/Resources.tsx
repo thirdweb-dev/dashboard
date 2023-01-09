@@ -16,7 +16,7 @@ export const Resources: FC = () => {
     },
     {
       name: "GamingKit Quickstart",
-      link: "/",
+      link: "https://portal.thirdweb.com/gamingkit/quickstart",
       image: "/assets/hackathon/resources/readyplayer3/quickstart.png",
     },
   ];
