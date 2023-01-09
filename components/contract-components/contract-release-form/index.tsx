@@ -255,7 +255,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
         direction="column"
         gap={6}
       >
-        <Flex gap={20} direction="column">
+        <Flex gap={16} direction="column">
           {/*           <Flex gap={4} alignItems="center">
             <Flex direction="column">
               <Skeleton
@@ -334,104 +334,15 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             </Flex>
           </Flex>
 
-          <FormControl isInvalid={!!errors.readme}>
-            <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
-              <TabList
-                px={0}
-                borderBottomColor="borderColor"
-                borderBottomWidth="1px"
-              >
-                <Tab gap={2}>
-                  <Icon as={BsCode} my={2} />
-                  <Heading size="label.lg">About</Heading>
-                </Tab>
-                <Tab gap={2}>
-                  <Icon as={BsEye} my={2} />
-                  <Heading size="label.lg">Preview</Heading>
-                </Tab>
-              </TabList>
-              <TabPanels pt={2}>
-                <TabPanel px={0} pb={0}>
-                  <Textarea
-                    {...register("readme")}
-                    disabled={isDisabled}
-                    rows={12}
-                  />
-                  <FormErrorMessage>{errors?.readme?.message}</FormErrorMessage>
-                </TabPanel>
-                <TabPanel px={0} pb={0}>
-                  <Card>
-                    <MarkdownRenderer markdownText={watch("readme") || ""} />
-                  </Card>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </FormControl>
-          <FormControl isRequired isInvalid={!!errors.version}>
-            <Flex alignItems="center" mb={1}>
-              <FormLabel flex="1" mb={0}>
-                Version
-              </FormLabel>
-              {latestVersion && (
-                <Text size="body.md">latest release: {latestVersion}</Text>
-              )}
-            </Flex>
-            <Input
-              {...register("version")}
-              placeholder={placeholderVersion}
-              disabled={isDisabled}
-            />
-            <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!errors.audit}>
-            <FormLabel>Audit</FormLabel>
-            {watch("audit") instanceof File ? (
-              <InputGroup>
-                <Input isDisabled value={watch("audit")?.name} />
-                <InputRightElement>
-                  <Icon
-                    as={FiTrash}
-                    cursor="pointer"
-                    color="red.300"
-                    _hover={{ color: "red.200" }}
-                    onClick={() => setValue("audit", "")}
-                  />
-                </InputRightElement>
-              </InputGroup>
-            ) : (
-              <InputGroup>
-                <Input
-                  {...register("audit")}
-                  placeholder="ipfs://..."
-                  isDisabled={isDisabled}
-                />
-                <InputRightElement pointerEvents={isDisabled ? "none" : "auto"}>
-                  <Tooltip label="Upload file" shouldWrapChildren>
-                    <FileInput
-                      setValue={(file) => {
-                        setValue("audit", file);
-                      }}
-                      isDisabled={isDisabled}
-                    >
-                      <Icon
-                        as={FiUpload}
-                        color="gray.600"
-                        _hover={{ color: "gray.500" }}
-                      />
-                    </FileInput>
-                  </Tooltip>
-                </InputRightElement>
-              </InputGroup>
-            )}
-            <FormHelperText>
-              <Text size="body.sm">
-                You can add a IPFS hash or URL pointing to an audit report, or
-                add a file and we&apos;ll upload it to IPFS.
-              </Text>
-            </FormHelperText>
-          </FormControl>
-          {latestVersion && (
-            <FormControl isInvalid={!!errors.changelog}>
+          <Box>
+            <Heading size="title.md" mb={2}>
+              Readme
+            </Heading>
+            <Text size="body.sm" mb={4}>
+              Describe what your contract does and how it should be used.
+              Markdown formatting is supported.
+            </Text>
+            <FormControl isInvalid={!!errors.readme}>
               <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
                 <TabList
                   px={0}
@@ -440,7 +351,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 >
                   <Tab gap={2}>
                     <Icon as={BsCode} my={2} />
-                    <Heading size="label.lg">Release notes</Heading>
+                    <Heading size="label.lg">About</Heading>
                   </Tab>
                   <Tab gap={2}>
                     <Icon as={BsEye} my={2} />
@@ -450,25 +361,137 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 <TabPanels pt={2}>
                   <TabPanel px={0} pb={0}>
                     <Textarea
-                      {...register("changelog")}
+                      {...register("readme")}
                       disabled={isDisabled}
+                      rows={12}
                     />
                     <FormErrorMessage>
-                      {errors?.changelog?.message}
+                      {errors?.readme?.message}
                     </FormErrorMessage>
                   </TabPanel>
                   <TabPanel px={0} pb={0}>
                     <Card>
-                      <MarkdownRenderer
-                        markdownText={watch("changelog") || ""}
-                      />
+                      <MarkdownRenderer markdownText={watch("readme") || ""} />
                     </Card>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
             </FormControl>
-          )}
-          <Divider />
+          </Box>
+          <Box>
+            <Heading size="title.md" mb={2}>
+              Version information
+            </Heading>
+            <Text size="body.sm" mb={4}>
+              Describe what your contract does and how it should be used.
+              Markdown formatting is supported.
+            </Text>
+            <Flex flexDir="column" gap={6}>
+              <FormControl isRequired isInvalid={!!errors.version}>
+                <Flex alignItems="center" mb={1}>
+                  <FormLabel flex="1" mb={0}>
+                    Version
+                  </FormLabel>
+                  {latestVersion && (
+                    <Text size="body.md">latest release: {latestVersion}</Text>
+                  )}
+                </Flex>
+                <Input
+                  {...register("version")}
+                  placeholder={placeholderVersion}
+                  disabled={isDisabled}
+                />
+                <FormErrorMessage>{errors?.version?.message}</FormErrorMessage>
+              </FormControl>
+              {latestVersion && (
+                <FormControl isInvalid={!!errors.changelog}>
+                  <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
+                    <TabList
+                      px={0}
+                      borderBottomColor="borderColor"
+                      borderBottomWidth="1px"
+                    >
+                      <Tab gap={2}>
+                        <Icon as={BsCode} my={2} />
+                        <Heading size="label.lg">Release notes</Heading>
+                      </Tab>
+                      <Tab gap={2}>
+                        <Icon as={BsEye} my={2} />
+                        <Heading size="label.lg">Preview</Heading>
+                      </Tab>
+                    </TabList>
+                    <TabPanels pt={2}>
+                      <TabPanel px={0} pb={0}>
+                        <Textarea
+                          {...register("changelog")}
+                          disabled={isDisabled}
+                        />
+                        <FormErrorMessage>
+                          {errors?.changelog?.message}
+                        </FormErrorMessage>
+                      </TabPanel>
+                      <TabPanel px={0} pb={0}>
+                        <Card>
+                          <MarkdownRenderer
+                            markdownText={watch("changelog") || ""}
+                          />
+                        </Card>
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </FormControl>
+              )}
+              <FormControl isInvalid={!!errors.audit}>
+                <FormLabel>Audit report</FormLabel>
+                {watch("audit") instanceof File ? (
+                  <InputGroup>
+                    <Input isDisabled value={watch("audit")?.name} />
+                    <InputRightElement>
+                      <Icon
+                        as={FiTrash}
+                        cursor="pointer"
+                        color="red.300"
+                        _hover={{ color: "red.200" }}
+                        onClick={() => setValue("audit", "")}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                ) : (
+                  <InputGroup>
+                    <Input
+                      {...register("audit")}
+                      placeholder="ipfs://..."
+                      isDisabled={isDisabled}
+                    />
+                    <InputRightElement
+                      pointerEvents={isDisabled ? "none" : "auto"}
+                    >
+                      <Tooltip label="Upload file" shouldWrapChildren>
+                        <FileInput
+                          setValue={(file) => {
+                            setValue("audit", file);
+                          }}
+                          isDisabled={isDisabled}
+                        >
+                          <Icon
+                            as={FiUpload}
+                            color="gray.600"
+                            _hover={{ color: "gray.500" }}
+                          />
+                        </FileInput>
+                      </Tooltip>
+                    </InputRightElement>
+                  </InputGroup>
+                )}
+                <FormHelperText>
+                  <Text size="body.sm">
+                    You can add a IPFS hash or URL pointing to an audit report,
+                    or add a file and we&apos;ll upload it to IPFS.
+                  </Text>
+                </FormHelperText>
+              </FormControl>
+            </Flex>
+          </Box>
           <Heading size="subtitle.lg">Advanced Settings</Heading>
           <Flex alignItems="center" gap={4}>
             <Checkbox

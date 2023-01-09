@@ -15,7 +15,7 @@ const ContractsPublishPage: ThirdwebNextPage = () => {
     <>
       <Flex gap={8} direction="column">
         <Flex gap={2} direction="column">
-          <Heading size="title.md">Publish your contract</Heading>
+          <Heading size="title.lg">Publish your contract</Heading>
           <Text fontStyle="normal" maxW="container.lg">
             Publishing your contract makes it shareable, discoverable, and
             deployable in a single click.{" "}
