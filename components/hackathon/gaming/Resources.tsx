@@ -10,7 +10,7 @@ export const Resources: FC = () => {
       image: "/assets/hackathon/resources/readyplayer3/gamingkit.png",
     },
     {
-      name: "GamingKit Guides & Blog",
+      name: "GamingKit Guides & Tutorials",
       link: "https://blog.thirdweb.com/tag/gaming",
       image: "/assets/hackathon/resources/readyplayer3/gamingkit-blogs.png",
     },
@@ -50,16 +50,13 @@ export const Resources: FC = () => {
                 base: 2,
                 md: 4,
               }}
-              align={{
-                base: "end",
-                md: "flex-start",
-              }}
+              align="center"
             >
               <Image
                 src={image}
                 alt={name}
                 w={{
-                  base: "40%",
+                  base: "45%",
                   md: "auto",
                 }}
                 objectFit="contain"
@@ -72,6 +69,7 @@ export const Resources: FC = () => {
                   base: 4,
                   md: 2,
                 }}
+                fontSize="2xl"
               >
                 {name}
               </Text>

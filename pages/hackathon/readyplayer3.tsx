@@ -16,6 +16,7 @@ import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
+import { GameShowcase } from "components/hackathon/gaming/GameShowcase";
 import { Resources } from "components/hackathon/gaming/Resources";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -257,7 +258,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                   $100,000 in prizes
                 </Heading>
                 <Heading size="title.xl" textAlign="center">
-                  Jan 16th - Jan 31st
+                  Jan 16th - Feb 13th
                 </Heading>
               </Flex>
 
@@ -394,19 +395,22 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
             <ScheduleSection scheduleItems={scheduleItems} />
           </HomepageSection>
 
-          <HomepageSection mt={{ base: 12, md: 24 }}>
-            <Resources />
+          <HomepageSection>
+            <GameShowcase />
           </HomepageSection>
-
           <Box
             w="full"
             h={{ base: "200px", md: "250px" }}
             background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
             filter="blur(150px)"
             transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
+            mt="-250px"
             zIndex={0}
           />
+
+          <HomepageSection>
+            <Resources />
+          </HomepageSection>
 
           <HomepageSection>
             <FaqSection />
