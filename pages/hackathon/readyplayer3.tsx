@@ -249,7 +249,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                   Build the future of gaming
                 </Heading>
                 <Heading
-                  bgImage="linear-gradient(128deg, #9945FF -9.03%, #14EE92 98.25%)"
+                  bgImage="linear-gradient(128deg, #2542EF -9.03%, #B7FD18 98.25%)"
                   bgClip="text"
                   size="display.lg"
                   textAlign="center"
