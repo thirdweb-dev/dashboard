@@ -60,10 +60,7 @@ import {
   LinkButton,
   Text,
 } from "tw-components";
-import {
-  SupportedChainIdToNetworkMap,
-  chainIdToHumanReadable,
-} from "utils/network";
+import { chainIdToHumanReadable } from "utils/network";
 
 interface ContractReleaseFormProps {
   contractId: ContractId;
@@ -77,7 +74,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   >("unselected");
   const [pageToShow, setPageToShow] = useState<
     "landing" | "proxy" | "factory" | "contractParams"
-  >("landing");
+  >("contractParams");
   const trackEvent = useTrack();
   const {
     reset,
@@ -602,100 +599,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 </Flex>
               </>
             )} */}
-            {isDeployableViaProxy && (
-              <Flex flexDir={"column"} gap={2}>
-                <Heading size="subtitle.md">Proxy Settings</Heading>
-                <Heading size="label.lg">
-                  Addresses of your deployed implementations
-                </Heading>
-                <Text>
-                  Proxy deployment requires having deployed implementations of
-                  your contract already available on each chain you want to
-                  support.
-                </Text>
-                <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
-                  {SUPPORTED_CHAIN_IDS.map((chainId) => (
-                    <FormControl key={`implementation${chainId}`}>
-                      <FormLabel flex="1">
-                        {SupportedChainIdToNetworkMap[chainId]}
-                      </FormLabel>
-                      <Flex gap={2}>
-                        <Input
-                          {...register(
-                            `factoryDeploymentData.implementationAddresses.${chainId}`,
-                          )}
-                          placeholder="0x..."
-                          disabled={isDisabled}
-                        />
-                        <DeployFormDrawer
-                          contractId={contractId}
-                          chainId={chainId}
-                          onSuccessCallback={(contractAddress) => {
-                            setValue(
-                              `factoryDeploymentData.implementationAddresses.${chainId}`,
-                              contractAddress,
-                            );
-                          }}
-                          onDrawerVisibilityChanged={(visible) => {
-                            setIsDrawerOpen(visible);
-                          }}
-                          isImplementationDeploy
-                        />
-                      </Flex>
-                    </FormControl>
-                  ))}
-                </SimpleGrid>
-                <Heading size="label.lg" mt={8}>
-                  Initializer function
-                </Heading>
-                <Text>
-                  Choose the initializer function to invoke on your proxy
-                  contracts.
-                </Text>
-                <FormControl>
-                  {/** TODO this should be a selector of ABI functions **/}
-                  <Input
-                    {...register(
-                      `factoryDeploymentData.implementationInitializerFunction`,
-                    )}
-                    placeholder="function name to invoke"
-                    defaultValue="initialize"
-                    disabled={isDisabled}
-                  />
-                </FormControl>
-              </Flex>
-            )}
-
-            {isDeployableViaFactory && (
-              <Flex flexDir="column">
-                <Heading size="label.lg" mt={8}>
-                  Addresses of your factory contracts
-                </Heading>
-                <Text>
-                  Enter the addresses of your deployed factory contracts. These
-                  need to conform to the{" "}
-                  <Link href="https://portal.thirdweb.com/contracts/IContractFactory">
-                    IContractFactory interface.
-                  </Link>
-                </Text>
-                <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
-                  {SUPPORTED_CHAIN_IDS.map((chainId) => (
-                    <FormControl key={`factory${chainId}`}>
-                      <FormLabel flex="1">
-                        {chainIdToHumanReadable[chainId]}
-                      </FormLabel>
-                      <Input
-                        {...register(
-                          `factoryDeploymentData.factoryAddresses.${chainId}`,
-                        )}
-                        placeholder="0x..."
-                        disabled={isDisabled}
-                      />
-                    </FormControl>
-                  ))}
-                </SimpleGrid>
-              </Flex>
-            )}
           </Flex>
         )}
         {pageToShow === "contractParams" && (
@@ -816,6 +719,110 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   </Flex>
                 );
               })}
+            </Flex>
+          </Flex>
+        )}
+        {pageToShow === "proxy" && (
+          <Flex gap={12} direction="column">
+            <Flex gap={2} direction="column">
+              <Heading size="title.lg">Proxy deploy settings</Heading>
+              <Text fontStyle="normal">
+                Proxy deployment requires having deployed implementations of
+                your contract already available on each chain you want to
+                support.
+              </Text>
+            </Flex>
+            <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
+              {SUPPORTED_CHAIN_IDS.map((chainId) => (
+                <FormControl key={`implementation${chainId}`}>
+                  <FormLabel flex="1" mb={2}>
+                    {chainIdToHumanReadable[chainId]}
+                  </FormLabel>
+                  <Flex gap={2}>
+                    <Input
+                      {...register(
+                        `factoryDeploymentData.implementationAddresses.${chainId}`,
+                      )}
+                      placeholder="0x..."
+                      disabled={isDisabled}
+                    />
+                    <DeployFormDrawer
+                      contractId={contractId}
+                      chainId={chainId}
+                      onSuccessCallback={(contractAddress) => {
+                        setValue(
+                          `factoryDeploymentData.implementationAddresses.${chainId}`,
+                          contractAddress,
+                        );
+                      }}
+                      onDrawerVisibilityChanged={(visible) => {
+                        setIsDrawerOpen(visible);
+                      }}
+                      isImplementationDeploy
+                    />
+                  </Flex>
+                </FormControl>
+              ))}
+            </SimpleGrid>
+            <Flex flexDir="column" gap={4}>
+              <Flex flexDir="column" gap={2}>
+                <Heading size="label.lg">Initializer function</Heading>
+                <Text>
+                  Choose the initializer function to invoke on your proxy
+                  contracts.
+                </Text>
+              </Flex>
+              <FormControl>
+                {/** TODO this should be a selector of ABI functions **/}
+                <Input
+                  {...register(
+                    `factoryDeploymentData.implementationInitializerFunction`,
+                  )}
+                  placeholder="function name to invoke"
+                  defaultValue="initialize"
+                  disabled={isDisabled}
+                />
+              </FormControl>
+            </Flex>
+          </Flex>
+        )}
+        {pageToShow === "factory" && (
+          <Flex gap={12} direction="column">
+            <Flex gap={2} direction="column">
+              <Heading size="title.lg">Factory deploy settings</Heading>
+              <Text fontStyle="normal">
+                Proxy deployment requires having deployed implementations of
+                your contract already available on each chain you want to
+                support.
+              </Text>
+            </Flex>
+            <Flex flexDir="column">
+              <Heading size="label.lg" mt={8}>
+                Addresses of your factory contracts
+              </Heading>
+              <Text>
+                Enter the addresses of your deployed factory contracts. These
+                need to conform to the{" "}
+                <Link href="https://portal.thirdweb.com/contracts/IContractFactory">
+                  IContractFactory interface.
+                </Link>
+              </Text>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
+                {SUPPORTED_CHAIN_IDS.map((chainId) => (
+                  <FormControl key={`factory${chainId}`}>
+                    <FormLabel flex="1">
+                      {chainIdToHumanReadable[chainId]}
+                    </FormLabel>
+                    <Input
+                      {...register(
+                        `factoryDeploymentData.factoryAddresses.${chainId}`,
+                      )}
+                      placeholder="0x..."
+                      disabled={isDisabled}
+                    />
+                  </FormControl>
+                ))}
+              </SimpleGrid>
             </Flex>
           </Flex>
         )}
