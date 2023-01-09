@@ -11,14 +11,12 @@ import { FiArrowRight } from "react-icons/fi";
 import { Card, Heading, Link, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const RightIcon = <Icon as={FiArrowRight} />;
-
-type NFTContractInfo = {
+interface NFTContractInfo {
   name: string;
   description: string;
   img: string;
   link: string;
-};
+}
 
 const exploreNFTContracts: NFTContractInfo[] = [
   {
@@ -30,7 +28,7 @@ const exploreNFTContracts: NFTContractInfo[] = [
   },
   {
     name: "ERC4907",
-    description: "Rental NFT, ERC-721 User And Expires Extension",
+    description: "Rental NFT, ERC-721 User And Expires Extension.",
     img: "https://gateway.ipfscdn.io/ipfs/QmaKC631DSxDtjDcveAFVuGpSwM84icnXSGQgqrLpw3Lkh/yellow%E2%80%94360x360.png",
     link: "/doubledev.eth/ERC4907?via=/explore",
   },
@@ -42,22 +40,22 @@ const exploreNFTContracts: NFTContractInfo[] = [
   },
   {
     name: "Edition",
-    description: "Create editions of ERC1155 tokens",
+    description: "Create editions of ERC1155 tokens.",
     img: "https://gateway.ipfscdn.io/ipfs/QmQm3UytP51wWMMwmDYdDHH4vCdokPqt52bUtBQoLsx5qy/edition.png",
     link: "/thirdweb.eth/TokenERC1155?via=/explore",
   },
   {
     name: "ERC721CommunityStream",
-    description: "Equally distribute any token to community of NFT holders",
+    description: "Equally distribute any token to community of NFT holders.",
     img: "https://gateway.ipfscdn.io/ipfs/QmbGjq5DY6gW1T7W7j3HEgYSAB2g4TnpzrNADTuniDXsqU/0.png",
     link: "/flairsdk.eth/ERC721CommunityStream?via=/explore",
   },
   {
     name: "Pack",
     description:
-      "Pack multiple tokens into ERC1155 NFTs that act as randomized loot boxes",
+      "Pack multiple tokens into ERC1155 NFTs that act as randomized loot boxes.",
     img: "https://gateway.ipfscdn.io/ipfs/QmaLYhDh2oKxSjAS6iA434z8fvY43oAEug2AHHEMYMBU3K/pack.png",
-    link: "https://thirdweb.com/thirdweb.eth/Pack?via=/explore",
+    link: "/thirdweb.eth/Pack?via=/explore",
   },
 ];
 
@@ -87,7 +85,7 @@ const Minting: ThirdwebNextPage = () => {
     <ProductPage
       seo={{
         title: "Minting | Solutions",
-        description: "Create powerful NFT experiences at scale",
+        description: "Build and mint NFTs at scale easily",
         // @TODO
         // openGraph: {
         //   images: [
@@ -102,7 +100,6 @@ const Minting: ThirdwebNextPage = () => {
       }}
     >
       <Hero
-        trackingCategory="minting_kit"
         name="MintingKit"
         title="Build and mint NFTs at scale easily"
         description={
@@ -111,7 +108,9 @@ const Minting: ThirdwebNextPage = () => {
             Create powerful NFT experiences.
           </>
         }
+        trackingCategory="minting_kit"
         buttonText="Get started"
+        type="Solutions"
         buttonLink="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
@@ -126,7 +125,8 @@ const Minting: ThirdwebNextPage = () => {
             title="Owned by you"
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
-            All contracts are non-custodial and 100% owned by your wallet
+            Apps and contracts built with our tools are completely owned by you.
+            No other parties have control over your apps and contracts.
           </ProductCard>
           <ProductCard
             title="Minting for all use cases"
@@ -312,7 +312,7 @@ const Minting: ThirdwebNextPage = () => {
             flexShrink={0}
             size="sm"
             isExternal
-            rightIcon={RightIcon}
+            rightIcon={<Icon as={FiArrowRight} />}
             variant="link"
             href={`/explore/nft`}
             fontWeight={500}
