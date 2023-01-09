@@ -47,20 +47,28 @@ const Timer: React.FC<TimerProps> = ({ date }) => {
   ];
 
   return (
-    <Flex gap="2">
+    <Flex gap={2}>
       {items.map(({ label, value }) => (
         <Flex flexDir="column" key={label} align="center">
           <Text
-            fontSize={{ base: "36px", md: "48px" }}
-            bg="#FFFFFF14"
-            border="1px solid #FFFFFF1A"
-            w={{ base: "60px", md: "80px" }}
+            fontSize={{ base: "24px", md: "32px" }}
+            bg="hsl(321deg 100% 50% / 8%)"
+            // border="2px solid #f849ec2b"
+            p={3}
+            lineHeight={1.2}
+            // w={{ base: "60px", md: "80px" }}
             align="center"
-            color="white"
+            // color="white"
+            fontWeight={700}
+            borderRadius={4}
+            color="#f014a5"
+            // textShadow={"0 0 10px #f849ec8a"}
           >
             {value < 10 ? `0${value}` : value}
           </Text>
-          <Text color="white">{value === 1 ? label : `${label}s`}</Text>
+          <Text fontWeight={500} fontSize="12px" color="#f014a5" mt={1}>
+            {value === 1 ? label : `${label}s`}
+          </Text>
         </Flex>
       ))}
     </Flex>
