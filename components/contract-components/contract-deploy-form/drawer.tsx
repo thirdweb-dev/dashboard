@@ -3,7 +3,7 @@ import { ContractId } from "../types";
 import { Box, Icon, useDisclosure } from "@chakra-ui/react";
 import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { useTrack } from "hooks/analytics/useTrack";
-import { FiChevronsRight } from "react-icons/fi";
+import { BiRocket } from "react-icons/bi";
 import { Button, Drawer } from "tw-components";
 
 interface DeployFormDrawerProps {
@@ -40,9 +40,8 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
           onOpen();
           onDrawerVisibilityChanged?.(true);
         }}
-        rightIcon={<Icon as={FiChevronsRight} />}
       >
-        Deploy Now
+        <Icon as={BiRocket} />
       </Button>
       <Drawer
         allowPinchZoom
