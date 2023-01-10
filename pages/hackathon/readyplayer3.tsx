@@ -300,7 +300,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 color="white"
                 mb={4}
               >
-                Jan 16th - Feb 13th
+                Jan 16th - Feb 17th
               </Text>
 
               <ClientOnly fadeInDuration={400} ssr={<Box height="220px"></Box>}>
