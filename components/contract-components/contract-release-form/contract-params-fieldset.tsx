@@ -3,7 +3,6 @@ import {
   useFunctionParamsFromABI,
 } from "../hooks";
 import {
-  Card,
   Code,
   Divider,
   Flex,
@@ -13,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
 import { useFormContext } from "react-hook-form";
-import { FormHelperText, FormLabel, Heading, Text } from "tw-components";
+import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 
 interface ContractParamsFieldsetProps {
   isDisabled?: boolean;

@@ -1,7 +1,6 @@
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
 import {
   Box,
-  Card,
   Flex,
   FormControl,
   Icon,
@@ -27,6 +26,7 @@ import { useFormContext } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import {
+  Card,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -149,7 +149,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                 </FormErrorMessage>
               </TabPanel>
               <TabPanel px={0} pb={0}>
-                <Card p={4}>
+                <Card>
                   <MarkdownRenderer markdownText={form.watch("readme") || ""} />
                 </Card>
               </TabPanel>
@@ -208,7 +208,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                     </FormErrorMessage>
                   </TabPanel>
                   <TabPanel px={0} pb={0}>
-                    <Card p={4}>
+                    <Card>
                       <MarkdownRenderer
                         markdownText={form.watch("changelog") || ""}
                       />
