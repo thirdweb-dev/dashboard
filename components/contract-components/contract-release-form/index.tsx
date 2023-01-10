@@ -62,7 +62,6 @@ import {
   LinkButton,
   Text,
 } from "tw-components";
-import { chainIdToHumanReadable } from "utils/network";
 
 interface ContractReleaseFormProps {
   contractId: ContractId;
@@ -692,7 +691,13 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               <Text fontStyle="normal">
                 Proxy deployment requires having deployed implementations of
                 your contract already available on each chain you want to
-                support.
+                support.{" "}
+                <Link
+                  isExternal
+                  href="https://portal.thirdweb.com/release#eip-1967-proxy-contracts"
+                >
+                  Learn more
+                </Link>
               </Text>
             </Flex>
             <Flex flexDir="column" gap={16} mt={8}>
@@ -787,7 +792,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           </Flex>
         )}
         {pageToShow === "factory" && (
-          <Flex gap={12} direction="column">
+          <Flex gap={16} direction="column">
             <Flex gap={2} direction="column">
               <Heading size="title.lg">Factory deploy settings</Heading>
               <Text fontStyle="normal">
@@ -796,22 +801,13 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 support.
               </Text>
             </Flex>
-            <Flex flexDir="column">
-              <Heading size="label.lg" mt={8}>
-                Addresses of your factory contracts
-              </Heading>
-              <Text>
-                Enter the addresses of your deployed factory contracts. These
-                need to conform to the{" "}
-                <Link href="https://portal.thirdweb.com/contracts/IContractFactory">
-                  IContractFactory interface.
-                </Link>
-              </Text>
-              <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mt={8}>
-                {SUPPORTED_CHAIN_IDS.map((chainId) => (
-                  <FormControl key={`factory${chainId}`}>
-                    <FormLabel flex="1">
-                      {chainIdToHumanReadable[chainId]}
+            <Flex flexDir="column" gap={4}>
+              <Heading size="title.md">Mainnets</Heading>
+              {mainnets.map(({ chainId, chainName }) => (
+                <FormControl key={`factory${chainId}`}>
+                  <Flex gap={4} alignItems="center">
+                    <FormLabel mb={2} width="150px">
+                      {chainName}
                     </FormLabel>
                     <Input
                       {...register(
@@ -820,9 +816,28 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                       placeholder="0x..."
                       disabled={isDisabled}
                     />
-                  </FormControl>
-                ))}
-              </SimpleGrid>
+                  </Flex>
+                </FormControl>
+              ))}
+            </Flex>
+            <Flex flexDir="column" gap={4}>
+              <Heading size="title.md">Testnets</Heading>
+              {testnets.map(({ chainId, chainName }) => (
+                <FormControl key={`factory${chainId}`}>
+                  <Flex gap={4} alignItems="center">
+                    <FormLabel mb={2} width="150px">
+                      {chainName}
+                    </FormLabel>
+                    <Input
+                      {...register(
+                        `factoryDeploymentData.factoryAddresses.${chainId}`,
+                      )}
+                      placeholder="0x..."
+                      disabled={isDisabled}
+                    />
+                  </Flex>
+                </FormControl>
+              ))}
             </Flex>
           </Flex>
         )}
