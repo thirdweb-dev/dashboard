@@ -10,6 +10,7 @@ import {
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
 import { ContractId } from "../types";
+import { PasteInput } from "./PasteInput";
 import { useWeb3 } from "@3rdweb-sdk/react";
 import {
   Box,
@@ -47,11 +48,10 @@ import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import { IoChevronBack } from "react-icons/io5";
-import { MdContentPaste } from "react-icons/md";
 import {
   Button,
   Card,
@@ -79,15 +79,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   >("landing");
   const { getNetworkMetadata } = useWeb3();
   const trackEvent = useTrack();
-  const {
-    reset,
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors, isDirty },
-  } = useForm<ExtraPublishMetadata>();
-  const logoUrl = useImageFileOrUrl(watch("logo"));
+  const form = useForm<ExtraPublishMetadata>();
+  const logoUrl = useImageFileOrUrl(form.watch("logo"));
 
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
@@ -126,8 +119,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   }, [latestVersion]);
 
   useEffect(() => {
-    if (!isDirty && address) {
-      reset({
+    if (!form.formState.isDirty && address) {
+      form.reset({
         ...prePublishMetadata.data?.latestPublishedContractMetadata
           ?.publishedMetadata,
         changelog: "",
@@ -162,7 +155,12 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prePublishMetadata.data, address, placeholderVersion, isDirty]);
+  }, [
+    prePublishMetadata.data,
+    address,
+    placeholderVersion,
+    form.formState.isDirty,
+  ]);
 
   const ensQuery = useEns(address);
 
@@ -215,107 +213,109 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   }, [pageToShow]);
 
   return (
-    <Box w="100%">
-      <Flex
-        as="form"
-        id="contract-release-form"
-        onSubmit={handleSubmit((data) => {
-          // the drawer has another form inside it which triggers this one on submit
-          // hacky solution to avoid double submission
-          if (isDrawerOpen) {
-            return;
-          }
-          trackEvent({
-            category: "publish",
-            action: "click",
-            label: "attempt",
-            uris: contractId,
-            release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
-          });
-          publishMutation.mutate(
-            {
-              predeployUri: contractId,
-              extraMetadata: data,
-              contractName: publishMetadata.data?.name,
-            },
-            {
-              onSuccess: () => {
-                onSuccess();
-                trackEvent({
-                  category: "publish",
-                  action: "click",
-                  label: "success",
-                  uris: contractId,
-                  release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
-                  version: data.version,
-                  is_proxy: data.isDeployableViaProxy,
-                  is_factory: data.isDeployableViaFactory,
-                });
-                if (successRedirectUrl) {
-                  router.push(
-                    successRedirectUrl,
-                    undefined,
-                    // reset scroll after redirect
-                    // shallow render (aka do not wait for SSR)
-                    { scroll: true, shallow: true },
-                  );
+    <FormProvider {...form}>
+      <Box w="100%">
+        <Flex
+          as="form"
+          id="contract-release-form"
+          onSubmit={form.handleSubmit((data) => {
+            // the drawer has another form inside it which triggers this one on submit
+            // hacky solution to avoid double submission
+            if (isDrawerOpen) {
+              return;
+            }
+            trackEvent({
+              category: "publish",
+              action: "click",
+              label: "attempt",
+              uris: contractId,
+              release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
+            });
+            publishMutation.mutate(
+              {
+                predeployUri: contractId,
+                extraMetadata: data,
+                contractName: publishMetadata.data?.name,
+              },
+              {
+                onSuccess: () => {
+                  onSuccess();
+                  trackEvent({
+                    category: "publish",
+                    action: "click",
+                    label: "success",
+                    uris: contractId,
+                    release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
+                    version: data.version,
+                    is_proxy: data.isDeployableViaProxy,
+                    is_factory: data.isDeployableViaFactory,
+                  });
+                  if (successRedirectUrl) {
+                    router.push(
+                      successRedirectUrl,
+                      undefined,
+                      // reset scroll after redirect
+                      // shallow render (aka do not wait for SSR)
+                      { scroll: true, shallow: true },
+                    );
+                  }
+                },
+                onError: (err) => {
+                  onError(err);
+                  trackEvent({
+                    category: "publish",
+                    action: "click",
+                    label: "error",
+                    uris: contractId,
+                    release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
+                    is_proxy: data.isDeployableViaProxy,
+                    is_factory: data.isDeployableViaFactory,
+                  });
+                },
+              },
+            );
+          })}
+          direction="column"
+          gap={6}
+        >
+          {pageToShow !== "landing" && (
+            <Box>
+              <IconButton
+                w="inherit"
+                variant="ghost"
+                onClick={() =>
+                  pageToShow === "contractParams" &&
+                  contractSelection === "proxy"
+                    ? setPageToShow("proxy")
+                    : pageToShow === "contractParams" &&
+                      contractSelection === "factory"
+                    ? setPageToShow("factory")
+                    : setPageToShow("landing")
                 }
-              },
-              onError: (err) => {
-                onError(err);
-                trackEvent({
-                  category: "publish",
-                  action: "click",
-                  label: "error",
-                  uris: contractId,
-                  release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
-                  is_proxy: data.isDeployableViaProxy,
-                  is_factory: data.isDeployableViaFactory,
-                });
-              },
-            },
-          );
-        })}
-        direction="column"
-        gap={6}
-      >
-        {pageToShow !== "landing" && (
-          <Box>
-            <IconButton
-              w="inherit"
-              variant="ghost"
-              onClick={() =>
-                pageToShow === "contractParams" && contractSelection === "proxy"
-                  ? setPageToShow("proxy")
-                  : pageToShow === "contractParams" &&
-                    contractSelection === "factory"
-                  ? setPageToShow("factory")
-                  : setPageToShow("landing")
-              }
-              aria-label="Back"
-              icon={<Icon as={IoChevronBack} boxSize={6} />}
-            >
-              Back
-            </IconButton>
-          </Box>
-        )}
-        {pageToShow === "landing" && (
-          <Flex gap={16} direction="column">
-            <Flex gap={2} direction="column">
-              <Heading size="title.lg">Publish your contract</Heading>
-              <Text fontStyle="normal">
-                Publishing your contract makes it shareable, discoverable, and
-                deployable in a single click.{" "}
-                <Link
-                  color="blue.500"
-                  isExternal
-                  href="https://portal.thirdweb.com/release"
-                >
-                  Learn more
-                </Link>
-              </Text>
-            </Flex>
-            {/*           <Flex gap={4} alignItems="center">
+                aria-label="Back"
+                icon={<Icon as={IoChevronBack} boxSize={6} />}
+              >
+                Back
+              </IconButton>
+            </Box>
+          )}
+          {pageToShow === "landing" && (
+            <Flex gap={16} direction="column">
+              <Flex gap={2} direction="column">
+                <Heading size="title.lg">Publish your contract</Heading>
+                <Text fontStyle="normal">
+                  Publishing your contract makes it shareable, discoverable, and
+                  deployable in a single click.{" "}
+                  <Link
+                    color="blue.500"
+                    isExternal
+                    href="https://portal.thirdweb.com/release"
+                  >
+                    Learn more
+                  </Link>
+                </Text>
+              </Flex>
+              {/*           <Flex gap={4} alignItems="center">
             <Flex direction="column">
               <Skeleton
                 isLoaded={
@@ -340,442 +340,497 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               )}
             </Flex>
           </Flex> */}
-            <Flex gap={6} w="full">
-              <FormControl isInvalid={!!errors.logo} w="auto">
-                <FormLabel>Contract Logo</FormLabel>
-                <Box width={{ base: "auto", md: "141px" }}>
-                  <FileInput
-                    accept={{ "image/*": [] }}
-                    value={logoUrl}
-                    setValue={(file) => setValue("logo", file)}
-                    border="1px solid"
-                    borderColor="gray.200"
-                    borderRadius="md"
-                    transition="all 200ms ease"
-                    _hover={{ shadow: "sm" }}
-                    renderPreview={(fileUrl) => (
-                      <Image
-                        alt=""
-                        w="100%"
-                        h="100%"
-                        src={replaceIpfsUrl(fileUrl)}
-                        borderRadius="full"
-                      />
-                    )}
-                    helperText="logo"
-                    isDisabled={isDisabled}
-                  />
-                </Box>
-                <FormErrorMessage>
-                  {errors?.logo?.message as unknown as string}
-                </FormErrorMessage>
-              </FormControl>
-              <Flex flexDir="column" gap={4} w="full">
-                <FormControl isInvalid={!!errors.displayName}>
-                  <FormLabel>Release Name</FormLabel>
-                  <Input {...register("displayName")} disabled={isDisabled} />
-                  <FormErrorMessage>
-                    {errors?.displayName?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!errors.description}>
-                  <FormLabel>Description</FormLabel>
-                  <Textarea
-                    {...register("description")}
-                    disabled={isDisabled}
-                    rows={2}
-                  />
-
-                  <FormErrorMessage>
-                    {errors?.description?.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </Flex>
-            </Flex>
-
-            <Box>
-              <Heading size="title.md" mb={2}>
-                Readme
-              </Heading>
-              <Text size="body.sm" mb={4}>
-                Describe what your contract does and how it should be used.
-                Markdown formatting is supported.
-              </Text>
-              <FormControl isInvalid={!!errors.readme}>
-                <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
-                  <TabList
-                    px={0}
-                    borderBottomColor="borderColor"
-                    borderBottomWidth="1px"
-                  >
-                    <Tab gap={2}>
-                      <Icon as={BsCode} my={2} />
-                      <Heading size="label.lg">About</Heading>
-                    </Tab>
-                    <Tab gap={2}>
-                      <Icon as={BsEye} my={2} />
-                      <Heading size="label.lg">Preview</Heading>
-                    </Tab>
-                  </TabList>
-                  <TabPanels pt={2}>
-                    <TabPanel px={0} pb={0}>
-                      <Textarea
-                        {...register("readme")}
-                        disabled={isDisabled}
-                        rows={12}
-                      />
-                      <FormErrorMessage>
-                        {errors?.readme?.message}
-                      </FormErrorMessage>
-                    </TabPanel>
-                    <TabPanel px={0} pb={0}>
-                      <Card>
-                        <MarkdownRenderer
-                          markdownText={watch("readme") || ""}
+              <Flex gap={6} w="full">
+                <FormControl isInvalid={!!form.formState.errors.logo} w="auto">
+                  <FormLabel>Contract Logo</FormLabel>
+                  <Box width={{ base: "auto", md: "141px" }}>
+                    <FileInput
+                      accept={{ "image/*": [] }}
+                      value={logoUrl}
+                      setValue={(file) => form.setValue("logo", file)}
+                      border="1px solid"
+                      borderColor="gray.200"
+                      borderRadius="md"
+                      transition="all 200ms ease"
+                      _hover={{ shadow: "sm" }}
+                      renderPreview={(fileUrl) => (
+                        <Image
+                          alt=""
+                          w="100%"
+                          h="100%"
+                          src={replaceIpfsUrl(fileUrl)}
+                          borderRadius="full"
                         />
-                      </Card>
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
-              </FormControl>
-            </Box>
-            <Box>
-              <Heading size="title.md" mb={2}>
-                Version information
-              </Heading>
-              <Text size="body.sm" mb={4}>
-                Set your contract version number, add release notes, and link to
-                your contract&apos;s audit report.
-              </Text>
-              <Flex flexDir="column" gap={6}>
-                <FormControl isRequired isInvalid={!!errors.version}>
-                  <Flex alignItems="center" mb={1}>
-                    <FormLabel flex="1" mb={0}>
-                      Version
-                    </FormLabel>
-                    {latestVersion && (
-                      <Text size="body.md">
-                        latest release: {latestVersion}
-                      </Text>
-                    )}
-                  </Flex>
-                  <Input
-                    {...register("version")}
-                    placeholder={placeholderVersion}
-                    disabled={isDisabled}
-                  />
+                      )}
+                      helperText="logo"
+                      isDisabled={isDisabled}
+                    />
+                  </Box>
                   <FormErrorMessage>
-                    {errors?.version?.message}
+                    {form.formState.errors?.logo?.message as unknown as string}
                   </FormErrorMessage>
                 </FormControl>
-                {latestVersion && (
-                  <FormControl isInvalid={!!errors.changelog}>
-                    <Tabs
-                      isLazy
-                      lazyBehavior="keepMounted"
-                      colorScheme="purple"
-                    >
-                      <TabList
-                        px={0}
-                        borderBottomColor="borderColor"
-                        borderBottomWidth="1px"
-                      >
-                        <Tab gap={2}>
-                          <Icon as={BsCode} my={2} />
-                          <Heading size="label.lg">Release notes</Heading>
-                        </Tab>
-                        <Tab gap={2}>
-                          <Icon as={BsEye} my={2} />
-                          <Heading size="label.lg">Preview</Heading>
-                        </Tab>
-                      </TabList>
-                      <TabPanels pt={2}>
-                        <TabPanel px={0} pb={0}>
-                          <Textarea
-                            {...register("changelog")}
-                            disabled={isDisabled}
-                          />
-                          <FormErrorMessage>
-                            {errors?.changelog?.message}
-                          </FormErrorMessage>
-                        </TabPanel>
-                        <TabPanel px={0} pb={0}>
-                          <Card>
-                            <MarkdownRenderer
-                              markdownText={watch("changelog") || ""}
-                            />
-                          </Card>
-                        </TabPanel>
-                      </TabPanels>
-                    </Tabs>
+                <Flex flexDir="column" gap={4} w="full">
+                  <FormControl isInvalid={!!form.formState.errors.displayName}>
+                    <FormLabel>Release Name</FormLabel>
+                    <Input
+                      {...form.register("displayName")}
+                      disabled={isDisabled}
+                    />
+                    <FormErrorMessage>
+                      {form.formState.errors?.displayName?.message}
+                    </FormErrorMessage>
                   </FormControl>
-                )}
-                <FormControl isInvalid={!!errors.audit}>
-                  <FormLabel>Audit report</FormLabel>
-                  {watch("audit") instanceof File ? (
-                    <InputGroup>
-                      <Input isDisabled value={watch("audit")?.name} />
-                      <InputRightElement>
-                        <Icon
-                          as={FiTrash}
-                          cursor="pointer"
-                          color="red.300"
-                          _hover={{ color: "red.200" }}
-                          onClick={() => setValue("audit", "")}
-                        />
-                      </InputRightElement>
-                    </InputGroup>
-                  ) : (
-                    <InputGroup>
-                      <Input
-                        {...register("audit")}
-                        placeholder="ipfs://..."
-                        isDisabled={isDisabled}
-                      />
-                      <InputRightElement
-                        pointerEvents={isDisabled ? "none" : "auto"}
-                      >
-                        <Tooltip label="Upload file" shouldWrapChildren>
-                          <FileInput
-                            setValue={(file) => {
-                              setValue("audit", file);
-                            }}
-                            isDisabled={isDisabled}
-                          >
-                            <Icon
-                              as={FiUpload}
-                              color="gray.600"
-                              _hover={{ color: "gray.500" }}
-                            />
-                          </FileInput>
-                        </Tooltip>
-                      </InputRightElement>
-                    </InputGroup>
-                  )}
-                  <FormHelperText>
-                    <Text size="body.sm">
-                      You can add a IPFS hash or URL pointing to an audit
-                      report, or add a file and we&apos;ll upload it to IPFS.
-                    </Text>
-                  </FormHelperText>
-                </FormControl>
-              </Flex>
-            </Box>
-            <Box>
-              <Heading size="title.md" mb={2}>
-                Choose your contract type
-              </Heading>
-              <Text size="body.sm" mb={4}>
-                Choose the type of contract you want to deploy.
-              </Text>
-              <Flex flexDir="column" gap={2} width="full">
-                <SelectOption
-                  name="Standard contract"
-                  onClick={() => setContractSelection("standard")}
-                  isActive={contractSelection === "standard"}
-                  width="full"
-                />
-                <SelectOption
-                  name="Proxy contract"
-                  onClick={() => setContractSelection("proxy")}
-                  isActive={contractSelection === "proxy"}
-                  width="full"
-                />
-                <SelectOption
-                  name="Factory contract"
-                  onClick={() => setContractSelection("factory")}
-                  isActive={contractSelection === "factory"}
-                  width="full"
-                />
-              </Flex>
-            </Box>
-          </Flex>
-        )}
-        {pageToShow === "contractParams" && (
-          <Flex gap={16} direction="column">
-            <Flex gap={2} direction="column">
-              <Heading size="title.lg">Contract Parameters</Heading>
-              <Text fontStyle="normal">
-                These are the parameters users will need to fill inwhen
-                deploying this contract.
-              </Text>
-            </Flex>
-            <Flex flexDir="column" gap={10}>
-              {deployParams.map((param, idx) => {
-                const paramTemplateValues = getTemplateValuesForType(
-                  param.type,
-                );
-                return (
-                  <Flex
-                    flexDir="column"
-                    gap={6}
-                    key={`implementation_${param.name}`}
-                  >
-                    <Flex justify="space-between" align="center">
-                      <Heading size="title.sm">{param.name}</Heading>
-                      <Text size="body.sm">{param.type}</Text>
-                    </Flex>
-                    <Flex gap={6}>
-                      <Flex flexDir="column" gap={4} w="60%">
-                        <FormControl isInvalid={!!errors[param.name]}>
-                          <FormLabel flex="1" as={Text}>
-                            Display Name
-                          </FormLabel>
-                          <Input
-                            {...register(
-                              `constructorParams.${param.name}.displayName`,
-                            )}
-                            placeholder={param.name}
-                            disabled={isDisabled}
-                          />
-                        </FormControl>
-                        <FormControl isInvalid={!!errors[param.name]}>
-                          <FormLabel as={Text}>Default Value</FormLabel>
+                  <FormControl isInvalid={!!form.formState.errors.description}>
+                    <FormLabel>Description</FormLabel>
+                    <Textarea
+                      {...form.register("description")}
+                      disabled={isDisabled}
+                      rows={2}
+                    />
 
-                          <Input
-                            {...register(
-                              `constructorParams.${param.name}.defaultValue`,
-                            )}
-                            disabled={isDisabled}
-                          />
+                    <FormErrorMessage>
+                      {form.formState.errors?.description?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                </Flex>
+              </Flex>
 
-                          <FormHelperText>
-                            This value will be pre-filled in the deploy form.
-                            {paramTemplateValues.length > 0 && (
-                              <Flex
-                                as={Card}
-                                mt={3}
-                                borderRadius="md"
-                                py={3}
-                                px={3}
-                                direction="column"
-                                gap={2}
-                              >
-                                <Heading as="h5" size="label.sm">
-                                  Supported template variables
-                                </Heading>
-                                <Flex direction="column">
-                                  {paramTemplateValues.map((val) => (
-                                    <Text size="body.sm" key={val.value}>
-                                      <Code
-                                        as="button"
-                                        type="button"
-                                        display="inline"
-                                        onClick={() => {
-                                          setValue(
-                                            `constructorParams.${param.name}.defaultValue`,
-                                            val.value,
-                                          );
-                                        }}
-                                      >
-                                        {val.value}
-                                      </Code>{" "}
-                                      - {val.helperText}
-                                    </Text>
-                                  ))}
-                                </Flex>
-                              </Flex>
-                            )}
-                          </FormHelperText>
-                        </FormControl>
-                      </Flex>
-                      <Flex flexDir="column" w="full">
-                        <FormLabel as={Text}>Description</FormLabel>
+              <Box>
+                <Heading size="title.md" mb={2}>
+                  Readme
+                </Heading>
+                <Text size="body.sm" mb={4}>
+                  Describe what your contract does and how it should be used.
+                  Markdown formatting is supported.
+                </Text>
+                <FormControl isInvalid={!!form.formState.errors.readme}>
+                  <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
+                    <TabList
+                      px={0}
+                      borderBottomColor="borderColor"
+                      borderBottomWidth="1px"
+                    >
+                      <Tab gap={2}>
+                        <Icon as={BsCode} my={2} />
+                        <Heading size="label.lg">About</Heading>
+                      </Tab>
+                      <Tab gap={2}>
+                        <Icon as={BsEye} my={2} />
+                        <Heading size="label.lg">Preview</Heading>
+                      </Tab>
+                    </TabList>
+                    <TabPanels pt={2}>
+                      <TabPanel px={0} pb={0}>
                         <Textarea
-                          {...register(
-                            `constructorParams.${param.name}.description`,
-                          )}
+                          {...form.register("readme")}
                           disabled={isDisabled}
-                          h="full"
+                          rows={12}
+                        />
+                        <FormErrorMessage>
+                          {form.formState.errors?.readme?.message}
+                        </FormErrorMessage>
+                      </TabPanel>
+                      <TabPanel px={0} pb={0}>
+                        <Card>
+                          <MarkdownRenderer
+                            markdownText={form.watch("readme") || ""}
+                          />
+                        </Card>
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </FormControl>
+              </Box>
+              <Box>
+                <Heading size="title.md" mb={2}>
+                  Version information
+                </Heading>
+                <Text size="body.sm" mb={4}>
+                  Set your contract version number, add release notes, and link
+                  to your contract&apos;s audit report.
+                </Text>
+                <Flex flexDir="column" gap={6}>
+                  <FormControl
+                    isRequired
+                    isInvalid={!!form.formState.errors.version}
+                  >
+                    <Flex alignItems="center" mb={1}>
+                      <FormLabel flex="1" mb={0}>
+                        Version
+                      </FormLabel>
+                      {latestVersion && (
+                        <Text size="body.md">
+                          latest release: {latestVersion}
+                        </Text>
+                      )}
+                    </Flex>
+                    <Input
+                      {...form.register("version")}
+                      placeholder={placeholderVersion}
+                      disabled={isDisabled}
+                    />
+                    <FormErrorMessage>
+                      {form.formState.errors?.version?.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  {latestVersion && (
+                    <FormControl isInvalid={!!form.formState.errors.changelog}>
+                      <Tabs
+                        isLazy
+                        lazyBehavior="keepMounted"
+                        colorScheme="purple"
+                      >
+                        <TabList
+                          px={0}
+                          borderBottomColor="borderColor"
+                          borderBottomWidth="1px"
+                        >
+                          <Tab gap={2}>
+                            <Icon as={BsCode} my={2} />
+                            <Heading size="label.lg">Release notes</Heading>
+                          </Tab>
+                          <Tab gap={2}>
+                            <Icon as={BsEye} my={2} />
+                            <Heading size="label.lg">Preview</Heading>
+                          </Tab>
+                        </TabList>
+                        <TabPanels pt={2}>
+                          <TabPanel px={0} pb={0}>
+                            <Textarea
+                              {...form.register("changelog")}
+                              disabled={isDisabled}
+                            />
+                            <FormErrorMessage>
+                              {form.formState.errors?.changelog?.message}
+                            </FormErrorMessage>
+                          </TabPanel>
+                          <TabPanel px={0} pb={0}>
+                            <Card>
+                              <MarkdownRenderer
+                                markdownText={form.watch("changelog") || ""}
+                              />
+                            </Card>
+                          </TabPanel>
+                        </TabPanels>
+                      </Tabs>
+                    </FormControl>
+                  )}
+                  <FormControl isInvalid={!!form.formState.errors.audit}>
+                    <FormLabel>Audit report</FormLabel>
+                    {form.watch("audit") instanceof File ? (
+                      <InputGroup>
+                        <Input isDisabled value={form.watch("audit")?.name} />
+                        <InputRightElement>
+                          <Icon
+                            as={FiTrash}
+                            cursor="pointer"
+                            color="red.300"
+                            _hover={{ color: "red.200" }}
+                            onClick={() => form.setValue("audit", "")}
+                          />
+                        </InputRightElement>
+                      </InputGroup>
+                    ) : (
+                      <InputGroup>
+                        <Input
+                          {...form.register("audit")}
+                          placeholder="ipfs://..."
+                          isDisabled={isDisabled}
+                        />
+                        <InputRightElement
+                          pointerEvents={isDisabled ? "none" : "auto"}
+                        >
+                          <Tooltip label="Upload file" shouldWrapChildren>
+                            <FileInput
+                              setValue={(file) => {
+                                form.setValue("audit", file);
+                              }}
+                              isDisabled={isDisabled}
+                            >
+                              <Icon
+                                as={FiUpload}
+                                color="gray.600"
+                                _hover={{ color: "gray.500" }}
+                              />
+                            </FileInput>
+                          </Tooltip>
+                        </InputRightElement>
+                      </InputGroup>
+                    )}
+                    <FormHelperText>
+                      <Text size="body.sm">
+                        You can add a IPFS hash or URL pointing to an audit
+                        report, or add a file and we&apos;ll upload it to IPFS.
+                      </Text>
+                    </FormHelperText>
+                  </FormControl>
+                </Flex>
+              </Box>
+              <Box>
+                <Heading size="title.md" mb={2}>
+                  Choose your contract type
+                </Heading>
+                <Text size="body.sm" mb={4}>
+                  Choose the type of contract you want to deploy.
+                </Text>
+                <Flex flexDir="column" gap={2} width="full">
+                  <SelectOption
+                    name="Standard contract"
+                    onClick={() => setContractSelection("standard")}
+                    isActive={contractSelection === "standard"}
+                    width="full"
+                  />
+                  <SelectOption
+                    name="Proxy contract"
+                    onClick={() => setContractSelection("proxy")}
+                    isActive={contractSelection === "proxy"}
+                    width="full"
+                  />
+                  <SelectOption
+                    name="Factory contract"
+                    onClick={() => setContractSelection("factory")}
+                    isActive={contractSelection === "factory"}
+                    width="full"
+                  />
+                </Flex>
+              </Box>
+            </Flex>
+          )}
+          {pageToShow === "contractParams" && (
+            <Flex gap={16} direction="column">
+              <Flex gap={2} direction="column">
+                <Heading size="title.lg">Contract Parameters</Heading>
+                <Text fontStyle="normal">
+                  These are the parameters users will need to fill inwhen
+                  deploying this contract.
+                </Text>
+              </Flex>
+              <Flex flexDir="column" gap={10}>
+                {deployParams.map((param, idx) => {
+                  const paramTemplateValues = getTemplateValuesForType(
+                    param.type,
+                  );
+                  return (
+                    <Flex
+                      flexDir="column"
+                      gap={6}
+                      key={`implementation_${param.name}`}
+                    >
+                      <Flex justify="space-between" align="center">
+                        <Heading size="title.sm">{param.name}</Heading>
+                        <Text size="body.sm">{param.type}</Text>
+                      </Flex>
+                      <Flex gap={6}>
+                        <Flex flexDir="column" gap={4} w="60%">
+                          <FormControl
+                            isInvalid={!!form.formState.errors[param.name]}
+                          >
+                            <FormLabel flex="1" as={Text}>
+                              Display Name
+                            </FormLabel>
+                            <Input
+                              {...form.register(
+                                `constructorParams.${param.name}.displayName`,
+                              )}
+                              placeholder={param.name}
+                              disabled={isDisabled}
+                            />
+                          </FormControl>
+                          <FormControl
+                            isInvalid={!!form.formState.errors[param.name]}
+                          >
+                            <FormLabel as={Text}>Default Value</FormLabel>
+
+                            <Input
+                              {...form.register(
+                                `constructorParams.${param.name}.defaultValue`,
+                              )}
+                              disabled={isDisabled}
+                            />
+
+                            <FormHelperText>
+                              This value will be pre-filled in the deploy form.
+                              {paramTemplateValues.length > 0 && (
+                                <Flex
+                                  as={Card}
+                                  mt={3}
+                                  borderRadius="md"
+                                  py={3}
+                                  px={3}
+                                  direction="column"
+                                  gap={2}
+                                >
+                                  <Heading as="h5" size="label.sm">
+                                    Supported template variables
+                                  </Heading>
+                                  <Flex direction="column">
+                                    {paramTemplateValues.map((val) => (
+                                      <Text size="body.sm" key={val.value}>
+                                        <Code
+                                          as="button"
+                                          type="button"
+                                          display="inline"
+                                          onClick={() => {
+                                            form.setValue(
+                                              `constructorParams.${param.name}.defaultValue`,
+                                              val.value,
+                                            );
+                                          }}
+                                        >
+                                          {val.value}
+                                        </Code>{" "}
+                                        - {val.helperText}
+                                      </Text>
+                                    ))}
+                                  </Flex>
+                                </Flex>
+                              )}
+                            </FormHelperText>
+                          </FormControl>
+                        </Flex>
+                        <Flex flexDir="column" w="full">
+                          <FormLabel as={Text}>Description</FormLabel>
+                          <Textarea
+                            {...form.register(
+                              `constructorParams.${param.name}.description`,
+                            )}
+                            disabled={isDisabled}
+                            h="full"
+                          />
+                        </Flex>
+                      </Flex>
+                      {idx !== deployParams.length - 1 ? (
+                        <Divider mt={8} />
+                      ) : null}
+                    </Flex>
+                  );
+                })}
+              </Flex>
+            </Flex>
+          )}
+          {pageToShow === "proxy" && (
+            <Flex gap={12} direction="column">
+              <Flex gap={2} direction="column">
+                <Heading size="title.lg">Proxy deploy settings</Heading>
+                <Text fontStyle="normal">
+                  Proxy deployment requires having deployed implementations of
+                  your contract already available on each chain you want to
+                  support.{" "}
+                  <Link
+                    isExternal
+                    href="https://portal.thirdweb.com/release#eip-1967-proxy-contracts"
+                  >
+                    Learn more
+                  </Link>
+                </Text>
+              </Flex>
+              <Flex flexDir="column" gap={16} mt={8}>
+                <Flex flexDir="column" gap={4}>
+                  <Heading size="title.md">Mainnets</Heading>
+                  {mainnets.map(({ chainId, chainName }) => (
+                    <FormControl key={`implementation${chainId}`}>
+                      <Flex gap={4} alignItems="center">
+                        <FormLabel mb={2} width="270px" lineHeight="150%">
+                          {chainName}
+                        </FormLabel>
+                        <PasteInput
+                          formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
+                          isDisabled={isDisabled}
+                        />
+                        <DeployFormDrawer
+                          contractId={contractId}
+                          chainId={chainId as SUPPORTED_CHAIN_ID}
+                          onSuccessCallback={(contractAddress) => {
+                            form.setValue(
+                              `factoryDeploymentData.implementationAddresses.${chainId}`,
+                              contractAddress,
+                            );
+                          }}
+                          onDrawerVisibilityChanged={(visible) => {
+                            setIsDrawerOpen(visible);
+                          }}
+                          isImplementationDeploy
                         />
                       </Flex>
-                    </Flex>
-                    {idx !== deployParams.length - 1 ? (
-                      <Divider mt={8} />
-                    ) : null}
+                    </FormControl>
+                  ))}
+                </Flex>
+                <Flex flexDir="column" gap={4}>
+                  <Heading size="title.md">Testnets</Heading>
+                  {testnets.map(({ chainId, chainName }) => (
+                    <FormControl key={`implementation${chainId}`}>
+                      <Flex gap={4} alignItems="center">
+                        <FormLabel mb={2} width="270px" lineHeight="150%">
+                          {chainName}
+                        </FormLabel>
+                        <PasteInput
+                          formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
+                          isDisabled={isDisabled}
+                        />
+                        <DeployFormDrawer
+                          contractId={contractId}
+                          chainId={chainId as SUPPORTED_CHAIN_ID}
+                          onSuccessCallback={(contractAddress) => {
+                            form.setValue(
+                              `factoryDeploymentData.implementationAddresses.${chainId}`,
+                              contractAddress,
+                            );
+                          }}
+                          onDrawerVisibilityChanged={(visible) => {
+                            setIsDrawerOpen(visible);
+                          }}
+                          isImplementationDeploy
+                        />
+                      </Flex>
+                    </FormControl>
+                  ))}
+                </Flex>
+
+                <Flex flexDir="column" gap={4}>
+                  <Flex flexDir="column" gap={2}>
+                    <Heading size="title.md">Initializer function</Heading>
+                    <Text>
+                      Choose the initializer function to invoke on your proxy
+                      contracts.
+                    </Text>
                   </Flex>
-                );
-              })}
+                  <FormControl>
+                    {/** TODO this should be a selector of ABI functions **/}
+                    <Input
+                      {...form.register(
+                        `factoryDeploymentData.implementationInitializerFunction`,
+                      )}
+                      placeholder="function name to invoke"
+                      defaultValue="initialize"
+                      disabled={isDisabled}
+                    />
+                  </FormControl>
+                </Flex>
+              </Flex>
             </Flex>
-          </Flex>
-        )}
-        {pageToShow === "proxy" && (
-          <Flex gap={12} direction="column">
-            <Flex gap={2} direction="column">
-              <Heading size="title.lg">Proxy deploy settings</Heading>
-              <Text fontStyle="normal">
-                Proxy deployment requires having deployed implementations of
-                your contract already available on each chain you want to
-                support.{" "}
-                <Link
-                  isExternal
-                  href="https://portal.thirdweb.com/release#eip-1967-proxy-contracts"
-                >
-                  Learn more
-                </Link>
-              </Text>
-            </Flex>
-            <Flex flexDir="column" gap={16} mt={8}>
+          )}
+          {pageToShow === "factory" && (
+            <Flex gap={16} direction="column">
+              <Flex gap={2} direction="column">
+                <Heading size="title.lg">Factory deploy settings</Heading>
+                <Text fontStyle="normal">
+                  Proxy deployment requires having deployed implementations of
+                  your contract already available on each chain you want to
+                  support.
+                </Text>
+              </Flex>
               <Flex flexDir="column" gap={4}>
                 <Heading size="title.md">Mainnets</Heading>
                 {mainnets.map(({ chainId, chainName }) => (
-                  <FormControl key={`implementation${chainId}`}>
+                  <FormControl key={`factory${chainId}`}>
                     <Flex gap={4} alignItems="center">
                       <FormLabel mb={2} width="270px" lineHeight="150%">
                         {chainName}
                       </FormLabel>
-                      <InputGroup>
-                        <Input
-                          {...register(
-                            `factoryDeploymentData.implementationAddresses.${chainId}`,
-                          )}
-                          placeholder="0x..."
-                          disabled={isDisabled}
-                        />
-
-                        <InputRightElement
-                          pointerEvents="auto"
-                          children={
-                            <Icon
-                              as={MdContentPaste}
-                              color="gray.600"
-                              _hover={{
-                                cursor: "pointer",
-                                color: "bgBlack",
-                              }}
-                              onClick={() => {
-                                navigator.clipboard
-                                  .readText()
-                                  .then((text) => {
-                                    setValue(
-                                      `factoryDeploymentData.implementationAddresses.${chainId}`,
-                                      text,
-                                    );
-                                  })
-                                  .catch((err) => {
-                                    console.error(
-                                      "failed to paste from clipboard",
-                                      err,
-                                    );
-                                  });
-                              }}
-                            />
-                          }
-                        />
-                      </InputGroup>
-                      <DeployFormDrawer
-                        contractId={contractId}
-                        chainId={chainId as SUPPORTED_CHAIN_ID}
-                        onSuccessCallback={(contractAddress) => {
-                          setValue(
-                            `factoryDeploymentData.implementationAddresses.${chainId}`,
-                            contractAddress,
-                          );
-                        }}
-                        onDrawerVisibilityChanged={(visible) => {
-                          setIsDrawerOpen(visible);
-                        }}
-                        isImplementationDeploy
+                      <PasteInput
+                        formKey={`factoryDeploymentData.factoryAddresses.${chainId}`}
+                        isDisabled={isDisabled}
                       />
                     </Flex>
                   </FormControl>
@@ -784,258 +839,80 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               <Flex flexDir="column" gap={4}>
                 <Heading size="title.md">Testnets</Heading>
                 {testnets.map(({ chainId, chainName }) => (
-                  <FormControl key={`implementation${chainId}`}>
+                  <FormControl key={`factory${chainId}`}>
                     <Flex gap={4} alignItems="center">
                       <FormLabel mb={2} width="270px" lineHeight="150%">
                         {chainName}
                       </FormLabel>
-                      <InputGroup>
-                        <Input
-                          {...register(
-                            `factoryDeploymentData.implementationAddresses.${chainId}`,
-                          )}
-                          placeholder="0x..."
-                          disabled={isDisabled}
-                        />
-                        <InputRightElement
-                          pointerEvents="auto"
-                          children={
-                            <Icon
-                              as={MdContentPaste}
-                              color="gray.600"
-                              _hover={{
-                                cursor: "pointer",
-                                color: "bgBlack",
-                              }}
-                              onClick={() => {
-                                navigator.clipboard
-                                  .readText()
-                                  .then((text) => {
-                                    setValue(
-                                      `factoryDeploymentData.implementationAddresses.${chainId}`,
-                                      text,
-                                    );
-                                  })
-                                  .catch((err) => {
-                                    console.error(
-                                      "failed to paste from clipboard",
-                                      err,
-                                    );
-                                  });
-                              }}
-                            />
-                          }
-                        />
-                      </InputGroup>
-                      <DeployFormDrawer
-                        contractId={contractId}
-                        chainId={chainId as SUPPORTED_CHAIN_ID}
-                        onSuccessCallback={(contractAddress) => {
-                          setValue(
-                            `factoryDeploymentData.implementationAddresses.${chainId}`,
-                            contractAddress,
-                          );
-                        }}
-                        onDrawerVisibilityChanged={(visible) => {
-                          setIsDrawerOpen(visible);
-                        }}
-                        isImplementationDeploy
+                      <PasteInput
+                        formKey={`factoryDeploymentData.factoryAddresses.${chainId}`}
+                        isDisabled={isDisabled}
                       />
                     </Flex>
                   </FormControl>
                 ))}
               </Flex>
-
-              <Flex flexDir="column" gap={4}>
-                <Flex flexDir="column" gap={2}>
-                  <Heading size="title.md">Initializer function</Heading>
-                  <Text>
-                    Choose the initializer function to invoke on your proxy
-                    contracts.
-                  </Text>
-                </Flex>
-                <FormControl>
-                  {/** TODO this should be a selector of ABI functions **/}
-                  <Input
-                    {...register(
-                      `factoryDeploymentData.implementationInitializerFunction`,
-                    )}
-                    placeholder="function name to invoke"
-                    defaultValue="initialize"
-                    disabled={isDisabled}
-                  />
-                </FormControl>
-              </Flex>
             </Flex>
-          </Flex>
-        )}
-        {pageToShow === "factory" && (
-          <Flex gap={16} direction="column">
-            <Flex gap={2} direction="column">
-              <Heading size="title.lg">Factory deploy settings</Heading>
-              <Text fontStyle="normal">
-                Proxy deployment requires having deployed implementations of
-                your contract already available on each chain you want to
-                support.
+          )}
+          <Flex flexDir="column" gap={6}>
+            <Divider />
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              flexDir={{ base: "column", md: "row" }}
+              gap={4}
+            >
+              <Text>
+                Our contract registry lives on-chain (Polygon), releasing is
+                free (gasless).{" "}
+                <LinkButton
+                  size="sm"
+                  variant="outline"
+                  href="https://portal.thirdweb.com/release"
+                  isExternal
+                >
+                  Learn more
+                </LinkButton>
               </Text>
+              {pageToShow === "landing" && contractSelection === "proxy" ? (
+                <Button onClick={() => setPageToShow("proxy")}>Next</Button>
+              ) : pageToShow === "landing" &&
+                contractSelection === "factory" ? (
+                <Button onClick={() => setPageToShow("factory")}>Next</Button>
+              ) : pageToShow !== "contractParams" &&
+                deployParams?.length > 0 ? (
+                <Button
+                  disabled={
+                    pageToShow === "landing" &&
+                    contractSelection === "unselected"
+                  }
+                  onClick={() => setPageToShow("contractParams")}
+                >
+                  Next
+                </Button>
+              ) : (
+                <Button
+                  borderRadius="md"
+                  position="relative"
+                  role="group"
+                  colorScheme={address ? "purple" : "blue"}
+                  isDisabled={isDisabled}
+                  isLoading={isLoading}
+                  form="contract-release-form"
+                  loadingText={
+                    publishMutation.isSuccess
+                      ? "Preparing page"
+                      : "Releasing contract"
+                  }
+                  type="submit"
+                >
+                  Create Release
+                </Button>
+              )}
             </Flex>
-            <Flex flexDir="column" gap={4}>
-              <Heading size="title.md">Mainnets</Heading>
-              {mainnets.map(({ chainId, chainName }) => (
-                <FormControl key={`factory${chainId}`}>
-                  <Flex gap={4} alignItems="center">
-                    <FormLabel mb={2} width="270px" lineHeight="150%">
-                      {chainName}
-                    </FormLabel>
-                    <InputGroup>
-                      <Input
-                        {...register(
-                          `factoryDeploymentData.factoryAddresses.${chainId}`,
-                        )}
-                        placeholder="0x..."
-                        disabled={isDisabled}
-                      />
-                      <InputRightElement
-                        pointerEvents="auto"
-                        children={
-                          <Icon
-                            as={MdContentPaste}
-                            color="gray.600"
-                            _hover={{
-                              cursor: "pointer",
-                              color: "bgBlack",
-                            }}
-                            onClick={() => {
-                              navigator.clipboard
-                                .readText()
-                                .then((text) => {
-                                  setValue(
-                                    `factoryDeploymentData.factoryAddresses.${chainId}`,
-                                    text,
-                                  );
-                                })
-                                .catch((err) => {
-                                  console.error(
-                                    "failed to paste from clipboard",
-                                    err,
-                                  );
-                                });
-                            }}
-                          />
-                        }
-                      />
-                    </InputGroup>
-                  </Flex>
-                </FormControl>
-              ))}
-            </Flex>
-            <Flex flexDir="column" gap={4}>
-              <Heading size="title.md">Testnets</Heading>
-              {testnets.map(({ chainId, chainName }) => (
-                <FormControl key={`factory${chainId}`}>
-                  <Flex gap={4} alignItems="center">
-                    <FormLabel mb={2} width="270px" lineHeight="150%">
-                      {chainName}
-                    </FormLabel>
-                    <InputGroup>
-                      <Input
-                        {...register(
-                          `factoryDeploymentData.factoryAddresses.${chainId}`,
-                        )}
-                        placeholder="0x..."
-                        disabled={isDisabled}
-                      />
-                      <InputRightElement
-                        pointerEvents="auto"
-                        children={
-                          <Icon
-                            as={MdContentPaste}
-                            color="gray.600"
-                            _hover={{
-                              cursor: "pointer",
-                              color: "bgBlack",
-                            }}
-                            onClick={() => {
-                              navigator.clipboard
-                                .readText()
-                                .then((text) => {
-                                  setValue(
-                                    `factoryDeploymentData.factoryAddresses.${chainId}`,
-                                    text,
-                                  );
-                                })
-                                .catch((err) => {
-                                  console.error(
-                                    "failed to paste from clipboard",
-                                    err,
-                                  );
-                                });
-                            }}
-                          />
-                        }
-                      />
-                    </InputGroup>
-                  </Flex>
-                </FormControl>
-              ))}
-            </Flex>
-          </Flex>
-        )}
-        <Flex flexDir="column" gap={6}>
-          <Divider />
-          <Flex
-            justifyContent="space-between"
-            alignItems="center"
-            flexDir={{ base: "column", md: "row" }}
-            gap={4}
-          >
-            <Text>
-              Our contract registry lives on-chain (Polygon), releasing is free
-              (gasless).{" "}
-              <LinkButton
-                size="sm"
-                variant="outline"
-                href="https://portal.thirdweb.com/release"
-                isExternal
-              >
-                Learn more
-              </LinkButton>
-            </Text>
-            {pageToShow === "landing" && contractSelection === "proxy" ? (
-              <Button onClick={() => setPageToShow("proxy")}>Next</Button>
-            ) : pageToShow === "landing" && contractSelection === "factory" ? (
-              <Button onClick={() => setPageToShow("factory")}>Next</Button>
-            ) : pageToShow !== "contractParams" && deployParams?.length > 0 ? (
-              <Button
-                disabled={
-                  pageToShow === "landing" && contractSelection === "unselected"
-                }
-                onClick={() => setPageToShow("contractParams")}
-              >
-                Next
-              </Button>
-            ) : (
-              <Button
-                borderRadius="md"
-                position="relative"
-                role="group"
-                colorScheme={address ? "purple" : "blue"}
-                isDisabled={isDisabled}
-                isLoading={isLoading}
-                form="contract-release-form"
-                loadingText={
-                  publishMutation.isSuccess
-                    ? "Preparing page"
-                    : "Releasing contract"
-                }
-                type="submit"
-              >
-                Create Release
-              </Button>
-            )}
           </Flex>
         </Flex>
-      </Flex>
-    </Box>
+      </Box>
+    </FormProvider>
   );
 };
