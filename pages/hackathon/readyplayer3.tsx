@@ -178,7 +178,7 @@ const scheduleItems = [
     href: "https://lu.ma/rp3submissions",
   },
   {
-    day: 6,
+    day: 17,
     month: "feb",
     title: "Hackathon Closing Ceremony + Winners Announcement",
     href: "https://lu.ma/rp3closing",
