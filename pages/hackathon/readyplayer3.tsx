@@ -303,7 +303,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 Jan 16th - Jan 31st
               </Text>
 
-              <ClientOnly ssr={<Box height="90px"> </Box>}>
+              <ClientOnly fadeInDuration={400} ssr={<Box height="220px"></Box>}>
                 <Flex alignItems={"center"} flexDirection="column">
                   {isAfter(new Date(), new Date("2021-01-16T00:00:00.000Z")) ? (
                     <>
