@@ -1,4 +1,3 @@
-import { DeployFormDrawer } from "../contract-deploy-form/drawer";
 import {
   useConstructorParamsFromABI,
   useContractFullPublishMetadata,
@@ -12,10 +11,10 @@ import { MarkdownRenderer } from "../released-contract/markdown-renderer";
 import { ContractId } from "../types";
 import { PasteInput } from "./PasteInput";
 import { ContractParamsPage } from "./contract-params-page";
+import { ProxyPage } from "./proxy-page";
 import { useWeb3 } from "@3rdweb-sdk/react";
 import {
   Box,
-  Code,
   Divider,
   Flex,
   FormControl,
@@ -37,7 +36,6 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   CONTRACT_ADDRESSES,
   ExtraPublishMetadata,
-  SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
 } from "@thirdweb-dev/sdk/evm";
 import { FileInput } from "components/shared/FileInput";
@@ -45,7 +43,6 @@ import { SelectOption } from "core-ui/batch-upload/lazy-mint-form/select-option"
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -602,105 +599,10 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             <ContractParamsPage deployParams={deployParams} />
           )}
           {pageToShow === "proxy" && (
-            <Flex gap={12} direction="column">
-              <Flex gap={2} direction="column">
-                <Heading size="title.lg">Proxy deploy settings</Heading>
-                <Text fontStyle="normal">
-                  Proxy deployment requires having deployed implementations of
-                  your contract already available on each chain you want to
-                  support.{" "}
-                  <Link
-                    isExternal
-                    href="https://portal.thirdweb.com/release#eip-1967-proxy-contracts"
-                  >
-                    Learn more
-                  </Link>
-                </Text>
-              </Flex>
-              <Flex flexDir="column" gap={16} mt={8}>
-                <Flex flexDir="column" gap={4}>
-                  <Heading size="title.md">Mainnets</Heading>
-                  {mainnets.map(({ chainId, chainName }) => (
-                    <FormControl key={`implementation${chainId}`}>
-                      <Flex gap={4} alignItems="center">
-                        <FormLabel mb={2} width="270px" lineHeight="150%">
-                          {chainName}
-                        </FormLabel>
-                        <PasteInput
-                          formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
-                          isDisabled={isDisabled}
-                        />
-                        <DeployFormDrawer
-                          contractId={contractId}
-                          chainId={chainId as SUPPORTED_CHAIN_ID}
-                          onSuccessCallback={(contractAddress) => {
-                            form.setValue(
-                              `factoryDeploymentData.implementationAddresses.${chainId}`,
-                              contractAddress,
-                            );
-                          }}
-                          onDrawerVisibilityChanged={(visible) => {
-                            setIsDrawerOpen(visible);
-                          }}
-                          isImplementationDeploy
-                        />
-                      </Flex>
-                    </FormControl>
-                  ))}
-                </Flex>
-                <Flex flexDir="column" gap={4}>
-                  <Heading size="title.md">Testnets</Heading>
-                  {testnets.map(({ chainId, chainName }) => (
-                    <FormControl key={`implementation${chainId}`}>
-                      <Flex gap={4} alignItems="center">
-                        <FormLabel mb={2} width="270px" lineHeight="150%">
-                          {chainName}
-                        </FormLabel>
-                        <PasteInput
-                          formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
-                          isDisabled={isDisabled}
-                        />
-                        <DeployFormDrawer
-                          contractId={contractId}
-                          chainId={chainId as SUPPORTED_CHAIN_ID}
-                          onSuccessCallback={(contractAddress) => {
-                            form.setValue(
-                              `factoryDeploymentData.implementationAddresses.${chainId}`,
-                              contractAddress,
-                            );
-                          }}
-                          onDrawerVisibilityChanged={(visible) => {
-                            setIsDrawerOpen(visible);
-                          }}
-                          isImplementationDeploy
-                        />
-                      </Flex>
-                    </FormControl>
-                  ))}
-                </Flex>
-
-                <Flex flexDir="column" gap={4}>
-                  <Flex flexDir="column" gap={2}>
-                    <Heading size="title.md">Initializer function</Heading>
-                    <Text>
-                      Choose the initializer function to invoke on your proxy
-                      contracts.
-                    </Text>
-                  </Flex>
-                  <FormControl>
-                    {/** TODO this should be a selector of ABI functions **/}
-                    <Input
-                      {...form.register(
-                        `factoryDeploymentData.implementationInitializerFunction`,
-                      )}
-                      placeholder="function name to invoke"
-                      defaultValue="initialize"
-                      disabled={isDisabled}
-                    />
-                  </FormControl>
-                </Flex>
-              </Flex>
-            </Flex>
+            <ProxyPage
+              setIsDrawerOpen={setIsDrawerOpen}
+              contractId={contractId}
+            />
           )}
           {pageToShow === "factory" && (
             <Flex gap={16} direction="column">
