@@ -10,13 +10,11 @@ import { FormLabel, Heading, Link, Text } from "tw-components";
 interface ProxyFieldsetProps {
   setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
   contractId: string;
-  isDisabled?: boolean;
 }
 
 export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
   setIsDrawerOpen,
   contractId,
-  isDisabled,
 }) => {
   const form = useFormContext();
   const { getNetworkMetadata } = useWeb3();
@@ -58,7 +56,6 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
                 </FormLabel>
                 <PasteInput
                   formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
-                  isDisabled={isDisabled}
                 />
                 <DeployFormDrawer
                   contractId={contractId}
@@ -88,7 +85,6 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
                 </FormLabel>
                 <PasteInput
                   formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
-                  isDisabled={isDisabled}
                 />
                 <DeployFormDrawer
                   contractId={contractId}
@@ -124,7 +120,6 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
               )}
               placeholder="function name to invoke"
               defaultValue="initialize"
-              disabled={isDisabled}
             />
           </FormControl>
         </Flex>

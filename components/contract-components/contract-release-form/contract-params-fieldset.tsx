@@ -15,7 +15,6 @@ import { useFormContext } from "react-hook-form";
 import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
 
 interface ContractParamsFieldsetProps {
-  isDisabled?: boolean;
   deployParams:
     | ReturnType<typeof useFunctionParamsFromABI>
     | ReturnType<typeof useConstructorParamsFromABI>;
@@ -23,7 +22,6 @@ interface ContractParamsFieldsetProps {
 
 export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
   deployParams,
-  isDisabled = false,
 }) => {
   const form = useFormContext();
   return (
@@ -55,7 +53,6 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                         `constructorParams.${param.name}.displayName`,
                       )}
                       placeholder={param.name}
-                      disabled={isDisabled}
                     />
                   </FormControl>
                   <FormControl isInvalid={!!form.formState.errors[param.name]}>
@@ -65,7 +62,6 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       {...form.register(
                         `constructorParams.${param.name}.defaultValue`,
                       )}
-                      disabled={isDisabled}
                     />
 
                     <FormHelperText>
@@ -109,14 +105,22 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   </FormControl>
                 </Flex>
                 <Flex flexDir="column" w="full">
-                  <FormLabel as={Text}>Description</FormLabel>
-                  <Textarea
-                    {...form.register(
-                      `constructorParams.${param.name}.description`,
-                    )}
-                    disabled={isDisabled}
-                    h="full"
-                  />
+                  <FormControl>
+                    <FormLabel as={Text}>Description</FormLabel>
+                    <Textarea
+                      height="119px"
+                      {...form.register(
+                        `constructorParams.${param.name}.description`,
+                      )}
+                      h="full"
+                      maxLength={400}
+                    />
+                    <FormHelperText>
+                      {form.watch(`constructorParams.${param.name}.description`)
+                        ?.length ?? 0}
+                      /400 characters
+                    </FormHelperText>
+                  </FormControl>
                 </Flex>
               </Flex>
               {idx !== deployParams.length - 1 ? <Divider mt={8} /> : null}

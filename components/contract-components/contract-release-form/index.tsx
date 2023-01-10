@@ -25,7 +25,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
-import { Button, LinkButton, Text } from "tw-components";
+import { Button, Link, Text } from "tw-components";
 
 interface ContractReleaseFormProps {
   contractId: ContractId;
@@ -135,8 +135,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     }
     return `/${ensNameOrAddress}/${publishMetadata.data.name}`;
   }, [ensNameOrAddress, publishMetadata.data?.name]);
-
-  const isDisabled = !successRedirectUrl || !address;
 
   const fullReleaseMetadata = useContractFullPublishMetadata(contractId);
   const constructorParams = useConstructorParamsFromABI(
@@ -277,23 +275,31 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               <Text>
                 Our contract registry lives on-chain (Polygon), releasing is
                 free (gasless).{" "}
-                <LinkButton
-                  size="sm"
-                  variant="outline"
+                <Link
                   href="https://portal.thirdweb.com/release"
                   isExternal
+                  color="primary.600"
                 >
                   Learn more
-                </LinkButton>
+                </Link>
+                .
               </Text>
               {inputGroupToShow === "landing" &&
               contractSelection === "proxy" ? (
-                <Button onClick={() => setInputGroupToShow("proxy")}>
+                <Button
+                  onClick={() => setInputGroupToShow("proxy")}
+                  colorScheme="primary"
+                  isDisabled={!form.watch("version")}
+                >
                   Next
                 </Button>
               ) : inputGroupToShow === "landing" &&
                 contractSelection === "factory" ? (
-                <Button onClick={() => setInputGroupToShow("factory")}>
+                <Button
+                  onClick={() => setInputGroupToShow("factory")}
+                  colorScheme="primary"
+                  isDisabled={!form.watch("version")}
+                >
                   Next
                 </Button>
               ) : inputGroupToShow !== "contractParams" &&
@@ -304,6 +310,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                     contractSelection === "unselected"
                   }
                   onClick={() => setInputGroupToShow("contractParams")}
+                  colorScheme="primary"
                 >
                   Next
                 </Button>
@@ -313,17 +320,17 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   position="relative"
                   role="group"
                   colorScheme={address ? "purple" : "blue"}
-                  isDisabled={isDisabled}
                   isLoading={isLoading}
                   form="contract-release-form"
                   loadingText={
                     publishMutation.isSuccess
                       ? "Preparing page"
-                      : "Releasing contract"
+                      : "Publishing contract"
                   }
                   type="submit"
+                  isDisabled={!address}
                 >
-                  Create Release
+                  Publish Contract
                 </Button>
               )}
             </Flex>
