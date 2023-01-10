@@ -33,7 +33,7 @@ const metadata = {
 const sponsors = [
   {
     name: "Coinbase",
-    logo: "/assets/investors/coinbase.svg",
+    logo: "/assets/investors/coinbase-cloud-white.svg",
     link: "https://www.coinbase.com/",
   },
   {

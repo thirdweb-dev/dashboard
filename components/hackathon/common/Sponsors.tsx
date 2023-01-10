@@ -1,4 +1,4 @@
-import { Flex, Image } from "@chakra-ui/react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 import { Heading, TrackedLink } from "tw-components";
 
 interface Sponsor {
@@ -25,7 +25,15 @@ export const Sponsors: React.FC<SponsorProps> = ({
       >
         Our Partners
       </Heading>
-      <Flex gap={{ base: 8, md: 16 }} justifyContent="center" flexWrap="wrap">
+      <Box
+        gap={{ base: 8, md: 14 }}
+        justifyContent="center"
+        // 2 column grid on mobile, flex on desktop
+        display={{ base: "grid", md: "flex" }}
+        gridTemplateColumns={{ base: "1fr 1fr", md: "none" }}
+        flexWrap="wrap"
+        alignItems={"center"}
+      >
         {sponsors.map(({ name, link, logo }) => (
           <TrackedLink
             key={name}
@@ -33,18 +41,20 @@ export const Sponsors: React.FC<SponsorProps> = ({
             isExternal
             category={hackathonName}
             label={name}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
           >
             <Image
-              // w="px"
               maxW="150px"
-              h="60px"
+              h={{ base: "35px", md: "45px" }}
               objectFit="contain"
               src={logo}
               alt={name}
             />
           </TrackedLink>
         ))}
-      </Flex>
+      </Box>
     </Flex>
   );
 };
