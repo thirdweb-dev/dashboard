@@ -1,8 +1,8 @@
-import { Card, Divider, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Divider, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { StaticImageData } from "next/image";
-import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
 interface ContractsDescriptorItemProps {
   title: string;
