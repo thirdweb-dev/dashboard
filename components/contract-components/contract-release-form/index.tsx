@@ -572,112 +572,99 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 deploying this contract.
               </Text>
             </Flex>
-            <Flex flexDir="column" gap={4}>
-              {deployParams.map((param) => {
+            <Flex flexDir="column" gap={10}>
+              {deployParams.map((param, idx) => {
                 const paramTemplateValues = getTemplateValuesForType(
                   param.type,
                 );
                 return (
                   <Flex
                     flexDir="column"
-                    gap={1}
+                    gap={6}
                     key={`implementation_${param.name}`}
                   >
                     <Flex justify="space-between" align="center">
-                      <Heading size="subtitle.sm">{param.name}</Heading>
+                      <Heading size="title.sm">{param.name}</Heading>
                       <Text size="body.sm">{param.type}</Text>
                     </Flex>
-                    <SimpleGrid as={Card} gap={4} columns={12}>
-                      <GridItem as={FormControl} colSpan={{ base: 12, md: 6 }}>
-                        <FormLabel
-                          flex="1"
-                          as={Text}
-                          size="label.sm"
-                          fontWeight={500}
-                        >
-                          Display Name
-                        </FormLabel>
-                        <Input
-                          {...register(
-                            `constructorParams.${param.name}.displayName`,
-                          )}
-                          placeholder={param.name}
-                          disabled={isDisabled}
-                        />
-                      </GridItem>
-                      <GridItem as={FormControl} colSpan={{ base: 12, md: 6 }}>
-                        <FormLabel
-                          flex="1"
-                          as={Text}
-                          size="label.sm"
-                          fontWeight={500}
-                        >
-                          Default Value
-                        </FormLabel>
+                    <Flex gap={6}>
+                      <Flex flexDir="column" gap={4} w="60%">
+                        <FormControl isInvalid={!!errors[param.name]}>
+                          <FormLabel flex="1" as={Text}>
+                            Display Name
+                          </FormLabel>
+                          <Input
+                            {...register(
+                              `constructorParams.${param.name}.displayName`,
+                            )}
+                            placeholder={param.name}
+                            disabled={isDisabled}
+                          />
+                        </FormControl>
+                        <FormControl isInvalid={!!errors[param.name]}>
+                          <FormLabel as={Text}>Default Value</FormLabel>
 
-                        <Input
-                          {...register(
-                            `constructorParams.${param.name}.defaultValue`,
-                          )}
-                          disabled={isDisabled}
-                        />
+                          <Input
+                            {...register(
+                              `constructorParams.${param.name}.defaultValue`,
+                            )}
+                            disabled={isDisabled}
+                          />
 
-                        <FormHelperText>
-                          This value will be pre-filled in the deploy form.
-                          {paramTemplateValues.length > 0 && (
-                            <Flex
-                              as={Card}
-                              mt={3}
-                              borderRadius="md"
-                              py={3}
-                              px={3}
-                              direction="column"
-                              gap={2}
-                            >
-                              <Heading as="h5" size="label.sm">
-                                Supported template variables
-                              </Heading>
-                              <Flex direction="column">
-                                {paramTemplateValues.map((val) => (
-                                  <Text size="body.sm" key={val.value}>
-                                    <Code
-                                      as="button"
-                                      type="button"
-                                      display="inline"
-                                      onClick={() => {
-                                        setValue(
-                                          `constructorParams.${param.name}.defaultValue`,
-                                          val.value,
-                                        );
-                                      }}
-                                    >
-                                      {val.value}
-                                    </Code>{" "}
-                                    - {val.helperText}
-                                  </Text>
-                                ))}
+                          <FormHelperText>
+                            This value will be pre-filled in the deploy form.
+                            {paramTemplateValues.length > 0 && (
+                              <Flex
+                                as={Card}
+                                mt={3}
+                                borderRadius="md"
+                                py={3}
+                                px={3}
+                                direction="column"
+                                gap={2}
+                              >
+                                <Heading as="h5" size="label.sm">
+                                  Supported template variables
+                                </Heading>
+                                <Flex direction="column">
+                                  {paramTemplateValues.map((val) => (
+                                    <Text size="body.sm" key={val.value}>
+                                      <Code
+                                        as="button"
+                                        type="button"
+                                        display="inline"
+                                        onClick={() => {
+                                          setValue(
+                                            `constructorParams.${param.name}.defaultValue`,
+                                            val.value,
+                                          );
+                                        }}
+                                      >
+                                        {val.value}
+                                      </Code>{" "}
+                                      - {val.helperText}
+                                    </Text>
+                                  ))}
+                                </Flex>
                               </Flex>
-                            </Flex>
-                          )}
-                        </FormHelperText>
-                      </GridItem>
-                      <GridItem as={FormControl} colSpan={12}>
-                        <FormLabel
-                          flex="1"
-                          as={Text}
-                          size="label.sm"
-                          fontWeight={500}
-                        >
-                          Description
-                        </FormLabel>
+                            )}
+                          </FormHelperText>
+                        </FormControl>
+                      </Flex>
+                      <Flex flexDir="column" w="full">
+                        <FormLabel as={Text}>Description</FormLabel>
                         <Textarea
                           {...register(
                             `constructorParams.${param.name}.description`,
                           )}
                           disabled={isDisabled}
+                          h="full"
                         />
-                      </GridItem>
-                    </SimpleGrid>
+                      </Flex>
+                    </Flex>
+                    {idx !== deployParams.length - 1 ? (
+                      <Divider mt={8} />
+                    ) : null}
                   </Flex>
                 );
               })}
