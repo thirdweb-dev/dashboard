@@ -51,6 +51,7 @@ import { useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import { IoChevronBack } from "react-icons/io5";
+import { MdContentPaste } from "react-icons/md";
 import {
   Button,
   Card,
@@ -723,13 +724,45 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                       <FormLabel mb={2} width="270px" lineHeight="150%">
                         {chainName}
                       </FormLabel>
-                      <Input
-                        {...register(
-                          `factoryDeploymentData.implementationAddresses.${chainId}`,
-                        )}
-                        placeholder="0x..."
-                        disabled={isDisabled}
-                      />
+                      <InputGroup>
+                        <Input
+                          {...register(
+                            `factoryDeploymentData.implementationAddresses.${chainId}`,
+                          )}
+                          placeholder="0x..."
+                          disabled={isDisabled}
+                        />
+
+                        <InputRightElement
+                          pointerEvents="auto"
+                          children={
+                            <Icon
+                              as={MdContentPaste}
+                              color="gray.600"
+                              _hover={{
+                                cursor: "pointer",
+                                color: "bgBlack",
+                              }}
+                              onClick={() => {
+                                navigator.clipboard
+                                  .readText()
+                                  .then((text) => {
+                                    setValue(
+                                      `factoryDeploymentData.implementationAddresses.${chainId}`,
+                                      text,
+                                    );
+                                  })
+                                  .catch((err) => {
+                                    console.error(
+                                      "failed to paste from clipboard",
+                                      err,
+                                    );
+                                  });
+                              }}
+                            />
+                          }
+                        />
+                      </InputGroup>
                       <DeployFormDrawer
                         contractId={contractId}
                         chainId={chainId as SUPPORTED_CHAIN_ID}
@@ -756,13 +789,44 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                       <FormLabel mb={2} width="270px" lineHeight="150%">
                         {chainName}
                       </FormLabel>
-                      <Input
-                        {...register(
-                          `factoryDeploymentData.implementationAddresses.${chainId}`,
-                        )}
-                        placeholder="0x..."
-                        disabled={isDisabled}
-                      />
+                      <InputGroup>
+                        <Input
+                          {...register(
+                            `factoryDeploymentData.implementationAddresses.${chainId}`,
+                          )}
+                          placeholder="0x..."
+                          disabled={isDisabled}
+                        />
+                        <InputRightElement
+                          pointerEvents="auto"
+                          children={
+                            <Icon
+                              as={MdContentPaste}
+                              color="gray.600"
+                              _hover={{
+                                cursor: "pointer",
+                                color: "bgBlack",
+                              }}
+                              onClick={() => {
+                                navigator.clipboard
+                                  .readText()
+                                  .then((text) => {
+                                    setValue(
+                                      `factoryDeploymentData.implementationAddresses.${chainId}`,
+                                      text,
+                                    );
+                                  })
+                                  .catch((err) => {
+                                    console.error(
+                                      "failed to paste from clipboard",
+                                      err,
+                                    );
+                                  });
+                              }}
+                            />
+                          }
+                        />
+                      </InputGroup>
                       <DeployFormDrawer
                         contractId={contractId}
                         chainId={chainId as SUPPORTED_CHAIN_ID}
@@ -823,13 +887,44 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                     <FormLabel mb={2} width="270px" lineHeight="150%">
                       {chainName}
                     </FormLabel>
-                    <Input
-                      {...register(
-                        `factoryDeploymentData.factoryAddresses.${chainId}`,
-                      )}
-                      placeholder="0x..."
-                      disabled={isDisabled}
-                    />
+                    <InputGroup>
+                      <Input
+                        {...register(
+                          `factoryDeploymentData.factoryAddresses.${chainId}`,
+                        )}
+                        placeholder="0x..."
+                        disabled={isDisabled}
+                      />
+                      <InputRightElement
+                        pointerEvents="auto"
+                        children={
+                          <Icon
+                            as={MdContentPaste}
+                            color="gray.600"
+                            _hover={{
+                              cursor: "pointer",
+                              color: "bgBlack",
+                            }}
+                            onClick={() => {
+                              navigator.clipboard
+                                .readText()
+                                .then((text) => {
+                                  setValue(
+                                    `factoryDeploymentData.factoryAddresses.${chainId}`,
+                                    text,
+                                  );
+                                })
+                                .catch((err) => {
+                                  console.error(
+                                    "failed to paste from clipboard",
+                                    err,
+                                  );
+                                });
+                            }}
+                          />
+                        }
+                      />
+                    </InputGroup>
                   </Flex>
                 </FormControl>
               ))}
@@ -842,13 +937,44 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                     <FormLabel mb={2} width="270px" lineHeight="150%">
                       {chainName}
                     </FormLabel>
-                    <Input
-                      {...register(
-                        `factoryDeploymentData.factoryAddresses.${chainId}`,
-                      )}
-                      placeholder="0x..."
-                      disabled={isDisabled}
-                    />
+                    <InputGroup>
+                      <Input
+                        {...register(
+                          `factoryDeploymentData.factoryAddresses.${chainId}`,
+                        )}
+                        placeholder="0x..."
+                        disabled={isDisabled}
+                      />
+                      <InputRightElement
+                        pointerEvents="auto"
+                        children={
+                          <Icon
+                            as={MdContentPaste}
+                            color="gray.600"
+                            _hover={{
+                              cursor: "pointer",
+                              color: "bgBlack",
+                            }}
+                            onClick={() => {
+                              navigator.clipboard
+                                .readText()
+                                .then((text) => {
+                                  setValue(
+                                    `factoryDeploymentData.factoryAddresses.${chainId}`,
+                                    text,
+                                  );
+                                })
+                                .catch((err) => {
+                                  console.error(
+                                    "failed to paste from clipboard",
+                                    err,
+                                  );
+                                });
+                            }}
+                          />
+                        }
+                      />
+                    </InputGroup>
                   </Flex>
                 </FormControl>
               ))}
