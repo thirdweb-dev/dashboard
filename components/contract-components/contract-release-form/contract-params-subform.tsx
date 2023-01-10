@@ -15,14 +15,14 @@ import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
 import { useFormContext } from "react-hook-form";
 import { FormHelperText, FormLabel, Heading, Text } from "tw-components";
 
-interface ContractParamsPageProps {
+interface ContractParamsSubformProps {
   isDisabled?: boolean;
   deployParams:
     | ReturnType<typeof useFunctionParamsFromABI>
     | ReturnType<typeof useConstructorParamsFromABI>;
 }
 
-export const ContractParamsPage: React.FC<ContractParamsPageProps> = ({
+export const ContractParamsSubform: React.FC<ContractParamsSubformProps> = ({
   deployParams,
   isDisabled = false,
 }) => {

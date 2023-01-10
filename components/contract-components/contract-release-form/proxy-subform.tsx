@@ -7,13 +7,13 @@ import { Dispatch, SetStateAction, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { FormLabel, Heading, Link, Text } from "tw-components";
 
-interface ProxyPageProps {
+interface ProxySubformProps {
   setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
   contractId: string;
   isDisabled?: boolean;
 }
 
-export const ProxyPage: React.FC<ProxyPageProps> = ({
+export const ProxySubform: React.FC<ProxySubformProps> = ({
   setIsDrawerOpen,
   contractId,
   isDisabled,

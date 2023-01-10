@@ -9,10 +9,9 @@ import {
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
 import { ContractId } from "../types";
-import { PasteInput } from "./PasteInput";
-import { ContractParamsPage } from "./contract-params-page";
-import { ProxyPage } from "./proxy-page";
-import { useWeb3 } from "@3rdweb-sdk/react";
+import { ContractParamsSubform } from "./contract-params-subform";
+import { FactorySubform } from "./factory-subform";
+import { ProxySubform } from "./proxy-subform";
 import {
   Box,
   Divider,
@@ -75,7 +74,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   const [pageToShow, setPageToShow] = useState<
     "landing" | "proxy" | "factory" | "contractParams"
   >("landing");
-  const { getNetworkMetadata } = useWeb3();
   const trackEvent = useTrack();
   const form = useForm<ExtraPublishMetadata>();
   const logoUrl = useImageFileOrUrl(form.watch("logo"));
@@ -190,18 +188,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
-
-  const testnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-      return getNetworkMetadata(supportedChain);
-    }).filter((n) => n.isTestnet);
-  }, [getNetworkMetadata]);
-
-  const mainnets = useMemo(() => {
-    return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-      return getNetworkMetadata(supportedChain);
-    }).filter((n) => !n.isTestnet);
-  }, [getNetworkMetadata]);
 
   useEffect(() => {
     window?.scrollTo({
@@ -596,58 +582,15 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             </Flex>
           )}
           {pageToShow === "contractParams" && (
-            <ContractParamsPage deployParams={deployParams} />
+            <ContractParamsSubform deployParams={deployParams} />
           )}
           {pageToShow === "proxy" && (
-            <ProxyPage
+            <ProxySubform
               setIsDrawerOpen={setIsDrawerOpen}
               contractId={contractId}
             />
           )}
-          {pageToShow === "factory" && (
-            <Flex gap={16} direction="column">
-              <Flex gap={2} direction="column">
-                <Heading size="title.lg">Factory deploy settings</Heading>
-                <Text fontStyle="normal">
-                  Proxy deployment requires having deployed implementations of
-                  your contract already available on each chain you want to
-                  support.
-                </Text>
-              </Flex>
-              <Flex flexDir="column" gap={4}>
-                <Heading size="title.md">Mainnets</Heading>
-                {mainnets.map(({ chainId, chainName }) => (
-                  <FormControl key={`factory${chainId}`}>
-                    <Flex gap={4} alignItems="center">
-                      <FormLabel mb={2} width="270px" lineHeight="150%">
-                        {chainName}
-                      </FormLabel>
-                      <PasteInput
-                        formKey={`factoryDeploymentData.factoryAddresses.${chainId}`}
-                        isDisabled={isDisabled}
-                      />
-                    </Flex>
-                  </FormControl>
-                ))}
-              </Flex>
-              <Flex flexDir="column" gap={4}>
-                <Heading size="title.md">Testnets</Heading>
-                {testnets.map(({ chainId, chainName }) => (
-                  <FormControl key={`factory${chainId}`}>
-                    <Flex gap={4} alignItems="center">
-                      <FormLabel mb={2} width="270px" lineHeight="150%">
-                        {chainName}
-                      </FormLabel>
-                      <PasteInput
-                        formKey={`factoryDeploymentData.factoryAddresses.${chainId}`}
-                        isDisabled={isDisabled}
-                      />
-                    </Flex>
-                  </FormControl>
-                ))}
-              </Flex>
-            </Flex>
-          )}
+          {pageToShow === "factory" && <FactorySubform />}
           <Flex flexDir="column" gap={6}>
             <Divider />
             <Flex
