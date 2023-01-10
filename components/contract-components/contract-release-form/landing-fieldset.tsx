@@ -149,7 +149,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                 </FormErrorMessage>
               </TabPanel>
               <TabPanel px={0} pb={0}>
-                <Card>
+                <Card p={4}>
                   <MarkdownRenderer markdownText={form.watch("readme") || ""} />
                 </Card>
               </TabPanel>
@@ -208,7 +208,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                     </FormErrorMessage>
                   </TabPanel>
                   <TabPanel px={0} pb={0}>
-                    <Card>
+                    <Card p={4}>
                       <MarkdownRenderer
                         markdownText={form.watch("changelog") || ""}
                       />
