@@ -15,19 +15,20 @@ import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
 import { useFormContext } from "react-hook-form";
 import { FormHelperText, FormLabel, Heading, Text } from "tw-components";
 
-interface ContractParamsInputGroupProps {
+interface ContractParamsFieldsetProps {
   isDisabled?: boolean;
   deployParams:
     | ReturnType<typeof useFunctionParamsFromABI>
     | ReturnType<typeof useConstructorParamsFromABI>;
 }
 
-export const ContractParamsInputGroup: React.FC<
-  ContractParamsInputGroupProps
-> = ({ deployParams, isDisabled = false }) => {
+export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
+  deployParams,
+  isDisabled = false,
+}) => {
   const form = useFormContext();
   return (
-    <Flex gap={16} direction="column">
+    <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Contract Parameters</Heading>
         <Text fontStyle="normal">

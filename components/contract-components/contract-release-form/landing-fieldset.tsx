@@ -35,7 +35,7 @@ import {
   Text,
 } from "tw-components";
 
-interface LandingInputGroupProps {
+interface LandingFieldsetProps {
   contractSelection: "unselected" | "standard" | "proxy" | "factory";
   setContractSelection: Dispatch<
     SetStateAction<"unselected" | "standard" | "proxy" | "factory">
@@ -44,7 +44,7 @@ interface LandingInputGroupProps {
   placeholderVersion: string;
 }
 
-export const LandingInputGroup: React.FC<LandingInputGroupProps> = ({
+export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
   contractSelection,
   setContractSelection,
   latestVersion,
@@ -54,7 +54,7 @@ export const LandingInputGroup: React.FC<LandingInputGroupProps> = ({
   const logoUrl = useImageFileOrUrl(form.watch("logo"));
 
   return (
-    <Flex gap={16} direction="column">
+    <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Publish your contract</Heading>
         <Text fontStyle="normal">

@@ -5,7 +5,7 @@ import { SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
 import { FormLabel, Heading, Text } from "tw-components";
 
-export const FactoryInputGroup = () => {
+export const FactoryFieldset = () => {
   const { getNetworkMetadata } = useWeb3();
 
   const { mainnets, testnets } = useMemo(() => {
@@ -20,7 +20,7 @@ export const FactoryInputGroup = () => {
   }, [getNetworkMetadata]);
 
   return (
-    <Flex gap={16} direction="column">
+    <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Factory deploy settings</Heading>
         <Text fontStyle="normal">

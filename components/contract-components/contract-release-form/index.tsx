@@ -8,10 +8,10 @@ import {
   usePublishMutation,
 } from "../hooks";
 import { ContractId } from "../types";
-import { ContractParamsInputGroup } from "./contract-params-input-group";
-import { FactoryInputGroup } from "./factory-input-group";
-import { LandingInputGroup } from "./landing-input-group";
-import { ProxyInputGroup } from "./proxy-input-group";
+import { ContractParamsFieldset } from "./contract-params-fieldset";
+import { FactoryFieldset } from "./factory-fieldset";
+import { LandingFieldset } from "./landing-fieldset";
+import { ProxyFieldset } from "./proxy-fieldset";
 import { Box, Divider, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -249,7 +249,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             </Box>
           )}
           {inputGroupToShow === "landing" && (
-            <LandingInputGroup
+            <LandingFieldset
               contractSelection={contractSelection}
               setContractSelection={setContractSelection}
               latestVersion={latestVersion}
@@ -257,15 +257,15 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             />
           )}
           {inputGroupToShow === "contractParams" && (
-            <ContractParamsInputGroup deployParams={deployParams} />
+            <ContractParamsFieldset deployParams={deployParams} />
           )}
           {inputGroupToShow === "proxy" && (
-            <ProxyInputGroup
+            <ProxyFieldset
               setIsDrawerOpen={setIsDrawerOpen}
               contractId={contractId}
             />
           )}
-          {inputGroupToShow === "factory" && <FactoryInputGroup />}
+          {inputGroupToShow === "factory" && <FactoryFieldset />}
           <Flex flexDir="column" gap={6}>
             <Divider />
             <Flex

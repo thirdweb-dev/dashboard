@@ -7,13 +7,13 @@ import { Dispatch, SetStateAction, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 import { FormLabel, Heading, Link, Text } from "tw-components";
 
-interface ProxyInputGroupProps {
+interface ProxyFieldsetProps {
   setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
   contractId: string;
   isDisabled?: boolean;
 }
 
-export const ProxyInputGroup: React.FC<ProxyInputGroupProps> = ({
+export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
   setIsDrawerOpen,
   contractId,
   isDisabled,
@@ -33,7 +33,7 @@ export const ProxyInputGroup: React.FC<ProxyInputGroupProps> = ({
   }, [getNetworkMetadata]);
 
   return (
-    <Flex gap={12} direction="column">
+    <Flex gap={12} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Proxy deploy settings</Heading>
         <Text fontStyle="normal">
