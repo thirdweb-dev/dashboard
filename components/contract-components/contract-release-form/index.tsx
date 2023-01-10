@@ -720,7 +720,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 {mainnets.map(({ chainId, chainName }) => (
                   <FormControl key={`implementation${chainId}`}>
                     <Flex gap={4} alignItems="center">
-                      <FormLabel mb={2} width="150px">
+                      <FormLabel mb={2} width="270px" lineHeight="150%">
                         {chainName}
                       </FormLabel>
                       <Input
@@ -753,7 +753,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 {testnets.map(({ chainId, chainName }) => (
                   <FormControl key={`implementation${chainId}`}>
                     <Flex gap={4} alignItems="center">
-                      <FormLabel mb={2} width="150px">
+                      <FormLabel mb={2} width="270px" lineHeight="150%">
                         {chainName}
                       </FormLabel>
                       <Input
@@ -820,7 +820,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               {mainnets.map(({ chainId, chainName }) => (
                 <FormControl key={`factory${chainId}`}>
                   <Flex gap={4} alignItems="center">
-                    <FormLabel mb={2} width="150px">
+                    <FormLabel mb={2} width="270px" lineHeight="150%">
                       {chainName}
                     </FormLabel>
                     <Input
@@ -839,7 +839,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               {testnets.map(({ chainId, chainName }) => (
                 <FormControl key={`factory${chainId}`}>
                   <Flex gap={4} alignItems="center">
-                    <FormLabel mb={2} width="150px">
+                    <FormLabel mb={2} width="270px" lineHeight="150%">
                       {chainName}
                     </FormLabel>
                     <Input
