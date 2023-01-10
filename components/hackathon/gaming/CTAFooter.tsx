@@ -37,13 +37,14 @@ export const CTAFooter: FC = () => {
         textAlign="center"
         color="white"
         zIndex={2}
+        fontWeight={800}
         letterSpacing="-0.04em"
       >
         Build the Future of Gaming.
       </Heading>
 
       <Heading size="title.xl" textAlign="center" color="#e984f3" zIndex={2}>
-        $100,000 in prizes & perks.
+        $100,000 in Prizes & Perks.
       </Heading>
 
       <LinkButton

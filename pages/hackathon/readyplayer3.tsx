@@ -268,7 +268,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 size="display.lg"
                 textAlign="center"
               >
-                Build the future of gaming.
+                Build the Future of Gaming.
               </Heading>
 
               {/* Price */}
@@ -289,7 +289,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 >
                   $100,000
                 </Text>
-                <span> in prizes & perks. </span>
+                <span> in Prizes & Perks. </span>
               </Box>
 
               {/* Time  */}
@@ -300,7 +300,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 color="white"
                 mb={4}
               >
-                Jan 16th - Jan 31st
+                Jan 16th - Feb 13th
               </Text>
 
               <ClientOnly fadeInDuration={400} ssr={<Box height="220px"></Box>}>
