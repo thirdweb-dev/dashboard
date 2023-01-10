@@ -31,7 +31,11 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
       ml="auto"
       mr="auto"
     >
-      <Flex justifyContent="center" alignItems="center" mb={8}>
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        mb={{ base: 8, md: 12 }}
+      >
         <Heading size="title.2xl">Schedule & Workshops</Heading>
         {addToCalendar ? (
           <LinkButton href={addToCalendar} ml={4} isExternal>
@@ -44,7 +48,6 @@ export const ScheduleSection: React.FC<ScheduleSectionProps> = ({
         justify={{ base: "center", md: "space-between" }}
         flexDir="column"
         align="center"
-        mt={8}
         borderRadius="lg"
         overflow="hidden"
         boxShadow="0 0 0 1px rgba(255, 255, 255, 0.1)"

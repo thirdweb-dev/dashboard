@@ -81,7 +81,6 @@ export const FaqSection: React.FC = () => {
         justify={{ base: "center", md: "space-between" }}
         flexDir="column"
         align="center"
-        mt={8}
         borderRadius="lg"
         overflow="hidden"
         boxShadow="0 0 0 1px rgba(255, 255, 255, 0.15)"

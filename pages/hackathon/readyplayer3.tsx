@@ -375,16 +375,16 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
 
           {/* Partners */}
           <HomepageSection
-            pt={10}
             filter="grayScale(1) brightness(2)"
-            mb={32}
+            mt={40}
+            mb={40}
             zIndex={10}
           >
             <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
           </HomepageSection>
 
           {/* Prices  */}
-          <HomepageSection mt={12}>
+          <HomepageSection mt={40}>
             <Flex flexDir="column">
               <Heading size="title.2xl" textAlign="center">
                 Prizes & Perks
@@ -402,7 +402,6 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 flexDir="column"
                 gap={4}
                 margin="0 auto"
-                mb={{ base: 8, md: 24 }}
                 maxW={700}
                 textAlign="center"
               >
@@ -461,7 +460,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
           </HomepageSection>
 
           {/* Judges */}
-          <HomepageSection py={12}>
+          <HomepageSection my={40}>
             <AvatarShowcase
               title="Judges"
               trackingCategory="readyplayer3"
@@ -470,7 +469,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
           </HomepageSection>
 
           {/* Mentors */}
-          <HomepageSection py={12}>
+          <HomepageSection my={40}>
             <AvatarShowcase
               title="Mentors"
               trackingCategory="readyplayer3"
@@ -520,7 +519,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
           </HomepageSection>
 
           {/* FAQ */}
-          <HomepageSection py={24}>
+          <HomepageSection my={{ base: 20, md: 40 }}>
             <FaqSection />
           </HomepageSection>
 

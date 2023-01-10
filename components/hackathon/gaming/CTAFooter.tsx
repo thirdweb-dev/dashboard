@@ -9,12 +9,13 @@ export const CTAFooter: FC = () => {
 
   return (
     <Flex
-      py={40}
+      py={{ base: 20, md: 40 }}
       align="center"
       justify="center"
       flexDir="column"
       pos="relative"
       mt={20}
+      px={4}
       gap={4}
       zIndex={1}
     >
@@ -32,7 +33,7 @@ export const CTAFooter: FC = () => {
       <Logo forceShowWordMark color="#fff" />
 
       <Heading
-        size="display.lg"
+        fontSize={{ base: "32px", md: "72px" }}
         textAlign="center"
         color="white"
         zIndex={2}
@@ -56,10 +57,7 @@ export const CTAFooter: FC = () => {
         }
         py={7}
         px={14}
-        // h="68px"
-        // w={{ base: "100%", md: 96 }}
         fontSize="20px"
-        // leftIcon={<Icon as={ImMagicWand} />}
         color="black"
         flexShrink={0}
         background="rgba(255,255,255,1)"

@@ -17,7 +17,7 @@ export const Sponsors: React.FC<SponsorProps> = ({
   hackathonName,
 }) => {
   return (
-    <Flex w="full" pb={20} flexDir="column" mx="auto" gap={12} mt={24}>
+    <Flex w="full" flexDir="column" mx="auto" gap={12}>
       <Heading
         fontSize={{ base: "24px", md: "32px" }}
         textAlign="center"

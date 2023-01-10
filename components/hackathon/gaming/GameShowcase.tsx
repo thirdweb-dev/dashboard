@@ -56,7 +56,7 @@ export const GameShowcase = () => {
         textAlign="center"
         color="whiteAlpha.800"
         size="subtitle.md"
-        mb={12}
+        mb={{ base: 4, md: 8 }}
       >
         Try our demo games and get inspired on how to integrate web3 into your
         game.
