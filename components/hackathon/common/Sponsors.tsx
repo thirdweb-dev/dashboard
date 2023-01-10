@@ -25,7 +25,7 @@ export const Sponsors: React.FC<SponsorProps> = ({
       >
         Our Partners
       </Heading>
-      <Flex gap={{ base: 4, md: 10 }} justifyContent="center" flexWrap="wrap">
+      <Flex gap={{ base: 8, md: 16 }} justifyContent="center" flexWrap="wrap">
         {sponsors.map(({ name, link, logo }) => (
           <TrackedLink
             key={name}

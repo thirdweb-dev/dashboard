@@ -16,7 +16,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { Heading, LinkButton, Text } from "tw-components";
+import { Heading, Link, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const Timer = dynamic(() => import("components/hackathon/common/Timer"), {
@@ -195,14 +195,14 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
         description={metadata.description}
         openGraph={{
           title: metadata.title,
-          url: "https://thirdweb.com/hackathon/gaming",
+          url: "https://thirdweb.com/hackathon/readyplayer3",
           description: metadata.description,
           images: [
             {
               url: "https://thirdweb.com/assets/og-image/readyplayer3.png",
               width: 1440,
               height: 880,
-              alt: "thirdweb gaming hackathon: January 16 - 31",
+              alt: "Ready Player 3 hackathon",
             },
           ],
         }}
@@ -413,13 +413,25 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 <Box fontSize="body.lg" color="white">
                   <List spacing={4}>
                     <ListItem>
-                      Top 3 teams of &apos;Main Build Track&apos; will receive
-                      Pro Tickets ($1,700 value each) to Consensus 2023
-                      Presented by CoinDesk
+                      Top 3 teams of {`"`}Main Build Track{`"`} will receive Pro
+                      Tickets ($1,700 value each) to Consensus 2023 Presented by
+                      CoinDesk
                     </ListItem>
                     <ListItem>
-                      Top 3 teams receive a complimentary 1-Year Subscription to
-                      Scenario.gg
+                      Top 3 teams receive a complimentary 1-Year Subscription to{" "}
+                      <Link
+                        href="https://www.scenario.gg/"
+                        isExternal
+                        textDecor={"underline"}
+                        pb={1}
+                        textDecorationThickness="1px"
+                        textUnderlineOffset="4px"
+                        style={{
+                          textDecorationSkipInk: "none",
+                        }}
+                      >
+                        Scenario.gg
+                      </Link>
                     </ListItem>
                     <ListItem>
                       All participating teams with a submitted project are
@@ -492,7 +504,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
               height={{ base: "2200px", md: "1200px" }}
               position="absolute"
               zIndex={-1}
-              top="80%"
+              top={{ base: "50%", md: "80%" }}
               left="50%"
               transform="translate(-50%, -50%)"
               backgroundImage={{

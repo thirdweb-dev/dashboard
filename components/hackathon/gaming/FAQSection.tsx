@@ -102,6 +102,7 @@ export const FaqSection: React.FC = () => {
               <AccordionButton py={4} _hover={{ bg: "transparent" }}>
                 <Heading
                   mr="auto"
+                  pr={4}
                   size="label.lg"
                   textAlign="left"
                   lineHeight={1.3}
