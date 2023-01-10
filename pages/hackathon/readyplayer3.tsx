@@ -1,16 +1,4 @@
-import {
-  Box,
-  DarkMode,
-  Divider,
-  Flex,
-  Icon,
-  Image,
-  List,
-  ListIcon,
-  ListItem,
-  UnorderedList,
-} from "@chakra-ui/react";
-import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
+import { Box, DarkMode, Flex, Image, List, ListItem } from "@chakra-ui/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
@@ -28,7 +16,6 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
-import { BsArrowRight } from "react-icons/bs";
 import { Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
