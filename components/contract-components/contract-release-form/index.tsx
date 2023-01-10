@@ -17,13 +17,12 @@ import {
   Divider,
   Flex,
   FormControl,
-  GridItem,
   Icon,
+  IconButton,
   Image,
   Input,
   InputGroup,
   InputRightElement,
-  SimpleGrid,
   Tab,
   TabList,
   TabPanel,
@@ -51,6 +50,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsCode, BsEye } from "react-icons/bs";
 import { FiTrash, FiUpload } from "react-icons/fi";
+import { IoChevronBack } from "react-icons/io5";
 import {
   Button,
   Card,
@@ -206,6 +206,13 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     }).filter((n) => !n.isTestnet);
   }, [getNetworkMetadata]);
 
+  useEffect(() => {
+    window?.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [pageToShow]);
+
   return (
     <Box w="100%">
       <Flex
@@ -271,6 +278,26 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
         direction="column"
         gap={6}
       >
+        {pageToShow !== "landing" && (
+          <Box>
+            <IconButton
+              w="inherit"
+              variant="ghost"
+              onClick={() =>
+                pageToShow === "contractParams" && contractSelection === "proxy"
+                  ? setPageToShow("proxy")
+                  : pageToShow === "contractParams" &&
+                    contractSelection === "factory"
+                  ? setPageToShow("factory")
+                  : setPageToShow("landing")
+              }
+              aria-label="Back"
+              icon={<Icon as={IoChevronBack} boxSize={6} />}
+            >
+              Back
+            </IconButton>
+          </Box>
+        )}
         {pageToShow === "landing" && (
           <Flex gap={16} direction="column">
             <Flex gap={2} direction="column">
