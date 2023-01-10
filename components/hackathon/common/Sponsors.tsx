@@ -1,5 +1,5 @@
-import { Flex, Image, SimpleGrid } from "@chakra-ui/react";
-import { Text, TrackedLink } from "tw-components";
+import { Flex, Image } from "@chakra-ui/react";
+import { Heading, TrackedLink } from "tw-components";
 
 interface Sponsor {
   name: string;
@@ -17,15 +17,15 @@ export const Sponsors: React.FC<SponsorProps> = ({
   hackathonName,
 }) => {
   return (
-    <Flex w="full" pb={20} flexDir="column" mx="auto" gap={4} mt={24}>
-      <Text size="label.lg" textAlign="center">
-        OUR PARTNERS
-      </Text>
-      <SimpleGrid
-        columns={{ base: 2, md: sponsors?.length || 2 }}
-        gap={8}
-        placeItems="center"
+    <Flex w="full" pb={20} flexDir="column" mx="auto" gap={12} mt={24}>
+      <Heading
+        fontSize={{ base: "24px", md: "32px" }}
+        textAlign="center"
+        fontWeight={700}
       >
+        Our Partners
+      </Heading>
+      <Flex gap={{ base: 4, md: 10 }} justifyContent="center" flexWrap="wrap">
         {sponsors.map(({ name, link, logo }) => (
           <TrackedLink
             key={name}
@@ -35,15 +35,16 @@ export const Sponsors: React.FC<SponsorProps> = ({
             label={name}
           >
             <Image
-              w="164px"
-              h="50px"
+              // w="px"
+              maxW="150px"
+              h="60px"
               objectFit="contain"
               src={logo}
               alt={name}
             />
           </TrackedLink>
         ))}
-      </SimpleGrid>
+      </Flex>
     </Flex>
   );
 };

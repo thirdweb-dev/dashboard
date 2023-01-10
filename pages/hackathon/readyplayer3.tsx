@@ -6,7 +6,9 @@ import {
   Icon,
   Image,
   List,
+  ListIcon,
   ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
@@ -17,6 +19,7 @@ import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
 import { CTAFooter } from "components/hackathon/gaming/CTAFooter";
 import { FaqSection } from "components/hackathon/gaming/FAQSection";
+import { GameShowcase } from "components/hackathon/gaming/GameShowcase";
 import { Resources } from "components/hackathon/gaming/Resources";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -25,6 +28,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { PageId } from "page-id";
+import { BsArrowRight } from "react-icons/bs";
 import { Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -65,11 +69,11 @@ const sponsors = [
     logo: "/assets/hackathon/sponsors/spindl.png",
     link: "https://www.spindl.xyz/",
   },
-  {
-    name: "Optimism",
-    logo: "/assets/hackathon/sponsors/optimism.png",
-    link: "https://www.optimism.io/",
-  },
+  // {
+  //   name: "Optimism",
+  //   logo: "/assets/hackathon/sponsors/optimism.png",
+  //   link: "https://www.optimism.io/",
+  // },
   {
     name: "Fractal",
     logo: "/assets/hackathon/sponsors/fractal.png",
@@ -135,6 +139,12 @@ const mentors = [
     image: "/assets/landingpage/hubert-thieblot.jpg",
     company: "Founders, Inc.",
   },
+  {
+    name: "Shai Perednik",
+    twitter: "shaiss",
+    image: "/assets/landingpage/shai-perednik.jpeg",
+    company: "AWS",
+  },
 ];
 
 const scheduleItems = [
@@ -174,7 +184,6 @@ const scheduleItems = [
     title: "Fireside Chat with Fractal",
     href: "https://lu.ma/rp3fractal",
   },
-
   {
     day: 25,
     month: "jan",
@@ -226,33 +235,38 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
         bg="#000"
         position="relative"
       >
-        <Box
-          data-testid="homepage"
-          pointerEvents={"none"}
-          width="2400px"
-          height="2400px"
-          position="absolute"
-          zIndex={1}
-          top="200px"
-          left="50%"
-          transform="translate(-50%, -50%)"
-          backgroundImage={`radial-gradient(ellipse at center, #ff00a745, transparent 60%)`}
-        ></Box>
-
         <HomepageTopNav />
 
+        {/* Hero Auroras */}
+        <Box
+          pointerEvents={"none"}
+          width={{ base: "1000px", md: "2000px" }}
+          height={{ base: "1000px", md: "2000px" }}
+          position="absolute"
+          zIndex={1}
+          top="300px"
+          left="30%"
+          transform="translate(-50%, -50%)"
+          backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 100% 50% / 20%), transparent 60%)`}
+        ></Box>
+
+        <Box
+          pointerEvents={"none"}
+          width="2000px"
+          height="2000px"
+          position="absolute"
+          zIndex={1}
+          top="300px"
+          left="70%"
+          transform="translate(-50%, -50%)"
+          backgroundImage={`radial-gradient(ellipse at center, hsl(276deg 100% 50% / 20%), transparent 60%)`}
+        ></Box>
+
         <Box maxW="100vw" overflowX="hidden">
-          <HomepageSection id="header">
-            <Flex
-              flexDir="column"
-              align="center"
-              gap={12}
-              mt={{ base: 12, md: 24 }}
-            >
-              <Box
-                filter="hue-rotate(100deg) brightness(2.6) contrast(0.8)"
-                mb={8}
-              >
+          {/* Hero */}
+          <HomepageSection id="header" bottomPattern>
+            <Flex flexDir="column" align="center" mt={{ base: 12, md: 24 }}>
+              <Box filter="grayScale(1) brightness(3) contrast(1.3)" mb={14}>
                 <ChakraNextImage
                   src="/assets/hackathon/readyplayer3.png"
                   alt="Ready Player 3"
@@ -261,39 +275,48 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 />
               </Box>
 
-              <Flex flexDir="column" gap={2}>
-                <Heading
-                  fontSize={{ base: "32px", md: "84px" }}
-                  letterSpacing="-0.05em"
-                  // bg="linear-gradient(0deg, #ff9ef8 -9.03%, #ffffff 98.25%)"
-                  // bgClip={"text"}
-                  textAlign="center"
-                >
-                  Build the future of gaming
-                </Heading>
-                <Text
-                  // bgImage="linear-gradient(0deg, #b7fb63 -9.03%, #ffffff 98.25%)"
-                  // bgClip="text"
-                  fontSize={{ base: "32px", md: "48px" }}
-                  textAlign="center"
-                  letterSpacing="-0.03em"
-                  color="#f014a5"
-                  mb={8}
-                  fontWeight={700}
-                >
-                  $100,000 in prizes
-                </Text>
-                <Text
-                  fontSize="24px"
-                  textAlign="center"
-                  fontWeight={700}
-                  color="white"
-                >
-                  Jan 16th - Jan 31st
-                </Text>
-              </Flex>
+              <Heading
+                fontSize={{ base: "32px", md: "72px" }}
+                letterSpacing="-0.05em"
+                size="display.lg"
+                textAlign="center"
+              >
+                Build the future of gaming.
+              </Heading>
 
-              <ClientOnly ssr={null}>
+              {/* Price */}
+              <Box
+                fontSize={{ base: "24px", md: "42px" }}
+                textAlign="center"
+                letterSpacing="-0.03em"
+                mb={12}
+                fontWeight={800}
+              >
+                <Text
+                  as="span"
+                  bgImage="linear-gradient(80deg, #e984f3, #b541ff)"
+                  letterSpacing="inherit"
+                  bgClip="text"
+                  fontSize="1.2em"
+                  fontWeight="inherit"
+                >
+                  $100,000
+                </Text>
+                <span> in prizes & perks. </span>
+              </Box>
+
+              {/* Time  */}
+              <Text
+                fontSize={{ base: "20px", md: "24px" }}
+                textAlign="center"
+                fontWeight={700}
+                color="white"
+                mb={4}
+              >
+                Jan 16th - Jan 31st
+              </Text>
+
+              <ClientOnly ssr={<Box height="90px"> </Box>}>
                 <Flex alignItems={"center"} flexDirection="column">
                   {isAfter(new Date(), new Date("2021-01-16T00:00:00.000Z")) ? (
                     <>
@@ -308,21 +331,23 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                           })
                         }
                         px={14}
-                        py={8}
-                        fontSize="24px"
-                        leftIcon={<Icon as={ImMagicWand} />}
-                        color="black"
+                        py={7}
+                        fontSize="20px"
+                        minW="320px"
+                        // leftIcon={<Icon as={ImMagicWand} />}
+                        // color="black"
                         flexShrink={0}
                         background="white"
                         _hover={{
                           background: "white !important",
-                          boxShadow: "0 0 40px rgb(251 26 164 / 44%)",
+                          boxShadow: "0 0 50px rgb(251 26 164 / 30%)",
                         }}
-                        boxShadow="0 0 40px rgb(251 26 164 / 34%)"
+                        boxShadow="0 0 40px hwb(277deg 26% 0% / 30%)"
                         isExternal
                         noIcon
-                        mt={12}
+                        mt={20}
                         gap={2}
+                        color="black"
                       >
                         Register now
                       </LinkButton>
@@ -337,10 +362,11 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                           label: "submit-project",
                         })
                       }
-                      h="68px"
-                      w={{ base: "100%", md: 96 }}
+                      px={14}
+                      py={7}
                       fontSize="20px"
-                      leftIcon={<Icon as={ImMagicWand} />}
+                      minW="320px"
+                      // leftIcon={<Icon as={ImMagicWand} />}
                       color="black"
                       flexShrink={0}
                       background="white"
@@ -349,7 +375,8 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                       }}
                       isExternal
                       noIcon
-                      isDisabled
+                      mt={8}
+                      // isDisabled
                     >
                       Submit Your Project
                     </LinkButton>
@@ -359,11 +386,17 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection pt={32}>
+          {/* Partners */}
+          <HomepageSection
+            pt={10}
+            filter="grayScale(1) brightness(2)"
+            mb={32}
+            zIndex={10}
+          >
             <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
           </HomepageSection>
-          <Divider mt={16} />
 
+          {/* Prices  */}
           <HomepageSection mt={12}>
             <Flex flexDir="column">
               <Heading size="title.2xl" textAlign="center">
@@ -378,98 +411,127 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 h={{ base: "auto", md: "400px" }}
                 w={{ base: "100%", md: "auto" }}
               />
-              <Flex flexDir="column" gap={4} mb={{ base: 8, md: 24 }}>
-                <Text size="body.lg">
+              <Flex
+                flexDir="column"
+                gap={4}
+                margin="0 auto"
+                mb={{ base: 8, md: 24 }}
+                maxW={700}
+                textAlign="center"
+              >
+                <Text size="body.lg" color="#e984f3" mb={4}>
                   In addition to these prizes, participating teams also have an
                   opportunity to receive:
                 </Text>
-                <Box fontSize="body.lg">
-                  <List>
+                <Box fontSize="body.lg" color="white">
+                  <List spacing={4}>
                     <ListItem>
-                      - Top 3 teams of &apos;Main Build Track&apos; will receive
+                      Top 3 teams of &apos;Main Build Track&apos; will receive
                       Pro Tickets ($1,700 value each) to Consensus 2023
                       Presented by CoinDesk
                     </ListItem>
                     <ListItem>
-                      - Top 3 teams receive a complimentary 1-Year Subscription
-                      to Scenario.gg
+                      Top 3 teams receive a complimentary 1-Year Subscription to
+                      Scenario.gg
                     </ListItem>
                     <ListItem>
-                      - All participating teams with a submitted project are
+                      All participating teams with a submitted project are
                       eligible for up to $5,000 in AWS credits (as long as
                       they&apos;ve not previously been an AWS credit recipient)
                     </ListItem>
                     <ListItem>
-                      - All participating teams with a project submitted will
+                      All participating teams with a project submitted will
                       receive 1-month free of Scenario.gg
                     </ListItem>
                   </List>
                 </Box>
               </Flex>
             </Flex>
-          </HomepageSection>
-
-          <HomepageSection>
-            <AvatarShowcase
-              title="Judges"
-              trackingCategory="readyplayer3"
-              avatars={judges}
-            />
 
             <Box
-              data-testid="homepage"
               pointerEvents={"none"}
               width="2400px"
               height="2400px"
               position="absolute"
               zIndex={-1}
-              top="20%"
+              top="50%"
               left="50%"
               transform="translate(-50%, -50%)"
-              backgroundImage={`radial-gradient(ellipse at center, #ff00a745, transparent 60%)`}
+              backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 100% 50% / 12%), transparent 60%)`}
             ></Box>
           </HomepageSection>
 
-          <AvatarShowcase
-            title="Mentors"
-            trackingCategory="readyplayer3"
-            avatars={mentors}
-          />
-
-          {/* <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(150px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-            zIndex={0}
-          /> */}
-
-          <HomepageSection>
-            <ScheduleSection scheduleItems={scheduleItems} />
+          {/* Judges */}
+          <HomepageSection py={12}>
+            <AvatarShowcase
+              title="Judges"
+              trackingCategory="readyplayer3"
+              avatars={judges}
+            />
           </HomepageSection>
 
-          <HomepageSection mt={{ base: 12, md: 24 }}>
+          {/* Mentors */}
+          <HomepageSection py={12}>
+            <AvatarShowcase
+              title="Mentors"
+              trackingCategory="readyplayer3"
+              avatars={mentors}
+            />
+          </HomepageSection>
+
+          {/* Schedule */}
+          <HomepageSection zIndex={1} my={20}>
+            <ScheduleSection scheduleItems={scheduleItems} />
+
+            <Box
+              pointerEvents={"none"}
+              width={{ base: "1000px", md: "2200px" }}
+              height={{ base: "1400px", md: "2200px" }}
+              position="absolute"
+              zIndex={-1}
+              top="55%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              backgroundImage={`radial-gradient(ellipse at center, hsl(300deg 90% 50% / 15%), transparent 60%)`}
+            ></Box>
+          </HomepageSection>
+
+          {/* Games showcase */}
+          <HomepageSection my={40}>
+            <GameShowcase />
+            <Box
+              pointerEvents={"none"}
+              width={{ base: "1400px", md: "2200px" }}
+              height={{ base: "2200px", md: "1200px" }}
+              position="absolute"
+              zIndex={-1}
+              top="80%"
+              left="50%"
+              transform="translate(-50%, -50%)"
+              backgroundImage={{
+                base: `radial-gradient(ellipse at center, hsl(300deg 100% 60% / 30%), transparent 60%)`,
+                md: `radial-gradient(ellipse at center, hsl(300deg 100% 60% / 15%), transparent 60%)`,
+              }}
+            ></Box>
+          </HomepageSection>
+
+          {/* Resources */}
+          <HomepageSection my={20}>
             <Resources />
           </HomepageSection>
 
-          {/* <Box
-            w="full"
-            h={{ base: "200px", md: "250px" }}
-            background="linear-gradient(90deg, rgba(137, 253, 20, 0.4) 0%, rgba(47, 53, 201, 0.4) 36.52%, rgba(189, 17, 190, 0.4) 72.51%, rgba(65, 0, 172, 0.4) 100%)"
-            filter="blur(150px)"
-            transform="matrix(-1, 0, 0, 1, 0, 0)"
-            mt="-150px"
-            zIndex={0}
-          /> */}
-
-          <HomepageSection>
+          {/* FAQ */}
+          <HomepageSection py={24}>
             <FaqSection />
           </HomepageSection>
 
+          {/* CTA #2 */}
           <CTAFooter />
-          <HomepageFooter />
+
+          {/* Footer */}
+          <Box zIndex={1000} position="relative">
+            <HomepageFooter />
+          </Box>
         </Box>
       </Flex>
     </DarkMode>
