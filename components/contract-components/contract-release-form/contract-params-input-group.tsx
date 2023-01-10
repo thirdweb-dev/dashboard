@@ -15,17 +15,16 @@ import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
 import { useFormContext } from "react-hook-form";
 import { FormHelperText, FormLabel, Heading, Text } from "tw-components";
 
-interface ContractParamsSubformProps {
+interface ContractParamsInputGroupProps {
   isDisabled?: boolean;
   deployParams:
     | ReturnType<typeof useFunctionParamsFromABI>
     | ReturnType<typeof useConstructorParamsFromABI>;
 }
 
-export const ContractParamsSubform: React.FC<ContractParamsSubformProps> = ({
-  deployParams,
-  isDisabled = false,
-}) => {
+export const ContractParamsInputGroup: React.FC<
+  ContractParamsInputGroupProps
+> = ({ deployParams, isDisabled = false }) => {
   const form = useFormContext();
   return (
     <Flex gap={16} direction="column">

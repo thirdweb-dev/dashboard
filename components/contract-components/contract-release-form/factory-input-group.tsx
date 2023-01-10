@@ -5,7 +5,7 @@ import { SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
 import { FormLabel, Heading, Text } from "tw-components";
 
-export const FactorySubform = () => {
+export const FactoryInputGroup = () => {
   const { getNetworkMetadata } = useWeb3();
 
   const { mainnets, testnets } = useMemo(() => {

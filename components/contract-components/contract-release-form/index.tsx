@@ -9,9 +9,9 @@ import {
 } from "../hooks";
 import { MarkdownRenderer } from "../released-contract/markdown-renderer";
 import { ContractId } from "../types";
-import { ContractParamsSubform } from "./contract-params-subform";
-import { FactorySubform } from "./factory-subform";
-import { ProxySubform } from "./proxy-subform";
+import { ContractParamsInputGroup } from "./contract-params-input-group";
+import { FactoryInputGroup } from "./factory-input-group";
+import { ProxyInputGroup } from "./proxy-input-group";
 import {
   Box,
   Divider,
@@ -71,7 +71,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   const [contractSelection, setContractSelection] = useState<
     "unselected" | "standard" | "proxy" | "factory"
   >("unselected");
-  const [pageToShow, setPageToShow] = useState<
+  const [inputGroupToShow, setInputGroupToShow] = useState<
     "landing" | "proxy" | "factory" | "contractParams"
   >("landing");
   const trackEvent = useTrack();
@@ -194,7 +194,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
       top: 0,
       behavior: "smooth",
     });
-  }, [pageToShow]);
+  }, [inputGroupToShow]);
 
   return (
     <FormProvider {...form}>
@@ -262,19 +262,19 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           direction="column"
           gap={6}
         >
-          {pageToShow !== "landing" && (
+          {inputGroupToShow !== "landing" && (
             <Box>
               <IconButton
                 w="inherit"
                 variant="ghost"
                 onClick={() =>
-                  pageToShow === "contractParams" &&
+                  inputGroupToShow === "contractParams" &&
                   contractSelection === "proxy"
-                    ? setPageToShow("proxy")
-                    : pageToShow === "contractParams" &&
+                    ? setInputGroupToShow("proxy")
+                    : inputGroupToShow === "contractParams" &&
                       contractSelection === "factory"
-                    ? setPageToShow("factory")
-                    : setPageToShow("landing")
+                    ? setInputGroupToShow("factory")
+                    : setInputGroupToShow("landing")
                 }
                 aria-label="Back"
                 icon={<Icon as={IoChevronBack} boxSize={6} />}
@@ -283,7 +283,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </IconButton>
             </Box>
           )}
-          {pageToShow === "landing" && (
+          {inputGroupToShow === "landing" && (
             <Flex gap={16} direction="column">
               <Flex gap={2} direction="column">
                 <Heading size="title.lg">Publish your contract</Heading>
@@ -581,16 +581,16 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </Box>
             </Flex>
           )}
-          {pageToShow === "contractParams" && (
-            <ContractParamsSubform deployParams={deployParams} />
+          {inputGroupToShow === "contractParams" && (
+            <ContractParamsInputGroup deployParams={deployParams} />
           )}
-          {pageToShow === "proxy" && (
-            <ProxySubform
+          {inputGroupToShow === "proxy" && (
+            <ProxyInputGroup
               setIsDrawerOpen={setIsDrawerOpen}
               contractId={contractId}
             />
           )}
-          {pageToShow === "factory" && <FactorySubform />}
+          {inputGroupToShow === "factory" && <FactoryInputGroup />}
           <Flex flexDir="column" gap={6}>
             <Divider />
             <Flex
@@ -611,19 +611,24 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   Learn more
                 </LinkButton>
               </Text>
-              {pageToShow === "landing" && contractSelection === "proxy" ? (
-                <Button onClick={() => setPageToShow("proxy")}>Next</Button>
-              ) : pageToShow === "landing" &&
+              {inputGroupToShow === "landing" &&
+              contractSelection === "proxy" ? (
+                <Button onClick={() => setInputGroupToShow("proxy")}>
+                  Next
+                </Button>
+              ) : inputGroupToShow === "landing" &&
                 contractSelection === "factory" ? (
-                <Button onClick={() => setPageToShow("factory")}>Next</Button>
-              ) : pageToShow !== "contractParams" &&
+                <Button onClick={() => setInputGroupToShow("factory")}>
+                  Next
+                </Button>
+              ) : inputGroupToShow !== "contractParams" &&
                 deployParams?.length > 0 ? (
                 <Button
                   disabled={
-                    pageToShow === "landing" &&
+                    inputGroupToShow === "landing" &&
                     contractSelection === "unselected"
                   }
-                  onClick={() => setPageToShow("contractParams")}
+                  onClick={() => setInputGroupToShow("contractParams")}
                 >
                   Next
                 </Button>
