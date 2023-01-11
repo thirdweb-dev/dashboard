@@ -57,7 +57,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
     <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
         <Heading size="title.lg">
-          {form.watch("version") === "1.0.0" ? "Publish" : "Edit"} your contract
+          {!latestVersion ? "Publish" : "Edit"} your contract
         </Heading>
         <Text fontStyle="normal">
           Publishing your contract makes it shareable, discoverable, and
