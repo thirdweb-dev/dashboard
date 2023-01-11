@@ -1,6 +1,5 @@
-import { ClaimConditionsProps } from "./claim-conditions";
-import { PriceInput } from "./price-input";
-import { QuantityInputWithUnlimited } from "./quantity-input-with-unlimited";
+import { PriceInput } from "../price-input";
+import { QuantityInputWithUnlimited } from "../quantity-input-with-unlimited";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { useIsAdmin } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import {
@@ -19,7 +18,9 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import {
+  DropContract,
   TokenContract,
+  useAddress,
   useClaimConditions,
   useSetClaimConditions,
   useTokenDecimals,
@@ -76,7 +77,14 @@ const DEFAULT_PHASE = {
 const ClaimConditionsSchema = z.object({
   phases: ClaimConditionInputArray,
 });
-export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
+
+export interface ClaimConditionsFormProps {
+  contract: DropContract;
+  tokenId?: string;
+  isColumn?: true;
+}
+
+export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
   contract,
   tokenId,
   isColumn,
@@ -84,6 +92,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   const trackEvent = useTrack();
   const [resetFlag, setResetFlag] = useState(false);
   const isAdmin = useIsAdmin(contract);
+  const connectedWalletAddress = useAddress();
 
   const query = useClaimConditions(contract, tokenId, {
     withAllowList: true,
@@ -152,15 +161,15 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
     remove(index);
   };
 
-  const watchFieldArray = form.watch("phases");
+  const phases = form.watch("phases");
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
-      ...watchFieldArray[index],
+      ...phases[index],
     };
   });
 
-  const { onSuccess, onError } = useTxNotifications(
+  const saveClaimPhaseNotification = useTxNotifications(
     "Saved claim phases",
     "Failed to save claim phases",
   );
@@ -168,13 +177,43 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
   const isMultiPhase = hasMultiphaseClaimConditions(contract);
   const canEdit = useIsAdmin(contract) && !mutation.isLoading;
 
-  if (!contract) {
-    return null;
-  }
-
   const isClaimPhaseV1 = hasLegacyClaimConditions(contract);
 
   const canEditPhaseTitle = !isClaimPhaseV1;
+
+  const handleFormSubmit = form.handleSubmit(async (d) => {
+    trackEvent({
+      category: isErc20 ? "token" : "nft",
+      action: "set-claim-conditions",
+      label: "attempt",
+    });
+    try {
+      await mutation.mutateAsync({
+        phases: d.phases as ClaimConditionInput[],
+        reset: resetFlag,
+      });
+      trackEvent({
+        category: isErc20 ? "token" : "nft",
+        action: "set-claim-conditions",
+        label: "success",
+      });
+      saveClaimPhaseNotification.onSuccess();
+    } catch (error) {
+      trackEvent({
+        category: isErc20 ? "token" : "nft",
+        action: "set-claim-conditions",
+        label: "error",
+      });
+      if (error instanceof ZodError) {
+        error.errors.forEach((e) => {
+          const path = `phases.${e.path.join(".")}`;
+          form.setError(path as any, e);
+        });
+      } else {
+        saveClaimPhaseNotification.onError(error);
+      }
+    }
+  });
 
   return (
     <>
@@ -187,44 +226,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
           right={4}
         />
       )}
-      <Flex
-        onSubmit={form.handleSubmit(async (d) => {
-          trackEvent({
-            category: isErc20 ? "token" : "nft",
-            action: "set-claim-conditions",
-            label: "attempt",
-          });
-          try {
-            await mutation.mutateAsync({
-              phases: d.phases as ClaimConditionInput[],
-              reset: resetFlag,
-            });
-            trackEvent({
-              category: isErc20 ? "token" : "nft",
-              action: "set-claim-conditions",
-              label: "success",
-            });
-            onSuccess();
-          } catch (error) {
-            trackEvent({
-              category: isErc20 ? "token" : "nft",
-              action: "set-claim-conditions",
-              label: "error",
-            });
-            if (error instanceof ZodError) {
-              error.errors.forEach((e) => {
-                const path = `phases.${e.path.join(".")}`;
-                form.setError(path as any, e);
-              });
-            } else {
-              onError(error);
-            }
-          }
-        })}
-        direction="column"
-        as="form"
-        gap={10}
-      >
+      <Flex onSubmit={handleFormSubmit} direction="column" as="form" gap={10}>
         <Flex
           direction={"column"}
           gap={4}
@@ -268,6 +270,21 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                   }
                   isDisabled={!canEdit}
                 />
+
+                {/* Show the reason why the form is disabled */}
+                {!isAdmin && (
+                  <Alert
+                    status="info"
+                    borderRadius={8}
+                    bg={"backgroundHighlight"}
+                  >
+                    <AlertIcon />
+                    {!connectedWalletAddress
+                      ? "Wallet Not Connected"
+                      : "Connect with Admin wallet to edit the form"}
+                  </Alert>
+                )}
+
                 <Card position="relative">
                   <Flex direction="column" gap={8}>
                     <Flex align="flex-start" justify="space-between">
@@ -280,10 +297,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
                             <Input
                               w="auto"
                               isDisabled={!canEdit}
-                              // size="sm"
-                              // borderColor="borderColor"
-                              // variant="outline"
-                              // w="auto"
                               type="text"
                               value={field.metadata?.name}
                               placeholder={`Phase ${index + 1}`}
@@ -730,7 +743,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
             );
           })}
 
-          {watchFieldArray?.length === 0 && (
+          {phases?.length === 0 && (
             <Alert status="warning" borderRadius="md">
               <AlertIcon />
               <Flex direction="column">
@@ -750,18 +763,18 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsProps> = ({
           <AdminOnly contract={contract as ValidContractInstance}>
             {isMultiPhase ? (
               <Button
-                colorScheme={watchFieldArray?.length > 0 ? "primary" : "purple"}
-                variant={watchFieldArray?.length > 0 ? "outline" : "solid"}
+                colorScheme={phases?.length > 0 ? "primary" : "purple"}
+                variant={phases?.length > 0 ? "outline" : "solid"}
                 borderRadius="md"
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={addPhase}
                 isDisabled={mutation.isLoading}
               >
-                Add {watchFieldArray?.length > 0 ? "Additional " : "Initial "}
+                Add {phases?.length > 0 ? "Additional " : "Initial "}
                 Claim Phase
               </Button>
             ) : (
-              watchFieldArray?.length === 0 && (
+              phases?.length === 0 && (
                 <Button
                   colorScheme="purple"
                   variant="solid"
