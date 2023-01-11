@@ -136,6 +136,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     return `/${ensNameOrAddress}/${publishMetadata.data.name}`;
   }, [ensNameOrAddress, publishMetadata.data?.name]);
 
+  const isDisabled = !successRedirectUrl || !address;
+
   const fullReleaseMetadata = useContractFullPublishMetadata(contractId);
   const constructorParams = useConstructorParamsFromABI(
     publishMetadata.data?.abi,
@@ -322,13 +324,13 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                   colorScheme={address ? "purple" : "blue"}
                   isLoading={isLoading}
                   form="contract-release-form"
+                  isDisabled={isDisabled}
                   loadingText={
                     publishMutation.isSuccess
                       ? "Preparing page"
                       : "Publishing contract"
                   }
                   type="submit"
-                  isDisabled={!address}
                 >
                   Publish Contract
                 </Button>

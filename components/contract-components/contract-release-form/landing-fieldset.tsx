@@ -121,7 +121,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
         <Heading size="title.md" mb={2}>
           Readme
         </Heading>
-        <Text size="body.sm" mb={4}>
+        <Text size="body.md" mb={4}>
           Describe what your contract does and how it should be used. Markdown
           formatting is supported.
         </Text>
@@ -161,7 +161,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
         <Heading size="title.md" mb={2}>
           Version information
         </Heading>
-        <Text size="body.sm" mb={4}>
+        <Text size="body.md" mb={4}>
           Set your contract version number, add release notes, and link to your
           contract&apos;s audit report.
         </Text>
@@ -266,7 +266,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
         <Heading size="title.md" mb={2}>
           Choose your contract type
         </Heading>
-        <Text size="body.sm" mb={4}>
+        <Text size="body.md" mb={4}>
           Choose the type of contract you want to deploy.
         </Text>
         <Flex flexDir="column" gap={2} width="full">
@@ -274,18 +274,21 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             name="Standard contract"
             onClick={() => setContractSelection("standard")}
             isActive={contractSelection === "standard"}
+            /*             infoText="A standard contract is a single contract that can be used to deploy multiple instances of your contract." */
             width="full"
           />
           <SelectOption
             name="Proxy contract"
             onClick={() => setContractSelection("proxy")}
             isActive={contractSelection === "proxy"}
+            /*             infoText="A proxy contract is a single contract that can be used to deploy multiple instances of your contract." */
             width="full"
           />
           <SelectOption
             name="Factory contract"
             onClick={() => setContractSelection("factory")}
             isActive={contractSelection === "factory"}
+            /*             infoText="A factory contract is a single contract that can be used to deploy multiple instances of your contract." */
             width="full"
           />
         </Flex>
