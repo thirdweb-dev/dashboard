@@ -9,12 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { HomepageFooter } from "components/footer/Footer";
-import { HackathonFooter } from "components/hackathon/solana/HackathonFooter";
-import { Judges } from "components/hackathon/solana/Judges";
-import { PrizeSection } from "components/hackathon/solana/PrizeSection";
-import { ScheduleSection } from "components/hackathon/solana/ScheduleSection";
-import { Sponsors } from "components/hackathon/solana/Sponsors";
-import { Aurora } from "components/homepage/Aurora";
+import { HackathonFooter } from "components/hackathon/common/HackathonFooter";
+import { PrizeSection } from "components/hackathon/common/PrizeSection";
+import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
+import { Sponsors } from "components/hackathon/common/Sponsors";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -27,6 +25,117 @@ import { ThirdwebNextPage } from "utils/types";
 // const Timer = dynamic(() => import("components/hackathon/solana/Timer"), {
 //   ssr: false,
 // });
+
+const prizes = [
+  {
+    title: "1st Place",
+    prize: "$5,000",
+  },
+  {
+    title: "2nd Place",
+    prize: "$3,000",
+  },
+  {
+    title: "3rd Place",
+    prize: "$2,000",
+  },
+];
+
+const sponsors = [
+  {
+    name: "Solana University",
+    logo: "/assets/hackathon/sponsors/solanauniversity.png",
+    link: "https://www.solanau.org/",
+  },
+  {
+    name: "Phantom",
+    logo: "/assets/hackathon/sponsors/phantom.png",
+    link: "https://phantom.app/",
+  },
+  {
+    name: "buildspace",
+    logo: "/assets/hackathon/sponsors/buildspace.png",
+    link: "https://buildspace.so/",
+  },
+  {
+    name: "Superteam",
+    logo: "/assets/hackathon/sponsors/superteam.png",
+    link: "https://superteam.fun/",
+  },
+];
+
+const scheduleItems = [
+  {
+    day: 13,
+    month: "oct",
+    title: "Introduction to Solana",
+    href: "https://lu.ma/sol-1",
+  },
+  {
+    day: 18,
+    month: "oct",
+    title: "Build an NFT Minting Site With Solana",
+    href: "https://lu.ma/eng-2",
+  },
+  {
+    day: 19,
+    month: "oct",
+    title: "Learn to build on Solana",
+    href: "https://lu.ma/build-on-sol",
+  },
+  {
+    day: 19,
+    month: "oct",
+    title: "Solana-thon NYC Kickoff",
+    href: "https://lu.ma/solanathonkickoff.thirdweb",
+    irl: "NYC",
+  },
+  {
+    day: 20,
+    month: "oct",
+    title: "Introduction to Solana with Phantom Wallet",
+    href: "https://lu.ma/tw-phantom",
+  },
+  {
+    day: 25,
+    month: "oct",
+    title: "Create A Token Gated Website With Web3 Auth and Solana",
+    href: "https://lu.ma/eng-3",
+  },
+  {
+    day: 27,
+    month: "oct",
+    title: "Meet Solana University",
+    href: "https://lu.ma/tw-sol-u",
+  },
+];
+
+const judges = [
+  {
+    name: "Samina Kabir",
+    twitter: "saminacodes",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "thirdweb",
+  },
+  {
+    name: "Farza Majeed",
+    twitter: "FarzaTV",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "buildspace",
+  },
+  {
+    name: "Noah Hein",
+    twitter: "nheindev",
+    image: "/assets/landingpage/noah.png",
+    company: "Phantom",
+  },
+  {
+    name: "Chris Ahn",
+    twitter: "ahnchrisj",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Haun Ventures",
+  },
+];
 
 const SolanaHackathon: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
@@ -67,12 +176,6 @@ const SolanaHackathon: ThirdwebNextPage = () => {
 
         <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
           <HomepageSection id="header">
-            <Aurora
-              pos={{ left: "50%", top: "0%" }}
-              size={{ width: "2400px", height: "2400px" }}
-              color="hsl(289deg 78% 30% / 45%)"
-            />
-
             <Flex
               flexDir="column"
               align="center"
@@ -135,13 +238,13 @@ const SolanaHackathon: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection>
-            <Sponsors />
+            <Sponsors sponsors={sponsors} hackathonName="solanathon" />
           </HomepageSection>
           <Divider mt={16} />
-          <PrizeSection />
+          <PrizeSection prizes={prizes} />
 
           <HomepageSection>
-            <ScheduleSection />
+            <ScheduleSection scheduleItems={scheduleItems} />
           </HomepageSection>
 
           <HomepageSection mt={{ base: 12, md: 24 }}>
@@ -207,7 +310,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
           />
-          <Judges />
+
           <HackathonFooter />
           <HomepageFooter />
         </Box>
