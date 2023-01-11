@@ -162,7 +162,7 @@ export const SOLUTIONS: NavCardProps[] = [
     iconType: IoGameControllerOutline,
   },
   {
-    name: "MintingKit",
+    name: "Minting",
     label: "minting",
     description: "Build and mint NFTs at scale easily",
     link: "/solutions/minting",

@@ -100,7 +100,7 @@ const Minting: ThirdwebNextPage = () => {
       }}
     >
       <Hero
-        name="MintingKit"
+        name="Minting"
         title="Build and mint NFTs at scale easily"
         description={
           <>
@@ -217,7 +217,7 @@ const Minting: ThirdwebNextPage = () => {
           </Heading>
           <YoutubeEmbed
             maxWidth={680}
-            videoId="2ITg70MPFJ8"
+            videoId="Eoy84LxJKEU"
             aspectRatio={16 / 9}
             title="How to build an NFT collection with Signature Mint drop (ERC721A)"
           />
