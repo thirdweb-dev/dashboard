@@ -112,7 +112,7 @@ const Minting: ThirdwebNextPage = () => {
         buttonText="Get started"
         type="Solutions"
         buttonLink="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
-        gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%)"
+        gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
       >
         <SimpleGrid
