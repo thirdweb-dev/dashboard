@@ -5,7 +5,7 @@ import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
+import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { PageId } from "page-id";
 import { FiArrowRight } from "react-icons/fi";
 import { Card, Heading, Link, LinkButton, Text } from "tw-components";
@@ -202,10 +202,27 @@ const Minting: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Hero>
 
-      <SolutionsTextImage
-        image={require("public/assets/solutions-pages/minting/mint-nft-placeholder.png")}
-        title="Focus on creating powerful NFT experiences and let us handle the complexity"
-      />
+      {/* Video Embed section*/}
+      <ProductSection py={{ base: 12, lg: 24 }}>
+        <Flex alignItems="center" flexDirection="column">
+          <Heading
+            as="h2"
+            size="title.xl"
+            textAlign="center"
+            mb={12}
+            maxW={900}
+          >
+            Focus on creating powerful NFT experiences and let us handle the
+            complexity
+          </Heading>
+          <YoutubeEmbed
+            maxWidth={680}
+            videoId="2ITg70MPFJ8"
+            aspectRatio={16 / 9}
+            title="How to build an NFT collection with Signature Mint drop (ERC721A)"
+          />
+        </Flex>
+      </ProductSection>
 
       {/* build, launch, manage */}
       <ProductSection>
