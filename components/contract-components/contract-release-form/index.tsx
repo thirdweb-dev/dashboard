@@ -308,8 +308,9 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 deployParams?.length > 0 ? (
                 <Button
                   disabled={
-                    inputGroupToShow === "landing" &&
-                    contractSelection === "unselected"
+                    (inputGroupToShow === "landing" &&
+                      contractSelection === "unselected") ||
+                    !form.watch("version")
                   }
                   onClick={() => setInputGroupToShow("contractParams")}
                   colorScheme="primary"
