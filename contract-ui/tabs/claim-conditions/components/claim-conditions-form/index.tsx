@@ -1,5 +1,6 @@
 import { PriceInput } from "../price-input";
 import { QuantityInputWithUnlimited } from "../quantity-input-with-unlimited";
+import { PhaseName } from "./PhaseName";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { useIsAdmin } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import {
@@ -84,6 +85,8 @@ export interface ClaimConditionsFormProps {
   isColumn?: true;
 }
 
+type FormData = z.input<typeof ClaimConditionsSchema>;
+
 export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
   contract,
   tokenId,
@@ -135,7 +138,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
       .filter((phase) => phase.maxClaimableSupply !== "0");
   }, [query.data]);
 
-  const form = useForm<z.input<typeof ClaimConditionsSchema>>({
+  const form = useForm<FormData>({
     defaultValues: { phases: transformedQueryData },
     values: { phases: transformedQueryData },
     resetOptions: {
@@ -217,6 +220,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
 
   return (
     <>
+      {/* spinner */}
       {query.isRefetching && (
         <Spinner
           color="primary"
@@ -226,6 +230,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
           right={4}
         />
       )}
+
       <Flex onSubmit={handleFormSubmit} direction="column" as="form" gap={10}>
         <Flex
           direction={"column"}
@@ -288,38 +293,24 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 <Card position="relative">
                   <Flex direction="column" gap={8}>
                     <Flex align="flex-start" justify="space-between">
+                      {/* Phase Name Input / Form Title */}
                       {isMultiPhase ? (
-                        canEditPhaseTitle ? (
-                          <FormControl>
-                            <Heading as={FormLabel} size="label.md">
-                              Name
-                            </Heading>
-                            <Input
-                              w="auto"
-                              isDisabled={!canEdit}
-                              type="text"
-                              value={field.metadata?.name}
-                              placeholder={`Phase ${index + 1}`}
-                              onChange={(e) => {
-                                form.setValue(
-                                  `phases.${index}.metadata.name`,
-                                  e.target.value,
-                                );
-                              }}
-                            />
-                            <FormHelperText>
-                              This does not affect how your claim phase
-                              functions and is for organizational purposes only.
-                            </FormHelperText>
-                          </FormControl>
-                        ) : (
-                          <Heading size="label.lg">
-                            {field.metadata?.name || `Phase ${index + 1}`}
-                          </Heading>
-                        )
+                        <PhaseName
+                          inputValue={field.metadata?.name}
+                          inputPlaceholder={`Phase ${index + 1}`}
+                          disabled={!canEdit}
+                          editable={canEditPhaseTitle}
+                          onChange={(e) => {
+                            form.setValue(
+                              `phases.${index}.metadata.name`,
+                              e.target.value,
+                            );
+                          }}
+                        />
                       ) : (
                         <Heading size="label.lg">Claim Conditions</Heading>
                       )}
+
                       <AdminOnly contract={contract as ValidContractInstance}>
                         <IconButton
                           size="sm"
