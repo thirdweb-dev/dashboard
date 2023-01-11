@@ -219,7 +219,7 @@ const Minting: ThirdwebNextPage = () => {
             maxWidth={680}
             videoId="Eoy84LxJKEU"
             aspectRatio={16 / 9}
-            title="How to build an NFT collection with Signature Mint drop (ERC721A)"
+            title="Create an ERC721 NFT drop using thirdweb"
           />
         </Flex>
       </ProductSection>
