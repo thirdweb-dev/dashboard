@@ -153,7 +153,7 @@ export const KeyFeatures: React.FC = () => {
       <Aurora
         pos={{ left: "50%", top: "20%" }}
         size={{ width: "2600px", height: "1800px" }}
-        color="hsl(290deg 92% 54% / 25%)"
+        color="hsl(290deg 92% 54% / 10%)"
       />
 
       <Heading

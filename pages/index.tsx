@@ -1,5 +1,6 @@
 import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
+import { Aurora } from "components/homepage/Aurora";
 import { CLISection } from "components/homepage/sections/CLISection";
 import { ContractsSection } from "components/homepage/sections/ContractsSection";
 import { DashboardFeaturesSection } from "components/homepage/sections/DashboardFeaturesSection";
@@ -42,7 +43,14 @@ const HomePage: ThirdwebNextPage = () => {
           <KeyFeatures />
           <ContractsSection />
           <Suspense>
-            <SDKSection />
+            <Box position="relative" zIndex={10}>
+              <SDKSection />
+              <Aurora
+                pos={{ left: "50%", top: "50%" }}
+                size={{ width: "2000px", height: "2000px" }}
+                color={"hsl(280deg 78% 30% / 30%)"}
+              />
+            </Box>
             <CLISection />
             <DashboardFeaturesSection />
             <NetworksSection />
