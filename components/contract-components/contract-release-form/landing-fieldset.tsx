@@ -73,7 +73,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
       </Flex>
       <Flex gap={6} w="full">
         <FormControl isInvalid={!!form.formState.errors.logo} w="auto">
-          <FormLabel>Contract Logo</FormLabel>
+          <FormLabel>Image</FormLabel>
           <Box width={{ base: "auto", md: "141px" }}>
             <FileInput
               accept={{ "image/*": [] }}
@@ -124,7 +124,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
 
       <Box>
         <Heading size="title.md" mb={2}>
-          Readme
+          README
         </Heading>
         <Text size="body.md" mb={4}>
           Describe what your contract does and how it should be used. Markdown
