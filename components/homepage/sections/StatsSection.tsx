@@ -50,7 +50,12 @@ const Stat: React.FC<StatBoxProps> = ({
       >
         {title}
       </Heading>
-      <Text size="body.lg" lineHeight={1.5} fontWeight={400} color="#888">
+      <Text
+        size="body.lg"
+        lineHeight={1.5}
+        fontWeight={400}
+        color="whiteAlpha.700"
+      >
         {description}
       </Text>
     </Box>

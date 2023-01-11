@@ -35,8 +35,8 @@ export const ContractsSection = () => {
     <HomepageSection id="contracts" my={12}>
       <Aurora
         pos={{ left: "50%", top: "60%" }}
-        size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 78% 30% / 25%)"
+        size={{ width: "2400px", height: "2600px" }}
+        color="hsl(289deg 78% 40% / 20%)"
       />
 
       <Flex

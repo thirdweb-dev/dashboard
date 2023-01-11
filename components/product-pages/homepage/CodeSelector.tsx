@@ -147,7 +147,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
   return (
     <>
       <Flex
-        background="rgba(0,0,0,0.2)"
+        background="rgba(0,0,0,0.4)"
         boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 15%)"
         justify={"center"}
         margin="0 auto"
@@ -189,7 +189,8 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
           fontSize={{ base: "12px", md: "14px" }}
           borderWidth={0}
           w="full"
-          py={4}
+          py={6}
+          pb={{ base: 12, md: 6 }}
           code={actualSnippets[activeLanguage]}
           language={
             activeLanguage === "react"
@@ -203,7 +204,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
         />
 
         {/* Links for Replit and Docs  */}
-        <Flex justify="end" gap={4} position="absolute" bottom={0} right="16px">
+        <Flex justify="end" gap={6} position="absolute" bottom={0} right="16px">
           <CustomLinkButton
             text="Docs"
             href={docs}

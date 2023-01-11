@@ -19,7 +19,7 @@ export const PricingSection = () => {
       <Aurora
         pos={{ left: "80%", top: "40%" }}
         size={{ width: "1400px", height: "1400px" }}
-        color="hsl(289deg 78% 30% / 30%)"
+        color="hsl(289deg 78% 30% / 35%)"
       />
 
       <SimpleGrid
@@ -37,6 +37,7 @@ export const PricingSection = () => {
             size="body.xl"
             fontStyle="italic"
             textAlign={{ base: "center", md: "left" }}
+            color="whiteAlpha.700"
           >
             We may introduce optional advanced features which you can decide to
             pay for in the future. We will always be transparent and clear about
@@ -44,8 +45,6 @@ export const PricingSection = () => {
           </Text>
         </Flex>
         <Box
-          // border=".5px solid"
-          // borderColor="#4953AF"
           p={12}
           borderRadius="lg"
           backgroundColor="#0000004d"
@@ -65,7 +64,7 @@ export const PricingSection = () => {
             flexDirection="column"
             alignItems="start"
             textAlign="left"
-            color="gray.400"
+            color="whiteAlpha.700"
             mb={16}
           >
             <ListItem>

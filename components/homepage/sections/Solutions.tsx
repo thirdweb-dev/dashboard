@@ -9,8 +9,9 @@ interface SolutionCardProps {
   img: string;
   gradient: string;
   partnerIcon: string;
-  arrowIcon: string;
+  // arrowIcon: string;
   href: string;
+  hoverBorderColor: string;
 }
 
 const solutions: SolutionCardProps[] = [
@@ -21,8 +22,9 @@ const solutions: SolutionCardProps[] = [
       "The all-in-one platform for developers to easily bring their games onto web3. Build a stronger community around your game by giving players ownership of in-game assets.",
     img: "/assets/landingpage/GamingKit.png",
     partnerIcon: "/assets/landingpage/icons/Coinbase.svg",
-    arrowIcon: "/assets/landingpage/icons/arrow-blue.svg",
+    // arrowIcon: "/assets/landingpage/icons/arrow-blue.svg",
     href: "/solutions/gaming",
+    hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
   },
   {
     title: "CommerceKit",
@@ -31,84 +33,87 @@ const solutions: SolutionCardProps[] = [
       "Add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more.",
     img: "/assets/landingpage/CommerceKit.png",
     partnerIcon: "/assets/landingpage/icons/Shopify.svg",
-    arrowIcon: "/assets/landingpage/icons/arrow-pink.svg",
+    // arrowIcon: "/assets/landingpage/icons/arrow-pink.svg",
     href: "/solutions/commerce",
+    hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
   },
 ];
-
 const SolutionCard: React.FC<SolutionCardProps> = ({
   title,
   description,
   img,
   gradient,
   partnerIcon,
-  arrowIcon,
   href,
+  hoverBorderColor,
 }) => {
   return (
-    <Flex
-      overflow="hidden"
-      direction="column"
-      zIndex={10}
-      as="section"
-      background="rgba(0,0,0,0.4)"
-      boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
-      borderRadius="8px"
-    >
-      <Image
-        src={img}
-        alt=""
-        width="100%"
-        height={{ lg: 250, base: 180 }}
-        objectFit="cover"
-      />
+    <Link href={href} isExternal display="flex" textDecor="none !important">
       <Flex
+        overflow="hidden"
         direction="column"
-        justifyContent="space-between"
-        p={{ base: 6, lg: 8 }}
-        py={{ base: 10 }}
-        flexGrow={1}
+        zIndex={10}
+        as="section"
+        background="rgba(0,0,0,0.4)"
+        boxShadow={`0 0 0 1px ${hoverBorderColor}`}
+        borderRadius="8px"
+        transition="box-shadow 300ms ease"
+        _hover={{
+          boxShadow: `0 0 80px ${hoverBorderColor}`,
+        }}
       >
-        <Box>
-          <Heading
-            as="h3"
-            fontSize="24px"
-            mb={6}
-            bgGradient={gradient}
-            bgClip="text"
-          >
-            {title}
-          </Heading>
-          <Text size="body.lg" lineHeight={1.7}>
-            {description}
-          </Text>
-        </Box>
+        <Image
+          src={img}
+          alt=""
+          width="100%"
+          height={{ lg: 250, base: 180 }}
+          objectFit="cover"
+        />
+        <Flex
+          direction="column"
+          justifyContent="space-between"
+          p={{ base: 6, lg: 8 }}
+          py={{ base: 10 }}
+          flexGrow={1}
+        >
+          <Box>
+            <Heading
+              as="h3"
+              fontSize="24px"
+              mb={6}
+              bgGradient={gradient}
+              bgClip="text"
+            >
+              {title}
+            </Heading>
+            <Text size="body.lg" lineHeight={1.7} color="whiteAlpha.700">
+              {description}
+            </Text>
+          </Box>
 
-        <Flex alignItems="center" gap={2} mt={10}>
-          <Text lineHeight={1}>In partnership with</Text>
-          <Image src={partnerIcon} alt="" width={100} />
-          <Link href={href} ml="auto" isExternal>
-            <Image src={arrowIcon} alt="" width={8} />
-          </Link>
+          <Flex alignItems="center" gap={2} mt={10}>
+            <Text lineHeight={1}>In partnership with</Text>
+            <Image src={partnerIcon} alt="" width={100} />
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </Link>
   );
 };
 
 export const SolutionsSection: React.FC = () => {
   return (
-    <HomepageSection py={24}>
+    <HomepageSection py={24} maxW={950} ml="auto" mr="auto">
       <Aurora
         pos={{ left: "10%", top: "60%" }}
         size={{ width: "2400px", height: "1800px" }}
-        color="hsl(219deg 78% 30% / 20%)"
+        color="hsl(219deg 78% 30% / 25%)"
       />
 
       <Aurora
         pos={{ left: "90%", top: "60%" }}
         size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 78% 30% / 20%)"
+        color="hsl(289deg 78% 30% / 25%)"
       />
 
       <Heading
@@ -121,7 +126,7 @@ export const SolutionsSection: React.FC = () => {
       >
         Explore solutions.
       </Heading>
-      <Text textAlign="center" size="body.lg" mb={14}>
+      <Text fontSize="20px" textAlign="center" size="body.lg" mb={14}>
         thirdweb powers the best web3 projects across verticals
       </Text>
       <SimpleGrid

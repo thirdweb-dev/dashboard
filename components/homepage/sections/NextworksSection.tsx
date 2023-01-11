@@ -19,7 +19,7 @@ export const NetworksSection = () => {
         >
           Think multi-chain.
         </Heading>
-        <Text fontSize="20px" mb={12} textAlign="center">
+        <Text fontSize="20px" mb={12} textAlign="center" color="whiteAlpha.700">
           Continuously adding support for the most in-demand chains.
         </Text>
 

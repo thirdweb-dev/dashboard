@@ -58,7 +58,7 @@ const features: FeatureCardProps[] = [
         >
           Release
         </Link>{" "}
-        and be discovered by 60k+ web3 devs.
+        and be discovered by 70k+ web3 devs.
       </>
     ),
     img: "/assets/landingpage/icons/rocket.svg",
@@ -116,7 +116,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         {title}
       </Heading>
 
-      <Text size="body.lg" lineHeight={1.7} color="#888">
+      <Text size="body.lg" lineHeight={1.7} color="whiteAlpha.600">
         {description}
       </Text>
     </Box>
@@ -127,9 +127,9 @@ export const KeyFeatures: React.FC = () => {
   return (
     <HomepageSection my={20}>
       <Aurora
-        pos={{ left: "50%", top: "10%" }}
-        size={{ width: "2400px", height: "1800px" }}
-        color="hsl(289deg 08% 35% / 15%)"
+        pos={{ left: "50%", top: "20%" }}
+        size={{ width: "2600px", height: "1800px" }}
+        color="hsl(290deg 92% 54% / 25%)"
       />
 
       <Heading

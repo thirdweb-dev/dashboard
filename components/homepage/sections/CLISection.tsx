@@ -68,7 +68,7 @@ export const CLISection = () => {
 
                   <Text
                     fontSize={{ base: "16px", md: "20px" }}
-                    color="#888"
+                    color="whiteAlpha.700"
                     maxW={{ base: "full", md: "75%" }}
                     mr="auto"
                     mb={4}
