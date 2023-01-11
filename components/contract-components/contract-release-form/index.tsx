@@ -80,40 +80,44 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   }, [latestVersion]);
 
   useEffect(() => {
-    if (!form.formState.isDirty && address) {
-      form.reset({
-        ...prePublishMetadata.data?.latestPublishedContractMetadata
-          ?.publishedMetadata,
-        changelog: "",
-        version: placeholderVersion,
-        displayName:
-          prePublishMetadata.data?.latestPublishedContractMetadata
-            ?.publishedMetadata.displayName ||
-          prePublishMetadata.data?.preDeployMetadata.info.title ||
-          "",
-        description:
-          prePublishMetadata.data?.latestPublishedContractMetadata
-            ?.publishedMetadata.description ||
-          prePublishMetadata.data?.preDeployMetadata.info.notice ||
-          "",
-        factoryDeploymentData: prePublishMetadata.data
-          ?.latestPublishedContractMetadata?.publishedMetadata
-          ?.factoryDeploymentData || {
-          factoryAddresses: Object.fromEntries(
-            SUPPORTED_CHAIN_IDS.map((id) => [
-              id,
-              CONTRACT_ADDRESSES[id].twFactory,
-            ]),
-          ),
-          implementationAddresses: Object.fromEntries(
-            SUPPORTED_CHAIN_IDS.map((id) => [id, ""]),
-          ),
-          implementationInitializerFunction: "initialize",
+    if (address) {
+      form.reset(
+        {
+          ...prePublishMetadata.data?.latestPublishedContractMetadata
+            ?.publishedMetadata,
+          changelog: "",
+          version: placeholderVersion,
+          displayName:
+            prePublishMetadata.data?.latestPublishedContractMetadata
+              ?.publishedMetadata.displayName ||
+            prePublishMetadata.data?.preDeployMetadata.info.title ||
+            publishMetadata.data?.name ||
+            "",
+          description:
+            prePublishMetadata.data?.latestPublishedContractMetadata
+              ?.publishedMetadata.description ||
+            prePublishMetadata.data?.preDeployMetadata.info.notice ||
+            "",
+          factoryDeploymentData: prePublishMetadata.data
+            ?.latestPublishedContractMetadata?.publishedMetadata
+            ?.factoryDeploymentData || {
+            factoryAddresses: Object.fromEntries(
+              SUPPORTED_CHAIN_IDS.map((id) => [
+                id,
+                CONTRACT_ADDRESSES[id].twFactory,
+              ]),
+            ),
+            implementationAddresses: Object.fromEntries(
+              SUPPORTED_CHAIN_IDS.map((id) => [id, ""]),
+            ),
+            implementationInitializerFunction: "initialize",
+          },
+          constructorParams:
+            prePublishMetadata.data?.latestPublishedContractMetadata
+              ?.publishedMetadata?.constructorParams || {},
         },
-        constructorParams:
-          prePublishMetadata.data?.latestPublishedContractMetadata
-            ?.publishedMetadata?.constructorParams || {},
-      });
+        { keepDirty: true },
+      );
 
       if (
         prePublishMetadata.data?.latestPublishedContractMetadata

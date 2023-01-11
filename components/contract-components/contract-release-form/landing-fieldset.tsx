@@ -99,9 +99,12 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
           </FormErrorMessage>
         </FormControl>
         <Flex flexDir="column" gap={4} w="full">
-          <FormControl isInvalid={!!form.formState.errors.displayName}>
+          <FormControl
+            isInvalid={!!form.formState.errors.displayName}
+            isRequired
+          >
             <FormLabel>Release Name</FormLabel>
-            <Input {...form.register("displayName")} />
+            <Input {...form.register("displayName")} required />
             <FormErrorMessage>
               {form.formState.errors?.displayName?.message}
             </FormErrorMessage>
@@ -134,7 +137,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             >
               <Tab gap={2}>
                 <Icon as={BsCode} my={2} />
-                <Heading size="label.lg">About</Heading>
+                <Heading size="label.lg">Write</Heading>
               </Tab>
               <Tab gap={2}>
                 <Icon as={BsEye} my={2} />
@@ -193,7 +196,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                 >
                   <Tab gap={2}>
                     <Icon as={BsCode} my={2} />
-                    <Heading size="label.lg">Release notes</Heading>
+                    <Heading size="label.lg">Write</Heading>
                   </Tab>
                   <Tab gap={2}>
                     <Icon as={BsEye} my={2} />
