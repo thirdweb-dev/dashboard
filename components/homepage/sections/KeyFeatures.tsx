@@ -2,7 +2,7 @@ import { Aurora } from "../Aurora";
 import { Box, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { ReactNode } from "react";
-import { Heading, Link, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 interface FeatureCardProps {
   title: string;
@@ -16,21 +16,35 @@ const features: FeatureCardProps[] = [
     description: (
       <>
         Build your own contracts with{" "}
-        <Link
+        <TrackedLink
+          category="docs"
           color="white"
+          label="contractkit"
           isExternal
           href="https://portal.thirdweb.com/contractkit"
         >
           ContractKit
-        </Link>{" "}
+        </TrackedLink>{" "}
         or discover ready-to-deploy contracts in{" "}
-        <Link color="white" isExternal href="https://thirdweb.com/explore">
+        <TrackedLink
+          color="white"
+          category="dashboard"
+          label="explore"
+          isExternal
+          href="https://thirdweb.com/explore"
+        >
           Explore
-        </Link>
+        </TrackedLink>
         . Integrate web3 into your apps and games easily with our{" "}
-        <Link color="white" isExternal href="https://portal.thirdweb.com/sdk">
+        <TrackedLink
+          color="white"
+          category="docs"
+          label="sdk"
+          isExternal
+          href="https://portal.thirdweb.com/sdk"
+        >
           SDKs
-        </Link>
+        </TrackedLink>
         {"."}
       </>
     ),
@@ -42,22 +56,26 @@ const features: FeatureCardProps[] = [
     description: (
       <>
         Ship your contracts on-chain easily with{" "}
-        <Link
+        <TrackedLink
           color="white"
+          category="docs"
+          label="deploy"
           isExternal
           href="https://portal.thirdweb.com/deploy"
         >
           Deploy
-        </Link>
+        </TrackedLink>
         , a deployment workflow designed for team collaboration. Publish
         contracts with{" "}
-        <Link
+        <TrackedLink
+          category="docs"
+          label="release"
           color="white"
           isExternal
           href="https://portal.thirdweb.com/release"
         >
           Release
-        </Link>{" "}
+        </TrackedLink>{" "}
         and be discovered by 70k+ web3 devs.
       </>
     ),
@@ -69,9 +87,15 @@ const features: FeatureCardProps[] = [
     description: (
       <>
         Monitor, interact and configure your contracts directly from the{" "}
-        <Link color="white" isExternal href="https://thirdweb.com/dashboard">
+        <TrackedLink
+          color="white"
+          category="dashboard"
+          label="dashboard"
+          isExternal
+          href="https://thirdweb.com/dashboard"
+        >
           Dashboard
-        </Link>
+        </TrackedLink>
         . Invite your team to collaborate and control their access with
         permissions.
       </>

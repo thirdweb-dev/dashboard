@@ -1,7 +1,7 @@
 import { Aurora } from "../Aurora";
 import { Box, Flex, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { Heading, Link, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 interface SolutionCardProps {
   title: string;
@@ -48,7 +48,14 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
   hoverBorderColor,
 }) => {
   return (
-    <Link href={href} isExternal display="flex" textDecor="none !important">
+    <TrackedLink
+      href={href}
+      isExternal
+      display="flex"
+      textDecor="none !important"
+      category="solutions"
+      label={title.toLowerCase()}
+    >
       <Flex
         overflow="hidden"
         direction="column"
@@ -97,7 +104,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
           </Flex>
         </Flex>
       </Flex>
-    </Link>
+    </TrackedLink>
   );
 };
 
