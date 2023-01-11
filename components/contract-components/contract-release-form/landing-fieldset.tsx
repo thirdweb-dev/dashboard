@@ -277,21 +277,21 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             name="Standard contract"
             onClick={() => setContractSelection("standard")}
             isActive={contractSelection === "standard"}
-            /*             infoText="A standard contract is a single contract that can be used to deploy multiple instances of your contract." */
+            infoText="Use this if your contract does not follow the factory contract or proxy contract pattern"
             width="full"
           />
           <SelectOption
             name="Proxy contract"
             onClick={() => setContractSelection("proxy")}
             isActive={contractSelection === "proxy"}
-            /*             infoText="A proxy contract is a single contract that can be used to deploy multiple instances of your contract." */
+            infoText="Use this if your contract follows the proxy contract pattern. This makes it cheaper for users to deploy your contract."
             width="full"
           />
           <SelectOption
             name="Factory contract"
             onClick={() => setContractSelection("factory")}
             isActive={contractSelection === "factory"}
-            /*             infoText="A factory contract is a single contract that can be used to deploy multiple instances of your contract." */
+            infoText="Use this if your contract follows the factory contract pattern. This lets you call an initializer function when users deploy your contract."
             width="full"
           />
         </Flex>
