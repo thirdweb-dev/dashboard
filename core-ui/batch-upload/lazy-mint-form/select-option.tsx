@@ -84,7 +84,7 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
             </Stack>
           </Stack>
           {infoText && (
-            <Flex alignItems="center">
+            <Flex>
               <Tooltip
                 bg="transparent"
                 boxShadow="none"
@@ -96,7 +96,9 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
                   </Card>
                 }
               >
-                <Icon as={AiOutlineInfoCircle} boxSize={5} />
+                <Flex alignItems="center">
+                  <Icon as={AiOutlineInfoCircle} boxSize={5} />
+                </Flex>
               </Tooltip>
             </Flex>
           )}

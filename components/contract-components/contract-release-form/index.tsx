@@ -37,7 +37,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   const [contractSelection, setContractSelection] = useState<
     "standard" | "proxy" | "factory"
   >("standard");
-  const [inputGroupToShow, setInputGroupToShow] = useState<
+  const [fieldsetToShow, setFieldsetToShow] = useState<
     "landing" | "proxy" | "factory" | "contractParams"
   >("landing");
   const trackEvent = useTrack();
@@ -116,7 +116,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
             prePublishMetadata.data?.latestPublishedContractMetadata
               ?.publishedMetadata?.constructorParams || {},
         },
-        { keepDirty: true },
+        { keepDirtyValues: true },
       );
 
       if (
@@ -175,7 +175,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
       top: 0,
       behavior: "smooth",
     });
-  }, [inputGroupToShow]);
+  }, [fieldsetToShow]);
 
   return (
     <FormProvider {...form}>
@@ -243,19 +243,19 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           direction="column"
           gap={6}
         >
-          {inputGroupToShow !== "landing" && (
+          {fieldsetToShow !== "landing" && (
             <Box>
               <IconButton
                 w="inherit"
                 variant="ghost"
                 onClick={() =>
-                  inputGroupToShow === "contractParams" &&
+                  fieldsetToShow === "contractParams" &&
                   contractSelection === "proxy"
-                    ? setInputGroupToShow("proxy")
-                    : inputGroupToShow === "contractParams" &&
+                    ? setFieldsetToShow("proxy")
+                    : fieldsetToShow === "contractParams" &&
                       contractSelection === "factory"
-                    ? setInputGroupToShow("factory")
-                    : setInputGroupToShow("landing")
+                    ? setFieldsetToShow("factory")
+                    : setFieldsetToShow("landing")
                 }
                 aria-label="Back"
                 icon={<Icon as={IoChevronBack} boxSize={6} />}
@@ -264,7 +264,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               </IconButton>
             </Box>
           )}
-          {inputGroupToShow === "landing" && (
+          {fieldsetToShow === "landing" && (
             <LandingFieldset
               contractSelection={contractSelection}
               setContractSelection={setContractSelection}
@@ -272,16 +272,16 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               placeholderVersion={placeholderVersion}
             />
           )}
-          {inputGroupToShow === "contractParams" && (
+          {fieldsetToShow === "contractParams" && (
             <ContractParamsFieldset deployParams={deployParams} />
           )}
-          {inputGroupToShow === "proxy" && (
+          {fieldsetToShow === "proxy" && (
             <ProxyFieldset
               setIsDrawerOpen={setIsDrawerOpen}
               contractId={contractId}
             />
           )}
-          {inputGroupToShow === "factory" && <FactoryFieldset />}
+          {fieldsetToShow === "factory" && <FactoryFieldset />}
           <Flex flexDir="column" gap={6}>
             <Divider />
             <Flex
@@ -302,29 +302,34 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 </Link>
                 .
               </Text>
-              {inputGroupToShow === "landing" &&
-              contractSelection === "proxy" ? (
+              {fieldsetToShow === "landing" && contractSelection === "proxy" ? (
                 <Button
-                  onClick={() => setInputGroupToShow("proxy")}
+                  onClick={() => setFieldsetToShow("proxy")}
                   colorScheme="primary"
-                  isDisabled={!form.watch("version")}
+                  isDisabled={
+                    !form.watch("version") && !form.watch("displayName")
+                  }
                 >
                   Next
                 </Button>
-              ) : inputGroupToShow === "landing" &&
+              ) : fieldsetToShow === "landing" &&
                 contractSelection === "factory" ? (
                 <Button
-                  onClick={() => setInputGroupToShow("factory")}
+                  onClick={() => setFieldsetToShow("factory")}
                   colorScheme="primary"
-                  isDisabled={!form.watch("version")}
+                  isDisabled={
+                    !form.watch("version") && !form.watch("displayName")
+                  }
                 >
                   Next
                 </Button>
-              ) : inputGroupToShow !== "contractParams" &&
+              ) : fieldsetToShow !== "contractParams" &&
                 deployParams?.length > 0 ? (
                 <Button
-                  disabled={!form.watch("version")}
-                  onClick={() => setInputGroupToShow("contractParams")}
+                  isDisabled={
+                    !form.watch("version") && !form.watch("displayName")
+                  }
+                  onClick={() => setFieldsetToShow("contractParams")}
                   colorScheme="primary"
                 >
                   Next

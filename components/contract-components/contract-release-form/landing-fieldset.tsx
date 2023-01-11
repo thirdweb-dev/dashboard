@@ -56,7 +56,9 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
   return (
     <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
-        <Heading size="title.lg">Publish your contract</Heading>
+        <Heading size="title.lg">
+          {form.watch("version") === "1.0.0" ? "Publish" : "Edit"} your contract
+        </Heading>
         <Text fontStyle="normal">
           Publishing your contract makes it shareable, discoverable, and
           deployable in a single click.{" "}
@@ -277,7 +279,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             name="Standard contract"
             onClick={() => setContractSelection("standard")}
             isActive={contractSelection === "standard"}
-            infoText="Use this if your contract does not follow the factory contract or proxy contract pattern"
+            infoText="Use this if your contract does not follow the factory contract or proxy contract pattern."
             width="full"
           />
           <SelectOption
