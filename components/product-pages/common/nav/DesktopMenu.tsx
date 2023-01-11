@@ -5,7 +5,8 @@ import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
 import { FiShoppingCart } from "react-icons/fi";
-import { IoConstructOutline, IoGameControllerOutline } from "react-icons/io5";
+import { IoGameControllerOutline } from "react-icons/io5";
+import { TfiStamp } from "react-icons/tfi";
 import { LinkButton, TrackedIconButton, TrackedLink } from "tw-components";
 
 export const DesktopMenu: React.FC = () => {
@@ -165,7 +166,7 @@ export const SOLUTIONS: NavCardProps[] = [
     label: "minting",
     description: "Build and mint NFTs at scale easily",
     link: "/solutions/minting",
-    iconType: IoConstructOutline,
+    iconType: TfiStamp,
   },
 ];
 
