@@ -175,6 +175,13 @@ export const RESOURCES: NavCardProps[] = [
     icon: require("public/assets/tw-icons/general.png"),
   },
   {
+    name: "Docs",
+    label: "docs",
+    description: "Complete thirdweb documentation",
+    link: "https://portal.thirdweb.com",
+    icon: require("public/assets/tw-icons/pack.png"),
+  },
+  {
     name: "Guides",
     label: "guides",
     description: "Learn how to build with thirdweb",
