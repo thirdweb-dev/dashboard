@@ -142,9 +142,22 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
     usePagination,
   );
 
+  console.log("render");
+
   useEffect(() => {
     setQueryParams({ start: pageIndex * pageSize, count: pageSize });
   }, [pageIndex, pageSize]);
+
+  // Update the query params when the page index or page size changes
+  // useEffect(() => {
+  //   const newStart = pageIndex * pageSize;
+  //   const newCount = pageSize;
+  //   if (newStart === queryParams.start && newCount === queryParams.count) {
+  //     console.log("ignore");
+  //   }
+
+  //   setQueryParams({ start: newStart, count: newCount });
+  // }, [pageIndex, pageSize, queryParams.start, queryParams.count]);
 
   const [tokenRow, setTokenRow] = useState<NFT | null>(null);
 
