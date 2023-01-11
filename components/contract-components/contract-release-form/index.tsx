@@ -35,8 +35,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   contractId,
 }) => {
   const [contractSelection, setContractSelection] = useState<
-    "unselected" | "standard" | "proxy" | "factory"
-  >("unselected");
+    "standard" | "proxy" | "factory"
+  >("standard");
   const [inputGroupToShow, setInputGroupToShow] = useState<
     "landing" | "proxy" | "factory" | "contractParams"
   >("landing");
@@ -114,6 +114,18 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
           prePublishMetadata.data?.latestPublishedContractMetadata
             ?.publishedMetadata?.constructorParams || {},
       });
+
+      if (
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata.factoryDeploymentData?.implementationAddresses
+      ) {
+        setContractSelection("proxy");
+      } else if (
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata?.factoryDeploymentData?.factoryAddresses
+      ) {
+        setContractSelection("factory");
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -307,11 +319,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               ) : inputGroupToShow !== "contractParams" &&
                 deployParams?.length > 0 ? (
                 <Button
-                  disabled={
-                    (inputGroupToShow === "landing" &&
-                      contractSelection === "unselected") ||
-                    !form.watch("version")
-                  }
+                  disabled={!form.watch("version")}
                   onClick={() => setInputGroupToShow("contractParams")}
                   colorScheme="primary"
                 >

@@ -36,9 +36,9 @@ import {
 } from "tw-components";
 
 interface LandingFieldsetProps {
-  contractSelection: "unselected" | "standard" | "proxy" | "factory";
+  contractSelection: "standard" | "proxy" | "factory";
   setContractSelection: Dispatch<
-    SetStateAction<"unselected" | "standard" | "proxy" | "factory">
+    SetStateAction<"standard" | "proxy" | "factory">
   >;
   latestVersion: string | undefined;
   placeholderVersion: string;
