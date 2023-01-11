@@ -1,5 +1,6 @@
 import { PriceInput } from "../price-input";
 import { QuantityInputWithUnlimited } from "../quantity-input-with-unlimited";
+import { CustomFormControl } from "./CustomFormControl";
 import { PhaseName } from "./PhaseName";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { useIsAdmin } from "@3rdweb-sdk/react/hooks/useContractRoles";
@@ -246,6 +247,32 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 : "overrides"
               : "any";
 
+            const handleClaimerChange = (
+              e: React.ChangeEvent<HTMLSelectElement>,
+            ) => {
+              const val = e.currentTarget.value as
+                | "any"
+                | "specific"
+                | "overrides";
+
+              if (val === "any") {
+                form.setValue(`phases.${index}.snapshot`, undefined);
+              } else {
+                if (val === "specific" && !isClaimPhaseV1) {
+                  form.setValue(`phases.${index}.maxClaimablePerWallet`, 0);
+                }
+                if (
+                  val === "overrides" &&
+                  !isClaimPhaseV1 &&
+                  field.maxClaimablePerWallet !== 1
+                ) {
+                  form.setValue(`phases.${index}.maxClaimablePerWallet`, 1);
+                }
+                form.setValue(`phases.${index}.snapshot`, []);
+                setOpenIndex(index);
+              }
+            };
+
             return (
               <React.Fragment key={`snapshot_${field.id}_${index}`}>
                 <SnapshotUpload
@@ -292,6 +319,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
 
                 <Card position="relative">
                   <Flex direction="column" gap={8}>
+                    {/* Group 1 */}
                     <Flex align="flex-start" justify="space-between">
                       {/* Phase Name Input / Form Title */}
                       {isMultiPhase ? (
@@ -311,6 +339,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         <Heading size="label.lg">Claim Conditions</Heading>
                       )}
 
+                      {/* Delete Phase */}
                       <AdminOnly contract={contract as ValidContractInstance}>
                         <IconButton
                           size="sm"
@@ -329,6 +358,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       </AdminOnly>
                     </Flex>
 
+                    {/* Group 2 */}
                     <Flex
                       direction={{
                         base: "column",
@@ -336,18 +366,17 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       }}
                       gap={4}
                     >
-                      <FormControl
-                        isDisabled={!canEdit}
-                        isInvalid={
-                          !!form.getFieldState(
+                      <CustomFormControl
+                        label="When will this phase start?"
+                        helperText="This time is in your local timezone."
+                        disabled={!canEdit}
+                        error={
+                          form.getFieldState(
                             `phases.${index}.startTime`,
                             form.formState,
                           ).error
                         }
                       >
-                        <Heading as={FormLabel} size="label.md">
-                          When will this phase start?
-                        </Heading>
                         <Input
                           type="datetime-local"
                           value={toDateTimeLocal(field.startTime)}
@@ -358,32 +387,18 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             )
                           }
                         />
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `phases.${index}.startTime`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                        <FormHelperText>
-                          This time is in your local timezone.
-                        </FormHelperText>
-                      </FormControl>
+                      </CustomFormControl>
 
-                      <FormControl
-                        isDisabled={!canEdit}
-                        isInvalid={
-                          !!form.getFieldState(
+                      <CustomFormControl
+                        label={`How many ${nftsOrToken} will you drop in this phase?`}
+                        error={
+                          form.getFieldState(
                             `phases.${index}.maxClaimableSupply`,
                             form.formState,
                           ).error
                         }
+                        disabled={!canEdit}
                       >
-                        <Heading as={FormLabel} size="label.md">
-                          How many {nftsOrToken} will you drop in this phase?
-                        </Heading>
-
                         <QuantityInputWithUnlimited
                           isRequired
                           isDisabled={!canEdit}
@@ -396,18 +411,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             )
                           }
                         />
-
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `phases.${index}.maxClaimableSupply`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      </FormControl>
+                      </CustomFormControl>
                     </Flex>
 
+                    {/* Group 3 */}
                     <Flex
                       direction={{
                         base: "column",
@@ -415,51 +422,38 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       }}
                       gap={4}
                     >
-                      <FormControl
-                        isDisabled={!canEdit}
-                        isInvalid={
-                          !!form.getFieldState(
+                      {/* Claim Charge */}
+                      <CustomFormControl
+                        disabled={!canEdit}
+                        label={`How much do you want to charge to claim each ${
+                          isErc20 ? "token" : "NFT"
+                        }?`}
+                        error={
+                          form.getFieldState(
                             `phases.${index}.price`,
                             form.formState,
                           ).error
                         }
                       >
-                        <Heading as={FormLabel} size="label.md">
-                          How much do you want to charge to claim each{" "}
-                          {isErc20 ? "token" : "NFT"}?
-                        </Heading>
                         <PriceInput
                           value={parseFloat(field.price?.toString() || "0")}
                           onChange={(val) =>
                             form.setValue(`phases.${index}.price`, val)
                           }
                         />
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `phases.${index}.price`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      </FormControl>
+                      </CustomFormControl>
 
-                      <FormControl
-                        isDisabled={!canEdit}
-                        isInvalid={
-                          !!form.getFieldState(
+                      {/* Currency */}
+                      <CustomFormControl
+                        label="What currency do you want to use?"
+                        disabled={!canEdit}
+                        error={
+                          form.getFieldState(
                             `phases.${index}.currencyAddress`,
                             form.formState,
                           ).error
                         }
                       >
-                        <Heading
-                          as={FormLabel}
-                          size="label.md"
-                          maxWidth={{ base: "50%", md: "100%" }}
-                        >
-                          What currency do you want to use?
-                        </Heading>
                         <CurrencySelector
                           isDisabled={!canEdit}
                           value={field?.currencyAddress || NATIVE_TOKEN_ADDRESS}
@@ -470,17 +464,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             )
                           }
                         />
-                        <FormErrorMessage>
-                          {
-                            form.getFieldState(
-                              `phases.${index}.currencyAddress`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      </FormControl>
+                      </CustomFormControl>
                     </Flex>
 
+                    {/* Who can claim */}
                     <FormControl
                       isDisabled={!canEdit}
                       isInvalid={
@@ -498,38 +485,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                           isDisabled={!canEdit}
                           w={{ base: "100%", md: "50%" }}
                           value={dropType}
-                          onChange={(e) => {
-                            const val = e.currentTarget.value as
-                              | "any"
-                              | "specific"
-                              | "overrides";
-
-                            if (val === "any") {
-                              form.setValue(
-                                `phases.${index}.snapshot`,
-                                undefined,
-                              );
-                            } else {
-                              if (val === "specific" && !isClaimPhaseV1) {
-                                form.setValue(
-                                  `phases.${index}.maxClaimablePerWallet`,
-                                  0,
-                                );
-                              }
-                              if (
-                                val === "overrides" &&
-                                !isClaimPhaseV1 &&
-                                field.maxClaimablePerWallet !== 1
-                              ) {
-                                form.setValue(
-                                  `phases.${index}.maxClaimablePerWallet`,
-                                  1,
-                                );
-                              }
-                              form.setValue(`phases.${index}.snapshot`, []);
-                              setOpenIndex(index);
-                            }
-                          }}
+                          onChange={handleClaimerChange}
                         >
                           <option value="any">Any wallet</option>
                           {!isClaimPhaseV1 ? (
@@ -541,6 +497,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             Only specific wallets
                           </option>
                         </Select>
+
                         {/* snapshot below */}
                         {field.snapshot ? (
                           <Flex
@@ -624,6 +581,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                           )}
                         </FormHelperText>
                       )}
+
                       <FormErrorMessage>
                         {
                           form.getFieldState(
@@ -633,6 +591,8 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         }
                       </FormErrorMessage>
                     </FormControl>
+
+                    {/* Group 4 */}
                     <Flex
                       gap={4}
                       direction={{
@@ -640,19 +600,28 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         md: isColumn ? "column" : "row",
                       }}
                     >
-                      <FormControl
-                        isDisabled={!canEdit}
-                        isInvalid={
-                          !!form.getFieldState(
+                      {/* NFTs claimable per transaction/wallet  */}
+                      <CustomFormControl
+                        disabled={!canEdit}
+                        label={`How many ${nftsOrToken} can be claimed per ${
+                          isClaimPhaseV1 ? "transaction" : "wallet"
+                        }?`}
+                        error={
+                          form.getFieldState(
                             `phases.${index}.maxClaimablePerWallet`,
                             form.formState,
                           ).error
                         }
+                        helperText={
+                          !isClaimPhaseV1 ? (
+                            <>
+                              This value applies for <strong>all</strong>{" "}
+                              wallets, and can be overriden for specific wallets
+                              in the snapshot.
+                            </>
+                          ) : null
+                        }
                       >
-                        <Heading as={FormLabel} size="label.md">
-                          How many {nftsOrToken} can be claimed per{" "}
-                          {isClaimPhaseV1 ? "transaction" : "wallet"}?
-                        </Heading>
                         <QuantityInputWithUnlimited
                           isRequired
                           decimals={decimals}
@@ -670,36 +639,22 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             )
                           }
                         />
-                        {!isClaimPhaseV1 && (
-                          <FormHelperText>
-                            This value applies for <strong>all</strong> wallets,
-                            and can be overriden for specific wallets in the
-                            snapshot.
-                          </FormHelperText>
-                        )}
-                        <FormErrorMessage>
-                          {
+                      </CustomFormControl>
+
+                      {/* Waiting Time */}
+                      {isClaimPhaseV1 && (
+                        <CustomFormControl
+                          disabled={!canEdit}
+                          label="How many seconds do wallets have to wait in-between claiming?"
+                          error={
                             form.getFieldState(
-                              `phases.${index}.maxClaimablePerWallet`,
-                              form.formState,
-                            ).error?.message
-                          }
-                        </FormErrorMessage>
-                      </FormControl>
-                      {isClaimPhaseV1 ? (
-                        <FormControl
-                          isDisabled={!canEdit}
-                          isInvalid={
-                            !!form.getFieldState(
                               `phases.${index}.waitInSeconds`,
                               form.formState,
                             ).error
                           }
+                          helperText='Set this to "Unlimited" to only allow one
+                            claim transaction per wallet.'
                         >
-                          <Heading as={FormLabel} size="label.md">
-                            How many seconds do wallets have to wait in-between
-                            claiming?
-                          </Heading>
                           <BigNumberInput
                             isRequired
                             isDisabled={!canEdit}
@@ -711,20 +666,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               )
                             }
                           />
-                          <FormHelperText>
-                            Set this to &quot;Unlimited&quot; to only allow one
-                            claim transaction per wallet.
-                          </FormHelperText>
-                          <FormErrorMessage>
-                            {
-                              form.getFieldState(
-                                `phases.${index}.waitInSeconds`,
-                                form.formState,
-                              ).error?.message
-                            }
-                          </FormErrorMessage>
-                        </FormControl>
-                      ) : (
+                        </CustomFormControl>
+                      )}
+
+                      {!isClaimPhaseV1 && (
                         <Box w="100%" display={{ base: "none", md: "block" }} />
                       )}
                     </Flex>
