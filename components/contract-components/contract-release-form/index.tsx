@@ -332,6 +332,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 </Button>
               ) : (
                 <Button
+                  // differentiate this from the edit button
+                  key="submit-button"
                   borderRadius="md"
                   position="relative"
                   role="group"
