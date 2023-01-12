@@ -101,15 +101,16 @@ const UIComponents: ThirdwebNextPage = () => {
         </ProductSection>
 
         <ProductSection py={{ base: 12, lg: 24 }}>
-          <Heading
-            as="h2"
-            size="display.sm"
-            fontWeight={700}
-            textAlign="center"
-            mb={{ base: 16, lg: 24 }}
-          >
-            Contracts for every use case
-          </Heading>
+          {/* TODO: Add headline to components section */}
+          {/* <Heading*/}
+          {/*  as="h2"*/}
+          {/*  size="display.sm"*/}
+          {/*  fontWeight={700}*/}
+          {/*  textAlign="center"*/}
+          {/*  mb={{ base: 16, lg: 24 }}*/}
+          {/* >*/}
+          {/*  Contracts for every use case*/}
+          {/* </Heading>*/}
           <SimpleGrid columns={{ base: 1, md: 4 }} gap={14}>
             <ProductLearnMoreCard
               title="Connect Wallet"
