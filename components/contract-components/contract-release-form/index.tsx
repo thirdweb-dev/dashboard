@@ -12,6 +12,7 @@ import { ContractParamsFieldset } from "./contract-params-fieldset";
 import { FactoryFieldset } from "./factory-fieldset";
 import { LandingFieldset } from "./landing-fieldset";
 import { ProxyFieldset } from "./proxy-fieldset";
+import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Divider, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -25,7 +26,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
-import { Button, Link, Text } from "tw-components";
+import { Button, Text } from "tw-components";
 
 interface ContractReleaseFormProps {
   contractId: ContractId;
@@ -292,64 +293,72 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               flexDir={{ base: "column", md: "row" }}
               gap={4}
             >
-              <Text>
-                Our contract registry lives on-chain (Polygon), releasing is
-                free (gasless).{" "}
-                <Link
-                  href="https://portal.thirdweb.com/release"
-                  isExternal
-                  color="primary.600"
-                >
-                  Learn more
-                </Link>
-                .
-              </Text>
-              {fieldsetToShow === "landing" && contractSelection === "proxy" ? (
-                <Button
-                  onClick={() => setFieldsetToShow("proxy")}
-                  colorScheme="primary"
-                  isDisabled={disableNext}
-                >
-                  Next
-                </Button>
+              {!address ? (
+                <>
+                  <Box />
+                  <ConnectWallet />
+                </>
+              ) : fieldsetToShow === "landing" &&
+                contractSelection === "proxy" ? (
+                <>
+                  <Box />
+                  <Button
+                    onClick={() => setFieldsetToShow("proxy")}
+                    colorScheme="primary"
+                    isDisabled={disableNext}
+                  >
+                    Next
+                  </Button>
+                </>
               ) : fieldsetToShow === "landing" &&
                 contractSelection === "factory" ? (
-                <Button
-                  onClick={() => setFieldsetToShow("factory")}
-                  colorScheme="primary"
-                  isDisabled={disableNext}
-                >
-                  Next
-                </Button>
+                <>
+                  <Box />
+                  <Button
+                    onClick={() => setFieldsetToShow("factory")}
+                    colorScheme="primary"
+                    isDisabled={disableNext}
+                  >
+                    Next
+                  </Button>
+                </>
               ) : fieldsetToShow !== "contractParams" &&
                 deployParams?.length > 0 ? (
-                <Button
-                  isDisabled={disableNext}
-                  onClick={() => setFieldsetToShow("contractParams")}
-                  colorScheme="primary"
-                >
-                  Next
-                </Button>
+                <>
+                  <Box />
+                  <Button
+                    isDisabled={disableNext}
+                    onClick={() => setFieldsetToShow("contractParams")}
+                    colorScheme="primary"
+                  >
+                    Next
+                  </Button>
+                </>
               ) : (
-                <Button
-                  // differentiate this from the edit button
-                  key="submit-button"
-                  borderRadius="md"
-                  position="relative"
-                  role="group"
-                  colorScheme={address ? "purple" : "blue"}
-                  isLoading={isLoading}
-                  form="contract-release-form"
-                  isDisabled={isDisabled}
-                  loadingText={
-                    publishMutation.isSuccess
-                      ? "Preparing page"
-                      : "Publishing contract"
-                  }
-                  type="submit"
-                >
-                  Publish Contract
-                </Button>
+                <>
+                  <Text fontStyle="italic">
+                    Releasing your contract is free, we cover all gas costs.
+                  </Text>
+                  <Button
+                    // differentiate this from the edit button
+                    key="submit-button"
+                    borderRadius="md"
+                    position="relative"
+                    role="group"
+                    colorScheme={address ? "purple" : "blue"}
+                    isLoading={isLoading}
+                    form="contract-release-form"
+                    isDisabled={isDisabled}
+                    loadingText={
+                      publishMutation.isSuccess
+                        ? "Preparing page"
+                        : "Publishing contract"
+                    }
+                    type="submit"
+                  >
+                    Publish Contract
+                  </Button>
+                </>
               )}
             </Flex>
           </Flex>

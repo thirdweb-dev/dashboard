@@ -74,7 +74,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
       <Flex gap={6} w="full">
         <FormControl isInvalid={!!form.formState.errors.logo} w="auto">
           <FormLabel>Image</FormLabel>
-          <Box width={{ base: "auto", md: "141px" }}>
+          <Box width="141px">
             <FileInput
               accept={{ "image/*": [] }}
               value={logoUrl}
@@ -93,7 +93,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                   borderRadius="full"
                 />
               )}
-              helperText="logo"
+              helperText="Image"
             />
           </Box>
           <FormErrorMessage>
@@ -190,6 +190,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
           </FormControl>
           {latestVersion && (
             <FormControl isInvalid={!!form.formState.errors.changelog}>
+              <FormLabel>Release notes</FormLabel>
               <Tabs isLazy lazyBehavior="keepMounted" colorScheme="purple">
                 <TabList
                   px={0}
@@ -272,7 +273,11 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
           Choose your contract type
         </Heading>
         <Text size="body.md" mb={4}>
-          Choose the type of contract you want to deploy.
+          Not sure which contract type to choose?{" "}
+          <Link href="https://portal.thirdweb.com/release" color="primary.600">
+            Learn more
+          </Link>
+          .
         </Text>
         <Flex flexDir="column" gap={2} width="full">
           <SelectOption

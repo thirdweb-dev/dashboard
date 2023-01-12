@@ -70,6 +70,7 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
                     setIsDrawerOpen(visible);
                   }}
                   isImplementationDeploy
+                  onlyIcon
                 />
               </Flex>
             </FormControl>
@@ -99,6 +100,7 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
                     setIsDrawerOpen(visible);
                   }}
                   isImplementationDeploy
+                  onlyIcon
                 />
               </Flex>
             </FormControl>
