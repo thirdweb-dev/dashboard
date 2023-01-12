@@ -105,15 +105,22 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             isInvalid={!!form.formState.errors.displayName}
             isRequired
           >
-            <FormLabel>Release Name</FormLabel>
-            <Input {...form.register("displayName", { required: true })} />
+            <FormLabel>Contract Name</FormLabel>
+            <Input
+              {...form.register("displayName", { required: true })}
+              placeholder="Ex. MyContract"
+            />
             <FormErrorMessage>
               {form.formState.errors?.displayName?.message}
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!form.formState.errors.description}>
             <FormLabel>Description</FormLabel>
-            <Textarea {...form.register("description")} rows={2} />
+            <Textarea
+              {...form.register("description")}
+              rows={2}
+              placeholder="Briefly describe what your contract does."
+            />
 
             <FormErrorMessage>
               {form.formState.errors?.description?.message}
@@ -148,7 +155,11 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             </TabList>
             <TabPanels pt={2}>
               <TabPanel px={0} pb={0}>
-                <Textarea {...form.register("readme")} rows={12} />
+                <Textarea
+                  {...form.register("readme")}
+                  rows={12}
+                  placeholder="Describe how users can use this contract. Add links if relevant."
+                />
                 <FormErrorMessage>
                   {form.formState.errors?.readme?.message}
                 </FormErrorMessage>
@@ -208,7 +219,10 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                 </TabList>
                 <TabPanels pt={2}>
                   <TabPanel px={0} pb={0}>
-                    <Textarea {...form.register("changelog")} />
+                    <Textarea
+                      {...form.register("changelog")}
+                      placeholder="Mention what is new in this version of your contract."
+                    />
                     <FormErrorMessage>
                       {form.formState.errors?.changelog?.message}
                     </FormErrorMessage>
@@ -228,7 +242,11 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             <FormLabel>Audit report</FormLabel>
             {form.watch("audit") instanceof File ? (
               <InputGroup>
-                <Input isDisabled value={form.watch("audit")?.name} />
+                <Input
+                  isDisabled
+                  value={form.watch("audit")?.name}
+                  placeholder="ipfs://..."
+                />
                 <InputRightElement>
                   <Icon
                     as={FiTrash}

@@ -52,7 +52,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       {...form.register(
                         `constructorParams.${param.name}.displayName`,
                       )}
-                      placeholder={param.name}
+                      placeholder="Ex. Param 1"
                     />
                   </FormControl>
                   <FormControl isInvalid={!!form.formState.errors[param.name]}>
@@ -62,10 +62,10 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       {...form.register(
                         `constructorParams.${param.name}.defaultValue`,
                       )}
+                      placeholder="This value will be pre-filled in the deploy form."
                     />
 
                     <FormHelperText>
-                      This value will be pre-filled in the deploy form.
                       {paramTemplateValues.length > 0 && (
                         <Flex
                           as={Card}
@@ -114,6 +114,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       )}
                       h="full"
                       maxLength={400}
+                      placeholder="Enter a description for this parameter."
                     />
                     <FormHelperText>
                       {form.watch(`constructorParams.${param.name}.description`)
