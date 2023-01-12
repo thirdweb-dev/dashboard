@@ -1,9 +1,29 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
+import { ProductLearnMoreCard } from "../components/product-pages/common/ProductLearnMoreCard";
+import { ProductSection } from "../components/product-pages/common/ProductSection";
+import { YoutubeEmbed } from "../components/video-embed/YoutubeEmbed";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { PageId } from "page-id";
+import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+
+const GUIDES = [
+  {
+    title: "How to verify a Custom Contract on Etherscan using the dashboard",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/verification.png",
+    link: "https://blog.thirdweb.com/guides/how-to-verify-a-custom-contract-on-etherscan/",
+  },
+  {
+    title: "How to Add Permissions to Your Smart Contract in Solidity",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--13-.png",
+    link: "https://blog.thirdweb.com/guides/how-to-add-permissions-to-your-smart-contract-contractkit/",
+  },
+];
 
 const Dashboard: ThirdwebNextPage = () => {
   return (
@@ -17,7 +37,7 @@ const Dashboard: ThirdwebNextPage = () => {
         trackingCategory="dashboards"
         name="Dashboards"
         title="Dashboards to manage your web3 apps."
-        description="Everything you need to analyze and manage your web3 applications."
+        description="Manage, analyze, and interact with all of your deployed contracts conveniently from a single place."
         buttonText="Get started"
         buttonLink="/dashboard"
         image={require("public/assets/product-pages/dashboard/hero.png")}
@@ -30,27 +50,54 @@ const Dashboard: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
         >
           <ProductCard
-            title="Your contracts, at your fingertips"
+            title="Monitor contract activity"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
           >
-            Easily keep track of your contracts, read on-chain data, view logs,
-            send transactions, and more..
+            Get fast insights into your contract activity. Unlock features in
+            Dashboard for each extension implemented in your contract. (e.g.
+            view all NFTs that have been minted so far)
           </ProductCard>
           <ProductCard
-            title="Built with teams in mind"
+            title="Interact with contracts"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
-            Integrate your team or organization on-chain, delegate permissions,
-            and manage your treasury.
+            Fine-tune contract behavior with quick access to contract
+            configurations (e.g. royalty, primary sale fee, etc.)
           </ProductCard>
           <ProductCard
-            title="Complete analytics and reports"
+            title="Collaborate with team"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
           >
-            All your on-chain analytics in one place. Auto-generated reports to
-            gather insights.
+            Share contract management access with your team members. Control
+            team access to contracts with permissions. Gnosis Safe is supported.
           </ProductCard>
         </SimpleGrid>
+        <ProductSection py={{ base: 12, lg: 24 }}>
+          <Flex alignItems="center" flexDirection="column">
+            <Heading
+              as="h2"
+              size="display.sm"
+              textAlign="center"
+              mb={12}
+              maxW={800}
+            >
+              Build contracts for your web3 apps and games
+            </Heading>
+            <YoutubeEmbed
+              maxWidth={680}
+              videoId="oH8v7YJ51Ho"
+              aspectRatio={16 / 9}
+              title="How to Verify a Custom Contract on Etherscan using a Dashboard"
+            />
+          </Flex>
+        </ProductSection>
+
+        {/* Guides */}
+        <GuidesShowcase
+          title="Learn how to build"
+          description="Check out our guides to learn how to use Dashboard"
+          guides={GUIDES}
+        />
       </Hero>
     </ProductPage>
   );

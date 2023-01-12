@@ -6,7 +6,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { Heading, Link, Text } from "tw-components";
 
 interface ProductLearnMoreCardProps {
-  icon: StaticImageData;
+  icon?: StaticImageData;
   title: string;
   description: ReactNode;
   href: string;
@@ -21,8 +21,11 @@ export const ProductLearnMoreCard: React.FC<ProductLearnMoreCardProps> = ({
   return (
     <Flex direction="column" justify="space-between" align="flex-start" gap={4}>
       <Flex direction="column">
+        {/* TODO: Add an image */}
         <Flex alignItems="center" gap={2}>
-          <ChakraNextImage src={icon} placeholder="empty" alt="" w={8} />
+          {icon && (
+            <ChakraNextImage src={icon} placeholder="empty" alt="" w={8} />
+          )}
           <Heading size="title.sm" as="h3">
             {title}
           </Heading>
