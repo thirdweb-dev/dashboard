@@ -1,6 +1,6 @@
 import { ContractDeployForm } from ".";
 import { ContractId } from "../types";
-import { Box, Icon, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Icon, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { useTrack } from "hooks/analytics/useTrack";
 import { BiRocket } from "react-icons/bi";
@@ -45,7 +45,21 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
         }}
         rightIcon={onlyIcon ? undefined : <Icon as={FiChevronsRight} />}
       >
-        {onlyIcon ? <Icon as={BiRocket} /> : "Deploy Now"}
+        {onlyIcon ? (
+          <Tooltip
+            p={0}
+            ml={3}
+            label={<Flex p={2}>Deploy</Flex>}
+            bgColor="black"
+            borderRadius="lg"
+            placement="right"
+            shouldWrapChildren
+          >
+            <Icon as={BiRocket} />
+          </Tooltip>
+        ) : (
+          "Deploy now"
+        )}
       </Button>
       <Drawer
         allowPinchZoom
