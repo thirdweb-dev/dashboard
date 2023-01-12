@@ -40,7 +40,7 @@ export const ClaimConditions: React.FC<ClaimConditionsProps> = ({
           >
             <Flex direction="column">
               <Heading size="title.md">Set Claim Conditions</Heading>
-              <Text size="body.md" fontStyle="italic">
+              <Text size="body.md" fontStyle="italic" mt={2}>
                 Control when the {contractInfo.isErc20 ? "tokens" : "NFTs"} get
                 dropped, how much they cost, and more.
               </Text>

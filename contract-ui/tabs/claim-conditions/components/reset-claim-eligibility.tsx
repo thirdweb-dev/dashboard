@@ -69,7 +69,7 @@ export const ResetClaimEligibility: React.FC<ResetClaimEligibilityProps> = ({
         >
           <Flex direction="column">
             <Heading size="title.md">Claim Eligibility</Heading>
-            <Text size="body.md" fontStyle="italic">
+            <Text size="body.md" fontStyle="italic" mt={2}>
               This contract&apos;s claim eligibility stores who has already
               claimed {isErc20 ? "tokens" : "NFTs"} from this contract and
               carries across claim phases. Resetting claim eligibility will
