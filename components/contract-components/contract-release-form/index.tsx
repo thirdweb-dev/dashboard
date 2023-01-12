@@ -79,6 +79,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     return "1.0.0";
   }, [latestVersion]);
 
+  const disableNext = !form.watch("version") || !form.watch("displayName");
+
   useEffect(() => {
     if (address) {
       form.reset(
@@ -306,9 +308,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 <Button
                   onClick={() => setFieldsetToShow("proxy")}
                   colorScheme="primary"
-                  isDisabled={
-                    !form.watch("version") && !form.watch("displayName")
-                  }
+                  isDisabled={disableNext}
                 >
                   Next
                 </Button>
@@ -317,18 +317,14 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
                 <Button
                   onClick={() => setFieldsetToShow("factory")}
                   colorScheme="primary"
-                  isDisabled={
-                    !form.watch("version") && !form.watch("displayName")
-                  }
+                  isDisabled={disableNext}
                 >
                   Next
                 </Button>
               ) : fieldsetToShow !== "contractParams" &&
                 deployParams?.length > 0 ? (
                 <Button
-                  isDisabled={
-                    !form.watch("version") && !form.watch("displayName")
-                  }
+                  isDisabled={disableNext}
                   onClick={() => setFieldsetToShow("contractParams")}
                   colorScheme="primary"
                 >

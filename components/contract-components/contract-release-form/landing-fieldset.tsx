@@ -106,7 +106,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             isRequired
           >
             <FormLabel>Release Name</FormLabel>
-            <Input {...form.register("displayName")} required />
+            <Input {...form.register("displayName", { required: true })} />
             <FormErrorMessage>
               {form.formState.errors?.displayName?.message}
             </FormErrorMessage>
@@ -181,7 +181,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
               )}
             </Flex>
             <Input
-              {...form.register("version")}
+              {...form.register("version", { required: true })}
               placeholder={placeholderVersion}
             />
             <FormErrorMessage>
