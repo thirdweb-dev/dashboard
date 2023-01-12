@@ -114,11 +114,12 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
               Choose the initializer function to invoke on your proxy contracts.
             </Text>
           </Flex>
-          <FormControl>
+          <FormControl isRequired>
             {/** TODO this should be a selector of ABI functions **/}
             <Input
               {...form.register(
                 `factoryDeploymentData.implementationInitializerFunction`,
+                { required: true },
               )}
               placeholder="function name to invoke"
               defaultValue="initialize"
