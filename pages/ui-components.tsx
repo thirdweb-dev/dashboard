@@ -114,31 +114,26 @@ const UIComponents: ThirdwebNextPage = () => {
             <ProductLearnMoreCard
               title="Connect Wallet"
               description="Easily allow users to sign in using their crypto wallets with multiple wallet options (e.g. Coinbase, Metamask, WalletConnect, and more)."
-              // icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
               href="https://portal.thirdweb.com/ui-components/connectwalletbutton"
             />
             <ProductLearnMoreCard
               title="Web3 Button"
               description="Enables calling any function on any smart contract with one click."
-              // icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
               href="https://portal.thirdweb.com/ui-components/web3button"
             />
             <ProductLearnMoreCard
               title="NFT Metadata Renderer"
               description="Enables consistent display of NFTs on UI by resolving metadata of NFTs in a standard format."
-              // icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
               href="https://portal.thirdweb.com/ui-components/nft-renderer"
             />
             <ProductLearnMoreCard
               title="IPFS Metadata Renderer"
               description="Consistent display of media assets of NFTs with metadata stored on IPFS for all file types (image or video)."
-              // icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
               href="https://portal.thirdweb.com/ui-components/ipfs-media-renderer"
             />
           </SimpleGrid>
         </ProductSection>
 
-        {/* Guides */}
         <GuidesShowcase
           title="Learn how to build"
           description="Check out our guides to learn how to build with UI components"
