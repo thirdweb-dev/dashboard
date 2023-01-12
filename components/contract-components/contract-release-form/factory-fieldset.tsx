@@ -24,8 +24,10 @@ export const FactoryFieldset = () => {
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Factory deploy settings</Heading>
         <Text fontStyle="normal">
-          Proxy deployment requires having deployed implementations of your
-          contract already available on each chain you want to support.
+          Factory deployment requires having deployed implementations of your
+          contract already available on each chain you want to support. If you
+          already have a contract address, paste it into the corresponding
+          network.
         </Text>
       </Flex>
       <Flex flexDir="column" gap={4}>
