@@ -133,12 +133,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
   const [resetFlag, setResetFlag] = useState(false);
   const isAdmin = useIsAdmin(contract);
   const [openSnapshotIndex, setOpenSnapshotIndex] = useState(-1);
-  const mutation = useSetClaimConditions(contract, tokenId);
-  const canEditForm = isAdmin && !mutation.isLoading;
+  const setClaimsConditionQuery = useSetClaimConditions(contract, tokenId);
+
   const tokenDecimals = useTokenDecimals(
     isErc20 ? (contract as TokenContract) : undefined,
   );
-  const decimals = tokenDecimals.data ?? 0;
+  const tokenDecimalsData = tokenDecimals.data ?? 0;
   const saveClaimPhaseNotification = useTxNotifications(
     "Saved claim phases",
     "Failed to save claim phases",
@@ -178,7 +178,11 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
       .filter((phase) => phase.maxClaimableSupply !== "0");
   }, [claimsConditionQuery.data]);
 
-  // form
+  const isFetchingData =
+    claimsConditionQuery.isFetching || setClaimsConditionQuery.isLoading;
+
+  const canEditForm = isAdmin && !isFetchingData;
+
   const form = useForm<FormData>({
     defaultValues: { phases: transformedQueryData },
     values: { phases: transformedQueryData },
@@ -222,7 +226,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     });
 
     try {
-      await mutation.mutateAsync({
+      await setClaimsConditionQuery.mutateAsync({
         phases: d.phases as ClaimConditionInput[],
         reset: resetFlag,
       });
@@ -252,7 +256,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
   return (
     <>
       {/* spinner */}
-      {claimsConditionQuery.isRefetching && (
+      {isFetchingData && (
         <Spinner
           color="primary"
           size="xs"
@@ -322,7 +326,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                     phaseIndex: index,
                     formDisabled: !canEditForm,
                     isErc20,
-                    tokenDecimals: decimals,
+                    tokenDecimals: tokenDecimalsData,
                     isClaimPhaseV1,
                     dropType,
                     setOpenSnapshotIndex,
@@ -351,7 +355,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             aria-label="Delete Claim Phase"
                             colorScheme="red"
                             icon={<Icon as={FiTrash} />}
-                            isDisabled={mutation.isLoading}
+                            isDisabled={setClaimsConditionQuery.isLoading}
                             onClick={() => {
                               removePhase(index);
                               if (!isMultiPhase) {
@@ -419,7 +423,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 borderRadius="md"
                 leftIcon={<Icon as={FiPlus} />}
                 onClick={addPhase}
-                isDisabled={mutation.isLoading}
+                isDisabled={setClaimsConditionQuery.isLoading}
               >
                 Add {phases?.length > 0 ? "Additional " : "Initial "}
                 Claim Phase
@@ -432,7 +436,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                   borderRadius="md"
                   leftIcon={<Icon as={FiPlus} />}
                   onClick={addPhase}
-                  isDisabled={mutation.isLoading}
+                  isDisabled={setClaimsConditionQuery.isLoading}
                 >
                   Add Claim Condition
                 </Button>
@@ -453,7 +457,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
               transactionCount={1}
               isDisabled={claimsConditionQuery.isLoading}
               type="submit"
-              isLoading={mutation.isLoading}
+              isLoading={setClaimsConditionQuery.isLoading}
               loadingText="Saving..."
               size="md"
               borderRadius="xl"
