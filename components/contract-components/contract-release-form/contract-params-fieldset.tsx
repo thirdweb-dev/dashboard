@@ -43,8 +43,8 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Contract Parameters</Heading>
         <Text fontStyle="normal">
-          These are the parameters users will need to fill inwhen deploying this
-          contract.
+          These are the parameters users will need to fill in when deploying
+          this contract.
         </Text>
       </Flex>
       <Flex flexDir="column" gap={10}>
