@@ -18,7 +18,6 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   CONTRACT_ADDRESSES,
   ExtraPublishMetadata,
-  ExtraPublishMetadataSchemaInput,
   SUPPORTED_CHAIN_IDS,
 } from "@thirdweb-dev/sdk/evm";
 import { compare, validate } from "compare-versions";
@@ -62,22 +61,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
       .version;
 
   const form = useForm<ExtraPublishMetadata>();
-
-  /*  {
-    resolver: ExtraPublishMetadataSchemaInput.refine(
-      (data) => compare(latestVersion || "", data.version),
-      {
-        message: "Version must be higher than previous version.",
-        path: ["version"],
-      },
-    ),
-  } */
-  /*
-  console.log(
-    validate(form.watch("version"))
-      ? compare(latestVersion || "0.0.0", form.watch("version") || "0.0.0", "<")
-      : "not valid version",
-  ); */
 
   const isValidSemver = validate(form.watch("version"));
 
