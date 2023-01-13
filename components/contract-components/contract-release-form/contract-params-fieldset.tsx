@@ -91,9 +91,6 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                             shouldWrapChildren
                             label={
                               <Card as={Flex} flexDir="column" gap={2}>
-                                <Text fontWeight="bold">
-                                  Supported template variable
-                                </Text>
                                 <Text>
                                   {paramTemplateValues[0].helperText} Click to
                                   apply.
