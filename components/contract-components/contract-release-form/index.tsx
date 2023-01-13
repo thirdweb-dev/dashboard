@@ -89,7 +89,7 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   const placeholderVersion = useMemo(() => {
     if (latestVersion) {
       const versplit = latestVersion.split(".");
-      return `${versplit[0]}.${versplit[1]}.${Number(versplit[2]) + 1}`;
+      return `${versplit[0]}.${versplit[1]}.${Number(versplit[2]) + 1 || 0}`;
     }
     return "1.0.0";
   }, [latestVersion]);
