@@ -51,7 +51,11 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
           {mainnets.map(({ chainId, chainName }) => (
             <FormControl key={`implementation${chainId}`}>
               <Flex gap={4} alignItems="center">
-                <FormLabel mb={2} width="270px" lineHeight="150%">
+                <FormLabel
+                  mb={2}
+                  width={{ base: "150px", md: "270px" }}
+                  lineHeight="150%"
+                >
                   {chainName}
                 </FormLabel>
                 <PasteInput
@@ -81,7 +85,11 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
           {testnets.map(({ chainId, chainName }) => (
             <FormControl key={`implementation${chainId}`}>
               <Flex gap={4} alignItems="center">
-                <FormLabel mb={2} width="270px" lineHeight="150%">
+                <FormLabel
+                  mb={2}
+                  width={{ base: "150px", md: "270px" }}
+                  lineHeight="150%"
+                >
                   {chainName}
                 </FormLabel>
                 <PasteInput

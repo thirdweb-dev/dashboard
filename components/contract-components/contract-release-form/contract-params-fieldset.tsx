@@ -100,7 +100,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                           >
                             <Button
                               variant="ghost"
-                              border="1px solid"
+                              border="2px solid"
                               borderColor="inputBg"
                               h="1.75rem"
                               size="sm"

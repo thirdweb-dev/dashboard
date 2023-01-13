@@ -58,7 +58,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
   const logoUrl = useImageFileOrUrl(form.watch("logo"));
 
   return (
-    <Flex gap={16} direction="column" as="fieldset">
+    <Flex gap={16} direction="column" as="fieldset" mt={{ base: 4, md: 12 }}>
       <Flex gap={2} direction="column">
         <Heading size="title.lg">
           {!latestVersion ? "Publish" : "Edit"} your contract

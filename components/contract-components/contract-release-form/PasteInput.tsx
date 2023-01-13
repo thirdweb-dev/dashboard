@@ -18,7 +18,7 @@ export const PasteInput: React.FC<PasteInputProps> = ({
 }) => {
   const { register, setValue } = useFormContext();
   return (
-    <InputGroup>
+    <InputGroup width="full">
       <Input {...register(formKey)} placeholder="0x..." {...inputProps} />
       <InputRightElement
         pointerEvents="auto"
