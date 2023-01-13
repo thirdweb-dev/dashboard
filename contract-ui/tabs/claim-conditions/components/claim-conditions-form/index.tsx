@@ -315,7 +315,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 {/* Show the reason why the form is disabled */}
                 {!isAdmin && (
                   <Text>
-                    Connect with admin wallet to edit claims conditions
+                    Connect with admin wallet to edit claim conditions
                   </Text>
                 )}
 
