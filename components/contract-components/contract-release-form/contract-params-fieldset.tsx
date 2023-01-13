@@ -8,11 +8,22 @@ import {
   Flex,
   FormControl,
   Input,
+  InputGroup,
+  InputRightElement,
   Textarea,
+  Tooltip,
 } from "@chakra-ui/react";
-import { getTemplateValuesForType } from "lib/deployment/tempalte-values";
+import { getTemplateValuesForType } from "lib/deployment/template-values";
+import React from "react";
 import { useFormContext } from "react-hook-form";
-import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
+import {
+  Button,
+  Card,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 
 interface ContractParamsFieldsetProps {
   deployParams:
@@ -24,6 +35,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
   deployParams,
 }) => {
   const form = useFormContext();
+
   return (
     <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
@@ -58,50 +70,50 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   <FormControl isInvalid={!!form.formState.errors[param.name]}>
                     <FormLabel as={Text}>Default Value</FormLabel>
 
-                    <Input
-                      {...form.register(
-                        `constructorParams.${param.name}.defaultValue`,
-                      )}
-                      placeholder="This value will be pre-filled in the deploy form."
-                    />
-
-                    <FormHelperText>
-                      {paramTemplateValues.length > 0 && (
-                        <Flex
-                          as={Card}
-                          mt={3}
-                          borderRadius="md"
-                          py={3}
-                          px={3}
-                          direction="column"
-                          gap={2}
-                        >
-                          <Heading as="h5" size="label.sm">
-                            Supported template variables
-                          </Heading>
-                          <Flex direction="column">
-                            {paramTemplateValues.map((val) => (
-                              <Text size="body.sm" key={val.value}>
-                                <Code
-                                  as="button"
-                                  type="button"
-                                  display="inline"
-                                  onClick={() => {
-                                    form.setValue(
-                                      `constructorParams.${param.name}.defaultValue`,
-                                      val.value,
-                                    );
-                                  }}
-                                >
-                                  {val.value}
-                                </Code>{" "}
-                                - {val.helperText}
-                              </Text>
-                            ))}
-                          </Flex>
-                        </Flex>
-                      )}
-                    </FormHelperText>
+                    {paramTemplateValues.length > 0 && (
+                      <InputGroup size="md">
+                        <Input
+                          {...form.register(
+                            `constructorParams.${param.name}.defaultValue`,
+                          )}
+                          placeholder="This value will be pre-filled in the deploy form."
+                        />
+                        <InputRightElement width="10.5rem" mr={2}>
+                          <Tooltip
+                            bg="transparent"
+                            boxShadow="none"
+                            shouldWrapChildren
+                            label={
+                              <Card as={Flex} flexDir="column" gap={2}>
+                                <Text fontWeight="bold">
+                                  Supported template variable
+                                </Text>
+                                <Text>
+                                  {paramTemplateValues[0].helperText} Click to
+                                  apply.
+                                </Text>
+                              </Card>
+                            }
+                          >
+                            <Button
+                              variant="ghost"
+                              border="1px solid"
+                              borderColor="inputBg"
+                              h="1.75rem"
+                              size="sm"
+                              onClick={() => {
+                                form.setValue(
+                                  `constructorParams.${param.name}.defaultValue`,
+                                  paramTemplateValues[0].value,
+                                );
+                              }}
+                            >
+                              <Text>{paramTemplateValues[0].value}</Text>
+                            </Button>
+                          </Tooltip>
+                        </InputRightElement>
+                      </InputGroup>
+                    )}
                   </FormControl>
                 </Flex>
                 <Flex flexDir="column" w="full">
