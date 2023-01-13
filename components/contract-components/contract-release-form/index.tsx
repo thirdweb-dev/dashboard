@@ -18,8 +18,10 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   CONTRACT_ADDRESSES,
   ExtraPublishMetadata,
+  ExtraPublishMetadataSchemaInput,
   SUPPORTED_CHAIN_IDS,
 } from "@thirdweb-dev/sdk/evm";
+import { compare, validate } from "compare-versions";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
@@ -42,7 +44,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     "landing" | "proxy" | "factory" | "contractParams"
   >("landing");
   const trackEvent = useTrack();
-  const form = useForm<ExtraPublishMetadata>();
 
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
@@ -56,6 +57,40 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
   const publishMetadata = useContractPublishMetadataFromURI(contractId);
   const prePublishMetadata = useContractPrePublishMetadata(contractId, address);
 
+  const latestVersion =
+    prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
+      .version;
+
+  const form = useForm<ExtraPublishMetadata>();
+
+  /*  {
+    resolver: ExtraPublishMetadataSchemaInput.refine(
+      (data) => compare(latestVersion || "", data.version),
+      {
+        message: "Version must be higher than previous version.",
+        path: ["version"],
+      },
+    ),
+  } */
+  /*
+  console.log(
+    validate(form.watch("version"))
+      ? compare(latestVersion || "0.0.0", form.watch("version") || "0.0.0", "<")
+      : "not valid version",
+  ); */
+
+  const isValidSemver = validate(form.watch("version"));
+
+  const isValidVersion = useMemo(() => {
+    if (latestVersion) {
+      return (
+        isValidSemver &&
+        compare(latestVersion || "0.0.0", form.watch("version") || "0.0.0", "<")
+      );
+    }
+    return isValidSemver;
+  }, [latestVersion, isValidSemver, form]);
+
   const hasTrackedImpression = useRef<boolean>(false);
   useEffect(() => {
     if (publishMetadata.data && !hasTrackedImpression.current) {
@@ -68,10 +103,6 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     }
   }, [publishMetadata.data, trackEvent]);
 
-  const latestVersion =
-    prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
-      .version;
-
   const placeholderVersion = useMemo(() => {
     if (latestVersion) {
       const versplit = latestVersion.split(".");
@@ -80,7 +111,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
     return "1.0.0";
   }, [latestVersion]);
 
-  const disableNext = !form.watch("version") || !form.watch("displayName");
+  const disableNext =
+    !form.watch("version") || !form.watch("displayName") || !isValidVersion;
 
   useEffect(() => {
     if (address) {
@@ -273,6 +305,8 @@ export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
               setContractSelection={setContractSelection}
               latestVersion={latestVersion}
               placeholderVersion={placeholderVersion}
+              isValidSemver={isValidSemver}
+              isValidVersion={isValidVersion}
             />
           )}
           {fieldsetToShow === "contractParams" && (

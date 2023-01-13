@@ -42,6 +42,8 @@ interface LandingFieldsetProps {
   >;
   latestVersion: string | undefined;
   placeholderVersion: string;
+  isValidVersion: boolean;
+  isValidSemver: boolean;
 }
 
 export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
@@ -49,6 +51,8 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
   setContractSelection,
   latestVersion,
   placeholderVersion,
+  isValidSemver,
+  isValidVersion,
 }) => {
   const form = useFormContext<ExtraPublishMetadata>();
   const logoUrl = useImageFileOrUrl(form.watch("logo"));
@@ -195,6 +199,13 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
               {...form.register("version", { required: true })}
               placeholder={placeholderVersion}
             />
+            <Text color="red.300" mt={1}>
+              {!isValidSemver
+                ? "Not a valid semver version."
+                : !isValidVersion
+                ? "Version must be greater than previous version."
+                : ""}
+            </Text>
             <FormErrorMessage>
               {form.formState.errors?.version?.message}
             </FormErrorMessage>
