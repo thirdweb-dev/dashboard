@@ -3,7 +3,6 @@ import {
   useFunctionParamsFromABI,
 } from "../hooks";
 import {
-  Code,
   Divider,
   Flex,
   FormControl,
@@ -12,6 +11,7 @@ import {
   InputRightElement,
   Textarea,
   Tooltip,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { getTemplateValuesForType } from "lib/deployment/template-values";
 import React from "react";
@@ -36,6 +36,8 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
 }) => {
   const form = useFormContext();
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <Flex gap={16} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
@@ -54,8 +56,8 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                 <Heading size="title.sm">{param.name}</Heading>
                 <Text size="body.sm">{param.type}</Text>
               </Flex>
-              <Flex gap={6}>
-                <Flex flexDir="column" gap={4} w="60%">
+              <Flex gap={6} flexDir="column">
+                <Flex gap={4} flexDir={{ base: "column", md: "row" }}>
                   <FormControl isInvalid={!!form.formState.errors[param.name]}>
                     <FormLabel flex="1" as={Text}>
                       Display Name
@@ -70,14 +72,18 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   <FormControl isInvalid={!!form.formState.errors[param.name]}>
                     <FormLabel as={Text}>Default Value</FormLabel>
 
-                    {paramTemplateValues.length > 0 && (
-                      <InputGroup size="md">
-                        <Input
-                          {...form.register(
-                            `constructorParams.${param.name}.defaultValue`,
-                          )}
-                          placeholder="This value will be pre-filled in the deploy form."
-                        />
+                    <InputGroup size="md">
+                      <Input
+                        {...form.register(
+                          `constructorParams.${param.name}.defaultValue`,
+                        )}
+                        placeholder={
+                          isMobile
+                            ? "Pre-filled value."
+                            : "This value will be pre-filled in the deploy form."
+                        }
+                      />
+                      {paramTemplateValues.length > 0 && (
                         <InputRightElement width="10.5rem" mr={2}>
                           <Tooltip
                             bg="transparent"
@@ -112,15 +118,14 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                             </Button>
                           </Tooltip>
                         </InputRightElement>
-                      </InputGroup>
-                    )}
+                      )}
+                    </InputGroup>
                   </FormControl>
                 </Flex>
                 <Flex flexDir="column" w="full">
                   <FormControl>
                     <FormLabel as={Text}>Description</FormLabel>
                     <Textarea
-                      height="119px"
                       {...form.register(
                         `constructorParams.${param.name}.description`,
                       )}
