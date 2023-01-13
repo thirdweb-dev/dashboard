@@ -6,6 +6,7 @@ import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoGameControllerOutline } from "react-icons/io5";
+import { TfiStamp } from "react-icons/tfi";
 import { LinkButton, TrackedIconButton, TrackedLink } from "tw-components";
 
 export const DesktopMenu: React.FC = () => {
@@ -24,12 +25,16 @@ export const DesktopMenu: React.FC = () => {
         <HoverMenu title="Solutions" items={SOLUTIONS} />
         <HoverMenu title="Resources" items={RESOURCES} />
         <TrackedLink
+          fontWeight={400}
           isExternal
-          href="https://careers.thirdweb.com"
+          href="https://portal.thirdweb.com"
           category="landing-page"
-          label="careers"
+          label="docs"
+          _hover={{
+            textDecor: "none",
+          }}
         >
-          Careers
+          Docs
         </TrackedLink>
       </Stack>
 
@@ -159,6 +164,13 @@ export const SOLUTIONS: NavCardProps[] = [
     description: "Integrate web3 into games",
     link: "/solutions/gaming",
     iconType: IoGameControllerOutline,
+  },
+  {
+    name: "Minting",
+    label: "minting",
+    description: "Build and mint NFTs at scale easily",
+    link: "/solutions/minting",
+    iconType: TfiStamp,
   },
 ];
 
