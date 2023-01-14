@@ -16,6 +16,7 @@ import {
   Textarea,
   Tooltip,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { ExtraPublishMetadata } from "@thirdweb-dev/sdk";
 import { FileInput } from "components/shared/FileInput";
 import { SelectOption } from "core-ui/batch-upload/lazy-mint-form/select-option";
@@ -54,6 +55,8 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
   isValidSemver,
   isValidVersion,
 }) => {
+  const address = useAddress();
+
   const form = useFormContext<ExtraPublishMetadata>();
   const logoUrl = useImageFileOrUrl(form.watch("logo"));
 
@@ -199,13 +202,15 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
               {...form.register("version", { required: true })}
               placeholder={placeholderVersion}
             />
-            <Text color="red.300" mt={1}>
-              {!isValidSemver
-                ? "Not a valid semver version."
-                : !isValidVersion
-                ? "Version must be greater than previous version."
-                : ""}
-            </Text>
+            {address && (
+              <Text color="red.300" mt={1}>
+                {!isValidSemver
+                  ? "Not a valid semver version."
+                  : !isValidVersion
+                  ? "Version must be greater than previous version."
+                  : ""}
+              </Text>
+            )}
             <FormErrorMessage>
               {form.formState.errors?.version?.message}
             </FormErrorMessage>
