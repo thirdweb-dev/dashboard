@@ -42,10 +42,9 @@ export const ReleaseUpsellCard: React.FC = () => {
 
           <Text>
             <Text fontWeight="bold">Save development time.</Text>
-            No need to waste time building middleware to make your contract
-            composable. Published contracts unlock access to thirdweb tools and
-            makes it simple for developers to build apps on top of them. Focus
-            on your protocol, we&apos;ll handle the rest.
+            Eliminate the need for building tedious middleware and focus on your
+            protocol. Our published contracts provide access to thirdweb tools
+            that makes it easy for developers to create applications on top of.
           </Text>
         </Flex>
         <ButtonGroup size="size" spacing={4}>
@@ -88,7 +87,7 @@ export const ReleaseUpsellCard: React.FC = () => {
       </Flex>
       <ChakraNextImage
         display={{ base: "none", md: colorMode === "dark" ? "block" : "none" }}
-        w="38%"
+        w="40%"
         src={require("public/assets/landingpage/explore-featured.png")}
         alt=""
       />
