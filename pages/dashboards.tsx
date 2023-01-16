@@ -1,5 +1,4 @@
 import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
-import { ProductLearnMoreCard } from "../components/product-pages/common/ProductLearnMoreCard";
 import { ProductSection } from "../components/product-pages/common/ProductSection";
 import { YoutubeEmbed } from "../components/video-embed/YoutubeEmbed";
 import { Flex, SimpleGrid } from "@chakra-ui/react";

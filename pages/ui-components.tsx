@@ -101,7 +101,7 @@ const UIComponents: ThirdwebNextPage = () => {
           </Flex>
         </ProductSection>
 
-        <ProductSection py={{ base: 12, lg: 24 }}>  
+        <ProductSection py={{ base: 12, lg: 24 }}>
           <SimpleGrid columns={{ base: 1, md: 4 }} gap={14}>
             <ProductLearnMoreCard
               icon={require("/public/assets/product-pages/authentication/sign-in.png")}
