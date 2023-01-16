@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { ImMagicWand } from "@react-icons/all-files/im/ImMagicWand";
 import { HomepageFooter } from "components/footer/Footer";
+import { AvatarShowcase } from "components/hackathon/common/AvatarShowcase";
 import { HackathonFooter } from "components/hackathon/common/HackathonFooter";
 import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
