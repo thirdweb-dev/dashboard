@@ -19,7 +19,7 @@ import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelec
 import { DisabledChainsMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { replaceTemplateValues } from "lib/deployment/tempalte-values";
+import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import {
@@ -112,7 +112,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       deployParams: deployParams.reduce((acc, param) => {
         acc[param.name] = replaceTemplateValues(
           fullReleaseMetadata.data?.constructorParams?.[param.name]
-            .defaultValue || "",
+            ?.defaultValue || "",
           param.type,
           {
             connectedWallet: address,
@@ -127,7 +127,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       deployParams: deployParams.reduce((acc, param) => {
         acc[param.name] = replaceTemplateValues(
           fullReleaseMetadata.data?.constructorParams?.[param.name]
-            .defaultValue || "",
+            ?.defaultValue || "",
           param.type,
           {
             connectedWallet: address,

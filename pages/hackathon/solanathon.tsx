@@ -14,6 +14,7 @@ import { HackathonFooter } from "components/hackathon/common/HackathonFooter";
 import { PrizeSection } from "components/hackathon/common/PrizeSection";
 import { ScheduleSection } from "components/hackathon/common/ScheduleSection";
 import { Sponsors } from "components/hackathon/common/Sponsors";
+import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -176,12 +177,18 @@ const SolanaHackathon: ThirdwebNextPage = () => {
         <HomepageTopNav />
 
         <Box maxW="100vw" mt="-100px" pt="100px" overflowX="hidden">
-          <HomepageSection id="header" topGradient>
+          <HomepageSection id="header">
+            <Aurora
+              pos={{ left: "50%", top: "50%" }}
+              size={{ width: "2000px", height: "2000px" }}
+              color={"hsl(280deg 78% 30% / 30%)"}
+            />
+
             <Flex
               flexDir="column"
               align="center"
               gap={12}
-              mt={{ base: 12, md: 24 }}
+              py={{ base: 12, md: 24 }}
             >
               {/* <ChakraNextImage
               src="/assets/hackathon/tw-solana.svg"
@@ -238,10 +245,10 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             </Flex>
           </HomepageSection>
 
-          <HomepageSection>
+          <HomepageSection my={40}>
             <Sponsors sponsors={sponsors} hackathonName="solanathon" />
           </HomepageSection>
-          <Divider mt={16} />
+
           <PrizeSection prizes={prizes} />
 
           <HomepageSection>
@@ -311,6 +318,7 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             transform="matrix(-1, 0, 0, 1, 0, 0)"
             mt="-150px"
           />
+
           <AvatarShowcase
             title="Judges"
             trackingCategory="solanathon"
