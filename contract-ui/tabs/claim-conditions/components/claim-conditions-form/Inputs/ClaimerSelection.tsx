@@ -13,7 +13,7 @@ import { Button, Text } from "tw-components";
  */
 export const ClaimerSelection = () => {
   const {
-    formDisabled: disabled,
+    formDisabled,
     form,
     phaseIndex,
     field,
@@ -84,7 +84,7 @@ export const ClaimerSelection = () => {
 
   return (
     <CustomFormControl
-      disabled={disabled}
+      disabled={formDisabled}
       label={`Who can claim ${isErc20 ? "tokens" : "NFTs"} during this phase?`}
       error={
         form.getFieldState(`phases.${phaseIndex}.snapshot`, form.formState)
@@ -95,7 +95,7 @@ export const ClaimerSelection = () => {
       <Flex direction={{ base: "column", md: "row" }} gap={4}>
         {/* Select Wallet Eligibility */}
         <Select
-          isDisabled={disabled}
+          isDisabled={formDisabled}
           w={{ base: "100%", md: "50%" }}
           value={dropType}
           onChange={handleClaimerChange}
@@ -118,8 +118,10 @@ export const ClaimerSelection = () => {
             align="center"
             gap={1.5}
           >
+            {/* disable the "Edit" button when form is disabled, but not when it's a "See" button */}
             <Button
               colorScheme="purple"
+              isDisabled={isAdmin && formDisabled}
               borderRadius="md"
               onClick={() => setOpenIndex(phaseIndex)}
               rightIcon={<Icon as={FiUpload} />}
