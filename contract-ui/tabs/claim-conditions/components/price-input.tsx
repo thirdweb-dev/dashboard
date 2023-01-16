@@ -33,7 +33,7 @@ export const PriceInput: React.FC<PriceInputProps> = ({
   return (
     <InputGroup {...restInputProps}>
       <Input
-        step={0.00000000000001}
+        step={0.000000000000000001}
         type="number"
         isDisabled={isDisabled}
         value={stringValue}
