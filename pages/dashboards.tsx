@@ -54,6 +54,7 @@ const Dashboard: ThirdwebNextPage = () => {
           w="100%"
           columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
+          py={{ base: 12, lg: 24 }}
         >
           <ProductCard
             title="Monitor contract activity"

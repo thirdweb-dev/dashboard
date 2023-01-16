@@ -49,104 +49,93 @@ const UIComponents: ThirdwebNextPage = () => {
         image={require("public/assets/product-pages/ui-components/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 16.94%, #40FFAF 86.73%)"
       >
-        <Flex direction="column" gap={24}>
-          <SimpleGrid
-            justifyContent="flex-start"
-            w="100%"
-            columns={{ base: 1, md: 3 }}
-            gap={{ base: 12, md: 6 }}
+        <SimpleGrid
+          justifyContent="flex-start"
+          w="100%"
+          columns={{ base: 1, md: 3 }}
+          gap={{ base: 12, md: 6 }}
+          py={{ base: 12, lg: 24 }}
+        >
+          <ProductCard
+            title="Accelerate time-to-market"
+            icon={require("/public/assets/product-pages/ui-components/hero-icon-1.png")}
           >
-            <ProductCard
-              title="Accelerate time-to-market"
-              icon={require("/public/assets/product-pages/ui-components/hero-icon-1.png")}
+            Utilities for common web3 frontend use cases, e.g. enable connect
+            wallet, render NFTs metadata, and more. Faster development cycles
+            because you do not have to reinvent the wheel every time.
+          </ProductCard>
+          <ProductCard
+            title="Simplifying web3 complexity"
+            icon={require("/public/assets/product-pages/ui-components/hero-icon-2.png")}
+          >
+            We have thorough developer documentation on following best
+            practices. No need to worry about configuring for each partner
+            provider, handling file-type inconsistencies, etc.
+          </ProductCard>
+          <ProductCard
+            title="Customizable UI components"
+            icon={require("/public/assets/product-pages/ui-components/hero-icon-3.png")}
+          >
+            All of our UI components are fully customizable which you can
+            fine-tune for your specific use case.
+          </ProductCard>
+        </SimpleGrid>
+
+        <ProductSection py={{ base: 12, lg: 24 }}>
+          <Flex alignItems="center" flexDirection="column">
+            <Heading
+              as="h2"
+              size="display.sm"
+              textAlign="center"
+              mb={12}
+              maxW={800}
             >
-              Utilities for common web3 frontend use cases, e.g. enable connect
-              wallet, render NFTs metadata, and more. Faster development cycles
-              because you do not have to reinvent the wheel every time.
-            </ProductCard>
-            <ProductCard
-              title="Simplifying web3 complexity"
-              icon={require("/public/assets/product-pages/ui-components/hero-icon-2.png")}
-            >
-              We have thorough developer documentation on following best
-              practices. No need to worry about configuring for each partner
-              provider, handling file-type inconsistencies, etc.
-            </ProductCard>
-            <ProductCard
-              title="Customizable UI components"
-              icon={require("/public/assets/product-pages/ui-components/hero-icon-3.png")}
-            >
-              All of our UI components are fully customizable which you can
-              fine-tune for your specific use case.
-            </ProductCard>
+              Integrate Connect Wallet into your Web3 App
+            </Heading>
+            <YoutubeEmbed
+              maxWidth={680}
+              videoId="_jsUc4ZMuEQ"
+              aspectRatio={16 / 9}
+              title="How to Add a Connect Wallet Button to your Web3 App (NFT Collections, Marketplaces, DAOs)"
+            />
+          </Flex>
+        </ProductSection>
+
+        <ProductSection py={{ base: 12, lg: 24 }}>  
+          <SimpleGrid columns={{ base: 1, md: 4 }} gap={14}>
+            <ProductLearnMoreCard
+              icon={require("/public/assets/product-pages/authentication/sign-in.png")}
+              title="Connect Wallet"
+              description="Easily allow users to sign in using their crypto wallets with multiple wallet options (e.g. Coinbase, Metamask, WalletConnect, and more)."
+              href="https://portal.thirdweb.com/ui-components/connectwalletbutton"
+            />
+            <ProductLearnMoreCard
+              icon={require("public/assets/product-icons/contracts.png")}
+              title="Web3 Button"
+              description="Enables calling any function on any smart contract with one click."
+              href="https://portal.thirdweb.com/ui-components/web3button"
+            />
+            <ProductLearnMoreCard
+              icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+              title="NFT Metadata Renderer"
+              description="Enables consistent display of NFTs on UI by resolving metadata of NFTs in a standard format."
+              href="https://portal.thirdweb.com/ui-components/nft-renderer"
+            />
+            <ProductLearnMoreCard
+              icon={require("public/assets/product-icons/storage.png")}
+              title="IPFS Metadata Renderer"
+              description="Consistent display of media assets of NFTs with metadata stored on IPFS for all file types (image or video)."
+              href="https://portal.thirdweb.com/ui-components/ipfs-media-renderer"
+            />
           </SimpleGrid>
+        </ProductSection>
 
-          <ProductSection py={{ base: 12, lg: 24 }}>
-            <Flex alignItems="center" flexDirection="column">
-              <Heading
-                as="h2"
-                size="display.sm"
-                textAlign="center"
-                mb={12}
-                maxW={800}
-              >
-                Integrate Connect Wallet into your Web3 App
-              </Heading>
-              <YoutubeEmbed
-                maxWidth={680}
-                videoId="_jsUc4ZMuEQ"
-                aspectRatio={16 / 9}
-                title="How to Add a Connect Wallet Button to your Web3 App (NFT Collections, Marketplaces, DAOs)"
-              />
-            </Flex>
-          </ProductSection>
-
-          <ProductSection py={{ base: 12, lg: 24 }}>
-            {/* TODO: Add headline to components section */}
-            {/* <Heading*/}
-            {/*  as="h2"*/}
-            {/*  size="display.sm"*/}
-            {/*  fontWeight={700}*/}
-            {/*  textAlign="center"*/}
-            {/*  mb={{ base: 16, lg: 24 }}*/}
-            {/* >*/}
-            {/*  Contracts for every use case*/}
-            {/* </Heading>*/}
-            <SimpleGrid columns={{ base: 1, md: 4 }} gap={14}>
-              <ProductLearnMoreCard
-                icon={require("/public/assets/product-pages/authentication/sign-in.png")}
-                title="Connect Wallet"
-                description="Easily allow users to sign in using their crypto wallets with multiple wallet options (e.g. Coinbase, Metamask, WalletConnect, and more)."
-                href="https://portal.thirdweb.com/ui-components/connectwalletbutton"
-              />
-              <ProductLearnMoreCard
-                icon={require("public/assets/product-icons/contracts.png")}
-                title="Web3 Button"
-                description="Enables calling any function on any smart contract with one click."
-                href="https://portal.thirdweb.com/ui-components/web3button"
-              />
-              <ProductLearnMoreCard
-                icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-                title="NFT Metadata Renderer"
-                description="Enables consistent display of NFTs on UI by resolving metadata of NFTs in a standard format."
-                href="https://portal.thirdweb.com/ui-components/nft-renderer"
-              />
-              <ProductLearnMoreCard
-                icon={require("public/assets/product-icons/storage.png")}
-                title="IPFS Metadata Renderer"
-                description="Consistent display of media assets of NFTs with metadata stored on IPFS for all file types (image or video)."
-                href="https://portal.thirdweb.com/ui-components/ipfs-media-renderer"
-              />
-            </SimpleGrid>
-          </ProductSection>
-
-          <GuidesShowcase
-            title="Learn how to build"
-            description="Check out our guides to learn how to build with UI components"
-            solution="UI Components"
-            guides={GUIDES}
-          />
-        </Flex>
+        <GuidesShowcase
+          title="Learn how to build"
+          description="Check out our guides to learn how to build with UI components"
+          solution="UI Components"
+          guides={GUIDES}
+        />
       </Hero>
     </ProductPage>
   );
