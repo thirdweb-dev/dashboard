@@ -110,6 +110,33 @@ const scheduleItems = [
   },
 ];
 
+const judges = [
+  {
+    name: "Samina Kabir",
+    twitter: "saminacodes",
+    image: "/assets/landingpage/samina.jpeg",
+    company: "thirdweb",
+  },
+  {
+    name: "Farza Majeed",
+    twitter: "FarzaTV",
+    image: "/assets/landingpage/farza.jpeg",
+    company: "buildspace",
+  },
+  {
+    name: "Noah Hein",
+    twitter: "nheindev",
+    image: "/assets/landingpage/noah.png",
+    company: "Phantom",
+  },
+  {
+    name: "Chris Ahn",
+    twitter: "ahnchrisj",
+    image: "/assets/landingpage/chris.jpg",
+    company: "Haun Ventures",
+  },
+];
+
 const SolanaHackathon: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
   return (
@@ -155,6 +182,11 @@ const SolanaHackathon: ThirdwebNextPage = () => {
               gap={12}
               mt={{ base: 12, md: 24 }}
             >
+              <AvatarShowcase
+                title="Judges"
+                trackingCategory="solanathon"
+                avatars={judges}
+              />
               {/* <ChakraNextImage
               src="/assets/hackathon/tw-solana.svg"
               alt="Solana Hackathon"
