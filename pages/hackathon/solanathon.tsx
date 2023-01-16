@@ -181,13 +181,8 @@ const SolanaHackathon: ThirdwebNextPage = () => {
               flexDir="column"
               align="center"
               gap={12}
-              mt={{ base: 12, md: 24 }}
+              py={{ base: 12, md: 24 }}
             >
-              <AvatarShowcase
-                title="Judges"
-                trackingCategory="solanathon"
-                avatars={judges}
-              />
               {/* <ChakraNextImage
               src="/assets/hackathon/tw-solana.svg"
               alt="Solana Hackathon"
@@ -317,6 +312,11 @@ const SolanaHackathon: ThirdwebNextPage = () => {
             mt="-150px"
           />
 
+          <AvatarShowcase
+            title="Judges"
+            trackingCategory="solanathon"
+            avatars={judges}
+          />
           <HackathonFooter />
           <HomepageFooter />
         </Box>
