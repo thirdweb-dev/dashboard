@@ -48,6 +48,8 @@ export const ClaimerSelection = () => {
 
   let helperText: React.ReactNode;
 
+  const disabledSnapshotButton = isAdmin && formDisabled;
+
   if (isClaimPhaseV1) {
     helperText = (
       <>
@@ -121,7 +123,7 @@ export const ClaimerSelection = () => {
             {/* disable the "Edit" button when form is disabled, but not when it's a "See" button */}
             <Button
               colorScheme="purple"
-              isDisabled={isAdmin && formDisabled}
+              isDisabled={disabledSnapshotButton}
               borderRadius="md"
               onClick={() => setOpenIndex(phaseIndex)}
               rightIcon={<Icon as={FiUpload} />}
@@ -134,6 +136,7 @@ export const ClaimerSelection = () => {
               direction="row"
               align="center"
               justify="center"
+              opacity={disabledSnapshotButton ? 0.5 : 1}
               color={field.snapshot?.length === 0 ? "red.400" : "green.400"}
               _light={{
                 color: field.snapshot?.length === 0 ? "red.500" : "green.500",
