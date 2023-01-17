@@ -1,6 +1,6 @@
-import { Flex, Image } from "@chakra-ui/react";
+import { Flex, SimpleGrid } from "@chakra-ui/react";
 import type { FC } from "react";
-import { Heading, Text, TrackedLink } from "tw-components";
+import { Heading, TrackedLink } from "tw-components";
 
 export const Resources: FC = () => {
   const resources = [
@@ -10,45 +10,57 @@ export const Resources: FC = () => {
       image: "/assets/hackathon/resources/readyplayer3/gamingkit.png",
     },
     {
-      name: "GamingKit Guides & Blog",
+      name: "GamingKit Guides & Tutorials",
       link: "https://blog.thirdweb.com/tag/gaming",
       image: "/assets/hackathon/resources/readyplayer3/gamingkit-blogs.png",
     },
     {
       name: "GamingKit Quickstart",
-      link: "/",
+      link: "https://portal.thirdweb.com/gamingkit/quickstart",
       image: "/assets/hackathon/resources/readyplayer3/quickstart.png",
     },
   ];
 
   return (
     <Flex flexDir="column">
-      <Heading textAlign="center">Resources</Heading>
-      <Flex gap={6} mt={4} align="center" justify="center">
+      <Heading textAlign="center" size="title.2xl" mb={12}>
+        Resources
+      </Heading>
+      <SimpleGrid columns={{ base: 1, lg: 3 }} gap={8}>
         {resources.map(({ name, link, image }, i) => (
-          <Flex flexDir="column" rounded="lg" bg="whiteAlpha.100" p={4} key={i}>
-            <TrackedLink
-              href={link}
-              isExternal
-              category="readyplayer3"
-              label={name}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src={image}
-                alt={name}
-                w="full"
-                objectFit="contain"
-                rounded="lg"
-              />
-              <Text mt={2} color="white" ml={2}>
-                {name}
-              </Text>
-            </TrackedLink>
-          </Flex>
+          <TrackedLink
+            overflow={"hidden"}
+            href={link}
+            isExternal
+            category="readyplayer3"
+            label={name}
+            target="_blank"
+            rel="noopener noreferrer"
+            key={i}
+            position="relative"
+            backgroundImage={`linear-gradient(to bottom, hsl(319deg 98% 10%), hsl(300deg 100% 8% / 52%)), url(${image})`}
+            backgroundPosition="center"
+            backgroundSize={"100%"}
+            height={{ base: "150px", md: "220px" }}
+            borderRadius={"12px"}
+            transition="background-size 200ms ease"
+            _hover={{
+              backgroundSize: "110%",
+            }}
+            color="white"
+            fontSize={{ base: "24px", md: "32px" }}
+            lineHeight={1.3}
+            textAlign="center"
+            p={6}
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            fontWeight={700}
+          >
+            {name}
+          </TrackedLink>
         ))}
-      </Flex>
+      </SimpleGrid>
     </Flex>
   );
 };

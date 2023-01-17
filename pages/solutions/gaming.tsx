@@ -8,7 +8,7 @@ import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
+import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
@@ -165,10 +165,26 @@ const Gaming: ThirdwebNextPage = () => {
         />
       </ProductSection>
 
-      <SolutionsTextImage
-        image={require("public/assets/solutions-pages/gaming/marketplace.png")}
-        title="Bring your web2 game to web3 with GamingKit."
-      />
+      {/* Video Embed section*/}
+      <ProductSection py={{ base: 12, lg: 24 }}>
+        <Flex alignItems="center" flexDirection="column">
+          <Heading
+            as="h2"
+            size="display.sm"
+            textAlign="center"
+            mb={12}
+            maxW={800}
+          >
+            Bring your web2 game to web3 with GamingKit.
+          </Heading>
+          <YoutubeEmbed
+            maxWidth={680}
+            videoId="sEXCE21I2uw"
+            aspectRatio={16 / 9}
+            title="Get Started Building Web3 Games in Unity (thirdweb Unity SDK)"
+          />
+        </Flex>
+      </ProductSection>
 
       <ProductSection>
         <SimpleGrid
