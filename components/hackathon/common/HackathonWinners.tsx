@@ -2,7 +2,7 @@ import { Flex, Grid, Icon, Image, Link, VStack } from "@chakra-ui/react";
 import { FiExternalLink } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
 
-interface IWinner {
+interface Winner {
   name: string;
   image: string;
   link: string;
