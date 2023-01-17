@@ -61,8 +61,8 @@ export const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner }) => {
     <ChakraNextImage
       opacity="0.8"
       pointerEvents="none"
-      w="full"
-      maxW={"150px"}
+      w="auto"
+      maxW="150px"
       h={{ base: "40px", md: "50px" }}
       loading="eager"
       filter={PARTNER_LOGO_MAP[partner].filter}
