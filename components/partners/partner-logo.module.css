@@ -1,13 +1,12 @@
 .marqueeGroup {
-  animation: scroll-x 50s linear infinite;
+  animation: scroll-x 30s linear infinite;
   --gap: 40px; /* refers to the gap between slides and gap between the marquee groups */
 }
 
-/* increase gap and speed on desktop */
+/* increase gap on desktop */
 @media (min-width: 62em) {
   .marqueeGroup {
     --gap: 60px;
-    animation-duration: 30s;
   }
 }
 
