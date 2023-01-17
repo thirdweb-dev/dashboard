@@ -339,10 +339,13 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                       Repeated addresses will be removed and only the first
                       found will be kept.
                     </Text>
-                    <Text as={ListItem}>
-                      The limit you set is for the maximum amount of NFTs a
-                      wallet can claim, not how many they can receive in total.
-                    </Text>
+                    {!isV1ClaimCondition && (
+                      <Text as={ListItem}>
+                        The limit you set is for the maximum amount of NFTs a
+                        wallet can claim , not how many they can receive in
+                        total.
+                      </Text>
+                    )}
                   </UnorderedList>
                 </Flex>
               </Flex>
