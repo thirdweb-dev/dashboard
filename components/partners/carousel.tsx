@@ -7,8 +7,9 @@ const gap = { base: "40px", lg: "60px" };
 
 const MarqueeGroup: React.FC<{
   ariaHidden: boolean;
+  animationDirection?: "normal" | "reverse";
   children: React.ReactNode;
-}> = ({ ariaHidden, children }) => {
+}> = ({ ariaHidden, children, animationDirection = "normal" }) => {
   return (
     <Box
       display="flex"
@@ -17,6 +18,9 @@ const MarqueeGroup: React.FC<{
       flexShrink={0}
       aria-hidden={ariaHidden}
       className={styles.marqueeGroup}
+      sx={{
+        animationDirection,
+      }}
     >
       {children}
     </Box>
@@ -25,19 +29,17 @@ const MarqueeGroup: React.FC<{
 
 const Marquee: React.FC<{
   children: React.ReactNode;
-  className?: string;
+  animationDirection?: "normal" | "reverse";
   display?: LayoutProps["display"];
-}> = ({ children, className, display }) => {
+}> = ({ children, display, animationDirection }) => {
   return (
-    <Box
-      gap={gap}
-      overflow="hidden"
-      py={4}
-      display={display}
-      className={className}
-    >
-      <MarqueeGroup ariaHidden={false}> {children} </MarqueeGroup>
-      <MarqueeGroup ariaHidden={true}> {children} </MarqueeGroup>
+    <Box gap={gap} overflow="hidden" py={4} display={display}>
+      <MarqueeGroup animationDirection={animationDirection} ariaHidden={false}>
+        {children}
+      </MarqueeGroup>
+      <MarqueeGroup animationDirection={animationDirection} ariaHidden={true}>
+        {children}
+      </MarqueeGroup>
     </Box>
   );
 };
@@ -49,6 +51,12 @@ export const PartnerCarousel: React.FC = () => {
       position="relative"
       pointerEvents="none"
       userSelect="none"
+      // slightly larger than container.lg
+      maxW="1200px"
+      mx="auto"
+      sx={{
+        "mask-image": `linear-gradient(to right, hsl(0 0% 0% / 0), hsl(0 0% 0% / 1) 10%, hsl(0 0% 0% / 1) 90%, hsl(0 0% 0% / 0));`,
+      }}
       pt={10}
       mb={{ base: 20, md: 24 }}
     >
@@ -79,7 +87,7 @@ export const PartnerCarousel: React.FC = () => {
       </Marquee>
 
       <Marquee
-        className={styles.marqueeReverse}
+        animationDirection="reverse"
         display={{ base: "flex", lg: "none" }}
       >
         <PartnerLogo partner="minted" />

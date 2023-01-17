@@ -10,10 +10,6 @@
   }
 }
 
-.marqueeReverse .marqueeGroup {
-  animation-direction: reverse;
-}
-
 @keyframes scroll-x {
   from {
     transform: translateX(0);
