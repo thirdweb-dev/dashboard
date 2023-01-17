@@ -16,6 +16,7 @@ export const FeatureIconMap: Record<ContractType, StaticImageData> = {
   token: require("public/assets/tw-icons/token.png"),
   vote: require("public/assets/tw-icons/vote.png"),
   marketplace: require("public/assets/tw-icons/marketplace.png"),
+  "marketplace-v3": require("public/assets/tw-icons/marketplace.png"),
   pack: require("public/assets/tw-icons/pack.png"),
   split: require("public/assets/tw-icons/split.png"),
   "token-drop": require("public/assets/tw-icons/token.png"),
@@ -50,6 +51,7 @@ export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
   token: [...deprecatedChains],
   vote: [...deprecatedChains],
   marketplace: [...deprecatedChains],
+  "marketplace-v3": [...deprecatedChains],
   pack: [...deprecatedChains],
   split: [...deprecatedChains],
   "token-drop": [...deprecatedChains],
@@ -113,6 +115,14 @@ export const BuiltinContractMap: Record<ContractType, BuiltinContractDetails> =
       audit: "ipfs://QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
       sourceUrl:
         "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.1.3/contracts/marketplace/Marketplace.sol",
+      ecosytem: "evm",
+    }),
+    "marketplace-v3": buildContractForContractMap("marketplace-v3", {
+      title: "MarketplaceV3",
+      description: "Marketplace for ERC721/ERC1155 NFTs",
+      audit: "ipfs://QmNgNaLwzgMxcx9r6qDvJmTFam6xxUxX7Vp8E99oRt7i74",
+      sourceUrl:
+        "https://raw.githubusercontent.com/thirdweb-dev/contracts/v3.3.1-0/contracts/marketplace/entrypoint/MarketplaceRouter.sol",
       ecosytem: "evm",
     }),
     "edition-drop": buildContractForContractMap("edition-drop", {
@@ -338,6 +348,9 @@ export const GasEstimatorMap: Record<ContractType, GasPrice> = {
   marketplace: {
     deployContract: 785536,
   },
+  "marketplace-v3": {
+    deployContract: 785536, // TODO
+  },
   token: {
     deployContract: 837345,
   },
@@ -378,6 +391,7 @@ export const CONTRACT_TYPE_NAME_MAP: Record<ContractType, string> = {
   // other
   vote: "Vote" as const,
   marketplace: "Marketplace" as const,
+  "marketplace-v3": "MarketplaceRouter" as const,
   pack: "Pack" as const,
   split: "Split" as const,
 
