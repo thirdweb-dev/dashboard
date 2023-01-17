@@ -342,7 +342,7 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
                     {!isV1ClaimCondition && (
                       <Text as={ListItem}>
                         The limit you set is for the maximum amount of NFTs a
-                        wallet can claim , not how many they can receive in
+                        wallet can claim, not how many they can receive in
                         total.
                       </Text>
                     )}
