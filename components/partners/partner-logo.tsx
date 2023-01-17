@@ -1,4 +1,3 @@
-import { AspectRatio } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 
 const PARTNER_LOGO_MAP = {
@@ -59,19 +58,17 @@ interface PartnerLogoProps {
 }
 export const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner }) => {
   return (
-    <AspectRatio
-      opacity=".8"
+    <ChakraNextImage
+      opacity="0.8"
       pointerEvents="none"
       w="full"
-      ratio={16 / 9}
+      maxW={"150px"}
+      maxH={"50px"}
       filter={PARTNER_LOGO_MAP[partner].filter}
-    >
-      <ChakraNextImage
-        src={PARTNER_LOGO_MAP[partner].img}
-        alt={partner}
-        sizes="(max-width: 768px) 25vw,
+      src={PARTNER_LOGO_MAP[partner].img}
+      alt={partner}
+      sizes="(max-width: 768px) 25vw,
               10vw"
-      />
-    </AspectRatio>
+    />
   );
 };

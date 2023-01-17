@@ -1,54 +1,61 @@
 import { PartnerLogo } from "./partner-logo";
-import { Box, Container, GridItem, SimpleGrid } from "@chakra-ui/react";
+import styles from "./partner-logo.module.css";
+import { Box } from "@chakra-ui/react";
+
+const gap = { base: "40px", lg: "60px" };
+
+const MarqueeGroup: React.FC<{ ariaHidden: boolean }> = ({ ariaHidden }) => {
+  return (
+    <Box
+      display="flex"
+      gap={gap}
+      overflow="hidden"
+      flexShrink={0}
+      aria-hidden={ariaHidden}
+      className={styles.marqueeGroup}
+    >
+      <PartnerLogo partner="rarible" />
+      <PartnerLogo partner="fractal" />
+      <PartnerLogo partner="buildspace" />
+      <PartnerLogo partner="shopify" />
+      <PartnerLogo partner="paradigm" />
+      <PartnerLogo partner="unlock" />
+      <PartnerLogo partner="minted" />
+      <PartnerLogo partner="nyfw" />
+      <PartnerLogo partner="gala_games" />
+      <PartnerLogo partner="mirror" />
+      <PartnerLogo partner="heroic_story" />
+      <PartnerLogo partner="layer3" />
+    </Box>
+  );
+};
 
 export const PartnerCarousel: React.FC = () => {
   return (
-    <Box zIndex={10} position="relative" pointerEvents="none" userSelect="none">
-      <Container position="relative" maxW="container.page">
-        <SimpleGrid
-          columns={{ base: 3, md: 6 }}
-          py={12}
-          px={{ base: 4, md: 0 }}
-          gap={{ base: 8, md: 12 }}
-        >
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="rarible" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="fractal" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="buildspace" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="shopify" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="paradigm" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="unlock" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="minted" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="nyfw" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="gala_games" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="mirror" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="heroic_story" />
-          </GridItem>
-          <GridItem colSpan={1}>
-            <PartnerLogo partner="layer3" />
-          </GridItem>
-        </SimpleGrid>
-      </Container>
+    <Box
+      zIndex={10}
+      position="relative"
+      pointerEvents="none"
+      userSelect="none"
+      pt={10}
+      mb={{ base: 20, md: 24 }}
+    >
+      <Box display="flex" gap={gap} overflow="hidden" py={4}>
+        <MarqueeGroup ariaHidden={false} />
+        <MarqueeGroup ariaHidden={true} />
+      </Box>
+
+      {/* Add extra row for mobile */}
+      <Box
+        gap={gap}
+        py={4}
+        overflow="hidden"
+        display={{ base: "flex", md: "none" }}
+        className={styles.marqueeReverse}
+      >
+        <MarqueeGroup ariaHidden={false} />
+        <MarqueeGroup ariaHidden={true} />
+      </Box>
     </Box>
   );
 };
