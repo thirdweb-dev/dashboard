@@ -12,7 +12,6 @@
 
 .marqueeReverse .marqueeGroup {
   animation-direction: reverse;
-  flex-direction: row-reverse;
 }
 
 @keyframes scroll-x {

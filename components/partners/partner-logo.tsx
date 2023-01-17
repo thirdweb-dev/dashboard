@@ -63,7 +63,8 @@ export const PartnerLogo: React.FC<PartnerLogoProps> = ({ partner }) => {
       pointerEvents="none"
       w="full"
       maxW={"150px"}
-      maxH={"50px"}
+      h={{ base: "40px", md: "50px" }}
+      loading="eager"
       filter={PARTNER_LOGO_MAP[partner].filter}
       src={PARTNER_LOGO_MAP[partner].img}
       alt={partner}
