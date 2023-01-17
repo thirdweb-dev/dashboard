@@ -1,4 +1,12 @@
-import { Flex, Grid, Icon, Image, Link, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  Icon,
+  Link,
+  LinkOverlay,
+  SimpleGrid,
+  VStack,
+} from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { FiExternalLink } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
 
@@ -10,7 +18,7 @@ interface Winner {
 }
 
 interface HackathonWinnersProps {
-  winners: IWinner[];
+  winners: Winner[];
 }
 
 export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
@@ -26,7 +34,7 @@ export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
       <Heading size="title.2xl" textAlign="center" paddingTop={10}>
         Hackathon Winners
       </Heading>
-      <Grid
+      <SimpleGrid
         templateColumns={{
           base: "repeat(1, 1fr)",
           sm: "repeat(2, 1fr)",
@@ -41,50 +49,51 @@ export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
         py={10}
       >
         {winners.map(({ name, image, link, position }) => (
-          <Link href={link} isExternal key={name}>
-            <Flex
-              _hover={{
-                boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
-                transform: "translateY(-5px)",
-                transition: "all 0.3s ease",
-              }}
-              zIndex={2}
-              key={name}
-              direction="column"
-              pos="relative"
-              bg="whiteAlpha.100"
-              w="full"
-              pb={4}
-              rounded="lg"
-            >
-              <Image
-                src={image}
-                alt={name}
-                objectFit="cover"
-                h={60}
-                roundedTop="lg"
-              />
-              <Flex flexDir="column" pl={4}>
-                <Heading size="title.md" color="white" mt={5}>
-                  {name}
-                </Heading>
-                <Text as="h4" fontSize="md" color="gray.200">
-                  {position}
-                </Text>
-              </Flex>
-              <Icon
-                as={FiExternalLink}
-                width={6}
-                height={6}
-                color="white"
-                pos="absolute"
-                right="4"
-                bottom="6"
-              />
+          <LinkOverlay
+            href={link}
+            isExternal
+            key={name}
+            _hover={{
+              boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+              transform: "translateY(-5px)",
+              transition: "all 0.3s ease",
+            }}
+            zIndex={2}
+            display="flex"
+            flexDir="column"
+            pos="relative"
+            bg="whiteAlpha.100"
+            w="full"
+            pb={4}
+            rounded="lg"
+          >
+            <ChakraNextImage
+              src={image}
+              alt={name}
+              objectFit="cover"
+              height={60}
+              width={600}
+              roundedTop="lg"
+            />
+            <Flex flexDir="column" pl={4} mt={5}>
+              <Heading size="title.md" color="white">
+                {name}
+              </Heading>
+              <Text as="h4" fontSize="md" color="gray.200">
+                {position}
+              </Text>
             </Flex>
-          </Link>
+            <Icon
+              as={FiExternalLink}
+              width={6}
+              height={6}
+              color="white"
+              ml="auto"
+              mr={4}
+            />
+          </LinkOverlay>
         ))}
-      </Grid>
+      </SimpleGrid>
     </VStack>
   );
 };
