@@ -10,6 +10,7 @@ import {
   Divider,
   Flex,
   FormControl,
+  Icon,
   Input,
   LinkBox,
   LinkOverlay,
@@ -33,6 +34,7 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -45,7 +47,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import twAudited from "public/brand/thirdweb-audited-2.png";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   FieldPath,
   FormProvider,
@@ -53,7 +55,9 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
+import { IoMdSettings } from "react-icons/io";
 import {
+  Button,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -115,7 +119,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   onChainSelect,
 }) => {
   const publishMetadata = useContractPublishMetadataFromURI(contractType);
-
+  const [showAddNetworkModal, setShowAddNetworkModal] = useState(false);
   const contract =
     PREBUILT_CONTRACTS_MAP[contractType as keyof typeof PREBUILT_CONTRACTS_MAP];
 
@@ -835,6 +839,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
               disabledChainIdText="Coming Soon"
             />
           </FormControl>
+
           <TransactionButton
             flexShrink={0}
             type="submit"
@@ -846,7 +851,21 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             Deploy Now
           </TransactionButton>
         </Flex>
+
+        <Button
+          variant={"outline"}
+          colorScheme="blue"
+          leftIcon={<Icon color="inherit" as={IoMdSettings} />}
+          onClick={() => setShowAddNetworkModal(true)}
+          py={3}
+        >
+          Configure Networks
+        </Button>
       </Flex>
+
+      {showAddNetworkModal && (
+        <ConfigureNetworkModal onClose={() => setShowAddNetworkModal(false)} />
+      )}
     </FormProvider>
   );
 };

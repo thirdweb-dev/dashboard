@@ -44,6 +44,7 @@ import { useGnosis } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
 import { useMagic } from "@thirdweb-dev/react/evm/connectors/magic";
 import { ChakraNextImage } from "components/Image";
 import { MismatchButton } from "components/buttons/MismatchButton";
+import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { useEns } from "components/contract-components/hooks";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
@@ -52,9 +53,10 @@ import { constants, utils } from "ethers";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
 import posthog from "posthog-js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiCheck, FiChevronDown, FiCopy, FiUser } from "react-icons/fi";
+import { IoMdSettings } from "react-icons/io";
 import {
   Badge,
   Button,
@@ -96,6 +98,8 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   ...buttonProps
 }) => {
   const solWallet = useWallet();
+  const [showConfigureNetworkModal, setShowConfigureNetworkModal] =
+    useState(false);
 
   const [connector, connect] = useConnect();
   const { getNetworkMetadata } = useWeb3();
@@ -212,6 +216,11 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
     const SVG = getNetworkMetadata(chainId).icon;
     return (
       <>
+        {showConfigureNetworkModal && (
+          <ConfigureNetworkModal
+            onClose={() => setShowConfigureNetworkModal(false)}
+          />
+        )}
         <GnosisSafeModal
           isOpen={gnosisModalState.isOpen}
           onClose={gnosisModalState.onClose}
@@ -263,6 +272,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
           </MenuButton>
           <MenuList borderRadius="lg" py={2}>
             <MenuGroup
+              as="div"
               title={
                 <Flex justifyContent="space-between" alignItems="center">
                   <Flex gap={2}>
@@ -327,6 +337,14 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
                       position="relative"
                       size="sm"
                     />
+                  </MenuItem>
+
+                  <MenuItem
+                    icon={<Icon color="#eee" as={IoMdSettings} />}
+                    onClick={() => setShowConfigureNetworkModal(true)}
+                    py={3}
+                  >
+                    Configure Networks
                   </MenuItem>
                 </>
               )}

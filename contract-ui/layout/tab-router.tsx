@@ -35,13 +35,16 @@ interface ContractTabRouterProps {
   address: string;
   network: string;
   ecosystem: "evm" | "solana";
+  chainId?: number;
 }
 
 export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
   address,
   network,
   ecosystem,
+  chainId,
 }) => {
+  // TODO - use chainId
   const [location] = useState(() => new ReactLocation({}));
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
