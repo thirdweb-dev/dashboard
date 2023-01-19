@@ -1,4 +1,5 @@
 import { SolidityAddressInput } from "./address-input";
+import { SolidityBytesInput } from "./bytes-input";
 import { SolidityIntInput } from "./int-input";
 import { SolidityStringInput } from "./string-input";
 import { Input, InputProps } from "@chakra-ui/react";
@@ -30,6 +31,11 @@ export const SolidityInput: React.FC<SolidityInputProps> = ({
     return <SolidityAddressInput {...inputProps} />;
   } /* else if (solidityType === "string") {
     return <SolidityStringInput {...inputProps} />;
-  } */
+  } */ else if (
+    solidityType.startsWith("byte") &&
+    !solidityType.endsWith("[]")
+  ) {
+    return <SolidityBytesInput solidityType={solidityType} {...inputProps} />;
+  }
   return <Input {...inputProps} />;
 };
