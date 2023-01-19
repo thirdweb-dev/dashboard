@@ -98,7 +98,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
 
                     <InputGroup size="md">
                       <SolidityInput
-                        type={param.type}
+                        solidityType={param.type}
                         placeholder={
                           isMobile
                             ? "Pre-filled value."

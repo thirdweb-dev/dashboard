@@ -1,14 +1,15 @@
 import { SolidityAddressInput } from "./address-input";
 import { SolidityIntInput } from "./int-input";
+import { SolidityStringInput } from "./string-input";
 import { Input, InputProps } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
 
 export interface SolidityInputProps extends InputProps {
-  type: string;
+  solidityType: string;
 }
 
 export const SolidityInput: React.FC<SolidityInputProps> = ({
-  type,
+  solidityType,
   ...inputProps
 }) => {
   const form = useFormContext();
@@ -21,13 +22,14 @@ export const SolidityInput: React.FC<SolidityInputProps> = ({
 
   // All ints and uints, except for arrays.
   if (
-    type.startsWith("uint") ||
-    (type.startsWith("int") && !type.endsWith("[]"))
+    solidityType.startsWith("uint") ||
+    (solidityType.startsWith("int") && !solidityType.endsWith("[]"))
   ) {
-    return <SolidityIntInput type={type} {...inputProps} />;
-  }
-  if (type === "address") {
-    return <SolidityAddressInput type={type} {...inputProps} />;
-  }
-  return <Input type={type} {...inputProps} />;
+    return <SolidityIntInput solidityType={solidityType} {...inputProps} />;
+  } else if (solidityType === "address") {
+    return <SolidityAddressInput {...inputProps} />;
+  } /* else if (solidityType === "string") {
+    return <SolidityStringInput {...inputProps} />;
+  } */
+  return <Input {...inputProps} />;
 };

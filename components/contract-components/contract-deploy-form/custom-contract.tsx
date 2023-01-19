@@ -282,7 +282,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   </Flex>
                   {deployParam && (
                     <SolidityInput
-                      type={deployParam.type}
+                      defaultValue={form.watch(`deployParams.${paramKey}`)}
+                      solidityType={deployParam.type}
                       {...form.register(`deployParams.${paramKey}`)}
                     />
                   )}

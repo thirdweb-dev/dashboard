@@ -1,9 +1,8 @@
-import { SolidityInputProps } from ".";
-import { Input } from "@chakra-ui/react";
+import { Input, InputProps } from "@chakra-ui/react";
 import { utils } from "ethers";
 import { useFormContext } from "react-hook-form";
 
-export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
+export const SolidityAddressInput: React.FC<InputProps> = ({
   ...inputProps
 }) => {
   const { setValue, setError, clearErrors } = useFormContext();

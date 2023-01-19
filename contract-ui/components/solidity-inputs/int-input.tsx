@@ -40,13 +40,13 @@ const maxValues: Record<string, BigNumber> = {
 };
 
 export const SolidityIntInput: React.FC<SolidityInputProps> = ({
-  type,
+  solidityType,
   ...inputProps
 }) => {
   const { setValue, setError, clearErrors } = useFormContext();
 
-  const maxValue = useMemo(() => maxValues[type], [type]);
-  const minValue = useMemo(() => minValues[type], [type]);
+  const maxValue = useMemo(() => maxValues[solidityType], [solidityType]);
+  const minValue = useMemo(() => minValues[solidityType], [solidityType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -58,14 +58,14 @@ export const SolidityIntInput: React.FC<SolidityInputProps> = ({
     } else if (BigNumber.from(val).gt(maxValue)) {
       setError(inputProps.name as string, {
         type: "maxValue",
-        message: `Value is higher than what ${type} can store.`,
+        message: `Value is higher than what ${solidityType} can store.`,
       });
     } else if (BigNumber.from(val).lt(minValue)) {
       setError(inputProps.name as string, {
         type: "minValue",
-        message: type.startsWith("uint")
+        message: solidityType.startsWith("uint")
           ? `Value must be a positive number for uint types.`
-          : `Value is lower than what ${type} can store.}`,
+          : `Value is lower than what ${solidityType} can store.}`,
       });
     } else {
       setValue(inputProps.name as string, val.toString());
@@ -75,12 +75,12 @@ export const SolidityIntInput: React.FC<SolidityInputProps> = ({
 
   return (
     <Input
-      type="number"
       pattern="^[0-9]*$"
       max={maxValue.toString()}
       min={minValue.toString()}
       step={1}
       {...inputProps}
+      type="number"
       onChange={handleChange}
     />
   );
