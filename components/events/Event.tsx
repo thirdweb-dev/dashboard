@@ -142,4 +142,3 @@ const Event: React.FC<EventProps> = ({
     </AccordionItem>
   );
 };
-export default Event;
