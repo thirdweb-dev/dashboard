@@ -103,21 +103,39 @@ export function formatError(error: Error): string {
   }
 }
 
-function formatContractCall(params: unknown[], value?: BigNumber) {
-  const parsedParams = params.map((p) => {
-    try {
-      const parsed = JSON.parse(p as string);
-      if (Array.isArray(parsed) || typeof parsed === "object") {
-        return parsed;
-      } else {
-        // Return original value if its not an array or object
+function formatContractCall(
+  params: {
+    key: string;
+    value: string;
+    type: string;
+    components:
+      | {
+          [x: string]: any;
+          type: string;
+          name: string;
+        }[]
+      | undefined;
+  }[],
+  value?: BigNumber,
+) {
+  const parsedParams = params
+    .map((p) =>
+      p.type === "bool" ? (p.value === "false" ? false : true) : p.value,
+    )
+    .map((p) => {
+      try {
+        const parsed = JSON.parse(p as string);
+        if (Array.isArray(parsed) || typeof parsed === "object") {
+          return parsed;
+        } else {
+          // Return original value if its not an array or object
+          return p;
+        }
+      } catch {
+        // JSON.parse on string will throw an error
         return p;
       }
-    } catch {
-      // JSON.parse on string will throw an error
-      return p;
-    }
-  });
+    });
 
   if (value) {
     parsedParams.push({
@@ -203,18 +221,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
           id={formId}
           onSubmit={form.handleSubmit((d) => {
             if (d.params) {
-              mutate(
-                formatContractCall(
-                  d.params.map((p) =>
-                    p.type === "bool"
-                      ? p.value === "false"
-                        ? false
-                        : true
-                      : p.value,
-                  ),
-                  utils.parseEther(d.value),
-                ),
-              );
+              mutate(formatContractCall(d.params, utils.parseEther(d.value)));
             }
           })}
         >
