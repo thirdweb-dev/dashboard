@@ -20,6 +20,7 @@ import { useFormContext } from "react-hook-form";
 import {
   Button,
   Card,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Heading,
@@ -59,7 +60,14 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
               </Flex>
               <Flex gap={6} flexDir="column">
                 <Flex gap={4} flexDir={{ base: "column", md: "row" }}>
-                  <FormControl isInvalid={!!form.formState.errors[param.name]}>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
+                        `constructorParams.${param.name}.displayName`,
+                        form.formState,
+                      ).error
+                    }
+                  >
                     <FormLabel flex="1" as={Text}>
                       Display Name
                     </FormLabel>
@@ -69,8 +77,23 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       )}
                       placeholder="Ex. Param 1"
                     />
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState(
+                          `constructorParams.${param.name}.displayName`,
+                          form.formState,
+                        ).error?.message
+                      }
+                    </FormErrorMessage>
                   </FormControl>
-                  <FormControl isInvalid={!!form.formState.errors[param.name]}>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
+                        `constructorParams.${param.name}.defaultValue`,
+                        form.formState,
+                      ).error
+                    }
+                  >
                     <FormLabel as={Text}>Default Value</FormLabel>
 
                     <InputGroup size="md">
@@ -119,10 +142,25 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                         </InputRightElement>
                       )}
                     </InputGroup>
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState(
+                          `constructorParams.${param.name}.defaultValue`,
+                          form.formState,
+                        ).error?.message
+                      }
+                    </FormErrorMessage>
                   </FormControl>
                 </Flex>
                 <Flex flexDir="column" w="full">
-                  <FormControl>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(
+                        `constructorParams.${param.name}.description`,
+                        form.formState,
+                      ).error
+                    }
+                  >
                     <FormLabel as={Text}>Description</FormLabel>
                     <Textarea
                       {...form.register(

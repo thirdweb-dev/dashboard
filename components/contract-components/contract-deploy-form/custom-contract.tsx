@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import { FormProvider, useForm } from "react-hook-form";
 import {
   Checkbox,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Heading,
@@ -254,7 +255,16 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 fullReleaseMetadata.data?.constructorParams || {};
               const extraMetadataParam = contructorParams[paramKey];
               return (
-                <FormControl isRequired key={paramKey}>
+                <FormControl
+                  isRequired
+                  key={paramKey}
+                  isInvalid={
+                    !!form.getFieldState(
+                      `deployParams.${paramKey}`,
+                      form.formState,
+                    ).error
+                  }
+                >
                   <Flex alignItems="center" my={1}>
                     <FormLabel mb={0} flex="1" display="flex">
                       {extraMetadataParam?.displayName ? (
@@ -276,6 +286,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                       {...form.register(`deployParams.${paramKey}`)}
                     />
                   )}
+                  <FormErrorMessage>
+                    {
+                      form.getFieldState(
+                        `deployParams.${paramKey}`,
+                        form.formState,
+                      ).error?.message
+                    }
+                  </FormErrorMessage>
                   {extraMetadataParam?.description && (
                     <FormHelperText>
                       {extraMetadataParam?.description}
