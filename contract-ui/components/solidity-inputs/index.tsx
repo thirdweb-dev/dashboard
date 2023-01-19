@@ -1,4 +1,5 @@
 import { SolidityAddressInput } from "./address-input";
+import { SolidityBoolInput } from "./bool-input";
 import { SolidityBytesInput } from "./bytes-input";
 import { SolidityIntInput } from "./int-input";
 import { SolidityStringInput } from "./string-input";
@@ -32,6 +33,8 @@ export const SolidityInput: React.FC<SolidityInputProps> = ({
     return <SolidityStringInput {...inputProps} />;
   } else if (solidityType.startsWith("byte") && !solidityType.endsWith("[]")) {
     return <SolidityBytesInput solidityType={solidityType} {...inputProps} />;
+  } else if (solidityType === "bool") {
+    return <SolidityBoolInput {...inputProps} />;
   }
   return <Input {...inputProps} />;
 };

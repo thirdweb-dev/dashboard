@@ -249,6 +249,13 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                         solidityType="string"
                         {...form.register(`params.${item.key as any}.value`)}
                       />
+                    ) : item.type.includes("bool") ? (
+                      <SolidityInput
+                        solidityType="bool"
+                        {...form.register(`params.${item.key as any}.value`, {
+                          value: "false",
+                        })}
+                      />
                     ) : (
                       <Input
                         defaultValue={form.getValues(
