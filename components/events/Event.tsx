@@ -20,7 +20,7 @@ interface EventProps {
   link: string;
 }
 
-const Event: FC<EventProps> = ({
+const Event: React.FC<EventProps> = ({
   type,
   title,
   timestamp,
