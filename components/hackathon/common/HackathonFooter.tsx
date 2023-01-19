@@ -1,9 +1,8 @@
 import { Box, Flex, Icon, Image, Link, VStack } from "@chakra-ui/react";
-import type { FC } from "react";
 import { FiArrowRightCircle } from "react-icons/fi";
 import { Heading } from "tw-components";
 
-export const HackathonFooter: FC = () => {
+export const HackathonFooter: React.FC = () => {
   return (
     <VStack bgColor="#152238" py={0} gap={0} borderTopRadius="50px">
       <Heading

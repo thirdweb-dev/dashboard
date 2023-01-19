@@ -1,6 +1,6 @@
 import { Accordion, Box, DarkMode, Flex, Grid, Select } from "@chakra-ui/react";
-import Event from "components/events/Event";
-import { FeaturedCard } from "components/events/FeaturedCard";
+import { DevRelEvent } from "components/devRelEvents/DevRelEvent";
+import { FeaturedCard } from "components/devRelEvents/FeaturedCard";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -178,7 +178,7 @@ const EventsPage: ThirdwebNextPage = () => {
 
           <HomepageSection mt={20}>
             <Select
-              w={40}
+              w={48}
               mx="auto"
               value={sortBy}
               onChange={(e) => {
@@ -207,7 +207,7 @@ const EventsPage: ThirdwebNextPage = () => {
             >
               {sortedEvents.map(
                 ({ type, title, timestamp, location, description, link }) => (
-                  <Event
+                  <DevRelEvent
                     key={title}
                     type={type}
                     title={title}

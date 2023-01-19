@@ -19,7 +19,7 @@ interface EventProps {
   link: string;
 }
 
-const Event: React.FC<EventProps> = ({
+export const DevRelEvent: React.FC<EventProps> = ({
   type,
   title,
   timestamp,
@@ -31,6 +31,10 @@ const Event: React.FC<EventProps> = ({
 
   return (
     <AccordionItem
+      _hover={{
+        bg: "whiteAlpha.50",
+        transition: "all 0.2",
+      }}
       bg="whiteAlpha.100"
       py={10}
       px={{
