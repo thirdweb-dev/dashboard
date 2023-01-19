@@ -132,6 +132,12 @@ const mentors = [
     image: "/assets/landingpage/shai-perednik.jpeg",
     company: "AWS",
   },
+  {
+    name: "Leanne Bats",
+    twitter: "leannebats",
+    image: "/assets/landingpage/leannebats.jpg",
+    company: "Tres Cool",
+  },
 ];
 
 const scheduleItems = [
@@ -154,12 +160,6 @@ const scheduleItems = [
     href: "https://lu.ma/rp3scenario",
   },
   {
-    day: 19,
-    month: "jan",
-    title: "thirdweb & Coinbase Cloud Code-Along: Build With GamingKit",
-    href: "https://lu.ma/rp3gamecodealong",
-  },
-  {
     day: 23,
     month: "jan",
     title: "Workshop with Spindl",
@@ -173,6 +173,12 @@ const scheduleItems = [
   },
   {
     day: 25,
+    month: "jan",
+    title: "thirdweb & Coinbase Cloud Code-Along: Build With GamingKit",
+    href: "https://lu.ma/rp3gamecodealong",
+  },
+  {
+    day: 31,
     month: "jan",
     title: "How To Create Your Hackathon Submission on DevPost + Q&A",
     href: "https://lu.ma/rp3submissions",
@@ -307,7 +313,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
                 <Flex alignItems={"center"} flexDirection="column">
                   {isAfter(new Date(), new Date("2021-01-16T00:00:00.000Z")) ? (
                     <>
-                      <Timer date="2023-01-16T22:00:00" />
+                      <Timer date="2023-02-13T23:59:59-05:00" />
                       <LinkButton
                         href="https://readyplayer3.devpost.com/"
                         onClick={() =>
@@ -383,7 +389,7 @@ const ReadyPlayer3Landing: ThirdwebNextPage = () => {
             <Sponsors sponsors={sponsors} hackathonName="ready-player-3" />
           </HomepageSection>
 
-          {/* Prices  */}
+          {/* Prizes  */}
           <HomepageSection mt={40}>
             <Flex flexDir="column">
               <Heading size="title.2xl" textAlign="center">
