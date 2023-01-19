@@ -77,8 +77,8 @@ const Event: FC<EventProps> = ({
             }}
           >
             <Flex align="center" gap={1} wrap="wrap">
-              <Icon as={FiCalendar} />
-              <Text>
+              <Icon as={FiCalendar} color="gray.300" />
+              <Text color="gray.300">
                 {new Date(timestamp).toLocaleDateString("en-US", {
                   weekday: "long",
                   year: "numeric",
@@ -88,8 +88,8 @@ const Event: FC<EventProps> = ({
               </Text>
             </Flex>
             <Flex align="center" gap={1}>
-              <Icon as={FiClock} />
-              <Text>
+              <Icon as={FiClock} color="gray.300" />
+              <Text color="gray.300">
                 {new Date(timestamp).toLocaleTimeString("en-US", {
                   hour: "numeric",
                   minute: "numeric",
@@ -99,8 +99,8 @@ const Event: FC<EventProps> = ({
             </Flex>
 
             <Flex align="center" gap={1}>
-              <Icon as={FaMapMarkerAlt} />
-              <Text>{location}</Text>
+              <Icon as={FaMapMarkerAlt} color="gray.300" />
+              <Text color="gray.300">{location}</Text>
             </Flex>
           </Flex>
         </Flex>

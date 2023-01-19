@@ -43,8 +43,10 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
       <Flex flexDir="column" p={4} align="center">
         <Heading>{title}</Heading>
         <Flex align="center" my={2}>
-          <Icon as={FiCalendar} />
-          <Text ml={2}>{date}</Text>
+          <Icon as={FiCalendar} color="gray.300" />
+          <Text ml={2} color="gray.300">
+            {date}
+          </Text>
         </Flex>
 
         <LinkButton
