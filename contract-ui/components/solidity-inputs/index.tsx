@@ -21,7 +21,6 @@ export const SolidityInput: React.FC<SolidityInputProps> = ({
     );
   }
 
-  // All ints and uints, except for arrays.
   if (
     solidityType.startsWith("uint") ||
     (solidityType.startsWith("int") && !solidityType.endsWith("[]"))
