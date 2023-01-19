@@ -6,7 +6,6 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import type { FC } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiCalendar, FiClock } from "react-icons/fi";
 import { Badge, Heading, LinkButton, Text } from "tw-components";
