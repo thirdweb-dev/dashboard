@@ -28,12 +28,9 @@ export const SolidityInput: React.FC<SolidityInputProps> = ({
     return <SolidityIntInput solidityType={solidityType} {...inputProps} />;
   } else if (solidityType === "address") {
     return <SolidityAddressInput {...inputProps} />;
-  } /* else if (solidityType === "string") {
+  } else if (solidityType === "string") {
     return <SolidityStringInput {...inputProps} />;
-  } */ else if (
-    solidityType.startsWith("byte") &&
-    !solidityType.endsWith("[]")
-  ) {
+  } else if (solidityType.startsWith("byte") && !solidityType.endsWith("[]")) {
     return <SolidityBytesInput solidityType={solidityType} {...inputProps} />;
   }
   return <Input {...inputProps} />;
