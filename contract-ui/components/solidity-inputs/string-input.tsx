@@ -7,7 +7,7 @@ import { FiUpload } from "react-icons/fi";
 import { Button } from "tw-components";
 
 export const SolidityStringInput: React.FC<SolidityInputProps> = ({
-  formObject: form,
+  formContext: form,
   ...inputProps
 }) => {
   const { onError } = useErrorHandler();

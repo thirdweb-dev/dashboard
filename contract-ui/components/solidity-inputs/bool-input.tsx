@@ -3,7 +3,7 @@ import { ButtonGroup, Flex } from "@chakra-ui/react";
 import { Button } from "tw-components";
 
 export const SolidityBoolInput: React.FC<SolidityInputProps> = ({
-  formObject: form,
+  formContext: form,
   ...inputProps
 }) => {
   const watchInput = form.watch(inputProps.name as string);

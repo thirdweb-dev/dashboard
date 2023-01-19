@@ -39,7 +39,7 @@ const maxValues: Record<string, BigNumber> = {
 };
 
 export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
-  formObject: form,
+  formContext: form,
   solidityType,
   ...inputProps
 }) => {

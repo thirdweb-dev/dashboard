@@ -4,7 +4,7 @@ import { formatBytes32String, keccak256 } from "ethers/lib/utils";
 import { Button } from "tw-components";
 
 export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
-  formObject: form,
+  formContext: form,
   solidityType,
   ...inputProps
 }) => {

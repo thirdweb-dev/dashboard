@@ -5,10 +5,10 @@ import { utils } from "ethers";
 import { Button } from "tw-components";
 
 export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
-  formObject: form,
+  formContext: form,
   ...inputProps
 }) => {
-  const ensQuery = useEns(form.watch(inputProps.name as any));
+  const ensQuery = useEns(form.watch(inputProps.name as string));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -39,10 +39,11 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
     <InputGroup>
       <Input
         {...inputProps}
-        value={form.watch(inputProps.name as any)}
+        value={form.watch(inputProps.name as string)}
+        maxLength={42}
         onChange={handleChange}
       />
-      {form.watch(inputProps.name as any).endsWith(".eth") && (
+      {form.watch(inputProps.name as string)?.endsWith(".eth") && (
         <InputRightElement width="96px">
           <Button
             size="xs"

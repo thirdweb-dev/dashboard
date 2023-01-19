@@ -73,7 +73,7 @@ const TransferTab: React.FC<TransferTabProps> = ({ contract, tokenId }) => {
               <FormLabel>To Address</FormLabel>
               <SolidityInput
                 solidityType="address"
-                formObject={form}
+                formContext={form}
                 placeholder={constants.AddressZero}
                 {...form.register("to")}
               />
