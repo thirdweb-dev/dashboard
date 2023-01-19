@@ -1,6 +1,5 @@
 import { Flex, Icon, Image } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import type { FC } from "react";
 import { FiCalendar } from "react-icons/fi";
 import { Badge, Heading, LinkButton, Text } from "tw-components";
 
@@ -12,7 +11,7 @@ interface FeaturedCardProps {
   link: string;
 }
 
-export const FeaturedCard: FC<FeaturedCardProps> = ({
+export const FeaturedCard: React.FC<FeaturedCardProps> = ({
   type,
   title,
   date,
@@ -41,7 +40,7 @@ export const FeaturedCard: FC<FeaturedCardProps> = ({
         {type}
       </Badge>
       <Image src={banner} alt={title} roundedTop="lg" />
-      <Flex flexDir="column" p={4}>
+      <Flex flexDir="column" p={4} align="center">
         <Heading>{title}</Heading>
         <Flex align="center" my={2}>
           <Icon as={FiCalendar} />
@@ -59,12 +58,13 @@ export const FeaturedCard: FC<FeaturedCardProps> = ({
           }
           w={60}
           mx="auto"
+          mt={4}
           fontSize="20px"
           color="black"
           flexShrink={0}
-          background="rgba(255,255,255,1)"
+          background="white"
           _hover={{
-            background: "rgba(255,255,255,0.9)!important",
+            background: "whiteAlpha.900",
           }}
         >
           Register

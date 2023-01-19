@@ -1,6 +1,7 @@
 import { Accordion, Box, DarkMode, Flex, Grid, Select } from "@chakra-ui/react";
 import Event from "components/events/Event";
 import { FeaturedCard } from "components/events/FeaturedCard";
+import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
@@ -111,42 +112,10 @@ const EventsPage: ThirdwebNextPage = () => {
           }),
         );
         break;
-      case "location":
+      default:
         setSortedEvents(
           allEvents.sort((a, b) => {
-            if (a.location < b.location) {
-              return -1;
-            }
-            if (a.location > b.location) {
-              return 1;
-            }
-            return 0;
-          }),
-        );
-        break;
-      case "type":
-        setSortedEvents(
-          allEvents.sort((a, b) => {
-            if (a.type < b.type) {
-              return -1;
-            }
-            if (a.type > b.type) {
-              return 1;
-            }
-            return 0;
-          }),
-        );
-        break;
-      case "title":
-        setSortedEvents(
-          allEvents.sort((a, b) => {
-            if (a.title < b.title) {
-              return -1;
-            }
-            if (a.title > b.title) {
-              return 1;
-            }
-            return 0;
+            return a[value] < b[value] ? -1 : 1;
           }),
         );
         break;
@@ -171,7 +140,13 @@ const EventsPage: ThirdwebNextPage = () => {
         <HomepageTopNav />
 
         <Box maxW="100vw" mt="-100px" overflowX="hidden" minH="100vh" pt={20}>
-          <HomepageSection id="header" topGradient>
+          <HomepageSection id="header">
+            <Aurora
+              pos={{ left: "50%", top: "50%" }}
+              size={{ width: "2000px", height: "2000px" }}
+              color={"hsl(280deg 78% 30% / 30%)"}
+            />
+
             <Flex
               flexDir="column"
               align="center"
@@ -214,6 +189,8 @@ const EventsPage: ThirdwebNextPage = () => {
                   | "title";
                 handleSort(value);
               }}
+              bg="transparent"
+              color="white"
             >
               <option value="date">Sort by: Date</option>
               <option value="location">Sort by: Location</option>

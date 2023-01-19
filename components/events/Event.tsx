@@ -39,6 +39,8 @@ const Event: FC<EventProps> = ({
         md: 10,
       }}
       my={4}
+      rounded="lg"
+      border={0}
     >
       <AccordionButton
         gap={6}
@@ -50,6 +52,7 @@ const Event: FC<EventProps> = ({
           base: "column",
           md: "row",
         }}
+        rounded="lg"
       >
         <Badge
           h="min"
@@ -64,8 +67,16 @@ const Event: FC<EventProps> = ({
             {title}
           </Heading>
 
-          <Flex justify="space-between" mt={2}>
-            <Flex align="center" gap={1}>
+          <Flex
+            justify="flex-start"
+            gap={4}
+            mt={2}
+            flexDir={{
+              base: "column",
+              md: "row",
+            }}
+          >
+            <Flex align="center" gap={1} wrap="wrap">
               <Icon as={FiCalendar} />
               <Text>
                 {new Date(timestamp).toLocaleDateString("en-US", {
@@ -94,6 +105,7 @@ const Event: FC<EventProps> = ({
           </Flex>
         </Flex>
       </AccordionButton>
+
       <AccordionPanel
         pb={4}
         display="flex"
@@ -102,7 +114,7 @@ const Event: FC<EventProps> = ({
         gap={4}
         ml={{
           base: 0,
-          md: 32,
+          md: "7.5rem",
         }}
         justifyContent="left"
       >
@@ -120,9 +132,9 @@ const Event: FC<EventProps> = ({
           fontSize="20px"
           color="black"
           flexShrink={0}
-          background="rgba(255,255,255,1)"
+          background="white"
           _hover={{
-            background: "rgba(255,255,255,0.9)!important",
+            background: "whiteAlpha.900",
           }}
         >
           Register
