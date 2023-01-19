@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Icon,
-  Link,
-  LinkOverlay,
-  SimpleGrid,
-  VStack,
-} from "@chakra-ui/react";
+import { Flex, Icon, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { FiExternalLink } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
@@ -25,13 +18,15 @@ export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
   winners,
 }) => {
   return (
-    <VStack
+    <Flex
       mb={{
         base: 40,
         md: 0,
       }}
+      mt={10}
+      flexDir="column"
     >
-      <Heading size="title.2xl" textAlign="center" paddingTop={10}>
+      <Heading size="title.2xl" textAlign="center">
         Hackathon Winners
       </Heading>
       <SimpleGrid
@@ -94,6 +89,6 @@ export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
           </LinkOverlay>
         ))}
       </SimpleGrid>
-    </VStack>
+    </Flex>
   );
 };
