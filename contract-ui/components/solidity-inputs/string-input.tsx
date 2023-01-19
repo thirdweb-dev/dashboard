@@ -1,34 +1,28 @@
-import {
-  Icon,
-  Input,
-  InputGroup,
-  InputProps,
-  InputRightElement,
-} from "@chakra-ui/react";
+import { SolidityInputProps } from ".";
+import { Icon, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { FileInput } from "components/shared/FileInput";
 import { useErrorHandler } from "contexts/error-handler";
-import { useFormContext } from "react-hook-form";
 import { FiUpload } from "react-icons/fi";
 import { Button } from "tw-components";
 
-export const SolidityStringInput: React.FC<InputProps> = ({
+export const SolidityStringInput: React.FC<SolidityInputProps> = ({
+  formObject: form,
   ...inputProps
 }) => {
-  const { setValue, watch } = useFormContext();
   const { onError } = useErrorHandler();
   const { mutate: upload, isLoading } = useStorageUpload();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setValue(inputProps.name as string, val);
+    form.setValue(inputProps.name as string, val);
   };
 
   const handleUpload = (file: File) => {
     upload(
       { data: [file] },
       {
-        onSuccess: ([uri]) => setValue(inputProps.name as string, uri),
+        onSuccess: ([uri]) => form.setValue(inputProps.name as string, uri),
         onError: (error) => onError(error, "Failed to upload file"),
       },
     );
@@ -37,7 +31,7 @@ export const SolidityStringInput: React.FC<InputProps> = ({
   return (
     <InputGroup>
       <Input
-        value={watch(inputProps.name as string)}
+        value={form.watch(inputProps.name as string)}
         disabled={isLoading}
         onChange={handleChange}
         {...inputProps}

@@ -1,8 +1,7 @@
-import { SolidityInputProps } from ".";
+import { SolidityInputWithTypeProps } from ".";
 import { Input } from "@chakra-ui/react";
 import { BigNumber, constants } from "ethers";
 import { useMemo } from "react";
-import { useFormContext } from "react-hook-form";
 
 // I tried getting these from constants but they were nowhere to be found, only some, so hardcoding the rest.
 const minValues: Record<string, BigNumber> = {
@@ -39,37 +38,36 @@ const maxValues: Record<string, BigNumber> = {
   uint: constants.MaxUint256,
 };
 
-export const SolidityIntInput: React.FC<SolidityInputProps> = ({
+export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
+  formObject: form,
   solidityType,
   ...inputProps
 }) => {
-  const { setValue, setError, clearErrors } = useFormContext();
-
   const maxValue = useMemo(() => maxValues[solidityType], [solidityType]);
   const minValue = useMemo(() => minValues[solidityType], [solidityType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (isNaN(parseInt(val))) {
-      setError(inputProps.name as string, {
+      form.setError(inputProps.name as string, {
         type: "pattern",
         message: "Input is not a valid number.",
       });
     } else if (BigNumber.from(val).gt(maxValue)) {
-      setError(inputProps.name as string, {
+      form.setError(inputProps.name as string, {
         type: "maxValue",
         message: `Value is higher than what ${solidityType} can store.`,
       });
     } else if (BigNumber.from(val).lt(minValue)) {
-      setError(inputProps.name as string, {
+      form.setError(inputProps.name as string, {
         type: "minValue",
         message: solidityType.startsWith("uint")
           ? `Value must be a positive number for uint types.`
           : `Value is lower than what ${solidityType} can store.}`,
       });
     } else {
-      setValue(inputProps.name as string, val.toString());
-      clearErrors(inputProps.name as string);
+      form.setValue(inputProps.name as string, val.toString());
+      form.clearErrors(inputProps.name as string);
     }
   };
 

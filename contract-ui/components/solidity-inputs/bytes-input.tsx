@@ -1,31 +1,21 @@
-import { SolidityInputProps } from ".";
+import { SolidityInputWithTypeProps } from ".";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { formatBytes32String, keccak256 } from "ethers/lib/utils";
-import { useFormContext } from "react-hook-form";
 import { Button } from "tw-components";
 
-export const SolidityBytesInput: React.FC<SolidityInputProps> = ({
+export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
+  formObject: form,
   solidityType,
   ...inputProps
 }) => {
-  const {
-    setValue,
-    setError,
-    clearErrors,
-    getFieldState,
-    formState,
-    watch,
-    getValues,
-  } = useFormContext();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setValue(inputProps.name as string, val);
+    form.setValue(inputProps.name as string, val);
     try {
       keccak256(val);
-      clearErrors(inputProps.name as string);
+      form.clearErrors(inputProps.name as string);
     } catch (error) {
-      setError(inputProps.name as string, {
+      form.setError(inputProps.name as string, {
         type: "pattern",
         message: `Value is not a valid ${solidityType}.`,
       });
@@ -33,14 +23,14 @@ export const SolidityBytesInput: React.FC<SolidityInputProps> = ({
   };
 
   const handleConversion = () => {
-    const val = getValues(inputProps.name as string);
+    const val = form.getValues(inputProps.name as string);
 
     try {
       const hash = formatBytes32String(val);
-      setValue(inputProps.name as string, hash);
-      clearErrors(inputProps.name as string);
+      form.setValue(inputProps.name as string, hash);
+      form.clearErrors(inputProps.name as string);
     } catch (error) {
-      setError(inputProps.name as string, {
+      form.setError(inputProps.name as string, {
         type: "pattern",
         message: `Error trying to convert to ${solidityType}.`,
       });
@@ -51,10 +41,11 @@ export const SolidityBytesInput: React.FC<SolidityInputProps> = ({
     <InputGroup>
       <Input
         {...inputProps}
-        value={watch(inputProps.name as string)}
+        value={form.watch(inputProps.name as string)}
         onChange={handleChange}
       />
-      {!!getFieldState(inputProps.name as string, formState).error && (
+      {!!form.getFieldState(inputProps.name as string, form.formState)
+        .error && (
         <InputRightElement width="96px">
           <Button
             size="xs"

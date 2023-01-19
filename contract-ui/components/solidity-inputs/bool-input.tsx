@@ -1,17 +1,18 @@
-import { ButtonGroup, Flex, InputProps } from "@chakra-ui/react";
-import { useFormContext } from "react-hook-form";
+import { SolidityInputProps } from ".";
+import { ButtonGroup, Flex } from "@chakra-ui/react";
 import { Button } from "tw-components";
 
-export const SolidityBoolInput: React.FC<InputProps> = ({ ...inputProps }) => {
-  const { setValue, watch } = useFormContext();
-
-  const watchInput = watch(inputProps.name as string);
+export const SolidityBoolInput: React.FC<SolidityInputProps> = ({
+  formObject: form,
+  ...inputProps
+}) => {
+  const watchInput = form.watch(inputProps.name as string);
 
   return (
     <Flex>
       <ButtonGroup isAttached>
         <Button
-          onClick={() => setValue(inputProps.name as string, "true")}
+          onClick={() => form.setValue(inputProps.name as string, "true")}
           bgColor={watchInput === "true" ? "bgBlack" : "transparent"}
           color={watchInput === "true" ? "bgWhite" : "grey.800"}
           borderWidth="2px"
@@ -25,7 +26,7 @@ export const SolidityBoolInput: React.FC<InputProps> = ({ ...inputProps }) => {
           True
         </Button>
         <Button
-          onClick={() => setValue(inputProps.name as string, "false")}
+          onClick={() => form.setValue(inputProps.name as string, "false")}
           bgColor={watchInput === "false" ? "bgBlack" : "transparent"}
           color={watchInput === "false" ? "bgWhite" : "grey.800"}
           borderWidth="2px"
