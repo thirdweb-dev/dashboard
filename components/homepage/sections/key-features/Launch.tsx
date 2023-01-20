@@ -1,6 +1,6 @@
 import { Aurora } from "../../Aurora";
 import { Layout } from "./Layout";
-import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
 import { Heading, Link } from "tw-components";
@@ -88,7 +88,7 @@ export const Launch = () => {
             <Heading size="label.xl" lineHeight="1.2">
               Publish your contracts with{" "}
               <Link
-                href="/deploy"
+                href="/release"
                 bgGradient="linear-gradient(65deg, #C45AB1 50%, #E9A8D9 80%)"
                 bgClip="text"
                 bgSize="150%"

@@ -135,7 +135,7 @@ export const Build = () => {
               >
                 Integrate web3 technology into your apps and games with our{" "}
                 <Link
-                  href="/explore"
+                  href="/sdk"
                   bgGradient="linear-gradient(to-l, #BFA3DA 65%, #743F9E 105%)"
                   bgClip="text"
                   bgSize="150%"
@@ -193,18 +193,15 @@ export const Build = () => {
                 size="label.xl"
                 textAlign={{ base: "center", md: "left" }}
               >
-                <Link
-                  href="/explore"
+                <Box
+                  as="span"
                   bgGradient="linear-gradient(to-l, #BFA3DA 65%, #743F9E 105%)"
                   bgClip="text"
                   bgSize="150%"
                   transition="background 0.5s ease"
-                  _hover={{
-                    backgroundPosition: "100%",
-                  }}
                 >
                   Fully managed infrastructure services
-                </Link>{" "}
+                </Box>{" "}
                 in a single toolkit to enable developers to build for scale
               </Heading>
               <Heading

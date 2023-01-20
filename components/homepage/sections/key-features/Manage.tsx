@@ -37,7 +37,7 @@ export const Manage = () => {
             <Heading size="label.xl" lineHeight="1.2" py={12}>
               Monitor and configure your contracts from your{" "}
               <Link
-                href="/deploy"
+                href="/dashboards"
                 bgGradient="linear-gradient(70deg, #4830A4 15%, #9786DF 50%)"
                 bgClip="text"
                 bgSize="150%"
@@ -70,16 +70,13 @@ export const Manage = () => {
           <Flex h="full" position="relative" flexDir="column" px={14}>
             <Heading size="label.xl" lineHeight="1.2" py={12}>
               Collaborate with your team and{" "}
-              <Link
-                href="/deploy"
+              <Box
+                as="span"
                 bgGradient="linear-gradient(70deg, #4830A4 0%, #9786DF 65%)"
                 bgClip="text"
-                bgSize="150%"
-                transition="background 0.5s ease"
-                _hover={{ backgroundPosition: "100%" }}
               >
                 manage permissions
-              </Link>
+              </Box>
             </Heading>
             <Image
               my="auto"
@@ -117,18 +114,13 @@ export const Manage = () => {
                 size="label.xl"
                 textAlign={{ base: "center", md: "left" }}
               >
-                <Link
-                  href="/explore"
+                <Box
+                  as="span"
                   bgGradient="linear-gradient(70deg, #4830A4 5%, #9786DF 65%)"
                   bgClip="text"
-                  bgSize="150%"
-                  transition="background 0.5s ease"
-                  _hover={{
-                    backgroundPosition: "100%",
-                  }}
                 >
                   Automatic pre-built reports
-                </Link>
+                </Box>
                 <br />
                 with on-chain analytics.
               </Heading>
