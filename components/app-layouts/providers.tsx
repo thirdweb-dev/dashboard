@@ -25,7 +25,6 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
       "walletLink",
       new GnosisSafeConnector({}),
     ];
-    console.log("magic");
     if (process.env.NEXT_PUBLIC_MAGIC_KEY !== undefined) {
       wc = wc.concat(
         new MagicConnector({
