@@ -51,7 +51,6 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
             size="xs"
             padding={3}
             paddingY="3.5"
-            colorScheme="purple"
             aria-label="Convert to bytes"
             onClick={handleConversion}
             ml={3}

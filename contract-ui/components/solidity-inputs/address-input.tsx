@@ -39,6 +39,7 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
     }
   };
 
+  // TODO: Add error onBlur if ENS
   return (
     <InputGroup>
       <Input
@@ -53,7 +54,6 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
             size="xs"
             padding={3.5}
             paddingY="3.5"
-            colorScheme="purple"
             aria-label="Convert to bytes"
             onClick={handleConversion}
             mr={2}

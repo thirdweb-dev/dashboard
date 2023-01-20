@@ -97,19 +97,32 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <FormLabel as={Text}>Default Value</FormLabel>
 
                     <InputGroup size="md">
-                      <SolidityInput
-                        solidityType={param.type}
-                        placeholder={
-                          isMobile
-                            ? "Pre-filled value."
-                            : "This value will be pre-filled in the deploy form."
-                        }
-                        {...form.register(
-                          `constructorParams.${param.name}.defaultValue`,
-                        )}
-                      />
+                      {paramTemplateValues.length > 0 ? (
+                        <Input
+                          placeholder={
+                            isMobile
+                              ? "Pre-filled value."
+                              : "This value will be pre-filled in the deploy form."
+                          }
+                          {...form.register(
+                            `constructorParams.${param.name}.defaultValue`,
+                          )}
+                        />
+                      ) : (
+                        <SolidityInput
+                          solidityType={param.type}
+                          placeholder={
+                            isMobile
+                              ? "Pre-filled value."
+                              : "This value will be pre-filled in the deploy form."
+                          }
+                          {...form.register(
+                            `constructorParams.${param.name}.defaultValue`,
+                          )}
+                        />
+                      )}
                       {paramTemplateValues.length > 0 && (
-                        <InputRightElement width="10.5rem" mr={2}>
+                        <InputRightElement width="10.5rem">
                           <Tooltip
                             bg="transparent"
                             boxShadow="none"
@@ -124,7 +137,19 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                             }
                           >
                             <Button
-                              variant="ghost"
+                              size="xs"
+                              padding="3"
+                              paddingY="3.5"
+                              onClick={() => {
+                                form.setValue(
+                                  `constructorParams.${param.name}.defaultValue`,
+                                  paramTemplateValues[0].value,
+                                );
+                              }}
+                            >
+                              {paramTemplateValues[0].value}
+                            </Button>
+                            {/*                             <Button
                               border="2px solid"
                               borderColor="inputBg"
                               h="1.75rem"
@@ -137,7 +162,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               }}
                             >
                               <Text>{paramTemplateValues[0].value}</Text>
-                            </Button>
+                            </Button> */}
                           </Tooltip>
                         </InputRightElement>
                       )}

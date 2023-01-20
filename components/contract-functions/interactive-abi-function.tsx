@@ -241,12 +241,15 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                   >
                     <Flex justify="space-between">
                       <FormLabel>{item.key}</FormLabel>
-                      <Text fontSize="12px">{item.type}</Text>
+                      <Text fontSize="12px">
+                        {item.type.replace("[]", "[ ]")}
+                      </Text>
                     </Flex>
                     <SolidityInput
                       solidityType={item.type}
                       {...form.register(`params.${index}.value`)}
                     />
+                    {/* // TODO: This is not rendering the error */}
                     <FormErrorMessage>
                       {
                         form.getFieldState(
