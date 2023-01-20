@@ -12,7 +12,9 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    form.setValue(inputProps.name as string, val);
+    form.setValue(inputProps.name as string, val, {
+      shouldDirty: true,
+    });
     if (utils.isAddress(val) === false && !val.endsWith(".eth")) {
       form.setError(inputProps.name as string, {
         type: "pattern",
@@ -25,7 +27,9 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
 
   const handleConversion = () => {
     if (ensQuery?.data?.address) {
-      form.setValue(inputProps.name as string, ensQuery.data.address);
+      form.setValue(inputProps.name as string, ensQuery.data.address, {
+        shouldDirty: true,
+      });
       form.clearErrors(inputProps.name as string);
     } else {
       form.setError(inputProps.name as string, {
@@ -39,9 +43,9 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
     <InputGroup>
       <Input
         {...inputProps}
+        onChange={handleChange}
         value={form.watch(inputProps.name as string)}
         maxLength={42}
-        onChange={handleChange}
       />
       {form.watch(inputProps.name as string)?.endsWith(".eth") && (
         <InputRightElement width="96px">

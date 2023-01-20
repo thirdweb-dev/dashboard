@@ -15,14 +15,15 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    form.setValue(inputProps.name as string, val);
+    form.setValue(inputProps.name as string, val, { shouldDirty: true });
   };
 
   const handleUpload = (file: File) => {
     upload(
       { data: [file] },
       {
-        onSuccess: ([uri]) => form.setValue(inputProps.name as string, uri),
+        onSuccess: ([uri]) =>
+          form.setValue(inputProps.name as string, uri, { shouldDirty: true }),
         onError: (error) => onError(error, "Failed to upload file"),
       },
     );

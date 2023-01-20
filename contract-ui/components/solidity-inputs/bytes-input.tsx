@@ -10,7 +10,7 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    form.setValue(inputProps.name as string, val);
+    form.setValue(inputProps.name as string, val, { shouldDirty: true });
     try {
       keccak256(val);
       form.clearErrors(inputProps.name as string);
@@ -27,7 +27,7 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
 
     try {
       const hash = formatBytes32String(val);
-      form.setValue(inputProps.name as string, hash);
+      form.setValue(inputProps.name as string, hash, { shouldDirty: true });
       form.clearErrors(inputProps.name as string);
     } catch (error) {
       form.setError(inputProps.name as string, {

@@ -66,7 +66,9 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
           : `Value is lower than what ${solidityType} can store.}`,
       });
     } else {
-      form.setValue(inputProps.name as string, val.toString());
+      form.setValue(inputProps.name as string, val.toString(), {
+        shouldDirty: true,
+      });
       form.clearErrors(inputProps.name as string);
     }
   };
