@@ -1,4 +1,5 @@
 import { SolidityAddressInput } from "./address-input";
+import { SolidityArrayInput } from "./array-input";
 import { SolidityBoolInput } from "./bool-input";
 import { SolidityBytesInput } from "./bytes-input";
 import { SolidityIntInput } from "./int-input";
@@ -32,7 +33,15 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
     );
   }
 
-  if (solidityType.endsWith("[]") || solidityType === "tuple") {
+  /* if (solidityType === "address[]") {
+    return (
+      <SolidityArrayInput
+        formContext={form}
+        solidityType={solidityType}
+        {...inputProps}
+      />
+    );
+  } else */ if (solidityType.endsWith("[]") || solidityType === "tuple") {
     return <SolidityRawInput formContext={form} {...inputProps} />;
   } else if (
     solidityType.startsWith("uint") ||
@@ -59,14 +68,6 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
     );
   } else if (solidityType === "bool") {
     return <SolidityBoolInput formContext={form} {...inputProps} />;
-  } /* else if (solidityType === "address[]") {
-    return (
-      <SolidityArrayInput
-        solidityType={solidityType}
-        formContext={form}
-        {...inputProps}
-      />
-    );
-  } */
+  }
   return <Input {...inputProps} />;
 };
