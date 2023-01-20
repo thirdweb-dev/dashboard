@@ -128,10 +128,6 @@ const employees = [
     name: "Siddharth Adusumelli",
     twitter: "shift4id",
   },
-  {
-    name: "Steven Bartlett",
-    twitter: "SteveBartlettSC",
-  },
   // {
   //   name: "Yan Giet",
   //   twitter: ""
