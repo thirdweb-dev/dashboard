@@ -9,7 +9,7 @@ export const Manage = () => {
   return (
     <Layout
       title="Manage"
-      titleGradient="linear-gradient(60deg, #C45AB1 -30%, #E9A8D9 65%)"
+      titleGradient="linear-gradient(70deg, #4830A4 -7%, #9786DF 70%"
       headline="Manage and interact with your web3 apps."
       description="Receive insights and interact with all your contracts that are deployed on thirdweb from a single place."
     >
