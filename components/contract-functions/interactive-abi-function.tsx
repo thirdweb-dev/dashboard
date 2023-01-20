@@ -6,7 +6,6 @@ import {
   FormControl,
   Icon,
   Input,
-  Textarea,
 } from "@chakra-ui/react";
 import { useContractWrite } from "@thirdweb-dev/react";
 import { AbiFunction, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
@@ -228,7 +227,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
           {fields.length > 0 && (
             <>
               <Divider mb="8px" />
-              {fields.map((item) => {
+              {fields.map((item, index) => {
                 return (
                   <FormControl
                     key={item.id}
@@ -244,27 +243,19 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                       <FormLabel>{item.key}</FormLabel>
                       <Text fontSize="12px">{item.type}</Text>
                     </Flex>
-                    {item.type.includes("tuple") || item.type.includes("[]") ? (
-                      <Textarea
-                        defaultValue={form.getValues(
-                          `params.${item.key as any}.value`,
-                        )}
-                        {...form.register(`params.${item.key as any}.value`)}
-                      />
-                    ) : (
-                      <SolidityInput
-                        solidityType={item.type}
-                        {...form.register(`params.${item.key as any}.value`)}
-                      />
-                    )}
+                    <SolidityInput
+                      solidityType={item.type}
+                      {...form.register(`params.${index}.value`)}
+                    />
                     <FormErrorMessage>
                       {
                         form.getFieldState(
-                          `params.${item.key as any}.value`,
+                          `params.${index}.value`,
                           form.formState,
                         ).error?.message
                       }
                     </FormErrorMessage>
+                    {/* // TODO: This should live on the SolidityRawInput component */}
                     {(item.type.includes("tuple") ||
                       item.type.includes("[]")) && (
                       <FormHelperText>

@@ -37,6 +37,7 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
         onChange={handleChange}
         {...inputProps}
       />
+      {/* // TODO: This is not working because the name is not being passed (index is being passed instead) */}
       {(inputProps.name as string).toLowerCase().includes("uri") && (
         <InputRightElement width="96px">
           <FileInput setValue={handleUpload}>

@@ -2,6 +2,7 @@ import { SolidityAddressInput } from "./address-input";
 import { SolidityBoolInput } from "./bool-input";
 import { SolidityBytesInput } from "./bytes-input";
 import { SolidityIntInput } from "./int-input";
+import { SolidityRawInput } from "./raw-input";
 import { SolidityStringInput } from "./string-input";
 import { Input, InputProps } from "@chakra-ui/react";
 import { UseFormReturn, useFormContext } from "react-hook-form";
@@ -31,9 +32,11 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
     );
   }
 
-  if (
+  if (solidityType.endsWith("[]") || solidityType === "tuple") {
+    return <SolidityRawInput formContext={form} {...inputProps} />;
+  } else if (
     solidityType.startsWith("uint") ||
-    (solidityType.startsWith("int") && !solidityType.endsWith("[]"))
+    solidityType.startsWith("int")
   ) {
     return (
       <SolidityIntInput
@@ -46,7 +49,7 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
     return <SolidityAddressInput formContext={form} {...inputProps} />;
   } else if (solidityType === "string") {
     return <SolidityStringInput formContext={form} {...inputProps} />;
-  } else if (solidityType.startsWith("byte") && !solidityType.endsWith("[]")) {
+  } else if (solidityType.startsWith("byte")) {
     return (
       <SolidityBytesInput
         formContext={form}
@@ -56,6 +59,14 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
     );
   } else if (solidityType === "bool") {
     return <SolidityBoolInput formContext={form} {...inputProps} />;
-  }
+  } /* else if (solidityType === "address[]") {
+    return (
+      <SolidityArrayInput
+        solidityType={solidityType}
+        formContext={form}
+        {...inputProps}
+      />
+    );
+  } */
   return <Input {...inputProps} />;
 };
