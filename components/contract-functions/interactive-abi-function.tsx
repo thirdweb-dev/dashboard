@@ -234,7 +234,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                     mb="8px"
                     isInvalid={
                       !!form.getFieldState(
-                        `params.${item.key as any}.value`,
+                        `params.${index}.value`,
                         form.formState,
                       ).error
                     }
