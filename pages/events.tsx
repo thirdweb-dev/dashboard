@@ -199,7 +199,7 @@ const EventsPage: ThirdwebNextPage = () => {
             </Select>
 
             <Accordion
-              mt={20}
+              mt={10}
               flexDir="column"
               gap={12}
               allowMultiple

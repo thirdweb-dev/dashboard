@@ -62,6 +62,7 @@ export const DevRelEvent: React.FC<EventProps> = ({
           alignSelf={{
             base: "flex-start",
           }}
+          w={32}
         >
           {type}
         </Badge>
@@ -117,7 +118,7 @@ export const DevRelEvent: React.FC<EventProps> = ({
         gap={4}
         ml={{
           base: 0,
-          md: "7.5rem",
+          md: "8.5rem",
         }}
         justifyContent="left"
       >

@@ -27,6 +27,7 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
       bg="whiteAlpha.100"
       rounded="lg"
       maxW="500px"
+      pb={2}
     >
       <Badge
         pos="absolute"
@@ -60,7 +61,7 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
           }
           w={60}
           mx="auto"
-          mt={4}
+          my={4}
           fontSize="20px"
           color="black"
           flexShrink={0}
