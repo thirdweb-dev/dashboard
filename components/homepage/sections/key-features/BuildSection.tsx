@@ -1,13 +1,13 @@
 import { Aurora } from "../../Aurora";
-import { Layout } from "./Layout";
+import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
 import { Heading, Link } from "tw-components";
 
-export const Build = () => {
+export const BuildSection = () => {
   return (
-    <Layout
+    <KeyFeatureLayout
       title="Build"
       titleGradient="linear-gradient(to-l, #BFA3DA 55%, #743F9E 115%)"
       headline="Accelerate your web3 development."
@@ -22,7 +22,7 @@ export const Build = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "200%", height: "150%" }}
             pos={{ top: "80%", left: "0%" }}
             color="#380D3F"
@@ -64,7 +64,7 @@ export const Build = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "300%", height: "150%" }}
             pos={{ top: "-20%", left: "100%" }}
             color="#380D3F"
@@ -113,7 +113,7 @@ export const Build = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "300%", height: "150%" }}
             pos={{ top: "70%", left: "150%" }}
             color="#380D3F"
@@ -173,7 +173,7 @@ export const Build = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "150%", height: "150%" }}
             pos={{ top: "100%", left: "30%" }}
             color="#380D3F"
@@ -223,6 +223,6 @@ export const Build = () => {
           </SimpleGrid>
         </GridItem>
       </SimpleGrid>
-    </Layout>
+    </KeyFeatureLayout>
   );
 };

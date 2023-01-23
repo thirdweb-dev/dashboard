@@ -1,18 +1,13 @@
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 
 interface AuroraProps {
-  hasBackground?: boolean;
+  zIndex?: BoxProps["zIndex"];
   size: { width: string; height: string };
   pos: { top: string; left: string };
   color: string;
 }
 
-export const Aurora: React.FC<AuroraProps> = ({
-  hasBackground,
-  color,
-  pos,
-  size,
-}) => {
+export const Aurora: React.FC<AuroraProps> = ({ zIndex, color, pos, size }) => {
   return (
     <Box
       pointerEvents={"none"}
@@ -23,7 +18,7 @@ export const Aurora: React.FC<AuroraProps> = ({
       left={pos.left}
       transform="translate(-50%, -50%)"
       backgroundImage={`radial-gradient(ellipse at center, ${color}, transparent 60%)`}
-      {...(!hasBackground && { zIndex: -1 })}
+      zIndex={zIndex || -1}
     ></Box>
   );
 };

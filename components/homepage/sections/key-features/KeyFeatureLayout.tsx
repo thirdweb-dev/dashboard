@@ -1,15 +1,16 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import { Heading, HeadingProps } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 
 type LayoutProps = {
   title: string;
   titleGradient: HeadingProps["bgGradient"];
   headline: string;
   description: string;
-  children: React.ReactNode;
 };
-export const Layout: React.FC<LayoutProps> = ({
+
+export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
   title,
   titleGradient,
   headline,

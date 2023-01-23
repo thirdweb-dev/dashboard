@@ -1,13 +1,13 @@
 import { Aurora } from "../../Aurora";
-import { Layout } from "./Layout";
+import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
 import { Heading, Link } from "tw-components";
 
-export const Launch = () => {
+export const LaunchSection = () => {
   return (
-    <Layout
+    <KeyFeatureLayout
       title="Launch"
       titleGradient="linear-gradient(60deg, #C45AB1 -30%, #E9A8D9 65%)"
       headline="Simplified workflow to launch contracts on-chain."
@@ -21,7 +21,7 @@ export const Launch = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "200%", height: "300%" }}
             pos={{ top: "-50%", left: "50%" }}
             color="#E8A7D960"
@@ -71,7 +71,7 @@ export const Launch = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "200%", height: "300%" }}
             pos={{ top: "-50%", left: "50%" }}
             color="#E8A7D960"
@@ -115,6 +115,6 @@ export const Launch = () => {
           </Flex>
         </GridItem>
       </SimpleGrid>
-    </Layout>
+    </KeyFeatureLayout>
   );
 };

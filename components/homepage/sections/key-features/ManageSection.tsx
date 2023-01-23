@@ -1,13 +1,13 @@
 import { Aurora } from "../../Aurora";
-import { Layout } from "./Layout";
+import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
 import { Heading, Link } from "tw-components";
 
-export const Manage = () => {
+export const ManageSection = () => {
   return (
-    <Layout
+    <KeyFeatureLayout
       title="Manage"
       titleGradient="linear-gradient(70deg, #4830A4 -7%, #9786DF 70%"
       headline="Manage and interact with your web3 apps."
@@ -22,7 +22,7 @@ export const Manage = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "150%", height: "150%" }}
             pos={{ top: "50%", left: "50%" }}
             color="#9786DF60"
@@ -62,7 +62,7 @@ export const Manage = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "300%", height: "200%" }}
             pos={{ top: "80%", left: "100%" }}
             color="#9786DF60"
@@ -78,12 +78,13 @@ export const Manage = () => {
                 manage permissions
               </Box>
             </Heading>
-            <Image
-              my="auto"
-              w="full"
-              src={require("/public/assets/landingpage/manage-permissions.png")}
-              alt=""
-            />
+            <Box py={6} my="auto">
+              <Image
+                w="full"
+                src={require("/public/assets/landingpage/manage-permissions.png")}
+                alt=""
+              />
+            </Box>
           </Flex>
         </GridItem>
         <GridItem
@@ -94,7 +95,7 @@ export const Manage = () => {
           overflow="hidden"
         >
           <Aurora
-            hasBackground
+            zIndex="auto"
             size={{ width: "100%", height: "200%" }}
             pos={{ top: "50%", left: "50%" }}
             color="#9786DF60"
@@ -135,6 +136,6 @@ export const Manage = () => {
           </SimpleGrid>
         </GridItem>
       </SimpleGrid>
-    </Layout>
+    </KeyFeatureLayout>
   );
 };
