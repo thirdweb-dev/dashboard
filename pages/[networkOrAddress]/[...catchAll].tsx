@@ -109,6 +109,17 @@ const CatchAllPage: ThirdwebNextPage = (props: PossiblePageProps) => {
   const [shouldContinue, setShouldContinue] = useState(false);
   const router = useRouter();
 
+  // Note:
+  // currently this is redundant because we are doing SSR not SSG with fallback
+  // but probably will switch back to SSG, so keeping this around
+  // if (router.isFallback) {
+  //   return (
+  //     <Flex h="100%" justifyContent="center" alignItems="center">
+  //       <Spinner size="xl" />
+  //     </Flex>
+  //   );
+  // }
+
   if (props.pageType === "contract") {
     const isUnknownNetwork = props.chainId === -1;
     if (isUnknownNetwork && !shouldContinue) {
