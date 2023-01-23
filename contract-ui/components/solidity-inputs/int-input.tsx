@@ -48,17 +48,23 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    if (isNaN(parseInt(val))) {
+    if (val.includes(".") || val.includes(",")) {
+      form.setError(inputProps.name as string, {
+        type: "pattern",
+        message:
+          "Can't use decimals, you need to convert your input to Wei first.",
+      });
+    } else if (!val.match(new RegExp(`^-?\\d+$`))) {
       form.setError(inputProps.name as string, {
         type: "pattern",
         message: "Input is not a valid number.",
       });
-    } else if (BigNumber.from(val).gt(maxValue)) {
+    } else if (BigNumber.from(parseInt(val) || 0).gt(maxValue)) {
       form.setError(inputProps.name as string, {
         type: "maxValue",
         message: `Value is higher than what ${solidityType} can store.`,
       });
-    } else if (BigNumber.from(val).lt(minValue)) {
+    } else if (BigNumber.from(parseInt(val) || 0).lt(minValue)) {
       form.setError(inputProps.name as string, {
         type: "minValue",
         message: solidityType.startsWith("uint")
@@ -75,12 +81,9 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
 
   return (
     <Input
-      pattern="^[0-9]*$"
       max={maxValue.toString()}
       min={minValue.toString()}
-      step={1}
       {...inputProps}
-      type="number"
       onChange={handleChange}
     />
   );
