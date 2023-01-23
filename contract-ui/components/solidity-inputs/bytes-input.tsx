@@ -1,7 +1,36 @@
 import { SolidityInputWithTypeProps } from ".";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { formatBytes32String, keccak256 } from "ethers/lib/utils";
-import { Button } from "tw-components";
+import { Input } from "@chakra-ui/react";
+import { isBytesLike } from "ethers/lib/utils";
+
+const isValidBytes = (value: string, solidityType: string) => {
+  const maxLength =
+    solidityType === "byte"
+      ? 1
+      : solidityType === "bytes"
+      ? 32
+      : parseInt(solidityType.replace("bytes", ""));
+
+  if (value === "0x") {
+    return true;
+  }
+
+  if (value.startsWith("[") && value.endsWith("]")) {
+    try {
+      const arrayify = JSON.parse(value);
+      return arrayify.length === maxLength;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  if (value.length !== maxLength) {
+    return false;
+  }
+
+  if (isBytesLike(value)) {
+    return true;
+  }
+};
 
 export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
   formContext: form,
@@ -11,56 +40,18 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
   const inputName = inputProps.name as string;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    form.setValue(inputName, val, { shouldDirty: true });
-    try {
-      keccak256(val);
-      form.clearErrors(inputName);
-    } catch (error) {
+    const { value } = e.target;
+    form.setValue(inputName, value, { shouldDirty: true });
+
+    if (!isValidBytes(value, solidityType)) {
       form.setError(inputName, {
         type: "pattern",
         message: `Value is not a valid ${solidityType}.`,
       });
-    }
-  };
-
-  const handleConversion = () => {
-    const val = form.getValues(inputName);
-
-    try {
-      const hash = formatBytes32String(val);
-      form.setValue(inputName, hash, { shouldDirty: true });
+    } else {
       form.clearErrors(inputName);
-    } catch (error) {
-      form.setError(inputName, {
-        type: "pattern",
-        message: `Error trying to convert to ${solidityType}.`,
-      });
     }
   };
 
-  return (
-    <InputGroup>
-      <Input
-        {...inputProps}
-        value={form.watch(inputName)}
-        onChange={handleChange}
-      />
-      {!!form.getFieldState(inputName, form.formState).error && (
-        <InputRightElement width="96px">
-          <Button
-            size="xs"
-            padding={3}
-            paddingY="3.5"
-            aria-label="Convert to bytes"
-            onClick={handleConversion}
-            ml={3}
-            bgColor="gray.700"
-          >
-            Convert
-          </Button>
-        </InputRightElement>
-      )}
-    </InputGroup>
-  );
+  return <Input {...inputProps} onChange={handleChange} />;
 };
