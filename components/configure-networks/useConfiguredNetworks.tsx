@@ -76,7 +76,6 @@ export function useConfiguredNetworksRecord(): ConfiguredNetworkRecord {
   const configuredNetworks = useConfiguredNetworks();
 
   const configuredNetworksRecord: ConfiguredNetworkRecord = useMemo(() => {
-    // use for loop
     const record: ConfiguredNetworkRecord = {};
     configuredNetworks.forEach((network) => {
       record[network.chainId] = network;

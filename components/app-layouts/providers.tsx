@@ -51,10 +51,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      chainRpc={{
-        ...EVM_RPC_URL_MAP,
-        923018: "https://fncy-testnet-seed.fncy.world",
-      }}
+      chainRpc={EVM_RPC_URL_MAP}
       desiredChainId={activeNetwork?.chainId}
       sdkOptions={{
         chainInfos: activeNetwork
