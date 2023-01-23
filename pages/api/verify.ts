@@ -6,6 +6,7 @@ import {
   fetchSourceFilesFromMetadata,
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk/evm";
+import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { ethers, utils } from "ethers";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -120,7 +121,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         `ChainId ${chainId} is not supported for etherscan verification`,
       );
     }
-    const sdk = getEVMThirdwebSDK(chainId as SUPPORTED_CHAIN_ID);
+
+    const sdk = getEVMThirdwebSDK(
+      chainId,
+      EVM_RPC_URL_MAP[chainId as SUPPORTED_CHAIN_ID] || "",
+    );
     const compilerMetadata = await sdk
       .getPublisher()
       .fetchCompilerMetadataFromAddress(contractAddress);
@@ -336,7 +341,10 @@ async function fetchDeployBytecodeFromReleaseMetadata(
     provider,
   );
   if (compialierMetaUri) {
-    const pubmeta = await getEVMThirdwebSDK(ChainId.Polygon)
+    const pubmeta = await getEVMThirdwebSDK(
+      ChainId.Polygon,
+      EVM_RPC_URL_MAP[ChainId.Polygon],
+    )
       .getPublisher()
       .resolvePublishMetadataFromCompilerMetadata(compialierMetaUri);
     return pubmeta.length > 0

@@ -4,6 +4,7 @@ import {
   ensQuery,
   fetchPublishedContracts,
 } from "components/contract-components/hooks";
+import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { ENSResolveResult } from "lib/ens";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -42,7 +43,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // if we don't have a specific contractName we have to actually fetch all the contracts for the address
   if (!contractName) {
-    const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
+    const polygonSdk = getEVMThirdwebSDK(
+      ChainId.Polygon,
+      EVM_RPC_URL_MAP[ChainId.Polygon],
+    );
     const publishedContracts = await fetchPublishedContracts(
       polygonSdk,
       new QueryClient(),

@@ -64,6 +64,10 @@ export const EVM_RPC_URL_MAP: Record<SUPPORTED_CHAIN_ID, string> = addAPIKey({
     process.env.SSR_RPC_BINANCE_TESTNET ||
     process.env.NEXT_PUBLIC_RPC_BINANCE_TESTNET ||
     `https://binance-testnet.${RPC_ENV}.thirdweb.com`,
+  // temporary data for creating a build
+  // it has to be an actual URL - otherwise build will fail
+  [ChainId.Hardhat]: `https://goerli.${RPC_ENV}.thirdweb.com`,
+  [ChainId.Localhost]: `https://goerli.${RPC_ENV}.thirdweb.com`,
 });
 
 const SOLANA_RPC_URL_MAP: Record<DashboardSolanaNetwork, string> = {

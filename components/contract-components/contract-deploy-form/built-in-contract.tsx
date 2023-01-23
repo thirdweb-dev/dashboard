@@ -35,6 +35,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
+import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -56,6 +57,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { IoMdSettings } from "react-icons/io";
+import invariant from "tiny-invariant";
 import {
   Button,
   FormErrorMessage,
@@ -66,10 +68,7 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import {
-  NetworkToBlockTimeMap,
-  SupportedChainIdToNetworkMap,
-} from "utils/network";
+import { NetworkToBlockTimeMap } from "utils/network";
 import { z } from "zod";
 
 function useDeployForm<TContractType extends PrebuiltContractType>(
@@ -108,8 +107,8 @@ function stripNullishKeys<T extends object>(obj: T) {
 interface BuiltinContractFormProps {
   contractType: ContractType;
   contractVersion: string;
-  selectedChain: SUPPORTED_CHAIN_ID | undefined;
-  onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
+  selectedChain: number | undefined;
+  onChainSelect: (chainId: number) => void;
 }
 
 const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
@@ -122,6 +121,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   const [showAddNetworkModal, setShowAddNetworkModal] = useState(false);
   const contract =
     PREBUILT_CONTRACTS_MAP[contractType as keyof typeof PREBUILT_CONTRACTS_MAP];
+  const networkInfo = useResolvedNetworkInfo(selectedChain || -1);
 
   const form = useDeployForm(contract.schema.deploy);
 
@@ -214,9 +214,17 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
       : true;
   }
 
-  const seconds = selectedChain && NetworkToBlockTimeMap[selectedChain];
+  // for non-supported chains - just say "few"
+  const blockTimeInSeconds =
+    selectedChain && selectedChain in NetworkToBlockTimeMap
+      ? NetworkToBlockTimeMap[selectedChain as SUPPORTED_CHAIN_ID]
+      : "few";
 
-  const deploy = useDeploy(contract.contractType, contractVersion);
+  const deploy = useDeploy(
+    selectedChain,
+    contract.contractType,
+    contractVersion,
+  );
 
   const { onSuccess, onError } = useTxNotifications(
     "Successfully deployed contract",
@@ -266,9 +274,11 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 contractAddress,
               });
               onSuccess();
-              router.replace(
-                `/${SupportedChainIdToNetworkMap[selectedChain]}/${contractAddress}`,
+              invariant(
+                networkInfo,
+                `Could not resolve network for ${selectedChain}`,
               );
+              router.replace(`/${networkInfo?.shortName}/${contractAddress}`);
             },
             onError: (err) => {
               trackEvent({
@@ -708,7 +718,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                   <FormHelperText>
                     The number of blocks after a proposal is created that voting
                     on the proposal starts. A block is a series of blockchain
-                    transactions and occurs every ~{seconds} seconds.
+                    transactions and occurs every ~{blockTimeInSeconds} seconds.
                   </FormHelperText>
                   <FormErrorMessage>
                     {
@@ -745,7 +755,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                   <FormHelperText>
                     The number of blocks that voters have to vote on any new
                     proposal. A block is a series of blockchain transactions and
-                    occurs every ~{seconds} seconds.
+                    occurs every ~{blockTimeInSeconds} seconds.
                   </FormHelperText>
                   <FormErrorMessage>
                     {
@@ -830,11 +840,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                   ? selectedChain
                   : -1
               }
-              onChange={(e) =>
-                onChainSelect(
-                  parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
-                )
-              }
+              onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
               disabledChainIds={DisabledChainsMap[contractType as ContractType]}
               disabledChainIdText="Coming Soon"
             />

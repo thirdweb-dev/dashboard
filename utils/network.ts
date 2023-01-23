@@ -1,5 +1,6 @@
 /* eslint-disable line-comment-position */
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
+import { ConfiguredNetworkRecord } from "components/configure-networks/useConfiguredNetworks";
 
 export const SUPPORTED_CHAIN_IDS_V1: SUPPORTED_CHAIN_ID[] = [
   ChainId.Mainnet,
@@ -25,8 +26,9 @@ export const SupportedChainIdToNetworkMap: Record<SUPPORTED_CHAIN_ID, string> =
     [ChainId.ArbitrumGoerli]: "arbitrum-goerli",
     [ChainId.BinanceSmartChainMainnet]: "binance",
     [ChainId.BinanceSmartChainTestnet]: "binance-testnet",
+    [ChainId.Localhost]: "localhost",
+    [ChainId.Hardhat]: "hardhat",
   } as const;
-
 export const chainIdToHumanReadable: Record<
   Exclude<SUPPORTED_CHAIN_ID, 1337 | 31337>,
   string
@@ -62,7 +64,7 @@ export const SupportedNetworkToChainIdMap = {
   "optimism-goerli": ChainId.OptimismGoerli, // 420
   arbitrum: ChainId.Arbitrum, // 42161
 
-  "arbitrum-goerli": ChainId.ArbitrumGoerli, // 4216113
+  "arbitrum-goerli": ChainId.ArbitrumGoerli, // 421613
   binance: ChainId.BinanceSmartChainMainnet,
   "binance-testnet": ChainId.BinanceSmartChainTestnet,
 } as const;
@@ -82,7 +84,11 @@ export const NetworkToBlockTimeMap: Record<SUPPORTED_CHAIN_ID, string> = {
   [ChainId.ArbitrumGoerli]: "15",
   [ChainId.BinanceSmartChainMainnet]: "3",
   [ChainId.BinanceSmartChainTestnet]: "3",
+  // Temporary placeholders for now
+  [ChainId.Localhost]: "1",
+  [ChainId.Hardhat]: "1",
 };
+
 export const SupportedSolanaNetworkToUrlMap = {
   "mainnet-beta": "solana",
   devnet: "sol-devnet",
@@ -102,14 +108,15 @@ export type SupportedNetwork =
 
 export type DashboardChainIdMode = "evm" | "solana" | "both";
 
-export function getChainIdFromNetworkPath(
-  network?: string,
-): SUPPORTED_CHAIN_ID | undefined {
-  if (isSupportedEVMNetwork(network)) {
-    return SupportedNetworkToChainIdMap[network];
-  }
-  return undefined;
-}
+// unused
+// export function getChainIdFromNetworkPath(
+//   network?: string,
+// ): SUPPORTED_CHAIN_ID | undefined {
+//   if (isSupportedEVMNetwork(network)) {
+//     return SupportedNetworkToChainIdMap[network];
+//   }
+//   return undefined;
+// }
 
 export function getSolNetworkFromNetworkPath(
   network?: string,
@@ -147,12 +154,82 @@ export function isSupportedNetwork(
   return isSupportedEVMNetwork(network) || isSupportedSOLNetwork(network);
 }
 
-export function getNetworkFromChainId(
-  chainId: SUPPORTED_CHAIN_ID | DashboardSolanaNetwork,
+/**
+ * get the shortName of network (slug) to show in the URL for given chain Id
+ */
+export function getNetworkSlug(
+  chainId: number | DashboardSolanaNetwork,
+  configuredNetworkRecord: ConfiguredNetworkRecord,
 ) {
+  // SOL
   if (isChainIdSolanaNetwork(chainId)) {
     return SupportedSolanaNetworkToUrlMap[chainId];
-  } else {
-    return SupportedChainIdToNetworkMap[chainId] || "";
   }
+
+  // EVM
+  else {
+    // supported chains
+    if (chainId in SupportedChainIdToNetworkMap) {
+      const oldName =
+        SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID];
+
+      const shortName =
+        supportedNetworkNameToShortNameRecord[
+          oldName as keyof typeof supportedNetworkNameToShortNameRecord
+        ];
+
+      return shortName;
+    }
+
+    // configured chains
+    if (chainId in configuredNetworkRecord) {
+      return configuredNetworkRecord[chainId].shortName;
+    }
+  }
+
+  // if can not find a network slug - return the chainId
+  return chainId;
 }
+
+export const supportedNetworkNameToShortNameRecord = {
+  ethereum: "eth",
+  goerli: "gor",
+  polygon: "matic",
+  mumbai: "maticmum",
+  fantom: "ftm",
+  "fantom-testnet": "tftm",
+  avalanche: "avax",
+  "avalanche-fuji": "fuji",
+  optimism: "oeth",
+  "optimism-goerli": "ogor",
+  arbitrum: "arb1",
+  "arbitrum-goerli": "arb-goerli",
+  binance: "bnb",
+  "binance-testnet": "bnbt",
+};
+
+export const shortNameToSupportedNetworkRecord = {
+  eth: "ethereum",
+  gor: "goerli",
+  matic: "polygon",
+  maticmum: "mumbai",
+  ftm: "fantom",
+  tftm: "fantom-testnet",
+  avax: "avalanche",
+  fuji: "avalanche-fuji",
+  oeth: "optimism",
+  ogor: "optimism-goerli",
+  arb1: "arbitrum",
+  "arb-goerli": "arbitrum-goerli",
+  bnb: "binance",
+  bnbt: "binance-testnet",
+};
+
+/**
+ * return true if given network "shortName" is a default supported network
+ * ex: 'eth' is a supported network "ethereum"
+ * ex: 'matic' is a supported network "polygon"
+ */
+export const isShortNameSupportedNetwork = (shortName: string) => {
+  return shortName in shortNameToSupportedNetworkRecord;
+};

@@ -1,8 +1,11 @@
+import { ConfigureNetworkForm } from "./ConfigureNetworkForm";
 import { ConfiguredNetworkList } from "./ConfiguredNetworkList";
-import { NetworkConfigForm } from "./NetworkConfigForm";
 import { SearchNetworks } from "./SearchNetworks";
 import { ConfiguredNetworkInfo } from "./types";
-import { useConfiguredNetworks } from "./utils";
+import {
+  useConfiguredNetworks,
+  useSetConfiguredNetworks,
+} from "./useConfiguredNetworks";
 import { Box, Divider, Grid, useToast } from "@chakra-ui/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { useState } from "react";
@@ -17,7 +20,8 @@ interface ConfigureNetworksProps {
 }
 
 export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
-  const [configuredNetworks, setConfiguredNetworks] = useConfiguredNetworks();
+  const configuredNetworks = useConfiguredNetworks();
+  const setConfiguredNetworks = useSetConfiguredNetworks();
   const [searchResultsOpen, setSearchResultsOpen] = useState(false);
 
   const [networkInfo, setNetworkInfo] = useState<
@@ -75,7 +79,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
 
           <Divider my={6} />
 
-          <NetworkConfigForm
+          <ConfigureNetworkForm
             configuredNetworks={configuredNetworks}
             values={networkInfo}
             isSearchResultsOpen={searchResultsOpen}

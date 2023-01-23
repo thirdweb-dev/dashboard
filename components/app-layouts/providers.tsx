@@ -1,10 +1,10 @@
 import { SolanaProvider } from "./solana-provider";
-import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
+import { useActiveNetworkInfo } from "@3rdweb-sdk/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { GnosisSafeConnector } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
 import { MagicConnector } from "@thirdweb-dev/react/evm/connectors/magic";
-import { EVM_RPC_URL_MAP, getEVMRPC } from "constants/rpc";
+import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { StorageSingleton } from "lib/sdk";
 import { useMemo } from "react";
@@ -15,8 +15,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
 }) => {
   useNativeColorMode();
   const queryClient = useQueryClient();
-
-  const activeChainId = useDashboardEVMChainId();
+  const activeNetwork = useActiveNetworkInfo();
 
   const walletConnectors = useMemo(() => {
     let wc: WalletConnector[] = [
@@ -31,9 +30,9 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
           options: {
             apiKey: process.env.NEXT_PUBLIC_MAGIC_KEY,
             rpcUrls: EVM_RPC_URL_MAP,
-            network: activeChainId && {
-              rpcUrl: getEVMRPC(activeChainId),
-              chainId: activeChainId,
+            network: activeNetwork && {
+              rpcUrl: activeNetwork.rpcUrl,
+              chainId: activeNetwork.chainId,
             },
             doNotAutoConnect: true,
           },
@@ -41,7 +40,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
       );
     }
     return wc;
-  }, [activeChainId]);
+  }, [activeNetwork]);
 
   return (
     <ThirdwebProvider
@@ -52,16 +51,24 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      chainRpc={EVM_RPC_URL_MAP}
-      desiredChainId={activeChainId}
+      chainRpc={{
+        ...EVM_RPC_URL_MAP,
+        923018: "https://fncy-testnet-seed.fncy.world",
+      }}
+      desiredChainId={activeNetwork?.chainId}
       sdkOptions={{
-        gasSettings: { maxPriceInGwei: 650 },
-        readonlySettings: activeChainId
+        chainInfos: activeNetwork
           ? {
-              chainId: activeChainId,
-              rpcUrl: getEVMRPC(activeChainId),
+              [activeNetwork?.chainId]: {
+                rpc: activeNetwork?.rpcUrl,
+              },
             }
-          : undefined,
+          : {},
+        gasSettings: { maxPriceInGwei: 650 },
+        readonlySettings: activeNetwork && {
+          chainId: activeNetwork.chainId,
+          rpcUrl: activeNetwork.rpcUrl,
+        },
       }}
       storageInterface={StorageSingleton}
       walletConnectors={walletConnectors}

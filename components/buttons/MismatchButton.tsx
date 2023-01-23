@@ -28,16 +28,12 @@ import {
   useSDK,
   useBalance as useSolBalance,
 } from "@thirdweb-dev/react/solana";
-import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
+import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useCallback, useRef } from "react";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Button, Card, Heading, LinkButton, Text } from "tw-components";
-import {
-  SupportedChainIdToNetworkMap,
-  getNetworkFromChainId,
-} from "utils/network";
 
 export const MismatchButton = React.forwardRef<
   HTMLButtonElement,
@@ -61,9 +57,7 @@ export const MismatchButton = React.forwardRef<
     const solBalance = useSolBalance();
     const solNetwork = useSDK()?.network;
     const initialFocusRef = useRef<HTMLButtonElement>(null);
-
     const networksMismatch = useNetworkMismatch() && ecosystem === "evm";
-
     const { isOpen, onOpen, onClose } = useDisclosure();
     const trackEvent = useTrack();
     const chainId = useChainId();
@@ -73,6 +67,11 @@ export const MismatchButton = React.forwardRef<
       symbol,
       chainId: resolvedChainId,
     } = getNetworkMetadata(chainId || 0);
+
+    const networkInfo = useResolvedNetworkInfo(chainId || -1);
+    const networkLabel = networkInfo
+      ? networkInfo.fullName
+      : `chain-id-${chainId}`;
 
     if (!address && ecosystem === "evm") {
       return (
@@ -126,8 +125,7 @@ export const MismatchButton = React.forwardRef<
                 trackEvent({
                   category: "no-funds",
                   action: "popover",
-                  label:
-                    SupportedChainIdToNetworkMap[chainId as SUPPORTED_CHAIN_ID],
+                  label: networkLabel,
                 });
               } else if (isSolanaBalanceZero) {
                 trackEvent({
@@ -173,11 +171,9 @@ export const MismatchButton = React.forwardRef<
                     : FAUCETS[resolvedChainId]
                 }
                 label={
-                  (ecosystem === "solana"
-                    ? solNetwork
-                    : SupportedChainIdToNetworkMap[
-                        chainId as SUPPORTED_CHAIN_ID
-                      ]) || "unknown_network"
+                  ecosystem === "solana"
+                    ? solNetwork || "unknown_sol_network"
+                    : networkLabel
                 }
               />
             )}
@@ -194,34 +190,18 @@ const MismatchNotice: React.FC<{
   initialFocusRef: React.RefObject<HTMLButtonElement>;
   onClose: () => void;
 }> = ({ initialFocusRef, onClose }) => {
-  const chainId = useChainId();
-  const { getNetworkMetadata } = useWeb3();
+  const connectedChainId = useChainId();
   const desiredChainId = useDesiredChainId();
-
-  const signerChainId = chainId as SUPPORTED_CHAIN_ID;
   const [network, switchNetwork] = useNetwork();
-
   const actuallyCanAttemptSwitch = !!switchNetwork;
-
-  const signerNetworkIsSupported =
-    signerChainId in SupportedChainIdToNetworkMap;
-
-  const walletNetwork = (
-    signerNetworkIsSupported
-      ? getNetworkFromChainId(signerChainId)
-      : getNetworkMetadata(signerChainId as unknown as number).chainName
-  )
-    .split("")
-    .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
-    .join("");
-
-  const twNetwork = getNetworkFromChainId(desiredChainId)
-    .split("")
-    .map((s, idx) => (idx === 0 ? s.toUpperCase() : s))
-    .join("");
+  const walletConnectedNetworkInfo = useResolvedNetworkInfo(
+    connectedChainId || -1,
+  );
+  const desiredNetworkInfo = useResolvedNetworkInfo(desiredChainId || -1);
 
   const onSwitchWallet = useCallback(async () => {
     if (actuallyCanAttemptSwitch && desiredChainId) {
+      // TODO - this is not working for non-supported networks (Any EVM)
       await switchNetwork(desiredChainId);
     }
     onClose();
@@ -239,11 +219,11 @@ const MismatchNotice: React.FC<{
       <Text>
         Your wallet is connected to the{" "}
         <Box as="strong" textTransform="capitalize">
-          {walletNetwork.replace("-", " ")}
+          {walletConnectedNetworkInfo?.fullName}
         </Box>{" "}
         network but this action requires you to connect to the{" "}
         <Box as="strong" textTransform="capitalize">
-          {twNetwork.replace("-", " ")}
+          {desiredNetworkInfo?.fullName}
         </Box>{" "}
         network.
       </Text>
@@ -258,7 +238,8 @@ const MismatchNotice: React.FC<{
         colorScheme="orange"
         textTransform="capitalize"
       >
-        Switch wallet to {twNetwork.replace("-", " ")}
+        Switch wallet{" "}
+        {desiredNetworkInfo ? `to ${desiredNetworkInfo.fullName}` : ""}
       </Button>
 
       {!actuallyCanAttemptSwitch && (

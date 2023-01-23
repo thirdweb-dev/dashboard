@@ -10,11 +10,11 @@ import { Divider, Flex, FormControl, Input } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
   ContractType,
-  SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
   getContractAddressByChainId,
 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -22,6 +22,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import invariant from "tiny-invariant";
 import {
   Checkbox,
   FormHelperText,
@@ -30,15 +31,15 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import { SupportedChainIdToNetworkMap } from "utils/network";
 
 function isThirdwebFactory(
-  chainId: SUPPORTED_CHAIN_ID | undefined,
+  chainId: number | undefined,
   factoryAddressMap: Record<string, string> = {},
 ) {
   if (!chainId) {
     return false;
   }
+
   const factoryAddress =
     chainId in factoryAddressMap ? factoryAddressMap[chainId] : "";
   const chainFactoryAddress = getContractAddressByChainId(chainId, "twFactory");
@@ -47,8 +48,8 @@ function isThirdwebFactory(
 
 interface CustomContractFormProps {
   ipfsHash: string;
-  selectedChain: SUPPORTED_CHAIN_ID | undefined;
-  onChainSelect: (chainId: SUPPORTED_CHAIN_ID) => void;
+  selectedChain: number | undefined;
+  onChainSelect: (chainId: number) => void;
   isImplementationDeploy?: true;
   onSuccessCallback?: (contractAddress: string) => void;
 }
@@ -60,6 +61,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   isImplementationDeploy,
   onSuccessCallback,
 }) => {
+  const networkInfo = useResolvedNetworkInfo(selectedChain || -1);
   const address = useAddress();
   const ensQuery = useEns(address);
   const trackEvent = useTrack();
@@ -95,6 +97,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         })
       : undefined;
 
+  // Question: What to do here for Any EVM
   const isTwFactory =
     (fullReleaseMetadata.data?.isDeployableViaFactory ||
       fullReleaseMetadata.data?.isDeployableViaProxy) &&
@@ -216,10 +219,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               });
               onSuccess();
               if (onSuccessCallback) {
-                onSuccessCallback(deployedContractAddress);
+                onSuccessCallback(deployedContractAddress || "");
               } else {
+                invariant(
+                  networkInfo,
+                  `Network not found for chainId ${selectedChain}`,
+                );
                 router.replace(
-                  `/${SupportedChainIdToNetworkMap[selectedChain]}/${deployedContractAddress}`,
+                  `/${networkInfo.shortName}/${deployedContractAddress}`,
                 );
               }
             },
@@ -334,11 +341,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 ? selectedChain
                 : -1
             }
-            onChange={(e) =>
-              onChainSelect(
-                parseInt(e.currentTarget.value) as SUPPORTED_CHAIN_ID,
-              )
-            }
+            onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
           />
         </FormControl>
         <TransactionButton

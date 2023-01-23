@@ -1,10 +1,11 @@
 import {
   ThirdwebSDK as EVMThirdwebSDK,
-  SUPPORTED_CHAIN_ID,
+  SDKOptions,
 } from "@thirdweb-dev/sdk/evm";
 import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
 import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
-import { getEVMRPC, getSOLRPC } from "constants/rpc";
+import { getSOLRPC } from "constants/rpc";
+import type { Signer } from "ethers";
 import { DashboardSolanaNetwork } from "utils/network";
 
 // use env var to set IPFS gateway or fallback to ipfscdn.io
@@ -23,24 +24,40 @@ export function replaceIpfsUrl(url: string) {
 }
 
 // EVM SDK
-const EVM_SDK_MAP = new Map<SUPPORTED_CHAIN_ID, EVMThirdwebSDK>();
+const EVM_SDK_MAP = new Map<string, EVMThirdwebSDK>();
 
-export function getEVMThirdwebSDK(chainId: SUPPORTED_CHAIN_ID): EVMThirdwebSDK {
-  if (EVM_SDK_MAP.has(chainId)) {
-    return EVM_SDK_MAP.get(chainId) as EVMThirdwebSDK;
-  }
-  const rpcUrl = getEVMRPC(chainId);
-  const sdk = new EVMThirdwebSDK(
-    rpcUrl,
-    {
-      readonlySettings: {
-        rpcUrl,
-        chainId,
+export function getEVMThirdwebSDK(
+  chainId: number,
+  rpcUrl: string,
+  sdkOptions?: SDKOptions,
+  signer?: Signer,
+): EVMThirdwebSDK {
+  const sdkKey = chainId + (sdkOptions ? JSON.stringify(sdkOptions) : "");
+
+  let sdk: EVMThirdwebSDK | null = null;
+
+  if (EVM_SDK_MAP.has(sdkKey)) {
+    sdk = EVM_SDK_MAP.get(sdkKey) as EVMThirdwebSDK;
+  } else {
+    sdk = new EVMThirdwebSDK(
+      rpcUrl,
+      {
+        readonlySettings: {
+          rpcUrl,
+          chainId,
+        },
+        ...sdkOptions,
       },
-    },
-    StorageSingleton,
-  );
-  EVM_SDK_MAP.set(chainId, sdk);
+      StorageSingleton,
+    );
+
+    EVM_SDK_MAP.set(sdkKey, sdk);
+  }
+
+  if (signer) {
+    sdk.updateSignerOrProvider(signer);
+  }
+
   return sdk;
 }
 

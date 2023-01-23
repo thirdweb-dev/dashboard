@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
+import { useConfiguredNetworksRecord } from "components/configure-networks/useConfiguredNetworks";
 import {
   useEns,
   useReleasesFromDeploy,
@@ -14,8 +15,10 @@ interface ReleasedByProps {
 
 export const ReleasedBy: React.FC<ReleasedByProps> = ({ contractAddress }) => {
   const contractEnsQuery = useEns(contractAddress);
+  const configuredNetworksRecord = useConfiguredNetworksRecord();
 
   const releasesFromDeploy = useReleasesFromDeploy(
+    configuredNetworksRecord,
     contractEnsQuery.data?.address || undefined,
   );
 

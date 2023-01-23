@@ -1,22 +1,27 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
-import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
+import { ChainId } from "@thirdweb-dev/sdk/evm";
+import { useConfiguredNetworksRecord } from "components/configure-networks/useConfiguredNetworks";
+import { getEVMRPC } from "constants/rpc";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
 import { DashboardSolanaNetwork } from "utils/network";
 
 export function useContractList(
-  chainId: SUPPORTED_CHAIN_ID,
+  chainId: number,
+  rpcUrl: string,
   walletAddress?: string,
 ) {
   return useQuery(
     [...networkKeys.chain(chainId), ...contractKeys.list(walletAddress)],
     async () => {
-      const sdk = getEVMThirdwebSDK(chainId);
-      return [
-        ...((await sdk.getContractList(walletAddress || "")) || []),
-      ].reverse();
+      if (!walletAddress) {
+        return;
+      }
+      const sdk = getEVMThirdwebSDK(chainId, rpcUrl);
+      const contractList = await sdk.getContractList(walletAddress);
+      return [...contractList].reverse();
     },
     {
       enabled: !!walletAddress && !!chainId,
@@ -24,16 +29,67 @@ export function useContractList(
   );
 }
 
-export function useMainnetsContractList(address: string | undefined) {
-  const mainnetQuery = useContractList(ChainId.Mainnet, address);
-  const polygonQuery = useContractList(ChainId.Polygon, address);
-  const fantomQuery = useContractList(ChainId.Fantom, address);
-  const avalancheQuery = useContractList(ChainId.Avalanche, address);
-  const optimismQuery = useContractList(ChainId.Optimism, address);
-  const arbitrumQuery = useContractList(ChainId.Arbitrum, address);
+export function useMultiChainRegContractList(walletAddress?: string) {
+  return useQuery(
+    [networkKeys.multiChainRegistry, walletAddress],
+    async () => {
+      const polygonSDK = getEVMThirdwebSDK(
+        ChainId.Polygon,
+        getEVMRPC(ChainId.Polygon),
+      );
+
+      if (!walletAddress) {
+        return [];
+      }
+
+      const contractList = await polygonSDK.getMultichainContractList(
+        walletAddress,
+      );
+
+      return [...contractList].reverse();
+    },
+    {
+      enabled: !!walletAddress,
+    },
+  );
+}
+
+export function useMainnetsContractList(walletAddress: string | undefined) {
+  const mainnetQuery = useContractList(
+    ChainId.Mainnet,
+    getEVMRPC(ChainId.Mainnet),
+    walletAddress,
+  );
+  const polygonQuery = useContractList(
+    ChainId.Polygon,
+    getEVMRPC(ChainId.Polygon),
+    walletAddress,
+  );
+  const fantomQuery = useContractList(
+    ChainId.Fantom,
+    getEVMRPC(ChainId.Fantom),
+    walletAddress,
+  );
+  const avalancheQuery = useContractList(
+    ChainId.Avalanche,
+    getEVMRPC(ChainId.Avalanche),
+    walletAddress,
+  );
+  const optimismQuery = useContractList(
+    ChainId.Optimism,
+    getEVMRPC(ChainId.Optimism),
+    walletAddress,
+  );
+
+  const arbitrumQuery = useContractList(
+    ChainId.Arbitrum,
+    getEVMRPC(ChainId.Arbitrum),
+    walletAddress,
+  );
   const binanceQuery = useContractList(
     ChainId.BinanceSmartChainMainnet,
-    address,
+    getEVMRPC(ChainId.BinanceSmartChainMainnet),
+    walletAddress,
   );
 
   const mainnetList = useMemo(() => {
@@ -100,19 +156,42 @@ export function useMainnetsContractList(address: string | undefined) {
   };
 }
 
-export function useTestnetsContractList(address: string | undefined) {
-  const goerliQuery = useContractList(ChainId.Goerli, address);
-  const mumbaiQuery = useContractList(ChainId.Mumbai, address);
-  const fantomTestnetQuery = useContractList(ChainId.FantomTestnet, address);
+export function useTestnetsContractList(walletAddress: string | undefined) {
+  const goerliQuery = useContractList(
+    ChainId.Goerli,
+    getEVMRPC(ChainId.Goerli),
+    walletAddress,
+  );
+  const mumbaiQuery = useContractList(
+    ChainId.Mumbai,
+    getEVMRPC(ChainId.Mumbai),
+    walletAddress,
+  );
+  const fantomTestnetQuery = useContractList(
+    ChainId.FantomTestnet,
+    getEVMRPC(ChainId.FantomTestnet),
+    walletAddress,
+  );
   const avalancheFujiTestnetQuery = useContractList(
     ChainId.AvalancheFujiTestnet,
-    address,
+    getEVMRPC(ChainId.AvalancheFujiTestnet),
+    walletAddress,
   );
-  const optimismGoerliQuery = useContractList(ChainId.OptimismGoerli, address);
-  const arbitrumGoerliQuery = useContractList(ChainId.ArbitrumGoerli, address);
+  const optimismGoerliQuery = useContractList(
+    ChainId.OptimismGoerli,
+    getEVMRPC(ChainId.OptimismGoerli),
+    walletAddress,
+  );
+  const arbitrumGoerliQuery = useContractList(
+    ChainId.ArbitrumGoerli,
+    getEVMRPC(ChainId.ArbitrumGoerli),
+
+    walletAddress,
+  );
   const binanceTestnetQuery = useContractList(
     ChainId.BinanceSmartChainTestnet,
-    address,
+    getEVMRPC(ChainId.BinanceSmartChainTestnet),
+    walletAddress,
   );
 
   const testnetList = useMemo(() => {
@@ -185,13 +264,41 @@ export function useTestnetsContractList(address: string | undefined) {
   };
 }
 
-export function useAllContractList(address: string | undefined) {
-  const mainnetQuery = useMainnetsContractList(address);
-  const testnetQuery = useTestnetsContractList(address);
+export function useAllContractList(walletAddress: string | undefined) {
+  const mainnetQuery = useMainnetsContractList(walletAddress);
+  const testnetQuery = useTestnetsContractList(walletAddress);
+  const multiChainQuery = useMultiChainRegContractList(walletAddress);
+  const configuredNetworkRecord = useConfiguredNetworksRecord();
 
   const allList = useMemo(() => {
-    return (mainnetQuery.data || []).concat(testnetQuery.data || []);
-  }, [mainnetQuery.data, testnetQuery.data]);
+    const mainnets = mainnetQuery.data || [];
+    const testnets = testnetQuery.data || [];
+    const unknownNets: typeof testnets = [];
+
+    if (multiChainQuery.data) {
+      multiChainQuery.data.map((net) => {
+        // if network is configured, we can determine if it is a testnet or not
+        if (net.chainId in configuredNetworkRecord) {
+          const netInfo = configuredNetworkRecord[net.chainId];
+          if (netInfo.name.toLowerCase().includes("test")) {
+            testnets.push(net);
+          } else {
+            mainnets.push(net);
+          }
+        }
+        // if not configured, we can't determine if it is a testnet or not
+        else {
+          unknownNets.push(net);
+        }
+      });
+    }
+    return [...mainnets, ...testnets, ...unknownNets];
+  }, [
+    mainnetQuery.data,
+    testnetQuery.data,
+    multiChainQuery.data,
+    configuredNetworkRecord,
+  ]);
 
   return {
     data: allList,

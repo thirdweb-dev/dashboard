@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider, useSigner } from "@thirdweb-dev/react";
 import { ChainId, SDKOptions, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
-import { getEVMRPC } from "constants/rpc";
+import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 import { useProvider } from "wagmi";
@@ -13,6 +13,7 @@ export const CustomSDKContext: ComponentWithChildren<{
   const signer = useSigner();
   const provider = useProvider();
   const queryClient = useQueryClient();
+  const networkInfo = useResolvedNetworkInfo(desiredChainId || -1);
 
   return (
     <ThirdwebSDKProvider
@@ -24,13 +25,12 @@ export const CustomSDKContext: ComponentWithChildren<{
         gasSettings: {
           maxPriceInGwei: 650,
         },
-        readonlySettings:
-          desiredChainId && desiredChainId !== -1
-            ? {
-                chainId: desiredChainId,
-                rpcUrl: getEVMRPC(desiredChainId),
-              }
-            : undefined,
+        readonlySettings: networkInfo
+          ? {
+              chainId: desiredChainId,
+              rpcUrl: networkInfo.rpcUrl,
+            }
+          : undefined,
         ...options,
       }}
       storageInterface={StorageSingleton}

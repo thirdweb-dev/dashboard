@@ -1,5 +1,9 @@
+import { EVM_RPC_URL_MAP, getEVMRPC } from "../../constants/rpc";
 import { ContractId } from "./types";
-import { isContractIdBuiltInContract } from "./utils";
+import {
+  addContractToMultiChainRegistry,
+  isContractIdBuiltInContract,
+} from "./utils";
 import { contractKeys, networkKeys } from "@3rdweb-sdk/react";
 import { useMutationWithInvalidate } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
@@ -13,6 +17,7 @@ import {
   useChainId,
   useSDK,
   useSDKChainId,
+  useSigner,
 } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import {
@@ -23,7 +28,6 @@ import {
   ExtraPublishMetadata,
   ProfileMetadata,
   PublishedContract,
-  SUPPORTED_CHAIN_ID,
   ThirdwebSDK,
   detectFeatures,
   extractConstructorParamsFromAbi,
@@ -32,6 +36,7 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk/evm";
+import { ConfiguredNetworkRecord } from "components/configure-networks/useConfiguredNetworks";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
 import { isEnsName } from "lib/ens";
@@ -124,7 +129,10 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
 // if passing an address, also fetches the latest version of the matching contract
 export function useContractPrePublishMetadata(uri: string, address?: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   return useQuery(
     ["pre-publish-metadata", uri, address],
     async () => {
@@ -168,7 +176,10 @@ async function fetchFullPublishMetadata(
 // Metadata POST release, contains all the extra information filled in by the user
 export function useContractFullPublishMetadata(uri: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   const queryClient = useQueryClient();
 
   return useQuery(
@@ -195,7 +206,10 @@ export function useContractFullPublishMetadata(uri: string) {
 }
 
 async function fetchReleaserProfile(publisherAddress?: string | null) {
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   invariant(publisherAddress, "address is not defined");
   return await sdk.getPublisher().getPublisherProfile(publisherAddress);
 }
@@ -221,13 +235,15 @@ export function useLatestRelease(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   return useQuery(
     ["latest-release", publisherAddress, contractName],
     async () => {
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
-      invariant(sdk, "sdk not provided");
 
       const latestRelease = await sdk
         .getPublisher()
@@ -294,7 +310,10 @@ export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   return useQuery(
     ["all-releases", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
@@ -305,8 +324,9 @@ export function useAllVersions(
 }
 
 export function useReleasesFromDeploy(
+  configuredNetworkRecord: ConfiguredNetworkRecord,
   contractAddress?: string,
-  chainId?: SUPPORTED_CHAIN_ID,
+  chainId?: number,
 ) {
   const activeChainId = useSDKChainId();
   const cId = chainId || activeChainId;
@@ -318,13 +338,25 @@ export function useReleasesFromDeploy(
     async () => {
       invariant(contractAddress, "contractAddress is not defined");
       invariant(cId, "chain not defined");
-      const sdk = getEVMThirdwebSDK(cId);
+
+      const rpcUrl =
+        cId in EVM_RPC_URL_MAP
+          ? getEVMRPC(cId)
+          : cId in configuredNetworkRecord
+          ? configuredNetworkRecord[cId].rpcUrl
+          : "";
+
+      invariant(rpcUrl, "rpcUrl not defined");
+      const sdk = getEVMThirdwebSDK(cId, rpcUrl);
 
       const contractUri = await sdk
         .getPublisher()
         .resolveContractUriFromAddress(contractAddress);
 
-      const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
+      const polygonSdk = getEVMThirdwebSDK(
+        ChainId.Polygon,
+        EVM_RPC_URL_MAP[ChainId.Polygon],
+      );
 
       return await polygonSdk
         .getPublisher()
@@ -346,7 +378,10 @@ export async function fetchReleasedContractInfo(
 }
 
 export function useReleasedContractInfo(contract: PublishedContract) {
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   return useQuery(
     ["released-contract", contract],
     () => fetchReleasedContractInfo(sdk, contract),
@@ -471,6 +506,7 @@ export function useCustomContractDeployMutation(
   const queryClient = useQueryClient();
   const walletAddress = useAddress();
   const chainId = useChainId();
+  const signer = useSigner();
 
   return useMutation(
     async (data: ContractDeployMutationParams) => {
@@ -486,9 +522,16 @@ export function useCustomContractDeployMutation(
         },
       );
       if (data.addToDashboard) {
-        const registry = await sdk?.deployer.getRegistry();
-        await registry?.addContract(contractAddress);
+        invariant(chainId, "chainId is not provided");
+        await addContractToMultiChainRegistry(
+          {
+            address: contractAddress,
+            chainId,
+          },
+          signer,
+        );
       }
+
       return contractAddress;
     },
     {
@@ -496,6 +539,7 @@ export function useCustomContractDeployMutation(
         return await queryClient.invalidateQueries([
           ...networkKeys.chain(chainId),
           ...contractKeys.list(walletAddress),
+          [networkKeys.multiChainRegistry, walletAddress],
         ]);
       },
     },
@@ -525,7 +569,10 @@ export type ReleasedContractDetails = Awaited<
 >[number];
 
 export function usePublishedContractsQuery(address?: string) {
-  const sdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const sdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
   const queryClient = useQueryClient();
   return useQuery<ReleasedContractDetails[]>(
     ["published-contracts", address],
@@ -619,7 +666,10 @@ export function ensQuery(addressOrEnsName?: string) {
       if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
         return placeholderData;
       }
-      const ethProvider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
+      const ethProvider = getEVMThirdwebSDK(
+        ChainId.Mainnet,
+        EVM_RPC_URL_MAP[ChainId.Mainnet],
+      ).getProvider();
       const ensName = isEnsName(addressOrEnsName)
         ? addressOrEnsName
         : await ethProvider.lookupAddress(addressOrEnsName);

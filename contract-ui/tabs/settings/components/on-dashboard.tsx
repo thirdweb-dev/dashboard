@@ -1,4 +1,8 @@
-import { useContractList, useDashboardEVMChainId } from "@3rdweb-sdk/react";
+import {
+  useContractList,
+  useDashboardEVMChainId,
+  useMultiChainRegContractList,
+} from "@3rdweb-sdk/react";
 import {
   useAddContractMutation,
   useRemoveContractMutation,
@@ -6,6 +10,7 @@ import {
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
@@ -19,10 +24,18 @@ export const OnDashboard: React.FC<OnDashboardProps> = ({
 }) => {
   const trackEvent = useTrack();
   const activeChainId = useDashboardEVMChainId();
-  const address = useAddress();
-  const contractList = useContractList(activeChainId || -1, address);
-  const addContract = useAddContractMutation();
-  const removeContract = useRemoveContractMutation();
+  const walletAddress = useAddress();
+  const chainId = activeChainId || -1;
+  const networkInfo = useResolvedNetworkInfo(chainId);
+  const oldRegistryContractList = useContractList(
+    chainId,
+    networkInfo ? networkInfo.rpcUrl : "",
+    walletAddress,
+  );
+
+  const newRegistryContractList = useMultiChainRegContractList(walletAddress);
+
+  const addContract = useAddContractMutation(chainId);
 
   const { onSuccess: onAddSuccess, onError: onAddError } = useTxNotifications(
     "Successfully added to dashboard",
@@ -34,12 +47,24 @@ export const OnDashboard: React.FC<OnDashboardProps> = ({
       "Failed to remove from dashboard",
     );
 
-  const onDashboard =
-    contractList.isFetched &&
-    contractList.data?.find((c) => c.address === contractAddress) &&
-    contractList.isSuccess;
+  const onOldRegistry =
+    oldRegistryContractList.isFetched &&
+    oldRegistryContractList.data?.find((c) => c.address === contractAddress) &&
+    oldRegistryContractList.isSuccess;
 
-  return address && contractAddress ? (
+  const onNewRegistry =
+    newRegistryContractList.isFetched &&
+    newRegistryContractList.data?.find((c) => c.address === contractAddress) &&
+    newRegistryContractList.isSuccess;
+
+  const removeContract = useRemoveContractMutation(
+    chainId,
+    onOldRegistry ? "old" : onNewRegistry ? "new" : "none",
+  );
+
+  const onDashboard = onNewRegistry || onOldRegistry;
+
+  return walletAddress && contractAddress ? (
     <Card p={0}>
       <Flex direction="column">
         <Flex p={{ base: 6, md: 10 }} as="section" direction="column" gap={4}>

@@ -18,6 +18,7 @@ import { ReleaserAvatar } from "components/contract-components/releaser/masked-a
 import { ReleaserSocials } from "components/contract-components/releaser/releaser-socials";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
+import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -216,7 +217,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const queryClient = new QueryClient();
   // TODO make this use alchemy / other RPC
   // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
-  const polygonSdk = getEVMThirdwebSDK(ChainId.Polygon);
+  const polygonSdk = getEVMThirdwebSDK(
+    ChainId.Polygon,
+    EVM_RPC_URL_MAP[ChainId.Polygon],
+  );
 
   const networkOrAddress = getSingleQueryValue(ctx.params, "networkOrAddress");
 

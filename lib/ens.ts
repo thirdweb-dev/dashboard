@@ -1,5 +1,6 @@
 import { getEVMThirdwebSDK } from "./sdk";
 import { ChainId } from "@thirdweb-dev/sdk/evm";
+import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { utils } from "ethers";
 import invariant from "tiny-invariant";
 
@@ -17,7 +18,10 @@ export async function resolveAddressToEnsName(
 ): Promise<ENSResolveResult> {
   invariant(utils.isAddress(address), "address must be a valid address");
 
-  const provider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
+  const provider = getEVMThirdwebSDK(
+    ChainId.Mainnet,
+    EVM_RPC_URL_MAP[ChainId.Mainnet],
+  ).getProvider();
 
   return {
     ensName: await provider.lookupAddress(address),
@@ -30,7 +34,10 @@ export async function resolveEnsNameToAddress(
 ): Promise<ENSResolveResult> {
   invariant(isEnsName(ensName), "ensName must be a valid ens name");
 
-  const provider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
+  const provider = getEVMThirdwebSDK(
+    ChainId.Mainnet,
+    EVM_RPC_URL_MAP[ChainId.Mainnet],
+  ).getProvider();
 
   return {
     ensName,

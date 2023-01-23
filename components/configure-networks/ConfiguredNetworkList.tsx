@@ -36,8 +36,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
         overflow="scroll"
         pb={8}
         sx={{
-          "mask-image":
-            "linear-gradient(to bottom, black 90%, transparent 100%)",
+          maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",
         }}
       >
         {props.networks.map((network) => (

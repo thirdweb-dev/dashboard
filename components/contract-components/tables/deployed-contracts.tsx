@@ -24,23 +24,26 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import {
   ChainId,
   CommonContractOutputSchema,
   ContractType,
   PrebuiltContractType,
-  SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
   SchemaForPrebuiltContractType,
 } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
+import {
+  useConfiguredNetworks,
+  useConfiguredNetworksRecord,
+} from "components/configure-networks/useConfiguredNetworks";
 import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
-import * as React from "react";
+import React, { useMemo, useState } from "react";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
 import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
@@ -55,7 +58,7 @@ import {
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { ComponentWithChildren } from "types/component-with-children";
-import { getNetworkFromChainId } from "utils/network";
+import { getNetworkSlug } from "utils/network";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
@@ -202,7 +205,7 @@ interface ContractTableProps {
   combinedList: {
     chainId: ChainId;
     address: string;
-    contractType: ContractType;
+    contractType: () => Promise<ContractType>;
     metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
   }[];
   isFetching?: boolean;
@@ -214,8 +217,17 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   isFetching,
 }) => {
   const { getNetworkMetadata } = useWeb3();
+  const configuredNetworks = useConfiguredNetworks();
+  const configuredNetworksRecord = useConfiguredNetworksRecord();
 
-  const columns = useMemo(
+  const ALL_CONFIGURED_CHAIN_IDS = useMemo(() => {
+    return [
+      ...SUPPORTED_CHAIN_IDS,
+      ...configuredNetworks.map((network) => network.chainId),
+    ];
+  }, [configuredNetworks]);
+
+  const columns: Column<(typeof combinedList)[number]>[] = useMemo(
     () => [
       {
         Header: "Name",
@@ -233,26 +245,23 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         Header: "Network",
         accessor: (row) => row.chainId,
         Cell: (cell: any) => {
-          const data = getNetworkMetadata(
-            cell.row.original.chainId as SUPPORTED_CHAIN_ID,
-          );
+          const data = getNetworkMetadata(cell.row.original.chainId);
           return (
             <Flex align="center" gap={2}>
               <Icon boxSize={6} as={data.icon} />
               <Text size="label.md">{data.chainName}</Text>
-              <Badge
-                colorScheme={data.isTestnet ? "blue" : "green"}
-                textTransform="capitalize"
-              >
-                {data.isTestnet ? "Testnet" : "Mainnet"}
-              </Badge>
+              {data.isTestnet !== "unknown" && (
+                <Badge
+                  colorScheme={data.isTestnet ? "blue" : "green"}
+                  textTransform="capitalize"
+                >
+                  {data.isTestnet ? "Testnet" : "Mainnet"}
+                </Badge>
+              )}
             </Flex>
           );
         },
         Filter: (props) => {
-          const options = SUPPORTED_CHAIN_IDS.map((chainId) =>
-            chainId.toString(),
-          );
           return (
             <Menu closeOnSelect={false}>
               <MenuButton
@@ -265,34 +274,28 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
               />
               <MenuList zIndex={10}>
                 <MenuOptionGroup
-                  defaultValue={options}
+                  defaultValue={ALL_CONFIGURED_CHAIN_IDS.map(
+                    (chainId) => `${chainId}`,
+                  )}
                   title="Networks"
                   fontSize={12}
                   type="checkbox"
                   value={props.filterValue}
                   onChange={(e) => props.setFilter(props.column.id, e)}
                 >
-                  {options.map((chainId) => (
-                    <MenuItemOption value={chainId} key={chainId}>
-                      <Flex align="center" direction="row" gap={1}>
-                        <Icon
-                          boxSize={4}
-                          as={
-                            getNetworkMetadata(
-                              parseInt(chainId) as SUPPORTED_CHAIN_ID,
-                            ).icon
-                          }
-                        />
-                        <Text size="label.md">
-                          {
-                            getNetworkMetadata(
-                              parseInt(chainId) as SUPPORTED_CHAIN_ID,
-                            ).chainName
-                          }
-                        </Text>
-                      </Flex>
-                    </MenuItemOption>
-                  ))}
+                  {ALL_CONFIGURED_CHAIN_IDS.map((chainId) => {
+                    const networkMetadata = getNetworkMetadata(chainId);
+                    return (
+                      <MenuItemOption value={`${chainId}`} key={chainId}>
+                        <Flex align="center" direction="row" gap={1}>
+                          <Icon boxSize={4} as={networkMetadata.icon} />
+                          <Text size="label.md">
+                            {networkMetadata.chainName}
+                          </Text>
+                        </Flex>
+                      </MenuItemOption>
+                    );
+                  })}
                 </MenuOptionGroup>
               </MenuList>
             </Menu>
@@ -313,8 +316,8 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  ) as Column<(typeof combinedList)[number]>[];
+    [ALL_CONFIGURED_CHAIN_IDS],
+  );
 
   const defaultColumn = useMemo(
     () => ({
@@ -379,6 +382,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         <Tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
+
             return (
               // eslint-disable-next-line react/jsx-key
               <Tr
@@ -387,11 +391,12 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
                 // this is a hack to get around the fact that safari does not handle position: relative on table rows
                 style={{ cursor: "pointer" }}
                 onClick={() => {
-                  const href = `/${getNetworkFromChainId(
-                    row.original.chainId as SUPPORTED_CHAIN_ID,
-                  )}/${row.original.address}`;
+                  const networkSlug = getNetworkSlug(
+                    row.original.chainId,
+                    configuredNetworksRecord,
+                  );
 
-                  router.push(href);
+                  router.push(`/${networkSlug}/${row.original.address}`);
                 }}
                 // end hack
                 borderBottomWidth={1}
@@ -422,8 +427,8 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
 interface AsyncContractTypeCellProps {
   cell: {
     address: string;
-    chainId: SUPPORTED_CHAIN_ID;
-    contractType: ContractType;
+    chainId: number;
+    contractType: (() => Promise<ContractType>) | undefined;
     metadata: () => Promise<
       z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
     >;
@@ -433,33 +438,42 @@ interface AsyncContractTypeCellProps {
 const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   cell,
 }) => {
-  const isPrebuiltContract = cell.contractType !== "custom";
+  const contractTypeQuery = useQuery({
+    queryKey: ["contract-type", cell.chainId, cell.address],
+    queryFn: () => (cell.contractType ? cell.contractType() : ""),
+    enabled: !!cell.contractType,
+    refetchOnWindowFocus: false,
+    // contract type of a contract does not change - so safe to set high staleTime ( currently set to 1 hour )
+    staleTime: 1000 * 60 * 60,
+  });
 
+  const contractType = contractTypeQuery.data;
+
+  const isPrebuiltContract = contractType && contractType !== "custom";
+  const configuredNetworksRecord = useConfiguredNetworksRecord();
   const releasesFromDeploy = useReleasesFromDeploy(
+    configuredNetworksRecord,
     isPrebuiltContract ? undefined : cell.address || undefined,
-    cell.chainId as SUPPORTED_CHAIN_ID,
+    cell.chainId,
   );
-  const src = FeatureIconMap[cell.contractType as ContractType];
+
+  const src = contractType ? FeatureIconMap[contractType as ContractType] : "";
+
+  const contractName = contractType
+    ? CONTRACT_TYPE_NAME_MAP[contractType as ContractType]
+    : "";
+
+  const Custom = CONTRACT_TYPE_NAME_MAP["custom"];
 
   if (isPrebuiltContract) {
     return (
       <Flex align="center" gap={2}>
-        {src ? (
-          <ChakraNextImage
-            boxSize={8}
-            src={src}
-            alt={CONTRACT_TYPE_NAME_MAP[cell.contractType as ContractType]}
-          />
+        {contractType ? (
+          <ChakraNextImage boxSize={8} src={src} alt={contractName} />
         ) : (
-          <Image
-            boxSize={8}
-            src=""
-            alt={CONTRACT_TYPE_NAME_MAP[cell.contractType as ContractType]}
-          />
+          <Image boxSize={8} src="" alt={contractName} />
         )}
-        <Text size="label.md">
-          {CONTRACT_TYPE_NAME_MAP[cell.contractType as ContractType]}
-        </Text>
+        <Text size="label.md">{contractName} </Text>
       </Flex>
     );
   }
@@ -472,32 +486,22 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
     return (
       <Flex align="center" gap={2}>
         {src ? (
-          <ChakraNextImage
-            boxSize={8}
-            src={src}
-            alt={CONTRACT_TYPE_NAME_MAP["custom"]}
-          />
+          <ChakraNextImage boxSize={8} src={src} alt={Custom} />
         ) : (
-          <Image boxSize={8} src="" alt={CONTRACT_TYPE_NAME_MAP["custom"]} />
+          <Image boxSize={8} src="" alt={Custom} />
         )}
-        <Text size="label.md">{CONTRACT_TYPE_NAME_MAP["custom"]}</Text>
+        <Text size="label.md">{Custom}</Text>
       </Flex>
     );
   }
 
   return (
     <Flex align="center" gap={2}>
-      <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
-        <ChakraNextImage
-          boxSize={8}
-          src={src}
-          alt={CONTRACT_TYPE_NAME_MAP["custom"]}
-        />
+      <Skeleton isLoaded={!releasesFromDeploy.isLoading && !!src}>
+        <ChakraNextImage boxSize={8} src={src} alt={Custom} />
       </Skeleton>
       <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
-        <Text size="label.md">
-          {actualRelease?.name || CONTRACT_TYPE_NAME_MAP["custom"]}
-        </Text>
+        <Text size="label.md">{actualRelease?.name || Custom}</Text>
       </Skeleton>
     </Flex>
   );
@@ -506,7 +510,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 interface AsyncContractNameCellProps {
   cell: {
     address: string;
-    chainId: SUPPORTED_CHAIN_ID;
+    chainId: number;
     contractType: ContractType;
     metadata: () => Promise<
       z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
@@ -523,13 +527,12 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
     cell.chainId,
   );
 
-  const href = `/${getNetworkFromChainId(cell.chainId as SUPPORTED_CHAIN_ID)}/${
-    cell.address
-  }`;
+  const configuredNetworksRecord = useConfiguredNetworksRecord();
+  const networkSlug = getNetworkSlug(cell.chainId, configuredNetworksRecord);
 
   return (
     <Skeleton isLoaded={!metadataQuery.isLoading}>
-      <ChakraNextLink href={href} passHref>
+      <ChakraNextLink href={`/${networkSlug}/${cell.address}`} passHref>
         <Text
           color="blue.700"
           _dark={{ color: "blue.300" }}

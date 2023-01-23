@@ -5,6 +5,7 @@ import {
   SUPPORTED_CHAIN_ID,
   SUPPORTED_CHAIN_IDS,
 } from "@thirdweb-dev/sdk/evm";
+import { useConfiguredNetworks } from "components/configure-networks/useConfiguredNetworks";
 import { deprecatedChains } from "constants/mappings";
 import { useMemo } from "react";
 
@@ -26,14 +27,16 @@ export const SupportedNetworkSelect = forwardRef<
     const testnets = useMemo(() => {
       return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
         return getNetworkMetadata(supportedChain);
-      }).filter((n) => n.isTestnet);
+      }).filter((n) => n.isTestnet === true);
     }, [getNetworkMetadata]);
 
     const mainnets = useMemo(() => {
       return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
         return getNetworkMetadata(supportedChain);
-      }).filter((n) => !n.isTestnet);
+      }).filter((n) => n.isTestnet === false);
     }, [getNetworkMetadata]);
+
+    const configuredNetworks = useConfiguredNetworks();
 
     return (
       <Select {...selectProps} ref={ref}>
@@ -41,36 +44,51 @@ export const SupportedNetworkSelect = forwardRef<
           Select Network
         </option>
         <optgroup label="Mainnets">
-          {mainnets.map((mn) => (
+          {mainnets.map((network) => (
             <option
-              key={mn.chainId}
-              value={mn.chainId}
-              disabled={disabledChainIds?.includes(mn.chainId)}
+              key={network.chainId}
+              value={network.chainId}
+              disabled={disabledChainIds?.includes(network.chainId)}
             >
-              {mn.chainName} ({mn.symbol})
-              {disabledChainIds?.includes(mn.chainId)
+              {network.chainName} ({network.symbol})
+              {disabledChainIds?.includes(network.chainId)
                 ? ` - ${disabledChainIdText}`
                 : ""}
             </option>
           ))}
         </optgroup>
         <optgroup label="Testnets">
-          {testnets.map((tn) => (
+          {testnets.map((network) => (
             <option
-              key={tn.chainId}
-              value={tn.chainId}
-              disabled={disabledChainIds?.includes(tn.chainId)}
+              key={network.chainId}
+              value={network.chainId}
+              disabled={disabledChainIds?.includes(network.chainId)}
             >
-              {tn.chainName} ({tn.symbol})
-              {deprecatedChains.includes(tn.chainId as SUPPORTED_CHAIN_ID) &&
-                " - Deprecated"}
-              {disabledChainIds?.includes(tn.chainId) &&
-              !deprecatedChains.includes(tn.chainId as SUPPORTED_CHAIN_ID)
+              {network.chainName} ({network.symbol})
+              {deprecatedChains.includes(
+                network.chainId as SUPPORTED_CHAIN_ID,
+              ) && " - Deprecated"}
+              {disabledChainIds?.includes(network.chainId) &&
+              !deprecatedChains.includes(network.chainId as SUPPORTED_CHAIN_ID)
                 ? ` - ${disabledChainIdText}`
                 : ""}
             </option>
           ))}
         </optgroup>
+
+        {configuredNetworks.length > 0 && (
+          <optgroup label="Custom">
+            {configuredNetworks.map((network) => (
+              <option
+                key={network.chainId}
+                value={network.chainId}
+                disabled={disabledChainIds?.includes(network.chainId)}
+              >
+                {network.name} ({network.currencySymbol})
+              </option>
+            ))}
+          </optgroup>
+        )}
       </Select>
     );
   },

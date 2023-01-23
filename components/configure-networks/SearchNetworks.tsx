@@ -1,10 +1,10 @@
-import { ConfiguredNetworkInfo, NetworkInfo } from "./types";
+import { ChainListNetworkInfo, ConfiguredNetworkInfo } from "./types";
 import { Box, FormControl, Input, useOutsideClick } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useDeferredValue, useMemo, useRef, useState } from "react";
 import { Text } from "tw-components";
 
-const fetchChainList = async (): Promise<NetworkInfo[]> => {
+const fetchChainList = async (): Promise<ChainListNetworkInfo[]> => {
   const response = await fetch("/json/chain-list-mini.json");
   return response.json();
 };
@@ -37,8 +37,10 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     }
 
     const lowerCaseSearchTerm = deferredSearchTerm.toLowerCase();
-    return networkListQuery.data.filter((network) =>
-      network.name.toLowerCase().includes(lowerCaseSearchTerm),
+    return networkListQuery.data.filter(
+      (network) =>
+        network.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        `${network.chainId}`.includes(lowerCaseSearchTerm),
     );
   }, [networkListQuery.data, deferredSearchTerm]);
 
@@ -92,7 +94,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                     color: "white",
                   }}
                   onClick={() => {
-                    setSearchTerm(network.name);
+                    setSearchTerm(`${network.name} (${network.shortName})`);
                     setShowResults(false);
                     props.onSelectorChange("close");
                     props.onNetworkSelection({
@@ -100,10 +102,14 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                       chainId: network.chainId,
                       currencySymbol: network.nativeCurrency.symbol,
                       rpcUrl: network.rpc[0],
+                      shortName: network.shortName,
                     });
                   }}
                 >
-                  {network.name}
+                  {network.name}{" "}
+                  <Text as="span" opacity="0.7">
+                    ({network.shortName})
+                  </Text>
                 </Text>
               ))}
 

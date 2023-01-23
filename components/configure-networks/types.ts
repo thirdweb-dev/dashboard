@@ -1,4 +1,4 @@
-export type NetworkInfo = {
+export type ChainListNetworkInfo = {
   chainId: number;
   faucets: string[];
   infoURL: string;
@@ -18,4 +18,5 @@ export type ConfiguredNetworkInfo = {
   rpcUrl: string;
   chainId: number;
   currencySymbol: string;
+  shortName: string;
 };

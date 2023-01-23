@@ -1,5 +1,5 @@
 import { ConfiguredNetworkInfo } from "./types";
-import { Box, FormControl, Input } from "@chakra-ui/react";
+import { Box, Divider, FormControl, Input } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Button, FormLabel } from "tw-components";
@@ -11,7 +11,7 @@ interface NetworkConfigFormProps {
   isSearchResultsOpen: boolean;
 }
 
-export const NetworkConfigForm: React.FC<NetworkConfigFormProps> = ({
+export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   values,
   onSubmit,
   configuredNetworks,
@@ -19,6 +19,7 @@ export const NetworkConfigForm: React.FC<NetworkConfigFormProps> = ({
 }) => {
   const form = useForm<ConfiguredNetworkInfo>({
     values,
+    reValidateMode: "onChange",
   });
 
   const name = form.watch("name");
@@ -28,7 +29,6 @@ export const NetworkConfigForm: React.FC<NetworkConfigFormProps> = ({
       (configuredNetwork) => configuredNetwork.name === name,
     );
   }, [name, configuredNetworks]);
-
   return (
     <Box
       as="form"
@@ -79,6 +79,8 @@ export const NetworkConfigForm: React.FC<NetworkConfigFormProps> = ({
           {...form.register("currencySymbol", { required: true })}
         />
       </FormControl>
+
+      <Divider />
 
       {/* Configure and Reset buttons  */}
       <Button

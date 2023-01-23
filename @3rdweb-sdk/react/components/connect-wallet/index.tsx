@@ -213,7 +213,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   }
   // if EVM is connected we hit this
   if (address && chainId && ecosystem !== "solana") {
-    const SVG = getNetworkMetadata(chainId).icon;
+    const networkMetadata = getNetworkMetadata(chainId);
     return (
       <>
         {showConfigureNetworkModal && (
@@ -234,17 +234,17 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             rightIcon={<FiChevronDown />}
           >
             <Flex direction="row" gap={3} align="center">
-              <Icon boxSize={6} as={SVG} />
+              <Icon boxSize={6} as={networkMetadata.icon} />
               <Flex gap={0.5} direction="column" textAlign="left">
                 <Heading as="p" size="label.sm">
                   <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>
                     {balanceQuery.data?.displayValue.slice(0, 6) || "0.000"}
                   </Skeleton>{" "}
-                  {getNetworkMetadata(chainId).symbol}
+                  {networkMetadata.symbol}
                 </Heading>
                 <Text size="label.sm" color="accent.600">
                   {shortenIfAddress(ensQuery.data?.ensName || address, true)} (
-                  {getNetworkMetadata(chainId).chainName})
+                  {networkMetadata.chainName})
                 </Text>
               </Flex>
 
