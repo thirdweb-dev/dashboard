@@ -58,6 +58,7 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
             onClick={handleConversion}
             mr={2}
             disabled={ensQuery.isLoading}
+            bgColor="gray.700"
           >
             Resolve ENS
           </Button>

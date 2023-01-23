@@ -49,6 +49,7 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
               rightIcon={<Icon as={FiUpload} />}
               isLoading={isLoading}
               ml={3}
+              bgColor="gray.700"
             >
               IPFS
             </Button>

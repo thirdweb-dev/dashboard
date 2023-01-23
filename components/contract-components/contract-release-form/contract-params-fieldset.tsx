@@ -146,23 +146,10 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                                   paramTemplateValues[0].value,
                                 );
                               }}
+                              bgColor="gray.700"
                             >
                               {paramTemplateValues[0].value}
                             </Button>
-                            {/*                             <Button
-                              border="2px solid"
-                              borderColor="inputBg"
-                              h="1.75rem"
-                              size="sm"
-                              onClick={() => {
-                                form.setValue(
-                                  `constructorParams.${param.name}.defaultValue`,
-                                  paramTemplateValues[0].value,
-                                );
-                              }}
-                            >
-                              <Text>{paramTemplateValues[0].value}</Text>
-                            </Button> */}
                           </Tooltip>
                         </InputRightElement>
                       )}

@@ -54,6 +54,7 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
             aria-label="Convert to bytes"
             onClick={handleConversion}
             ml={3}
+            bgColor="gray.700"
           >
             Convert
           </Button>
