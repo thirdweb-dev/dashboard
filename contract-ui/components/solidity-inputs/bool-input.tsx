@@ -6,13 +6,14 @@ export const SolidityBoolInput: React.FC<SolidityInputProps> = ({
   formContext: form,
   ...inputProps
 }) => {
-  const watchInput = form.watch(inputProps.name as string);
+  const inputName = inputProps.name as string;
+  const watchInput = form.watch(inputName);
 
   return (
     <Flex>
       <ButtonGroup isAttached>
         <Button
-          onClick={() => form.setValue(inputProps.name as string, "true")}
+          onClick={() => form.setValue(inputName, "true")}
           bgColor={watchInput === "true" ? "bgBlack" : "transparent"}
           color={watchInput === "true" ? "bgWhite" : "grey.800"}
           borderWidth="2px"
@@ -26,7 +27,7 @@ export const SolidityBoolInput: React.FC<SolidityInputProps> = ({
           True
         </Button>
         <Button
-          onClick={() => form.setValue(inputProps.name as string, "false")}
+          onClick={() => form.setValue(inputName, "false")}
           bgColor={watchInput === "false" ? "bgBlack" : "transparent"}
           color={watchInput === "false" ? "bgWhite" : "grey.800"}
           borderWidth="2px"

@@ -8,31 +8,32 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   formContext: form,
   ...inputProps
 }) => {
-  const ensQuery = useEns(form.watch(inputProps.name as string));
+  const inputName = inputProps.name as string;
+  const ensQuery = useEns(form.watch(inputName));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    form.setValue(inputProps.name as string, val, {
+    const { value } = e.target;
+    form.setValue(inputName, value, {
       shouldDirty: true,
     });
-    if (utils.isAddress(val) === false && !val.endsWith(".eth")) {
-      form.setError(inputProps.name as string, {
+    if (utils.isAddress(value) === false && !value.endsWith(".eth")) {
+      form.setError(inputName, {
         type: "pattern",
         message: "Address is not a valid address.",
       });
     } else {
-      form.clearErrors(inputProps.name as string);
+      form.clearErrors(inputName);
     }
   };
 
   const handleConversion = () => {
     if (ensQuery?.data?.address) {
-      form.setValue(inputProps.name as string, ensQuery.data.address, {
+      form.setValue(inputName, ensQuery.data.address, {
         shouldDirty: true,
       });
-      form.clearErrors(inputProps.name as string);
+      form.clearErrors(inputName);
     } else {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "pattern",
         message: "ENS couldn't be resolved. Please try again.",
       });
@@ -45,10 +46,10 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
       <Input
         {...inputProps}
         onChange={handleChange}
-        value={form.watch(inputProps.name as string)}
+        value={form.watch(inputName)}
         maxLength={42}
       />
-      {form.watch(inputProps.name as string)?.endsWith(".eth") && (
+      {form.watch(inputName)?.endsWith(".eth") && (
         <InputRightElement width="96px">
           <Button
             size="xs"

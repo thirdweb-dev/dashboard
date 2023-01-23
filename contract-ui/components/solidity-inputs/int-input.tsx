@@ -45,55 +45,57 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
   solidityType,
   ...inputProps
 }) => {
+  const inputName = inputProps.name as string;
+
   const maxValue = useMemo(() => maxValues[solidityType], [solidityType]);
   const minValue = useMemo(() => minValues[solidityType], [solidityType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    form.setValue(inputProps.name as string, value, {
+    form.setValue(inputName, value, {
       shouldDirty: true,
     });
 
     if (value.includes(".") || value.includes(",")) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "pattern",
         message:
           "Can't use decimals, you need to convert your input to Wei first.",
       });
     } else if (!value.match(new RegExp(`^-?\\d+$`))) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "pattern",
         message: "Input is not a valid number.",
       });
     } else if (BigNumber.from(parseInt(value) || 0).gt(maxValue)) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "maxValue",
         message: `Value is higher than what ${solidityType} can store.`,
       });
     } else if (BigNumber.from(parseInt(value) || 0).lt(minValue)) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "minValue",
         message: solidityType.startsWith("uint")
           ? `Value must be a positive number for uint types.`
           : `Value is lower than what ${solidityType} can store.}`,
       });
     } else {
-      form.clearErrors(inputProps.name as string);
+      form.clearErrors(inputName);
     }
   };
 
   const handleConversion = () => {
-    const val: string = form.getValues(inputProps.name as string);
+    const val: string = form.getValues(inputName);
 
     try {
       const parsed = parseEther(val.replace(",", "."));
-      form.setValue(inputProps.name as string, parsed.toString(), {
+      form.setValue(inputName, parsed.toString(), {
         shouldDirty: true,
       });
-      form.clearErrors(inputProps.name as string);
+      form.clearErrors(inputName);
     } catch (e) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "pattern",
         message: "Can't be converted to wei.",
       });
@@ -104,11 +106,11 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
     <InputGroup>
       <Input
         {...inputProps}
-        value={form.watch(inputProps.name as string)}
+        value={form.watch(inputName)}
         onChange={handleChange}
       />
-      {(form.watch(inputProps.name as string).includes(".") ||
-        form.watch(inputProps.name as string).includes(",")) && (
+      {(form.watch(inputName).includes(".") ||
+        form.watch(inputName).includes(",")) && (
         <InputRightElement width="72px">
           <Button
             size="xs"

@@ -10,12 +10,13 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
   formContext: form,
   ...inputProps
 }) => {
+  const inputName = inputProps.name as string;
   const { onError } = useErrorHandler();
   const { mutate: upload, isLoading } = useStorageUpload();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    form.setValue(inputProps.name as string, val, { shouldDirty: true });
+    const { value } = e.target;
+    form.setValue(inputName, value, { shouldDirty: true });
   };
 
   const handleUpload = (file: File) => {
@@ -23,7 +24,7 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
       { data: [file] },
       {
         onSuccess: ([uri]) =>
-          form.setValue(inputProps.name as string, uri, { shouldDirty: true }),
+          form.setValue(inputName, uri, { shouldDirty: true }),
         onError: (error) => onError(error, "Failed to upload file"),
       },
     );
@@ -32,13 +33,13 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
   return (
     <InputGroup>
       <Input
-        value={form.watch(inputProps.name as string)}
+        value={form.watch(inputName)}
         disabled={isLoading}
         onChange={handleChange}
         {...inputProps}
       />
       {/* // TODO: This is not working because the name is not being passed (index is being passed instead) */}
-      {(inputProps.name as string).toLowerCase().includes("uri") && (
+      {inputName.toLowerCase().includes("uri") && (
         <InputRightElement width="96px">
           <FileInput setValue={handleUpload}>
             <Button

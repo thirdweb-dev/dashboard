@@ -8,14 +8,16 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
   solidityType,
   ...inputProps
 }) => {
+  const inputName = inputProps.name as string;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    form.setValue(inputProps.name as string, val, { shouldDirty: true });
+    form.setValue(inputName, val, { shouldDirty: true });
     try {
       keccak256(val);
-      form.clearErrors(inputProps.name as string);
+      form.clearErrors(inputName);
     } catch (error) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "pattern",
         message: `Value is not a valid ${solidityType}.`,
       });
@@ -23,14 +25,14 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
   };
 
   const handleConversion = () => {
-    const val = form.getValues(inputProps.name as string);
+    const val = form.getValues(inputName);
 
     try {
       const hash = formatBytes32String(val);
-      form.setValue(inputProps.name as string, hash, { shouldDirty: true });
-      form.clearErrors(inputProps.name as string);
+      form.setValue(inputName, hash, { shouldDirty: true });
+      form.clearErrors(inputName);
     } catch (error) {
-      form.setError(inputProps.name as string, {
+      form.setError(inputName, {
         type: "pattern",
         message: `Error trying to convert to ${solidityType}.`,
       });
@@ -41,11 +43,10 @@ export const SolidityBytesInput: React.FC<SolidityInputWithTypeProps> = ({
     <InputGroup>
       <Input
         {...inputProps}
-        value={form.watch(inputProps.name as string)}
+        value={form.watch(inputName)}
         onChange={handleChange}
       />
-      {!!form.getFieldState(inputProps.name as string, form.formState)
-        .error && (
+      {!!form.getFieldState(inputName, form.formState).error && (
         <InputRightElement width="96px">
           <Button
             size="xs"
