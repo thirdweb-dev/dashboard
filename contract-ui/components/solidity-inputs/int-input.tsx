@@ -1,7 +1,9 @@
 import { SolidityInputWithTypeProps } from ".";
-import { Input } from "@chakra-ui/react";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { BigNumber, constants } from "ethers";
+import { parseEther } from "ethers/lib/utils";
 import { useMemo } from "react";
+import { Button } from "tw-components";
 
 // I tried getting these from constants but they were nowhere to be found, only some, so hardcoding the rest.
 const minValues: Record<string, BigNumber> = {
@@ -47,24 +49,29 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
   const minValue = useMemo(() => minValues[solidityType], [solidityType]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (val.includes(".") || val.includes(",")) {
+    const { value } = e.target;
+
+    form.setValue(inputProps.name as string, value, {
+      shouldDirty: true,
+    });
+
+    if (value.includes(".") || value.includes(",")) {
       form.setError(inputProps.name as string, {
         type: "pattern",
         message:
           "Can't use decimals, you need to convert your input to Wei first.",
       });
-    } else if (!val.match(new RegExp(`^-?\\d+$`))) {
+    } else if (!value.match(new RegExp(`^-?\\d+$`))) {
       form.setError(inputProps.name as string, {
         type: "pattern",
         message: "Input is not a valid number.",
       });
-    } else if (BigNumber.from(parseInt(val) || 0).gt(maxValue)) {
+    } else if (BigNumber.from(parseInt(value) || 0).gt(maxValue)) {
       form.setError(inputProps.name as string, {
         type: "maxValue",
         message: `Value is higher than what ${solidityType} can store.`,
       });
-    } else if (BigNumber.from(parseInt(val) || 0).lt(minValue)) {
+    } else if (BigNumber.from(parseInt(value) || 0).lt(minValue)) {
       form.setError(inputProps.name as string, {
         type: "minValue",
         message: solidityType.startsWith("uint")
@@ -72,19 +79,50 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
           : `Value is lower than what ${solidityType} can store.}`,
       });
     } else {
-      form.setValue(inputProps.name as string, val.toString(), {
-        shouldDirty: true,
-      });
       form.clearErrors(inputProps.name as string);
     }
   };
 
+  const handleConversion = () => {
+    const val: string = form.getValues(inputProps.name as string);
+
+    try {
+      const parsed = parseEther(val.replace(",", "."));
+      form.setValue(inputProps.name as string, parsed.toString(), {
+        shouldDirty: true,
+      });
+      form.clearErrors(inputProps.name as string);
+    } catch (e) {
+      form.setError(inputProps.name as string, {
+        type: "pattern",
+        message: "Can't be converted to wei.",
+      });
+    }
+  };
+
   return (
-    <Input
-      max={maxValue.toString()}
-      min={minValue.toString()}
-      {...inputProps}
-      onChange={handleChange}
-    />
+    <InputGroup>
+      <Input
+        {...inputProps}
+        value={form.watch(inputProps.name as string)}
+        onChange={handleChange}
+      />
+      {(form.watch(inputProps.name as string).includes(".") ||
+        form.watch(inputProps.name as string).includes(",")) && (
+        <InputRightElement width="72px">
+          <Button
+            size="xs"
+            padding={2}
+            paddingY="3.5"
+            aria-label="Convert to WEI"
+            onClick={handleConversion}
+            bgColor="gray.700"
+            ml={2}
+          >
+            To Wei
+          </Button>
+        </InputRightElement>
+      )}
+    </InputGroup>
   );
 };
