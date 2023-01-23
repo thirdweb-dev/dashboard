@@ -9,13 +9,13 @@ export const ManageSection = () => {
   return (
     <KeyFeatureLayout
       title="Manage"
-      titleGradient="linear-gradient(70deg, #4830A4 -7%, #9786DF 70%"
+      titleGradient="linear-gradient(70deg, #4F3DA5, #8E81D0)"
       headline="Manage and interact with your web3 apps."
-      description="Receive insights and interact with all your contracts that are deployed on thirdweb from a single place."
+      description="Get insights and interact with all your contracts that are deployed on thirdweb from a single place."
     >
-      <SimpleGrid columns={{ md: 9 }} gap={6}>
+      <SimpleGrid columns={{ md: 11 }} gap={6}>
         <GridItem
-          colSpan={{ md: 5 }}
+          colSpan={{ md: 6 }}
           bg="#070707"
           rounded="lg"
           position="relative"
@@ -24,7 +24,7 @@ export const ManageSection = () => {
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "150%" }}
-            pos={{ top: "50%", left: "50%" }}
+            pos={{ top: "60%", left: "50%" }}
             color="#9786DF60"
           />
           <Flex
@@ -38,9 +38,9 @@ export const ManageSection = () => {
               Monitor and configure your contracts from your{" "}
               <Link
                 href="/dashboards"
-                bgGradient="linear-gradient(70deg, #4830A4 15%, #9786DF 50%)"
+                bgGradient="linear-gradient(70deg, #4F3DA5, #8E81D0, #4F3DA5)"
                 bgClip="text"
-                bgSize="150%"
+                bgSize="200%"
                 transition="background 0.5s ease"
                 _hover={{ backgroundPosition: "100%" }}
               >
@@ -55,7 +55,7 @@ export const ManageSection = () => {
           </Flex>
         </GridItem>
         <GridItem
-          colSpan={{ md: 4 }}
+          colSpan={{ md: 5 }}
           bg="#070707"
           rounded="lg"
           position="relative"
@@ -72,7 +72,7 @@ export const ManageSection = () => {
               Collaborate with your team and{" "}
               <Box
                 as="span"
-                bgGradient="linear-gradient(70deg, #4830A4 0%, #9786DF 65%)"
+                bgGradient="linear-gradient(70deg, #4F3DA5, #8E81D0)"
                 bgClip="text"
               >
                 manage permissions
@@ -88,7 +88,7 @@ export const ManageSection = () => {
           </Flex>
         </GridItem>
         <GridItem
-          colSpan={{ md: 9 }}
+          colSpan={{ md: 11 }}
           bg="#070707"
           rounded="lg"
           position="relative"
@@ -96,9 +96,9 @@ export const ManageSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "200%" }}
-            pos={{ top: "50%", left: "50%" }}
-            color="#9786DF60"
+            size={{ width: "120%", height: "180%" }}
+            pos={{ top: "50%", left: "70%" }}
+            color="#9786DF40"
           />
           <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
             <Flex
@@ -117,7 +117,7 @@ export const ManageSection = () => {
               >
                 <Box
                   as="span"
-                  bgGradient="linear-gradient(70deg, #4830A4 5%, #9786DF 65%)"
+                  bgGradient="linear-gradient(70deg, #4F3DA5, #8E81D0)"
                   bgClip="text"
                 >
                   Automatic pre-built reports

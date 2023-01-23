@@ -9,7 +9,7 @@ export const LaunchSection = () => {
   return (
     <KeyFeatureLayout
       title="Launch"
-      titleGradient="linear-gradient(60deg, #C45AB1 -30%, #E9A8D9 65%)"
+      titleGradient="linear-gradient(65deg, #C77FBE, #D19FD4)"
       headline="Simplified workflow to launch contracts on-chain."
       description="Deploy your contracts on-chain easily with a single command or through our Dashboard without requiring private keys."
     >
@@ -39,11 +39,11 @@ export const LaunchSection = () => {
               Ship your contracts on-chain effortlessly with{" "}
               <Link
                 href="/deploy"
-                bgGradient="linear-gradient(65deg, #C45AB1 30%, #E9A8D9 60%)"
+                bgGradient="linear-gradient(65deg, #C77FBE, #D19FD4, #C77FBE)"
                 bgClip="text"
-                bgSize="150%"
+                bgSize="200%"
                 transition="background 0.5s ease"
-                _hover={{ backgroundPosition: "100%" }}
+                _hover={{ bgPos: "100%" }}
               >
                 Deploy
               </Link>
@@ -89,11 +89,11 @@ export const LaunchSection = () => {
               Publish your contracts with{" "}
               <Link
                 href="/release"
-                bgGradient="linear-gradient(65deg, #C45AB1 50%, #E9A8D9 80%)"
+                bgGradient="linear-gradient(65deg, #C77FBE, #D19FD4, #C77FBE)"
                 bgClip="text"
-                bgSize="150%"
+                bgSize="200%"
                 transition="background 0.5s ease"
-                _hover={{ backgroundPosition: "100%" }}
+                _hover={{ bgPos: "100%" }}
               >
                 Release
               </Link>

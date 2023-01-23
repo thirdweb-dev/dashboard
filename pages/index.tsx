@@ -1,9 +1,6 @@
 import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
-import { CLISection } from "components/homepage/sections/CLISection";
-import { ContractsSection } from "components/homepage/sections/ContractsSection";
-import { DashboardFeaturesSection } from "components/homepage/sections/DashboardFeaturesSection";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
 import { KeyFeaturesSection } from "components/homepage/sections/KeyFeaturesSection";
@@ -41,7 +38,6 @@ const HomePage: ThirdwebNextPage = () => {
           <PartnerCarousel />
           <StatsSection />
           <KeyFeaturesSection />
-          <ContractsSection />
           <Suspense>
             <Box position="relative" zIndex={10}>
               <SDKSection />
@@ -51,8 +47,6 @@ const HomePage: ThirdwebNextPage = () => {
                 color={"hsl(280deg 78% 30% / 30%)"}
               />
             </Box>
-            <CLISection />
-            <DashboardFeaturesSection />
             <NetworksSection />
             <PricingSection />
             <SolutionsSection />

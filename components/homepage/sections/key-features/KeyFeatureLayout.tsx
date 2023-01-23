@@ -19,10 +19,17 @@ export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
 }) => {
   return (
     <Flex my={144} direction="column" align="center" w="full">
-      <Flex maxW={480} direction="column" gap={2} textAlign="center">
+      <Flex
+        maxW={700}
+        flexDir="column"
+        align="center"
+        gap={2}
+        textAlign="center"
+      >
         <Heading
           as="h1"
           size="label.xl"
+          lineHeight="1.15"
           bgGradient={titleGradient}
           bgClip="text"
         >
@@ -35,6 +42,7 @@ export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
           py={8}
           mb={4}
           as="h3"
+          maxW={480}
           size="subtitle.sm"
           color="whiteAlpha.700"
         >

@@ -9,7 +9,7 @@ export const BuildSection = () => {
   return (
     <KeyFeatureLayout
       title="Build"
-      titleGradient="linear-gradient(to-l, #BFA3DA 55%, #743F9E 115%)"
+      titleGradient="linear-gradient(70deg, #805AA8, #BAA2D4)"
       headline="Accelerate your web3 development."
       description="Leverage our easy-to-use SDKs, developer tools, and integrations with best-in-class partner providers."
     >
@@ -25,7 +25,7 @@ export const BuildSection = () => {
             zIndex="auto"
             size={{ width: "200%", height: "150%" }}
             pos={{ top: "80%", left: "0%" }}
-            color="#380D3F"
+            color="#380D3F60"
           />
           <Flex
             h="full"
@@ -37,13 +37,11 @@ export const BuildSection = () => {
               Create your own contracts with our{" "}
               <Link
                 href="/contractkit"
-                bgGradient="linear-gradient(to-l, #BFA3DA 40%, #743F9E 80%)"
+                bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
                 bgClip="text"
-                bgSize="150%"
+                bgSize="200%"
                 transition="background 0.5s ease"
-                _hover={{
-                  backgroundPosition: "100%",
-                }}
+                _hover={{ bgPos: "100%" }}
               >
                 ContractKit
               </Link>
@@ -65,9 +63,9 @@ export const BuildSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "300%", height: "150%" }}
-            pos={{ top: "-20%", left: "100%" }}
-            color="#380D3F"
+            size={{ width: "200%", height: "150%" }}
+            pos={{ top: "20%", left: "100%" }}
+            color="#380D3F60"
           />
           <Flex
             h="full"
@@ -87,13 +85,11 @@ export const BuildSection = () => {
               contracts in{" "}
               <Link
                 href="/explore"
-                bgGradient="linear-gradient(to-l, #BFA3DA 35%, #743F9E 55%)"
+                bgGradient="linear-gradient(70deg, #BFA3DA, #BAA2D4, #BFA3DA)"
                 bgClip="text"
-                bgSize="150%"
+                bgSize="200%"
                 transition="background 0.5s ease"
-                _hover={{
-                  backgroundPosition: "100%",
-                }}
+                _hover={{ bgPos: "100%" }}
               >
                 Explore
               </Link>
@@ -116,7 +112,7 @@ export const BuildSection = () => {
             zIndex="auto"
             size={{ width: "300%", height: "150%" }}
             pos={{ top: "70%", left: "150%" }}
-            color="#380D3F"
+            color="#380D3F60"
           />
           <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
             <Flex
@@ -136,15 +132,15 @@ export const BuildSection = () => {
                 Integrate web3 technology into your apps and games with our{" "}
                 <Link
                   href="/sdk"
-                  bgGradient="linear-gradient(to-l, #BFA3DA 65%, #743F9E 105%)"
+                  bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
                   bgClip="text"
-                  bgSize="150%"
+                  bgSize="200%"
                   transition="background 0.5s ease"
                   _hover={{
-                    backgroundPosition: "100%",
+                    bgPos: "100%",
                   }}
                 >
-                  Easy-to-use SDKs
+                  easy-to-use SDKs
                 </Link>
               </Heading>
               <Heading
@@ -175,8 +171,8 @@ export const BuildSection = () => {
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "150%" }}
-            pos={{ top: "100%", left: "30%" }}
-            color="#380D3F"
+            pos={{ top: "50%", left: "100%" }}
+            color="#380D3F60"
           />
           <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
             <Flex
@@ -195,10 +191,9 @@ export const BuildSection = () => {
               >
                 <Box
                   as="span"
-                  bgGradient="linear-gradient(to-l, #BFA3DA 65%, #743F9E 105%)"
+                  bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
                   bgClip="text"
-                  bgSize="150%"
-                  transition="background 0.5s ease"
+                  bgSize="200%"
                 >
                   Fully managed infrastructure services
                 </Box>{" "}
