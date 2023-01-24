@@ -129,7 +129,7 @@ export const BuildSection = () => {
                 size="label.xl"
                 textAlign={{ base: "center", md: "left" }}
               >
-                Integrate web3 technology into your apps and games with our{" "}
+                Integrate web3 technologies into your apps and games with our{" "}
                 <Link
                   href="/sdk"
                   bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
@@ -152,6 +152,7 @@ export const BuildSection = () => {
             </Flex>
             <Box px={14} py={6}>
               <Image
+                maxH={200}
                 h="full"
                 src={require("/public/assets/landingpage/build-sdk.png")}
                 alt=""
@@ -204,9 +205,10 @@ export const BuildSection = () => {
                 Deploy across any EVM chain.
               </Text>
             </Flex>
-            <Box px={14} py={8}>
+            <Box px={14} py={10}>
               <Image
                 h="full"
+                maxH={150}
                 src={require("/public/assets/landingpage/build-infrastructure.png")}
                 alt=""
               />
