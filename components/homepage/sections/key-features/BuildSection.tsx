@@ -85,7 +85,7 @@ export const BuildSection = () => {
               contracts in{" "}
               <Link
                 href="/explore"
-                bgGradient="linear-gradient(70deg, #BFA3DA, #BAA2D4, #BFA3DA)"
+                bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
                 bgClip="text"
                 bgSize="200%"
                 transition="background 0.5s ease"
