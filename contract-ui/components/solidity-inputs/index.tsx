@@ -4,6 +4,7 @@ import { SolidityBytesInput } from "./bytes-input";
 import { SolidityIntInput } from "./int-input";
 import { SolidityRawInput } from "./raw-input";
 import { SolidityStringInput } from "./string-input";
+import { SolidityTupleInput } from "./tuple-input";
 import { Input, InputProps } from "@chakra-ui/react";
 import { UseFormReturn, useFormContext } from "react-hook-form";
 
@@ -13,16 +14,31 @@ export interface SolidityInputProps extends InputProps {
 export interface SolidityInputWithTypeProps extends SolidityInputProps {
   solidityType: string;
   solidityName?: string;
+  solidityComponents?:
+    | {
+        [x: string]: any;
+        type: string;
+        name: string;
+      }[]
+    | undefined;
 }
 export interface SolidityInputPropsOptionalFormProps extends InputProps {
   solidityType: string;
   solidityName?: string;
+  solidityComponents?:
+    | {
+        [x: string]: any;
+        type: string;
+        name: string;
+      }[]
+    | undefined;
   formContext?: UseFormReturn<any, any>;
 }
 
 export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
   solidityType,
   solidityName,
+  solidityComponents,
   ...inputProps
 }) => {
   const formContext = useFormContext();
@@ -43,11 +59,12 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
         {...inputProps}
       />
     );
-  } else */ if (solidityType.endsWith("[]") || solidityType === "tuple") {
+  } else */ if (solidityType.endsWith("[]")) {
     return (
       <SolidityRawInput
         formContext={form}
         solidityType={solidityType}
+        solidityComponents={solidityComponents}
         {...inputProps}
       />
     );
@@ -62,9 +79,16 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
         {...inputProps}
       />
     );
-  } /* else if (solidityType === "tuple") {
-    return <SolidityTupleInput formContext={form} {...inputProps} />;
-  } */ else if (solidityType === "address") {
+  } else if (solidityType === "tuple") {
+    return (
+      <SolidityTupleInput
+        solidityType={solidityType}
+        solidityComponents={solidityComponents}
+        formContext={form}
+        {...inputProps}
+      />
+    );
+  } else if (solidityType === "address") {
     return <SolidityAddressInput formContext={form} {...inputProps} />;
   } else if (solidityType === "string") {
     return (

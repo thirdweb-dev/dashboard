@@ -20,10 +20,10 @@ import {
   ValidContractInstance,
 } from "@thirdweb-dev/sdk/evm";
 import { MarkdownRenderer } from "components/contract-components/released-contract/markdown-renderer";
+import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
-import { camelToTitle } from "utils/camelToTitle";
 
 interface ContractFunctionProps {
   fn?: AbiFunction | AbiEvent;

@@ -154,3 +154,64 @@ export const validateSolidityInput = (value: string, solidityType: string) => {
 
   return null;
 };
+
+// other stuff
+export const camelToTitle = (string: string): string => {
+  if (string[0] === "_") {
+    string = string.slice(1);
+  }
+  return string
+    .replace(/^[a-z]/, (match) => match.toUpperCase())
+    .replace(/([A-Z]{1}[a-z]*|_[a-z])/g, function (m) {
+      return m.length > 1
+        ? ` ${m
+            .replace(/^_/, "")
+            .replace(/^[a-z]/, (match) => match.toUpperCase())}`
+        : m.replace(/^_/, "").replace(/^[a-z]/, (match) => match.toUpperCase());
+    });
+};
+
+type FunctionComponents = {
+  name: string;
+  type: string;
+  [key: string]: any;
+}[];
+
+function formatInputType(type: string, components?: FunctionComponents): any {
+  if (type.includes("[]")) {
+    const obj = [];
+    obj.push(formatInputType(type.replace("[]", ""), components));
+    return obj;
+  } else if (type.includes("tuple")) {
+    const obj: any = {};
+    components?.forEach((component) => {
+      obj[component.name] = formatInputType(
+        component.type,
+        component.components,
+      );
+    });
+    return obj;
+  } else if (type.includes("string")) {
+    return "...";
+  } else if (type.includes("int")) {
+    return 0;
+  } else if (type.includes("bool")) {
+    return true;
+  } else if (type.includes("address")) {
+    return "0x...";
+  } else {
+    return "0";
+  }
+}
+
+export function formatHint(
+  type: string,
+  components?: FunctionComponents,
+): string {
+  const placeholder = formatInputType(type, components);
+  return JSON.stringify(placeholder)
+    ?.replaceAll(",", ", ")
+    .replaceAll(":", ": ")
+    .replaceAll("{", "{ ")
+    .replaceAll("}", " }");
+}

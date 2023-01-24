@@ -11,6 +11,10 @@ import { useContractWrite } from "@thirdweb-dev/react";
 import { AbiFunction, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
+import {
+  camelToTitle,
+  formatHint,
+} from "contract-ui/components/solidity-inputs/helpers";
 import { BigNumber, utils } from "ethers";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect, useId, useMemo } from "react";
@@ -27,7 +31,6 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import { camelToTitle } from "utils/camelToTitle";
 
 export function formatResponseData(data: unknown): string {
   if (BigNumber.isBigNumber(data)) {
@@ -47,48 +50,6 @@ export function formatResponseData(data: unknown): string {
   }
 
   return JSON.stringify(data, null, 2);
-}
-
-type FunctionComponents = {
-  name: string;
-  type: string;
-  [key: string]: any;
-}[];
-
-function formatInputType(type: string, components?: FunctionComponents): any {
-  if (type.includes("[]")) {
-    const obj = [];
-    obj.push(formatInputType(type.replace("[]", ""), components));
-    return obj;
-  } else if (type.includes("tuple")) {
-    const obj: any = {};
-    components?.forEach((component) => {
-      obj[component.name] = formatInputType(
-        component.type,
-        component.components,
-      );
-    });
-    return obj;
-  } else if (type.includes("string")) {
-    return "...";
-  } else if (type.includes("int")) {
-    return 0;
-  } else if (type.includes("bool")) {
-    return true;
-  } else if (type.includes("address")) {
-    return "0x...";
-  } else {
-    return "0";
-  }
-}
-
-function formatHint(type: string, components?: FunctionComponents): string {
-  const placeholder = formatInputType(type, components);
-  return JSON.stringify(placeholder)
-    ?.replaceAll(",", ", ")
-    .replaceAll(":", ": ")
-    .replaceAll("{", "{ ")
-    .replaceAll("}", " }");
 }
 
 export function formatError(error: Error): string {
@@ -247,6 +208,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                     <SolidityInput
                       solidityName={item.key}
                       solidityType={item.type}
+                      solidityComponents={item.components}
                       {...form.register(`params.${index}.value`)}
                     />
                     {/* // TODO: This is not rendering the error */}
@@ -258,14 +220,6 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                         ).error?.message
                       }
                     </FormErrorMessage>
-                    {/* // TODO: This should live on the SolidityRawInput component */}
-                    {(item.type.includes("tuple") ||
-                      item.type.includes("[]")) && (
-                      <FormHelperText>
-                        Input should be passed in JSON format - Ex:{" "}
-                        {formatHint(item.type, item.components)}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                 );
               })}

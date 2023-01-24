@@ -18,6 +18,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
+import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
@@ -32,7 +33,6 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-import { camelToTitle } from "utils/camelToTitle";
 import { SupportedChainIdToNetworkMap } from "utils/network";
 
 function isThirdwebFactory(

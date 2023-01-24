@@ -14,6 +14,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
+import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { getTemplateValuesForType } from "lib/deployment/template-values";
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -26,7 +27,6 @@ import {
   Heading,
   Text,
 } from "tw-components";
-import { camelToTitle } from "utils/camelToTitle";
 
 interface ContractParamsFieldsetProps {
   deployParams:
