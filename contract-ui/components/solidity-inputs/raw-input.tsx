@@ -29,10 +29,11 @@ export const SolidityRawInput: React.FC<SolidityInputWithTypeProps> = ({
         const parsedValue: string[] = JSON.parse(trimmedValue);
 
         form.clearErrors(inputName);
-
         const isValid = parsedValue.every(
           (item) => !validateSolidityInput(item, typeWithoutArray),
         );
+
+        console.log({ parsedValue, typeWithoutArray, isValid });
 
         if (!isValid) {
           form.setError(inputName, invalidInputError);
@@ -40,6 +41,7 @@ export const SolidityRawInput: React.FC<SolidityInputWithTypeProps> = ({
           form.clearErrors(inputName);
         }
       } catch (error) {
+        console.log("catching error", error);
         form.setError(inputName, invalidInputError);
       }
     } else {

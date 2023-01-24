@@ -40,6 +40,8 @@ export const validateInt = (value: string, solidityType: string) => {
   const min = intMinValues[solidityType];
   const max = intMaxValues[solidityType];
 
+  value = value.toString();
+
   if (value?.includes(".") || value?.includes(",")) {
     return {
       type: "pattern",
