@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useDeferredValue, useMemo, useRef, useState } from "react";
 import { Text } from "tw-components";
 
+// TODO @manan: now that we're maintaining a chains package we should rely on that here, and probably make a proper search api route with that package
 const fetchChainList = async (): Promise<ChainListNetworkInfo[]> => {
   const response = await fetch("/json/chain-list-mini.json");
   return response.json();

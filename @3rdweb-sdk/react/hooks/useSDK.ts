@@ -1,7 +1,10 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
-import { ChainId } from "@thirdweb-dev/sdk/evm";
-import { useConfiguredNetworksRecord } from "components/configure-networks/useConfiguredNetworks";
+import { ChainId, ChainInfo } from "@thirdweb-dev/sdk/evm";
+import {
+  useConfiguredNetworks,
+  useConfiguredNetworksRecord,
+} from "components/configure-networks/useConfiguredNetworks";
 import { getEVMRPC } from "constants/rpc";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useMemo } from "react";
@@ -30,12 +33,21 @@ export function useContractList(
 }
 
 export function useMultiChainRegContractList(walletAddress?: string) {
+  const configuredChains = useConfiguredNetworks();
   return useQuery(
     [networkKeys.multiChainRegistry, walletAddress],
     async () => {
       const polygonSDK = getEVMThirdwebSDK(
         ChainId.Polygon,
         getEVMRPC(ChainId.Polygon),
+        {
+          chainInfos: configuredChains.reduce((acc, chain) => {
+            acc[chain.chainId] = {
+              rpc: chain.rpcUrl,
+            };
+            return acc;
+          }, {} as Record<number, ChainInfo>),
+        },
       );
 
       if (!walletAddress) {
