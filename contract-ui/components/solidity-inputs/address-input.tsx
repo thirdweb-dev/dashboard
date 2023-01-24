@@ -40,6 +40,17 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
 
   const hasError = !!form.getFieldState(inputName, form.formState).error;
 
+  const resolvingEns =
+    localInput?.endsWith(".eth") &&
+    !ensQuery.isError &&
+    !ensQuery.data?.address;
+
+  const resolvedAddress =
+    localInput?.endsWith(".eth") && !hasError && ensQuery.data?.address;
+
+  const ensFound =
+    isAddress(localInput) && !hasError && ensQuery?.data?.ensName;
+
   return (
     <>
       <Input
@@ -56,26 +67,23 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
         {...inputProps}
       />
 
-      <FormHelperText as={Flex} gap={2}>
-        {localInput?.endsWith(".eth") &&
-          !ensQuery.isError &&
-          !ensQuery.data?.address &&
-          "Resolving ENS..."}
-        {localInput?.endsWith(".eth") &&
-          !hasError &&
-          ensQuery.data?.address && (
-            <>
+      {resolvingEns || resolvedAddress || ensFound ? (
+        <FormHelperText as={Flex}>
+          {resolvingEns && "Resolving ENS..."}
+          {resolvedAddress && (
+            <Flex gap={2}>
               <Text color="green.600">✔</Text>{" "}
               <Text>Resolved address: {ensQuery?.data?.address}</Text>
-            </>
+            </Flex>
           )}
-        {isAddress(localInput) && !hasError && ensQuery?.data?.ensName && (
-          <>
-            <Text color="green.600">✔</Text>{" "}
-            <Text>ENS Found: {ensQuery?.data?.ensName}</Text>
-          </>
-        )}
-      </FormHelperText>
+          {ensFound && (
+            <Flex gap={2}>
+              <Text color="green.600">✔</Text>{" "}
+              <Text>ENS Found: {ensQuery?.data?.ensName}</Text>
+            </Flex>
+          )}
+        </FormHelperText>
+      ) : null}
 
       {ensQuery.isError && (
         <FormHelperText color="red.300">
