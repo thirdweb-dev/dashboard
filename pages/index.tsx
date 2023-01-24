@@ -1,6 +1,5 @@
 import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
-import { Aurora } from "components/homepage/Aurora";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
 import { KeyFeaturesSection } from "components/homepage/sections/KeyFeaturesSection";
