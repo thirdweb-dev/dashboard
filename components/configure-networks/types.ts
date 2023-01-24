@@ -19,4 +19,6 @@ export type ConfiguredNetworkInfo = {
   chainId: number;
   currencySymbol: string;
   shortName: string;
+  type: "testnet" | "mainnet";
+  isCustom: boolean;
 };

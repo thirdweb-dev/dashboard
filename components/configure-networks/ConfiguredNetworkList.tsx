@@ -1,113 +1,129 @@
 import { ConfiguredNetworkInfo } from "./types";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Icon,
-  List,
-  ListItem,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useRef, useState } from "react";
-import { MdDelete } from "react-icons/md";
-import { Button } from "tw-components";
+import { Box, Icon, List, ListItem } from "@chakra-ui/react";
+import { useMemo } from "react";
+import { FaChevronRight } from "react-icons/fa";
+import { Button, Heading } from "tw-components";
 
 interface ConfiguredNetworkListProps {
   onDelete: (network: ConfiguredNetworkInfo) => void;
   networks: ConfiguredNetworkInfo[];
   onClick: (network: ConfiguredNetworkInfo) => void;
+  activeNetwork?: ConfiguredNetworkInfo;
 }
 
 export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
   props,
 ) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement | null>(null);
-  const [deleteNetwork, setDeleteNetwork] =
-    useState<ConfiguredNetworkInfo | null>(null);
+  const { mainnets, testnets } = useMemo(() => {
+    const _mainets: ConfiguredNetworkInfo[] = [];
+    const _testnets: ConfiguredNetworkInfo[] = [];
+
+    props.networks.forEach((network) => {
+      if (
+        network.name.toLowerCase().includes("test") ||
+        network.type === "testnet"
+      ) {
+        _testnets.push(network);
+      } else {
+        _mainets.push(network);
+      }
+    });
+
+    return { mainnets: _mainets, testnets: _testnets };
+  }, [props.networks]);
+
   return (
     <>
       <List
         spacing={0}
-        maxH="550px"
-        overflow="scroll"
+        overflow="auto"
+        maxH="530px"
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "6px",
+          },
+          "&::-webkit-scrollbar-track": {
+            width: "6px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "rgba(255, 255, 255, 0.1)",
+            borderRadius: 24,
+          },
+        }}
         pb={8}
+        pr={4}
         sx={{
           maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",
         }}
       >
-        {props.networks.map((network) => (
-          <ListItem key={network.chainId} display="flex" alignItems="center">
-            <Button
-              display="flex"
-              justifyContent="flex-start"
-              w="100%"
-              background="transparent"
-              fontWeight={500}
-              fontSize="14px"
-              color="highlight"
-              p={0}
-              _hover={{
-                color: "HighlightText",
-                background: "transparent",
-              }}
-              onClick={() => props.onClick(network)}
-              whiteSpace="normal"
-              textAlign="left"
-              lineHeight={1.5}
-            >
-              {network.name}
-            </Button>
-            <Icon
-              as={MdDelete}
-              cursor="pointer"
-              color="highlight"
-              opacity={0.5}
-              _hover={{
-                opacity: 1,
-              }}
-              onClick={() => {
-                setDeleteNetwork(network);
-                onOpen();
-              }}
-            />
-          </ListItem>
-        ))}
-      </List>
+        {mainnets.length > 0 && (
+          <Box mb={8}>
+            <Heading fontSize="md" color="whiteAlpha.500" mb={2}>
+              Mainnets
+            </Heading>
+            {mainnets.map((network) => (
+              <NetworkListItem
+                isActive={props.activeNetwork === network}
+                onClick={() => props.onClick(network)}
+                name={network.name}
+                key={network.name}
+              />
+            ))}
+          </Box>
+        )}
 
-      {/* Alert Dialog for Deletion */}
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Configured Network
-            </AlertDialogHeader>
-            <AlertDialogBody>Are you sure?</AlertDialogBody>
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button
-                colorScheme="red"
-                onClick={() => {
-                  props.onDelete(deleteNetwork as ConfiguredNetworkInfo);
-                  onClose();
-                }}
-                ml={3}
-              >
-                Delete
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        {testnets.length > 0 && (
+          <Box mb={8}>
+            <Heading fontSize="md" color="whiteAlpha.500" mb={2}>
+              Testnets
+            </Heading>
+            {testnets.map((network) => (
+              <NetworkListItem
+                isActive={props.activeNetwork === network}
+                onClick={() => props.onClick(network)}
+                name={network.name}
+                key={network.name}
+              />
+            ))}
+          </Box>
+        )}
+      </List>
     </>
+  );
+};
+
+const NetworkListItem: React.FC<{
+  onClick: () => void;
+  name: string;
+  isActive: boolean;
+}> = (props) => {
+  return (
+    <ListItem display="flex" alignItems="center">
+      <Button
+        display="flex"
+        justifyContent="space-between"
+        w="100%"
+        background={props.isActive ? "white" : "transparent"}
+        color={props.isActive ? "black" : "white"}
+        fontWeight={500}
+        fontSize="14px"
+        // color={props.isActive ? "white" : "white"}
+        p={0}
+        mb={1}
+        pl={3}
+        _hover={{
+          background: props.isActive ? "white" : "backgroundHighlight",
+        }}
+        onClick={props.onClick}
+        whiteSpace="normal"
+        textAlign="left"
+        lineHeight={1.1}
+      >
+        {props.name}
+        {props.isActive && (
+          <Icon as={FaChevronRight} mr={3} color="backgroundBody" />
+        )}
+      </Button>
+    </ListItem>
   );
 };

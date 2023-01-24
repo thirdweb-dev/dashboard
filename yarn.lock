@@ -3563,7 +3563,12 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/chains@0.1.0-dev-64ddb2d", "@thirdweb-dev/chains@^0.1.0-dev-64ddb2d":
+"@thirdweb-dev/chains@0.1.0-dev-53e315b":
+  version "0.1.0-dev-53e315b"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-53e315b.tgz#33966fc4a4543f8330af94ff8bef8ad5f11fc1d2"
+  integrity sha512-g3aM/H40CNG/bQ2vP68g0P5euAE1TU5CY9UREyDEEYVipCLL8Y/pZCuArseVhrmhxc/cjPPTqYt3KReMN5HFFw==
+
+"@thirdweb-dev/chains@^0.1.0-dev-64ddb2d":
   version "0.1.0-dev-64ddb2d"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-64ddb2d.tgz#6169311d12b3dd90058d4011436b37a52f7de3c3"
   integrity sha512-YPeix2eLahBTCV4rBIbP7IMMkXUvvGWRGNgOSzcoTzt59wZK5AUS1oWXqHuxDhulacqkbSveXyL4zQnHBpXzeA==
@@ -3580,10 +3585,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.3.0.tgz#acbec36746bd8a9176b01c792d3d8aa6483a16c3"
   integrity sha512-UE6Gc4xUTJ3PYJ6WWHtrIXynid5z7TZSnoaqzhiMcLnch6YqMJI1b7uB9NunYEY1N3SB75BYOgun9e1T3RoSbQ==
 
-"@thirdweb-dev/react@^3.7.0-dev-64ddb2d":
-  version "3.7.0-dev-64ddb2d"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.7.0-dev-64ddb2d.tgz#0f1939707bea1eba195c20d1b35d7b633cefa4f0"
-  integrity sha512-0uG+BYSCN2BTgTTooNd/A/R4a5UhhXfcl3A7Rm80Avc64v4dQn5fFKzAbhvUA+5zsZPePRJi1OdRoE5rf7ouWg==
+"@thirdweb-dev/react@^3.7.0-dev-53e315b":
+  version "3.7.0-dev-53e315b"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.7.0-dev-53e315b.tgz#6d7f53f420ed91ec26aeacbacdfc2379ba684eb3"
+  integrity sha512-0wCTlAWsAPwGg0XkTWxnQ+cE1at/m0Bn2QgiHP3JCL+OvA3oxCQ6g+oXxDbIOwv0yGveo6XJZByBV2sxv/ppmQ==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3593,7 +3598,7 @@
     "@safe-global/safe-ethers-lib" "^1.7.0"
     "@solana/wallet-adapter-phantom" "^0.9.17"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/chains" "0.1.0-dev-64ddb2d"
+    "@thirdweb-dev/chains" "0.1.0-dev-53e315b"
     "@zag-js/menu" "^0.3.0"
     "@zag-js/react" "^0.3.1"
     buffer "^6.0.3"
@@ -3606,10 +3611,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.7.0-dev-64ddb2d":
-  version "3.7.0-dev-64ddb2d"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.7.0-dev-64ddb2d.tgz#0401d280c6896d463965393148e929248970ec27"
-  integrity sha512-CLRGMpn/bPePXL85LgdXEfFshvgkBFdaiQuzIzDGfgrNIqTmI1xq1/hHz6yNQxcKGDooBijljZZXIdaeEdo9Uw==
+"@thirdweb-dev/sdk@^3.7.0-dev-53e315b":
+  version "3.7.0-dev-53e315b"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.7.0-dev-53e315b.tgz#ff111cb71e7cda2c57d4951fedfb7a0f633d89b6"
+  integrity sha512-5Lc9hWXenq7SHrSdCVkcXc5cnhxv0H/8DcRCHeeeXPsZtif8OZIVZXJ7G5W8QCLhcMynmDM3iD/YOwxtRv5Zig==
   dependencies:
     "@metaplex-foundation/js" "^0.17.6"
     "@metaplex-foundation/mpl-token-metadata" "^2.3.3"

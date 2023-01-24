@@ -524,6 +524,10 @@ async function handleEVMContractPageRoute(
         rpcUrl,
         shortName: network.shortName,
         currencySymbol: network.nativeCurrency.symbol,
+        isCustom: false,
+        type: network.name.toLowerCase().includes("test")
+          ? "testnet"
+          : "mainnet",
       });
 
       ctx.res.setHeader(

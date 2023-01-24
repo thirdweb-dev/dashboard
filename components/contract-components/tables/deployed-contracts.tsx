@@ -9,7 +9,6 @@ import {
   Flex,
   Icon,
   IconButton,
-  Image,
   Menu,
   MenuButton,
   MenuItemOption,
