@@ -23,6 +23,7 @@ export const SolidityBoolInput: React.FC<SolidityInputProps> = ({
           _hover={{
             opacity: 0.8,
           }}
+          size="sm"
         >
           True
         </Button>
@@ -37,6 +38,7 @@ export const SolidityBoolInput: React.FC<SolidityInputProps> = ({
           _hover={{
             opacity: 0.8,
           }}
+          size="sm"
         >
           False
         </Button>
