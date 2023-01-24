@@ -468,11 +468,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   if (isPrebuiltContract) {
     return (
       <Flex align="center" gap={2}>
-        {contractType ? (
-          <ChakraNextImage boxSize={8} src={src} alt={contractName} />
-        ) : (
-          <Image boxSize={8} src="" alt={contractName} />
-        )}
+        <ChakraNextImage boxSize={8} src={src} alt={contractName} />
         <Text size="label.md">{contractName} </Text>
       </Flex>
     );
@@ -485,11 +481,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   if (!releasesFromDeploy.isLoading && !actualRelease) {
     return (
       <Flex align="center" gap={2}>
-        {src ? (
-          <ChakraNextImage boxSize={8} src={src} alt={Custom} />
-        ) : (
-          <Image boxSize={8} src="" alt={Custom} />
-        )}
+        <ChakraNextImage boxSize={8} src={src} alt={Custom} />
         <Text size="label.md">{Custom}</Text>
       </Flex>
     );
