@@ -243,9 +243,9 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
               <Text
                 borderColor="borderColor"
                 as={Code}
-                px={4}
-                py={2}
+                p={4}
                 w="full"
+                bgColor="backgroundHighlight"
                 borderRadius="md"
                 color="red.500"
                 whiteSpace="pre-wrap"
