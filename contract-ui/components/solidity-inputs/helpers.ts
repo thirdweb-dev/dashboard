@@ -40,32 +40,42 @@ export const validateInt = (value: string, solidityType: string) => {
   const min = intMinValues[solidityType];
   const max = intMaxValues[solidityType];
 
-  if (value.includes(".") || value.includes(",")) {
+  if (value?.includes(".") || value?.includes(",")) {
     return {
       type: "pattern",
       message:
         "Can't use decimals, you need to convert your input to Wei first.",
     };
-  } else if (!value.match(new RegExp(`^-?\\d+$`))) {
+  } else if (!value?.match(new RegExp(`^-?\\d+$`))) {
     return {
       type: "pattern",
       message: "Input is not a valid number.",
     };
-  } else if (BigNumber.from(parseInt(value) || 0).lt(min)) {
-    return {
-      type: "minValue",
-      message: solidityType.startsWith("uint")
-        ? `Value must be a positive number for uint types.`
-        : `Value is lower than what ${solidityType} can store.}`,
-    };
-  } else if (BigNumber.from(parseInt(value) || 0).gt(max)) {
-    return {
-      type: "maxValue",
-      message: `Value is higher than what ${solidityType} can store.`,
-    };
   } else {
-    return null;
+    try {
+      const bigNumber = BigNumber.from(parseInt(value) || 0);
+      if (bigNumber.lte(min)) {
+        return {
+          type: "minValue",
+          message: solidityType.startsWith("uint")
+            ? `Value must be a positive number for uint types.`
+            : `Value is lower than what ${solidityType} can store.}`,
+        };
+      } else if (bigNumber.gt(max)) {
+        return {
+          type: "maxValue",
+          message: `Value is higher than what ${solidityType} can store.`,
+        };
+      }
+    } catch (error) {
+      return {
+        type: "pattern",
+        message: "Input is not a valid number.",
+      };
+    }
   }
+
+  return null;
 };
 
 // bytes
@@ -98,7 +108,7 @@ const isValidBytes = (value: string, solidityType: string) => {
 };
 
 export const validateBytes = (value: string, solidityType: string) => {
-  if (!value.startsWith("0x") && !value.startsWith("[")) {
+  if (!value?.startsWith("0x") && !value?.startsWith("[")) {
     return {
       type: "pattern",
       message: `Invalid input. Accepted formats are hex strings (0x...) or array of numbers ([...]).`,
@@ -108,9 +118,9 @@ export const validateBytes = (value: string, solidityType: string) => {
       type: "pattern",
       message: `Value is not a valid ${solidityType}. Please check the length.`,
     };
-  } else {
-    return null;
   }
+
+  return null;
 };
 
 // address
@@ -120,7 +130,7 @@ export const validateAddress = (value: string) => {
       type: "pattern",
       message: "Address is not a valid address.",
     };
-  } else {
-    return null;
   }
+
+  return null;
 };

@@ -31,6 +31,7 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
       const parsed = parseEther(val.replace(",", "."));
       form.setValue(inputName, parsed.toString(), {
         shouldDirty: true,
+        shouldValidate: true,
       });
       form.clearErrors(inputName);
     } catch (e) {
