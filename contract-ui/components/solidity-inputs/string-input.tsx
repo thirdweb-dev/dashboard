@@ -41,10 +41,10 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
     <InputGroup>
       <Input
         placeholder="string"
-        value={form.watch(inputName)}
         disabled={isLoading}
-        onChange={handleChange}
+        value={form.watch(inputName)}
         {...inputProps}
+        onChange={handleChange}
       />
       {showButton && (
         <InputRightElement width="96px">
