@@ -50,8 +50,8 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
         value={form.watch(inputName)}
         onChange={handleChange}
       />
-      {(form.watch(inputName).includes(".") ||
-        form.watch(inputName).includes(",")) && (
+      {(form.watch(inputName)?.includes(".") ||
+        form.watch(inputName)?.includes(",")) && (
         <InputRightElement width="72px">
           <Button
             size="xs"

@@ -103,7 +103,7 @@ const isValidBytes = (value: string, solidityType: string) => {
   if (isBytesType) {
     return isBytesLike(value);
   }
-
+  F;
   if (value.length !== maxLength * 2 + 2) {
     return false;
   }
@@ -178,11 +178,11 @@ type FunctionComponents = {
 }[];
 
 function formatInputType(type: string, components?: FunctionComponents): any {
-  if (type.includes("[]")) {
+  if (type?.includes("[]")) {
     const obj = [];
     obj.push(formatInputType(type.replace("[]", ""), components));
     return obj;
-  } else if (type.includes("tuple")) {
+  } else if (type?.includes("tuple")) {
     const obj: any = {};
     components?.forEach((component) => {
       obj[component.name] = formatInputType(
@@ -191,13 +191,13 @@ function formatInputType(type: string, components?: FunctionComponents): any {
       );
     });
     return obj;
-  } else if (type.includes("string")) {
+  } else if (type?.includes("string")) {
     return "...";
-  } else if (type.includes("int")) {
+  } else if (type?.includes("int")) {
     return 0;
-  } else if (type.includes("bool")) {
+  } else if (type?.includes("bool")) {
     return true;
-  } else if (type.includes("address")) {
+  } else if (type?.includes("address")) {
     return "0x...";
   } else {
     return "0";
