@@ -35,6 +35,7 @@ export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
           formContext={form}
           solidityType={solidityType}
           {...inputProps}
+          onChange={handleChange}
         />
         <Text
           size="label.sm"

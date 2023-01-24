@@ -18,7 +18,7 @@ export const SolidityTupleInput: React.FC<SolidityInputWithTypeProps> = ({
 
     const invalidInputError = {
       type: "pattern",
-      message: `Invalid input. Input should be passed in JSON format with valid values.`,
+      message: `Invalid input. Input must be in JSON format and all the keys on the object should be present.`,
     };
 
     const trimmedValue = value.trim();
