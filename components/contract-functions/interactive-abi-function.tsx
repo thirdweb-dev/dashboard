@@ -246,6 +246,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                       </Text>
                     </Flex>
                     <SolidityInput
+                      solidityName={item.key}
                       solidityType={item.type}
                       {...form.register(`params.${index}.value`)}
                     />

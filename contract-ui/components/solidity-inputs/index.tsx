@@ -13,14 +13,17 @@ export interface SolidityInputProps extends InputProps {
 }
 export interface SolidityInputWithTypeProps extends SolidityInputProps {
   solidityType: string;
+  solidityName?: string;
 }
 export interface SolidityInputPropsOptionalFormProps extends InputProps {
   solidityType: string;
+  solidityName?: string;
   formContext?: UseFormReturn<any, any>;
 }
 
 export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
   solidityType,
+  solidityName,
   ...inputProps
 }) => {
   const formContext = useFormContext();
@@ -65,7 +68,14 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
   } else if (solidityType === "address") {
     return <SolidityAddressInput formContext={form} {...inputProps} />;
   } else if (solidityType === "string") {
-    return <SolidityStringInput formContext={form} {...inputProps} />;
+    return (
+      <SolidityStringInput
+        formContext={form}
+        solidityType={solidityType}
+        solidityName={solidityName}
+        {...inputProps}
+      />
+    );
   } else if (solidityType.startsWith("byte")) {
     return (
       <SolidityBytesInput

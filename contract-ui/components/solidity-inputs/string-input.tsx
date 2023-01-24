@@ -1,4 +1,4 @@
-import { SolidityInputProps } from ".";
+import { SolidityInputWithTypeProps } from ".";
 import { Icon, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { FileInput } from "components/shared/FileInput";
@@ -6,8 +6,9 @@ import { useErrorHandler } from "contexts/error-handler";
 import { FiUpload } from "react-icons/fi";
 import { Button } from "tw-components";
 
-export const SolidityStringInput: React.FC<SolidityInputProps> = ({
+export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
   formContext: form,
+  solidityName,
   ...inputProps
 }) => {
   const inputName = inputProps.name as string;
@@ -30,6 +31,11 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
     );
   };
 
+  const showButton =
+    ((solidityName as string).toLowerCase().includes("uri") ||
+      (solidityName as string).toLowerCase().includes("ipfs")) &&
+    (solidityName as string) !== "_baseURIForTokens";
+
   return (
     <InputGroup>
       <Input
@@ -38,8 +44,7 @@ export const SolidityStringInput: React.FC<SolidityInputProps> = ({
         onChange={handleChange}
         {...inputProps}
       />
-      {/* // TODO: This is not working because the name is not being passed (index is being passed instead) */}
-      {inputName.toLowerCase().includes("uri") && (
+      {showButton && (
         <InputRightElement width="96px">
           <FileInput setValue={handleUpload}>
             <Button
