@@ -143,9 +143,12 @@ export const validateAddress = (value: string) => {
 export const validateSolidityInput = (value: string, solidityType: string) => {
   if (solidityType.startsWith("int") || solidityType.startsWith("uint")) {
     return validateInt(value, solidityType);
-  } else if (solidityType.startsWith("byte")) {
+  }
+  // TODO: bytes array not working right now
+  /* else if (solidityType.startsWith("byte")) {
     return validateBytes(value, solidityType);
-  } else if (solidityType === "address") {
+  } */
+  else if (solidityType === "address") {
     return validateAddress(value);
   }
 
