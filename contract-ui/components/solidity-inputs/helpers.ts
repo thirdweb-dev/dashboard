@@ -87,7 +87,7 @@ const isValidBytes = (value: string, solidityType: string) => {
       ? 1
       : parseInt(solidityType.replace("bytes", "") || "0", 10);
 
-  if (value === "[]" || value === "0x00") {
+  if (solidityType === "bytes32" && (value === "[]" || value === "0x00")) {
     return true;
   }
 
@@ -100,11 +100,15 @@ const isValidBytes = (value: string, solidityType: string) => {
     }
   }
 
-  if (!isBytesType && value.length !== maxLength) {
+  if (isBytesType) {
+    return isBytesLike(value);
+  }
+
+  if (value.length !== maxLength * 2 + 2) {
     return false;
   }
 
-  return isBytesLike(value);
+  return true;
 };
 
 export const validateBytes = (value: string, solidityType: string) => {
@@ -125,11 +129,24 @@ export const validateBytes = (value: string, solidityType: string) => {
 
 // address
 export const validateAddress = (value: string) => {
-  if (utils.isAddress(value) === false && !value.endsWith(".eth")) {
+  if (!utils.isAddress(value) && !value.endsWith(".eth")) {
     return {
       type: "pattern",
       message: "Address is not a valid address.",
     };
+  }
+
+  return null;
+};
+
+// all
+export const validateSolidityInput = (value: string, solidityType: string) => {
+  if (solidityType.startsWith("int") || solidityType.startsWith("uint")) {
+    return validateInt(value, solidityType);
+  } else if (solidityType.startsWith("byte")) {
+    return validateBytes(value, solidityType);
+  } else if (solidityType === "address") {
+    return validateAddress(value);
   }
 
   return null;
