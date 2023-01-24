@@ -7,6 +7,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { FiTrash } from "react-icons/fi";
 import { Button, Text } from "tw-components";
 
+// TODO: Not used right now, but will be used in the future
 export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
   formContext: form,
   solidityType,

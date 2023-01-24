@@ -1,5 +1,4 @@
 import { SolidityAddressInput } from "./address-input";
-import { SolidityArrayInput } from "./array-input";
 import { SolidityBoolInput } from "./bool-input";
 import { SolidityBytesInput } from "./bytes-input";
 import { SolidityIntInput } from "./int-input";
