@@ -241,15 +241,8 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                     }
                   >
                     <Flex justify="space-between">
-                      <FormLabel>
-                        <Flex alignItems="baseline" gap={1}>
-                          {camelToTitle(item.key)}
-                          <Text size="label.sm">({item.key})</Text>
-                        </Flex>
-                      </FormLabel>
-                      <Text fontSize="12px">
-                        {item.type.replace("[]", "[ ]")}
-                      </Text>
+                      <FormLabel>{camelToTitle(item.key)}</FormLabel>
+                      <Text fontSize="12px">{item.key}</Text>
                     </Flex>
                     <SolidityInput
                       solidityName={item.key}
