@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import { Heading, HeadingProps } from "tw-components";
+import { Heading, HeadingProps, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 type LayoutProps = {
@@ -38,16 +38,16 @@ export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
         <Heading as="h2" size="title.2xl" color="white">
           {headline}
         </Heading>
-        <Heading
+        <Text
           py={8}
           mb={4}
           as="h3"
           maxW={480}
-          size="subtitle.sm"
+          size="body.md"
           color="whiteAlpha.700"
         >
           {description}
-        </Heading>
+        </Text>
       </Flex>
       {children}
     </Flex>

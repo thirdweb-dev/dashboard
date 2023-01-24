@@ -3,7 +3,7 @@ import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
-import { Heading, Link } from "tw-components";
+import { Heading, Link, Text } from "tw-components";
 
 export const BuildSection = () => {
   return (
@@ -143,14 +143,13 @@ export const BuildSection = () => {
                   easy-to-use SDKs
                 </Link>
               </Heading>
-              <Heading
-                lineHeight="1.2"
-                size="subtitle.sm"
+              <Text
+                size="body.md"
                 color="whiteAlpha.700"
                 textAlign={{ base: "center", md: "left" }}
               >
                 Supports Javascript. Python. Go. Unity. C#.
-              </Heading>
+              </Text>
             </Flex>
             <Box px={14} py={6}>
               <Image
@@ -199,14 +198,13 @@ export const BuildSection = () => {
                 </Box>{" "}
                 in a single toolkit to enable developers to build for scale
               </Heading>
-              <Heading
-                lineHeight="1.2"
-                size="subtitle.sm"
+              <Text
+                size="body.md"
                 color="whiteAlpha.700"
                 textAlign={{ base: "center", md: "left" }}
               >
                 Deploy across any EVM chain.
-              </Heading>
+              </Text>
             </Flex>
             <Box px={14} py={8}>
               <Image

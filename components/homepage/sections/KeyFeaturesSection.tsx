@@ -6,7 +6,7 @@ import React from "react";
 
 export const KeyFeaturesSection = () => {
   return (
-    <HomepageSection my={40}>
+    <HomepageSection my={60}>
       <BuildSection />
       <LaunchSection />
       <ManageSection />

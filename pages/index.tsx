@@ -39,14 +39,7 @@ const HomePage: ThirdwebNextPage = () => {
           <StatsSection />
           <KeyFeaturesSection />
           <Suspense>
-            <Box position="relative" zIndex={10}>
-              <SDKSection />
-              <Aurora
-                pos={{ left: "50%", top: "50%" }}
-                size={{ width: "2000px", height: "2000px" }}
-                color={"hsl(280deg 78% 30% / 30%)"}
-              />
-            </Box>
+            <SDKSection />
             <NetworksSection />
             <PricingSection />
             <SolutionsSection />

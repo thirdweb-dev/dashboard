@@ -113,6 +113,7 @@ export const ManageSection = () => {
               <Heading
                 lineHeight="1.2"
                 size="label.xl"
+                maxW={320}
                 textAlign={{ base: "center", md: "left" }}
               >
                 <Box
@@ -121,8 +122,7 @@ export const ManageSection = () => {
                   bgClip="text"
                 >
                   Automatic pre-built reports
-                </Box>
-                <br />
+                </Box>{" "}
                 with on-chain analytics.
               </Heading>
             </Flex>
