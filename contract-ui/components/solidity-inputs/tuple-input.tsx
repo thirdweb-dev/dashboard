@@ -34,7 +34,7 @@ export const SolidityTupleInput: React.FC<SolidityInputWithTypeProps> = ({
           return component.name in parsedValue;
         });
 
-        if (!isValid) {
+        if (!isValid && solidityComponents?.length) {
           form.setError(inputName, invalidInputError);
         } else {
           form.clearErrors(inputName);
