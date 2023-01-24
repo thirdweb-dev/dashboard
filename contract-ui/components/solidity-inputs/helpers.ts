@@ -103,7 +103,6 @@ const isValidBytes = (value: string, solidityType: string) => {
   if (isBytesType) {
     return isBytesLike(value);
   }
-  F;
   if (value.length !== maxLength * 2 + 2) {
     return false;
   }
