@@ -82,6 +82,10 @@ export const validateInt = (value: string, solidityType: string) => {
 const isValidBytes = (value: string, solidityType: string) => {
   const isBytesType = solidityType === "bytes";
 
+  if (isBytesType && value === "[]") {
+    return true;
+  }
+
   const maxLength =
     solidityType === "byte"
       ? 1
