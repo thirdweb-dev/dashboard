@@ -2,7 +2,6 @@ import { SolidityInputProps } from ".";
 import { validateAddress } from "./helpers";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useEns } from "components/contract-components/hooks";
-import { utils } from "ethers";
 import { Button } from "tw-components";
 
 export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
