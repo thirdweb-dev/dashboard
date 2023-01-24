@@ -13,10 +13,7 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
-    form.setValue(inputName, value, {
-      shouldDirty: true,
-    });
+    form.setValue(inputName, value, { shouldDirty: true });
 
     const inputError = validateInt(value, solidityType);
 

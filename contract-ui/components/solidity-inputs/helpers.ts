@@ -1,5 +1,7 @@
 import { BigNumber, constants } from "ethers";
+import { isBytesLike } from "ethers/lib/utils";
 
+// int and uint
 const intMinValues: Record<string, BigNumber> = {
   int8: BigNumber.from("-128"),
   int16: BigNumber.from("-32768"),
@@ -60,6 +62,51 @@ export const validateInt = (value: string, solidityType: string) => {
     return {
       type: "maxValue",
       message: `Value is higher than what ${solidityType} can store.`,
+    };
+  } else {
+    return null;
+  }
+};
+
+// bytes
+const isValidBytes = (value: string, solidityType: string) => {
+  const isBytesType = solidityType === "bytes";
+
+  const maxLength =
+    solidityType === "byte"
+      ? 1
+      : parseInt(solidityType.replace("bytes", "") || "0", 10);
+
+  if (value === "[]" || value === "0x00") {
+    return true;
+  }
+
+  if (value.startsWith("[") && value.endsWith("]")) {
+    try {
+      const arrayify = JSON.parse(value);
+      return isBytesType ? !!arrayify.length : arrayify.length === maxLength;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  if (!isBytesType && value.length !== maxLength) {
+    return false;
+  }
+
+  return isBytesLike(value);
+};
+
+export const validateBytes = (value: string, solidityType: string) => {
+  if (!value.startsWith("0x") && !value.startsWith("[")) {
+    return {
+      type: "pattern",
+      message: `Invalid input. Accepted formats are hex strings (0x...) or array of numbers ([...]).`,
+    };
+  } else if (!isValidBytes(value, solidityType)) {
+    return {
+      type: "pattern",
+      message: `Value is not a valid ${solidityType}. Please check the length.`,
     };
   } else {
     return null;
