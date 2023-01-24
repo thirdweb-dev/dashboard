@@ -45,6 +45,7 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
   return (
     <InputGroup>
       <Input
+        placeholder={solidityType}
         {...inputProps}
         value={form.watch(inputName)}
         onChange={handleChange}

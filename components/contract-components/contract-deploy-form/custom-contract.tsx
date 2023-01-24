@@ -32,6 +32,7 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
+import { camelToTitle } from "utils/camelToTitle";
 import { SupportedChainIdToNetworkMap } from "utils/network";
 
 function isThirdwebFactory(
@@ -267,14 +268,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 >
                   <Flex alignItems="center" my={1}>
                     <FormLabel mb={0} flex="1" display="flex">
-                      {extraMetadataParam?.displayName ? (
-                        <Flex alignItems="center" gap={1}>
-                          {extraMetadataParam?.displayName}
-                          <Text size="label.sm">({paramKey})</Text>
-                        </Flex>
-                      ) : (
-                        paramKey
-                      )}
+                      <Flex alignItems="baseline" gap={1}>
+                        {extraMetadataParam?.displayName ||
+                          camelToTitle(paramKey)}
+                        <Text size="label.sm">({paramKey})</Text>
+                      </Flex>
                     </FormLabel>
                     {deployParam && (
                       <FormHelperText mt={0}>{deployParam.type}</FormHelperText>

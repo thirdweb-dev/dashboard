@@ -27,6 +27,7 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
+import { camelToTitle } from "utils/camelToTitle";
 
 export function formatResponseData(data: unknown): string {
   if (BigNumber.isBigNumber(data)) {
@@ -240,7 +241,12 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                     }
                   >
                     <Flex justify="space-between">
-                      <FormLabel>{item.key}</FormLabel>
+                      <FormLabel>
+                        <Flex alignItems="baseline" gap={1}>
+                          {camelToTitle(item.key)}
+                          <Text size="label.sm">({item.key})</Text>
+                        </Flex>
+                      </FormLabel>
                       <Text fontSize="12px">
                         {item.type.replace("[]", "[ ]")}
                       </Text>

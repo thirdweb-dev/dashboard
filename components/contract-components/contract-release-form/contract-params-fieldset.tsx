@@ -26,13 +26,13 @@ import {
   Heading,
   Text,
 } from "tw-components";
+import { camelToTitle } from "utils/camelToTitle";
 
 interface ContractParamsFieldsetProps {
   deployParams:
     | ReturnType<typeof useFunctionParamsFromABI>
     | ReturnType<typeof useConstructorParamsFromABI>;
 }
-
 export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
   deployParams,
 }) => {
@@ -75,7 +75,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       {...form.register(
                         `constructorParams.${param.name}.displayName`,
                       )}
-                      placeholder="Ex. Param 1"
+                      placeholder={camelToTitle(param.name)}
                     />
                     <FormErrorMessage>
                       {

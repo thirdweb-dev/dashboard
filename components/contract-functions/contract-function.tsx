@@ -23,6 +23,7 @@ import { MarkdownRenderer } from "components/contract-components/released-contra
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
+import { camelToTitle } from "utils/camelToTitle";
 
 interface ContractFunctionProps {
   fn?: AbiFunction | AbiEvent;
@@ -42,7 +43,12 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
   return (
     <Flex direction="column" gap={1.5}>
       <Flex alignItems="center" gap={2}>
-        <Heading size="subtitle.md">{fn.name}</Heading>
+        <Flex alignItems="baseline" gap={1}>
+          <Heading size="subtitle.md">{camelToTitle(fn.name)}</Heading>
+          <Heading size="subtitle.sm" color="gray.600">
+            ({fn.name}){" "}
+          </Heading>
+        </Flex>
         {isFunction && (
           <Badge size="label.sm" variant="subtle" colorScheme="green">
             {fn.stateMutability}

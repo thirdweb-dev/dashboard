@@ -43,6 +43,7 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   return (
     <InputGroup>
       <Input
+        placeholder="address"
         {...inputProps}
         onChange={handleChange}
         value={form.watch(inputName)}
