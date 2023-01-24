@@ -11,10 +11,7 @@ import { useContractWrite } from "@thirdweb-dev/react";
 import { AbiFunction, ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
-import {
-  camelToTitle,
-  formatHint,
-} from "contract-ui/components/solidity-inputs/helpers";
+import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { BigNumber, utils } from "ethers";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect, useId, useMemo } from "react";
