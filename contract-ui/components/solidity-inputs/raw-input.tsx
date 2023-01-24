@@ -50,6 +50,7 @@ export const SolidityRawInput: React.FC<SolidityInputWithTypeProps> = ({
   return (
     <>
       <Textarea
+        fontFamily="mono"
         placeholder={solidityType}
         {...(inputProps as TextareaProps)}
         onChange={handleChange}
