@@ -3,7 +3,7 @@ import { validateAddress } from "./helpers";
 import { Flex, Input } from "@chakra-ui/react";
 import { useEns } from "components/contract-components/hooks";
 import { isAddress } from "ethers/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FormHelperText, Text } from "tw-components";
 
 export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
@@ -13,12 +13,16 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   const inputName = inputProps.name as string;
   const inputNameWatch = form.watch(inputName);
   const [localInput, setLocalInput] = useState(inputNameWatch);
+  const setDefault = useRef(false);
 
   const ensQuery = useEns(localInput);
+
+  const { setValue, clearErrors } = form;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setLocalInput(value);
+    setValue(inputName, value, { shouldDirty: true });
 
     const inputError = validateAddress(value);
 
@@ -30,41 +34,55 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   };
 
   useEffect(() => {
+    if (!localInput && !!inputNameWatch && setDefault.current === false) {
+      setLocalInput(inputNameWatch);
+      setDefault.current = true;
+    }
+  }, [inputName, inputNameWatch, localInput]);
+
+  useEffect(() => {
     if (ensQuery?.data?.address && ensQuery?.data?.address !== inputNameWatch) {
-      form.setValue(inputName, ensQuery.data.address, {
+      setValue(inputName, ensQuery.data.address, {
         shouldDirty: true,
       });
-      form.clearErrors(inputName);
+      clearErrors(inputName);
     }
-  }, [ensQuery.data?.address, form, inputName, inputNameWatch]);
+  }, [
+    ensQuery.data?.address,
+    setValue,
+    clearErrors,
+    inputName,
+    inputNameWatch,
+  ]);
 
   const hasError = !!form.getFieldState(inputName, form.formState).error;
 
-  const resolvingEns =
-    localInput?.endsWith(".eth") &&
-    !ensQuery.isError &&
-    !ensQuery.data?.address;
+  const resolvingEns = useMemo(
+    () =>
+      localInput?.endsWith(".eth") &&
+      !ensQuery.isError &&
+      !ensQuery.data?.address,
+    [ensQuery.data?.address, ensQuery.isError, localInput],
+  );
 
-  const resolvedAddress =
-    localInput?.endsWith(".eth") && !hasError && ensQuery.data?.address;
+  const resolvedAddress = useMemo(
+    () => localInput?.endsWith(".eth") && !hasError && ensQuery.data?.address,
+    [ensQuery.data?.address, hasError, localInput],
+  );
 
-  const ensFound =
-    isAddress(localInput) && !hasError && ensQuery?.data?.ensName;
+  const ensFound = useMemo(
+    () => isAddress(localInput) && !hasError && ensQuery?.data?.ensName,
+    [ensQuery?.data?.ensName, hasError, localInput],
+  );
 
   return (
     <>
       <Input
         placeholder="address"
-        onChange={handleChange}
-        value={localInput}
-        maxLength={42}
-      />
-
-      <Input
-        placeholder="address"
-        display="none"
         maxLength={42}
         {...inputProps}
+        onChange={handleChange}
+        value={localInput}
       />
 
       {resolvingEns || resolvedAddress || ensFound ? (
