@@ -12,6 +12,7 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
   ...inputProps
 }) => {
   const inputName = inputProps.name as string;
+  const nameOrInput = (solidityName as string) || inputName;
   const { onError } = useErrorHandler();
   const { mutate: upload, isLoading } = useStorageUpload();
 
@@ -32,9 +33,9 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
   };
 
   const showButton =
-    ((solidityName as string).toLowerCase().includes("uri") ||
-      (solidityName as string).toLowerCase().includes("ipfs")) &&
-    (solidityName as string) !== "_baseURIForTokens";
+    (nameOrInput?.toLowerCase().includes("uri") ||
+      nameOrInput?.toLowerCase().includes("ipfs")) &&
+    nameOrInput !== "_baseURIForTokens";
 
   return (
     <InputGroup>
