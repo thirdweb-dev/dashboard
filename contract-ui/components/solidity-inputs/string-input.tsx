@@ -58,6 +58,7 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
               isLoading={isLoading}
               ml={3}
               bgColor="gray.700"
+              _hover={{ bgColor: "gray.800" }}
             >
               IPFS
             </Button>

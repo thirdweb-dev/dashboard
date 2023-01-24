@@ -97,18 +97,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <FormLabel as={Text}>Default Value</FormLabel>
 
                     <InputGroup size="md">
-                      {paramTemplateValues.length > 0 ? (
-                        <Input
-                          placeholder={
-                            isMobile
-                              ? "Pre-filled value."
-                              : "This value will be pre-filled in the deploy form."
-                          }
-                          {...form.register(
-                            `constructorParams.${param.name}.defaultValue`,
-                          )}
-                        />
-                      ) : (
+                      <Flex flexDir="column" w="full">
                         <SolidityInput
                           solidityType={param.type}
                           placeholder={
@@ -120,7 +109,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                             `constructorParams.${param.name}.defaultValue`,
                           )}
                         />
-                      )}
+                      </Flex>
                       {paramTemplateValues.length > 0 && (
                         <InputRightElement width="10.5rem">
                           <Tooltip
@@ -147,6 +136,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                                 );
                               }}
                               bgColor="gray.700"
+                              _hover={{ bgColor: "gray.800" }}
                             >
                               {paramTemplateValues[0].value}
                             </Button>

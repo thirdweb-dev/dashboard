@@ -54,7 +54,7 @@ export const validateInt = (value: string, solidityType: string) => {
   } else {
     try {
       const bigNumber = BigNumber.from(parseInt(value) || 0);
-      if (bigNumber.lte(min)) {
+      if (bigNumber.lt(min)) {
         return {
           type: "minValue",
           message: solidityType.startsWith("uint")
@@ -132,7 +132,7 @@ export const validateAddress = (value: string) => {
   if (!utils.isAddress(value) && !value.endsWith(".eth")) {
     return {
       type: "pattern",
-      message: "Address is not a valid address.",
+      message: "Input is not a valid address or ENS name.",
     };
   }
 

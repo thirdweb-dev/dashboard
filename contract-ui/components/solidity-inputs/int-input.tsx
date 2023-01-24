@@ -60,6 +60,7 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
             aria-label="Convert to WEI"
             onClick={handleConversion}
             bgColor="gray.700"
+            _hover={{ bgColor: "gray.800" }}
             ml={2}
           >
             To Wei

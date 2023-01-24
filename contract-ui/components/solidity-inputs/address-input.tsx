@@ -1,19 +1,24 @@
 import { SolidityInputProps } from ".";
 import { validateAddress } from "./helpers";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { Flex, Input } from "@chakra-ui/react";
 import { useEns } from "components/contract-components/hooks";
-import { Button } from "tw-components";
+import { isAddress } from "ethers/lib/utils";
+import { useEffect, useState } from "react";
+import { FormHelperText, Text } from "tw-components";
 
 export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   formContext: form,
   ...inputProps
 }) => {
   const inputName = inputProps.name as string;
-  const ensQuery = useEns(form.watch(inputName));
+  const inputNameWatch = form.watch(inputName);
+  const [localInput, setLocalInput] = useState(inputNameWatch);
+
+  const ensQuery = useEns(localInput);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    form.setValue(inputName, value, { shouldDirty: true });
+    setLocalInput(value);
 
     const inputError = validateAddress(value);
 
@@ -24,46 +29,59 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
     }
   };
 
-  const handleConversion = () => {
-    if (ensQuery?.data?.address) {
+  useEffect(() => {
+    if (ensQuery?.data?.address && ensQuery?.data?.address !== inputNameWatch) {
       form.setValue(inputName, ensQuery.data.address, {
         shouldDirty: true,
       });
       form.clearErrors(inputName);
-    } else {
-      form.setError(inputName, {
-        type: "pattern",
-        message: "ENS couldn't be resolved. Please try again.",
-      });
     }
-  };
+  }, [ensQuery.data?.address, form, inputName, inputNameWatch]);
 
-  // TODO: Add error onBlur if ENS
+  const hasError = !!form.getFieldState(inputName, form.formState).error;
+
   return (
-    <InputGroup>
+    <>
       <Input
         placeholder="address"
-        {...inputProps}
         onChange={handleChange}
-        value={form.watch(inputName)}
+        value={localInput}
         maxLength={42}
       />
-      {form.watch(inputName)?.endsWith(".eth") && (
-        <InputRightElement width="96px">
-          <Button
-            size="xs"
-            padding={3.5}
-            paddingY="3.5"
-            aria-label="Convert to bytes"
-            onClick={handleConversion}
-            mr={2}
-            disabled={ensQuery.isLoading}
-            bgColor="gray.700"
-          >
-            Resolve ENS
-          </Button>
-        </InputRightElement>
+
+      <Input
+        placeholder="address"
+        display="none"
+        maxLength={42}
+        {...inputProps}
+      />
+
+      <FormHelperText as={Flex} gap={2}>
+        {localInput?.endsWith(".eth") &&
+          !ensQuery.isError &&
+          !ensQuery.data?.address &&
+          "Resolving ENS..."}
+        {localInput?.endsWith(".eth") &&
+          !hasError &&
+          ensQuery.data?.address && (
+            <>
+              <Text color="green.600">✔</Text>{" "}
+              <Text>Resolved address: {ensQuery?.data?.address}</Text>
+            </>
+          )}
+        {isAddress(localInput) && !hasError && ensQuery?.data?.ensName && (
+          <>
+            <Text color="green.600">✔</Text>{" "}
+            <Text>ENS Found: {ensQuery?.data?.ensName}</Text>
+          </>
+        )}
+      </FormHelperText>
+
+      {ensQuery.isError && (
+        <FormHelperText color="red.300">
+          ENS couldn&apos;t be resolved.
+        </FormHelperText>
       )}
-    </InputGroup>
+    </>
   );
 };

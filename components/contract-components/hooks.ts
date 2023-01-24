@@ -605,9 +605,7 @@ export function ensQuery(addressOrEnsName?: string) {
     address: utils.isAddress(addressOrEnsName || "")
       ? addressOrEnsName || null
       : null,
-    ensName: isEnsName(addressOrEnsName || "")
-      ? addressOrEnsName || null
-      : null,
+    ensName: null,
   };
   return {
     queryKey: ["ens", addressOrEnsName],
@@ -615,9 +613,9 @@ export function ensQuery(addressOrEnsName?: string) {
       if (!addressOrEnsName) {
         return placeholderData;
       }
-      // if it is neither an address or an esn name then return the placeholder data only
+      // if it is neither an address or an ens name then return the placeholder data only
       if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
-        return placeholderData;
+        throw new Error("Invalid address or ens name");
       }
       const ethProvider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
       const ensName = isEnsName(addressOrEnsName)
@@ -626,6 +624,10 @@ export function ensQuery(addressOrEnsName?: string) {
       const address = utils.isAddress(addressOrEnsName)
         ? addressOrEnsName
         : await ethProvider.resolveName(addressOrEnsName);
+
+      if (isEnsName(addressOrEnsName) && !address) {
+        throw new Error("ENS name not found");
+      }
 
       return {
         address,
