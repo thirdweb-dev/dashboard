@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { BigNumber, constants, utils } from "ethers";
 import { isBytesLike } from "ethers/lib/utils";
 
 // int and uint
@@ -107,6 +107,18 @@ export const validateBytes = (value: string, solidityType: string) => {
     return {
       type: "pattern",
       message: `Value is not a valid ${solidityType}. Please check the length.`,
+    };
+  } else {
+    return null;
+  }
+};
+
+// address
+export const validateAddress = (value: string) => {
+  if (utils.isAddress(value) === false && !value.endsWith(".eth")) {
+    return {
+      type: "pattern",
+      message: "Address is not a valid address.",
     };
   } else {
     return null;

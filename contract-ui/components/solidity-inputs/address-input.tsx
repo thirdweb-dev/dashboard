@@ -1,4 +1,5 @@
 import { SolidityInputProps } from ".";
+import { validateAddress } from "./helpers";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useEns } from "components/contract-components/hooks";
 import { utils } from "ethers";
@@ -13,14 +14,12 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    form.setValue(inputName, value, {
-      shouldDirty: true,
-    });
-    if (utils.isAddress(value) === false && !value.endsWith(".eth")) {
-      form.setError(inputName, {
-        type: "pattern",
-        message: "Address is not a valid address.",
-      });
+    form.setValue(inputName, value, { shouldDirty: true });
+
+    const inputError = validateAddress(value);
+
+    if (inputError) {
+      form.setError(inputName, inputError);
     } else {
       form.clearErrors(inputName);
     }
