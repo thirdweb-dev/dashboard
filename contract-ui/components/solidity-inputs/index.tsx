@@ -43,7 +43,13 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
       />
     );
   } else */ if (solidityType.endsWith("[]")) {
-    return <SolidityRawInput formContext={form} {...inputProps} />;
+    return (
+      <SolidityRawInput
+        formContext={form}
+        solidityType={solidityType}
+        {...inputProps}
+      />
+    );
   } else if (
     solidityType.startsWith("uint") ||
     solidityType.startsWith("int")

@@ -30,7 +30,11 @@ export const SolidityArrayInput: React.FC<SolidityInputWithTypeProps> = ({
   if (showRawInput) {
     return (
       <Flex flexDir="column" gap={2}>
-        <SolidityRawInput formContext={form} {...inputProps} />
+        <SolidityRawInput
+          formContext={form}
+          solidityType={solidityType}
+          {...inputProps}
+        />
         <Text
           size="label.sm"
           textAlign="right"
