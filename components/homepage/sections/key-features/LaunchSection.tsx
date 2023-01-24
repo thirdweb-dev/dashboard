@@ -49,7 +49,6 @@ export const LaunchSection = () => {
               </Link>
             </Heading>
             <Text
-              size="body.md"
               color="whiteAlpha.700"
               textAlign={{ base: "center", md: "left" }}
             >
@@ -98,7 +97,6 @@ export const LaunchSection = () => {
               </Link>
             </Heading>
             <Text
-              size="body.md"
               color="whiteAlpha.700"
               textAlign={{ base: "center", md: "left" }}
             >

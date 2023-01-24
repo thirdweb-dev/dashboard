@@ -43,7 +43,7 @@ export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
           mb={4}
           as="h3"
           maxW={480}
-          size="body.md"
+          size="body.lg"
           color="whiteAlpha.700"
         >
           {description}

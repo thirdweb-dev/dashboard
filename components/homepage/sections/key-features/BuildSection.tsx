@@ -144,7 +144,6 @@ export const BuildSection = () => {
                 </Link>
               </Heading>
               <Text
-                size="body.md"
                 color="whiteAlpha.700"
                 textAlign={{ base: "center", md: "left" }}
               >
@@ -199,7 +198,6 @@ export const BuildSection = () => {
                 in a single toolkit to enable developers to build for scale
               </Heading>
               <Text
-                size="body.md"
                 color="whiteAlpha.700"
                 textAlign={{ base: "center", md: "left" }}
               >
