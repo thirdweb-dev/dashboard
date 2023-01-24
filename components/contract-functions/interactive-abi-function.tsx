@@ -208,7 +208,6 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                       solidityComponents={item.components}
                       {...form.register(`params.${index}.value`)}
                     />
-                    {/* // TODO: This is not rendering the error */}
                     <FormErrorMessage>
                       {
                         form.getFieldState(
