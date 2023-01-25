@@ -2,43 +2,50 @@ import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
-import { Heading } from "tw-components";
+import { Heading, Link } from "tw-components";
 
-const items = [
+const devTools = [
   {
     icon: require("/public/assets/landingpage/howitworks-contractkit.png"),
     title: "ContractKit",
+    href: "/contractkit",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-explore.png"),
     title: "Explore",
+    href: "/explore",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-sdk.png"),
     title: "SDK",
+    href: "/sdk",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-sdk.png"),
     title: "UI Components",
+    href: "/ui-components",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-deploy.png"),
     title: "Deploy",
+    href: "/deploy",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-deploy.png"),
-    title: "Publish",
+    title: "Release",
+    href: "/release",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-dashboard.png"),
     title: "Dashboard",
+    href: "/dashboards",
   },
 ];
 
-const items2 = [
+const infrastructure = [
   {
     icon: require("/public/assets/landingpage/howitworks-indexer.png"),
-    title: "Indexer",
+    title: "Data Feeds",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-gasless.png"),
@@ -46,11 +53,12 @@ const items2 = [
   },
   {
     icon: require("/public/assets/landingpage/howitworks-fiat.png"),
-    title: "FIAT On-Ramp",
+    title: "Fiat On-Ramp",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-storage.png"),
     title: "Storage",
+    href: "/storage",
   },
   {
     icon: require("/public/assets/landingpage/howitworks-wallet.png"),
@@ -59,8 +67,50 @@ const items2 = [
   {
     icon: require("/public/assets/landingpage/howitworks-auth.png"),
     title: "Auth",
+    href: "/auth",
   },
 ];
+
+type Item = {
+  icon: any;
+  title: string;
+  href?: string;
+};
+const Item: React.FC<{ item: Item }> = ({ item }) => {
+  return item.href ? (
+    <Flex
+      flexDir="column"
+      align="center"
+      gap="2.5"
+      as={Link}
+      href={item.href}
+      transition="opacity 0.2s"
+      _hover={{ opacity: 0.8, textDecoration: "none" }}
+    >
+      <Image w="10" h="10" alt="" src={item.icon} />
+      <Heading
+        size="title.xs"
+        color="#A0A0A0"
+        fontSize="0.7rem"
+        textAlign="center"
+      >
+        {item.title}
+      </Heading>
+    </Flex>
+  ) : (
+    <Flex flexDir="column" align="center" gap="2.5">
+      <Image w="10" h="10" alt="" src={item.icon} />
+      <Heading
+        size="title.xs"
+        color="#A0A0A0"
+        fontSize="0.7rem"
+        textAlign="center"
+      >
+        {item.title}
+      </Heading>
+    </Flex>
+  );
+};
 
 export const HowItWorksSection = () => {
   return (
@@ -174,7 +224,7 @@ export const HowItWorksSection = () => {
               py={6}
               px={4}
             >
-              {items.map((item, index) => (
+              {devTools.map((item, index) => (
                 <GridItem
                   key={item.title}
                   colSpan={{
@@ -182,17 +232,7 @@ export const HowItWorksSection = () => {
                     lg: 1,
                   }}
                 >
-                  <Flex flexDir="column" align="center" gap="2.5">
-                    <Image w="10" h="10" alt="" src={item.icon} />
-                    <Heading
-                      size="title.xs"
-                      color="#A0A0A0"
-                      fontSize="0.7rem"
-                      textAlign="center"
-                    >
-                      {item.title}
-                    </Heading>
-                  </Flex>
+                  <Item item={item} />
                 </GridItem>
               ))}
             </SimpleGrid>
@@ -218,19 +258,9 @@ export const HowItWorksSection = () => {
               py={6}
               px={4}
             >
-              {items2.map((item) => (
+              {infrastructure.map((item) => (
                 <GridItem key={item.title}>
-                  <Flex flexDir="column" align="center" gap="2.5">
-                    <Image w="10" h="10" alt="" src={item.icon} />
-                    <Heading
-                      size="title.xs"
-                      color="#A0A0A0"
-                      fontSize="0.7rem"
-                      textAlign="center"
-                    >
-                      {item.title}
-                    </Heading>
-                  </Flex>
+                  <Item item={item} />
                 </GridItem>
               ))}
             </SimpleGrid>
