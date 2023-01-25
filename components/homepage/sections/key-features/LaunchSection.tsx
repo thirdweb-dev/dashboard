@@ -1,4 +1,5 @@
 import { Aurora } from "../../Aurora";
+import { GradientText } from "./GradientText";
 import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
@@ -22,11 +23,19 @@ export const LaunchSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "200%", height: "300%" }}
-            pos={{ top: "-50%", left: "50%" }}
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "10%", left: "50%" }}
+            color="#E8A7D960"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "100%", left: "50%" }}
             color="#E8A7D960"
           />
           <Flex
+            as={Link}
+            href="/deploy"
             h="full"
             position="relative"
             flexDir="column"
@@ -34,19 +43,13 @@ export const LaunchSection = () => {
             py={12}
             px={14}
             gap={6}
+            _hover={{ textDecoration: "none" }}
           >
             <Heading size="label.xl" lineHeight="1.2">
               Ship your contracts on-chain effortlessly with{" "}
-              <Link
-                href="/deploy"
-                bgGradient="linear-gradient(65deg, #C77FBE, #D19FD4, #C77FBE)"
-                bgClip="text"
-                bgSize="200%"
-                transition="background 0.5s ease"
-                _hover={{ bgPos: "100%" }}
-              >
+              <GradientText href="/deploy" stopOne="#C77FBE" stopTwo="#D19FD4">
                 Deploy
-              </Link>
+              </GradientText>
             </Heading>
             <Text
               color="whiteAlpha.700"
@@ -70,11 +73,19 @@ export const LaunchSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "200%", height: "300%" }}
-            pos={{ top: "-50%", left: "50%" }}
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "10%", left: "50%" }}
+            color="#E8A7D960"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "100%", left: "50%" }}
             color="#E8A7D960"
           />
           <Flex
+            as={Link}
+            href="/release"
             h="full"
             position="relative"
             flexDir="column"
@@ -82,19 +93,13 @@ export const LaunchSection = () => {
             py={12}
             px={14}
             gap={6}
+            _hover={{ textDecoration: "none" }}
           >
             <Heading size="label.xl" lineHeight="1.2">
               Publish your contracts with{" "}
-              <Link
-                href="/release"
-                bgGradient="linear-gradient(65deg, #C77FBE, #D19FD4, #C77FBE)"
-                bgClip="text"
-                bgSize="200%"
-                transition="background 0.5s ease"
-                _hover={{ bgPos: "100%" }}
-              >
+              <GradientText href="/release" stopOne="#C77FBE" stopTwo="#D19FD4">
                 Release
-              </Link>
+              </GradientText>
             </Heading>
             <Text
               color="whiteAlpha.700"

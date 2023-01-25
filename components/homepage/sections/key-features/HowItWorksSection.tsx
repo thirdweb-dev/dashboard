@@ -21,7 +21,7 @@ const devTools = [
     href: "/sdk",
   },
   {
-    icon: require("/public/assets/landingpage/howitworks-sdk.png"),
+    icon: require("/public/assets/landingpage/howitworks-ui.png"),
     title: "UI Components",
     href: "/ui-components",
   },
@@ -31,7 +31,7 @@ const devTools = [
     href: "/deploy",
   },
   {
-    icon: require("/public/assets/landingpage/howitworks-deploy.png"),
+    icon: require("/public/assets/landingpage/howitworks-release.png"),
     title: "Release",
     href: "/release",
   },
@@ -136,6 +136,7 @@ export const HowItWorksSection = () => {
         w="full"
       >
         <Flex
+          display={{ base: "none", xl: "flex" }}
           flex={1}
           order={{ base: 2, md: 1 }}
           rounded="8"
@@ -168,6 +169,7 @@ export const HowItWorksSection = () => {
         </Flex>
         <Flex
           flex={1}
+          display={{ base: "none", xl: "flex" }}
           order={{ base: 3, md: 3 }}
           rounded="8"
           border="2px #171717 solid"
@@ -211,7 +213,7 @@ export const HowItWorksSection = () => {
             letterSpacing={1.1}
             lineHeight="1"
             mt="-0.95rem"
-            pb={1}
+            pb={2}
           >
             DEV TOOLS
           </Heading>
@@ -245,7 +247,7 @@ export const HowItWorksSection = () => {
             letterSpacing={1.1}
             lineHeight="1"
             mt={{ base: 4, md: 8 }}
-            pb={1}
+            pb={2}
           >
             INFRASTRUCTURE
           </Heading>

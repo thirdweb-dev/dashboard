@@ -1,4 +1,5 @@
 import { Aurora } from "../../Aurora";
+import { GradientText } from "./GradientText";
 import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
@@ -23,28 +24,34 @@ export const BuildSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "200%", height: "150%" }}
+            size={{ width: "100%", height: "100%" }}
             pos={{ top: "80%", left: "0%" }}
             color="#380D3F60"
           />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "100%" }}
+            pos={{ top: "0%", left: "10%" }}
+            color="#380D3F60"
+          />
           <Flex
+            as={Link}
+            href="/contractkit"
             h="full"
             position="relative"
             flexDir="column"
             justify="space-between"
+            _hover={{ textDecoration: "none" }}
           >
             <Heading size="label.xl" lineHeight="1.2" py={12} px={14}>
               Create your own contracts with our{" "}
-              <Link
+              <GradientText
                 href="/contractkit"
-                bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
-                bgClip="text"
-                bgSize="200%"
-                transition="background 0.5s ease"
-                _hover={{ bgPos: "100%" }}
+                stopOne="#805AA8"
+                stopTwo="#BAA2D4"
               >
                 ContractKit
-              </Link>
+              </GradientText>
             </Heading>
             <Image
               pl="14"
@@ -63,16 +70,31 @@ export const BuildSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "200%", height: "150%" }}
+            size={{ width: "100%", height: "100%" }}
             pos={{ top: "20%", left: "100%" }}
             color="#380D3F60"
           />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "100%" }}
+            pos={{ top: "0%", left: "0%" }}
+            color="#380D3F60"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "100%" }}
+            pos={{ top: "100%", left: "0%" }}
+            color="#380D3F60"
+          />
           <Flex
+            as={Link}
+            href="/explore"
             h="full"
             position="relative"
             flexDir="column"
             align="center"
             justify="space-between"
+            _hover={{ textDecoration: "none" }}
           >
             <Heading
               lineHeight="1.2"
@@ -83,16 +105,9 @@ export const BuildSection = () => {
             >
               Discover ready-to-deploy <br />
               contracts in{" "}
-              <Link
-                href="/explore"
-                bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
-                bgClip="text"
-                bgSize="200%"
-                transition="background 0.5s ease"
-                _hover={{ bgPos: "100%" }}
-              >
+              <GradientText href="/explore" stopOne="#805AA8" stopTwo="#BAA2D4">
                 Explore
-              </Link>
+              </GradientText>
             </Heading>
             <Image
               w="full"
@@ -110,12 +125,20 @@ export const BuildSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "300%", height: "150%" }}
-            pos={{ top: "70%", left: "150%" }}
+            size={{ width: "100%", height: "150%" }}
+            pos={{ top: "50%", left: "70%" }}
+            color="#380D3F60"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "150%" }}
+            pos={{ top: "50%", left: "0%" }}
             color="#380D3F60"
           />
           <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
             <Flex
+              as={Link}
+              href="/sdk"
               h="full"
               flexDir="column"
               justify="center"
@@ -123,6 +146,7 @@ export const BuildSection = () => {
               py={12}
               w="full"
               gap={6}
+              _hover={{ textDecoration: "none" }}
             >
               <Heading
                 lineHeight="1.2"
@@ -130,18 +154,9 @@ export const BuildSection = () => {
                 textAlign={{ base: "center", md: "left" }}
               >
                 Integrate web3 technologies into your apps and games with our{" "}
-                <Link
-                  href="/sdk"
-                  bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
-                  bgClip="text"
-                  bgSize="200%"
-                  transition="background 0.5s ease"
-                  _hover={{
-                    bgPos: "100%",
-                  }}
-                >
+                <GradientText href="/sdk" stopOne="#805AA8" stopTwo="#BAA2D4">
                   easy-to-use SDKs
-                </Link>
+                </GradientText>
               </Heading>
               <Text
                 color="whiteAlpha.700"
@@ -169,8 +184,14 @@ export const BuildSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "150%", height: "150%" }}
-            pos={{ top: "50%", left: "100%" }}
+            size={{ width: "100%", height: "150%" }}
+            pos={{ top: "50%", left: "75%" }}
+            color="#380D3F60"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "150%" }}
+            pos={{ top: "50%", left: "0%" }}
             color="#380D3F60"
           />
           <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
@@ -188,22 +209,11 @@ export const BuildSection = () => {
                 size="label.xl"
                 textAlign={{ base: "center", md: "left" }}
               >
-                <Box
-                  as="span"
-                  bgGradient="linear-gradient(70deg, #805AA8, #BAA2D4, #805AA8)"
-                  bgClip="text"
-                  bgSize="200%"
-                >
+                <GradientText stopOne="#805AA8" stopTwo="#BAA2D4">
                   Fully managed infrastructure services
-                </Box>{" "}
+                </GradientText>{" "}
                 in a single toolkit to enable developers to build for scale
               </Heading>
-              <Text
-                color="whiteAlpha.700"
-                textAlign={{ base: "center", md: "left" }}
-              >
-                Deploy across any EVM chain.
-              </Text>
             </Flex>
             <Box px={14} py={10}>
               <Image

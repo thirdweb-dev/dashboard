@@ -1,4 +1,5 @@
 import { Aurora } from "../../Aurora";
+import { GradientText } from "./GradientText";
 import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
@@ -23,29 +24,35 @@ export const ManageSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "150%", height: "150%" }}
-            pos={{ top: "60%", left: "50%" }}
+            size={{ width: "175%", height: "200%" }}
+            pos={{ top: "40%", left: "0%" }}
+            color="#9786DF60"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "175%", height: "200%" }}
+            pos={{ top: "20%", left: "100%" }}
             color="#9786DF60"
           />
           <Flex
+            as={Link}
+            href="/dashboards"
             h="full"
             position="relative"
             flexDir="column"
             justify="space-between"
             px={14}
+            _hover={{ textDecoration: "none" }}
           >
             <Heading size="label.xl" lineHeight="1.2" py={12}>
               Monitor and configure your contracts from your{" "}
-              <Link
+              <GradientText
                 href="/dashboards"
-                bgGradient="linear-gradient(70deg, #4F3DA5, #8E81D0, #4F3DA5)"
-                bgClip="text"
-                bgSize="200%"
-                transition="background 0.5s ease"
-                _hover={{ backgroundPosition: "100%" }}
+                stopOne="#4F3DA5"
+                stopTwo="#8E81D0"
               >
                 Dashboard
-              </Link>
+              </GradientText>
             </Heading>
             <Image
               w="full"
@@ -63,20 +70,22 @@ export const ManageSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "300%", height: "200%" }}
-            pos={{ top: "80%", left: "100%" }}
+            size={{ width: "175%", height: "200%" }}
+            pos={{ top: "20%", left: "0%" }}
+            color="#9786DF60"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "175%", height: "200%" }}
+            pos={{ top: "40%", left: "120%" }}
             color="#9786DF60"
           />
           <Flex h="full" position="relative" flexDir="column" px={14}>
             <Heading size="label.xl" lineHeight="1.2" py={12}>
               Collaborate with your team and{" "}
-              <Box
-                as="span"
-                bgGradient="linear-gradient(70deg, #4F3DA5, #8E81D0)"
-                bgClip="text"
-              >
+              <GradientText stopOne="#4F3DA5" stopTwo="#8E81D0">
                 manage permissions
-              </Box>
+              </GradientText>
             </Heading>
             <Box py={6} my="auto">
               <Image
@@ -96,7 +105,13 @@ export const ManageSection = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "120%", height: "180%" }}
+            size={{ width: "80%", height: "200%" }}
+            pos={{ top: "50%", left: "20%" }}
+            color="#9786DF40"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "80%", height: "200%" }}
             pos={{ top: "50%", left: "70%" }}
             color="#9786DF40"
           />
@@ -116,13 +131,9 @@ export const ManageSection = () => {
                 maxW={320}
                 textAlign={{ base: "center", md: "left" }}
               >
-                <Box
-                  as="span"
-                  bgGradient="linear-gradient(70deg, #4F3DA5, #8E81D0)"
-                  bgClip="text"
-                >
+                <GradientText stopOne="#4F3DA5" stopTwo="#8E81D0">
                   Automatic pre-built reports
-                </Box>{" "}
+                </GradientText>{" "}
                 with on-chain analytics.
               </Heading>
             </Flex>
