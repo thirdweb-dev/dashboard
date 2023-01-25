@@ -8,11 +8,7 @@ import {
 } from "../hooks";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import {
-  ContractType,
-  SUPPORTED_CHAIN_IDS,
-  getContractAddressByChainId,
-} from "@thirdweb-dev/sdk/evm";
+import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -34,20 +30,6 @@ import {
   Text,
   TrackedLink,
 } from "tw-components";
-
-function isThirdwebFactory(
-  chainId: number | undefined,
-  factoryAddressMap: Record<string, string> = {},
-) {
-  if (!chainId) {
-    return false;
-  }
-
-  const factoryAddress =
-    chainId in factoryAddressMap ? factoryAddressMap[chainId] : "";
-  const chainFactoryAddress = getContractAddressByChainId(chainId, "twFactory");
-  return chainFactoryAddress === factoryAddress;
-}
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -100,21 +82,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         })
       : undefined;
 
-  // Question: What to do here for Any EVM
-  const isTwFactory =
-    (fullReleaseMetadata.data?.isDeployableViaFactory ||
-      fullReleaseMetadata.data?.isDeployableViaProxy) &&
-    isThirdwebFactory(
-      selectedChain,
-      fullReleaseMetadata.data?.factoryDeploymentData?.factoryAddresses,
-    );
-
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
   }>({
     defaultValues: {
-      addToDashboard: !isTwFactory,
+      addToDashboard: true,
       deployParams: deployParams.reduce((acc, param) => {
         acc[param.name] = replaceTemplateValues(
           fullReleaseMetadata.data?.constructorParams?.[param.name]
@@ -129,7 +102,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       }, {} as Record<string, string>),
     },
     values: {
-      addToDashboard: !isTwFactory,
+      addToDashboard: true,
       deployParams: deployParams.reduce((acc, param) => {
         acc[param.name] = replaceTemplateValues(
           fullReleaseMetadata.data?.constructorParams?.[param.name]
@@ -183,7 +156,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             is_proxy: fullReleaseMetadata.data?.isDeployableViaProxy,
             is_factory: fullReleaseMetadata.data?.isDeployableViaProxy,
           };
-          const addToDashboard = isTwFactory ? false : d.addToDashboard;
+          // always respect this since even factory deployments cannot auto-add to registry anymore
+          const addToDashboard = d.addToDashboard;
           trackEvent({
             category: "custom-contract",
             action: "deploy",
@@ -328,25 +302,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             </TrackedLink>
           </Text>
         </Flex>
-        {!isTwFactory && (
-          <Flex alignItems="center" gap={3}>
-            <Checkbox {...form.register("addToDashboard")} defaultChecked />
 
-            <Text mt={1}>
-              Add to dashboard so I can find it in the list of my contracts at{" "}
-              <TrackedLink
-                href="https://thirdweb.com/dashboard"
-                isExternal
-                category="custom-contract"
-                label="visit-dashboard"
-                color="blue.500"
-              >
-                /dashboard
-              </TrackedLink>
-              .
-            </Text>
-          </Flex>
-        )}
+        <Flex alignItems="center" gap={3}>
+          <Checkbox {...form.register("addToDashboard")} defaultChecked />
+
+          <Text mt={1}>
+            Add to dashboard so I can find it in the list of my contracts at{" "}
+            <TrackedLink
+              href="https://thirdweb.com/dashboard"
+              isExternal
+              category="custom-contract"
+              label="visit-dashboard"
+              color="blue.500"
+            >
+              /dashboard
+            </TrackedLink>
+            .
+          </Text>
+        </Flex>
+
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <FormControl>
             <SupportedNetworkSelect
@@ -379,9 +353,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               !!disabledChains?.find((chain) => chain === selectedChain)
             }
             colorScheme="blue"
-            transactionCount={
-              isTwFactory ? 1 : !form.watch("addToDashboard") ? 1 : 2
-            }
+            transactionCount={form.watch("addToDashboard") ? 2 : 1}
           >
             Deploy Now
           </TransactionButton>

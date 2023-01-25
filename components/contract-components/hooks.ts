@@ -1,4 +1,9 @@
 import { EVM_RPC_URL_MAP, getEVMRPC } from "../../constants/rpc";
+import {
+  stepAddToRegistry,
+  stepDeploy,
+  useDeployContextModal,
+} from "./contract-deploy-form/deploy-context-modal";
 import { ContractId } from "./types";
 import {
   addContractToMultiChainRegistry,
@@ -508,6 +513,7 @@ export function useCustomContractDeployMutation(
   const walletAddress = useAddress();
   const chainId = useChainId();
   const signer = useSigner();
+  const deployContext = useDeployContextModal();
 
   return useMutation(
     async (data: ContractDeployMutationParams) => {
@@ -515,23 +521,48 @@ export function useCustomContractDeployMutation(
         sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
-      const contractAddress = await sdk.deployer.deployContractFromUri(
-        ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-        data.constructorParams,
-        {
-          forceDirectDeploy,
-        },
+
+      // open the modal with the appropriate steps
+      deployContext.open(
+        data.addToDashboard ? [stepDeploy, stepAddToRegistry] : [stepDeploy],
       );
-      if (data.addToDashboard) {
-        invariant(chainId, "chainId is not provided");
-        await addContractToMultiChainRegistry(
+
+      let contractAddress: string;
+      try {
+        // deploy contract
+        contractAddress = await sdk.deployer.deployContractFromUri(
+          ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+          data.constructorParams,
           {
-            address: contractAddress,
-            chainId,
+            forceDirectDeploy,
           },
-          signer,
         );
+      } catch (e) {
+        // failed to deploy contract - close modal for now
+        deployContext.close();
+        // re-throw error
+        throw e;
       }
+      try {
+        // let user decide if they want this or not
+        if (data.addToDashboard) {
+          invariant(chainId, "chainId is not provided");
+          await addContractToMultiChainRegistry(
+            {
+              address: contractAddress,
+              chainId,
+            },
+            signer,
+          );
+        }
+      } catch (e) {
+        // failed to add to dashboard - for now just close the modal
+        deployContext.close();
+        // not re-throwing the error, this is not technically a failure to deploy, just to add to dashboard - the contract is deployed already at this stage
+      }
+
+      // always close the modal
+      deployContext.close();
 
       return contractAddress;
     },

@@ -61,6 +61,7 @@ import { IoMdSettings } from "react-icons/io";
 import invariant from "tiny-invariant";
 import {
   Button,
+  Checkbox,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -125,6 +126,8 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   const networkInfo = useResolvedNetworkInfo(selectedChain || -1);
 
   const form = useDeployForm(contract.schema.deploy);
+
+  const [addToDashboard, setAddToDashboard] = useState(true);
 
   const address = useAddress();
 
@@ -216,6 +219,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
     selectedChain,
     contract.contractType,
     contractVersion,
+    addToDashboard,
   );
 
   const { onSuccess, onError } = useTxNotifications(
@@ -227,6 +231,22 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   const router = useRouter();
 
   const audit = BuiltinContractMap[contractType]?.audit;
+
+  // TODO better proxy for this needed
+  const isDefaultChain = blockTimeInSeconds !== "few";
+
+  const numberOfTransactions = useMemo(() => {
+    let txnCnt = 1;
+    // adding to dashboard causes a second transactions
+    if (addToDashboard) {
+      txnCnt += 1;
+    }
+    // on non-default chains we need a transaction to deploy the implementation first
+    if (!isDefaultChain) {
+      txnCnt += 1;
+    }
+    return txnCnt;
+  }, [addToDashboard, isDefaultChain]);
 
   return (
     <FormProvider {...form}>
@@ -270,7 +290,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 networkInfo,
                 `Could not resolve network for ${selectedChain}`,
               );
-              router.replace(`/${networkInfo?.shortName}/${contractAddress}`);
+              router.push(`/${networkInfo?.shortName}/${contractAddress}`);
             },
             onError: (err) => {
               trackEvent({
@@ -872,6 +892,28 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             </TrackedLink>
           </Text>
         </Flex>
+
+        <Flex alignItems="center" gap={3}>
+          <Checkbox
+            isChecked={addToDashboard}
+            onChange={() => setAddToDashboard((prev) => !prev)}
+          />
+
+          <Text mt={1}>
+            Add to dashboard so I can find it in the list of my contracts at{" "}
+            <TrackedLink
+              href="https://thirdweb.com/dashboard"
+              isExternal
+              category="custom-contract"
+              label="visit-dashboard"
+              color="blue.500"
+            >
+              /dashboard
+            </TrackedLink>
+            .
+          </Text>
+        </Flex>
+
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <FormControl>
             <SupportedNetworkSelect
@@ -895,7 +937,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             isLoading={deploy.isLoading}
             isDisabled={!publishMetadata.isSuccess || !selectedChain}
             colorScheme="blue"
-            transactionCount={1}
+            transactionCount={numberOfTransactions}
           >
             Deploy Now
           </TransactionButton>

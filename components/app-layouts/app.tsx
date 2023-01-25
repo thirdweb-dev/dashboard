@@ -14,6 +14,7 @@ import {
 } from "@thirdweb-dev/react";
 import { useSDK } from "@thirdweb-dev/react/solana";
 import { ConfiguredNetworksProvider } from "components/configure-networks/useConfiguredNetworks";
+import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { ErrorProvider } from "contexts/error-handler";
@@ -112,13 +113,15 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
     >
       <Hydrate state={props.dehydratedState}>
         <ErrorProvider>
-          <ConfiguredNetworksProvider>
-            <DashboardThirdwebProvider>
-              <PHIdentifier />
-              {router.pathname !== "/dashboard" && <PrivacyNotice />}
-              <AppShell {...props} />
-            </DashboardThirdwebProvider>
-          </ConfiguredNetworksProvider>
+          <DeployModalProvider>
+            <ConfiguredNetworksProvider>
+              <DashboardThirdwebProvider>
+                <PHIdentifier />
+                {router.pathname !== "/dashboard" && <PrivacyNotice />}
+                <AppShell {...props} />
+              </DashboardThirdwebProvider>
+            </ConfiguredNetworksProvider>
+          </DeployModalProvider>
         </ErrorProvider>
       </Hydrate>
     </PersistQueryClientProvider>
