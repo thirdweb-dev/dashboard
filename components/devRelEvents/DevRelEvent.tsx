@@ -36,20 +36,21 @@ export const DevRelEvent: React.FC<EventProps> = ({
         transition: "all 0.2",
       }}
       bg="whiteAlpha.100"
-      py={10}
-      px={{
-        base: 2,
-        md: 10,
-      }}
       my={4}
       rounded="lg"
       border={0}
+      pb={10}
     >
       <AccordionButton
         gap={6}
         _hover={{
           bg: "transparent",
         }}
+        px={{
+          base: 2,
+          md: 10,
+        }}
+        pt={10}
         display="flex"
         flexDir={{
           base: "column",
@@ -118,7 +119,7 @@ export const DevRelEvent: React.FC<EventProps> = ({
         gap={4}
         ml={{
           base: 0,
-          md: "8.5rem",
+          md: "10rem",
         }}
         justifyContent="left"
       >
@@ -140,6 +141,7 @@ export const DevRelEvent: React.FC<EventProps> = ({
           _hover={{
             background: "whiteAlpha.900",
           }}
+          isExternal
         >
           Register
         </LinkButton>
