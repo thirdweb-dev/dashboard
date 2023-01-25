@@ -60,11 +60,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const name = form.watch("name");
   const isCustom = form.watch("isCustom");
 
-  const isRpcEmpty = form.watch("rpcUrl") === "";
-
-  // only allow editing rpc url if it's empty in chainList or user creating a custom network
-  const allowEditingRpcUrl = isRpcEmpty ? true : isCustom;
-
   // for custom network, network slug "shortName" needs to be generated
   useEffect(() => {
     if (isCustom) {
@@ -128,7 +123,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               })}
             />
           </FormControl>
-
           {/* currencySymbol */}
           <FormControl isRequired>
             <FormLabel>Currency Symbol</FormLabel>
@@ -165,7 +159,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         <FormControl isRequired isInvalid={!!form.formState.errors.rpcUrl}>
           <FormLabel>RPC URL</FormLabel>
           <Input
-            disabled={!allowEditingRpcUrl}
             autoComplete="off"
             background="backgroundHighlight"
             placeholder="https://"
@@ -184,19 +177,17 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
 
           <FormErrorMessage fontSize="12px">Invalid RPC URL</FormErrorMessage>
 
-          {allowEditingRpcUrl && (
-            <Alert
-              bg="transparent"
-              p={0}
-              mt={4}
-              fontSize="12px"
-              color="whiteAlpha.500"
-            >
-              <AlertIcon as={IoWarning} color="whiteAlpha.500" />
-              Only add custom networks that you trust. <br /> Malicious RPCs can
-              record activity and lie about the state of the network.
-            </Alert>
-          )}
+          <Alert
+            bg="transparent"
+            p={0}
+            mt={4}
+            fontSize="12px"
+            color="whiteAlpha.500"
+          >
+            <AlertIcon as={IoWarning} color="whiteAlpha.500" />
+            Only add custom networks that you trust. <br /> Malicious RPCs can
+            record activity and lie about the state of the network.
+          </Alert>
         </FormControl>
 
         <Flex mt={8} gap={4} justifyContent="flex-end">
