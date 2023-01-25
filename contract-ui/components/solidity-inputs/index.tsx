@@ -6,6 +6,7 @@ import { SolidityRawInput } from "./raw-input";
 import { SolidityStringInput } from "./string-input";
 import { SolidityTupleInput } from "./tuple-input";
 import { Input, InputProps } from "@chakra-ui/react";
+import React from "react";
 import { UseFormReturn, useFormContext } from "react-hook-form";
 
 export interface SolidityInputProps extends InputProps {
@@ -35,12 +36,12 @@ export interface SolidityInputPropsOptionalFormProps extends InputProps {
   formContext?: UseFormReturn<any, any>;
 }
 
-export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
-  solidityType,
-  solidityName,
-  solidityComponents,
-  ...inputProps
-}) => {
+// has to be forwardref otherwise we get react runtime errors
+export const SolidityInput = React.forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  SolidityInputPropsOptionalFormProps
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+>(({ solidityType, solidityName, solidityComponents, ...inputProps }, _ref) => {
   const formContext = useFormContext();
 
   const form = inputProps.formContext || formContext;
@@ -59,7 +60,8 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
         {...inputProps}
       />
     );
-  } else */ if (solidityType.endsWith("[]")) {
+  } else */
+  if (solidityType.endsWith("[]")) {
     return (
       <SolidityRawInput
         formContext={form}
@@ -111,4 +113,6 @@ export const SolidityInput: React.FC<SolidityInputPropsOptionalFormProps> = ({
     return <SolidityBoolInput formContext={form} {...inputProps} />;
   }
   return <Input {...inputProps} />;
-};
+});
+
+SolidityInput.displayName = "SolidityInput";

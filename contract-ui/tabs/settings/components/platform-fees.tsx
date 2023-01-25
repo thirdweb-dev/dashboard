@@ -2,7 +2,11 @@ import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePlatformFees, useUpdatePlatformFees } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  usePlatformFees,
+  useUpdatePlatformFees,
+} from "@thirdweb-dev/react";
 import {
   CommonPlatformFeeSchema,
   ValidContractInstance,
@@ -35,6 +39,7 @@ export const SettingsPlatformFees = <
 }) => {
   const trackEvent = useTrack();
   const query = usePlatformFees(contract);
+  const address = useAddress();
   const mutation = useUpdatePlatformFees(contract);
   const form = useForm<z.input<typeof CommonPlatformFeeSchema>>({
     resolver: zodResolver(CommonPlatformFeeSchema),
@@ -97,6 +102,7 @@ export const SettingsPlatformFees = <
                 !!form.getFieldState("platform_fee_recipient", form.formState)
                   .error
               }
+              isDisabled={!address}
             >
               <FormLabel>Recipient Address</FormLabel>
               <SolidityInput
@@ -104,6 +110,7 @@ export const SettingsPlatformFees = <
                 formContext={form}
                 variant="filled"
                 {...form.register("platform_fee_recipient")}
+                isDisabled={!address}
               />
               <FormErrorMessage>
                 {
@@ -113,6 +120,7 @@ export const SettingsPlatformFees = <
               </FormErrorMessage>
             </FormControl>
             <FormControl
+              isDisabled={!address}
               maxW={{ base: "100%", md: "200px" }}
               isInvalid={
                 !!form.getFieldState(

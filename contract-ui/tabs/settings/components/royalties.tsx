@@ -3,6 +3,7 @@ import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  useAddress,
   useRoyaltySettings,
   useUpdateRoyaltySettings,
 } from "@thirdweb-dev/react";
@@ -42,6 +43,7 @@ export const SettingsRoyalties = <
   const form = useForm<z.input<typeof CommonRoyaltySchema>>({
     resolver: zodResolver(CommonRoyaltySchema),
   });
+  const address = useAddress();
   useEffect(() => {
     if (query.data && !form.formState.isDirty) {
       form.reset(query.data);
@@ -99,6 +101,7 @@ export const SettingsRoyalties = <
               isInvalid={
                 !!form.getFieldState("fee_recipient", form.formState).error
               }
+              isDisabled={!address}
             >
               <FormLabel>Recipient Address</FormLabel>
               <SolidityInput
@@ -106,6 +109,7 @@ export const SettingsRoyalties = <
                 formContext={form}
                 variant="filled"
                 {...form.register("fee_recipient")}
+                isDisabled={!address}
               />
               <FormErrorMessage>
                 {
@@ -120,6 +124,7 @@ export const SettingsRoyalties = <
                 !!form.getFieldState("seller_fee_basis_points", form.formState)
                   .error
               }
+              isDisabled={!address}
             >
               <FormLabel>Percentage</FormLabel>
               <BasisPointsInput

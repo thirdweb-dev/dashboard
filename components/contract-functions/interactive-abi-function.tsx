@@ -131,8 +131,6 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
     name: "params",
   });
 
-  console.log(form.getValues());
-
   const isView = useMemo(() => {
     return (
       !abiFunction ||

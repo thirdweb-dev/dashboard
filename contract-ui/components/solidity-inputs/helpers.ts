@@ -36,22 +36,24 @@ const intMaxValues: Record<string, BigNumber> = {
   uint: constants.MaxUint256,
 };
 
-export const validateInt = (value: string, solidityType: string) => {
+export const validateInt = (value = "", solidityType: string) => {
   const min = intMinValues[solidityType];
   const max = intMaxValues[solidityType];
 
   value = value.toString();
 
-  if (value?.includes(".") || value?.includes(",")) {
+  value = value.replace(/,/g, ".");
+
+  if (!value.match(new RegExp(/^(?!-0(\.0+)?$)-?(0|[1-9]\d*)(\.\d+)?$/))) {
+    return {
+      type: "pattern",
+      message: "Input is not a valid number.",
+    };
+  } else if (value.includes(".") || value.includes(",")) {
     return {
       type: "pattern",
       message:
         "Can't use decimals, you need to convert your input to Wei first.",
-    };
-  } else if (!value?.match(new RegExp(`^-?\\d+$`))) {
-    return {
-      type: "pattern",
-      message: "Input is not a valid number.",
     };
   } else {
     try {

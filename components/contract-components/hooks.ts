@@ -36,6 +36,7 @@ import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
 import { isEnsName } from "lib/ens";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -617,13 +618,10 @@ export function ensQuery(addressOrEnsName?: string) {
       if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
         throw new Error("Invalid address or ens name");
       }
-      const ethProvider = getEVMThirdwebSDK(ChainId.Mainnet).getProvider();
-      const ensName = isEnsName(addressOrEnsName)
-        ? addressOrEnsName
-        : await ethProvider.lookupAddress(addressOrEnsName);
-      const address = utils.isAddress(addressOrEnsName)
-        ? addressOrEnsName
-        : await ethProvider.resolveName(addressOrEnsName);
+      const res = await fetch(
+        `${getAbsoluteUrl()}/api/ens/${addressOrEnsName}`,
+      );
+      const { address, ensName } = await res.json();
 
       if (isEnsName(addressOrEnsName) && !address) {
         throw new Error("ENS name not found");
@@ -643,6 +641,7 @@ export function ensQuery(addressOrEnsName?: string) {
     staleTime: 60 * 60 * 1000,
     // default to the one we know already
     placeholderData,
+    retry: false,
   } as const;
 }
 

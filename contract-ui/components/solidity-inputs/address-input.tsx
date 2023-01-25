@@ -1,10 +1,11 @@
 import { SolidityInputProps } from ".";
 import { validateAddress } from "./helpers";
-import { Flex, Input } from "@chakra-ui/react";
+import { Box, Flex, FormControl, Icon, Input, Spinner } from "@chakra-ui/react";
 import { useEns } from "components/contract-components/hooks";
-import { isAddress } from "ethers/lib/utils";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { FormHelperText, Text } from "tw-components";
+import { utils } from "ethers";
+import { useEffect, useMemo, useState } from "react";
+import { FiCheck } from "react-icons/fi";
+import { FormHelperText } from "tw-components";
 
 export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   formContext: form,
@@ -13,16 +14,21 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   const inputName = inputProps.name as string;
   const inputNameWatch = form.watch(inputName);
   const [localInput, setLocalInput] = useState(inputNameWatch);
-  const setDefault = useRef(false);
 
   const ensQuery = useEns(localInput);
 
   const { setValue, clearErrors } = form;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+  const handleChange = (value: string) => {
     setLocalInput(value);
-    setValue(inputName, value, { shouldDirty: true });
+    // if it's an address we can set it immediately
+    if (utils.isAddress(value)) {
+      setValue(inputName, value, { shouldDirty: true });
+      clearErrors(inputName);
+    } else {
+      // if it's not an address reset the form value
+      setValue(inputName, "", { shouldDirty: true });
+    }
 
     const inputError = validateAddress(value);
 
@@ -34,11 +40,13 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   };
 
   useEffect(() => {
-    if (!localInput && !!inputNameWatch && setDefault.current === false) {
-      setLocalInput(inputNameWatch);
-      setDefault.current = true;
+    if (ensQuery.isError) {
+      form.setError(inputName, {
+        type: "pattern",
+        message: "Failed to resolve ENS name.",
+      });
     }
-  }, [inputName, inputNameWatch, localInput]);
+  }, [ensQuery.isError, form, inputName]);
 
   useEffect(() => {
     if (ensQuery?.data?.address && ensQuery?.data?.address !== inputNameWatch) {
@@ -71,43 +79,44 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   );
 
   const ensFound = useMemo(
-    () => isAddress(localInput) && !hasError && ensQuery?.data?.ensName,
+    () => utils.isAddress(localInput) && !hasError && ensQuery?.data?.ensName,
     [ensQuery?.data?.ensName, hasError, localInput],
   );
 
   return (
-    <>
+    <FormControl isInvalid={hasError}>
       <Input
         placeholder="address"
+        // probably OK but obviously can be longer if ens name is passed?
         maxLength={42}
         {...inputProps}
-        onChange={handleChange}
-        value={localInput}
+        onChange={(e) => handleChange(e.target.value)}
+        // if we don't have a value from the form, use the local input (but if value is empty string then that's valid)
+        value={(localInput ?? inputNameWatch) || ""}
       />
 
-      {resolvingEns || resolvedAddress || ensFound ? (
-        <FormHelperText as={Flex}>
-          {resolvingEns && "Resolving ENS..."}
-          {resolvedAddress && (
-            <Flex gap={2}>
-              <Text color="green.600">✔</Text>{" "}
-              <Text>Resolved address: {ensQuery?.data?.address}</Text>
-            </Flex>
-          )}
-          {ensFound && (
-            <Flex gap={2}>
-              <Text color="green.600">✔</Text>{" "}
-              <Text>ENS Found: {ensQuery?.data?.ensName}</Text>
-            </Flex>
-          )}
-        </FormHelperText>
-      ) : null}
-
-      {ensQuery.isError && (
-        <FormHelperText color="red.300">
-          ENS couldn&apos;t be resolved.
+      {hasError ? null : (
+        <FormHelperText>
+          <Flex gap={1} align="center">
+            {resolvingEns ? (
+              <Spinner boxSize={3} mr={1} size="xs" speed="0.6s" />
+            ) : resolvedAddress || ensFound ? (
+              <Icon boxSize={3} as={FiCheck} color="green.500" />
+            ) : null}
+            {resolvingEns ? (
+              "Resolving ENS..."
+            ) : resolvedAddress ? (
+              <Box as="span" fontFamily="mono">
+                {ensQuery?.data?.address}
+              </Box>
+            ) : ensFound ? (
+              <Box as="span" fontFamily="mono">
+                {ensQuery?.data?.ensName}
+              </Box>
+            ) : null}
+          </Flex>
         </FormHelperText>
       )}
-    </>
+    </FormControl>
   );
 };

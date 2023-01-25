@@ -1,5 +1,11 @@
 import { SolidityInputWithTypeProps } from ".";
-import { Icon, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  Box,
+  Icon,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { FileInput } from "components/shared/FileInput";
 import { useErrorHandler } from "contexts/error-handler";
@@ -38,28 +44,28 @@ export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
     nameOrInput !== "_baseURIForTokens";
 
   return (
-    <InputGroup>
+    <InputGroup display="flex">
       <Input
         placeholder="string"
-        disabled={isLoading}
+        isDisabled={isLoading}
         value={form.watch(inputName)}
         {...inputProps}
         onChange={handleChange}
+        pr={{ base: "90px", md: "160px" }}
       />
       {showButton && (
-        <InputRightElement width="96px">
+        <InputRightElement mx={1} width={{ base: "75px", md: "145px" }}>
           <FileInput setValue={handleUpload}>
             <Button
-              size="xs"
-              padding="3"
-              paddingY="3.5"
+              size="sm"
+              variant="solid"
               aria-label="Upload to IPFS"
               rightIcon={<Icon as={FiUpload} />}
               isLoading={isLoading}
-              ml={3}
-              bgColor="gray.700"
-              _hover={{ bgColor: "gray.800" }}
             >
+              <Box display={{ base: "none", md: "block" }} mr={1} as="span">
+                Upload to
+              </Box>
               IPFS
             </Button>
           </FileInput>

@@ -3,6 +3,7 @@ import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  useAddress,
   usePrimarySaleRecipient,
   useUpdatePrimarySaleRecipient,
 } from "@thirdweb-dev/react";
@@ -35,6 +36,7 @@ export const SettingsPrimarySale = <
   contract: TContract;
   detectedState: ExtensionDetectedState;
 }) => {
+  const address = useAddress();
   const trackEvent = useTrack();
   const query = usePrimarySaleRecipient(contract);
   const mutation = useUpdatePrimarySaleRecipient(contract);
@@ -96,7 +98,7 @@ export const SettingsPrimarySale = <
           </Text>
           <Flex gap={4} direction={{ base: "column", md: "row" }}>
             <FormControl
-              isDisabled={mutation.isLoading}
+              isDisabled={mutation.isLoading || !address}
               isInvalid={
                 !!form.getFieldState("primary_sale_recipient", form.formState)
                   .error
@@ -104,6 +106,7 @@ export const SettingsPrimarySale = <
             >
               <FormLabel>Recipient Address</FormLabel>
               <SolidityInput
+                isDisabled={mutation.isLoading || !address}
                 solidityType="address"
                 formContext={form}
                 variant="filled"

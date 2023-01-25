@@ -2,6 +2,7 @@ import { SolidityInputWithTypeProps } from ".";
 import { validateInt } from "./helpers";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { parseEther } from "ethers/lib/utils";
+import { useCallback } from "react";
 import { Button } from "tw-components";
 
 export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
@@ -24,7 +25,7 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
     }
   };
 
-  const handleConversion = () => {
+  const handleConversion = useCallback(() => {
     const val: string = form.getValues(inputName);
 
     try {
@@ -37,10 +38,12 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
     } catch (e) {
       form.setError(inputName, {
         type: "pattern",
-        message: "Can't be converted to wei.",
+        message: "Can't be converted to WEI.",
       });
     }
-  };
+  }, [form, inputName]);
+
+  const formValue = form.watch(inputName) || "";
 
   return (
     <InputGroup>
@@ -50,20 +53,10 @@ export const SolidityIntInput: React.FC<SolidityInputWithTypeProps> = ({
         value={form.watch(inputName)}
         onChange={handleChange}
       />
-      {(form.watch(inputName)?.includes(".") ||
-        form.watch(inputName)?.includes(",")) && (
-        <InputRightElement width="72px">
-          <Button
-            size="xs"
-            padding={2}
-            paddingY="3.5"
-            aria-label="Convert to WEI"
-            onClick={handleConversion}
-            bgColor="gray.700"
-            _hover={{ bgColor: "gray.800" }}
-            ml={2}
-          >
-            To Wei
+      {(formValue.includes(".") || formValue.includes(",")) && (
+        <InputRightElement width="auto" px={1}>
+          <Button variant="ghost" size="sm" onClick={handleConversion}>
+            Convert to WEI
           </Button>
         </InputRightElement>
       )}

@@ -32,16 +32,12 @@ export const SolidityRawInput: React.FC<SolidityInputWithTypeProps> = ({
         const isValid = parsedValue.every(
           (item) => !validateSolidityInput(item, typeWithoutArray),
         );
-
-        console.log({ parsedValue, typeWithoutArray, isValid });
-
         if (!isValid) {
           form.setError(inputName, invalidInputError);
         } else {
           form.clearErrors(inputName);
         }
       } catch (error) {
-        console.log("catching error", error);
         form.setError(inputName, invalidInputError);
       }
     } else {
