@@ -93,10 +93,10 @@ const employees = [
     name: "Mariano Fuentes",
     twitter: "Marfuenn",
   },
-  // {
-  //   name: "Muhammad Meigooni",
-  //   twitter: "",
-  // },
+  {
+    name: "Muhammad Meigooni",
+    twitter: "mmeigooni",
+  },
   {
     name: "Nacho Iacovino",
     twitter: "nachoiacovino",
