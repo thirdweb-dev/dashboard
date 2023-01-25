@@ -41,10 +41,10 @@ const employees = [
     name: "Ciara Nightingale",
     twitter: "ciaranightingal",
   },
-  // {
-  //   name: "Devin Rattray",
-  //   twitter: "",
-  // },
+  {
+    name: "Devin Rattray",
+    twitter: "dvnsctt",
+  },
   {
     name: "Eiman Abdelmoneim",
     twitter: "EimanAbdel",
