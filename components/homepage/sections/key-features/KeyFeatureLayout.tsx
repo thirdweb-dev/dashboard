@@ -18,7 +18,13 @@ export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
   children,
 }) => {
   return (
-    <Flex my={144} direction="column" align="center" w="full">
+    <Flex
+      my={144}
+      position="relative"
+      direction="column"
+      align="center"
+      w="full"
+    >
       <Flex
         maxW={700}
         flexDir="column"
