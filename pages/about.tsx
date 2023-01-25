@@ -89,14 +89,14 @@ const employees = [
     name: "Manan Tank",
     twitter: "MananTank_",
   },
-  // {
-  //   name: "Mariano Fuentes",
-  //   twitter: "",
-  // }
+  {
+    name: "Mariano Fuentes",
+    twitter: "Marfuenn",
+  },
   // {
   //   name: "Muhammad Meigooni",
   //   twitter: "",
-  // }
+  // },
   {
     name: "Nacho Iacovino",
     twitter: "nachoiacovino",
