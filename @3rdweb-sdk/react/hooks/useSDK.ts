@@ -1,6 +1,10 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
-import { ChainId, ChainInfo } from "@thirdweb-dev/sdk/evm";
+import {
+  ChainId,
+  ChainInfo,
+  ContractWithMetadata,
+} from "@thirdweb-dev/sdk/evm";
 import {
   useConfiguredNetworks,
   useConfiguredNetworksRecord,
@@ -57,7 +61,6 @@ export function useMultiChainRegContractList(walletAddress?: string) {
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
       );
-
       return [...contractList].reverse();
     },
     {
@@ -197,7 +200,6 @@ export function useTestnetsContractList(walletAddress: string | undefined) {
   const arbitrumGoerliQuery = useContractList(
     ChainId.ArbitrumGoerli,
     getEVMRPC(ChainId.ArbitrumGoerli),
-
     walletAddress,
   );
   const binanceTestnetQuery = useContractList(
@@ -283,12 +285,12 @@ export function useAllContractList(walletAddress: string | undefined) {
   const configuredNetworkRecord = useConfiguredNetworksRecord();
 
   const allList = useMemo(() => {
-    const mainnets = mainnetQuery.data || [];
-    const testnets = testnetQuery.data || [];
-    const unknownNets: typeof testnets = [];
+    const mainnets: ContractWithMetadata[] = [];
+    const testnets: ContractWithMetadata[] = [];
+    const unknownNets: ContractWithMetadata[] = [];
 
     if (multiChainQuery.data) {
-      multiChainQuery.data.map((net) => {
+      multiChainQuery.data.forEach((net) => {
         // if network is configured, we can determine if it is a testnet or not
         if (net.chainId in configuredNetworkRecord) {
           const netInfo = configuredNetworkRecord[net.chainId];
@@ -304,7 +306,13 @@ export function useAllContractList(walletAddress: string | undefined) {
         }
       });
     }
-    return [...mainnets, ...testnets, ...unknownNets];
+    return [
+      ...mainnetQuery.data,
+      ...mainnets,
+      ...testnetQuery.data,
+      ...testnets,
+      ...unknownNets,
+    ];
   }, [
     mainnetQuery.data,
     testnetQuery.data,
