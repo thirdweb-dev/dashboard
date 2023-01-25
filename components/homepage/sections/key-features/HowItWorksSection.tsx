@@ -1,9 +1,8 @@
-import { Aurora } from "../../Aurora";
 import { KeyFeatureLayout } from "./KeyFeatureLayout";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
-import { Heading, Link } from "tw-components";
+import { Heading } from "tw-components";
 
 const items = [
   {
