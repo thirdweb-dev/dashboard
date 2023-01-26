@@ -32,7 +32,6 @@ export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
       <SimpleGrid
         templateColumns={{
           base: "repeat(1, 1fr)",
-          sm: "repeat(2, 1fr)",
           md: "repeat(3, 1fr)",
         }}
         placeItems="center"
@@ -42,6 +41,8 @@ export const HackathonWinners: React.FC<HackathonWinnersProps> = ({
           md: 20,
         }}
         py={10}
+        maxW="container.xl"
+        alignSelf="center"
       >
         {winners.map(({ name, image, link, position }) => (
           <LinkOverlay
