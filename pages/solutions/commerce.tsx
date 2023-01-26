@@ -158,7 +158,7 @@ const Commerce: ThirdwebNextPage = () => {
         guides={SHOPIFY_GUIDES}
       />
       <ProductSection>
-        <Flex gap={8} py={8} px={{ md: 12 }}>
+        <Flex gap={8} py={12} px={{ md: 12 }}>
           <Text size="body.xl" as="blockquote" align="center">
             <i>
               &quot;On platforms like Shopify, thirdweb has made building web3
