@@ -3,13 +3,7 @@ import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import {
-  Heading,
-  Link,
-  Text,
-  TrackedLink,
-  TrackedLinkProps,
-} from "tw-components";
+import { Heading, Text, TrackedLink, TrackedLinkProps } from "tw-components";
 
 interface ProductLearnMoreCardProps {
   icon: StaticImageData;

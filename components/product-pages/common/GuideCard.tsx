@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Flex, Link } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import NextImage from "next/image";
 import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
