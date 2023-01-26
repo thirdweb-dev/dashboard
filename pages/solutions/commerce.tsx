@@ -1,5 +1,6 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { FaQuoteLeft } from "@react-icons/all-files/fa/FaQuoteLeft";
+import { FaQuoteRight } from "@react-icons/all-files/fa/FaQuoteRight";
 import { ChakraNextImage } from "components/Image";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
@@ -157,17 +158,16 @@ const Commerce: ThirdwebNextPage = () => {
         guides={SHOPIFY_GUIDES}
       />
       <ProductSection>
-        <Flex gap={8} p={8}>
-          <FaQuoteLeft size="48" />
-          <Text size="body.xl" as="blockquote">
+        <Flex gap={8} py={8} px={{ md: 12 }}>
+          <Text size="body.xl" as="blockquote" align="center">
             <i>
-              On platforms like Shopify, thirdweb has made building web3
+              &quot;On platforms like Shopify, thirdweb has made building web3
               e-commerce features and apps extremely simple and quick. We can
               now worry less about the development nuances of web3 and focus
-              more on what merchants/users want and find valuable.
+              more on what merchants/users want and find valuable.&quot;
             </i>
             <br />
-            <br />- Zain, Lazer Technologies.
+            <br />- <b>Zain</b>, Lazer Technologies.
           </Text>
         </Flex>
       </ProductSection>
