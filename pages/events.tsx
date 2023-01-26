@@ -1,4 +1,4 @@
-import { Accordion, Box, DarkMode, Flex, Grid, Select } from "@chakra-ui/react";
+import { Accordion, Box, DarkMode, Flex, Grid, Input } from "@chakra-ui/react";
 import { DevRelEvent } from "components/devRelEvents/DevRelEvent";
 import { FeaturedCard } from "components/devRelEvents/FeaturedCard";
 import { Aurora } from "components/homepage/Aurora";
@@ -95,32 +95,8 @@ const allEvents = [
 ];
 
 const EventsPage: ThirdwebNextPage = () => {
-  const [sortBy, setSortBy] = useState<"date" | "location" | "type" | "title">(
-    "date",
-  );
+  const [search, setSearch] = useState("");
   const [sortedEvents, setSortedEvents] = useState(allEvents);
-
-  const handleSort = (value: "date" | "location" | "type" | "title") => {
-    setSortBy(value);
-    switch (value) {
-      case "date":
-        setSortedEvents(
-          allEvents.sort((a, b) => {
-            const dateA = new Date(a.timestamp);
-            const dateB = new Date(b.timestamp);
-            return dateA.getTime() - dateB.getTime();
-          }),
-        );
-        break;
-      default:
-        setSortedEvents(
-          allEvents.sort((a, b) => {
-            return a[value] < b[value] ? -1 : 1;
-          }),
-        );
-        break;
-    }
-  };
 
   return (
     <DarkMode>
@@ -177,26 +153,24 @@ const EventsPage: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection mt={20}>
-            <Select
-              w={48}
-              mx="auto"
-              value={sortBy}
+            <Input
+              placeholder="Search for events"
+              value={search}
               onChange={(e) => {
-                const value = e.target.value as
-                  | "date"
-                  | "location"
-                  | "type"
-                  | "title";
-                handleSort(value);
+                setSearch(e.target.value);
+                setSortedEvents(
+                  allEvents.filter((event) =>
+                    Object.values(event).some((value) =>
+                      value
+                        .toString()
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()),
+                    ),
+                  ),
+                );
               }}
-              bg="transparent"
               color="white"
-            >
-              <option value="date">Sort by: Date</option>
-              <option value="location">Sort by: Location</option>
-              <option value="type">Sort by: Type</option>
-              <option value="title">Sort by: Title</option>
-            </Select>
+            />
 
             <Accordion
               mt={10}
