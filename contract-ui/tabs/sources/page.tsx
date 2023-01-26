@@ -15,10 +15,11 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ChainId, useContract } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { useMemo } from "react";
@@ -96,6 +97,19 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
     verifyResult?.error === VerificationStatus.ALREADY_VERIFIED ||
     verificationStatus?.result === VerificationStatus.SUCCESS;
   const chainId = useDashboardEVMChainId();
+
+  const chainInfo = useConfiguredChain(chainId || -1);
+
+  const blockExplorerName =
+    getBlockExplorerName(chainId) ||
+    (chainInfo && chainInfo.explorers?.[0].name) ||
+    "";
+
+  const blockExplorerUrl =
+    getBlockExplorerUrl(chainId, contractAddress) ||
+    (chainInfo && chainInfo.explorers?.[0].url) ||
+    "";
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
@@ -149,14 +163,14 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
           </Flex>
         </ModalBody>
         <ModalFooter>
-          {showLinkButton && (
+          {showLinkButton && blockExplorerUrl && (
             <LinkButton
               variant="outline"
               size="sm"
-              href={blockExplorerUrl(chainId, contractAddress)}
+              href={blockExplorerUrl}
               isExternal
             >
-              View on {blockExplorerName(chainId)}
+              View on {blockExplorerName}
             </LinkButton>
           )}
         </ModalFooter>
@@ -212,6 +226,9 @@ export const CustomContractSourcesPage: React.FC<
     );
   }
 
+  const blockExplorerUrl = getBlockExplorerUrl(chainId, contractAddress);
+  const blockExplorerName = getBlockExplorerName(chainId);
+
   return (
     <>
       <VerifyContractModal
@@ -226,21 +243,21 @@ export const CustomContractSourcesPage: React.FC<
           </Heading>
           {!prebuiltSource || forceVerifyButton ? (
             <Button variant="solid" colorScheme="purple" onClick={onOpen}>
-              Verify on {blockExplorerName(chainId)}
+              Verify on {blockExplorerName}
             </Button>
-          ) : (
+          ) : blockExplorerUrl ? (
             <LinkButton
               variant="ghost"
               colorScheme="green"
               isExternal
               size="sm"
               noIcon
-              href={blockExplorerUrl(chainId, contractAddress)}
+              href={blockExplorerUrl}
               leftIcon={<Icon as={FiCheckCircle} />}
             >
-              Verified on {blockExplorerName(chainId)}
+              Verified on {blockExplorerName}
             </LinkButton>
-          )}
+          ) : null}
         </Flex>
         <Card p={0}>
           <SourcesPanel sources={sources} abi={abi} />
@@ -250,24 +267,32 @@ export const CustomContractSourcesPage: React.FC<
   );
 };
 
-function blockExplorerUrl(
-  chainId: ChainId | undefined,
+function getBlockExplorerUrl(
+  chainId: number | undefined,
   contractAddress: string,
 ): string {
   if (!chainId) {
     return "";
   }
-  const { url } = blockExplorerMap[chainId];
-  if (url) {
-    return `${url}address/${contractAddress}#code`;
+
+  if (chainId in blockExplorerMap) {
+    const { url } = blockExplorerMap[chainId];
+
+    if (url) {
+      return `${url}address/${contractAddress}#code`;
+    }
   }
+
   return "";
 }
 
-function blockExplorerName(chainId: ChainId | undefined): string {
+function getBlockExplorerName(chainId: number | undefined): string {
   if (!chainId) {
     return "";
   }
-  const { name } = blockExplorerMap[chainId];
-  return name;
+  if (chainId in blockExplorerMap) {
+    const { name } = blockExplorerMap[chainId];
+    return name;
+  }
+  return "";
 }
