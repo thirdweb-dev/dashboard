@@ -3575,18 +3575,18 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.3.0.tgz#acbec36746bd8a9176b01c792d3d8aa6483a16c3"
   integrity sha512-UE6Gc4xUTJ3PYJ6WWHtrIXynid5z7TZSnoaqzhiMcLnch6YqMJI1b7uB9NunYEY1N3SB75BYOgun9e1T3RoSbQ==
 
-"@thirdweb-dev/react-core@0.1.0-dev-5ad8352":
-  version "0.1.0-dev-5ad8352"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.1.0-dev-5ad8352.tgz#5b5ae878a2790f09a5bf55a975d1d05d80a1357f"
-  integrity sha512-28+e2l6WDt3zs/ZBSOTtW+CLmJdlFURAcbvbuonkpkEuWuVHC4r15KcVxZflHEd7rS/uvFuyseg57tCyK/AyBg==
+"@thirdweb-dev/react-core@0.1.0-dev-e0e8763":
+  version "0.1.0-dev-e0e8763"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.1.0-dev-e0e8763.tgz#da72f2ee1cc34cdf5e95c01a6470de18a3e1103c"
+  integrity sha512-SQ/jYzMY32cuU45AP5YXeJZ0iz3oJGAmwwZkSWA2zV4r8wCtSZpLDnXzQGQDDbJL2j16BxRhFMUGYDxRAcC1Kg==
   dependencies:
     "@tanstack/react-query" "^4.0.10"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@^3.6.12-dev-5ad8352":
-  version "3.6.12-dev-5ad8352"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.12-dev-5ad8352.tgz#31bccd6e5251f2dc832583376cb103cc6a7620d5"
-  integrity sha512-xapGWjWM8SrY6mssEwUD6EOUL0MQ5un+EQgFF8qNopZW74c87hWRK6smv7n/5cayDjFOycutPoudDAGfOyS4KQ==
+"@thirdweb-dev/react@^3.6.12-dev-e0e8763":
+  version "3.6.12-dev-e0e8763"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.6.12-dev-e0e8763.tgz#041bb568b01abb208fbb5a8bd46e715caf6ea8d0"
+  integrity sha512-6KoKocgnNRNOcNH8ioEkXszAgnIaAM7IuEMSLPqlrQZn4AxD9tziXDMpIRblQARkxVRz1nbP+hUKFjbbqDFQqQ==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3596,7 +3596,7 @@
     "@safe-global/safe-ethers-lib" "^1.7.0"
     "@solana/wallet-adapter-phantom" "^0.9.17"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/react-core" "0.1.0-dev-5ad8352"
+    "@thirdweb-dev/react-core" "0.1.0-dev-e0e8763"
     "@zag-js/menu" "^0.3.0"
     "@zag-js/react" "^0.3.1"
     buffer "^6.0.3"
@@ -3609,10 +3609,10 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.6.12-dev-5ad8352":
-  version "3.6.12-dev-5ad8352"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.12-dev-5ad8352.tgz#154176167971289c50c7159a74f646a4dfc3c150"
-  integrity sha512-5Fht96fSysmUCrvOwOcEVXy1zQiMDR4gVtktbqZ99ini0ywoOTTAAc5f8vX2QBN3lkswM8pPPay6lF8bovA6Gw==
+"@thirdweb-dev/sdk@^3.6.12-dev-e0e8763":
+  version "3.6.12-dev-e0e8763"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.6.12-dev-e0e8763.tgz#416f2ae01a6ea4a85cd330eb877816ffaefffc00"
+  integrity sha512-aDSdq07vJeOFoCrBUYBtaetgDxLzCofvsGI56f0Jek+U7bXggH3aQabL0Q3CfhYdUB+YT6y+1holyIdk7XVQYA==
   dependencies:
     "@metaplex-foundation/js" "^0.17.6"
     "@metaplex-foundation/mpl-token-metadata" "^2.3.3"
