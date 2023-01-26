@@ -95,7 +95,10 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           setIsSearchOpen(status === "open");
         }}
         onCustomSelection={() => {
+          const _name = form.getValues().name;
+          form.reset();
           form.setValue("isCustom", true);
+          form.setValue("name", _name);
         }}
         onNetworkSelection={(_networkInfo) => {
           form.setValue("name", _networkInfo.name);
