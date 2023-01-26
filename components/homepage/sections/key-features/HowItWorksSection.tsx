@@ -4,6 +4,8 @@ import { ChakraNextImage as Image } from "components/Image";
 import React from "react";
 import { Heading, TrackedLink } from "tw-components";
 
+const TRACKING_CATEGORY = "how_it_works_section";
+
 const devTools = [
   {
     icon: require("/public/assets/landingpage/howitworks-contractkit.png"),
@@ -84,7 +86,7 @@ const Item: React.FC<{ item: Item }> = ({ item }) => {
       gap="2.5"
       as={TrackedLink}
       href={item.href}
-      category="how_it_works"
+      category={TRACKING_CATEGORY}
       label={item.title.replace(" ", "_").toLowerCase()}
       transition="opacity 0.2s"
       _hover={{ opacity: 0.8, textDecoration: "none" }}
