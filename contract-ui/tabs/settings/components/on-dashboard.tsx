@@ -10,8 +10,8 @@ import {
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 
@@ -26,10 +26,10 @@ export const OnDashboard: React.FC<OnDashboardProps> = ({
   const activeChainId = useDashboardEVMChainId();
   const walletAddress = useAddress();
   const chainId = activeChainId || -1;
-  const networkInfo = useResolvedNetworkInfo(chainId);
+  const networkInfo = useConfiguredChain(chainId);
   const oldRegistryContractList = useContractList(
     chainId,
-    networkInfo ? networkInfo.rpcUrl : "",
+    networkInfo ? networkInfo.rpc[0] : "",
     walletAddress,
   );
 

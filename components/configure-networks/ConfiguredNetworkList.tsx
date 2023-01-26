@@ -1,28 +1,27 @@
-import { ConfiguredNetworkInfo } from "./types";
 import { Box, Icon, List, ListItem } from "@chakra-ui/react";
+import { Chain } from "@thirdweb-dev/chains";
+import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { Button, Heading } from "tw-components";
 
 interface ConfiguredNetworkListProps {
-  onDelete: (network: ConfiguredNetworkInfo) => void;
-  networks: ConfiguredNetworkInfo[];
-  onClick: (network: ConfiguredNetworkInfo) => void;
-  activeNetwork?: ConfiguredNetworkInfo;
+  onDelete: (network: Chain) => void;
+  onClick: (network: Chain) => void;
+  activeNetwork?: Chain;
 }
 
 export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
   props,
 ) => {
-  const { mainnets, testnets } = useMemo(() => {
-    const _mainets: ConfiguredNetworkInfo[] = [];
-    const _testnets: ConfiguredNetworkInfo[] = [];
+  const configuredChains = useConfiguredChains();
 
-    props.networks.forEach((network) => {
-      if (
-        network.name.toLowerCase().includes("test") ||
-        network.type === "testnet"
-      ) {
+  const { mainnets, testnets } = useMemo(() => {
+    const _mainets: Chain[] = [];
+    const _testnets: Chain[] = [];
+
+    configuredChains.forEach((network) => {
+      if (network.testnet) {
         _testnets.push(network);
       } else {
         _mainets.push(network);
@@ -30,7 +29,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
     });
 
     return { mainnets: _mainets, testnets: _testnets };
-  }, [props.networks]);
+  }, [configuredChains]);
 
   return (
     <>
@@ -66,7 +65,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                 isActive={props.activeNetwork === network}
                 onClick={() => props.onClick(network)}
                 name={network.name}
-                key={network.name}
+                key={network.slug}
               />
             ))}
           </Box>
@@ -82,7 +81,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                 isActive={props.activeNetwork === network}
                 onClick={() => props.onClick(network)}
                 name={network.name}
-                key={network.name}
+                key={network.slug}
               />
             ))}
           </Box>

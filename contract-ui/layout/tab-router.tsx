@@ -14,7 +14,6 @@ import {
   Router,
   useMatchRoute,
 } from "@tanstack/react-location";
-import { ContractHeader } from "components/custom-contract/contract-header";
 import { Logo } from "components/logo";
 import {
   EnhancedRoute,
@@ -24,7 +23,6 @@ import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/c
 import { DropNotReady } from "contract-ui/tabs/claim-conditions/components/drop-not-ready";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
-import { ProgramMetadata } from "program-ui/common/program-metadata";
 import { useCallback, useRef, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
 import { VscExtensions } from "react-icons/vsc";
@@ -35,25 +33,21 @@ interface ContractTabRouterProps {
   address: string;
   network: string;
   ecosystem: "evm" | "solana";
-  chainId?: number;
 }
-
 export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
   address,
   network,
   ecosystem,
-  chainId,
 }) => {
-  // TODO - use chainId
   const [location] = useState(() => new ReactLocation({}));
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollRef = useRef<any>(null);
   const scrollContainerRef = useRef<HTMLElement>();
   const routes = useRouteConfig(ecosystem, address);
+
   useIsomorphicLayoutEffect(() => {
     const el = document.getElementById("tw-scroll-container");
-
     if (el) {
       scrollContainerRef.current = el;
     }
@@ -83,8 +77,6 @@ export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
       <Flex direction="column" ref={scrollRef}>
         {/* sub-header */}
 
-        {ecosystem === "evm" && <ContractHeader contractAddress={address} />}
-        {ecosystem === "solana" && <ProgramMetadata address={address} />}
         {/* sub-header-nav */}
         <Box
           position="sticky"

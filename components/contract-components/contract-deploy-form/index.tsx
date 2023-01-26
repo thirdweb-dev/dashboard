@@ -2,8 +2,8 @@ import { ContractId } from "../types";
 import { isContractIdBuiltInContract } from "../utils";
 import { useChainId } from "@thirdweb-dev/react";
 import { SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
-import { useConfiguredNetworksRecord } from "components/configure-networks/useConfiguredNetworks";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
+import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,7 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
   isImplementationDeploy,
 }) => {
   const connectedChainId = useChainId();
-  const configuredNetworksRecord = useConfiguredNetworksRecord();
+  const configuredNetworksRecord = useConfiguredChainsRecord();
   const [selectedChain, setSelectedChain] = useState<number | undefined>(
     chainIdProp
       ? chainIdProp

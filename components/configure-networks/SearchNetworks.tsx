@@ -1,4 +1,3 @@
-import { ChainListNetworkInfo } from "./types";
 import {
   Box,
   Flex,
@@ -9,20 +8,15 @@ import {
   InputRightElement,
   useOutsideClick,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { Chain } from "@thirdweb-dev/chains";
+import { useAllChains } from "hooks/chains/allChains";
 import { useMemo, useRef, useState } from "react";
 import { RefCallBack } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { Badge, FormErrorMessage, FormLabel, Text } from "tw-components";
 
-// TODO @manan: now that we're maintaining a chains package we should rely on that here, and probably make a proper search api route with that package
-const fetchChainList = async (): Promise<ChainListNetworkInfo[]> => {
-  const response = await fetch("/json/chain-list-mini.json");
-  return response.json();
-};
-
 interface SearchNetworksProps {
-  onNetworkSelection: (network: ChainListNetworkInfo, custom: boolean) => void;
+  onNetworkSelection: (network: Chain, custom: boolean) => void;
   onCustomSelection: () => void;
   onSelectorChange: (status: "open" | "close") => void;
   inputRef: React.RefObject<HTMLInputElement> | RefCallBack;
@@ -33,8 +27,10 @@ interface SearchNetworksProps {
   shortName: string;
 }
 
+// TODO - improve search performance and do fuzzy search
+
 export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
-  const networkListQuery = useQuery(["network-list-mini"], fetchChainList);
+  const chains = useAllChains();
   const [showResults, setShowResults] = useState(false);
 
   const searchResultsRef = useRef<HTMLDivElement>(null);
@@ -49,19 +45,19 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
   });
 
   const filteredNetworks = useMemo(() => {
-    if (!searchTerm || !networkListQuery.data) {
-      return networkListQuery.data || [];
+    if (!searchTerm || !chains.length) {
+      return chains || [];
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return networkListQuery.data.filter(
+    return chains.filter(
       (network) =>
         network.name.toLowerCase().includes(lowerCaseSearchTerm) ||
         `${network.chainId}`.includes(lowerCaseSearchTerm),
     );
-  }, [networkListQuery.data, searchTerm]);
+  }, [chains, searchTerm]);
 
-  const handleSelection = (network: ChainListNetworkInfo, custom: boolean) => {
+  const handleSelection = (network: Chain, custom: boolean) => {
     props.onChange(`${network.name}`);
     setShowResults(false);
     props.onSelectorChange("close");
@@ -70,7 +66,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
 
   return (
     <Box>
-      <FormControl isInvalid={props.isInvalid}>
+      <FormControl isInvalid={props.isInvalid} isRequired>
         <FormLabel>Network Name</FormLabel>
         <InputGroup
           position="relative"
@@ -141,9 +137,8 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             pt={4}
             pb={4}
           >
-            {networkListQuery.isLoading && <Text>Loading...</Text>}
-            {networkListQuery.isError && <Text> Error </Text>}
-            {networkListQuery.isSuccess &&
+            {chains.length === 0 && <Text>Loading...</Text>}
+            {chains.length > 0 &&
               filteredNetworks.map((network) => (
                 <Text
                   px={4}
@@ -167,7 +162,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                 </Text>
               ))}
 
-            {networkListQuery.isSuccess && filteredNetworks.length === 0 && (
+            {chains.length > 0 && filteredNetworks.length === 0 && (
               <Text py={10} textAlign="center">
                 No results found
               </Text>

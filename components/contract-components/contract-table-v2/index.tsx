@@ -59,7 +59,7 @@ import { ComponentWithChildren } from "types/component-with-children";
 import {
   DashboardSolanaNetwork,
   SupportedSolanaNetworkToUrlMap,
-} from "utils/network";
+} from "utils/solanaUtils";
 
 interface ReleasedContractTableProps {
   contractDetails: ContractDataInput[];

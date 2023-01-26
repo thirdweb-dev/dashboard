@@ -8,7 +8,7 @@ import Optimism from "@thirdweb-dev/chain-icons/dist/optimism";
 import Polygon from "@thirdweb-dev/chain-icons/dist/polygon";
 import { ChainId, useNetwork } from "@thirdweb-dev/react";
 import { NATIVE_TOKENS, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
-import { useConfiguredNetworksRecord } from "components/configure-networks/useConfiguredNetworks";
+import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
 import { useCallback } from "react";
 
 interface NetworkMetadata {
@@ -151,7 +151,7 @@ const defaultNetworkMetadata: Record<SUPPORTED_CHAIN_ID, NetworkMetadata> = {
 
 export function useWeb3() {
   const [network] = useNetwork();
-  const configuredNetworksRecord = useConfiguredNetworksRecord();
+  const configuredChainsRecord = useConfiguredChainsRecord();
 
   const getNetworkMetadata = useCallback(
     (chainId: number) => {
@@ -178,17 +178,17 @@ export function useWeb3() {
       }
 
       // Any EVM
-      if (chainId in configuredNetworksRecord) {
-        const configuredChain = configuredNetworksRecord[chainId];
+      if (chainId in configuredChainsRecord) {
+        const configuredChain = configuredChainsRecord[chainId];
         cData.chainName = configuredChain.name;
-        cData.symbol = configuredChain.currencySymbol;
-        cData.isTestnet = configuredChain.name.toLowerCase().includes("test");
-        // TODO: icon?
+        cData.symbol = configuredChain.nativeCurrency.symbol;
+        cData.isTestnet = configuredChain.testnet;
+        // TODO: icon - for that we have to resolve ipfs url
       }
 
       return cData;
     },
-    [network, configuredNetworksRecord],
+    [network, configuredChainsRecord],
   );
 
   return {

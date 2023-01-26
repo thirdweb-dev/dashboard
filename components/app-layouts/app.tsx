@@ -1,4 +1,5 @@
 import { DashboardThirdwebProvider } from "./providers";
+import { EVMContractInfoProvider } from "@3rdweb-sdk/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
@@ -13,10 +14,10 @@ import {
   useChainId,
 } from "@thirdweb-dev/react";
 import { useSDK } from "@thirdweb-dev/react/solana";
-import { ConfiguredNetworksProvider } from "components/configure-networks/useConfiguredNetworks";
 import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
+import { ConfiguredChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
 import { del, get, set } from "idb-keyval";
 import { useRouter } from "next/router";
@@ -114,13 +115,15 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
       <Hydrate state={props.dehydratedState}>
         <ErrorProvider>
           <DeployModalProvider>
-            <ConfiguredNetworksProvider>
-              <DashboardThirdwebProvider>
-                <PHIdentifier />
-                {router.pathname !== "/dashboard" && <PrivacyNotice />}
-                <AppShell {...props} />
-              </DashboardThirdwebProvider>
-            </ConfiguredNetworksProvider>
+            <ConfiguredChainsProvider>
+              <EVMContractInfoProvider>
+                <DashboardThirdwebProvider>
+                  <PHIdentifier />
+                  {router.pathname !== "/dashboard" && <PrivacyNotice />}
+                  <AppShell {...props} />
+                </DashboardThirdwebProvider>
+              </EVMContractInfoProvider>
+            </ConfiguredChainsProvider>
           </DeployModalProvider>
         </ErrorProvider>
       </Hydrate>

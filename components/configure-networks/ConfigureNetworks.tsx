@@ -3,58 +3,51 @@ import {
   NetworkConfigFormData,
 } from "./ConfigureNetworkForm";
 import { ConfiguredNetworkList } from "./ConfiguredNetworkList";
-import { ConfiguredNetworkInfo } from "./types";
+import { DeleteNetworkAlertModal } from "./DeleteNetworkAlertModal";
 import {
-  useConfiguredNetworks,
-  useSetConfiguredNetworks,
-} from "./useConfiguredNetworks";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Flex,
   Grid,
   Icon,
   IconButton,
-  UseDisclosureReturn,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { Chain } from "@thirdweb-dev/chains";
+import {
+  useConfiguredChains,
+  useUpdateConfiguredChains,
+} from "hooks/chains/configureChains";
+import { useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
-import { Button, Heading, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 interface ConfigureNetworksProps {
-  onNetworkConfigured?: (network: ConfiguredNetworkInfo) => void;
+  onNetworkConfigured?: (network: Chain) => void;
   onNetworkAdded?: () => void;
 }
 
 export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
-  const configuredNetworks = useConfiguredNetworks();
-  const setConfiguredNetworks = useSetConfiguredNetworks();
+  const configuredNetworks = useConfiguredChains();
+  const updateConfiguredNetworks = useUpdateConfiguredChains();
+
   const toast = useToast();
-  const [editingNetwork, setEditingNetwork] = useState<
-    ConfiguredNetworkInfo | undefined
-  >(undefined);
+  const [editingChain, setEditingChain] = useState<Chain | undefined>(
+    undefined,
+  );
 
   const deleteModalDisclosure = useDisclosure();
-  const isEditingScreen = !!editingNetwork;
+  const isEditingScreen = !!editingChain;
 
   const handleDelete = () => {
-    setConfiguredNetworks(
-      configuredNetworks.filter((net) => net !== editingNetwork),
-    );
-
-    setEditingNetwork(undefined);
+    const index = configuredNetworks.findIndex((net) => net === editingChain);
+    updateConfiguredNetworks.remove(index);
+    setEditingChain(undefined);
   };
 
   const handleSubmit = (networkData: NetworkConfigFormData) => {
     toast({
-      title: editingNetwork
+      title: editingChain
         ? "Network Updated Successfully"
         : "Network Added Successfully",
       status: "success",
@@ -62,32 +55,39 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       isClosable: true,
     });
 
-    const configuredNetwork = {
+    const configuredNetwork: Chain = {
       name: networkData.name,
-      shortName: networkData.shortName,
+      // We don't care about this
+      chain: "",
+      // make slug the short name
+      shortName: networkData.slug,
       chainId:
         typeof networkData.chainId === "number"
           ? networkData.chainId
           : parseInt(networkData.chainId),
-      rpcUrl: networkData.rpcUrl,
-      currencySymbol: networkData.currencySymbol,
-      type: networkData.type,
-      isCustom: networkData.isCustom,
+      rpc: [networkData.rpcUrl],
+      nativeCurrency: {
+        // temp
+        name: networkData.currencySymbol,
+        symbol: networkData.currencySymbol,
+        decimals: 18,
+      },
+      testnet: networkData.type === "testnet",
+      slug: networkData.slug,
     };
 
-    if (editingNetwork) {
+    if (editingChain) {
       // check if the network is already added
-      const index = configuredNetworks.findIndex(
-        (net) => net === editingNetwork,
-      );
+      const index = configuredNetworks.findIndex((net) => net === editingChain);
 
       // update it
-      const configuredNetworksCopy = [...configuredNetworks];
-      configuredNetworksCopy[index] = configuredNetwork;
-      setConfiguredNetworks(configuredNetworksCopy);
+      updateConfiguredNetworks.update(index, configuredNetwork);
+
+      // make this the editing network
+      setEditingChain(configuredNetwork);
     } else {
       // add new
-      setConfiguredNetworks([...configuredNetworks, configuredNetwork]);
+      updateConfiguredNetworks.add(configuredNetwork);
     }
 
     if (props.onNetworkConfigured) {
@@ -127,17 +127,14 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         ) : (
           <ConfiguredNetworkList
             onDelete={(network) => {
-              setConfiguredNetworks(
-                configuredNetworks.filter(
-                  (configuredNetwork) =>
-                    configuredNetwork.name !== network.name,
-                ),
+              const index = configuredNetworks.findIndex(
+                (net) => net === network,
               );
+              updateConfiguredNetworks.remove(index);
             }}
-            networks={configuredNetworks}
-            activeNetwork={editingNetwork}
+            activeNetwork={editingChain}
             onClick={(network) => {
-              setEditingNetwork(network);
+              setEditingChain(network);
             }}
           />
         )}
@@ -163,7 +160,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
               background="transparent"
               icon={<Icon as={FiChevronLeft} color="highlight" />}
               onClick={() => {
-                setEditingNetwork(undefined);
+                setEditingChain(undefined);
               }}
             />
           )}
@@ -172,7 +169,21 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
 
         <ConfigureNetworkForm
           onRemove={deleteModalDisclosure.onOpen}
-          values={editingNetwork}
+          values={
+            editingChain
+              ? {
+                  name: editingChain.name,
+                  rpcUrl: editingChain.rpc[0],
+                  chainId: `${editingChain.chainId}`,
+                  currencySymbol: editingChain.nativeCurrency.symbol,
+                  type: editingChain.testnet ? "testnet" : "mainnet",
+                  slug: editingChain.slug,
+                  shortName: editingChain.shortName,
+                  // todo store all custom networks in localstorage
+                  isCustom: false,
+                }
+              : undefined
+          }
           isEditingScreen={isEditingScreen}
           onSubmit={handleSubmit}
         />
@@ -180,51 +191,9 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
 
       <DeleteNetworkAlertModal
         disclosure={deleteModalDisclosure}
-        networkName={editingNetwork?.name || ""}
+        networkName={editingChain?.name || ""}
         onDelete={handleDelete}
       />
     </Grid>
-  );
-};
-
-const DeleteNetworkAlertModal: React.FC<{
-  onDelete: () => void;
-  networkName: string;
-  disclosure: UseDisclosureReturn;
-}> = (props) => {
-  const cancelRef = useRef<HTMLButtonElement | null>(null);
-
-  return (
-    <AlertDialog
-      isOpen={props.disclosure.isOpen}
-      leastDestructiveRef={cancelRef}
-      onClose={props.disclosure.onClose}
-    >
-      <AlertDialogOverlay>
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            Delete Network
-          </AlertDialogHeader>
-          <AlertDialogBody>
-            Are you sure you want to delete {props.networkName} ?{" "}
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={props.disclosure.onClose}>
-              Cancel
-            </Button>
-            <Button
-              colorScheme="red"
-              onClick={() => {
-                props.onDelete();
-                props.disclosure.onClose();
-              }}
-              ml={3}
-            >
-              Delete
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogOverlay>
-    </AlertDialog>
   );
 };

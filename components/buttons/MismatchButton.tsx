@@ -28,9 +28,9 @@ import {
   useSDK,
   useBalance as useSolBalance,
 } from "@thirdweb-dev/react/solana";
-import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import React, { useCallback, useRef } from "react";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Button, Card, Heading, LinkButton, Text } from "tw-components";
@@ -68,10 +68,8 @@ export const MismatchButton = React.forwardRef<
       chainId: resolvedChainId,
     } = getNetworkMetadata(chainId || 0);
 
-    const networkInfo = useResolvedNetworkInfo(chainId || -1);
-    const networkLabel = networkInfo
-      ? networkInfo.fullName
-      : `chain-id-${chainId}`;
+    const chainInfo = useConfiguredChain(chainId || -1);
+    const networkLabel = chainInfo ? chainInfo.name : `chain-id-${chainId}`;
 
     if (!address && ecosystem === "evm") {
       return (
@@ -194,10 +192,9 @@ const MismatchNotice: React.FC<{
   const desiredChainId = useDesiredChainId();
   const [network, switchNetwork] = useNetwork();
   const actuallyCanAttemptSwitch = !!switchNetwork;
-  const walletConnectedNetworkInfo = useResolvedNetworkInfo(
-    connectedChainId || -1,
-  );
-  const desiredNetworkInfo = useResolvedNetworkInfo(desiredChainId || -1);
+  const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);
+
+  const desiredNetworkInfo = useConfiguredChain(desiredChainId || -1);
 
   const onSwitchWallet = useCallback(async () => {
     if (actuallyCanAttemptSwitch && desiredChainId) {
@@ -219,11 +216,11 @@ const MismatchNotice: React.FC<{
       <Text>
         Your wallet is connected to the{" "}
         <Box as="strong" textTransform="capitalize">
-          {walletConnectedNetworkInfo?.fullName}
+          {walletConnectedNetworkInfo?.name}
         </Box>{" "}
         network but this action requires you to connect to the{" "}
         <Box as="strong" textTransform="capitalize">
-          {desiredNetworkInfo?.fullName}
+          {desiredNetworkInfo?.name}
         </Box>{" "}
         network.
       </Text>
@@ -239,7 +236,7 @@ const MismatchNotice: React.FC<{
         textTransform="capitalize"
       >
         Switch wallet{" "}
-        {desiredNetworkInfo ? `to ${desiredNetworkInfo.fullName}` : ""}
+        {desiredNetworkInfo ? `to ${desiredNetworkInfo.name}` : ""}
       </Button>
 
       {!actuallyCanAttemptSwitch && (

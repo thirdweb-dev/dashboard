@@ -1,5 +1,5 @@
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
-import { DashboardSolanaNetwork } from "utils/network";
+import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 const RPC_ENV =
   (process.env.VERCEL_ENV || process.env.NEXT_PUBLIC_VERCEL_ENV) ===

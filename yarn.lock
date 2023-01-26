@@ -3568,10 +3568,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-53e315b.tgz#33966fc4a4543f8330af94ff8bef8ad5f11fc1d2"
   integrity sha512-g3aM/H40CNG/bQ2vP68g0P5euAE1TU5CY9UREyDEEYVipCLL8Y/pZCuArseVhrmhxc/cjPPTqYt3KReMN5HFFw==
 
-"@thirdweb-dev/chains@^0.1.0-dev-64ddb2d":
-  version "0.1.0-dev-64ddb2d"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-64ddb2d.tgz#6169311d12b3dd90058d4011436b37a52f7de3c3"
-  integrity sha512-YPeix2eLahBTCV4rBIbP7IMMkXUvvGWRGNgOSzcoTzt59wZK5AUS1oWXqHuxDhulacqkbSveXyL4zQnHBpXzeA==
+"@thirdweb-dev/chains@^0.1.0-dev-a07705c":
+  version "0.1.0-dev-a07705c"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-a07705c.tgz#8c924c218898aef2470bcbdbaac6b3e56f8067da"
+  integrity sha512-mBD8wuVCNLJvIxHIhvhKt8GQ2hy6+kPo/ZihkU9Faw7O5RFhczmyqZdLbgpsKksEko4Ir6PVGdbyMQQuwdt3RA==
 
 "@thirdweb-dev/contracts-js@*":
   version "1.2.3"

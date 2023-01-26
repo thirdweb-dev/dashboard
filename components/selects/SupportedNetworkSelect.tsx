@@ -1,12 +1,7 @@
-import { useWeb3 } from "@3rdweb-sdk/react";
 import { Select, SelectProps, forwardRef } from "@chakra-ui/react";
-import {
-  ChainId,
-  SUPPORTED_CHAIN_ID,
-  SUPPORTED_CHAIN_IDS,
-} from "@thirdweb-dev/sdk/evm";
-import { useConfiguredNetworks } from "components/configure-networks/useConfiguredNetworks";
+import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { deprecatedChains } from "constants/mappings";
+import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 
 export interface SupportedNetworkSelectProps
@@ -23,20 +18,15 @@ export const SupportedNetworkSelect = forwardRef<
     { disabledChainIds, disabledChainIdText = "Unsupported", ...selectProps },
     ref,
   ) => {
-    const { getNetworkMetadata } = useWeb3();
+    const configuredNetworks = useConfiguredChains();
+
     const testnets = useMemo(() => {
-      return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-        return getNetworkMetadata(supportedChain);
-      }).filter((n) => n.isTestnet === true);
-    }, [getNetworkMetadata]);
+      return configuredNetworks.filter((n) => n.testnet);
+    }, [configuredNetworks]);
 
     const mainnets = useMemo(() => {
-      return SUPPORTED_CHAIN_IDS.map((supportedChain) => {
-        return getNetworkMetadata(supportedChain);
-      }).filter((n) => n.isTestnet === false);
-    }, [getNetworkMetadata]);
-
-    const configuredNetworks = useConfiguredNetworks();
+      return configuredNetworks.filter((n) => !n.testnet);
+    }, [configuredNetworks]);
 
     return (
       <Select {...selectProps} ref={ref}>
@@ -50,7 +40,7 @@ export const SupportedNetworkSelect = forwardRef<
               value={network.chainId}
               disabled={disabledChainIds?.includes(network.chainId)}
             >
-              {network.chainName} ({network.symbol})
+              {network.name} ({network.nativeCurrency.symbol})
               {disabledChainIds?.includes(network.chainId)
                 ? ` - ${disabledChainIdText}`
                 : ""}
@@ -64,7 +54,7 @@ export const SupportedNetworkSelect = forwardRef<
               value={network.chainId}
               disabled={disabledChainIds?.includes(network.chainId)}
             >
-              {network.chainName} ({network.symbol})
+              {network.name} ({network.nativeCurrency.symbol})
               {deprecatedChains.includes(
                 network.chainId as SUPPORTED_CHAIN_ID,
               ) && " - Deprecated"}
@@ -75,20 +65,6 @@ export const SupportedNetworkSelect = forwardRef<
             </option>
           ))}
         </optgroup>
-
-        {configuredNetworks.length > 0 && (
-          <optgroup label="Custom">
-            {configuredNetworks.map((network) => (
-              <option
-                key={network.chainId}
-                value={network.chainId}
-                disabled={disabledChainIds?.includes(network.chainId)}
-              >
-                {network.name} ({network.currencySymbol})
-              </option>
-            ))}
-          </optgroup>
-        )}
       </Select>
     );
   },

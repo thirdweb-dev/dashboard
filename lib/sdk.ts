@@ -6,7 +6,7 @@ import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
 import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
 import { getSOLRPC } from "constants/rpc";
 import type { Signer } from "ethers";
-import { DashboardSolanaNetwork } from "utils/network";
+import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 // use env var to set IPFS gateway or fallback to ipfscdn.io
 const IPFS_GATEWAY_URL =

@@ -28,24 +28,28 @@ import {
   ChainId,
   CommonContractOutputSchema,
   ContractType,
+  ContractWithMetadata,
   PrebuiltContractType,
-  SUPPORTED_CHAIN_IDS,
   SchemaForPrebuiltContractType,
 } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
-import {
-  useConfiguredNetworks,
-  useConfiguredNetworksRecord,
-} from "components/configure-networks/useConfiguredNetworks";
 import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
+import { useChainSlug } from "hooks/chains/chainSlug";
+import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
 import { IoFilterSharp } from "react-icons/io5";
-import { Column, useFilters, useGlobalFilter, useTable } from "react-table";
+import {
+  Column,
+  Row,
+  useFilters,
+  useGlobalFilter,
+  useTable,
+} from "react-table";
 import {
   Badge,
   Card,
@@ -57,7 +61,6 @@ import {
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { ComponentWithChildren } from "types/component-with-children";
-import { getNetworkSlug } from "utils/network";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
 
@@ -216,15 +219,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   isFetching,
 }) => {
   const { getNetworkMetadata } = useWeb3();
-  const configuredNetworks = useConfiguredNetworks();
-  const configuredNetworksRecord = useConfiguredNetworksRecord();
-
-  const ALL_CONFIGURED_CHAIN_IDS = useMemo(() => {
-    return [
-      ...SUPPORTED_CHAIN_IDS,
-      ...configuredNetworks.map((network) => network.chainId),
-    ];
-  }, [configuredNetworks]);
+  const configuredChains = useConfiguredChains();
 
   const columns: Column<(typeof combinedList)[number]>[] = useMemo(
     () => [
@@ -273,8 +268,8 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
               />
               <MenuList zIndex={10}>
                 <MenuOptionGroup
-                  defaultValue={ALL_CONFIGURED_CHAIN_IDS.map(
-                    (chainId) => `${chainId}`,
+                  defaultValue={configuredChains.map(
+                    (chain) => `${chain.chainId}`,
                   )}
                   title="Networks"
                   fontSize={12}
@@ -282,7 +277,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
                   value={props.filterValue}
                   onChange={(e) => props.setFilter(props.column.id, e)}
                 >
-                  {ALL_CONFIGURED_CHAIN_IDS.map((chainId) => {
+                  {configuredChains.map(({ chainId }) => {
                     const networkMetadata = getNetworkMetadata(chainId);
                     return (
                       <MenuItemOption value={`${chainId}`} key={chainId}>
@@ -315,7 +310,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [ALL_CONFIGURED_CHAIN_IDS],
+    [configuredChains],
   );
 
   const defaultColumn = useMemo(
@@ -335,8 +330,6 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       useFilters,
       useGlobalFilter,
     );
-
-  const router = useRouter();
 
   return (
     <Card p={0} overflowX="auto" position="relative" overflowY="hidden">
@@ -381,45 +374,52 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         <Tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
-
             return (
-              // eslint-disable-next-line react/jsx-key
-              <Tr
-                {...row.getRowProps()}
-                role="group"
-                // this is a hack to get around the fact that safari does not handle position: relative on table rows
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  const networkSlug = getNetworkSlug(
-                    row.original.chainId,
-                    configuredNetworksRecord,
-                  );
-
-                  router.push(`/${networkSlug}/${row.original.address}`);
-                }}
-                // end hack
-                borderBottomWidth={1}
-                _last={{ borderBottomWidth: 0 }}
-              >
-                {row.cells.map((cell) => {
-                  return (
-                    // eslint-disable-next-line react/jsx-key
-                    <Td
-                      borderBottomWidth="inherit"
-                      borderBottomColor="borderColor"
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
-                    </Td>
-                  );
-                })}
-              </Tr>
+              <ContractTableRow
+                row={row}
+                key={row.original.address + row.original.chainId}
+              />
             );
           })}
         </Tbody>
       </Table>
       {children}
     </Card>
+  );
+};
+
+const ContractTableRow: React.FC<{ row: Row<ContractWithMetadata> }> = ({
+  row,
+}) => {
+  const chainSlug = useChainSlug(row.original.chainId);
+  const router = useRouter();
+
+  return (
+    <Tr
+      {...row.getRowProps()}
+      role="group"
+      // this is a hack to get around the fact that safari does not handle position: relative on table rows
+      style={{ cursor: "pointer" }}
+      onClick={() => {
+        router.push(`/${chainSlug}/${row.original.address}`);
+      }}
+      // end hack
+      borderBottomWidth={1}
+      _last={{ borderBottomWidth: 0 }}
+    >
+      {row.cells.map((cell) => {
+        return (
+          // eslint-disable-next-line react/jsx-key
+          <Td
+            borderBottomWidth="inherit"
+            borderBottomColor="borderColor"
+            {...cell.getCellProps()}
+          >
+            {cell.render("Cell")}
+          </Td>
+        );
+      })}
+    </Tr>
   );
 };
 
@@ -447,16 +447,15 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   });
 
   const contractType = contractTypeQuery.data;
-
   const isPrebuiltContract = contractType && contractType !== "custom";
-  const configuredNetworksRecord = useConfiguredNetworksRecord();
   const releasesFromDeploy = useReleasesFromDeploy(
-    configuredNetworksRecord,
     isPrebuiltContract ? undefined : cell.address || undefined,
     cell.chainId,
   );
 
-  const src = contractType ? FeatureIconMap[contractType as ContractType] : "";
+  const imgSrc = contractType
+    ? FeatureIconMap[contractType as ContractType]
+    : "";
 
   const contractName = contractType
     ? CONTRACT_TYPE_NAME_MAP[contractType as ContractType]
@@ -467,7 +466,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   if (isPrebuiltContract) {
     return (
       <Flex align="center" gap={2}>
-        <ChakraNextImage boxSize={8} src={src} alt={contractName} />
+        <ChakraNextImage boxSize={8} src={imgSrc} alt={contractName} />
         <Text size="label.md">{contractName} </Text>
       </Flex>
     );
@@ -480,7 +479,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   if (!releasesFromDeploy.isLoading && !actualRelease) {
     return (
       <Flex align="center" gap={2}>
-        <ChakraNextImage boxSize={8} src={src} alt={Custom} />
+        <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
         <Text size="label.md">{Custom}</Text>
       </Flex>
     );
@@ -488,8 +487,8 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 
   return (
     <Flex align="center" gap={2}>
-      <Skeleton isLoaded={!releasesFromDeploy.isLoading && !!src}>
-        <ChakraNextImage boxSize={8} src={src} alt={Custom} />
+      <Skeleton isLoaded={!releasesFromDeploy.isLoading && !!imgSrc}>
+        <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
       </Skeleton>
       <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
         <Text size="label.md">{actualRelease?.name || Custom}</Text>
@@ -512,18 +511,16 @@ interface AsyncContractNameCellProps {
 const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
   cell,
 }) => {
+  const chainSlug = useChainSlug(cell.chainId);
   const metadataQuery = useContractMetadataWithAddress(
     cell.address,
     cell.metadata,
     cell.chainId,
   );
 
-  const configuredNetworksRecord = useConfiguredNetworksRecord();
-  const networkSlug = getNetworkSlug(cell.chainId, configuredNetworksRecord);
-
   return (
     <Skeleton isLoaded={!metadataQuery.isLoading}>
-      <ChakraNextLink href={`/${networkSlug}/${cell.address}`} passHref>
+      <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
         <Text
           color="blue.700"
           _dark={{ color: "blue.300" }}

@@ -35,7 +35,6 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
-import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
@@ -44,6 +43,7 @@ import { BuiltinContractMap, DisabledChainsMap } from "constants/mappings";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceIpfsUrl } from "lib/sdk";
@@ -123,7 +123,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   const [showAddNetworkModal, setShowAddNetworkModal] = useState(false);
   const contract =
     PREBUILT_CONTRACTS_MAP[contractType as keyof typeof PREBUILT_CONTRACTS_MAP];
-  const networkInfo = useResolvedNetworkInfo(selectedChain || -1);
+  const chainInfo = useConfiguredChain(selectedChain || -1);
 
   const form = useDeployForm(contract.schema.deploy);
 
@@ -287,10 +287,10 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
               });
               onSuccess();
               invariant(
-                networkInfo,
+                chainInfo,
                 `Could not resolve network for ${selectedChain}`,
               );
-              router.push(`/${networkInfo?.shortName}/${contractAddress}`);
+              router.push(`/${chainInfo?.slug}/${contractAddress}`);
             },
             onError: (err) => {
               trackEvent({

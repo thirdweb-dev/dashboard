@@ -19,11 +19,12 @@ import { Button, FormErrorMessage, FormLabel } from "tw-components";
 export type NetworkConfigFormData = {
   name: string;
   rpcUrl: string;
-  chainId: string | number;
+  chainId: string;
   currencySymbol: string;
   type: "testnet" | "mainnet";
-  isCustom: boolean;
+  slug: string;
   shortName: string;
+  isCustom: boolean;
 };
 
 interface NetworkConfigFormProps {
@@ -48,6 +49,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       type: values?.type === "testnet" ? "testnet" : "mainnet",
       // default true, because the initial screen is for adding network
       isCustom: values ? values.isCustom : true,
+      slug: values?.slug || "",
       shortName: values?.shortName || "",
     },
     reValidateMode: "onChange",
@@ -63,12 +65,20 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   // for custom network, network slug "shortName" needs to be generated
   useEffect(() => {
     if (isCustom) {
-      form.setValue("shortName", name.replace(/\s/g, ""));
+      form.setValue("slug", name.replace(/\s/g, ""));
     }
   }, [name, isCustom, form]);
 
   return (
-    <Box as="form" onSubmit={form.handleSubmit((data) => onSubmit(data))}>
+    <Box
+      as="form"
+      onSubmit={form.handleSubmit((data) => {
+        onSubmit(data);
+        if (!isEditingScreen) {
+          form.reset();
+        }
+      })}
+    >
       <SearchNetworks
         onChange={(value) => {
           form.setValue("name", value, {
@@ -93,13 +103,14 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           form.setValue("chainId", `${_networkInfo.chainId}`);
           form.setValue("currencySymbol", _networkInfo.nativeCurrency.symbol);
           form.setValue("isCustom", false);
-          form.setValue("shortName", _networkInfo.shortName);
+          form.setValue("slug", _networkInfo.slug);
           form.setValue(
             "type",
             _networkInfo.name.toLowerCase().includes("test")
               ? "testnet"
               : "mainnet",
           );
+          form.setValue("shortName", _networkInfo.shortName);
         }}
       />
       <Flex
@@ -117,7 +128,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               placeholder="eg: 1, 5, 127..."
               autoComplete="off"
               background="backgroundHighlight"
-              type="text"
+              type="number"
               {...form.register("chainId", {
                 required: true,
               })}

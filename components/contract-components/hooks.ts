@@ -1,4 +1,4 @@
-import { EVM_RPC_URL_MAP, getEVMRPC } from "../../constants/rpc";
+import { EVM_RPC_URL_MAP } from "../../constants/rpc";
 import {
   stepAddToRegistry,
   stepDeploy,
@@ -41,9 +41,9 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk/evm";
-import { ConfiguredNetworkRecord } from "components/configure-networks/useConfiguredNetworks";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { isEnsName } from "lib/ens";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -330,12 +330,13 @@ export function useAllVersions(
 }
 
 export function useReleasesFromDeploy(
-  configuredNetworkRecord: ConfiguredNetworkRecord,
   contractAddress?: string,
   chainId?: number,
 ) {
   const activeChainId = useSDKChainId();
   const cId = chainId || activeChainId;
+  const chainInfo = useConfiguredChain(cId || -1);
+
   return useQuery(
     (networkKeys.chain(cId) as readonly unknown[]).concat([
       "release-from-deploy",
@@ -345,12 +346,7 @@ export function useReleasesFromDeploy(
       invariant(contractAddress, "contractAddress is not defined");
       invariant(cId, "chain not defined");
 
-      const rpcUrl =
-        cId in EVM_RPC_URL_MAP
-          ? getEVMRPC(cId)
-          : cId in configuredNetworkRecord
-          ? configuredNetworkRecord[cId].rpcUrl
-          : "";
+      const rpcUrl = chainInfo?.rpc[0];
 
       invariant(rpcUrl, "rpcUrl not defined");
       const sdk = getEVMThirdwebSDK(cId, rpcUrl);

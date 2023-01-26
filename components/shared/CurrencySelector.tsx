@@ -1,5 +1,6 @@
 import { Flex, Input, Select, SelectProps } from "@chakra-ui/react";
 import { useSDKChainId } from "@thirdweb-dev/react";
+import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { constants, utils } from "ethers";
 import React, { useMemo, useState } from "react";
@@ -19,8 +20,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   hideDefaultCurrencies,
   ...props
 }) => {
-  const chainId = useSDKChainId();
-
+  const chainId = useSDKChainId() as number;
   const [isAddingCurrency, setIsAddingCurrency] = useState(false);
   const [editCustomCurrency, setEditCustomCurrency] = useState("");
   const [customCurrency, setCustomCurrency] = useState("");
@@ -28,14 +28,28 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
 
   const isCustomCurrency: boolean = useMemo(() => {
     if (initialValue && chainId && initialValue !== customCurrency) {
-      return !CURRENCIES[chainId]?.find(
-        (currency: CurrencyMetadata) =>
-          currency.address.toLowerCase() === initialValue.toLowerCase(),
-      );
+      if (chainId in CURRENCIES) {
+        return !CURRENCIES[chainId as SUPPORTED_CHAIN_ID]?.find(
+          (currency: CurrencyMetadata) =>
+            currency.address.toLowerCase() === initialValue.toLowerCase(),
+        );
+      }
+
+      // any EVM - show the native token in select input
+      return true;
     }
 
     return false;
   }, [chainId, customCurrency, initialValue]);
+
+  const currencyOptions: CurrencyMetadata[] =
+    chainId in CURRENCIES
+      ? CURRENCIES[chainId as SUPPORTED_CHAIN_ID].filter(
+          (currency: CurrencyMetadata) =>
+            currency.address.toLowerCase() !==
+            constants.AddressZero.toLowerCase(),
+        )
+      : [];
 
   const addCustomCurrency = () => {
     if (!utils.isAddress(editCustomCurrency)) {
@@ -128,20 +142,14 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
       >
         {chainId &&
           !hideDefaultCurrencies &&
-          CURRENCIES[chainId]
-            .filter(
-              (currency: CurrencyMetadata) =>
-                currency.address.toLowerCase() !==
-                constants.AddressZero.toLowerCase(),
-            )
-            .map((currency: CurrencyMetadata) => (
-              <option
-                key={currency.address}
-                value={currency.address.toLowerCase()}
-              >
-                {currency.symbol} ({currency.name})
-              </option>
-            ))}
+          currencyOptions.map((currency: CurrencyMetadata) => (
+            <option
+              key={currency.address}
+              value={currency.address.toLowerCase()}
+            >
+              {currency.symbol} ({currency.name})
+            </option>
+          ))}
         {isCustomCurrency && (
           <option key={initialValue} value={initialValue.toLowerCase()}>
             {initialValue}

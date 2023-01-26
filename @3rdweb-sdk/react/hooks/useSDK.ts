@@ -1,19 +1,17 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
-import {
-  ChainId,
-  ChainInfo,
-  ContractWithMetadata,
-} from "@thirdweb-dev/sdk/evm";
-import {
-  useConfiguredNetworks,
-  useConfiguredNetworksRecord,
-} from "components/configure-networks/useConfiguredNetworks";
+import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
 import { getEVMRPC } from "constants/rpc";
+import { useAllChainsRecord } from "hooks/chains/allChains";
+import { useChainInfos } from "hooks/chains/chainInfos";
+import {
+  useConfiguredChainsRecord,
+  useUpdateConfiguredChains,
+} from "hooks/chains/configureChains";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import invariant from "tiny-invariant";
-import { DashboardSolanaNetwork } from "utils/network";
+import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 export function useContractList(
   chainId: number,
@@ -37,7 +35,8 @@ export function useContractList(
 }
 
 export function useMultiChainRegContractList(walletAddress?: string) {
-  const configuredChains = useConfiguredNetworks();
+  const chainInfos = useChainInfos();
+  const configuredChainsRecord = useConfiguredChainsRecord();
   return useQuery(
     [networkKeys.multiChainRegistry, walletAddress],
     async () => {
@@ -45,12 +44,7 @@ export function useMultiChainRegContractList(walletAddress?: string) {
         ChainId.Polygon,
         getEVMRPC(ChainId.Polygon),
         {
-          chainInfos: configuredChains.reduce((acc, chain) => {
-            acc[chain.chainId] = {
-              rpc: chain.rpcUrl,
-            };
-            return acc;
-          }, {} as Record<number, ChainInfo>),
+          chainInfos,
         },
       );
 
@@ -61,6 +55,7 @@ export function useMultiChainRegContractList(walletAddress?: string) {
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
       );
+
       return [...contractList].reverse();
     },
     {
@@ -282,7 +277,32 @@ export function useAllContractList(walletAddress: string | undefined) {
   const mainnetQuery = useMainnetsContractList(walletAddress);
   const testnetQuery = useTestnetsContractList(walletAddress);
   const multiChainQuery = useMultiChainRegContractList(walletAddress);
-  const configuredNetworkRecord = useConfiguredNetworksRecord();
+  const configuredChainsRecord = useConfiguredChainsRecord();
+  const allChainsRecord = useAllChainsRecord();
+  const updateConfiguredChains = useUpdateConfiguredChains();
+
+  useEffect(() => {
+    if (!multiChainQuery.data) {
+      return;
+    }
+
+    // check if any network is unconfigured
+    const unconfiguredChainsSet: Set<number> = new Set();
+    multiChainQuery.data.forEach((contract) => {
+      if (!configuredChainsRecord[contract.chainId]) {
+        unconfiguredChainsSet.add(contract.chainId);
+      }
+    });
+
+    // configure them
+    unconfiguredChainsSet.forEach((chainId) => {
+      // if available
+      if (chainId in allChainsRecord) {
+        // configure it
+        updateConfiguredChains.add(allChainsRecord[chainId]);
+      }
+    });
+  });
 
   const allList = useMemo(() => {
     const mainnets: ContractWithMetadata[] = [];
@@ -292,8 +312,8 @@ export function useAllContractList(walletAddress: string | undefined) {
     if (multiChainQuery.data) {
       multiChainQuery.data.forEach((net) => {
         // if network is configured, we can determine if it is a testnet or not
-        if (net.chainId in configuredNetworkRecord) {
-          const netInfo = configuredNetworkRecord[net.chainId];
+        if (net.chainId in configuredChainsRecord) {
+          const netInfo = configuredChainsRecord[net.chainId];
           if (netInfo.name.toLowerCase().includes("test")) {
             testnets.push(net);
           } else {
@@ -302,6 +322,7 @@ export function useAllContractList(walletAddress: string | undefined) {
         }
         // if not configured, we can't determine if it is a testnet or not
         else {
+          // TODO - resolve it from allChains in background and re-render the page
           unknownNets.push(net);
         }
       });
@@ -317,7 +338,7 @@ export function useAllContractList(walletAddress: string | undefined) {
     mainnetQuery.data,
     testnetQuery.data,
     multiChainQuery.data,
-    configuredNetworkRecord,
+    configuredChainsRecord,
   ]);
 
   return {

@@ -10,12 +10,12 @@ import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { useResolvedNetworkInfo } from "components/configure-networks/useConfiguredNetworks";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
@@ -46,7 +46,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   isImplementationDeploy,
   onSuccessCallback,
 }) => {
-  const networkInfo = useResolvedNetworkInfo(selectedChain || -1);
+  const networkInfo = useConfiguredChain(selectedChain || -1);
   const address = useAddress();
   const ensQuery = useEns(address);
   const trackEvent = useTrack();
