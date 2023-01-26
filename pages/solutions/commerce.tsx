@@ -1,6 +1,4 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
-import { FaQuoteLeft } from "@react-icons/all-files/fa/FaQuoteLeft";
-import { FaQuoteRight } from "@react-icons/all-files/fa/FaQuoteRight";
 import { ChakraNextImage } from "components/Image";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
