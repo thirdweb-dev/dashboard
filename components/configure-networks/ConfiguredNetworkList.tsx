@@ -1,14 +1,14 @@
 import { Box, Icon, List, ListItem } from "@chakra-ui/react";
-import { Chain } from "@thirdweb-dev/chains";
+import { StoredChain } from "contexts/configured-chains";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { Button, Heading } from "tw-components";
 
 interface ConfiguredNetworkListProps {
-  onDelete: (network: Chain) => void;
-  onClick: (network: Chain) => void;
-  activeNetwork?: Chain;
+  onDelete: (network: StoredChain) => void;
+  onClick: (network: StoredChain) => void;
+  activeNetwork?: StoredChain;
 }
 
 export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
@@ -17,8 +17,8 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
   const configuredChains = useConfiguredChains();
 
   const { mainnets, testnets } = useMemo(() => {
-    const _mainets: Chain[] = [];
-    const _testnets: Chain[] = [];
+    const _mainets: StoredChain[] = [];
+    const _testnets: StoredChain[] = [];
 
     configuredChains.forEach((network) => {
       if (network.testnet) {
@@ -95,6 +95,7 @@ const NetworkListItem: React.FC<{
   onClick: () => void;
   name: string;
   isActive: boolean;
+  isCustom?: boolean;
 }> = (props) => {
   return (
     <ListItem display="flex" alignItems="center">
@@ -106,7 +107,6 @@ const NetworkListItem: React.FC<{
         color={props.isActive ? "black" : "white"}
         fontWeight={500}
         fontSize="14px"
-        // color={props.isActive ? "white" : "white"}
         p={0}
         mb={1}
         pl={3}

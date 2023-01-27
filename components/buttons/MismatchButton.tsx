@@ -198,7 +198,6 @@ const MismatchNotice: React.FC<{
 
   const onSwitchWallet = useCallback(async () => {
     if (actuallyCanAttemptSwitch && desiredChainId) {
-      // TODO - this is not working for non-supported networks (Any EVM)
       await switchNetwork(desiredChainId);
     }
     onClose();

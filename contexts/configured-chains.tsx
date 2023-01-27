@@ -1,13 +1,22 @@
 import { Chain, defaultChains } from "@thirdweb-dev/chains";
 import React, { createContext, useEffect, useMemo, useState } from "react";
 
+// extra information on top of Chain interface
+// all keys added here must be optional
+export interface StoredChain extends Chain {
+  /**
+   * true if the chain is added by user using the "custom" option
+   */
+  isCustom?: true;
+}
+
 type UpdateConfiguredChains = {
-  add: (newConfiguredNetwork: Chain) => void;
+  add: (newConfiguredNetwork: StoredChain) => void;
   remove: (index: number) => void;
-  update: (index: number, chain: Chain) => void;
+  update: (index: number, chain: StoredChain) => void;
 };
 
-export const ConfiguredChainsContext = createContext<Chain[] | undefined>(
+export const ConfiguredChainsContext = createContext<StoredChain[] | undefined>(
   undefined,
 );
 
@@ -19,20 +28,22 @@ export const UpdateConfiguredChainsContext = createContext<
  * if no networks are configured by the user, return the defaultChains
  */
 export function ConfiguredChainsProvider(props: { children: React.ReactNode }) {
-  const [configuredNetworks, setConfiguredNetworks] = useState(() => {
-    if (typeof window === "undefined") {
-      return defaultChains;
-    }
+  const [configuredNetworks, setConfiguredNetworks] = useState<StoredChain[]>(
+    () => {
+      if (typeof window === "undefined") {
+        return defaultChains;
+      }
 
-    // todo - use indexedDb instead of cookies
-    const listFromCookies = configuredChainsStorage.get();
+      // todo - use indexedDb instead of cookies
+      const listFromCookies = configuredChainsStorage.get();
 
-    if (listFromCookies.length === 0) {
-      return defaultChains;
-    }
+      if (listFromCookies.length === 0) {
+        return defaultChains;
+      }
 
-    return listFromCookies;
-  });
+      return listFromCookies;
+    },
+  );
 
   // update storage when configuredNetworks changes
   useEffect(() => {
@@ -41,7 +52,7 @@ export function ConfiguredChainsProvider(props: { children: React.ReactNode }) {
 
   const updator: UpdateConfiguredChains = useMemo(() => {
     return {
-      add(newNetwork: Chain) {
+      add(newNetwork: StoredChain) {
         setConfiguredNetworks((prev) => [...prev, newNetwork]);
       },
       remove(index: number) {
@@ -51,7 +62,7 @@ export function ConfiguredChainsProvider(props: { children: React.ReactNode }) {
           return newConfiguredNetworks;
         });
       },
-      update(index: number, newNetwork: Chain) {
+      update(index: number, newNetwork: StoredChain) {
         setConfiguredNetworks((prev) => {
           const newConfiguredNetworks = [...prev];
           newConfiguredNetworks[index] = newNetwork;
@@ -75,7 +86,7 @@ export function ConfiguredChainsProvider(props: { children: React.ReactNode }) {
 
 const configuredChainsStorage = {
   key: "configured-chains",
-  get(): Chain[] {
+  get(): StoredChain[] {
     try {
       const networkListStr = localStorage.getItem(configuredChainsStorage.key);
       return networkListStr ? JSON.parse(networkListStr) : [];
@@ -87,7 +98,7 @@ const configuredChainsStorage = {
     return [];
   },
 
-  set(networkList: Chain[]) {
+  set(networkList: StoredChain[]) {
     const value = JSON.stringify(networkList);
     localStorage.setItem(configuredChainsStorage.key, value);
   },

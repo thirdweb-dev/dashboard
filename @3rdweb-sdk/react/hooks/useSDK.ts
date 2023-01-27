@@ -327,7 +327,6 @@ export function useAllContractList(walletAddress: string | undefined) {
         }
         // if not configured, we can't determine if it is a testnet or not
         else {
-          // TODO - resolve it from allChains in background and re-render the page
           unknownNets.push(net);
         }
       });

@@ -13,7 +13,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { Chain } from "@thirdweb-dev/chains";
+import { StoredChain } from "contexts/configured-chains";
 import {
   useConfiguredChains,
   useUpdateConfiguredChains,
@@ -23,7 +23,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import { Heading, Text } from "tw-components";
 
 interface ConfigureNetworksProps {
-  onNetworkConfigured?: (network: Chain) => void;
+  onNetworkConfigured?: (network: StoredChain) => void;
   onNetworkAdded?: () => void;
 }
 
@@ -32,7 +32,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
   const updateConfiguredNetworks = useUpdateConfiguredChains();
 
   const toast = useToast();
-  const [editingChain, setEditingChain] = useState<Chain | undefined>(
+  const [editingChain, setEditingChain] = useState<StoredChain | undefined>(
     undefined,
   );
 
@@ -55,7 +55,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       isClosable: true,
     });
 
-    const configuredNetwork: Chain = {
+    const configuredNetwork: StoredChain = {
       name: networkData.name,
       // We don't care about this
       chain: "",
@@ -74,6 +74,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       },
       testnet: networkData.type === "testnet",
       slug: networkData.slug,
+      isCustom: networkData.isCustom ? true : undefined,
     };
 
     if (editingChain) {
@@ -179,8 +180,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
                   type: editingChain.testnet ? "testnet" : "mainnet",
                   slug: editingChain.slug,
                   shortName: editingChain.shortName,
-                  // todo store all custom networks in localstorage
-                  isCustom: false,
+                  isCustom: !!editingChain.isCustom,
                 }
               : undefined
           }
