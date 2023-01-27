@@ -5,8 +5,10 @@ import {
   useSetEVMContractInfo,
 } from "@3rdweb-sdk/react";
 import { Flex, Spinner } from "@chakra-ui/react";
+import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworkSection } from "components/configure-networks/ConfigureNetworkSection";
+import { ensQuery } from "components/contract-components/hooks";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import {
@@ -22,6 +24,7 @@ import { ThirdwebNextPage } from "utils/types";
 
 type EVMContractProps = {
   contractInfo: EVMContractInfo;
+  dehydratedState: DehydratedState;
 };
 
 const EVMContractPage: ThirdwebNextPage = () => {
@@ -120,7 +123,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
     <EVMContractInfoProvider initialValue={props.contractInfo}>
       <AppLayout
         layout={"custom-contract"}
-        dehydratedState={{ queries: [], mutations: [] }}
+        dehydratedState={props.dehydratedState}
       >
         {page}
       </AppLayout>
@@ -133,8 +136,11 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
 const { slugToChain } = getAllChainRecords();
 export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   const [chainSlug, contractAddress] = ctx.params?.paths as string[];
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(ensQuery(contractAddress));
   return {
     props: {
+      dehydratedState: dehydrate(queryClient),
       contractInfo: {
         chainSlug,
         contractAddress,
