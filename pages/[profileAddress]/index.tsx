@@ -35,9 +35,9 @@ import { ThirdwebNextPage } from "utils/types";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 const UserPage: ThirdwebNextPage = () => {
-  const wallet = useSingleQueryParam("networkOrAddress");
+  const profileAddress = useSingleQueryParam("profileAddress");
 
-  const ens = useEns(wallet);
+  const ens = useEns(profileAddress);
 
   const router = useRouter();
 
@@ -45,20 +45,19 @@ const UserPage: ThirdwebNextPage = () => {
   useEffect(() => {
     const previousPath = router.asPath.split("/")[2];
     if (
-      previousPath !== "[networkOrAddress]" &&
-      wallet?.startsWith("Qm") &&
-      !wallet.endsWith(".eth")
+      previousPath !== "[profileAddress]" &&
+      profileAddress?.startsWith("Qm") &&
+      !profileAddress.endsWith(".eth")
     ) {
       router.replace(`/contracts/deploy/${previousPath}`);
     }
-  }, [wallet, router]);
+  }, [profileAddress, router]);
 
   const releaserProfile = useReleaserProfile(ens.data?.address || undefined);
 
-  const displayName = shortenIfAddress(ens?.data?.ensName || wallet).replace(
-    "deployer.thirdweb.eth",
-    "thirdweb.eth",
-  );
+  const displayName = shortenIfAddress(
+    ens?.data?.ensName || profileAddress,
+  ).replace("deployer.thirdweb.eth", "thirdweb.eth");
 
   const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
     "deployer.thirdweb.eth",
@@ -111,7 +110,7 @@ const UserPage: ThirdwebNextPage = () => {
       />
 
       <Flex flexDir="column" gap={12}>
-        {wallet && (
+        {profileAddress && (
           <Flex
             direction={{ base: "column", md: "row" }}
             justify="space-between"
@@ -121,7 +120,7 @@ const UserPage: ThirdwebNextPage = () => {
           >
             <Flex gap={{ base: 4, md: 8 }} align="center" w="full">
               <ReleaserAvatar
-                address={ens.data?.ensName || wallet}
+                address={ens.data?.ensName || profileAddress}
                 boxSize={28}
               />
               <Flex direction="column" gap={0}>

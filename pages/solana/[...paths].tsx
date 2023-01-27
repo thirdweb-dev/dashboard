@@ -1,23 +1,34 @@
 import { Flex, Spinner } from "@chakra-ui/react";
+import { DehydratedState } from "@tanstack/react-query";
 import { AppLayout } from "components/app-layouts/app";
+import {
+  SolanaProgramInfo,
+  SolanaProgramInfoProvider,
+} from "contexts/solana-program";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { isPossibleSolanaAddress } from "lib/address-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
-import { isSupportedSOLNetwork } from "utils/solanaUtils";
+import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
 import { ThirdwebNextPage } from "utils/types";
+
+type SolanaProgramProps = {
+  programInfo: SolanaProgramInfo;
+  dehydratedState: DehydratedState;
+};
 
 /**
  * thirdweb.com/<sol-network>/<sol-program-address>
  */
-const SolanaProgramPage: ThirdwebNextPage = () => {
+const SolanaProgramPage: ThirdwebNextPage = (props: SolanaProgramProps) => {
   const router = useRouter();
-  const paths = router.query.paths as string[] | undefined;
 
-  // fallback page - paths is undefined on fallback
-  if (!paths || router.isFallback) {
+  // fallback page
+  // TODO better skeleton needed
+  // TODO do we even need this or can we just rely on the pieces below to show skeletons properly?
+  if (router.isFallback) {
     return (
       <Flex h="100%" justifyContent="center" alignItems="center">
         <Spinner size="xl" />
@@ -25,15 +36,14 @@ const SolanaProgramPage: ThirdwebNextPage = () => {
     );
   }
 
-  const [solNetwork, programAddress] = paths;
-
   return (
     <>
-      <ProgramMetadata address={programAddress} />
+      <ProgramMetadata address={props.programInfo?.programAddress || ""} />
+
       <ContractTabRouter
-        address={programAddress}
+        address={props.programInfo?.programAddress || ""}
         ecosystem="solana"
-        network={solNetwork}
+        network={props.programInfo?.slug || ""}
       />
     </>
   );
@@ -41,25 +51,29 @@ const SolanaProgramPage: ThirdwebNextPage = () => {
 
 export default SolanaProgramPage;
 SolanaProgramPage.pageId = PageId.DeployedProgram;
-SolanaProgramPage.getLayout = (page) => {
+SolanaProgramPage.getLayout = (page, pageProps: SolanaProgramProps) => {
   return (
-    <AppLayout
-      layout={"custom-contract"}
-      dehydratedState={{ mutations: [], queries: [] }}
-    >
-      {page}
-    </AppLayout>
+    <SolanaProgramInfoProvider value={pageProps.programInfo}>
+      <AppLayout
+        layout={"custom-contract"}
+        dehydratedState={{ mutations: [], queries: [] }}
+      >
+        {page}
+      </AppLayout>
+    </SolanaProgramInfoProvider>
   );
 };
 
 // server side ---------------------------------------------------------------
-export const getStaticProps: GetStaticProps = (ctx) => {
-  const [solNetwork, programAddress] = ctx.params?.paths as string[];
+export const getStaticProps: GetStaticProps<SolanaProgramProps> = (ctx) => {
+  const [slug, programAddress] = ctx.params?.paths as string[];
+
+  const solNetwork = getSolNetworkFromNetworkPath(slug);
 
   if (
     !programAddress ||
     !isPossibleSolanaAddress(programAddress) ||
-    !isSupportedSOLNetwork(solNetwork)
+    !solNetwork
   ) {
     return {
       notFound: true,
@@ -69,7 +83,14 @@ export const getStaticProps: GetStaticProps = (ctx) => {
   // TODO - populate it with solNetwork and programAddress to context
   // and use context in components
   return {
-    props: {},
+    props: {
+      dehydratedState: { mutations: [], queries: [] },
+      programInfo: {
+        programAddress,
+        network: solNetwork,
+        slug,
+      },
+    },
   };
 };
 
