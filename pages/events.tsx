@@ -1,4 +1,12 @@
-import { Accordion, Box, DarkMode, Flex, Grid, Input } from "@chakra-ui/react";
+import {
+  Accordion,
+  Box,
+  DarkMode,
+  Flex,
+  Grid,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 import { DevRelEvent } from "components/devRelEvents/DevRelEvent";
 import { FeaturedCard } from "components/devRelEvents/FeaturedCard";
 import { Aurora } from "components/homepage/Aurora";
@@ -6,7 +14,7 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -97,6 +105,17 @@ const allEvents = [
 const EventsPage: ThirdwebNextPage = () => {
   const [search, setSearch] = useState("");
   const [sortedEvents, setSortedEvents] = useState(allEvents);
+  const [showPastEvents, setShowPastEvents] = useState(false);
+
+  useEffect(() => {
+    const filteredEvents = allEvents.filter((event) => {
+      if (!showPastEvents && new Date(event.timestamp) < new Date()) {
+        return false;
+      }
+      return event.title.toLowerCase().includes(search.toLowerCase());
+    });
+    setSortedEvents(filteredEvents);
+  }, [search, showPastEvents]);
 
   return (
     <DarkMode>
@@ -153,6 +172,17 @@ const EventsPage: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection mt={20}>
+            <Select
+              mx="auto"
+              w="fit-content"
+              value={showPastEvents ? "past" : "upcoming"}
+              onChange={(e) => setShowPastEvents(e.target.value === "past")}
+              color="white"
+            >
+              <option value="upcoming">Upcoming Events</option>
+              <option value="past">Past Events</option>
+            </Select>
+
             <Input
               placeholder="Search for events"
               value={search}
@@ -169,6 +199,7 @@ const EventsPage: ThirdwebNextPage = () => {
                   ),
                 );
               }}
+              mt={4}
               color="white"
             />
 
