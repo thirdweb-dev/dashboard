@@ -221,10 +221,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     EVM_RPC_URL_MAP[ChainId.Polygon],
   );
 
-  const networkOrAddress = getSingleQueryValue(ctx.params, "networkOrAddress");
+  const profileAddress = getSingleQueryValue(ctx.params, "profileAddress");
 
   const foundRedirect = possibleRedirects.find(
-    (r) => r.source.split("/")[1] === networkOrAddress,
+    (r) => r.source.split("/")[1] === profileAddress,
   );
   if (foundRedirect) {
     return {
@@ -235,7 +235,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     };
   }
 
-  if (!networkOrAddress) {
+  if (!profileAddress) {
     return {
       redirect: {
         destination: "/explore",
@@ -245,7 +245,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   // handle deployer.thirdweb.eth urls
-  if (networkOrAddress === "deployer.thirdweb.eth") {
+  if (profileAddress === "deployer.thirdweb.eth") {
     return {
       redirect: {
         destination: "/thirdweb.eth",
@@ -255,7 +255,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   }
 
   const { address, ensName } = await queryClient.fetchQuery(
-    ensQuery(networkOrAddress),
+    ensQuery(profileAddress),
   );
 
   if (!address) {
@@ -291,9 +291,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     fallback: "blocking",
-    paths: getAllExplorePublishers().map((networkOrAddress) => ({
+    paths: getAllExplorePublishers().map((profileAddress) => ({
       params: {
-        networkOrAddress,
+        profileAddress,
       },
     })),
   };
