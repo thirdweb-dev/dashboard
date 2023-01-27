@@ -104,6 +104,7 @@ export const ShareContract: React.FC<ShareContractProps> = ({ address }) => {
         </GridItem>
         <GridItem as={Flex} align="end" gap={3}>
           <Flex
+            p={8}
             rounded="lg"
             w="full"
             h="full"
