@@ -1,7 +1,7 @@
 import redirects from "../../redirects";
 import { useMainnetsContractList } from "@3rdweb-sdk/react";
-import { Box, Flex } from "@chakra-ui/react";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react/evm";
 import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
@@ -21,7 +21,6 @@ import { ReleasedContracts } from "components/contract-components/tables/release
 import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
@@ -34,29 +33,31 @@ import { getSingleQueryValue } from "utils/router";
 import { ThirdwebNextPage } from "utils/types";
 import { shortenIfAddress } from "utils/usedapp-external";
 
-const UserPage: ThirdwebNextPage = () => {
-  const profileAddress = useSingleQueryParam("profileAddress");
+type UserPageProps = {
+  profileAddress: string;
+  dehydratedState: DehydratedState;
+};
 
-  const ens = useEns(profileAddress);
+const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
+  const ens = useEns(props.profileAddress);
 
   const router = useRouter();
-
   // We do this so it doesn't break for users that haven't updated their CLI
   useEffect(() => {
     const previousPath = router.asPath.split("/")[2];
     if (
       previousPath !== "[profileAddress]" &&
-      profileAddress?.startsWith("Qm") &&
-      !profileAddress.endsWith(".eth")
+      props.profileAddress?.startsWith("Qm") &&
+      !props.profileAddress.endsWith(".eth")
     ) {
       router.replace(`/contracts/deploy/${previousPath}`);
     }
-  }, [profileAddress, router]);
+  }, [props.profileAddress, router]);
 
   const releaserProfile = useReleaserProfile(ens.data?.address || undefined);
 
   const displayName = shortenIfAddress(
-    ens?.data?.ensName || profileAddress,
+    ens?.data?.ensName || props.profileAddress,
   ).replace("deployer.thirdweb.eth", "thirdweb.eth");
 
   const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
@@ -87,6 +88,17 @@ const UserPage: ThirdwebNextPage = () => {
     });
   }, [displayName, publishedContracts.data, releaserProfile.data]);
 
+  // fallback page
+  // TODO better skeleton needed
+  // TODO do we even need this or can we just rely on the pieces below to show skeletons properly?
+  if (router.isFallback) {
+    return (
+      <Flex h="100%" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
+
   return (
     <>
       <NextSeo
@@ -110,7 +122,7 @@ const UserPage: ThirdwebNextPage = () => {
       />
 
       <Flex flexDir="column" gap={12}>
-        {profileAddress && (
+        {props.profileAddress && (
           <Flex
             direction={{ base: "column", md: "row" }}
             justify="space-between"
@@ -120,7 +132,7 @@ const UserPage: ThirdwebNextPage = () => {
           >
             <Flex gap={{ base: 4, md: 8 }} align="center" w="full">
               <ReleaserAvatar
-                address={ens.data?.ensName || profileAddress}
+                address={ens.data?.ensName || props.profileAddress}
                 boxSize={28}
               />
               <Flex direction="column" gap={0}>
@@ -212,7 +224,7 @@ const possibleRedirects = redirects().filter(
   (r) => r.source.split("/").length === 2,
 );
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const queryClient = new QueryClient();
   // TODO make this use alchemy / other RPC
   // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
@@ -284,13 +296,14 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
+      profileAddress: address,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    fallback: "blocking",
+    fallback: true,
     paths: getAllExplorePublishers().map((profileAddress) => ({
       params: {
         profileAddress,

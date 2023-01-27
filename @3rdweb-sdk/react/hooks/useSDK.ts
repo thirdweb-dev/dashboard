@@ -36,7 +36,7 @@ export function useContractList(
 
 export function useMultiChainRegContractList(walletAddress?: string) {
   const chainInfos = useChainInfos();
-  const configuredChainsRecord = useConfiguredChainsRecord();
+  // const configuredChainsRecord = useConfiguredChainsRecord();
   return useQuery(
     [networkKeys.multiChainRegistry, walletAddress],
     async () => {
@@ -319,7 +319,7 @@ export function useAllContractList(walletAddress: string | undefined) {
         // if network is configured, we can determine if it is a testnet or not
         if (net.chainId in configuredChainsRecord) {
           const netInfo = configuredChainsRecord[net.chainId];
-          if (netInfo.name.toLowerCase().includes("test")) {
+          if (netInfo.testnet) {
             testnets.push(net);
           } else {
             mainnets.push(net);
@@ -331,13 +331,27 @@ export function useAllContractList(walletAddress: string | undefined) {
         }
       });
     }
-    return [
-      ...mainnetQuery.data,
-      ...mainnets,
-      ...testnetQuery.data,
-      ...testnets,
-      ...unknownNets,
-    ];
+
+    // only for legacy reasons - can be removed once migration to multi-chain registry is complete
+    const mergedMainnets = [...mainnets, ...mainnetQuery.data].sort(
+      (a, b) => a.chainId - b.chainId,
+    );
+    const mergedTestnets = [...testnets, ...testnetQuery.data].sort(
+      (a, b) => a.chainId - b.chainId,
+    );
+
+    let all = [...mergedMainnets, ...mergedTestnets, ...unknownNets];
+
+    // remove duplicates (by address + chain) - can happen if a contract is on both muichain registry and legacy registries
+    const seen: { [key: string]: boolean } = {};
+    all = all.filter((item) => {
+      const key = `${item.chainId}-${item.address}`;
+      const seenBefore = seen[key];
+      seen[key] = true;
+      return !seenBefore;
+    });
+
+    return all;
   }, [
     mainnetQuery.data,
     testnetQuery.data,

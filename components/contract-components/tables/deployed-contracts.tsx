@@ -8,12 +8,6 @@ import {
   Center,
   Flex,
   Icon,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
   Skeleton,
   Spinner,
   Table,
@@ -42,14 +36,7 @@ import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import { FiArrowRight, FiPlus } from "react-icons/fi";
-import { IoFilterSharp } from "react-icons/io5";
-import {
-  Column,
-  Row,
-  useFilters,
-  useGlobalFilter,
-  useTable,
-} from "react-table";
+import { Column, Row, useTable } from "react-table";
 import {
   Badge,
   Card,
@@ -255,51 +242,6 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
             </Flex>
           );
         },
-        Filter: (props) => {
-          return (
-            <Menu closeOnSelect={false}>
-              <MenuButton
-                as={IconButton}
-                icon={<Icon as={IoFilterSharp} boxSize={4} />}
-                aria-label="open contract type filter menu"
-                size="sm"
-                variant="ghost"
-                p={0}
-              />
-              <MenuList zIndex={10}>
-                <MenuOptionGroup
-                  defaultValue={configuredChains.map(
-                    (chain) => `${chain.chainId}`,
-                  )}
-                  title="Networks"
-                  fontSize={12}
-                  type="checkbox"
-                  value={props.filterValue}
-                  onChange={(e) => props.setFilter(props.column.id, e)}
-                >
-                  {configuredChains.map(({ chainId }) => {
-                    const networkMetadata = getNetworkMetadata(chainId);
-                    return (
-                      <MenuItemOption value={`${chainId}`} key={chainId}>
-                        <Flex align="center" direction="row" gap={1}>
-                          <Icon boxSize={4} as={networkMetadata.icon} />
-                          <Text size="label.md">
-                            {networkMetadata.chainName}
-                          </Text>
-                        </Flex>
-                      </MenuItemOption>
-                    );
-                  })}
-                </MenuOptionGroup>
-              </MenuList>
-            </Menu>
-          );
-        },
-        filter: (rows, _columnIds, filterValue = []) => {
-          return rows.filter((row) => {
-            return filterValue.includes(row.original.chainId.toString());
-          });
-        },
       },
       {
         Header: "Contract Address",
@@ -321,15 +263,11 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data: combinedList,
-        defaultColumn,
-      },
-      useFilters,
-      useGlobalFilter,
-    );
+    useTable({
+      columns,
+      data: combinedList,
+      defaultColumn,
+    });
 
   return (
     <Card p={0} overflowX="auto" position="relative" overflowY="hidden">

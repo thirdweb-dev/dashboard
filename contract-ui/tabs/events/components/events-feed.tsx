@@ -1,3 +1,4 @@
+import { useEVMContractInfo } from "@3rdweb-sdk/react";
 import { useActivity } from "@3rdweb-sdk/react/hooks/useActivity";
 import {
   Accordion,
@@ -55,7 +56,8 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
   const event = useSingleQueryParam("event");
   const [selectedEvent, setSelectedEvent] = useState(event || "all");
 
-  const chainName = useSingleQueryParam("networkOrAddress");
+  const chainSlug = useEVMContractInfo()?.chainSlug;
+
   const router = useRouter();
 
   const eventTypes = useMemo(
@@ -93,8 +95,8 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
             onChange={(e) => {
               const path =
                 e.target.value === "all"
-                  ? `/${chainName}/${contractAddress}/events`
-                  : `/${chainName}/${contractAddress}/events?event=${e.target.value}`;
+                  ? `/${chainSlug}/${contractAddress}/events`
+                  : `/${chainSlug}/${contractAddress}/events?event=${e.target.value}`;
               router.push(path, undefined, { shallow: true });
               setSelectedEvent(e.target.value);
             }}
@@ -167,6 +169,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
                   transaction={e}
                   setSelectedEvent={setSelectedEvent}
                   contractAddress={contractAddress}
+                  chainSlug={chainSlug}
                 />
               ))}
             </Accordion>
@@ -181,12 +184,14 @@ interface EventsFeedItemProps {
   transaction: ContractTransaction;
   setSelectedEvent: React.Dispatch<React.SetStateAction<string>>;
   contractAddress: string;
+  chainSlug?: string;
 }
 
 export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   transaction,
   setSelectedEvent,
   contractAddress,
+  chainSlug,
 }) => {
   const toast = useToast();
   const { onCopy, setValue } = useClipboard(transaction.transactionHash);
@@ -198,7 +203,6 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   }, [transaction.transactionHash, setValue]);
 
   const router = useRouter();
-  const chainName = useSingleQueryParam("networkOrAddress");
 
   return (
     <AccordionItem
@@ -297,7 +301,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                 onClick={(ev) => {
                   ev.stopPropagation();
                   router.push(
-                    `/${chainName}/${contractAddress}/events?event=${e.eventName}`,
+                    `/${chainSlug}/${contractAddress}/events?event=${e.eventName}`,
                     undefined,
                     { shallow: true },
                   );

@@ -11,11 +11,9 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useQuery } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
 import { constants } from "ethers";
-import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useCallback, useMemo, useState } from "react";
 import { IoDocumentOutline } from "react-icons/io5";
 import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
-import { SupportedNetwork } from "utils/network";
 
 function replaceVariablesInCodeSnippet(
   snippet: CodeSnippet,
@@ -78,7 +76,9 @@ export const ContractCode: React.FC<ContractCodeProps> = ({
   ecosystem,
 }) => {
   const { data, isLoading } = useContractCodeSnippetQuery(ecosystem);
-  const chainName = useSingleQueryParam<SupportedNetwork>("networkOrAddress");
+
+  // TODO jonas - bring this back when we figure out what the SDK inputs are going to be for this
+  const chainName = "";
 
   const contractName = usePascalCaseContractName(contractType);
 
