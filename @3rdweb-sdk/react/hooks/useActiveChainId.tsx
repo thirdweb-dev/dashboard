@@ -1,5 +1,5 @@
 import { Chain } from "@thirdweb-dev/chains";
-import { useSingleQueryParam } from "hooks/useQueryParam";
+import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 import { SupportedNetwork } from "utils/network";
@@ -68,6 +68,10 @@ export function useDashboardSOLNetworkId() {
   return getSolNetworkFromNetworkPath(dashboardNetwork);
 }
 
+// TODO - use context instead of route
 export function useDashboardNetwork(): SupportedNetwork | undefined {
-  return useSingleQueryParam<SupportedNetwork>("networkOrAddress");
+  const router = useRouter();
+  if (router.query.paths) {
+    return router.query.paths[0] as SupportedNetwork;
+  }
 }

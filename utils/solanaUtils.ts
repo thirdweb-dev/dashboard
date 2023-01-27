@@ -23,6 +23,8 @@ export function getSolNetworkFromNetworkPath(
   return undefined;
 }
 
+export type SupportedSolNetwork = keyof typeof SupportedSolanaUrlToNetworkMap;
+
 export function isSupportedSOLNetwork(
   network?: string,
 ): network is keyof typeof SupportedSolanaUrlToNetworkMap {

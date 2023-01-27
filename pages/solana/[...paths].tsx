@@ -1,58 +1,46 @@
-import { ClientOnly } from "components/ClientOnly/ClientOnly";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { isPossibleSolanaAddress } from "lib/address-utils";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
-import { useEffect, useState } from "react";
-import { DashboardSolanaNetwork } from "utils/solanaUtils";
+import { isSupportedSOLNetwork } from "utils/solanaUtils";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
  * thirdweb.com/<sol-network>/<sol-program-address>
  */
 const SolanaProgramPage: ThirdwebNextPage = () => {
-  const [programAddress, setProgramAddress] = useState<string | undefined>();
-  const [solNetwork, setSolNetwork] = useState<
-    DashboardSolanaNetwork | undefined
-  >();
-
-  // console.log("programAddress", programAddress);
-  // console.log("solNetwork", solNetwork);
-
   const router = useRouter();
+  const paths = router.query.paths as string[] | undefined;
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const [_solNetwork, _programAddress] = url.pathname.slice(1).split("/");
-    setProgramAddress(_programAddress);
-    setSolNetwork(_solNetwork as DashboardSolanaNetwork);
-    // router as a dependency to re-run this effect when the client side route changes
+  // fallback page - paths is undefined on fallback
+  if (!paths || router.isFallback) {
+    return (
+      <Flex h="100%" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
 
-    if (!isPossibleSolanaAddress(_programAddress)) {
-      router.replace("/404");
-    }
-  }, [router]);
+  const [solNetwork, programAddress] = paths;
 
   return (
     <>
-      <ProgramMetadata address={programAddress || ""} />
-      <ClientOnly ssr={null}>
-        {programAddress && solNetwork && (
-          <ContractTabRouter
-            address={programAddress}
-            ecosystem="solana"
-            network={solNetwork}
-          />
-        )}
-      </ClientOnly>
+      <ProgramMetadata address={programAddress} />
+      <ContractTabRouter
+        address={programAddress}
+        ecosystem="solana"
+        network={solNetwork}
+      />
     </>
   );
 };
 
+export default SolanaProgramPage;
 SolanaProgramPage.pageId = PageId.DeployedProgram;
-
 SolanaProgramPage.getLayout = (page) => {
   return (
     <AppLayout
@@ -64,4 +52,30 @@ SolanaProgramPage.getLayout = (page) => {
   );
 };
 
-export default SolanaProgramPage;
+// server side ---------------------------------------------------------------
+export const getStaticProps: GetStaticProps = (ctx) => {
+  const [solNetwork, programAddress] = ctx.params?.paths as string[];
+
+  if (
+    !programAddress ||
+    !isPossibleSolanaAddress(programAddress) ||
+    !isSupportedSOLNetwork(solNetwork)
+  ) {
+    return {
+      notFound: true,
+    };
+  }
+
+  // TODO - populate it with solNetwork and programAddress to context
+  // and use context in components
+  return {
+    props: {},
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    fallback: true,
+    paths: [],
+  };
+};
