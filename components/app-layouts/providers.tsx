@@ -34,10 +34,12 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
           options: {
             apiKey: process.env.NEXT_PUBLIC_MAGIC_KEY,
             rpcUrls: EVM_RPC_URL_MAP,
-            network: chain && {
-              rpcUrl: chain.rpc[0],
-              chainId: chain.chainId,
-            },
+            network: chain
+              ? {
+                  rpcUrl: chain.rpc[0],
+                  chainId: chain.chainId,
+                }
+              : undefined,
             doNotAutoConnect: true,
           },
         }),
@@ -63,10 +65,12 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
       sdkOptions={{
         chainInfos,
         gasSettings: { maxPriceInGwei: 650 },
-        readonlySettings: chain && {
-          chainId: chain.chainId,
-          rpcUrl: chain.rpc[0],
-        },
+        readonlySettings: chain
+          ? {
+              chainId: chain.chainId,
+              rpcUrl: chain.rpc[0],
+            }
+          : undefined,
       }}
       storageInterface={StorageSingleton}
       walletConnectors={walletConnectors}

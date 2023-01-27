@@ -7,7 +7,7 @@ export function getAllChainRecords() {
   const chainIdToChain: Record<number, Chain> = {};
 
   for (const chain of allChains) {
-    slugToChain[chain.shortName] = chain;
+    slugToChain[chain.slug] = chain;
     chainIdToChain[chain.chainId] = chain;
   }
 

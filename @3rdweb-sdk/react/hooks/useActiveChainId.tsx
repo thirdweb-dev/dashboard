@@ -1,12 +1,13 @@
 import { Chain } from "@thirdweb-dev/chains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 import { SupportedNetwork } from "utils/network";
 import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
 
-type EVMContractInfo = {
-  chain?: Chain;
+export type EVMContractInfo = {
+  // using null instead of undefined here so that this type can be JSON stringified
+  chain: Chain | null;
   chainSlug: string;
   contractAddress: string;
 };
@@ -14,15 +15,24 @@ type EVMContractInfo = {
 type SetEVMContractInfo = (info: EVMContractInfo) => void;
 
 export const EVMContractInfoContext = createContext<
-  EVMContractInfo | undefined | null
+  EVMContractInfo | undefined
 >(undefined);
 
 export const SetEVMContractInfoContext = createContext<
-  SetEVMContractInfo | undefined | null
+  SetEVMContractInfo | undefined
 >(undefined);
 
-export function EVMContractInfoProvider(props: { children: React.ReactNode }) {
-  const [value, setValue] = useState<EVMContractInfo | null>(null);
+export function EVMContractInfoProvider(props: {
+  children: React.ReactNode;
+  initialValue?: EVMContractInfo;
+}) {
+  const [value, setValue] = useState(props.initialValue);
+
+  // relay upstream changes to the context
+  useEffect(() => {
+    setValue(props.initialValue);
+  }, [props.initialValue]);
+
   return (
     <EVMContractInfoContext.Provider value={value}>
       <SetEVMContractInfoContext.Provider value={setValue}>
@@ -34,10 +44,6 @@ export function EVMContractInfoProvider(props: { children: React.ReactNode }) {
 
 export function useEVMContractInfo() {
   const info = useContext(EVMContractInfoContext);
-  invariant(
-    info !== undefined,
-    "useEVMContractInfo must be used inside EVMContractInfoProvider",
-  );
   return info;
 }
 

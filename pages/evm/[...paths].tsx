@@ -1,108 +1,123 @@
-// #region route handlers
 import {
+  EVMContractInfo,
   EVMContractInfoProvider,
   useEVMContractInfo,
   useSetEVMContractInfo,
 } from "@3rdweb-sdk/react";
-import {
-  Alert,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  AlertIcon,
-  Box,
-  Flex,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { ClientOnly } from "components/ClientOnly/ClientOnly";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
+import { ConfigureNetworkSection } from "components/configure-networks/ConfigureNetworkSection";
 import { ContractHeader } from "components/custom-contract/contract-header";
-import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
-import { useConfiguredChains } from "hooks/chains/configureChains";
+import {
+  useConfiguredChainSlugRecord,
+  useUpdateConfiguredChains,
+} from "hooks/chains/configureChains";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { useEffect, useRef, useState } from "react";
-import { Button } from "tw-components";
+import { useEffect, useState } from "react";
+import { getAllChainRecords } from "utils/allChainsRecords";
 import { ThirdwebNextPage } from "utils/types";
 
-const EVMContractPage: ThirdwebNextPage = () => {
-  const [shouldContinue, setShouldContinue] = useState(false);
-  const contractInfo = useEVMContractInfo();
-  const chain = contractInfo?.chain;
-  useChainResolverEffect();
+type EVMContractProps = {
+  contractInfo: EVMContractInfo;
+};
 
+const EVMContractPage: ThirdwebNextPage = () => {
+  const [showNetworkConfig, setShowNetworkConfig] = useState(true);
+  // show optimistic UI first - assume chain is conifgured until proven otherwise
+  const [chainNotFound, setChainNotFound] = useState(false);
+
+  const contractInfo = useEVMContractInfo();
+  const setContractInfo = useSetEVMContractInfo();
+  const configuredChainSlugRecord = useConfiguredChainSlugRecord();
+  const updateConfiguredChains = useUpdateConfiguredChains();
+  const router = useRouter();
+
+  useEffect(() => {
+    // ignore fallback page
+    if (!contractInfo) {
+      return;
+    }
+
+    // if server resolved the chain
+    if (contractInfo.chain) {
+      // but it is not configured on client storage
+      if (!(contractInfo.chainSlug in configuredChainSlugRecord)) {
+        // configure it so user does not have to do it manually
+        updateConfiguredChains.add(contractInfo.chain);
+      }
+    }
+
+    // if server could not resolve the chain using chainList
+    else {
+      // check if it is configured on client storage
+      if (contractInfo.chainSlug in configuredChainSlugRecord) {
+        const chain = configuredChainSlugRecord[contractInfo.chainSlug];
+        updateConfiguredChains.add(chain);
+        setContractInfo({
+          ...contractInfo,
+          chain,
+        });
+      }
+
+      // if not found in storage as well
+      else {
+        // user needs to configure it manually
+        setChainNotFound(true);
+      }
+    }
+  }, [
+    configuredChainSlugRecord,
+    contractInfo,
+    setContractInfo,
+    updateConfiguredChains,
+  ]);
+
+  // fallback page to show when actual page is not generated yet
+  // contractInfo is undefined on fallback page
+  if (!contractInfo || router.isFallback) {
+    return (
+      <>
+        {/* TODO - Have a better skeleton than just a spinner */}
+        <Flex h="100%" justifyContent="center" alignItems="center">
+          <Spinner size="xl" />
+        </Flex>
+      </>
+    );
+  }
+
+  const { chain, chainSlug, contractAddress } = contractInfo;
   return (
     <>
-      <ContractHeader
-        contractAddress={contractInfo?.contractAddress || "0x....."}
-      />
+      {chain && <ContractHeader contractAddress={contractAddress} />}
 
-      <ClientOnly ssr={null}>
-        {chain && (
-          <ContractTabRouter
-            address={contractInfo.contractAddress}
-            ecosystem="evm"
-            network={contractInfo.chainSlug}
-          />
-        )}
-      </ClientOnly>
+      {chain && (
+        <ContractTabRouter
+          address={contractAddress}
+          ecosystem="evm"
+          network={chainSlug}
+        />
+      )}
 
-      <ClientOnly ssr={null}>
-        {contractInfo && !contractInfo.chain && !shouldContinue && (
-          <ConfigureNetworkSection
-            unknownNetworkName={contractInfo?.chainSlug}
-            continue={() => {
-              setShouldContinue(true);
-            }}
-          />
-        )}
-      </ClientOnly>
+      {chainNotFound && showNetworkConfig && (
+        <ConfigureNetworkSection
+          unknownNetworkName={chainSlug}
+          continue={() => {
+            setShowNetworkConfig(false);
+          }}
+        />
+      )}
     </>
   );
 };
 
-/**
- * This effect is used to resolve the chain slug from the url to a Chain object
- * and set it in the context to be used by the rest of the page
- */
-function useChainResolverEffect() {
-  const configuredChains = useConfiguredChains();
-  const setEVMContractInfo = useSetEVMContractInfo();
-  const router = useRouter();
-
-  useEffect(() => {
-    // can not use router.query here - it does not work when visiting this page directly
-    const url = new URL(window.location.href);
-
-    // get the chain slug and contract address from the url
-    const [chainSlug, contractAddress] = url.pathname.slice(1).split("/");
-    if (!chainSlug) {
-      return;
-    }
-
-    // resolve the chain slug to a Chain info object
-    const chain = configuredChains.find((_chain) => _chain.slug === chainSlug);
-
-    // set the chain info in the context
-    setEVMContractInfo({
-      chain,
-      chainSlug,
-      contractAddress,
-    });
-
-    // router dependency is required to trigger this effect when the client-side URL changes
-  }, [configuredChains, router, setEVMContractInfo]);
-}
-
-EVMContractPage.getLayout = (page) => {
+export default EVMContractPage;
+EVMContractPage.pageId = PageId.DeployedContract;
+EVMContractPage.getLayout = (page, props: EVMContractProps) => {
   return (
-    <EVMContractInfoProvider>
+    <EVMContractInfoProvider initialValue={props.contractInfo}>
       <AppLayout
         layout={"custom-contract"}
         dehydratedState={{ queries: [], mutations: [] }}
@@ -113,88 +128,25 @@ EVMContractPage.getLayout = (page) => {
   );
 };
 
-interface ConfigureNetworkSectionProps {
-  unknownNetworkName: string;
-  continue: () => void;
-}
+// server side ---------------------------------------------------------------
 
-/**
- * Show this section to configure the network
- * when we can't find the network in the user's cookie or chain list
- */
-const ConfigureNetworkSection: React.FC<ConfigureNetworkSectionProps> = (
-  props,
-) => {
-  const [isNetworkConfigured, setIsNetworkConfigured] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-
-  return (
-    <HomepageSection>
-      <Box mb={8} mt={8}>
-        {isNetworkConfigured ? (
-          <Flex justifyContent="center" my={10}>
-            <Button colorScheme="blue" onClick={props.continue}>
-              Continue to Contract
-            </Button>
-          </Flex>
-        ) : (
-          <Alert borderRadius="md" background="backgroundHighlight">
-            <AlertIcon />
-            You tried to connecting to {`"`}
-            {props.unknownNetworkName}
-            {`"`} network but it is not configured yet. Please configure it and
-            try again.
-          </Alert>
-        )}
-      </Box>
-
-      <Box
-        border="2px solid"
-        borderColor="whiteAlpha.50"
-        borderRadius="lg"
-        overflow="hidden"
-      >
-        <ConfigureNetworks
-          onNetworkConfigured={(network) => {
-            if (network.slug === props.unknownNetworkName) {
-              setIsNetworkConfigured(true);
-              onOpen();
-            }
-          }}
-        />
-      </Box>
-
-      {/* Show Alert Dialog when user configures the required network */}
-      <AlertDialog
-        motionPreset="slideInBottom"
-        leastDestructiveRef={cancelRef}
-        onClose={onClose}
-        isOpen={isOpen}
-        isCentered
-      >
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader>Awesome!</AlertDialogHeader>
-          <AlertDialogCloseButton />
-          <AlertDialogBody>
-            You have configured the required network. <br />
-            Continue to the contract page?
-          </AlertDialogBody>
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              No
-            </Button>
-            <Button colorScheme="blue" ml={3} onClick={props.continue}>
-              Yes
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </HomepageSection>
-  );
+const { slugToChain } = getAllChainRecords();
+export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
+  const [chainSlug, contractAddress] = ctx.params?.paths as string[];
+  return {
+    props: {
+      contractInfo: {
+        chainSlug,
+        contractAddress,
+        chain: chainSlug in slugToChain ? slugToChain[chainSlug] : null,
+      },
+    },
+  };
 };
 
-EVMContractPage.pageId = PageId.DeployedContract;
-
-export default EVMContractPage;
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    fallback: true,
+    paths: [],
+  };
+};

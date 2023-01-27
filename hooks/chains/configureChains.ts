@@ -38,8 +38,7 @@ export type ConfiguredChainRecord = Record<number, Chain>;
  */
 export function useConfiguredChainsRecord() {
   const configuredNetworks = useConfiguredChains();
-
-  const configuredNetworksRecord = useMemo(() => {
+  return useMemo(() => {
     const record: ConfiguredChainRecord = {};
     configuredNetworks.forEach((network) => {
       record[network.chainId] = network;
@@ -47,8 +46,21 @@ export function useConfiguredChainsRecord() {
 
     return record;
   }, [configuredNetworks]);
+}
 
-  return configuredNetworksRecord;
+/**
+ * @returns a list of record that maps configured chainSlug to `Chain` object
+ */
+export function useConfiguredChainSlugRecord() {
+  const configuredNetworks = useConfiguredChains();
+  return useMemo(() => {
+    const record: Record<string, Chain> = {};
+    configuredNetworks.forEach((network) => {
+      record[network.slug] = network;
+    });
+
+    return record;
+  }, [configuredNetworks]);
 }
 
 /**
