@@ -10,6 +10,7 @@ import { useEns } from "components/contract-components/hooks";
 import { ProgramClaimConditionsTab } from "program-ui/common/program-claim-conditions";
 import { ProgramCodeTab } from "program-ui/common/program-code";
 import { ProgramSettingsTab } from "program-ui/common/program-settings";
+import { useMemo } from "react";
 import { Card, Heading, Text } from "tw-components";
 
 export type EnhancedRoute = Route & {
@@ -85,7 +86,6 @@ export function useContractRouteConfig(
 ): EnhancedRoute[] {
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
-
   const contractTypeQuery = contractType.useQuery(contractAddress);
 
   const claimconditionExtensionDetection = extensionDetectedState({
@@ -106,7 +106,7 @@ export function useContractRouteConfig(
   });
   return [
     {
-      title: "Explorer",
+      title: "Overview",
       path: "/",
       element: () =>
         import("../tabs/overview/page").then(
