@@ -111,7 +111,10 @@ export function useContractRouteConfig(
       element: () =>
         import("../tabs/overview/page").then(
           ({ CustomContractOverviewPage }) => (
-            <CustomContractOverviewPage contractAddress={contractAddress} />
+            <CustomContractOverviewPage
+              contractAddress={contractAddress}
+              contractType={contractTypeQuery?.data || undefined}
+            />
           ),
         ),
     },

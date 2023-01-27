@@ -1,16 +1,17 @@
-import { ChakraNextImage } from "../../../components/Image";
 import { BuildYourApp } from "./components/BuildYourApp";
 import { ShareContract } from "./components/ShareContract";
-import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
+import { ContractType } from "@thirdweb-dev/sdk/evm";
 import { useContractFunctions } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
-import { Card, Heading, Text } from "tw-components";
+import { Heading } from "tw-components";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
+  contractType?: ContractType;
 }
 
 export const CustomContractOverviewPage: React.FC<
