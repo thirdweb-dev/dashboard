@@ -1,5 +1,6 @@
 import { ChakraNextImage } from "../../../components/Image";
 import { BuildYourApp } from "./components/BuildYourApp";
+import { ShareContract } from "./components/ShareContract";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
@@ -39,8 +40,9 @@ export const CustomContractOverviewPage: React.FC<
           )}
           <BuildYourApp />
         </Flex>
+        <ShareContract address={contractAddress} />
       </GridItem>
-      <GridItem as={Flex} colSpan={1} direction="column" gap={6}>
+      <GridItem as={Flex} direction="column" gap={6}>
         <Heading size="title.sm">Relevant guides</Heading>
       </GridItem>
     </SimpleGrid>
