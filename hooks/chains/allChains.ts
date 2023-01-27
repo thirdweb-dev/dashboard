@@ -22,7 +22,7 @@ export function useAllChains() {
         setChains(module.allChains);
       });
     });
-  });
+  }, [chains.length]);
 
   return chains;
 }

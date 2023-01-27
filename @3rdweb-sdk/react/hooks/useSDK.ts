@@ -302,7 +302,12 @@ export function useAllContractList(walletAddress: string | undefined) {
         updateConfiguredChains.add(allChainsRecord[chainId]);
       }
     });
-  });
+  }, [
+    multiChainQuery.data,
+    configuredChainsRecord,
+    updateConfiguredChains,
+    allChainsRecord,
+  ]);
 
   const allList = useMemo(() => {
     const mainnets: ContractWithMetadata[] = [];
