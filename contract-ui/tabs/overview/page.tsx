@@ -23,7 +23,7 @@ const GUIDES = {
       title: "Create an Early Access NFT with TypeScript and React",
       url: "https://blog.thirdweb.com/guides/early-access-nft-with-typescript/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/edition-drop/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/edition-drop/" },
   ],
   edition: [
     {
@@ -34,7 +34,7 @@ const GUIDES = {
       title: "Create A Discord Bot That Gives NFT Holders A Role",
       url: "https://blog.thirdweb.com/guides/create-a-discord-bot-that-gives-nft-holders-a-role/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/edition/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/edition/" },
   ],
   marketplace: [
     {
@@ -42,10 +42,10 @@ const GUIDES = {
       url: "https://blog.thirdweb.com/guides/nft-marketplace-with-typescript-next/",
     },
     {
-      title: "Create an NFT Marketplace using Python",
-      url: "https://blog.thirdweb.com/guides/create-a-marketplace-with-python-sdk/",
+      title: "Build An Auction Button For Your NFT Marketplace",
+      url: "https://blog.thirdweb.com/guides/auction-button-react/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/marketplace/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/marketplace/" },
   ],
   multiwrap: [],
   "nft-collection": [
@@ -57,7 +57,7 @@ const GUIDES = {
       title: "Let Users Pick Which NFT They Want to Mint",
       url: "https://blog.thirdweb.com/guides/mint-specific-nft/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/nft-collection/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/nft-collection/" },
   ],
   "nft-drop": [
     {
@@ -68,14 +68,14 @@ const GUIDES = {
       title: "How to accept credit card payments for your NFT drop",
       url: "https://blog.thirdweb.com/guides/accept-credit-card-payments/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/nft-drop/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/nft-drop/" },
   ],
   pack: [
     {
       title: "Create NFT Loot-Boxes Using the Pack Contract",
       url: "https://blog.thirdweb.com/guides/create-an-nft-loot-box/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/pack/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/pack/" },
   ],
   "signature-drop": [
     {
@@ -86,21 +86,21 @@ const GUIDES = {
       title: "Create an ERC721A NFT Drop with Signature-Based Minting",
       url: "https://blog.thirdweb.com/guides/signature-drop/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/signature-drop/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/signature-drop/" },
   ],
   split: [
     {
       title: "Deploy an NFT Drop with Revenue Share",
       url: "https://blog.thirdweb.com/guides/nft-drop-with-revenue-share/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/split/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/split/" },
   ],
   "token-drop": [
     {
       title: "Build An ERC20 Token Claim App in React",
       url: "https://blog.thirdweb.com/guides/claim-erc20-token-nextjs/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/token-drop/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/token-drop/" },
   ],
   token: [
     {
@@ -111,14 +111,14 @@ const GUIDES = {
       title: "Create an ERC20 token with Python",
       url: "https://blog.thirdweb.com/guides/create-your-currency-with-python-sdk/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/token/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/token/" },
   ],
   vote: [
     {
       title: "Build a DAO With a Treasury and a Governance Token",
       url: "https://blog.thirdweb.com/guides/build-treasury-and-governance-for-your-dao/",
     },
-    { title: "View all", url: "https://blog.thirdweb.com/tag/vote/" },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/vote/" },
   ],
   custom: [],
 };
@@ -128,18 +128,6 @@ const TEMPLATES = {
     {
       title: "Edition Drop Minting",
       url: "https://github.com/thirdweb-example/edition-drop",
-    },
-    {
-      title: "Play-to-Earn",
-      url: "https://github.com/thirdweb-example/play-to-earn-game",
-    },
-    {
-      title: "DAO",
-      url: "https://github.com/thirdweb-example/dao",
-    },
-    {
-      title: "Edition Staking",
-      url: "https://github.com/thirdweb-example/edition-staking-app",
     },
   ],
   edition: [
@@ -153,18 +141,6 @@ const TEMPLATES = {
       title: "Marketplace",
       url: "https://github.com/thirdweb-example/marketplace",
     },
-    {
-      title: "Unity NFT Loot Boxes",
-      url: "https://github.com/thirdweb-example/unity-nft-lootboxes",
-    },
-    {
-      title: "Marketplace With Signature-based Minting",
-      url: "https://github.com/thirdweb-example/marketplace-with-signature-based-minting",
-    },
-    {
-      title: "Karting Game - Unity",
-      url: "https://github.com/thirdweb-example/unity-karting-game",
-    },
   ],
   multiwrap: [
     {
@@ -174,12 +150,27 @@ const TEMPLATES = {
   ],
   "nft-collection": [],
   "nft-drop": [],
-  pack: [],
-  "signature-drop": [],
+  pack: [
+    {
+      title: "Packs",
+      url: "https://github.com/thirdweb-example/packs",
+    },
+  ],
+  "signature-drop": [
+    {
+      title: "Signature Drop",
+      url: "https://github.com/thirdweb-example/signature-drop",
+    },
+  ],
   split: [],
   "token-drop": [],
   token: [],
-  vote: [],
+  vote: [
+    {
+      title: "DAO",
+      url: "https://github.com/thirdweb-example/dao",
+    },
+  ],
   custom: [],
 };
 
@@ -219,45 +210,53 @@ export const CustomContractOverviewPage: React.FC<
         </Flex>
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
-        {contractTypeData && GUIDES[contractTypeData] && (
+        {contractTypeData && GUIDES[contractTypeData].length > 0 && (
           <Flex direction="column" gap={4}>
             <Heading size="title.sm">Relevant guides</Heading>
-            {contractTypeData &&
-              GUIDES[contractTypeData].map((guide) => (
-                <Flex
-                  as={Link}
-                  isExternal
-                  align="center"
-                  gap={2}
-                  href={guide.url}
-                  key={guide.title}
-                >
-                  <Icon color="paragraph" as={HiOutlineBookOpen} boxSize={4} />
-                  <Text>{guide.title}</Text>
-                </Flex>
-              ))}
+            {GUIDES[contractTypeData].map((guide) => (
+              <Flex
+                as={Link}
+                isExternal
+                gap={2}
+                p={1}
+                href={guide.url}
+                key={guide.title}
+              >
+                <Icon
+                  mt={0.5}
+                  color="paragraph"
+                  as={HiOutlineBookOpen}
+                  boxSize={4}
+                />
+                <Text lineHeight={1.5}>{guide.title}</Text>
+              </Flex>
+            ))}
           </Flex>
         )}
         {contractTypeData &&
-          GUIDES[contractTypeData] &&
-          TEMPLATES[contractTypeData] && <Divider />}
-        {contractTypeData && TEMPLATES[contractTypeData] && (
+          GUIDES[contractTypeData].length > 0 &&
+          TEMPLATES[contractTypeData].length > 0 && <Divider />}
+        {contractTypeData && TEMPLATES[contractTypeData].length > 0 && (
           <Flex direction="column" gap={4}>
             <Heading size="title.sm">Relevant templates</Heading>
-            {contractTypeData &&
-              TEMPLATES[contractTypeData].map((guide) => (
-                <Flex
-                  as={Link}
-                  isExternal
-                  align="center"
-                  gap={2}
-                  href={guide.url}
-                  key={guide.title}
-                >
-                  <Icon color="paragraph" as={HiOutlineBookOpen} boxSize={4} />
-                  <Text>{guide.title}</Text>
-                </Flex>
-              ))}
+            {TEMPLATES[contractTypeData].map((guide) => (
+              <Flex
+                as={Link}
+                isExternal
+                gap={2}
+                py={1}
+                href={guide.url}
+                key={guide.title}
+              >
+                <Icon
+                  mt={0.5}
+                  color="paragraph"
+                  as={HiOutlineBookOpen}
+                  boxSize={4}
+                />
+                <Text lineHeight={1.5}>{guide.title}</Text>
+              </Flex>
+            ))}
           </Flex>
         )}
       </GridItem>
