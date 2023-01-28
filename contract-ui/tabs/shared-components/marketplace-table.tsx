@@ -16,12 +16,6 @@ import {
   usePrevious,
 } from "@chakra-ui/react";
 import { UseQueryResult } from "@tanstack/react-query";
-import {
-  useDirectListings,
-  useDirectListingsCount,
-  useEnglishAuctions,
-  useEnglishAuctionsCount,
-} from "@thirdweb-dev/react";
 import type {
   DirectListingV3,
   EnglishAuction,
@@ -104,6 +98,7 @@ interface MarketplaceTableProps {
       start: number;
     }>
   >;
+  type: "direct-listings" | "english-auctions";
 }
 
 const DEFAULT_QUERY_STATE = { count: 50, start: 0 };
@@ -114,6 +109,7 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
   totalCountQuery,
   queryParams,
   setQueryParams,
+  type,
 }) => {
   // TODO: Add filter to get active listings whenever that gets added to the ts SDK
   const getActiveQueryResult = getAllQueryResult;
@@ -218,6 +214,7 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
           onClose={() => setTokenRow(null)}
           // TODO: Use the actual status
           status="Created"
+          type={type}
         />
         <Table {...getTableProps()}>
           <Thead>

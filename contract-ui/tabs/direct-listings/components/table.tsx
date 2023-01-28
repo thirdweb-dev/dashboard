@@ -23,6 +23,7 @@ export const DirectListingsTable: React.FC<DirectListingsTableProps> = ({
       totalCountQuery={totalCountQuery}
       queryParams={queryParams}
       setQueryParams={setQueryParams}
+      type="direct-listings"
     />
   );
 };

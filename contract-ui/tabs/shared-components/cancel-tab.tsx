@@ -1,24 +1,19 @@
 import { useDashboardNetwork } from "@3rdweb-sdk/react";
 import { Stack } from "@chakra-ui/react";
-import { useCancelDirectListing } from "@thirdweb-dev/react";
-import type { MarketplaceV3 } from "@thirdweb-dev/sdk/evm";
+import { UseMutationResult } from "@tanstack/react-query";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { BigNumberish } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 
 interface CancelTabProps {
-  contract: MarketplaceV3;
-  listingId: string;
+  cancelQuery: UseMutationResult<any, unknown, BigNumberish, unknown>;
+  id: string;
 }
 
-export const CancelTab: React.FC<CancelTabProps> = ({
-  contract,
-  listingId,
-}) => {
+export const CancelTab: React.FC<CancelTabProps> = ({ cancelQuery, id }) => {
   const trackEvent = useTrack();
   const network = useDashboardNetwork();
-
-  const cancelListing = useCancelDirectListing(contract);
 
   const { onSuccess, onError } = useTxNotifications(
     "Listing cancelled",
@@ -29,14 +24,14 @@ export const CancelTab: React.FC<CancelTabProps> = ({
       {/* maybe some text? */}
       <TransactionButton
         transactionCount={1}
-        isLoading={cancelListing.isLoading}
+        isLoading={cancelQuery.isLoading}
         onClick={() => {
           trackEvent({
             category: "marketplace",
             action: "cancel-listing",
             label: "attempt",
           });
-          cancelListing.mutate(listingId, {
+          cancelQuery.mutate(id, {
             onSuccess: () => {
               trackEvent({
                 category: "marketplace",

@@ -1,4 +1,5 @@
-import { CancelTab } from "../direct-listings/components/cancel-tab";
+import { CancelDirectListing } from "../direct-listings/components/cancel";
+import { CancelEnglishAuction } from "../english-auctions/components/cancel";
 import {
   Flex,
   GridItem,
@@ -12,11 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import type {
-  AuctionListing,
-  DirectListing,
   DirectListingV3,
   EnglishAuction,
-  Marketplace,
   MarketplaceV3,
 } from "@thirdweb-dev/sdk/evm";
 import { BigNumber } from "ethers";
@@ -32,12 +30,16 @@ interface NFTDrawerProps {
   data: DirectListingV3 | EnglishAuction | null;
   // TODO: Use the actual status type
   status: string;
+  type: "direct-listings" | "english-auctions";
 }
+
 export const ListingDrawer: React.FC<NFTDrawerProps> = ({
+  contract,
   isOpen,
   onClose,
   data,
   status,
+  type,
 }) => {
   const address = useAddress();
   const prevData = usePrevious(data);
@@ -120,16 +122,18 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
       {
         title: "Cancel Listing",
         isDisabled: !isOwner,
-        children: () => (
-          <>
-            {/*             // TODO: Add Cancel tab hook on react SDK
-            <CancelTab
+        children: () =>
+          type === "direct-listings" ? (
+            <CancelDirectListing
               contract={contract}
-              listingId={renderData.id}
-              listingType={renderData.type}
-            /> */}
-          </>
-        ),
+              listingId={renderData?.id}
+            />
+          ) : (
+            <CancelEnglishAuction
+              contract={contract}
+              auctionId={renderData?.id}
+            />
+          ),
       },
     ];
 
@@ -141,6 +145,8 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
     status,
     data?.asset.attributes,
     data?.asset.properties,
+    type,
+    contract,
   ]);
 
   if (!renderData) {
