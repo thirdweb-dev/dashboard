@@ -1,0 +1,36 @@
+import Image from "next/image";
+
+// TODO - Have a better icon here
+const fallbackIcon = `https://gateway.ipfscdn.io/ipfs/QmdwQDr6vmBtXmK2TmknkEuZNoaDqTasFdZdu3DRw8b2wt`;
+
+export const ChainIcon: React.FC<{ ipfsSrc?: string; size: number }> = (
+  props,
+) => {
+  const src = props.ipfsSrc
+    ? `https://gateway.ipfscdn.io/ipfs/${props.ipfsSrc.slice(`ipfs://`.length)}`
+    : fallbackIcon;
+
+  // have 4x resolution to make it look good
+  const resolution = props.size * 4;
+  const size = `${props.size}px`;
+
+  return (
+    <Image
+      src={src}
+      width={resolution}
+      height={resolution}
+      style={{
+        objectFit: "contain",
+        maxWidth: size,
+        maxHeight: size,
+      }}
+      loading="lazy"
+      decoding="async"
+      alt=""
+      onError={(event) => {
+        event.currentTarget.srcset = `${fallbackIcon} 1x`;
+        event.currentTarget.src = fallbackIcon;
+      }}
+    />
+  );
+};

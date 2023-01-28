@@ -46,6 +46,7 @@ import { ChakraNextImage } from "components/Image";
 import { MismatchButton } from "components/buttons/MismatchButton";
 import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { useEns } from "components/contract-components/hooks";
+import { ChainIcon } from "components/icons/ChainIcon";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
@@ -234,7 +235,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             rightIcon={<FiChevronDown />}
           >
             <Flex direction="row" gap={3} align="center">
-              <Icon boxSize={6} as={networkMetadata.icon} />
+              <ChainIcon size={24} ipfsSrc={networkMetadata.icon} />
               <Flex gap={0.5} direction="column" textAlign="left">
                 <Heading as="p" size="label.sm">
                   <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>

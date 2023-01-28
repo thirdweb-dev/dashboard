@@ -30,6 +30,7 @@ import { ChakraNextImage } from "components/Image";
 import { useReleasesFromDeploy } from "components/contract-components/hooks";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
+import { ChainIcon } from "components/icons/ChainIcon";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useConfiguredChains } from "hooks/chains/configureChains";
@@ -229,7 +230,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
           const data = getNetworkMetadata(cell.row.original.chainId);
           return (
             <Flex align="center" gap={2}>
-              <Icon boxSize={6} as={data.icon} />
+              <ChainIcon size={24} ipfsSrc={data.icon} />
               <Text size="label.md">{data.chainName}</Text>
               {data.isTestnet !== "unknown" && (
                 <Badge

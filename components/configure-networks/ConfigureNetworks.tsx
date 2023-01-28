@@ -105,14 +105,12 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       {/* List */}
       <Flex
         direction="column"
-        p={8}
-        pb={4}
-        pr={2}
         borderRight={{ md: "1px solid rgba(255, 255, 255, 0.1)" }}
       >
         {/* Heading */}
         <Heading
           as={"h3"}
+          m={8}
           size="label.xl"
           mb={10}
           minH={10}

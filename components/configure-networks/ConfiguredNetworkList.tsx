@@ -1,8 +1,8 @@
-import { Box, Icon, List, ListItem } from "@chakra-ui/react";
+import { Box, Flex, List, ListItem } from "@chakra-ui/react";
+import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
-import { FaChevronRight } from "react-icons/fa";
 import { Button, Heading } from "tw-components";
 
 interface ConfiguredNetworkListProps {
@@ -50,14 +50,13 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
           },
         }}
         pb={8}
-        pr={4}
         sx={{
           maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",
         }}
       >
         {mainnets.length > 0 && (
           <Box mb={8}>
-            <Heading fontSize="md" color="whiteAlpha.500" mb={2}>
+            <Heading fontSize="md" color="whiteAlpha.500" mb={4} ml={8}>
               Mainnets
             </Heading>
             {mainnets.map((network) => (
@@ -66,6 +65,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                 onClick={() => props.onClick(network)}
                 name={network.name}
                 key={network.slug}
+                img={network.icon?.url}
               />
             ))}
           </Box>
@@ -73,7 +73,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
 
         {testnets.length > 0 && (
           <Box mb={8}>
-            <Heading fontSize="md" color="whiteAlpha.500" mb={2}>
+            <Heading fontSize="md" color="whiteAlpha.500" mb={4} ml={8}>
               Testnets
             </Heading>
             {testnets.map((network) => (
@@ -82,6 +82,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                 onClick={() => props.onClick(network)}
                 name={network.name}
                 key={network.slug}
+                img={network.icon?.url}
               />
             ))}
           </Box>
@@ -96,32 +97,34 @@ const NetworkListItem: React.FC<{
   name: string;
   isActive: boolean;
   isCustom?: boolean;
+  img?: string;
 }> = (props) => {
   return (
     <ListItem display="flex" alignItems="center">
       <Button
         display="flex"
-        justifyContent="space-between"
+        justifyContent="flex-start"
         w="100%"
-        background={props.isActive ? "white" : "transparent"}
-        color={props.isActive ? "black" : "white"}
+        background={props.isActive ? "#1B2129" : "transparent"}
+        color={props.isActive ? "white" : "white"}
         fontWeight={500}
         fontSize="14px"
-        p={0}
-        mb={1}
-        pl={3}
+        px={8}
+        pr={2}
+        py={4}
         _hover={{
-          background: props.isActive ? "white" : "backgroundHighlight",
+          background: "#1B2129",
         }}
         onClick={props.onClick}
         whiteSpace="normal"
         textAlign="left"
+        borderRadius={0}
         lineHeight={1.1}
       >
-        {props.name}
-        {props.isActive && (
-          <Icon as={FaChevronRight} mr={3} color="backgroundBody" />
-        )}
+        <Flex gap={3} alignItems="center">
+          <ChainIcon size={20} ipfsSrc={props.img} />
+          {props.name}
+        </Flex>
       </Button>
     </ListItem>
   );
