@@ -1,4 +1,4 @@
-import { CancelTab } from "./cancel-tab";
+import { CancelTab } from "../direct-listings/components/cancel-tab";
 import {
   Flex,
   GridItem,
@@ -29,7 +29,7 @@ interface NFTDrawerProps {
   contract: MarketplaceV3;
   isOpen: boolean;
   onClose: () => void;
-  data: DirectListingV3 | null;
+  data: DirectListingV3 | EnglishAuction | null;
   // TODO: Use the actual status type
   status: string;
 }
@@ -43,7 +43,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
   const prevData = usePrevious(data);
 
   const renderData = data || prevData;
-  const isOwner = address === renderData?.listingCreatorAddress;
+  const isOwner = address === renderData?.creatorAddress;
 
   const tokenId = renderData?.asset.id.toString() || "";
 
@@ -71,7 +71,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
                 <GridItem colSpan={9}>
                   <AddressCopyButton
                     size="xs"
-                    address={renderData.listingCreatorAddress}
+                    address={renderData.creatorAddress}
                   />
                 </GridItem>
                 <GridItem colSpan={3}>
@@ -122,12 +122,12 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
         isDisabled: !isOwner,
         children: () => (
           <>
-            {/*           // TODO: Add Cancel tab hook on react SDK
-          <CancelTab
-            contract={contract}
-            listingId={renderData.id}
-            listingType={renderData.type}
-          /> */}
+            {/*             // TODO: Add Cancel tab hook on react SDK
+            <CancelTab
+              contract={contract}
+              listingId={renderData.id}
+              listingType={renderData.type}
+            /> */}
           </>
         ),
       },

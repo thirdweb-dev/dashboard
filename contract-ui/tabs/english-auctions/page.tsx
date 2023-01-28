@@ -1,6 +1,5 @@
 /* import { CreateListingButton } from "./components/list-button"; */
-import { CreateListingButton } from "../shared-components/list-button";
-import { DirectListingsTable } from "./components/table";
+import { EnglishAuctionsTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Heading } from "tw-components";
@@ -27,12 +26,13 @@ export const ContractDirectListingsPage: React.FC<ListingsPageProps> = ({
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract Listings</Heading>
+        {/*         TODO: Add create listing and create auction hooks
         <Flex gap={4}>
           <CreateListingButton contractQuery={contractQuery} />
-        </Flex>
+        </Flex> */}
       </Flex>
 
-      <DirectListingsTable contract={contractQuery.contract} />
+      <EnglishAuctionsTable contract={contractQuery.contract} />
     </Flex>
   );
 };

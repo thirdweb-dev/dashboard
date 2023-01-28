@@ -1,4 +1,4 @@
-import { CreateListingsForm } from "./list-form";
+import { CreateListingsForm } from "../listings/components/list-form";
 import { ListerOnly } from "@3rdweb-sdk/react/components/roles/lister-only";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import {
@@ -6,7 +6,7 @@ import {
   useCreateAuctionListing,
   useCreateDirectListing,
 } from "@thirdweb-dev/react";
-import type { Marketplace } from "@thirdweb-dev/sdk/evm";
+import type { Marketplace, MarketplaceV3 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { FiPlus } from "react-icons/fi";
 import { Button, Drawer } from "tw-components";
@@ -14,7 +14,9 @@ import { Button, Drawer } from "tw-components";
 const LIST_FORM_ID = "marketplace-list-form";
 
 interface CreateListingButtonProps {
-  contractQuery: UseContractResult<Marketplace>;
+  contractQuery:
+    | UseContractResult<Marketplace>
+    | UseContractResult<MarketplaceV3>;
 }
 
 export const CreateListingButton: React.FC<CreateListingButtonProps> = ({

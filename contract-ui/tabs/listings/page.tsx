@@ -1,4 +1,4 @@
-import { CreateListingButton } from "./components/list-button";
+import { CreateListingButton } from "../shared-components/list-button";
 import { ListingsTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
