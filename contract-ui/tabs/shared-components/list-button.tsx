@@ -3,6 +3,7 @@ import { ListerOnly } from "@3rdweb-sdk/react/components/roles/lister-only";
 import { Icon, useDisclosure } from "@chakra-ui/react";
 import {
   UseContractResult,
+  useAddress,
   useCreateAuctionListing,
   useCreateDirectListing,
 } from "@thirdweb-dev/react";
@@ -23,6 +24,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
   contractQuery,
   ...restButtonProps
 }) => {
+  const address = useAddress();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const directList = useCreateDirectListing(contractQuery.contract);
   const auctionList = useCreateAuctionListing(contractQuery.contract);
@@ -71,6 +73,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
         leftIcon={<Icon as={FiPlus} />}
         {...restButtonProps}
         onClick={onOpen}
+        isDisabled={!address}
       >
         Create Listing
       </Button>
