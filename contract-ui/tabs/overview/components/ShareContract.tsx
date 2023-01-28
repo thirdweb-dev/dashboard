@@ -17,14 +17,13 @@ import {
   SimpleGrid,
   useClipboard,
 } from "@chakra-ui/react";
-import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { useMemo, useState } from "react";
 import { FiCheck, FiCopy } from "react-icons/fi";
 import { Button, Card, Heading, Text } from "tw-components";
 
-type ShareContractProps = {
+interface ShareContractProps {
   address: string;
-};
+}
 
 export const ShareContract: React.FC<ShareContractProps> = ({ address }) => {
   const trackEvent = useTrack();

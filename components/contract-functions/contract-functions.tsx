@@ -1,5 +1,6 @@
 import { ContractFunctionsPanel } from "./contract-function";
 import {
+  CardHeader,
   Flex,
   Tab,
   TabList,

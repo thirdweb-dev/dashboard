@@ -2,9 +2,8 @@ import { BuildYourApp } from "./components/BuildYourApp";
 import { ShareContract } from "./components/ShareContract";
 import { Divider, Flex, GridItem, Icon, SimpleGrid } from "@chakra-ui/react";
 import { HiOutlineBookOpen } from "@react-icons/all-files/hi/HiOutlineBookOpen";
-import { useContract } from "@thirdweb-dev/react";
+import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
-import { ContractType } from "@thirdweb-dev/sdk/evm";
 import { useContractFunctions } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
@@ -12,7 +11,6 @@ import { Heading, Link, Text } from "tw-components";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
-  contractType?: ContractType;
 }
 
 const GUIDES = {
@@ -187,14 +185,15 @@ const TEMPLATES = {
 
 export const CustomContractOverviewPage: React.FC<
   CustomContractOverviewPageProps
-> = ({ contractAddress, contractType }) => {
+> = ({ contractAddress }) => {
   const { contract, isSuccess, isError } = useContract(contractAddress);
+  const contractTypeQuery = contractType.useQuery(contractAddress);
+  const contractTypeData = contractTypeQuery?.data;
+
   const functions = useContractFunctions(contract?.abi as Abi);
   if (!contractAddress) {
     return <div>No contract address provided</div>;
   }
-
-  contractType = "edition-drop";
 
   if ((!contract?.abi && isSuccess) || isError) {
     return <ImportContract contractAddress={contractAddress} />;
@@ -214,42 +213,53 @@ export const CustomContractOverviewPage: React.FC<
           )}
           <BuildYourApp />
         </Flex>
-        <ShareContract address={contractAddress} />
+        <Flex direction="column" gap={6}>
+          <Heading size="title.sm">Share Contract</Heading>
+          <ShareContract address={contractAddress} />
+        </Flex>
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
-        <Flex direction="column" gap={4}>
-          <Heading size="title.sm">Relevant guides</Heading>
-          {GUIDES[contractType].map((guide) => (
-            <Flex
-              as={Link}
-              isExternal
-              align="center"
-              gap={2}
-              href={guide.url}
-              key={guide.title}
-            >
-              <Icon color="paragraph" as={HiOutlineBookOpen} boxSize={4} />
-              <Text>{guide.title}</Text>
-            </Flex>
-          ))}
-        </Flex>
-        <Divider />
-        <Flex direction="column" gap={4}>
-          <Heading size="title.sm">Relevant templates</Heading>
-          {TEMPLATES[contractType].map((guide) => (
-            <Flex
-              as={Link}
-              isExternal
-              align="center"
-              gap={2}
-              href={guide.url}
-              key={guide.title}
-            >
-              <Icon color="paragraph" as={HiOutlineBookOpen} boxSize={4} />
-              <Text>{guide.title}</Text>
-            </Flex>
-          ))}
-        </Flex>
+        {contractTypeData && GUIDES[contractTypeData] && (
+          <Flex direction="column" gap={4}>
+            <Heading size="title.sm">Relevant guides</Heading>
+            {contractTypeData &&
+              GUIDES[contractTypeData].map((guide) => (
+                <Flex
+                  as={Link}
+                  isExternal
+                  align="center"
+                  gap={2}
+                  href={guide.url}
+                  key={guide.title}
+                >
+                  <Icon color="paragraph" as={HiOutlineBookOpen} boxSize={4} />
+                  <Text>{guide.title}</Text>
+                </Flex>
+              ))}
+          </Flex>
+        )}
+        {contractTypeData &&
+          GUIDES[contractTypeData] &&
+          TEMPLATES[contractTypeData] && <Divider />}
+        {contractTypeData && TEMPLATES[contractTypeData] && (
+          <Flex direction="column" gap={4}>
+            <Heading size="title.sm">Relevant templates</Heading>
+            {contractTypeData &&
+              TEMPLATES[contractTypeData].map((guide) => (
+                <Flex
+                  as={Link}
+                  isExternal
+                  align="center"
+                  gap={2}
+                  href={guide.url}
+                  key={guide.title}
+                >
+                  <Icon color="paragraph" as={HiOutlineBookOpen} boxSize={4} />
+                  <Text>{guide.title}</Text>
+                </Flex>
+              ))}
+          </Flex>
+        )}
       </GridItem>
     </SimpleGrid>
   );

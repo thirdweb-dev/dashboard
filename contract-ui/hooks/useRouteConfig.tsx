@@ -10,7 +10,6 @@ import { useEns } from "components/contract-components/hooks";
 import { ProgramClaimConditionsTab } from "program-ui/common/program-claim-conditions";
 import { ProgramCodeTab } from "program-ui/common/program-code";
 import { ProgramSettingsTab } from "program-ui/common/program-settings";
-import { useMemo } from "react";
 import { Card, Heading, Text } from "tw-components";
 
 export type EnhancedRoute = Route & {
@@ -111,10 +110,7 @@ export function useContractRouteConfig(
       element: () =>
         import("../tabs/overview/page").then(
           ({ CustomContractOverviewPage }) => (
-            <CustomContractOverviewPage
-              contractAddress={contractAddress}
-              contractType={contractTypeQuery?.data || undefined}
-            />
+            <CustomContractOverviewPage contractAddress={contractAddress} />
           ),
         ),
     },
