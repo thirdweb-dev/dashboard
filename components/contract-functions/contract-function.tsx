@@ -43,7 +43,7 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
   return (
     <Flex direction="column" gap={1.5}>
       <Flex alignItems="center" gap={2}>
-        <Flex alignItems="baseline" gap={1}>
+        <Flex alignItems="baseline" gap={1} flexWrap="wrap">
           <Heading size="subtitle.md">{camelToTitle(fn.name)}</Heading>
           <Heading size="subtitle.sm" color="gray.600">
             ({fn.name}){" "}

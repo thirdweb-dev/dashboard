@@ -8,7 +8,8 @@ const RENDERED_PRODUCTS = ["sdk", "storage", "ui-components", "auth"];
 export const BuildYourApp = () => {
   return (
     <Card
-      p={8}
+      px={{ base: 4, md: 8 }}
+      py={{ base: 6, md: 8 }}
       as={Link}
       {...{ href: "/code" }}
       _hover={{ textDecoration: "none", borderColor: "whiteAlpha.300" }}

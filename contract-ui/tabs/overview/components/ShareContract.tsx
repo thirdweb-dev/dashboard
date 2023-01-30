@@ -1,13 +1,4 @@
-import {
-  useDashboardEVMChainId,
-  useDashboardNetwork,
-} from "../../../../@3rdweb-sdk/react";
-import {
-  AUDITED_BADGE_HEIGHT,
-  BADGE_HEIGHT,
-  BADGE_WIDTH,
-} from "../../../../constants/badge-size";
-import { useTrack } from "../../../../hooks/analytics/useTrack";
+import { useDashboardEVMChainId, useDashboardNetwork } from "@3rdweb-sdk/react";
 import {
   Flex,
   GridItem,
@@ -17,6 +8,12 @@ import {
   SimpleGrid,
   useClipboard,
 } from "@chakra-ui/react";
+import {
+  AUDITED_BADGE_HEIGHT,
+  BADGE_HEIGHT,
+  BADGE_WIDTH,
+} from "constants/badge-size";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useMemo, useState } from "react";
 import { FiCheck, FiCopy } from "react-icons/fi";
 import { Button, Card, Heading, Text } from "tw-components";
@@ -65,12 +62,18 @@ export const ShareContract: React.FC<ShareContractProps> = ({ address }) => {
   );
 
   return (
-    <Card as={Flex} p={8} gap={12} {...{ direction: "column" }}>
-      <SimpleGrid {...{ columns: { base: 1, md: 3 } }} gap={8}>
+    <Card
+      as={Flex}
+      px={{ base: 4, md: 8 }}
+      py={{ base: 6, md: 8 }}
+      gap={12}
+      {...{ direction: "column" }}
+    >
+      <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
         <GridItem colSpan={{ md: 2 }} as={Flex} direction="column" gap={4}>
           <Heading size="label.lg">Add a contract badge to your app</Heading>
           <Text size="body.md">
-            Let users know which contract they’re interacting with. Links
+            Let users know which contract they{"'"}re interacting with. Links
             directly to this contract&apos;s dashboard.
             {/* TODO: Add learn more */}
           </Text>
@@ -87,6 +90,7 @@ export const ShareContract: React.FC<ShareContractProps> = ({ address }) => {
             </Select>
             <Button
               w="auto"
+              minW="150px"
               onClick={() => {
                 onCopyCode();
                 trackEvent({
@@ -128,7 +132,6 @@ export const ShareContract: React.FC<ShareContractProps> = ({ address }) => {
           <Flex grow={1} position="relative">
             <Input
               rounded="lg"
-              color="whiteAlpha.700"
               value={`https://thirdweb.com/${network}/${address}`}
               pr={10}
               readOnly
