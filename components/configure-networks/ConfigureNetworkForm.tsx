@@ -107,12 +107,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           form.setValue("currencySymbol", _networkInfo.nativeCurrency.symbol);
           form.setValue("isCustom", false);
           form.setValue("slug", _networkInfo.slug);
-          form.setValue(
-            "type",
-            _networkInfo.name.toLowerCase().includes("test")
-              ? "testnet"
-              : "mainnet",
-          );
+          form.setValue("type", _networkInfo.testnet ? "testnet" : "mainnet");
           form.setValue("shortName", _networkInfo.shortName);
         }}
       />
