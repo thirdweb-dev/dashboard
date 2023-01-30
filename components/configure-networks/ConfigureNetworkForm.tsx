@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
+import { useConfiguredChainsNameSet } from "hooks/chains/configureChains";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoWarning } from "react-icons/io5";
@@ -52,10 +53,23 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       slug: values?.slug || "",
       shortName: values?.shortName || "",
     },
-    reValidateMode: "onChange",
+    // reValidateMode: "onChange",
+    mode: "onChange",
   });
 
-  const { ref } = form.register("name", { required: true });
+  const configuredChainNameRecord = useConfiguredChainsNameSet();
+
+  const { ref } = form.register("name", {
+    required: true,
+    validate: {
+      isAlreadyAdded(value) {
+        if (isEditingScreen) {
+          return true;
+        }
+        return !configuredChainNameRecord.has(value);
+      },
+    },
+  });
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -89,7 +103,12 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         value={name}
         shortName={form.watch("shortName")}
         disabled={isEditingScreen}
-        isInvalid={!!form.formState.errors.name}
+        errorMessage={
+          form.formState.errors.name &&
+          (form.formState.errors.name.type === "isAlreadyAdded"
+            ? "Network already added"
+            : "Network name is required")
+        }
         inputRef={ref}
         onSelectorChange={(status) => {
           setIsSearchOpen(status === "open");
@@ -174,12 +193,15 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             type="url"
             {...form.register("rpcUrl", {
               required: true,
-              validate: (value) => {
-                try {
-                  return Boolean(new URL(value));
-                } catch (e) {
-                  return false;
-                }
+              validate: {
+                isValidUrl: (value) => {
+                  try {
+                    new URL(value);
+                    return true;
+                  } catch (e) {
+                    return false;
+                  }
+                },
               },
             })}
           />
@@ -205,7 +227,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               Remove Network
             </Button>
           )}
-
           <Button
             background="white"
             color="black"

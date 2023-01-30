@@ -20,7 +20,7 @@ interface SearchNetworksProps {
   onCustomSelection: () => void;
   onSelectorChange: (status: "open" | "close") => void;
   inputRef: React.RefObject<HTMLInputElement> | RefCallBack;
-  isInvalid: boolean;
+  errorMessage?: string;
   value: string;
   disabled: boolean;
   onChange: (value: string) => void;
@@ -66,7 +66,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
 
   return (
     <Box>
-      <FormControl isInvalid={props.isInvalid} isRequired>
+      <FormControl isInvalid={!!props.errorMessage} isRequired>
         <FormLabel>Network Name</FormLabel>
         <InputGroup
           position="relative"
@@ -78,20 +78,6 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             props.onSelectorChange("open");
           }}
         >
-          <Text
-            mt={1}
-            fontSize="14px"
-            position="absolute"
-            top="4px"
-            right="40px"
-            zIndex={100}
-          >
-            {searchTerm
-              ? props.shortName.length > 15
-                ? `${props.shortName.slice(0, 15)}...`
-                : props.shortName
-              : ""}
-          </Text>
           <Input
             ref={props.inputRef}
             background="backgroundHighlight !important"
@@ -201,7 +187,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           )}
         </Box>
 
-        <FormErrorMessage> Network Name is Required </FormErrorMessage>
+        <FormErrorMessage> {props.errorMessage} </FormErrorMessage>
       </FormControl>
     </Box>
   );

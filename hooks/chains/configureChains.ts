@@ -49,6 +49,21 @@ export function useConfiguredChainsRecord() {
 }
 
 /**
+ * @returns a list of record that maps configured chainId to `Chain` object
+ */
+export function useConfiguredChainsNameSet() {
+  const configuredNetworks = useConfiguredChains();
+  return useMemo(() => {
+    const record: Set<string> = new Set();
+    configuredNetworks.forEach((network) => {
+      record.add(network.name);
+    });
+
+    return record;
+  }, [configuredNetworks]);
+}
+
+/**
  * @returns a list of record that maps configured chainSlug to `Chain` object
  */
 export function useConfiguredChainSlugRecord() {
