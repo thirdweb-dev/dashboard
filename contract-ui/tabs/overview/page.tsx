@@ -1,7 +1,6 @@
 import { BuildYourApp } from "./components/BuildYourApp";
 import { ShareContract } from "./components/ShareContract";
-import { Divider, Flex, GridItem, Icon, SimpleGrid } from "@chakra-ui/react";
-import { HiOutlineBookOpen } from "@react-icons/all-files/hi/HiOutlineBookOpen";
+import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { useContractFunctions } from "components/contract-components/hooks";
@@ -191,7 +190,7 @@ export const CustomContractOverviewPage: React.FC<
   }
 
   return (
-    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={16}>
+    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={16}>
         <Flex direction="column" gap={6}>
           <Heading size="title.sm">Contract Explorer</Heading>
@@ -211,26 +210,28 @@ export const CustomContractOverviewPage: React.FC<
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
         {contractTypeData && GUIDES[contractTypeData].length > 0 && (
-          <Flex direction="column" gap={4}>
+          <Flex direction="column" gap={6}>
             <Heading size="title.sm">Relevant guides</Heading>
-            {GUIDES[contractTypeData].map((guide) => (
-              <Flex
-                as={Link}
-                isExternal
-                gap={2}
-                p={1}
-                href={guide.url}
-                key={guide.title}
-              >
-                <Icon
-                  mt={0.5}
-                  color="paragraph"
-                  as={HiOutlineBookOpen}
-                  boxSize={4}
-                />
-                <Text lineHeight={1.5}>{guide.title}</Text>
-              </Flex>
-            ))}
+            <Flex gap={4} direction="column">
+              {GUIDES[contractTypeData].map((guide) => (
+                <Link
+                  isExternal
+                  fontWeight={500}
+                  href={guide.url}
+                  key={guide.title}
+                  fontSize="14px"
+                  color="heading"
+                  opacity={0.6}
+                  display="inline-block"
+                  _hover={{
+                    opacity: 1,
+                    textDecoration: "none",
+                  }}
+                >
+                  {guide.title}
+                </Link>
+              ))}
+            </Flex>
           </Flex>
         )}
         {contractTypeData &&
@@ -239,24 +240,26 @@ export const CustomContractOverviewPage: React.FC<
         {contractTypeData && TEMPLATES[contractTypeData].length > 0 && (
           <Flex direction="column" gap={4}>
             <Heading size="title.sm">Relevant templates</Heading>
-            {TEMPLATES[contractTypeData].map((guide) => (
-              <Flex
-                as={Link}
-                isExternal
-                gap={2}
-                py={1}
-                href={guide.url}
-                key={guide.title}
-              >
-                <Icon
-                  mt={0.5}
-                  color="paragraph"
-                  as={HiOutlineBookOpen}
-                  boxSize={4}
-                />
-                <Text lineHeight={1.5}>{guide.title}</Text>
-              </Flex>
-            ))}
+            <Flex gap={4} direction="column">
+              {TEMPLATES[contractTypeData].map((guide) => (
+                <Link
+                  isExternal
+                  fontWeight={500}
+                  href={guide.url}
+                  key={guide.title}
+                  fontSize="14px"
+                  color="heading"
+                  opacity={0.6}
+                  display="inline-block"
+                  _hover={{
+                    opacity: 1,
+                    textDecoration: "none",
+                  }}
+                >
+                  {guide.title}
+                </Link>
+              ))}
+            </Flex>
           </Flex>
         )}
       </GridItem>
