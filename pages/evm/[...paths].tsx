@@ -16,7 +16,6 @@ import {
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
 import { getAllChainRecords } from "utils/allChainsRecords";
@@ -32,36 +31,34 @@ const EVMContractPage: ThirdwebNextPage = () => {
   // show optimistic UI first - assume chain is conifgured until proven otherwise
   const [chainNotFound, setChainNotFound] = useState(false);
 
-  const contractInfo = useEVMContractInfo();
+  // contractInfo is never undefined on this page
+  const { chain, chainSlug, contractAddress } =
+    useEVMContractInfo() as EVMContractInfo;
+
   const setContractInfo = useSetEVMContractInfo();
   const configuredChainSlugRecord = useConfiguredChainSlugRecord();
   const updateConfiguredChains = useUpdateConfiguredChains();
-  const router = useRouter();
 
   useEffect(() => {
-    // ignore fallback page
-    if (!contractInfo) {
-      return;
-    }
-
     // if server resolved the chain
-    if (contractInfo.chain) {
+    if (chain) {
       // but it is not configured on client storage
-      if (!(contractInfo.chainSlug in configuredChainSlugRecord)) {
+      if (!(chainSlug in configuredChainSlugRecord)) {
         // configure it so user does not have to do it manually
-        updateConfiguredChains.add(contractInfo.chain);
+        updateConfiguredChains.add(chain);
       }
     }
 
     // if server could not resolve the chain using chainList
     else {
       // check if it is configured on client storage
-      if (contractInfo.chainSlug in configuredChainSlugRecord) {
-        const chain = configuredChainSlugRecord[contractInfo.chainSlug];
-        updateConfiguredChains.add(chain);
+      if (chainSlug in configuredChainSlugRecord) {
+        const configuredChain = configuredChainSlugRecord[chainSlug];
+        updateConfiguredChains.add(configuredChain);
         setContractInfo({
-          ...contractInfo,
-          chain,
+          chainSlug,
+          contractAddress,
+          chain: configuredChain,
         });
       }
 
@@ -72,26 +69,14 @@ const EVMContractPage: ThirdwebNextPage = () => {
       }
     }
   }, [
+    chain,
+    chainSlug,
     configuredChainSlugRecord,
-    contractInfo,
+    contractAddress,
     setContractInfo,
     updateConfiguredChains,
   ]);
 
-  // fallback page to show when actual page is not generated yet
-  // contractInfo is undefined on fallback page
-  if (!contractInfo || router.isFallback) {
-    return (
-      <>
-        {/* TODO - Have a better skeleton than just a spinner */}
-        <Flex h="100%" justifyContent="center" alignItems="center">
-          <Spinner size="xl" />
-        </Flex>
-      </>
-    );
-  }
-
-  const { chain, chainSlug, contractAddress } = contractInfo;
   return (
     <>
       {chain && <ContractHeader contractAddress={contractAddress} />}
@@ -130,6 +115,16 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
     </EVMContractInfoProvider>
   );
 };
+
+EVMContractPage.fallback = (
+  <>
+    <AppLayout layout={"custom-contract"}>
+      <Flex h="100%" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    </AppLayout>
+  </>
+);
 
 // server side ---------------------------------------------------------------
 

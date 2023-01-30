@@ -88,17 +88,6 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
     });
   }, [displayName, publishedContracts.data, releaserProfile.data]);
 
-  // fallback page
-  // TODO better skeleton needed
-  // TODO do we even need this or can we just rely on the pieces below to show skeletons properly?
-  if (router.isFallback) {
-    return (
-      <Flex h="100%" justifyContent="center" alignItems="center">
-        <Spinner size="xl" />
-      </Flex>
-    );
-  }
-
   return (
     <>
       <NextSeo
@@ -216,6 +205,15 @@ UserPage.getLayout = function getLayout(page, props) {
   );
 };
 
+// TODO better skeleton needed
+UserPage.fallback = (
+  <AppLayout noSEOOverride>
+    <Flex h="100%" justifyContent="center" alignItems="center">
+      <Spinner size="xl" />
+    </Flex>
+  </AppLayout>
+);
+
 UserPage.pageId = PageId.Profile;
 
 export default UserPage;
@@ -238,6 +236,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const foundRedirect = possibleRedirects.find(
     (r) => r.source.split("/")[1] === profileAddress,
   );
+
   if (foundRedirect) {
     return {
       redirect: {

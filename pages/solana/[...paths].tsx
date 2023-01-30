@@ -8,7 +8,6 @@ import {
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { isPossibleSolanaAddress } from "lib/address-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
 import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
@@ -19,31 +18,15 @@ type SolanaProgramProps = {
   dehydratedState: DehydratedState;
 };
 
-/**
- * thirdweb.com/<sol-network>/<sol-program-address>
- */
 const SolanaProgramPage: ThirdwebNextPage = (props: SolanaProgramProps) => {
-  const router = useRouter();
-
-  // fallback page
-  // TODO better skeleton needed
-  // TODO do we even need this or can we just rely on the pieces below to show skeletons properly?
-  if (router.isFallback) {
-    return (
-      <Flex h="100%" justifyContent="center" alignItems="center">
-        <Spinner size="xl" />
-      </Flex>
-    );
-  }
-
+  const { slug, programAddress } = props.programInfo;
   return (
     <>
-      <ProgramMetadata address={props.programInfo?.programAddress || ""} />
-
+      <ProgramMetadata address={programAddress} />
       <ContractTabRouter
-        address={props.programInfo?.programAddress || ""}
+        address={programAddress}
         ecosystem="solana"
-        network={props.programInfo?.slug || ""}
+        network={slug}
       />
     </>
   );
@@ -64,10 +47,18 @@ SolanaProgramPage.getLayout = (page, pageProps: SolanaProgramProps) => {
   );
 };
 
+// TODO better skeleton
+SolanaProgramPage.fallback = (
+  <AppLayout layout={"custom-contract"}>
+    <Flex h="100%" justifyContent="center" alignItems="center">
+      <Spinner size="xl" />
+    </Flex>
+  </AppLayout>
+);
+
 // server side ---------------------------------------------------------------
 export const getStaticProps: GetStaticProps<SolanaProgramProps> = (ctx) => {
   const [slug, programAddress] = ctx.params?.paths as string[];
-
   const solNetwork = getSolNetworkFromNetworkPath(slug);
 
   if (
@@ -80,8 +71,6 @@ export const getStaticProps: GetStaticProps<SolanaProgramProps> = (ctx) => {
     };
   }
 
-  // TODO - populate it with solNetwork and programAddress to context
-  // and use context in components
   return {
     props: {
       dehydratedState: { mutations: [], queries: [] },

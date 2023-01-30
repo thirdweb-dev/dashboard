@@ -165,6 +165,7 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
       seoCanonical={`https://thirdweb.com${router.asPath}`}
       Component={Component}
       pageProps={pageProps}
+      isFallback={router.isFallback}
     />
   );
 };
@@ -173,15 +174,16 @@ interface ConsoleAppProps {
   Component: AppPropsWithLayout["Component"];
   pageProps: AppPropsWithLayout["pageProps"];
   seoCanonical: string;
+  isFallback?: boolean;
 }
 
 const ConsoleApp = memo(function ConsoleApp({
   Component,
   pageProps,
   seoCanonical,
+  isFallback,
 }: ConsoleAppProps) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  const children = getLayout(<Component {...pageProps} />, pageProps);
 
   return (
     <PlausibleProvider
@@ -276,7 +278,9 @@ const ConsoleApp = memo(function ConsoleApp({
 
       <ChakraProvider theme={chakraThemeWithFonts}>
         <AnnouncementBanner />
-        {children}
+        {isFallback && Component.fallback
+          ? Component.fallback
+          : getLayout(<Component {...pageProps} />, pageProps)}
       </ChakraProvider>
     </PlausibleProvider>
   );

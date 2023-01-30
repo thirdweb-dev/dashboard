@@ -18,7 +18,6 @@ import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExploreReleases } from "data/explore";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -27,16 +26,6 @@ type ReleasePageProps = {
 } & ReleaseWithVersionPageProps;
 
 const ReleasePage: ThirdwebNextPage = (props: ReleasePageProps) => {
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return (
-      <Flex h="100%" justifyContent="center" alignItems="center">
-        <Spinner size="xl" />
-      </Flex>
-    );
-  }
-
   return (
     <PublisherSDKContext>
       <ReleaseWithVersionPage
@@ -57,6 +46,14 @@ ReleasePage.getLayout = (page, props: ReleasePageProps) => {
     </AppLayout>
   );
 };
+
+ReleasePage.fallback = (
+  <AppLayout layout={undefined}>
+    <Flex h="100%" justifyContent="center" alignItems="center">
+      <Spinner size="xl" />
+    </Flex>
+  </AppLayout>
+);
 
 export default ReleasePage;
 

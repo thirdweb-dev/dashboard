@@ -28,12 +28,6 @@ export function EVMContractInfoProvider(props: {
   initialValue?: EVMContractInfo;
 }) {
   const [value, setValue] = useState(props.initialValue);
-
-  // relay upstream changes to the context
-  useEffect(() => {
-    setValue(props.initialValue);
-  }, [props.initialValue]);
-
   return (
     <EVMContractInfoContext.Provider value={value}>
       <SetEVMContractInfoContext.Provider value={setValue}>
