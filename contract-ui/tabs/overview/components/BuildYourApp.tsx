@@ -1,5 +1,11 @@
 import { ChakraNextImage as Image } from "../../../../components/Image";
-import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import {
+  Flex,
+  GridItem,
+  LinkBox,
+  LinkOverlay,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { PRODUCTS } from "components/product-pages/common/nav/DesktopMenu";
 import { Card, Heading, Link, Text } from "tw-components";
 
@@ -10,16 +16,19 @@ export const BuildYourApp = () => {
     <Card
       px={{ base: 4, md: 8 }}
       py={{ base: 6, md: 8 }}
-      as={Link}
-      {...{ href: "/code" }}
-      _hover={{ textDecoration: "none", borderColor: "whiteAlpha.300" }}
+      as={LinkBox}
+      transition={"all 0.2s"}
+      _hover={{ borderColor: "whiteAlpha.300" }}
     >
       <SimpleGrid {...{ columns: { base: 1, md: 2 } }} gap={8}>
         <GridItem as={Flex} direction="column" gap={4}>
           <Heading size="label.lg">Build your app</Heading>
           <Text size="body.md">
-            Learn more about how you can use thirdweb tools to build apps on top
-            of this contract.
+            <LinkOverlay as={Link} href="/code" color="blue.500">
+              Learn more
+            </LinkOverlay>{" "}
+            about how you can use thirdweb tools to build apps on top of this
+            contract.
           </Text>
         </GridItem>
         <GridItem as={Flex} align="center" justify="end" gap={3}>

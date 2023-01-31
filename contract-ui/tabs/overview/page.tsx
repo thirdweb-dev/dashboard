@@ -1,4 +1,3 @@
-import { EventsFeed } from "../events/components/events-feed";
 import { BuildYourApp } from "./components/BuildYourApp";
 import { LatestEvents } from "./components/LatestEvents";
 import { ShareContract } from "./components/ShareContract";
@@ -8,7 +7,7 @@ import { Abi } from "@thirdweb-dev/sdk";
 import { useContractFunctions } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
-import { Heading, Link, Text } from "tw-components";
+import { Heading, Link } from "tw-components";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -194,6 +193,8 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={16}>
+        <LatestEvents contractAddress={contractAddress} />
+        <BuildYourApp />
         <Flex direction="column" gap={6}>
           <Heading size="title.sm">Contract Explorer</Heading>
           {contract && (
@@ -203,9 +204,7 @@ export const CustomContractOverviewPage: React.FC<
               contract={contract}
             />
           )}
-          <BuildYourApp />
         </Flex>
-        <LatestEvents contractAddress={contractAddress} />
         <ShareContract address={contractAddress} />
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>

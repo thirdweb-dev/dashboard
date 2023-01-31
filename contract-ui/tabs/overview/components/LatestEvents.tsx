@@ -18,16 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useEffect, useState } from "react";
 import { FiCopy } from "react-icons/fi";
-import {
-  Button,
-  Card,
-  CodeBlock,
-  FormLabel,
-  Heading,
-  Link,
-  Text,
-} from "tw-components";
-import { bigNumberReplacer } from "utils/bignumber";
+import { Button, Card, Heading, Link, Text } from "tw-components";
 
 interface ContractTransaction {
   transactionHash: ContractEvent["transaction"]["transactionHash"];
@@ -44,8 +35,6 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
 }) => {
   const [autoUpdate] = useState(true);
   const allEvents = useActivity(contractAddress, autoUpdate);
-  const event = useSingleQueryParam("event");
-  const [selectedEvent, setSelectedEvent] = useState(event || "all");
 
   return (
     <Flex gap={6} flexDirection="column">
@@ -88,11 +77,10 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
               </Center>
             )}
             <AnimatePresence initial={false}>
-              {allEvents?.slice(0, 10).map((e) => (
+              {allEvents?.slice(0, 3).map((e) => (
                 <EventsFeedItem
                   key={e.transactionHash}
                   transaction={e}
-                  setSelectedEvent={setSelectedEvent}
                   contractAddress={contractAddress}
                 />
               ))}
@@ -106,13 +94,11 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
 
 interface EventsFeedItemProps {
   transaction: ContractTransaction;
-  setSelectedEvent: React.Dispatch<React.SetStateAction<string>>;
   contractAddress: string;
 }
 
 export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
   transaction,
-  contractAddress,
 }) => {
   const toast = useToast();
   const { onCopy, setValue } = useClipboard(transaction.transactionHash);
@@ -122,8 +108,6 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
       setValue(transaction.transactionHash);
     }
   }, [transaction.transactionHash, setValue]);
-
-  const chainName = useSingleQueryParam("networkOrAddress");
 
   return (
     <Box>
@@ -204,20 +188,16 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
 
         <Flex gridColumn="span 5" flexWrap="wrap" gap={2}>
           {transaction.events.slice(0, 2).map((e, idx) => (
-            <Tag
-              key={idx}
-              as={Link}
-              href={`/${chainName}/${contractAddress}/events?event=${e.eventName}`}
-              _hover={{
-                background: "whiteAlpha.50",
-                textDecoration: "none",
-              }}
-            >
-              {e.eventName}
-            </Tag>
+            <Tag key={idx}>{e.eventName}</Tag>
           ))}
           {transaction.events.length > 2 && (
-            <Tag>+ {transaction.events.length - 2}</Tag>
+            <Tag
+              border="2px solid"
+              borderColor="var(--badge-bg)"
+              bg="transparent"
+            >
+              + {transaction.events.length - 2}
+            </Tag>
           )}
         </Flex>
       </SimpleGrid>
