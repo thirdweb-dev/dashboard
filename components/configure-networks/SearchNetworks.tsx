@@ -80,14 +80,18 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
         >
           <Input
             ref={props.inputRef}
-            background={
-              showResults ? "backgroundHighlight !important" : "inputBg"
-            }
+            _dark={{
+              background: showResults ? "#1b1f25 !important" : "inputBg",
+            }}
+            _light={{
+              background: showResults ? "white !important" : "inputBg",
+            }}
             type="text"
             autoComplete="off"
             placeholder="Choose from a list of popular networks or add manually"
             aria-label="Search Network"
             value={searchTerm}
+            borderColor={showResults ? "inputBg !important" : "inputBorder"}
             outline="none"
             py={5}
             borderBottomLeftRadius={showResults ? 0 : "md"}
@@ -113,8 +117,13 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           borderTopRightRadius={0}
           position="absolute"
           zIndex={10}
-          background="backgroundHighlight"
-          boxShadow={"0 30px 40px rgba(0,0,0,0.2)"}
+          _dark={{
+            background: "#1b1f25",
+          }}
+          _light={{
+            background: "white",
+          }}
+          boxShadow={"0 20px 32px rgba(0,0,0,0.15)"}
           w="100%"
         >
           <Box
@@ -134,9 +143,9 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                   key={network.name}
                   cursor="pointer"
                   display="flex"
+                  color="heading"
                   _hover={{
-                    background: "blue.600",
-                    color: "white",
+                    background: "inputBgHover",
                   }}
                   onClick={() => {
                     handleSelection(network, false);
@@ -168,17 +177,18 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               borderBottomRightRadius="md"
               borderBottomLeftRadius="md"
               _hover={{
-                background: "blue.600",
+                background: "inputBgHover",
               }}
               onClick={props.onCustomSelection}
             >
-              <Text color="white" fontSize="md">
+              <Text color="heading" fontSize="md">
                 {searchTerm}
               </Text>
               <Badge
                 fontSize="14px"
                 px={3}
                 py={2}
+                colorScheme="blue"
                 borderRadius={4}
                 fontWeight={400}
               >
