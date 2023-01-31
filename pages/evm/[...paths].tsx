@@ -104,6 +104,9 @@ const EVMContractPage: ThirdwebNextPage = () => {
             borderRadius="md"
             borderColor="backgroundHighlight"
             overflow="hidden"
+            _light={{
+              background: "white",
+            }}
           >
             <ConfigureNetworks
               onNetworkConfigured={(network) => {

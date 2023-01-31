@@ -99,7 +99,13 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       {/* List */}
       <Flex
         direction="column"
-        borderRight={{ md: "1px solid rgba(255, 255, 255, 0.1)" }}
+        borderRight="1px solid transparent"
+        _light={{
+          borderColor: { md: "gray.200" },
+        }}
+        _dark={{
+          borderColor: { md: "backgroundHighlight" },
+        }}
       >
         {/* Heading */}
         <Heading

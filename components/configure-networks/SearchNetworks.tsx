@@ -78,6 +78,9 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
         >
           <Input
             ref={props.inputRef}
+            _placeholder={{
+              fontWeight: 500,
+            }}
             _dark={{
               background: showResults ? "#1b1f25 !important" : "inputBg",
             }}
@@ -189,9 +192,11 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                 colorScheme="blue"
                 borderRadius="2xl"
                 fontWeight={400}
+                letterSpacing={"0.02em"}
+                textTransform="lowercase"
               >
                 {" "}
-                Custom{" "}
+                custom{" "}
               </Badge>
             </Flex>
           )}

@@ -37,7 +37,8 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
         spacing={0}
         overflow="auto"
         maxH="530px"
-        css={{
+        sx={{
+          maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",
           "&::-webkit-scrollbar": {
             width: "6px",
           },
@@ -45,18 +46,21 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
             width: "6px",
           },
           "&::-webkit-scrollbar-thumb": {
-            background: "rgba(255, 255, 255, 0.1)",
+            background: "inputBg",
             borderRadius: 24,
           },
         }}
         pb={8}
-        sx={{
-          maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",
-        }}
       >
         {mainnets.length > 0 && (
           <Box mb={8}>
-            <Heading fontSize="md" color="accent.500" mb={4} ml={8}>
+            <Heading
+              fontSize="md"
+              fontWeight={600}
+              color="accent.500"
+              mb={4}
+              ml={8}
+            >
               Mainnets
             </Heading>
             {mainnets.map((network) => (
@@ -73,7 +77,13 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
 
         {testnets.length > 0 && (
           <Box mb={8}>
-            <Heading fontSize="md" color="accent.500" mb={4} ml={8}>
+            <Heading
+              fontSize="md"
+              fontWeight={600}
+              color="accent.500"
+              mb={4}
+              ml={8}
+            >
               Testnets
             </Heading>
             {testnets.map((network) => (

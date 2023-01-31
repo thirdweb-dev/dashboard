@@ -147,6 +147,9 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               disabled={!isCustom}
               placeholder="eg: 1, 5, 127..."
               autoComplete="off"
+              _placeholder={{
+                fontWeight: 500,
+              }}
               type="number"
               {...form.register("chainId", {
                 required: true,
@@ -160,6 +163,9 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               disabled={!isCustom}
               placeholder="eg: ETH, USDC, MATIC..."
               autoComplete="off"
+              _placeholder={{
+                fontWeight: 500,
+              }}
               type="text"
               {...form.register("currencySymbol", { required: true })}
             />
@@ -191,6 +197,9 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             autoComplete="off"
             placeholder="https://"
             type="url"
+            _placeholder={{
+              fontWeight: 500,
+            }}
             {...form.register("rpcUrl", {
               required: true,
               validate: {

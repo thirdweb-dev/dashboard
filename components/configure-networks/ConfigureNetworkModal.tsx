@@ -56,7 +56,11 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
         borderColor={"backgroundHighlight"}
       >
         <ModalCloseButton />
-        <ModalBody p={0} background="backgroundBody">
+        <ModalBody
+          p={0}
+          _dark={{ background: "backgroundBody" }}
+          _light={{ background: "white" }}
+        >
           <ConfigureNetworks
             onNetworkAdded={() => {
               setIsNewNetworkAdded(true);
@@ -74,7 +78,7 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Reload Required to Apply Network Changes
+              Reload required to apply network changes
             </AlertDialogHeader>
 
             <AlertDialogFooter>
