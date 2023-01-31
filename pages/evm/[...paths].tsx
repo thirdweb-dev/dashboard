@@ -4,12 +4,13 @@ import {
   useEVMContractInfo,
   useSetEVMContractInfo,
 } from "@3rdweb-sdk/react";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { AppLayout } from "components/app-layouts/app";
-import { ConfigureNetworkSection } from "components/configure-networks/ConfigureNetworkSection";
+import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
 import { ensQuery } from "components/contract-components/hooks";
 import { ContractHeader } from "components/custom-contract/contract-header";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import {
   useConfiguredChainSlugRecord,
@@ -27,7 +28,6 @@ type EVMContractProps = {
 };
 
 const EVMContractPage: ThirdwebNextPage = () => {
-  const [showNetworkConfig, setShowNetworkConfig] = useState(true);
   // show optimistic UI first - assume chain is conifgured until proven otherwise
   const [chainNotFound, setChainNotFound] = useState(false);
 
@@ -51,14 +51,12 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
     // if server could not resolve the chain using chainList
     else {
-      // check if it is configured on client storage
+      // check if it is configured on client storage, use that
       if (chainSlug in configuredChainSlugRecord) {
-        const configuredChain = configuredChainSlugRecord[chainSlug];
-        updateConfiguredChains.add(configuredChain);
         setContractInfo({
           chainSlug,
           contractAddress,
-          chain: configuredChain,
+          chain: configuredChainSlugRecord[chainSlug],
         });
       }
 
@@ -89,13 +87,33 @@ const EVMContractPage: ThirdwebNextPage = () => {
         />
       )}
 
-      {chainNotFound && showNetworkConfig && (
-        <ConfigureNetworkSection
-          unknownNetworkName={chainSlug}
-          continue={() => {
-            setShowNetworkConfig(false);
-          }}
-        />
+      {chainNotFound && (
+        <HomepageSection>
+          <Box mb={8} mt={8}>
+            <Alert borderRadius="md" background="backgroundHighlight">
+              <AlertIcon />
+              You tried to connecting to Network ID {`"`}
+              {chainSlug}
+              {`"`} but it is not configured yet. Please configure it and try
+              again.
+            </Alert>
+          </Box>
+
+          <Box
+            border="2px solid"
+            borderColor="whiteAlpha.50"
+            borderRadius="lg"
+            overflow="hidden"
+          >
+            <ConfigureNetworks
+              onNetworkConfigured={(network) => {
+                if (chainSlug === network.slug) {
+                  setChainNotFound(false);
+                }
+              }}
+            />
+          </Box>
+        </HomepageSection>
       )}
     </>
   );

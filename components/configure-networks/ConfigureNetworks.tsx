@@ -45,7 +45,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
     setEditingChain(undefined);
   };
 
-  const handleSubmit = (networkData: NetworkConfigFormData) => {
+  const handleSubmit = (formData: NetworkConfigFormData) => {
     toast({
       title: editingChain
         ? "Network Updated Successfully"
@@ -56,25 +56,23 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
     });
 
     const configuredNetwork: StoredChain = {
-      name: networkData.name,
+      name: formData.name,
       // We don't care about this
       chain: "",
-      // make slug the short name
-      shortName: networkData.slug,
+      shortName: formData.shortName,
       chainId:
-        typeof networkData.chainId === "number"
-          ? networkData.chainId
-          : parseInt(networkData.chainId),
-      rpc: [networkData.rpcUrl],
+        typeof formData.chainId === "number"
+          ? formData.chainId
+          : parseInt(formData.chainId),
+      rpc: [formData.rpcUrl],
       nativeCurrency: {
-        // temp
-        name: networkData.currencySymbol,
-        symbol: networkData.currencySymbol,
+        name: formData.currencySymbol,
+        symbol: formData.currencySymbol,
         decimals: 18,
       },
-      testnet: networkData.type === "testnet",
-      slug: networkData.slug,
-      isCustom: networkData.isCustom ? true : undefined,
+      testnet: formData.type === "testnet",
+      slug: formData.slug,
+      isCustom: formData.isCustom ? true : undefined,
     };
 
     if (editingChain) {

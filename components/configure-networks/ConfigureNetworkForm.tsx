@@ -12,7 +12,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useConfiguredChainsNameSet } from "hooks/chains/configureChains";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoWarning } from "react-icons/io5";
 import { Button, FormErrorMessage, FormLabel } from "tw-components";
@@ -48,12 +48,10 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       chainId: values?.chainId || "",
       currencySymbol: values?.currencySymbol || "",
       type: values?.type === "testnet" ? "testnet" : "mainnet",
-      // default true, because the initial screen is for adding network
       isCustom: values ? values.isCustom : true,
       slug: values?.slug || "",
       shortName: values?.shortName || "",
     },
-    // reValidateMode: "onChange",
     mode: "onChange",
   });
 
@@ -76,17 +74,20 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const name = form.watch("name");
   const isCustom = form.watch("isCustom");
 
-  // for custom network, network slug "shortName" needs to be generated
-  useEffect(() => {
-    if (isCustom) {
-      form.setValue("slug", name.replace(/\s/g, ""));
-    }
-  }, [name, isCustom, form]);
+  const slug = isCustom
+    ? name.toLowerCase().replace(/\s/g, "-")
+    : form.watch("slug");
 
   return (
     <Box
       as="form"
       onSubmit={form.handleSubmit((data) => {
+        // for custom chain, create slug and shortName
+        if (data.isCustom) {
+          data.shortName = slug;
+          data.slug = slug;
+        }
+
         onSubmit(data);
         if (!isEditingScreen) {
           form.reset();
