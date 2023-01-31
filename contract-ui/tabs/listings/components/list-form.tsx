@@ -102,11 +102,16 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               assetContractAddress: formData.selected.contractAddress,
               tokenId: formData.selected.tokenId,
               currencyContractAddress: formData.currencyContractAddress,
+              quantity: formData.quantity,
+              startTimestamp: formData.startTimestamp,
+              // Hard code to year 2100 for now
+              pricePerToken: formData.buyoutPricePerToken,
+              endTimestamp: new Date(4102444800000),
+
+              // Marketplace v1 params
               buyoutPricePerToken: formData.buyoutPricePerToken,
               // Hard code to 100 years for now
               listingDurationInSeconds: (60 * 60 * 24 * 365 * 100).toString(),
-              quantity: formData.quantity,
-              startTimestamp: formData.startTimestamp,
             },
             {
               onSuccess: () => {

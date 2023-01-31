@@ -19,6 +19,8 @@ export const CustomContractOverviewPage: React.FC<
     return <div>No contract address provided</div>;
   }
 
+  console.log(contract?.abi, isSuccess, isError);
+
   if ((!contract?.abi && isSuccess) || isError) {
     return <ImportContract contractAddress={contractAddress} />;
   }
