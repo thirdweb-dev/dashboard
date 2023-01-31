@@ -98,7 +98,29 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             borderBottomLeftRadius={showResults ? 0 : "md"}
             borderBottomRightRadius={showResults ? 0 : "md"}
             onChange={(e) => {
+              if (!props.disabled) {
+                setShowResults(true);
+              }
               props.onChange(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+
+                if (props.disabled) {
+                  return;
+                }
+
+                // if search results, select first
+                if (filteredNetworks.length > 0) {
+                  handleSelection(filteredNetworks[0], false);
+                } else {
+                  // if no search results, select custom
+                  props.onCustomSelection();
+                  setShowResults(false);
+                  props.onSelectorChange("close");
+                }
+              }
             }}
           />
           {!props.disabled && (
