@@ -1,3 +1,4 @@
+import { LISTING_STATUS } from "./types";
 import {
   ButtonGroup,
   Center,
@@ -76,8 +77,7 @@ const tableColumns: Column<DirectListingV3 | EnglishAuction>[] = [
   }, */
   {
     Header: "Status",
-    // TODO: Get status once that gets added to the ts SDK
-    accessor: (row) => "Created",
+    accessor: (row) => LISTING_STATUS[row.status],
   },
 ];
 
@@ -212,8 +212,6 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
           data={tokenRow}
           isOpen={!!tokenRow}
           onClose={() => setTokenRow(null)}
-          // TODO: Use the actual status
-          status="Created"
           type={type}
         />
         <Table {...getTableProps()}>

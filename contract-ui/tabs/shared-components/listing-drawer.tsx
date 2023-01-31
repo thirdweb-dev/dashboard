@@ -1,5 +1,6 @@
 import { CancelDirectListing } from "../direct-listings/components/cancel";
 import { CancelEnglishAuction } from "../english-auctions/components/cancel";
+import { LISTING_STATUS } from "./types";
 import {
   Flex,
   GridItem,
@@ -28,8 +29,6 @@ interface NFTDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   data: DirectListingV3 | EnglishAuction | null;
-  // TODO: Use the actual status type
-  status: string;
   type: "direct-listings" | "english-auctions";
 }
 
@@ -38,7 +37,6 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
   isOpen,
   onClose,
   data,
-  status,
   type,
 }) => {
   const address = useAddress();
@@ -85,7 +83,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
                     variant="subtle"
                     textTransform="capitalize"
                   >
-                    {status}
+                    {LISTING_STATUS[renderData.status]}
                   </Badge>
                 </GridItem>
                 <GridItem colSpan={3}>
@@ -142,7 +140,6 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
     renderData,
     isOwner,
     tokenId,
-    status,
     data?.asset.attributes,
     data?.asset.properties,
     type,
