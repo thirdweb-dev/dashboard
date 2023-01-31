@@ -14,7 +14,7 @@ import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -23,10 +23,10 @@ const featuredEvents = [
     type: "Hackathon",
     title: "Ready Player 3 Hackathon",
     date: "Jan 16th - 31st",
-    banner: "/assets/og-image/readyplayer3.png",
+    banner: require("public/assets/og-image/readyplayer3.png"),
     link: "https://thirdweb.com/hackathon/readyplayer3",
   },
-];
+] as const;
 
 const allEvents = [
   {
@@ -104,17 +104,21 @@ const allEvents = [
 
 const EventsPage: ThirdwebNextPage = () => {
   const [search, setSearch] = useState("");
-  const [sortedEvents, setSortedEvents] = useState(allEvents);
   const [showPastEvents, setShowPastEvents] = useState(false);
 
-  useEffect(() => {
-    const filteredEvents = allEvents.filter((event) => {
-      if (!showPastEvents && new Date(event.timestamp) < new Date()) {
-        return false;
-      }
-      return event.title.toLowerCase().includes(search.toLowerCase());
-    });
-    setSortedEvents(filteredEvents);
+  const sortedEvents = useMemo(() => {
+    let e = allEvents;
+    if (showPastEvents) {
+      e = e.filter((event) => new Date(event.timestamp) < new Date());
+    } else {
+      e = e.filter((event) => new Date(event.timestamp) >= new Date());
+    }
+    if (search) {
+      e = e.filter((event) =>
+        event.title.toLowerCase().includes(search.toLowerCase()),
+      );
+    }
+    return e;
   }, [search, showPastEvents]);
 
   return (
@@ -149,11 +153,11 @@ const EventsPage: ThirdwebNextPage = () => {
               mt={{ base: 12, md: 24 }}
             >
               <Heading size="title.xl" textAlign="center">
-                Explore our Upcoming Events!
+                Events
               </Heading>
             </Flex>
             <Grid
-              column={{ base: 1, md: featuredEvents.length === 2 ? 2 : 1 }}
+              column={{ base: 1, md: featuredEvents.length > 1 ? 3 : 1 }}
               gap={12}
               mt={12}
               placeContent="center"
@@ -172,36 +176,34 @@ const EventsPage: ThirdwebNextPage = () => {
           </HomepageSection>
 
           <HomepageSection mt={20}>
-            <Select
-              mx="auto"
-              w="fit-content"
-              value={showPastEvents ? "past" : "upcoming"}
-              onChange={(e) => setShowPastEvents(e.target.value === "past")}
-              color="white"
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              align="center"
+              gap={4}
             >
-              <option value="upcoming">Upcoming Events</option>
-              <option value="past">Past Events</option>
-            </Select>
+              <Input
+                flexGrow={1}
+                placeholder="Search events"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                color="white"
+              />
 
-            <Input
-              placeholder="Search for events"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setSortedEvents(
-                  allEvents.filter((event) =>
-                    Object.values(event).some((value) =>
-                      value
-                        .toString()
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase()),
-                    ),
-                  ),
-                );
-              }}
-              mt={4}
-              color="white"
-            />
+              <Select
+                minW={250}
+                flexShrink={1}
+                flexGrow={0}
+                w={{ base: "100%", md: 300 }}
+                value={showPastEvents ? "past" : "upcoming"}
+                onChange={(e) => setShowPastEvents(e.target.value === "past")}
+                color="white"
+              >
+                <option value="upcoming">Upcoming Events</option>
+                <option value="past">Past Events</option>
+              </Select>
+            </Flex>
 
             <Accordion
               mt={10}
@@ -220,6 +222,7 @@ const EventsPage: ThirdwebNextPage = () => {
                     location={location}
                     description={description}
                     link={link}
+                    isPast={showPastEvents}
                   />
                 ),
               )}

@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { FiCalendar, FiClock } from "react-icons/fi";
+import { FiCalendar, FiChevronDown, FiClock } from "react-icons/fi";
 import { Badge, Heading, LinkButton, Text } from "tw-components";
 
 interface EventProps {
@@ -17,6 +17,7 @@ interface EventProps {
   location: string;
   description: string;
   link: string;
+  isPast?: boolean;
 }
 
 export const DevRelEvent: React.FC<EventProps> = ({
@@ -26,19 +27,21 @@ export const DevRelEvent: React.FC<EventProps> = ({
   location,
   description,
   link,
+  isPast,
 }) => {
   const trackEvent = useTrack();
 
   return (
     <AccordionItem
       _hover={{
-        bg: "whiteAlpha.50",
-        transition: "all 0.2",
+        borderColor: "whiteAlpha.200",
       }}
+      transition="border 0.2s"
+      borderWidth="1px"
+      borderColor="transparent"
       bg="whiteAlpha.100"
       my={4}
       rounded="lg"
-      border={0}
       pb={10}
     >
       <AccordionButton
@@ -109,6 +112,7 @@ export const DevRelEvent: React.FC<EventProps> = ({
             </Flex>
           </Flex>
         </Flex>
+        <Icon boxSize={6} as={FiChevronDown} />
       </AccordionButton>
 
       <AccordionPanel
@@ -138,10 +142,16 @@ export const DevRelEvent: React.FC<EventProps> = ({
           color="black"
           flexShrink={0}
           background="white"
-          _hover={{
-            background: "whiteAlpha.900",
-          }}
+          _hover={
+            isPast
+              ? {}
+              : {
+                  background: "whiteAlpha.800",
+                }
+          }
+          noIcon
           isExternal
+          isDisabled={isPast}
         >
           Register
         </LinkButton>

@@ -1,4 +1,5 @@
-import { Flex, Icon, Image } from "@chakra-ui/react";
+import { Flex, Icon } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
 import { FiCalendar } from "react-icons/fi";
 import { Badge, Heading, LinkButton, Text } from "tw-components";
@@ -26,10 +27,11 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
       flexDir="column"
       bg="whiteAlpha.100"
       rounded="lg"
-      maxW="500px"
       pb={2}
     >
+      <ChakraNextImage maxW="500px" src={banner} alt={title} roundedTop="lg" />
       <Badge
+        zIndex={1}
         pos="absolute"
         top={4}
         left={4}
@@ -40,7 +42,6 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
       >
         {type}
       </Badge>
-      <Image src={banner} alt={title} roundedTop="lg" />
       <Flex flexDir="column" p={4} align="center">
         <Heading>{title}</Heading>
         <Flex align="center" my={2}>
@@ -67,7 +68,7 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
           flexShrink={0}
           background="white"
           _hover={{
-            background: "whiteAlpha.900",
+            background: "whiteAlpha.800",
           }}
         >
           Register
