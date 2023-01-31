@@ -3611,23 +3611,13 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.5.13.tgz#7ad94fcc9db72f3eb0ed7dbb9c511a6bd7ff9a06"
   integrity sha512-kvDRjC7LrLNNNgUMfsBz3nHOwbBLFdosWQ16dfbD9D/OJrvFHRXoUIPzF0MNqqSPghaj7/18fnwXHGypvzoh9Q==
 
-"@thirdweb-dev/auth@3.0.2-dev-388da77":
+"@thirdweb-dev/auth@3.0.2-dev-388da77", "@thirdweb-dev/auth@^3.0.2-dev-388da77":
   version "3.0.2-dev-388da77"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.2-dev-388da77.tgz#2141b2f4003dd6ae6de7253d08111a605ee40b4b"
   integrity sha512-xBrAKhDy9iJXpX4GOf759s0MRnMkAcXVUHuaZysVE+Dj4SM1wTQZWlf7rr7ErEy2iJ+yuAGLHKSxDpMcyrD0bw==
   dependencies:
     cookie "^0.5.0"
     uuid "^9.0.0"
-    zod "^3.20.2"
-
-"@thirdweb-dev/auth@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.0.tgz#da82b138ec2bdd8ee8810a7dc1a67ad647ed1d69"
-  integrity sha512-mTtThiguBq8/UtDGfCe+pwR0e5ypHQdetkJlXx4qT8eWhooReo6/e3WQC32fDWJwyqtL4mlC5SWKDUnw9mmw1w==
-  dependencies:
-    cookie "^0.5.0"
-    uuid "^9.0.0"
-    yarn "^1.22.19"
     zod "^3.20.2"
 
 "@thirdweb-dev/chain-icons@^1.0.5":
