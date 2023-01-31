@@ -106,7 +106,7 @@ const NetworkListItem: React.FC<{
         justifyContent="flex-start"
         w="100%"
         _dark={{
-          background: props.isActive ? "backgroundHighlight" : "transparent",
+          background: props.isActive ? "inputBg" : "transparent",
         }}
         _light={{
           background: props.isActive ? "accent.200" : "transparent",
@@ -119,7 +119,7 @@ const NetworkListItem: React.FC<{
         py={4}
         _hover={{
           _dark: {
-            background: "backgroundHighlight",
+            background: "inputBg",
           },
           _light: {
             background: "accent.200",
