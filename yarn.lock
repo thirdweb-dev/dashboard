@@ -3700,19 +3700,10 @@
     yaml "^2.1.1"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@1.0.7-dev-388da77":
+"@thirdweb-dev/storage@1.0.7-dev-388da77", "@thirdweb-dev/storage@^1.0.7-dev-388da77":
   version "1.0.7-dev-388da77"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.7-dev-388da77.tgz#e57736cd00b5fc24f26e3462b309f4a489dee6c0"
   integrity sha512-mkCRbrn/vhCuuOPmZNct4d/MN5KrL7w7mtq5mg6sMMfBqlUKK64/awto7bIxvJoEeUJCE3ykjFbm+zSBPjzdkw==
-  dependencies:
-    cross-fetch "^3.1.5"
-    form-data "^4.0.0"
-    uuid "^9.0.0"
-
-"@thirdweb-dev/storage@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.6.tgz#219bc15d69885421696bd3d0fb90608c2ead2836"
-  integrity sha512-meao2NFgzLh++9RHBO/belIbReFsxJVYoxuuj2Vt2XT6PuMHPg8zOvQsyT+FQz9cvFwvMW5RNZUTPr0gu2JlxQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
