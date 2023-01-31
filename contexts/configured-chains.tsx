@@ -34,7 +34,7 @@ export function ConfiguredChainsProvider(props: { children: React.ReactNode }) {
         return defaultChains;
       }
 
-      // todo - use indexedDb instead of cookies
+      // todo - use indexedDb instead of localStorage
       const listFromCookies = configuredChainsStorage.get();
 
       if (listFromCookies.length === 0) {

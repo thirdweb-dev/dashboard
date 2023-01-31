@@ -1,4 +1,4 @@
-import { Box, Flex, List, ListItem } from "@chakra-ui/react";
+import { Box, List, ListItem } from "@chakra-ui/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import { useConfiguredChains } from "hooks/chains/configureChains";
@@ -105,6 +105,8 @@ const NetworkListItem: React.FC<{
         display="flex"
         justifyContent="flex-start"
         w="100%"
+        alignItems="center"
+        gap={3}
         _dark={{
           background: props.isActive ? "inputBg" : "transparent",
         }}
@@ -115,7 +117,6 @@ const NetworkListItem: React.FC<{
         fontWeight={500}
         fontSize="14px"
         px={8}
-        pr={2}
         py={4}
         _hover={{
           _dark: {
@@ -126,15 +127,12 @@ const NetworkListItem: React.FC<{
           },
         }}
         onClick={props.onClick}
-        whiteSpace="normal"
         textAlign="left"
         borderRadius={0}
         lineHeight={1.1}
       >
-        <Flex gap={3} alignItems="center">
-          <ChainIcon size={20} ipfsSrc={props.img} />
-          {props.name}
-        </Flex>
+        <ChainIcon size={20} ipfsSrc={props.img} />
+        {props.name}
       </Button>
     </ListItem>
   );

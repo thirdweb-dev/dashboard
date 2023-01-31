@@ -59,6 +59,8 @@ export function getGaslessPolygonSDK(signer?: Signer) {
 
   return polygonSDK;
 }
+
+// TODO - instead of util - create a hook for this to avoid requiring signer
 export async function addContractToMultiChainRegistry(
   contractData: Parameters<
     typeof gaslessPolygonSDK.multiChainRegistry.addContract

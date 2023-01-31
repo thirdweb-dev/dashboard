@@ -60,12 +60,10 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       // We don't care about this
       chain: "",
       shortName: formData.shortName,
-      chainId:
-        typeof formData.chainId === "number"
-          ? formData.chainId
-          : parseInt(formData.chainId),
+      chainId: parseInt(formData.chainId),
       rpc: [formData.rpcUrl],
       nativeCurrency: {
+        // we don't have name, so using symbol as name
         name: formData.currencySymbol,
         symbol: formData.currencySymbol,
         decimals: 18,
@@ -75,17 +73,15 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       isCustom: formData.isCustom ? true : undefined,
     };
 
+    // if editing, update the existing one
     if (editingChain) {
-      // check if the network is already added
       const index = configuredNetworks.findIndex((net) => net === editingChain);
-
-      // update it
       updateConfiguredNetworks.update(index, configuredNetwork);
-
-      // make this the editing network
       setEditingChain(configuredNetwork);
-    } else {
-      // add new
+    }
+
+    // else add new
+    else {
       updateConfiguredNetworks.add(configuredNetwork);
     }
 

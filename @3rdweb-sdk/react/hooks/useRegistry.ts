@@ -44,8 +44,7 @@ export function useRemoveContractMutation(
       // remove from new multichain registry
       else {
         const gaslessPolygonSDK = getGaslessPolygonSDK(signer);
-        const multiChainRegistry = gaslessPolygonSDK.multiChainRegistry;
-        return await multiChainRegistry?.removeContract({
+        return await gaslessPolygonSDK.multiChainRegistry?.removeContract({
           address: contractAddress,
           chainId,
         });

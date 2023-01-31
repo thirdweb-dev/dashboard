@@ -27,7 +27,7 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
   const cancelRef = useRef<HTMLButtonElement | null>(null);
   const [showReloadAlert, setShowReloadAlert] = useState(false);
 
-  const handleClose = () => {
+  const handleReloadAlertClose = () => {
     if (isNewNetworkAdded) {
       // for whatever reason changing network config requires a page-reload to take effect
       window.location.reload();
@@ -69,7 +69,7 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
       <AlertDialog
         isOpen={showReloadAlert}
         leastDestructiveRef={cancelRef}
-        onClose={handleClose}
+        onClose={handleReloadAlertClose}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -80,7 +80,7 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
             <AlertDialogFooter>
               <Button
                 colorScheme="blue"
-                onClick={handleClose}
+                onClick={handleReloadAlertClose}
                 ml={3}
                 leftIcon={<Icon as={IoReload} />}
               >

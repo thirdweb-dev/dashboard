@@ -21,8 +21,6 @@ export function useChainSlug(chainId: string | number) {
     return configuredChainsRecord[chainId as number].slug;
   }
 
-  // TODO - good place to trigger resolving the chainId from allChains ??
-
   // if can not find a network slug - use chainId as slug
   return chainId;
 }

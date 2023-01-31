@@ -1,7 +1,6 @@
 import { ContractId } from "../types";
 import { isContractIdBuiltInContract } from "../utils";
 import { useChainId } from "@thirdweb-dev/react";
-import { SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
 import dynamic from "next/dynamic";
@@ -36,15 +35,15 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
   );
 
   useEffect(() => {
-    // If the user has not selected a chain, and the connected chain is supported, select it
+    // If the user has not selected a chain, and the connected chain is configured, select it
     if (
       !selectedChain &&
       connectedChainId &&
-      SUPPORTED_CHAIN_IDS.includes(connectedChainId)
+      connectedChainId in configuredNetworksRecord
     ) {
       setSelectedChain(connectedChainId);
     }
-  }, [connectedChainId, selectedChain]);
+  }, [connectedChainId, selectedChain, configuredNetworksRecord]);
 
   if (!contractId) {
     return null;

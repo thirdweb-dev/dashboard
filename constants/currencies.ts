@@ -401,6 +401,7 @@ const SolanaDevnet: CurrencyMetadata[] = [
   },
 ];
 
+// Question: what date should here?
 // Temporary fake data for creating a build
 const FakeData: CurrencyMetadata[] = [
   {

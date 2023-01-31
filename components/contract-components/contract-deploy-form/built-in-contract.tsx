@@ -190,7 +190,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
       : true;
   }
 
-  // for non-supported chains - just say "few"
+  // for non-default chains - just say "few"
   const blockTimeInSeconds =
     selectedChain && selectedChain in NetworkToBlockTimeMap
       ? NetworkToBlockTimeMap[selectedChain as SUPPORTED_CHAIN_ID]
@@ -273,7 +273,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 chainInfo,
                 `Could not resolve network for ${selectedChain}`,
               );
-              router.push(`/${chainInfo?.slug}/${contractAddress}`);
+              router.push(`/${chainInfo.slug}/${contractAddress}`);
             },
             onError: (err) => {
               trackEvent({

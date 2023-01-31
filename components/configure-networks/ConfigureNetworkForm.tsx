@@ -23,6 +23,7 @@ export type NetworkConfigFormData = {
   chainId: string;
   currencySymbol: string;
   type: "testnet" | "mainnet";
+  // internally managed - not visible in form
   slug: string;
   shortName: string;
   isCustom: boolean;
@@ -61,6 +62,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     required: true,
     validate: {
       isAlreadyAdded(value) {
+        // ignore this validation if form is for edit screen
         if (isEditingScreen) {
           return true;
         }
@@ -74,26 +76,26 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const name = form.watch("name");
   const isCustom = form.watch("isCustom");
 
-  const slug = isCustom
-    ? name.toLowerCase().replace(/\s/g, "-")
-    : form.watch("slug");
+  const handleSubmit = form.handleSubmit((data) => {
+    // for custom chain, create slug and shortName
+    if (data.isCustom) {
+      const slug = isCustom
+        ? name.toLowerCase().replace(/\s/g, "-")
+        : form.watch("slug");
+
+      data.shortName = slug;
+      data.slug = slug;
+    }
+
+    onSubmit(data);
+
+    if (!isEditingScreen) {
+      form.reset();
+    }
+  });
 
   return (
-    <Box
-      as="form"
-      onSubmit={form.handleSubmit((data) => {
-        // for custom chain, create slug and shortName
-        if (data.isCustom) {
-          data.shortName = slug;
-          data.slug = slug;
-        }
-
-        onSubmit(data);
-        if (!isEditingScreen) {
-          form.reset();
-        }
-      })}
-    >
+    <Box as="form" onSubmit={handleSubmit}>
       <SearchNetworks
         onChange={(value) => {
           form.setValue("name", value, {

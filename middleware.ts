@@ -23,11 +23,10 @@ export const config = {
 // used for resolving chainId to network slug with constant time lookup
 const { chainIdToChain } = getAllChainRecords();
 
-// This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // remove / in front and then split by /
+  // remove '/' in front and then split by '/'
   const paths = pathname.slice(1).split("/");
 
   // ignore paths that don't have at least 2 parts
@@ -114,6 +113,7 @@ function handleLegacyRedirects(
   }
 
   // handle old contract urls
+  // QUESTION: this condition is probably wrong, what is the correct condition?
   if (networkOrAddress === "contracts") {
     const destination = catchAll.join("/").replace("/latest", "");
     return redirect(request, `/${destination}`);

@@ -29,6 +29,7 @@ import { VscExtensions } from "react-icons/vsc";
 import { Button, LinkButton } from "tw-components";
 import { isBrowser } from "utils/isBrowser";
 
+// TODO - instead of inferring routes from ecosystem, pass in routes directly
 interface ContractTabRouterProps {
   address: string;
   network: string;

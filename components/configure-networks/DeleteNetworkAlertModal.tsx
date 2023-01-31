@@ -25,13 +25,14 @@ export const DeleteNetworkAlertModal: React.FC<{
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+          <AlertDialogHeader fontSize="lg" fontWeight="bold" pb={1}>
             Delete Network
           </AlertDialogHeader>
           <AlertDialogBody>
-            Are you sure you want to delete {props.networkName} ?{" "}
+            Are you sure you want to delete{" "}
+            {props.networkName ? `"${props.networkName}"` : ""} ?{" "}
           </AlertDialogBody>
-          <AlertDialogFooter>
+          <AlertDialogFooter mt={2}>
             <Button ref={cancelRef} onClick={props.disclosure.onClose}>
               Cancel
             </Button>

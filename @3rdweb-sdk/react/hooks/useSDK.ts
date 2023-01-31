@@ -36,10 +36,15 @@ export function useContractList(
 
 export function useMultiChainRegContractList(walletAddress?: string) {
   const chainInfos = useChainInfos();
-  // const configuredChainsRecord = useConfiguredChainsRecord();
   return useQuery(
     [networkKeys.multiChainRegistry, walletAddress],
     async () => {
+      if (!walletAddress) {
+        return [];
+      }
+
+      // PERF ISSUE HERE, NEED TO OPTIMISE
+      // chainInfos is a huge object and this function is gonna strinfigy it for creating a key
       const polygonSDK = getEVMThirdwebSDK(
         ChainId.Polygon,
         getEVMRPC(ChainId.Polygon),
@@ -47,10 +52,6 @@ export function useMultiChainRegContractList(walletAddress?: string) {
           chainInfos,
         },
       );
-
-      if (!walletAddress) {
-        return [];
-      }
 
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
@@ -277,6 +278,7 @@ export function useAllContractList(walletAddress: string | undefined) {
   const mainnetQuery = useMainnetsContractList(walletAddress);
   const testnetQuery = useTestnetsContractList(walletAddress);
   const multiChainQuery = useMultiChainRegContractList(walletAddress);
+
   const configuredChainsRecord = useConfiguredChainsRecord();
   const allChainsRecord = useAllChainsRecord();
   const updateConfiguredChains = useUpdateConfiguredChains();

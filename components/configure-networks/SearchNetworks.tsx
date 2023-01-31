@@ -50,15 +50,13 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return chains.filter(
-      (network) =>
-        network.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-        `${network.chainId}`.includes(lowerCaseSearchTerm),
+    return chains.filter((network) =>
+      network.name.toLowerCase().includes(lowerCaseSearchTerm),
     );
   }, [chains, searchTerm]);
 
   const handleSelection = (network: Chain, custom: boolean) => {
-    props.onChange(`${network.name}`);
+    props.onChange(network.name);
     setShowResults(false);
     props.onSelectorChange("close");
     props.onNetworkSelection(network, custom);
@@ -189,7 +187,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                 px={3}
                 py={2}
                 colorScheme="blue"
-                borderRadius={4}
+                borderRadius="2xl"
                 fontWeight={400}
               >
                 {" "}

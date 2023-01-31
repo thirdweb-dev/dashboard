@@ -1,6 +1,6 @@
 import { Chain } from "@thirdweb-dev/chains";
 import { useRouter } from "next/router";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import invariant from "tiny-invariant";
 import { SupportedNetwork } from "utils/network";
 import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
@@ -63,7 +63,7 @@ export function useDashboardSOLNetworkId() {
   return getSolNetworkFromNetworkPath(dashboardNetwork);
 }
 
-// TODO - use context instead of route
+// TODO remove this and use useEVMContractInfo() if this hook is only for EVM contracts
 export function useDashboardNetwork(): SupportedNetwork | undefined {
   const router = useRouter();
   if (router.query.paths) {

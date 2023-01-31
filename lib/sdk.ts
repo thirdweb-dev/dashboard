@@ -32,6 +32,7 @@ export function getEVMThirdwebSDK(
   sdkOptions?: SDKOptions,
   signer?: Signer,
 ): EVMThirdwebSDK {
+  // PERF ISSUE - if the sdkOptions is a huge object, stringify will be slow
   const sdkKey = chainId + (sdkOptions ? JSON.stringify(sdkOptions) : "");
 
   let sdk: EVMThirdwebSDK | null = null;

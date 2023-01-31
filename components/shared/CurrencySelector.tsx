@@ -35,7 +35,8 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
         );
       }
 
-      // any EVM - show the native token in select input
+      // QUESTION - is this correct?
+      // for non-default chains
       return true;
     }
 
