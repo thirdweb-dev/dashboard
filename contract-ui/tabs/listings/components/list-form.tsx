@@ -126,12 +126,33 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
             {
               assetContractAddress: formData.selected.contractAddress,
               tokenId: formData.selected.tokenId,
-              currencyContractAddress: formData.currencyContractAddress,
-              buyoutPricePerToken: formData.buyoutPricePerToken,
-              listingDurationInSeconds: formData.listingDurationInSeconds,
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
+              currencyContractAddress: formData.currencyContractAddress,
+
               reservePricePerToken: formData.reservePricePerToken,
+              // All tokens in the listing (not multipled by quantity)
+              minimumBidAmount: (
+                Number(formData.reservePricePerToken) *
+                Number(formData.quantity)
+              ).toString(),
+
+              buyoutPricePerToken: formData.buyoutPricePerToken,
+              // All tokens in the listing (not multipled by quantity)
+              buyoutBidAmount: (
+                Number(formData.buyoutPricePerToken) * Number(formData.quantity)
+              ).toString(),
+
+              listingDurationInSeconds: formData.listingDurationInSeconds,
+              // Create endTimestamp with the current date + listingDurationInSeconds
+              endTimestamp: new Date(
+                new Date().getTime() +
+                  parseInt(formData.listingDurationInSeconds) * 1000,
+              ),
+
+              // new ones (they were global before)
+              /*               bidBufferBps: "0",
+              timeBufferInSeconds: "0", */
             },
             {
               onSuccess: () => {
