@@ -204,7 +204,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                     `Network not found for chainId ${selectedChain}`,
                   );
                   router.replace(
-                    `/${networkInfo.shortName}/${deployedContractAddress}`,
+                    `/${networkInfo.slug}/${deployedContractAddress}`,
                   );
                 }
               },
