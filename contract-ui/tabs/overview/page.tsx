@@ -1,4 +1,6 @@
+import { EventsFeed } from "../events/components/events-feed";
 import { BuildYourApp } from "./components/BuildYourApp";
+import { LatestEvents } from "./components/LatestEvents";
 import { ShareContract } from "./components/ShareContract";
 import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
@@ -203,10 +205,8 @@ export const CustomContractOverviewPage: React.FC<
           )}
           <BuildYourApp />
         </Flex>
-        <Flex direction="column" gap={6}>
-          <Heading size="title.sm">Share Contract</Heading>
-          <ShareContract address={contractAddress} />
-        </Flex>
+        <LatestEvents contractAddress={contractAddress} />
+        <ShareContract address={contractAddress} />
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
         {contractTypeData && GUIDES[contractTypeData].length > 0 && (
