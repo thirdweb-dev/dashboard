@@ -147,8 +147,10 @@ export function useContractRouteConfig(
     {
       title: "Direct Listings",
       path: "direct-listings",
-      // eslint-disable-next-line no-constant-condition
-      isEnabled: true ? "enabled" : "disabled",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: "DirectListings",
+      }),
       element: () =>
         import("../tabs/direct-listings/page").then(
           ({ ContractDirectListingsPage }) => (
@@ -159,8 +161,10 @@ export function useContractRouteConfig(
     {
       title: "English Auctions",
       path: "english-auctions",
-      // eslint-disable-next-line no-constant-condition
-      isEnabled: true ? "enabled" : "disabled",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: "EnglishAuctions",
+      }),
       element: () =>
         import("../tabs/listings/page").then(({ ContractListingsPage }) => (
           <ContractListingsPage contractAddress={contractAddress} />
