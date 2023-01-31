@@ -1,7 +1,13 @@
 import { BuildYourApp } from "./components/BuildYourApp";
 import { LatestEvents } from "./components/LatestEvents";
 import { ShareContract } from "./components/ShareContract";
-import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import {
+  Divider,
+  Flex,
+  GridItem,
+  SimpleGrid,
+  Skeleton,
+} from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { useContractFunctions } from "components/contract-components/hooks";
@@ -197,13 +203,13 @@ export const CustomContractOverviewPage: React.FC<
         <BuildYourApp />
         <Flex direction="column" gap={6}>
           <Heading size="title.sm">Contract Explorer</Heading>
-          {contract && (
+          <Skeleton isLoaded={!!contract}>
             <ContractFunctionsOverview
               onlyFunctions
               functions={functions}
               contract={contract}
             />
-          )}
+          </Skeleton>
         </Flex>
         <ShareContract address={contractAddress} />
       </GridItem>
