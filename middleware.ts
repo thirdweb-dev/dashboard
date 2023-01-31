@@ -101,21 +101,9 @@ function handleLegacyRedirects(
   networkOrAddress: string,
   catchAll: string[],
 ) {
-  // handle old contract paths
-  if (networkOrAddress === "contracts") {
-    return redirect(request, "/explore");
-  }
-
   // handle old dashboard urls
   if (networkOrAddress === "dashboard") {
     const destination = catchAll.join("/");
-    return redirect(request, `/${destination}`);
-  }
-
-  // handle old contract urls
-  // QUESTION: this condition is probably wrong, what is the correct condition?
-  if (networkOrAddress === "contracts") {
-    const destination = catchAll.join("/").replace("/latest", "");
     return redirect(request, `/${destination}`);
   }
 
