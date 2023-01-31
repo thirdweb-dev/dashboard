@@ -145,7 +145,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               disabled={!isCustom}
               placeholder="eg: 1, 5, 127..."
               autoComplete="off"
-              background="backgroundHighlight"
               type="number"
               {...form.register("chainId", {
                 required: true,
@@ -159,7 +158,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               disabled={!isCustom}
               placeholder="eg: ETH, USDC, MATIC..."
               autoComplete="off"
-              background="backgroundHighlight"
               type="text"
               {...form.register("currencySymbol", { required: true })}
             />
@@ -189,7 +187,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           <FormLabel>RPC URL</FormLabel>
           <Input
             autoComplete="off"
-            background="backgroundHighlight"
             placeholder="https://"
             type="url"
             {...form.register("rpcUrl", {
@@ -214,9 +211,9 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             p={0}
             mt={4}
             fontSize="12px"
-            color="whiteAlpha.500"
+            color="paragraph"
           >
-            <AlertIcon as={IoWarning} color="whiteAlpha.500" />
+            <AlertIcon as={IoWarning} color="inherit" />
             Only add custom networks that you trust. <br /> Malicious RPCs can
             record activity and lie about the state of the network.
           </Alert>
@@ -229,10 +226,10 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             </Button>
           )}
           <Button
-            background="white"
-            color="black"
+            background="bgBlack"
+            color="bgWhite"
             _hover={{
-              background: "blue.300",
+              background: "bgBlack",
             }}
             type="submit"
             disabled={isEditingScreen && !form.formState.isDirty}

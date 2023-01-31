@@ -56,7 +56,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
       >
         {mainnets.length > 0 && (
           <Box mb={8}>
-            <Heading fontSize="md" color="whiteAlpha.500" mb={4} ml={8}>
+            <Heading fontSize="md" color="accent.500" mb={4} ml={8}>
               Mainnets
             </Heading>
             {mainnets.map((network) => (
@@ -73,7 +73,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
 
         {testnets.length > 0 && (
           <Box mb={8}>
-            <Heading fontSize="md" color="whiteAlpha.500" mb={4} ml={8}>
+            <Heading fontSize="md" color="accent.500" mb={4} ml={8}>
               Testnets
             </Heading>
             {testnets.map((network) => (
@@ -105,15 +105,25 @@ const NetworkListItem: React.FC<{
         display="flex"
         justifyContent="flex-start"
         w="100%"
-        background={props.isActive ? "#1B2129" : "transparent"}
-        color={props.isActive ? "white" : "white"}
+        _dark={{
+          background: props.isActive ? "backgroundHighlight" : "transparent",
+        }}
+        _light={{
+          background: props.isActive ? "accent.200" : "transparent",
+        }}
+        color="accent.900"
         fontWeight={500}
         fontSize="14px"
         px={8}
         pr={2}
         py={4}
         _hover={{
-          background: "#1B2129",
+          _dark: {
+            background: "backgroundHighlight",
+          },
+          _light: {
+            background: "accent.200",
+          },
         }}
         onClick={props.onClick}
         whiteSpace="normal"

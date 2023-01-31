@@ -155,7 +155,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
               ml={-4}
               aria-label="Go Back to Add Network screen"
               background="transparent"
-              icon={<Icon as={FiChevronLeft} color="highlight" />}
+              icon={<Icon as={FiChevronLeft} color="accent.400" />}
               onClick={() => {
                 setEditingChain(undefined);
               }}

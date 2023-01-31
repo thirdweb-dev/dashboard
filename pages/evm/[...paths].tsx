@@ -100,9 +100,9 @@ const EVMContractPage: ThirdwebNextPage = () => {
           </Box>
 
           <Box
-            border="2px solid"
-            borderColor="whiteAlpha.50"
-            borderRadius="lg"
+            border="1px solid"
+            borderRadius="md"
+            borderColor="backgroundHighlight"
             overflow="hidden"
           >
             <ConfigureNetworks

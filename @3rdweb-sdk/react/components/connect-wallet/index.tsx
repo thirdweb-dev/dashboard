@@ -341,7 +341,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
                   </MenuItem>
 
                   <MenuItem
-                    icon={<Icon color="#eee" as={IoMdSettings} />}
+                    icon={<Icon as={IoMdSettings} />}
                     onClick={() => setShowConfigureNetworkModal(true)}
                     py={3}
                   >

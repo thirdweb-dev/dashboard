@@ -80,7 +80,9 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
         >
           <Input
             ref={props.inputRef}
-            background="backgroundHighlight !important"
+            background={
+              showResults ? "backgroundHighlight !important" : "inputBg"
+            }
             type="text"
             autoComplete="off"
             placeholder="Choose from a list of popular networks or add manually"
@@ -88,7 +90,6 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             value={searchTerm}
             outline="none"
             py={5}
-            border="none !important"
             borderBottomLeftRadius={showResults ? 0 : "md"}
             borderBottomRightRadius={showResults ? 0 : "md"}
             onChange={(e) => {
@@ -101,7 +102,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               transition="transform 200ms ease"
               transform={showResults ? "rotate(180deg)" : "rotate(0deg)"}
               p={4}
-              children={<Icon color="white" as={BiChevronDown} />}
+              children={<Icon color="inherit" as={BiChevronDown} />}
             />
           )}
         </InputGroup>
@@ -119,7 +120,8 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           <Box
             h="250px"
             overflowY="auto"
-            borderTop="1px solid rgba(255, 255, 255, 0.1)"
+            borderTop="1px solid"
+            borderColor="accent.100"
             pt={4}
             pb={4}
           >
@@ -131,10 +133,9 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                   py={2}
                   key={network.name}
                   cursor="pointer"
-                  color="white"
                   display="flex"
                   _hover={{
-                    background: "blue.700",
+                    background: "blue.600",
                     color: "white",
                   }}
                   onClick={() => {
@@ -142,7 +143,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                   }}
                 >
                   {network.name}{" "}
-                  <Text as="span" opacity={0.8} ml="auto">
+                  <Text as="span" opacity={0.8} ml="auto" color="inherit">
                     {network.shortName}
                   </Text>
                 </Text>
@@ -162,7 +163,8 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               py={4}
               justifyContent="space-between"
               alignItems="center"
-              borderTop="1px solid rgba(255, 255, 255, 0.1)"
+              borderTop="1px solid"
+              borderColor="accent.100"
               borderBottomRightRadius="md"
               borderBottomLeftRadius="md"
               _hover={{
