@@ -4,13 +4,13 @@ import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Heading } from "tw-components";
 
-interface ListingsPageProps {
+interface ContractEnglishAuctionsProps {
   contractAddress?: string;
 }
 
-export const ContractDirectListingsPage: React.FC<ListingsPageProps> = ({
-  contractAddress,
-}) => {
+export const ContractEnglishAuctionsPage: React.FC<
+  ContractEnglishAuctionsProps
+> = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress, "marketplace-v3");
 
   if (contractQuery.isLoading) {
@@ -25,7 +25,7 @@ export const ContractDirectListingsPage: React.FC<ListingsPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
-        <Heading size="title.sm">Contract Listings</Heading>
+        <Heading size="title.sm">Contract Auctions</Heading>
         <Flex gap={4}>
           <CreateListingButton contractQuery={contractQuery} />
         </Flex>

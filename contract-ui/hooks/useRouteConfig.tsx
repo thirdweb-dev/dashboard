@@ -166,9 +166,11 @@ export function useContractRouteConfig(
         feature: "EnglishAuctions",
       }),
       element: () =>
-        import("../tabs/listings/page").then(({ ContractListingsPage }) => (
-          <ContractListingsPage contractAddress={contractAddress} />
-        )),
+        import("../tabs/english-auctions/page").then(
+          ({ ContractEnglishAuctionsPage }) => (
+            <ContractEnglishAuctionsPage contractAddress={contractAddress} />
+          ),
+        ),
     },
     {
       title: "Listings",

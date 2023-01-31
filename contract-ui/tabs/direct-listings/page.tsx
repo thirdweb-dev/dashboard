@@ -5,13 +5,13 @@ import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { Heading } from "tw-components";
 
-interface ListingsPageProps {
+interface ContractDirectListingsPageProps {
   contractAddress?: string;
 }
 
-export const ContractDirectListingsPage: React.FC<ListingsPageProps> = ({
-  contractAddress,
-}) => {
+export const ContractDirectListingsPage: React.FC<
+  ContractDirectListingsPageProps
+> = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress, "marketplace-v3");
 
   if (contractQuery.isLoading) {
