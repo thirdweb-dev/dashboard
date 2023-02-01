@@ -27,7 +27,10 @@ export const ContractEnglishAuctionsPage: React.FC<
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract Auctions</Heading>
         <Flex gap={4}>
-          <CreateListingButton contractQuery={contractQuery} />
+          <CreateListingButton
+            contractQuery={contractQuery}
+            type="english-auctions"
+          />
         </Flex>
       </Flex>
 

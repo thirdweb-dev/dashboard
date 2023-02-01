@@ -28,7 +28,10 @@ export const ContractDirectListingsPage: React.FC<
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract Listings</Heading>
         <Flex gap={4}>
-          <CreateListingButton contractQuery={contractQuery} />
+          <CreateListingButton
+            contractQuery={contractQuery}
+            type="direct-listings"
+          />
         </Flex>
       </Flex>
 

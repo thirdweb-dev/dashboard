@@ -19,11 +19,13 @@ interface CreateListingButtonProps {
     | UseContractResult<Marketplace>
     | UseContractResult<MarketplaceV3>;
   createText?: string;
+  type?: "direct-listings" | "auction-listings";
 }
 
 export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
   contractQuery,
   createText = "Create",
+  type,
   ...restButtonProps
 }) => {
   const address = useAddress();
@@ -65,9 +67,11 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
         }}
       >
         <CreateListingsForm
+          contractQuery={contractQuery}
           directList={directList}
           auctionList={auctionList}
           formId={LIST_FORM_ID}
+          type={type}
         />
       </Drawer>
       <Button

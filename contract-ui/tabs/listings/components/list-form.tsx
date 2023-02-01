@@ -16,14 +16,19 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import {
+  UseContractResult,
+  useContractType,
   useCreateAuctionListing,
   useCreateDirectListing,
 } from "@thirdweb-dev/react";
 import {
+  Marketplace,
+  MarketplaceV3,
   NATIVE_TOKEN_ADDRESS,
   NewAuctionListing,
   NewDirectListing,
 } from "@thirdweb-dev/sdk/evm";
+import { detectFeatures } from "components/contract-components/utils";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -44,18 +49,35 @@ interface ListForm
 }
 
 type NFTMintForm = {
+  contractQuery:
+    | UseContractResult<Marketplace>
+    | UseContractResult<MarketplaceV3>;
   directList: ReturnType<typeof useCreateDirectListing>;
   auctionList: ReturnType<typeof useCreateAuctionListing>;
   formId: string;
+  type?: "direct-listings" | "auction-listings";
 };
 
 export const CreateListingsForm: React.FC<NFTMintForm> = ({
+  contractQuery,
   directList,
   auctionList,
   formId,
+  type,
 }) => {
   const trackEvent = useTrack();
   const network = useDashboardNetwork();
+
+  const { data: contractType } = useContractType(
+    contractQuery?.contract?.getAddress(),
+  );
+
+  const detectDirectListings = detectFeatures(contractQuery?.contract, [
+    "DirectListings",
+  ]);
+  const detectEnglishAuctions = detectFeatures(contractQuery?.contract, [
+    "EnglishAuctions",
+  ]);
 
   const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
 
@@ -65,7 +87,10 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
       currencyContractAddress: NATIVE_TOKEN_ADDRESS,
       quantity: "1",
       buyoutPricePerToken: "0",
-      listingType: "direct",
+      listingType:
+        type === "direct-listings" || contractType === "marketplace"
+          ? "direct"
+          : "auction",
       reservePricePerToken: "0",
       startTimestamp: new Date(),
       listingDurationInSeconds: (60 * 60 * 24).toString(),
@@ -296,8 +321,14 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           Listing Type
         </Heading>
         <Select {...register("listingType")}>
-          <option value="direct">Direct</option>
-          <option value="auction">Auction</option>
+          {contractType === "marketplace" ||
+          (contractType === "marketplace-v3" && detectDirectListings) ? (
+            <option value="direct">Direct</option>
+          ) : null}
+          {contractType === "marketplace" ||
+          (contractType === "marketplace-v3" && detectEnglishAuctions) ? (
+            <option value="auction">Auction</option>
+          ) : null}
         </Select>
         <FormHelperText>
           The type of listing you want to create, either an auction or direct
