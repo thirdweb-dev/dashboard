@@ -188,7 +188,11 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
 
         <Flex gridColumn="span 5" flexWrap="wrap" gap={2}>
           {transaction.events.slice(0, 2).map((e, idx) => (
-            <Tag key={idx}>{e.eventName}</Tag>
+            <Tag key={idx}>
+              <Text size="body.md" fontWeight="medium">
+                {e.eventName}
+              </Text>
+            </Tag>
           ))}
           {transaction.events.length > 2 && (
             <Tag
@@ -196,7 +200,9 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
               borderColor="var(--badge-bg)"
               bg="transparent"
             >
-              + {transaction.events.length - 2}
+              <Text size="body.md" fontWeight="medium">
+                + {transaction.events.length - 2}
+              </Text>
             </Tag>
           )}
         </Flex>
