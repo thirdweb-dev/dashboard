@@ -1,4 +1,8 @@
-import { useDirectListings, useDirectListingsCount } from "@thirdweb-dev/react";
+import {
+  useDirectListings,
+  useDirectListingsCount,
+  useValidDirectListings,
+} from "@thirdweb-dev/react";
 import { MarketplaceV3 } from "@thirdweb-dev/sdk";
 import { MarketplaceTable } from "contract-ui/tabs/shared-components/marketplace-table";
 import { useState } from "react";
@@ -14,12 +18,14 @@ export const DirectListingsTable: React.FC<DirectListingsTableProps> = ({
 }) => {
   const [queryParams, setQueryParams] = useState(DEFAULT_QUERY_STATE);
   const getAllQueryResult = useDirectListings(contract, queryParams);
+  const getValidQueryResult = useValidDirectListings(contract, queryParams);
   const totalCountQuery = useDirectListingsCount(contract);
 
   return (
     <MarketplaceTable
       contract={contract}
       getAllQueryResult={getAllQueryResult}
+      getValidQueryResult={getValidQueryResult}
       totalCountQuery={totalCountQuery}
       queryParams={queryParams}
       setQueryParams={setQueryParams}

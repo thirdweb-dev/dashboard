@@ -87,6 +87,10 @@ interface MarketplaceTableProps {
     DirectListingV3[] | EnglishAuction[],
     unknown
   >;
+  getValidQueryResult: UseQueryResult<
+    DirectListingV3[] | EnglishAuction[],
+    unknown
+  >;
   totalCountQuery: UseQueryResult<BigNumber, unknown>;
   queryParams: {
     count: number;
@@ -106,19 +110,15 @@ const DEFAULT_QUERY_STATE = { count: 50, start: 0 };
 export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
   contract,
   getAllQueryResult,
+  getValidQueryResult,
   totalCountQuery,
   queryParams,
   setQueryParams,
   type,
 }) => {
-  // TODO: Add filter to get active listings whenever that gets added to the ts SDK
-  const getActiveQueryResult = getAllQueryResult;
+  const [listingsToShow, setListingsToShow_] = useState<"all" | "valid">("all");
 
-  const [listingsToShow, setListingsToShow_] = useState<"all" | "active">(
-    "all",
-  );
-
-  const setListingsToShow = (value: "all" | "active") => {
+  const setListingsToShow = (value: "all" | "valid") => {
     setQueryParams(DEFAULT_QUERY_STATE);
     setListingsToShow_(value);
   };
@@ -126,16 +126,16 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
   const prevData = usePrevious(
     listingsToShow === "all"
       ? getAllQueryResult?.data
-      : getActiveQueryResult?.data,
+      : getValidQueryResult?.data,
   );
 
   const renderData = useMemo(() => {
     if (listingsToShow === "all") {
       return getAllQueryResult?.data || prevData;
     } else {
-      return getActiveQueryResult?.data || prevData;
+      return getValidQueryResult?.data || prevData;
     }
-  }, [getAllQueryResult, getActiveQueryResult, listingsToShow, prevData]);
+  }, [getAllQueryResult, getValidQueryResult, listingsToShow, prevData]);
 
   const {
     getTableProps,
@@ -189,16 +189,16 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
           All
         </Button>
         <Button
-          onClick={() => setListingsToShow("active")}
-          variant={listingsToShow === "active" ? "solid" : "outline"}
+          onClick={() => setListingsToShow("valid")}
+          variant={listingsToShow === "valid" ? "solid" : "outline"}
         >
-          Active
+          Valid
         </Button>
       </ButtonGroup>
 
       <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
         {((listingsToShow === "all" && getAllQueryResult.isFetching) ||
-          (listingsToShow === "active" && getActiveQueryResult.isFetching)) && (
+          (listingsToShow === "valid" && getValidQueryResult.isFetching)) && (
           <Spinner
             color="primary"
             size="xs"
@@ -261,8 +261,8 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
               );
             })}
             {((listingsToShow === "all" && getAllQueryResult.isPreviousData) ||
-              (listingsToShow === "active" &&
-                getActiveQueryResult.isPreviousData)) && (
+              (listingsToShow === "valid" &&
+                getValidQueryResult.isPreviousData)) && (
               <Flex
                 zIndex="above"
                 position="absolute"
