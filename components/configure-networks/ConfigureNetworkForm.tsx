@@ -230,7 +230,12 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           </Alert>
         </FormControl>
 
-        <Flex mt={8} gap={4} justifyContent="flex-end">
+        <Flex
+          mt={8}
+          gap={4}
+          direction={{ base: "column", md: "row" }}
+          justifyContent={{ base: "center", md: "flex-end" }}
+        >
           {isEditingScreen && (
             <Button variant="outline" onClick={onRemove}>
               Remove Network

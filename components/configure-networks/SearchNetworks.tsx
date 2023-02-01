@@ -89,7 +89,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             }}
             type="text"
             autoComplete="off"
-            placeholder="Choose from a list of popular networks or add manually"
+            placeholder="Search from a list of popular networks or add manually"
             aria-label="Search Network"
             value={searchTerm}
             borderColor={showResults ? "inputBg !important" : "inputBorder"}
@@ -150,7 +150,11 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           w="100%"
         >
           <Box
-            h="250px"
+            h="275px"
+            sx={{
+              maskImage:
+                "linear-gradient(to bottom, black 80%, transparent 100%)",
+            }}
             overflowY="auto"
             borderTop="1px solid"
             borderColor="accent.100"

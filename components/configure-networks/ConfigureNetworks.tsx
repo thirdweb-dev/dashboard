@@ -9,7 +9,6 @@ import {
   Flex,
   Grid,
   Icon,
-  IconButton,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -19,8 +18,8 @@ import {
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
 import { useState } from "react";
-import { FiChevronLeft } from "react-icons/fi";
-import { Heading, Text } from "tw-components";
+import { IoMdAdd } from "react-icons/io";
+import { Button, Heading, Text } from "tw-components";
 
 interface ConfigureNetworksProps {
   onNetworkConfigured?: (network: StoredChain) => void;
@@ -110,15 +109,38 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         {/* Heading */}
         <Heading
           as={"h3"}
-          m={8}
+          p={8}
           size="label.xl"
-          mb={10}
-          minH={10}
           display="flex"
           alignItems="center"
         >
           Your Networks
         </Heading>
+
+        <Button
+          variant="link"
+          pl={8}
+          mb={8}
+          _dark={{
+            color: "blue.500",
+          }}
+          _light={{
+            color: "blue.700",
+          }}
+          _hover={{
+            textDecoration: "none",
+          }}
+          display="flex"
+          justifyContent="flex-start"
+          onClick={() => {
+            setEditingChain(undefined);
+          }}
+          leftIcon={<Icon as={IoMdAdd} />}
+        >
+          <Text fontSize="md" color="inherit" textAlign="left" fontWeight={600}>
+            Add Network
+          </Text>
+        </Button>
 
         {/* List */}
         {configuredNetworks.length === 0 ? (
@@ -148,21 +170,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
           display="flex"
           gap={2}
           alignItems="center"
-          minH={10}
         >
-          {/* Back Button */}
-          {isEditingScreen && (
-            <IconButton
-              p={0}
-              ml={-4}
-              aria-label="Go Back to Add Network screen"
-              background="transparent"
-              icon={<Icon as={FiChevronLeft} color="accent.900" />}
-              onClick={() => {
-                setEditingChain(undefined);
-              }}
-            />
-          )}
           {isEditingScreen ? "Edit Network" : "Add Network"}
         </Heading>
 

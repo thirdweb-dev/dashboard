@@ -68,7 +68,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                 isActive={props.activeNetwork === network}
                 onClick={() => props.onClick(network)}
                 name={network.name}
-                key={network.slug}
+                key={network.name}
                 img={network.icon?.url}
               />
             ))}

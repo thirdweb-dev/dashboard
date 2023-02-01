@@ -85,7 +85,7 @@ const NetworkOptGroup: React.FC<{
 
         return (
           <option
-            key={network.chainId}
+            key={network.name}
             value={network.chainId}
             disabled={disableOption}
           >
