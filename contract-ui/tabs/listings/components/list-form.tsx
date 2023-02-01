@@ -55,7 +55,7 @@ type NFTMintForm = {
   directList: ReturnType<typeof useCreateDirectListing>;
   auctionList: ReturnType<typeof useCreateAuctionListing>;
   formId: string;
-  type?: "direct-listings" | "auction-listings";
+  type?: "direct-listings" | "english-auctions";
 };
 
 export const CreateListingsForm: React.FC<NFTMintForm> = ({
@@ -87,10 +87,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
       currencyContractAddress: NATIVE_TOKEN_ADDRESS,
       quantity: "1",
       buyoutPricePerToken: "0",
-      listingType:
-        type === "direct-listings" || contractType === "marketplace"
-          ? "direct"
-          : "auction",
+      listingType: type === "english-auctions" ? "auction" : "direct",
       reservePricePerToken: "0",
       startTimestamp: new Date(),
       listingDurationInSeconds: (60 * 60 * 24).toString(),

@@ -19,7 +19,7 @@ interface CreateListingButtonProps {
     | UseContractResult<Marketplace>
     | UseContractResult<MarketplaceV3>;
   createText?: string;
-  type?: "direct-listings" | "auction-listings";
+  type?: "direct-listings" | "english-auctions";
 }
 
 export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
