@@ -165,17 +165,16 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
   >(fnsOrEvents[0]);
 
   return (
-    <SimpleGrid columns={12}>
+    <SimpleGrid height="100%" columns={12}>
       <GridItem
+        height="100%"
+        overflow="auto"
         colSpan={{ base: 12, md: 3 }}
         borderRightWidth={{ base: "0px", md: "1px" }}
         borderBottomWidth={{ base: "1px", md: "0px" }}
         borderColor="borderColor"
       >
         <List
-          overflow="auto"
-          h={{ base: "300px", md: "500px" }}
-          minH="100%"
           pr={{ base: 0, md: 3 }}
           mb={{ base: 3, md: 0 }}
           overflowX="hidden"
@@ -224,7 +223,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
           ))}
         </List>
       </GridItem>
-      <GridItem colSpan={{ base: 12, md: 9 }}>
+      <GridItem height="100%" overflow="auto" colSpan={{ base: 12, md: 9 }}>
         <Card ml={{ base: 0, md: 3 }} mt={{ base: 3, md: 0 }} flexGrow={1}>
           <ContractFunction fn={selectedFunction} contract={contract} />
         </Card>

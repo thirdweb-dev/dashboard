@@ -203,7 +203,7 @@ export const CustomContractOverviewPage: React.FC<
         <BuildYourApp />
         <Flex direction="column" gap={6}>
           <Heading size="title.sm">Contract Explorer</Heading>
-          <Skeleton isLoaded={!!contract}>
+          <Skeleton height="36rem" isLoaded={!!contract}>
             <ContractFunctionsOverview
               onlyFunctions
               functions={functions}
@@ -256,10 +256,7 @@ export const CustomContractOverviewPage: React.FC<
                   color="heading"
                   opacity={0.6}
                   display="inline-block"
-                  _hover={{
-                    opacity: 1,
-                    textDecoration: "none",
-                  }}
+                  _hover={{ opacity: 1, textDecoration: "none" }}
                 >
                   {guide.title}
                 </Link>
