@@ -18,10 +18,12 @@ interface CreateListingButtonProps {
   contractQuery:
     | UseContractResult<Marketplace>
     | UseContractResult<MarketplaceV3>;
+  createText?: string;
 }
 
 export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
   contractQuery,
+  createText = "Create",
   ...restButtonProps
 }) => {
   const address = useAddress();
@@ -56,7 +58,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
                 type="submit"
                 colorScheme="primary"
               >
-                Create Listing
+                {createText}
               </TransactionButton>
             </>
           ),
@@ -75,7 +77,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
         onClick={onOpen}
         isDisabled={!address}
       >
-        Create Listing
+        {createText}
       </Button>
     </ListerOnly>
   );
