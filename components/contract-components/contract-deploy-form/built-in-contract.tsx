@@ -927,8 +927,11 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
         </Flex>
 
         <Button
-          variant={"outline"}
-          colorScheme="blue"
+          variant="filled"
+          background="inputBg"
+          _hover={{
+            background: "inputBgHover",
+          }}
           leftIcon={<Icon color="inherit" as={IoMdSettings} />}
           onClick={() => setShowAddNetworkModal(true)}
           py={3}
