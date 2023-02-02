@@ -17,6 +17,7 @@ import {
   Icon,
   List,
   ListItem,
+  Skeleton,
 } from "@chakra-ui/react";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { useQuery } from "@tanstack/react-query";
@@ -270,12 +271,14 @@ Deploy it in one click`,
             </Card>
           )}
           {contractFunctions && (
-            <ContractFunctionsOverview
-              functions={contractFunctions}
-              events={contractEvents}
-              sources={sources.data}
-              abi={contractReleaseMetadata.data?.abi}
-            />
+            <Card p={0}>
+              <ContractFunctionsOverview
+                functions={contractFunctions}
+                events={contractEvents}
+                sources={sources.data}
+                abi={contractReleaseMetadata.data?.abi}
+              />
+            </Card>
           )}
         </Flex>
       </GridItem>
