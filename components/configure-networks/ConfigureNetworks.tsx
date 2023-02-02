@@ -70,6 +70,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       testnet: formData.type === "testnet",
       slug: formData.slug,
       isCustom: formData.isCustom ? true : undefined,
+      icon: formData.icon,
     };
 
     // if editing, update the existing one

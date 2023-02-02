@@ -11,6 +11,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
+import { Chain } from "@thirdweb-dev/chains";
 import { useConfiguredChainsNameSet } from "hooks/chains/configureChains";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -27,6 +28,7 @@ export type NetworkConfigFormData = {
   slug: string;
   shortName: string;
   isCustom: boolean;
+  icon?: Chain["icon"];
 };
 
 interface NetworkConfigFormProps {
@@ -52,6 +54,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       isCustom: values ? values.isCustom : true,
       slug: values?.slug || "",
       shortName: values?.shortName || "",
+      icon: undefined,
     },
     mode: "onChange",
   });
@@ -131,6 +134,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           form.setValue("slug", _networkInfo.slug);
           form.setValue("type", _networkInfo.testnet ? "testnet" : "mainnet");
           form.setValue("shortName", _networkInfo.shortName);
+          form.setValue("icon", _networkInfo.icon);
         }}
       />
       <Flex
