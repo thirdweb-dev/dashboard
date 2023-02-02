@@ -3,8 +3,10 @@ import {
   Alert,
   AlertIcon,
   Box,
+  Code,
   Flex,
   FormControl,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
@@ -19,15 +21,26 @@ import {
   RadioGroup,
   SimpleGrid,
   Stack,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
-import { useAllChainsRecord } from "hooks/chains/allChains";
+import {
+  useAllChainsRecord,
+  useAllChainsSlugRecord,
+} from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { BsQuestionCircle } from "react-icons/bs";
 import { IoWarning } from "react-icons/io5";
-import { Button, FormErrorMessage, FormLabel } from "tw-components";
+import {
+  Button,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Text,
+} from "tw-components";
 
 export type NetworkConfigFormData = {
   name: string;
@@ -37,6 +50,7 @@ export type NetworkConfigFormData = {
   type: "testnet" | "mainnet";
   isCustom: boolean;
   icon: string;
+  slug: string;
 };
 
 interface NetworkConfigFormProps {
@@ -44,6 +58,8 @@ interface NetworkConfigFormProps {
   onSubmit: (chain: StoredChain) => void;
   onRemove: () => void;
   isEditingScreen: boolean;
+  prefillSlug?: string;
+  prefillChainId?: string;
 }
 
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
@@ -51,9 +67,12 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   onSubmit,
   onRemove,
   isEditingScreen,
+  prefillSlug,
+  prefillChainId,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
   const allChainsRecord = useAllChainsRecord();
+  const allChainsSlugRecord = useAllChainsSlugRecord();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
 
@@ -61,16 +80,17 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     values: {
       name: values?.name || "",
       rpcUrl: values?.rpcUrl || "",
-      chainId: values?.chainId || "",
+      chainId: values?.chainId || prefillChainId || "",
       currencySymbol: values?.currencySymbol || "",
       type: values?.type === "testnet" ? "testnet" : "mainnet",
       isCustom: values ? values.isCustom : true,
       icon: values?.icon || "",
+      slug: values?.slug || prefillSlug || "",
     },
     mode: "onChange",
   });
 
-  const { name, isCustom, chainId: chainIdStr } = form.watch();
+  const { name, isCustom, chainId: chainIdStr, slug } = form.watch();
   const chainId = Number(chainIdStr);
 
   const { ref } = form.register("name", {
@@ -138,8 +158,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         testnet: data.type === "testnet",
       };
     } else {
-      const slug = name.toLowerCase().replace(/\s/g, "-");
-
       // if user selected the custom option
       configuredNetwork = {
         name: data.name,
@@ -203,6 +221,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           form.setValue("isCustom", true);
           // restore the name
           form.setValue("name", _name);
+          // initial suggestion
+          form.setValue("slug", _name.toLowerCase().replace(/\s/g, "-"));
         }}
         onNetworkSelection={(network) => {
           form.setValue("name", network.name);
@@ -212,17 +232,86 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           form.setValue("isCustom", false);
           form.setValue("type", network.testnet ? "testnet" : "mainnet");
           form.setValue("icon", network.icon?.url || "");
+          form.setValue("slug", network.slug);
           setSelectedChain(network);
         }}
       />
+      {/* Slug URL */}
+      <FormControl
+        isRequired
+        mt={6}
+        isInvalid={form.formState.errors.slug?.type === "taken"}
+      >
+        <FormLabel display="flex">
+          Network ID
+          <Tooltip
+            placement="top-start"
+            borderRadius="md"
+            boxShadow="md"
+            bg="backgroundHighlight"
+            p={4}
+            minW={{ md: "500px" }}
+            label={
+              <>
+                <Text color="heading" mb={4}>
+                  Network ID is used to identify the network in the URL{" "}
+                </Text>
+                <Heading fontSize="14px" mb={3}>
+                  Example
+                </Heading>
+                <Code>{`thirdweb.com/<network-id>/<contract-address>`}</Code>
+              </>
+            }
+          >
+            <Box>
+              <Icon ml={2} mr={1} as={BsQuestionCircle} color="accent.600" />
+            </Box>
+          </Tooltip>
+        </FormLabel>
+        <Input
+          disabled={!isCustom}
+          autoComplete="off"
+          placeholder="eg: ethereum, mumbai, polygon etc."
+          _placeholder={{
+            fontWeight: 500,
+          }}
+          type="text"
+          {...form.register("slug", {
+            required: true,
+            validate: {
+              taken: (_slug) => {
+                if (!isCustom) {
+                  return true;
+                }
+
+                return !(_slug in allChainsSlugRecord);
+              },
+            },
+          })}
+        />
+
+        <FormErrorMessage>
+          Can not use Network ID {`"${slug}"`}.
+          {slug && slug in allChainsSlugRecord && (
+            <>
+              {" "}
+              It is being used by {`"`}
+              {allChainsSlugRecord[slug].name}
+              {`"`}
+            </>
+          )}
+        </FormErrorMessage>
+      </FormControl>
+
       <Flex
         opacity={isSearchOpen ? "0.1" : "1"}
         direction="column"
-        gap={10}
-        mt={8}
+        gap={6}
+        mt={6}
       >
+        {/* Chain ID + Currency Symbol */}
         <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
-          {/* chainId */}
+          {/* Chain ID */}
           <FormControl
             isRequired
             isInvalid={form.formState.errors.chainId?.type === "taken"}
@@ -267,7 +356,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          {/* currencySymbol */}
+          {/* Currency Symbol */}
           <FormControl isRequired>
             <FormLabel>Currency Symbol</FormLabel>
             <Input
@@ -283,6 +372,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           </FormControl>
         </SimpleGrid>
 
+        {/* Testnet / Mainnet */}
         <FormControl>
           <FormLabel>Network Type</FormLabel>
           <RadioGroup
@@ -294,14 +384,14 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             }}
             value={form.watch("type")}
           >
-            <Stack direction="row" gap={4} mt={4}>
+            <Stack direction="row" gap={4} mt={3}>
               <Radio value="testnet">Testnet</Radio>
               <Radio value="mainnet">Mainnet</Radio>
             </Stack>
           </RadioGroup>
         </FormControl>
 
-        {/* rpcUrl */}
+        {/* RPC URL */}
         <FormControl isRequired isInvalid={!!form.formState.errors.rpcUrl}>
           <FormLabel>RPC URL</FormLabel>
           <Input
@@ -331,7 +421,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           <Alert
             bg="transparent"
             p={0}
-            mt={4}
+            mt={2}
             fontSize="12px"
             color="paragraph"
           >
@@ -341,7 +431,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           </Alert>
         </FormControl>
 
-        {/* icon url */}
+        {/* Icon URL */}
         <FormControl isInvalid={!!form.formState.errors.icon}>
           <FormLabel>Icon</FormLabel>
           <InputGroup>
@@ -365,12 +455,14 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           <FormErrorMessage> Invalid IPFS URL </FormErrorMessage>
         </FormControl>
 
+        {/* Buttons  */}
         <Flex
           mt={8}
           gap={4}
           direction={{ base: "column", md: "row" }}
           justifyContent={{ base: "center", md: "flex-end" }}
         >
+          {/* Remove Button */}
           {isEditingScreen && (
             <Popover>
               <PopoverTrigger>
@@ -388,6 +480,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               </PopoverContent>
             </Popover>
           )}
+
+          {/* Add / Update Button */}
           <Button
             background="bgBlack"
             color="bgWhite"

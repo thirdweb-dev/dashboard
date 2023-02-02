@@ -39,6 +39,16 @@ export function useAllChainsRecord() {
   }, [chains]);
 }
 
+export function useAllChainsSlugRecord() {
+  const chains = useAllChains();
+  return useMemo(() => {
+    return chains.reduce((acc, chain) => {
+      acc[chain.slug] = chain;
+      return acc;
+    }, {} as Record<string, Chain>);
+  }, [chains]);
+}
+
 /**
  * provides a function to resolve + auto configure given set of chains using allChainsRecord
  */

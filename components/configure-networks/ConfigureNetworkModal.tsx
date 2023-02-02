@@ -51,7 +51,7 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
         borderRadius={"xl"}
         overflow="hidden"
         border="1px solid"
-        w="950px"
+        w="900px"
         maxW="calc(100vw - 40px)"
         borderColor={"backgroundHighlight"}
       >

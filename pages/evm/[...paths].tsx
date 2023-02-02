@@ -103,6 +103,8 @@ const EVMContractPage: ThirdwebNextPage = () => {
     updateConfiguredChains,
   ]);
 
+  const isSlugNumber = !isNaN(Number(chainSlug));
+
   return (
     <>
       {chain && <ContractHeader contractAddress={contractAddress} />}
@@ -120,7 +122,9 @@ const EVMContractPage: ThirdwebNextPage = () => {
           <Box mb={8} mt={8}>
             <Alert borderRadius="md" background="backgroundHighlight">
               <AlertIcon />
-              You tried to connecting to Network ID {`"`}
+              You tried to connecting to {isSlugNumber
+                ? "Chain"
+                : "Network"} ID {`"`}
               {chainSlug}
               {`"`} but it is not configured yet. Please configure it and try
               again.
@@ -137,6 +141,8 @@ const EVMContractPage: ThirdwebNextPage = () => {
             }}
           >
             <ConfigureNetworks
+              prefillSlug={isSlugNumber ? undefined : chainSlug}
+              prefillChainId={isSlugNumber ? chainSlug : undefined}
               onNetworkConfigured={(network) => {
                 if (chainSlug === network.slug) {
                   setChainNotFound(false);

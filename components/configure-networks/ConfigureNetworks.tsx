@@ -14,6 +14,8 @@ import { Button, Heading, Text } from "tw-components";
 interface ConfigureNetworksProps {
   onNetworkConfigured?: (network: StoredChain) => void;
   onNetworkAdded?: () => void;
+  prefillSlug?: string;
+  prefillChainId?: string;
 }
 
 export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
@@ -165,6 +167,8 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
 
         <ConfigureNetworkForm
           onRemove={handleDelete}
+          prefillSlug={props.prefillSlug}
+          prefillChainId={props.prefillChainId}
           values={
             editingChain
               ? {
@@ -175,6 +179,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
                   type: editingChain.testnet ? "testnet" : "mainnet",
                   isCustom: !!editingChain.isCustom,
                   icon: editingChain.icon?.url || "",
+                  slug: editingChain.slug,
                 }
               : undefined
           }
