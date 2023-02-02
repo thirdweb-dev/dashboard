@@ -93,19 +93,11 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
             w="50%"
             value={selectedEvent}
             onChange={(e) => {
-              router.push(
-                {
-                  pathname: `/${chainName}/${contractAddress}/events`,
-                  query:
-                    e.target.value === "all"
-                      ? {
-                          event: e.target.value,
-                        }
-                      : undefined,
-                },
-                undefined,
-                { shallow: true },
-              );
+              const path =
+                e.target.value === "all"
+                  ? `/${chainSlug}/${contractAddress}/events`
+                  : `/${chainSlug}/${contractAddress}/events?event=${e.target.value}`;
+              router.push(path, undefined, { shallow: true });
               setSelectedEvent(e.target.value);
             }}
           >

@@ -1,6 +1,5 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { Flex, Image, Skeleton } from "@chakra-ui/react";
-import { ContractBadge } from "components/badges/contract-badge";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { NextSeo } from "next-seo";
 import { StaticImageData } from "next/image";
