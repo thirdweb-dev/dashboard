@@ -53,6 +53,17 @@ const GUIDES = {
     },
     // { title: "View all", url: "https://blog.thirdweb.com/tag/marketplace/" },
   ],
+  "marketplace-v3": [
+    {
+      title: "Create Your Own NFT Marketplace with TypeScript and Next.js",
+      url: "https://blog.thirdweb.com/guides/nft-marketplace-with-typescript-next/",
+    },
+    {
+      title: "Build An Auction Button For Your NFT Marketplace",
+      url: "https://blog.thirdweb.com/guides/auction-button-react/",
+    },
+    // { title: "View all", url: "https://blog.thirdweb.com/tag/marketplace/" },
+  ],
   multiwrap: [],
   "nft-collection": [
     {
@@ -146,6 +157,12 @@ const TEMPLATES = {
     {
       title: "Marketplace",
       url: "https://github.com/thirdweb-example/marketplace",
+    },
+  ],
+  "marketplace-v3": [
+    {
+      title: "Marketplace V3",
+      url: "https://github.com/thirdweb-example/marketplace-v3",
     },
   ],
   multiwrap: [
