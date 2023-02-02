@@ -12,6 +12,7 @@ import {
   Outlet,
   ReactLocation,
   Router,
+  useLocation,
   useMatchRoute,
 } from "@tanstack/react-location";
 import { Logo } from "components/logo";

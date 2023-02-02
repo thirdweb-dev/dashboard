@@ -117,11 +117,7 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
               {isLoaded ? data?.description : ""}
             </Text>
           </Skeleton>
-
-          <Flex gap={2} direction="row">
-            <AddressCopyButton size="xs" address={address} />
-            {address && <ContractBadge address={address} />}
-          </Flex>
+          <AddressCopyButton size="xs" address={address} />
         </Flex>
       </Flex>
     </>
