@@ -23,11 +23,13 @@ export const SupportedNetworkSelect = forwardRef<
     const configuredNetworks = useConfiguredChains();
 
     const testnets = useMemo(() => {
-      return configuredNetworks.filter((n) => n.testnet);
+      return configuredNetworks.filter((n) => !n.isAutoConfigured && n.testnet);
     }, [configuredNetworks]);
 
     const mainnets = useMemo(() => {
-      return configuredNetworks.filter((n) => !n.testnet);
+      return configuredNetworks.filter(
+        (n) => !n.isAutoConfigured && !n.testnet,
+      );
     }, [configuredNetworks]);
     return (
       <Select {...selectProps} ref={ref}>

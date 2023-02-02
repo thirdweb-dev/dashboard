@@ -14,6 +14,7 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import {
   useConfiguredChainSlugRecord,
+  useConfiguredChainsRecord,
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -37,26 +38,52 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
   const setContractInfo = useSetEVMContractInfo();
   const configuredChainSlugRecord = useConfiguredChainSlugRecord();
+  const configuredChainsRecord = useConfiguredChainsRecord();
   const updateConfiguredChains = useUpdateConfiguredChains();
 
   useEffect(() => {
     // if server resolved the chain
     if (chain) {
-      // but it is not configured on client storage
+      // but it is not configured
       if (!(chainSlug in configuredChainSlugRecord)) {
-        // configure it so user does not have to do it manually
-        updateConfiguredChains.add(chain);
+        // auto configure it
+        updateConfiguredChains.add([
+          {
+            ...chain,
+            isAutoConfigured: true,
+          },
+        ]);
       }
     }
 
-    // if server could not resolve the chain using chainList
+    // if server could not resolve the chain using allChains
     else {
-      // check if it is configured on client storage, use that
+      // if it is configured on client storage, use that
       if (chainSlug in configuredChainSlugRecord) {
         setContractInfo({
           chainSlug,
           contractAddress,
           chain: configuredChainSlugRecord[chainSlug],
+        });
+      } else if (chainSlug in configuredChainsRecord) {
+        // this is for thirdweb internal tools
+        // it allows us to use chainId as slug for a custom network as well
+
+        const chainId = Number(chainSlug);
+        const _chain = configuredChainsRecord[chainId];
+
+        // replace the chainId with slug in URL without reloading the page
+        // If we don't do this, tanstack router creates issues
+        window.history.replaceState(
+          null,
+          document.title,
+          `/${_chain.slug}/${contractAddress}`,
+        );
+
+        setContractInfo({
+          chainSlug: _chain.slug,
+          contractAddress,
+          chain: _chain,
         });
       }
 
@@ -70,6 +97,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
     chain,
     chainSlug,
     configuredChainSlugRecord,
+    configuredChainsRecord,
     contractAddress,
     setContractInfo,
     updateConfiguredChains,

@@ -8,10 +8,15 @@ export interface StoredChain extends Chain {
    * true if the chain is added by user using the "custom" option
    */
   isCustom?: true;
+
+  /**
+   * true if the chain is auto configured and not explicitly configured by user
+   */
+  isAutoConfigured?: true;
 }
 
 type UpdateConfiguredChains = {
-  add: (newConfiguredNetwork: StoredChain) => void;
+  add: (newConfiguredNetworks: StoredChain[]) => void;
   remove: (index: number) => void;
   update: (index: number, chain: StoredChain) => void;
 };
@@ -52,8 +57,8 @@ export function ConfiguredChainsProvider(props: { children: React.ReactNode }) {
 
   const updator: UpdateConfiguredChains = useMemo(() => {
     return {
-      add(newNetwork: StoredChain) {
-        setConfiguredNetworks((prev) => [...prev, newNetwork]);
+      add(newNetworks: StoredChain[]) {
+        setConfiguredNetworks((prev) => [...prev, ...newNetworks]);
       },
       remove(index: number) {
         setConfiguredNetworks((prev) => {

@@ -1,20 +1,10 @@
-import {
-  ConfigureNetworkForm,
-  NetworkConfigFormData,
-} from "./ConfigureNetworkForm";
+import { ConfigureNetworkForm } from "./ConfigureNetworkForm";
 import { ConfiguredNetworkList } from "./ConfiguredNetworkList";
-import { DeleteNetworkAlertModal } from "./DeleteNetworkAlertModal";
-import {
-  Box,
-  Flex,
-  Grid,
-  Icon,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Icon, useToast } from "@chakra-ui/react";
 import { StoredChain } from "contexts/configured-chains";
 import {
   useConfiguredChains,
+  useConfiguredChainsRecord,
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
 import { useState } from "react";
@@ -28,6 +18,7 @@ interface ConfigureNetworksProps {
 
 export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
   const configuredNetworks = useConfiguredChains();
+  const configuredChainRecord = useConfiguredChainsRecord();
   const updateConfiguredNetworks = useUpdateConfiguredChains();
 
   const toast = useToast();
@@ -35,7 +26,6 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
     undefined,
   );
 
-  const deleteModalDisclosure = useDisclosure();
   const isEditingScreen = !!editingChain;
 
   const handleDelete = () => {
@@ -44,7 +34,41 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
     setEditingChain(undefined);
   };
 
-  const handleSubmit = (formData: NetworkConfigFormData) => {
+  const handleSubmit = (chain: StoredChain) => {
+    // if editing a chain, just update the existing one
+    if (editingChain) {
+      const index = configuredNetworks.findIndex((net) => net === editingChain);
+      updateConfiguredNetworks.update(index, chain);
+      setEditingChain(chain);
+    }
+
+    // if trying to add new chain, but it's already added as of autoconfigured chain,
+    // replace it with configuredNetwork
+    else if (chain.chainId in configuredChainRecord) {
+      const existingChain = configuredChainRecord[chain.chainId];
+
+      if (existingChain.isAutoConfigured) {
+        const index = configuredNetworks.findIndex(
+          (net) => net === existingChain,
+        );
+
+        updateConfiguredNetworks.update(index, chain);
+      }
+    }
+
+    // else add new chain
+    else {
+      updateConfiguredNetworks.add([chain]);
+    }
+
+    if (props.onNetworkConfigured) {
+      props.onNetworkConfigured(chain);
+    }
+
+    if (props.onNetworkAdded) {
+      props.onNetworkAdded();
+    }
+
     toast({
       title: editingChain
         ? "Network Updated Successfully"
@@ -53,45 +77,6 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       duration: 3000,
       isClosable: true,
     });
-
-    const configuredNetwork: StoredChain = {
-      name: formData.name,
-      // We don't care about this
-      chain: "",
-      shortName: formData.shortName,
-      chainId: parseInt(formData.chainId),
-      rpc: [formData.rpcUrl],
-      nativeCurrency: {
-        // we don't have name, so using symbol as name
-        name: formData.currencySymbol,
-        symbol: formData.currencySymbol,
-        decimals: 18,
-      },
-      testnet: formData.type === "testnet",
-      slug: formData.slug,
-      isCustom: formData.isCustom ? true : undefined,
-      icon: formData.icon,
-    };
-
-    // if editing, update the existing one
-    if (editingChain) {
-      const index = configuredNetworks.findIndex((net) => net === editingChain);
-      updateConfiguredNetworks.update(index, configuredNetwork);
-      setEditingChain(configuredNetwork);
-    }
-
-    // else add new
-    else {
-      updateConfiguredNetworks.add(configuredNetwork);
-    }
-
-    if (props.onNetworkConfigured) {
-      props.onNetworkConfigured(configuredNetwork);
-    }
-
-    if (props.onNetworkAdded) {
-      props.onNetworkAdded();
-    }
   };
 
   return (
@@ -110,7 +95,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         {/* Heading */}
         <Heading
           as={"h3"}
-          p={8}
+          p={{ base: 4, md: 8 }}
           size="label.xl"
           display="flex"
           alignItems="center"
@@ -120,7 +105,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
 
         <Button
           variant="link"
-          pl={8}
+          pl={{ base: 4, md: 8 }}
           mb={8}
           _dark={{
             color: "blue.500",
@@ -158,12 +143,15 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
             onClick={(network) => {
               setEditingChain(network);
             }}
+            onAdd={(network) => {
+              updateConfiguredNetworks.add([network]);
+            }}
           />
         )}
       </Flex>
 
       {/* form */}
-      <Box p={8}>
+      <Box p={{ base: 4, md: 8 }}>
         <Heading
           as={"h3"}
           size="label.xl"
@@ -176,7 +164,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         </Heading>
 
         <ConfigureNetworkForm
-          onRemove={deleteModalDisclosure.onOpen}
+          onRemove={handleDelete}
           values={
             editingChain
               ? {
@@ -185,9 +173,8 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
                   chainId: `${editingChain.chainId}`,
                   currencySymbol: editingChain.nativeCurrency.symbol,
                   type: editingChain.testnet ? "testnet" : "mainnet",
-                  slug: editingChain.slug,
-                  shortName: editingChain.shortName,
                   isCustom: !!editingChain.isCustom,
+                  icon: editingChain.icon?.url || "",
                 }
               : undefined
           }
@@ -195,12 +182,6 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
           onSubmit={handleSubmit}
         />
       </Box>
-
-      <DeleteNetworkAlertModal
-        disclosure={deleteModalDisclosure}
-        networkName={editingChain?.name || ""}
-        onDelete={handleDelete}
-      />
     </Grid>
   );
 };

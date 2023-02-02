@@ -24,7 +24,6 @@ interface SearchNetworksProps {
   value: string;
   disabled: boolean;
   onChange: (value: string) => void;
-  shortName: string;
 }
 
 // TODO - improve search performance and do fuzzy search

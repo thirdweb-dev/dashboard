@@ -16,6 +16,8 @@ export const ChainIcon: React.FC<{ ipfsSrc?: string; size: number }> = (
 
   return (
     <Image
+      // render different image element if src changes to avoid showing old image while loading new one
+      key={src}
       src={src}
       width={resolution}
       height={resolution}

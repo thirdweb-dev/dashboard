@@ -1,6 +1,7 @@
 import { Chain } from "@thirdweb-dev/chains";
 import {
   ConfiguredChainsContext,
+  StoredChain,
   UpdateConfiguredChainsContext,
 } from "contexts/configured-chains";
 import { useContext, useMemo } from "react";
@@ -11,6 +12,7 @@ import invariant from "tiny-invariant";
  */
 export function useConfiguredChains() {
   const chains = useContext(ConfiguredChainsContext);
+
   invariant(
     chains,
     "useConfiguredChains must be used within a ConfiguredNetworksProvider",
@@ -31,7 +33,7 @@ export function useUpdateConfiguredChains() {
 }
 
 // maps chainId to Chain
-export type ConfiguredChainRecord = Record<number, Chain>;
+export type ConfiguredChainRecord = Record<number, StoredChain>;
 
 /**
  * @returns a list of record that maps configured chainId to `Chain` object
@@ -51,12 +53,12 @@ export function useConfiguredChainsRecord() {
 /**
  * @returns a list of record that maps configured chainId to `Chain` object
  */
-export function useConfiguredChainsNameSet() {
+export function useConfiguredChainsNameRecord() {
   const configuredNetworks = useConfiguredChains();
   return useMemo(() => {
-    const record: Set<string> = new Set();
+    const record: Record<string, StoredChain | undefined> = {};
     configuredNetworks.forEach((network) => {
-      record.add(network.name);
+      record[network.name] = network;
     });
 
     return record;

@@ -1,5 +1,7 @@
+import { useUpdateConfiguredChains } from "./configureChains";
 import { Chain } from "@thirdweb-dev/chains";
-import { useEffect, useMemo, useState } from "react";
+import { StoredChain } from "contexts/configured-chains";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * @returns a list of ALL the chains from `@thirdweb-dev/chains` package
@@ -35,4 +37,35 @@ export function useAllChainsRecord() {
       return acc;
     }, {} as Record<number, Chain>);
   }, [chains]);
+}
+
+/**
+ * provides a function to resolve + auto configure given set of chains using allChainsRecord
+ */
+export function useAutoConfigureChains() {
+  const allChainsRecord = useAllChainsRecord();
+  const updateConfiguredChains = useUpdateConfiguredChains();
+
+  return useCallback(
+    (chainIdSet: Set<number>) => {
+      // instead of configuring one by one, configure all at once to avoid triggering re-rendering entire app multiple times
+
+      const chainsToAutoConfigure: StoredChain[] = [];
+      chainIdSet.forEach((chainId) => {
+        // if we can resolve the chainId
+        if (chainId in allChainsRecord) {
+          // auto configure it
+          chainsToAutoConfigure.push({
+            ...allChainsRecord[chainId],
+            isAutoConfigured: true,
+          });
+        }
+      });
+
+      if (chainsToAutoConfigure.length > 0) {
+        updateConfiguredChains.add(chainsToAutoConfigure);
+      }
+    },
+    [allChainsRecord, updateConfiguredChains],
+  );
 }

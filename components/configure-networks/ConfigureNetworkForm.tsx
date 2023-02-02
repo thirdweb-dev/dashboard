@@ -6,13 +6,24 @@ import {
   Flex,
   FormControl,
   Input,
+  InputGroup,
+  InputLeftElement,
+  Popover,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
   Radio,
   RadioGroup,
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import { Chain } from "@thirdweb-dev/chains";
-import { useConfiguredChainsNameSet } from "hooks/chains/configureChains";
+import { ChainIcon } from "components/icons/ChainIcon";
+import { StoredChain } from "contexts/configured-chains";
+import { useAllChainsRecord } from "hooks/chains/allChains";
+import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoWarning } from "react-icons/io5";
@@ -24,16 +35,13 @@ export type NetworkConfigFormData = {
   chainId: string;
   currencySymbol: string;
   type: "testnet" | "mainnet";
-  // internally managed - not visible in form
-  slug: string;
-  shortName: string;
   isCustom: boolean;
-  icon?: Chain["icon"];
+  icon: string;
 };
 
 interface NetworkConfigFormProps {
   values?: NetworkConfigFormData;
-  onSubmit: (data: NetworkConfigFormData) => void;
+  onSubmit: (chain: StoredChain) => void;
   onRemove: () => void;
   isEditingScreen: boolean;
 }
@@ -44,6 +52,11 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   onRemove,
   isEditingScreen,
 }) => {
+  const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
+  const allChainsRecord = useAllChainsRecord();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const configuredChainNameRecord = useConfiguredChainsNameRecord();
+
   const form = useForm<NetworkConfigFormData>({
     values: {
       name: values?.name || "",
@@ -52,48 +65,112 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       currencySymbol: values?.currencySymbol || "",
       type: values?.type === "testnet" ? "testnet" : "mainnet",
       isCustom: values ? values.isCustom : true,
-      slug: values?.slug || "",
-      shortName: values?.shortName || "",
-      icon: undefined,
+      icon: values?.icon || "",
     },
     mode: "onChange",
   });
 
-  const configuredChainNameRecord = useConfiguredChainsNameSet();
+  const { name, isCustom, chainId: chainIdStr } = form.watch();
+  const chainId = Number(chainIdStr);
 
   const { ref } = form.register("name", {
     required: true,
     validate: {
-      isAlreadyAdded(value) {
+      alreadyAdded(value) {
+        // return true to pass the validation, false to fail
+
         // ignore this validation if form is for edit screen
         if (isEditingScreen) {
           return true;
         }
-        return !configuredChainNameRecord.has(value);
+
+        const chain = configuredChainNameRecord[value];
+
+        // valid if chain is not found
+        if (!chain) {
+          return true;
+        }
+
+        // valid if chain found, but is autoconfigured
+        if (chain.isAutoConfigured) {
+          return true;
+        }
+
+        // invalid if chain found, and is not autoconfigured
+        return false;
       },
     },
   });
 
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const name = form.watch("name");
-  const isCustom = form.watch("isCustom");
+  function reset() {
+    form.reset();
+    setSelectedChain(undefined);
+  }
 
   const handleSubmit = form.handleSubmit((data) => {
-    // for custom chain, create slug and shortName
-    if (data.isCustom) {
-      const slug = isCustom
-        ? name.toLowerCase().replace(/\s/g, "-")
-        : form.watch("slug");
+    let configuredNetwork: StoredChain;
 
-      data.shortName = slug;
-      data.slug = slug;
+    // if user selected a chain from the list
+    // use that chain as base and override the values from the form
+    if (selectedChain) {
+      configuredNetwork = {
+        ...selectedChain,
+        name: data.name,
+        isCustom: data.isCustom ? true : undefined,
+        rpc: [data.rpcUrl],
+        chainId: parseInt(data.chainId),
+        nativeCurrency: {
+          ...selectedChain.nativeCurrency,
+          symbol: data.currencySymbol,
+        },
+        icon: selectedChain.icon
+          ? {
+              ...selectedChain.icon,
+              url: data.icon,
+            }
+          : {
+              url: data.icon,
+              // we don't care about these fields - adding dummy values
+              width: 50,
+              height: 50,
+              format: "",
+            },
+        testnet: data.type === "testnet",
+      };
+    } else {
+      const slug = name.toLowerCase().replace(/\s/g, "-");
+
+      // if user selected the custom option
+      configuredNetwork = {
+        name: data.name,
+        isCustom: data.isCustom ? true : undefined,
+        rpc: [data.rpcUrl],
+        chainId: parseInt(data.chainId),
+        nativeCurrency: {
+          symbol: data.currencySymbol,
+          name: data.currencySymbol,
+          decimals: 18,
+        },
+        testnet: data.type === "testnet",
+        shortName: slug,
+        slug,
+        // we don't care about this field
+        chain: "",
+        icon: data.icon
+          ? {
+              url: data.icon,
+              width: 50,
+              height: 50,
+              format: "",
+            }
+          : undefined,
+      };
     }
 
-    onSubmit(data);
+    onSubmit(configuredNetwork);
 
     if (!isEditingScreen) {
-      form.reset();
+      reset();
     }
   });
 
@@ -107,11 +184,10 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           });
         }}
         value={name}
-        shortName={form.watch("shortName")}
         disabled={isEditingScreen}
         errorMessage={
           form.formState.errors.name &&
-          (form.formState.errors.name.type === "isAlreadyAdded"
+          (form.formState.errors.name.type === "alreadyAdded"
             ? "Network already added"
             : "Network name is required")
         }
@@ -120,32 +196,37 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           setIsSearchOpen(status === "open");
         }}
         onCustomSelection={() => {
+          // save value before resetting the form
           const _name = form.getValues().name;
-          form.reset();
+          reset();
+          // set custom true
           form.setValue("isCustom", true);
+          // restore the name
           form.setValue("name", _name);
         }}
-        onNetworkSelection={(_networkInfo) => {
-          form.setValue("name", _networkInfo.name);
-          form.setValue("rpcUrl", _networkInfo.rpc[0]);
-          form.setValue("chainId", `${_networkInfo.chainId}`);
-          form.setValue("currencySymbol", _networkInfo.nativeCurrency.symbol);
+        onNetworkSelection={(network) => {
+          form.setValue("name", network.name);
+          form.setValue("rpcUrl", network.rpc[0]);
+          form.setValue("chainId", `${network.chainId}`);
+          form.setValue("currencySymbol", network.nativeCurrency.symbol);
           form.setValue("isCustom", false);
-          form.setValue("slug", _networkInfo.slug);
-          form.setValue("type", _networkInfo.testnet ? "testnet" : "mainnet");
-          form.setValue("shortName", _networkInfo.shortName);
-          form.setValue("icon", _networkInfo.icon);
+          form.setValue("type", network.testnet ? "testnet" : "mainnet");
+          form.setValue("icon", network.icon?.url || "");
+          setSelectedChain(network);
         }}
       />
       <Flex
         opacity={isSearchOpen ? "0.1" : "1"}
         direction="column"
         gap={10}
-        mt={6}
+        mt={8}
       >
         <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
           {/* chainId */}
-          <FormControl isRequired>
+          <FormControl
+            isRequired
+            isInvalid={form.formState.errors.chainId?.type === "taken"}
+          >
             <FormLabel>Chain ID</FormLabel>
             <Input
               disabled={!isCustom}
@@ -157,9 +238,35 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               type="number"
               {...form.register("chainId", {
                 required: true,
+                validate: {
+                  taken: (str) => {
+                    // if adding a custom network, validate that the chainId is not already taken
+
+                    if (!isCustom) {
+                      return true;
+                    }
+                    const _chainId = Number(str);
+                    if (!_chainId) {
+                      return true;
+                    }
+
+                    return !(_chainId in allChainsRecord);
+                  },
+                },
               })}
             />
+            <FormErrorMessage>
+              Can not use ChainID {`"${chainId}"`}.
+              {chainId && chainId in allChainsRecord && (
+                <>
+                  <br /> It is being used by {`"`}
+                  {allChainsRecord[chainId].name}
+                  {`"`}
+                </>
+              )}
+            </FormErrorMessage>
           </FormControl>
+
           {/* currencySymbol */}
           <FormControl isRequired>
             <FormLabel>Currency Symbol</FormLabel>
@@ -234,6 +341,30 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           </Alert>
         </FormControl>
 
+        {/* icon url */}
+        <FormControl isInvalid={!!form.formState.errors.icon}>
+          <FormLabel>Icon</FormLabel>
+          <InputGroup>
+            <Input
+              placeholder="ipfs://..."
+              autoComplete="off"
+              _placeholder={{
+                fontWeight: 500,
+              }}
+              type="text"
+              {...form.register("icon", {
+                validate: (str) => str === "" || str.startsWith("ipfs://"),
+              })}
+            />
+
+            <InputLeftElement>
+              <ChainIcon size={22} ipfsSrc={form.watch("icon")} />
+            </InputLeftElement>
+          </InputGroup>
+
+          <FormErrorMessage> Invalid IPFS URL </FormErrorMessage>
+        </FormControl>
+
         <Flex
           mt={8}
           gap={4}
@@ -241,9 +372,21 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           justifyContent={{ base: "center", md: "flex-end" }}
         >
           {isEditingScreen && (
-            <Button variant="outline" onClick={onRemove}>
-              Remove Network
-            </Button>
+            <Popover>
+              <PopoverTrigger>
+                <Button variant="outline">Remove Network</Button>
+              </PopoverTrigger>
+              <PopoverContent bg="backgroundBody" mb={3}>
+                <PopoverArrow bg="backgroundBody" />
+                <PopoverCloseButton />
+                <PopoverHeader border="none"> Are you sure? </PopoverHeader>
+                <PopoverFooter border="none" p={4} display="flex" gap={3}>
+                  <Button colorScheme="red" onClick={onRemove}>
+                    Remove
+                  </Button>
+                </PopoverFooter>
+              </PopoverContent>
+            </Popover>
           )}
           <Button
             background="bgBlack"

@@ -5,7 +5,6 @@ import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { GnosisSafeConnector } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
 import { MagicConnector } from "@thirdweb-dev/react/evm/connectors/magic";
 import { EVM_RPC_URL_MAP } from "constants/rpc";
-import { useChainInfos } from "hooks/chains/chainInfos";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { StorageSingleton } from "lib/sdk";
@@ -48,8 +47,6 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
     return wc;
   }, [chain]);
 
-  const chainInfos = useChainInfos();
-
   return (
     <ThirdwebProvider
       queryClient={queryClient}
@@ -63,7 +60,6 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
       desiredChainId={chain?.chainId}
       chains={configuredChains}
       sdkOptions={{
-        chainInfos,
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings: chain
           ? {

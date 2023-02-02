@@ -2,12 +2,9 @@ import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
 import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
 import { getEVMRPC } from "constants/rpc";
-import { useAllChainsRecord } from "hooks/chains/allChains";
+import { useAutoConfigureChains } from "hooks/chains/allChains";
 import { useChainInfos } from "hooks/chains/chainInfos";
-import {
-  useConfiguredChainsRecord,
-  useUpdateConfiguredChains,
-} from "hooks/chains/configureChains";
+import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -280,15 +277,14 @@ export function useAllContractList(walletAddress: string | undefined) {
   const multiChainQuery = useMultiChainRegContractList(walletAddress);
 
   const configuredChainsRecord = useConfiguredChainsRecord();
-  const allChainsRecord = useAllChainsRecord();
-  const updateConfiguredChains = useUpdateConfiguredChains();
+  const autoConfigureChains = useAutoConfigureChains();
 
   useEffect(() => {
     if (!multiChainQuery.data) {
       return;
     }
 
-    // check if any network is unconfigured
+    // create a set of unconfigured chains
     const unconfiguredChainsSet: Set<number> = new Set();
     multiChainQuery.data.forEach((contract) => {
       if (!configuredChainsRecord[contract.chainId]) {
@@ -296,20 +292,9 @@ export function useAllContractList(walletAddress: string | undefined) {
       }
     });
 
-    // configure them
-    unconfiguredChainsSet.forEach((chainId) => {
-      // if available
-      if (chainId in allChainsRecord) {
-        // configure it
-        updateConfiguredChains.add(allChainsRecord[chainId]);
-      }
-    });
-  }, [
-    multiChainQuery.data,
-    configuredChainsRecord,
-    updateConfiguredChains,
-    allChainsRecord,
-  ]);
+    // auto configure them all if possible
+    autoConfigureChains(unconfiguredChainsSet);
+  }, [autoConfigureChains, multiChainQuery.data, configuredChainsRecord]);
 
   const allList = useMemo(() => {
     const mainnets: ContractWithMetadata[] = [];
