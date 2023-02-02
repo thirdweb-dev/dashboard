@@ -17,7 +17,6 @@ import {
   Icon,
   List,
   ListItem,
-  Skeleton,
 } from "@chakra-ui/react";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { useQuery } from "@tanstack/react-query";
