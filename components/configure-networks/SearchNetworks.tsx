@@ -153,6 +153,16 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             sx={{
               maskImage:
                 "linear-gradient(to bottom, black 80%, transparent 100%)",
+              "&::-webkit-scrollbar": {
+                width: "6px",
+              },
+              "&::-webkit-scrollbar-track": {
+                width: "6px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "inputBgHover",
+                borderRadius: 24,
+              },
             }}
             overflowY="auto"
             borderTop="1px solid"

@@ -85,6 +85,9 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
             background: "inputBg",
             borderRadius: 24,
           },
+          "&::-webkit-scrollbar-thumb:hover": {
+            background: "inputBgHover",
+          },
         }}
         pb={8}
       >
