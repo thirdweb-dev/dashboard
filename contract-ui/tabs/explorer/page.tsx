@@ -12,15 +12,11 @@ interface ContractCodePageProps {
 export const ContractExplorerPage: React.FC<ContractCodePageProps> = ({
   contractAddress,
 }) => {
-  const { contract, isSuccess, isError } = useContract(contractAddress);
+  const { contract } = useContract(contractAddress);
 
   const functions = useContractFunctions(contract?.abi as Abi);
   if (!contractAddress) {
     return <div>No contract address provided</div>;
-  }
-
-  if ((!contract?.abi && isSuccess) || isError) {
-    return <ImportContract contractAddress={contractAddress} />;
   }
 
   return (
