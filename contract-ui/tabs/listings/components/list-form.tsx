@@ -208,7 +208,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           Select NFT
         </Heading>
         <FormHelperText mb="8px">
-          Select the NFTs you want to list for sale
+          Select the NFT you want to list for sale
         </FormHelperText>
         {nftsLoading ? (
           <Center height="60px">
