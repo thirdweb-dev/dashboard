@@ -64,9 +64,11 @@ const tableColumns: Column<DirectListingV3 | EnglishAuction>[] = [
       <AddressCopyButton variant="outline" address={cell.value} />
     ),
   },
-  /*   {
+  {
     Header: "Price",
-    accessor: (row) => row?.pricePerToken,
+    accessor: (row) =>
+      (row as DirectListingV3)?.currencyValuePerToken ||
+      (row as EnglishAuction)?.buyoutCurrencyValue,
     Cell: ({ cell }: { cell: Cell<any, any> }) => {
       return (
         <Text size="label.md" whiteSpace="nowrap">
@@ -74,7 +76,7 @@ const tableColumns: Column<DirectListingV3 | EnglishAuction>[] = [
         </Text>
       );
     },
-  }, */
+  },
   {
     Header: "Status",
     accessor: (row) => LISTING_STATUS[row.status],
