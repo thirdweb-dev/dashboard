@@ -15,7 +15,8 @@ export const NFTMediaWithEmptyState: React.FC<
     return (
       <Center
         borderRadius="lg"
-        boxSize={props.boxSize}
+        width={props.width}
+        height={props.height}
         borderColor="accent.300"
         borderWidth="1px"
       >
