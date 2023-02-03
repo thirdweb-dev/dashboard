@@ -16,14 +16,19 @@ import {
   useModalContext,
 } from "@chakra-ui/react";
 import {
+  UseContractResult,
+  useContractType,
   useCreateAuctionListing,
   useCreateDirectListing,
 } from "@thirdweb-dev/react";
 import {
+  Marketplace,
+  MarketplaceV3,
   NATIVE_TOKEN_ADDRESS,
   NewAuctionListing,
   NewDirectListing,
 } from "@thirdweb-dev/sdk/evm";
+import { detectFeatures } from "components/contract-components/utils";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -44,18 +49,35 @@ interface ListForm
 }
 
 type NFTMintForm = {
+  contractQuery:
+    | UseContractResult<Marketplace>
+    | UseContractResult<MarketplaceV3>;
   directList: ReturnType<typeof useCreateDirectListing>;
   auctionList: ReturnType<typeof useCreateAuctionListing>;
   formId: string;
+  type?: "direct-listings" | "english-auctions";
 };
 
 export const CreateListingsForm: React.FC<NFTMintForm> = ({
+  contractQuery,
   directList,
   auctionList,
   formId,
+  type,
 }) => {
   const trackEvent = useTrack();
   const network = useDashboardNetwork();
+
+  const { data: contractType } = useContractType(
+    contractQuery?.contract?.getAddress(),
+  );
+
+  const detectDirectListings = detectFeatures(contractQuery?.contract, [
+    "DirectListings",
+  ]);
+  const detectEnglishAuctions = detectFeatures(contractQuery?.contract, [
+    "EnglishAuctions",
+  ]);
 
   const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
 
@@ -65,7 +87,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
       currencyContractAddress: NATIVE_TOKEN_ADDRESS,
       quantity: "1",
       buyoutPricePerToken: "0",
-      listingType: "direct",
+      listingType: type === "english-auctions" ? "auction" : "direct",
       reservePricePerToken: "0",
       startTimestamp: new Date(),
       listingDurationInSeconds: (60 * 60 * 24).toString(),
@@ -102,11 +124,16 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               assetContractAddress: formData.selected.contractAddress,
               tokenId: formData.selected.tokenId,
               currencyContractAddress: formData.currencyContractAddress,
+              quantity: formData.quantity,
+              startTimestamp: formData.startTimestamp,
+              // Hard code to year 2100 for now
+              pricePerToken: formData.buyoutPricePerToken,
+              endTimestamp: new Date(4102444800000),
+
+              // Marketplace v1 params
               buyoutPricePerToken: formData.buyoutPricePerToken,
               // Hard code to 100 years for now
               listingDurationInSeconds: (60 * 60 * 24 * 365 * 100).toString(),
-              quantity: formData.quantity,
-              startTimestamp: formData.startTimestamp,
             },
             {
               onSuccess: () => {
@@ -121,12 +148,33 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
             {
               assetContractAddress: formData.selected.contractAddress,
               tokenId: formData.selected.tokenId,
-              currencyContractAddress: formData.currencyContractAddress,
-              buyoutPricePerToken: formData.buyoutPricePerToken,
-              listingDurationInSeconds: formData.listingDurationInSeconds,
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
+              currencyContractAddress: formData.currencyContractAddress,
+
               reservePricePerToken: formData.reservePricePerToken,
+              // All tokens in the listing (not multipled by quantity)
+              minimumBidAmount: (
+                Number(formData.reservePricePerToken) *
+                Number(formData.quantity)
+              ).toString(),
+
+              buyoutPricePerToken: formData.buyoutPricePerToken,
+              // All tokens in the listing (not multipled by quantity)
+              buyoutBidAmount: (
+                Number(formData.buyoutPricePerToken) * Number(formData.quantity)
+              ).toString(),
+
+              listingDurationInSeconds: formData.listingDurationInSeconds,
+              // Create endTimestamp with the current date + listingDurationInSeconds
+              endTimestamp: new Date(
+                new Date().getTime() +
+                  parseInt(formData.listingDurationInSeconds) * 1000,
+              ),
+
+              // new ones (they were global before)
+              /*               bidBufferBps: "0",
+              timeBufferInSeconds: "0", */
             },
             {
               onSuccess: () => {
@@ -270,8 +318,14 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           Listing Type
         </Heading>
         <Select {...register("listingType")}>
-          <option value="direct">Direct</option>
-          <option value="auction">Auction</option>
+          {contractType === "marketplace" ||
+          (contractType === "marketplace-v3" && detectDirectListings) ? (
+            <option value="direct">Direct</option>
+          ) : null}
+          {contractType === "marketplace" ||
+          (contractType === "marketplace-v3" && detectEnglishAuctions) ? (
+            <option value="auction">Auction</option>
+          ) : null}
         </Select>
         <FormHelperText>
           The type of listing you want to create, either an auction or direct
