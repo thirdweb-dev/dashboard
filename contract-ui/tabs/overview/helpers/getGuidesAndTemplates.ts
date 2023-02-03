@@ -134,28 +134,29 @@ const GUIDES_FOR_TYPE: { [key: string]: Item[] } = {
 const GUIDES_FOR_FEATURE: { [key: string]: Item[] } = {
   ERC20ClaimConditionsV1: [
     ALL_GUIDES.claimErc20TokenNextjs,
+    ALL_GUIDES.tokenButtonReact,
     ALL_GUIDES.sellYourInGameCurrencyForCryptoInUnity,
   ],
   ERC20ClaimConditionsV2: [
     ALL_GUIDES.claimErc20TokenNextjs,
+    ALL_GUIDES.tokenButtonReact,
     ALL_GUIDES.sellYourInGameCurrencyForCryptoInUnity,
   ],
   ERC20ClaimPhasesV2: [
     ALL_GUIDES.claimErc20TokenNextjs,
+    ALL_GUIDES.tokenButtonReact,
     ALL_GUIDES.sellYourInGameCurrencyForCryptoInUnity,
   ],
   ERC20ClaimPhasesV1: [
     ALL_GUIDES.claimErc20TokenNextjs,
+    ALL_GUIDES.tokenButtonReact,
     ALL_GUIDES.sellYourInGameCurrencyForCryptoInUnity,
   ],
   ERC20Burnable: [],
   ERC20SignatureMintable: [],
   ERC20BatchMintable: [],
   ERC20Mintable: [],
-  ERC20: [
-    ALL_GUIDES.tokenButtonReact,
-    ALL_GUIDES.howToSellNftsInACustomErc20Token,
-  ],
+  ERC20: [ALL_GUIDES.howToSellNftsInACustomErc20Token],
   ERC721Burnable: [],
   ERC721Revealable: [ALL_GUIDES.nftDropWithDelayedReveal],
   ERC721TieredDrop: [],
@@ -214,10 +215,10 @@ const GUIDES_FOR_FEATURE: { [key: string]: Item[] } = {
   ],
   ERC721: [ALL_GUIDES.nftGatedWebsite],
   ERC1155Burnable: [],
-  ERC1155ClaimConditionsV1: [],
-  ERC1155ClaimConditionsV2: [],
-  ERC1155ClaimPhasesV2: [],
-  ERC1155ClaimPhasesV1: [],
+  ERC1155ClaimConditionsV1: [ALL_GUIDES.nftGatedWebsite],
+  ERC1155ClaimConditionsV2: [ALL_GUIDES.nftGatedWebsite],
+  ERC1155ClaimPhasesV2: [ALL_GUIDES.nftGatedWebsite],
+  ERC1155ClaimPhasesV1: [ALL_GUIDES.nftGatedWebsite],
   ERC1155ClaimCustom: [],
   ERC1155Revealable: [ALL_GUIDES.nftDropWithDelayedReveal],
   ERC1155LazyMintableV2: [],
@@ -226,10 +227,7 @@ const GUIDES_FOR_FEATURE: { [key: string]: Item[] } = {
   ERC1155BatchMintable: [],
   ERC1155Mintable: [],
   ERC1155Enumerable: [ALL_GUIDES.createAnNftGalleryUsingThirdwebAndNextJs],
-  ERC1155: [
-    ALL_GUIDES.nftGatedWebsite,
-    ALL_GUIDES.airdropFreeToOwnNftsForAWeb3Game,
-  ],
+  ERC1155: [ALL_GUIDES.airdropFreeToOwnNftsForAWeb3Game],
   Royalty: [],
   PrimarySale: [],
   PlatformFee: [],
@@ -250,7 +248,7 @@ const ALL_TEMPLATES = {
     url: "https://github.com/thirdweb-example/nft-staking-app/",
   },
   nftDrop: {
-    title: "NFT Drop",
+    title: "NFT Drop Minting Page",
     url: "https://github.com/thirdweb-example/nft-drop/",
   },
   burn1155Mint721: {
@@ -266,7 +264,7 @@ const ALL_TEMPLATES = {
     url: "https://github.com/thirdweb-example/nft-gated-website",
   },
   editionDrop: {
-    title: "Edition Drop",
+    title: "Edition Drop Minting Page",
     url: "https://github.com/thirdweb-example/edition-drop",
   },
   packs: {
@@ -278,11 +276,11 @@ const ALL_TEMPLATES = {
     url: "https://github.com/thirdweb-example/signature-drop",
   },
   marketplace: {
-    title: "Marketplace",
+    title: "Build your own Marketplace",
     url: "https://github.com/thirdweb-example/marketplace",
   },
   dao: {
-    title: "DAO",
+    title: "Build your own DAO",
     url: "https://github.com/thirdweb-example/dao",
   },
   multiwrap: {
@@ -332,10 +330,22 @@ const TEMPLATES_FOR_FEATURE: { [key: string]: Item[] } = {
   ERC721Supply: [],
   ERC721: [ALL_TEMPLATES.nftGatedWebsite],
   ERC1155Burnable: [],
-  ERC1155ClaimConditionsV1: [ALL_TEMPLATES.editionDrop],
-  ERC1155ClaimConditionsV2: [ALL_TEMPLATES.editionDrop],
-  ERC1155ClaimPhasesV2: [ALL_TEMPLATES.editionDrop],
-  ERC1155ClaimPhasesV1: [ALL_TEMPLATES.editionDrop],
+  ERC1155ClaimConditionsV1: [
+    ALL_TEMPLATES.editionDrop,
+    ALL_TEMPLATES.nftGatedWebsite,
+  ],
+  ERC1155ClaimConditionsV2: [
+    ALL_TEMPLATES.editionDrop,
+    ALL_TEMPLATES.nftGatedWebsite,
+  ],
+  ERC1155ClaimPhasesV2: [
+    ALL_TEMPLATES.editionDrop,
+    ALL_TEMPLATES.nftGatedWebsite,
+  ],
+  ERC1155ClaimPhasesV1: [
+    ALL_TEMPLATES.editionDrop,
+    ALL_TEMPLATES.nftGatedWebsite,
+  ],
   ERC1155ClaimCustom: [],
   ERC1155Revealable: [],
   ERC1155LazyMintableV2: [],
@@ -344,7 +354,7 @@ const TEMPLATES_FOR_FEATURE: { [key: string]: Item[] } = {
   ERC1155BatchMintable: [],
   ERC1155Mintable: [],
   ERC1155Enumerable: [],
-  ERC1155: [ALL_TEMPLATES.nftGatedWebsite],
+  ERC1155: [],
   Royalty: [],
   PrimarySale: [],
   PlatformFee: [],
@@ -367,20 +377,20 @@ export function getGuidesAndTemplates(
       guides: [...acc.guides, ...(GUIDES_FOR_FEATURE[guide] || [])],
       templates: [...acc.templates, ...(TEMPLATES_FOR_FEATURE[guide] || [])],
     }),
-    { guides: [] as Item[], templates: [] as Item[] },
+    {
+      guides: GUIDES_FOR_TYPE[contractType] || [],
+      templates: TEMPLATES_FOR_TYPE[contractType] || [],
+    },
   );
-
-  data.guides.push(...(GUIDES_FOR_TYPE[contractType] || []));
-  data.templates.push(...(TEMPLATES_FOR_TYPE[contractType] || []));
 
   return {
     guides: data.guides.filter(
       (guide, index) =>
-        data.guides.findIndex((g) => g.title === guide.title) === index,
+        data.guides.findIndex((g) => g.url === guide.url) === index,
     ),
     templates: data.templates.filter(
       (template, index) =>
-        data.templates.findIndex((t) => t.title === template.title) === index,
+        data.templates.findIndex((t) => t.url === template.url) === index,
     ),
   };
 }
