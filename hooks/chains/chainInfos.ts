@@ -8,9 +8,7 @@ export function useChainInfos() {
   const chainInfos = useMemo(() => {
     const record: Record<number, ChainInfo> = {};
     for (const chain of configuredNetworks) {
-      record[chain.chainId] = {
-        rpc: chain.rpc[0],
-      };
+      record[chain.chainId] = chain;
     }
 
     return record;

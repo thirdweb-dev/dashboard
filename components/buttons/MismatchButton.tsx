@@ -20,9 +20,9 @@ import {
   useAddress,
   useBalance,
   useChainId,
-  useDesiredChainId,
   useNetwork,
   useNetworkMismatch,
+  useSDKChainId,
 } from "@thirdweb-dev/react";
 import {
   useSDK,
@@ -189,7 +189,7 @@ const MismatchNotice: React.FC<{
   onClose: () => void;
 }> = ({ initialFocusRef, onClose }) => {
   const connectedChainId = useChainId();
-  const desiredChainId = useDesiredChainId();
+  const desiredChainId = useSDKChainId();
   const [network, switchNetwork] = useNetwork();
   const actuallyCanAttemptSwitch = !!switchNetwork;
   const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);

@@ -56,8 +56,8 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      chainRpc={EVM_RPC_URL_MAP}
       desiredChainId={chain?.chainId}
+      network={chain?.chainId || 1}
       chains={configuredChains}
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },

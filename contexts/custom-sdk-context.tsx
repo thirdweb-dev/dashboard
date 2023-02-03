@@ -17,6 +17,7 @@ export const CustomSDKContext: ComponentWithChildren<{
 
   return (
     <ThirdwebSDKProvider
+      network={desiredChainId || 0}
       desiredChainId={desiredChainId}
       signer={signer}
       provider={provider}

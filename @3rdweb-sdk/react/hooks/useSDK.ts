@@ -46,7 +46,7 @@ export function useMultiChainRegContractList(walletAddress?: string) {
         ChainId.Polygon,
         getEVMRPC(ChainId.Polygon),
         {
-          chainInfos,
+          chains: Object.values(chainInfos),
         },
       );
 
