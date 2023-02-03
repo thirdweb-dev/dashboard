@@ -30,6 +30,7 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { detectFeatures } from "components/contract-components/utils";
 import { CurrencySelector } from "components/shared/CurrencySelector";
+import { formatEther, parseEther } from "ethers/lib/utils";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { WalletNFT } from "lib/wallet/nfts/types";
@@ -153,17 +154,18 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               currencyContractAddress: formData.currencyContractAddress,
 
               reservePricePerToken: formData.reservePricePerToken,
-              // All tokens in the listing (not multipled by quantity)
-              minimumBidAmount: (
-                Number(formData.reservePricePerToken) *
-                Number(formData.quantity)
-              ).toString(),
+              // All tokens in the listing (multipled by quantity)
+              minimumBidAmount: mulDecimalByQuantity(
+                formData.reservePricePerToken,
+                formData.quantity,
+              ),
 
               buyoutPricePerToken: formData.buyoutPricePerToken,
-              // All tokens in the listing (not multipled by quantity)
-              buyoutBidAmount: (
-                Number(formData.buyoutPricePerToken) * Number(formData.quantity)
-              ).toString(),
+              // All tokens in the listing (multipled by quantity)
+              buyoutBidAmount: mulDecimalByQuantity(
+                formData.buyoutPricePerToken,
+                formData.quantity,
+              ),
 
               listingDurationInSeconds: formData.listingDurationInSeconds,
               // Create endTimestamp with the current date + listingDurationInSeconds
@@ -430,3 +432,14 @@ const ListLabel: React.FC<ListLabelProps> = ({ nft }) => {
     </List>
   );
 };
+
+function mulDecimalByQuantity(a: string | number, b: string | number): string {
+  if (!a || a.toString() === "0" || !b || b.toString() === "0") {
+    return "0";
+  }
+
+  const aWei = parseEther(a.toString());
+  const result = aWei.mul(b);
+
+  return formatEther(result).toString();
+}
