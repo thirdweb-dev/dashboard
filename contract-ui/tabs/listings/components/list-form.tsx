@@ -35,7 +35,14 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import { WalletNFT } from "lib/wallet/nfts/types";
 import { useForm } from "react-hook-form";
 import { FiInfo } from "react-icons/fi";
-import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
+import {
+  Card,
+  FormHelperText,
+  FormLabel,
+  Heading,
+  Link,
+  Text,
+} from "tw-components";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -253,19 +260,27 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
             padding="10px"
             spacing={3}
             _dark={{
-              bg: "orange.800",
-              borderColor: "orange.800",
+              bg: "orange.300",
+              borderColor: "orange.300",
             }}
           >
             <Icon
               as={FiInfo}
               color="orange.400"
-              _dark={{ color: "orange.100" }}
+              _dark={{ color: "orange.900" }}
               boxSize={6}
             />
-            <Text color="orange.800" _dark={{ color: "orange.100" }}>
+            <Text color="orange.800" _dark={{ color: "orange.900" }}>
               There are no NFTs owned by this wallet. You need NFTs to create a
-              listing.
+              listing. You can create NFTs with thirdweb.{" "}
+              <Link
+                href="https://thirdweb.com/explore/nft"
+                color="blue.600"
+                isExternal
+              >
+                Explore NFT contracts
+              </Link>
+              .
             </Text>
           </Stack>
         )}
