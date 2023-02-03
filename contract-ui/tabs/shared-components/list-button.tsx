@@ -41,7 +41,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
         size="lg"
         onClose={onClose}
         isOpen={isOpen}
-        header={{ children: "Create Listing" }}
+        header={{ children: createText }}
         footer={{
           children: (
             <>

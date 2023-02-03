@@ -31,6 +31,7 @@ export const ContractDirectListingsPage: React.FC<
           <CreateListingButton
             contractQuery={contractQuery}
             type="direct-listings"
+            createText="Create Direct Listing"
           />
         </Flex>
       </Flex>

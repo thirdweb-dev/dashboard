@@ -30,6 +30,7 @@ export const ContractEnglishAuctionsPage: React.FC<
           <CreateListingButton
             contractQuery={contractQuery}
             type="english-auctions"
+            createText="Create English Auction"
           />
         </Flex>
       </Flex>
