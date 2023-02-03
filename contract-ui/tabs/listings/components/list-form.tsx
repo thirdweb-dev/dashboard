@@ -28,7 +28,6 @@ import {
   NewAuctionListing,
   NewDirectListing,
 } from "@thirdweb-dev/sdk/evm";
-import { detectFeatures } from "components/contract-components/utils";
 import { CurrencySelector } from "components/shared/CurrencySelector";
 import { formatEther, parseEther } from "ethers/lib/utils";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -72,13 +71,6 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
   const { data: contractType } = useContractType(
     contractQuery?.contract?.getAddress(),
   );
-
-  const detectDirectListings = detectFeatures(contractQuery?.contract, [
-    "DirectListings",
-  ]);
-  const detectEnglishAuctions = detectFeatures(contractQuery?.contract, [
-    "EnglishAuctions",
-  ]);
 
   const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
 
