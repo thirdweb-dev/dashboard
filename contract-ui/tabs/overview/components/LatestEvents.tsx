@@ -60,7 +60,7 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
           View all events -&gt;
         </TrackedLink>
       </Flex>
-      {contractAddress && (
+      {address && (
         <Card p={0} overflow="hidden">
           <SimpleGrid
             gap={2}
