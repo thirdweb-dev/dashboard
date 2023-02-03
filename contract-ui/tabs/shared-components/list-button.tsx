@@ -36,6 +36,7 @@ export const CreateListingButton: React.FC<CreateListingButtonProps> = ({
   return (
     <ListerOnly contract={contractQuery?.contract}>
       <Drawer
+        overflowX="hidden"
         allowPinchZoom
         preserveScrollBarGap
         size="lg"

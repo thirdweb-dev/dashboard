@@ -1,11 +1,11 @@
 import { useDashboardNetwork } from "@3rdweb-sdk/react";
 import { useWalletNFTs } from "@3rdweb-sdk/react/hooks/useWalletNFTs";
 import {
+  Box,
   Center,
   Flex,
   FormControl,
   Icon,
-  Image,
   Input,
   List,
   ListItem,
@@ -34,9 +34,9 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { WalletNFT } from "lib/wallet/nfts/types";
 import { useForm } from "react-hook-form";
-import { FaImage } from "react-icons/fa";
 import { FiInfo } from "react-icons/fi";
-import { FormHelperText, FormLabel, Heading, Text } from "tw-components";
+import { Card, FormHelperText, FormLabel, Heading, Text } from "tw-components";
+import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 interface ListForm
@@ -210,71 +210,34 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
         ) : nfts?.result?.length ? (
           <Flex gap={2} flexWrap="wrap">
             {nfts.result.map((nft, id) => {
-              if (nft.metadata.image) {
-                return (
-                  <Tooltip key={id} label={<ListLabel nft={nft} />}>
-                    <Image
-                      src={nft.metadata.image || undefined}
-                      width="140px"
-                      height="140px"
-                      alt={`${nft.metadata.name || ""}`}
-                      borderRadius="md"
-                      cursor="pointer"
-                      onClick={() =>
-                        isSelected(nft)
-                          ? setValue("selected", undefined)
-                          : setValue("selected", nft)
-                      }
-                      border={isSelected(nft) ? "5px solid" : undefined}
-                      borderColor={isSelected(nft) ? "purple.500" : undefined}
-                    />
-                  </Tooltip>
-                );
-              }
-
-              if (nft.metadata && nft.metadata.name) {
-                return (
-                  <Tooltip key={id} label={<ListLabel nft={nft} />}>
-                    <Center
-                      flexDirection="column"
-                      width="140px"
-                      height="140px"
-                      borderRadius="md"
-                      cursor="pointer"
-                      onClick={() =>
-                        isSelected(nft)
-                          ? setValue("selected", undefined)
-                          : setValue("selected", nft)
-                      }
-                      border={isSelected(nft) ? "5px solid" : undefined}
-                      borderColor={isSelected(nft) ? "purple.500" : undefined}
-                      bg="gray.200"
-                    >
-                      <Text>{nft.metadata?.name}</Text>
-                    </Center>
-                  </Tooltip>
-                );
-              }
-
               return (
-                <Tooltip key={id} label={<ListLabel nft={nft} />}>
-                  <Center
-                    flexDirection="column"
-                    width="140px"
-                    height="140px"
-                    borderRadius="md"
+                <Tooltip
+                  bg="transparent"
+                  boxShadow="none"
+                  shouldWrapChildren
+                  placement="left-end"
+                  key={id}
+                  label={<ListLabel nft={nft} />}
+                >
+                  <Box
+                    borderRadius="lg"
                     cursor="pointer"
                     onClick={() =>
                       isSelected(nft)
                         ? setValue("selected", undefined)
                         : setValue("selected", nft)
                     }
-                    border={isSelected(nft) ? "5px solid" : undefined}
-                    borderColor={isSelected(nft) ? "purple.500" : undefined}
-                    bg="gray.200"
+                    outline={isSelected(nft) ? "3px solid" : undefined}
+                    outlineColor={isSelected(nft) ? "purple.500" : undefined}
+                    overflow="hidden"
                   >
-                    <Icon as={FaImage} boxSize={3} />
-                  </Center>
+                    <NFTMediaWithEmptyState
+                      metadata={nft.metadata}
+                      width="140px"
+                      height="140px"
+                      alt={`${nft.metadata.name || ""}`}
+                    />
+                  </Box>
                 </Tooltip>
               );
             })}
@@ -353,15 +316,6 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
             <Heading as={FormLabel} size="label.lg">
               Quantity
             </Heading>
-            {/* {watch("selected") && (
-                  <Text
-                    color="primary.400"
-                    cursor="pointer"
-                    _hover={{ textDecor: "underline" }}
-                  >
-                    Max
-                  </Text>
-                )} */}
           </Stack>
           <Input {...register("quantity")} />
           <FormHelperText>
@@ -401,23 +355,25 @@ interface ListLabelProps {
 
 const ListLabel: React.FC<ListLabelProps> = ({ nft }) => {
   return (
-    <List>
-      <ListItem>
-        <strong>Name:</strong> {nft.metadata?.name || "N/A"}
-      </ListItem>
-      <ListItem>
-        <strong>Contract Address:</strong>{" "}
-        {shortenIfAddress(nft.contractAddress)}
-      </ListItem>
-      <ListItem>
-        <strong>Token ID: </strong> {nft.tokenId}
-      </ListItem>
-      <ListItem>
-        <>
-          <strong>Token Standard: </strong> {nft.type}
-        </>
-      </ListItem>
-    </List>
+    <Card color="paragraph" p={4} bg="backgroundCardHighlight">
+      <List>
+        <ListItem>
+          <strong>Name:</strong> {nft.metadata?.name || "N/A"}
+        </ListItem>
+        <ListItem>
+          <strong>Contract Address:</strong>{" "}
+          {shortenIfAddress(nft.contractAddress)}
+        </ListItem>
+        <ListItem>
+          <strong>Token ID: </strong> {nft.tokenId}
+        </ListItem>
+        <ListItem>
+          <>
+            <strong>Token Standard: </strong> {nft.type}
+          </>
+        </ListItem>
+      </List>
+    </Card>
   );
 };
 

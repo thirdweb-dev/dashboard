@@ -10,10 +10,7 @@ export const NFTMedia = chakra(ThirdwebNftMedia, {
 export const NFTMediaWithEmptyState: React.FC<
   PropsOf<typeof NFTMedia> & ThirdwebNftMediaProps
 > = (props) => {
-  if (
-    !props.metadata.uri ||
-    !(props.metadata.image || props.metadata.animation_url)
-  ) {
+  if (!(props.metadata.image || props.metadata.animation_url)) {
     return (
       <Center
         borderRadius="lg"
