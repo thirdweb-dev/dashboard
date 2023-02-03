@@ -846,7 +846,7 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
             <SupportedNetworkSelect
               isDisabled={deploy.isLoading || !publishMetadata.isSuccess}
               value={
-                !DisabledChainsMap[contractType as ContractType].find(
+                !DisabledChainsMap[contractType as ContractType]?.find(
                   (chain) => chain === selectedChain,
                 )
                   ? selectedChain
