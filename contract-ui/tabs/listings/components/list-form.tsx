@@ -130,7 +130,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               pricePerToken: formData.buyoutPricePerToken,
               endTimestamp: new Date(4102444800000),
 
-              // Marketplace v1 params
+              // Marketplace v1 only params
               buyoutPricePerToken: formData.buyoutPricePerToken,
               // Hard code to 100 years for now
               listingDurationInSeconds: (60 * 60 * 24 * 365 * 100).toString(),
@@ -151,31 +151,24 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               quantity: formData.quantity,
               startTimestamp: formData.startTimestamp,
               currencyContractAddress: formData.currencyContractAddress,
-
-              reservePricePerToken: formData.reservePricePerToken,
-              // All tokens in the listing (multipled by quantity)
               minimumBidAmount: mulDecimalByQuantity(
                 formData.reservePricePerToken,
                 formData.quantity,
               ),
-
-              buyoutPricePerToken: formData.buyoutPricePerToken,
-              // All tokens in the listing (multipled by quantity)
               buyoutBidAmount: mulDecimalByQuantity(
                 formData.buyoutPricePerToken,
                 formData.quantity,
               ),
-
-              listingDurationInSeconds: formData.listingDurationInSeconds,
               // Create endTimestamp with the current date + listingDurationInSeconds
               endTimestamp: new Date(
                 new Date().getTime() +
                   parseInt(formData.listingDurationInSeconds) * 1000,
               ),
 
-              // new ones (they were global before)
-              /*               bidBufferBps: "0",
-              timeBufferInSeconds: "0", */
+              // Marketplace v1 only params
+              reservePricePerToken: formData.reservePricePerToken,
+              buyoutPricePerToken: formData.buyoutPricePerToken,
+              listingDurationInSeconds: formData.listingDurationInSeconds,
             },
             {
               onSuccess: () => {
