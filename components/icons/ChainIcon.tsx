@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 // TODO - Have a better icon here
-const fallbackIcon = `https://gateway.ipfscdn.io/ipfs/QmdwQDr6vmBtXmK2TmknkEuZNoaDqTasFdZdu3DRw8b2wt`;
+const fallbackIcon = `https://gateway.ipfscdn.io/ipfs/QmcxZHpyJa8T4i63xqjPYrZ6tKrt55tZJpbXcjSDKuKaf9/ethereum/512.png`;
 
 export const ChainIcon: React.FC<{ ipfsSrc?: string; size: number }> = (
   props,

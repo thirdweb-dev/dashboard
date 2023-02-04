@@ -124,6 +124,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
             setEditingChain(undefined);
           }}
           leftIcon={<Icon as={IoMdAdd} />}
+          disabled={!editingChain}
         >
           <Text fontSize="md" color="inherit" textAlign="left" fontWeight={600}>
             Add Network

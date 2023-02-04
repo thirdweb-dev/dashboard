@@ -22,6 +22,7 @@ import {
   SimpleGrid,
   Stack,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
@@ -75,6 +76,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const allChainsSlugRecord = useAllChainsSlugRecord();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
+  const deletePopover = useDisclosure();
 
   const form = useForm<NetworkConfigFormData>({
     values: {
@@ -193,7 +195,13 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   });
 
   return (
-    <Box as="form" onSubmit={handleSubmit}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return handleSubmit(e);
+      }}
+    >
       <SearchNetworks
         onChange={(value) => {
           form.setValue("name", value, {
@@ -223,8 +231,15 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           form.setValue("name", _name);
           // initial suggestion
           form.setValue("slug", _name.toLowerCase().replace(/\s/g, "-"));
+
+          // if name contains test - suggest testnet
+          form.setValue(
+            "type",
+            _name.toLowerCase().includes("test") ? "testnet" : "mainnet",
+          );
         }}
         onNetworkSelection={(network) => {
+          form.clearErrors();
           form.setValue("name", network.name);
           form.setValue("rpcUrl", network.rpc[0]);
           form.setValue("chainId", `${network.chainId}`);
@@ -464,17 +479,34 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         >
           {/* Remove Button */}
           {isEditingScreen && (
-            <Popover>
+            <Popover
+              isOpen={deletePopover.isOpen}
+              onOpen={deletePopover.onOpen}
+              onClose={deletePopover.onClose}
+            >
               <PopoverTrigger>
                 <Button variant="outline">Remove Network</Button>
               </PopoverTrigger>
-              <PopoverContent bg="backgroundBody" mb={3}>
+              <PopoverContent
+                bg="backgroundBody"
+                mb={3}
+                boxShadow="0 0px 20px rgba(0, 0, 0, 0.15)"
+              >
                 <PopoverArrow bg="backgroundBody" />
                 <PopoverCloseButton />
                 <PopoverHeader border="none"> Are you sure? </PopoverHeader>
-                <PopoverFooter border="none" p={4} display="flex" gap={3}>
+                <PopoverFooter
+                  border="none"
+                  p={4}
+                  mt={2}
+                  display="flex"
+                  gap={3}
+                >
                   <Button colorScheme="red" onClick={onRemove}>
                     Remove
+                  </Button>
+                  <Button onClick={deletePopover.onClose} variant="outline">
+                    Cancel
                   </Button>
                 </PopoverFooter>
               </PopoverContent>
@@ -495,6 +527,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           </Button>
         </Flex>
       </Flex>
-    </Box>
+    </form>
   );
 };
