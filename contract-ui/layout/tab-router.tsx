@@ -12,7 +12,6 @@ import {
   Outlet,
   ReactLocation,
   Router,
-  useLocation,
   useMatchRoute,
 } from "@tanstack/react-location";
 import { Logo } from "components/logo";
@@ -24,6 +23,9 @@ import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/c
 import { DropNotReady } from "contract-ui/tabs/claim-conditions/components/drop-not-ready";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
+
+import { ProgramMetadata } from "program-ui/common/program-metadata";
+
 import { useCallback, useRef, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
 import { VscExtensions } from "react-icons/vsc";

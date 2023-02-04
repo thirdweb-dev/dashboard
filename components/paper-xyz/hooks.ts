@@ -1,7 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ThirdwebAuth } from "@thirdweb-dev/auth";
-import { SignerWallet } from "@thirdweb-dev/auth/evm";
-import { ChainId, useSDK, useSDKChainId, useSigner } from "@thirdweb-dev/react";
+import {
+  ChainId,
+  useAddress,
+  useSDK,
+  useSDKChainId,
+} from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
 
 export const PAPER_CHAIN_ID_MAP = {
@@ -56,18 +60,15 @@ export function usePaperRegisterContractMutation(
   const queryClient = useQueryClient();
   const paperChain =
     PAPER_CHAIN_ID_MAP[chainId as keyof typeof PAPER_CHAIN_ID_MAP];
-  const signer = useSigner();
+
+  const address = useAddress();
+  const auth = new ThirdwebAuth(address, "thirdweb.paper.xyz");
 
   return useMutation(
     async () => {
       invariant(signer, "address required");
       invariant(paperChain, "unsupported chain id");
       invariant(contractAddress, "contract address required");
-
-      const auth = new ThirdwebAuth(
-        new SignerWallet(signer),
-        "thirdweb.paper.xyz",
-      );
 
       const loginPayload = await auth.login();
 
