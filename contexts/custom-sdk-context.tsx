@@ -4,23 +4,19 @@ import { ChainId, SDKOptions, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
-import { useProvider } from "wagmi";
 
 export const CustomSDKContext: ComponentWithChildren<{
   desiredChainId?: SUPPORTED_CHAIN_ID | -1;
   options?: SDKOptions;
 }> = ({ desiredChainId, options, children }) => {
   const signer = useSigner();
-  const provider = useProvider();
   const queryClient = useQueryClient();
   const networkInfo = useConfiguredChain(desiredChainId || -1);
 
   return (
     <ThirdwebSDKProvider
-      network={desiredChainId || 0}
-      desiredChainId={desiredChainId}
+      network={desiredChainId || 1}
       signer={signer}
-      provider={provider}
       queryClient={queryClient}
       sdkOptions={{
         gasSettings: {

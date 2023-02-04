@@ -159,26 +159,28 @@ const EVMContractPage: ThirdwebNextPage = () => {
 export default EVMContractPage;
 EVMContractPage.pageId = PageId.DeployedContract;
 EVMContractPage.getLayout = (page, props: EVMContractProps) => {
+  // app layout has to come first in both getLayout and fallback
   return (
-    <EVMContractInfoProvider initialValue={props.contractInfo}>
-      <AppLayout
-        layout={"custom-contract"}
-        dehydratedState={props.dehydratedState}
-      >
+    <AppLayout
+      layout={"custom-contract"}
+      dehydratedState={props.dehydratedState}
+      // has to be passed directly because the provider can not be above app layout in the tree
+      contractInfo={props.contractInfo}
+    >
+      <EVMContractInfoProvider initialValue={props.contractInfo}>
         {page}
-      </AppLayout>
-    </EVMContractInfoProvider>
+      </EVMContractInfoProvider>
+    </AppLayout>
   );
 };
 
+// app layout has to come first in both getLayout and fallback
 EVMContractPage.fallback = (
-  <>
-    <AppLayout layout={"custom-contract"}>
-      <Flex h="100%" justifyContent="center" alignItems="center">
-        <Spinner size="xl" />
-      </Flex>
-    </AppLayout>
-  </>
+  <AppLayout layout={"custom-contract"}>
+    <Flex h="100%" justifyContent="center" alignItems="center">
+      <Spinner size="xl" />
+    </Flex>
+  </AppLayout>
 );
 
 // server side ---------------------------------------------------------------

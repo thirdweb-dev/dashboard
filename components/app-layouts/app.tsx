@@ -1,4 +1,7 @@
-import { DashboardThirdwebProvider } from "./providers";
+import {
+  DashboardThirdwebProvider,
+  DashboardThirdwebProviderProps,
+} from "./providers";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
@@ -79,7 +82,9 @@ const persister: Persister = createAsyncStoragePersister({
   key: `tw-query-cache`,
 });
 
-export interface AppLayoutProps extends AppShellProps {
+export interface AppLayoutProps
+  extends AppShellProps,
+    DashboardThirdwebProviderProps {
   dehydratedState?: DehydratedState;
 }
 
@@ -115,7 +120,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
         <ErrorProvider>
           <DeployModalProvider>
             <ConfiguredChainsProvider>
-              <DashboardThirdwebProvider>
+              <DashboardThirdwebProvider contractInfo={props.contractInfo}>
                 <PHIdentifier />
                 {router.pathname !== "/dashboard" && <PrivacyNotice />}
                 <AppShell {...props} />

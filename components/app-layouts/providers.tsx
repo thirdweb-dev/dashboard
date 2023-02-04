@@ -1,5 +1,5 @@
 import { SolanaProvider } from "./solana-provider";
-import { useEVMContractInfo } from "@3rdweb-sdk/react";
+import { EVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { GnosisSafeConnector } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
@@ -11,14 +11,17 @@ import { StorageSingleton } from "lib/sdk";
 import { useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
-export const DashboardThirdwebProvider: ComponentWithChildren = ({
-  children,
-}) => {
+export interface DashboardThirdwebProviderProps {
+  contractInfo?: EVMContractInfo;
+}
+
+export const DashboardThirdwebProvider: ComponentWithChildren<
+  DashboardThirdwebProviderProps
+> = ({ children, contractInfo }) => {
   useNativeColorMode();
   const queryClient = useQueryClient();
-  const contractInfo = useEVMContractInfo();
-  const chain = contractInfo?.chain;
   const configuredChains = useConfiguredChains();
+  const chain = contractInfo?.chain;
 
   const walletConnectors = useMemo(() => {
     let wc: WalletConnector[] = [
@@ -56,8 +59,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren = ({
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      desiredChainId={chain?.chainId}
-      network={chain?.chainId || 1}
+      network={chain?.chainId}
       chains={configuredChains}
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },

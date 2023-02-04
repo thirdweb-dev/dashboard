@@ -35,19 +35,21 @@ const SolanaProgramPage: ThirdwebNextPage = (props: SolanaProgramProps) => {
 export default SolanaProgramPage;
 SolanaProgramPage.pageId = PageId.DeployedProgram;
 SolanaProgramPage.getLayout = (page, pageProps: SolanaProgramProps) => {
+  // app layout has to come first in both getLayout and fallback
   return (
-    <SolanaProgramInfoProvider value={pageProps.programInfo}>
-      <AppLayout
-        layout={"custom-contract"}
-        dehydratedState={{ mutations: [], queries: [] }}
-      >
+    <AppLayout
+      layout={"custom-contract"}
+      dehydratedState={{ mutations: [], queries: [] }}
+    >
+      <SolanaProgramInfoProvider value={pageProps.programInfo}>
         {page}
-      </AppLayout>
-    </SolanaProgramInfoProvider>
+      </SolanaProgramInfoProvider>
+    </AppLayout>
   );
 };
 
 // TODO better skeleton
+// app layout has to come first in both getLayout and fallback
 SolanaProgramPage.fallback = (
   <AppLayout layout={"custom-contract"}>
     <Flex h="100%" justifyContent="center" alignItems="center">
