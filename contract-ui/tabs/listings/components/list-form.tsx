@@ -65,6 +65,16 @@ type NFTMintForm = {
   type?: "direct-listings" | "english-auctions";
 };
 
+const auctionTimes = [
+  { label: "1 day", value: 60 * 60 * 24 },
+  { label: "3 days", value: 60 * 60 * 24 * 3 },
+  { label: "7 days", value: 60 * 60 * 24 * 7 },
+  { label: "1 month", value: 60 * 60 * 24 * 30 },
+  { label: "3 months", value: 60 * 60 * 24 * 30 * 3 },
+  { label: "6 months", value: 60 * 60 * 24 * 30 * 6 },
+  { label: "1 year", value: 60 * 60 * 24 * 365 },
+];
+
 export const CreateListingsForm: React.FC<NFTMintForm> = ({
   contractQuery,
   directList,
@@ -90,7 +100,8 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
       listingType: type === "english-auctions" ? "auction" : "direct",
       reservePricePerToken: "0",
       startTimestamp: new Date(),
-      listingDurationInSeconds: (60 * 60 * 24).toString(),
+      // Default to one month duration
+      listingDurationInSeconds: (60 * 60 * 24 * 30).toString(),
     },
   });
 
@@ -344,12 +355,17 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           </FormControl>
           <FormControl isRequired>
             <Heading as={FormLabel} size="label.lg">
-              Auction Duration (Seconds)
+              Auction Duration
             </Heading>
-            <Input {...register("listingDurationInSeconds")} />
-            <FormHelperText>
-              The duration of this auction in seconds (86400 is one day)
-            </FormHelperText>
+            <Select {...register("listingDurationInSeconds")}>
+              {auctionTimes.map((time) => (
+                <option key={time.value} value={time.value}>
+                  {time.label}
+                </option>
+              ))}
+            </Select>
+            {/*             <Input {...register("listingDurationInSeconds")} /> */}
+            <FormHelperText>The duration of this auction.</FormHelperText>
           </FormControl>
         </>
       )}
