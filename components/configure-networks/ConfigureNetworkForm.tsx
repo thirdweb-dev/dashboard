@@ -57,24 +57,24 @@ export type NetworkConfigFormData = {
 interface NetworkConfigFormProps {
   values?: NetworkConfigFormData;
   onSubmit: (chain: StoredChain) => void;
-  onRemove: () => void;
-  isEditingScreen: boolean;
+  onRemove?: () => void;
   prefillSlug?: string;
   prefillChainId?: string;
+  variant: "custom" | "search" | "edit";
 }
 
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   values,
   onSubmit,
   onRemove,
-  isEditingScreen,
   prefillSlug,
   prefillChainId,
+  variant,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
   const allChainsRecord = useAllChainsRecord();
   const allChainsSlugRecord = useAllChainsSlugRecord();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
   const deletePopover = useDisclosure();
 
@@ -85,7 +85,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       chainId: values?.chainId || prefillChainId || "",
       currencySymbol: values?.currencySymbol || "",
       type: values?.type === "testnet" ? "testnet" : "mainnet",
-      isCustom: values ? values.isCustom : true,
+      isCustom: values ? values.isCustom : variant === "custom",
       icon: values?.icon || "",
       slug: values?.slug || prefillSlug || "",
     },
@@ -102,7 +102,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         // return true to pass the validation, false to fail
 
         // ignore this validation if form is for edit screen
-        if (isEditingScreen) {
+        if (variant === "edit") {
           return true;
         }
 
@@ -124,9 +124,14 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     },
   });
 
+  const hideOtherFields = variant === "search" && !selectedChain;
+
   function reset() {
     form.reset();
     setSelectedChain(undefined);
+    if (variant === "search") {
+      setIsSearchOpen(true);
+    }
   }
 
   const handleSubmit = form.handleSubmit((data) => {
@@ -189,10 +194,16 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
 
     onSubmit(configuredNetwork);
 
-    if (!isEditingScreen) {
+    if (variant !== "edit") {
       reset();
     }
   });
+
+  const networkNameErrorMessage =
+    form.formState.errors.name &&
+    (form.formState.errors.name.type === "alreadyAdded"
+      ? "Network already added"
+      : "Network name is required");
 
   return (
     <form
@@ -202,57 +213,66 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         return handleSubmit(e);
       }}
     >
-      <SearchNetworks
-        onChange={(value) => {
-          form.setValue("name", value, {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-        }}
-        value={name}
-        disabled={isEditingScreen}
-        errorMessage={
-          form.formState.errors.name &&
-          (form.formState.errors.name.type === "alreadyAdded"
-            ? "Network already added"
-            : "Network name is required")
-        }
-        inputRef={ref}
-        onSelectorChange={(status) => {
-          setIsSearchOpen(status === "open");
-        }}
-        onCustomSelection={() => {
-          // save value before resetting the form
-          const _name = form.getValues().name;
-          reset();
-          // set custom true
-          form.setValue("isCustom", true);
-          // restore the name
-          form.setValue("name", _name);
-          // initial suggestion
-          form.setValue("slug", _name.toLowerCase().replace(/\s/g, "-"));
+      {variant === "search" && (
+        <SearchNetworks
+          keepOpen={hideOtherFields}
+          onChange={(value) => {
+            form.setValue("name", value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+          }}
+          value={name}
+          errorMessage={networkNameErrorMessage}
+          inputRef={ref}
+          isSearchOpen={isSearchOpen}
+          setIsSearchOpen={setIsSearchOpen}
+          onNetworkSelection={(network) => {
+            form.clearErrors();
+            form.setValue("name", network.name);
+            form.setValue("rpcUrl", network.rpc[0]);
+            form.setValue("chainId", `${network.chainId}`);
+            form.setValue("currencySymbol", network.nativeCurrency.symbol);
+            form.setValue("isCustom", false);
+            form.setValue("type", network.testnet ? "testnet" : "mainnet");
+            form.setValue("icon", network.icon?.url || "");
+            form.setValue("slug", network.slug);
+            setSelectedChain(network);
+          }}
+        />
+      )}
 
-          // if name contains test - suggest testnet
-          form.setValue(
-            "type",
-            _name.toLowerCase().includes("test") ? "testnet" : "mainnet",
-          );
-        }}
-        onNetworkSelection={(network) => {
-          form.clearErrors();
-          form.setValue("name", network.name);
-          form.setValue("rpcUrl", network.rpc[0]);
-          form.setValue("chainId", `${network.chainId}`);
-          form.setValue("currencySymbol", network.nativeCurrency.symbol);
-          form.setValue("isCustom", false);
-          form.setValue("type", network.testnet ? "testnet" : "mainnet");
-          form.setValue("icon", network.icon?.url || "");
-          form.setValue("slug", network.slug);
-          setSelectedChain(network);
-        }}
-      />
+      {/* Network Name for Custom Network */}
+      {variant !== "search" && (
+        <FormControl isRequired isInvalid={!!networkNameErrorMessage}>
+          <FormLabel>Network Name</FormLabel>
+          <Input
+            autoComplete="off"
+            placeholder="e.g. My Network"
+            _placeholder={{
+              fontWeight: 500,
+            }}
+            type="text"
+            onChange={(e) => {
+              form.setValue("name", e.target.value, {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+
+              if (e.target.value.includes("test")) {
+                form.setValue("type", "testnet");
+              }
+            }}
+            ref={ref}
+          />
+
+          <FormErrorMessage>{networkNameErrorMessage}</FormErrorMessage>
+        </FormControl>
+      )}
+
       {/* Slug URL */}
       <FormControl
+        hidden={hideOtherFields}
         isRequired
         mt={6}
         isInvalid={form.formState.errors.slug?.type === "taken"}
@@ -286,7 +306,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         <Input
           disabled={!isCustom}
           autoComplete="off"
-          placeholder="eg: ethereum, mumbai, polygon etc."
+          placeholder="e.g. ethereum"
           _placeholder={{
             fontWeight: 500,
           }}
@@ -319,6 +339,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       </FormControl>
 
       <Flex
+        hidden={hideOtherFields}
         opacity={isSearchOpen ? "0.1" : "1"}
         direction="column"
         gap={6}
@@ -334,7 +355,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             <FormLabel>Chain ID</FormLabel>
             <Input
               disabled={!isCustom}
-              placeholder="eg: 1, 5, 127..."
+              placeholder="e.g. 152"
               autoComplete="off"
               _placeholder={{
                 fontWeight: 500,
@@ -376,7 +397,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             <FormLabel>Currency Symbol</FormLabel>
             <Input
               disabled={!isCustom}
-              placeholder="eg: ETH, USDC, MATIC..."
+              placeholder="e.g. ETH"
               autoComplete="off"
               _placeholder={{
                 fontWeight: 500,
@@ -478,7 +499,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           justifyContent={{ base: "center", md: "flex-end" }}
         >
           {/* Remove Button */}
-          {isEditingScreen && (
+          {variant === "edit" && (
             <Popover
               isOpen={deletePopover.isOpen}
               onOpen={deletePopover.onOpen}
@@ -521,9 +542,9 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               background: "bgBlack",
             }}
             type="submit"
-            disabled={isEditingScreen && !form.formState.isDirty}
+            disabled={variant === "edit" && !form.formState.isDirty}
           >
-            {isEditingScreen ? "Update Network" : "Add Network"}
+            {variant === "edit" ? "Update Network" : "Add Network"}
           </Button>
         </Flex>
       </Flex>

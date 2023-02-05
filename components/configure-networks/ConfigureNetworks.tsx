@@ -1,6 +1,17 @@
 import { ConfigureNetworkForm } from "./ConfigureNetworkForm";
 import { ConfiguredNetworkList } from "./ConfiguredNetworkList";
-import { Box, Flex, Grid, Icon, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  Icon,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useToast,
+} from "@chakra-ui/react";
 import { StoredChain } from "contexts/configured-chains";
 import {
   useConfiguredChains,
@@ -158,7 +169,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         <Heading
           as={"h3"}
           size="label.xl"
-          mb={10}
+          mb={6}
           display="flex"
           gap={2}
           alignItems="center"
@@ -166,27 +177,57 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
           {isEditingScreen ? "Edit Network" : "Add Network"}
         </Heading>
 
-        <ConfigureNetworkForm
-          onRemove={handleDelete}
-          prefillSlug={props.prefillSlug}
-          prefillChainId={props.prefillChainId}
-          values={
-            editingChain
-              ? {
-                  name: editingChain.name,
-                  rpcUrl: editingChain.rpc[0],
-                  chainId: `${editingChain.chainId}`,
-                  currencySymbol: editingChain.nativeCurrency.symbol,
-                  type: editingChain.testnet ? "testnet" : "mainnet",
-                  isCustom: !!editingChain.isCustom,
-                  icon: editingChain.icon?.url || "",
-                  slug: editingChain.slug,
-                }
-              : undefined
-          }
-          isEditingScreen={isEditingScreen}
-          onSubmit={handleSubmit}
-        />
+        {editingChain && (
+          <Box mt={9}>
+            <ConfigureNetworkForm
+              onRemove={handleDelete}
+              prefillSlug={props.prefillSlug}
+              prefillChainId={props.prefillChainId}
+              values={{
+                name: editingChain.name,
+                rpcUrl: editingChain.rpc[0],
+                chainId: `${editingChain.chainId}`,
+                currencySymbol: editingChain.nativeCurrency.symbol,
+                type: editingChain.testnet ? "testnet" : "mainnet",
+                isCustom: !!editingChain.isCustom,
+                icon: editingChain.icon?.url || "",
+                slug: editingChain.slug,
+              }}
+              variant="edit"
+              onSubmit={handleSubmit}
+            />
+          </Box>
+        )}
+
+        {!editingChain && (
+          <Tabs
+            defaultIndex={props.prefillSlug || props.prefillChainId ? 1 : 0}
+          >
+            <TabList borderColor="inputBg" mb={6}>
+              <Tab>Search</Tab>
+              <Tab>Custom</Tab>
+            </TabList>
+            <TabPanels>
+              {/* search */}
+              <TabPanel p={0}>
+                <ConfigureNetworkForm
+                  onSubmit={handleSubmit}
+                  variant="search"
+                />
+              </TabPanel>
+
+              {/* custom */}
+              <TabPanel p={0}>
+                <ConfigureNetworkForm
+                  prefillSlug={props.prefillSlug}
+                  prefillChainId={props.prefillChainId}
+                  onSubmit={handleSubmit}
+                  variant="custom"
+                />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        )}
       </Box>
     </Grid>
   );

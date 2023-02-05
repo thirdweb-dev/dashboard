@@ -1,7 +1,5 @@
 import { Chain, allChains } from "@thirdweb-dev/chains";
 
-export type ChainListRecord = Record<string, Chain>;
-
 export function getAllChainRecords() {
   const slugToChain: Record<string, Chain> = {};
   const chainIdToChain: Record<number, Chain> = {};
