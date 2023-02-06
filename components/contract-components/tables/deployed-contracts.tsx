@@ -230,7 +230,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
           const data = getNetworkMetadata(cell.row.original.chainId);
           return (
             <Flex align="center" gap={2}>
-              <ChainIcon size={24} ipfsSrc={data.icon} />
+              <ChainIcon size={24} ipfsSrc={data.icon} sizes={data.iconSizes} />
               <Text size="label.md">{data.chainName}</Text>
               {data.isTestnet !== "unknown" && (
                 <Badge

@@ -3654,37 +3654,37 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/chains@0.1.0-dev-494e761", "@thirdweb-dev/chains@^0.1.0-dev-494e761":
-  version "0.1.0-dev-494e761"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-494e761.tgz#7c7e98da860f7d9769d1336697c537aacf3751d6"
-  integrity sha512-Jv7bsH6OTSicwKCDEo5QhFPYt87ifyKFa66BNH+Rfry1cNbeO0YVd8G3J+sfkJ3OwyE4kTYkqPecha2T9GcX+A==
+"@thirdweb-dev/chains@0.1.0-dev-a47c71d":
+  version "0.1.0-dev-a47c71d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.0-dev-a47c71d.tgz#48debc17a58e2e0eeec6baba6040fe4b4fc3500f"
+  integrity sha512-bTg/ztwFL5ghxruMwRQHb+VhXhdgyvZEaD9XyOiCgBXeFu9j5gJoZaCC56mRI4x4VdGI54LAhAd7klQPj+w6mA==
 
-"@thirdweb-dev/contracts-js@1.3.0-dev-494e761":
-  version "1.3.0-dev-494e761"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.3.0-dev-494e761.tgz#9c6693abf69683545c30c192cc3e488508706e33"
-  integrity sha512-2APfyIyvEUcczZhi1tsr3UiBvj/qxHvhVsTU6aVsBGOREH8N4Uwbe+aDbdlVJ/dHBvZSCGLSzlaIAFAPxgSuWg==
+"@thirdweb-dev/contracts-js@1.3.0-dev-a47c71d":
+  version "1.3.0-dev-a47c71d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.3.0-dev-a47c71d.tgz#f84c4be8aa2fd1888bae22a6d238be3f8f416a0d"
+  integrity sha512-l6vqD5BByZMH4fc1amt9NGMNBodjtrYb5Cno6HAz9l6xaUpe7wuRzcBF7eTYTExYOtx6ysGWZLdJ9g3n/8gK0g==
   dependencies:
-    "@thirdweb-dev/contracts" "3.3.3-0"
+    "@thirdweb-dev/contracts" "3.4.1"
 
-"@thirdweb-dev/contracts@3.3.3-0":
-  version "3.3.3-0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.3.3-0.tgz#c74f65e22378ca420ff6fe1527e0e8ff4f067bb2"
-  integrity sha512-vKA0a728JPH51la8wfaTpOzhCCOV9H9a4Snab3dAfCq4tFuG4PD/CK5ffPuEt3TYFf0/snQp8lrSdHNBAnLHoQ==
+"@thirdweb-dev/contracts@3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.4.1.tgz#e5a63e705b2f2014fe3fabf3e30209e3c5034348"
+  integrity sha512-BURfuFYZhJOmoycDwo8iaKUi+rdjt9vRGFd0vquqNjL2vQdI7dXqdbuJuOepIwGld5gvRNM+WlnVQ8EZgQIjqg==
 
-"@thirdweb-dev/react-core@3.8.0-dev-494e761":
-  version "3.8.0-dev-494e761"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-3.8.0-dev-494e761.tgz#7182bd18db68a9513aa37de8fd6201eb99c403e7"
-  integrity sha512-/uDK0lHR7+fCvsD0qrSF+2Vjn4ys5xIus3tzHb+CyCD1pFlbm/9VS856S9+QSaQ3MSEn29bezuGEJQCw6WgGdA==
+"@thirdweb-dev/react-core@3.8.0-dev-a47c71d":
+  version "3.8.0-dev-a47c71d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-3.8.0-dev-a47c71d.tgz#ade6886d557dec63dce4a5750db2eec0a20008f4"
+  integrity sha512-KrF2bxCevJnXOIuRX06LG2EMO8nA/boT9gpctl6UKfyvKauAIRF4a+TyiWsyqUh7Bpts52Z0tjWhguh95bDevg==
   dependencies:
     "@tanstack/react-query" "^4.0.10"
     "@thirdweb-dev/auth" "*"
-    "@thirdweb-dev/chains" "0.1.0-dev-494e761"
+    "@thirdweb-dev/chains" "0.1.0-dev-a47c71d"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@^3.8.0-dev-494e761":
-  version "3.8.0-dev-494e761"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.8.0-dev-494e761.tgz#e5912a173ebff8640f43cdd3439f6692a99fa5dd"
-  integrity sha512-Aitcvwzy9oyd71VOftEE293OaDR+fpDyXC6rUpInMUuYZc9/iTw9Z1GzFcgmBn1iDihXX373XDQ3q3SMWAocPQ==
+"@thirdweb-dev/react@3.8.0-dev-a47c71d":
+  version "3.8.0-dev-a47c71d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.8.0-dev-a47c71d.tgz#138fe70edeade0ee215bca70a3253151d000f1cb"
+  integrity sha512-HUC7bhwz65Je94b4DB9NZVi4kjC3Z7obzRUSaYMWDj89rwXz06kIg2Ob3Ih2Uj+wAfJvNkvYvob8TQ8uypLkNQ==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3694,8 +3694,8 @@
     "@safe-global/safe-ethers-adapters" "0.1.0-alpha.13"
     "@safe-global/safe-ethers-lib" "^1.7.0"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/chains" "0.1.0-dev-494e761"
-    "@thirdweb-dev/react-core" "3.8.0-dev-494e761"
+    "@thirdweb-dev/chains" "0.1.0-dev-a47c71d"
+    "@thirdweb-dev/react-core" "3.8.0-dev-a47c71d"
     "@thirdweb-dev/wallets" "*"
     "@zag-js/menu" "0.3.4"
     "@zag-js/react" "0.3.4"
@@ -3709,14 +3709,14 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.8.0-dev-494e761":
-  version "3.8.0-dev-494e761"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.8.0-dev-494e761.tgz#b81df3cdb69193082c740184488ab60436aae084"
-  integrity sha512-3C7kdcKKiwQJA4MVYitWeOFbXImoSLlwbxTiaFdXZPCWycTO1MHdTUj/hTCrDwfCkpAhs7fOifkhaJfcdeKsvQ==
+"@thirdweb-dev/sdk@3.8.0-dev-a47c71d":
+  version "3.8.0-dev-a47c71d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.8.0-dev-a47c71d.tgz#118133faac96dbcf23e5ebcb4f74a6e722b48093"
+  integrity sha512-Ro1gy25NDXi9F2hJoHNtzTVse9AgBKiw/UQ33oRFZxsviCNtwUQQlY9pkhbQWoCS7l9my9Wbd7LM8kgkWUi1ww==
   dependencies:
-    "@thirdweb-dev/chains" "0.1.0-dev-494e761"
-    "@thirdweb-dev/contracts-js" "1.3.0-dev-494e761"
-    "@thirdweb-dev/storage" "1.0.7-dev-494e761"
+    "@thirdweb-dev/chains" "0.1.0-dev-a47c71d"
+    "@thirdweb-dev/contracts-js" "1.3.0-dev-a47c71d"
+    "@thirdweb-dev/storage" "1.0.7-dev-a47c71d"
     bn.js "^5.2.1"
     bs58 "^5.0.0"
     cross-fetch "^3.1.5"
@@ -3729,10 +3729,10 @@
     yaml "^2.1.1"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@1.0.7-dev-494e761", "@thirdweb-dev/storage@^1.0.7-dev-494e761":
-  version "1.0.7-dev-494e761"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.7-dev-494e761.tgz#dccf37841e0064245e74071d541d846f1d929c48"
-  integrity sha512-wQVz29lWlmx8yRkRkfW6nepFZDiqZ65ZEq2/unV9uUJDh2Wtdt4IJJhKm9DnLpUv7RkVenq1NwSYnmOPJc73/A==
+"@thirdweb-dev/storage@1.0.7-dev-a47c71d":
+  version "1.0.7-dev-a47c71d"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.7-dev-a47c71d.tgz#da3f2ba6f498854a60ed0da22a43d3cdccc2364e"
+  integrity sha512-YIjPHIYeQknXXCQUD/CBRUkAkdo/RGPCJSlmmMrLQczIyBsNvkpvHAU95sT0uS2NqKvuLggqQrYsCNZ8uyRwoQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"

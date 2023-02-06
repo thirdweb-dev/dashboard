@@ -1,6 +1,5 @@
 import { Flex, Input, Select, SelectProps } from "@chakra-ui/react";
 import { useSDKChainId } from "@thirdweb-dev/react";
-import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { constants, utils } from "ethers";
 import React, { useMemo, useState } from "react";
@@ -29,13 +28,12 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   const isCustomCurrency: boolean = useMemo(() => {
     if (initialValue && chainId && initialValue !== customCurrency) {
       if (chainId in CURRENCIES) {
-        return !CURRENCIES[chainId as SUPPORTED_CHAIN_ID]?.find(
+        return !CURRENCIES[chainId]?.find(
           (currency: CurrencyMetadata) =>
             currency.address.toLowerCase() === initialValue.toLowerCase(),
         );
       }
 
-      // QUESTION - is this correct?
       // for non-default chains
       return true;
     }
@@ -44,13 +42,10 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   }, [chainId, customCurrency, initialValue]);
 
   const currencyOptions: CurrencyMetadata[] =
-    chainId in CURRENCIES
-      ? CURRENCIES[chainId as SUPPORTED_CHAIN_ID].filter(
-          (currency: CurrencyMetadata) =>
-            currency.address.toLowerCase() !==
-            constants.AddressZero.toLowerCase(),
-        )
-      : [];
+    CURRENCIES[chainId]?.filter(
+      (currency: CurrencyMetadata) =>
+        currency.address.toLowerCase() !== constants.AddressZero.toLowerCase(),
+    ) || [];
 
   const addCustomCurrency = () => {
     if (!utils.isAddress(editCustomCurrency)) {

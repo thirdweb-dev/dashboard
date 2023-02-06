@@ -71,10 +71,6 @@ const moduleExports = {
         protocol: "https",
         hostname: "**.thirdweb.com",
       },
-      {
-        protocol: "https",
-        hostname: "gateway.ipfscdn.io",
-      },
     ],
   },
   reactStrictMode: true,

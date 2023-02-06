@@ -8,6 +8,7 @@ interface NetworkMetadata {
   symbol: string;
   isTestnet: boolean | "unknown";
   chainId: ChainId;
+  iconSizes?: number[];
 }
 
 export const FAUCETS: Partial<Record<ChainId, string>> = {
@@ -39,6 +40,7 @@ export function useWeb3() {
           isTestnet: configuredChain.testnet,
           symbol: configuredChain.nativeCurrency.symbol,
           chainId,
+          iconSizes: configuredChain.icon?.sizes,
         };
       }
 

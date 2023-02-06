@@ -195,14 +195,6 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
     selectedChain && selectedChain in NetworkToBlockTimeMap
       ? NetworkToBlockTimeMap[selectedChain as SUPPORTED_CHAIN_ID]
       : "few";
-
-  const deploy = useDeploy(
-    selectedChain,
-    contract.contractType,
-    contractVersion,
-    addToDashboard,
-  );
-
   const { onSuccess, onError } = useTxNotifications(
     "Successfully deployed contract",
     "Failed to deploy contract",
@@ -218,16 +210,26 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
 
   const numberOfTransactions = useMemo(() => {
     let txnCnt = 1;
-    // adding to dashboard causes a second transactions
+
+    // adding to dashboard requires a transaction
     if (addToDashboard) {
       txnCnt += 1;
     }
-    // on non-default chains we need a transaction to deploy the implementation first
+
+    // on non-default chains we need to deploy the implementation first
     if (!isDefaultChain) {
       txnCnt += 1;
     }
     return txnCnt;
   }, [addToDashboard, isDefaultChain]);
+
+  const deploy = useDeploy(
+    selectedChain,
+    contract.contractType,
+    contractVersion,
+    addToDashboard,
+    isDefaultChain,
+  );
 
   return (
     <FormProvider {...form}>

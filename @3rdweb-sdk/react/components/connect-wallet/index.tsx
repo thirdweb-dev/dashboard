@@ -235,7 +235,11 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             rightIcon={<FiChevronDown />}
           >
             <Flex direction="row" gap={3} align="center">
-              <ChainIcon size={24} ipfsSrc={networkMetadata.icon} />
+              <ChainIcon
+                size={24}
+                ipfsSrc={networkMetadata.icon}
+                sizes={networkMetadata.iconSizes}
+              />
               <Flex gap={0.5} direction="column" textAlign="left">
                 <Heading as="p" size="label.sm">
                   <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>

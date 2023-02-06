@@ -533,6 +533,8 @@ export function useCustomContractDeployMutation(
             forceDirectDeploy,
           },
         );
+
+        deployContext.nextStep();
       } catch (e) {
         // failed to deploy contract - close modal for now
         deployContext.close();
@@ -550,6 +552,8 @@ export function useCustomContractDeployMutation(
             },
             signer,
           );
+
+          deployContext.nextStep();
         }
       } catch (e) {
         // failed to add to dashboard - for now just close the modal

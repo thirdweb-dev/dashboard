@@ -400,18 +400,7 @@ const SolanaDevnet: CurrencyMetadata[] = [
     symbol: "USDC",
   },
 ];
-
-// Question: what date should here?
-// Temporary fake data for creating a build
-const FakeData: CurrencyMetadata[] = [
-  {
-    address: "LOCALHOST_TOKEN",
-    name: "localhost",
-    symbol: "ETH",
-  },
-];
-
-export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
+export const CURRENCIES: Record<number, CurrencyMetadata[] | undefined> = {
   [ChainId.Mainnet]: Ethereum,
   [ChainId.Goerli]: Goerli,
   [ChainId.Polygon]: Polygon,
@@ -428,8 +417,6 @@ export const CURRENCIES: Record<SUPPORTED_CHAIN_ID, CurrencyMetadata[]> = {
   [ChainId.ArbitrumGoerli]: ArbitrumTestnet, // TODO adjust wrapped token address
   [ChainId.BinanceSmartChainMainnet]: BinanceMainnet,
   [ChainId.BinanceSmartChainTestnet]: BinanceTestnet,
-  [ChainId.Hardhat]: FakeData,
-  [ChainId.Localhost]: FakeData,
 } as const;
 
 export const SOLANA_CURRENCIES: Record<string, CurrencyMetadata[]> = {

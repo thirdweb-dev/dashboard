@@ -8,6 +8,7 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import {
   stepAddToRegistry,
+  stepCustomChainDeploy,
   stepDeploy,
   useDeployContextModal,
 } from "components/contract-components/contract-deploy-form/deploy-context-modal";
@@ -22,6 +23,7 @@ export function useDeploy<TContractType extends PrebuiltContractType>(
   contractType?: TContractType,
   contractVersion = "latest",
   addToDashboard = true,
+  isDefaultChain = true,
 ) {
   const sdk = useSDK();
   const signer = useSigner();
@@ -41,7 +43,12 @@ export function useDeploy<TContractType extends PrebuiltContractType>(
 
       // open the modal with the appropriate steps
       deployContext.open(
-        addToDashboard ? [stepDeploy, stepAddToRegistry] : [stepDeploy],
+        addToDashboard
+          ? [
+              isDefaultChain ? stepDeploy : stepCustomChainDeploy,
+              stepAddToRegistry,
+            ]
+          : [stepDeploy],
       );
 
       let contractAddress: string;

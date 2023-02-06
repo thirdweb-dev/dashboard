@@ -123,7 +123,7 @@ const DeployModalStep: React.FC<DeployModalStepProps> = ({
     <Flex
       as={Card}
       flexDir="row"
-      gap={3}
+      gap={4}
       opacity={isActive ? 1 : hasCompleted ? 0.8 : 0.3}
       align="center"
     >
@@ -137,7 +137,9 @@ const DeployModalStep: React.FC<DeployModalStepProps> = ({
         <Icon as={FiActivity} boxSize={5} flexShrink={0} />
       )}
       <Flex flexDir="column">
-        <Heading size="label.lg">{title}</Heading>
+        <Heading size="label.lg" mb={3}>
+          {title}
+        </Heading>
         <Text size="body.md">{description}</Text>
       </Flex>
     </Flex>
@@ -147,6 +149,19 @@ const DeployModalStep: React.FC<DeployModalStepProps> = ({
 export const stepDeploy: DeployModalStep = {
   title: "Deploying contract",
   description: "Your wallet will prompt you to sign the transaction.",
+};
+
+export const stepCustomChainDeploy: DeployModalStep = {
+  title: "Deploying contract",
+  description: (
+    <>
+      Your wallet will prompt you{" "}
+      <i>
+        <b>twice</b>
+      </i>{" "}
+      to sign transactions.
+    </>
+  ),
 };
 
 export const stepAddToRegistry: DeployModalStep = {

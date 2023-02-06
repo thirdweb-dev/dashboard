@@ -38,8 +38,7 @@ export function EVMContractInfoProvider(props: {
 }
 
 export function useEVMContractInfo() {
-  const info = useContext(EVMContractInfoContext);
-  return info;
+  return useContext(EVMContractInfoContext);
 }
 
 export function useSetEVMContractInfo() {
@@ -59,14 +58,11 @@ export function useDashboardEVMChainId() {
 
 // for SOL - get network name from URL
 export function useDashboardSOLNetworkId() {
-  const dashboardNetwork = useDashboardNetwork();
-  return getSolNetworkFromNetworkPath(dashboardNetwork);
-}
-
-// TODO remove this and use useEVMContractInfo() if this hook is only for EVM contracts
-export function useDashboardNetwork(): SupportedNetwork | undefined {
   const router = useRouter();
-  if (router.query.paths) {
-    return router.query.paths[0] as SupportedNetwork;
-  }
+
+  const dashboardNetwork = router.query.paths
+    ? router.query.paths[0]
+    : undefined;
+
+  return getSolNetworkFromNetworkPath(dashboardNetwork);
 }

@@ -132,6 +132,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                 name={network.name}
                 key={network.slug}
                 img={network.icon?.url}
+                iconSizes={network.icon?.sizes}
               />
             ))}
           </Box>
@@ -158,6 +159,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
                   name={network.name}
                   key={network.slug}
                   img={network.icon?.url}
+                  iconSizes={network.icon?.sizes}
                 />
               ))}
             </Box>
@@ -173,6 +175,7 @@ const NetworkListItem: React.FC<{
   name: string;
   isActive: boolean;
   img?: string;
+  iconSizes?: number[];
 }> = (props) => {
   return (
     <ListItem display="flex" alignItems="center">
@@ -206,7 +209,7 @@ const NetworkListItem: React.FC<{
         borderRadius={0}
         lineHeight={1.5}
       >
-        <ChainIcon size={20} ipfsSrc={props.img} />
+        <ChainIcon size={20} ipfsSrc={props.img} sizes={props.iconSizes} />
         {props.name}
       </Button>
     </ListItem>
@@ -217,6 +220,7 @@ const AddNetworkItem: React.FC<{
   onAdd: () => void;
   name: string;
   img?: string;
+  iconSizes?: number[];
 }> = (props) => {
   return (
     <ListItem display="flex" alignItems="center">
@@ -235,7 +239,7 @@ const AddNetworkItem: React.FC<{
         bg="transparent"
       >
         <Flex alignItems="center" gap={3}>
-          <ChainIcon size={20} ipfsSrc={props.img} />
+          <ChainIcon size={20} ipfsSrc={props.img} sizes={props.iconSizes} />
           {props.name}
         </Flex>
 

@@ -1,4 +1,4 @@
-import { useDashboardNetwork } from "@3rdweb-sdk/react";
+import { useEVMContractInfo } from "@3rdweb-sdk/react";
 import { useImportContract } from "@3rdweb-sdk/react/hooks/useImportContract";
 import { Flex } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -13,7 +13,7 @@ export const ImportContract: React.FC<ImportContractProps> = ({
   contractAddress,
 }) => {
   const trackEvent = useTrack();
-  const network = useDashboardNetwork();
+  const network = useEVMContractInfo()?.chain;
   const importContract = useImportContract();
 
   const { onSuccess, onError } = useTxNotifications(

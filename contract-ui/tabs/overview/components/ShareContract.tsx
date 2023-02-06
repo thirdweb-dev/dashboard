@@ -1,4 +1,4 @@
-import { useDashboardEVMChainId, useDashboardNetwork } from "@3rdweb-sdk/react";
+import { useDashboardEVMChainId, useEVMContractInfo } from "@3rdweb-sdk/react";
 import {
   Flex,
   GridItem,
@@ -28,7 +28,7 @@ export const ShareContract: React.FC<ShareContractProps> = ({
   trackingCategory,
 }) => {
   const trackEvent = useTrack();
-  const network = useDashboardNetwork();
+  const network = useEVMContractInfo()?.chain;
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const audited = false;
   const activeChainId = useDashboardEVMChainId();
