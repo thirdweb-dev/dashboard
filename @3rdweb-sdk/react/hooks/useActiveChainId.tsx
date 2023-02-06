@@ -25,9 +25,9 @@ export const SetEVMContractInfoContext = createContext<
 // TODO let's move this out of here eventually
 export function EVMContractInfoProvider(props: {
   children: React.ReactNode;
-  initialValue?: EVMContractInfo;
+  value?: EVMContractInfo;
 }) {
-  const [value, setValue] = useState(props.initialValue);
+  const [value, setValue] = useState(props.value);
   return (
     <EVMContractInfoContext.Provider value={value}>
       <SetEVMContractInfoContext.Provider value={setValue}>

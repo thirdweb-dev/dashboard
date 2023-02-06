@@ -10,7 +10,7 @@ import {
   useOutsideClick,
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { useAllChains } from "hooks/chains/allChains";
+import { useAllChainsData } from "hooks/chains/allChains";
 import { useMemo, useRef } from "react";
 import { RefCallBack } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
@@ -30,7 +30,7 @@ interface SearchNetworksProps {
 // TODO - improve search performance and do fuzzy search
 
 export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
-  const chains = useAllChains();
+  const { allChains } = useAllChainsData();
   const searchResultsRef = useRef<HTMLDivElement>(null);
   const searchTerm = props.value;
 
@@ -43,16 +43,16 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     },
   });
 
-  const filteredNetworks = useMemo(() => {
-    if (!searchTerm || !chains.length) {
-      return chains || [];
+  const filteredChains = useMemo(() => {
+    if (!searchTerm || !allChains.length) {
+      return allChains || [];
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return chains.filter((network) =>
+    return allChains.filter((network) =>
       network.name.toLowerCase().includes(lowerCaseSearchTerm),
     );
-  }, [chains, searchTerm]);
+  }, [allChains, searchTerm]);
 
   const handleSelection = (network: Chain, custom: boolean) => {
     props.onChange(network.name);
@@ -100,8 +100,8 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 // if search results, select first
-                if (filteredNetworks.length > 0) {
-                  handleSelection(filteredNetworks[0], false);
+                if (filteredChains.length > 0) {
+                  handleSelection(filteredChains[0], false);
                 }
               }
             }}
@@ -152,13 +152,13 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             pt={4}
             pb={4}
           >
-            {chains.length === 0 && (
+            {allChains.length === 0 && (
               <Flex justifyContent="center" alignItems="center" h="90%">
                 <Spinner size="md" />
               </Flex>
             )}
-            {chains.length > 0 &&
-              filteredNetworks.map((network) => (
+            {allChains.length > 0 &&
+              filteredChains.map((network) => (
                 <Text
                   px={4}
                   py={2}
@@ -180,9 +180,9 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                 </Text>
               ))}
 
-            {chains.length > 0 && filteredNetworks.length === 0 && (
+            {allChains.length > 0 && filteredChains.length === 0 && (
               <Text py={10} textAlign="center">
-                No results found
+                No Results Found
               </Text>
             )}
           </Box>

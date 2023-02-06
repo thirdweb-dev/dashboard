@@ -167,7 +167,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
       // has to be passed directly because the provider can not be above app layout in the tree
       contractInfo={props.contractInfo}
     >
-      <EVMContractInfoProvider initialValue={props.contractInfo}>
+      <EVMContractInfoProvider value={props.contractInfo}>
         {page}
       </EVMContractInfoProvider>
     </AppLayout>

@@ -19,6 +19,7 @@ import { useSDK } from "@thirdweb-dev/react/solana";
 import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
+import { AllChainsProvider } from "contexts/all-chains";
 import { ConfiguredChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
 import { del, get, set } from "idb-keyval";
@@ -119,13 +120,15 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
       <Hydrate state={props.dehydratedState}>
         <ErrorProvider>
           <DeployModalProvider>
-            <ConfiguredChainsProvider>
-              <DashboardThirdwebProvider contractInfo={props.contractInfo}>
-                <PHIdentifier />
-                {router.pathname !== "/dashboard" && <PrivacyNotice />}
-                <AppShell {...props} />
-              </DashboardThirdwebProvider>
-            </ConfiguredChainsProvider>
+            <AllChainsProvider>
+              <ConfiguredChainsProvider>
+                <DashboardThirdwebProvider contractInfo={props.contractInfo}>
+                  <PHIdentifier />
+                  {router.pathname !== "/dashboard" && <PrivacyNotice />}
+                  <AppShell {...props} />
+                </DashboardThirdwebProvider>
+              </ConfiguredChainsProvider>
+            </AllChainsProvider>
           </DeployModalProvider>
         </ErrorProvider>
       </Hydrate>

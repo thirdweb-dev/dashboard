@@ -26,10 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
-import {
-  useAllChainsRecord,
-  useAllChainsSlugRecord,
-} from "hooks/chains/allChains";
+import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -72,8 +69,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   variant,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
-  const allChainsRecord = useAllChainsRecord();
-  const allChainsSlugRecord = useAllChainsSlugRecord();
+  const { chainIdToChainRecord, slugToChainRecord } = useAllChainsData();
   const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
   const deletePopover = useDisclosure();
@@ -319,7 +315,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
                   return true;
                 }
 
-                return !(_slug in allChainsSlugRecord);
+                return !(_slug in slugToChainRecord);
               },
             },
           })}
@@ -327,11 +323,11 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
 
         <FormErrorMessage>
           Can not use Network ID {`"${slug}"`}.
-          {slug && slug in allChainsSlugRecord && (
+          {slug && slug in slugToChainRecord && (
             <>
               {" "}
               It is being used by {`"`}
-              {allChainsSlugRecord[slug].name}
+              {slugToChainRecord[slug].name}
               {`"`}
             </>
           )}
@@ -375,17 +371,17 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
                       return true;
                     }
 
-                    return !(_chainId in allChainsRecord);
+                    return !(_chainId in chainIdToChainRecord);
                   },
                 },
               })}
             />
             <FormErrorMessage>
               Can not use ChainID {`"${chainId}"`}.
-              {chainId && chainId in allChainsRecord && (
+              {chainId && chainId in chainIdToChainRecord && (
                 <>
                   <br /> It is being used by {`"`}
-                  {allChainsRecord[chainId].name}
+                  {chainIdToChainRecord[chainId].name}
                   {`"`}
                 </>
               )}
