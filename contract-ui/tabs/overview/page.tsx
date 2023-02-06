@@ -1,8 +1,10 @@
 import { BuildYourApp } from "./components/BuildYourApp";
 import { LatestEvents } from "./components/LatestEvents";
+import { NFTDetails } from "./components/NFTDetails";
+import { PermissionsTable } from "./components/PermissionsTable";
 import { ShareContract } from "./components/ShareContract";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
-import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { Divider, Flex, GridItem, SimpleGrid, Tr } from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi, getAllDetectedFeatureNames } from "@thirdweb-dev/sdk";
 import { ImportContract } from "components/contract-components/import-contract";
@@ -44,11 +46,30 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={16}>
+        {contract &&
+          ["ERC1155", "ERC721"].some((type) =>
+            detectedFeatureNames.includes(type),
+          ) && (
+            <NFTDetails
+              address={contractAddress}
+              contract={contract}
+              trackingCategory={TRACKING_CATEGORY}
+              features={detectedFeatureNames}
+            />
+          )}
         <LatestEvents
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
         />
         <BuildYourApp trackingCategory={TRACKING_CATEGORY} />
+        {["Permissions", "PermissionsEnumerable"].some((type) =>
+          detectedFeatureNames.includes(type),
+        ) && (
+          <PermissionsTable
+            contract={contract}
+            trackingCategory={TRACKING_CATEGORY}
+          />
+        )}
         <ShareContract
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
