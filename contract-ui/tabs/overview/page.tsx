@@ -51,7 +51,6 @@ export const CustomContractOverviewPage: React.FC<
             detectedFeatureNames.includes(type),
           ) && (
             <NFTDetails
-              address={contractAddress}
               contract={contract}
               trackingCategory={TRACKING_CATEGORY}
               features={detectedFeatureNames}
@@ -62,14 +61,15 @@ export const CustomContractOverviewPage: React.FC<
           trackingCategory={TRACKING_CATEGORY}
         />
         <BuildYourApp trackingCategory={TRACKING_CATEGORY} />
-        {["Permissions", "PermissionsEnumerable"].some((type) =>
-          detectedFeatureNames.includes(type),
-        ) && (
-          <PermissionsTable
-            contract={contract}
-            trackingCategory={TRACKING_CATEGORY}
-          />
-        )}
+        {contract &&
+          ["Permissions", "PermissionsEnumerable"].some((type) =>
+            detectedFeatureNames.includes(type),
+          ) && (
+            <PermissionsTable
+              contract={contract}
+              trackingCategory={TRACKING_CATEGORY}
+            />
+          )}
         <ShareContract
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
