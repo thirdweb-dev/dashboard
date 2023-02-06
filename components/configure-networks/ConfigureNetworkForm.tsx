@@ -8,8 +8,6 @@ import {
   FormControl,
   Icon,
   Input,
-  InputGroup,
-  InputLeftElement,
   Popover,
   PopoverArrow,
   PopoverCloseButton,
@@ -26,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
+import { SolidityStringInput } from "contract-ui/components/solidity-inputs/string-input";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useState } from "react";
@@ -466,24 +465,31 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         {/* Icon URL */}
         <FormControl isInvalid={!!form.formState.errors.icon}>
           <FormLabel>Icon</FormLabel>
-          <InputGroup>
-            <Input
+
+          <Flex gap={2}>
+            <SolidityStringInput
+              formContext={form}
+              solidityName="ipfs"
+              solidityType="ipfs"
               placeholder="ipfs://..."
               autoComplete="off"
               _placeholder={{
                 fontWeight: 500,
               }}
-              type="text"
               {...form.register("icon", {
                 validate: (str) => str === "" || str.startsWith("ipfs://"),
               })}
             />
-
-            <InputLeftElement>
+            <Flex
+              bg="inputBg"
+              justifyContent="center"
+              alignItems="center"
+              p={2}
+              borderRadius="md"
+            >
               <ChainIcon size={22} ipfsSrc={form.watch("icon")} />
-            </InputLeftElement>
-          </InputGroup>
-
+            </Flex>
+          </Flex>
           <FormErrorMessage> Invalid IPFS URL </FormErrorMessage>
         </FormControl>
 
