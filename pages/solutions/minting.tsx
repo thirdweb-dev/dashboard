@@ -306,7 +306,12 @@ const Minting: ThirdwebNextPage = () => {
               <article key={nftContractInfo.name}>
                 <TrackedLink
                   category={TRACKING_CATEGORY}
-                  label={nftContractInfo.name.toLowerCase().replace(" ", "-")}
+                  label="contract"
+                  trackingProps={{
+                    contract: nftContractInfo.name
+                      .toLowerCase()
+                      .replace(" ", "-"),
+                  }}
                   href={nftContractInfo.link}
                   isExternal
                   textDecoration="none !important"
