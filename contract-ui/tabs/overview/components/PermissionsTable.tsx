@@ -35,11 +35,6 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
 }) => {
   const allRoleMembers = useAllRoleMembers(contract);
 
-  // const roles = useMemo(
-  //   () => Object.keys(allRoleMembers.data || ROLE_DESCRIPTION_MAP),
-  //   [allRoleMembers.data],
-  // );
-
   const members = useMemo(() => {
     return (
       Object.entries(allRoleMembers.data || {}).reduce(
