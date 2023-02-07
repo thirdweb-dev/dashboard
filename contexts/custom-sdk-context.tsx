@@ -1,7 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider, useSigner } from "@thirdweb-dev/react";
 import { ChainId, SDKOptions, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
-import { useConfiguredChain } from "hooks/chains/configureChains";
+import {
+  useConfiguredChain,
+  useConfiguredChains,
+} from "hooks/chains/configureChains";
 import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -12,12 +15,14 @@ export const CustomSDKContext: ComponentWithChildren<{
   const signer = useSigner();
   const queryClient = useQueryClient();
   const networkInfo = useConfiguredChain(desiredChainId || -1);
+  const configuredChains = useConfiguredChains();
 
   return (
     <ThirdwebSDKProvider
       network={desiredChainId || 1}
       signer={signer}
       queryClient={queryClient}
+      chains={configuredChains}
       sdkOptions={{
         gasSettings: {
           maxPriceInGwei: 650,
