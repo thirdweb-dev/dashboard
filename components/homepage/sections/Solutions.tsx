@@ -1,7 +1,7 @@
 import { Aurora } from "../Aurora";
 import { Box, Flex, Image, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { Heading, Link, Text, TrackedLink } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 
 interface SolutionCardProps {
   title: string;
