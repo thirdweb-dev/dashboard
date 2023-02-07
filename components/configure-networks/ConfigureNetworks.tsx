@@ -13,6 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { StoredChain } from "contexts/configured-chains";
+import { useTrack } from "hooks/analytics/useTrack";
 import {
   useConfiguredChains,
   useConfiguredChainsRecord,
@@ -29,11 +30,22 @@ interface ConfigureNetworksProps {
   prefillChainId?: string;
 }
 
+function useChainConfigTrack() {
+  const trackEvent = useTrack();
+  return (action: "add" | "delete" | "update", chain: StoredChain) => {
+    trackEvent({
+      category: "chain_configuration",
+      chain,
+      action,
+    });
+  };
+}
+
 export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
   const configuredNetworks = useConfiguredChains();
   const configuredChainRecord = useConfiguredChainsRecord();
   const updateConfiguredNetworks = useUpdateConfiguredChains();
-
+  const trackChainConfig = useChainConfigTrack();
   const toast = useToast();
   const [editingChain, setEditingChain] = useState<StoredChain | undefined>(
     undefined,
@@ -42,9 +54,13 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
   const isEditingScreen = !!editingChain;
 
   const handleDelete = () => {
+    if (!editingChain) {
+      return;
+    }
     const index = configuredNetworks.findIndex((net) => net === editingChain);
     updateConfiguredNetworks.remove(index);
     setEditingChain(undefined);
+    trackChainConfig("delete", editingChain);
   };
 
   const handleSubmit = (chain: StoredChain) => {
@@ -53,6 +69,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       const index = configuredNetworks.findIndex((net) => net === editingChain);
       updateConfiguredNetworks.update(index, chain);
       setEditingChain(chain);
+      trackChainConfig("update", chain);
     }
 
     // if trying to add new chain, but it's already added as of autoconfigured chain,
@@ -66,12 +83,14 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         );
 
         updateConfiguredNetworks.update(index, chain);
+        trackChainConfig("add", chain);
       }
     }
 
     // else add new chain
     else {
       updateConfiguredNetworks.add([chain]);
+      trackChainConfig("add", chain);
     }
 
     if (props.onNetworkConfigured) {
@@ -147,12 +166,6 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
           <Text> No Networks Added </Text>
         ) : (
           <ConfiguredNetworkList
-            onDelete={(network) => {
-              const index = configuredNetworks.findIndex(
-                (net) => net === network,
-              );
-              updateConfiguredNetworks.remove(index);
-            }}
             activeNetwork={editingChain}
             onClick={(network) => {
               setEditingChain(network);

@@ -19,7 +19,6 @@ import { IoMdAdd } from "react-icons/io";
 import { Button, Heading } from "tw-components";
 
 interface ConfiguredNetworkListProps {
-  onDelete: (network: StoredChain) => void;
   onClick: (network: StoredChain) => void;
   onAdd: (network: StoredChain) => void;
   activeNetwork?: StoredChain;
