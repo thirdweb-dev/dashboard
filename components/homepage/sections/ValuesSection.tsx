@@ -1,7 +1,7 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { ReactNode } from "react";
-import { Heading, Link, Text } from "tw-components";
+import { Heading, Link, Text, TrackedLink } from "tw-components";
 
 interface FeatureCardProps {
   title: string;
@@ -15,13 +15,15 @@ const features: FeatureCardProps[] = [
       <>
         Anyone can use thirdweb tools without our permission. The code for our
         contracts, SDKs, dashboard and UI components are{" "}
-        <Link
+        <TrackedLink
+          category="values"
+          label="open_source"
           isExternal
           color="blue.500"
           href="https://github.com/thirdweb-dev"
         >
           open source
-        </Link>{" "}
+        </TrackedLink>{" "}
         and available to everyone.
       </>
     ),

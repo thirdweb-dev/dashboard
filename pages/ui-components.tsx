@@ -46,7 +46,7 @@ const UIComponents: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/ui-components.png`,
               width: 2334,
               height: 1260,
-              alt: "thirdweb wUI Components",
+              alt: "thirdweb UI Components",
             },
           ],
         },
