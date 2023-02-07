@@ -1,14 +1,9 @@
-import { extensionDetectedState } from "../../../../components/buttons/ExtensionDetectButton";
-import { ROLE_DESCRIPTION_MAP } from "../../../../constants/mappings";
-import { useActivity } from "@3rdweb-sdk/react/hooks/useActivity";
 import {
   Box,
-  Center,
   Flex,
   Icon,
   List,
   SimpleGrid,
-  Spinner,
   Stack,
   Tag,
   Tooltip,
@@ -17,10 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { useAllRoleMembers } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
-import type { ContractEvent } from "@thirdweb-dev/sdk/evm";
-import { Role } from "@thirdweb-dev/sdk/evm";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { FiCopy } from "react-icons/fi";
 import {
   Button,
@@ -31,12 +24,6 @@ import {
   TrackedLinkProps,
 } from "tw-components";
 
-interface ContractTransaction {
-  transactionHash: ContractEvent["transaction"]["transactionHash"];
-  blockNumber: ContractEvent["transaction"]["blockNumber"];
-  events: ContractEvent[];
-}
-
 interface PermissionsTableProps {
   contract: SmartContract;
   trackingCategory: TrackedLinkProps["category"];
@@ -46,13 +33,29 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
   contract,
   trackingCategory,
 }) => {
-  const [autoUpdate] = useState(true);
   const allRoleMembers = useAllRoleMembers(contract);
 
-  const roles = useMemo(
-    () => Object.keys(allRoleMembers.data || ROLE_DESCRIPTION_MAP),
-    [allRoleMembers.data, contract],
-  );
+  // const roles = useMemo(
+  //   () => Object.keys(allRoleMembers.data || ROLE_DESCRIPTION_MAP),
+  //   [allRoleMembers.data],
+  // );
+
+  const members = useMemo(() => {
+    return (
+      Object.entries(allRoleMembers.data || {}).reduce(
+        (acc, [role, roleMembers]) => {
+          roleMembers.forEach((member) => {
+            return !acc.find((m) => m.member === member)
+              ? acc.push({ member, roles: [role] })
+              : acc[acc.findIndex((m) => m.member === member)].roles.push(role);
+          });
+
+          return acc;
+        },
+        [] as { member: string; roles: string[] }[],
+      ) || []
+    );
+  }, [allRoleMembers.data]);
 
   return (
     <Flex gap={6} flexDirection="column">
@@ -81,30 +84,20 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
             bg="blackAlpha.50"
             _dark={{ bg: "whiteAlpha.50" }}
           >
-            <Heading gridColumn="span 4" size="label.md">
-              Transaction Hash
+            <Heading gridColumn="span 3" size="label.md">
+              Member
             </Heading>
-            <Heading gridColumn="span 5" size="label.md">
-              Events
+            <Heading gridColumn="span 6" size="label.md">
+              Roles
             </Heading>
           </SimpleGrid>
 
           <List overflow="auto">
-            {/* {allRoleMembers.data === 0 && (*/}
-            {/*  <Center py={4}>*/}
-            {/*    <Flex align="center" gap={2}>*/}
-            {/*      {autoUpdate && <Spinner size="sm" speed="0.69s" />}*/}
-            {/*      <Text size="body.md" fontStyle="italic">*/}
-            {/*        {autoUpdate ? "listening for events" : "no events to show"}*/}
-            {/*      </Text>*/}
-            {/*    </Flex>*/}
-            {/*  </Center>*/}
-            {/* )}*/}
-            {/* <AnimatePresence initial={false}>*/}
-            {/*  {allRoleMembers?.slice(0, 3).map((e) => (*/}
-            {/*    <EventsFeedItem key={e.transactionHash} transaction={e} />*/}
-            {/*  ))}*/}
-            {/* </AnimatePresence>*/}
+            <AnimatePresence initial={false}>
+              {members?.slice(0, 3).map((e) => (
+                <EventsFeedItem key={e.member} data={e} />
+              ))}
+            </AnimatePresence>
           </List>
         </Card>
       )}
@@ -113,20 +106,18 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
 };
 
 interface EventsFeedItemProps {
-  transaction: ContractTransaction;
+  data: { member: string; roles: string[] };
 }
 
-export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
-  transaction,
-}) => {
+export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({ data }) => {
   const toast = useToast();
-  const { onCopy, setValue } = useClipboard(transaction.transactionHash);
+  const { onCopy, setValue } = useClipboard(data.member);
 
   useEffect(() => {
-    if (transaction.transactionHash) {
-      setValue(transaction.transactionHash);
+    if (data.member) {
+      setValue(data.member);
     }
-  }, [transaction.transactionHash, setValue]);
+  }, [data.member, setValue]);
 
   return (
     <Box>
@@ -165,7 +156,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
         alignItems="center"
         _last={{ borderBottomWidth: 0 }}
       >
-        <Box gridColumn="span 3">
+        <Box gridColumn="span 2">
           <Stack direction="row" align="center" spacing={3}>
             <Tooltip
               p={0}
@@ -173,9 +164,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
               boxShadow="none"
               label={
                 <Card py={2} px={4}>
-                  <Text size="label.sm">
-                    Copy transaction hash to clipboard
-                  </Text>
+                  <Text size="label.sm">Copy address to clipboard</Text>
                 </Card>
               }
             >
@@ -187,7 +176,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                   toast({
                     variant: "solid",
                     position: "bottom",
-                    title: "Transaction hash copied.",
+                    title: "Address copied.",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
@@ -198,29 +187,29 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
               </Button>
             </Tooltip>
             <Text fontFamily="mono" noOfLines={1}>
-              {transaction.transactionHash.slice(0, 32)}...
+              {data.member.slice(0, 8)}&hellip;
             </Text>
           </Stack>
         </Box>
 
         <Box gridColumn="span 1" />
 
-        <Flex gridColumn="span 5" flexWrap="wrap" gap={2}>
-          {transaction.events.slice(0, 2).map((e, idx) => (
+        <Flex gridColumn="span 6" flexWrap="wrap" gap={2}>
+          {data.roles.slice(0, 2).map((role, idx) => (
             <Tag key={idx}>
               <Text size="body.md" fontWeight="medium">
-                {e.eventName}
+                {role}
               </Text>
             </Tag>
           ))}
-          {transaction.events.length > 2 && (
+          {data.roles.length > 2 && (
             <Tag
               border="2px solid"
               borderColor="var(--badge-bg)"
               bg="transparent"
             >
               <Text size="body.md" fontWeight="medium">
-                + {transaction.events.length - 2}
+                + {data.roles.length - 2}
               </Text>
             </Tag>
           )}

@@ -4,7 +4,7 @@ import { NFTDetails } from "./components/NFTDetails";
 import { PermissionsTable } from "./components/PermissionsTable";
 import { ShareContract } from "./components/ShareContract";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
-import { Divider, Flex, GridItem, SimpleGrid, Tr } from "@chakra-ui/react";
+import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi, getAllDetectedFeatureNames } from "@thirdweb-dev/sdk";
 import { ImportContract } from "components/contract-components/import-contract";
@@ -62,7 +62,7 @@ export const CustomContractOverviewPage: React.FC<
         />
         <BuildYourApp trackingCategory={TRACKING_CATEGORY} />
         {contract &&
-          ["Permissions", "PermissionsEnumerable"].some((type) =>
+          ["PermissionsEnumerable"].some((type) =>
             detectedFeatureNames.includes(type),
           ) && (
             <PermissionsTable

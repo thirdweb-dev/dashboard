@@ -75,6 +75,7 @@ export const NFTCards: React.FC<ContractOverviewNFTGetAllProps> = ({
                 <Image
                   w="100%"
                   src={token.metadata.image}
+                  alt=""
                   inset={0}
                   position="absolute"
                 />
