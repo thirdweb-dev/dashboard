@@ -47,6 +47,7 @@ const PreBuiltContracts: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/smart-contracts.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb Explore",
             },
           ],
         },

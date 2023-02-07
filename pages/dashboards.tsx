@@ -45,6 +45,7 @@ const Dashboard: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/dashboards.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb Dashboards",
             },
           ],
         },

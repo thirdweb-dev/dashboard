@@ -48,6 +48,7 @@ const Web3SDK: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/sdk.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb SDKs",
             },
           ],
         },

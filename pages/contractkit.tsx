@@ -46,6 +46,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/contractkit.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb ContractKit",
             },
           ],
         },

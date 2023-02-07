@@ -45,6 +45,7 @@ const Storage: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/storage.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb Storage",
             },
           ],
         },

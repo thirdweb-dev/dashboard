@@ -39,6 +39,7 @@ const Release: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/release.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb Release",
             },
           ],
         },

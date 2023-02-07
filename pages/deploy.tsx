@@ -45,6 +45,7 @@ const Deploy: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/deploy.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb Deploy",
             },
           ],
         },

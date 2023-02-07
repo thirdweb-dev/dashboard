@@ -48,6 +48,7 @@ const Authentication: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/auth.png`,
               width: 2334,
               height: 1260,
+              alt: "thirdweb Auth",
             },
           ],
         },
