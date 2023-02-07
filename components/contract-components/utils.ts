@@ -1,13 +1,12 @@
 import { ContractId } from "./types";
+import { Polygon } from "@thirdweb-dev/chains";
 import { FeatureName } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import {
   Abi,
-  ChainId,
   PREBUILT_CONTRACTS_MAP,
   ValidContractInstance,
   isFeatureEnabled,
 } from "@thirdweb-dev/sdk/evm";
-import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { Signer } from "ethers";
 import { getEVMThirdwebSDK } from "lib/sdk";
 
@@ -42,8 +41,8 @@ export function detectFeatures<TContract extends ValidContractInstance | null>(
 
 export function getGaslessPolygonSDK(signer?: Signer) {
   const polygonSDK = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
+    Polygon.chainId,
+    Polygon.rpc[0],
     {
       gasless: {
         openzeppelin: {

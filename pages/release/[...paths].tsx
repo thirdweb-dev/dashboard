@@ -1,6 +1,6 @@
 import { Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
-import { ChainId } from "@thirdweb-dev/sdk";
+import { Polygon } from "@thirdweb-dev/chains";
 import { AppLayout } from "components/app-layouts/app";
 import {
   ensQuery,
@@ -13,7 +13,6 @@ import {
   ReleaseWithVersionPage,
   ReleaseWithVersionPageProps,
 } from "components/pages/release";
-import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExploreReleases } from "data/explore";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -67,10 +66,7 @@ export const getStaticProps: GetStaticProps<ReleasePageProps> = async (ctx) => {
     };
   }
 
-  const polygonSdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const polygonSdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
 
   const queryClient = new QueryClient();
   const { address, ensName } = await queryClient.fetchQuery(

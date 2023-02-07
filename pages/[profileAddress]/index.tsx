@@ -2,8 +2,8 @@ import redirects from "../../redirects";
 import { useMainnetsContractList } from "@3rdweb-sdk/react";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
+import { Polygon } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react/evm";
-import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
 import {
   ensQuery,
@@ -18,7 +18,6 @@ import { ReleaserAvatar } from "components/contract-components/releaser/masked-a
 import { ReleaserSocials } from "components/contract-components/releaser/releaser-socials";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
-import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -226,10 +225,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const queryClient = new QueryClient();
   // TODO make this use alchemy / other RPC
   // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
-  const polygonSdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const polygonSdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
 
   const profileAddress = getSingleQueryValue(ctx.params, "profileAddress");
 

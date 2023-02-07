@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { GnosisSafeConnector } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
 import { MagicConnector } from "@thirdweb-dev/react/evm/connectors/magic";
-import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { StorageSingleton } from "lib/sdk";
@@ -23,6 +22,14 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const configuredChains = useConfiguredChains();
   const chain = contractInfo?.chain;
 
+  const rpcUrls = useMemo(() => {
+    const record: Record<number, string> = {};
+    for (const _chain of configuredChains) {
+      record[_chain.chainId] = _chain.rpc[0];
+    }
+    return record;
+  }, [configuredChains]);
+
   const walletConnectors = useMemo(() => {
     let wc: WalletConnector[] = [
       "metamask",
@@ -35,7 +42,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         new MagicConnector({
           options: {
             apiKey: process.env.NEXT_PUBLIC_MAGIC_KEY,
-            rpcUrls: EVM_RPC_URL_MAP,
+            rpcUrls,
             network: chain
               ? {
                   rpcUrl: chain.rpc[0],
@@ -48,7 +55,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       );
     }
     return wc;
-  }, [chain]);
+  }, [chain, rpcUrls]);
 
   return (
     <ThirdwebProvider

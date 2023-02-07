@@ -7,6 +7,8 @@ const RPC_ENV =
     ? "rpc"
     : "rpc-staging";
 
+// Currently only used in pages/api
+// TODO - remove it completely
 export const EVM_RPC_URL_MAP: Record<SUPPORTED_CHAIN_ID, string> = addAPIKey({
   [ChainId.Mainnet]:
     process.env.SSR_RPC_MAINNET ||
@@ -105,9 +107,4 @@ function addAPIKey<T extends string | number>(
 // SOLANA
 export function getSOLRPC(network: DashboardSolanaNetwork) {
   return SOLANA_RPC_URL_MAP[network];
-}
-
-// EVM
-export function getEVMRPC(chainId: SUPPORTED_CHAIN_ID) {
-  return EVM_RPC_URL_MAP[chainId];
 }

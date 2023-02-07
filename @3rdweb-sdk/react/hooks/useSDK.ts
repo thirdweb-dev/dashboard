@@ -1,7 +1,22 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
+import {
+  ArbitrumGoerli,
+  ArbitrumOne,
+  AvalancheCChain,
+  AvalancheFujiTestnet,
+  BinanceSmartChain,
+  BinanceSmartChainTestnet,
+  Ethereum,
+  FantomOpera,
+  FantomTestnet,
+  Goerli,
+  Mumbai,
+  Optimism,
+  OptimismGoerliTestnet,
+  Polygon,
+} from "@thirdweb-dev/chains";
 import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
-import { getEVMRPC } from "constants/rpc";
 import { useAutoConfigureChains } from "hooks/chains/allChains";
 import {
   useConfiguredChains,
@@ -43,14 +58,10 @@ export function useMultiChainRegContractList(walletAddress?: string) {
       }
 
       // PERF ISSUE HERE, NEED TO OPTIMISE
-      // chainInfos is a huge object and this function is gonna strinfigy it for creating a key
-      const polygonSDK = getEVMThirdwebSDK(
-        ChainId.Polygon,
-        getEVMRPC(ChainId.Polygon),
-        {
-          chains: configuredChains,
-        },
-      );
+      // thrid argument is a huge object and this function is gonna strinfigy it for creating a key
+      const polygonSDK = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0], {
+        chains: configuredChains,
+      });
 
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
@@ -66,39 +77,39 @@ export function useMultiChainRegContractList(walletAddress?: string) {
 
 export function useMainnetsContractList(walletAddress: string | undefined) {
   const mainnetQuery = useContractList(
-    ChainId.Mainnet,
-    getEVMRPC(ChainId.Mainnet),
+    Ethereum.chainId,
+    Ethereum.rpc[0],
     walletAddress,
   );
   const polygonQuery = useContractList(
-    ChainId.Polygon,
-    getEVMRPC(ChainId.Polygon),
+    Polygon.chainId,
+    Polygon.rpc[0],
     walletAddress,
   );
   const fantomQuery = useContractList(
-    ChainId.Fantom,
-    getEVMRPC(ChainId.Fantom),
+    FantomOpera.chainId,
+    FantomOpera.rpc[0],
     walletAddress,
   );
   const avalancheQuery = useContractList(
-    ChainId.Avalanche,
-    getEVMRPC(ChainId.Avalanche),
+    AvalancheCChain.chainId,
+    AvalancheCChain.rpc[0],
     walletAddress,
   );
   const optimismQuery = useContractList(
-    ChainId.Optimism,
-    getEVMRPC(ChainId.Optimism),
+    Optimism.chainId,
+    Optimism.rpc[0],
     walletAddress,
   );
 
   const arbitrumQuery = useContractList(
-    ChainId.Arbitrum,
-    getEVMRPC(ChainId.Arbitrum),
+    ArbitrumOne.chainId,
+    ArbitrumOne.rpc[0],
     walletAddress,
   );
   const binanceQuery = useContractList(
-    ChainId.BinanceSmartChainMainnet,
-    getEVMRPC(ChainId.BinanceSmartChainMainnet),
+    BinanceSmartChain.chainId,
+    BinanceSmartChain.rpc[0],
     walletAddress,
   );
 
@@ -168,38 +179,38 @@ export function useMainnetsContractList(walletAddress: string | undefined) {
 
 export function useTestnetsContractList(walletAddress: string | undefined) {
   const goerliQuery = useContractList(
-    ChainId.Goerli,
-    getEVMRPC(ChainId.Goerli),
+    Goerli.chainId,
+    Goerli.rpc[0],
     walletAddress,
   );
   const mumbaiQuery = useContractList(
-    ChainId.Mumbai,
-    getEVMRPC(ChainId.Mumbai),
+    Mumbai.chainId,
+    Mumbai.rpc[0],
     walletAddress,
   );
   const fantomTestnetQuery = useContractList(
-    ChainId.FantomTestnet,
-    getEVMRPC(ChainId.FantomTestnet),
+    FantomTestnet.chainId,
+    FantomTestnet.rpc[0],
     walletAddress,
   );
   const avalancheFujiTestnetQuery = useContractList(
-    ChainId.AvalancheFujiTestnet,
-    getEVMRPC(ChainId.AvalancheFujiTestnet),
+    AvalancheFujiTestnet.chainId,
+    AvalancheFujiTestnet.rpc[0],
     walletAddress,
   );
   const optimismGoerliQuery = useContractList(
-    ChainId.OptimismGoerli,
-    getEVMRPC(ChainId.OptimismGoerli),
+    OptimismGoerliTestnet.chainId,
+    OptimismGoerliTestnet.rpc[0],
     walletAddress,
   );
   const arbitrumGoerliQuery = useContractList(
-    ChainId.ArbitrumGoerli,
-    getEVMRPC(ChainId.ArbitrumGoerli),
+    ArbitrumGoerli.chainId,
+    ArbitrumGoerli.rpc[0],
     walletAddress,
   );
   const binanceTestnetQuery = useContractList(
-    ChainId.BinanceSmartChainTestnet,
-    getEVMRPC(ChainId.BinanceSmartChainTestnet),
+    BinanceSmartChainTestnet.chainId,
+    BinanceSmartChainTestnet.rpc[0],
     walletAddress,
   );
 

@@ -1,4 +1,3 @@
-import { EVM_RPC_URL_MAP } from "../../constants/rpc";
 import {
   stepAddToRegistry,
   stepDeploy,
@@ -17,6 +16,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { Polygon } from "@thirdweb-dev/chains";
 import {
   useAddress,
   useChainId,
@@ -27,7 +27,6 @@ import {
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import {
   Abi,
-  ChainId,
   ContractInfoSchema,
   ContractType,
   ExtraPublishMetadata,
@@ -135,10 +134,7 @@ export function useContractPublishMetadataFromURI(contractId: ContractId) {
 // if passing an address, also fetches the latest version of the matching contract
 export function useContractPrePublishMetadata(uri: string, address?: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+
   return useQuery(
     ["pre-publish-metadata", uri, address],
     async () => {
@@ -149,6 +145,7 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
       invariant(address, "address is not defined");
       // TODO: Make this nicer.
       invariant(uri !== "ipfs://undefined", "uri can't be undefined");
+      const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
       return await sdk
         ?.getPublisher()
         .fetchPrePublishMetadata(contractIdIpfsHash, address);
@@ -182,10 +179,7 @@ async function fetchFullPublishMetadata(
 // Metadata POST release, contains all the extra information filled in by the user
 export function useContractFullPublishMetadata(uri: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
   const queryClient = useQueryClient();
 
   return useQuery(
@@ -212,10 +206,7 @@ export function useContractFullPublishMetadata(uri: string) {
 }
 
 async function fetchReleaserProfile(publisherAddress?: string | null) {
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
   invariant(publisherAddress, "address is not defined");
   return await sdk.getPublisher().getPublisherProfile(publisherAddress);
 }
@@ -241,16 +232,13 @@ export function useLatestRelease(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
   return useQuery(
     ["latest-release", publisherAddress, contractName],
     async () => {
       invariant(publisherAddress, "address is not defined");
       invariant(contractName, "contract name is not defined");
 
+      const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
       const latestRelease = await sdk
         .getPublisher()
         .getLatest(publisherAddress, contractName);
@@ -316,10 +304,7 @@ export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
   return useQuery(
     ["all-releases", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
@@ -355,10 +340,7 @@ export function useReleasesFromDeploy(
         .getPublisher()
         .resolveContractUriFromAddress(contractAddress);
 
-      const polygonSdk = getEVMThirdwebSDK(
-        ChainId.Polygon,
-        EVM_RPC_URL_MAP[ChainId.Polygon],
-      );
+      const polygonSdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
 
       return await polygonSdk
         .getPublisher()
@@ -380,10 +362,7 @@ export async function fetchReleasedContractInfo(
 }
 
 export function useReleasedContractInfo(contract: PublishedContract) {
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
   return useQuery(
     ["released-contract", contract],
     () => fetchReleasedContractInfo(sdk, contract),
@@ -601,10 +580,7 @@ export type ReleasedContractDetails = Awaited<
 >[number];
 
 export function usePublishedContractsQuery(address?: string) {
-  const sdk = getEVMThirdwebSDK(
-    ChainId.Polygon,
-    EVM_RPC_URL_MAP[ChainId.Polygon],
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
   const queryClient = useQueryClient();
   return useQuery<ReleasedContractDetails[]>(
     ["published-contracts", address],

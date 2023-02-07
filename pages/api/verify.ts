@@ -1,3 +1,4 @@
+import { Polygon } from "@thirdweb-dev/chains";
 import {
   Abi,
   ChainId,
@@ -341,10 +342,7 @@ async function fetchDeployBytecodeFromReleaseMetadata(
     provider,
   );
   if (compialierMetaUri) {
-    const pubmeta = await getEVMThirdwebSDK(
-      ChainId.Polygon,
-      EVM_RPC_URL_MAP[ChainId.Polygon],
-    )
+    const pubmeta = await getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0])
       .getPublisher()
       .resolvePublishMetadataFromCompilerMetadata(compialierMetaUri);
     return pubmeta.length > 0
