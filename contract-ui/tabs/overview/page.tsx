@@ -1,5 +1,7 @@
 import { BuildYourApp } from "./components/BuildYourApp";
 import { LatestEvents } from "./components/LatestEvents";
+import { NFTDetails } from "./components/NFTDetails";
+import { PermissionsTable } from "./components/PermissionsTable";
 import { ShareContract } from "./components/ShareContract";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
 import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
@@ -44,11 +46,30 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={16}>
+        {contract &&
+          ["ERC1155", "ERC721"].some((type) =>
+            detectedFeatureNames.includes(type),
+          ) && (
+            <NFTDetails
+              contract={contract}
+              trackingCategory={TRACKING_CATEGORY}
+              features={detectedFeatureNames}
+            />
+          )}
         <LatestEvents
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
         />
         <BuildYourApp trackingCategory={TRACKING_CATEGORY} />
+        {contract &&
+          ["PermissionsEnumerable"].some((type) =>
+            detectedFeatureNames.includes(type),
+          ) && (
+            <PermissionsTable
+              contract={contract}
+              trackingCategory={TRACKING_CATEGORY}
+            />
+          )}
         <ShareContract
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
@@ -62,7 +83,10 @@ export const CustomContractOverviewPage: React.FC<
               {guides.map((guide) => (
                 <TrackedLink
                   category={TRACKING_CATEGORY}
-                  label={guide.title.toLowerCase().replace(" ", "_")}
+                  label="guide"
+                  trackingProps={{
+                    guide: guide.title.replace(" ", "_").toLowerCase(),
+                  }}
                   isExternal
                   fontWeight={500}
                   href={guide.url}
@@ -91,7 +115,10 @@ export const CustomContractOverviewPage: React.FC<
                 <TrackedLink
                   isExternal
                   category={TRACKING_CATEGORY}
-                  label={template.title.toLowerCase().replace(" ", "_")}
+                  label="guide"
+                  trackingProps={{
+                    template: template.title.replace(" ", "_").toLowerCase(),
+                  }}
                   fontWeight={500}
                   href={template.url}
                   key={template.title}
