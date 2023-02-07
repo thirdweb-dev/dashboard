@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   Flex,
   Icon,
   List,
@@ -88,6 +89,15 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
           </SimpleGrid>
 
           <List overflow="auto">
+            {members.length === 0 && (
+              <Center py={4}>
+                <Flex align="center" gap={2}>
+                  <Text size="body.md" fontStyle="italic">
+                    {"no permissions to show"}
+                  </Text>
+                </Flex>
+              </Center>
+            )}
             <AnimatePresence initial={false}>
               {members?.slice(0, 3).map((e) => (
                 <EventsFeedItem key={e.member} data={e} />
