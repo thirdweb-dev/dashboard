@@ -169,7 +169,7 @@ export const SolutionsSection: React.FC = () => {
         thirdweb powers the best web3 projects across verticals
       </Text>
       <SimpleGrid
-        columns={{ md: 3, base: 1 }}
+        columns={{ lg: 3, base: 1 }}
         gap={6}
         maxW={1050}
         margin="0 auto"
