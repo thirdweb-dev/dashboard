@@ -1,8 +1,7 @@
 import { Chain } from "@thirdweb-dev/chains";
 import { useRouter } from "next/router";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import invariant from "tiny-invariant";
-import { SupportedNetwork } from "utils/network";
 import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
 
 export type EVMContractInfo = {
@@ -27,9 +26,21 @@ export function EVMContractInfoProvider(props: {
   children: React.ReactNode;
   value?: EVMContractInfo;
 }) {
-  const [value, setValue] = useState(props.value);
+  const [value, setValue] = useState<EVMContractInfo | undefined>(props.value);
+
+  // keep the state in sync with the props.value
+  // this is required when route changes and page goes from fallback to actual page
+  useEffect(() => {
+    setValue(props.value);
+  }, [props.value]);
+
+  // when we move from rendering the fallback page to the actual page, props.value is correct value but state lags behind with undefined value
+  // in that case we use the props.value instead of providing undefined and update the state with effect afterwards
+  // this only happens ONCE, when the page is not yet created on server. once it is created and cached. value will always be defined
+  const providedValue = value || props.value;
+
   return (
-    <EVMContractInfoContext.Provider value={value}>
+    <EVMContractInfoContext.Provider value={providedValue}>
       <SetEVMContractInfoContext.Provider value={setValue}>
         {props.children}
       </SetEVMContractInfoContext.Provider>

@@ -2,6 +2,7 @@ import {
   DashboardThirdwebProvider,
   DashboardThirdwebProviderProps,
 } from "./providers";
+import { EVMContractInfoProvider } from "@3rdweb-sdk/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
@@ -122,11 +123,13 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
           <DeployModalProvider>
             <AllChainsProvider>
               <ConfiguredChainsProvider>
-                <DashboardThirdwebProvider contractInfo={props.contractInfo}>
-                  <PHIdentifier />
-                  {router.pathname !== "/dashboard" && <PrivacyNotice />}
-                  <AppShell {...props} />
-                </DashboardThirdwebProvider>
+                <EVMContractInfoProvider value={props.contractInfo}>
+                  <DashboardThirdwebProvider>
+                    <PHIdentifier />
+                    {router.pathname !== "/dashboard" && <PrivacyNotice />}
+                    <AppShell {...props} />
+                  </DashboardThirdwebProvider>
+                </EVMContractInfoProvider>
               </ConfiguredChainsProvider>
             </AllChainsProvider>
           </DeployModalProvider>

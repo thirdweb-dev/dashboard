@@ -1,6 +1,5 @@
 import {
   EVMContractInfo,
-  EVMContractInfoProvider,
   useEVMContractInfo,
   useSetEVMContractInfo,
 } from "@3rdweb-sdk/react";
@@ -53,6 +52,22 @@ const EVMContractPage: ThirdwebNextPage = () => {
             isAutoConfigured: true,
           },
         ]);
+      }
+
+      // it is configured
+      else {
+        // if server resolved it and user has it configured. user may have updated it on client
+        // currently user can only update RPC - so check if it is updated or not
+        // if updated, update the contractInfo.chain
+
+        const configuredChain = configuredChainSlugRecord[chainSlug];
+        if (configuredChain.rpc[0] !== chain.rpc[0]) {
+          setContractInfo({
+            chainSlug,
+            contractAddress,
+            chain: configuredChain,
+          });
+        }
       }
     }
 
@@ -167,9 +182,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
       // has to be passed directly because the provider can not be above app layout in the tree
       contractInfo={props.contractInfo}
     >
-      <EVMContractInfoProvider value={props.contractInfo}>
-        {page}
-      </EVMContractInfoProvider>
+      {page}
     </AppLayout>
   );
 };

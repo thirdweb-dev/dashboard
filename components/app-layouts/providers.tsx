@@ -1,5 +1,8 @@
 import { SolanaProvider } from "./solana-provider";
-import { EVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
+import {
+  EVMContractInfo,
+  useEVMContractInfo,
+} from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebProvider, WalletConnector } from "@thirdweb-dev/react";
 import { GnosisSafeConnector } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
@@ -16,10 +19,11 @@ export interface DashboardThirdwebProviderProps {
 
 export const DashboardThirdwebProvider: ComponentWithChildren<
   DashboardThirdwebProviderProps
-> = ({ children, contractInfo }) => {
+> = ({ children }) => {
   useNativeColorMode();
   const queryClient = useQueryClient();
   const configuredChains = useConfiguredChains();
+  const contractInfo = useEVMContractInfo();
   const chain = contractInfo?.chain;
 
   const rpcUrls = useMemo(() => {
