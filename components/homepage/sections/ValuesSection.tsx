@@ -16,10 +16,11 @@ const features: FeatureCardProps[] = [
         Anyone can use thirdweb tools without our permission. The code for our
         contracts, SDKs, dashboard and UI components are{" "}
         <TrackedLink
+          color="white"
+          fontWeight="500"
           category="values"
           label="open_source"
           isExternal
-          color="blue.500"
           href="https://github.com/thirdweb-dev"
         >
           open source
