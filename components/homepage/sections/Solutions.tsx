@@ -43,6 +43,7 @@ const solutions: SolutionCardProps[] = [
         experiences. Build your own NFT and Marketplace contracts with{" "}
         <TrackedLink
           color="white"
+          fontWeight="500"
           isExternal
           category="solutions"
           label="contractkit"
@@ -53,6 +54,7 @@ const solutions: SolutionCardProps[] = [
         or discover and deploy in 1-click via{" "}
         <TrackedLink
           color="white"
+          fontWeight="500"
           isExternal
           href="/explore"
           category="solutions"
