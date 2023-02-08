@@ -42,7 +42,7 @@ const solutions: SolutionCardProps[] = [
         An all-in-one toolkit to build and mint NFTs. Create powerful NFT
         experiences. Build your own NFT and Marketplace contracts with{" "}
         <TrackedLink
-          color="blue.500"
+          color="white"
           isExternal
           category="solutions"
           label="contractkit"
@@ -52,7 +52,7 @@ const solutions: SolutionCardProps[] = [
         </TrackedLink>{" "}
         or discover and deploy in 1-click via{" "}
         <TrackedLink
-          color="blue.500"
+          color="white"
           isExternal
           href="/explore"
           category="solutions"
