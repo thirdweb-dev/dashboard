@@ -5,6 +5,7 @@ import {
   useWeb3,
 } from "@3rdweb-sdk/react";
 import {
+  Box,
   Center,
   Flex,
   Icon,
@@ -418,7 +419,11 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   if (!releasesFromDeploy.isLoading && !actualRelease) {
     return (
       <Flex align="center" gap={2}>
-        <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
+        {imgSrc ? (
+          <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
+        ) : (
+          <Box boxSize={8} />
+        )}
         <Text size="label.md">{Custom}</Text>
       </Flex>
     );
@@ -427,7 +432,11 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
   return (
     <Flex align="center" gap={2}>
       <Skeleton isLoaded={!releasesFromDeploy.isLoading && !!imgSrc}>
-        <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
+        {imgSrc ? (
+          <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
+        ) : (
+          <Box boxSize={8} />
+        )}
       </Skeleton>
       <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
         <Text size="label.md">{actualRelease?.name || Custom}</Text>
