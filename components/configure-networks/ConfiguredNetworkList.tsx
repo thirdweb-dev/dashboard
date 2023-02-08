@@ -185,10 +185,10 @@ const NetworkListItem: React.FC<{
         alignItems="center"
         gap={3}
         _dark={{
-          background: props.isActive ? "inputBg" : "transparent",
+          bg: props.isActive ? "inputBg" : "transparent",
         }}
         _light={{
-          background: props.isActive ? "accent.200" : "transparent",
+          bg: props.isActive ? "inputBg" : "transparent",
         }}
         color="accent.900"
         fontWeight={500}
@@ -197,10 +197,10 @@ const NetworkListItem: React.FC<{
         py={4}
         _hover={{
           _dark: {
-            background: "inputBg",
+            bg: "inputBg",
           },
           _light: {
-            background: "accent.200",
+            bg: "inputBg",
           },
         }}
         onClick={props.onClick}

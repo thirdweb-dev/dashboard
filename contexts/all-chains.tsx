@@ -1,4 +1,5 @@
 import type { Chain } from "@thirdweb-dev/chains";
+import chainsPackage from "@thirdweb-dev/chains/package.json";
 import { get, set } from "idb-keyval";
 import React, { createContext, useEffect, useState } from "react";
 
@@ -12,8 +13,7 @@ export const AllChainsContext = createContext<AllChainsData | undefined>(
   undefined,
 );
 
-// When chains package is updated, bump the version here
-const ALL_CHAINS_IDB_KEY = "allChains-v1";
+const ALL_CHAINS_IDB_KEY = `allChains-${chainsPackage.version}`;
 
 /**
  * if no networks are configured by the user, return the defaultChains

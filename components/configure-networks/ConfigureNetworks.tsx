@@ -138,14 +138,22 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
         <Button
           variant="link"
           pl={{ base: 4, md: 8 }}
+          py={2}
+          borderRadius={0}
+          borderLeft="2px solid transparent"
+          fontSize="16px"
+          bg={editingChain ? "transparent" : "inputBg"}
           mb={8}
           _dark={{
-            color: "blue.500",
+            borderColor: editingChain ? "transparent" : "blue.300",
+            color: "blue.300",
           }}
           _light={{
+            borderColor: editingChain ? "transparent" : "gray.800",
             color: "blue.700",
           }}
           _hover={{
+            bg: "inputBg",
             textDecoration: "none",
           }}
           display="flex"
@@ -154,7 +162,6 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
             setEditingChain(undefined);
           }}
           leftIcon={<Icon as={IoMdAdd} />}
-          disabled={!editingChain}
         >
           <Text fontSize="md" color="inherit" textAlign="left" fontWeight={600}>
             Add Network
@@ -178,7 +185,13 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
       </Flex>
 
       {/* form */}
-      <Box p={{ base: 4, md: 8 }}>
+      <Box
+        p={{ base: 4, md: 8 }}
+        minH="600px"
+        borderTop={{ md: "none", base: "1px solid" }}
+        marginTop={{ base: 6, md: 0 }}
+        borderColor="inputBg"
+      >
         <Heading
           as={"h3"}
           size="label.xl"

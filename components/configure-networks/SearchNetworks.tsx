@@ -3,6 +3,7 @@ import {
   Flex,
   FormControl,
   Icon,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -10,10 +11,12 @@ import {
   useOutsideClick,
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
+import { ChainIcon } from "components/icons/ChainIcon";
 import { useAllChainsData } from "hooks/chains/allChains";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { RefCallBack } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
+import { IoMdClose } from "react-icons/io";
 import { FormErrorMessage, FormLabel, Text } from "tw-components";
 
 interface SearchNetworksProps {
@@ -24,22 +27,19 @@ interface SearchNetworksProps {
   onChange: (value: string) => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (value: boolean) => void;
-  keepOpen: boolean;
 }
 
 // TODO - improve search performance and do fuzzy search
 
 export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
   const { allChains } = useAllChainsData();
-  const searchResultsRef = useRef<HTMLDivElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   const searchTerm = props.value;
 
   useOutsideClick({
-    ref: searchResultsRef,
+    ref: searchContainerRef,
     handler: () => {
-      if (!props.keepOpen) {
-        props.setIsSearchOpen(false);
-      }
+      props.setIsSearchOpen(false);
     },
   });
 
@@ -49,6 +49,17 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     }
 
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const isSearchingForNumber = !isNaN(Number(lowerCaseSearchTerm));
+
+    // searching for chain id
+    if (isSearchingForNumber) {
+      return allChains.filter((network) =>
+        network.chainId.toString().includes(lowerCaseSearchTerm),
+      );
+    }
+
+    // TODO use fuzzy search with fuse.js
+    // searching for network name
     return allChains.filter((network) =>
       network.name.toLowerCase().includes(lowerCaseSearchTerm),
     );
@@ -60,17 +71,36 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     props.onNetworkSelection(network, custom);
   };
 
+  const isFocusSet = useRef(false);
+  useEffect(() => {
+    if (isFocusSet.current || !searchContainerRef.current) {
+      return;
+    }
+
+    const input = searchContainerRef.current.querySelector("input");
+    if (input) {
+      // timeout used to mvoe focus from Modal's close button
+      setTimeout(() => {
+        input.focus();
+      });
+      isFocusSet.current = true;
+    }
+  });
+
   return (
     <Box>
-      <FormControl isInvalid={!!props.errorMessage} isRequired>
+      <FormControl
+        isInvalid={!!props.errorMessage}
+        isRequired
+        ref={searchContainerRef}
+      >
         <FormLabel>Network Name</FormLabel>
-        <InputGroup
-          position="relative"
-          onClick={() => {
-            props.setIsSearchOpen(true);
-          }}
-        >
+        <InputGroup position="relative">
           <Input
+            spellCheck="false"
+            onClick={() => {
+              props.setIsSearchOpen(true);
+            }}
             ref={props.inputRef}
             _placeholder={{
               fontWeight: 500,
@@ -83,18 +113,18 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             }}
             type="text"
             autoComplete="off"
-            placeholder="Search from a list of popular networks"
+            placeholder="Search by Name or Chain ID"
             aria-label="Search Network"
             value={searchTerm}
-            borderColor={
-              props.isSearchOpen ? "inputBg !important" : "inputBorder"
-            }
             outline="none"
             py={5}
             borderBottomLeftRadius={props.isSearchOpen ? 0 : "md"}
             borderBottomRightRadius={props.isSearchOpen ? 0 : "md"}
             onChange={(e) => {
               props.onChange(e.target.value);
+              if (!props.isSearchOpen) {
+                props.setIsSearchOpen(true);
+              }
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -106,12 +136,64 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               }
             }}
           />
+
+          {/*  Icon for clearning the input */}
+          <InputRightElement
+            opacity={!props.isSearchOpen || !searchTerm ? 0 : 1}
+            transition="opacity 250ms ease"
+            cursor={"pointer"}
+            mr={7}
+            borderRadius="md"
+            children={
+              <IconButton
+                bg="transparent"
+                w={6}
+                h={6}
+                minW={6}
+                _hover={{
+                  bg: "transparent",
+                }}
+                icon={
+                  <Icon
+                    _dark={{
+                      color: "blue.300",
+                    }}
+                    _light={{
+                      color: "accent.700",
+                    }}
+                    as={IoMdClose}
+                  />
+                }
+                aria-label="clear"
+              ></IconButton>
+            }
+            onClick={() => {
+              props.onChange("");
+              searchContainerRef.current?.querySelector("input")?.focus();
+            }}
+          />
+
+          {/* Toggle for opening and closing the list */}
           <InputRightElement
             cursor={"pointer"}
             transition="transform 200ms ease"
             transform={props.isSearchOpen ? "rotate(180deg)" : "rotate(0deg)"}
-            p={4}
-            children={<Icon color="inherit" as={BiChevronDown} />}
+            children={
+              <IconButton
+                bg="transparent"
+                w={6}
+                h={6}
+                minW={6}
+                _hover={{
+                  bg: "transparent",
+                }}
+                icon={<Icon as={BiChevronDown} />}
+                aria-label={props.isSearchOpen ? "close" : "open"}
+              ></IconButton>
+            }
+            onClick={() => {
+              props.setIsSearchOpen(!props.isSearchOpen);
+            }}
           />
         </InputGroup>
         <Box
@@ -127,11 +209,12 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           _light={{
             background: "white",
           }}
-          boxShadow={"0 20px 32px rgba(0,0,0,0.15)"}
+          boxShadow={"0 16px 32px rgba(0,0,0,0.15)"}
           w="100%"
         >
           <Box
-            h="275px"
+            maxH={{ base: "275px", md: "350px" }}
+            minH="150px"
             sx={{
               maskImage:
                 "linear-gradient(to bottom, black 80%, transparent 100%)",
@@ -165,6 +248,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                   key={network.name}
                   cursor="pointer"
                   display="flex"
+                  gap={3}
                   color="heading"
                   _hover={{
                     background: "inputBgHover",
@@ -173,9 +257,10 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                     handleSelection(network, false);
                   }}
                 >
+                  <ChainIcon ipfsSrc={network.icon?.url} size={20} />
                   {network.name}{" "}
                   <Text as="span" opacity={0.8} ml="auto" color="inherit">
-                    {network.shortName}
+                    {network.chainId}
                   </Text>
                 </Text>
               ))}

@@ -210,7 +210,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     >
       {variant === "search" && (
         <SearchNetworks
-          keepOpen={hideOtherFields}
           onChange={(value) => {
             form.setValue("name", value, {
               shouldValidate: true,
@@ -249,13 +248,24 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             }}
             type="text"
             onChange={(e) => {
-              form.setValue("name", e.target.value, {
+              const value = e.target.value;
+
+              form.setValue("name", value, {
                 shouldValidate: true,
                 shouldDirty: true,
               });
 
-              if (e.target.value.includes("test")) {
+              if (value.includes("test")) {
                 form.setValue("type", "testnet");
+              }
+
+              if (variant === "custom") {
+                if (!form.formState.dirtyFields.slug) {
+                  form.setValue(
+                    "slug",
+                    value.toLowerCase().replace(/\s+/g, "-"),
+                  );
+                }
               }
             }}
             ref={ref}
