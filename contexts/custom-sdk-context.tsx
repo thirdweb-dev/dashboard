@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider, useSigner } from "@thirdweb-dev/react";
-import { ChainId, SDKOptions, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
+import type { SDKOptions } from "@thirdweb-dev/sdk/evm";
 import {
   useConfiguredChain,
   useConfiguredChains,
@@ -9,7 +9,7 @@ import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export const CustomSDKContext: ComponentWithChildren<{
-  desiredChainId?: SUPPORTED_CHAIN_ID | -1;
+  desiredChainId?: number;
   options?: SDKOptions;
 }> = ({ desiredChainId, options, children }) => {
   const signer = useSigner();
@@ -19,10 +19,10 @@ export const CustomSDKContext: ComponentWithChildren<{
 
   return (
     <ThirdwebSDKProvider
-      network={desiredChainId || 1}
+      activeChain={desiredChainId}
       signer={signer}
       queryClient={queryClient}
-      chains={configuredChains}
+      supportedChains={configuredChains}
       sdkOptions={{
         gasSettings: {
           maxPriceInGwei: 650,
@@ -44,7 +44,8 @@ export const CustomSDKContext: ComponentWithChildren<{
 
 export const PublisherSDKContext: ComponentWithChildren = ({ children }) => (
   <CustomSDKContext
-    desiredChainId={ChainId.Polygon}
+    // polygon = 137
+    desiredChainId={137}
     options={{
       gasless: {
         openzeppelin: {

@@ -5,7 +5,7 @@ const fallbackIcon = `https://gateway.ipfscdn.io/ipfs/QmU1r24UsmGg2w2RePz98zV5hR
 export const ChainIcon: React.FC<{
   ipfsSrc?: string;
   size: number;
-  sizes?: number[];
+  sizes?: readonly number[];
 }> = (props) => {
   const src = props.ipfsSrc
     ? `https://gateway.ipfscdn.io/ipfs/${props.ipfsSrc.slice(`ipfs://`.length)}`

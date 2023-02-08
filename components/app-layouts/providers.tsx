@@ -70,8 +70,8 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      network={chain?.chainId}
-      chains={configuredChains}
+      activeChain={chain?.chainId}
+      supportedChains={configuredChains}
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings: chain

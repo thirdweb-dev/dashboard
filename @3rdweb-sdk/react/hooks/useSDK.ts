@@ -60,6 +60,7 @@ export function useMultiChainRegContractList(walletAddress?: string) {
       // PERF ISSUE HERE, NEED TO OPTIMISE
       // thrid argument is a huge object and this function is gonna strinfigy it for creating a key
       const polygonSDK = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0], {
+        // @ts-expect-error - this works fine but the TS sdk zod type does not yet enforce readonly
         chains: configuredChains,
       });
 

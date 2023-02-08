@@ -8,7 +8,7 @@ interface NetworkMetadata {
   symbol: string;
   isTestnet: boolean | "unknown";
   chainId: ChainId;
-  iconSizes?: number[];
+  iconSizes?: readonly number[];
 }
 
 export const FAUCETS: Partial<Record<ChainId, string>> = {

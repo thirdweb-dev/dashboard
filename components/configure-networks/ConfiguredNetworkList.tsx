@@ -174,7 +174,7 @@ const NetworkListItem: React.FC<{
   name: string;
   isActive: boolean;
   img?: string;
-  iconSizes?: number[];
+  iconSizes?: readonly number[];
 }> = (props) => {
   return (
     <ListItem display="flex" alignItems="center">
@@ -219,7 +219,7 @@ const AddNetworkItem: React.FC<{
   onAdd: () => void;
   name: string;
   img?: string;
-  iconSizes?: number[];
+  iconSizes?: readonly number[];
 }> = (props) => {
   return (
     <ListItem display="flex" alignItems="center">
