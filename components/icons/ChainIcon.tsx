@@ -1,6 +1,6 @@
 import { Image } from "@chakra-ui/react";
 
-const fallbackIcon = `https://gateway.ipfscdn.io/ipfs/QmPmAdsxTPtMTZUtnk8eYuVJMYYNHPuQviQqm88Tt1ErDe/Vector.svg`;
+const fallbackIcon = `https://gateway.ipfscdn.io/ipfs/QmU1r24UsmGg2w2RePz98zV5hR3CnjvakLZzB6yH4prPFh/globe.svg`;
 
 export const ChainIcon: React.FC<{
   ipfsSrc?: string;
