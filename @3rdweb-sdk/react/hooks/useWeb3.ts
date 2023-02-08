@@ -29,8 +29,14 @@ export function useWeb3() {
   const configuredChainsRecord = useConfiguredChainsRecord();
 
   const getNetworkMetadata = useCallback(
-    (chainId: number): NetworkMetadata => {
-      if (chainId in configuredChainsRecord) {
+    (chainId: number, includeAutoConfiguredChains = true): NetworkMetadata => {
+      const isKnown = chainId in configuredChainsRecord;
+      const canUse =
+        isKnown &&
+        (includeAutoConfiguredChains ||
+          !configuredChainsRecord[chainId].isAutoConfigured);
+
+      if (canUse) {
         const configuredChain = configuredChainsRecord[chainId];
         const iconUrl = configuredChain.icon?.url;
 

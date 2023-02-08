@@ -214,7 +214,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   }
   // if EVM is connected we hit this
   if (address && chainId && ecosystem !== "solana") {
-    const networkMetadata = getNetworkMetadata(chainId);
+    const networkMetadata = getNetworkMetadata(chainId, false);
     return (
       <>
         {showConfigureNetworkModal && (

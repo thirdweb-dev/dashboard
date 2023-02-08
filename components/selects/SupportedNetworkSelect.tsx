@@ -3,10 +3,7 @@ import { defaultChains } from "@thirdweb-dev/chains";
 import { ChainId, SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk/evm";
 import { deprecatedChains } from "constants/mappings";
 import { StoredChain } from "contexts/configured-chains";
-import {
-  useConfiguredChain,
-  useConfiguredChains,
-} from "hooks/chains/configureChains";
+import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 
 export interface SupportedNetworkSelectProps
@@ -39,7 +36,8 @@ export const SupportedNetworkSelect = forwardRef<
       selectProps.value === undefined
         ? -1
         : configuredNetworks.some(
-            (chain) => chain.chainId === selectProps.value,
+            (chain) =>
+              !chain.isAutoConfigured && chain.chainId === selectProps.value,
           )
         ? (selectProps.value as number)
         : -2;
