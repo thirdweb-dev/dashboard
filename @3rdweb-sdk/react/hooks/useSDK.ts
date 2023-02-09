@@ -18,7 +18,10 @@ import {
 } from "@thirdweb-dev/chains";
 import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
 import { useAutoConfigureChains } from "hooks/chains/allChains";
-import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
+import {
+  useConfiguredChains,
+  useConfiguredChainsRecord,
+} from "hooks/chains/configureChains";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -46,19 +49,23 @@ export function useContractList(
 }
 
 export function useMultiChainRegContractList(walletAddress?: string) {
+  const configuredChains = useConfiguredChains();
   return useQuery(
-    [networkKeys.multiChainRegistry, walletAddress],
+    [
+      networkKeys.multiChainRegistry,
+      walletAddress,
+      { chainIds: configuredChains.map((c) => c.chainId) },
+    ],
     async () => {
       if (!walletAddress) {
         return [];
       }
 
-      // PERF ISSUE HERE, NEED TO OPTIMISE
-      // thrid argument is a huge object and this function is gonna strinfigy it for creating a key
       const polygonSDK = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
 
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
+        configuredChains,
       );
 
       return [...contractList].reverse();
