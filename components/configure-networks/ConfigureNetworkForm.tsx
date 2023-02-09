@@ -30,7 +30,7 @@ import { useErrorHandler } from "contexts/error-handler";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import { BsQuestionCircle } from "react-icons/bs";
 import { FiUpload } from "react-icons/fi";
 import { IoWarning } from "react-icons/io5";
@@ -71,7 +71,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   variant,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
-  const { chainIdToChainRecord, slugToChainRecord } = useAllChainsData();
+  const { slugToChainRecord } = useAllChainsData();
   const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
   const deletePopover = useDisclosure();
@@ -90,8 +90,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     mode: "onChange",
   });
 
-  const { name, isCustom, chainId: chainIdStr, slug } = form.watch();
-  const chainId = Number(chainIdStr);
+  const { name, isCustom, slug } = form.watch();
 
   const { ref } = form.register("name", {
     required: true,
@@ -355,50 +354,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       >
         {/* Chain ID + Currency Symbol */}
         <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
-          {/* Chain ID */}
-          <FormControl
-            isRequired
-            isInvalid={form.formState.errors.chainId?.type === "taken"}
-          >
-            <FormLabel>Chain ID</FormLabel>
-            <Input
-              disabled={!isCustom}
-              placeholder="e.g. 152"
-              autoComplete="off"
-              _placeholder={{
-                fontWeight: 500,
-              }}
-              type="number"
-              {...form.register("chainId", {
-                required: true,
-                validate: {
-                  taken: (str) => {
-                    // if adding a custom network, validate that the chainId is not already taken
-
-                    if (!isCustom) {
-                      return true;
-                    }
-                    const _chainId = Number(str);
-                    if (!_chainId) {
-                      return true;
-                    }
-
-                    return !(_chainId in chainIdToChainRecord);
-                  },
-                },
-              })}
-            />
-            <FormErrorMessage>
-              Can not use ChainID {`"${chainId}"`}.
-              {chainId && chainId in chainIdToChainRecord && (
-                <>
-                  <br /> It is being used by {`"`}
-                  {chainIdToChainRecord[chainId].name}
-                  {`"`}
-                </>
-              )}
-            </FormErrorMessage>
-          </FormControl>
+          <ChainId form={form} />
 
           {/* Currency Symbol */}
           <FormControl isRequired>
@@ -591,5 +547,65 @@ const IconUpload: React.FC<{ onUpload: (url: string) => void }> = ({
         Upload Icon
       </Button>
     </FileInput>
+  );
+};
+
+const ChainId: React.FC<{
+  form: UseFormReturn<NetworkConfigFormData, any>;
+}> = ({ form }) => {
+  const isCustom = form.watch("isCustom");
+  const { chainIdToChainRecord } = useAllChainsData();
+  const chainId = Number(form.watch("chainId"));
+
+  return (
+    <FormControl
+      isRequired
+      isInvalid={form.formState.errors.chainId?.type === "taken"}
+    >
+      <FormLabel>Chain ID</FormLabel>
+      <Input
+        disabled={!isCustom}
+        placeholder="e.g. 152"
+        autoComplete="off"
+        _placeholder={{
+          fontWeight: 500,
+        }}
+        onKeyDown={(e) => {
+          // prevent typing e, +, -
+          if (e.key === "e" || e.key === "+" || e.key === "-") {
+            e.preventDefault();
+          }
+        }}
+        type="number"
+        {...form.register("chainId", {
+          required: true,
+          validate: {
+            taken: (str) => {
+              // if adding a custom network, validate that the chainId is not already taken
+
+              if (!isCustom) {
+                return true;
+              }
+              const _chainId = Number(str);
+              if (!_chainId) {
+                return true;
+              }
+
+              return !(_chainId in chainIdToChainRecord);
+            },
+          },
+        })}
+      />
+      <FormErrorMessage>
+        Can not use ChainID {`"${chainId}"`}.
+        {chainId && chainId in chainIdToChainRecord && (
+          <>
+            <br /> It is being used by {`"`}
+            {chainIdToChainRecord[chainId].name}
+            {`"`}
+          </>
+        )}
+      </FormErrorMessage>
+    </FormControl>
   );
 };
