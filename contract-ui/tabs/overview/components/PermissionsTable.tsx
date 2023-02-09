@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useAllRoleMembers } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
+import { constants } from "ethers";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo } from "react";
 import { FiCopy } from "react-icons/fi";
@@ -50,7 +51,7 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
         },
         [] as { member: string; roles: string[] }[],
       ) || []
-    ).filter((m) => m.member !== "0x0000000000000000000000000000000000000000");
+    ).filter((m) => m.member !== constants.AddressZero);
   }, [allRoleMembers.data]);
 
   return (
@@ -95,7 +96,7 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
                   <Text size="body.md" fontStyle="italic">
                     {allRoleMembers.isLoading
                       ? "loading permissions"
-                      : "no permissions to show"}
+                      : "no permissions found"}
                   </Text>
                 </Flex>
               </Center>
