@@ -29,7 +29,7 @@ import { StoredChain } from "contexts/configured-chains";
 import { useErrorHandler } from "contexts/error-handler";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { BsQuestionCircle } from "react-icons/bs";
 import { FiUpload } from "react-icons/fi";
@@ -71,11 +71,9 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   variant,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
-  const { slugToChainRecord } = useAllChainsData();
   const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
   const deletePopover = useDisclosure();
-
   const form = useForm<NetworkConfigFormData>({
     values: {
       name: values?.name || "",
@@ -85,10 +83,16 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       type: values?.type === "testnet" ? "testnet" : "mainnet",
       isCustom: values ? values.isCustom : variant === "custom",
       icon: values?.icon || "",
-      slug: values?.slug || prefillSlug || "",
+      slug: values?.slug || "",
     },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (prefillSlug) {
+      form.setValue("slug", prefillSlug, { shouldDirty: true });
+    }
+  }, [prefillSlug, form]);
 
   const { name, isCustom, slug } = form.watch();
 
@@ -265,7 +269,11 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
                 if (!form.formState.dirtyFields.slug) {
                   form.setValue(
                     "slug",
-                    value.toLowerCase().replace(/\s+/g, "-"),
+                    // replace all spaces with hyphens, and then strip all non-alphanumeric characters
+                    value
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")
+                      .replace(/[^a-z0-9-]/g, ""),
                   );
                 }
               }
@@ -278,72 +286,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       )}
 
       {/* Slug URL */}
-      <FormControl
-        hidden={hideOtherFields}
-        isRequired
-        mt={6}
-        isInvalid={form.formState.errors.slug?.type === "taken"}
-      >
-        <FormLabel display="flex">
-          Network ID
-          <Tooltip
-            placement="top-start"
-            borderRadius="md"
-            boxShadow="md"
-            bg="backgroundHighlight"
-            p={4}
-            minW={{ md: "500px" }}
-            label={
-              <>
-                <Text color="heading" mb={4}>
-                  Network ID is used to identify the network in the URL{" "}
-                </Text>
-                <Heading fontSize="14px" mb={3}>
-                  Example
-                </Heading>
-                <Code>{`thirdweb.com/<network-id>/<contract-address>`}</Code>
-              </>
-            }
-          >
-            <Box>
-              <Icon ml={2} mr={1} as={BsQuestionCircle} color="accent.600" />
-            </Box>
-          </Tooltip>
-        </FormLabel>
-        <Input
-          disabled={!isCustom}
-          autoComplete="off"
-          placeholder="e.g. ethereum"
-          _placeholder={{
-            fontWeight: 500,
-          }}
-          type="text"
-          {...form.register("slug", {
-            required: true,
-            validate: {
-              taken: (_slug) => {
-                if (!isCustom) {
-                  return true;
-                }
-
-                return !(_slug in slugToChainRecord);
-              },
-            },
-          })}
-        />
-
-        <FormErrorMessage>
-          Can not use Network ID {`"${slug}"`}.
-          {slug && slug in slugToChainRecord && (
-            <>
-              {" "}
-              It is being used by {`"`}
-              {slugToChainRecord[slug].name}
-              {`"`}
-            </>
-          )}
-        </FormErrorMessage>
-      </FormControl>
+      <NetworkIDInput form={form} hidden={hideOtherFields} />
 
       <Flex
         hidden={hideOtherFields}
@@ -602,6 +545,90 @@ const ChainId: React.FC<{
           <>
             <br /> It is being used by {`"`}
             {chainIdToChainRecord[chainId].name}
+            {`"`}
+          </>
+        )}
+      </FormErrorMessage>
+    </FormControl>
+  );
+};
+
+export const NetworkIDInput: React.FC<{
+  form: UseFormReturn<NetworkConfigFormData, any>;
+  hidden: boolean;
+}> = ({ form, hidden }) => {
+  const isCustom = form.watch("isCustom");
+  const slug = form.watch("slug");
+  const { slugToChainRecord } = useAllChainsData();
+
+  return (
+    <FormControl
+      hidden={hidden}
+      isRequired
+      mt={6}
+      isInvalid={form.formState.errors.slug?.type === "taken"}
+    >
+      <FormLabel display="flex">
+        Network ID
+        <Tooltip
+          placement="top-start"
+          borderRadius="md"
+          boxShadow="md"
+          bg="backgroundHighlight"
+          p={4}
+          minW={{ md: "500px" }}
+          label={
+            <>
+              <Text color="heading" mb={4}>
+                Network ID is used to identify the network in the URL{" "}
+              </Text>
+              <Heading fontSize="14px" mb={3}>
+                Example
+              </Heading>
+              <Code>{`thirdweb.com/<network-id>/<contract-address>`}</Code>
+            </>
+          }
+        >
+          <Box>
+            <Icon ml={2} mr={1} as={BsQuestionCircle} color="accent.600" />
+          </Box>
+        </Tooltip>
+      </FormLabel>
+      <Input
+        disabled={!isCustom}
+        autoComplete="off"
+        placeholder="e.g. ethereum"
+        _placeholder={{
+          fontWeight: 500,
+        }}
+        onKeyDown={(e) => {
+          // only allow alphanumeric characters and dashes
+          if (!/^[a-z0-9-]*$/i.test(e.key)) {
+            e.preventDefault();
+          }
+        }}
+        type="text"
+        {...form.register("slug", {
+          required: true,
+          validate: {
+            taken: (_slug) => {
+              if (!isCustom) {
+                return true;
+              }
+
+              return !(_slug in slugToChainRecord);
+            },
+          },
+        })}
+      />
+
+      <FormErrorMessage>
+        Can not use Network ID {`"${slug}"`}.
+        {slug && slug in slugToChainRecord && (
+          <>
+            {" "}
+            It is being used by {`"`}
+            {slugToChainRecord[slug].name}
             {`"`}
           </>
         )}
