@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-readyplayer3-announcement", false, true);
+    useLocalStorage("dismissed-commercekit-announcement", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="/hackathon/readyplayer3"
+          href="/solutions/commerce"
           category="announcement"
-          label="readyplayer3"
+          label="commercekit"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                Build the future of gaming at our next hackathon, starting
-                January 16th. Over $100,000 in perks & prizes. Register Now.
+                Announcing CommerceKit, an all-in-one framework to build web3
+                commerce apps.
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
