@@ -9,6 +9,7 @@ interface SolutionCardProps {
   img: string;
   gradient: string;
   partnerIcon?: string;
+  partnerLink?: string;
   href: string;
   hoverBorderColor: string;
 }
@@ -31,6 +32,7 @@ const solutions: SolutionCardProps[] = [
       "Add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more.",
     img: "/assets/landingpage/CommerceKit.png",
     partnerIcon: "/assets/landingpage/icons/Shopify.svg",
+    partnerLink: "https://blockchain.shopify.dev/",
     href: "/solutions/commerce",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
   },
@@ -76,6 +78,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
   img,
   gradient,
   partnerIcon,
+  partnerLink,
   href,
   hoverBorderColor,
 }) => {
@@ -133,7 +136,18 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
           {partnerIcon && (
             <Flex alignItems="center" gap={2} mt={10}>
               <Text lineHeight={1}>In partnership with</Text>
-              <Image src={partnerIcon} alt="" width={100} />
+              {partnerLink ? (
+                <TrackedLink
+                  href={partnerLink}
+                  isExternal
+                  category="solutions"
+                  label="shopify"
+                >
+                  <Image src={partnerIcon} alt="" width={100} />
+                </TrackedLink>
+              ) : (
+                <Image src={partnerIcon} alt="" width={100} />
+              )}
             </Flex>
           )}
         </Flex>
