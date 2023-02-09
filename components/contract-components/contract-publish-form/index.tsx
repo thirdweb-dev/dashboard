@@ -161,13 +161,13 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
 
   const isDisabled = !successRedirectUrl || !address;
 
-  const fullReleaseMetadata = useContractFullPublishMetadata(contractId);
+  const fullPublishMetadata = useContractFullPublishMetadata(contractId);
   const constructorParams = useConstructorParamsFromABI(
     publishMetadata.data?.abi,
   );
   const initializerParams = useFunctionParamsFromABI(
     publishMetadata.data?.abi,
-    fullReleaseMetadata.data?.factoryDeploymentData
+    fullPublishMetadata.data?.factoryDeploymentData
       ?.implementationInitializerFunction || "initialize",
   );
 

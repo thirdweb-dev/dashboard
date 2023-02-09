@@ -8,16 +8,16 @@ import { AppLayout } from "components/app-layouts/app";
 import {
   ensQuery,
   fetchPublishedContracts,
-  releaserProfileQuery,
+  publisherProfileQuery,
   useEns,
   usePublishedContractsQuery,
-  useReleaserProfile,
+  usePublisherProfile,
 } from "components/contract-components/hooks";
 import { PublisherSocials } from "components/contract-components/publisher/PublisherSocials";
 import { EditProfile } from "components/contract-components/publisher/edit-profile";
-import { ReleaserAvatar } from "components/contract-components/publisher/masked-avatar";
+import { PublisherAvatar } from "components/contract-components/publisher/masked-avatar";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
-import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
+import { PublishedContracts } from "components/contract-components/tables/published-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -52,7 +52,7 @@ const UserPage: ThirdwebNextPage = () => {
     }
   }, [wallet, router]);
 
-  const releaserProfile = useReleaserProfile(ens.data?.address || undefined);
+  const publisherProfile = usePublisherProfile(ens.data?.address || undefined);
 
   const displayName = shortenIfAddress(ens?.data?.ensName || wallet).replace(
     "deployer.thirdweb.eth",
@@ -75,17 +75,17 @@ const UserPage: ThirdwebNextPage = () => {
   const address = useAddress();
 
   const ogImage = useMemo(() => {
-    if (!releaserProfile.data || !publishedContracts.data) {
+    if (!publisherProfile.data || !publishedContracts.data) {
       return undefined;
     }
 
     return ProfileOG.toUrl({
       displayName,
-      bio: releaserProfile.data?.bio,
-      avatar: releaserProfile.data?.avatar || undefined,
-      releaseCnt: publishedContracts.data?.length.toString(),
+      bio: publisherProfile.data?.bio,
+      avatar: publisherProfile.data?.avatar || undefined,
+      publishedContractCnt: publishedContracts.data?.length.toString(),
     });
-  }, [displayName, publishedContracts.data, releaserProfile.data]);
+  }, [displayName, publishedContracts.data, publisherProfile.data]);
 
   return (
     <>
@@ -119,7 +119,7 @@ const UserPage: ThirdwebNextPage = () => {
             gap={4}
           >
             <Flex gap={{ base: 4, md: 8 }} align="center" w="full">
-              <ReleaserAvatar
+              <PublisherAvatar
                 address={ens.data?.ensName || wallet}
                 boxSize={28}
               />
@@ -133,23 +133,23 @@ const UserPage: ThirdwebNextPage = () => {
                 >
                   {displayName}
                 </Heading>
-                {releaserProfile.data?.bio && (
+                {publisherProfile.data?.bio && (
                   <Text size="body.lg" noOfLines={2}>
-                    {releaserProfile.data.bio}
+                    {publisherProfile.data.bio}
                   </Text>
                 )}
-                {releaserProfile.data && (
+                {publisherProfile.data && (
                   <PublisherSocials
                     mt={1}
                     size="md"
-                    publisherProfile={releaserProfile.data}
+                    publisherProfile={publisherProfile.data}
                   />
                 )}
               </Flex>
             </Flex>
-            {ens.data?.address === address && releaserProfile.data && (
+            {ens.data?.address === address && publisherProfile.data && (
               <Box flexShrink={0}>
-                <EditProfile releaserProfile={releaserProfile.data} />
+                <EditProfile publisherProfile={publisherProfile.data} />
               </Box>
             )}
           </Flex>
@@ -162,7 +162,7 @@ const UserPage: ThirdwebNextPage = () => {
             </Text>
           </Flex>
           {ens.data?.address && (
-            <ReleasedContracts address={ens.data?.address} noHeader />
+            <PublishedContracts address={ens.data?.address} noHeader />
           )}
         </Flex>
         <Flex flexDir="column" gap={4}>
@@ -272,7 +272,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   await Promise.all([
     ...ensQueries,
-    queryClient.prefetchQuery(releaserProfileQuery(address)),
+    queryClient.prefetchQuery(publisherProfileQuery(address)),
     queryClient.prefetchQuery(["published-contracts", address], () =>
       fetchPublishedContracts(polygonSdk, queryClient, address),
     ),

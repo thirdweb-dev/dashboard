@@ -14,27 +14,27 @@ import { useMemo, useState } from "react";
 import { IoRefreshSharp } from "react-icons/io5";
 import { Button, Heading, LinkButton, Text } from "tw-components";
 
-interface ReleasedContractsProps {
+interface PublishedContractsProps {
   address?: string;
   noHeader?: boolean;
   limit?: number;
 }
 
-export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
+export const PublishedContracts: React.FC<PublishedContractsProps> = ({
   address,
   noHeader,
   limit = 10,
 }) => {
   const [showMoreLimit, setShowMoreLimit] = useState(limit);
   const trackEvent = useTrack();
-  const releasedContractsQuery = usePublishedContractsQuery(address);
+  const publishedContractsQuery = usePublishedContractsQuery(address);
 
   const slicedData = useMemo(() => {
-    if (releasedContractsQuery.data) {
-      return releasedContractsQuery.data.slice(0, showMoreLimit);
+    if (publishedContractsQuery.data) {
+      return publishedContractsQuery.data.slice(0, showMoreLimit);
     }
     return [];
-  }, [releasedContractsQuery.data, showMoreLimit]);
+  }, [publishedContractsQuery.data, showMoreLimit]);
 
   return (
     <>
@@ -69,19 +69,19 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
         </Flex>
       )}
       <PublishedContractTable
-        isFetching={releasedContractsQuery.isFetching}
+        isFetching={publishedContractsQuery.isFetching}
         contractDetails={slicedData}
-        hideReleasedBy
+        hidePublisher
       >
-        {releasedContractsQuery.isLoading && (
+        {publishedContractsQuery.isLoading && (
           <Center>
             <Flex py={4} direction="row" gap={4} align="center">
               <Spinner size="sm" />
-              <Text>Loading releases</Text>
+              <Text>Loading published contracts</Text>
             </Flex>
           </Center>
         )}
-        {releasedContractsQuery.isError && (
+        {publishedContractsQuery.isError && (
           <Center>
             <Flex mt={4} py={4} direction="column" gap={4} align="center">
               <Alert status="error" borderRadius="md">
@@ -90,7 +90,7 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
                   Failed to fetch published contracts
                 </AlertTitle>
                 <Button
-                  onClick={() => releasedContractsQuery.refetch()}
+                  onClick={() => publishedContractsQuery.refetch()}
                   leftIcon={<IoRefreshSharp />}
                   ml="auto"
                   size="sm"
@@ -102,16 +102,16 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
             </Flex>
           </Center>
         )}
-        {releasedContractsQuery.isSuccess &&
-          releasedContractsQuery.data.length === 0 && (
+        {publishedContractsQuery.isSuccess &&
+          publishedContractsQuery.data.length === 0 && (
             <Center>
               <Flex py={4} direction="column" gap={4} align="center">
-                <Text>No releases found.</Text>
+                <Text>No published contracts found.</Text>
               </Flex>
             </Center>
           )}
-        {releasedContractsQuery.isSuccess &&
-          releasedContractsQuery.data.length > slicedData.length && (
+        {publishedContractsQuery.isSuccess &&
+          publishedContractsQuery.data.length > slicedData.length && (
             <ShowMoreButton
               limit={limit}
               showMoreLimit={showMoreLimit}

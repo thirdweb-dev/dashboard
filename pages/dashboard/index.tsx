@@ -16,7 +16,7 @@ import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { DeployedPrograms } from "components/contract-components/tables/deployed-programs";
-import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
+import { PublishedContracts } from "components/contract-components/tables/published-contracts";
 import { FancyEVMIcon } from "components/icons/Ethereum";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { utils } from "ethers";
@@ -100,7 +100,7 @@ const Dashboard: ThirdwebNextPage = () => {
                   <EVMDashboard address={evmAddress} />
                 </TabPanel>
                 <TabPanel px={0}>
-                  <ReleaseDashboard address={evmAddress} />
+                  <PublishDashboard address={evmAddress} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
@@ -134,12 +134,12 @@ const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
   );
 };
 
-const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
+const PublishDashboard: React.FC<DashboardProps> = ({ address }) => {
   return (
     <Flex direction="column" gap={8}>
       {/* this section needs to be on the publishersdk context (polygon SDK) */}
       <PublisherSDKContext>
-        <ReleasedContracts address={address} />
+        <PublishedContracts address={address} />
       </PublisherSDKContext>
     </Flex>
   );

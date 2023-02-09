@@ -2,7 +2,7 @@ import { ButtonGroup, Flex, useColorMode } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 
-export const ReleaseUpsellCard: React.FC = () => {
+export const PublishUpsellCard: React.FC = () => {
   const { colorMode } = useColorMode();
 
   return (
@@ -15,7 +15,7 @@ export const ReleaseUpsellCard: React.FC = () => {
       bgColor={colorMode === "dark" ? "transparent" : "backgroundHighlight"}
     >
       <Flex flexDir="column" gap={6}>
-        <Heading>Accelerate your protocol’s growth. </Heading>
+        <Heading>Accelerate your protocol’s growth.</Heading>
         <Text>
           Publishing your contract is the best way to get your contracts in
           front of our 70k+ community of web3 developers.
@@ -49,7 +49,7 @@ export const ReleaseUpsellCard: React.FC = () => {
           <LinkButton
             as={TrackedLink}
             {...{
-              category: "release_upsell",
+              category: "publish_upsell",
               label: "contact_us",
             }}
             bg="accent.900"
@@ -69,7 +69,7 @@ export const ReleaseUpsellCard: React.FC = () => {
           <LinkButton
             as={TrackedLink}
             {...{
-              category: "release_upsell",
+              category: "publish_upsell",
               label: "learn_more",
             }}
             variant="ghost"

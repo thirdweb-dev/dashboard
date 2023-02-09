@@ -1,7 +1,7 @@
-import { useEns, useReleaserProfile } from "../hooks";
+import { useEns, usePublisherProfile } from "../hooks";
 import { PublisherSocials } from "./PublisherSocials";
 import { EditProfile } from "./edit-profile";
-import { ReleaserAvatar } from "./masked-avatar";
+import { PublisherAvatar } from "./masked-avatar";
 import { Flex, Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -20,7 +20,7 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
   page,
 }) => {
   const ensQuery = useEns(wallet);
-  const releaserProfile = useReleaserProfile(
+  const publisherProfile = usePublisherProfile(
     ensQuery.data?.address || undefined,
   );
   const address = useAddress();
@@ -35,11 +35,11 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
     >
       <Flex direction="column" gap={4} w="full">
         <Heading as="h4" size="title.sm">
-          Released by
+          Published by
         </Heading>
 
         <Flex gap={4} alignItems="center">
-          <Skeleton isLoaded={releaserProfile.isSuccess}>
+          <Skeleton isLoaded={publisherProfile.isSuccess}>
             <Link
               href={`/${ensQuery.data?.ensName || wallet}`}
               onClick={() =>
@@ -50,7 +50,7 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
                 })
               }
             >
-              <ReleaserAvatar
+              <PublisherAvatar
                 alt="Releaser avatar"
                 boxSize={14}
                 address={ensQuery.data?.ensName || wallet}
@@ -73,14 +73,14 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
             >
               <Heading size="subtitle.sm" ml={2}>
                 {treatAddress(
-                  releaserProfile?.data?.name ||
+                  publisherProfile?.data?.name ||
                     ensQuery.data?.ensName ||
                     wallet,
                 )}
               </Heading>
             </Link>
-            {releaserProfile?.data && (
-              <PublisherSocials publisherProfile={releaserProfile.data} />
+            {publisherProfile?.data && (
+              <PublisherSocials publisherProfile={publisherProfile.data} />
             )}
           </Flex>
         </Flex>
@@ -100,8 +100,8 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
           View all contracts
         </LinkButton>
 
-        {ensQuery.data?.address === address && releaserProfile?.data && (
-          <EditProfile releaserProfile={releaserProfile.data} />
+        {ensQuery.data?.address === address && publisherProfile?.data && (
+          <EditProfile publisherProfile={publisherProfile.data} />
         )}
       </Flex>
     </Flex>

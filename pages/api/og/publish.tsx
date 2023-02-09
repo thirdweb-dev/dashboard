@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
-import { ReleaseOG } from "og-lib/url-utils";
+import { PublishedContractOG } from "og-lib/url-utils";
 
 // Make sure the font exists in the specified path:
 export const config = {
@@ -159,7 +159,7 @@ export default async function handler(req: NextRequest) {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  const releaseData = ReleaseOG.fromUrl(new URL(req.url));
+  const releaseData = PublishedContractOG.fromUrl(new URL(req.url));
 
   const [
     inter400,

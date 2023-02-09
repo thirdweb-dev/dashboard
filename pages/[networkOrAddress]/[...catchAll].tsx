@@ -6,16 +6,16 @@ import {
   ensQuery,
   fetchAllVersions,
   fetchContractPublishMetadataFromURI,
-  fetchReleasedContractInfo,
-  releaserProfileQuery,
+  fetchPublishedContractInfo,
+  publisherProfileQuery,
 } from "components/contract-components/hooks";
 import {
-  ReleaseWithVersionPage,
-  ReleaseWithVersionPageProps,
+  PublishWithVersionPage,
+  PublishWithVersionPageProps,
 } from "components/pages/release";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
-import { getAllExploreReleases } from "data/explore";
+import { getAllExplorePublishedContracts } from "data/explore";
 import {
   isPossibleEVMAddress,
   isPossibleSolanaAddress,
@@ -74,7 +74,7 @@ const CatchAllPage: ThirdwebNextPage = (
   if (props.pageType === "release") {
     return (
       <PublisherSDKContext>
-        <ReleaseWithVersionPage
+        <PublishWithVersionPage
           author={props.author}
           contractName={props.contractName}
           version={props.version}
@@ -125,7 +125,7 @@ type PossiblePageProps =
   | ({
       pageType: "release";
       dehydratedState: DehydratedState;
-    } & ReleaseWithVersionPageProps)
+    } & PublishWithVersionPageProps)
   | {
       pageType: "contract";
       contractAddress: string;
@@ -315,7 +315,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps, Params> = async (
         };
       }
 
-      const release =
+      const publishedContract =
         allVersions.find((v) => v.version === version) || allVersions[0];
 
       const ensQueries = [queryClient.prefetchQuery(ensQuery(address))];
@@ -325,14 +325,18 @@ export const getStaticProps: GetStaticProps<PossiblePageProps, Params> = async (
 
       await Promise.all([
         ...ensQueries,
-        queryClient.prefetchQuery(["released-contract", release], () =>
-          fetchReleasedContractInfo(polygonSdk, release),
+        queryClient.prefetchQuery(
+          ["released-contract", publishedContract],
+          () => fetchPublishedContractInfo(polygonSdk, publishedContract),
         ),
         queryClient.prefetchQuery(
-          ["publish-metadata", release.metadataUri],
-          () => fetchContractPublishMetadataFromURI(release.metadataUri),
+          ["publish-metadata", publishedContract.metadataUri],
+          () =>
+            fetchContractPublishMetadataFromURI(publishedContract.metadataUri),
         ),
-        queryClient.prefetchQuery(releaserProfileQuery(release.releaser)),
+        queryClient.prefetchQuery(
+          publisherProfileQuery(publishedContract.publisher),
+        ),
       ]);
 
       return {
@@ -360,7 +364,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 function generateBuildTimePaths() {
-  const paths = getAllExploreReleases();
+  const paths = getAllExplorePublishedContracts();
   return paths.map((path) => {
     const [networkOrAddress, contractId] = path.split("/");
     return {

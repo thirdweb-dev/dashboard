@@ -9,9 +9,9 @@ import { PageId } from "page-id";
 import { LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const TRACKING_CATEGORY = "release";
+const TRACKING_CATEGORY = "publish";
 
-const RELEASE_GUIDES = [
+const PUBLISH_GUIDES = [
   {
     title: "Introducing thirdweb Release",
     image:
@@ -26,7 +26,7 @@ const RELEASE_GUIDES = [
   },
 ];
 
-const Release: ThirdwebNextPage = () => {
+const Publish: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
@@ -144,7 +144,7 @@ const Release: ThirdwebNextPage = () => {
             category={TRACKING_CATEGORY}
             description="Check out our guides on how to publish contracts"
             solution="Publish"
-            guides={RELEASE_GUIDES}
+            guides={PUBLISH_GUIDES}
           />
         </Flex>
       </Hero>
@@ -152,6 +152,6 @@ const Release: ThirdwebNextPage = () => {
   );
 };
 
-Release.pageId = PageId.PublishLanding;
+Publish.pageId = PageId.PublishLanding;
 
-export default Release;
+export default Publish;

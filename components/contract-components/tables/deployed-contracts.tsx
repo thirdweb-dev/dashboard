@@ -34,7 +34,7 @@ import {
   SchemaForPrebuiltContractType,
 } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
-import { useReleasesFromDeploy } from "components/contract-components/hooks";
+import { usePublishedContractsFromDeploy } from "components/contract-components/hooks";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
@@ -435,7 +435,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 }) => {
   const isPrebuiltContract = cell.contractType !== "custom";
 
-  const releasesFromDeploy = useReleasesFromDeploy(
+  const publishedContractsFromDeploy = usePublishedContractsFromDeploy(
     isPrebuiltContract ? undefined : cell.address || undefined,
     cell.chainId as SUPPORTED_CHAIN_ID,
   );
@@ -464,11 +464,11 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
     );
   }
 
-  const actualRelease = releasesFromDeploy.data
-    ? releasesFromDeploy.data[0]
+  const actualPublishedContract = publishedContractsFromDeploy.data
+    ? publishedContractsFromDeploy.data[0]
     : null;
 
-  if (!releasesFromDeploy.isLoading && !actualRelease) {
+  if (!publishedContractsFromDeploy.isLoading && !actualPublishedContract) {
     return (
       <Flex align="center" gap={2}>
         {src ? (
@@ -487,16 +487,16 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 
   return (
     <Flex align="center" gap={2}>
-      <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
+      <Skeleton isLoaded={!publishedContractsFromDeploy.isLoading}>
         <ChakraNextImage
           boxSize={8}
           src={src}
           alt={CONTRACT_TYPE_NAME_MAP["custom"]}
         />
       </Skeleton>
-      <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
+      <Skeleton isLoaded={!publishedContractsFromDeploy.isLoading}>
         <Text size="label.md">
-          {actualRelease?.name || CONTRACT_TYPE_NAME_MAP["custom"]}
+          {actualPublishedContract?.name || CONTRACT_TYPE_NAME_MAP["custom"]}
         </Text>
       </Skeleton>
     </Flex>

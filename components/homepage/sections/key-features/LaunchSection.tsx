@@ -116,7 +116,7 @@ export const LaunchSection: React.FC = () => {
                 stopOne="#C77FBE"
                 stopTwo="#D19FD4"
               >
-                Release
+                Publish
               </GradientText>
             </Heading>
             <Text

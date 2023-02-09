@@ -1,5 +1,5 @@
 import BuiltinSolanaDeployForm from "../contract-deploy-form/solana-program";
-import { ReleasedContractDetails } from "../hooks";
+import { PublishedContractDetails } from "../hooks";
 import {
   Flex,
   Icon,
@@ -64,10 +64,10 @@ import {
 interface PublishedContractTableProps {
   contractDetails: ContractDataInput[];
   isFetching?: boolean;
-  hideReleasedBy?: true;
+  hidePublisher?: true;
 }
 
-type ContractDataInput = BuiltinContractDetails | ReleasedContractDetails;
+type ContractDataInput = BuiltinContractDetails | PublishedContractDetails;
 type ContractDataRow = ContractDataInput["metadata"] & {
   ecosystem: "evm" | "solana";
   id: string;
@@ -87,7 +87,7 @@ function convertContractDataToRowData(
 
 export const PublishedContractTable: ComponentWithChildren<
   PublishedContractTableProps
-> = ({ contractDetails, isFetching, children, hideReleasedBy }) => {
+> = ({ contractDetails, isFetching, children, hidePublisher }) => {
   const rows = useMemo(
     () => contractDetails.map(convertContractDataToRowData),
     [contractDetails],
@@ -139,7 +139,7 @@ export const PublishedContractTable: ComponentWithChildren<
         Cell: (cell: any) => <Text>{cell.value}</Text>,
       },
       {
-        Header: "Released By",
+        Header: "Published By",
         accessor: (row) => row.publisher,
         Cell: (cell: any) => <AddressCopyButton address={cell.value} />,
       },
@@ -223,12 +223,10 @@ export const PublishedContractTable: ComponentWithChildren<
       },
     ];
 
-    return cols.filter(
-      (col) => !hideReleasedBy || col.Header !== "Released By",
-    );
+    return cols.filter((col) => !hidePublisher || col.Header !== "Released By");
     // this is to avoid re-rendering of the table when the contractIds array changes (it will always be a string array, so we can just join it and compare the string output)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rows.map((row) => row.name).join(), hideReleasedBy]);
+  }, [rows.map((row) => row.name).join(), hidePublisher]);
 
   const tableInstance = useTable({
     columns: tableColumns,

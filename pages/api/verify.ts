@@ -255,7 +255,7 @@ async function fetchConstructorParams(
 
     // first: attempt to get it from Release
     try {
-      const bytecode = await fetchDeployBytecodeFromReleaseMetadata(
+      const bytecode = await fetchDeployBytecodeFromPublishedContractMetadata(
         contractAddress,
         provider,
       );
@@ -327,7 +327,7 @@ async function fetchConstructorParams(
  * @param provider
  * @returns
  */
-async function fetchDeployBytecodeFromReleaseMetadata(
+async function fetchDeployBytecodeFromPublishedContractMetadata(
   contractAddress: string,
   provider: ethers.providers.Provider,
 ): Promise<string | undefined> {

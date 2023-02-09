@@ -18,7 +18,7 @@ const Programs: ThirdwebNextPage = () => {
         <PublishedContractTable
           contractDetails={prebuiltSolContracts}
           isFetching={false}
-          hideReleasedBy
+          hidePublisher
         />
       </Box>
     </Flex>

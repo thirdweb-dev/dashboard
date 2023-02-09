@@ -121,7 +121,7 @@ export const slides: Slide[] = [
           label="launch-release"
           isExternal
         >
-          Release
+          Publish
         </TrackedLink>
         .
       </Text>
