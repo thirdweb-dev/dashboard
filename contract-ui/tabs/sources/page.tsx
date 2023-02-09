@@ -15,6 +15,7 @@ import {
   Spinner,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Chain, defaultChains } from "@thirdweb-dev/chains";
 import { useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
@@ -179,12 +180,25 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
   );
 };
 
+function useDefaultChainsRecord() {
+  return useMemo(() => {
+    const record: Record<number, Chain> = {};
+    for (const chain of defaultChains) {
+      record[chain.chainId] = chain;
+    }
+    return record;
+  }, []);
+}
+
 export const CustomContractSourcesPage: React.FC<
   CustomContractSourcesPageProps
 > = ({ contractAddress }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const contractSourcesQuery = useContractSources(contractAddress);
   const chainId = useDashboardEVMChainId();
+  const defaultChainsRecord = useDefaultChainsRecord();
+  const isDefaultChain = chainId && chainId in defaultChainsRecord;
+
   const router = useRouter();
   const forceVerifyButton = router.query.verify === "true";
 
@@ -241,23 +255,28 @@ export const CustomContractSourcesPage: React.FC<
           <Heading size="title.sm" flex={1}>
             Sources
           </Heading>
-          {!prebuiltSource || forceVerifyButton ? (
-            <Button variant="solid" colorScheme="purple" onClick={onOpen}>
-              Verify on {blockExplorerName}
-            </Button>
-          ) : blockExplorerUrl ? (
-            <LinkButton
-              variant="ghost"
-              colorScheme="green"
-              isExternal
-              size="sm"
-              noIcon
-              href={blockExplorerUrl}
-              leftIcon={<Icon as={FiCheckCircle} />}
-            >
-              Verified on {blockExplorerName}
-            </LinkButton>
-          ) : null}
+
+          {isDefaultChain && (
+            <>
+              {!prebuiltSource || forceVerifyButton ? (
+                <Button variant="solid" colorScheme="purple" onClick={onOpen}>
+                  Verify on {blockExplorerName}
+                </Button>
+              ) : blockExplorerUrl ? (
+                <LinkButton
+                  variant="ghost"
+                  colorScheme="green"
+                  isExternal
+                  size="sm"
+                  noIcon
+                  href={blockExplorerUrl}
+                  leftIcon={<Icon as={FiCheckCircle} />}
+                >
+                  Verified on {blockExplorerName}
+                </LinkButton>
+              ) : null}
+            </>
+          )}
         </Flex>
         <Card p={0}>
           <SourcesPanel sources={sources} abi={abi} />
