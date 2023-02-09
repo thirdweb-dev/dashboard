@@ -1,46 +1,27 @@
-import { SearchNetworks } from "./SearchNetworks";
+import { ChainIdInput } from "./Form/ChainIdInput";
+import { IconUpload } from "./Form/IconUpload";
+import { NetworkIDInput } from "./Form/NetworkIdInput";
+import { RemoveButton } from "./Form/RemoveButton";
+import { SearchNetworks } from "./Form/SearchNetworks";
+import { ToolTipBox } from "./Form/ToolTipBox";
 import {
   Alert,
   AlertIcon,
-  Box,
-  Code,
   Flex,
   FormControl,
-  Icon,
   Input,
-  Popover,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
   Radio,
   RadioGroup,
   SimpleGrid,
   Stack,
-  Tooltip,
-  useDisclosure,
 } from "@chakra-ui/react";
-import { useStorageUpload } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { FileInput } from "components/shared/FileInput";
 import { StoredChain } from "contexts/configured-chains";
-import { useErrorHandler } from "contexts/error-handler";
-import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useEffect, useState } from "react";
-import { UseFormReturn, useForm } from "react-hook-form";
-import { BsQuestionCircle } from "react-icons/bs";
-import { FiUpload } from "react-icons/fi";
+import { useForm } from "react-hook-form";
 import { IoWarning } from "react-icons/io5";
-import {
-  Button,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Text,
-} from "tw-components";
+import { Button, FormErrorMessage, FormLabel, Text } from "tw-components";
 
 export type NetworkConfigFormData = {
   name: string;
@@ -73,7 +54,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
   const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
-  const deletePopover = useDisclosure();
+
   const form = useForm<NetworkConfigFormData>({
     values: {
       name: values?.name || "",
@@ -261,10 +242,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
                 shouldDirty: true,
               });
 
-              if (value.includes("test")) {
-                form.setValue("type", "testnet");
-              }
-
               if (variant === "custom") {
                 if (!form.formState.dirtyFields.slug) {
                   form.setValue(
@@ -297,7 +274,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       >
         {/* Chain ID + Currency Symbol */}
         <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
-          <ChainId form={form} />
+          <ChainIdInput form={form} />
 
           {/* Currency Symbol */}
           <FormControl isRequired>
@@ -318,7 +295,25 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
           {/* Testnet / Mainnet */}
           <FormControl>
-            <FormLabel>Network Type</FormLabel>
+            <FormLabel display="flex">
+              Network Type
+              <ToolTipBox
+                content={
+                  <>
+                    <Text color="heading" display="inline-block" mb={2}>
+                      {" "}
+                      The network type indicates whether it is intended for
+                      production or testing.
+                    </Text>
+
+                    <Text color="heading">
+                      It{`'`}s only used for displaying network type on the
+                      dashboard and does not affect functionality.
+                    </Text>
+                  </>
+                }
+              />
+            </FormLabel>
             <RadioGroup
               onChange={(value: "testnet" | "mainnet") => {
                 form.setValue("type", value, {
@@ -329,8 +324,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
               value={form.watch("type")}
             >
               <Stack direction="row" gap={4} mt={3}>
-                <Radio value="testnet">Testnet</Radio>
                 <Radio value="mainnet">Mainnet</Radio>
+                <Radio value="testnet">Testnet</Radio>
               </Stack>
             </RadioGroup>
           </FormControl>
@@ -398,39 +393,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           justifyContent={{ base: "center", md: "flex-end" }}
         >
           {/* Remove Button */}
-          {variant === "edit" && (
-            <Popover
-              isOpen={deletePopover.isOpen}
-              onOpen={deletePopover.onOpen}
-              onClose={deletePopover.onClose}
-            >
-              <PopoverTrigger>
-                <Button variant="outline">Remove Network</Button>
-              </PopoverTrigger>
-              <PopoverContent
-                bg="backgroundBody"
-                mb={3}
-                boxShadow="0 0px 20px rgba(0, 0, 0, 0.15)"
-              >
-                <PopoverArrow bg="backgroundBody" />
-                <PopoverCloseButton />
-                <PopoverHeader border="none"> Are you sure? </PopoverHeader>
-                <PopoverFooter
-                  border="none"
-                  p={4}
-                  mt={2}
-                  display="flex"
-                  gap={3}
-                >
-                  <Button colorScheme="red" onClick={onRemove}>
-                    Remove
-                  </Button>
-                  <Button onClick={deletePopover.onClose} variant="outline">
-                    Cancel
-                  </Button>
-                </PopoverFooter>
-              </PopoverContent>
-            </Popover>
+          {variant === "edit" && onRemove && (
+            <RemoveButton onRemove={onRemove} />
           )}
 
           {/* Add / Update Button */}
@@ -448,191 +412,5 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         </Flex>
       </Flex>
     </form>
-  );
-};
-
-const IconUpload: React.FC<{ onUpload: (url: string) => void }> = ({
-  onUpload,
-}) => {
-  const errorHandler = useErrorHandler();
-  const storageUpload = useStorageUpload();
-
-  const handleIconUpload = (file: File) => {
-    // if file size is larger than 500kB, show error
-    if (file.size > 500 * 1024) {
-      errorHandler.onError("Icon Image can not be larger than 500kB");
-      return;
-    }
-
-    storageUpload.mutate(
-      { data: [file] },
-      {
-        onSuccess([uri]) {
-          onUpload(uri);
-        },
-        onError(error) {
-          errorHandler.onError(error, "Failed to upload file");
-        },
-      },
-    );
-  };
-
-  return (
-    <FileInput setValue={handleIconUpload} accept={{ "image/*": [] }}>
-      <Button
-        bg="inputBg"
-        size="sm"
-        variant="solid"
-        aria-label="Upload to IPFS"
-        rightIcon={<Icon as={FiUpload} />}
-        isLoading={storageUpload.isLoading}
-      >
-        Upload Icon
-      </Button>
-    </FileInput>
-  );
-};
-
-const ChainId: React.FC<{
-  form: UseFormReturn<NetworkConfigFormData, any>;
-}> = ({ form }) => {
-  const isCustom = form.watch("isCustom");
-  const { chainIdToChainRecord } = useAllChainsData();
-  const chainId = Number(form.watch("chainId"));
-
-  return (
-    <FormControl
-      isRequired
-      isInvalid={form.formState.errors.chainId?.type === "taken"}
-    >
-      <FormLabel>Chain ID</FormLabel>
-      <Input
-        disabled={!isCustom}
-        placeholder="e.g. 152"
-        autoComplete="off"
-        _placeholder={{
-          fontWeight: 500,
-        }}
-        onKeyDown={(e) => {
-          // prevent typing e, +, -
-          if (e.key === "e" || e.key === "+" || e.key === "-") {
-            e.preventDefault();
-          }
-        }}
-        type="number"
-        {...form.register("chainId", {
-          required: true,
-          validate: {
-            taken: (str) => {
-              // if adding a custom network, validate that the chainId is not already taken
-
-              if (!isCustom) {
-                return true;
-              }
-              const _chainId = Number(str);
-              if (!_chainId) {
-                return true;
-              }
-
-              return !(_chainId in chainIdToChainRecord);
-            },
-          },
-        })}
-      />
-      <FormErrorMessage>
-        Can not use ChainID {`"${chainId}"`}.
-        {chainId && chainId in chainIdToChainRecord && (
-          <>
-            <br /> It is being used by {`"`}
-            {chainIdToChainRecord[chainId].name}
-            {`"`}
-          </>
-        )}
-      </FormErrorMessage>
-    </FormControl>
-  );
-};
-
-export const NetworkIDInput: React.FC<{
-  form: UseFormReturn<NetworkConfigFormData, any>;
-  hidden: boolean;
-}> = ({ form, hidden }) => {
-  const isCustom = form.watch("isCustom");
-  const slug = form.watch("slug");
-  const { slugToChainRecord } = useAllChainsData();
-
-  return (
-    <FormControl
-      hidden={hidden}
-      isRequired
-      mt={6}
-      isInvalid={form.formState.errors.slug?.type === "taken"}
-    >
-      <FormLabel display="flex">
-        Network ID
-        <Tooltip
-          placement="top-start"
-          borderRadius="md"
-          boxShadow="md"
-          bg="backgroundHighlight"
-          p={4}
-          minW={{ md: "500px" }}
-          label={
-            <>
-              <Text color="heading" mb={4}>
-                Network ID is used to identify the network in the URL{" "}
-              </Text>
-              <Heading fontSize="14px" mb={3}>
-                Example
-              </Heading>
-              <Code>{`thirdweb.com/<network-id>/<contract-address>`}</Code>
-            </>
-          }
-        >
-          <Box>
-            <Icon ml={2} mr={1} as={BsQuestionCircle} color="accent.600" />
-          </Box>
-        </Tooltip>
-      </FormLabel>
-      <Input
-        disabled={!isCustom}
-        autoComplete="off"
-        placeholder="e.g. ethereum"
-        _placeholder={{
-          fontWeight: 500,
-        }}
-        onKeyDown={(e) => {
-          // only allow alphanumeric characters and dashes
-          if (!/^[a-z0-9-]*$/i.test(e.key)) {
-            e.preventDefault();
-          }
-        }}
-        type="text"
-        {...form.register("slug", {
-          required: true,
-          validate: {
-            taken: (_slug) => {
-              if (!isCustom) {
-                return true;
-              }
-
-              return !(_slug in slugToChainRecord);
-            },
-          },
-        })}
-      />
-
-      <FormErrorMessage>
-        Can not use Network ID {`"${slug}"`}.
-        {slug && slug in slugToChainRecord && (
-          <>
-            {" "}
-            It is being used by {`"`}
-            {slugToChainRecord[slug].name}
-            {`"`}
-          </>
-        )}
-      </FormErrorMessage>
-    </FormControl>
   );
 };
