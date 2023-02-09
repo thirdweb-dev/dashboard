@@ -22,14 +22,17 @@ import {
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useStorageUpload } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { FileInput } from "components/shared/FileInput";
 import { StoredChain } from "contexts/configured-chains";
-import { SolidityStringInput } from "contract-ui/components/solidity-inputs/string-input";
+import { useErrorHandler } from "contexts/error-handler";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsQuestionCircle } from "react-icons/bs";
+import { FiUpload } from "react-icons/fi";
 import { IoWarning } from "react-icons/io5";
 import {
   Button,
@@ -347,8 +350,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         hidden={hideOtherFields}
         opacity={isSearchOpen ? "0.1" : "1"}
         direction="column"
-        gap={6}
-        mt={6}
+        gap={8}
+        mt={8}
       >
         {/* Chain ID + Currency Symbol */}
         <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
@@ -413,24 +416,40 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           </FormControl>
         </SimpleGrid>
 
-        {/* Testnet / Mainnet */}
-        <FormControl>
-          <FormLabel>Network Type</FormLabel>
-          <RadioGroup
-            onChange={(value: "testnet" | "mainnet") => {
-              form.setValue("type", value, {
-                shouldValidate: true,
-                shouldDirty: true,
-              });
-            }}
-            value={form.watch("type")}
-          >
-            <Stack direction="row" gap={4} mt={3}>
-              <Radio value="testnet">Testnet</Radio>
-              <Radio value="mainnet">Mainnet</Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
+        <SimpleGrid columns={{ md: 2, base: 1 }} gap={4}>
+          {/* Testnet / Mainnet */}
+          <FormControl>
+            <FormLabel>Network Type</FormLabel>
+            <RadioGroup
+              onChange={(value: "testnet" | "mainnet") => {
+                form.setValue("type", value, {
+                  shouldValidate: true,
+                  shouldDirty: true,
+                });
+              }}
+              value={form.watch("type")}
+            >
+              <Stack direction="row" gap={4} mt={3}>
+                <Radio value="testnet">Testnet</Radio>
+                <Radio value="mainnet">Mainnet</Radio>
+              </Stack>
+            </RadioGroup>
+          </FormControl>
+
+          {/* Icon */}
+          <FormControl isInvalid={!!form.formState.errors.icon}>
+            <FormLabel>Icon</FormLabel>
+
+            <Flex gap={3} alignItems="center">
+              <ChainIcon size={24} ipfsSrc={form.watch("icon")} />
+              <IconUpload
+                onUpload={(uri) => {
+                  form.setValue("icon", uri, { shouldDirty: true });
+                }}
+              />
+            </Flex>
+          </FormControl>
+        </SimpleGrid>
 
         {/* RPC URL */}
         <FormControl isRequired isInvalid={!!form.formState.errors.rpcUrl}>
@@ -470,37 +489,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
             Only add custom networks that you trust. <br /> Malicious RPCs can
             record activity and lie about the state of the network.
           </Alert>
-        </FormControl>
-
-        {/* Icon URL */}
-        <FormControl isInvalid={!!form.formState.errors.icon}>
-          <FormLabel>Icon</FormLabel>
-
-          <Flex gap={2}>
-            <SolidityStringInput
-              formContext={form}
-              solidityName="ipfs"
-              solidityType="ipfs"
-              placeholder="ipfs://..."
-              autoComplete="off"
-              _placeholder={{
-                fontWeight: 500,
-              }}
-              {...form.register("icon", {
-                validate: (str) => str === "" || str.startsWith("ipfs://"),
-              })}
-            />
-            <Flex
-              bg="inputBg"
-              justifyContent="center"
-              alignItems="center"
-              p={2}
-              borderRadius="md"
-            >
-              <ChainIcon size={22} ipfsSrc={form.watch("icon")} />
-            </Flex>
-          </Flex>
-          <FormErrorMessage> Invalid IPFS URL </FormErrorMessage>
         </FormControl>
 
         {/* Buttons  */}
@@ -561,5 +549,47 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         </Flex>
       </Flex>
     </form>
+  );
+};
+
+const IconUpload: React.FC<{ onUpload: (url: string) => void }> = ({
+  onUpload,
+}) => {
+  const errorHandler = useErrorHandler();
+  const storageUpload = useStorageUpload();
+
+  const handleIconUpload = (file: File) => {
+    // if file size is larger than 500kB, show error
+    if (file.size > 500 * 1024) {
+      errorHandler.onError("Icon Image can not be larger than 500kB");
+      return;
+    }
+
+    storageUpload.mutate(
+      { data: [file] },
+      {
+        onSuccess([uri]) {
+          onUpload(uri);
+        },
+        onError(error) {
+          errorHandler.onError(error, "Failed to upload file");
+        },
+      },
+    );
+  };
+
+  return (
+    <FileInput setValue={handleIconUpload} accept={{ "image/*": [] }}>
+      <Button
+        bg="inputBg"
+        size="sm"
+        variant="solid"
+        aria-label="Upload to IPFS"
+        rightIcon={<Icon as={FiUpload} />}
+        isLoading={storageUpload.isLoading}
+      >
+        Upload Icon
+      </Button>
+    </FileInput>
   );
 };

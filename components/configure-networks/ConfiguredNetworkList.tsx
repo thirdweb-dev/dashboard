@@ -71,7 +71,7 @@ export const ConfiguredNetworkList: React.FC<ConfiguredNetworkListProps> = (
       <List
         spacing={0}
         overflow="auto"
-        h={{ lg: "660px", base: "260px" }}
+        h={{ lg: "580px", base: "260px" }}
         sx={{
           maskImage: "linear-gradient(to bottom, black 90%, transparent 100%)",
           "&::-webkit-scrollbar": {
