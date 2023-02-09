@@ -158,7 +158,7 @@ const SolutionCard: React.FC<SolutionCardProps> = ({
 
 export const SolutionsSection: React.FC = () => {
   return (
-    <HomepageSection py={24} maxW={1050} ml="auto" mr="auto">
+    <HomepageSection py={24} ml="auto" mr="auto">
       <Aurora
         pos={{ left: "10%", top: "60%" }}
         size={{ width: "2400px", height: "1800px" }}
@@ -184,12 +184,7 @@ export const SolutionsSection: React.FC = () => {
       <Text fontSize="20px" textAlign="center" size="body.lg" mb={14}>
         thirdweb powers the best web3 projects across verticals
       </Text>
-      <SimpleGrid
-        columns={{ lg: 3, base: 1 }}
-        gap={6}
-        maxW={1050}
-        margin="0 auto"
-      >
+      <SimpleGrid columns={{ lg: 3, base: 1 }} gap={6} margin="0 auto">
         {solutions.map((feature) => (
           <SolutionCard key={feature.title} {...feature} />
         ))}
