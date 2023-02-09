@@ -18,10 +18,7 @@ import {
 } from "@thirdweb-dev/chains";
 import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
 import { useAutoConfigureChains } from "hooks/chains/allChains";
-import {
-  useConfiguredChains,
-  useConfiguredChainsRecord,
-} from "hooks/chains/configureChains";
+import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -49,7 +46,6 @@ export function useContractList(
 }
 
 export function useMultiChainRegContractList(walletAddress?: string) {
-  const configuredChains = useConfiguredChains();
   return useQuery(
     [networkKeys.multiChainRegistry, walletAddress],
     async () => {
@@ -59,10 +55,7 @@ export function useMultiChainRegContractList(walletAddress?: string) {
 
       // PERF ISSUE HERE, NEED TO OPTIMISE
       // thrid argument is a huge object and this function is gonna strinfigy it for creating a key
-      const polygonSDK = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0], {
-        // @ts-expect-error - this works fine but the TS sdk zod type does not yet enforce readonly
-        chains: configuredChains,
-      });
+      const polygonSDK = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
 
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
