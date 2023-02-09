@@ -110,7 +110,7 @@ export const LaunchSection: React.FC = () => {
               Publish your contracts with{" "}
               <GradientText
                 as={LinkOverlay}
-                href="/release"
+                href="/publish"
                 category={TRACKING_CATEGORY}
                 label="release"
                 stopOne="#C77FBE"

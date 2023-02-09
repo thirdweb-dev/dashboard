@@ -15,36 +15,34 @@ export const ReleaseUpsellCard: React.FC = () => {
       bgColor={colorMode === "dark" ? "transparent" : "backgroundHighlight"}
     >
       <Flex flexDir="column" gap={6}>
-        <Heading>Want your contract featured here?</Heading>
+        <Heading>Accelerate your protocol’s growth. </Heading>
         <Text>
-          Publishing your contract is the best way to share it with the world.
+          Publishing your contract is the best way to get your contracts in
+          front of our 70k+ community of web3 developers.
         </Text>
         <Flex gap={2}>
           <ChakraNextImage
             boxSize={6}
-            src={require("/public/assets/product-pages/release/hero-icon-3.png")}
-            alt=""
-          />
-          <Text>
-            <Text fontWeight="bold">
-              Get your protocol in front of our community of builders.
-            </Text>
-            Over 50,000 web3 devs visit this page every month. Your contract
-            will get deploys.
-          </Text>
-        </Flex>
-        <Flex gap={2}>
-          <ChakraNextImage
-            boxSize={6}
-            src={require("/public/assets/product-pages/release/hero-icon-1.png")}
+            src={require("/public/assets/product-pages/publish/hero-icon-1.png")}
             alt=""
           />
 
           <Text>
             <Text fontWeight="bold">Save development time.</Text>
-            Eliminate the need for building tedious middleware and focus on your
-            protocol. Our published contracts provide access to thirdweb tools
-            that makes it easy for developers to create applications on top of.
+            Focus on protocol development and save time by not having to build
+            middleware layer yourself.
+          </Text>
+        </Flex>
+        <Flex gap={2}>
+          <ChakraNextImage
+            boxSize={6}
+            src={require("/public/assets/product-pages/publish/hero-icon-2.png")}
+            alt=""
+          />
+          <Text>
+            <Text fontWeight="bold">Shareable landing page.</Text>
+            By publishing your contract, your contracts become easily shareable
+            with a landing page for your contract.
           </Text>
         </Flex>
         <ButtonGroup size="size" spacing={4}>
@@ -75,7 +73,7 @@ export const ReleaseUpsellCard: React.FC = () => {
               label: "learn_more",
             }}
             variant="ghost"
-            href="https://portal.thirdweb.com/release"
+            href="https://portal.thirdweb.com/publish"
             isExternal
             noIcon
             borderColor="borderColor"

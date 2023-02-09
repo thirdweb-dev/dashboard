@@ -32,14 +32,14 @@ const Release: ThirdwebNextPage = () => {
       seo={{
         title: "Release",
         description:
-          "Accelerate your protocol's growth. Publishing your contract is the best way to get your contracts in front of 60k+ web3 developers.",
+          "Accelerate your protocol’s growth. Publishing your contract is the best way to get your contracts in front of our 70k+ community of web3 developers.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/release.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/publish.png`,
               width: 2334,
               height: 1260,
-              alt: "thirdweb Release",
+              alt: "thirdweb Publish",
             },
           ],
         },
@@ -49,10 +49,10 @@ const Release: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         name="Release"
         title="Share your contracts with the world."
-        description="Accelerate your protocol's growth. Publishing your contract is the best way to get your contracts in front of 60k+ web3 developers."
+        description="Accelerate your protocol’s growth. Publishing your contract is the best way to get your contracts in front of our 70k+ community of web3 developers."
         buttonText="Get started"
-        buttonLink="https://portal.thirdweb.com/release"
-        image={require("public/assets/product-pages/release/hero.png")}
+        buttonLink="https://portal.thirdweb.com/publish"
+        image={require("public/assets/product-pages/publish/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #FBFF5C 100.01%)"
       >
         <Flex direction="column" gap={24}>
@@ -64,14 +64,14 @@ const Release: ThirdwebNextPage = () => {
           >
             <ProductCard
               title="Save development time"
-              icon={require("/public/assets/product-pages/release/hero-icon-1.png")}
+              icon={require("/public/assets/product-pages/publish/hero-icon-1.png")}
             >
               Focus on protocol development and save time by not having to build
               middleware layer yourself.
             </ProductCard>
             <ProductCard
               title="Unlock powerful tooling"
-              icon={require("/public/assets/product-pages/release/hero-icon-2.png")}
+              icon={require("/public/assets/product-pages/publish/hero-icon-2.png")}
             >
               When your end users deploy your contracts from Explore, they
               unlock access to thirdweb tools that makes it easier to build on
@@ -79,10 +79,10 @@ const Release: ThirdwebNextPage = () => {
             </ProductCard>
             <ProductCard
               title="Shareable landing page"
-              icon={require("/public/assets/product-pages/release/hero-icon-3.png")}
+              icon={require("/public/assets/product-pages/publish/hero-icon-3.png")}
             >
-              By creating a release, your contracts become shareable with an
-              elegant landing page for your contract. E.g.{" "}
+              By publishing a contract, it becomes easily shareable with a
+              landing page for your contract. E.g.{" "}
               <TrackedLink
                 category={TRACKING_CATEGORY}
                 label="unlock-protocol"
@@ -101,7 +101,7 @@ const Release: ThirdwebNextPage = () => {
           >
             <Text color="white" size="body.lg">
               Do you want to feature your contracts alongside world-class
-              protocols & engineers? Get your contract in front of the 60k+ web3
+              protocols & engineers? Get your contract in front of the 70k+ web3
               devs that visit this page every month. Get in touch!
             </Text>
             <Flex gap="12px" direction={{ base: "column", md: "row" }}>
@@ -119,7 +119,7 @@ const Release: ThirdwebNextPage = () => {
                 _hover={{ bg: "rgba(255,255,255,.8)" }}
                 boxShadow="0px 4px 4px rgba(0, 0, 0, 0.05)"
               >
-                Contact us
+                Submit contract
               </LinkButton>
               <LinkButton
                 as={TrackedLink}
@@ -140,10 +140,10 @@ const Release: ThirdwebNextPage = () => {
           </SolutionsTextImage>
 
           <GuidesShowcase
-            title="Learn how to release contracts"
+            title="Learn how to publish contracts"
             category={TRACKING_CATEGORY}
-            description="Check out our guides on how to release contracts"
-            solution="Release"
+            description="Check out our guides on how to publish contracts"
+            solution="Publish"
             guides={RELEASE_GUIDES}
           />
         </Flex>
@@ -152,6 +152,6 @@ const Release: ThirdwebNextPage = () => {
   );
 };
 
-Release.pageId = PageId.ReleaseLanding;
+Release.pageId = PageId.PublishLanding;
 
 export default Release;

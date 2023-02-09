@@ -1,7 +1,7 @@
 import { Flex, Skeleton } from "@chakra-ui/react";
 import { RequiredParam } from "@thirdweb-dev/react";
 import { useEns } from "components/contract-components/hooks";
-import { ReleaserAvatar } from "components/contract-components/releaser/masked-avatar";
+import { ReleaserAvatar } from "components/contract-components/publisher/masked-avatar";
 import { Heading, Link } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 

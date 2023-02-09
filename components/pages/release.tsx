@@ -12,7 +12,7 @@ import {
 import { PREBUILT_CONTRACTS_MAP } from "@thirdweb-dev/sdk/evm";
 import { DeployFormDrawer } from "components/contract-components/contract-deploy-form/drawer";
 import { useAllVersions, useEns } from "components/contract-components/hooks";
-import { ReleasedContract } from "components/contract-components/released-contract";
+import { PublishedContract } from "components/contract-components/published-contract";
 import { THIRDWEB_DEPLOYER_ADDRESS } from "constants/addresses";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -149,7 +149,7 @@ export const ReleaseWithVersionPage: React.FC<ReleaseWithVersionPageProps> = ({
       <GridItem colSpan={12} display={{ base: "inherit", md: "none" }}>
         <Divider />
       </GridItem>
-      {release && <ReleasedContract release={release} walletOrEns={author} />}
+      {release && <PublishedContract release={release} walletOrEns={author} />}
     </SimpleGrid>
   );
 };

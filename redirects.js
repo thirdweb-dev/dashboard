@@ -27,8 +27,8 @@ function redirects() {
       permanent: false,
     },
     {
-      source: "/contracts/publish",
-      destination: "/contracts/release",
+      source: "/contracts/release",
+      destination: "/contracts/publish",
       permanent: false,
     },
     {

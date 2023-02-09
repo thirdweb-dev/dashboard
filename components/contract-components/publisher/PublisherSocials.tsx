@@ -13,23 +13,23 @@ import type { ProfileMetadata } from "@thirdweb-dev/sdk/evm";
 import { FiGlobe } from "react-icons/fi";
 import { LinkButton, TrackedIconButton } from "tw-components";
 
-interface ReleaserSocialsProps extends ButtonGroupProps {
-  releaserProfile: ProfileMetadata;
+interface PublisherSocialsProps extends ButtonGroupProps {
+  publisherProfile: ProfileMetadata;
 }
 
-export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
-  releaserProfile,
+export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
+  publisherProfile,
   spacing = 0,
   size = "sm",
   ...props
 }) => (
   <ButtonGroup size={size} spacing={spacing} {...props}>
-    {releaserProfile.twitter && (
+    {publisherProfile.twitter && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.twitter}
+        href={publisherProfile.twitter}
         bg="transparent"
         aria-label="twitter"
         icon={<Icon as={SiTwitter} />}
@@ -37,12 +37,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="twitter"
       />
     )}
-    {releaserProfile.discord && (
+    {publisherProfile.discord && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.discord}
+        href={publisherProfile.discord}
         bg="transparent"
         aria-label="discord"
         icon={<Icon as={SiDiscord} />}
@@ -50,12 +50,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="discord"
       />
     )}
-    {releaserProfile.github && (
+    {publisherProfile.github && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.github}
+        href={publisherProfile.github}
         bg="transparent"
         aria-label="github"
         icon={<Icon as={SiGithub} />}
@@ -63,12 +63,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="github"
       />
     )}
-    {releaserProfile.website && (
+    {publisherProfile.website && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.website}
+        href={publisherProfile.website}
         bg="transparent"
         aria-label="website"
         icon={<Icon as={FiGlobe} />}
@@ -77,12 +77,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
       />
     )}
 
-    {releaserProfile.medium && (
+    {publisherProfile.medium && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.medium}
+        href={publisherProfile.medium}
         bg="transparent"
         aria-label="medium"
         icon={<Icon as={SiMedium} />}
@@ -90,12 +90,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="medium"
       />
     )}
-    {releaserProfile.telegram && (
+    {publisherProfile.telegram && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.telegram}
+        href={publisherProfile.telegram}
         bg="transparent"
         aria-label="telegram"
         icon={<Icon as={SiTelegram} />}
@@ -103,12 +103,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="telegram"
       />
     )}
-    {releaserProfile.facebook && (
+    {publisherProfile.facebook && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.facebook}
+        href={publisherProfile.facebook}
         bg="transparent"
         aria-label="facebook"
         icon={<Icon as={SiFacebook} />}
@@ -116,12 +116,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="facebook"
       />
     )}
-    {releaserProfile.reddit && (
+    {publisherProfile.reddit && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.reddit}
+        href={publisherProfile.reddit}
         bg="transparent"
         aria-label="reddit"
         icon={<Icon as={SiReddit} />}
@@ -129,12 +129,12 @@ export const ReleaserSocials: React.FC<ReleaserSocialsProps> = ({
         label="reddit"
       />
     )}
-    {releaserProfile.linkedin && (
+    {publisherProfile.linkedin && (
       <TrackedIconButton
         as={LinkButton}
         isExternal
         noIcon
-        href={releaserProfile.linkedin}
+        href={publisherProfile.linkedin}
         bg="transparent"
         aria-label="linkedin"
         icon={<Icon as={SiLinkedin} />}

@@ -26,7 +26,7 @@ const ContractsReleasePage: ThirdwebNextPage = () => {
           <Link
             color="blue.500"
             isExternal
-            href="https://portal.thirdweb.com/release"
+            href="https://portal.thirdweb.com/publish"
           >
             Learn more about releasing your contracts.
           </Link>
@@ -49,6 +49,6 @@ ContractsReleasePage.getLayout = function getLayout(page, props) {
   return <AppLayout {...props}>{page}</AppLayout>;
 };
 
-ContractsReleasePage.pageId = PageId.ReleaseMultiple;
+ContractsReleasePage.pageId = PageId.PublishMultiple;
 
 export default ContractsReleasePage;

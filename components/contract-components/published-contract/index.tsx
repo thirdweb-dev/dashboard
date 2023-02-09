@@ -8,7 +8,7 @@ import {
   useReleasedContractInfo,
   useReleaserProfile,
 } from "../hooks";
-import { ReleaserHeader } from "../releaser/releaser-header";
+import { PublisherHeader } from "../publisher/publisher-header";
 import { MarkdownRenderer } from "./markdown-renderer";
 import {
   Divider,
@@ -22,7 +22,7 @@ import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { useQuery } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
 import {
-  PublishedContract,
+  PublishedContract as PublishedContractType,
   PublishedMetadata,
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk/evm";
@@ -52,7 +52,7 @@ import {
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
-export interface ExtendedReleasedContractInfo extends PublishedContract {
+export interface ExtendedReleasedContractInfo extends PublishedContractType {
   name: string;
   displayName?: string;
   description: string;
@@ -63,12 +63,12 @@ export interface ExtendedReleasedContractInfo extends PublishedContract {
   audit?: string;
 }
 
-interface ReleasedContractProps {
+interface PublishedContractProps {
   release: ExtendedReleasedContractInfo;
   walletOrEns: string;
 }
 
-export const ReleasedContract: React.FC<ReleasedContractProps> = ({
+export const PublishedContract: React.FC<PublishedContractProps> = ({
   release,
   walletOrEns,
 }) => {
@@ -234,7 +234,7 @@ Deploy it in one click`,
               size="sm"
               variant="outline"
               leftIcon={<Icon as={BiPencil} />}
-              href={`/contracts/release/${encodeURIComponent(
+              href={`/contracts/publish/${encodeURIComponent(
                 release.metadataUri.replace("ipfs://", ""),
               )}`}
             >
@@ -283,7 +283,7 @@ Deploy it in one click`,
       </GridItem>
       <GridItem colSpan={{ base: 12, md: 3 }}>
         <Flex flexDir="column" gap={6}>
-          {walletOrEns && <ReleaserHeader wallet={walletOrEns} />}
+          {walletOrEns && <PublisherHeader wallet={walletOrEns} />}
           <Divider />
           <Flex flexDir="column" gap={4}>
             <Heading as="h4" size="title.sm">
@@ -297,7 +297,7 @@ Deploy it in one click`,
                       <Icon color="paragraph" as={VscCalendar} boxSize={5} />
                       <Flex direction="column" gap={1}>
                         <Heading as="h5" size="label.sm">
-                          Release Date
+                          Published Date
                         </Heading>
                         <Text size="body.md" lineHeight={1.2}>
                           {releasedDate}
@@ -419,12 +419,12 @@ Deploy it in one click`,
             <Flex gap={2} alignItems="center">
               <LinkButton
                 colorScheme="blue"
-                href="https://portal.thirdweb.com/release"
+                href="https://portal.thirdweb.com/publish"
                 w="full"
                 variant="ghost"
                 isExternal
               >
-                Learn about Release
+                Learn about Publish
               </LinkButton>
             </Flex>
           </Flex>

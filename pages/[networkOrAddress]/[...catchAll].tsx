@@ -113,7 +113,7 @@ CatchAllPage.pageId = (
     return PageId.DeployedProgram;
   }
   if (props.pageType === "release") {
-    return PageId.ReleasedContract;
+    return PageId.PublishedContract;
   }
 
   return PageId.Unknown;

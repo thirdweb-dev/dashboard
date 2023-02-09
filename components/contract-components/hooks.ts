@@ -429,7 +429,7 @@ export function usePublishMutation() {
         return Promise.all([
           invalidate([["pre-publish-metadata", variables.predeployUri]]),
           fetch(
-            `/api/revalidate/release?address=${address}&contractName=${variables.contractName}`,
+            `/api/revalidate/publish?address=${address}&contractName=${variables.contractName}`,
           ).catch((err) => console.error("failed to revalidate", err)),
         ]);
       },
@@ -450,7 +450,7 @@ export function useEditProfileMutation() {
       onSuccess: (_data, _variables, _options, invalidate) => {
         return Promise.all([
           invalidate([["releaser-profile", address]]),
-          fetch(`/api/revalidate/release?address=${address}`).catch((err) =>
+          fetch(`/api/revalidate/publish?address=${address}`).catch((err) =>
             console.error("failed to revalidate", err),
           ),
         ]);

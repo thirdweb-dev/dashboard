@@ -1,7 +1,7 @@
 import { useEns, useReleaserProfile } from "../hooks";
+import { PublisherSocials } from "./PublisherSocials";
 import { EditProfile } from "./edit-profile";
 import { ReleaserAvatar } from "./masked-avatar";
-import { ReleaserSocials } from "./releaser-socials";
 import { Flex, Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -11,11 +11,11 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import { Heading, Link, LinkButton } from "tw-components";
 
-interface ReleaserHeaderProps {
+interface PublisherHeaderProps {
   wallet: string;
   page?: boolean;
 }
-export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
+export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
   wallet,
   page,
 }) => {
@@ -80,7 +80,7 @@ export const ReleaserHeader: React.FC<ReleaserHeaderProps> = ({
               </Heading>
             </Link>
             {releaserProfile?.data && (
-              <ReleaserSocials releaserProfile={releaserProfile.data} />
+              <PublisherSocials publisherProfile={releaserProfile.data} />
             )}
           </Flex>
         </Flex>

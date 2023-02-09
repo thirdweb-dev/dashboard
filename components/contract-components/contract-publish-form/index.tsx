@@ -28,11 +28,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
 import { Button, Text } from "tw-components";
 
-interface ContractReleaseFormProps {
+interface ContractPublishFormProps {
   contractId: ContractId;
 }
 
-export const ContractReleaseForm: React.FC<ContractReleaseFormProps> = ({
+export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   contractId,
 }) => {
   const [contractSelection, setContractSelection] = useState<

@@ -1,4 +1,4 @@
-import { ReleasedContractTable } from "../contract-table-v2";
+import { PublishedContractTable } from "../contract-table-v2";
 import { usePublishedContractsQuery } from "../hooks";
 import { ShowMoreButton } from "./show-more-button";
 import {
@@ -46,15 +46,15 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
           direction={{ base: "column", md: "row" }}
         >
           <Flex gap={2} direction="column">
-            <Heading size="title.md">Released contracts</Heading>
+            <Heading size="title.md">Published contracts</Heading>
             <Text fontStyle="italic" maxW="container.md">
-              The list of contract instances that you have released with
+              The list of contract instances that you have published with
               thirdweb
             </Text>
           </Flex>
           <LinkButton
             colorScheme="primary"
-            href="https://portal.thirdweb.com/release"
+            href="https://portal.thirdweb.com/publish"
             isExternal
             onClick={() => {
               trackEvent({
@@ -64,11 +64,11 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
               });
             }}
           >
-            Learn more about Release
+            Learn more about Publish
           </LinkButton>
         </Flex>
       )}
-      <ReleasedContractTable
+      <PublishedContractTable
         isFetching={releasedContractsQuery.isFetching}
         contractDetails={slicedData}
         hideReleasedBy
@@ -87,7 +87,7 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
               <Alert status="error" borderRadius="md">
                 <AlertIcon />
                 <AlertTitle mr={2}>
-                  Failed to fetch released contracts
+                  Failed to fetch published contracts
                 </AlertTitle>
                 <Button
                   onClick={() => releasedContractsQuery.refetch()}
@@ -118,7 +118,7 @@ export const ReleasedContracts: React.FC<ReleasedContractsProps> = ({
               setShowMoreLimit={setShowMoreLimit}
             />
           )}
-      </ReleasedContractTable>
+      </PublishedContractTable>
     </>
   );
 };

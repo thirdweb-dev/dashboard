@@ -15,8 +15,8 @@ export enum PageId {
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
-  // thirdweb.com/release
-  ReleaseLanding = "release-landing",
+  // thirdweb.com/publish
+  PublishLanding = "publish-landing",
 
   // thirdweb.com/deploy
   DeployLanding = "deploy-landing",
@@ -91,14 +91,14 @@ export enum PageId {
   FaucetSolana = "faucet-solana",
 
   // ---------------------------------------------------------------------------
-  //  "release" product pages
+  //  "publish" product pages
   // ---------------------------------------------------------------------------
 
-  // thirdweb.com/contracts/release
-  ReleaseMultiple = "release-multiple-contracts",
+  // thirdweb.com/contracts/publish
+  PublishMultiple = "publish-multiple-contracts",
 
-  // thirdweb.com/contracts/release/:id
-  ReleaseSingle = "release-single-contract",
+  // thirdweb.com/contracts/publish/:id
+  PublishSingle = "publish-single-contract",
 
   // thirdweb.com/:wallet
   // example: thirdweb.com/jns.eth
@@ -106,7 +106,7 @@ export enum PageId {
 
   // thirdweb.com/:wallet/:contractId
   // example: thirdweb.com/jns.eth/PermissionedERC721A
-  ReleasedContract = "released-contract",
+  PublishedContract = "published-contract",
 
   // ---------------------------------------------------------------------------
   //  "deploy" product pages

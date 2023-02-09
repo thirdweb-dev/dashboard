@@ -88,11 +88,11 @@ const Dashboard: ThirdwebNextPage = () => {
                   }}
                 >
                   <ChakraNextImage
-                    src={require("public/assets/product-icons/release.png")}
+                    src={require("public/assets/product-icons/publish.png")}
                     alt=""
                     boxSize={6}
                   />
-                  <Heading size="label.lg">Released Contracts</Heading>
+                  <Heading size="label.lg">Published Contracts</Heading>
                 </Tab>
               </TabList>
               <TabPanels px={0} py={2}>

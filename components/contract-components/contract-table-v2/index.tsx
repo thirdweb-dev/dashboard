@@ -61,7 +61,7 @@ import {
   SupportedSolanaNetworkToUrlMap,
 } from "utils/network";
 
-interface ReleasedContractTableProps {
+interface PublishedContractTableProps {
   contractDetails: ContractDataInput[];
   isFetching?: boolean;
   hideReleasedBy?: true;
@@ -85,8 +85,8 @@ function convertContractDataToRowData(
   };
 }
 
-export const ReleasedContractTable: ComponentWithChildren<
-  ReleasedContractTableProps
+export const PublishedContractTable: ComponentWithChildren<
+  PublishedContractTableProps
 > = ({ contractDetails, isFetching, children, hideReleasedBy }) => {
   const rows = useMemo(
     () => contractDetails.map(convertContractDataToRowData),

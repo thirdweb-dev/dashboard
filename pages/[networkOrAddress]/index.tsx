@@ -13,9 +13,9 @@ import {
   usePublishedContractsQuery,
   useReleaserProfile,
 } from "components/contract-components/hooks";
-import { EditProfile } from "components/contract-components/releaser/edit-profile";
-import { ReleaserAvatar } from "components/contract-components/releaser/masked-avatar";
-import { ReleaserSocials } from "components/contract-components/releaser/releaser-socials";
+import { PublisherSocials } from "components/contract-components/publisher/PublisherSocials";
+import { EditProfile } from "components/contract-components/publisher/edit-profile";
+import { ReleaserAvatar } from "components/contract-components/publisher/masked-avatar";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
@@ -139,10 +139,10 @@ const UserPage: ThirdwebNextPage = () => {
                   </Text>
                 )}
                 {releaserProfile.data && (
-                  <ReleaserSocials
+                  <PublisherSocials
                     mt={1}
                     size="md"
-                    releaserProfile={releaserProfile.data}
+                    publisherProfile={releaserProfile.data}
                   />
                 )}
               </Flex>
