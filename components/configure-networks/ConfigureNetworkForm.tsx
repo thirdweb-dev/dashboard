@@ -85,7 +85,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     if (prefillSlug) {
       form.setValue("slug", prefillSlug, { shouldDirty: true });
     } else if (prefillName) {
-      form.setValue("slug", nameToSlug(prefillName), { shouldDirty: true });
+      form.setValue("slug", nameToSlug(prefillName));
     }
   }, [prefillSlug, prefillName, form]);
 
