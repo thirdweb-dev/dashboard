@@ -214,16 +214,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
               onRemove={handleDelete}
               prefillSlug={props.prefillSlug}
               prefillChainId={props.prefillChainId}
-              values={{
-                name: editingChain.name,
-                rpcUrl: editingChain.rpc[0],
-                chainId: `${editingChain.chainId}`,
-                currencySymbol: editingChain.nativeCurrency.symbol,
-                type: editingChain.testnet ? "testnet" : "mainnet",
-                isCustom: !!editingChain.isCustom,
-                icon: editingChain.icon?.url || "",
-                slug: editingChain.slug,
-              }}
+              editingChain={editingChain}
               variant="edit"
               onSubmit={handleSubmit}
             />

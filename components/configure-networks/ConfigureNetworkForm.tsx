@@ -2,11 +2,10 @@ import { ChainIdInput } from "./Form/ChainIdInput";
 import { IconUpload } from "./Form/IconUpload";
 import { NetworkIDInput } from "./Form/NetworkIdInput";
 import { RemoveButton } from "./Form/RemoveButton";
+import { RpcInput } from "./Form/RpcInput";
 import { SearchNetworks } from "./Form/SearchNetworks";
 import { ToolTipBox } from "./Form/ToolTipBox";
 import {
-  Alert,
-  AlertIcon,
   Flex,
   FormControl,
   Input,
@@ -15,7 +14,7 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import { Chain } from "@thirdweb-dev/chains";
+import { Chain, getChainRPC } from "@thirdweb-dev/chains";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import {
@@ -24,7 +23,6 @@ import {
 } from "hooks/chains/configureChains";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoWarning } from "react-icons/io5";
 import { Button, FormErrorMessage, FormLabel, Text } from "tw-components";
 
 export type NetworkConfigFormData = {
@@ -38,6 +36,11 @@ export type NetworkConfigFormData = {
   slug: string;
 };
 
+const rpcKeys = {
+  thirdwebApiKey:
+    "ed043a51ae23b0db3873f5a38b77ab28175fa496f15d3c53cf70401be89b622a",
+};
+
 // lowercase it, replace all spaces with hyphens, and then strip all non-alphanumeric characters
 const nameToSlug = (name: string) =>
   name
@@ -46,7 +49,7 @@ const nameToSlug = (name: string) =>
     .replace(/[^a-z0-9-]/g, "");
 
 interface NetworkConfigFormProps {
-  values?: NetworkConfigFormData;
+  editingChain?: StoredChain;
   onSubmit: (chain: StoredChain) => void;
   onRemove?: () => void;
   prefillSlug?: string;
@@ -58,7 +61,7 @@ interface NetworkConfigFormProps {
 }
 
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
-  values,
+  editingChain,
   onSubmit,
   onRemove,
   prefillSlug,
@@ -75,14 +78,16 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
 
   const form = useForm<NetworkConfigFormData>({
     values: {
-      name: values?.name || prefillName || "",
-      rpcUrl: values?.rpcUrl || "",
-      chainId: values?.chainId || prefillChainId || "",
-      currencySymbol: values?.currencySymbol || "",
-      type: values?.type === "testnet" ? "testnet" : "mainnet",
-      isCustom: values ? values.isCustom : variant === "custom",
-      icon: values?.icon || "",
-      slug: values?.slug || "",
+      name: editingChain?.name || prefillName || "",
+      rpcUrl: editingChain ? getChainRPC(editingChain, rpcKeys) : "" || "",
+      chainId: editingChain?.chainId
+        ? `${editingChain?.chainId}`
+        : "" || prefillChainId || "",
+      currencySymbol: editingChain?.nativeCurrency.symbol || "",
+      type: editingChain?.testnet ? "testnet" : "mainnet",
+      isCustom: editingChain ? !!editingChain.isCustom : variant === "custom",
+      icon: editingChain?.icon?.url || "",
+      slug: editingChain?.slug || "",
     },
     mode: "onChange",
   });
@@ -381,44 +386,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         </SimpleGrid>
 
         {/* RPC URL */}
-        <FormControl isRequired isInvalid={!!form.formState.errors.rpcUrl}>
-          <FormLabel>RPC URL</FormLabel>
-          <Input
-            autoComplete="off"
-            placeholder="https://"
-            type="url"
-            _placeholder={{
-              fontWeight: 500,
-            }}
-            {...form.register("rpcUrl", {
-              required: true,
-              validate: {
-                isValidUrl: (value) => {
-                  try {
-                    new URL(value);
-                    return true;
-                  } catch (e) {
-                    return false;
-                  }
-                },
-              },
-            })}
-          />
-
-          <FormErrorMessage fontSize="12px">Invalid RPC URL</FormErrorMessage>
-
-          <Alert
-            bg="transparent"
-            p={0}
-            mt={2}
-            fontSize="12px"
-            color="paragraph"
-          >
-            <AlertIcon as={IoWarning} color="inherit" />
-            Only add custom networks that you trust. <br /> Malicious RPCs can
-            record activity and lie about the state of the network.
-          </Alert>
-        </FormControl>
+        <RpcInput form={form} />
 
         {/* Buttons  */}
         <Flex
