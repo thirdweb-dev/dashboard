@@ -30,7 +30,7 @@ const Publish: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Release",
+        title: "Publish",
         description:
           "Accelerate your protocol's growth. Publishing your contract is the best way to get your contracts in front of our 70k+ community of web3 developers.",
         openGraph: {
@@ -47,7 +47,7 @@ const Publish: ThirdwebNextPage = () => {
     >
       <Hero
         trackingCategory={TRACKING_CATEGORY}
-        name="Release"
+        name="Publish"
         title="Share your contracts with the world."
         description="Accelerate your protocol's growth. Publishing your contract is the best way to get your contracts in front of our 70k+ community of web3 developers."
         buttonText="Get started"
