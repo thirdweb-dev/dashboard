@@ -251,6 +251,9 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
                     setTabIndex(1);
                     setPrefillCustomNetworkName(name);
                   }}
+                  onEdit={(chain) => {
+                    setEditingChain(chain);
+                  }}
                 />
               </TabPanel>
 

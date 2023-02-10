@@ -14,7 +14,7 @@ import {
   useConfiguredChains,
   useConfiguredChainsRecord,
 } from "hooks/chains/configureChains";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { Button, Heading } from "tw-components";
 
@@ -176,8 +176,17 @@ const NetworkListItem: React.FC<{
   img?: string;
   iconSizes?: readonly number[];
 }> = (props) => {
+  const ref = useRef<HTMLLIElement | null>(null);
+
+  // scroll into view when active
+  useEffect(() => {
+    if (props.isActive && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [props.isActive]);
+
   return (
-    <ListItem display="flex" alignItems="center">
+    <ListItem display="flex" alignItems="center" ref={ref}>
       <Button
         display="flex"
         justifyContent="flex-start"
@@ -185,15 +194,18 @@ const NetworkListItem: React.FC<{
         alignItems="center"
         gap={3}
         _dark={{
+          borderColor: props.isActive ? "blue.300" : "transparent",
           bg: props.isActive ? "inputBg" : "transparent",
         }}
         _light={{
+          borderColor: props.isActive ? "gray.800" : "transparent",
           bg: props.isActive ? "inputBg" : "transparent",
         }}
         color="accent.900"
         fontWeight={500}
         fontSize="14px"
         px={{ base: 4, md: 8 }}
+        borderLeft="2px solid transparent"
         py={4}
         _hover={{
           _dark: {

@@ -17,7 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
-import { useConfiguredChainsNameRecord } from "hooks/chains/configureChains";
+import {
+  useConfiguredChainsNameRecord,
+  useConfiguredChainsRecord,
+} from "hooks/chains/configureChains";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoWarning } from "react-icons/io5";
@@ -50,6 +53,7 @@ interface NetworkConfigFormProps {
   prefillName?: string;
   variant: "custom" | "search" | "edit";
   onCustomClick?: (name: string) => void;
+  onEdit?: (chain: StoredChain) => void;
 }
 
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
@@ -61,10 +65,12 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   variant,
   onCustomClick,
   prefillName,
+  onEdit,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
   const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
   const configuredChainNameRecord = useConfiguredChainsNameRecord();
+  const configuredChainsRecord = useConfiguredChainsRecord();
 
   const form = useForm<NetworkConfigFormData>({
     values: {
@@ -223,8 +229,20 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           isSearchOpen={isSearchOpen}
           setIsSearchOpen={setIsSearchOpen}
           onCustomClick={onCustomClick}
-          onNetworkSelection={(network) => {
+          onNetworkSelection={(network, _custom) => {
             form.clearErrors();
+
+            // if network is already added, call onEdit()
+            const isAlreadyAdded =
+              network.chainId in configuredChainsRecord &&
+              !configuredChainsRecord[network.chainId].isAutoConfigured;
+
+            if (isAlreadyAdded && onEdit) {
+              // don't pass the network, pass the configured chain to prevent overriding it's config
+              onEdit(configuredChainsRecord[network.chainId]);
+              return;
+            }
+
             form.setValue("name", network.name);
             form.setValue("rpcUrl", network.rpc[0]);
             form.setValue("chainId", `${network.chainId}`);
