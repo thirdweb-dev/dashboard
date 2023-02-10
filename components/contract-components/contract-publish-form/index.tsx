@@ -159,7 +159,10 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     return `/${ensNameOrAddress}/${publishMetadata.data.name}`;
   }, [ensNameOrAddress, publishMetadata.data?.name]);
 
-  const isDisabled = !successRedirectUrl || !address;
+  const isDisabled = useMemo(
+    () => !successRedirectUrl || !address,
+    [successRedirectUrl, address],
+  );
 
   const fullPublishMetadata = useContractFullPublishMetadata(contractId);
   const constructorParams = useConstructorParamsFromABI(

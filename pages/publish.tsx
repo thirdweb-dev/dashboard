@@ -81,17 +81,19 @@ const Publish: ThirdwebNextPage = () => {
               title="Shareable landing page"
               icon={require("/public/assets/product-pages/publish/hero-icon-3.png")}
             >
-              By publishing a contract, it becomes easily shareable with a
-              landing page for your contract. E.g.{" "}
-              <TrackedLink
-                category={TRACKING_CATEGORY}
-                label="unlock-protocol"
-                href="/unlock-protocol.eth/PublicLock"
-                textDecoration="underline"
-              >
-                Unlock Protocol
-              </TrackedLink>
-              .
+              <p>
+                By publishing a contract, it becomes easily shareable with a
+                landing page for your contract. E.g.{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  label="unlock-protocol"
+                  href="/unlock-protocol.eth/PublicLock"
+                  textDecoration="underline"
+                >
+                  Unlock Protocol
+                </TrackedLink>
+                .
+              </p>
             </ProductCard>
           </SimpleGrid>
 

@@ -297,7 +297,7 @@ Deploy it in one click`,
                       <Icon color="paragraph" as={VscCalendar} boxSize={5} />
                       <Flex direction="column" gap={1}>
                         <Heading as="h5" size="label.sm">
-                          Published Date
+                          Publish Date
                         </Heading>
                         <Text size="body.md" lineHeight={1.2}>
                           {publishedDate}
