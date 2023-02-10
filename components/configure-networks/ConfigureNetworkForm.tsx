@@ -34,13 +34,22 @@ export type NetworkConfigFormData = {
   slug: string;
 };
 
+// lowercase it, replace all spaces with hyphens, and then strip all non-alphanumeric characters
+const nameToSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+
 interface NetworkConfigFormProps {
   values?: NetworkConfigFormData;
   onSubmit: (chain: StoredChain) => void;
   onRemove?: () => void;
   prefillSlug?: string;
   prefillChainId?: string;
+  prefillName?: string;
   variant: "custom" | "search" | "edit";
+  onCustomClick?: (name: string) => void;
 }
 
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
@@ -50,6 +59,8 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   prefillSlug,
   prefillChainId,
   variant,
+  onCustomClick,
+  prefillName,
 }) => {
   const [selectedChain, setSelectedChain] = useState<StoredChain | undefined>();
   const [isSearchOpen, setIsSearchOpen] = useState(variant === "search");
@@ -57,7 +68,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
 
   const form = useForm<NetworkConfigFormData>({
     values: {
-      name: values?.name || "",
+      name: values?.name || prefillName || "",
       rpcUrl: values?.rpcUrl || "",
       chainId: values?.chainId || prefillChainId || "",
       currencySymbol: values?.currencySymbol || "",
@@ -69,11 +80,14 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
     mode: "onChange",
   });
 
+  // setup prefills
   useEffect(() => {
     if (prefillSlug) {
       form.setValue("slug", prefillSlug, { shouldDirty: true });
+    } else if (prefillName) {
+      form.setValue("slug", nameToSlug(prefillName), { shouldDirty: true });
     }
-  }, [prefillSlug, form]);
+  }, [prefillSlug, prefillName, form]);
 
   const { name, isCustom, slug } = form.watch();
 
@@ -195,7 +209,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
         return handleSubmit(e);
       }}
     >
-      {variant === "search" && (
+      {variant === "search" && onCustomClick && (
         <SearchNetworks
           onChange={(value) => {
             form.setValue("name", value, {
@@ -208,6 +222,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
           inputRef={ref}
           isSearchOpen={isSearchOpen}
           setIsSearchOpen={setIsSearchOpen}
+          onCustomClick={onCustomClick}
           onNetworkSelection={(network) => {
             form.clearErrors();
             form.setValue("name", network.name);
@@ -244,14 +259,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
 
               if (variant === "custom") {
                 if (!form.formState.dirtyFields.slug) {
-                  form.setValue(
-                    "slug",
-                    // replace all spaces with hyphens, and then strip all non-alphanumeric characters
-                    value
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")
-                      .replace(/[^a-z0-9-]/g, ""),
-                  );
+                  form.setValue("slug", nameToSlug(value));
                 }
               }
             }}

@@ -17,7 +17,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { RefCallBack } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
-import { FormErrorMessage, FormLabel, Text } from "tw-components";
+import { Badge, FormErrorMessage, FormLabel, Text } from "tw-components";
 
 interface SearchNetworksProps {
   onNetworkSelection: (network: Chain, custom: boolean) => void;
@@ -27,6 +27,7 @@ interface SearchNetworksProps {
   onChange: (value: string) => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (value: boolean) => void;
+  onCustomClick: (name: string) => void;
 }
 
 // TODO - improve search performance and do fuzzy search
@@ -95,6 +96,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
         ref={searchContainerRef}
       >
         <FormLabel>Network Name</FormLabel>
+
         <InputGroup position="relative">
           <Input
             spellCheck="false"
@@ -130,8 +132,11 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 // if search results, select first
+                // else select custom
                 if (filteredChains.length > 0) {
                   handleSelection(filteredChains[0], false);
+                } else if (searchTerm) {
+                  props.onCustomClick(searchTerm);
                 }
               }
             }}
@@ -196,6 +201,8 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
             }}
           />
         </InputGroup>
+
+        {/* Results */}
         <Box
           display={props.isSearchOpen ? "block" : "none"}
           borderRadius={"md"}
@@ -271,6 +278,33 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               </Text>
             )}
           </Box>
+
+          {/* create custom */}
+          {filteredChains.length === 0 && (
+            <Flex
+              _hover={{
+                background: "inputBgHover",
+              }}
+              cursor="pointer"
+              onClick={() => props.onCustomClick(searchTerm)}
+              alignItems="center"
+              p={4}
+              justifyContent="space-between"
+              borderTop="1px solid"
+              borderColor="inputBg"
+            >
+              <Text color="heading"> {searchTerm} </Text>
+              <Badge
+                colorScheme="blue"
+                px={2}
+                py={1}
+                lineHeight="1"
+                borderRadius="md"
+              >
+                Create Custom
+              </Badge>
+            </Flex>
+          )}
         </Box>
 
         <FormErrorMessage> {props.errorMessage} </FormErrorMessage>

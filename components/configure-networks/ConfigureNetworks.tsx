@@ -46,10 +46,15 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
   const configuredChainRecord = useConfiguredChainsRecord();
   const updateConfiguredNetworks = useUpdateConfiguredChains();
   const trackChainConfig = useChainConfigTrack();
+  const [tabIndex, setTabIndex] = useState(
+    props.prefillSlug || props.prefillChainId ? 1 : 0,
+  );
   const toast = useToast();
   const [editingChain, setEditingChain] = useState<StoredChain | undefined>(
     undefined,
   );
+
+  const [prefillCustomNetworkName, setPrefillCustomNetworkName] = useState("");
 
   const isEditingScreen = !!editingChain;
 
@@ -227,7 +232,10 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
 
         {!editingChain && (
           <Tabs
-            defaultIndex={props.prefillSlug || props.prefillChainId ? 1 : 0}
+            onChange={(index) => {
+              setTabIndex(index);
+            }}
+            index={tabIndex}
           >
             <TabList borderColor="inputBg" mb={6}>
               <Tab>Search</Tab>
@@ -239,6 +247,10 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
                 <ConfigureNetworkForm
                   onSubmit={handleSubmit}
                   variant="search"
+                  onCustomClick={(name) => {
+                    setTabIndex(1);
+                    setPrefillCustomNetworkName(name);
+                  }}
                 />
               </TabPanel>
 
@@ -249,6 +261,7 @@ export const ConfigureNetworks: React.FC<ConfigureNetworksProps> = (props) => {
                   prefillChainId={props.prefillChainId}
                   onSubmit={handleSubmit}
                   variant="custom"
+                  prefillName={prefillCustomNetworkName}
                 />
               </TabPanel>
             </TabPanels>
