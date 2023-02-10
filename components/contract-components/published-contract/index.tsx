@@ -238,7 +238,7 @@ Deploy it in one click`,
                 contract.metadataUri.replace("ipfs://", ""),
               )}`}
             >
-              Edit Release
+              Edit
             </LinkButton>
           )}
           {publishedContractInfo.data?.publishedMetadata?.readme && (

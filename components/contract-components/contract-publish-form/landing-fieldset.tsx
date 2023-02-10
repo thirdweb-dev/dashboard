@@ -216,7 +216,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
                 Version
               </FormLabel>
               {latestVersion && (
-                <Text size="body.md">latest release: {latestVersion}</Text>
+                <Text size="body.md">latest version: {latestVersion}</Text>
               )}
             </Flex>
             <Input
