@@ -3,7 +3,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractRow } from "components/explore/contract-row";
 import { DeployUpsellCard } from "components/explore/upsells/deploy-your-own";
-import { PublishUpsellCard } from "components/explore/upsells/release-submit";
+import { PublishUpsellCard } from "components/explore/upsells/publish-submit";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import {
   EXPLORE_PAGE_DATA,

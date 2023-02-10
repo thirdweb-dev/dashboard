@@ -162,8 +162,8 @@ export default async function handler(req: NextRequest) {
             >
               <PackageIcon />
               <span tw="ml-4">
-                {profileData.publishedContractCnt || 0} published contract
-                {profileData.publishedContractCnt === "1" ? "" : "s"}
+                {profileData.publishedCnt || 0} published contract
+                {profileData.publishedCnt === "1" ? "" : "s"}
               </span>
             </div>
             <div tw="flex flex-shrink-0">

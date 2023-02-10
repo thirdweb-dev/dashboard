@@ -15,7 +15,7 @@ export const PublishUpsellCard: React.FC = () => {
       bgColor={colorMode === "dark" ? "transparent" : "backgroundHighlight"}
     >
       <Flex flexDir="column" gap={6}>
-        <Heading>Accelerate your protocol’s growth.</Heading>
+        <Heading>Accelerate your protocol&apos;s growth.</Heading>
         <Text>
           Publishing your contract is the best way to get your contracts in
           front of our 70k+ community of web3 developers.

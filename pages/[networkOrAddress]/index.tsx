@@ -83,7 +83,7 @@ const UserPage: ThirdwebNextPage = () => {
       displayName,
       bio: publisherProfile.data?.bio,
       avatar: publisherProfile.data?.avatar || undefined,
-      publishedContractCnt: publishedContracts.data?.length.toString(),
+      publishedCnt: publishedContracts.data?.length.toString(),
     });
   }, [displayName, publishedContracts.data, publisherProfile.data]);
 

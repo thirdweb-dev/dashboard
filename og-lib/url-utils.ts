@@ -16,7 +16,7 @@ interface OgImageProfile {
   displayName: string;
   bio?: string;
   avatar?: string;
-  publishedContractCnt?: string;
+  publishedCnt?: string;
 }
 
 interface OgImageContract {
@@ -76,7 +76,7 @@ function fromUrl(type: keyof OgProps, url: URL): OgProps[typeof type] {
         displayName: url.searchParams.get("displayName") || "",
         bio: url.searchParams.get("bio") || undefined,
         avatar: url.searchParams.get("avatar") || undefined,
-        publishedContractCnt: url.searchParams.get("releaseCnt") || undefined,
+        publishedCnt: url.searchParams.get("publishedCnt") || undefined,
       } as OgProps["profile"];
     case "contract":
       return {
