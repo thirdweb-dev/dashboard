@@ -12,8 +12,16 @@ import {
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { ChainIcon } from "components/icons/ChainIcon";
+import Fuse from "fuse.js";
 import { useAllChainsData } from "hooks/chains/allChains";
-import { useEffect, useMemo, useRef } from "react";
+import {
+  memo,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { RefCallBack } from "react-hook-form";
 import { BiChevronDown } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
@@ -30,8 +38,6 @@ interface SearchNetworksProps {
   onCustomClick: (name: string) => void;
 }
 
-// TODO - improve search performance and do fuzzy search
-
 export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
   const { allChains } = useAllChainsData();
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -44,33 +50,41 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     },
   });
 
+  const fuse = useMemo(() => {
+    return new Fuse(allChains, {
+      keys: [
+        {
+          name: "name",
+          weight: 2,
+        },
+        {
+          name: "chainId",
+          weight: 1,
+        },
+      ],
+    });
+  }, [allChains]);
+
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+
   const filteredChains = useMemo(() => {
-    if (!searchTerm || !allChains.length) {
+    if (!deferredSearchTerm || !allChains.length) {
       return allChains || [];
     }
 
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const isSearchingForNumber = !isNaN(Number(lowerCaseSearchTerm));
+    return fuse.search(deferredSearchTerm).map((e) => e.item);
+  }, [allChains, deferredSearchTerm, fuse]);
 
-    // searching for chain id
-    if (isSearchingForNumber) {
-      return allChains.filter((network) =>
-        network.chainId.toString().includes(lowerCaseSearchTerm),
-      );
-    }
+  const { onChange, setIsSearchOpen, onNetworkSelection } = props;
 
-    // TODO use fuzzy search with fuse.js
-    // searching for network name
-    return allChains.filter((network) =>
-      network.name.toLowerCase().includes(lowerCaseSearchTerm),
-    );
-  }, [allChains, searchTerm]);
-
-  const handleSelection = (network: Chain, custom: boolean) => {
-    props.onChange(network.name);
-    props.setIsSearchOpen(false);
-    props.onNetworkSelection(network, custom);
-  };
+  const handleSelection = useCallback(
+    (network: Chain, custom: boolean) => {
+      onChange(network.name);
+      setIsSearchOpen(false);
+      onNetworkSelection(network, custom);
+    },
+    [onChange, setIsSearchOpen, onNetworkSelection],
+  );
 
   const isFocusSet = useRef(false);
   useEffect(() => {
@@ -141,6 +155,18 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
               }
             }}
           />
+
+          {/* Spinner Icon as a Searching Indicator */}
+          {searchTerm !== deferredSearchTerm && (
+            <InputRightElement
+              opacity={!props.isSearchOpen || !searchTerm ? 0 : 1}
+              transition="opacity 250ms ease"
+              cursor={"pointer"}
+              mr={14}
+              borderRadius="md"
+              children={<Spinner size="sm" />}
+            />
+          )}
 
           {/*  Icon for clearning the input */}
           <InputRightElement
@@ -220,7 +246,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           w="100%"
         >
           <Box
-            maxH={{ base: "275px", md: "350px" }}
+            maxH={{ base: "275px", md: "300px" }}
             minH="150px"
             sx={{
               maskImage:
@@ -247,30 +273,12 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
                 <Spinner size="md" />
               </Flex>
             )}
-            {allChains.length > 0 &&
-              filteredChains.map((network) => (
-                <Text
-                  px={4}
-                  py={2}
-                  key={network.name}
-                  cursor="pointer"
-                  display="flex"
-                  gap={3}
-                  color="heading"
-                  _hover={{
-                    background: "inputBgHover",
-                  }}
-                  onClick={() => {
-                    handleSelection(network, false);
-                  }}
-                >
-                  <ChainIcon ipfsSrc={network.icon?.url} size={20} />
-                  {network.name}{" "}
-                  <Text as="span" opacity={0.8} ml="auto" color="inherit">
-                    {network.chainId}
-                  </Text>
-                </Text>
-              ))}
+            {allChains.length > 0 && (
+              <SearchResults
+                chains={filteredChains}
+                onSelect={handleSelection}
+              />
+            )}
 
             {allChains.length > 0 && filteredChains.length === 0 && (
               <Text py={10} textAlign="center">
@@ -280,7 +288,7 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
           </Box>
 
           {/* create custom */}
-          {filteredChains.length === 0 && (
+          {deferredSearchTerm && (
             <Flex
               _hover={{
                 background: "inputBgHover",
@@ -312,3 +320,36 @@ export const SearchNetworks: React.FC<SearchNetworksProps> = (props) => {
     </Box>
   );
 };
+
+export const SearchResults: React.FC<{
+  chains: Chain[];
+  onSelect: (network: Chain, custom: boolean) => void;
+}> = memo(function SearchResults(props) {
+  return (
+    <>
+      {props.chains.map((network) => (
+        <Text
+          px={4}
+          py={2}
+          key={network.name}
+          cursor="pointer"
+          display="flex"
+          gap={3}
+          color="heading"
+          _hover={{
+            background: "inputBgHover",
+          }}
+          onClick={() => {
+            props.onSelect(network, false);
+          }}
+        >
+          <ChainIcon ipfsSrc={network.icon?.url} size={20} />
+          {network.name}{" "}
+          <Text as="span" opacity={0.8} ml="auto" color="inherit">
+            {network.chainId}
+          </Text>
+        </Text>
+      ))}
+    </>
+  );
+});
