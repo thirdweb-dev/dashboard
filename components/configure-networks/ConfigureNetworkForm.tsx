@@ -60,6 +60,15 @@ interface NetworkConfigFormProps {
   onEdit?: (chain: StoredChain) => void;
 }
 
+// temp fix for getChainRPC throwing error
+function _getChainRPC(chain: Chain) {
+  try {
+    return getChainRPC(chain, rpcKeys);
+  } catch (e) {
+    return chain.rpc[0];
+  }
+}
+
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   editingChain,
   onSubmit,
@@ -79,7 +88,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const form = useForm<NetworkConfigFormData>({
     values: {
       name: editingChain?.name || prefillName || "",
-      rpcUrl: editingChain ? getChainRPC(editingChain, rpcKeys) : "" || "",
+      rpcUrl: editingChain ? _getChainRPC(editingChain) : "" || "",
       chainId: editingChain?.chainId
         ? `${editingChain?.chainId}`
         : "" || prefillChainId || "",
