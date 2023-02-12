@@ -1,13 +1,11 @@
-import { Polygon } from "@thirdweb-dev/chains";
+import { Chain, Polygon, allChains } from "@thirdweb-dev/chains";
 import {
   Abi,
   ChainId,
-  SUPPORTED_CHAIN_ID,
   extractConstructorParamsFromAbi,
   fetchSourceFilesFromMetadata,
   resolveContractUriFromAddress,
 } from "@thirdweb-dev/sdk/evm";
-import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { ethers, utils } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
@@ -108,6 +106,14 @@ export const apiKeyMap: Record<number, string> = {
   [ChainId.BinanceSmartChainTestnet]: process.env.BSCSCAN_KEY as string,
 };
 
+const chhainIdToChain: Record<number, Chain> = allChains.reduce(
+  (acc, chain) => {
+    acc[chain.chainId] = chain;
+    return acc;
+  },
+  {} as Record<number, Chain>,
+);
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     return res.status(400).json({ error: "invalid method" });
@@ -124,10 +130,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     }
 
-    const sdk = getEVMThirdwebSDK(
-      chainId,
-      EVM_RPC_URL_MAP[chainId as SUPPORTED_CHAIN_ID] || "",
-    );
+    const chain = chhainIdToChain[chainId];
+    if (!chain) {
+      throw new Error(
+        `ChainId ${chainId} is not supported for etherscan verification`,
+      );
+    }
+
+    const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
     const compilerMetadata = await sdk
       .getPublisher()
       .fetchCompilerMetadataFromAddress(contractAddress);

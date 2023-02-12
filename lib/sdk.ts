@@ -1,11 +1,10 @@
-import { DASHBOARD_THIRDWEB_API_KEY } from "./rpc";
 import {
   ThirdwebSDK as EVMThirdwebSDK,
   SDKOptions,
 } from "@thirdweb-dev/sdk/evm";
 import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
 import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
-import { getSOLRPC } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_API_KEY, getSOLRPC } from "constants/rpc";
 import type { Signer } from "ethers";
 import { DashboardSolanaNetwork } from "utils/solanaUtils";
 

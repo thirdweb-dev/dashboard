@@ -1,11 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ThirdwebSDKProvider, useSigner } from "@thirdweb-dev/react";
 import type { SDKOptions } from "@thirdweb-dev/sdk/evm";
+import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import {
   useConfiguredChain,
   useConfiguredChains,
 } from "hooks/chains/configureChains";
-import { DASHBOARD_THIRDWEB_API_KEY, getDashboardChainRpc } from "lib/rpc";
+import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 
