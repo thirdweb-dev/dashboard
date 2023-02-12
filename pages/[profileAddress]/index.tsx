@@ -20,6 +20,7 @@ import { DeployedContracts } from "components/contract-components/tables/deploye
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
+import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
@@ -223,9 +224,11 @@ const possibleRedirects = redirects().filter(
 
 export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const queryClient = new QueryClient();
-  // TODO make this use alchemy / other RPC
-  // currently blocked because our alchemy RPC does not allow us to call this from the server (since we have an allow-list)
-  const polygonSdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
+
+  const polygonSdk = getEVMThirdwebSDK(
+    Polygon.chainId,
+    getDashboardChainRpc(Polygon),
+  );
 
   const profileAddress = getSingleQueryValue(ctx.params, "profileAddress");
 

@@ -8,6 +8,7 @@ import {
   isFeatureEnabled,
 } from "@thirdweb-dev/sdk/evm";
 import { Signer } from "ethers";
+import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 
 export function isContractIdBuiltInContract(
@@ -42,7 +43,7 @@ export function detectFeatures<TContract extends ValidContractInstance | null>(
 export function getGaslessPolygonSDK(signer?: Signer) {
   const polygonSDK = getEVMThirdwebSDK(
     Polygon.chainId,
-    Polygon.rpc[0],
+    getDashboardChainRpc(Polygon),
     {
       gasless: {
         openzeppelin: {

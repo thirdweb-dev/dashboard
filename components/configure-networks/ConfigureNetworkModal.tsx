@@ -48,10 +48,12 @@ export const ConfigureNetworkModal: React.FC<AddNetworkModalProps> = (
     <Modal isOpen={true} onClose={handleModalClose}>
       <ModalOverlay />
       <ModalContent
-        borderRadius={"xl"}
+        borderRadius="xl"
         overflow="hidden"
         w="900px"
-        maxW="calc(100vw - 40px)"
+        mt={{ base: 8, md: 16 }}
+        mb={{ base: 0, md: 16 }}
+        maxW={{ base: "100vw", md: "calc(100vw - 40px)" }}
       >
         <ModalCloseButton />
         <ModalBody

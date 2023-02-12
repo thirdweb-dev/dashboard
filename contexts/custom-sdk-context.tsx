@@ -5,6 +5,7 @@ import {
   useConfiguredChain,
   useConfiguredChains,
 } from "hooks/chains/configureChains";
+import { DASHBOARD_THIRDWEB_API_KEY, getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -30,11 +31,12 @@ export const CustomSDKContext: ComponentWithChildren<{
         readonlySettings: networkInfo
           ? {
               chainId: desiredChainId,
-              rpcUrl: networkInfo.rpc[0],
+              rpcUrl: getDashboardChainRpc(networkInfo),
             }
           : undefined,
         ...options,
       }}
+      thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
       storageInterface={StorageSingleton}
     >
       {children}

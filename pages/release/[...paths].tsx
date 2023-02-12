@@ -15,6 +15,7 @@ import {
 } from "components/pages/release";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExploreReleases } from "data/explore";
+import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { PageId } from "page-id";
@@ -66,7 +67,10 @@ export const getStaticProps: GetStaticProps<ReleasePageProps> = async (ctx) => {
     };
   }
 
-  const polygonSdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
+  const polygonSdk = getEVMThirdwebSDK(
+    Polygon.chainId,
+    getDashboardChainRpc(Polygon),
+  );
 
   const queryClient = new QueryClient();
   const { address, ensName } = await queryClient.fetchQuery(

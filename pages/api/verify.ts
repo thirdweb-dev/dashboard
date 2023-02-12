@@ -9,6 +9,7 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { EVM_RPC_URL_MAP } from "constants/rpc";
 import { ethers, utils } from "ethers";
+import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -342,7 +343,10 @@ async function fetchDeployBytecodeFromReleaseMetadata(
     provider,
   );
   if (compialierMetaUri) {
-    const pubmeta = await getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0])
+    const pubmeta = await getEVMThirdwebSDK(
+      Polygon.chainId,
+      getDashboardChainRpc(Polygon),
+    )
       .getPublisher()
       .resolvePublishMetadataFromCompilerMetadata(compialierMetaUri);
     return pubmeta.length > 0

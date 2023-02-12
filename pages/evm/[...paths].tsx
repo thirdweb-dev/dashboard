@@ -16,6 +16,7 @@ import {
   useConfiguredChainsRecord,
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
+import { getDashboardChainRpc } from "lib/rpc";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
@@ -61,7 +62,9 @@ const EVMContractPage: ThirdwebNextPage = () => {
         // if updated, update the contractInfo.chain
 
         const configuredChain = configuredChainSlugRecord[chainSlug];
-        if (configuredChain.rpc[0] !== chain.rpc[0]) {
+        if (
+          getDashboardChainRpc(configuredChain) !== getDashboardChainRpc(chain)
+        ) {
           setContractInfo({
             chainSlug,
             contractAddress,

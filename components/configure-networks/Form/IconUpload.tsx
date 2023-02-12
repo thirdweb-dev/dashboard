@@ -12,9 +12,9 @@ export const IconUpload: React.FC<{ onUpload: (url: string) => void }> = ({
   const storageUpload = useStorageUpload();
 
   const handleIconUpload = (file: File) => {
-    // if file size is larger than 500kB, show error
-    if (file.size > 500 * 1024) {
-      errorHandler.onError("Icon Image can not be larger than 500kB");
+    // if file size is larger than 5000kB, show error
+    if (file.size > 5000 * 1024) {
+      errorHandler.onError("Icon image can not be larger than 5MB");
       return;
     }
 

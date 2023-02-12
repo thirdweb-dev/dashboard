@@ -1,6 +1,7 @@
 import { getEVMThirdwebSDK } from "./sdk";
 import { Ethereum } from "@thirdweb-dev/chains";
 import { utils } from "ethers";
+import { getDashboardChainRpc } from "lib/rpc";
 import invariant from "tiny-invariant";
 
 export interface ENSResolveResult {
@@ -19,7 +20,7 @@ export async function resolveAddressToEnsName(
 
   const provider = getEVMThirdwebSDK(
     Ethereum.chainId,
-    Ethereum.rpc[0],
+    getDashboardChainRpc(Ethereum),
   ).getProvider();
 
   return {
@@ -35,7 +36,7 @@ export async function resolveEnsNameToAddress(
 
   const provider = getEVMThirdwebSDK(
     Ethereum.chainId,
-    Ethereum.rpc[0],
+    getDashboardChainRpc(Ethereum),
   ).getProvider();
 
   return {

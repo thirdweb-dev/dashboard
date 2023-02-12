@@ -9,6 +9,7 @@ import { GnosisSafeConnector } from "@thirdweb-dev/react/evm/connectors/gnosis-s
 import { MagicConnector } from "@thirdweb-dev/react/evm/connectors/magic";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
+import { DASHBOARD_THIRDWEB_API_KEY, getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
 import { useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -29,7 +30,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const rpcUrls = useMemo(() => {
     const record: Record<number, string> = {};
     for (const _chain of configuredChains) {
-      record[_chain.chainId] = _chain.rpc[0];
+      record[_chain.chainId] = getDashboardChainRpc(_chain);
     }
     return record;
   }, [configuredChains]);
@@ -49,7 +50,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
             rpcUrls,
             network: chain
               ? {
-                  rpcUrl: chain.rpc[0],
+                  rpcUrl: getDashboardChainRpc(chain),
                   chainId: chain.chainId,
                 }
               : undefined,
@@ -77,10 +78,11 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         readonlySettings: chain
           ? {
               chainId: chain.chainId,
-              rpcUrl: chain.rpc[0],
+              rpcUrl: getDashboardChainRpc(chain),
             }
           : undefined,
       }}
+      thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
       storageInterface={StorageSingleton}
       walletConnectors={walletConnectors}
     >

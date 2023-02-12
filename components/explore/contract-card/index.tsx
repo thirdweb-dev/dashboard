@@ -15,6 +15,7 @@ import { QueryClient } from "@tanstack/query-core";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ensQuery } from "components/contract-components/hooks";
+import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { useEffect, useMemo, useState } from "react";
 import { BsShieldCheck } from "react-icons/bs";
@@ -305,7 +306,10 @@ async function queryFn(
   version = "latest",
   queryClient: QueryClient,
 ) {
-  const polygonSdk = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
+  const polygonSdk = getEVMThirdwebSDK(
+    Polygon.chainId,
+    getDashboardChainRpc(Polygon),
+  );
 
   const publisherEns = await queryClient.fetchQuery(ensQuery(publisher));
   // START prefill both publisher ens variations

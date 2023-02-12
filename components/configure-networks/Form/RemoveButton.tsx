@@ -1,14 +1,14 @@
 import {
+  ButtonGroup,
   Popover,
   PopoverArrow,
-  PopoverCloseButton,
   PopoverContent,
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Button } from "tw-components";
+import { Button, Card, Heading } from "tw-components";
 
 export const RemoveButton: React.FC<{ onRemove: () => void }> = ({
   onRemove,
@@ -24,23 +24,32 @@ export const RemoveButton: React.FC<{ onRemove: () => void }> = ({
       <PopoverTrigger>
         <Button variant="outline">Remove Network</Button>
       </PopoverTrigger>
-      <PopoverContent
-        bg="backgroundBody"
-        mb={3}
-        boxShadow="0 0px 20px rgba(0, 0, 0, 0.15)"
+      <Card
+        maxW="sm"
+        w="auto"
+        as={PopoverContent}
+        bg="backgroundCardHighlight"
+        mx={4}
+        py={3}
+        px={4}
+        boxShadow="0px 0px 2px 0px var(--popper-arrow-shadow-color)"
       >
         <PopoverArrow bg="backgroundBody" />
-        <PopoverCloseButton />
-        <PopoverHeader border="none"> Are you sure? </PopoverHeader>
-        <PopoverFooter border="none" p={4} mt={2} display="flex" gap={3}>
-          <Button colorScheme="red" onClick={onRemove}>
-            Remove
-          </Button>
-          <Button onClick={deletePopover.onClose} variant="outline">
-            Cancel
-          </Button>
+
+        <PopoverHeader border="none">
+          <Heading size="label.lg">Are you sure?</Heading>
+        </PopoverHeader>
+        <PopoverFooter border="none" display="flex">
+          <ButtonGroup size="sm">
+            <Button colorScheme="red" onClick={onRemove}>
+              Remove Network
+            </Button>
+            <Button onClick={deletePopover.onClose} variant="ghost">
+              Cancel
+            </Button>
+          </ButtonGroup>
         </PopoverFooter>
-      </PopoverContent>
+      </Card>
     </Popover>
   );
 };

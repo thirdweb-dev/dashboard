@@ -1,19 +1,19 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useQuery } from "@tanstack/react-query";
 import {
+  Arbitrum,
   ArbitrumGoerli,
-  ArbitrumOne,
-  AvalancheCChain,
-  AvalancheFujiTestnet,
-  BinanceSmartChain,
-  BinanceSmartChainTestnet,
+  Avalanche,
+  AvalancheFuji,
+  Binance,
+  BinanceTestnet,
   Ethereum,
-  FantomOpera,
+  Fantom,
   FantomTestnet,
   Goerli,
   Mumbai,
   Optimism,
-  OptimismGoerliTestnet,
+  OptimismGoerli,
   Polygon,
 } from "@thirdweb-dev/chains";
 import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
@@ -22,6 +22,7 @@ import {
   useConfiguredChains,
   useConfiguredChainsRecord,
 } from "hooks/chains/configureChains";
+import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK, getSOLThirdwebSDK } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import invariant from "tiny-invariant";
@@ -61,7 +62,10 @@ export function useMultiChainRegContractList(walletAddress?: string) {
         return [];
       }
 
-      const polygonSDK = getEVMThirdwebSDK(Polygon.chainId, Polygon.rpc[0]);
+      const polygonSDK = getEVMThirdwebSDK(
+        Polygon.chainId,
+        getDashboardChainRpc(Polygon),
+      );
 
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,
@@ -79,38 +83,38 @@ export function useMultiChainRegContractList(walletAddress?: string) {
 export function useMainnetsContractList(walletAddress: string | undefined) {
   const mainnetQuery = useContractList(
     Ethereum.chainId,
-    Ethereum.rpc[0],
+    getDashboardChainRpc(Ethereum),
     walletAddress,
   );
   const polygonQuery = useContractList(
     Polygon.chainId,
-    Polygon.rpc[0],
+    getDashboardChainRpc(Polygon),
     walletAddress,
   );
   const fantomQuery = useContractList(
-    FantomOpera.chainId,
-    FantomOpera.rpc[0],
+    Fantom.chainId,
+    getDashboardChainRpc(Fantom),
     walletAddress,
   );
   const avalancheQuery = useContractList(
-    AvalancheCChain.chainId,
-    AvalancheCChain.rpc[0],
+    Avalanche.chainId,
+    getDashboardChainRpc(Avalanche),
     walletAddress,
   );
   const optimismQuery = useContractList(
     Optimism.chainId,
-    Optimism.rpc[0],
+    getDashboardChainRpc(Optimism),
     walletAddress,
   );
 
   const arbitrumQuery = useContractList(
-    ArbitrumOne.chainId,
-    ArbitrumOne.rpc[0],
+    Arbitrum.chainId,
+    getDashboardChainRpc(Arbitrum),
     walletAddress,
   );
   const binanceQuery = useContractList(
-    BinanceSmartChain.chainId,
-    BinanceSmartChain.rpc[0],
+    Binance.chainId,
+    getDashboardChainRpc(Binance),
     walletAddress,
   );
 
@@ -181,37 +185,37 @@ export function useMainnetsContractList(walletAddress: string | undefined) {
 export function useTestnetsContractList(walletAddress: string | undefined) {
   const goerliQuery = useContractList(
     Goerli.chainId,
-    Goerli.rpc[0],
+    getDashboardChainRpc(Goerli),
     walletAddress,
   );
   const mumbaiQuery = useContractList(
     Mumbai.chainId,
-    Mumbai.rpc[0],
+    getDashboardChainRpc(Mumbai),
     walletAddress,
   );
   const fantomTestnetQuery = useContractList(
     FantomTestnet.chainId,
-    FantomTestnet.rpc[0],
+    getDashboardChainRpc(FantomTestnet),
     walletAddress,
   );
   const avalancheFujiTestnetQuery = useContractList(
-    AvalancheFujiTestnet.chainId,
-    AvalancheFujiTestnet.rpc[0],
+    AvalancheFuji.chainId,
+    getDashboardChainRpc(AvalancheFuji),
     walletAddress,
   );
   const optimismGoerliQuery = useContractList(
-    OptimismGoerliTestnet.chainId,
-    OptimismGoerliTestnet.rpc[0],
+    OptimismGoerli.chainId,
+    getDashboardChainRpc(OptimismGoerli),
     walletAddress,
   );
   const arbitrumGoerliQuery = useContractList(
     ArbitrumGoerli.chainId,
-    ArbitrumGoerli.rpc[0],
+    getDashboardChainRpc(ArbitrumGoerli),
     walletAddress,
   );
   const binanceTestnetQuery = useContractList(
-    BinanceSmartChainTestnet.chainId,
-    BinanceSmartChainTestnet.rpc[0],
+    BinanceTestnet.chainId,
+    getDashboardChainRpc(BinanceTestnet),
     walletAddress,
   );
 

@@ -1,3 +1,4 @@
+import { DASHBOARD_THIRDWEB_API_KEY } from "./rpc";
 import {
   ThirdwebSDK as EVMThirdwebSDK,
   SDKOptions,
@@ -47,6 +48,7 @@ export function getEVMThirdwebSDK(
           rpcUrl,
           chainId,
         },
+        thirdwebApiKey: DASHBOARD_THIRDWEB_API_KEY,
         ...sdkOptions,
       },
       StorageSingleton,

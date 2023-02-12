@@ -14,13 +14,14 @@ import {
   SimpleGrid,
   Stack,
 } from "@chakra-ui/react";
-import { Chain, getChainRPC } from "@thirdweb-dev/chains";
+import { Chain } from "@thirdweb-dev/chains";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import {
   useConfiguredChainsNameRecord,
   useConfiguredChainsRecord,
 } from "hooks/chains/configureChains";
+import { getDashboardChainRpc } from "lib/rpc";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, FormErrorMessage, FormLabel, Text } from "tw-components";
@@ -34,12 +35,6 @@ export type NetworkConfigFormData = {
   isCustom: boolean;
   icon: string;
   slug: string;
-};
-
-const rpcKeys = {
-  // fine to be hard-coded for now
-  thirdwebApiKey:
-    "ed043a51ae23b0db3873f5a38b77ab28175fa496f15d3c53cf70401be89b622a",
 };
 
 // lowercase it, replace all spaces with hyphens, and then strip all non-alphanumeric characters
@@ -61,16 +56,6 @@ interface NetworkConfigFormProps {
   onEdit?: (chain: StoredChain) => void;
 }
 
-// temp fix for getChainRPC throwing error
-function _getChainRPC(chain: Chain) {
-  try {
-    return getChainRPC(chain, rpcKeys);
-  } catch (e) {
-    // if this fails we already know there's no possible rpc url available so we should just return an empty string
-    return "";
-  }
-}
-
 export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   editingChain,
   onSubmit,
@@ -90,7 +75,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
   const form = useForm<NetworkConfigFormData>({
     values: {
       name: editingChain?.name || prefillName || "",
-      rpcUrl: editingChain ? _getChainRPC(editingChain) : "" || "",
+      rpcUrl: editingChain ? getDashboardChainRpc(editingChain) : "" || "",
       chainId: editingChain?.chainId
         ? `${editingChain?.chainId}`
         : "" || prefillChainId || "",
@@ -238,7 +223,7 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       }
 
       form.setValue("name", network.name);
-      form.setValue("rpcUrl", network.rpc[0]);
+      form.setValue("rpcUrl", getDashboardChainRpc(network));
       form.setValue("chainId", `${network.chainId}`);
       form.setValue("currencySymbol", network.nativeCurrency.symbol);
       form.setValue("isCustom", false);

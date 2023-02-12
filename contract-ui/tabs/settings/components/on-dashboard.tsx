@@ -13,6 +13,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { getDashboardChainRpc } from "lib/rpc";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 
 interface OnDashboardProps {
@@ -29,7 +30,7 @@ export const OnDashboard: React.FC<OnDashboardProps> = ({
   const networkInfo = useConfiguredChain(chainId);
   const oldRegistryContractList = useContractList(
     chainId,
-    networkInfo ? networkInfo.rpc[0] : "",
+    networkInfo ? getDashboardChainRpc(networkInfo) : "",
     walletAddress,
   );
 
