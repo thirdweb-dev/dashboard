@@ -680,15 +680,18 @@ export function ensQuery(addressOrEnsName?: string) {
       }
       // if it is neither an address or an ens name then return the placeholder data only
       if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
-        throw new Error("Invalid address or ens name");
+        throw new Error("Invalid address or ENS name.");
       }
       const res = await fetch(
         `${getAbsoluteUrl()}/api/ens/${addressOrEnsName}`,
       );
-      const { address, ensName } = await res.json();
+      const { address, ensName } = (await res.json()) as {
+        address: string | null;
+        ensName: string | null;
+      };
 
       if (isEnsName(addressOrEnsName) && !address) {
-        throw new Error("ENS name not found");
+        throw new Error("Failed to resolve ENS name.");
       }
 
       return {
@@ -711,6 +714,10 @@ export function ensQuery(addressOrEnsName?: string) {
 
 export function useEns(addressOrEnsName?: string) {
   return useQuery(ensQuery(addressOrEnsName));
+}
+
+export function fetchEns(queryClient: QueryClient, addressOrEnsName: string) {
+  return queryClient.fetchQuery(ensQuery(addressOrEnsName));
 }
 
 export function useContractFunctions(abi: Abi) {

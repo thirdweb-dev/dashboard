@@ -17,6 +17,7 @@ import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiGithub } from "@react-icons/all-files/si/SiGithub";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
+import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
 import { InsufficientFunds } from "components/notices/InsufficientFunds";
@@ -92,9 +93,12 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
             as="header"
             alignItems="center"
           >
-            <Link href="/dashboard">
-              <Logo />
-            </Link>
+            <Flex align="center" gap={4}>
+              <Link href="/dashboard">
+                <Logo hideWordmark />
+              </Link>
+              <CmdKSearch />
+            </Flex>
             <Flex align="center" gap={2} marginLeft="auto">
               <Button
                 as={TrackedLink}
