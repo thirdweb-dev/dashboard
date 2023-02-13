@@ -130,15 +130,35 @@ const EVMContractPage: ThirdwebNextPage = () => {
   const router = useRouter();
 
   const activeTab = router.query?.paths?.[2] || "overview";
-  const { contract, isSuccess, isError } = useContract(contractAddress);
+  const contractQuery = useContract(contractAddress);
   const requiresImport = useSingleQueryParam("import");
-  if (requiresImport || (!contract?.abi && isSuccess) || isError) {
+  const [manuallyImported, setManuallyImported] = useState(false);
+
+  const showImportContract =
+    (requiresImport && !contractQuery.isSuccess) ||
+    (!contractQuery.contract?.abi && contractQuery.isSuccess) ||
+    contractQuery.isError;
+
+  if (!manuallyImported && showImportContract) {
     return (
-      <ImportContract
-        contractAddress={contractAddress}
-        chain={chain}
-        autoImport={!!requiresImport}
-      />
+      <>
+        <ImportContract
+          contractAddress={contractAddress}
+          chain={chain}
+          autoImport={!!requiresImport}
+          onImport={() => {
+            // stop showing import contract
+            setManuallyImported(true);
+
+            // remove search query param from url without reloading the page or triggering change in router
+            const url = new URL(window.location.href);
+            window.history.replaceState(null, document.title, url.pathname);
+
+            // refetch contract query
+            contractQuery.refetch();
+          }}
+        />
+      </>
     );
   }
 

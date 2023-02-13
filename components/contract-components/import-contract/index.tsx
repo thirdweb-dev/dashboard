@@ -9,31 +9,24 @@ import {
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { ChakraNextImage } from "components/Image";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FiArrowRight, FiCheck } from "react-icons/fi";
-import {
-  Button,
-  Card,
-  Heading,
-  LinkButton,
-  Text,
-  TrackedLink,
-} from "tw-components";
+import { useCallback, useEffect, useRef } from "react";
+import { FiCheck } from "react-icons/fi";
+import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
 
 interface ImportContractProps {
   contractAddress: string;
   chain: Chain | null;
   autoImport?: boolean;
+  onImport: () => void;
 }
 
 export const ImportContract: React.FC<ImportContractProps> = ({
   contractAddress,
   chain,
   autoImport,
+  onImport,
 }) => {
   const importContract = useImportContract();
-  const router = useRouter();
 
   const handleImportContract = useCallback(() => {
     if (!chain) {
@@ -54,29 +47,11 @@ export const ImportContract: React.FC<ImportContractProps> = ({
     }
   }, [autoImport, chain, handleImportContract]);
 
-  const [countDown, setCountDown] = useState(10);
-
   useEffect(() => {
-    if (!importContract.isSuccess) {
-      return;
+    if (importContract.isSuccess) {
+      onImport();
     }
-    const inter = setInterval(() => {
-      setCountDown((prev) => {
-        if (prev === 1) {
-          router.replace(`/${chain?.slug}/${contractAddress}`);
-          clearInterval(inter);
-        }
-        if (prev === 0) {
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => {
-      setCountDown(10);
-      clearInterval(inter);
-    };
-  }, [chain?.slug, contractAddress, importContract.isSuccess, router]);
+  }, [importContract.isSuccess, onImport]);
 
   return (
     <Container maxW="container.page" h="full">
@@ -124,27 +99,13 @@ export const ImportContract: React.FC<ImportContractProps> = ({
             </Flex>
             <Text>
               {importContract.isError
-                ? `We could not resolve your contract's ABI or it is deployed on a network that import is not yet supported on.`
+                ? `We could not resolve your contract's ABI or it might be deployed on a network that is not yet supported by import`
                 : `This is a one-time action. Once imported, the contract can be
               accessed by everyone. This can take up to a few minutes.`}
             </Text>
 
             <Flex direction="column" gap={1.5} align="center">
-              {importContract.isSuccess ? (
-                <LinkButton
-                  as={TrackedLink}
-                  {...{
-                    category: "import-contract",
-                    label: "go-to-contract",
-                  }}
-                  href={`/${chain?.slug}/${contractAddress}`}
-                  w="full"
-                  colorScheme="green"
-                  rightIcon={<Icon as={FiArrowRight} />}
-                >
-                  Go to contract dashboard
-                </LinkButton>
-              ) : (
+              {!importContract.isSuccess && !autoImport && (
                 <Button
                   w="full"
                   colorScheme="blue"
@@ -156,13 +117,6 @@ export const ImportContract: React.FC<ImportContractProps> = ({
                   Import Contract
                 </Button>
               )}
-              <Text
-                opacity={importContract.isSuccess ? 0.8 : 0}
-                userSelect="none"
-                size="body.sm"
-              >
-                Automatically redirecting in {countDown}...
-              </Text>
             </Flex>
 
             <Divider />
