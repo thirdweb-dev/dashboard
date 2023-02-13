@@ -125,7 +125,7 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
 
           <SimpleGrid
             mt={8}
-            columns={{ base: 1, lg: 2 }}
+            columns={{ base: 1, xl: 2 }}
             gap={0}
             rowGap={4}
             placeItems="center"
@@ -142,7 +142,13 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
               {secondaryButton && (
                 <LinkButton
                   as={TrackedLink}
-                  variant="ghost"
+                  variant="outline"
+                  px={"64px"}
+                  py={"27px"}
+                  fontSize="20px"
+                  fontWeight="bold"
+                  textAlign="center"
+                  borderRadius="md"
                   {...{
                     category: trackingCategory,
                     label: secondaryButton.text
