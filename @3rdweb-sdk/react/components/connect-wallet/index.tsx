@@ -24,6 +24,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineDisconnect } from "@react-icons/all-files/ai/AiOutlineDisconnect";
+import { AiTwotoneBank } from "@react-icons/all-files/ai/AiTwotoneBank";
 import { GiWavyChains } from "@react-icons/all-files/gi/GiWavyChains";
 import {
   WalletNotSelectedError,
@@ -39,6 +40,7 @@ import {
   useDisconnect,
   useMetamask,
   useNetwork,
+  useSDK,
 } from "@thirdweb-dev/react/evm";
 import { useGnosis } from "@thirdweb-dev/react/evm/connectors/gnosis-safe";
 import { useMagic } from "@thirdweb-dev/react/evm/connectors/magic";
@@ -51,6 +53,7 @@ import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelec
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { constants, utils } from "ethers";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
 import posthog from "posthog-js";
@@ -168,6 +171,28 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   const gnosisModalState = useDisclosure();
 
   const ensQuery = useEns(address);
+
+  const sdk = useSDK();
+  const chainInfo = useConfiguredChain(chainId || -1);
+  const hasFaucet =
+    chainInfo &&
+    (chainInfo.chainId === ChainId.Localhost ||
+      (chainInfo.faucets && chainInfo.faucets.length > 0));
+  const requestFunds = async () => {
+    if (sdk && hasFaucet) {
+      if (chainInfo.chainId === ChainId.Localhost) {
+        await sdk.wallet.requestFunds(10);
+        await balanceQuery.refetch();
+      } else if (
+        chainInfo &&
+        chainInfo.faucets &&
+        chainInfo.faucets.length > 0
+      ) {
+        const faucet = chainInfo.faucets[0];
+        window.open(faucet, "_blank");
+      }
+    }
+  };
 
   // if solana is connected we hit this
   if (solWallet.publicKey && ecosystem !== "evm") {
@@ -353,6 +378,15 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
                   </MenuItem>
                 </>
               )}
+              {hasFaucet ? (
+                <MenuItem
+                  icon={<AiTwotoneBank />}
+                  onClick={requestFunds}
+                  py={3}
+                >
+                  Request Testnet Funds
+                </MenuItem>
+              ) : null}
               <MenuItem icon={<AiOutlineDisconnect />} onClick={disconnect}>
                 {isGnosisConnectorConnected
                   ? "Switch to personal wallet"
