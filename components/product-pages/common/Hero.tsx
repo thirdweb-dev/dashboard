@@ -126,11 +126,11 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
           <SimpleGrid
             mt={8}
             columns={{ base: 1, xl: 2 }}
-            gap={0}
+            gap={2}
             rowGap={4}
             placeItems="center"
           >
-            <GridItem>
+            <GridItem w="full">
               <ProductButton
                 title={buttonText}
                 href={buttonLink}
@@ -138,13 +138,14 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
                 bg="white"
               />
             </GridItem>
-            <GridItem>
+            <GridItem w="full">
               {secondaryButton && (
                 <LinkButton
                   as={TrackedLink}
                   variant="outline"
-                  px={"64px"}
-                  py={"27px"}
+                  borderWidth="2px"
+                  w="full"
+                  py={"22px"}
                   fontSize="20px"
                   fontWeight="bold"
                   textAlign="center"
