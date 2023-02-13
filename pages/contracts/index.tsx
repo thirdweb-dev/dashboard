@@ -30,12 +30,12 @@ import { ThirdwebNextPage } from "utils/types";
 /**
  *
  * @TODO
- * Initially the FTUX is shown, then the dashboard is shown. This creates a flash of wrong content.
- * To fix this, we need to hold off rendering either the FTUX or the dashboard until we know which one to show.
+ * Initially the FTUX is shown, then the contracts are shown. This creates a flash of wrong content.
+ * To fix this, we need to hold off rendering either the FTUX or the contracts until we know which one to show.
  */
 
-const Dashboard: ThirdwebNextPage = () => {
-  const queryParam = useSingleQueryParam("address") || "dashboard";
+const Contracts: ThirdwebNextPage = () => {
+  const queryParam = useSingleQueryParam("address") || "contracts";
   const address = useAddress();
   const { publicKey } = useWallet();
 
@@ -43,7 +43,7 @@ const Dashboard: ThirdwebNextPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const evmAddress = useMemo(() => {
-    return queryParam === "dashboard"
+    return queryParam === "contracts"
       ? address
       : utils.isAddress(queryParam)
       ? queryParam
@@ -57,7 +57,7 @@ const Dashboard: ThirdwebNextPage = () => {
   }, []);
 
   const solAddress = useMemo(() => {
-    return queryParam === "dashboard"
+    return queryParam === "contracts"
       ? publicKey?.toBase58()
       : isPossibleSolanaAddress(queryParam)
       ? queryParam
@@ -68,7 +68,7 @@ const Dashboard: ThirdwebNextPage = () => {
     <ClientOnly fadeInDuration={600} ssr={null}>
       {!isLoading && (
         <>
-          {solAddress && <SOLDashboard address={solAddress} />}
+          {solAddress && <SOLPrograms address={solAddress} />}
           {evmAddress && (
             <Tabs isLazy lazyBehavior="keepMounted">
               <TabList
@@ -97,10 +97,10 @@ const Dashboard: ThirdwebNextPage = () => {
               </TabList>
               <TabPanels px={0} py={2}>
                 <TabPanel px={0}>
-                  <EVMDashboard address={evmAddress} />
+                  <EVMContracts address={evmAddress} />
                 </TabPanel>
                 <TabPanel px={0}>
-                  <ReleaseDashboard address={evmAddress} />
+                  <PublishedContractsPage address={evmAddress} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
@@ -112,20 +112,16 @@ const Dashboard: ThirdwebNextPage = () => {
   );
 };
 
-// const AppLayout = dynamic(
-//   async () => (await import("components/app-layouts/app")).AppLayout,
-// );
+Contracts.getLayout = (page, props) => <AppLayout {...props}>{page}</AppLayout>;
+Contracts.pageId = PageId.Contracts;
 
-Dashboard.getLayout = (page, props) => <AppLayout {...props}>{page}</AppLayout>;
-Dashboard.pageId = PageId.Dashboard;
+export default Contracts;
 
-export default Dashboard;
-
-interface DashboardProps {
+interface ContractsProps {
   address: string;
 }
 
-const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
+const EVMContracts: React.FC<ContractsProps> = ({ address }) => {
   const allContractList = useAllContractList(address);
   return (
     <Flex direction="column" gap={8}>
@@ -134,7 +130,7 @@ const EVMDashboard: React.FC<DashboardProps> = ({ address }) => {
   );
 };
 
-const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
+const PublishedContractsPage: React.FC<ContractsProps> = ({ address }) => {
   return (
     <Flex direction="column" gap={8}>
       {/* this section needs to be on the publishersdk context (polygon SDK) */}
@@ -145,7 +141,7 @@ const ReleaseDashboard: React.FC<DashboardProps> = ({ address }) => {
   );
 };
 
-const SOLDashboard: React.FC<DashboardProps> = ({ address }) => {
+const SOLPrograms: React.FC<ContractsProps> = ({ address }) => {
   const allProgramAccounts = useAllProgramsList(address);
 
   return (
