@@ -125,7 +125,7 @@ export const Hero: ComponentWithChildren<HeroProps> = ({
 
           <SimpleGrid
             mt={8}
-            columns={{ base: 1, xl: 2 }}
+            columns={{ base: 1, lg: 2 }}
             gap={2}
             rowGap={4}
             placeItems="center"
