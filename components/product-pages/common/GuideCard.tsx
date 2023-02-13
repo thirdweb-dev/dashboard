@@ -1,9 +1,10 @@
-import { AspectRatio, Box, Flex, Link } from "@chakra-ui/react";
+import { AspectRatio, Box, Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import NextImage from "next/image";
-import { Heading } from "tw-components";
+import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 
-interface GuideCardProps {
+interface GuideCardProps
+  extends Pick<TrackedLinkProps, "category" | "label" | "trackingProps"> {
   image: string;
   title: string;
   link: string;
@@ -15,9 +16,19 @@ export const GuideCard: React.FC<GuideCardProps> = ({
   title,
   link,
   index,
+  category,
+  label,
+  trackingProps,
 }) => {
   return (
-    <Link href={link} isExternal textDecor="none !important">
+    <TrackedLink
+      category={category}
+      label={label}
+      trackingProps={trackingProps}
+      href={link}
+      isExternal
+      textDecor="none !important"
+    >
       <Flex
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0, transition: { delay: index / 20 } }}
@@ -58,6 +69,6 @@ export const GuideCard: React.FC<GuideCardProps> = ({
           <Heading size="title.sm">{title}</Heading>
         </Flex>
       </Flex>
-    </Link>
+    </TrackedLink>
   );
 };

@@ -10,114 +10,160 @@ import { ThirdwebNextPage } from "utils/types";
 
 const employees = [
   {
-    name: "Jake Loo",
-    twitter: "jake_loo",
-  },
-  {
-    name: "Krishang Nadgauda",
-    twitter: "monkeymeaning",
+    name: "Adam Lee",
+    twitter: "AdamLeeBG",
   },
   {
     name: "Adam Majmudar",
     twitter: "MajmudarAdam",
+  },
+  // {
+  //   name: "Andrew Begafria",
+  //   twitter: "",
+  // },
+  {
+    name: "Anshu Tukol",
+    twitter: "AnshuTukol",
+  },
+  {
+    name: "Beverly Rivas",
+    twitter: "BevRivas",
+  },
+  {
+    name: "Bobby Wang",
+    twitter: "PartTimePlug",
   },
   {
     name: "Catty Berragan",
     twitter: "CathalUK",
   },
   {
-    name: "Jonas Daniels",
-    twitter: "jnsdls",
+    name: "Ciara Nightingale",
+    twitter: "ciaranightingal",
   },
   {
-    name: "Nacho Iacovino",
-    twitter: "nachoiacovino",
+    name: "Devin Rattray",
+    twitter: "dvnsctt",
   },
   {
     name: "Eiman Abdelmoneim",
     twitter: "EimanAbdel",
   },
   {
-    name: "Patrick Kearney",
-    twitter: "theyoungpatrice",
+    name: "Erika Khanna",
+    twitter: "heyerikakhanna",
   },
   {
-    name: "Joaquim Verges",
-    twitter: "joenrv",
-  },
-  {
-    name: "Devin Scott",
-    twitter: "dvnsctt",
-  },
-  {
-    name: "Adam Lee",
-    twitter: "AdamLeeBG",
-  },
-  {
-    name: "Samina Kabir",
-    twitter: "saminacodes",
-  },
-  {
-    name: "Anshu Tukol",
-    twitter: "AnshuTukol",
+    name: "Jake Loo",
+    twitter: "jake_loo",
   },
   {
     name: "Jarrod Watts",
     twitter: "jarrodwattsdev",
   },
   {
-    name: "Yash Kumar",
-    twitter: "yash09061",
+    name: "Jason Hitchcock",
+    twitter: "jasonhitchcock",
+  },
+  {
+    name: "Joaquim Verges",
+    twitter: "joenrv",
+  },
+  {
+    name: "Jonas Daniels",
+    twitter: "jnsdls",
+  },
+  {
+    name: "Jorge Dalmendray",
+    twitter: "dalmendray",
+  },
+  {
+    name: "Juan Leal",
+    twitter: "juandoleal",
+  },
+  {
+    name: "Krishang Nadgauda",
+    twitter: "monkeymeaning",
+  },
+  {
+    name: "Manan Tank",
+    twitter: "MananTank_",
+  },
+  {
+    name: "Mariano Fuentes",
+    twitter: "Marfuenn",
+  },
+  {
+    name: "Muhammad Meigooni",
+    twitter: "mmeigooni",
+  },
+  {
+    name: "Nacho Iacovino",
+    twitter: "nachoiacovino",
+  },
+  {
+    name: "Patrick Kearney",
+    twitter: "theyoungpatrice",
+  },
+  {
+    name: "Pengcheng Chen",
+    twitter: "blockchainian",
   },
   {
     name: "Rahul Menon",
     twitter: "rahulphenomenon",
   },
   {
+    name: "Rohit Ramesh",
+    twitter: "Rohit7101",
+  },
+  {
+    name: "Samina Kabir",
+    twitter: "saminacodes",
+  },
+  {
     name: "Sian Morton",
     twitter: "Sian_Morton",
   },
   {
-    name: "Beverly Rivas",
-    twitter: "BevRivas",
+    name: "Siddharth Adusumelli",
+    twitter: "shift4id",
+  },
+  {
+    name: "Yan Giet",
+    twitter: "ygiet",
+  },
+  {
+    name: "Yash Kumar",
+    twitter: "yash09061",
   },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
 const vcs = [
   {
     name: "Haun Ventures",
-    logo: "/assets/investors/haun.svg",
+    logo: "/assets/about/haun.svg",
     link: "https://haun.co",
   },
   {
     name: "Coinbase Ventures",
-    logo: "/assets/investors/coin-ventures.png",
+    logo: "/assets/about/coin-ventures.svg",
     link: "https://coinbase.com",
   },
   {
     name: "Shopify",
-    logo: "/assets/investors/shopify.svg",
+    logo: "/assets/about/shopify.svg",
     link: "https://shopify.com",
   },
   {
-    name: "Polygon",
-    logo: "/assets/investors/polygon.svg",
-    link: "https://polygon.technology/",
+    name: "Mark Cuban",
+    logo: "/assets/about/mark-cuban.svg",
+    link: "https://markcuban.com/",
   },
   {
     name: "Founders, Inc.",
-    logo: "/assets/investors/f-inc.png",
+    logo: "/assets/about/f-inc.svg",
     link: "https://f.inc",
-  },
-  {
-    name: "Protocol Labs",
-    logo: "/assets/investors/protocol-labs.svg",
-    link: "https://protocol.ai/",
-  },
-  {
-    name: "Shrug",
-    logo: "/assets/investors/shrug-vc.png",
-    link: "https://shrug.vc",
   },
 ] as const;
 
@@ -244,16 +290,27 @@ const About: ThirdwebNextPage = () => {
               {employees.map((employee) => (
                 <Flex key={employee.name} flexDir="column" gap={1}>
                   <Heading size="title.sm">{employee.name}</Heading>
-                  <TrackedLink
-                    href={`https://twitter.com/${employee.twitter}`}
-                    isExternal
-                    category="team"
-                    label={employee.name}
-                  >
-                    <Text size="label.md" color="gray.500">
-                      @{employee.twitter}
+                  {employee.twitter ? (
+                    <TrackedLink
+                      href={`https://twitter.com/${employee.twitter}`}
+                      isExternal
+                      category="team"
+                      label={employee.name}
+                    >
+                      <Text size="label.md" color="gray.500">
+                        @{employee.twitter}
+                      </Text>
+                    </TrackedLink>
+                  ) : (
+                    <Text
+                      size="label.md"
+                      color="gray.700"
+                      fontWeight={400}
+                      fontStyle="italic"
+                    >
+                      no twitter
                     </Text>
-                  </TrackedLink>
+                  )}
                 </Flex>
               ))}
             </SimpleGrid>
@@ -264,12 +321,11 @@ const About: ThirdwebNextPage = () => {
             </Heading>
             <Flex gap={{ base: 8, md: 16 }} direction="column">
               <SimpleGrid
-                placeItems="center"
-                columns={{ base: 1, md: 3 }}
+                columns={{ base: 2, md: 5 }}
                 gap={8}
                 justifyContent="space-evenly"
               >
-                {vcs.slice(0, 3).map((backer) => (
+                {vcs.map((backer) => (
                   <TrackedLink
                     key={backer.name}
                     href={backer.link}
@@ -278,41 +334,6 @@ const About: ThirdwebNextPage = () => {
                     label={backer.name}
                   >
                     <Image
-                      filter={
-                        backer.name === "Shrug" ||
-                        backer.name === "Protocol Labs"
-                          ? "invert(1)"
-                          : undefined
-                      }
-                      w="164px"
-                      h="50px"
-                      objectFit="contain"
-                      src={backer.logo}
-                      alt={backer.name}
-                    />
-                  </TrackedLink>
-                ))}
-              </SimpleGrid>
-              <SimpleGrid
-                columns={{ base: 2, md: 4 }}
-                gap={8}
-                justifyContent="space-evenly"
-              >
-                {vcs.slice(3, vcs.length).map((backer) => (
-                  <TrackedLink
-                    key={backer.name}
-                    href={backer.link}
-                    isExternal
-                    category="backer"
-                    label={backer.name}
-                  >
-                    <Image
-                      filter={
-                        backer.name === "Shrug" ||
-                        backer.name === "Protocol Labs"
-                          ? "invert(1)"
-                          : undefined
-                      }
                       w="164px"
                       h="50px"
                       objectFit="contain"

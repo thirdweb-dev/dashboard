@@ -6,6 +6,7 @@ import { ProductLearnMoreCard } from "components/product-pages/common/ProductLea
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -31,17 +32,29 @@ const GUIDES = [
   },
 ];
 
+const TRACKING_CATEGORY = "contract_kit";
+
 const ContractExtensions: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
         title: "ContractKit",
         description: "Build your own contract easily",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/contractkit.png`,
+              width: 2334,
+              height: 1260,
+              alt: "thirdweb ContractKit",
+            },
+          ],
+        },
       }}
     >
       {/* hero section */}
       <Hero
-        trackingCategory="contract_kit"
+        trackingCategory={TRACKING_CATEGORY}
         name="ContractKit"
         title="Build your own contract easily"
         description="Build your own contracts easily using ContractKit. Base contracts that can be configured with extensions to meet your specific use case."
@@ -115,12 +128,14 @@ const ContractExtensions: ThirdwebNextPage = () => {
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={14}>
           <ProductLearnMoreCard
             title="Base Contracts"
+            category={TRACKING_CATEGORY}
             description="Fully featured base contracts, including ERC721, ERC1155 & ERC20. This provides capability to mint NFTs to sell on a marketplace, signature-based minting, batch lazy mint NFTs, delayed reveal and claim conditions to define how your NFTs can be claimed."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
             href="https://portal.thirdweb.com/contractkit/base-contracts"
           />
           <ProductLearnMoreCard
             title="Extensions"
+            category={TRACKING_CATEGORY}
             description="Each extension that you implement in your smart contract unlocks corresponding functionality for you to utilize in the SDK."
             icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
             href="https://portal.thirdweb.com/contractkit/extensions"
@@ -131,6 +146,7 @@ const ContractExtensions: ThirdwebNextPage = () => {
       {/* Guides */}
       <GuidesShowcase
         title="Learn how to build"
+        category={TRACKING_CATEGORY}
         description="Check out our guides to learn how to build with ContractKit"
         solution="ContractKit"
         guides={GUIDES}

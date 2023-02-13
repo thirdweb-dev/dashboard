@@ -8,7 +8,14 @@ import { ProductSection } from "components/product-pages/common/ProductSection";
 import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { PageId } from "page-id";
 import { FiArrowRight } from "react-icons/fi";
-import { Card, Heading, Link, LinkButton, Text } from "tw-components";
+import {
+  Card,
+  Heading,
+  Link,
+  LinkButton,
+  Text,
+  TrackedLink,
+} from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 interface NFTContractInfo {
@@ -17,6 +24,8 @@ interface NFTContractInfo {
   img: string;
   link: string;
 }
+
+const TRACKING_CATEGORY = "minting_kit";
 
 const exploreNFTContracts: NFTContractInfo[] = [
   {
@@ -108,7 +117,7 @@ const Minting: ThirdwebNextPage = () => {
             Create powerful NFT experiences.
           </>
         }
-        trackingCategory="minting_kit"
+        trackingCategory={TRACKING_CATEGORY}
         buttonText="Get started"
         type="Solutions"
         buttonLink="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
@@ -233,6 +242,7 @@ const Minting: ThirdwebNextPage = () => {
         >
           <ProductLearnMoreCard
             title="Build"
+            category={TRACKING_CATEGORY}
             description={
               <>
                 Build your own NFT and Marketplace contracts with{" "}
@@ -261,12 +271,14 @@ const Minting: ThirdwebNextPage = () => {
           />
           <ProductLearnMoreCard
             title="Launch"
+            category={TRACKING_CATEGORY}
             description="Deploy your NFT & Marketplace contracts on-chain with a simple contract deployment workflow designed for team collaboration"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
             href="https://portal.thirdweb.com/deploy"
           />
           <ProductLearnMoreCard
             title="Manage"
+            category={TRACKING_CATEGORY}
             description="All your on-chain analytics in one place. Monitor, configure, and interact with your NFT contracts directly from a user interface."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
             href="https://portal.thirdweb.com/dashboard"
@@ -289,11 +301,16 @@ const Minting: ThirdwebNextPage = () => {
         </Text>
 
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} mb={12}>
-          {exploreNFTContracts.map((nftContractInfo) => {
+          {exploreNFTContracts.map((contractInfo) => {
             return (
-              <article key={nftContractInfo.name}>
-                <Link
-                  href={nftContractInfo.link}
+              <article key={contractInfo.name}>
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  label="contract"
+                  trackingProps={{
+                    contract: contractInfo.name.toLowerCase().replace(" ", "-"),
+                  }}
+                  href={contractInfo.link}
                   isExternal
                   textDecoration="none !important"
                 >
@@ -307,18 +324,18 @@ const Minting: ThirdwebNextPage = () => {
                     }}
                   >
                     <Image
-                      src={nftContractInfo.img}
+                      src={contractInfo.img}
                       alt=""
                       width={8}
                       mb={4}
                       borderRadius="full"
                     />
                     <Heading size="title.sm" mb={2}>
-                      {nftContractInfo.name}
+                      {contractInfo.name}
                     </Heading>
-                    <Text size="body.lg">{nftContractInfo.description}</Text>
+                    <Text size="body.lg">{contractInfo.description}</Text>
                   </Card>
-                </Link>
+                </TrackedLink>
               </article>
             );
           })}
@@ -343,6 +360,7 @@ const Minting: ThirdwebNextPage = () => {
       {/* Guides */}
       <GuidesShowcase
         title="Start building NFT experiences"
+        category={TRACKING_CATEGORY}
         description="Check out our guides to start building NFT experiences with thirdweb."
         solution="NFT-Drop"
         guides={GUIDES}

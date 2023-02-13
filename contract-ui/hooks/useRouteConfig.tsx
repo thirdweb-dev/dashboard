@@ -90,7 +90,6 @@ export function useContractRouteConfig(
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
   const { data: appURI } = useContractRead(contractQuery.contract, "appURI");
-
   const contractTypeQuery = contractType.useQuery(contractAddress);
 
   const claimconditionExtensionDetection = extensionDetectedState({
@@ -111,7 +110,7 @@ export function useContractRouteConfig(
   });
   return [
     {
-      title: "Explorer",
+      title: "Overview",
       path: "/",
       element: () =>
         import("../tabs/overview/page").then(
@@ -119,6 +118,14 @@ export function useContractRouteConfig(
             <CustomContractOverviewPage contractAddress={contractAddress} />
           ),
         ),
+    },
+    {
+      title: "Explorer",
+      path: "explorer",
+      element: () =>
+        import("../tabs/explorer/page").then(({ ContractExplorerPage }) => (
+          <ContractExplorerPage contractAddress={contractAddress} />
+        )),
     },
     {
       title: "Events",
@@ -148,6 +155,34 @@ export function useContractRouteConfig(
         import("../tabs/tokens/page").then(({ ContractTokensPage }) => (
           <ContractTokensPage contractAddress={contractAddress} />
         )),
+    },
+    {
+      title: "Direct Listings",
+      path: "direct-listings",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: "DirectListings",
+      }),
+      element: () =>
+        import("../tabs/direct-listings/page").then(
+          ({ ContractDirectListingsPage }) => (
+            <ContractDirectListingsPage contractAddress={contractAddress} />
+          ),
+        ),
+    },
+    {
+      title: "English Auctions",
+      path: "english-auctions",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: "EnglishAuctions",
+      }),
+      element: () =>
+        import("../tabs/english-auctions/page").then(
+          ({ ContractEnglishAuctionsPage }) => (
+            <ContractEnglishAuctionsPage contractAddress={contractAddress} />
+          ),
+        ),
     },
     {
       title: "Listings",
@@ -246,6 +281,10 @@ export function useContractRouteConfig(
               "ERC20ClaimConditionsV2",
               "ERC20ClaimPhasesV1",
               "ERC20ClaimPhasesV2",
+
+              // marketplace v3
+              "DirectListings",
+              "EnglishAuctions",
             ],
           }),
     },
@@ -276,8 +315,8 @@ export function useContractRouteConfig(
       path: "settings",
       element: () =>
         import("../tabs/settings/page").then(
-          ({ CustomContractSettingsTab }) => (
-            <CustomContractSettingsTab contractAddress={contractAddress} />
+          ({ CustomContractSettingsPage }) => (
+            <CustomContractSettingsPage contractAddress={contractAddress} />
           ),
         ),
     },

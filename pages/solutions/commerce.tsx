@@ -9,21 +9,23 @@ import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { SolutionsTextImage } from "components/product-pages/common/SolutionsTextImage";
 import { PageId } from "page-id";
-import { Heading } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
+const TRACKING_CATEGORY = "commerce_kit";
+
 const SHOPIFY_GUIDES = [
+  {
+    title: "Create a Shopify theme with thirdweb",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/02/This-is-the-one--1-.png",
+    link: "https://blog.thirdweb.com/guides/create-a-shopify-theme-with-thirdweb/",
+  },
   {
     title: "How to Create a Token Gated Website on Shopify using thirdweb",
     image:
       "https://blog.thirdweb.com/content/images/size/w2000/2022/11/create-token-gated-website-with-shopify-storefront-and-thirdweb.png",
     link: "https://blog.thirdweb.com/guides/token-nft-gated-shopify-website-thirdweb/",
-  },
-  {
-    title: "Generate Shopify Discount Codes For NFT Holders",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--10-.png",
-    link: "https://blog.thirdweb.com/guides/generate-shopify-discount-codes-for-nft-holders/",
   },
   {
     title: "Distribute NFTs on a Shopify Store",
@@ -53,7 +55,7 @@ const Commerce: ThirdwebNextPage = () => {
       }}
     >
       <Hero
-        trackingCategory="commerce_kit"
+        trackingCategory={TRACKING_CATEGORY}
         name="CommerceKit"
         title="Build Web3 Commerce apps easily"
         description="With thirdweb you can now add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more."
@@ -67,11 +69,18 @@ const Commerce: ThirdwebNextPage = () => {
             <Heading size="subtitle.xs" as="span" mt={1}>
               In partnership with
             </Heading>
-            <ChakraNextImage
-              src={require("public/assets/solutions-pages/commerce/shopify.png")}
-              width="80px"
-              alt="Shopify"
-            />
+            <TrackedLink
+              href="https://blockchain.shopify.dev/"
+              isExternal
+              category={TRACKING_CATEGORY}
+              label="shopify"
+            >
+              <ChakraNextImage
+                src={require("public/assets/solutions-pages/commerce/shopify.png")}
+                width="80px"
+                alt="Shopify"
+              />
+            </TrackedLink>
           </Flex>
         }
         secondaryButton={{
@@ -124,6 +133,7 @@ const Commerce: ThirdwebNextPage = () => {
         >
           <ProductLearnMoreCard
             title="Build"
+            category={TRACKING_CATEGORY}
             description="Prebuilt contracts or build your own with ContractKit to
                 distribute NFTs through your commerce app."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
@@ -131,6 +141,7 @@ const Commerce: ThirdwebNextPage = () => {
           />
           <ProductLearnMoreCard
             title="Launch"
+            category={TRACKING_CATEGORY}
             description="Powerful SDKs enables you to build commerce apps that connects
             to users' wallets. Easily bootstrap projects with a single
             command."
@@ -139,6 +150,7 @@ const Commerce: ThirdwebNextPage = () => {
           />
           <ProductLearnMoreCard
             title="Manage"
+            category={TRACKING_CATEGORY}
             description="View and interact with your Shopify store smart contracts
             directly from a user interface, e.g. view all the NFTs that have
             been minted to your most loyal customers."
@@ -150,17 +162,26 @@ const Commerce: ThirdwebNextPage = () => {
 
       <GuidesShowcase
         title="Start building web3 apps on Shopify"
+        category={TRACKING_CATEGORY}
         description="Check out our comprehensive guides to get you started building on
             Shopify with thirdweb"
         solution="Shopify"
         guides={SHOPIFY_GUIDES}
       />
-
-      <Box
-        h="1px"
-        bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
-        opacity="0.8"
-      />
+      <ProductSection>
+        <Flex gap={8} py={12} px={{ md: 12 }}>
+          <Text size="body.xl" as="blockquote" align="center">
+            <i>
+              &quot;On platforms like Shopify, thirdweb has made building web3
+              e-commerce features and apps extremely simple and quick. We can
+              now worry less about the development nuances of web3 and focus
+              more on what merchants/users want and find valuable.&quot;
+            </i>
+            <br />
+            <br />- <b>Zain</b>, Lazer Technologies.
+          </Text>
+        </Flex>
+      </ProductSection>
       <Box
         h="1px"
         bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"

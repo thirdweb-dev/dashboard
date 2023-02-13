@@ -1,4 +1,4 @@
-import { CreateListingButton } from "./components/list-button";
+import { CreateListingButton } from "../shared-components/list-button";
 import { ListingsTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
@@ -27,7 +27,10 @@ export const ContractListingsPage: React.FC<ListingsPageProps> = ({
       <Flex direction="row" justify="space-between" align="center">
         <Heading size="title.sm">Contract Listings</Heading>
         <Flex gap={4}>
-          <CreateListingButton contractQuery={contractQuery} />
+          <CreateListingButton
+            contractQuery={contractQuery}
+            createText="Create Listing"
+          />
         </Flex>
       </Flex>
 

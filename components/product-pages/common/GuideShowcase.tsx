@@ -4,7 +4,7 @@ import { Flex, Icon, LightMode, SimpleGrid, Switch } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import { Heading, TrackedLink } from "tw-components";
+import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 
 type BlogPost = {
   title: string;
@@ -16,6 +16,7 @@ interface GuidesShowcaseProps {
   title: string;
   description: string;
   solution?: string;
+  category: TrackedLinkProps["category"];
   guides: BlogPost[];
   caseStudies?: BlogPost[];
 }
@@ -26,6 +27,7 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
   solution,
   guides,
   caseStudies,
+  category,
 }) => {
   const [mode, setMode] = useState<"guides" | "case-studies">("guides");
 
@@ -38,12 +40,7 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
 
   return (
     <ProductSection>
-      <Flex
-        flexDir="column"
-        py={{ base: 24, lg: 36 }}
-        align="center"
-        gap={{ base: 6, lg: 8 }}
-      >
+      <Flex flexDir="column" py={16} align="center" gap={{ base: 6, lg: 8 }}>
         <Heading as="h2" size="display.sm" fontWeight={700} textAlign="center">
           {title}
         </Heading>
@@ -83,6 +80,11 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
             <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
               {renderData.map(({ title: guideTitle, image, link }, idx) => (
                 <GuideCard
+                  category={category}
+                  label="guide"
+                  trackingProps={{
+                    guide: guideTitle.replace(" ", "_").toLowerCase(),
+                  }}
                   index={idx}
                   key={guideTitle}
                   image={image}
@@ -98,7 +100,7 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
             href={`https://blog.thirdweb.com/tag/${
               mode === "case-studies" ? "case-study" : solution.toLowerCase()
             }/`}
-            category={solution.toLowerCase()}
+            category={category}
             label="see-all-guides"
             isExternal
           >

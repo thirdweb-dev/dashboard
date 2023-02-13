@@ -5,6 +5,7 @@ import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -30,16 +31,28 @@ const GUIDES = [
   },
 ];
 
+const TRACKING_CATEGORY = "dashboards";
+
 const Dashboard: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
         title: "Dashboards",
         description: "Dashboards to manage your web3 apps.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/dashboards.png`,
+              width: 2334,
+              height: 1260,
+              alt: "thirdweb Dashboards",
+            },
+          ],
+        },
       }}
     >
       <Hero
-        trackingCategory="dashboards"
+        trackingCategory={TRACKING_CATEGORY}
         name="Dashboards"
         title="Dashboards to manage your web3 apps."
         description="Manage, analyze, and interact with all of your deployed contracts conveniently from a single place."
@@ -101,6 +114,7 @@ const Dashboard: ThirdwebNextPage = () => {
         {/* Guides */}
         <GuidesShowcase
           title="Learn how to build"
+          category={TRACKING_CATEGORY}
           description="Check out our guides to learn how to use Dashboard"
           guides={GUIDES}
         />

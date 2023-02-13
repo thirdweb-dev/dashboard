@@ -26,6 +26,7 @@ import {
   ValidContractInstance,
 } from "@thirdweb-dev/sdk/evm";
 import { MarkdownRenderer } from "components/contract-components/released-contract/markdown-renderer";
+import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
@@ -47,8 +48,17 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
 
   return (
     <Flex direction="column" gap={1.5}>
-      <Flex alignItems="center" gap={2}>
-        <Heading size="subtitle.md">{fn.name}</Heading>
+      <Flex
+        alignItems={{ base: "start", md: "center" }}
+        gap={2}
+        direction={{ base: "column", md: "row" }}
+      >
+        <Flex alignItems="baseline" gap={1} flexWrap="wrap">
+          <Heading size="subtitle.md">{camelToTitle(fn.name)}</Heading>
+          <Heading size="subtitle.sm" color="gray.600">
+            ({fn.name}){" "}
+          </Heading>
+        </Flex>
         {isFunction && (
           <Badge size="label.sm" variant="subtle" colorScheme="green">
             {fn.stateMutability}
@@ -86,17 +96,23 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {fn.inputs.map((input) => (
+                  {fn.inputs.map((input, idx) => (
                     <Tr
                       borderBottomWidth={1}
                       _last={{ borderBottomWidth: 0 }}
-                      key={input.name}
+                      key={`${input.name}+${idx}}`}
                     >
                       <Td
                         borderBottomWidth="inherit"
                         borderBottomColor="borderColor"
                       >
-                        <Text fontFamily="mono">{input.name}</Text>
+                        {input?.name ? (
+                          <Text fontFamily="mono">{input.name}</Text>
+                        ) : (
+                          <Text fontStyle="italic" color="gray.500">
+                            No name defined
+                          </Text>
+                        )}
                       </Td>
                       <Td
                         borderBottomWidth="inherit"
@@ -159,66 +175,86 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
   >(fnsOrEvents[0]);
 
   return (
-    <SimpleGrid columns={12}>
+    <SimpleGrid height="100%" columns={12} gap={3}>
       <GridItem
-        colSpan={{ base: 12, md: 3 }}
-        borderRightWidth={{ base: "0px", md: "1px" }}
-        borderBottomWidth={{ base: "1px", md: "0px" }}
-        borderColor="borderColor"
+        as={Card}
+        px={0}
+        pt={0}
+        height="100%"
+        overflow="auto"
+        colSpan={{ base: 12, md: 4 }}
+        overflowY="auto"
       >
-        <Tabs>
-          <TabList>
-            {writeFunctions.length ? (
-              <Tab>
-                <Flex>
-                  <Icon mr={2} boxSize={3} as={FiEdit2} />
-                  <Text size="label.sm">WRITE</Text>
-                </Flex>
-              </Tab>
-            ) : null}
-            {viewFunctions.length ? (
-              <Tab>
-                <Flex>
-                  <Icon mr={2} boxSize={3} as={FiEye} />
-                  <Text size="label.sm">READ</Text>
-                </Flex>
-              </Tab>
-            ) : null}
-          </TabList>
-          <TabPanels>
-            {writeFunctions.length ? (
-              <TabPanel>
-                {writeFunctions.map((fn) => (
-                  <FunctionsOrEventsListItem
-                    key={fn.signature}
-                    fn={fn}
-                    isFunction={isFunction}
-                    selectedFunction={selectedFunction}
-                    setSelectedFunction={setSelectedFunction}
-                  />
-                ))}
-              </TabPanel>
-            ) : null}
-            {viewFunctions.length ? (
-              <TabPanel>
-                {viewFunctions.map((fn) => (
-                  <FunctionsOrEventsListItem
-                    key={fn.name}
-                    fn={fn}
-                    isFunction={isFunction}
-                    selectedFunction={selectedFunction}
-                    setSelectedFunction={setSelectedFunction}
-                  />
-                ))}
-              </TabPanel>
-            ) : null}
-          </TabPanels>
-        </Tabs>
+        <List height="100%" overflowX="hidden">
+          {(writeFunctions.length > 0 || viewFunctions.length > 0) && (
+            <Tabs h="100%" position="relative" display="flex" flexDir="column">
+              <TabList as={Flex}>
+                {writeFunctions.length > 0 && (
+                  <Tab gap={2} flex={"1 1 0"}>
+                    <Icon boxSize={3} as={FiEdit2} />
+                    <Heading color="inherit" my={1} size="label.md">
+                      Write
+                    </Heading>
+                  </Tab>
+                )}
+                {viewFunctions.length > 0 && (
+                  <Tab gap={2} flex={"1 1 0"}>
+                    <Icon boxSize={3} as={FiEye} />
+                    <Heading color="inherit" my={1} size="label.md">
+                      Read
+                    </Heading>
+                  </Tab>
+                )}
+              </TabList>
+              <TabPanels h="auto" overflow="auto">
+                <TabPanel>
+                  {writeFunctions.map((fn) => (
+                    <FunctionsOrEventsListItem
+                      key={fn.signature}
+                      fn={fn}
+                      isFunction={isFunction}
+                      selectedFunction={selectedFunction}
+                      setSelectedFunction={setSelectedFunction}
+                    />
+                  ))}
+                </TabPanel>
+                <TabPanel>
+                  {viewFunctions.map((fn) => (
+                    <FunctionsOrEventsListItem
+                      key={fn.name}
+                      fn={fn}
+                      isFunction={isFunction}
+                      selectedFunction={selectedFunction}
+                      setSelectedFunction={setSelectedFunction}
+                    />
+                  ))}
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          )}
+
+          {events.length > 0 && (
+            <Box px={4} pt={2} overflowX="hidden">
+              {events.map((fn) => (
+                <FunctionsOrEventsListItem
+                  key={isFunction ? (fn as AbiFunction).signature : fn.name}
+                  fn={fn}
+                  isFunction={isFunction}
+                  selectedFunction={selectedFunction}
+                  setSelectedFunction={setSelectedFunction}
+                />
+              ))}
+            </Box>
+          )}
+        </List>
       </GridItem>
-      <GridItem colSpan={{ base: 12, md: 9 }}>
-        <Card ml={{ base: 0, md: 3 }} mt={{ base: 3, md: 0 }} flexGrow={1}>
-          <ContractFunction fn={selectedFunction} contract={contract} />
-        </Card>
+      <GridItem
+        as={Card}
+        height="100%"
+        overflow="auto"
+        colSpan={{ base: 12, md: 8 }}
+      >
+        <ContractFunction fn={selectedFunction} contract={contract} />
       </GridItem>
     </SimpleGrid>
   );

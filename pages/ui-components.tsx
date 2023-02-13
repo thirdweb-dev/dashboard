@@ -6,9 +6,12 @@ import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+
+const TRACKING_CATEGORY = "ui_components";
 
 const GUIDES = [
   {
@@ -37,10 +40,20 @@ const UIComponents: ThirdwebNextPage = () => {
       seo={{
         title: "UI Components",
         description: "Plug-and-play frontend components",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/ui-components.png`,
+              width: 2334,
+              height: 1260,
+              alt: "thirdweb UI Components",
+            },
+          ],
+        },
       }}
     >
       <Hero
-        trackingCategory="ui_components"
+        trackingCategory={TRACKING_CATEGORY}
         name="UI Components"
         title="Plug-and-play frontend components"
         description="Integrate plug-and-play UI components into your web3 apps easily."
@@ -105,24 +118,28 @@ const UIComponents: ThirdwebNextPage = () => {
           <SimpleGrid columns={{ base: 1, md: 4 }} gap={14}>
             <ProductLearnMoreCard
               icon={require("/public/assets/product-pages/authentication/sign-in.png")}
+              category={TRACKING_CATEGORY}
               title="Connect Wallet"
               description="Easily allow users to sign in using their crypto wallets with multiple wallet options (e.g. Coinbase, Metamask, WalletConnect, and more)."
               href="https://portal.thirdweb.com/ui-components/connectwalletbutton"
             />
             <ProductLearnMoreCard
               icon={require("public/assets/product-icons/contracts.png")}
+              category={TRACKING_CATEGORY}
               title="Web3 Button"
               description="Enables calling any function on any smart contract with one click."
               href="https://portal.thirdweb.com/ui-components/web3button"
             />
             <ProductLearnMoreCard
               icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+              category={TRACKING_CATEGORY}
               title="NFT Metadata Renderer"
               description="Enables consistent display of NFTs on UI by resolving metadata of NFTs in a standard format."
               href="https://portal.thirdweb.com/ui-components/nft-renderer"
             />
             <ProductLearnMoreCard
               icon={require("public/assets/product-icons/storage.png")}
+              category={TRACKING_CATEGORY}
               title="IPFS Metadata Renderer"
               description="Consistent display of media assets of NFTs with metadata stored on IPFS for all file types (image or video)."
               href="https://portal.thirdweb.com/ui-components/ipfs-media-renderer"
@@ -132,6 +149,7 @@ const UIComponents: ThirdwebNextPage = () => {
 
         <GuidesShowcase
           title="Learn how to build"
+          category={TRACKING_CATEGORY}
           description="Check out our guides to learn how to build with UI components"
           solution="UI Components"
           guides={GUIDES}
