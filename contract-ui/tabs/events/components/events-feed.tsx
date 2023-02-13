@@ -302,8 +302,6 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
                   ev.stopPropagation();
                   router.push(
                     `/${chainSlug}/${contractAddress}/events?event=${e.eventName}`,
-                    undefined,
-                    { shallow: true },
                   );
                   setSelectedEvent(e.eventName);
                 }}
