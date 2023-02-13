@@ -48,6 +48,8 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
     return <div>Invalid attempt to deploy &quot;custom&quot; contract.</div>;
   }
 
+  console.log({ contractId });
+
   return (
     <CustomSDKContext desiredChainId={selectedChain}>
       {isContractIdBuiltInContract(contractId) ? (
