@@ -47,7 +47,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
   ecosystem = "either",
   noSEOOverride,
 }) => {
-  const { pathname } = useRouter();
+  const { pathname, route } = useRouter();
 
   const isCustomContractLayout = layout === "custom-contract";
   return (
@@ -259,6 +259,35 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 colorScheme="blue"
                 ecosystem={ecosystem}
               />
+            </Flex>
+          </Container>
+          <Container
+            maxW="container.page"
+            display="flex"
+            py={2}
+            as="header"
+            alignItems="center"
+          >
+            <Flex gap={2}>
+              <LinkButton
+                href="/dashboard"
+                size="sm"
+                variant={pathname === "/dashboard" ? "solid" : "ghost"}
+              >
+                Home
+              </LinkButton>
+              <LinkButton
+                href="/contracts"
+                size="sm"
+                variant={
+                  pathname === "/contracts" ||
+                  route === "/[networkOrAddress]/[...catchAll]"
+                    ? "solid"
+                    : "ghost"
+                }
+              >
+                Contracts
+              </LinkButton>
             </Flex>
           </Container>
         </Box>
