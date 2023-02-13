@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useAllRoleMembers } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
+import { useTabHref } from "contract-ui/utils";
 import { constants } from "ethers";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo } from "react";
@@ -36,6 +37,7 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
   trackingCategory,
 }) => {
   const allRoleMembers = useAllRoleMembers(contract);
+  const premissionsHref = useTabHref("permissions");
 
   const members = useMemo(() => {
     return (
@@ -65,7 +67,7 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
           label="view_all_permissions"
           color="blue.600"
           gap={4}
-          href="/permissions"
+          href={premissionsHref}
         >
           View all permissions -&gt;
         </TrackedLink>

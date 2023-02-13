@@ -1,7 +1,8 @@
-import { Box, Flex, GridItem, Image, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { NFTContract, useNFTs } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
 import { SupplyCards } from "contract-ui/tabs/nfts/components/supply-cards";
+import { useTabHref } from "contract-ui/utils";
 import {
   Card,
   Heading,
@@ -22,6 +23,8 @@ export const NFTDetails: React.FC<NFTDetailsProps> = ({
   trackingCategory,
   features,
 }) => {
+  const nftsHref = useTabHref("nfts");
+
   return (
     <Flex direction="column" gap={6}>
       <Flex align="center" justify="space-between" w="full">
@@ -31,7 +34,7 @@ export const NFTDetails: React.FC<NFTDetailsProps> = ({
           label="view_all_nfts"
           color="blue.600"
           gap={4}
-          href="/nfts"
+          href={nftsHref}
         >
           View all -&gt;
         </TrackedLink>

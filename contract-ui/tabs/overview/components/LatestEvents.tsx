@@ -14,6 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import type { ContractEvent } from "@thirdweb-dev/sdk/evm";
+import { useTabHref } from "contract-ui/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { FiCopy } from "react-icons/fi";
@@ -42,6 +43,8 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
   trackingCategory,
 }) => {
   const [autoUpdate] = useState(true);
+  const eventsHref = useTabHref("events");
+
   const allEvents = useActivity(address, autoUpdate);
 
   return (
@@ -55,7 +58,7 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
           label="view_all_events"
           color="blue.600"
           gap={4}
-          href="/events"
+          href={eventsHref}
         >
           View all events -&gt;
         </TrackedLink>
