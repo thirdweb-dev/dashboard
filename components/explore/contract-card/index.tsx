@@ -202,7 +202,6 @@ export const ContractCard: React.FC<ContractCardProps> = ({
                   as={TrackedLink}
                   category="contract_card"
                   label={contractId}
-                  noMatch
                   href={href}
                   trackingProps={{
                     publisher,

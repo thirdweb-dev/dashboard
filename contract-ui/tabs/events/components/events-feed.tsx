@@ -97,7 +97,7 @@ export const EventsFeed: React.FC<EventsFeedProps> = ({ contractAddress }) => {
                 e.target.value === "all"
                   ? `/${chainSlug}/${contractAddress}/events`
                   : `/${chainSlug}/${contractAddress}/events?event=${e.target.value}`;
-              router.push(path, undefined, { shallow: true });
+              router.push(path);
               setSelectedEvent(e.target.value);
             }}
           >

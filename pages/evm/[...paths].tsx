@@ -5,9 +5,11 @@ import {
 } from "@3rdweb-sdk/react";
 import { Alert, AlertIcon, Box, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
+import { useContract } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
 import { ensQuery } from "components/contract-components/hooks";
+import { ImportContract } from "components/contract-components/import-contract";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
@@ -16,8 +18,10 @@ import {
   useConfiguredChainsRecord,
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getDashboardChainRpc } from "lib/rpc";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
 import { getAllChainRecords } from "utils/allChainsRecords";
@@ -123,16 +127,32 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
   const isSlugNumber = !isNaN(Number(chainSlug));
 
+  const router = useRouter();
+
+  const activeTab = router.query?.paths?.[2] || "overview";
+  const { contract, isSuccess, isError } = useContract(contractAddress);
+  const requiresImport = useSingleQueryParam("import");
+  if (requiresImport || (!contract?.abi && isSuccess) || isError) {
+    return (
+      <ImportContract
+        contractAddress={contractAddress}
+        chain={chain}
+        autoImport={!!requiresImport}
+      />
+    );
+  }
+
   return (
     <>
-      {chain && <ContractHeader contractAddress={contractAddress} />}
-
       {chain && (
-        <ContractTabRouter
-          address={contractAddress}
-          ecosystem="evm"
-          network={chainSlug}
-        />
+        <>
+          <ContractHeader contractAddress={contractAddress} />
+          <ContractTabRouter
+            address={contractAddress}
+            ecosystem="evm"
+            path={activeTab}
+          />
+        </>
       )}
 
       {chainNotFound && (

@@ -8,7 +8,6 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Kbd,
   LinkBox,
   LinkOverlay,
   Modal,
@@ -122,6 +121,7 @@ function useContractSearch(searchQuery: string) {
     refetchOnWindowFocus: false,
     refetchInterval: 0,
     refetchOnMount: false,
+    retry: 0,
   });
 }
 
@@ -154,6 +154,7 @@ export const CmdKSearch: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // re-set the active index if we are fetching
     if (isFetching) {
       setActiveIndex(0);
     }
@@ -170,7 +171,11 @@ export const CmdKSearch: React.FC = () => {
         const result = data[activeIndex];
         if (result) {
           e.preventDefault();
-          router.push(`/${result.chain.slug}/${result.address}`);
+          router.push(
+            `/${result.chain.slug}/${result.address}${
+              result.needsImport ? "?import=true" : ""
+            }`,
+          );
           handleClose();
         }
       } else if (e.key === "ArrowDown") {
@@ -196,22 +201,24 @@ export const CmdKSearch: React.FC = () => {
     <>
       <InputGroup
         display={{ base: "none", md: "block" }}
-        minW="280px"
+        minW="300px"
         size="sm"
         onClick={() => setOpen(true)}
       >
         <Input
-          borderColor="borderColor"
           borderRadius="md"
-          placeholder="Search / Import contract"
+          fontSize="var(--tw-font-size-body-md)"
+          borderColor="borderColor"
+          placeholder="Search for any contract address"
         />
-        <InputRightElement w="auto" pr={1} as={Flex} gap={1}>
-          <Kbd>⌘</Kbd>
-          <Kbd>K</Kbd>
+        <InputRightElement w="auto" pr={2} as={Flex} gap={1}>
+          <Text size="body.sm" color="chakra-placeholder-color">
+            ⌘K
+          </Text>
         </InputRightElement>
       </InputGroup>
       <IconButton
-        aria-label="Search / Import contract"
+        aria-label="Search for any contract address"
         variant="ghost"
         display={{ base: "inherit", md: "none" }}
         icon={<Icon as={FiSearch} />}
@@ -231,7 +238,7 @@ export const CmdKSearch: React.FC = () => {
               autoFocus
               border="none"
               borderRadius="none"
-              placeholder="Enter contract address"
+              placeholder="Search for any contract address"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
@@ -306,7 +313,9 @@ export const CmdKSearch: React.FC = () => {
                             <LinkOverlay
                               textDecor="none!important"
                               as={Link}
-                              href={`/${result.chain.slug}/${result.address}`}
+                              href={`/${result.chain.slug}/${result.address}${
+                                result.needsImport ? "?import=true" : ""
+                              }`}
                               size="label.xl"
                               onClick={handleClose}
                               onMouseEnter={() => setActiveIndex(idx)}
@@ -330,8 +339,9 @@ export const CmdKSearch: React.FC = () => {
                                 colorScheme="green"
                                 variant="subtle"
                                 p={1}
-                                px={2}
+                                px={1.5}
                                 borderRadius="md"
+                                size="label.sm"
                               >
                                 Import
                               </Badge>

@@ -8,6 +8,7 @@ import {
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { isPossibleSolanaAddress } from "lib/address-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
 import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
@@ -19,14 +20,17 @@ type SolanaProgramProps = {
 };
 
 const SolanaProgramPage: ThirdwebNextPage = (props: SolanaProgramProps) => {
-  const { slug, programAddress } = props.programInfo;
+  const { programAddress } = props.programInfo;
+  const router = useRouter();
+
+  const activeTab = router.query?.paths?.[2] || "overview";
   return (
     <>
       <ProgramMetadata address={programAddress} />
       <ContractTabRouter
         address={programAddress}
         ecosystem="solana"
-        network={slug}
+        path={activeTab}
       />
     </>
   );
