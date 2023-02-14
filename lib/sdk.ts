@@ -1,9 +1,14 @@
+import { getAbsoluteUrl } from "./vercel-utils";
 import {
   ThirdwebSDK as EVMThirdwebSDK,
   SDKOptions,
 } from "@thirdweb-dev/sdk/evm";
 import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
-import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
+import {
+  IStorageDownloader,
+  IpfsUploader,
+  ThirdwebStorage,
+} from "@thirdweb-dev/storage";
 import { DASHBOARD_THIRDWEB_API_KEY, getSOLRPC } from "constants/rpc";
 import type { Signer } from "ethers";
 import { DashboardSolanaNetwork } from "utils/solanaUtils";
@@ -13,15 +18,29 @@ const IPFS_GATEWAY_URL =
   (process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL as string) ||
   "https://gateway.ipfscdn.io/ipfs";
 
+export function replaceIpfsUrl(url: string) {
+  return StorageSingleton.resolveScheme(url);
+}
+
+class SpecialDownloader implements IStorageDownloader {
+  download(url: string): Promise<Response> {
+    if (url.startsWith("ipfs://")) {
+      return fetch(replaceIpfsUrl(url));
+    }
+
+    const u = new URL(url);
+
+    // this is a bit scary but hey, it works
+    return fetch(`${getAbsoluteUrl()}/api/proxy?url=${u.toString()}`);
+  }
+}
+
 export const StorageSingleton = new ThirdwebStorage({
   gatewayUrls: {
     "ipfs://": [IPFS_GATEWAY_URL],
   },
+  downloader: new SpecialDownloader(),
 });
-
-export function replaceIpfsUrl(url: string) {
-  return StorageSingleton.resolveScheme(url);
-}
 
 // EVM SDK
 const EVM_SDK_MAP = new Map<string, EVMThirdwebSDK>();
