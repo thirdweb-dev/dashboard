@@ -88,7 +88,7 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const publisherProfile = usePublisherProfile(contract.publisher);
 
   const currentRoute = `https://thirdweb.com${router.asPath.replace(
-    "/release",
+    "/publish",
     "",
   )}`.replace("deployer.thirdweb.eth", "thirdweb.eth");
 
@@ -200,10 +200,10 @@ Deploy it in one click`,
       clearType = "ERC1155";
     }
     if (clearType) {
-      return `${publishedContractName} - ${clearType} | Smart Contract Release`;
+      return `${publishedContractName} - ${clearType} | Published Smart Contract`;
     }
 
-    return `${publishedContractName} | Smart Contract Release`;
+    return `${publishedContractName} | Published Smart Contract`;
   }, [extensionNames, publishedContractName]);
 
   return (
