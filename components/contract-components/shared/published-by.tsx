@@ -1,3 +1,4 @@
+import { useEVMContractInfo } from "@3rdweb-sdk/react";
 import { Box } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import {
@@ -16,9 +17,11 @@ export const PublishedBy: React.FC<PublishedByProps> = ({
   contractAddress,
 }) => {
   const contractEnsQuery = useEns(contractAddress);
+  const activeNetworkInfo = useEVMContractInfo();
 
   const publishedContractsFromDeploy = usePublishedContractsFromDeploy(
     contractEnsQuery.data?.address || undefined,
+    activeNetworkInfo?.chain?.chainId,
   );
 
   const address = useAddress();
@@ -26,7 +29,7 @@ export const PublishedBy: React.FC<PublishedByProps> = ({
   const publishedContractToShow = useMemo(() => {
     return (
       publishedContractsFromDeploy.data?.find(
-        (contract) => contract.publisher === address,
+        (publishedContract) => publishedContract.publisher === address,
       ) ||
       publishedContractsFromDeploy.data?.[
         publishedContractsFromDeploy.data.length - 1

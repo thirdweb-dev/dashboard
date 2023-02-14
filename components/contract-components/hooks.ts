@@ -232,47 +232,6 @@ export function usePublisherProfile(publisherAddress?: string) {
   return useQuery(publisherProfileQuery(publisherAddress));
 }
 
-export function useLatestRelease(
-  publisherAddress?: string,
-  contractName?: string,
-) {
-  return useQuery(
-    ["latest-release", publisherAddress, contractName],
-    async () => {
-      invariant(publisherAddress, "address is not defined");
-      invariant(contractName, "contract name is not defined");
-
-      const sdk = getEVMThirdwebSDK(
-        Polygon.chainId,
-        getDashboardChainRpc(Polygon),
-      );
-      const latestRelease = await sdk
-        .getPublisher()
-        .getLatest(publisherAddress, contractName);
-
-      invariant(latestRelease, "latest release is not defined");
-
-      const contractInfo = await sdk
-        .getPublisher()
-        .fetchPublishedContractInfo(latestRelease);
-
-      return {
-        ...latestRelease,
-        version: contractInfo.publishedMetadata.version,
-        name: contractInfo.publishedMetadata.name,
-        displayName: contractInfo.publishedMetadata.displayName || "",
-        description: contractInfo.publishedMetadata.description || "",
-        releaser: contractInfo.publishedMetadata.publisher || "",
-        audit: contractInfo.publishedMetadata.audit || "",
-        logo: contractInfo.publishedMetadata.logo || "",
-      };
-    },
-    {
-      enabled: !!publisherAddress && !!contractName,
-    },
-  );
-}
-
 export async function fetchAllVersions(
   sdk?: ThirdwebSDK,
   publisherAddress?: string,
