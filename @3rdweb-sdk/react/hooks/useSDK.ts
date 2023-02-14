@@ -53,7 +53,7 @@ export function useMultiChainRegContractList(walletAddress?: string) {
   const configuredChains = useConfiguredChains();
   return useQuery(
     [
-      networkKeys.multiChainRegistry,
+      ...networkKeys.multiChainRegistry,
       walletAddress,
       { chainIds: configuredChains.map((c) => c.chainId) },
     ],

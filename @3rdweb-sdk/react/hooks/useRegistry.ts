@@ -1,6 +1,5 @@
 import { contractKeys, networkKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAddress, useSDK, useSigner } from "@thirdweb-dev/react";
 import {
   addContractToMultiChainRegistry,
@@ -19,7 +18,6 @@ export function useRemoveContractMutation(
   const sdk = useSDK();
   const walletAddress = useAddress();
   const signer = useSigner();
-  const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (data: RemoveContractParams) => {
@@ -52,12 +50,9 @@ export function useRemoveContractMutation(
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return Promise.all([
-          queryClient.invalidateQueries([
-            networkKeys.multiChainRegistry,
-            walletAddress,
-          ]),
-          invalidate([contractKeys.list(walletAddress)]),
+        return invalidate([
+          networkKeys.multiChainRegistry,
+          contractKeys.list(walletAddress),
         ]);
       },
     },
@@ -66,13 +61,13 @@ export function useRemoveContractMutation(
 
 type AddContractParams = {
   contractAddress: string;
+  chainId: number;
 };
 
-export function useAddContractMutation(chainId: number) {
+export function useAddContractMutation() {
   const sdk = useSDK();
   const walletAddress = useAddress();
   const signer = useSigner();
-  const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (data: AddContractParams) => {
@@ -80,23 +75,17 @@ export function useAddContractMutation(chainId: number) {
       invariant(sdk, "sdk not provided");
 
       // add to new multichain registry
-      await addContractToMultiChainRegistry(
+      return await addContractToMultiChainRegistry(
         {
           address: data.contractAddress,
-          chainId,
+          chainId: data.chainId,
         },
         signer,
       );
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return Promise.all([
-          queryClient.invalidateQueries([
-            networkKeys.multiChainRegistry,
-            walletAddress,
-          ]),
-          invalidate([contractKeys.list(walletAddress)]),
-        ]);
+        return invalidate([networkKeys.multiChainRegistry]);
       },
     },
   );
