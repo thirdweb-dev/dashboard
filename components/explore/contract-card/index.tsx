@@ -69,7 +69,7 @@ export const ContractCard: React.FC<ContractCardProps> = ({
   console.log(publishedContractResult);
 
   return !publishedContractResult.isLoading &&
-    publishedContractResult.data?.id === "" ? null : (
+    !publishedContractResult.data?.id ? null : (
     <LinkBox as="article" minW="300px">
       <Card
         p={0}
