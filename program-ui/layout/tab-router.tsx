@@ -9,25 +9,25 @@ import {
 } from "@chakra-ui/react";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { Logo } from "components/logo";
-import {
-  EnhancedRoute,
-  useContractRouteConfig,
-} from "contract-ui/hooks/useRouteConfig";
-import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/conditions-not-set";
+import { DropNotReady } from "contract-ui/tabs/claim-conditions/components/drop-not-ready";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
+import {
+  EnhancedRoute,
+  useProgramRouteConfig,
+} from "program-ui/hooks/useRouteConfig";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { FiXCircle } from "react-icons/fi";
 import { VscExtensions } from "react-icons/vsc";
 import { Button, LinkButton } from "tw-components";
 import { isBrowser } from "utils/isBrowser";
 
-interface ContractTabRouterProps {
+interface ProgramTabRouterProps {
   address: string;
   path: string;
 }
-export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
+export const ProgramTabRouter: React.FC<ProgramTabRouterProps> = ({
   address,
   path,
 }) => {
@@ -35,7 +35,7 @@ export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollRef = useRef<any>(null);
   const scrollContainerRef = useRef<HTMLElement>();
-  const routes = useContractRouteConfig(address);
+  const routes = useProgramRouteConfig(address);
 
   const activeRoute = useMemo(
     () => routes.find((route) => route.path === path),
@@ -118,8 +118,7 @@ export const ContractTabRouter: React.FC<ContractTabRouterProps> = ({
         {/* main content */}
         <Container maxW="container.page">
           <Box py={8}>
-            <ConditionsNotSet address={address} />
-
+            <DropNotReady address={address} />
             {activeRoute?.component && (
               <activeRoute.component contractAddress={address} />
             )}

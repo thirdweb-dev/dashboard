@@ -139,6 +139,16 @@ const EVMContractPage: ThirdwebNextPage = () => {
     (!contractQuery.contract?.abi && contractQuery.isSuccess) ||
     contractQuery.isError;
 
+  if (contractQuery.isLoading) {
+    return (
+      <>
+        <Flex h="100%" justifyContent="center" alignItems="center">
+          <Spinner size="xl" />
+        </Flex>
+      </>
+    );
+  }
+
   if (!manuallyImported && showImportContract) {
     return (
       <>
@@ -167,11 +177,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
       {chain && (
         <>
           <ContractHeader contractAddress={contractAddress} />
-          <ContractTabRouter
-            address={contractAddress}
-            ecosystem="evm"
-            path={activeTab}
-          />
+          <ContractTabRouter address={contractAddress} path={activeTab} />
         </>
       )}
 

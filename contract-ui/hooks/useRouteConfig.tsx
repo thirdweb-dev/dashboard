@@ -1,43 +1,14 @@
-import { Flex } from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
-import { useProgram } from "@thirdweb-dev/react/solana";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
 } from "components/buttons/ExtensionDetectButton";
 import { useEns } from "components/contract-components/hooks";
+import { CustomContractOverviewPage } from "contract-ui/tabs/overview/page";
 import dynamic from "next/dynamic";
 import { ComponentType } from "react";
-import { Card, Heading, Text } from "tw-components";
 
-// solana
-const LazyProgramOverviewTab = dynamic(() =>
-  import("components/pages/program").then(
-    ({ ProgramOverviewTab }) => ProgramOverviewTab,
-  ),
-);
-const LazyPogramClaimConditionsTab = dynamic(() =>
-  import("program-ui/common/program-claim-conditions").then(
-    ({ ProgramClaimConditionsTab }) => ProgramClaimConditionsTab,
-  ),
-);
-const LazyProgramCodeTab = dynamic(() =>
-  import("program-ui/common/program-code").then(
-    ({ ProgramCodeTab }) => ProgramCodeTab,
-  ),
-);
-const LazyProgramSettingsTab = dynamic(() =>
-  import("program-ui/common/program-settings").then(
-    ({ ProgramSettingsTab }) => ProgramSettingsTab,
-  ),
-);
-// end solana
 // evm
-const LazyCustomContractOverviewPage = dynamic(() =>
-  import("../tabs/overview/page").then(
-    ({ CustomContractOverviewPage }) => CustomContractOverviewPage,
-  ),
-);
 const LazyContractExplorerPage = dynamic(() =>
   import("../tabs/explorer/page").then(
     ({ ContractExplorerPage }) => ContractExplorerPage,
@@ -118,65 +89,6 @@ export type EnhancedRoute<T = any> = {
   component: ComponentType<T>;
 };
 
-export function useRouteConfig(ecosystem: "evm" | "solana", address: string) {
-  if (ecosystem === "evm") {
-    // we know what we're doing here, importantly ecosystem is NEVER allowed to change.
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useContractRouteConfig(address);
-  }
-
-  // we know what we're doing here, importantly ecosystem is NEVER allowed to change.
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return useProgramRouteConfig(address);
-}
-
-export function useProgramRouteConfig(programAddress: string): EnhancedRoute[] {
-  const { data: program, isLoading } = useProgram(programAddress);
-
-  return [
-    {
-      title: "Overview",
-      path: "overview",
-      component: LazyProgramOverviewTab,
-    },
-    {
-      title: "Claim Conditions",
-      path: "claim-conditions",
-      component: LazyPogramClaimConditionsTab,
-      isEnabled: isLoading
-        ? "loading"
-        : program?.accountType === "nft-drop"
-        ? "enabled"
-        : "disabled",
-    },
-    {
-      title: "Code",
-      path: "code",
-      component: LazyProgramCodeTab,
-    },
-    {
-      title: "Settings",
-      path: "settings",
-      component:
-        program?.accountType === "nft-collection"
-          ? LazyProgramSettingsTab
-          : () => (
-              <>
-                <Card>
-                  <Flex direction="column" gap={4}>
-                    <Heading size="label.lg">⚠️ Coming soon</Heading>
-                    <Text>
-                      Here you will be able to configure Metadata, Creators,
-                      Royalties, etc for your program.
-                    </Text>
-                  </Flex>
-                </Card>
-              </>
-            ),
-    },
-  ];
-}
-
 export function useContractRouteConfig(
   contractAddress: string,
 ): EnhancedRoute[] {
@@ -204,7 +116,8 @@ export function useContractRouteConfig(
     {
       title: "Overview",
       path: "overview",
-      component: LazyCustomContractOverviewPage,
+      // not lazy because this is typically the landing spot so we want it to always be there immediately
+      component: CustomContractOverviewPage,
     },
     {
       title: "Explorer",

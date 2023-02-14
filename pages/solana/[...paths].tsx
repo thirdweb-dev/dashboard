@@ -5,12 +5,12 @@ import {
   SolanaProgramInfo,
   SolanaProgramInfoProvider,
 } from "contexts/solana-program";
-import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { isPossibleSolanaAddress } from "lib/address-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ProgramMetadata } from "program-ui/common/program-metadata";
+import { ProgramTabRouter } from "program-ui/layout/tab-router";
 import { getSolNetworkFromNetworkPath } from "utils/solanaUtils";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -27,11 +27,7 @@ const SolanaProgramPage: ThirdwebNextPage = (props: SolanaProgramProps) => {
   return (
     <>
       <ProgramMetadata address={programAddress} />
-      <ContractTabRouter
-        address={programAddress}
-        ecosystem="solana"
-        path={activeTab}
-      />
+      <ProgramTabRouter address={programAddress} path={activeTab} />
     </>
   );
 };
