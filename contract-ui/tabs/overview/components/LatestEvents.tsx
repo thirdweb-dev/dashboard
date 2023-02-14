@@ -1,6 +1,7 @@
 import { useActivity } from "@3rdweb-sdk/react/hooks/useActivity";
 import {
   Box,
+  ButtonGroup,
   Center,
   Flex,
   Icon,
@@ -8,7 +9,6 @@ import {
   SimpleGrid,
   Spinner,
   Stack,
-  Tag,
   Tooltip,
   useClipboard,
   useToast,
@@ -22,6 +22,7 @@ import {
   Button,
   Card,
   Heading,
+  LinkButton,
   Text,
   TrackedLink,
   TrackedLinkProps,
@@ -56,7 +57,10 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
         <TrackedLink
           category={trackingCategory}
           label="view_all_events"
-          color="blue.600"
+          color="blue.400"
+          _light={{
+            color: "blue.600",
+          }}
           gap={4}
           href={eventsHref}
         >
@@ -120,6 +124,8 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
       setValue(transaction.transactionHash);
     }
   }, [transaction.transactionHash, setValue]);
+
+  const href = useTabHref("events");
 
   return (
     <Box>
@@ -198,26 +204,25 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
 
         <Box gridColumn="span 1" />
 
-        <Flex gridColumn="span 5" flexWrap="wrap" gap={2}>
+        <ButtonGroup
+          size="sm"
+          variant="outline"
+          gridColumn="span 5"
+          flexWrap="wrap"
+          gap={2}
+          spacing={0}
+        >
           {transaction.events.slice(0, 2).map((e, idx) => (
-            <Tag key={idx}>
-              <Text size="body.md" fontWeight="medium">
-                {e.eventName}
-              </Text>
-            </Tag>
+            <LinkButton key={idx} href={`${href}?event=${e.eventName}`}>
+              {e.eventName}
+            </LinkButton>
           ))}
           {transaction.events.length > 2 && (
-            <Tag
-              border="2px solid"
-              borderColor="var(--badge-bg)"
-              bg="transparent"
-            >
-              <Text size="body.md" fontWeight="medium">
-                + {transaction.events.length - 2}
-              </Text>
-            </Tag>
+            <Button as="span" pointerEvents="none">
+              + {transaction.events.length - 2}
+            </Button>
           )}
-        </Flex>
+        </ButtonGroup>
       </SimpleGrid>
     </Box>
   );

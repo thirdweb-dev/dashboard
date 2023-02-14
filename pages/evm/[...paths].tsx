@@ -23,7 +23,7 @@ import { getDashboardChainRpc } from "lib/rpc";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getAllChainRecords } from "utils/allChainsRecords";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -131,91 +131,114 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
   const activeTab = router.query?.paths?.[2] || "overview";
   const contractQuery = useContract(contractAddress);
-  const requiresImport = useSingleQueryParam("import");
+  const requiresImport = !!useSingleQueryParam("import");
   const [manuallyImported, setManuallyImported] = useState(false);
 
-  const showImportContract =
-    (requiresImport && !contractQuery.isSuccess) ||
-    (!contractQuery.contract?.abi && contractQuery.isSuccess) ||
-    contractQuery.isError;
+  useEffect(() => {
+    setManuallyImported(false);
+    // when this changes we need to reset the import state
+  }, [chainSlug, contractAddress]);
 
-  if (contractQuery.isLoading) {
+  const showImportContract = useMemo(() => {
+    // if we manually imported it don't show the import contract
+    if (manuallyImported) {
+      return false;
+    }
+    if (requiresImport) {
+      return true;
+    }
+    if (contractQuery.isSuccess && !contractQuery.data?.abi) {
+      return true;
+    }
+    if (contractQuery.isError) {
+      return true;
+    }
+    if (contractQuery.errorUpdateCount > 0 && !contractQuery.data?.abi) {
+      return true;
+    }
+    return false;
+  }, [
+    contractQuery.data?.abi,
+    contractQuery.errorUpdateCount,
+    contractQuery.isError,
+    contractQuery.isSuccess,
+    manuallyImported,
+    requiresImport,
+  ]);
+
+  if (showImportContract) {
     return (
-      <>
-        <Flex h="100%" justifyContent="center" alignItems="center">
-          <Spinner size="xl" />
-        </Flex>
-      </>
+      <ImportContract
+        // key is used to force remounting of the component when chain or contract address changes
+        key={`${chainSlug}/${contractAddress}`}
+        contractAddress={contractAddress}
+        chain={chain}
+        autoImport={!!requiresImport}
+        onImport={() => {
+          // stop showing import contract
+          setManuallyImported(true);
+
+          // remove search query param from url without reloading the page or triggering change in router
+          const url = new URL(window.location.href);
+          window.history.replaceState(null, document.title, url.pathname);
+
+          // refetch contract query
+          contractQuery.refetch();
+        }}
+      />
     );
   }
 
-  if (!manuallyImported && showImportContract) {
+  if (contractQuery.isLoading) {
     return (
-      <>
-        <ImportContract
-          contractAddress={contractAddress}
-          chain={chain}
-          autoImport={!!requiresImport}
-          onImport={() => {
-            // stop showing import contract
-            setManuallyImported(true);
+      <Flex h="100%" justifyContent="center" alignItems="center">
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
 
-            // remove search query param from url without reloading the page or triggering change in router
-            const url = new URL(window.location.href);
-            window.history.replaceState(null, document.title, url.pathname);
+  if (chainNotFound || !chain) {
+    return (
+      <HomepageSection>
+        <Box mb={8} mt={8}>
+          <Alert borderRadius="md" background="backgroundHighlight">
+            <AlertIcon />
+            You tried to connecting to {isSlugNumber
+              ? "Chain"
+              : "Network"} ID {`"`}
+            {chainSlug}
+            {`"`} but it is not configured yet. Please configure it and try
+            again.
+          </Alert>
+        </Box>
 
-            // refetch contract query
-            contractQuery.refetch();
+        <Box
+          border="1px solid"
+          borderRadius="md"
+          borderColor="backgroundHighlight"
+          overflow="hidden"
+          _light={{
+            background: "white",
           }}
-        />
-      </>
+        >
+          <ConfigureNetworks
+            prefillSlug={isSlugNumber ? undefined : chainSlug}
+            prefillChainId={isSlugNumber ? chainSlug : undefined}
+            onNetworkConfigured={(network) => {
+              if (chainSlug === network.slug) {
+                setChainNotFound(false);
+              }
+            }}
+          />
+        </Box>
+      </HomepageSection>
     );
   }
 
   return (
     <>
-      {chain && (
-        <>
-          <ContractHeader contractAddress={contractAddress} />
-          <ContractTabRouter address={contractAddress} path={activeTab} />
-        </>
-      )}
-
-      {chainNotFound && (
-        <HomepageSection>
-          <Box mb={8} mt={8}>
-            <Alert borderRadius="md" background="backgroundHighlight">
-              <AlertIcon />
-              You tried to connecting to {isSlugNumber
-                ? "Chain"
-                : "Network"} ID {`"`}
-              {chainSlug}
-              {`"`} but it is not configured yet. Please configure it and try
-              again.
-            </Alert>
-          </Box>
-
-          <Box
-            border="1px solid"
-            borderRadius="md"
-            borderColor="backgroundHighlight"
-            overflow="hidden"
-            _light={{
-              background: "white",
-            }}
-          >
-            <ConfigureNetworks
-              prefillSlug={isSlugNumber ? undefined : chainSlug}
-              prefillChainId={isSlugNumber ? chainSlug : undefined}
-              onNetworkConfigured={(network) => {
-                if (chainSlug === network.slug) {
-                  setChainNotFound(false);
-                }
-              }}
-            />
-          </Box>
-        </HomepageSection>
-      )}
+      <ContractHeader contractAddress={contractAddress} />
+      <ContractTabRouter address={contractAddress} path={activeTab} />
     </>
   );
 };

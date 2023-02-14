@@ -22,16 +22,35 @@ export function replaceIpfsUrl(url: string) {
   return StorageSingleton.resolveScheme(url);
 }
 
+const ProxyHostNames = new Set<string>();
+
 class SpecialDownloader implements IStorageDownloader {
-  download(url: string): Promise<Response> {
+  async download(url: string): Promise<Response> {
     if (url.startsWith("ipfs://")) {
       return fetch(replaceIpfsUrl(url));
     }
 
     const u = new URL(url);
 
-    // this is a bit scary but hey, it works
-    return fetch(`${getAbsoluteUrl()}/api/proxy?url=${u.toString()}`);
+    // if we already know the hostname is bad, don't even try
+    if (ProxyHostNames.has(u.hostname)) {
+      return fetch(`${getAbsoluteUrl()}/api/proxy?url=${u.toString()}`);
+    }
+
+    try {
+      // try to just fetch it directly
+      const res = await fetch(u);
+      if (await res.clone().json()) {
+        return res;
+      }
+      // if we hit this we know something failed and we'll try to proxy it
+      ProxyHostNames.add(u.hostname);
+
+      throw new Error("not ok");
+    } catch (e) {
+      // this is a bit scary but hey, it works
+      return fetch(`${getAbsoluteUrl()}/api/proxy?url=${u.toString()}`);
+    }
   }
 }
 

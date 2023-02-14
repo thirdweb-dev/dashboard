@@ -1,5 +1,5 @@
 import { SettingsMetadata } from "./components/metadata";
-import { OnDashboard } from "./components/on-dashboard";
+// import { OnDashboard } from "./components/on-dashboard";
 // import { PaperCheckoutSetting } from "./components/paper-xyz";
 import { SettingsPlatformFees } from "./components/platform-fees";
 import { SettingsPrimarySale } from "./components/primary-sale";
@@ -67,6 +67,7 @@ export const CustomContractSettingsPage: React.FC<
                 <PaperCheckoutSetting contract={contractQuery.contract} />
               </GridItem>
             )} */}
+          {/* end paper.xyz settings */}
 
           <GridItem order={detectedPrimarySale === "enabled" ? 2 : 101}>
             <SettingsPrimarySale
@@ -87,11 +88,6 @@ export const CustomContractSettingsPage: React.FC<
               contract={contractQuery.contract}
               detectedState={detectedPlatformFees}
             />
-          </GridItem>
-
-          {/* end paper.xyz settings */}
-          <GridItem order={50}>
-            <OnDashboard contractAddress={contractAddress} />
           </GridItem>
         </SimpleGrid>
       </Flex>

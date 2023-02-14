@@ -33,8 +33,13 @@ export const ImportContract: React.FC<ImportContractProps> = ({
       return;
     }
 
-    importContract.mutate({ contractAddress, chain });
-  }, [chain, contractAddress, importContract]);
+    importContract.mutate(
+      { contractAddress, chain },
+      {
+        onSuccess: onImport,
+      },
+    );
+  }, [chain, contractAddress, importContract, onImport]);
 
   const didAutoImportRef = useRef(false);
   useEffect(() => {
@@ -46,12 +51,6 @@ export const ImportContract: React.FC<ImportContractProps> = ({
       }, 0);
     }
   }, [autoImport, chain, handleImportContract]);
-
-  useEffect(() => {
-    if (importContract.isSuccess) {
-      onImport();
-    }
-  }, [importContract.isSuccess, onImport]);
 
   return (
     <Container maxW="container.page" h="full">

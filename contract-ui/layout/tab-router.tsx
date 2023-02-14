@@ -248,6 +248,7 @@ const ContractSubNavLinkButton: React.FC<ContractSubNavLinkButton> = (
 
   return (
     <LinkButton
+      flexShrink={0}
       isDisabled={props.isDisabled}
       _focus={{
         boxShadow: "none",

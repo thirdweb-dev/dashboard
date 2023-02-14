@@ -3,10 +3,9 @@ import { LatestEvents } from "./components/LatestEvents";
 import { NFTDetails } from "./components/NFTDetails";
 import { PermissionsTable } from "./components/PermissionsTable";
 import { ShareContract } from "./components/ShareContract";
-import { AddToDashboardCard } from "./components/add-to-dashboard";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
 import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
-import { contractType, useAddress, useContract } from "@thirdweb-dev/react";
+import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi, getAllDetectedFeatureNames } from "@thirdweb-dev/sdk";
 import { useMemo } from "react";
 import { Heading, TrackedLink } from "tw-components";
@@ -34,9 +33,6 @@ export const CustomContractOverviewPage: React.FC<
     () => getGuidesAndTemplates(detectedFeatureNames, contractTypeData),
     [detectedFeatureNames, contractTypeData],
   );
-
-  const walletAddress = useAddress();
-
   if (!contractAddress) {
     return <div>No contract address provided</div>;
   }
@@ -131,10 +127,6 @@ export const CustomContractOverviewPage: React.FC<
             </Flex>
           </Flex>
         )}
-        {(guides.length > 0 || templates.length > 0) && walletAddress && (
-          <Divider />
-        )}
-        <AddToDashboardCard contractAddress={contractAddress} />
       </GridItem>
     </SimpleGrid>
   );

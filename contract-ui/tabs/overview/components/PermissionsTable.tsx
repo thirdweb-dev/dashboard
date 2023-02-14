@@ -65,7 +65,10 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
         <TrackedLink
           category={trackingCategory}
           label="view_all_permissions"
-          color="blue.600"
+          color="blue.400"
+          _light={{
+            color: "blue.600",
+          }}
           gap={4}
           href={premissionsHref}
         >

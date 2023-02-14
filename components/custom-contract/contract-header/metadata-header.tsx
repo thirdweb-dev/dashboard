@@ -1,5 +1,6 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { Flex, Image, Skeleton } from "@chakra-ui/react";
+import { AddToDashboardToggleButton } from "contract-ui/components/add-to-dashboard";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { NextSeo } from "next-seo";
 import { StaticImageData } from "next/image";
@@ -116,7 +117,10 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
               {isLoaded ? data?.description : ""}
             </Text>
           </Skeleton>
-          <AddressCopyButton size="xs" address={address} />
+          <Flex gap={2}>
+            <AddressCopyButton size="xs" address={address} />
+            <AddToDashboardToggleButton contractAddress={address} />
+          </Flex>
         </Flex>
       </Flex>
     </>
