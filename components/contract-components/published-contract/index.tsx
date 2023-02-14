@@ -87,10 +87,10 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
 
   const publisherProfile = usePublisherProfile(contract.publisher);
 
-  const currentRoute = `https://thirdweb.com${router.asPath}`.replace(
-    "deployer.thirdweb.eth",
-    "thirdweb.eth",
-  );
+  const currentRoute = `https://thirdweb.com${router.asPath.replace(
+    "/release",
+    "",
+  )}`.replace("deployer.thirdweb.eth", "thirdweb.eth");
 
   const contractFunctions = usePublishedContractFunctions(contract);
   const contractEvents = usePublishedContractEvents(contract);
