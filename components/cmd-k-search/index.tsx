@@ -15,18 +15,19 @@ import {
   ModalOverlay,
   Spinner,
 } from "@chakra-ui/react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useQueries, useQueryClient } from "@tanstack/react-query";
 import { Chain } from "@thirdweb-dev/chains";
 import { fetchEns } from "components/contract-components/hooks";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { isPossibleEVMAddress } from "lib/address-utils";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FiArrowRight, FiSearch, FiX } from "react-icons/fi";
-import { Badge, Card, Heading, Link, Text } from "tw-components";
+import { Card, Heading, Link, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
 type ContractSearchResult = {
@@ -36,12 +37,26 @@ type ContractSearchResult = {
   needsImport: boolean;
 };
 
-function useContractSearch(searchQuery: string) {
-  const queryClient = useQueryClient();
-  const configureChains = useConfiguredChains();
-  return useQuery({
-    queryKey: ["contract-search", searchQuery],
+const TRACKING_CATEGORY = "any_contract_search";
+
+function contractSearchQuery(
+  searchQuery: string,
+  chain: Chain,
+  queryClient: QueryClient,
+  trackEvent: ReturnType<typeof useTrack>,
+) {
+  return {
+    queryKey: [
+      "contract-search",
+      { chainId: chain.chainId, search: searchQuery },
+    ],
     queryFn: async () => {
+      trackEvent({
+        category: TRACKING_CATEGORY,
+        action: "query",
+        label: "attempt",
+        searchQuery,
+      });
       if (!isPossibleEVMAddress(searchQuery)) {
         throw new Error("Not a valid EVM address");
       }
@@ -54,79 +69,102 @@ function useContractSearch(searchQuery: string) {
         }
         address = ensResult.address;
       }
-      // now that we have the address we need to fetch on each configured chain
-      const contractResults = await Promise.all(
-        configureChains.map(async (chain) => {
-          // create a new sdk for each chainv (this is cached inside the helper FN so should be fine to just do)
-          const chainSdk = getEVMThirdwebSDK(
-            chain.chainId,
-            getDashboardChainRpc(chain),
-          );
-          // check if there is anything on that chain at the address
-          const chainProvider = chainSdk.getProvider();
-          let chainCode: string;
-          try {
-            chainCode = await chainProvider.getCode(address);
-          } catch (err) {
-            // if we fail to get the code just return null
-            return null;
-          }
-
-          const chainHasContract = chainCode && chainCode !== "0x";
-          //  if there's no contract on the chain we can skip it and return null
-          if (!chainHasContract) {
-            return null;
-          }
-          // if there is a contract we now want to try to resolve it, if we can resolve it then we'll return the contract info, otherwise it needs to be imported
-          let result: ContractSearchResult;
-          try {
-            const contract = await chainSdk.getContract(address);
-            try {
-              const metadata = await contract.metadata.get();
-              result = {
-                address,
-                chain,
-                metadata,
-                needsImport: false,
-              };
-            } catch (err) {
-              result = {
-                address,
-                chain,
-                needsImport: false,
-                metadata: {
-                  name: address,
-                },
-              };
-            }
-          } catch (err) {
-            // if we can't resolve the contract we need to import it
-            result = {
-              address,
-              chain,
-              needsImport: true,
-              metadata: {
-                name: address,
-              },
-            };
-          }
-          return result;
-        }),
+      // create a new sdk for the given chain (this is cached inside the helper FN so should be fine to just do)
+      const chainSdk = getEVMThirdwebSDK(
+        chain.chainId,
+        getDashboardChainRpc(chain),
       );
-      return contractResults.filter(
-        (r) => r !== null,
-      ) as ContractSearchResult[];
+
+      // check if there is anything on that chain at the address
+      const chainProvider = chainSdk.getProvider();
+      let chainCode: string;
+      try {
+        chainCode = await chainProvider.getCode(address);
+      } catch (err) {
+        // if we fail to get the code just return null
+        return null;
+      }
+
+      const chainHasContract = chainCode && chainCode !== "0x";
+      //  if there's no contract on the chain we can skip it and return null
+      if (!chainHasContract) {
+        return null;
+      }
+      // if there is a contract we now want to try to resolve it, if we can resolve it then we'll return the contract info, otherwise it needs to be imported
+      let result: ContractSearchResult;
+      try {
+        const contract = await chainSdk.getContract(address);
+        try {
+          const metadata = await contract.metadata.get();
+          result = {
+            address,
+            chain,
+            metadata,
+            needsImport: false,
+          };
+        } catch (err) {
+          result = {
+            address,
+            chain,
+            needsImport: false,
+            metadata: {
+              name: address,
+            },
+          };
+        }
+      } catch (err) {
+        // if we can't resolve the contract we need to import it
+        result = {
+          address,
+          chain,
+          needsImport: true,
+          metadata: {
+            name: address,
+          },
+        };
+      }
+      return result;
     },
-    enabled: isPossibleEVMAddress(searchQuery) && configureChains.length > 0,
+    enabled:
+      isPossibleEVMAddress(searchQuery) && !!chain?.chainId && !!queryClient,
     refetchOnWindowFocus: false,
     refetchInterval: 0,
     refetchOnMount: false,
     retry: 0,
-  });
+    onSuccess: (d: unknown) => {
+      trackEvent({
+        category: TRACKING_CATEGORY,
+        action: "query",
+        label: "success",
+        searchQuery,
+        response: d,
+      });
+    },
+    onError: (err: unknown) => {
+      trackEvent({
+        category: TRACKING_CATEGORY,
+        action: "query",
+        label: "failure",
+        searchQuery,
+        error: err,
+      });
+    },
+  };
 }
 
+function useContractSearch(searchQuery: string) {
+  const queryClient = useQueryClient();
+  const configureChains = useConfiguredChains();
+  const trackEvent = useTrack();
+  return useQueries({
+    queries: configureChains.map((chain) => {
+      return contractSearchQuery(searchQuery, chain, queryClient, trackEvent);
+    }),
+  });
+}
 export const CmdKSearch: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const trackEvent = useTrack();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -141,7 +179,23 @@ export const CmdKSearch: React.FC = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { data, isFetching, error } = useContractSearch(searchValue);
+  const searchQueryResponses = useContractSearch(searchValue);
+
+  const data = useMemo(() => {
+    return searchQueryResponses
+      .map((r) => r.data)
+      .filter((d) => !!d) as ContractSearchResult[];
+  }, [searchQueryResponses]);
+
+  const isFetching = useMemo(() => {
+    return searchQueryResponses.some((r) => r.isFetching);
+  }, [searchQueryResponses]);
+
+  const error = useMemo(() => {
+    return !isFetching && !data.length
+      ? searchQueryResponses.find((r) => r.error)?.error
+      : undefined;
+  }, [data.length, isFetching, searchQueryResponses]);
 
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -155,10 +209,10 @@ export const CmdKSearch: React.FC = () => {
 
   useEffect(() => {
     // re-set the active index if we are fetching
-    if (isFetching) {
+    if (isFetching && !data.length) {
       setActiveIndex(0);
     }
-  }, [isFetching]);
+  }, [data.length, isFetching]);
 
   useEffect(() => {
     // only if the modal is open
@@ -176,6 +230,13 @@ export const CmdKSearch: React.FC = () => {
               result.needsImport ? "?import=true" : ""
             }`,
           );
+          trackEvent({
+            category: TRACKING_CATEGORY,
+            action: "select_contract",
+            input_mode: "keyboard",
+            chain: result.chain,
+            contract_address: result.address,
+          });
           handleClose();
         }
       } else if (e.key === "ArrowDown") {
@@ -195,7 +256,7 @@ export const CmdKSearch: React.FC = () => {
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, [activeIndex, data, handleClose, open, router]);
+  }, [activeIndex, data, handleClose, open, router, trackEvent]);
 
   return (
     <>
@@ -209,7 +270,7 @@ export const CmdKSearch: React.FC = () => {
           borderRadius="md"
           fontSize="var(--tw-font-size-body-md)"
           borderColor="borderColor"
-          placeholder="Search for any contract address"
+          placeholder="Contract Address or ENS name"
         />
         <InputRightElement w="auto" pr={2} as={Flex} gap={1}>
           <Text size="body.sm" color="chakra-placeholder-color">
@@ -218,7 +279,7 @@ export const CmdKSearch: React.FC = () => {
         </InputRightElement>
       </InputGroup>
       <IconButton
-        aria-label="Search for any contract address"
+        aria-label="Contract Address or ENS name"
         variant="ghost"
         display={{ base: "inherit", md: "none" }}
         icon={<Icon as={FiSearch} />}
@@ -238,7 +299,7 @@ export const CmdKSearch: React.FC = () => {
               autoFocus
               border="none"
               borderRadius="none"
-              placeholder="Search for any contract address"
+              placeholder="Contract Address or ENS name"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
@@ -257,7 +318,7 @@ export const CmdKSearch: React.FC = () => {
             </InputRightElement>
           </InputGroup>
 
-          {searchValue.length > 0 && !isFetching ? (
+          {searchValue.length > 0 && (!isFetching || data.length) ? (
             <Flex px={2} direction="column">
               <Divider borderColor="borderColor" />
               <Flex py={2}>
@@ -317,7 +378,16 @@ export const CmdKSearch: React.FC = () => {
                                 result.needsImport ? "?import=true" : ""
                               }`}
                               size="label.xl"
-                              onClick={handleClose}
+                              onClick={() => {
+                                handleClose();
+                                trackEvent({
+                                  category: TRACKING_CATEGORY,
+                                  action: "select_contract",
+                                  input_mode: "click",
+                                  chain: result.chain,
+                                  contract_address: result.address,
+                                });
+                              }}
                               onMouseEnter={() => setActiveIndex(idx)}
                             >
                               <Heading as="h3" size="label.lg">
@@ -334,18 +404,6 @@ export const CmdKSearch: React.FC = () => {
                             </Heading>
                           </Flex>
                           <Flex ml="auto" align="center" gap={3} flexShrink={0}>
-                            {result.needsImport ? (
-                              <Badge
-                                colorScheme="green"
-                                variant="subtle"
-                                p={1}
-                                px={1.5}
-                                borderRadius="md"
-                                size="label.sm"
-                              >
-                                Import
-                              </Badge>
-                            ) : null}
                             <Icon as={FiArrowRight} />
                           </Flex>
                         </Flex>
