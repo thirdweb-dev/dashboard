@@ -81,7 +81,7 @@ const Publish: ThirdwebNextPage = () => {
               title="Shareable landing page"
               icon={require("/public/assets/product-pages/publish/hero-icon-3.png")}
             >
-              <p>
+              <Text size="body.lg">
                 By publishing a contract, it becomes easily shareable with a
                 landing page for your contract. E.g.{" "}
                 <TrackedLink
@@ -93,7 +93,7 @@ const Publish: ThirdwebNextPage = () => {
                   Unlock Protocol
                 </TrackedLink>
                 .
-              </p>
+              </Text>
             </ProductCard>
           </SimpleGrid>
 

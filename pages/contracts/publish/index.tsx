@@ -33,10 +33,7 @@ const ContractsPublishPage: ThirdwebNextPage = () => {
         </Text>
       </Flex>
 
-      <DeployableContractTable
-        contractIds={ipfsHashes}
-        context="create_release"
-      />
+      <DeployableContractTable contractIds={ipfsHashes} context="publish" />
     </Flex>
   );
 };

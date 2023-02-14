@@ -1,4 +1,4 @@
-import { Box, Flex, GridItem, Image, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { NFTContract, useNFTs } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
 import { SupplyCards } from "contract-ui/tabs/nfts/components/supply-cards";

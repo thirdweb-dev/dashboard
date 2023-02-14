@@ -101,7 +101,7 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
     shortenIfAddress(ensQuery.data?.ensName || contract.publisher),
   );
 
-  const publishedDate = format(
+  const publishDate = format(
     new Date(
       parseInt(
         publishedContractInfo?.data?.publishedTimestamp.toString() || "0",
@@ -132,7 +132,7 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
         publisher: publisherEnsOrAddress,
         extension: extensionNames,
         license: licenses,
-        publishDate: publishedDate,
+        publishDate,
         publisherAvatar: publisherProfile.data?.avatar || undefined,
         logo: contract.logo,
       }),
@@ -143,7 +143,7 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
       contract.logo,
       publishedContractName,
       contract.version,
-      publishedDate,
+      publishDate,
       publisherEnsOrAddress,
       publisherProfile.data?.avatar,
     ],
@@ -300,7 +300,7 @@ Deploy it in one click`,
                           Publish Date
                         </Heading>
                         <Text size="body.md" lineHeight={1.2}>
-                          {publishedDate}
+                          {publishDate}
                         </Text>
                       </Flex>
                     </Flex>
