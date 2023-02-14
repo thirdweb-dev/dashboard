@@ -358,7 +358,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
               ) : (
                 <>
                   <Text fontStyle="italic">
-                    Releasing your contract is free, we cover all gas costs.
+                    Publishing your contract is free, we cover all gas costs.
                   </Text>
                   <Button
                     // differentiate this from the edit button
