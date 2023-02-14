@@ -29,7 +29,11 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         as={LinkButton}
         isExternal
         noIcon
-        href={publisherProfile.twitter}
+        href={
+          publisherProfile.twitter.includes("twitter.com")
+            ? publisherProfile.twitter
+            : `https://twitter.com/${publisherProfile.twitter}`
+        }
         bg="transparent"
         aria-label="twitter"
         icon={<Icon as={SiTwitter} />}
@@ -55,7 +59,11 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         as={LinkButton}
         isExternal
         noIcon
-        href={publisherProfile.github}
+        href={
+          publisherProfile.github.includes("github.com")
+            ? publisherProfile.github
+            : `https://github.com/${publisherProfile.github}`
+        }
         bg="transparent"
         aria-label="github"
         icon={<Icon as={SiGithub} />}
@@ -82,7 +90,11 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         as={LinkButton}
         isExternal
         noIcon
-        href={publisherProfile.medium}
+        href={
+          publisherProfile.medium.includes("medium.com")
+            ? publisherProfile.medium
+            : `https://medium.com/@${publisherProfile.medium}`
+        }
         bg="transparent"
         aria-label="medium"
         icon={<Icon as={SiMedium} />}
@@ -95,7 +107,11 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         as={LinkButton}
         isExternal
         noIcon
-        href={publisherProfile.telegram}
+        href={
+          publisherProfile.telegram.includes("t.me")
+            ? publisherProfile.telegram
+            : `https://t.me/${publisherProfile.telegram}`
+        }
         bg="transparent"
         aria-label="telegram"
         icon={<Icon as={SiTelegram} />}
@@ -121,7 +137,11 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         as={LinkButton}
         isExternal
         noIcon
-        href={publisherProfile.reddit}
+        href={
+          publisherProfile.reddit.includes("reddit.com")
+            ? publisherProfile.reddit
+            : `https://reddit.com/user/${publisherProfile.reddit}`
+        }
         bg="transparent"
         aria-label="reddit"
         icon={<Icon as={SiReddit} />}
@@ -134,7 +154,11 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         as={LinkButton}
         isExternal
         noIcon
-        href={publisherProfile.linkedin}
+        href={
+          publisherProfile.linkedin.includes("linkedin.com")
+            ? publisherProfile.linkedin
+            : `https://linkedin.com/in/${publisherProfile.linkedin}`
+        }
         bg="transparent"
         aria-label="linkedin"
         icon={<Icon as={SiLinkedin} />}
