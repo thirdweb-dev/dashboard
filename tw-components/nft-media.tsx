@@ -4,7 +4,10 @@ import { ThirdwebNftMedia, ThirdwebNftMediaProps } from "@thirdweb-dev/react";
 import { FiImage } from "react-icons/fi";
 
 export const NFTMedia = chakra(ThirdwebNftMedia, {
-  shouldForwardProp: (prop) => ["width", "height", "metadata"].includes(prop),
+  shouldForwardProp: (prop) =>
+    ["width", "height", "metadata", "requireInteraction", "controls"].includes(
+      prop,
+    ),
 });
 
 export const NFTMediaWithEmptyState: React.FC<
@@ -13,7 +16,7 @@ export const NFTMediaWithEmptyState: React.FC<
   if (!(props.metadata.image || props.metadata.animation_url)) {
     return (
       <Center
-        borderRadius="lg"
+        borderRadius="xl"
         width={props.width}
         height={props.height}
         borderColor="accent.300"
