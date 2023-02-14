@@ -34,7 +34,7 @@ const devTools = [
   },
   {
     icon: require("/public/assets/landingpage/howitworks-publish.png"),
-    title: "Release",
+    title: "Publish",
     href: "/publish",
   },
   {

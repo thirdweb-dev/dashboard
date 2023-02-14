@@ -12,7 +12,7 @@ import {
 import {
   PublishWithVersionPage,
   PublishWithVersionPageProps,
-} from "components/pages/release";
+} from "components/pages/publish";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { ContractTabRouter } from "contract-ui/layout/tab-router";
 import { getAllExplorePublishedContracts } from "data/explore";
@@ -71,7 +71,7 @@ const CatchAllPage: ThirdwebNextPage = (
       />
     );
   }
-  if (props.pageType === "release") {
+  if (props.pageType === "publish") {
     return (
       <PublisherSDKContext>
         <PublishWithVersionPage
@@ -95,7 +95,7 @@ CatchAllPage.getLayout = function (
 ) {
   return (
     <AppLayout
-      layout={props.pageType !== "release" ? "custom-contract" : undefined}
+      layout={props.pageType !== "publish" ? "custom-contract" : undefined}
       dehydratedState={props.dehydratedState}
     >
       {page}
@@ -112,7 +112,7 @@ CatchAllPage.pageId = (
   if (props.pageType === "program") {
     return PageId.DeployedProgram;
   }
-  if (props.pageType === "release") {
+  if (props.pageType === "publish") {
     return PageId.PublishedContract;
   }
 
@@ -123,7 +123,7 @@ export default CatchAllPage;
 
 type PossiblePageProps =
   | ({
-      pageType: "release";
+      pageType: "publish";
       dehydratedState: DehydratedState;
     } & PublishWithVersionPageProps)
   | {
@@ -342,7 +342,7 @@ export const getStaticProps: GetStaticProps<PossiblePageProps, Params> = async (
       return {
         props: {
           dehydratedState: dehydrate(queryClient),
-          pageType: "release",
+          pageType: "publish",
           author: networkOrAddress,
           contractName,
           version,

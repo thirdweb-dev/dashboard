@@ -45,8 +45,8 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
 
   const router = useRouter();
   const { onSuccess, onError } = useTxNotifications(
-    "Successfully released contract",
-    "Failed to release contract",
+    "Successfully published contract",
+    "Failed to publish contract",
   );
   const address = useAddress();
   const publishMutation = usePublishMutation();

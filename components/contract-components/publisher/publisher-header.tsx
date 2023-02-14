@@ -11,6 +11,8 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import { Heading, Link, LinkButton } from "tw-components";
 
+const TRACKING_CATEGORY = "releaser-header";
+
 interface PublisherHeaderProps {
   wallet: string;
   page?: boolean;
@@ -44,14 +46,14 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
               href={`/${ensQuery.data?.ensName || wallet}`}
               onClick={() =>
                 trackEvent({
-                  category: "releaser-header",
+                  category: TRACKING_CATEGORY,
                   action: "click",
                   label: "releaser-avatar",
                 })
               }
             >
               <PublisherAvatar
-                alt="Releaser avatar"
+                alt="Publisher avatar"
                 boxSize={14}
                 address={ensQuery.data?.ensName || wallet}
               />
@@ -65,7 +67,7 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
               )}
               onClick={() =>
                 trackEvent({
-                  category: "releaser-header",
+                  category: TRACKING_CATEGORY,
                   action: "click",
                   label: "releaser-name",
                 })
@@ -91,7 +93,7 @@ export const PublisherHeader: React.FC<PublisherHeaderProps> = ({
           href={replaceDeployerAddress(`/${wallet}`)}
           onClick={() =>
             trackEvent({
-              category: "releaser-header",
+              category: TRACKING_CATEGORY,
               action: "click",
               label: "view-all-contracts",
             })

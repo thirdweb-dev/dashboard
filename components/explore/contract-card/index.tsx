@@ -100,7 +100,7 @@ export const ContractCard: React.FC<ContractCardProps> = ({
               top={0}
               right={0}
               transform="translate(33%, -33%)"
-              aria-label="Open release"
+              aria-label="Open contract"
               opacity={0}
               _dark={{
                 bg: "white",
@@ -326,7 +326,7 @@ async function queryFn(
   const latestPublishedVersion = await polygonSdk
     .getPublisher()
     .getVersion(publisherEns.address, contractId, version);
-  invariant(latestPublishedVersion, "no release found");
+  invariant(latestPublishedVersion, "no published version found");
   const contractInfo = await polygonSdk
     .getPublisher()
     .fetchPublishedContractInfo(latestPublishedVersion);

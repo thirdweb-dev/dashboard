@@ -13,6 +13,8 @@ import type { ProfileMetadata } from "@thirdweb-dev/sdk/evm";
 import { FiGlobe } from "react-icons/fi";
 import { LinkButton, TrackedIconButton } from "tw-components";
 
+const TRACKING_CATEGORY = "releaser-header";
+
 interface PublisherSocialsProps extends ButtonGroupProps {
   publisherProfile: ProfileMetadata;
 }
@@ -37,7 +39,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="twitter"
         icon={<Icon as={SiTwitter} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="twitter"
       />
     )}
@@ -50,7 +52,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="discord"
         icon={<Icon as={SiDiscord} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="discord"
       />
     )}
@@ -67,7 +69,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="github"
         icon={<Icon as={SiGithub} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="github"
       />
     )}
@@ -80,7 +82,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="website"
         icon={<Icon as={FiGlobe} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="website"
       />
     )}
@@ -98,7 +100,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="medium"
         icon={<Icon as={SiMedium} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="medium"
       />
     )}
@@ -115,7 +117,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="telegram"
         icon={<Icon as={SiTelegram} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="telegram"
       />
     )}
@@ -128,7 +130,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="facebook"
         icon={<Icon as={SiFacebook} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="facebook"
       />
     )}
@@ -145,7 +147,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="reddit"
         icon={<Icon as={SiReddit} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="reddit"
       />
     )}
@@ -162,7 +164,7 @@ export const PublisherSocials: React.FC<PublisherSocialsProps> = ({
         bg="transparent"
         aria-label="linkedin"
         icon={<Icon as={SiLinkedin} />}
-        category="releaser-header"
+        category={TRACKING_CATEGORY}
         label="linkedin"
       />
     )}

@@ -165,7 +165,7 @@ const TableRow: React.FC<TableRowProps> = ({ row, context }) => {
 
 function actionUrlPath(context: ContractCellContext | undefined, hash: string) {
   switch (context) {
-    case "create_release":
+    case "publish":
       return `/contracts/publish/${encodeURIComponent(hash)}`;
     case "deploy":
       return `/contracts/deploy/${encodeURIComponent(hash)}`;

@@ -91,7 +91,7 @@ const UserPage: ThirdwebNextPage = () => {
     <>
       <NextSeo
         title={displayName}
-        description={`Visit ${displayName}'s profile. See their releases and deploy them in one click.`}
+        description={`Visit ${displayName}'s profile. See their published contracts and deploy them in one click.`}
         openGraph={{
           title: displayName,
           images: ogImage
