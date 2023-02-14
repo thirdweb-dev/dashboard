@@ -63,7 +63,10 @@ const NFTCards: React.FC<ContractOverviewNFTGetAllProps> = ({ contract }) => {
         <GridItem as={Card} key={token.owner} p={0}>
           {token.metadata.image && (
             <Box w="100%" overflow="hidden" roundedTop="xl">
-              <NFTMediaWithEmptyState metadata={token.metadata} />
+              <NFTMediaWithEmptyState
+                metadata={token.metadata}
+                requireInteraction
+              />
             </Box>
           )}
           <Box p={6} pt={4}>
