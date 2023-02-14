@@ -59,7 +59,7 @@ const Dashboard: ThirdwebNextPage = () => {
                       _groupHover={{ color: "blue.500" }}
                       transitionDuration="200ms"
                     >
-                      {title}
+                      {title} ➝
                     </Heading>
                     <Text>{description}</Text>
                   </Flex>
