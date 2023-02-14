@@ -17,7 +17,7 @@ import { Polygon } from "@thirdweb-dev/chains";
 import { ensQuery } from "components/contract-components/hooks";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { BsShieldCheck } from "react-icons/bs";
 import { FiExternalLink, FiImage } from "react-icons/fi";
 import invariant from "tiny-invariant";
@@ -48,11 +48,6 @@ export const ContractCard: React.FC<ContractCardProps> = ({
   const showSkeleton =
     publishedContractResult.isLoading ||
     publishedContractResult.isPlaceholderData;
-  const [via, setVia] = useState("");
-  useEffect(() => {
-    const pn = window.location.pathname;
-    setVia(pn.endsWith("/") ? pn.slice(0, -1) : pn);
-  }, []);
 
   const href = useMemo(() => {
     let h: string;
@@ -61,12 +56,9 @@ export const ContractCard: React.FC<ContractCardProps> = ({
     } else {
       h = `/${publisher}/${contractId}`;
     }
-    if (via) {
-      h += `?via=${via}`;
-    }
 
     return replaceDeployerAddress(h);
-  }, [contractId, publisher, version, via]);
+  }, [contractId, publisher, version]);
 
   return (
     <LinkBox as="article" minW="300px">
