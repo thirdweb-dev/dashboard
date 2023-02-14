@@ -60,7 +60,10 @@ export const ContractCard: React.FC<ContractCardProps> = ({
     return replaceDeployerAddress(h);
   }, [contractId, publisher, version]);
 
-  return (
+  console.log(publishedContractResult);
+
+  return !publishedContractResult.isLoading &&
+    !publishedContractResult.data?.id ? null : (
     <LinkBox as="article" minW="300px">
       <Card
         p={0}
