@@ -1,6 +1,7 @@
 import { Flex, GridItem, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
+import { Changelog } from "components/dashboard/Changelog";
 import { PageId } from "page-id";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -73,6 +74,7 @@ const Dashboard: ThirdwebNextPage = () => {
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
         <Heading size="title.sm">Latest changes</Heading>
+        <Changelog />
       </GridItem>
     </SimpleGrid>
   );
