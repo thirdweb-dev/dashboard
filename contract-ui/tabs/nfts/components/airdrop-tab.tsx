@@ -20,7 +20,7 @@ interface AirdropTabProps {
 
 const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
   const address = useAddress();
-  const { handleSubmit, setValue, watch, reset, formState } = useForm<{
+  const { handleSubmit, setValue, getValues, reset, formState } = useForm<{
     addresses: AirdropAddressInput[];
   }>({
     defaultValues: { addresses: [] },
@@ -36,7 +36,9 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
     "Error transferring",
   );
 
-  const addresses = watch("addresses");
+  const addresses = getValues("addresses");
+
+  console.log({ address, addresses });
 
   return (
     <Stack pt={3}>
@@ -91,7 +93,9 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
             <AirdropUpload
               isOpen={isOpen}
               onClose={onClose}
-              setAirdrop={(value) => setValue(`addresses`, value)}
+              setAirdrop={(value) =>
+                setValue(`addresses`, value, { shouldDirty: true })
+              }
             />
             <Flex direction={{ base: "column", md: "row" }} gap={4}>
               <Button
@@ -127,7 +131,7 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
             isLoading={airdrop.isLoading}
             type="submit"
             colorScheme="primary"
-            disabled={!!address && addresses.length === 0}
+            disabled={!!address || addresses.length === 0}
             alignSelf="flex-end"
             isDisabled={!formState.isDirty}
           >
