@@ -52,10 +52,7 @@ export const CustomContractOverviewPage: React.FC<
           )}
         {contract &&
           ["ERC20"].some((type) => detectedFeatureNames.includes(type)) && (
-            <TokenDetails
-              contractAddress={contractAddress}
-              trackingCategory={TRACKING_CATEGORY}
-            />
+            <TokenDetails contractAddress={contractAddress} />
           )}
         <LatestEvents
           address={contractAddress}

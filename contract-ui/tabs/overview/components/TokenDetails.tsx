@@ -21,12 +21,10 @@ import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 
 interface TokenDetailsProps {
   contractAddress: string;
-  trackingCategory: TrackedLinkProps["category"];
 }
 
 export const TokenDetails: React.FC<TokenDetailsProps> = ({
   contractAddress,
-  trackingCategory,
 }) => {
   const contractQuery = useContract(contractAddress);
 
