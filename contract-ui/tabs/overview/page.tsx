@@ -3,6 +3,7 @@ import { LatestEvents } from "./components/LatestEvents";
 import { NFTDetails } from "./components/NFTDetails";
 import { PermissionsTable } from "./components/PermissionsTable";
 import { ShareContract } from "./components/ShareContract";
+import { TokenDetails } from "./components/TokenDetails";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
 import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { contractType, useContract } from "@thirdweb-dev/react";
@@ -47,6 +48,13 @@ export const CustomContractOverviewPage: React.FC<
               contract={contract}
               trackingCategory={TRACKING_CATEGORY}
               features={detectedFeatureNames}
+            />
+          )}
+        {contract &&
+          ["ERC20"].some((type) => detectedFeatureNames.includes(type)) && (
+            <TokenDetails
+              contractAddress={contractAddress}
+              trackingCategory={TRACKING_CATEGORY}
             />
           )}
         <LatestEvents
