@@ -38,8 +38,6 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
 
   const addresses = getValues("addresses");
 
-  console.log({ address, addresses });
-
   return (
     <Stack pt={3}>
       <form
@@ -131,7 +129,7 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
             isLoading={airdrop.isLoading}
             type="submit"
             colorScheme="primary"
-            disabled={!!address || addresses.length === 0}
+            disabled={!!address && addresses.length === 0}
             alignSelf="flex-end"
             isDisabled={!formState.isDirty}
           >
