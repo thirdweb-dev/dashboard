@@ -20,7 +20,7 @@ interface AirdropTabProps {
 
 const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
   const address = useAddress();
-  const { handleSubmit, setValue, getValues, reset, formState } = useForm<{
+  const { handleSubmit, setValue, watch, reset, formState } = useForm<{
     addresses: AirdropAddressInput[];
   }>({
     defaultValues: { addresses: [] },
@@ -36,7 +36,7 @@ const AirdropTab: React.FC<AirdropTabProps> = ({ contract, tokenId }) => {
     "Error transferring",
   );
 
-  const addresses = getValues("addresses");
+  const addresses = watch("addresses");
 
   return (
     <Stack pt={3}>
