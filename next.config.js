@@ -5,7 +5,7 @@ const ContentSecurityPolicy = `
   object-src 'none';
   style-src 'self' 'unsafe-inline';
   font-src 'self';
-  frame-src *;
+  frame-src * data:;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' *.thirdweb.com vercel.live;
   connect-src * data: blob:;
   block-all-mixed-content;
@@ -108,7 +108,7 @@ const sentryWebpackPluginOptions = {
   hideSourceMaps: false,
 };
 
-const enhancedModuleExports = withPlausibleProxy({
+module.exports = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",
   scriptName: "pl",
 })(
@@ -116,5 +116,3 @@ const enhancedModuleExports = withPlausibleProxy({
     withSentryConfig(moduleExports, sentryWebpackPluginOptions),
   ),
 );
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-module.exports = require("lodash.merge")(moduleExports, enhancedModuleExports);
