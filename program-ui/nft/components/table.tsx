@@ -47,9 +47,9 @@ export const NFTGetAllTable: React.FC<{
           }
           return row.metadata.id;
         },
-        Cell: (cell: CellProps<NFT, string>) => (
+        Cell: (cell: CellProps<NFT, string | number>) => (
           <Text size="body.md" fontFamily="mono">
-            {shortenIfAddress(cell.value)}
+            {shortenIfAddress(`${cell.value}`)}
           </Text>
         ),
       },
@@ -145,7 +145,6 @@ export const NFTGetAllTable: React.FC<{
   const [tokenRow, setTokenRow] = useState<NFT | null>(null);
 
   const drawerTabs = useNFTDrawerTabs("solana", program, tokenRow);
-
   return (
     <Flex gap={4} direction="column">
       <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
