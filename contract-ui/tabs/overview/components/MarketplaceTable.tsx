@@ -28,53 +28,55 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
     [listingsQuery.data],
   );
 
-  const tableColumns: Column<Listing>[] = [
-    {
-      Header: "ID",
-      accessor: (row) => row.id,
-      Cell: (cell: CellProps<Listing, string>) => (
-        <Text size="body.md" fontFamily="mono">
-          {cell.value}
-        </Text>
-      ),
-    },
-    {
-      Header: "Media",
-      accessor: (row) => row.asset,
-      Cell: (cell: CellProps<Listing, Listing["asset"]>) => (
-        <MediaCell cell={cell} />
-      ),
-    },
-    {
-      Header: "Name",
-      accessor: (row) => row.asset.name,
-      Cell: (cell: CellProps<Listing, string>) => (
-        <Text size="label.md">{cell.value}</Text>
-      ),
-    },
-    {
-      Header: "Seller",
-      accessor: (row) => row.buyoutPrice,
-      Cell: (cell: CellProps<Listing, string>) => (
-        <AddressCopyButton variant="outline" address={cell.value} />
-      ),
-    },
-    {
-      Header: "Price",
-      accessor: (row) => row.buyoutCurrencyValuePerToken,
-      Cell: ({ cell }: { cell: Cell<Listing, any> }) => {
-        return (
-          <Text size="label.md" whiteSpace="nowrap">
-            {cell.value.displayValue} {cell.value.symbol}
+  const tableColumns: Column<Listing>[] = useMemo(() => {
+    return [
+      {
+        Header: "ID",
+        accessor: (row) => row.id,
+        Cell: (cell: CellProps<Listing, string>) => (
+          <Text size="body.md" fontFamily="mono">
+            {cell.value}
           </Text>
-        );
+        ),
       },
-    },
-    {
-      Header: "Type",
-      accessor: (row) => (row.type === 0 ? "Direct Listing" : "Auction"),
-    },
-  ];
+      {
+        Header: "Media",
+        accessor: (row) => row.asset,
+        Cell: (cell: CellProps<Listing, Listing["asset"]>) => (
+          <MediaCell cell={cell} />
+        ),
+      },
+      {
+        Header: "Name",
+        accessor: (row) => row.asset.name,
+        Cell: (cell: CellProps<Listing, string>) => (
+          <Text size="label.md">{cell.value}</Text>
+        ),
+      },
+      {
+        Header: "Seller",
+        accessor: (row) => row.buyoutPrice,
+        Cell: (cell: CellProps<Listing, string>) => (
+          <AddressCopyButton variant="outline" address={cell.value} />
+        ),
+      },
+      {
+        Header: "Price",
+        accessor: (row) => row.buyoutCurrencyValuePerToken,
+        Cell: ({ cell }: { cell: Cell<Listing, any> }) => {
+          return (
+            <Text size="label.md" whiteSpace="nowrap">
+              {cell.value.displayValue} {cell.value.symbol}
+            </Text>
+          );
+        },
+      },
+      {
+        Header: "Type",
+        accessor: (row) => (row.type === 0 ? "Direct Listing" : "Auction"),
+      },
+    ];
+  }, []);
 
   const tableInstance = useTable({
     columns: tableColumns,
@@ -113,22 +115,25 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
               ))}
             </Thead>
             <Tbody {...tableInstance.getTableBodyProps()} position="relative">
-              {tableInstance.rows.map((row) => (
-                // eslint-disable-next-line react/jsx-key
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <Td
-                      {...cell.getCellProps()}
-                      key={cell.getCellProps().key}
-                      borderBottomWidth="inherit"
-                      borderBottomColor="borderColor"
-                      _last={{ textAlign: "end" }}
-                    >
-                      {cell.render("Cell")}
-                    </Td>
-                  ))}
-                </Tr>
-              ))}
+              {tableInstance.rows.map((row) => {
+                tableInstance.prepareRow(row);
+                return (
+                  // eslint-disable-next-line react/jsx-key
+                  <Tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => (
+                      <Td
+                        {...cell.getCellProps()}
+                        key={cell.getCellProps().key}
+                        borderBottomWidth="inherit"
+                        borderBottomColor="borderColor"
+                        _last={{ textAlign: "end" }}
+                      >
+                        {cell.render("Cell")}
+                      </Td>
+                    ))}
+                  </Tr>
+                );
+              })}
             </Tbody>
           </Table>
         </Card>
