@@ -64,7 +64,11 @@ const NFTCards: React.FC<ContractOverviewNFTGetAllProps> = ({
   return (
     <SimpleGrid gap={6} columns={{ base: 1, md: 3 }}>
       {nfts.map((token) => (
-        <GridItem as={Card} key={token.owner} p={0}>
+        <GridItem
+          as={Card}
+          key={`${token.metadata.id}-${token.metadata.name}`}
+          p={0}
+        >
           <AspectRatio w="100%" ratio={1} overflow="hidden" rounded="xl">
             <Skeleton isLoaded={!isLoading}>
               <NFTMediaWithEmptyState
