@@ -9,11 +9,14 @@ import {
   Icon,
   IconButton,
   SimpleGrid,
+  Tooltip,
   useClipboard,
+  useToast,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Chain, allChains } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
+import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -27,6 +30,7 @@ import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useMemo } from "react";
 import { FiCheck, FiCopy } from "react-icons/fi";
+import { IoIosAdd } from "react-icons/io";
 import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import { getAllChainRecords } from "utils/allChainsRecords";
@@ -48,11 +52,12 @@ function useChainStats(
   placeholderData: ChainStats = { latency: 0, blockNumber: 0 },
 ) {
   const rpcUrl = getDashboardChainRpc(chain);
+
   return useQuery({
     queryKey: ["chain_stats", { chainId: chain.chainId, rpcUrl }],
     queryFn: async () => {
       // we'll just ... manually fetch?
-      let latency = Date.now();
+      const startTimeStamp = performance.now();
       const res = await fetch(rpcUrl, {
         method: "POST",
         body: JSON.stringify({
@@ -64,9 +69,12 @@ function useChainStats(
       });
 
       const json = await res.json();
-      latency = Date.now() - latency;
+      const latency = performance.now() - startTimeStamp;
 
-      return { latency, blockNumber: parseInt(json.result, 16) };
+      return {
+        latency,
+        blockNumber: parseInt(json.result, 16),
+      };
     },
     refetchInterval: 5 * 1000,
     enabled: !!rpcUrl,
@@ -79,10 +87,14 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
   const updateConfiguredNetworks = useUpdateConfiguredChains();
   const trackEvent = useTrack();
   const isConfigured = useMemo(() => {
-    return chain.chainId in configuredChainRecord;
+    return (
+      chain.chainId in configuredChainRecord &&
+      !configuredChainRecord[chain.chainId].isAutoConfigured
+    );
   }, [chain.chainId, configuredChainRecord]);
 
   const rpcStats = useChainStats(chain);
+  const toast = useToast();
 
   const { hasCopied, onCopy } = useClipboard(chain.rpc[0]);
 
@@ -98,39 +110,84 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
         flexDirection="column"
         gap={10}
       >
-        <Flex pt={10} justify="space-between" as="header">
-          <Flex gap={4} align="center">
-            <Center boxSize={12} rounded="full" overflow="hidden">
+        <Flex
+          pt={10}
+          justify="space-between"
+          as="header"
+          gap={4}
+          flexDirection={{ base: "column", md: "row" }}
+        >
+          <Flex gap={4} align="center" flexGrow={1}>
+            <Center boxSize={12} overflow="hidden">
               <ChainIcon ipfsSrc={chain.icon?.url} size={48} />
             </Center>
 
             <Heading size="title.lg" as="h1">
-              {chain.name}{" "}
-              <Box as="span" opacity={0.6} fontWeight={400}>
+              {chain.name} {chain.chain.length > 10 && <br />}
+              <Box as="span" opacity={0.6} fontWeight={400} fontSize="0.8em">
                 ({chain.chain})
               </Box>
             </Heading>
+
+            <Box ml="auto">
+              <ClientOnly ssr={null}>
+                {isConfigured && (
+                  <Tooltip
+                    label="Added"
+                    placement="top"
+                    bg="bgBlack"
+                    color="bgWhite"
+                  >
+                    <Flex>
+                      <Icon
+                        aria-label="Chain Added"
+                        w={8}
+                        h={8}
+                        _dark={{
+                          color: "green.300",
+                        }}
+                        _light={{
+                          color: "green.600",
+                        }}
+                        as={FiCheck}
+                      />
+                    </Flex>
+                  </Tooltip>
+                )}
+              </ClientOnly>
+            </Box>
           </Flex>
-          {isConfigured ? null : (
-            <Button
-              background="bgBlack"
-              color="bgWhite"
-              _hover={{
-                opacity: 0.8,
-              }}
-              onClick={() => {
-                updateConfiguredNetworks.add([chain]);
-                trackEvent({
-                  category: CHAIN_CATEGORY,
-                  chain,
-                  action: "add_chain",
-                  label: chain.slug,
-                });
-              }}
-            >
-              {isConfigured ? "Chain Configured" : "Add this chain"}
-            </Button>
-          )}
+
+          <ClientOnly ssr={null}>
+            {!isConfigured && (
+              <Button
+                background="bgBlack"
+                color="bgWhite"
+                _hover={{
+                  opacity: 0.8,
+                }}
+                leftIcon={<Icon w={5} h={5} color="inherit" as={IoIosAdd} />}
+                onClick={() => {
+                  updateConfiguredNetworks.add([chain]);
+                  trackEvent({
+                    category: CHAIN_CATEGORY,
+                    chain,
+                    action: "add_chain",
+                    label: chain.slug,
+                  });
+
+                  toast({
+                    title: "Chain added",
+                    description: `You can now use ${chain.name} on Thirdweb`,
+                    status: "success",
+                    duration: 3000,
+                  });
+                }}
+              >
+                Add this chain
+              </Button>
+            )}
+          </ClientOnly>
         </Flex>
         <Divider />
         <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
@@ -204,7 +261,11 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
               noOfLines={1}
               size="label.lg"
             >
-              {(rpcStats.data?.latency || 0) / 1000}s
+              {(rpcStats.data?.latency || 0).toFixed(0)}
+              <Text as="span" color="accent.700">
+                {" "}
+                ms
+              </Text>
             </Heading>
           </ChainSectionElement>
         </SimpleGrid>
