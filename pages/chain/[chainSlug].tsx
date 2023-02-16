@@ -101,14 +101,21 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
 
   const address = useAddress();
 
+  const title = `${chain.name} (${chain.nativeCurrency.symbol}) | Smart Contracts & Blockchain SDKs`;
+  const description = `Deploy smart contracts to ${
+    chain.name
+  } and build decentralized apps with thirdweb's SDKs. Discover ${
+    chain.name
+  } explorers${chain.faucets?.length ? ", faucets," : ""} & dApps.`;
+
   return (
     <>
       <NextSeo
-        title={`${chain.name} (${chain.nativeCurrency.symbol})`}
-        // thx chatgpt - TODO replace with @juan approved desc
-        description={`Build advanced decentralized applications easily with thirdweb on ${chain.name}. Deploy and interact with smart contracts quickly and efficiently.`}
+        title={title}
+        description={description}
         openGraph={{
-          title: `${chain.name} (${chain.nativeCurrency.symbol})`,
+          title,
+          description,
           images: [
             {
               url: `${getAbsoluteUrl()}/api/og/chain/${chain.chainId}`,
