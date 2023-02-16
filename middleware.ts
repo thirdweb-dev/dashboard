@@ -31,10 +31,10 @@ export function middleware(request: NextRequest) {
 
   // we're in chain mode, rewrite to `/chain/<slug>`
   if (paths.length === 1) {
-    let chainId: number;
+    // redirect numbers to strings
     if (paths[0] in chainIdToChain) {
-      chainId = Number(paths[0]);
-      return rewrite(request, `/chain/${chainIdToChain[chainId].slug}`);
+      const chainId = Number(paths[0]);
+      return redirect(request, `/${chainIdToChain[chainId].slug}`);
     }
 
     if (paths[0] in slugToChain) {
