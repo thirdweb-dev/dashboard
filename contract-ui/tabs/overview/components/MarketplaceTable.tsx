@@ -1,6 +1,16 @@
 import { MediaCell } from "../../../../components/contract-pages/table/table-columns/cells/media-cell";
 import { ListingCards } from "../../listings/components/listings-cards";
-import { Flex, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Spinner,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { useActiveListings, useContract } from "@thirdweb-dev/react";
 import { AuctionListing, DirectListing } from "@thirdweb-dev/sdk/evm";
 import { useTabHref } from "contract-ui/utils";
@@ -110,31 +120,42 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
                       </Text>
                     </Th>
                   ))}
-                  <Th borderBottomColor="borderColor" />
                 </Tr>
               ))}
             </Thead>
-            <Tbody {...tableInstance.getTableBodyProps()} position="relative">
-              {tableInstance.rows.map((row) => {
-                tableInstance.prepareRow(row);
-                return (
-                  // eslint-disable-next-line react/jsx-key
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => (
-                      <Td
-                        {...cell.getCellProps()}
-                        key={cell.getCellProps().key}
-                        borderBottomWidth="inherit"
-                        borderBottomColor="borderColor"
-                        _last={{ textAlign: "end" }}
-                      >
-                        {cell.render("Cell")}
-                      </Td>
-                    ))}
-                  </Tr>
-                );
-              })}
-            </Tbody>
+            {listingsToShow.length > 0 ? (
+              <Tbody {...tableInstance.getTableBodyProps()} position="relative">
+                {tableInstance.rows.map((row) => {
+                  tableInstance.prepareRow(row);
+                  return (
+                    // eslint-disable-next-line react/jsx-key
+                    <Tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => (
+                        <Td
+                          {...cell.getCellProps()}
+                          key={cell.getCellProps().key}
+                          borderBottomWidth="inherit"
+                          borderBottomColor="borderColor"
+                          _last={{ textAlign: "end" }}
+                        >
+                          {cell.render("Cell")}
+                        </Td>
+                      ))}
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            ) : (
+              <Td colSpan={6} borderBottom={0}>
+                <Center py={4}>
+                  <Flex align="center" gap={2}>
+                    <Text size="body.md" fontStyle="italic">
+                      no listings to show
+                    </Text>
+                  </Flex>
+                </Center>
+              </Td>
+            )}
           </Table>
         </Card>
       )}

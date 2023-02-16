@@ -2,7 +2,7 @@ import { CreateListingButton } from "../shared-components/list-button";
 import { ListingCards } from "./components/listings-cards";
 import { ListingsTable } from "./components/table";
 import { Flex } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useListingsCount } from "@thirdweb-dev/react";
 import { Heading } from "tw-components";
 
 interface ListingsPageProps {
