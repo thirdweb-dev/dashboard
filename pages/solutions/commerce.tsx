@@ -1,3 +1,4 @@
+import { AuthenticationExamples } from "../../components/product-pages/authentication/AuthenticationExamples";
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
@@ -158,6 +159,50 @@ const Commerce: ThirdwebNextPage = () => {
             href="https://portal.thirdweb.com/dashboard"
           />
         </SimpleGrid>
+      </ProductSection>
+
+      <ProductSection overflow="hidden">
+        <Flex flexDir="column" py={24} align="center" gap={12}>
+          <Heading as="h2" size="display.sm" textAlign="center" mb={12}>
+            Build web3 commerce apps with CommerceKit across multiple use cases
+          </Heading>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={6}>
+            <ProductCard
+              title="Launch customer loyalty reward programs"
+              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+            >
+              Distribute time-based subscription membership passes with
+              contracts from Explore or using ContractKit. Reward your customers
+              at different stages of their user journey, from free “drops” (with
+              airdrop contracts & gasless relayer) to claiming rewards at
+              checkout.
+            </ProductCard>
+            <ProductCard
+              title="Sell digital collectibles"
+              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+            >
+              Merchants can sell digital collectibles direct from e-commerce
+              store and collect royalties from secondary sales. (e.g.
+              One-of-One’s, Open Editions, Trading packs)
+            </ProductCard>
+            <ProductCard
+              title="Unlock both virtual and real world experiences"
+              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+            >
+              Sell digital tickets with exclusive access to online and offline
+              events. Enable customers to redeem virtual items for real world
+              items.
+            </ProductCard>
+            <ProductCard
+              title="Add web3 data to your customer funnel"
+              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+            >
+              Authenticate web3 users using Auth. Merge data into existing CRM
+              data stores. Get metrics and analytics around transactions and
+              owners of digital assets and collections.
+            </ProductCard>
+          </SimpleGrid>
+        </Flex>
       </ProductSection>
 
       <GuidesShowcase
