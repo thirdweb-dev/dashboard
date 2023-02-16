@@ -8,6 +8,7 @@ import { CgFileDocument } from "react-icons/cg";
 import { Card, CodeBlock, LinkButton } from "tw-components";
 
 const landingSnippets = {
+  cli: ``,
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 // initialize the SDK
@@ -81,6 +82,7 @@ public class Example : MonoBehaviour {
 };
 
 const authSnippets = {
+  cli: ``,
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 
 const sdk = new ThirdwebSDK("goerli");
@@ -126,9 +128,63 @@ func main() {
   unity: ``,
 };
 
+const storageSnippets = {
+  cli: `// You can upload individual files
+npx thirdweb upload ./path/to/file.jpg
+
+// Or you can upload a folder
+npx thirdweb upload ./path/to/folder`,
+  javascript: `import { ThirdwebStorage } from "@thirdweb-dev/storage";
+
+// First, instantiate the SDK
+const storage = new ThirdwebStorage();
+
+// Here we get the IPFS URI of where our metadata has been uploaded
+const uri = await storage.upload(metadata);
+// This will log a URL like ipfs://QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+console.log(uri);
+
+// Here we a URL with a gateway that we can look at in the browser
+const url = await storage.resolveScheme(uri);
+// This will log a URL like https://gateway.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+console.log(url);
+
+// You can also download the data from the uri
+const data = await storage.downloadJSON(uri);`,
+  react: `// Upload files to IPFS
+import { useStorageUpload } from "@thirdweb-dev/react";
+
+function App() {
+  const { mutateAsync: upload } = useStorageUpload();
+
+  const uploadData = () => {
+    // Get any data that you want to upload
+    const dataToUpload = [...];
+
+    // And upload the data with the upload function
+    const uris = await upload({ data: dataToUpload });
+  }
+  ...
+}
+
+// Render files from IPFS
+import { MediaRenderer } from "@thirdweb-dev/react";
+
+function App() {
+  return (
+    <MediaRenderer
+      src="ipfs://QmamvVM5kvsYjQJYs7x8LXKYGFkwtGvuRvqZsuzvpHmQq9/0"
+    />
+  )
+}`,
+  python: ``,
+  go: ``,
+  unity: ``,
+};
+
 export interface CodeSelectorProps {
   defaultLanguage?: CodeOptions;
-  snippets?: "landing" | "auth";
+  snippets?: "landing" | "auth" | "storage";
   docs?: string;
 }
 
@@ -142,7 +198,11 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
   const trackEvent = useTrack();
 
   const actualSnippets =
-    snippets === "landing" ? landingSnippets : authSnippets;
+    snippets === "landing"
+      ? landingSnippets
+      : snippets === "storage"
+      ? storageSnippets
+      : authSnippets;
 
   return (
     <>
@@ -161,7 +221,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
         flexWrap="wrap"
       >
         {Object.keys(actualSnippets).map((key) =>
-          key === "unity" && snippets === "auth" ? null : (
+          actualSnippets[key as keyof typeof actualSnippets] ? (
             <CodeOptionButton
               key={key}
               setActiveLanguage={setActiveLanguage}
@@ -169,9 +229,13 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               language={key as CodeOptions}
               textTransform="capitalize"
             >
-              {key === "javascript" ? "JavaScript" : key}
+              {key === "javascript"
+                ? "JavaScript"
+                : key === "cli"
+                ? "CLI"
+                : key}
             </CodeOptionButton>
-          ),
+          ) : null,
         )}
       </Flex>
 
@@ -193,7 +257,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
           pb={{ base: 12, md: 6 }}
           code={actualSnippets[activeLanguage]}
           language={
-            activeLanguage === "react"
+            activeLanguage === "react" || activeLanguage === "cli"
               ? "jsx"
               : activeLanguage === "unity"
               ? "cpp"
