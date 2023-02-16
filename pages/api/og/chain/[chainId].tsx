@@ -122,7 +122,7 @@ export default async function handler(req: NextRequest) {
           <img
             alt=""
             src={iconUrl}
-            tw="absolute"
+            tw="absolute rounded-full"
             // eslint-disable-next-line react/forbid-dom-props
             style={{
               top: 240,
