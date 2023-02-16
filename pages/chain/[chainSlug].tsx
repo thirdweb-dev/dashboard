@@ -105,7 +105,8 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
     <>
       <NextSeo
         title={`${chain.name} (${chain.nativeCurrency.symbol})`}
-        description={`${chain.name} (${chain.nativeCurrency.symbol}) on thirdweb. Placeholder McPlacehold. @juan gimme copy pls`}
+        // thx chatgpt - TODO replace with @juan approved desc
+        description={`Build advanced decentralized applications easily with thirdweb on ${chain.name}. Deploy and interact with smart contracts quickly and efficiently.`}
         openGraph={{
           title: `${chain.name} (${chain.nativeCurrency.symbol})`,
           images: [
