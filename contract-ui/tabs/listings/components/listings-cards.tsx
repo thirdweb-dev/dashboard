@@ -18,9 +18,9 @@ export const ListingCards: React.FC<ListingCardsProps> = ({ contract }) => {
   const listingsQuery = useListingsCount(contract);
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
+    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 3, md: 6 }}>
       <Card as={Stat}>
-        <StatLabel>Total Listings</StatLabel>
+        <StatLabel mb={{ base: 1, md: 0 }}>Total Listings</StatLabel>
         <Skeleton isLoaded={!contract || listingsQuery.isSuccess}>
           <StatNumber>
             {BigNumber.from(listingsQuery?.data || 0).toString()}

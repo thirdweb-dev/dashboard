@@ -26,9 +26,12 @@ export const TokenSupplyLayout: React.FC<TokenSupplyLayoutProps> = ({
 }) => {
   return (
     <Stack spacing={6}>
-      <Stack direction={{ base: "column", md: "row" }} spacing={6}>
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        spacing={{ base: 6, md: 3 }}
+      >
         <Card as={Stat}>
-          <StatLabel>Total Supply</StatLabel>
+          <StatLabel mb={{ base: 1, md: 0 }}>Total Supply</StatLabel>
           <Skeleton isLoaded={isTokenSupplySuccess}>
             <StatNumber>
               {tokenSupply?.displayValue} {tokenSupply?.symbol}
@@ -36,7 +39,7 @@ export const TokenSupplyLayout: React.FC<TokenSupplyLayoutProps> = ({
           </Skeleton>
         </Card>
         <Card as={Stat}>
-          <StatLabel>Owned by you</StatLabel>
+          <StatLabel mb={{ base: 1, md: 0 }}>Owned by you</StatLabel>
           <Skeleton isLoaded={isOwnedBalanceSuccess || !address}>
             <StatNumber>
               {address ? (
@@ -52,7 +55,7 @@ export const TokenSupplyLayout: React.FC<TokenSupplyLayoutProps> = ({
           </Skeleton>
         </Card>
         <Card as={Stat}>
-          <StatLabel>Decimals</StatLabel>
+          <StatLabel mb={{ base: 1, md: 0 }}>Decimals</StatLabel>
           <Skeleton isLoaded={isTokenSupplySuccess}>
             <StatNumber>{tokenSupply?.decimals}</StatNumber>
           </Skeleton>
