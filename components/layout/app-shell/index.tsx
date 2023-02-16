@@ -7,7 +7,14 @@ import { InsufficientFunds } from "components/notices/InsufficientFunds";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { FiFile, FiGlobe, FiHelpCircle } from "react-icons/fi";
-import { Button, Heading, Link, Text, TrackedLink } from "tw-components";
+import {
+  Button,
+  Heading,
+  Link,
+  LinkButton,
+  Text,
+  TrackedLink,
+} from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export interface AppShellProps {
@@ -174,6 +181,13 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 }
               >
                 Contracts
+              </LinkButton>
+              <LinkButton
+                href="/dashboard/storage"
+                size="sm"
+                variant={pathname === "/dashboard/storage" ? "solid" : "ghost"}
+              >
+                Storage
               </LinkButton>
             </Flex>
           </Container>
