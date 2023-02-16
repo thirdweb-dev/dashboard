@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Chain, allChains } from "@thirdweb-dev/chains";
+import { Chain } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
@@ -464,7 +464,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
-    fallback: false,
-    paths: allChains.map((chain) => `/chain/${chain.slug}`),
+    fallback: "blocking",
+    paths: [],
   };
 };
