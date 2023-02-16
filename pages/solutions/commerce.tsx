@@ -171,35 +171,74 @@ const Commerce: ThirdwebNextPage = () => {
               title="Launch customer loyalty reward programs"
               icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
             >
-              Distribute time-based subscription membership passes with
-              contracts from Explore or using ContractKit. Reward your customers
-              at different stages of their user journey, from free “drops” (with
-              airdrop contracts & gasless relayer) to claiming rewards at
-              checkout.
+              <Text size="body.lg">
+                Distribute time-based subscription membership passes with
+                contracts from{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  color="white"
+                  fontWeight="medium"
+                  href={"/explore"}
+                  label="use-case-explore"
+                >
+                  Explore
+                </TrackedLink>{" "}
+                or using{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  isExternal
+                  color="white"
+                  fontWeight="medium"
+                  href={"https://portal.thirdweb.com/contractkit"}
+                  label="use-case-contractkit"
+                >
+                  ContractKit
+                </TrackedLink>
+                . Reward your customers at different stages of their user
+                journey, from free “drops” (with airdrop contracts & gasless
+                relayer) to claiming rewards at checkout.
+              </Text>
             </ProductCard>
             <ProductCard
               title="Sell digital collectibles"
               icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
             >
-              Merchants can sell digital collectibles direct from e-commerce
-              store and collect royalties from secondary sales. (e.g.
-              One-of-One’s, Open Editions, Trading packs)
+              <Text size="body.lg">
+                Merchants can sell digital collectibles direct from e-commerce
+                store and collect royalties from secondary sales. (e.g.
+                One-of-One’s, Open Editions, Trading packs)
+              </Text>
             </ProductCard>
             <ProductCard
               title="Unlock both virtual and real world experiences"
               icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
             >
-              Sell digital tickets with exclusive access to online and offline
-              events. Enable customers to redeem virtual items for real world
-              items.
+              <Text size="body.lg">
+                Sell digital tickets with exclusive access to online and offline
+                events. Enable customers to redeem virtual items for real world
+                items.
+              </Text>
             </ProductCard>
             <ProductCard
               title="Add web3 data to your customer funnel"
               icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
             >
-              Authenticate web3 users using Auth. Merge data into existing CRM
-              data stores. Get metrics and analytics around transactions and
-              owners of digital assets and collections.
+              <Text size="body.lg">
+                Authenticate web3 users using{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  isExternal
+                  color="white"
+                  fontWeight="medium"
+                  href={"/auth"}
+                  label="use-case-auth"
+                >
+                  Auth
+                </TrackedLink>
+                . Merge data into existing CRM data stores. Get metrics and
+                analytics around transactions and owners of digital assets and
+                collections.
+              </Text>
             </ProductCard>
           </SimpleGrid>
         </Flex>
