@@ -16,7 +16,13 @@ import { AuctionListing, DirectListing } from "@thirdweb-dev/sdk/evm";
 import { useTabHref } from "contract-ui/utils";
 import React, { useMemo } from "react";
 import { Cell, CellProps, Column, useTable } from "react-table";
-import { Card, Heading, Text, TrackedLinkProps } from "tw-components";
+import {
+  Card,
+  Heading,
+  Text,
+  TrackedLink,
+  TrackedLinkProps,
+} from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface MarketplaceTableProps {
@@ -94,71 +100,95 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
   });
 
   return (
-    <Flex gap={6} flexDirection="column">
-      <Flex align="center" justify="space-between" w="full">
-        <Heading flexShrink={0} size="title.sm">
-          Listings
-        </Heading>
+    <Flex gap={8} flexDir="column">
+      <Flex gap={6} flexDirection="column">
+        <Flex align="center" justify="space-between" w="full">
+          <Heading flexShrink={0} size="title.sm">
+            Listings
+          </Heading>
+        </Flex>
+        <ListingCards contract={contract?.contract} />
       </Flex>
-      <ListingCards contract={contract?.contract} />
-      {contract && (
-        <Card p={0} overflow="hidden">
-          <Table {...tableInstance.getTableProps()}>
-            <Thead>
-              {tableInstance.headerGroups.map((headerGroup) => (
-                // eslint-disable-next-line react/jsx-key
-                <Tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    // eslint-disable-next-line react/jsx-key
-                    <Th
-                      {...column.getHeaderProps()}
-                      py={5}
-                      borderBottomColor="borderColor"
-                    >
-                      <Text as="label" size="label.md">
-                        {column.render("Header")}
+      <Flex gap={6} flexDirection="column">
+        <Flex align="center" justify="space-between" w="full">
+          <Heading flexShrink={0} size="label.lg">
+            Recent Listings
+          </Heading>
+          <TrackedLink
+            category={trackingCategory}
+            label="view_all_listings"
+            color="blue.400"
+            _light={{
+              color: "blue.600",
+            }}
+            gap={4}
+            href={listingsHref}
+          >
+            View all listings -&gt;
+          </TrackedLink>
+        </Flex>
+        {contract && (
+          <Card p={0} overflow="hidden">
+            <Table {...tableInstance.getTableProps()}>
+              <Thead>
+                {tableInstance.headerGroups.map((headerGroup) => (
+                  // eslint-disable-next-line react/jsx-key
+                  <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      // eslint-disable-next-line react/jsx-key
+                      <Th
+                        {...column.getHeaderProps()}
+                        py={5}
+                        borderBottomColor="borderColor"
+                      >
+                        <Text as="label" size="label.md">
+                          {column.render("Header")}
+                        </Text>
+                      </Th>
+                    ))}
+                  </Tr>
+                ))}
+              </Thead>
+              {listingsToShow.length > 0 ? (
+                <Tbody
+                  {...tableInstance.getTableBodyProps()}
+                  position="relative"
+                >
+                  {tableInstance.rows.map((row) => {
+                    tableInstance.prepareRow(row);
+                    return (
+                      // eslint-disable-next-line react/jsx-key
+                      <Tr {...row.getRowProps()}>
+                        {row.cells.map((cell) => (
+                          <Td
+                            {...cell.getCellProps()}
+                            key={cell.getCellProps().key}
+                            borderBottomWidth="inherit"
+                            borderBottomColor="borderColor"
+                            _last={{ textAlign: "end" }}
+                          >
+                            {cell.render("Cell")}
+                          </Td>
+                        ))}
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
+              ) : (
+                <Td colSpan={6} borderBottom={0}>
+                  <Center py={4}>
+                    <Flex align="center" gap={2}>
+                      <Text size="body.md" fontStyle="italic">
+                        no listings to show
                       </Text>
-                    </Th>
-                  ))}
-                </Tr>
-              ))}
-            </Thead>
-            {listingsToShow.length > 0 ? (
-              <Tbody {...tableInstance.getTableBodyProps()} position="relative">
-                {tableInstance.rows.map((row) => {
-                  tableInstance.prepareRow(row);
-                  return (
-                    // eslint-disable-next-line react/jsx-key
-                    <Tr {...row.getRowProps()}>
-                      {row.cells.map((cell) => (
-                        <Td
-                          {...cell.getCellProps()}
-                          key={cell.getCellProps().key}
-                          borderBottomWidth="inherit"
-                          borderBottomColor="borderColor"
-                          _last={{ textAlign: "end" }}
-                        >
-                          {cell.render("Cell")}
-                        </Td>
-                      ))}
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            ) : (
-              <Td colSpan={6} borderBottom={0}>
-                <Center py={4}>
-                  <Flex align="center" gap={2}>
-                    <Text size="body.md" fontStyle="italic">
-                      no listings to show
-                    </Text>
-                  </Flex>
-                </Center>
-              </Td>
-            )}
-          </Table>
-        </Card>
-      )}
+                    </Flex>
+                  </Center>
+                </Td>
+              )}
+            </Table>
+          </Card>
+        )}
+      </Flex>
     </Flex>
   );
 };
