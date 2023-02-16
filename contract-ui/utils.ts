@@ -43,7 +43,8 @@ export function useTabHref(
     | "code"
     | "settings"
     | "sources"
-    | "tokens",
+    | "tokens"
+    | "listings",
 ) {
   const contractInfo = useEVMContractInfo();
   invariant(contractInfo, "can not use useTabHref() without a contractInfo");

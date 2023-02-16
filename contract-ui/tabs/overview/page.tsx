@@ -1,5 +1,6 @@
 import { BuildYourApp } from "./components/BuildYourApp";
 import { LatestEvents } from "./components/LatestEvents";
+import { MarketplaceTable } from "./components/MarketplaceTable";
 import { NFTDetails } from "./components/NFTDetails";
 import { PermissionsTable } from "./components/PermissionsTable";
 import { ShareContract } from "./components/ShareContract";
@@ -40,6 +41,12 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={16}>
+        {contract && contractTypeData === "marketplace" && (
+          <MarketplaceTable
+            contractAddress={contractAddress}
+            trackingCategory={TRACKING_CATEGORY}
+          />
+        )}
         {contract &&
           ["ERC1155", "ERC721"].some((type) =>
             detectedFeatureNames.includes(type),
