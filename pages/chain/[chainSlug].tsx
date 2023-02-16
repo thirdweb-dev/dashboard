@@ -25,6 +25,7 @@ import {
   useUpdateConfiguredChains,
 } from "hooks/chains/configureChains";
 import { getDashboardChainRpc } from "lib/rpc";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
@@ -102,7 +103,21 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
 
   return (
     <>
-      <NextSeo title={`${chain.name} (${chain.chain})`} />
+      <NextSeo
+        title={`${chain.name} (${chain.nativeCurrency.symbol})`}
+        description={`${chain.name} (${chain.nativeCurrency.symbol}) on thirdweb. Placeholder McPlacehold. @juan gimme copy pls`}
+        openGraph={{
+          title: `${chain.name} (${chain.nativeCurrency.symbol})`,
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/api/og/chain/${chain.chainId}`,
+              width: 1200,
+              height: 630,
+              alt: `${chain.name} (${chain.nativeCurrency.symbol}) on thirdweb`,
+            },
+          ],
+        }}
+      />
       <Container
         maxW="container.page"
         py={6}
@@ -398,7 +413,7 @@ ChainPage.getLayout = (page) => {
 };
 // server side ---------------------------------------------------------------
 
-const { slugToChain } = getAllChainRecords();
+const { slugToChain, chainIdToChain } = getAllChainRecords();
 export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   let chainSlug = ctx.params?.chainSlug;
 
@@ -409,6 +424,16 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   }
   if (Array.isArray(chainSlug)) {
     chainSlug = chainSlug[0];
+  }
+
+  // if the chain slug is a chain id, redirect to the chain slug
+  if (chainSlug in chainIdToChain) {
+    return {
+      redirect: {
+        destination: `/${chainIdToChain[parseInt(chainSlug)].slug}`,
+        permanent: false,
+      },
+    };
   }
 
   const chain = chainSlug in slugToChain ? slugToChain[chainSlug] : null;
