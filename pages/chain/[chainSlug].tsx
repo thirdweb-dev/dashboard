@@ -13,12 +13,14 @@ import {
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { Chain } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
+import { ContractCard } from "components/explore/contract-card";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { ExploreCategory, getCategory, prefetchCategory } from "data/explore";
 import { useTrack } from "hooks/analytics/useTrack";
 import {
   useConfiguredChainsRecord,
@@ -26,7 +28,7 @@ import {
 } from "hooks/chains/configureChains";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getAbsoluteUrl } from "lib/vercel-utils";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useMemo } from "react";
@@ -39,6 +41,7 @@ import { ThirdwebNextPage } from "utils/types";
 
 type EVMContractProps = {
   chain: Chain;
+  category: ExploreCategory | null;
 };
 
 const CHAIN_CATEGORY = "chain_page";
@@ -83,7 +86,10 @@ function useChainStats(
   });
 }
 
-const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
+const ChainPage: ThirdwebNextPage = ({
+  chain,
+  category,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const configuredChainRecord = useConfiguredChainsRecord();
   const updateConfiguredNetworks = useUpdateConfiguredChains();
   const trackEvent = useTrack();
@@ -313,7 +319,6 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
                 return (
                   <GridItem
                     as={Card}
-                    bg="transparent"
                     colSpan={3}
                     key={url.toString()}
                     gap={2}
@@ -350,7 +355,6 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
                 return (
                   <GridItem
                     as={Card}
-                    bg="transparent"
                     colSpan={3}
                     key={explorer.url}
                     gap={2}
@@ -379,6 +383,33 @@ const ChainPage: ThirdwebNextPage = ({ chain }: EVMContractProps) => {
             </SimpleGrid>
           </ChainSectionElement>
         ) : null}
+        {category && (
+          <>
+            <Divider />
+            <ChainSectionElement colSpan={12} label="Popular Contracts">
+              <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
+                {category.contracts.map((publishedContractId, idx) => {
+                  const [publisher, contractId] =
+                    publishedContractId.split("/");
+                  return (
+                    <GridItem key={contractId} colSpan={4}>
+                      <ContractCard
+                        slim
+                        key={publishedContractId}
+                        publisher={publisher}
+                        contractId={contractId}
+                        tracking={{
+                          source: `chain_${chain.slug}`,
+                          itemIndex: `${idx}`,
+                        }}
+                      />
+                    </GridItem>
+                  );
+                })}
+              </SimpleGrid>
+            </ChainSectionElement>
+          </>
+        )}
       </Container>
     </>
   );
@@ -405,15 +436,12 @@ const ChainSectionElement: ComponentWithChildren<ChainSectionElementProps> = ({
 
 export default ChainPage;
 ChainPage.pageId = PageId.DeployedContract;
-ChainPage.getLayout = (page) => {
-  // app layout has to come first in both getLayout and fallback
+ChainPage.getLayout = (page, props) => {
   return (
     <AppLayout
       layout={"custom-contract"}
       noSEOOverride
-      // dehydratedState={props.dehydratedState}
-      // has to be passed directly because the provider can not be above app layout in the tree
-      // contractInfo={props.contractInfo}
+      dehydratedState={props.dehydratedState}
     >
       {page}
     </AppLayout>
@@ -462,9 +490,17 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   // overwrite with the dashboard chain RPC (add the api key)
   chain.rpc = [chainRpc];
 
+  const category = getCategory("popular");
+  const queryClient = new QueryClient();
+  if (category) {
+    await prefetchCategory(category, queryClient);
+  }
+
   return {
     props: {
       chain,
+      category,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
