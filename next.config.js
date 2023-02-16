@@ -5,7 +5,7 @@ const ContentSecurityPolicy = `
   object-src 'none';
   style-src 'self' 'unsafe-inline';
   font-src 'self';
-  frame-src *;
+  frame-src * data:;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' *.thirdweb.com vercel.live;
   connect-src * data: blob:;
   block-all-mixed-content;
@@ -105,14 +105,15 @@ const sentryWebpackPluginOptions = {
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 
-  hideSourceMaps: false,
+  hideSourceMaps: true,
+  enabled: process.env.NODE_ENV === "production",
 };
+
+// we only want sentry on production enviroments
+const wSentry =
+  process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
 
 module.exports = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",
   scriptName: "pl",
-})(
-  withBundleAnalyzer(
-    withSentryConfig(moduleExports, sentryWebpackPluginOptions),
-  ),
-);
+})(withBundleAnalyzer(wSentry(moduleExports, sentryWebpackPluginOptions)));
