@@ -10,10 +10,12 @@ import {
   Link,
   forwardRef,
   useButtonGroup,
+  useClipboard,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import React from "react";
-import { FiExternalLink } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FiCopy, FiExternalLink } from "react-icons/fi";
+import { IoMdCheckmark } from "react-icons/io";
 import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 
 export const buttonSizesMap = {
@@ -136,3 +138,39 @@ export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
 );
 
 TrackedIconButton.displayName = "TrackedIconButton";
+
+interface TrackedCopyButtonProps extends TrackedIconButtonProps {
+  value: string;
+}
+
+export const TrackedCopyButton = forwardRef<TrackedCopyButtonProps, "button">(
+  ({ value, ...restButtonProps }, ref) => {
+    const { onCopy, hasCopied, setValue } = useClipboard(value);
+
+    useEffect(() => {
+      if (value) {
+        setValue(value);
+      }
+    }, [value, setValue]);
+
+    return (
+      <TrackedIconButton
+        ref={ref}
+        borderRadius="md"
+        variant="ghost"
+        colorScheme="whiteAlpha"
+        size="sm"
+        onClick={onCopy}
+        icon={
+          <Icon
+            as={hasCopied ? IoMdCheckmark : FiCopy}
+            fill={hasCopied ? "green.500" : undefined}
+          />
+        }
+        {...restButtonProps}
+      />
+    );
+  },
+);
+
+TrackedCopyButton.displayName = "TrackedCopyButton";
