@@ -95,11 +95,11 @@ export const DashboardChains: ThirdwebNextPage = () => {
               </Flex>
               <SimpleGrid gap={12} columns={12}>
                 <Flex as={GridItem} colSpan={4} flexDir="column" gap={1}>
-                  <Text color="paragraph">Chain ID</Text>
+                  <Text opacity={0.6}>Chain ID</Text>
                   <Text size="label.md">{chain.chainId}</Text>
                 </Flex>
                 <Flex as={GridItem} flexDir="column" colSpan={8} gap={1}>
-                  <Text color="paragraph">Native Token</Text>
+                  <Text opacity={0.6}>Native Token</Text>
                   <Text size="label.md">{chain.nativeCurrency.symbol}</Text>
                 </Flex>
               </SimpleGrid>
