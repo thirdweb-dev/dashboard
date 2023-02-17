@@ -30,7 +30,12 @@ export const Changelog = () => {
             &#9679;
           </Text>
           <Flex flexDir="column">
-            <Link href={item.url} _hover={{ textDecor: "none" }} role="group">
+            <Link
+              href={item.url}
+              _hover={{ textDecor: "none" }}
+              role="group"
+              isExternal
+            >
               <Text _groupHover={{ color: "blue.500" }}>{item.title}</Text>
             </Link>
             <Text color="gray.700">

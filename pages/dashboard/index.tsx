@@ -16,10 +16,11 @@ const TRACKING_CATEGORY = "dashboard";
 
 const GET_STARTED_SECTIONS = [
   {
-    title: "Deploy a contract",
-    description: "Start deploying contracts on-chain in just a few minutes.",
-    image: require("public/assets/dashboard/home-deploy.png"),
-    lightImage: require("public/assets/dashboard/home-deploy-light.png"),
+    title: "View contracts",
+    description:
+      "View smart contracts that you deployed or added to your dashboard.",
+    image: require("public/assets/dashboard/home-view.png"),
+    lightImage: require("public/assets/dashboard/home-view-light.png"),
     href: "/contracts",
   },
   {
@@ -74,7 +75,7 @@ const Dashboard: ThirdwebNextPage = () => {
                     </Heading>
                     <Text>{description}</Text>
                   </Flex>
-                  <Flex justifyContent="center">
+                  <Flex justifyContent="center" px={6}>
                     <ChakraNextImage
                       src={colorMode === "light" ? lightImage : image}
                       alt=""
