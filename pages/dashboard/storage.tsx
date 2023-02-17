@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const Storage: ThirdwebNextPage = () => {
+const DashboardStorage: ThirdwebNextPage = () => {
   const storageUpload = useStorageUpload();
   const form = useForm({
     defaultValues: {
@@ -74,7 +74,9 @@ const Storage: ThirdwebNextPage = () => {
   );
 };
 
-Storage.getLayout = (page, props) => <AppLayout {...props}>{page}</AppLayout>;
-Storage.pageId = PageId.Storage;
+DashboardStorage.getLayout = (page, props) => (
+  <AppLayout {...props}>{page}</AppLayout>
+);
+DashboardStorage.pageId = PageId.DashboardStorage;
 
-export default Storage;
+export default DashboardStorage;

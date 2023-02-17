@@ -59,7 +59,10 @@ export enum PageId {
   Dashboard = "dashboard",
 
   // thirdweb.com/dashboard/storage
-  Storage = "storage",
+  DashboardStorage = "dashboard-storage",
+
+  // thirdweb.com/dashboard/chains
+  DashboardChains = "dashboard-chains",
 
   // thirdweb.com/contracts
   Contracts = "contracts",

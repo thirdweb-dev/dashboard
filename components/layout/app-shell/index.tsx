@@ -189,6 +189,13 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
               >
                 Storage
               </LinkButton>
+              <LinkButton
+                href="/dashboard/chains"
+                size="sm"
+                variant={pathname === "/dashboard/chains" ? "solid" : "ghost"}
+              >
+                Chains
+              </LinkButton>
             </Flex>
           </Container>
         </Box>
