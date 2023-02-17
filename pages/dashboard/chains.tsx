@@ -1,23 +1,66 @@
-import { Flex, Icon, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
-import { Chain, allChains } from "@thirdweb-dev/chains";
+import { Flex, Icon, Input, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
+import Fuse from "fuse.js";
+import { useAllChainsData } from "hooks/chains/allChains";
 import { PageId } from "page-id";
+import { useDeferredValue, useMemo } from "react";
+import { useForm } from "react-hook-form";
 import { BsCheck2Circle } from "react-icons/bs";
 import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 export const DashboardChains: ThirdwebNextPage = () => {
-  const chains: Chain[] = allChains;
+  const { allChains } = useAllChainsData();
+  const form = useForm({
+    defaultValues: {
+      query: "",
+    },
+  });
+
+  const fuse = useMemo(() => {
+    return new Fuse(allChains, {
+      keys: [
+        {
+          name: "name",
+          weight: 2,
+        },
+        {
+          name: "chainId",
+          weight: 1,
+        },
+      ],
+    });
+  }, [allChains]);
+
+  const deferredSearchTerm = useDeferredValue(form.watch("query"));
+
+  const filteredChains = useMemo(() => {
+    if (!deferredSearchTerm || !allChains.length) {
+      return allChains || [];
+    }
+
+    return fuse.search(deferredSearchTerm).map((e) => e.item);
+  }, [allChains, deferredSearchTerm, fuse]);
 
   return (
     <Flex flexDir="column" gap={8} mt={10}>
       <Heading size="title.lg" as="h1">
         Chains
       </Heading>
-      <Flex>search</Flex>
-      <SimpleGrid columns={{ base: 1, lg: 3 }} gap={6}>
-        {chains.map((chain) => (
+      <Flex>
+        <Input
+          spellCheck="false"
+          autoComplete="off"
+          bg="transparent"
+          placeholder="Search by name or chain ID"
+          borderColor="borderColor"
+          w={{ base: "full", md: "35%" }}
+          {...form.register("query")}
+        />
+      </Flex>
+      <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
+        {filteredChains.map((chain) => (
           <LinkOverlay
             key={chain.chainId}
             href={`/${chain.slug}`}
