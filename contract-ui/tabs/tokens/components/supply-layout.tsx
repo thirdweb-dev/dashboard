@@ -25,42 +25,37 @@ export const TokenSupplyLayout: React.FC<TokenSupplyLayoutProps> = ({
   ownedBalance,
 }) => {
   return (
-    <Stack spacing={6}>
-      <Stack
-        direction={{ base: "column", md: "row" }}
-        spacing={{ base: 6, md: 3 }}
-      >
-        <Card as={Stat}>
-          <StatLabel mb={{ base: 1, md: 0 }}>Total Supply</StatLabel>
-          <Skeleton isLoaded={isTokenSupplySuccess}>
-            <StatNumber>
-              {tokenSupply?.displayValue} {tokenSupply?.symbol}
-            </StatNumber>
-          </Skeleton>
-        </Card>
-        <Card as={Stat}>
-          <StatLabel mb={{ base: 1, md: 0 }}>Owned by you</StatLabel>
-          <Skeleton isLoaded={isOwnedBalanceSuccess || !address}>
-            <StatNumber>
-              {address ? (
-                <>
-                  {ownedBalance?.displayValue} {ownedBalance?.symbol}
-                </>
-              ) : (
-                <StatHelpText as="span">
-                  Connect your wallet to see your balance
-                </StatHelpText>
-              )}
-            </StatNumber>
-          </Skeleton>
-        </Card>
-        <Card as={Stat}>
-          <StatLabel mb={{ base: 1, md: 0 }}>Decimals</StatLabel>
-          <Skeleton isLoaded={isTokenSupplySuccess}>
-            <StatNumber>{tokenSupply?.decimals}</StatNumber>
-          </Skeleton>
-        </Card>
-      </Stack>
+    <Stack spacing={{ base: 3, md: 6 }} direction="row">
+      <Card as={Stat}>
+        <StatLabel mb={{ base: 1, md: 0 }}>Total Supply</StatLabel>
+        <Skeleton isLoaded={isTokenSupplySuccess}>
+          <StatNumber>
+            {tokenSupply?.displayValue} {tokenSupply?.symbol}
+          </StatNumber>
+        </Skeleton>
+      </Card>
+      <Card as={Stat}>
+        <StatLabel mb={{ base: 1, md: 0 }}>Owned by you</StatLabel>
+        <Skeleton isLoaded={isOwnedBalanceSuccess || !address}>
+          <StatNumber>
+            {address ? (
+              <>
+                {ownedBalance?.displayValue} {ownedBalance?.symbol}
+              </>
+            ) : (
+              <StatHelpText as="span">
+                Connect your wallet to see your balance
+              </StatHelpText>
+            )}
+          </StatNumber>
+        </Skeleton>
+      </Card>
+      <Card as={Stat}>
+        <StatLabel mb={{ base: 1, md: 0 }}>Decimals</StatLabel>
+        <Skeleton isLoaded={isTokenSupplySuccess}>
+          <StatNumber>{tokenSupply?.decimals}</StatNumber>
+        </Skeleton>
+      </Card>
     </Stack>
   );
 };

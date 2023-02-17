@@ -44,7 +44,9 @@ export function useTabHref(
     | "settings"
     | "sources"
     | "tokens"
-    | "listings",
+    | "listings"
+    | "direct-listings"
+    | "english-auctions",
 ) {
   const contractInfo = useEVMContractInfo();
   invariant(contractInfo, "can not use useTabHref() without a contractInfo");
