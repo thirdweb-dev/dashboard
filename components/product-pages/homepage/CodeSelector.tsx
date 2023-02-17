@@ -1,6 +1,7 @@
 import { CodeOptionButton, CodeOptions } from "../common/CodeOptionButton";
 import { Flex, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
+import { useRouter } from "next/router";
 import darkTheme from "prism-react-renderer/themes/dracula";
 import { useState } from "react";
 import { AiOutlineCode } from "react-icons/ai";
@@ -193,6 +194,8 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
   snippets = "landing",
   docs = "https://portal.thirdweb.com/",
 }) => {
+  const { asPath } = useRouter();
+
   const [activeLanguage, setActiveLanguage] =
     useState<CodeOptions>(defaultLanguage);
   const trackEvent = useTrack();
@@ -263,7 +266,9 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               ? "cpp"
               : activeLanguage
           }
-          backgroundColor={"transparent"}
+          backgroundColor={
+            asPath === "/dashboard/storage" ? undefined : "transparent"
+          }
           mt={4}
         />
 

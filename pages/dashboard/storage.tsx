@@ -1,12 +1,20 @@
 import { Flex } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
-import { IpfsUploadButton } from "components/ipfs-upload";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
+import dynamic from "next/dynamic";
 import { PageId } from "page-id";
 import { useForm } from "react-hook-form";
 import { CodeBlock, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+
+const LazyIpfsUploadButton = dynamic(
+  () =>
+    import("components/ipfs-upload").then(
+      ({ IpfsUploadButton }) => IpfsUploadButton,
+    ),
+  { ssr: false },
+);
 
 const Storage: ThirdwebNextPage = () => {
   const storageUpload = useStorageUpload();
@@ -24,12 +32,12 @@ const Storage: ThirdwebNextPage = () => {
           Everything you upload using thirdweb, gets automatically uploaded and
           pinned to IPFS. For free. Try it right now.
         </Text>
-        <IpfsUploadButton
+        <LazyIpfsUploadButton
           onUpload={(uri) => form.setValue("file", uri, { shouldDirty: true })}
           storageUpload={storageUpload}
         >
           Upload file to IPFS
-        </IpfsUploadButton>
+        </LazyIpfsUploadButton>
         {form.watch("file") ? (
           <CodeBlock
             minW="700px"
