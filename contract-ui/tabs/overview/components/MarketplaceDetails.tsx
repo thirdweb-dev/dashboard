@@ -48,7 +48,6 @@ type ListingData = {
     | Listing["buyoutCurrencyValuePerToken"]
     | DirectListingV3["currencyValuePerToken"]
     | EnglishAuction["buyoutCurrencyValue"];
-  startTimeInSeconds: BigNumber;
 };
 
 type MarketplaceDetailsProps = {
@@ -101,17 +100,11 @@ const MarketplaceV1Details: React.FC<
         type:
           v.type === ListingType.Direct ? "direct-listing" : "english-auction",
         currencyValue: v.buyoutCurrencyValuePerToken,
-        startTimeInSeconds: BigNumber.from(
-          v.type === ListingType.Auction
-            ? v.startTimeInEpochSeconds
-            : v.startTimeInSeconds,
-        ),
       })) || [],
     [listingsQuery?.data],
   );
 
-  return !listingsQuery.isLoading &&
-    listingsQuery?.data?.length === 0 ? null : (
+  return (
     <Flex gap={6} flexDirection="column">
       <Heading size="title.sm">Listings</Heading>
       <ListingStats contract={contract} />
@@ -120,7 +113,7 @@ const MarketplaceV1Details: React.FC<
           <Heading size="label.lg">Recent Listings</Heading>
           <TrackedLink
             category={trackingCategory}
-            label="view_all_nfts"
+            label="view_all_listings"
             color="blue.400"
             _light={{
               color: "blue.600",
@@ -145,64 +138,87 @@ const MarketplaceV3Details: React.FC<
   MarketplaceDetailsVersionProps<MarketplaceV3>
 > = ({ contract, trackingCategory }) => {
   const directListingsHref = useTabHref("direct-listings");
+  const englishAuctionsHref = useTabHref("english-auctions");
   const directListingsQuery = useDirectListings(contract, { count: 3 });
   const englishAuctionsQuery = useEnglishAuctions(contract, { count: 3 });
 
-  const listings = useMemo(
-    () => ({
-      isLoading:
-        directListingsQuery.isLoading || englishAuctionsQuery.isLoading,
-      data: [
-        ...(directListingsQuery?.data?.map<ListingData>((v) => ({
-          ...v,
-          sellerAddress: v.creatorAddress,
-          type: "direct-listing",
-          currencyValue: v.currencyValuePerToken,
-          startTimeInSeconds: BigNumber.from(v.startTimeInSeconds),
-        })) || []),
-        ...(englishAuctionsQuery?.data?.map<ListingData>((v) => ({
-          ...v,
-          sellerAddress: v.creatorAddress,
-          type: "english-auction",
-          currencyValue: v.buyoutCurrencyValue,
-          startTimeInSeconds: BigNumber.from(v.startTimeInSeconds),
-        })) || []),
-      ]
-        .sort((a, b) =>
-          b.startTimeInSeconds.sub(a.startTimeInSeconds).toNumber(),
-        )
-        .slice(0, 3),
-    }),
-    [directListingsQuery, englishAuctionsQuery],
+  const directListings = useMemo(
+    () =>
+      directListingsQuery?.data?.map<ListingData>((v) => ({
+        ...v,
+        sellerAddress: v.creatorAddress,
+        type: "direct-listing",
+        currencyValue: v.currencyValuePerToken,
+      })) || [],
+    [directListingsQuery?.data],
   );
 
-  return listings?.data.length === 0 ? null : (
+  const englishAuctions = useMemo(
+    () =>
+      englishAuctionsQuery?.data?.map<ListingData>((v) => ({
+        ...v,
+        sellerAddress: v.creatorAddress,
+        type: "english-auction",
+        currencyValue: v.buyoutCurrencyValue,
+      })) || [],
+    [englishAuctionsQuery?.data],
+  );
+
+  return (
     <Flex gap={6} flexDirection="column">
       <Heading size="title.sm">Listings</Heading>
       <ListingStatsV3 contract={contract} />
-      <Flex direction="column" gap={{ base: 3, md: 6 }}>
-        <Flex align="center" justify="space-between" w="full">
-          <Heading size="label.lg">Recent Listings</Heading>
-          <TrackedLink
-            category={trackingCategory}
-            label="view_all_nfts"
-            color="blue.400"
-            _light={{
-              color: "blue.600",
-            }}
-            gap={4}
-            href={directListingsHref}
-          >
-            View direct listings -&gt;
-          </TrackedLink>
-        </Flex>
-      </Flex>
-      <ListingCards
-        listings={listings?.data}
-        isLoading={listings.isLoading}
-        trackingCategory={trackingCategory}
-        isMarketplaceV3
-      />
+      {!directListingsQuery.isLoading && directListings.length === 0 ? null : (
+        <>
+          <Flex align="center" justify="space-between" w="full">
+            <Heading size="label.lg">Direct Listings</Heading>
+            <TrackedLink
+              category={trackingCategory}
+              label="view_all_direct_listings"
+              color="blue.400"
+              _light={{
+                color: "blue.600",
+              }}
+              gap={4}
+              href={directListingsHref}
+            >
+              View direct listings -&gt;
+            </TrackedLink>
+          </Flex>
+          <ListingCards
+            listings={directListings}
+            isLoading={directListingsQuery.isLoading}
+            trackingCategory={trackingCategory}
+            isMarketplaceV3
+          />
+        </>
+      )}
+      {!englishAuctionsQuery.isLoading &&
+      englishAuctions.length === 0 ? null : (
+        <>
+          <Flex align="center" justify="space-between" w="full">
+            <Heading size="label.lg">English Auctions</Heading>
+            <TrackedLink
+              category={trackingCategory}
+              label="view_all_english_auctions"
+              color="blue.400"
+              _light={{
+                color: "blue.600",
+              }}
+              gap={4}
+              href={englishAuctionsHref}
+            >
+              View english auctions -&gt;
+            </TrackedLink>
+          </Flex>
+          <ListingCards
+            listings={englishAuctions}
+            isLoading={englishAuctionsQuery.isLoading}
+            trackingCategory={trackingCategory}
+            isMarketplaceV3
+          />
+        </>
+      )}
     </Flex>
   );
 };
@@ -264,7 +280,7 @@ const ListingCards: React.FC<ListingCardsProps> = ({
                 : englishAuctionsHref
               : listingsHref
           }
-          _hover={{ textDecoration: "none" }}
+          _hover={{ opacity: 0.75, textDecoration: "none" }}
         >
           <Card p={0}>
             <AspectRatio w="100%" ratio={1} overflow="hidden" rounded="xl">
