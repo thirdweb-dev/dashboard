@@ -8,7 +8,7 @@ export const config = {
   runtime: "edge",
 };
 const bgImgUrl = new URL(
-  `og-lib/assets/release/background.png`,
+  `og-lib/assets/publish/background.png`,
   import.meta.url,
 ).toString();
 

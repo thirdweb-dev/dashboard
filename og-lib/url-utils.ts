@@ -26,8 +26,8 @@ interface OgImageContract {
   logo?: string;
   deployer?: string;
   erc?: string;
-  // maybe later add release metadata
-  // releaseMeta?: Pick<
+  // maybe later add publish metadata
+  // publishMeta?: Pick<
   //   OGImagePublishedContract,
   //   "name" | "version" | "publishDate" | "logo"
   // >;
