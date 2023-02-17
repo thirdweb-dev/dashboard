@@ -148,11 +148,8 @@ const MarketplaceV3Details: React.FC<
   MarketplaceDetailsVersionProps<MarketplaceV3>
 > = ({ contract, trackingCategory }) => {
   const directListingsHref = useTabHref("direct-listings");
-  const directListingsQuery = useDirectListings(contract, {
-    count: 3,
-    start: -3,
-  });
-  const englishAuctionsQuery = useEnglishAuctions(contract);
+  const directListingsQuery = useDirectListings(contract, { count: 3 });
+  const englishAuctionsQuery = useEnglishAuctions(contract, { count: 3 });
 
   const listings = useMemo(
     () => ({

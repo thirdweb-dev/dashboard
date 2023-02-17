@@ -71,7 +71,7 @@ export const ListingStatsV3: React.FC<ListingStatsV3Props> = ({ contract }) => {
         </Skeleton>
       </Card>
       <Card as={Stat}>
-        <StatLabel mb={{ base: 1, md: 0 }}>Total Listings</StatLabel>
+        <StatLabel mb={{ base: 1, md: 0 }}>Direct Listings</StatLabel>
         <Skeleton isLoaded={!contract || directListingsQuery.isSuccess}>
           <StatNumber>
             {BigNumber.from(directListingsQuery?.data || 0).toString()}
