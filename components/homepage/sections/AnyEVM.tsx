@@ -7,13 +7,7 @@ import { Heading, Text } from "tw-components";
 export const AnyEVMSection = () => {
   return (
     <HomepageSection id="any-evm">
-      <Flex
-        flexDir="column"
-        pt={12}
-        align="center"
-        gap={{ base: 6, md: 8 }}
-        pb={16}
-      >
+      <Flex flexDir="column" py={12} align="center" gap={{ base: 6, md: 8 }}>
         <Heading
           bg="linear-gradient(350deg, #FFFFFF -15%, rgba(255, 255, 255, 0) 135%)"
           bgClip="text"
