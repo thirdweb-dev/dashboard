@@ -5,6 +5,7 @@ import {
   Input,
   LinkOverlay,
   SimpleGrid,
+  Tooltip,
 } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
@@ -81,6 +82,7 @@ export const DashboardChains: ThirdwebNextPage = () => {
               p={6}
               bg="transparent"
               _groupHover={{ borderColor: "blue.500" }}
+              position="relative"
             >
               <Flex justifyContent="space-between">
                 <Flex alignItems="center" gap={2}>
@@ -89,9 +91,26 @@ export const DashboardChains: ThirdwebNextPage = () => {
                     {chain.name}
                   </Heading>
                 </Flex>
-                <Flex alignItems="center">
-                  <Icon as={BsCheck2Circle} color="green.500" boxSize={6} />
-                </Flex>
+                {chain.rpc.some((rpcs) => rpcs.includes("thirdweb.com")) ? (
+                  <Tooltip
+                    p={0}
+                    ml={3}
+                    label={
+                      <Flex p={2}>
+                        <Text>This chain is supported by the thirdweb RPC</Text>
+                      </Flex>
+                    }
+                    bgColor="backgroundCardHighlight"
+                    borderRadius="xl"
+                    placement="right"
+                    shouldWrapChildren
+                    position="absolute"
+                  >
+                    <Flex alignItems="center">
+                      <Icon as={BsCheck2Circle} color="green.500" boxSize={6} />
+                    </Flex>
+                  </Tooltip>
+                ) : null}
               </Flex>
               <SimpleGrid gap={12} columns={12}>
                 <Flex as={GridItem} colSpan={4} flexDir="column" gap={1}>
