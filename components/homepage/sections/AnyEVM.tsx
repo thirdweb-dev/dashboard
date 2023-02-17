@@ -1,7 +1,5 @@
-import Hero from "../../../public/assets/landingpage/hero.png";
 import { ChakraNextImage } from "../../Image";
 import { HomepageSection } from "../../product-pages/homepage/HomepageSection";
-import { Aurora } from "../Aurora";
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
 import { Heading, Text } from "tw-components";
