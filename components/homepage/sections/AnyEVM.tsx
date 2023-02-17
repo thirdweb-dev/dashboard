@@ -11,7 +11,7 @@ export const AnyEVMSection = () => {
     <HomepageSection id="any-evm">
       <Flex
         flexDir="column"
-        pt={{ base: 12, lg: 24 }}
+        pt={12}
         align="center"
         gap={{ base: 6, md: 8 }}
         pb={16}
