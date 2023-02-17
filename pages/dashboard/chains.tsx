@@ -62,7 +62,7 @@ export const DashboardChains: ThirdwebNextPage = () => {
           bg="transparent"
           placeholder="Search by name or chain ID"
           borderColor="borderColor"
-          w={{ base: "full", md: "35%" }}
+          w={{ base: "full", md: "40%" }}
           {...form.register("query")}
         />
       </Flex>
