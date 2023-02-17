@@ -14,8 +14,11 @@ import {
 import {
   useContract,
   useDirectListings,
+  useDirectListingsCount,
   useEnglishAuctions,
+  useEnglishAuctionsCount,
   useListings,
+  useListingsCount,
 } from "@thirdweb-dev/react";
 import {
   AuctionListing,
@@ -94,16 +97,24 @@ const MarketplaceV1Details: React.FC<
   MarketplaceDetailsVersionProps<Marketplace>
 > = ({ contract, trackingCategory }) => {
   const listingsHref = useTabHref("listings");
-  const listingsQuery = useListings(contract, { count: 3 });
+  const listingsCountQuery = useListingsCount(contract);
+  const listingsQuery = useListings(contract, {
+    count: 3,
+    start: BigNumber.from(listingsCountQuery?.data || 3)?.toNumber() - 3,
+  });
 
   const listings = useMemo(
     () =>
-      listingsQuery?.data?.map<ListingData>((v) => ({
-        ...v,
-        type:
-          v.type === ListingType.Direct ? "direct-listing" : "english-auction",
-        currencyValue: v.buyoutCurrencyValuePerToken,
-      })) || [],
+      listingsQuery?.data
+        ?.map<ListingData>((v) => ({
+          ...v,
+          type:
+            v.type === ListingType.Direct
+              ? "direct-listing"
+              : "english-auction",
+          currencyValue: v.buyoutCurrencyValuePerToken,
+        }))
+        .reverse() || [],
     [listingsQuery?.data],
   );
 
@@ -111,28 +122,30 @@ const MarketplaceV1Details: React.FC<
     <Flex gap={6} flexDirection="column">
       <Heading size="title.sm">Listings</Heading>
       <ListingStats contract={contract} />
-      <Flex direction="column" gap={{ base: 3, md: 6 }}>
-        <Flex align="center" justify="space-between" w="full">
-          <Heading size="label.lg">Recent Listings</Heading>
-          <TrackedLink
-            category={trackingCategory}
-            label="view_all_listings"
-            color="blue.400"
-            _light={{
-              color: "blue.600",
-            }}
-            gap={4}
-            href={listingsHref}
-          >
-            View listings -&gt;
-          </TrackedLink>
-        </Flex>
-      </Flex>
-      <ListingCards
-        listings={listings}
-        isLoading={listingsQuery.isLoading}
-        trackingCategory={trackingCategory}
-      />
+      {!listingsQuery.isLoading && listings.length === 0 ? null : (
+        <>
+          <Flex align="center" justify="space-between" w="full">
+            <Heading size="label.lg">Recent Listings</Heading>
+            <TrackedLink
+              category={trackingCategory}
+              label="view_all_listings"
+              color="blue.400"
+              _light={{
+                color: "blue.600",
+              }}
+              gap={4}
+              href={listingsHref}
+            >
+              View listings -&gt;
+            </TrackedLink>
+          </Flex>
+          <ListingCards
+            listings={listings}
+            isLoading={listingsQuery.isLoading}
+            trackingCategory={trackingCategory}
+          />
+        </>
+      )}
     </Flex>
   );
 };
@@ -142,28 +155,42 @@ const MarketplaceV3Details: React.FC<
 > = ({ contract, trackingCategory }) => {
   const directListingsHref = useTabHref("direct-listings");
   const englishAuctionsHref = useTabHref("english-auctions");
-  const directListingsQuery = useDirectListings(contract, { count: 3 });
-  const englishAuctionsQuery = useEnglishAuctions(contract, { count: 3 });
+
+  const directListingsCountQuery = useDirectListingsCount(contract);
+  const englishAuctionsCountQuery = useEnglishAuctionsCount(contract);
+
+  const directListingsQuery = useDirectListings(contract, {
+    count: 3,
+    start: BigNumber.from(directListingsCountQuery?.data || 3)?.toNumber() - 3,
+  });
+  const englishAuctionsQuery = useEnglishAuctions(contract, {
+    count: 3,
+    start: BigNumber.from(englishAuctionsCountQuery?.data || 3)?.toNumber() - 3,
+  });
 
   const directListings = useMemo(
     () =>
-      directListingsQuery?.data?.map<ListingData>((v) => ({
-        ...v,
-        sellerAddress: v.creatorAddress,
-        type: "direct-listing",
-        currencyValue: v.currencyValuePerToken,
-      })) || [],
+      directListingsQuery?.data
+        ?.map<ListingData>((v) => ({
+          ...v,
+          sellerAddress: v.creatorAddress,
+          type: "direct-listing",
+          currencyValue: v.currencyValuePerToken,
+        }))
+        .reverse() || [],
     [directListingsQuery?.data],
   );
 
   const englishAuctions = useMemo(
     () =>
-      englishAuctionsQuery?.data?.map<ListingData>((v) => ({
-        ...v,
-        sellerAddress: v.creatorAddress,
-        type: "english-auction",
-        currencyValue: v.buyoutCurrencyValue,
-      })) || [],
+      englishAuctionsQuery?.data
+        ?.map<ListingData>((v) => ({
+          ...v,
+          sellerAddress: v.creatorAddress,
+          type: "english-auction",
+          currencyValue: v.buyoutCurrencyValue,
+        }))
+        .reverse() || [],
     [englishAuctionsQuery?.data],
   );
 
@@ -316,6 +343,7 @@ const ListingCards: React.FC<ListingCardsProps> = ({
               </SkeletonText>
               <SkeletonText
                 as={Badge}
+                background="backgroundHighlight"
                 isLoaded={!isLoading}
                 skeletonHeight={3.5}
                 noOfLines={1}
