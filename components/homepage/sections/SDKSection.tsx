@@ -26,17 +26,7 @@ export const SDKSection: React.FC<SDKSectionProps> = ({
         color={"hsl(280deg 78% 30% / 30%)"}
       />
       <Flex flexDir="column" align="center" as="section">
-        <Heading
-          as="h2"
-          size="display.sm"
-          textAlign="center"
-          mb={4}
-          fontSize={{ base: "32px", md: "48px" }}
-          fontWeight={700}
-          letterSpacing="-0.04em"
-        >
-          {title}
-        </Heading>
+        <Heading>{title}</Heading>
         <Heading
           as="h3"
           size="subtitle.lg"
