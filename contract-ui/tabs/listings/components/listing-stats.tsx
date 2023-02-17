@@ -7,7 +7,6 @@ import {
   StatNumber,
 } from "@chakra-ui/react";
 import {
-  useActiveListings,
   useDirectListingsCount,
   useEnglishAuctionsCount,
   useListingsCount,

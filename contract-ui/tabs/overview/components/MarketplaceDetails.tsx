@@ -17,17 +17,20 @@ import {
   useEnglishAuctions,
   useListings,
 } from "@thirdweb-dev/react";
-import { AuctionListing, DirectListing, ListingType } from "@thirdweb-dev/sdk";
 import {
+  AuctionListing,
+  DirectListing,
   DirectListingV3,
   EnglishAuction,
+  ListingType,
   Marketplace,
   MarketplaceV3,
-} from "@thirdweb-dev/sdk/evm";
+} from "@thirdweb-dev/sdk";
 import { useTabHref } from "contract-ui/utils";
 import { BigNumber } from "ethers";
 import { useMemo } from "react";
 import {
+  Badge,
   Card,
   Heading,
   Text,
@@ -282,7 +285,7 @@ const ListingCards: React.FC<ListingCardsProps> = ({
           }
           _hover={{ opacity: 0.75, textDecoration: "none" }}
         >
-          <Card p={0}>
+          <Card p={0} position="relative">
             <AspectRatio w="100%" ratio={1} overflow="hidden" rounded="xl">
               <Skeleton isLoaded={!isLoading}>
                 <NFTMediaWithEmptyState
@@ -311,15 +314,21 @@ const ListingCards: React.FC<ListingCardsProps> = ({
               <SkeletonText isLoaded={!isLoading}>
                 <AddressCopyButton address={listing.sellerAddress} size="xs" />
               </SkeletonText>
-
-              <Flex mt="4" justify="end">
-                <SkeletonText isLoaded={!isLoading}>
-                  <Text>
-                    <b>{listing.currencyValue.displayValue}</b>{" "}
-                    {listing.currencyValue.symbol}
-                  </Text>
-                </SkeletonText>
-              </Flex>
+              <SkeletonText
+                as={Badge}
+                isLoaded={!isLoading}
+                skeletonHeight={3.5}
+                noOfLines={1}
+                position="absolute"
+                rounded="lg"
+                size="body.xs"
+                p={2}
+                top={2}
+                right={2}
+              >
+                <b>{listing.currencyValue.displayValue}</b>{" "}
+                {listing.currencyValue.symbol}
+              </SkeletonText>
             </Flex>
           </Card>
         </GridItem>

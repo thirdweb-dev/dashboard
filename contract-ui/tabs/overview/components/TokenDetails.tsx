@@ -1,23 +1,7 @@
 import { TokenSupply } from "../../tokens/components/supply";
-import {
-  AspectRatio,
-  Flex,
-  GridItem,
-  SimpleGrid,
-  Skeleton,
-  SkeletonText,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
-import { NFT } from "@thirdweb-dev/sdk";
-import { useTabHref } from "contract-ui/utils";
-import {
-  Card,
-  Heading,
-  Text,
-  TrackedLink,
-  TrackedLinkProps,
-} from "tw-components";
-import { NFTMediaWithEmptyState } from "tw-components/nft-media";
+import { Heading } from "tw-components";
 
 interface TokenDetailsProps {
   contractAddress: string;
