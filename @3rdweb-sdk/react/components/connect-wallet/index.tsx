@@ -53,6 +53,7 @@ import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelec
 import { GNOSIS_TO_CHAIN_ID } from "constants/mappings";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { constants, utils } from "ethers";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { StaticImageData } from "next/image";
@@ -101,6 +102,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   ecosystem = "either",
   ...buttonProps
 }) => {
+  const trackEvent = useTrack();
   const solWallet = useWallet();
   const [showConfigureNetworkModal, setShowConfigureNetworkModal] =
     useState(false);
@@ -183,11 +185,22 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
       if (chainInfo.chainId === ChainId.Localhost) {
         await sdk.wallet.requestFunds(10);
         await balanceQuery.refetch();
+        trackEvent({
+          category: "request-funds",
+          action: "click",
+          label: "from-sdk",
+        });
       } else if (
         chainInfo &&
         chainInfo.faucets &&
         chainInfo.faucets.length > 0
       ) {
+        trackEvent({
+          category: "request-funds",
+          action: "click",
+          label: "from-faucet",
+          faucet: chainInfo.faucets[0],
+        });
         const faucet = chainInfo.faucets[0];
         window.open(faucet, "_blank");
       }
@@ -371,7 +384,14 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
 
                   <MenuItem
                     icon={<Icon as={IoMdSettings} />}
-                    onClick={() => setShowConfigureNetworkModal(true)}
+                    onClick={() => {
+                      trackEvent({
+                        category: "configure-networks",
+                        action: "click",
+                        label: "dropdown",
+                      });
+                      setShowConfigureNetworkModal(true);
+                    }}
                     py={3}
                   >
                     Configure Networks
@@ -655,6 +675,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
     reValidateMode: "onChange",
   });
   const formData = watch();
+  const safeChainId = parseInt(formData.safeChainId);
 
   useEffect(() => {
     if (!formData.safeAddress) {
@@ -765,6 +786,7 @@ const GnosisSafeModal: React.FC<ConnectorModalProps> = ({
                   ChainId.AvalancheFujiTestnet,
                 ]}
                 {...register("safeChainId")}
+                value={safeChainId}
               />
 
               <FormHelperText>

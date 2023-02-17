@@ -246,7 +246,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
                       metadata={nft.metadata}
                       width="140px"
                       height="140px"
-                      alt={`${nft.metadata.name || ""}`}
+                      requireInteraction
                     />
                   </Box>
                 </Tooltip>

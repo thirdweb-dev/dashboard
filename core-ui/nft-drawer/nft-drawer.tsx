@@ -42,7 +42,6 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     renderData.metadata.id === PublicKey.default.toBase58()
       ? "Unclaimed"
       : renderData.metadata.id;
-
   return (
     <Drawer
       allowPinchZoom
@@ -56,9 +55,6 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           <NFTMediaWithEmptyState
             metadata={renderData.metadata}
             requireInteraction
-            flexShrink={0}
-            borderRadius="lg"
-            objectFit="contain"
             width="150px"
             height="150px"
           />
@@ -96,22 +92,23 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                     <GridItem colSpan={9}>
                       <AddressCopyButton size="xs" address={tokenId} tokenId />
                     </GridItem>
-                    <GridItem colSpan={3}>
-                      <Heading size="label.md">Owner</Heading>
-                    </GridItem>
-                    {renderData.type === "ERC721" && (
+
+                    {renderData.type !== "ERC1155" && renderData.supply < 2 && (
                       <>
+                        <GridItem colSpan={3}>
+                          <Heading size="label.md">Owner</Heading>
+                        </GridItem>
                         <GridItem colSpan={9}>
                           <AddressCopyButton
                             size="xs"
                             address={renderData.owner}
                           />
                         </GridItem>
-                        <GridItem colSpan={3}>
-                          <Heading size="label.md">Token Standard</Heading>
-                        </GridItem>
                       </>
                     )}
+                    <GridItem colSpan={3}>
+                      <Heading size="label.md">Token Standard</Heading>
+                    </GridItem>
                     <GridItem colSpan={9}>
                       <Badge size="label.sm" variant="subtle">
                         {renderData.type}
