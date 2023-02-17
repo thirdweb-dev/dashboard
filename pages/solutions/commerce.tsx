@@ -169,7 +169,7 @@ const Commerce: ThirdwebNextPage = () => {
           <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={6}>
             <ProductCard
               title="Launch customer loyalty reward programs"
-              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-1.png")}
             >
               <Text size="body.lg">
                 Distribute time-based subscription membership passes with
@@ -201,7 +201,7 @@ const Commerce: ThirdwebNextPage = () => {
             </ProductCard>
             <ProductCard
               title="Sell digital collectibles"
-              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-2.png")}
             >
               <Text size="body.lg">
                 Merchants can sell digital collectibles direct from e-commerce
@@ -211,7 +211,7 @@ const Commerce: ThirdwebNextPage = () => {
             </ProductCard>
             <ProductCard
               title="Unlock both virtual and real world experiences"
-              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-3.png")}
             >
               <Text size="body.lg">
                 Sell digital tickets with exclusive access to online and offline
@@ -221,7 +221,7 @@ const Commerce: ThirdwebNextPage = () => {
             </ProductCard>
             <ProductCard
               title="Add web3 data to your customer funnel"
-              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-4.png")}
             >
               <Text size="body.lg">
                 Authenticate web3 users using{" "}
