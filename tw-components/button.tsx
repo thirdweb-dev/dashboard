@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useEffect } from "react";
-import { FiCopy, FiExternalLink } from "react-icons/fi";
+import { FiCheck, FiCopy, FiExternalLink } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 
@@ -161,11 +161,19 @@ export const TrackedCopyButton = forwardRef<TrackedCopyButtonProps, "button">(
         colorScheme="whiteAlpha"
         size="sm"
         onClick={onCopy}
+        _light={{
+          color: "gray.700",
+        }}
         icon={
-          <Icon
-            as={hasCopied ? IoMdCheckmark : FiCopy}
-            fill={hasCopied ? "green.500" : undefined}
-          />
+          hasCopied ? (
+            <Icon
+              color="green.400"
+              _light={{ color: "green.600" }}
+              as={FiCheck}
+            />
+          ) : (
+            <Icon as={FiCopy} />
+          )
         }
         {...restButtonProps}
       />

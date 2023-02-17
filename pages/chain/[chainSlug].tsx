@@ -7,9 +7,7 @@ import {
   GridItem,
   GridItemProps,
   Icon,
-  IconButton,
   SimpleGrid,
-  useClipboard,
   useToast,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
@@ -32,20 +30,16 @@ import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useMemo } from "react";
 import { BiRocket } from "react-icons/bi";
-import {
-  FiAlertCircle,
-  FiCheck,
-  FiCheckCircle,
-  FiCopy,
-  FiXCircle,
-} from "react-icons/fi";
+import { FiAlertCircle, FiCheckCircle, FiXCircle } from "react-icons/fi";
 import { IoIosAdd } from "react-icons/io";
 import {
   Button,
   Card,
   Heading,
+  Link,
   LinkButton,
   Text,
+  TrackedCopyButton,
   TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -116,8 +110,6 @@ const ChainPage: ThirdwebNextPage = ({
   const rpcStats = useChainStats(chain);
   const toast = useToast();
 
-  const { hasCopied, onCopy } = useClipboard(chain.rpc[0]);
-
   const address = useAddress();
 
   const title = `${chain.name} (${chain.nativeCurrency.symbol}) | Smart Contracts & Blockchain SDKs`;
@@ -153,7 +145,7 @@ const ChainPage: ThirdwebNextPage = ({
         _dark={{
           bg: "linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.5) 100%)",
         }}
-        py={{ base: 16, md: 20 }}
+        pb={{ base: 16, md: 20 }}
         mb={6}
         boxShadow="lg"
       >
@@ -161,8 +153,19 @@ const ChainPage: ThirdwebNextPage = ({
           maxW="container.page"
           as={Flex}
           flexDirection="column"
-          gap={10}
+          gap={6}
         >
+          <Flex pt={{ base: 4, md: 12 }}>
+            <Link
+              href="/dashboard/chains"
+              _hover={{ textDecor: "none" }}
+              role="group"
+            >
+              <Text size="label.md" _hover={{ color: "blue.500" }}>
+                ← All Chains
+              </Text>
+            </Link>
+          </Flex>
           <Flex
             justify="space-between"
             as="header"
@@ -252,8 +255,7 @@ const ChainPage: ThirdwebNextPage = ({
               <TrackedLink
                 isExternal
                 category={CHAIN_CATEGORY}
-                label="info_url
-            "
+                label="info_url"
                 href={chain.infoURL}
               >
                 <Heading maxW="full" noOfLines={1} size="label.lg">
@@ -286,23 +288,14 @@ const ChainPage: ThirdwebNextPage = ({
               <Heading maxW="full" noOfLines={2} size="label.lg">
                 {chain.rpc[0].split(".com/")[0]}.com
               </Heading>
-              <IconButton
+              <TrackedCopyButton
+                category={CHAIN_CATEGORY}
+                label="copy-rpc-url"
                 mt={-2}
-                aria-label="copy rpc url"
+                aria-label="Copy RPC url"
                 variant="ghost"
                 size="sm"
-                onClick={onCopy}
-                icon={
-                  hasCopied ? (
-                    <Icon
-                      color="green.400"
-                      _light={{ color: "green.600" }}
-                      as={FiCheck}
-                    />
-                  ) : (
-                    <Icon as={FiCopy} />
-                  )
-                }
+                value={chain.rpc[0]}
               />
             </Flex>
           </ChainSectionElement>
@@ -420,7 +413,7 @@ const ChainPage: ThirdwebNextPage = ({
           <>
             <Divider />
             <ChainSectionElement colSpan={12} label="Popular Contracts">
-              <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
+              <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6} mt={2}>
                 {category.contracts.map((publishedContractId, idx) => {
                   const [publisher, contractId] =
                     publishedContractId.split("/");
