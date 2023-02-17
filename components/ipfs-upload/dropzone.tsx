@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UseMutationResult } from "@tanstack/react-query";
+import { useAddress } from "@thirdweb-dev/react";
 import { useErrorHandler } from "contexts/error-handler";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useCallback, useState } from "react";
@@ -38,6 +39,7 @@ export interface IpfsUploadDropzoneProps {
 export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
   storageUpload,
 }) => {
+  const address = useAddress();
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const form = useForm({
@@ -99,7 +101,6 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
       <AspectRatio ratio={{ base: 20 / 9, md: 40 / 9 }} w="100%">
         <Center
           {...getRootProps()}
-          cursor="pointer"
           bg="transparent"
           _hover={{
             borderColor: "primary.500",
@@ -107,10 +108,18 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
           border="2px solid"
           borderColor="borderColor"
           borderRadius="xl"
+          pointerEvents={address ? "auto" : "none"}
+          cursor={address ? "pointer" : "not-allowed"}
         >
           <input {...getInputProps()} />
           <VStack p={6}>
-            {storageUpload.isLoading ? (
+            {!address ? (
+              <Flex flexDir="column" gap={6} alignItems="center">
+                <Text size="label.lg" color="gray.700">
+                  You need to connect your wallet to start uploading
+                </Text>
+              </Flex>
+            ) : storageUpload.isLoading ? (
               <Flex flexDir="column" gap={6} alignItems="center">
                 <Text size="label.lg">Upload in progress...</Text>
                 <Spinner size="xl" color="blue.500" />
