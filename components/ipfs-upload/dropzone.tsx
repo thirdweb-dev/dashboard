@@ -88,7 +88,7 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
 
   return (
     <Flex flexDir="column" gap={4}>
-      <AspectRatio ratio={40 / 9} w="100%">
+      <AspectRatio ratio={{ base: 20 / 9, md: 40 / 9 }} w="100%">
         <Center
           {...getRootProps()}
           cursor="pointer"
@@ -130,7 +130,7 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
                   mb={2}
                   color="gray.600"
                 />
-                <Text size="label.lg">
+                <Text size="label.lg" textAlign="center" lineHeight="150%">
                   Drag and drop your file or folder here to upload it to IPFS
                 </Text>
               </>

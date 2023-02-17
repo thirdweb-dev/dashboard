@@ -19,7 +19,7 @@ const Storage: ThirdwebNextPage = () => {
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={10}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={8}>
-        <Flex flexDir="column" gap={6}>
+        <Flex flexDir="column" gap={{ base: 4, md: 16 }}>
           <Flex flexDir="column" gap={4}>
             <Heading size="title.lg" as="h1">
               Storage
@@ -32,7 +32,7 @@ const Storage: ThirdwebNextPage = () => {
               <IpfsUploadDropzone storageUpload={storageUpload} />
             </Flex>
           </Flex>
-          <Flex flexDir="column" w="full">
+          <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
               Integrate into your app
             </Heading>

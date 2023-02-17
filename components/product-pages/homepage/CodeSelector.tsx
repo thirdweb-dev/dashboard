@@ -243,7 +243,10 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
       </Flex>
 
       <Card
-        w={{ base: "full", md: "69%" }}
+        w={{
+          base: "full",
+          md: asPath === "/dashboard/storage" ? "inherit" : "69%",
+        }}
         p={0}
         background="rgba(0,0,0,0.4)"
         boxShadow="0 0 1px 1px hsl(0deg 0% 100% / 15%)"
