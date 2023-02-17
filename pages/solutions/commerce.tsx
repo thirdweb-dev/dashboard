@@ -172,8 +172,7 @@ const Commerce: ThirdwebNextPage = () => {
               icon={require("/public/assets/solutions-pages/commerce/hero-icon-1.png")}
             >
               <Text size="body.lg">
-                Distribute time-based subscription membership passes with
-                contracts from{" "}
+                Distribute membership passes with contracts from{" "}
                 <TrackedLink
                   category={TRACKING_CATEGORY}
                   color="white"
@@ -194,9 +193,8 @@ const Commerce: ThirdwebNextPage = () => {
                 >
                   ContractKit
                 </TrackedLink>
-                . Reward your customers at different stages of their user
-                journey, from free “drops” (with airdrop contracts & gasless
-                relayer) to claiming rewards at checkout.
+                . Reward your customers at different stages of their journey,
+                from initial free “drops” to claiming rewards at checkout.
               </Text>
             </ProductCard>
             <ProductCard
