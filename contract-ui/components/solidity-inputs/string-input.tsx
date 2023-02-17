@@ -1,7 +1,7 @@
 import { SolidityInputWithTypeProps } from ".";
 import { Box, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
-import { IpfsUploadButton } from "components/ipfs-upload";
+import { IpfsUploadButton } from "components/ipfs-upload/button";
 
 export const SolidityStringInput: React.FC<SolidityInputWithTypeProps> = ({
   formContext: form,

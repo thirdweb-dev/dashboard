@@ -6,7 +6,7 @@ import darkTheme from "prism-react-renderer/themes/dracula";
 import { useState } from "react";
 import { AiOutlineCode } from "react-icons/ai";
 import { CgFileDocument } from "react-icons/cg";
-import { Card, CodeBlock, LinkButton } from "tw-components";
+import { Card, CodeBlock, LinkButton, LinkButtonProps } from "tw-components";
 
 const landingSnippets = {
   cli: ``,
@@ -273,8 +273,9 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
         />
 
         {/* Links for Replit and Docs  */}
-        <Flex justify="end" gap={6} position="absolute" bottom={0} right="16px">
+        <Flex justify="end" gap={6} position="absolute" bottom={0} right={2}>
           <CustomLinkButton
+            px={4}
             text="Docs"
             href={docs}
             icon={<Icon color={"white"} as={CgFileDocument} />}
@@ -307,7 +308,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
   );
 };
 
-interface CustomLinkButtonProps {
+interface CustomLinkButtonProps extends LinkButtonProps {
   onClick: () => void;
   text: string;
   href: string;
@@ -319,6 +320,7 @@ const CustomLinkButton: React.FC<CustomLinkButtonProps> = ({
   href,
   icon,
   text,
+  ...linkButtonProps
 }) => {
   return (
     <LinkButton
@@ -337,6 +339,7 @@ const CustomLinkButton: React.FC<CustomLinkButtonProps> = ({
         bg: "trnasparent",
       }}
       onClick={onClick}
+      {...linkButtonProps}
     >
       {text}
     </LinkButton>
