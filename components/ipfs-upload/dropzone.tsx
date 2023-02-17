@@ -5,15 +5,19 @@ import {
   Icon,
   Spinner,
   VStack,
+  useClipboard,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useErrorHandler } from "contexts/error-handler";
-import { useCallback, useState } from "react";
+import { replaceIpfsUrl } from "lib/sdk";
+import { useCallback, useEffect, useState } from "react";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BsCheck2Circle, BsFillCloudUploadFill } from "react-icons/bs";
-import { CodeBlock, Text } from "tw-components";
+import { FiCopy, FiExternalLink } from "react-icons/fi";
+import { IoMdCheckmark } from "react-icons/io";
+import { Card, Link, Text, TrackedIconButton } from "tw-components";
 import { z } from "zod";
 
 const ipfsUploadDropzoneSchema = z.array(
@@ -140,27 +144,80 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
       </AspectRatio>
       <Flex flexDir="column" gap={3}>
         {fields.map((field, index) => (
-          <Flex
-            key={field.id}
-            gap={4}
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Flex w="20%">
+          <Flex key={field.id} gap={4} alignItems="center">
+            <Flex w="25%" minW="25%">
               <Text noOfLines={1}>{form.watch(`files.${index}.name`)} </Text>
             </Flex>
-            <CodeBlock
-              code={JSON.stringify(
-                `${form.watch(`files.${index}.hash`)}`,
-                null,
-                2,
-              )}
-              language="bash"
-            />
-            <Text>o</Text>
+            <Card
+              as={Flex}
+              w="full"
+              alignItems="center"
+              py={2}
+              justifyContent="space-between"
+            >
+              <Text fontFamily="mono">
+                {`${form
+                  .watch(`files.${index}.hash`)
+                  .split("/")
+                  .slice(0, 3)
+                  .join("/")}/...`}
+              </Text>
+              <Flex>
+                <CopyHashButton hash={form.watch(`files.${index}.hash`)} />
+                <TrackedIconButton
+                  as={Link}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  isExternal
+                  href={replaceIpfsUrl(form.watch(`files.${index}.hash`))}
+                  category="storage"
+                  label="open-in-gateway"
+                  borderRadius="md"
+                  variant="ghost"
+                  colorScheme="whiteAlpha"
+                  size="sm"
+                  aria-label="Open in gateway"
+                  icon={<Icon as={FiExternalLink} />}
+                />
+              </Flex>
+            </Card>
           </Flex>
         ))}
       </Flex>
     </Flex>
+  );
+};
+
+interface StorageIconButtonProps {
+  hash: string;
+}
+
+const CopyHashButton: React.FC<StorageIconButtonProps> = ({ hash }) => {
+  const { onCopy, hasCopied, setValue } = useClipboard(hash);
+
+  useEffect(() => {
+    if (hash) {
+      setValue(hash);
+    }
+  }, [hash, setValue]);
+
+  return (
+    <TrackedIconButton
+      category="storage"
+      label="copy-ipfs-hash"
+      borderRadius="md"
+      variant="ghost"
+      colorScheme="whiteAlpha"
+      size="sm"
+      aria-label="Copy IPFS hash"
+      onClick={onCopy}
+      icon={
+        <Icon
+          as={hasCopied ? IoMdCheckmark : FiCopy}
+          fill={hasCopied ? "green.500" : undefined}
+        />
+      }
+    />
   );
 };
