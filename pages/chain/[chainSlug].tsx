@@ -9,7 +9,6 @@ import {
   Icon,
   IconButton,
   SimpleGrid,
-  Tooltip,
   useClipboard,
   useToast,
 } from "@chakra-ui/react";
@@ -20,7 +19,7 @@ import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { ExploreCategory, getCategory, prefetchCategory } from "data/explore";
+import { ExploreCategory, prefetchCategory } from "data/explore";
 import { useTrack } from "hooks/analytics/useTrack";
 import {
   useConfiguredChainsRecord,
@@ -32,9 +31,23 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useMemo } from "react";
-import { FiCheck, FiCopy } from "react-icons/fi";
+import { BiRocket } from "react-icons/bi";
+import {
+  FiAlertCircle,
+  FiCheck,
+  FiCheckCircle,
+  FiCopy,
+  FiXCircle,
+} from "react-icons/fi";
 import { IoIosAdd } from "react-icons/io";
-import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
+import {
+  Button,
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+  TrackedLink,
+} from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import { getAllChainRecords } from "utils/allChainsRecords";
 import { ThirdwebNextPage } from "utils/types";
@@ -132,6 +145,100 @@ const ChainPage: ThirdwebNextPage = ({
           ],
         }}
       />
+      <Box
+        w="full"
+        _light={{
+          bg: "linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.4) 100%)",
+        }}
+        _dark={{
+          bg: "linear-gradient(180deg, rgba(0,0,0,.0) 0%, rgba(0,0,0,.5) 100%)",
+        }}
+        py={{ base: 16, md: 20 }}
+        mb={6}
+        boxShadow="lg"
+      >
+        <Container
+          maxW="container.page"
+          as={Flex}
+          flexDirection="column"
+          gap={10}
+        >
+          <Flex
+            justify="space-between"
+            as="header"
+            gap={4}
+            flexDirection={{ base: "column", md: "row" }}
+          >
+            <Flex gap={6} align="center" flexGrow={1}>
+              <Center boxSize={20} overflow="hidden">
+                <ChainIcon ipfsSrc={chain.icon?.url} size={80} />
+              </Center>
+              <Flex direction="column" gap={3}>
+                <Heading size="title.lg" as="h1">
+                  {chain.name} {chain.chain.length > 10 && <br />}
+                  <Box
+                    as="span"
+                    opacity={0.6}
+                    fontWeight={400}
+                    fontSize="0.8em"
+                  >
+                    ({chain.nativeCurrency.symbol})
+                  </Box>
+                </Heading>
+
+                <ClientOnly ssr={null}>
+                  {isConfigured ? (
+                    <LinkButton
+                      as={TrackedLink}
+                      {...{
+                        category: CHAIN_CATEGORY,
+                      }}
+                      background="bgBlack"
+                      color="bgWhite"
+                      rightIcon={<Icon as={BiRocket} />}
+                      _hover={{
+                        opacity: 0.8,
+                      }}
+                      href="/explore"
+                    >
+                      Deploy to {chain.name}
+                    </LinkButton>
+                  ) : (
+                    <Button
+                      background="bgBlack"
+                      color="bgWhite"
+                      _hover={{
+                        opacity: 0.8,
+                      }}
+                      leftIcon={
+                        <Icon w={5} h={5} color="inherit" as={IoIosAdd} />
+                      }
+                      onClick={() => {
+                        updateConfiguredNetworks.add([chain]);
+                        trackEvent({
+                          category: CHAIN_CATEGORY,
+                          chain,
+                          action: "add_chain",
+                          label: chain.slug,
+                        });
+
+                        toast({
+                          title: "Chain added",
+                          description: `You can now use ${chain.name} on Thirdweb`,
+                          status: "success",
+                          duration: 3000,
+                        });
+                      }}
+                    >
+                      Add chain
+                    </Button>
+                  )}
+                </ClientOnly>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Container>
+      </Box>
       <Container
         maxW="container.page"
         py={6}
@@ -139,86 +246,6 @@ const ChainPage: ThirdwebNextPage = ({
         flexDirection="column"
         gap={10}
       >
-        <Flex
-          pt={10}
-          justify="space-between"
-          as="header"
-          gap={4}
-          flexDirection={{ base: "column", md: "row" }}
-        >
-          <Flex gap={4} align="center" flexGrow={1}>
-            <Center boxSize={12} overflow="hidden">
-              <ChainIcon ipfsSrc={chain.icon?.url} size={48} />
-            </Center>
-
-            <Heading size="title.lg" as="h1">
-              {chain.name} {chain.chain.length > 10 && <br />}
-              <Box as="span" opacity={0.6} fontWeight={400} fontSize="0.8em">
-                ({chain.chain})
-              </Box>
-            </Heading>
-
-            <Box ml="auto">
-              <ClientOnly ssr={null}>
-                {isConfigured && (
-                  <Tooltip
-                    label="Added"
-                    placement="top"
-                    bg="bgBlack"
-                    color="bgWhite"
-                  >
-                    <Flex>
-                      <Icon
-                        aria-label="Chain Added"
-                        w={8}
-                        h={8}
-                        _dark={{
-                          color: "green.300",
-                        }}
-                        _light={{
-                          color: "green.600",
-                        }}
-                        as={FiCheck}
-                      />
-                    </Flex>
-                  </Tooltip>
-                )}
-              </ClientOnly>
-            </Box>
-          </Flex>
-
-          <ClientOnly ssr={null}>
-            {!isConfigured && (
-              <Button
-                background="bgBlack"
-                color="bgWhite"
-                _hover={{
-                  opacity: 0.8,
-                }}
-                leftIcon={<Icon w={5} h={5} color="inherit" as={IoIosAdd} />}
-                onClick={() => {
-                  updateConfiguredNetworks.add([chain]);
-                  trackEvent({
-                    category: CHAIN_CATEGORY,
-                    chain,
-                    action: "add_chain",
-                    label: chain.slug,
-                  });
-
-                  toast({
-                    title: "Chain added",
-                    description: `You can now use ${chain.name} on Thirdweb`,
-                    status: "success",
-                    duration: 3000,
-                  });
-                }}
-              >
-                Add this chain
-              </Button>
-            )}
-          </ClientOnly>
-        </Flex>
-        <Divider />
         <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
           {chain.infoURL && (
             <ChainSectionElement colSpan={6} label="Info">
@@ -248,7 +275,13 @@ const ChainPage: ThirdwebNextPage = ({
           </ChainSectionElement>
         </SimpleGrid>
         <SimpleGrid columns={{ base: 6, md: 12 }} rowGap={12}>
-          <ChainSectionElement colSpan={6} label="RPC">
+          <ChainSectionElement
+            colSpan={6}
+            label="RPC"
+            status={
+              rpcStats.isSuccess ? "good" : rpcStats.isError ? "bad" : "neutral"
+            }
+          >
             <Flex gap={2}>
               <Heading maxW="full" noOfLines={2} size="label.lg">
                 {chain.rpc[0].split(".com/")[0]}.com
@@ -417,18 +450,47 @@ const ChainPage: ThirdwebNextPage = ({
 
 interface ChainSectionElementProps extends Pick<GridItemProps, "colSpan"> {
   label: string;
+  status?: "good" | "bad" | "neutral";
 }
+
+const statusIcons = {
+  good: FiCheckCircle,
+  bad: FiXCircle,
+  neutral: FiAlertCircle,
+};
+
+const statusColors = {
+  good: "green",
+  bad: "red",
+  neutral: "yellow",
+};
 
 const ChainSectionElement: ComponentWithChildren<ChainSectionElementProps> = ({
   colSpan,
   label,
+  status,
   children,
 }) => {
   return (
     <GridItem colSpan={colSpan} as={Flex} flexDir="column" gap={2}>
-      <Heading as="h3" size="label.lg" opacity={0.6} fontWeight={400}>
-        {label}
-      </Heading>
+      <Flex gap={1} align="center">
+        <Heading as="h3" size="label.lg" opacity={0.6} fontWeight={400}>
+          {label}
+        </Heading>
+        {status && (
+          <Icon
+            boxSize={3.5}
+            as={statusIcons[status]}
+            _light={{
+              color: `${statusColors[status]}.600`,
+            }}
+            _dark={{
+              color: `${statusColors[status]}.400`,
+            }}
+          />
+        )}
+      </Flex>
+
       {children}
     </GridItem>
   );
@@ -448,6 +510,20 @@ ChainPage.getLayout = (page, props) => {
   );
 };
 // server side ---------------------------------------------------------------
+
+const CHAIN_PAGE_CONTRACTS_CATEGORY = {
+  id: "chain_page",
+  name: "",
+  description: "",
+  contracts: [
+    "thirdweb.eth/DropERC721",
+    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/TokenERC721",
+    "thirdweb.eth/DropERC1155",
+    "thirdweb.eth/TokenERC20",
+    "thirdweb.eth/TokenERC1155",
+  ],
+} as const;
 
 const { slugToChain, chainIdToChain } = getAllChainRecords();
 export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
@@ -490,7 +566,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   // overwrite with the dashboard chain RPC (add the api key)
   chain.rpc = [chainRpc];
 
-  const category = getCategory("popular");
+  const category = CHAIN_PAGE_CONTRACTS_CATEGORY;
   const queryClient = new QueryClient();
   if (category) {
     await prefetchCategory(category, queryClient);
