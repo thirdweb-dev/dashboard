@@ -67,7 +67,7 @@ export const DashboardChains: ThirdwebNextPage = () => {
         />
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
-        {filteredChains.map((chain) => (
+        {filteredChains.slice(0, 100).map((chain) => (
           <LinkOverlay
             key={chain.chainId}
             href={`/${chain.slug}`}
