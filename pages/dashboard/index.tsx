@@ -1,4 +1,10 @@
-import { Flex, GridItem, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
+import {
+  Flex,
+  GridItem,
+  LinkOverlay,
+  SimpleGrid,
+  useColorMode,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { Changelog } from "components/dashboard/Changelog";
@@ -13,13 +19,15 @@ const GET_STARTED_SECTIONS = [
     title: "Deploy a contract",
     description: "Start deploying contracts on-chain in just a few minutes.",
     image: require("public/assets/dashboard/home-deploy.png"),
+    lightImage: require("public/assets/dashboard/home-deploy-light.png"),
     href: "/contracts",
   },
   {
     title: "Browse contracts",
     description:
       "Explore contracts from world-class web3 protocols & engineers- all deployable with 1-click.",
-    image: require("public/assets/dashboard/home-contracts.png"),
+    image: require("public/assets/dashboard/home-browse.png"),
+    lightImage: require("public/assets/dashboard/home-browse-light.png"),
     href: "/explore",
   },
   {
@@ -27,19 +35,22 @@ const GET_STARTED_SECTIONS = [
     description:
       "Get inspired and start building your own web3 apps on top of our templates.",
     image: require("public/assets/dashboard/home-templates.png"),
+    lightImage: require("public/assets/dashboard/home-templates-light.png"),
     href: "https://portal.thirdweb.com/templates",
     isExternal: true,
   },
 ];
 
 const Dashboard: ThirdwebNextPage = () => {
+  const { colorMode } = useColorMode();
+
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={12}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={8}>
         <Heading>Get started quickly</Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
           {GET_STARTED_SECTIONS.map(
-            ({ title, description, image, href, isExternal }) => (
+            ({ title, description, lightImage, image, href, isExternal }) => (
               <LinkOverlay
                 key={title}
                 as={TrackedLink}
@@ -52,7 +63,7 @@ const Dashboard: ThirdwebNextPage = () => {
                 overflow="hidden"
                 position="relative"
               >
-                <Card p={0}>
+                <Card p={0} overflow="hidden">
                   <Flex direction="column" gap={3} p={6}>
                     <Heading
                       size="title.xs"
@@ -64,7 +75,10 @@ const Dashboard: ThirdwebNextPage = () => {
                     <Text>{description}</Text>
                   </Flex>
                   <Flex justifyContent="center">
-                    <ChakraNextImage src={image} alt="" />
+                    <ChakraNextImage
+                      src={colorMode === "light" ? lightImage : image}
+                      alt=""
+                    />
                   </Flex>
                 </Card>
               </LinkOverlay>
