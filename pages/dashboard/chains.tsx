@@ -1,4 +1,11 @@
-import { Flex, Icon, Input, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
+import {
+  Flex,
+  GridItem,
+  Icon,
+  Input,
+  LinkOverlay,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 import Fuse from "fuse.js";
@@ -86,16 +93,16 @@ export const DashboardChains: ThirdwebNextPage = () => {
                   <Icon as={BsCheck2Circle} color="green.500" boxSize={6} />
                 </Flex>
               </Flex>
-              <Flex gap={12}>
-                <Flex flexDir="column" gap={1}>
+              <SimpleGrid gap={12} columns={12}>
+                <Flex as={GridItem} colSpan={4} flexDir="column" gap={1}>
                   <Text color="paragraph">Chain ID</Text>
                   <Text size="label.md">{chain.chainId}</Text>
                 </Flex>
-                <Flex flexDir="column" gap={1}>
+                <Flex as={GridItem} flexDir="column" colSpan={8} gap={1}>
                   <Text color="paragraph">Native Token</Text>
                   <Text size="label.md">{chain.nativeCurrency.symbol}</Text>
                 </Flex>
-              </Flex>
+              </SimpleGrid>
             </Card>
           </LinkOverlay>
         ))}
