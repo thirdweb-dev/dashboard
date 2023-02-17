@@ -297,10 +297,12 @@ const ListingCards: React.FC<ListingCardsProps> = ({
               </SkeletonText>
 
               <Flex mt="4" justify="end">
-                <Text>
-                  <b>{listing.currencyValue.displayValue}</b>{" "}
-                  {listing.currencyValue.symbol}
-                </Text>
+                <SkeletonText isLoaded={!isLoading}>
+                  <Text>
+                    <b>{listing.currencyValue.displayValue}</b>{" "}
+                    {listing.currencyValue.symbol}
+                  </Text>
+                </SkeletonText>
               </Flex>
             </Flex>
           </Card>
