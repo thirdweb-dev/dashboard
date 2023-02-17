@@ -116,10 +116,11 @@ const MarketplaceV1Details: React.FC<
   return !listingsQuery.isLoading &&
     listingsQuery?.data?.length === 0 ? null : (
     <Flex gap={6} flexDirection="column">
+      <Heading size="title.sm">Listings</Heading>
       <ListingStats contract={contract} />
       <Flex direction="column" gap={{ base: 3, md: 6 }}>
         <Flex align="center" justify="space-between" w="full">
-          <Heading size="title.sm">Recent Listings</Heading>
+          <Heading size="label.lg">Recent Listings</Heading>
           <TrackedLink
             category={trackingCategory}
             label="view_all_nfts"
@@ -183,10 +184,11 @@ const MarketplaceV3Details: React.FC<
 
   return listings?.data.length === 0 ? null : (
     <Flex gap={6} flexDirection="column">
+      <Heading size="title.sm">Listings</Heading>
       <ListingStatsV3 contract={contract} />
       <Flex direction="column" gap={{ base: 3, md: 6 }}>
         <Flex align="center" justify="space-between" w="full">
-          <Heading size="title.sm">NFT Details</Heading>
+          <Heading size="label.lg">Recent Listings</Heading>
           <TrackedLink
             category={trackingCategory}
             label="view_all_nfts"
