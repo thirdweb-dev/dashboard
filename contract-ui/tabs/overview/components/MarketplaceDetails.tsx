@@ -92,10 +92,7 @@ const MarketplaceV1Details: React.FC<
   MarketplaceDetailsVersionProps<Marketplace>
 > = ({ contract, trackingCategory }) => {
   const listingsHref = useTabHref("listings");
-  const listingsQuery = useListings(contract, {
-    count: 3,
-    start: -3,
-  });
+  const listingsQuery = useListings(contract, { count: 3 });
 
   const listings = useMemo(
     () =>
