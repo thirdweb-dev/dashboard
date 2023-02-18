@@ -1,5 +1,5 @@
 import { Divider, Flex, GridItem, SimpleGrid, Tooltip } from "@chakra-ui/react";
-import { useStorageUpload } from "@thirdweb-dev/react";
+import { useAddress, useStorageUpload } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
@@ -36,14 +36,17 @@ const videos = [
 ];
 
 const DashboardStorage: ThirdwebNextPage = () => {
+  const address = useAddress();
   const [progress, setProgress] = useState<UploadProgressEvent>({
     progress: 0,
     total: 100,
   });
-  const storageUpload = useStorageUpload({ onProgress: setProgress });
-  const form = useForm({
-    defaultValues: {
-      file: "",
+  const storageUpload = useStorageUpload({
+    onProgress: setProgress,
+    metadata: {
+      address,
+      uploadedAt: new Date().toISOString(),
+      uploadedFrom: "thirdweb-dashboard",
     },
   });
 
