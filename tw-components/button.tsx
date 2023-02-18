@@ -15,7 +15,6 @@ import {
 import { useTrack } from "hooks/analytics/useTrack";
 import React, { useEffect } from "react";
 import { FiCheck, FiCopy, FiExternalLink } from "react-icons/fi";
-import { IoMdCheckmark } from "react-icons/io";
 import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 
 export const buttonSizesMap = {

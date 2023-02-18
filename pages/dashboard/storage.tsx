@@ -1,15 +1,21 @@
 import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
+import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { PageId } from "page-id";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const DashboardStorage: ThirdwebNextPage = () => {
-  const storageUpload = useStorageUpload();
+  const [progress, setProgress] = useState<UploadProgressEvent>({
+    progress: 0,
+    total: 100,
+  });
+  const storageUpload = useStorageUpload({ onProgress: setProgress });
   const form = useForm({
     defaultValues: {
       file: "",
@@ -29,7 +35,11 @@ const DashboardStorage: ThirdwebNextPage = () => {
                 Everything uploaded using thirdweb is automatically uploaded and
                 pinned to IPFS.
               </Text>
-              <IpfsUploadDropzone storageUpload={storageUpload} />
+              <IpfsUploadDropzone
+                storageUpload={storageUpload}
+                progress={progress}
+                setProgress={setProgress}
+              />
             </Flex>
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>

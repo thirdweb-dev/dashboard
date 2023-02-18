@@ -1,17 +1,12 @@
-import {
-  AspectRatio,
-  Center,
-  Flex,
-  Icon,
-  Spinner,
-  VStack,
-} from "@chakra-ui/react";
+import { AspectRatio, Center, Flex, Icon, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
+import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { useErrorHandler } from "contexts/error-handler";
+import { ProgressBox } from "core-ui/batch-upload/progress-box";
 import { replaceIpfsUrl } from "lib/sdk";
-import { useCallback, useState } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { DropEvent, FileRejection, useDropzone } from "react-dropzone";
 import { useFieldArray, useForm } from "react-hook-form";
 import { BsCheck2Circle, BsFillCloudUploadFill } from "react-icons/bs";
@@ -34,13 +29,16 @@ const ipfsUploadDropzoneSchema = z.array(
 
 export interface IpfsUploadDropzoneProps {
   storageUpload: UseMutationResult<string[], unknown, any, unknown>;
+  progress: UploadProgressEvent;
+  setProgress: Dispatch<SetStateAction<UploadProgressEvent>>;
 }
 
 export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
   storageUpload,
+  progress,
+  setProgress,
 }) => {
   const address = useAddress();
-  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(ipfsUploadDropzoneSchema),
@@ -50,6 +48,8 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
     control: form.control,
     name: "files",
   });
+
+  console.log(progress);
 
   const { onError } = useErrorHandler();
 
@@ -66,8 +66,14 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
           { data: files },
           {
             onSuccess: (uris) => {
-              setUploadSuccess(true);
-              setTimeout(() => setUploadSuccess(false), 1200);
+              setTimeout(
+                () =>
+                  setProgress({
+                    progress: 0,
+                    total: 100,
+                  }),
+                1200,
+              );
 
               if (files?.length === 1) {
                 append({ name: files[0].name, hash: uris[0] });
@@ -80,7 +86,13 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
                 onError("No files were uploaded", "Failed to upload file");
               }
             },
-            onError: (error) => onError(error, "Failed to upload file"),
+            onError: (error) => {
+              onError(error, "Failed to upload file");
+              setProgress({
+                progress: 0,
+                total: 100,
+              });
+            },
           },
         );
       };
@@ -89,7 +101,7 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
         handleUpload(droppedFiles);
       }
     },
-    [append, onError, storageUpload],
+    [append, onError, setProgress, storageUpload],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -120,11 +132,11 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
                 </Text>
               </Flex>
             ) : storageUpload.isLoading ? (
-              <Flex flexDir="column" gap={6} alignItems="center">
+              <Flex flexDir="column" gap={6} alignItems="center" w="full">
                 <Text size="label.lg">Upload in progress...</Text>
-                <Spinner size="xl" color="blue.500" />
+                <ProgressBox progress={progress} />
               </Flex>
-            ) : uploadSuccess ? (
+            ) : progress.progress === progress.total ? (
               <Flex flexDir="column" gap={6} alignItems="center">
                 <Text size="label.lg">Upload successful</Text>
                 <Icon as={BsCheck2Circle} boxSize={12} color="green.500" />

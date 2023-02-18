@@ -137,7 +137,7 @@ npx thirdweb upload ./path/to/file.jpg
 npx thirdweb upload ./path/to/folder`,
   javascript: `import { ThirdwebStorage } from "@thirdweb-dev/storage";
 
-// First, instantiate the SDK
+// First, instantiate the thirdweb IPFS storage
 const storage = new ThirdwebStorage();
 
 // Here we get the IPFS URI of where our metadata has been uploaded
@@ -173,10 +173,10 @@ import { MediaRenderer } from "@thirdweb-dev/react";
 
 function App() {
   return (
-    <MediaRenderer
-      src="ipfs://QmamvVM5kvsYjQJYs7x8LXKYGFkwtGvuRvqZsuzvpHmQq9/0"
-    />
-  )
+    // Supported file types: .png, .jpg, .jpeg, .gif, .webp, .svg, .m4a, .oga,
+    // .ogg, .mp3, .wav, .flac, .glb, .gltf, .ogv, .mp4, .webm, .m4v, .html...
+    <MediaRenderer src="ipfs://QmamvVM5kvsYjQJYs7x8LXKYGFkwtGvuRvqZsuzvpHmQq9/0" />
+  );
 }`,
   python: ``,
   go: ``,
