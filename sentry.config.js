@@ -39,6 +39,8 @@ export const sentryOptions = {
     "requestAnimationFrame is not defined",
     "window.requestAnimationFrame is not a function",
     "tronLink.setAddress is not a function",
+    // benign errors
+    "ResizeObserver loop limit exceeded",
   ],
   denyUrls: [
     // Google Adsense
