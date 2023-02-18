@@ -17,7 +17,7 @@ import { BsCheck2Circle } from "react-icons/bs";
 import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-export const DashboardChains: ThirdwebNextPage = () => {
+export const DashboardRPC: ThirdwebNextPage = () => {
   const { allChains } = useAllChainsData();
   const [query, setQuery] = useState("");
 
@@ -49,7 +49,7 @@ export const DashboardChains: ThirdwebNextPage = () => {
   return (
     <Flex flexDir="column" gap={8} mt={10}>
       <Heading size="title.lg" as="h1">
-        Chains
+        RPC
       </Heading>
       <Flex>
         <Input
@@ -107,6 +107,14 @@ export const DashboardChains: ThirdwebNextPage = () => {
                   </Tooltip>
                 ) : null}
               </Flex>
+              <Flex>
+                <Flex flexDir="column" gap={1}>
+                  <Text opacity={0.6}>RPC URL</Text>
+                  <Flex>
+                    <Text size="label.md">{`${chain.slug}.rpc.thirdweb.com`}</Text>
+                  </Flex>
+                </Flex>
+              </Flex>
               <SimpleGrid gap={12} columns={12}>
                 <Flex as={GridItem} colSpan={4} flexDir="column" gap={1}>
                   <Text opacity={0.6}>Chain ID</Text>
@@ -125,9 +133,9 @@ export const DashboardChains: ThirdwebNextPage = () => {
   );
 };
 
-DashboardChains.getLayout = (page, props) => (
+DashboardRPC.getLayout = (page, props) => (
   <AppLayout {...props}>{page}</AppLayout>
 );
-DashboardChains.pageId = PageId.DashboardChains;
+DashboardRPC.pageId = PageId.DashboardRPC;
 
-export default DashboardChains;
+export default DashboardRPC;

@@ -190,11 +190,11 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 Storage
               </LinkButton>
               <LinkButton
-                href="/dashboard/chains"
+                href="/dashboard/rpc"
                 size="sm"
-                variant={pathname === "/dashboard/chains" ? "solid" : "ghost"}
+                variant={pathname === "/dashboard/rpc" ? "solid" : "ghost"}
               >
-                Chains
+                RPC
               </LinkButton>
             </Flex>
           </Container>
