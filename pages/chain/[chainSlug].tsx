@@ -112,12 +112,12 @@ const ChainPage: ThirdwebNextPage = ({
 
   const address = useAddress();
 
-  const title = `${chain.name} (${chain.nativeCurrency.symbol}) | Smart Contracts & Blockchain SDKs`;
+  const title = `${chain.name} (${chain.nativeCurrency.symbol}) | RPC, Smart Contracts, Blockchain SDKs`;
   const description = `Deploy smart contracts to ${
     chain.name
-  } and build decentralized apps with thirdweb's SDKs. Discover ${
-    chain.name
-  } explorers${chain.faucets?.length ? ", faucets," : ""} & dApps.`;
+  } and build dApps with thirdweb's SDKs. Discover ${
+    chain.nativeCurrency.symbol
+  } RPCs, ${chain.faucets?.length ? "faucets," : "dApps"} & explorers.`;
 
   return (
     <>

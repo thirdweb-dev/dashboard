@@ -14,6 +14,7 @@ import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { replaceIpfsUrl } from "lib/sdk";
+import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useState } from "react";
 import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
@@ -59,8 +60,20 @@ const DashboardStorage: ThirdwebNextPage = () => {
     },
   });
 
+  const title = "IPFS Upload & Pinning Service | Pin Files to IPFS for Free";
+  const description =
+    "Upload, pin, and host NFT metadata, images, or any type of file on IPFS—using thirdweb's IPFS pinning service. Store files on IPFS for free.";
+
   return (
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={10}>
+      <NextSeo
+        title={title}
+        description={description}
+        openGraph={{
+          title,
+          description,
+        }}
+      />
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={8}>
         <Flex flexDir="column" gap={{ base: 16, md: 16 }}>
           <Flex flexDir="column" gap={4}>
