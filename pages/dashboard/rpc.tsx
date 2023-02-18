@@ -59,6 +59,7 @@ export const DashboardRPC: ThirdwebNextPage = () => {
           placeholder="Search by name or chain ID"
           borderColor="borderColor"
           w={{ base: "full", md: "40%" }}
+          value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </Flex>

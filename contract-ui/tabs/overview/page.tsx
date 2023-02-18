@@ -53,7 +53,6 @@ export const CustomContractOverviewPage: React.FC<
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
         />
-        <BuildYourApp trackingCategory={TRACKING_CATEGORY} />
         {contract &&
           ["PermissionsEnumerable"].some((type) =>
             detectedFeatureNames.includes(type),
@@ -63,6 +62,7 @@ export const CustomContractOverviewPage: React.FC<
               trackingCategory={TRACKING_CATEGORY}
             />
           )}
+        <BuildYourApp trackingCategory={TRACKING_CATEGORY} />
         <ShareContract
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}

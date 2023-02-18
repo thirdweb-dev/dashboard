@@ -1,14 +1,21 @@
-import { Divider, Flex, GridItem, SimpleGrid, Tooltip } from "@chakra-ui/react";
+import {
+  Divider,
+  Flex,
+  GridItem,
+  Input,
+  Link,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { useAddress, useStorageUpload } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
+import { replaceIpfsUrl } from "lib/sdk";
 import { PageId } from "page-id";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "storage";
@@ -37,6 +44,7 @@ const videos = [
 
 const DashboardStorage: ThirdwebNextPage = () => {
   const address = useAddress();
+  const [ipfsHash, setIpfsHash] = useState("");
   const [progress, setProgress] = useState<UploadProgressEvent>({
     progress: 0,
     total: 100,
@@ -74,40 +82,47 @@ const DashboardStorage: ThirdwebNextPage = () => {
             <Heading size="title.md" as="h2">
               Gateway
             </Heading>
-            <Card
-              as={Flex}
-              w="full"
-              alignItems="center"
-              py={2}
-              justifyContent="space-between"
-            >
-              <Text fontFamily="mono">https://gateway.ipfscdn.io/ipfs/</Text>
-              <Flex>
-                <Tooltip
-                  p={0}
-                  label={
-                    <Flex p={2}>
-                      <Text>Copy gateway URL</Text>
-                    </Flex>
-                  }
-                  bgColor="backgroundCardHighlight"
-                  borderRadius="xl"
-                  placement="top"
-                  shouldWrapChildren
-                >
-                  <TrackedCopyButton
-                    value="https://gateway.ipfscdn.io/ipfs/"
-                    category="storage"
-                    label="copy-gateway-url"
-                    aria-label="Copy gateway URL"
-                  />
-                </Tooltip>
-              </Flex>
-            </Card>
             <Text>
-              The thirdweb gateway provides users access to third-party data
-              hosted on the IPFS network.
+              Enter an IPFS hash to generate a gateway URL that accesses your
+              hosted data on IPFS.
             </Text>
+            <Input
+              bg="transparent"
+              value={ipfsHash}
+              onChange={(e) => setIpfsHash(e.target.value)}
+              borderColor="borderColor"
+            />
+            <SimpleGrid
+              columns={{ base: 1, md: 24 }}
+              alignItems="center"
+              gap={1}
+            >
+              <GridItem as={Text} colSpan={{ base: 1, md: 3 }}>
+                <Text>Gateway URL:</Text>
+              </GridItem>
+              <GridItem colSpan={{ base: 1, md: 21 }}>
+                <Link
+                  href={
+                    ipfsHash.includes("ipfs://")
+                      ? replaceIpfsUrl(ipfsHash)
+                      : "https://gateway.ipfscdn.io/ipfs/"
+                  }
+                  isExternal
+                  _hover={{ textDecoration: "none" }}
+                  role="group"
+                >
+                  <Text
+                    noOfLines={1}
+                    color="blue.500"
+                    _groupHover={{ opacity: 0.9 }}
+                  >
+                    {ipfsHash.includes("ipfs://")
+                      ? replaceIpfsUrl(ipfsHash)
+                      : "https://gateway.ipfscdn.io/ipfs/"}
+                  </Text>
+                </Link>
+              </GridItem>
+            </SimpleGrid>
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
