@@ -1,4 +1,11 @@
-import { AspectRatio, Center, Flex, Icon, VStack } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Center,
+  Flex,
+  Icon,
+  Tooltip,
+  VStack,
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useAddress } from "@thirdweb-dev/react";
@@ -199,28 +206,54 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
                   .join("/")}/...`}
               </Text>
               <Flex>
-                <TrackedCopyButton
-                  value={form.watch(`files.${index}.hash`)}
-                  category="storage"
-                  label="copy-ipfs-hash"
-                  aria-label="Copy IPFS hash"
-                />
-                <TrackedIconButton
-                  as={Link}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  isExternal
-                  href={replaceIpfsUrl(form.watch(`files.${index}.hash`))}
-                  category="storage"
-                  label="open-in-gateway"
-                  borderRadius="md"
-                  variant="ghost"
-                  colorScheme="whiteAlpha"
-                  size="sm"
-                  aria-label="Open in gateway"
-                  icon={<Icon as={FiExternalLink} />}
-                />
+                <Tooltip
+                  p={0}
+                  label={
+                    <Flex p={2}>
+                      <Text>Copy IPFS hash</Text>
+                    </Flex>
+                  }
+                  bgColor="backgroundCardHighlight"
+                  borderRadius="xl"
+                  placement="top"
+                  shouldWrapChildren
+                >
+                  <TrackedCopyButton
+                    value={form.watch(`files.${index}.hash`)}
+                    category="storage"
+                    label="copy-ipfs-hash"
+                    aria-label="Copy IPFS hash"
+                  />
+                </Tooltip>
+                <Tooltip
+                  p={0}
+                  label={
+                    <Flex p={2}>
+                      <Text>Open in gateway</Text>
+                    </Flex>
+                  }
+                  bgColor="backgroundCardHighlight"
+                  borderRadius="xl"
+                  placement="top"
+                  shouldWrapChildren
+                >
+                  <TrackedIconButton
+                    as={Link}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    isExternal
+                    href={replaceIpfsUrl(form.watch(`files.${index}.hash`))}
+                    category="storage"
+                    label="open-in-gateway"
+                    borderRadius="md"
+                    variant="ghost"
+                    colorScheme="whiteAlpha"
+                    size="sm"
+                    aria-label="Open in gateway"
+                    icon={<Icon as={FiExternalLink} />}
+                  />
+                </Tooltip>
               </Flex>
             </Card>
           </Flex>

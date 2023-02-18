@@ -122,6 +122,9 @@ export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
     const trackEvent = useTrack();
     return (
       <IconButton
+        _light={{
+          color: "gray.700",
+        }}
         ref={ref}
         onClick={() =>
           trackEvent({
@@ -160,9 +163,6 @@ export const TrackedCopyButton = forwardRef<TrackedCopyButtonProps, "button">(
         colorScheme="whiteAlpha"
         size="sm"
         onClick={onCopy}
-        _light={{
-          color: "gray.700",
-        }}
         icon={
           hasCopied ? (
             <Icon

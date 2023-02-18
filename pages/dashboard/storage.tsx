@@ -1,4 +1,4 @@
-import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { Flex, GridItem, SimpleGrid, Tooltip } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
@@ -55,12 +55,25 @@ const DashboardStorage: ThirdwebNextPage = () => {
             >
               <Text fontFamily="mono">https://gateway.ipfscdn.io/ipfs/</Text>
               <Flex>
-                <TrackedCopyButton
-                  value="https://gateway.ipfscdn.io/ipfs/"
-                  category="storage"
-                  label="copy-gateway-url"
-                  aria-label="Copy gateway URL"
-                />
+                <Tooltip
+                  p={0}
+                  label={
+                    <Flex p={2}>
+                      <Text>Copy gateway URL</Text>
+                    </Flex>
+                  }
+                  bgColor="backgroundCardHighlight"
+                  borderRadius="xl"
+                  placement="top"
+                  shouldWrapChildren
+                >
+                  <TrackedCopyButton
+                    value="https://gateway.ipfscdn.io/ipfs/"
+                    category="storage"
+                    label="copy-gateway-url"
+                    aria-label="Copy gateway URL"
+                  />
+                </Tooltip>
               </Flex>
             </Card>
             <Text>
