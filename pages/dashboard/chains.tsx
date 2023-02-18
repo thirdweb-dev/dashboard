@@ -12,19 +12,14 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import Fuse from "fuse.js";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { PageId } from "page-id";
-import { useDeferredValue, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useDeferredValue, useMemo, useState } from "react";
 import { BsCheck2Circle } from "react-icons/bs";
 import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 export const DashboardChains: ThirdwebNextPage = () => {
   const { allChains } = useAllChainsData();
-  const form = useForm({
-    defaultValues: {
-      query: "",
-    },
-  });
+  const [query, setQuery] = useState("");
 
   const fuse = useMemo(() => {
     return new Fuse(allChains, {
@@ -41,7 +36,7 @@ export const DashboardChains: ThirdwebNextPage = () => {
     });
   }, [allChains]);
 
-  const deferredSearchTerm = useDeferredValue(form.watch("query"));
+  const deferredSearchTerm = useDeferredValue(query);
 
   const filteredChains = useMemo(() => {
     if (!deferredSearchTerm || !allChains.length) {
@@ -64,7 +59,7 @@ export const DashboardChains: ThirdwebNextPage = () => {
           placeholder="Search by name or chain ID"
           borderColor="borderColor"
           w={{ base: "full", md: "40%" }}
-          {...form.register("query")}
+          onChange={(e) => setQuery(e.target.value)}
         />
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>

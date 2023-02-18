@@ -49,8 +49,6 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
     name: "files",
   });
 
-  console.log(progress);
-
   const { onError } = useErrorHandler();
 
   const onDrop = useCallback<
@@ -128,7 +126,7 @@ export const IpfsUploadDropzone: React.FC<IpfsUploadDropzoneProps> = ({
             {!address ? (
               <Flex flexDir="column" gap={6} alignItems="center">
                 <Text size="label.lg" color="gray.700">
-                  You need to connect your wallet to start uploading
+                  Please connect your wallet to start uploading
                 </Text>
               </Flex>
             ) : storageUpload.isLoading ? (
