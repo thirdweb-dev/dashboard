@@ -6,10 +6,16 @@ import { Heading, Text } from "tw-components";
 
 export const AnyEVMSection = () => {
   return (
-    <HomepageSection id="any-evm">
-      <Flex flexDir="column" py={12} align="center" gap={{ base: 6, md: 8 }}>
+    <HomepageSection id="any-evm" position="relative" pb={{ base: 36, md: 64 }}>
+      <Flex
+        flexDir="column"
+        pb={24}
+        pt={{ base: 12, md: 24 }}
+        align="center"
+        gap={{ base: 6, md: 8 }}
+      >
         <Heading
-          bg="linear-gradient(350deg, #FFFFFF -15%, rgba(255, 255, 255, 0) 135%)"
+          bg="linear-gradient(350.21deg, #FFFFFF -13.99%, rgba(255, 255, 255, 0) 136.74%)"
           bgClip="text"
           as="h2"
           size="title.2xl"
@@ -19,7 +25,7 @@ export const AnyEVMSection = () => {
           Any Contract. Any Chain.
         </Heading>
         <Text
-          bg="linear-gradient(30deg, #FFFFFF -10%, rgba(255, 255, 255, 0) 150%);"
+          bg="linear-gradient(29.47deg, #FFFFFF -12.61%, rgba(255, 255, 255, 0) 152.49%)"
           bgClip="text"
           textAlign="center"
           as="h3"
@@ -30,12 +36,20 @@ export const AnyEVMSection = () => {
           Our tools work with any contract deployed on any EVM compatible chain.
         </Text>
       </Flex>
-      <Box mb="-60%" zIndex="-1" position="relative" mt={12}>
+      <Box
+        pointerEvents="none"
+        zIndex={-1}
+        position="absolute"
+        bottom={0}
+        h="0"
+        w="full"
+      >
         <ChakraNextImage
           transform="translate(-50%, -60%)"
           ml="50%"
           alt=""
-          minW="950px"
+          w="1500px"
+          maxW="250vw"
           src={require("public/assets/landingpage/any-evm.png")}
           justifySelf="flex-end"
         />
