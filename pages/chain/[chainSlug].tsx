@@ -157,12 +157,12 @@ const ChainPage: ThirdwebNextPage = ({
         >
           <Flex pt={{ base: 4, md: 12 }}>
             <Link
-              href="/dashboard/chains"
+              href="/dashboard/rpc"
               _hover={{ textDecor: "none" }}
               role="group"
             >
               <Text size="label.md" _hover={{ color: "blue.500" }}>
-                ← All Chains
+                ← All RPCs
               </Text>
             </Link>
           </Flex>
