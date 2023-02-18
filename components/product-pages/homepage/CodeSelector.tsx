@@ -143,12 +143,12 @@ const storage = new ThirdwebStorage();
 // Here we get the IPFS URI of where our metadata has been uploaded
 const uri = await storage.upload(metadata);
 // This will log a URL like ipfs://QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
-console.log(uri);
+console.info(uri);
 
 // Here we a URL with a gateway that we can look at in the browser
 const url = await storage.resolveScheme(uri);
 // This will log a URL like https://gateway.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
-console.log(url);
+console.info(url);
 
 // You can also download the data from the uri
 const data = await storage.downloadJSON(uri);`,
