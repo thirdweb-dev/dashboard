@@ -5,6 +5,7 @@ import {
   Input,
   Link,
   SimpleGrid,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useAddress, useStorageUpload } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
@@ -15,7 +16,7 @@ import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { replaceIpfsUrl } from "lib/sdk";
 import { PageId } from "page-id";
 import { useState } from "react";
-import { Heading, Text } from "tw-components";
+import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "storage";
@@ -126,11 +127,98 @@ const DashboardStorage: ThirdwebNextPage = () => {
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
+              CLI
+            </Heading>
+            <Flex flexDir="column" gap={4}>
+              <Text>
+                Using thirdweb CLI, you can easily upload files and folders to
+                IPFS from your terminal.
+              </Text>
+              <Flex flexDir="column" gap={2}>
+                <Text>You can upload individual files:</Text>
+                <Card
+                  as={Flex}
+                  w="full"
+                  alignItems="center"
+                  py={2}
+                  justifyContent="space-between"
+                >
+                  <Text
+                    fontFamily="mono"
+                    overflow={{ base: "scroll", md: "inherit" }}
+                  >
+                    npx thirdweb upload ./path/to/file.jpg
+                  </Text>
+                  <Flex>
+                    <Tooltip
+                      p={0}
+                      label={
+                        <Flex p={2}>
+                          <Text>Copy code</Text>
+                        </Flex>
+                      }
+                      bgColor="backgroundCardHighlight"
+                      borderRadius="xl"
+                      placement="top"
+                      shouldWrapChildren
+                    >
+                      <TrackedCopyButton
+                        value="npx thirdweb upload ./path/to/file.jpg"
+                        category="storage"
+                        label="copy-cli-file-upload"
+                        aria-label="Copy code"
+                      />
+                    </Tooltip>
+                  </Flex>
+                </Card>
+              </Flex>
+              <Flex flexDir="column" gap={2}>
+                <Text>Or you can upload a folder:</Text>
+                <Card
+                  as={Flex}
+                  w="full"
+                  alignItems="center"
+                  py={2}
+                  justifyContent="space-between"
+                >
+                  <Text
+                    fontFamily="mono"
+                    overflow={{ base: "scroll", md: "inherit" }}
+                  >
+                    npx thirdweb upload ./path/to/folder
+                  </Text>
+                  <Flex>
+                    <Tooltip
+                      p={0}
+                      label={
+                        <Flex p={2}>
+                          <Text>Copy code</Text>
+                        </Flex>
+                      }
+                      bgColor="backgroundCardHighlight"
+                      borderRadius="xl"
+                      placement="top"
+                      shouldWrapChildren
+                    >
+                      <TrackedCopyButton
+                        value="npx thirdweb upload ./path/to/file.jpg"
+                        category="storage"
+                        label="copy-cli-file-upload"
+                        aria-label="Copy code"
+                      />
+                    </Tooltip>
+                  </Flex>
+                </Card>
+              </Flex>
+            </Flex>
+          </Flex>
+          <Flex flexDir="column" w="full" gap={4}>
+            <Heading size="title.md" as="h2">
               Integrate into your app
             </Heading>
             <CodeSelector
               snippets="storage"
-              defaultLanguage="cli"
+              defaultLanguage="react"
               docs="https://portal.thirdweb.com/storage"
             />
           </Flex>

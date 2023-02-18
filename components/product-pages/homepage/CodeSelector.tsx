@@ -9,7 +9,6 @@ import { CgFileDocument } from "react-icons/cg";
 import { Card, CodeBlock, LinkButton, LinkButtonProps } from "tw-components";
 
 const landingSnippets = {
-  cli: ``,
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 // initialize the SDK
@@ -83,7 +82,6 @@ public class Example : MonoBehaviour {
 };
 
 const authSnippets = {
-  cli: ``,
   javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 
 const sdk = new ThirdwebSDK("goerli");
@@ -130,28 +128,6 @@ func main() {
 };
 
 const storageSnippets = {
-  cli: `// You can upload individual files
-npx thirdweb upload ./path/to/file.jpg
-
-// Or you can upload a folder
-npx thirdweb upload ./path/to/folder`,
-  javascript: `import { ThirdwebStorage } from "@thirdweb-dev/storage";
-
-// First, instantiate the thirdweb IPFS storage
-const storage = new ThirdwebStorage();
-
-// Here we get the IPFS URI of where our metadata has been uploaded
-const uri = await storage.upload(metadata);
-// This will log a URL like ipfs://QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
-console.info(uri);
-
-// Here we a URL with a gateway that we can look at in the browser
-const url = await storage.resolveScheme(uri);
-// This will log a URL like https://gateway.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
-console.info(url);
-
-// You can also download the data from the uri
-const data = await storage.downloadJSON(uri);`,
   react: `// Upload files to IPFS
 import { useStorageUpload } from "@thirdweb-dev/react";
 
@@ -177,6 +153,23 @@ function App() {
     <MediaRenderer src="ipfs://QmamvVM5kvsYjQJYs7x8LXKYGFkwtGvuRvqZsuzvpHmQq9/0" />
   );
 }`,
+  javascript: `import { ThirdwebStorage } from "@thirdweb-dev/storage";
+
+// First, instantiate the thirdweb IPFS storage
+const storage = new ThirdwebStorage();
+
+// Here we get the IPFS URI of where our metadata has been uploaded
+const uri = await storage.upload(metadata);
+// This will log a URL like ipfs://QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+console.info(uri);
+
+// Here we a URL with a gateway that we can look at in the browser
+const url = await storage.resolveScheme(uri);
+// This will log a URL like https://gateway.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+console.info(url);
+
+// You can also download the data from the uri
+const data = await storage.downloadJSON(uri);`,
   python: ``,
   go: ``,
   unity: ``,
@@ -231,11 +224,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
               language={key as CodeOptions}
               textTransform="capitalize"
             >
-              {key === "javascript"
-                ? "JavaScript"
-                : key === "cli"
-                ? "CLI"
-                : key}
+              {key === "javascript" ? "JavaScript" : key}
             </CodeOptionButton>
           ) : null,
         )}
@@ -262,7 +251,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
           pb={{ base: 12, md: 6 }}
           code={actualSnippets[activeLanguage]}
           language={
-            activeLanguage === "react" || activeLanguage === "cli"
+            activeLanguage === "react"
               ? "jsx"
               : activeLanguage === "unity"
               ? "cpp"

@@ -1,5 +1,4 @@
 import { Icon } from "@chakra-ui/react";
-import { SiCodersrank } from "@react-icons/all-files/si/SiCodersrank";
 import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiPython } from "@react-icons/all-files/si/SiPython";
@@ -11,10 +10,6 @@ import { flushSync } from "react-dom";
 import { Button, ButtonProps } from "tw-components";
 
 export const LOGO_OPTIONS = {
-  cli: {
-    icon: SiCodersrank,
-    fill: "#fff",
-  },
   javascript: {
     icon: SiJavascript,
     fill: "yellow",
