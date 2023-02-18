@@ -11,6 +11,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 import Fuse from "fuse.js";
 import { useAllChainsData } from "hooks/chains/allChains";
+import { useConfiguredChains } from "hooks/chains/configureChains";
 import { PageId } from "page-id";
 import { useDeferredValue, useMemo, useState } from "react";
 import { BsCheck2Circle } from "react-icons/bs";
@@ -19,6 +20,7 @@ import { ThirdwebNextPage } from "utils/types";
 
 export const DashboardRPC: ThirdwebNextPage = () => {
   const { allChains } = useAllChainsData();
+  const configuredChains = useConfiguredChains();
   const [query, setQuery] = useState("");
 
   const fuse = useMemo(() => {
@@ -87,13 +89,15 @@ export const DashboardRPC: ThirdwebNextPage = () => {
                     {chain.name}
                   </Heading>
                 </Flex>
-                {chain.rpc.some((rpcs) => rpcs.includes("thirdweb.com")) ? (
+                {configuredChains
+                  .map(({ chainId }) => chainId === chain.chainId)
+                  .some((e) => e) ? (
                   <Tooltip
                     p={0}
                     ml={3}
                     label={
                       <Flex p={2}>
-                        <Text>This chain is supported by the thirdweb RPC</Text>
+                        <Text>Added to dashboard</Text>
                       </Flex>
                     }
                     bgColor="backgroundCardHighlight"
