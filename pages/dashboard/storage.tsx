@@ -1,7 +1,8 @@
-import { Flex, GridItem, SimpleGrid, Tooltip } from "@chakra-ui/react";
+import { Divider, Flex, GridItem, SimpleGrid, Tooltip } from "@chakra-ui/react";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
+import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { PageId } from "page-id";
@@ -9,6 +10,30 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+
+const TRACKING_CATEGORY = "storage";
+
+const links = [
+  {
+    title: "Storage docs",
+    url: "https://docs.thirdweb.com/storage",
+  },
+  {
+    title: "Upload And Pin Files to IPFS",
+    url: "https://blog.thirdweb.com/guides/how-to-upload-and-pin-files-to-ipfs-using-storage/",
+  },
+];
+
+const videos = [
+  {
+    title: "How To Easily Add IPFS Into Your Web3 App",
+    url: "https://www.youtube.com/watch?v=4Nnu9Cy7SKc",
+  },
+  {
+    title: "How to Upload Files to IPFS (Step by Step Guide)",
+    url: "https://www.youtube.com/watch?v=wyYkpMgEVxE",
+  },
+];
 
 const DashboardStorage: ThirdwebNextPage = () => {
   const [progress, setProgress] = useState<UploadProgressEvent>({
@@ -92,6 +117,19 @@ const DashboardStorage: ThirdwebNextPage = () => {
             />
           </Flex>
         </Flex>
+      </GridItem>
+      <GridItem as={Flex} direction="column" gap={6}>
+        <RelevantDataSection
+          data={links}
+          title="link"
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+        />
+        <Divider />
+        <RelevantDataSection
+          data={videos}
+          title="video"
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
+        />
       </GridItem>
     </SimpleGrid>
   );
