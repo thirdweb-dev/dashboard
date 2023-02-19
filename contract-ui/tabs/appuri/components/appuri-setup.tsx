@@ -60,35 +60,40 @@ frameborder="0"
 
   return (
     <Flex gap={8} direction="column">
-      <Flex gap={8} direction={{ base: "column", md: "row" }}>
-        <Stack as={Card} w={{ base: "100%", md: "50%" }}>
+      <Flex
+        gap={8}
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Stack as={Card} w="100%" maxWidth="768px">
           <FormControl>
-            <FormLabel>Current App URI</FormLabel>
-            <Input type="url" {...register("appURI")} />
-          </FormControl>
-          <Center>
-            <HStack>
+            <HStack justifyContent="center">
+              <FormLabel flexGrow={1}>App URI</FormLabel>
               <Button
-                colorScheme="purple"
                 w="auto"
-                variant="outline"
+                variant="icon"
+                justifySelf="flex-end"
                 onClick={() => window.open(iframeSrc, "_blank")}
+                p={2}
               >
                 View App
               </Button>
-
-              <Button
-                colorScheme="purple"
-                w="50%"
-                disabled={watch("appURI") === appURI}
-                onClick={() => contract?.appURI.set(getValues("appURI"))}
-              >
-                Save
-              </Button>
             </HStack>
+
+            <Input type="url" {...register("appURI")} />
+          </FormControl>
+          <Center>
+            <Button
+              w="auto"
+              disabled={watch("appURI") === appURI}
+              onClick={() => contract?.appURI.set(getValues("appURI"))}
+            >
+              Save
+            </Button>
           </Center>
         </Stack>
-        <Stack as={Card} w={{ base: "100%", md: "50%" }}>
+        <Stack as={Card} w="100%" maxWidth="768px">
           <Heading size="title.sm">Embed Code</Heading>
           <CodeBlock
             canCopy={true}
@@ -99,11 +104,6 @@ frameborder="0"
           />
         </Stack>
       </Flex>
-      <Center>
-        <Box maxW="90%" maxH="90%" w="600px" h="600px">
-          <iframe src={iframeSrc} width="100%" height="100%"></iframe>
-        </Box>
-      </Center>
     </Flex>
   );
 };

@@ -2,13 +2,13 @@ import { AppURISetup } from "./components/appuri-setup";
 import { Flex } from "@chakra-ui/react";
 import { useContract, useContractRead } from "@thirdweb-dev/react";
 
-interface CustomContractAppURIPageProps {
+interface CustomContractAppPageProps {
   contractAddress?: string;
 }
 
-export const CustomContractAppURIPage: React.FC<
-  CustomContractAppURIPageProps
-> = ({ contractAddress }) => {
+export const CustomContractAppPage: React.FC<CustomContractAppPageProps> = ({
+  contractAddress,
+}) => {
   const contractQuery = useContract(contractAddress);
   const { data: appURI } = useContractRead(contractQuery.contract, "appURI");
 

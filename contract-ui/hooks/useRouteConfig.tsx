@@ -84,6 +84,13 @@ const LazyCustomContractSourcesPage = dynamic(() =>
     ({ CustomContractSourcesPage }) => CustomContractSourcesPage,
   ),
 );
+
+const LazyCustomContractAppPage = dynamic(() =>
+  import("../tabs/appuri/page").then(
+    ({ CustomContractAppPage }) => CustomContractAppPage,
+  ),
+);
+
 // end evm
 
 export type EnhancedRoute<T = any> = {
@@ -252,10 +259,7 @@ export function useContractRouteConfig(
     {
       title: "App",
       path: "appuri",
-      element: () =>
-        import("../tabs/appuri/page").then(({ CustomContractAppURIPage }) => (
-          <CustomContractAppURIPage contractAddress={contractAddress} />
-        )),
+      component: LazyCustomContractAppPage,
       isEnabled: contractTypeQuery.isLoading
         ? "loading"
         : appURI
