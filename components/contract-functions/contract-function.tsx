@@ -274,7 +274,7 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
   setSelectedFunction,
 }) => {
   return (
-    <ListItem my={0.5}>
+    <Box my={0.5}>
       <Button
         size="sm"
         fontWeight={
@@ -303,6 +303,6 @@ const FunctionsOrEventsListItem: React.FC<FunctionsOrEventsListItemProps> = ({
       >
         {fn.name}
       </Button>
-    </ListItem>
+    </Box>
   );
 };

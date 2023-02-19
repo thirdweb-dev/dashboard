@@ -1,4 +1,8 @@
-import { contractType, useContract } from "@thirdweb-dev/react";
+import {
+  contractType,
+  useContract,
+  useContractRead,
+} from "@thirdweb-dev/react";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
@@ -94,6 +98,7 @@ export function useContractRouteConfig(
 ): EnhancedRoute[] {
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
+  const { data: appURI } = useContractRead(contractQuery.contract, "appURI");
   const contractTypeQuery = contractType.useQuery(contractAddress);
 
   const claimconditionExtensionDetection = extensionDetectedState({
@@ -244,6 +249,20 @@ export function useContractRouteConfig(
             ],
           }),
     },
+    {
+      title: "App",
+      path: "appuri",
+      element: () =>
+        import("../tabs/appuri/page").then(({ CustomContractAppURIPage }) => (
+          <CustomContractAppURIPage contractAddress={contractAddress} />
+        )),
+      isEnabled: contractTypeQuery.isLoading
+        ? "loading"
+        : appURI
+        ? "enabled"
+        : "disabled",
+    },
+
     {
       title: "Code",
       path: "code",
