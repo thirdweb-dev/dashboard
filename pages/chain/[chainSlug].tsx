@@ -7,6 +7,8 @@ import {
   GridItem,
   GridItemProps,
   Icon,
+  LinkBox,
+  LinkOverlay,
   SimpleGrid,
   useToast,
 } from "@chakra-ui/react";
@@ -30,7 +32,12 @@ import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useMemo } from "react";
 import { BiRocket } from "react-icons/bi";
-import { FiAlertCircle, FiCheckCircle, FiXCircle } from "react-icons/fi";
+import {
+  FiAlertCircle,
+  FiCheckCircle,
+  FiExternalLink,
+  FiXCircle,
+} from "react-icons/fi";
 import { IoIosAdd } from "react-icons/io";
 import {
   Button,
@@ -156,13 +163,9 @@ const ChainPage: ThirdwebNextPage = ({
           gap={6}
         >
           <Flex pt={{ base: 4, md: 12 }}>
-            <Link
-              href="/dashboard/rpc"
-              _hover={{ textDecor: "none" }}
-              role="group"
-            >
+            <Link href="/chains" _hover={{ textDecor: "none" }} role="group">
               <Text size="label.md" _hover={{ color: "blue.500" }}>
-                ← All RPCs
+                {"<-"} All Chains
               </Text>
             </Link>
           </Flex>
@@ -350,31 +353,35 @@ const ChainPage: ThirdwebNextPage = ({
                   }
                 }
                 return (
-                  <GridItem
-                    as={Card}
-                    colSpan={3}
-                    key={url.toString()}
-                    gap={2}
-                    display="flex"
-                    flexDirection="column"
-                  >
-                    <Heading as="h5" size="label.md">
-                      {displayTitle}
-                    </Heading>
-                    <TrackedLink
-                      category={CHAIN_CATEGORY}
-                      href={url.toString()}
-                      label="faucet"
-                      trackingProps={{
-                        faucet: url.toString(),
-                      }}
-                      noOfLines={1}
-                      isExternal
+                  <GridItem colSpan={{ base: 6, md: 3 }} key={url.toString()}>
+                    <Card
+                      as={LinkBox}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      gap={4}
                     >
-                      <Text size="body.sm">
-                        {url.toString().split("://")[1]}
-                      </Text>
-                    </TrackedLink>
+                      <Flex gap={2} direction="column" maxW="75%">
+                        <Heading as="h5" size="label.md" noOfLines={1}>
+                          {displayTitle}
+                        </Heading>
+                        <LinkOverlay
+                          as={TrackedLink}
+                          category={CHAIN_CATEGORY}
+                          href={url.toString()}
+                          label="faucet"
+                          trackingProps={{
+                            faucet: url.toString(),
+                          }}
+                          isExternal
+                        >
+                          <Text size="body.sm" noOfLines={1}>
+                            {url.toString().split("://")[1]}
+                          </Text>
+                        </LinkOverlay>
+                      </Flex>
+                      <Icon flexShrink={0} as={FiExternalLink} />
+                    </Card>
                   </GridItem>
                 );
               })}
@@ -386,30 +393,36 @@ const ChainPage: ThirdwebNextPage = ({
             <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
               {chain.explorers.map((explorer) => {
                 return (
-                  <GridItem
-                    as={Card}
-                    colSpan={3}
-                    key={explorer.url}
-                    gap={2}
-                    display="flex"
-                    flexDirection="column"
-                  >
-                    <Heading as="h5" size="label.md">
-                      {explorer.name}
-                    </Heading>
-                    <TrackedLink
-                      category={CHAIN_CATEGORY}
-                      href={explorer.url}
-                      label="explorer"
-                      trackingProps={{
-                        explorerName: explorer.name,
-                        explorerUrl: explorer.url,
-                      }}
-                      noOfLines={1}
-                      isExternal
+                  <GridItem colSpan={{ base: 6, md: 3 }} key={explorer.url}>
+                    <Card
+                      as={LinkBox}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
                     >
-                      <Text size="body.sm">{explorer.url.split("://")[1]}</Text>
-                    </TrackedLink>
+                      <Flex direction="column" gap={2} maxW="75%">
+                        <Heading as="h5" size="label.md">
+                          {explorer.name}
+                        </Heading>
+                        <LinkOverlay
+                          as={TrackedLink}
+                          category={CHAIN_CATEGORY}
+                          href={explorer.url}
+                          label="explorer"
+                          trackingProps={{
+                            explorerName: explorer.name,
+                            explorerUrl: explorer.url,
+                          }}
+                          noOfLines={1}
+                          isExternal
+                        >
+                          <Text size="body.sm">
+                            {explorer.url.split("://")[1]}
+                          </Text>
+                        </LinkOverlay>
+                      </Flex>
+                      <Icon as={FiExternalLink} />
+                    </Card>
                   </GridItem>
                 );
               })}

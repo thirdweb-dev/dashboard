@@ -56,7 +56,7 @@ const DashboardStorage: ThirdwebNextPage = () => {
   const isValidIPFSHash = ipfsHash.startsWith("ipfs://");
 
   return (
-    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={{ base: 0, md: 10 }}>
+    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={{ base: 2, md: 6 }}>
       <NextSeo
         title={title}
         description={description}

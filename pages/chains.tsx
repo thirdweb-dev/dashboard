@@ -75,10 +75,10 @@ export const ChainsLanding: ThirdwebNextPage = (
   }, [chainsWithDashboardStatus, deferredSearchTerm, fuse]);
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 0, md: 10 }}>
+    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
       <Flex direction="row" align="center" justify="space-between" gap={4}>
         <Heading size="title.lg" as="h1" flexShrink={0}>
-          RPC List
+          Chain List
         </Heading>
 
         <Card

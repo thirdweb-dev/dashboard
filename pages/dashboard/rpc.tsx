@@ -19,7 +19,7 @@ export const DashboardRPC: ThirdwebNextPage = () => {
   const configuredChains = useConfiguredChains();
 
   return (
-    <Flex flexDir="column" gap={8} mt={10}>
+    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
       <Flex justifyContent="space-between">
         <Heading size="title.lg" as="h1">
           RPC
@@ -41,7 +41,6 @@ export const DashboardRPC: ThirdwebNextPage = () => {
               flexDir="column"
               gap={6}
               p={6}
-              bg="transparent"
               _groupHover={{ borderColor: "blue.500" }}
               position="relative"
             >
@@ -52,33 +51,29 @@ export const DashboardRPC: ThirdwebNextPage = () => {
                     {chain.name}
                   </Heading>
                 </Flex>
-                {configuredChains
-                  .map(({ chainId }) => chainId === chain.chainId)
-                  .some((e) => e) ? (
-                  <Tooltip
-                    p={0}
-                    ml={3}
-                    label={
-                      <Flex p={2}>
-                        <Text>Added to dashboard</Text>
-                      </Flex>
-                    }
-                    bgColor="backgroundCardHighlight"
-                    borderRadius="xl"
-                    placement="right"
-                    shouldWrapChildren
-                    position="absolute"
-                  >
-                    <Flex alignItems="center">
-                      <Icon as={BsCheck2Circle} color="green.500" boxSize={6} />
+                <Tooltip
+                  p={0}
+                  ml={3}
+                  label={
+                    <Flex p={2}>
+                      <Text>Added to dashboard</Text>
                     </Flex>
-                  </Tooltip>
-                ) : null}
+                  }
+                  bgColor="backgroundCardHighlight"
+                  borderRadius="xl"
+                  placement="right"
+                  shouldWrapChildren
+                  position="absolute"
+                >
+                  <Flex alignItems="center">
+                    <Icon as={BsCheck2Circle} color="green.500" boxSize={6} />
+                  </Flex>
+                </Tooltip>
               </Flex>
               <Flex>
                 <Flex flexDir="column" gap={1}>
                   <Text opacity={0.6}>RPC URL</Text>
-                  <Flex alignItems="center">
+                  <Flex alignItems="center" gap={2}>
                     <Text
                       size="label.md"
                       noOfLines={1}
@@ -96,10 +91,11 @@ export const DashboardRPC: ThirdwebNextPage = () => {
                       shouldWrapChildren
                     >
                       <TrackedCopyButton
-                        value={`${chain.slug}.rpc.thirdweb.com`}
+                        value={`https://${chain.slug}.rpc.thirdweb.com`}
                         category="rpc"
                         label="copy-rpc-url"
                         aria-label="Copy RPC URL"
+                        colorScheme={undefined}
                       />
                     </Tooltip>
                   </Flex>
