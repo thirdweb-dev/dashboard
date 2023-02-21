@@ -1,20 +1,17 @@
 import {
   Flex,
   GridItem,
-  Icon,
   Input,
   InputGroup,
   InputRightElement,
   LinkOverlay,
   SimpleGrid,
-  Tooltip,
 } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworkButton } from "components/contract-components/shared/configure-network-button";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { PageId } from "page-id";
-import { BsCheck2Circle } from "react-icons/bs";
 import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -56,24 +53,6 @@ export const DashboardRPC: ThirdwebNextPage = () => {
                     {chain.name}
                   </Heading>
                 </Flex>
-                <Tooltip
-                  p={0}
-                  ml={3}
-                  label={
-                    <Flex p={2}>
-                      <Text>Added to dashboard</Text>
-                    </Flex>
-                  }
-                  bgColor="backgroundCardHighlight"
-                  borderRadius="xl"
-                  placement="right"
-                  shouldWrapChildren
-                  position="absolute"
-                >
-                  <Flex alignItems="center">
-                    <Icon as={BsCheck2Circle} color="green.500" boxSize={6} />
-                  </Flex>
-                </Tooltip>
               </Flex>
               <Flex>
                 <Flex flexDir="column" gap={1} w="full">
