@@ -12,7 +12,7 @@ import { ConfigureNetworkButton } from "components/contract-components/shared/co
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { PageId } from "page-id";
-import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
+import { Card, Heading, Link, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "rpc";
@@ -23,9 +23,19 @@ export const DashboardRPC: ThirdwebNextPage = () => {
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
       <Flex justifyContent="space-between">
-        <Heading size="title.lg" as="h1">
-          RPC
-        </Heading>
+        <Flex flexDir="column" gap={2}>
+          <Heading size="title.lg" as="h1">
+            RPC
+          </Heading>
+          <Text>
+            This list show all your configured chains and all the RPC endpoints
+            that thirdweb supports.{" "}
+            <Link href="/chains" color="blue.500">
+              See all supported chains
+            </Link>
+            .
+          </Text>
+        </Flex>
         <ConfigureNetworkButton label="rpc-page">
           Add Network
         </ConfigureNetworkButton>
