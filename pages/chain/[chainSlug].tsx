@@ -276,54 +276,61 @@ const ChainPage: ThirdwebNextPage = ({
             </Heading>
           </ChainSectionElement>
         </SimpleGrid>
-        <SimpleGrid columns={{ base: 6, md: 12 }} rowGap={12}>
-          <ChainSectionElement
-            colSpan={6}
-            label="RPC"
-            status={
-              rpcStats.isSuccess ? "good" : rpcStats.isError ? "bad" : "neutral"
-            }
-          >
-            <Flex gap={2}>
-              <Heading maxW="full" noOfLines={2} size="label.lg">
-                {chain.rpc[0].split(".com/")[0]}.com
+        {/* only render rpc setction if we have an rpc for this chain */}
+        {chain.rpc?.[0] ? (
+          <SimpleGrid columns={{ base: 6, md: 12 }} rowGap={12}>
+            <ChainSectionElement
+              colSpan={6}
+              label="RPC"
+              status={
+                rpcStats.isSuccess
+                  ? "good"
+                  : rpcStats.isError
+                  ? "bad"
+                  : "neutral"
+              }
+            >
+              <Flex gap={2}>
+                <Heading maxW="full" noOfLines={2} size="label.lg">
+                  {chain.rpc[0].split(".com/")[0]}.com
+                </Heading>
+                <TrackedCopyButton
+                  category={CHAIN_CATEGORY}
+                  label="copy-rpc-url"
+                  mt={-2}
+                  aria-label="Copy RPC url"
+                  variant="ghost"
+                  size="sm"
+                  value={`${chain.rpc[0].split(".com/")[0]}.com`}
+                />
+              </Flex>
+            </ChainSectionElement>
+            <ChainSectionElement colSpan={3} label="Block Height">
+              <Heading
+                fontFamily="mono"
+                maxW="full"
+                noOfLines={1}
+                size="label.lg"
+              >
+                {rpcStats.data?.blockNumber || 0}
               </Heading>
-              <TrackedCopyButton
-                category={CHAIN_CATEGORY}
-                label="copy-rpc-url"
-                mt={-2}
-                aria-label="Copy RPC url"
-                variant="ghost"
-                size="sm"
-                value={chain.rpc[0]}
-              />
-            </Flex>
-          </ChainSectionElement>
-          <ChainSectionElement colSpan={3} label="Block Height">
-            <Heading
-              fontFamily="mono"
-              maxW="full"
-              noOfLines={1}
-              size="label.lg"
-            >
-              {rpcStats.data?.blockNumber || 0}
-            </Heading>
-          </ChainSectionElement>
-          <ChainSectionElement colSpan={3} label="Latency">
-            <Heading
-              fontFamily="mono"
-              maxW="full"
-              noOfLines={1}
-              size="label.lg"
-            >
-              {(rpcStats.data?.latency || 0).toFixed(0)}
-              <Text as="span" color="accent.700">
-                {" "}
-                ms
-              </Text>
-            </Heading>
-          </ChainSectionElement>
-        </SimpleGrid>
+            </ChainSectionElement>
+            <ChainSectionElement colSpan={3} label="Latency">
+              <Heading
+                fontFamily="mono"
+                maxW="full"
+                noOfLines={1}
+                size="label.lg"
+              >
+                {(rpcStats.data?.latency || 0).toFixed(0)}
+                <Text as="span" color="accent.700">
+                  {" "}
+                  ms
+                </Text>
+              </Heading>
+            </ChainSectionElement>
+          </SimpleGrid>
+        ) : null}
         {chain.faucets?.length ? (
           <ChainSectionElement colSpan={12} label="Faucets">
             <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
@@ -531,6 +538,12 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
     chainSlug = chainSlug[0];
   }
 
+  if (chainSlug === "localhost") {
+    return {
+      notFound: true,
+    };
+  }
+
   // if the chain slug is a chain id, redirect to the chain slug
   if (chainSlug in chainIdToChain) {
     return {
@@ -549,15 +562,12 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   }
 
   const chainRpc = getDashboardChainRpc(chain);
-
-  if (!chainRpc) {
-    return {
-      notFound: true,
-    };
-  }
-
   // overwrite with the dashboard chain RPC (add the api key)
-  chain.rpc = [chainRpc];
+  if (chainRpc) {
+    chain.rpc = [chainRpc];
+  } else {
+    chain.rpc = [];
+  }
 
   const category = CHAIN_PAGE_CONTRACTS_CATEGORY;
   const queryClient = new QueryClient();

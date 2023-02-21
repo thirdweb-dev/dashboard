@@ -1,5 +1,6 @@
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Container, Divider, Flex, Icon, Stack } from "@chakra-ui/react";
+import { Ethereum, Solana } from "@thirdweb-dev/chain-icons";
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
@@ -171,16 +172,30 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 Home
               </LinkButton>
               <LinkButton
-                href="/contracts"
+                leftIcon={<Icon as={Ethereum} />}
+                href="/dashboard/contracts"
                 size="sm"
                 variant={
-                  pathname === "/contracts" ||
+                  pathname === "/dashboard/contracts" ||
                   route === "/[networkOrAddress]/[...catchAll]"
                     ? "solid"
                     : "ghost"
                 }
               >
                 Contracts
+              </LinkButton>
+              <LinkButton
+                leftIcon={<Icon as={Solana} />}
+                href="/dashboard/programs"
+                size="sm"
+                variant={
+                  pathname === "/dashboard/programs" ||
+                  route === "/[networkOrAddress]/[...catchAll]"
+                    ? "solid"
+                    : "ghost"
+                }
+              >
+                Programs
               </LinkButton>
               <LinkButton
                 href="/dashboard/storage"

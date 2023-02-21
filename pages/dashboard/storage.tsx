@@ -7,12 +7,11 @@ import {
   SimpleGrid,
   Tooltip,
 } from "@chakra-ui/react";
-import { useAddress, useStorageUpload } from "@thirdweb-dev/react";
-import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
+import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
+import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
-import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
 import { replaceIpfsUrl } from "lib/sdk";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
@@ -24,11 +23,11 @@ const TRACKING_CATEGORY = "storage";
 
 const links = [
   {
-    title: "Storage docs",
+    title: "Documentation",
     url: "https://docs.thirdweb.com/storage",
   },
   {
-    title: "Upload And Pin Files to IPFS",
+    title: "How To Upload And Pin Files to IPFS",
     url: "https://blog.thirdweb.com/guides/how-to-upload-and-pin-files-to-ipfs-using-storage/",
   },
 ];
@@ -45,27 +44,19 @@ const videos = [
 ];
 
 const DashboardStorage: ThirdwebNextPage = () => {
-  const address = useAddress();
   const [ipfsHash, setIpfsHash] = useState("");
-  const [progress, setProgress] = useState<UploadProgressEvent>({
-    progress: 0,
-    total: 100,
-  });
-  const storageUpload = useStorageUpload({
-    onProgress: setProgress,
-    metadata: {
-      address,
-      uploadedAt: new Date().toISOString(),
-      uploadedFrom: "thirdweb-dashboard",
-    },
-  });
+
+  const [codeEnvironment, setCodeEnvironment] =
+    useState<CodeEnvironment>("react");
 
   const title = "IPFS Upload & Pinning Service | Pin Files to IPFS for Free";
   const description =
     "Upload, pin, and host NFT metadata, images, or any type of file on IPFS—using thirdweb's IPFS pinning service. Store files on IPFS for free.";
 
+  const isValidIPFSHash = ipfsHash.startsWith("ipfs://");
+
   return (
-    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={10}>
+    <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8} mt={{ base: 0, md: 10 }}>
       <NextSeo
         title={title}
         description={description}
@@ -76,7 +67,7 @@ const DashboardStorage: ThirdwebNextPage = () => {
       />
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={8}>
         <Flex flexDir="column" gap={{ base: 16, md: 16 }}>
-          <Flex flexDir="column" gap={4}>
+          <Flex flexDir="column" gap={2}>
             <Heading size="title.lg" as="h1">
               Storage
             </Heading>
@@ -85,11 +76,7 @@ const DashboardStorage: ThirdwebNextPage = () => {
                 Everything uploaded using thirdweb is automatically uploaded and
                 pinned to IPFS.
               </Text>
-              <IpfsUploadDropzone
-                storageUpload={storageUpload}
-                progress={progress}
-                setProgress={setProgress}
-              />
+              <IpfsUploadDropzone />
             </Flex>
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>
@@ -100,43 +87,36 @@ const DashboardStorage: ThirdwebNextPage = () => {
               Enter an IPFS hash to generate a gateway URL that accesses your
               hosted data on IPFS.
             </Text>
-            <Input
-              bg="transparent"
-              value={ipfsHash}
-              onChange={(e) => setIpfsHash(e.target.value)}
-              borderColor="borderColor"
-            />
-            <SimpleGrid
-              columns={{ base: 1, md: 24 }}
-              alignItems="center"
-              gap={1}
-            >
-              <GridItem as={Text} colSpan={{ base: 1, md: 3 }}>
-                <Text>Gateway URL:</Text>
-              </GridItem>
-              <GridItem colSpan={{ base: 1, md: 21 }}>
-                <Link
-                  href={
-                    ipfsHash.includes("ipfs://")
-                      ? replaceIpfsUrl(ipfsHash)
-                      : "https://gateway.ipfscdn.io/ipfs/"
-                  }
-                  isExternal
-                  _hover={{ textDecoration: "none" }}
-                  role="group"
-                >
-                  <Text
-                    noOfLines={1}
-                    color="blue.500"
-                    _groupHover={{ opacity: 0.9 }}
-                  >
-                    {ipfsHash.includes("ipfs://")
-                      ? replaceIpfsUrl(ipfsHash)
-                      : "https://gateway.ipfscdn.io/ipfs/"}
-                  </Text>
-                </Link>
-              </GridItem>
-            </SimpleGrid>
+            <Card p={0} borderRadius="md" border="none">
+              <Input
+                variant="outline"
+                value={ipfsHash}
+                onChange={(e) => setIpfsHash(e.target.value)}
+                borderColor="borderColor"
+                placeholder="ipfs://"
+              />
+            </Card>
+            <Text>
+              Gateway URL:{" "}
+              <Link
+                cursor={!isValidIPFSHash ? "default" : "pointer"}
+                href={isValidIPFSHash ? replaceIpfsUrl(ipfsHash) : undefined}
+                isExternal
+                _light={{
+                  color: "blue.600",
+                }}
+                _dark={{
+                  color: "blue.400",
+                }}
+                _hover={
+                  !isValidIPFSHash ? { textDecoration: "none" } : undefined
+                }
+              >
+                {isValidIPFSHash
+                  ? replaceIpfsUrl(ipfsHash)
+                  : "https://gateway.ipfscdn.io/ipfs/[cid]"}
+              </Link>
+            </Text>
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
@@ -229,10 +209,10 @@ const DashboardStorage: ThirdwebNextPage = () => {
             <Heading size="title.md" as="h2">
               Integrate into your app
             </Heading>
-            <CodeSelector
-              snippets="storage"
-              defaultLanguage="react"
-              docs="https://portal.thirdweb.com/storage"
+            <CodeSegment
+              snippet={storageSnippets}
+              environment={codeEnvironment}
+              setEnvironment={setCodeEnvironment}
             />
           </Flex>
         </Flex>
@@ -252,6 +232,54 @@ const DashboardStorage: ThirdwebNextPage = () => {
       </GridItem>
     </SimpleGrid>
   );
+};
+
+const storageSnippets = {
+  react: `// Upload files to IPFS
+import { useStorageUpload } from "@thirdweb-dev/react";
+
+function App() {
+  const { mutateAsync: upload } = useStorageUpload();
+
+  const uploadData = () => {
+    // Get any data that you want to upload
+    const dataToUpload = [...];
+
+    // And upload the data with the upload function
+    const uris = await upload({ data: dataToUpload });
+  }
+  ...
+}
+
+// Render files from IPFS
+import { MediaRenderer } from "@thirdweb-dev/react";
+
+function App() {
+  return (
+    // Supported types: image, video, audio, 3d model, html
+    <MediaRenderer src="ipfs://QmamvVM5kvsYjQJYs7x8LXKYGFkwtGvuRvqZsuzvpHmQq9/0" />
+  );
+}`,
+  javascript: `import { ThirdwebStorage } from "@thirdweb-dev/storage";
+
+// First, instantiate the thirdweb IPFS storage
+const storage = new ThirdwebStorage();
+
+// Here we get the IPFS URI of where our metadata has been uploaded
+const uri = await storage.upload(metadata);
+// This will log a URL like ipfs://QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+console.info(uri);
+
+// Here we a URL with a gateway that we can look at in the browser
+const url = await storage.resolveScheme(uri);
+// This will log a URL like https://gateway.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+console.info(url);
+
+// You can also download the data from the uri
+const data = await storage.downloadJSON(uri);`,
+  python: ``,
+  go: ``,
+  unity: ``,
 };
 
 DashboardStorage.getLayout = (page, props) => (

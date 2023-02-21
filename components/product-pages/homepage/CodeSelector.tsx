@@ -127,57 +127,9 @@ func main() {
   unity: ``,
 };
 
-const storageSnippets = {
-  react: `// Upload files to IPFS
-import { useStorageUpload } from "@thirdweb-dev/react";
-
-function App() {
-  const { mutateAsync: upload } = useStorageUpload();
-
-  const uploadData = () => {
-    // Get any data that you want to upload
-    const dataToUpload = [...];
-
-    // And upload the data with the upload function
-    const uris = await upload({ data: dataToUpload });
-  }
-  ...
-}
-
-// Render files from IPFS
-import { MediaRenderer } from "@thirdweb-dev/react";
-
-function App() {
-  return (
-    // Supported types: image, video, audio, 3d model, html
-    <MediaRenderer src="ipfs://QmamvVM5kvsYjQJYs7x8LXKYGFkwtGvuRvqZsuzvpHmQq9/0" />
-  );
-}`,
-  javascript: `import { ThirdwebStorage } from "@thirdweb-dev/storage";
-
-// First, instantiate the thirdweb IPFS storage
-const storage = new ThirdwebStorage();
-
-// Here we get the IPFS URI of where our metadata has been uploaded
-const uri = await storage.upload(metadata);
-// This will log a URL like ipfs://QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
-console.info(uri);
-
-// Here we a URL with a gateway that we can look at in the browser
-const url = await storage.resolveScheme(uri);
-// This will log a URL like https://gateway.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
-console.info(url);
-
-// You can also download the data from the uri
-const data = await storage.downloadJSON(uri);`,
-  python: ``,
-  go: ``,
-  unity: ``,
-};
-
 export interface CodeSelectorProps {
   defaultLanguage?: CodeOptions;
-  snippets?: "landing" | "auth" | "storage";
+  snippets?: "landing" | "auth";
   docs?: string;
 }
 
@@ -193,11 +145,7 @@ export const CodeSelector: React.FC<CodeSelectorProps> = ({
   const trackEvent = useTrack();
 
   const actualSnippets =
-    snippets === "landing"
-      ? landingSnippets
-      : snippets === "storage"
-      ? storageSnippets
-      : authSnippets;
+    snippets === "landing" ? landingSnippets : authSnippets;
 
   return (
     <>
