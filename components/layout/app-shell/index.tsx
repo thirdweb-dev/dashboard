@@ -240,9 +240,6 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                 align="center"
                 justify="center"
               >
-                <Text alignSelf="center" order={{ base: 2, md: 0 }}>
-                  thirdweb &copy; {new Date().getFullYear()}
-                </Text>
                 <Flex align="center" justify="center" gap={4}>
                   <TrackedLink
                     isExternal
@@ -278,6 +275,9 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                   >
                     Gas Estimator
                   </TrackedLink>
+                  <Text alignSelf="center" order={{ base: 2, md: 0 }}>
+                    thirdweb &copy; {new Date().getFullYear()}
+                  </Text>
                 </Flex>
               </Flex>
             </Flex>
