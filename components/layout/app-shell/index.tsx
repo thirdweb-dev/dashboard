@@ -276,6 +276,15 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
                   >
                     Gas Estimator
                   </TrackedLink>
+                  <TrackedLink
+                    href="/chains"
+                    bg="transparent"
+                    category="footer"
+                    display={{ base: "none", md: "flex" }}
+                    label="chains"
+                  >
+                    Chainlist
+                  </TrackedLink>
                   <Text alignSelf="center" order={{ base: 2, md: 0 }}>
                     thirdweb &copy; {new Date().getFullYear()}
                   </Text>
