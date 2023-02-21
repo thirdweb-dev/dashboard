@@ -2,6 +2,9 @@ import {
   Flex,
   GridItem,
   Icon,
+  Input,
+  InputGroup,
+  InputRightElement,
   LinkOverlay,
   SimpleGrid,
   Tooltip,
@@ -14,6 +17,8 @@ import { PageId } from "page-id";
 import { BsCheck2Circle } from "react-icons/bs";
 import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+
+const TRACKING_CATEGORY = "rpc";
 
 export const DashboardRPC: ThirdwebNextPage = () => {
   const configuredChains = useConfiguredChains();
@@ -71,34 +76,34 @@ export const DashboardRPC: ThirdwebNextPage = () => {
                 </Tooltip>
               </Flex>
               <Flex>
-                <Flex flexDir="column" gap={1}>
+                <Flex flexDir="column" gap={1} w="full">
                   <Text opacity={0.6}>RPC URL</Text>
-                  <Flex alignItems="center" gap={2}>
-                    <Text
-                      size="label.md"
-                      noOfLines={1}
-                    >{`${chain.slug}.rpc.thirdweb.com`}</Text>
-                    <Tooltip
-                      p={0}
-                      label={
-                        <Flex p={2}>
-                          <Text>Copy RPC URL</Text>
-                        </Flex>
-                      }
-                      bgColor="backgroundCardHighlight"
-                      borderRadius="xl"
-                      placement="top"
-                      shouldWrapChildren
-                    >
-                      <TrackedCopyButton
-                        value={`https://${chain.slug}.rpc.thirdweb.com`}
-                        category="rpc"
-                        label="copy-rpc-url"
-                        aria-label="Copy RPC URL"
-                        colorScheme={undefined}
+                  {chain.rpc.findIndex((c) => c.indexOf("thirdweb.com") > -1) >
+                  -1 ? (
+                    <InputGroup>
+                      <Input
+                        readOnly
+                        value={`${chain.slug}.rpc.thirdweb.com`}
                       />
-                    </Tooltip>
-                  </Flex>
+                      <InputRightElement>
+                        <TrackedCopyButton
+                          category={TRACKING_CATEGORY}
+                          label="copy-rpc-url"
+                          aria-label="Copy RPC url"
+                          size="sm"
+                          colorScheme={undefined}
+                          value={`${chain.slug}.rpc.thirdweb.com`}
+                        />
+                      </InputRightElement>
+                    </InputGroup>
+                  ) : (
+                    <Input
+                      readOnly
+                      isDisabled
+                      pointerEvents="none"
+                      value="Coming Soon"
+                    />
+                  )}
                 </Flex>
               </Flex>
               <SimpleGrid gap={12} columns={12}>

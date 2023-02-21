@@ -251,7 +251,7 @@ const SearchResult: React.FC<{
               readOnly
               isDisabled
               pointerEvents="none"
-              value="Coming soon"
+              value="Coming Soon"
             />
           )}
         </Flex>
