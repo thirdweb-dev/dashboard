@@ -125,84 +125,43 @@ const DashboardStorage: ThirdwebNextPage = () => {
             <Flex flexDir="column" gap={4}>
               <Text>
                 Using thirdweb CLI, you can easily upload files and folders to
-                IPFS from your terminal.
+                IPFS from your terminal:
               </Text>
-              <Flex flexDir="column" gap={2}>
-                <Text>You can upload individual files:</Text>
-                <Card
-                  as={Flex}
-                  w="full"
-                  alignItems="center"
-                  py={2}
-                  justifyContent="space-between"
+              <Card
+                as={Flex}
+                w="full"
+                alignItems="center"
+                py={2}
+                justifyContent="space-between"
+              >
+                <Text
+                  fontFamily="mono"
+                  overflow={{ base: "scroll", md: "inherit" }}
                 >
-                  <Text
-                    fontFamily="mono"
-                    overflow={{ base: "scroll", md: "inherit" }}
+                  npx thirdweb upload ./path/to/file-or-folder
+                </Text>
+                <Flex>
+                  <Tooltip
+                    p={0}
+                    label={
+                      <Flex p={2}>
+                        <Text>Copy code</Text>
+                      </Flex>
+                    }
+                    bgColor="backgroundCardHighlight"
+                    borderRadius="xl"
+                    placement="top"
+                    shouldWrapChildren
                   >
-                    npx thirdweb upload ./path/to/file.jpg
-                  </Text>
-                  <Flex>
-                    <Tooltip
-                      p={0}
-                      label={
-                        <Flex p={2}>
-                          <Text>Copy code</Text>
-                        </Flex>
-                      }
-                      bgColor="backgroundCardHighlight"
-                      borderRadius="xl"
-                      placement="top"
-                      shouldWrapChildren
-                    >
-                      <TrackedCopyButton
-                        value="npx thirdweb upload ./path/to/file.jpg"
-                        category="storage"
-                        label="copy-cli-file-upload"
-                        aria-label="Copy code"
-                      />
-                    </Tooltip>
-                  </Flex>
-                </Card>
-              </Flex>
-              <Flex flexDir="column" gap={2}>
-                <Text>Or you can upload a folder:</Text>
-                <Card
-                  as={Flex}
-                  w="full"
-                  alignItems="center"
-                  py={2}
-                  justifyContent="space-between"
-                >
-                  <Text
-                    fontFamily="mono"
-                    overflow={{ base: "scroll", md: "inherit" }}
-                  >
-                    npx thirdweb upload ./path/to/folder
-                  </Text>
-                  <Flex>
-                    <Tooltip
-                      p={0}
-                      label={
-                        <Flex p={2}>
-                          <Text>Copy code</Text>
-                        </Flex>
-                      }
-                      bgColor="backgroundCardHighlight"
-                      borderRadius="xl"
-                      placement="top"
-                      shouldWrapChildren
-                    >
-                      <TrackedCopyButton
-                        value="npx thirdweb upload ./path/to/file.jpg"
-                        category="storage"
-                        label="copy-cli-file-upload"
-                        aria-label="Copy code"
-                      />
-                    </Tooltip>
-                  </Flex>
-                </Card>
-              </Flex>
+                    <TrackedCopyButton
+                      value="npx thirdweb upload ./path/to/file.jpg"
+                      category="storage"
+                      label="copy-cli-file-upload"
+                      aria-label="Copy code"
+                    />
+                  </Tooltip>
+                </Flex>
+              </Card>
             </Flex>
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>
