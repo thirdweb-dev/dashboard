@@ -7,10 +7,10 @@ import {
   Flex,
   GridItem,
   Icon,
-  IconButton,
   Input,
   Progress,
   SimpleGrid,
+  Tooltip,
   chakra,
 } from "@chakra-ui/react";
 import {
@@ -31,6 +31,7 @@ import {
   Heading,
   Text,
   TrackedCopyButton,
+  TrackedIconButton,
   TrackedLink,
 } from "tw-components";
 
@@ -189,6 +190,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
                         height="100%"
                         src={URL.createObjectURL(file)}
                         mimeType={file.type}
+                        requireInteraction
                       />
                     </Box>
                   </AspectRatio>
@@ -201,28 +203,59 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
 
                 <GridItem colSpan={1} rowSpan={1} placeItems="center">
                   {ipfsHash ? (
-                    <IconButton
-                      as={TrackedLink}
-                      href={replaceIpfsUrl(ipfsHash)}
-                      category={TRACKING_CATEGORY}
-                      aria-label="open ipfs uri"
-                      icon={<Icon as={FiExternalLink} />}
-                      variant="ghost"
-                      isExternal
-                      size="sm"
-                    />
+                    <Tooltip
+                      p={0}
+                      bg="transparent"
+                      boxShadow="none"
+                      label={
+                        <Card py={2} px={4}>
+                          <Text size="label.sm">Open in gateway</Text>
+                        </Card>
+                      }
+                      borderRadius="lg"
+                      shouldWrapChildren
+                      placement="right"
+                    >
+                      <TrackedIconButton
+                        as={TrackedLink}
+                        href={replaceIpfsUrl(ipfsHash)}
+                        category={TRACKING_CATEGORY}
+                        label="open-in-gateway"
+                        aria-label="Open in gateway"
+                        icon={<Icon as={FiExternalLink} />}
+                        variant="ghost"
+                        isExternal
+                        size="sm"
+                      />
+                    </Tooltip>
                   ) : (
-                    <IconButton
-                      size="sm"
-                      aria-label="remove file"
-                      icon={<Icon as={FiTrash2} />}
-                      variant="ghost"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        updateFiles((prev) => prev.filter((f) => f !== file));
-                      }}
-                      isDisabled={storageUpload.isLoading}
-                    />
+                    <Tooltip
+                      p={0}
+                      bg="transparent"
+                      boxShadow="none"
+                      label={
+                        <Card py={2} px={4}>
+                          <Text size="label.sm">Remove file</Text>
+                        </Card>
+                      }
+                      borderRadius="lg"
+                      shouldWrapChildren
+                      placement="right"
+                    >
+                      <TrackedIconButton
+                        size="sm"
+                        aria-label="Remove File"
+                        category={TRACKING_CATEGORY}
+                        label="remove-file"
+                        icon={<Icon as={FiTrash2} />}
+                        variant="ghost"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          updateFiles((prev) => prev.filter((f) => f !== file));
+                        }}
+                        isDisabled={storageUpload.isLoading}
+                      />
+                    </Tooltip>
                   )}
                 </GridItem>
                 <GridItem colSpan={9} rowSpan={1}>
@@ -231,7 +264,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
                     opacity={ipfsHash ? 1 : 0}
                     pointerEvents={ipfsHash ? "auto" : "none"}
                     overflow="hidden"
-                    // variant="outline"
                     rounded="md"
                     readOnly
                     fontSize={13}
@@ -241,16 +273,31 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
                   />
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
-                  <TrackedCopyButton
-                    pointerEvents={ipfsHash ? "auto" : "none"}
-                    opacity={ipfsHash ? 1 : 0}
-                    colorScheme={undefined}
-                    category={TRACKING_CATEGORY}
-                    aria-label="copy ipfs hash"
-                    value={ipfsHash}
-                    transition="opacity 0.2s"
-                    willChange="opacity"
-                  />
+                  <Tooltip
+                    p={0}
+                    bg="transparent"
+                    boxShadow="none"
+                    label={
+                      <Card py={2} px={4}>
+                        <Text size="label.sm">Copy IPFS hash</Text>
+                      </Card>
+                    }
+                    borderRadius="lg"
+                    shouldWrapChildren
+                    placement="right"
+                  >
+                    <TrackedCopyButton
+                      pointerEvents={ipfsHash ? "auto" : "none"}
+                      opacity={ipfsHash ? 1 : 0}
+                      colorScheme={undefined}
+                      category={TRACKING_CATEGORY}
+                      label="copy-ipfs-hash"
+                      aria-label="Copy IPFS hash"
+                      value={ipfsHash}
+                      transition="opacity 0.2s"
+                      willChange="opacity"
+                    />
+                  </Tooltip>
                 </GridItem>
               </SimpleGrid>
             </GridItem>
@@ -277,13 +324,11 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
             position="relative"
           >
             <Progress
-              // hasStripe
               colorScheme="green"
               value={progress.progress ? progressPercent : undefined}
               size={{ base: "xs", md: "lg" }}
               w="100%"
               borderRadius="full"
-              // isAnimated
               isIndeterminate={progress.progress === progress.total}
               position="relative"
             />
@@ -388,5 +433,5 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
 
 const TWMediaRenderer = chakra(MediaRenderer, {
   shouldForwardProp: (prop) =>
-    ["width", "height", "mimeType", "src"].includes(prop),
+    ["width", "height", "mimeType", "src", "requireInteraction"].includes(prop),
 });
