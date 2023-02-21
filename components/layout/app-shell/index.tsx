@@ -162,8 +162,9 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
             py={2}
             as="header"
             alignItems="center"
+            overflowX={{ base: "auto", md: "hidden" }}
           >
-            <Flex gap={2}>
+            <Flex gap={{ base: 0, md: 2 }}>
               <LinkButton
                 href="/dashboard"
                 size="sm"
