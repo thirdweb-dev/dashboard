@@ -1,19 +1,10 @@
-import {
-  Divider,
-  Flex,
-  GridItem,
-  Input,
-  Link,
-  SimpleGrid,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Divider, Flex, GridItem, SimpleGrid, Tooltip } from "@chakra-ui/react";
 import { useAddress, useStorageUpload } from "@thirdweb-dev/react";
 import { UploadProgressEvent } from "@thirdweb-dev/storage";
 import { AppLayout } from "components/app-layouts/app";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
 import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
 import { CodeSelector } from "components/product-pages/homepage/CodeSelector";
-import { replaceIpfsUrl } from "lib/sdk";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useState } from "react";
@@ -46,7 +37,6 @@ const videos = [
 
 const DashboardStorage: ThirdwebNextPage = () => {
   const address = useAddress();
-  const [ipfsHash, setIpfsHash] = useState("");
   const [progress, setProgress] = useState<UploadProgressEvent>({
     progress: 0,
     total: 100,
@@ -97,46 +87,44 @@ const DashboardStorage: ThirdwebNextPage = () => {
               Gateway
             </Heading>
             <Text>
-              Enter an IPFS hash to generate a gateway URL that accesses your
-              hosted data on IPFS.
+              Using our gateway, you can easily access files and folders stored
+              on IPFS:
             </Text>
-            <Input
-              bg="transparent"
-              value={ipfsHash}
-              onChange={(e) => setIpfsHash(e.target.value)}
-              borderColor="borderColor"
-            />
-            <SimpleGrid
-              columns={{ base: 1, md: 24 }}
+            <Card
+              as={Flex}
+              w="full"
               alignItems="center"
-              gap={1}
+              py={2}
+              justifyContent="space-between"
             >
-              <GridItem as={Text} colSpan={{ base: 1, md: 3 }}>
-                <Text>Gateway URL:</Text>
-              </GridItem>
-              <GridItem colSpan={{ base: 1, md: 21 }}>
-                <Link
-                  href={
-                    ipfsHash.includes("ipfs://")
-                      ? replaceIpfsUrl(ipfsHash)
-                      : "https://gateway.ipfscdn.io/ipfs/"
+              <Text
+                fontFamily="mono"
+                overflow={{ base: "scroll", md: "inherit" }}
+              >
+                https://gateway.ipfscdn.io/ipfs/
+              </Text>
+              <Flex>
+                <Tooltip
+                  p={0}
+                  label={
+                    <Flex p={2}>
+                      <Text>Copy code</Text>
+                    </Flex>
                   }
-                  isExternal
-                  _hover={{ textDecoration: "none" }}
-                  role="group"
+                  bgColor="backgroundCardHighlight"
+                  borderRadius="xl"
+                  placement="top"
+                  shouldWrapChildren
                 >
-                  <Text
-                    noOfLines={1}
-                    color="blue.500"
-                    _groupHover={{ opacity: 0.9 }}
-                  >
-                    {ipfsHash.includes("ipfs://")
-                      ? replaceIpfsUrl(ipfsHash)
-                      : "https://gateway.ipfscdn.io/ipfs/"}
-                  </Text>
-                </Link>
-              </GridItem>
-            </SimpleGrid>
+                  <TrackedCopyButton
+                    value="https://gateway.ipfscdn.io/ipfs/"
+                    category="storage"
+                    label="copy-gateway-url"
+                    aria-label="Copy gateway URL"
+                  />
+                </Tooltip>
+              </Flex>
+            </Card>
           </Flex>
           <Flex flexDir="column" w="full" gap={4}>
             <Heading size="title.md" as="h2">
