@@ -31,7 +31,6 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useMemo } from "react";
-import { BiRocket } from "react-icons/bi";
 import {
   FiAlertCircle,
   FiCheckCircle,
@@ -201,7 +200,6 @@ const ChainPage: ThirdwebNextPage = ({
                       }}
                       background="bgBlack"
                       color="bgWhite"
-                      rightIcon={<Icon as={BiRocket} />}
                       _hover={{
                         opacity: 0.8,
                       }}
