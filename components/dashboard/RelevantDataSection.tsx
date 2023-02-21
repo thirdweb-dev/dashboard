@@ -52,7 +52,15 @@ export const RelevantDataSection: React.FC<RelevantDataSectionProps> = ({
             color="heading"
             _hover={{ opacity: 1, textDecoration: "none" }}
           >
-            View more ➝
+            View more{" "}
+            <Text
+              fontWeight="inherit"
+              fontSize="inherit"
+              color="inherit"
+              as="span"
+            >
+              {"->"}
+            </Text>
           </Text>
         ) : null}
       </Flex>

@@ -1,5 +1,8 @@
-import { useAllContractList, useAllProgramsList } from "@3rdweb-sdk/react";
+import { useAllContractList } from "@3rdweb-sdk/react";
+import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
+  Container,
+  Divider,
   Flex,
   Icon,
   Tab,
@@ -8,23 +11,17 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
-import { FTUX } from "components/FTUX/FTUX";
 import { ChakraNextImage } from "components/Image";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
-import { DeployedPrograms } from "components/contract-components/tables/deployed-programs";
 import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
 import { FancyEVMIcon } from "components/icons/Ethereum";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
-import { utils } from "ethers";
-import { useSingleQueryParam } from "hooks/useQueryParam";
-import { isPossibleSolanaAddress } from "lib/address-utils";
 import { PageId } from "page-id";
-import { useEffect, useMemo, useState } from "react";
-import { Heading } from "tw-components";
+import { useEffect, useState } from "react";
+import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -35,41 +32,21 @@ import { ThirdwebNextPage } from "utils/types";
  */
 
 const Contracts: ThirdwebNextPage = () => {
-  const queryParam = useSingleQueryParam("address") || "contracts";
   const address = useAddress();
-  const { publicKey } = useWallet();
 
   /** put the component is loading state for sometime to avoid layout shift */
   const [isLoading, setIsLoading] = useState(true);
-
-  const evmAddress = useMemo(() => {
-    return queryParam === "contracts"
-      ? address
-      : utils.isAddress(queryParam)
-      ? queryParam
-      : address;
-  }, [address, queryParam]);
-
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 200);
   }, []);
 
-  const solAddress = useMemo(() => {
-    return queryParam === "contracts"
-      ? publicKey?.toBase58()
-      : isPossibleSolanaAddress(queryParam)
-      ? queryParam
-      : publicKey?.toBase58();
-  }, [publicKey, queryParam]);
-
   return (
     <ClientOnly fadeInDuration={600} ssr={null}>
       {!isLoading && (
         <>
-          {solAddress && <SOLPrograms address={solAddress} />}
-          {evmAddress && (
+          {address ? (
             <Tabs isLazy lazyBehavior="keepMounted">
               <TabList
                 px={0}
@@ -97,22 +74,39 @@ const Contracts: ThirdwebNextPage = () => {
               </TabList>
               <TabPanels px={0} py={2}>
                 <TabPanel px={0}>
-                  <EVMContracts address={evmAddress} />
+                  <EVMContracts address={address} />
                 </TabPanel>
                 <TabPanel px={0}>
-                  <PublishedContractsPage address={evmAddress} />
+                  <PublishedContractsPage address={address} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
+          ) : (
+            <Container maxW="lg">
+              <Card px={8} as={Flex} flexDir="column" gap={1}>
+                <Heading as="h2" size="title.sm">
+                  Please connect your wallet
+                </Heading>
+                <Text>
+                  In order to interact with your contracts you need to connect
+                  an EVM compatible wallet.
+                </Text>
+                <Divider my={4} />
+                <ConnectWallet ecosystem="evm" />
+              </Card>
+            </Container>
           )}
-          {!evmAddress && !solAddress && <FTUX />}
         </>
       )}
     </ClientOnly>
   );
 };
 
-Contracts.getLayout = (page, props) => <AppLayout {...props}>{page}</AppLayout>;
+Contracts.getLayout = (page, props) => (
+  <AppLayout ecosystem="evm" {...props}>
+    {page}
+  </AppLayout>
+);
 Contracts.pageId = PageId.Contracts;
 
 export default Contracts;
@@ -137,16 +131,6 @@ const PublishedContractsPage: React.FC<ContractsProps> = ({ address }) => {
       <PublisherSDKContext>
         <ReleasedContracts address={address} />
       </PublisherSDKContext>
-    </Flex>
-  );
-};
-
-const SOLPrograms: React.FC<ContractsProps> = ({ address }) => {
-  const allProgramAccounts = useAllProgramsList(address);
-
-  return (
-    <Flex direction="column" gap={8}>
-      <DeployedPrograms programListQuery={allProgramAccounts} />
     </Flex>
   );
 };

@@ -44,6 +44,9 @@ export enum PageId {
   // thirdweb.com/gas
   GasEstimator = "gas-estimator",
 
+  // thirdweb.com/chains
+  ChainsLanding = "chains-landing",
+
   // thirdweb.com/hackathon/solanathon
   SolanaHackathonLanding = "solanathon",
   ReadyPlayer3Landing = "readyplayer3",
@@ -64,8 +67,10 @@ export enum PageId {
   // thirdweb.com/dashboard/rpc
   DashboardRPC = "dashboard-rpc",
 
-  // thirdweb.com/contracts
+  // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
+  // thirdweb.com/dashboard/programs
+  Programs = "programs",
 
   // thirdweb.com/explore
   Explore = "explore",
@@ -75,10 +80,6 @@ export enum PageId {
 
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
-
-  // thirdweb.com/contracts
-  Programs = "programs",
-
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------
