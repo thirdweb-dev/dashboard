@@ -2,71 +2,34 @@ import {
   Flex,
   GridItem,
   Icon,
-  Input,
   LinkOverlay,
   SimpleGrid,
   Tooltip,
 } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
+import { ConfigureNetworkButton } from "components/contract-components/shared/configure-network-button";
 import { ChainIcon } from "components/icons/ChainIcon";
-import Fuse from "fuse.js";
-import { useAllChainsData } from "hooks/chains/allChains";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { PageId } from "page-id";
-import { useDeferredValue, useMemo, useState } from "react";
 import { BsCheck2Circle } from "react-icons/bs";
-import { Card, Heading, Text } from "tw-components";
+import { Card, Heading, Text, TrackedCopyButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 export const DashboardRPC: ThirdwebNextPage = () => {
-  const { allChains } = useAllChainsData();
   const configuredChains = useConfiguredChains();
-  const [query, setQuery] = useState("");
-
-  const fuse = useMemo(() => {
-    return new Fuse(allChains, {
-      keys: [
-        {
-          name: "name",
-          weight: 2,
-        },
-        {
-          name: "chainId",
-          weight: 1,
-        },
-      ],
-    });
-  }, [allChains]);
-
-  const deferredSearchTerm = useDeferredValue(query);
-
-  const filteredChains = useMemo(() => {
-    if (!deferredSearchTerm || !allChains.length) {
-      return allChains || [];
-    }
-
-    return fuse.search(deferredSearchTerm).map((e) => e.item);
-  }, [allChains, deferredSearchTerm, fuse]);
 
   return (
     <Flex flexDir="column" gap={8} mt={10}>
-      <Heading size="title.lg" as="h1">
-        RPC
-      </Heading>
-      <Flex>
-        <Input
-          spellCheck="false"
-          autoComplete="off"
-          bg="transparent"
-          placeholder="Search by name or chain ID"
-          borderColor="borderColor"
-          w={{ base: "full", md: "40%" }}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+      <Flex justifyContent="space-between">
+        <Heading size="title.lg" as="h1">
+          RPC
+        </Heading>
+        <ConfigureNetworkButton label="rpc-page">
+          Add Network
+        </ConfigureNetworkButton>
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
-        {filteredChains.slice(0, 100).map((chain) => (
+        {configuredChains.map((chain) => (
           <LinkOverlay
             key={chain.chainId}
             href={`/${chain.slug}`}
@@ -115,8 +78,30 @@ export const DashboardRPC: ThirdwebNextPage = () => {
               <Flex>
                 <Flex flexDir="column" gap={1}>
                   <Text opacity={0.6}>RPC URL</Text>
-                  <Flex>
-                    <Text size="label.md">{`${chain.slug}.rpc.thirdweb.com`}</Text>
+                  <Flex alignItems="center">
+                    <Text
+                      size="label.md"
+                      noOfLines={1}
+                    >{`${chain.slug}.rpc.thirdweb.com`}</Text>
+                    <Tooltip
+                      p={0}
+                      label={
+                        <Flex p={2}>
+                          <Text>Copy RPC URL</Text>
+                        </Flex>
+                      }
+                      bgColor="backgroundCardHighlight"
+                      borderRadius="xl"
+                      placement="top"
+                      shouldWrapChildren
+                    >
+                      <TrackedCopyButton
+                        value={`${chain.slug}.rpc.thirdweb.com`}
+                        category="rpc"
+                        label="copy-rpc-url"
+                        aria-label="Copy RPC URL"
+                      />
+                    </Tooltip>
                   </Flex>
                 </Flex>
               </Flex>

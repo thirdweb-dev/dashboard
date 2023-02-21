@@ -149,6 +149,12 @@ export const TrackedCopyButton = forwardRef<TrackedCopyButtonProps, "button">(
   ({ value, ...restButtonProps }, ref) => {
     const { onCopy, hasCopied, setValue } = useClipboard(value);
 
+    const copy = (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onCopy();
+    };
+
     useEffect(() => {
       if (value) {
         setValue(value);
@@ -162,7 +168,7 @@ export const TrackedCopyButton = forwardRef<TrackedCopyButtonProps, "button">(
         variant="ghost"
         colorScheme="whiteAlpha"
         size="sm"
-        onClick={onCopy}
+        onClick={copy}
         icon={
           hasCopied ? (
             <Icon
