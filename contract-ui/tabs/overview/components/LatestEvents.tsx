@@ -64,7 +64,7 @@ export const LatestEvents: React.FC<LatestEventsProps> = ({
           gap={4}
           href={eventsHref}
         >
-          View all events -&gt;
+          View All -&gt;
         </TrackedLink>
       </Flex>
       {address && (

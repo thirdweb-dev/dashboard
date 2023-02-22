@@ -139,7 +139,7 @@ const MarketplaceV1Details: React.FC<
               gap={4}
               href={listingsHref}
             >
-              View listings -&gt;
+              View All -&gt;
             </TrackedLink>
           </Flex>
           <ListingCards
@@ -196,7 +196,7 @@ const DirectListingCards: React.FC<ListingCardsSectionProps> = ({
           gap={4}
           href={directListingsHref}
         >
-          View direct listings -&gt;
+          View All -&gt;
         </TrackedLink>
       </Flex>
       <ListingCards
@@ -245,7 +245,7 @@ const EnglishAuctionCards: React.FC<ListingCardsSectionProps> = ({
           gap={4}
           href={englishAuctionsHref}
         >
-          View english auctions -&gt;
+          View All -&gt;
         </TrackedLink>
       </Flex>
       <ListingCards
@@ -357,13 +357,15 @@ const ListingCards: React.FC<ListingCardsProps> = ({
               <Skeleton w={!isLoading ? "100%" : "50%"} isLoaded={!isLoading}>
                 <Heading size="label.md">{listing.asset.name}</Heading>
               </Skeleton>
-              <SkeletonText isLoaded={!isLoading}>
-                <Text size="body.sm">
-                  {listing.type === "direct-listing"
-                    ? "Direct Listing"
-                    : "English Auction"}
-                </Text>
-              </SkeletonText>
+              {isMarketplaceV1 && (
+                <SkeletonText isLoaded={!isLoading}>
+                  <Text size="body.sm">
+                    {listing.type === "direct-listing"
+                      ? "Direct Listing"
+                      : "English Auction"}
+                  </Text>
+                </SkeletonText>
+              )}
 
               <Text size="body.sm" mt={4}>
                 Seller
