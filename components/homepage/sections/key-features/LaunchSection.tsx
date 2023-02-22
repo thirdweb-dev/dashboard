@@ -112,7 +112,7 @@ export const LaunchSection: React.FC = () => {
           >
             <Flex gap={6} flexDir="column">
               <Heading size="label.xl" lineHeight="1.2" as="h4">
-                Publish your contracts with{" "}
+                Make your contracts discoverable with{" "}
                 <GradientText
                   as={LinkOverlay}
                   href="/publish"
