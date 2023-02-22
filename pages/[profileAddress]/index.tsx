@@ -48,7 +48,7 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
     if (
       previousPath !== "[profileAddress]" &&
       props.profileAddress?.startsWith("Qm") &&
-      !props.profileAddress.endsWith(".eth")
+      !props.profileAddress?.endsWith(".eth")
     ) {
       router.replace(`/contracts/deploy/${previousPath}`);
     }
@@ -107,7 +107,6 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
             : undefined,
           url: currentRoute,
         }}
-        canonical={currentRoute}
       />
 
       <Flex flexDir="column" gap={12}>
