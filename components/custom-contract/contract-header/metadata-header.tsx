@@ -105,7 +105,7 @@ export const MetadataHeader: React.FC<MetadataHeaderProps> = ({
 
         <Flex direction="column" gap={2} align="flex-start">
           {isError ? (
-            <Heading size="title.md">No Contract Metadata available</Heading>
+            <Heading size="title.md">No Contract Metadata Detected</Heading>
           ) : (
             <Skeleton isLoaded={isLoaded}>
               <Heading size="title.md">{data?.name ? data?.name : ""}</Heading>
