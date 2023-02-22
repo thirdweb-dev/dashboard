@@ -6,26 +6,24 @@ import {
   useEns,
   useFunctionParamsFromABI,
 } from "../hooks";
-import { Divider, Flex, FormControl, Icon } from "@chakra-ui/react";
+import { ConfigureNetworkButton } from "../shared/configure-network-button";
+import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
+import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { IoMdSettings } from "react-icons/io";
 import invariant from "tiny-invariant";
 import {
-  Button,
   Checkbox,
   FormErrorMessage,
   FormHelperText,
@@ -50,7 +48,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   isImplementationDeploy,
   onSuccessCallback,
 }) => {
-  const [showAddNetworkModal, setShowAddNetworkModal] = useState(false);
   const networkInfo = useConfiguredChain(selectedChain || -1);
   const address = useAddress();
   const ensQuery = useEns(address);
@@ -180,6 +177,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   chainId: selectedChain,
                   address: deployedContractAddress,
                 });
+
+                // try verifying the contract, might as well
+                try {
+                  // we don't await this, just kick it off and be done with it
+                  verifyContract({
+                    contractAddress: deployedContractAddress,
+                    chainId: selectedChain,
+                  });
+                } catch (e) {
+                  // ignore
+                }
+
                 trackEvent({
                   category: "custom-contract",
                   action: "deploy",
@@ -364,31 +373,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </TransactionButton>
         </Flex>
 
-        <Button
-          variant="filled"
-          background="inputBg"
-          _hover={{
-            background: "inputBgHover",
-          }}
-          leftIcon={<Icon color="inherit" as={IoMdSettings} />}
-          onClick={() => {
-            trackEvent({
-              category: "configure-networks",
-              action: "click",
-              label: "deploy-contract",
-            });
-            setShowAddNetworkModal(true);
-          }}
-          py={3}
-        >
-          Configure Networks
-        </Button>
-
-        {showAddNetworkModal && (
-          <ConfigureNetworkModal
-            onClose={() => setShowAddNetworkModal(false)}
-          />
-        )}
+        <ConfigureNetworkButton label="deploy-contract" />
       </Flex>
     </FormProvider>
   );
