@@ -196,8 +196,6 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
     return undefined;
   }, [configuredChain, allChain]);
 
-  console.log("chain", chain);
-
   const { register, watch } = useForm<{
     ipfsGateway: string;
     rpcUrl: string;
