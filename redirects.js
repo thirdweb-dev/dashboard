@@ -42,6 +42,11 @@ function redirects() {
       permanent: false,
     },
     {
+      source: "/release/:path*",
+      destination: "/publish/:path*",
+      permanent: false,
+    },
+    {
       source: "/authentication",
       destination: "/auth",
       permanent: false,
