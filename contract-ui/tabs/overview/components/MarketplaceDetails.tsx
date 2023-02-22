@@ -125,7 +125,9 @@ const MarketplaceV1Details: React.FC<
     <Flex gap={6} flexDirection="column">
       <Heading size="title.sm">Listings</Heading>
       <ListingStats contract={contract} />
-      {!listingsQuery.isLoading && listings.length === 0 ? null : (
+      {(!listingsCountQuery.isLoading &&
+        BigNumber.from(listingsCountQuery.data || 0).eq(0)) ||
+      (!listingsQuery.isLoading && listings.length === 0) ? null : (
         <>
           <Flex align="center" justify="space-between" w="full">
             <Heading size="label.lg">Recent Listings</Heading>
@@ -182,7 +184,14 @@ const DirectListingCards: React.FC<ListingCardsSectionProps> = ({
     [listingsQuery?.data],
   );
 
-  return !listingsQuery.isLoading && listings.length === 0 ? null : (
+  if (!countQuery.isLoading && BigNumber.from(countQuery.data || 0).eq(0)) {
+    return null;
+  }
+  if (!listingsQuery.isLoading && listings.length === 0) {
+    return null;
+  }
+
+  return (
     <>
       <Flex align="center" justify="space-between" w="full">
         <Heading size="label.lg">Direct Listings</Heading>
@@ -231,7 +240,14 @@ const EnglishAuctionCards: React.FC<ListingCardsSectionProps> = ({
     [auctionsQuery?.data],
   );
 
-  return !auctionsQuery.isLoading && auctions.length === 0 ? null : (
+  if (!countQuery.isLoading && BigNumber.from(countQuery.data || 0).eq(0)) {
+    return null;
+  }
+  if (!auctionsQuery.isLoading && auctions.length === 0) {
+    return null;
+  }
+
+  return (
     <>
       <Flex align="center" justify="space-between" w="full">
         <Heading size="label.lg">English Auctions</Heading>
