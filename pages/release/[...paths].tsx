@@ -57,7 +57,7 @@ PublishPage.fallback = (
 
 export default PublishPage;
 
-export const getStaticProps: GetStaticProps<PublishPage> = async (ctx) => {
+export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
   const paths = ctx.params?.paths as string[];
   const [authorAddress, contractName, version = ""] = paths;
 
