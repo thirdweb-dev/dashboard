@@ -40,9 +40,12 @@ export const ListingStats: React.FC<ListingStatsProps> = ({ contract }) => {
 
 interface ListingStatsV3Props {
   contract?: MarketplaceV3;
+  features: string[];
 }
 
-export const ListingStatsV3: React.FC<ListingStatsV3Props> = ({ contract }) => {
+const TotalListingsStat: React.FC<{ contract?: MarketplaceV3 }> = ({
+  contract,
+}) => {
   const directListingsQuery = useDirectListingsCount(contract);
   const englishAuctionsQuery = useEnglishAuctionsCount(contract);
 
@@ -55,36 +58,64 @@ export const ListingStatsV3: React.FC<ListingStatsV3Props> = ({ contract }) => {
   );
 
   return (
+    <Card as={Stat}>
+      <StatLabel mb={{ base: 1, md: 0 }}>Total Listings</StatLabel>
+      <Skeleton
+        isLoaded={
+          !contract ||
+          (directListingsQuery.isSuccess && englishAuctionsQuery.isSuccess)
+        }
+      >
+        <StatNumber>{totalListings.toString()}</StatNumber>
+      </Skeleton>
+    </Card>
+  );
+};
+
+const DirectListingsStat: React.FC<{ contract?: MarketplaceV3 }> = ({
+  contract,
+}) => {
+  const directListingsQuery = useDirectListingsCount(contract);
+
+  return (
+    <Card as={Stat}>
+      <StatLabel mb={{ base: 1, md: 0 }}>Direct Listings</StatLabel>
+      <Skeleton isLoaded={!contract || directListingsQuery.isSuccess}>
+        <StatNumber>{(directListingsQuery.data || 0).toString()}</StatNumber>
+      </Skeleton>
+    </Card>
+  );
+};
+
+const EnglishAuctionsStat: React.FC<{ contract?: MarketplaceV3 }> = ({
+  contract,
+}) => {
+  const englishAuctionsQuery = useEnglishAuctionsCount(contract);
+
+  return (
+    <Card as={Stat}>
+      <StatLabel mb={{ base: 1, md: 0 }}>English Auctions</StatLabel>
+      <Skeleton isLoaded={!contract || englishAuctionsQuery.isSuccess}>
+        <StatNumber>{(englishAuctionsQuery.data || 0).toString()}</StatNumber>
+      </Skeleton>
+    </Card>
+  );
+};
+
+export const ListingStatsV3: React.FC<ListingStatsV3Props> = ({
+  contract,
+  features,
+}) => {
+  const hasDirectListings = features.includes("DirectListings");
+  const hasEnglishAuctions = features.includes("EnglishAuctions");
+
+  return (
     <Stack spacing={{ base: 3, md: 6 }} direction="row">
-      <Card as={Stat}>
-        <StatLabel mb={{ base: 1, md: 0 }}>Total Listings</StatLabel>
-        <Skeleton
-          isLoaded={
-            !contract ||
-            (directListingsQuery.isSuccess && englishAuctionsQuery.isSuccess)
-          }
-        >
-          <StatNumber>
-            {BigNumber.from(totalListings || 0).toString()}
-          </StatNumber>
-        </Skeleton>
-      </Card>
-      <Card as={Stat}>
-        <StatLabel mb={{ base: 1, md: 0 }}>Direct Listings</StatLabel>
-        <Skeleton isLoaded={!contract || directListingsQuery.isSuccess}>
-          <StatNumber>
-            {BigNumber.from(directListingsQuery?.data || 0).toString()}
-          </StatNumber>
-        </Skeleton>
-      </Card>
-      <Card as={Stat}>
-        <StatLabel mb={{ base: 1, md: 0 }}>English Auctions</StatLabel>
-        <Skeleton isLoaded={!contract || englishAuctionsQuery.isSuccess}>
-          <StatNumber>
-            {BigNumber.from(englishAuctionsQuery?.data || 0).toString()}
-          </StatNumber>
-        </Skeleton>
-      </Card>
+      {hasDirectListings && hasEnglishAuctions && (
+        <TotalListingsStat contract={contract} />
+      )}
+      {hasDirectListings && <DirectListingsStat contract={contract} />}
+      {hasEnglishAuctions && <EnglishAuctionsStat contract={contract} />}
     </Stack>
   );
 };

@@ -59,18 +59,21 @@ type ListingData = {
 type MarketplaceDetailsProps = {
   contractAddress: string;
   contractType: "marketplace" | "marketplace-v3";
+  features: string[];
   trackingCategory: TrackedLinkProps["category"];
 };
 
 interface MarketplaceDetailsVersionProps<T> {
   contract: T;
   trackingCategory: TrackedLinkProps["category"];
+  features: MarketplaceDetailsProps["features"];
 }
 
 export const MarketplaceDetails: React.FC<MarketplaceDetailsProps> = ({
   contractAddress,
   contractType,
   trackingCategory,
+  features,
 }) => {
   const { contract } = useContract(contractAddress, contractType);
 
@@ -79,17 +82,17 @@ export const MarketplaceDetails: React.FC<MarketplaceDetailsProps> = ({
       <MarketplaceV1Details
         contract={contract as Marketplace}
         trackingCategory={trackingCategory}
+        features={features}
       />
     );
-  } else if (contractType === "marketplace-v3" && contract) {
+  } else {
     return (
       <MarketplaceV3Details
         contract={contract as MarketplaceV3}
         trackingCategory={trackingCategory}
+        features={features}
       />
     );
-  } else {
-    return null;
   }
 };
 
@@ -143,6 +146,7 @@ const MarketplaceV1Details: React.FC<
             listings={listings}
             isLoading={listingsQuery.isLoading}
             trackingCategory={trackingCategory}
+            isMarketplaceV1
           />
         </>
       )}
@@ -150,27 +154,24 @@ const MarketplaceV1Details: React.FC<
   );
 };
 
-const MarketplaceV3Details: React.FC<
-  MarketplaceDetailsVersionProps<MarketplaceV3>
-> = ({ contract, trackingCategory }) => {
+type ListingCardsSectionProps = {
+  contract: MarketplaceV3;
+  trackingCategory: TrackedLinkProps["category"];
+};
+
+const DirectListingCards: React.FC<ListingCardsSectionProps> = ({
+  trackingCategory,
+  contract,
+}) => {
   const directListingsHref = useTabHref("direct-listings");
-  const englishAuctionsHref = useTabHref("english-auctions");
-
-  const directListingsCountQuery = useDirectListingsCount(contract);
-  const englishAuctionsCountQuery = useEnglishAuctionsCount(contract);
-
-  const directListingsQuery = useDirectListings(contract, {
+  const countQuery = useDirectListingsCount(contract);
+  const listingsQuery = useDirectListings(contract, {
     count: 3,
-    start: BigNumber.from(directListingsCountQuery?.data || 3)?.toNumber() - 3,
+    start: Math.max(BigNumber.from(countQuery?.data || 3)?.toNumber() - 3, 0),
   });
-  const englishAuctionsQuery = useEnglishAuctions(contract, {
-    count: 3,
-    start: BigNumber.from(englishAuctionsCountQuery?.data || 3)?.toNumber() - 3,
-  });
-
-  const directListings = useMemo(
+  const listings = useMemo(
     () =>
-      directListingsQuery?.data
+      listingsQuery?.data
         ?.map<ListingData>((v) => ({
           ...v,
           sellerAddress: v.creatorAddress,
@@ -178,12 +179,48 @@ const MarketplaceV3Details: React.FC<
           currencyValue: v.currencyValuePerToken,
         }))
         .reverse() || [],
-    [directListingsQuery?.data],
+    [listingsQuery?.data],
   );
 
-  const englishAuctions = useMemo(
+  return !listingsQuery.isLoading && listings.length === 0 ? null : (
+    <>
+      <Flex align="center" justify="space-between" w="full">
+        <Heading size="label.lg">Direct Listings</Heading>
+        <TrackedLink
+          category={trackingCategory}
+          label="view_all_direct_listings"
+          color="blue.400"
+          _light={{
+            color: "blue.600",
+          }}
+          gap={4}
+          href={directListingsHref}
+        >
+          View direct listings -&gt;
+        </TrackedLink>
+      </Flex>
+      <ListingCards
+        listings={listings}
+        isLoading={listingsQuery.isLoading}
+        trackingCategory={trackingCategory}
+      />
+    </>
+  );
+};
+
+const EnglishAuctionCards: React.FC<ListingCardsSectionProps> = ({
+  trackingCategory,
+  contract,
+}) => {
+  const englishAuctionsHref = useTabHref("english-auctions");
+  const countQuery = useEnglishAuctionsCount(contract);
+  const auctionsQuery = useEnglishAuctions(contract, {
+    count: 3,
+    start: Math.max(BigNumber.from(countQuery?.data || 3)?.toNumber() - 3, 0),
+  });
+  const auctions = useMemo(
     () =>
-      englishAuctionsQuery?.data
+      auctionsQuery?.data
         ?.map<ListingData>((v) => ({
           ...v,
           sellerAddress: v.creatorAddress,
@@ -191,63 +228,56 @@ const MarketplaceV3Details: React.FC<
           currencyValue: v.buyoutCurrencyValue,
         }))
         .reverse() || [],
-    [englishAuctionsQuery?.data],
+    [auctionsQuery?.data],
   );
+
+  return !auctionsQuery.isLoading && auctions.length === 0 ? null : (
+    <>
+      <Flex align="center" justify="space-between" w="full">
+        <Heading size="label.lg">English Auctions</Heading>
+        <TrackedLink
+          category={trackingCategory}
+          label="view_all_english_auctions"
+          color="blue.400"
+          _light={{
+            color: "blue.600",
+          }}
+          gap={4}
+          href={englishAuctionsHref}
+        >
+          View english auctions -&gt;
+        </TrackedLink>
+      </Flex>
+      <ListingCards
+        listings={auctions}
+        isLoading={auctionsQuery.isLoading}
+        trackingCategory={trackingCategory}
+      />
+    </>
+  );
+};
+
+const MarketplaceV3Details: React.FC<
+  MarketplaceDetailsVersionProps<MarketplaceV3>
+> = ({ contract, trackingCategory, features }) => {
+  const hasDirectListings = features.includes("DirectListings");
+  const hasEnglishAuctions = features.includes("EnglishAuctions");
 
   return (
     <Flex gap={6} flexDirection="column">
       <Heading size="title.sm">Listings</Heading>
-      <ListingStatsV3 contract={contract} />
-      {!directListingsQuery.isLoading && directListings.length === 0 ? null : (
-        <>
-          <Flex align="center" justify="space-between" w="full">
-            <Heading size="label.lg">Direct Listings</Heading>
-            <TrackedLink
-              category={trackingCategory}
-              label="view_all_direct_listings"
-              color="blue.400"
-              _light={{
-                color: "blue.600",
-              }}
-              gap={4}
-              href={directListingsHref}
-            >
-              View direct listings -&gt;
-            </TrackedLink>
-          </Flex>
-          <ListingCards
-            listings={directListings}
-            isLoading={directListingsQuery.isLoading}
-            trackingCategory={trackingCategory}
-            isMarketplaceV3
-          />
-        </>
+      <ListingStatsV3 contract={contract} features={features} />
+      {hasDirectListings && (
+        <DirectListingCards
+          contract={contract}
+          trackingCategory={trackingCategory}
+        />
       )}
-      {!englishAuctionsQuery.isLoading &&
-      englishAuctions.length === 0 ? null : (
-        <>
-          <Flex align="center" justify="space-between" w="full">
-            <Heading size="label.lg">English Auctions</Heading>
-            <TrackedLink
-              category={trackingCategory}
-              label="view_all_english_auctions"
-              color="blue.400"
-              _light={{
-                color: "blue.600",
-              }}
-              gap={4}
-              href={englishAuctionsHref}
-            >
-              View english auctions -&gt;
-            </TrackedLink>
-          </Flex>
-          <ListingCards
-            listings={englishAuctions}
-            isLoading={englishAuctionsQuery.isLoading}
-            trackingCategory={trackingCategory}
-            isMarketplaceV3
-          />
-        </>
+      {hasEnglishAuctions && (
+        <EnglishAuctionCards
+          contract={contract}
+          trackingCategory={trackingCategory}
+        />
       )}
     </Flex>
   );
@@ -276,12 +306,12 @@ interface ListingCardsProps {
   listings: ListingData[];
   isLoading: boolean;
   trackingCategory: TrackedLinkProps["category"];
-  isMarketplaceV3?: boolean;
+  isMarketplaceV1?: boolean;
 }
 const ListingCards: React.FC<ListingCardsProps> = ({
   listings,
   isLoading,
-  isMarketplaceV3,
+  isMarketplaceV1,
   trackingCategory,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -304,11 +334,11 @@ const ListingCards: React.FC<ListingCardsProps> = ({
           as={TrackedLink}
           category={trackingCategory}
           href={
-            isMarketplaceV3
-              ? listing.type === "direct-listing"
-                ? directListingsHref
-                : englishAuctionsHref
-              : listingsHref
+            isMarketplaceV1
+              ? listingsHref
+              : listing.type === "direct-listing"
+              ? directListingsHref
+              : englishAuctionsHref
           }
           _hover={{ opacity: 0.75, textDecoration: "none" }}
         >

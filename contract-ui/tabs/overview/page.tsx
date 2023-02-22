@@ -46,13 +46,15 @@ export const CustomContractOverviewPage: React.FC<
     <SimpleGrid columns={{ base: 1, xl: 4 }} gap={8}>
       <GridItem as={Flex} colSpan={{ xl: 3 }} direction="column" gap={16}>
         {contract &&
-          ["marketplace", "marketplace-v3"].includes(contractTypeData) && (
+          (contractTypeData === "marketplace" ||
+            ["DirectListings", "EnglishAuctions"].some((type) =>
+              detectedFeatureNames.includes(type),
+            )) && (
             <MarketplaceDetails
               contractAddress={contractAddress}
               trackingCategory={TRACKING_CATEGORY}
-              contractType={
-                contractTypeData as "marketplace" | "marketplace-v3"
-              }
+              contractType={contractTypeData as "marketplace"}
+              features={detectedFeatureNames}
             />
           )}
         {contract &&
