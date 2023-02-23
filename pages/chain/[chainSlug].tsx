@@ -114,9 +114,10 @@ const ChainPage: ThirdwebNextPage = ({
   }, [chain.chainId, configuredChainRecord]);
 
   const rpcStats = useChainStats(chain);
-  const toast = useToast();
 
   const address = useAddress();
+
+  const toast = useToast();
 
   const title = `${chain.name} (${chain.nativeCurrency.symbol}) | RPC, Smart Contracts, Blockchain SDKs`;
   const description = `Deploy smart contracts to ${
