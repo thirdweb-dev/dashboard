@@ -1,3 +1,4 @@
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import {
   Flex,
   GridItem,
@@ -18,6 +19,7 @@ import {
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { constants } from "ethers";
+import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Text } from "tw-components";
 
@@ -36,19 +38,29 @@ const COMMANDS = {
   },
   setup: {
     javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+import {{chainName}} from "@thirdweb-dev/chains";
 
-const sdk = new ThirdwebSDK("{{chainName}}");
+const sdk = new ThirdwebSDK({{chainName}});
 const contract = await sdk.getContract("{{contract_address}}");`,
-    react: `import { useContract } from "@thirdweb-dev/react";
+    react: `import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
+import {{chainName}} from "@thirdweb-dev/chains";
 
-export default function Component() {
+function App() {
+  return (
+    <ThirdwebProvider activeChain={{chainName}}>
+      <Component />
+    </ThirdwebProvider>
+  )
+}
+
+function Component() {
   // While isLoading is true, contract is undefined.
   const { contract, isLoading, error } = useContract("{{contract_address}}");
   // Now you can use the contract in the rest of the component
 }`,
     web3button: `import { Web3Button } from "@thirdweb-dev/react";
 
-export default function Component() {
+function Component() {
   return (
     <Web3Button
       contractAddress="{{contract_address}}"
@@ -128,6 +140,36 @@ export default function Component() {
   },
 };
 
+const preSupportedSlugs = [
+  "ethereum",
+  "goerli",
+  "polygon",
+  "mumbai",
+  "binance",
+  "binance-testnet",
+  "avalanche",
+  "avalanche-fuji",
+  "fantom",
+  "fantom-testnet",
+  "arbitrum",
+  "arbitrum-goerli",
+  "optimism",
+  "optimism-goerli",
+];
+
+function getExportName(slug: string) {
+  let exportName = slug
+    .split("-")
+    .map((s) => s[0].toUpperCase() + s.slice(1))
+    .join("");
+
+  // if chainName starts with a number, prepend an underscore
+  if (exportName.match(/^[0-9]/)) {
+    exportName = `_${exportName}`;
+  }
+  return exportName;
+}
+
 interface SnippetOptions {
   contractAddress?: string;
   fn?: string;
@@ -146,10 +188,18 @@ function formatSnippet(
     code[env] = code[env]
       ?.replace(/{{contract_address}}/gm, contractAddress)
       ?.replace(
+        'import {{chainName}} from "@thirdweb-dev/chains";',
+        preSupportedSlugs.includes(chainName as string)
+          ? ""
+          : 'import {{chainName}} from "@thirdweb-dev/chains";',
+      )
+      ?.replace(
         /{{chainName}}/gm,
         !chainName || chainName?.startsWith("0x") || chainName?.endsWith(".eth")
           ? "goerli"
-          : chainName,
+          : preSupportedSlugs.includes(chainName)
+          ? `"${chainName}"`
+          : `{ ${getExportName(chainName)} }`,
       )
       ?.replace(/{{function}}/gm, fn || "");
 
@@ -169,8 +219,12 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   abi,
   contractAddress = constants.AddressZero,
 }) => {
-  // TODO jonas - bring this back once we figure out how we'll instantiate SDK etc
-  const chainName = "";
+  const chainId = useDashboardEVMChainId();
+  const chainInfo = useConfiguredChain(chainId || -1);
+  const chainName = chainInfo?.slug;
+
+  console.log("chainName", chainName);
+
   const [environment, setEnvironment] = useState<CodeEnvironment>("react");
   const [tab, setTab] = useState("write");
 
