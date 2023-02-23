@@ -194,7 +194,11 @@ export const BatchTable: React.FC<BatchTableProps> = ({
                   {row.cells.map((cell) => {
                     return (
                       // eslint-disable-next-line react/jsx-key
-                      <Td {...cell.getCellProps()} borderBottomWidth="inherit">
+                      <Td
+                        {...cell.getCellProps()}
+                        borderBottomWidth="inherit"
+                        borderColor="borderColor"
+                      >
                         {cell.render("Cell")}
                       </Td>
                     );

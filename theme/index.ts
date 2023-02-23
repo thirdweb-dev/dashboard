@@ -215,7 +215,7 @@ const chakraTheme: Theme = extendTheme({
       // accent color
       "accent.100": {
         default: "gray.100",
-        _dark: "gray.800",
+        _dark: "gray.900",
       },
       "accent.200": {
         default: "gray.200",

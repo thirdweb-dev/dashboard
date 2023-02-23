@@ -188,7 +188,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   </Th>
                 ))}
                 {/* // Need to add an empty header for the drawer button */}
-                <Th />
+                <Th border="none" />
               </Tr>
             ))}
           </Thead>
@@ -211,14 +211,19 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   pointerEvents={failedToLoad ? "none" : "auto"}
                   opacity={failedToLoad ? 0.3 : 1}
                   cursor={failedToLoad ? "not-allowed" : "pointer"}
+                  borderColor="borderColor"
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth="inherit">
+                    <Td
+                      {...cell.getCellProps()}
+                      borderBottomWidth="inherit"
+                      borderColor="borderColor"
+                    >
                       {cell.render("Cell")}
                     </Td>
                   ))}
-                  <Td borderBottomWidth="inherit">
+                  <Td borderBottomWidth="inherit" borderColor="borderColor">
                     {!failedToLoad && <Icon as={FiArrowRight} />}
                   </Td>
                 </Tr>

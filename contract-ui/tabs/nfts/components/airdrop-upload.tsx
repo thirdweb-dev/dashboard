@@ -374,7 +374,9 @@ const AirdropTable: React.FC<AirdropTableProps> = ({ data, portalRef }) => {
                   {row.cells.map((cell) => {
                     return (
                       // eslint-disable-next-line react/jsx-key
-                      <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
+                      <Td {...cell.getCellProps()} borderColor="borderColor">
+                        {cell.render("Cell")}
+                      </Td>
                     );
                   })}
                 </Tr>

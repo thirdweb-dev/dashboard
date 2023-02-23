@@ -211,7 +211,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                   </Th>
                 ))}
                 {/* // Need to add an empty header for the drawer button */}
-                <Th />
+                <Th border="none" />
               </Tr>
             ))}
           </Thead>
@@ -229,15 +229,20 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
                   onClick={() => setTokenRow(row.original)}
                   // end hack
                   borderBottomWidth={1}
+                  borderColor="borderColor"
                   _last={{ borderBottomWidth: 0 }}
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth={"inherit"}>
+                    <Td
+                      {...cell.getCellProps()}
+                      borderBottomWidth="inherit"
+                      borderColor="borderColor"
+                    >
                       {cell.render("Cell")}
                     </Td>
                   ))}
-                  <Td borderBottomWidth="inherit">
+                  <Td borderBottomWidth="inherit" borderColor="borderColor">
                     <Icon as={FiArrowRight} />
                   </Td>
                 </Tr>

@@ -237,7 +237,7 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
                   </Th>
                 ))}
                 {/* // Need to add an empty header for the drawer button */}
-                <Th />
+                <Th border="none" />
               </Tr>
             ))}
           </Thead>
@@ -256,14 +256,19 @@ export const MarketplaceTable: React.FC<MarketplaceTableProps> = ({
                   // end hack
                   borderBottomWidth={1}
                   _last={{ borderBottomWidth: 0 }}
+                  borderColor="borderColor"
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth={"inherit"}>
+                    <Td
+                      {...cell.getCellProps()}
+                      borderBottomWidth="inherit"
+                      borderColor="borderColor"
+                    >
                       {cell.render("Cell")}
                     </Td>
                   ))}
-                  <Td borderBottomWidth="inherit">
+                  <Td borderBottomWidth="inherit" borderColor="borderColor">
                     <Icon as={FiArrowRight} />
                   </Td>
                 </Tr>
