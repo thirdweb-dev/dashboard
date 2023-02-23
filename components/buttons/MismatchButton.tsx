@@ -1,6 +1,7 @@
 import {
   ConnectWallet,
   EcosystemButtonprops,
+  useNetworkWithPatchedSwitching,
 } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   Box,
@@ -20,7 +21,6 @@ import {
   useAddress,
   useBalance,
   useChainId,
-  useNetwork,
   useNetworkMismatch,
   useSDK,
   useSDKChainId,
@@ -185,18 +185,18 @@ const MismatchNotice: React.FC<{
 }> = ({ initialFocusRef, onClose }) => {
   const connectedChainId = useChainId();
   const desiredChainId = useSDKChainId();
-  const [network, switchNetwork] = useNetwork();
+  const [network, switchNetwork] = useNetworkWithPatchedSwitching();
   const actuallyCanAttemptSwitch = !!switchNetwork;
   const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);
 
-  const desiredNetworkInfo = useConfiguredChain(desiredChainId || -1);
+  const chain = useConfiguredChain(desiredChainId || -1);
 
   const onSwitchWallet = useCallback(async () => {
-    if (actuallyCanAttemptSwitch && desiredChainId) {
+    if (actuallyCanAttemptSwitch && desiredChainId && chain) {
       await switchNetwork(desiredChainId);
     }
     onClose();
-  }, [desiredChainId, actuallyCanAttemptSwitch, onClose, switchNetwork]);
+  }, [chain, actuallyCanAttemptSwitch, desiredChainId, onClose, switchNetwork]);
 
   return (
     <Flex direction="column" gap={4}>
@@ -214,7 +214,7 @@ const MismatchNotice: React.FC<{
         </Box>{" "}
         network but this action requires you to connect to the{" "}
         <Box as="strong" textTransform="capitalize">
-          {desiredNetworkInfo?.name}
+          {chain?.name}
         </Box>{" "}
         network.
       </Text>
@@ -229,8 +229,7 @@ const MismatchNotice: React.FC<{
         colorScheme="orange"
         textTransform="capitalize"
       >
-        Switch wallet{" "}
-        {desiredNetworkInfo ? `to ${desiredNetworkInfo.name}` : ""}
+        Switch wallet {chain ? `to ${chain.name}` : ""}
       </Button>
 
       {!actuallyCanAttemptSwitch && (
