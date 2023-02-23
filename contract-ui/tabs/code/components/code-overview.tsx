@@ -238,8 +238,6 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const chainName = chainInfo?.slug;
   const rpc = chainInfo?.rpc[0];
 
-  console.log({ chainInfo, rpc });
-
   const [environment, setEnvironment] = useState<CodeEnvironment>("react");
   const [tab, setTab] = useState("write");
 
