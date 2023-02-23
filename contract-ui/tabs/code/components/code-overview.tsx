@@ -329,6 +329,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               {((writeFunctions || []).length > 0 ||
                 (readFunctions || []).length > 0) && (
                 <Tabs
+                  colorScheme="gray"
                   h="100%"
                   position="relative"
                   display="flex"
