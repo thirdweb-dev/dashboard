@@ -18,6 +18,7 @@ import {
 } from "components/contract-components/hooks";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
+import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
@@ -74,11 +75,11 @@ function Component() {
 }`,
     python: `from thirdweb import ThirdwebSDK
 
-sdk = ThirdwebSDK("{{chainName}}")
+sdk = ThirdwebSDK("{{chainNameOrRpc}}")
 contract = sdk.get_contract("{{contract_address}}")`,
     go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
 
-sdk, err := thirdweb.NewThirdwebSDK("{{chainName}}")
+sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}")
 contract, err := sdk.GetContract("{{contract_address}}")
 `,
   },
@@ -175,11 +176,12 @@ interface SnippetOptions {
   fn?: string;
   args?: string[];
   chainName?: string;
+  rpcUrl?: string;
 }
 
 function formatSnippet(
   snippet: Record<CodeEnvironment, any>,
-  { contractAddress, fn, args, chainName }: SnippetOptions,
+  { contractAddress, fn, args, chainName, rpcUrl }: SnippetOptions,
 ) {
   const code = { ...snippet };
   for (const key of Object.keys(code)) {
@@ -201,7 +203,17 @@ function formatSnippet(
           ? `"${chainName}"`
           : `{ ${getExportName(chainName)} }`,
       )
-      ?.replace(/{{function}}/gm, fn || "");
+      ?.replace(/{{function}}/gm, fn || "")
+      ?.replace(
+        /{{chainNameOrRpc}}/gm,
+        preSupportedSlugs.includes(chainName as string)
+          ? chainName
+          : rpcUrl?.replace(
+              // eslint-disable-next-line no-template-curly-in-string
+              "${THIRDWEB_API_KEY}",
+              DASHBOARD_THIRDWEB_API_KEY,
+            ) || "",
+      );
 
     if (args && args?.some((arg) => arg)) {
       code[env] = code[env]?.replace(/{{args}}/gm, args?.join(", ") || "");
@@ -222,8 +234,9 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const chainId = useDashboardEVMChainId();
   const chainInfo = useConfiguredChain(chainId || -1);
   const chainName = chainInfo?.slug;
+  const rpc = chainInfo?.rpc[0];
 
-  console.log("chainName", chainName);
+  console.log({ chainInfo, rpc });
 
   const [environment, setEnvironment] = useState<CodeEnvironment>("react");
   const [tab, setTab] = useState("write");
@@ -271,6 +284,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           snippet={formatSnippet(COMMANDS.setup as any, {
             contractAddress,
             chainName,
+            rpcUrl: rpc,
           })}
           hideTabs
         />
