@@ -1,4 +1,5 @@
 import {
+  Box,
   Center,
   Flex,
   Icon,
@@ -30,7 +31,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { CellProps, Column, usePagination, useTable } from "react-table";
-import { Card, Heading, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -147,7 +148,13 @@ export const NFTGetAllTable: React.FC<{
   const drawerTabs = useNFTDrawerTabs("solana", program, tokenRow);
   return (
     <Flex gap={4} direction="column">
-      <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
+      <Box
+        maxW="100%"
+        overflowX="auto"
+        position="relative"
+        p={0}
+        borderTopRadius="lg"
+      >
         {getAllQueryResult.isFetching && (
           <Spinner
             color="primary"
@@ -170,8 +177,8 @@ export const NFTGetAllTable: React.FC<{
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()} py={5}>
-                    <Text as="label" size="label.md">
+                  <Th {...column.getHeaderProps()} border="none">
+                    <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
                   </Th>
@@ -233,7 +240,7 @@ export const NFTGetAllTable: React.FC<{
             )}
           </Tbody>
         </Table>
-      </Card>
+      </Box>
       <Center w="100%">
         <Flex gap={2} direction="row" align="center">
           <IconButton

@@ -1,5 +1,6 @@
 import { ListingDrawer } from "./listing-drawer";
 import {
+  Box,
   ButtonGroup,
   Center,
   Flex,
@@ -37,7 +38,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { Cell, Column, usePagination, useTable } from "react-table";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 type ListingMetadata = AuctionListing | DirectListing;
@@ -173,7 +174,13 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
         </Button>
       </ButtonGroup>
 
-      <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
+      <Box
+        maxW="100%"
+        overflowX="auto"
+        position="relative"
+        p={0}
+        borderTopRadius="lg"
+      >
         {((listingsToShow === "all" && getAllQueryResult.isFetching) ||
           (listingsToShow === "active" && getActiveQueryResult.isFetching)) && (
           <Spinner
@@ -197,8 +204,8 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()} py={5}>
-                    <Text as="label" size="label.md">
+                  <Th {...column.getHeaderProps()} border="none">
+                    <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
                   </Th>
@@ -262,7 +269,7 @@ export const ListingsTable: React.FC<ListingsTableProps> = ({ contract }) => {
             )}
           </Tbody>
         </Table>
-      </Card>
+      </Box>
       <Center w="100%">
         <Flex gap={2} direction="row" align="center">
           <IconButton

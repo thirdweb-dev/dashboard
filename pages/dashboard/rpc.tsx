@@ -4,6 +4,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  LinkBox,
   LinkOverlay,
   SimpleGrid,
 } from "@chakra-ui/react";
@@ -42,12 +43,7 @@ export const DashboardRPC: ThirdwebNextPage = () => {
       </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
         {configuredChains.map((chain) => (
-          <LinkOverlay
-            key={chain.chainId}
-            href={`/${chain.slug}`}
-            position="relative"
-            role="group"
-          >
+          <LinkBox key={chain.chainId} position="relative" role="group">
             <Card
               as={Flex}
               flexDir="column"
@@ -59,9 +55,11 @@ export const DashboardRPC: ThirdwebNextPage = () => {
               <Flex justifyContent="space-between">
                 <Flex alignItems="center" gap={2}>
                   <ChainIcon size={20} ipfsSrc={chain?.icon?.url} sizes={[]} />
-                  <Heading size="subtitle.sm" as="h3" noOfLines={1}>
-                    {chain.name}
-                  </Heading>
+                  <LinkOverlay href={`/${chain.slug}`}>
+                    <Heading size="subtitle.sm" as="h3" noOfLines={1}>
+                      {chain.name}
+                    </Heading>
+                  </LinkOverlay>
                 </Flex>
               </Flex>
               <Flex>
@@ -106,7 +104,7 @@ export const DashboardRPC: ThirdwebNextPage = () => {
                 </Flex>
               </SimpleGrid>
             </Card>
-          </LinkOverlay>
+          </LinkBox>
         ))}
       </SimpleGrid>
     </Flex>

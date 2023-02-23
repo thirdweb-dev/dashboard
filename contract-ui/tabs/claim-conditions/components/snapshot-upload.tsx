@@ -508,7 +508,7 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
   // Render the UI for your table
   return (
     <Flex flexGrow={1} overflow="auto">
-      <Box w="100%">
+      <Box w="100%" borderTopRadius="lg">
         <Table {...getTableProps()}>
           <Thead>
             {headerGroups.map((headerGroup) => (
@@ -517,7 +517,7 @@ const SnapshotTable: React.FC<SnapshotTableProps> = ({
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
                   <Th {...column.getHeaderProps()}>
-                    <Text as="label" size="label.md">
+                    <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
                   </Th>

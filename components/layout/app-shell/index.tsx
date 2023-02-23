@@ -160,7 +160,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
             maxW="container.page"
             display="flex"
             py={2}
-            as="header"
+            as="nav"
             alignItems="center"
             overflowX={{ base: "auto", md: "hidden" }}
           >
