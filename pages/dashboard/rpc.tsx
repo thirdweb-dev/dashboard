@@ -23,7 +23,11 @@ export const DashboardRPC: ThirdwebNextPage = () => {
 
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
-      <Flex justifyContent="space-between">
+      <Flex
+        justifyContent="space-between"
+        direction={{ base: "column", md: "row" }}
+        gap={4}
+      >
         <Flex flexDir="column" gap={2}>
           <Heading size="title.lg" as="h1">
             RPC
