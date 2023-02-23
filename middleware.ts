@@ -84,12 +84,12 @@ export function middleware(request: NextRequest) {
   }
 
   if (isPossibleEVMAddress(networkOrAddress)) {
-    return rewrite(request, `/release${pathname}`);
+    return rewrite(request, `/publish${pathname}`);
   }
 }
 
 function isPossibleEVMAddress(address: string) {
-  return address.startsWith("0x") || address.endsWith(".eth");
+  return address?.startsWith("0x") || address?.endsWith(".eth");
 }
 
 // utils for rewriting and redirecting with relative paths

@@ -62,7 +62,7 @@ function contractSearchQuery(
       }
       let address = searchQuery;
       // if it's an ens address first resolve the real address
-      if (searchQuery.endsWith(".eth")) {
+      if (searchQuery?.endsWith(".eth")) {
         const ensResult = await fetchEns(queryClient, searchQuery);
         if (!ensResult.address) {
           throw new Error("Failed to resolve ENS name.");
@@ -270,7 +270,7 @@ export const CmdKSearch: React.FC = () => {
           borderRadius="md"
           fontSize="var(--tw-font-size-body-md)"
           borderColor="borderColor"
-          placeholder="Contract Address or ENS name"
+          placeholder="Search any contract address"
         />
         <InputRightElement w="auto" pr={2} as={Flex} gap={1}>
           <Text size="body.sm" color="chakra-placeholder-color">
@@ -279,7 +279,7 @@ export const CmdKSearch: React.FC = () => {
         </InputRightElement>
       </InputGroup>
       <IconButton
-        aria-label="Contract Address or ENS name"
+        aria-label="Search any contract address"
         variant="ghost"
         display={{ base: "inherit", md: "none" }}
         icon={<Icon as={FiSearch} />}
@@ -299,7 +299,7 @@ export const CmdKSearch: React.FC = () => {
               autoFocus
               border="none"
               borderRadius="none"
-              placeholder="Contract Address or ENS name"
+              placeholder="Search any contract address"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
