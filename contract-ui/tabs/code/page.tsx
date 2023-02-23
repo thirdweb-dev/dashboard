@@ -28,12 +28,12 @@ export const ContractCodePage: React.FC<ContractCodePageProps> = ({
 
   return (
     <Flex direction="column" gap={6}>
-      {contractQuery?.contract && useCustomCodeTab ? (
-        <CodeOverview
-          abi={contractQuery.contract?.abi as Abi}
-          contractAddress={contractQuery.contract?.getAddress()}
-        />
-      ) : (
+      {/*       {contractQuery?.contract && useCustomCodeTab ? ( */}
+      <CodeOverview
+        abi={contractQuery.contract?.abi as Abi}
+        contractAddress={contractQuery.contract?.getAddress()}
+      />
+      {/*       ) : (
         contractType && (
           <ContractCode
             contractAddress={contractQuery.contract?.getAddress()}
@@ -41,7 +41,7 @@ export const ContractCodePage: React.FC<ContractCodePageProps> = ({
             ecosystem="evm"
           />
         )
-      )}
+      )} */}
     </Flex>
   );
 };

@@ -201,6 +201,8 @@ function formatSnippet(
           ? "goerli"
           : preSupportedSlugs.includes(chainName)
           ? `"${chainName}"`
+          : env === "javascript"
+          ? getExportName(chainName)
           : `{ ${getExportName(chainName)} }`,
       )
       ?.replace(/{{function}}/gm, fn || "")
