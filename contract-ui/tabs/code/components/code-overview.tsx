@@ -385,7 +385,12 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                     : tab === "write"
                     ? write?.name
                     : event?.name,
-                args: readFunctions
+                args: (tab === "read"
+                  ? readFunctions
+                  : tab === "write"
+                  ? writeFunctions
+                  : events
+                )
                   ?.find(
                     (f) =>
                       f.name ===
