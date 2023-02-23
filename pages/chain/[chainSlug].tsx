@@ -444,7 +444,7 @@ const ChainPage: ThirdwebNextPage = ({
                   return (
                     <GridItem
                       key={contractId}
-                      colSpan={4}
+                      colSpan={{ base: 6, md: 4 }}
                       onClick={!isConfigured ? addNetwork : undefined}
                     >
                       <ContractCard
