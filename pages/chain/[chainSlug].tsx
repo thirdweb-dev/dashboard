@@ -10,7 +10,6 @@ import {
   LinkBox,
   LinkOverlay,
   SimpleGrid,
-  useToast,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { Chain } from "@thirdweb-dev/chains";
@@ -114,7 +113,6 @@ const ChainPage: ThirdwebNextPage = ({
   }, [chain.chainId, configuredChainRecord]);
 
   const rpcStats = useChainStats(chain);
-  const toast = useToast();
 
   const address = useAddress();
 
