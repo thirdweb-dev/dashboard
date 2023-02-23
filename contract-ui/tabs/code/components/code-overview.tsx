@@ -1,11 +1,8 @@
 import {
-  Box,
   Flex,
   GridItem,
-  Icon,
   List,
   ListItem,
-  Select,
   SimpleGrid,
   Tab,
   TabList,
@@ -13,16 +10,15 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { isFunction } from "@tanstack/react-table";
-import { Abi, AbiFunction } from "@thirdweb-dev/sdk";
-import { useContractFunctions } from "components/contract-components/hooks";
+import { Abi, AbiEvent, AbiFunction } from "@thirdweb-dev/sdk";
+import {
+  useContractEvents,
+  useContractFunctions,
+} from "components/contract-components/hooks";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
-import { ContractFunction, constants } from "ethers";
-import contract from "pages/api/og/contract";
-import events from "pages/events";
+import { constants } from "ethers";
 import { useMemo, useState } from "react";
-import { FiEdit2, FiEye } from "react-icons/fi";
 import { Button, Card, Heading, Text } from "tw-components";
 
 interface CodeOverviewProps {
@@ -119,6 +115,17 @@ export default function Component() {
     python: `data = contract.call("{{function}}", {{args}})`,
     go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
+  events: {
+    javascript: `const events = await contract.getEvents("{{function}}", {{args}})`,
+    react: `import { useContract, useContractEvents } from "@thirdweb-dev/react";
+
+export default function Component() {
+  const { contract } = useContract("{{contract_address}}");
+  const { data, isLoading } = useContractEvents(contract, "{{function}}", {{args}})
+}`,
+    python: `events = contract.get_events("{{function}}", {{args}})`,
+    go: `events, err := contract.GetEvents("{{function}}", {{args}})`,
+  },
 };
 
 interface SnippetOptions {
@@ -168,6 +175,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const [tab, setTab] = useState("write");
 
   const functions = useContractFunctions(abi);
+  const events = useContractEvents(abi);
   const { readFunctions, writeFunctions } = useMemo(() => {
     return {
       readFunctions: functions?.filter(
@@ -184,6 +192,9 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   );
   const [write, setWrite] = useState(
     writeFunctions && writeFunctions.length > 0 ? writeFunctions[0] : undefined,
+  );
+  const [event, setEvent] = useState(
+    events && events.length > 0 ? events[0] : undefined,
   );
 
   return (
@@ -232,7 +243,6 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                 <TabList as={Flex}>
                   {(writeFunctions || []).length > 0 && (
                     <Tab gap={2} flex={"1 1 0"}>
-                      <Icon boxSize={3} as={FiEdit2} />
                       <Heading color="inherit" my={1} size="label.md">
                         Write
                       </Heading>
@@ -240,9 +250,15 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                   )}
                   {(readFunctions || []).length > 0 && (
                     <Tab gap={2} flex={"1 1 0"}>
-                      <Icon boxSize={3} as={FiEye} />
                       <Heading color="inherit" my={1} size="label.md">
                         Read
+                      </Heading>
+                    </Tab>
+                  )}
+                  {(events || []).length > 0 && (
+                    <Tab gap={2} flex={"1 1 0"}>
+                      <Heading color="inherit" my={1} size="label.md">
+                        Events
                       </Heading>
                     </Tab>
                   )}
@@ -254,14 +270,16 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                         <Button
                           size="sm"
                           fontWeight={
+                            tab === "write" &&
                             (write as AbiFunction).signature ===
-                            (fn as AbiFunction).signature
+                              (fn as AbiFunction).signature
                               ? 600
                               : 400
                           }
                           opacity={
+                            tab === "write" &&
                             (write as AbiFunction).signature ===
-                            (fn as AbiFunction).signature
+                              (fn as AbiFunction).signature
                               ? 1
                               : 0.65
                           }
@@ -284,8 +302,20 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                       <ListItem my={0.5} key={fn.name}>
                         <Button
                           size="sm"
-                          fontWeight={read?.name === fn.name ? 600 : 400}
-                          opacity={read?.name === fn.name ? 1 : 0.65}
+                          fontWeight={
+                            tab === "read" &&
+                            (read as AbiFunction).signature ===
+                              (fn as AbiFunction).signature
+                              ? 600
+                              : 400
+                          }
+                          opacity={
+                            tab === "read" &&
+                            (read as AbiFunction).signature ===
+                              (fn as AbiFunction).signature
+                              ? 1
+                              : 0.65
+                          }
                           onClick={() => {
                             setTab("read");
                             setRead(fn);
@@ -300,23 +330,40 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                       </ListItem>
                     ))}
                   </TabPanel>
+                  <TabPanel>
+                    {events?.map((ev) => (
+                      <ListItem my={0.5} key={ev.name}>
+                        <Button
+                          size="sm"
+                          fontWeight={
+                            tab === "events" &&
+                            (event as AbiEvent).name === (ev as AbiEvent).name
+                              ? 600
+                              : 400
+                          }
+                          opacity={
+                            tab === "events" &&
+                            (event as AbiEvent).name === (ev as AbiEvent).name
+                              ? 1
+                              : 0.65
+                          }
+                          onClick={() => {
+                            setTab("events");
+                            setEvent(ev);
+                          }}
+                          color="heading"
+                          _hover={{ opacity: 1, textDecor: "underline" }}
+                          variant="link"
+                          fontFamily="mono"
+                        >
+                          {ev.name}
+                        </Button>
+                      </ListItem>
+                    ))}
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             )}
-
-            {/*             {events.length > 0 && (
-              <Box px={4} pt={2} overflowX="hidden">
-                {events.map((fn) => (
-                  <FunctionsOrEventsListItem
-                    key={isFunction ? (fn as AbiFunction).signature : fn.name}
-                    fn={fn}
-                    isFunction={isFunction}
-                    selectedFunction={selectedFunction}
-                    setSelectedFunction={setSelectedFunction}
-                  />
-                ))}
-              </Box>
-            )} */}
           </List>
         </GridItem>
         <GridItem
@@ -332,11 +379,21 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               COMMANDS[tab as keyof typeof COMMANDS] as any,
               {
                 contractAddress,
-                fn: tab === "read" ? read?.name : write?.name,
+                fn:
+                  tab === "read"
+                    ? read?.name
+                    : tab === "write"
+                    ? write?.name
+                    : event?.name,
                 args: readFunctions
                   ?.find(
                     (f) =>
-                      f.name === (tab === "read" ? read?.name : write?.name),
+                      f.name ===
+                      (tab === "read"
+                        ? read?.name
+                        : tab === "write"
+                        ? write?.name
+                        : event?.name),
                   )
                   ?.inputs?.map((i) => i.name),
                 chainName,
@@ -345,77 +402,6 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           />
         </GridItem>
       </SimpleGrid>
-      {/* <Card as={Flex} flexDirection="column" gap={3}>
-        <Flex align="center" justify="space-between">
-          <Heading size="title.sm">Reading Data</Heading>
-        </Flex>
-        <Text>
-          Once you setup your contract, you can read data from contract
-          functions as follows:
-        </Text>
-        <Flex>
-          <Box>
-            <Select
-              variant="outline"
-              value={read}
-              onChange={(e) => setRead(e.target.value)}
-            >
-              {readFunctions?.map((f, i) => (
-                <option value={f.name} key={i}>
-                  {f.name}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        </Flex>
-        <CodeSegment
-          environment={environment}
-          setEnvironment={setEnvironment}
-          snippet={formatSnippet(COMMANDS.read as any, {
-            contractAddress,
-            fn: read,
-            args: readFunctions
-              ?.find((f) => f.name === read)
-              ?.inputs?.map((i) => i.name),
-            chainName,
-          })}
-        />
-      </Card>
-      <Card as={Flex} flexDirection="column" gap={3}>
-        <Flex align="center" justify="space-between">
-          <Heading size="title.sm">Writing Data</Heading>
-        </Flex>
-        <Text>
-          And you can also make write function calls with the following setup:
-        </Text>
-        <Flex>
-          <Box>
-            <Select
-              variant="outline"
-              value={write}
-              onChange={(e) => setWrite(e.target.value)}
-            >
-              {writeFunctions?.map((f, i) => (
-                <option value={f.name} key={i}>
-                  {f.name}
-                </option>
-              ))}
-            </Select>
-          </Box>
-        </Flex>
-        <CodeSegment
-          environment={environment}
-          setEnvironment={setEnvironment}
-          snippet={formatSnippet(COMMANDS.write as any, {
-            contractAddress,
-            fn: write,
-            args: writeFunctions
-              ?.find((f) => f.name === write)
-              ?.inputs?.map((i, index) => i.name || `arg${index}`),
-            chainName,
-          })}
-        />
-      </Card> */}
     </>
   );
 };

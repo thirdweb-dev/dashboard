@@ -4,7 +4,6 @@ import {
   Divider,
   Flex,
   GridItem,
-  Icon,
   List,
   ListItem,
   SimpleGrid,
@@ -28,7 +27,6 @@ import {
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { FiEdit2, FiEye } from "react-icons/fi";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface ContractFunctionProps {
@@ -191,7 +189,6 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
               <TabList as={Flex}>
                 {writeFunctions.length > 0 && (
                   <Tab gap={2} flex={"1 1 0"}>
-                    <Icon boxSize={3} as={FiEdit2} />
                     <Heading color="inherit" my={1} size="label.md">
                       Write
                     </Heading>
@@ -199,7 +196,6 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
                 )}
                 {viewFunctions.length > 0 && (
                   <Tab gap={2} flex={"1 1 0"}>
-                    <Icon boxSize={3} as={FiEye} />
                     <Heading color="inherit" my={1} size="label.md">
                       Read
                     </Heading>
