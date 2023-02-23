@@ -127,6 +127,23 @@ const ChainPage: ThirdwebNextPage = ({
     chain.nativeCurrency.symbol
   } RPCs, ${chain.faucets?.length ? "faucets," : "dApps"} & explorers.`;
 
+  const addNetwork = () => {
+    updateConfiguredNetworks.add([chain]);
+    trackEvent({
+      category: CHAIN_CATEGORY,
+      chain,
+      action: "add_chain",
+      label: chain.slug,
+    });
+
+    toast({
+      title: "Chain added",
+      description: `You can now use ${chain.name} on thirdweb`,
+      status: "success",
+      duration: 3000,
+    });
+  };
+
   return (
     <>
       <NextSeo
@@ -219,22 +236,7 @@ const ChainPage: ThirdwebNextPage = ({
                       leftIcon={
                         <Icon w={5} h={5} color="inherit" as={IoIosAdd} />
                       }
-                      onClick={() => {
-                        updateConfiguredNetworks.add([chain]);
-                        trackEvent({
-                          category: CHAIN_CATEGORY,
-                          chain,
-                          action: "add_chain",
-                          label: chain.slug,
-                        });
-
-                        toast({
-                          title: "Chain added",
-                          description: `You can now use ${chain.name} on Thirdweb`,
-                          status: "success",
-                          duration: 3000,
-                        });
-                      }}
+                      onClick={addNetwork}
                     >
                       Add chain
                     </Button>
@@ -440,7 +442,11 @@ const ChainPage: ThirdwebNextPage = ({
                   const [publisher, contractId] =
                     publishedContractId.split("/");
                   return (
-                    <GridItem key={contractId} colSpan={4}>
+                    <GridItem
+                      key={contractId}
+                      colSpan={4}
+                      onClick={!isConfigured ? addNetwork : undefined}
+                    >
                       <ContractCard
                         slim
                         key={publishedContractId}
