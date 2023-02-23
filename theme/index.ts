@@ -1,3 +1,4 @@
+import { skeletonTheme } from "./chakra-componens/skeleton";
 import { colors } from "./colors";
 import { fontWeights, letterSpacings, lineHeights } from "./typography";
 import { Theme, extendTheme } from "@chakra-ui/react";
@@ -36,6 +37,7 @@ const chakraTheme: Theme = extendTheme({
     },
   },
   components: {
+    Skeleton: skeletonTheme,
     Heading: {
       baseStyle: {
         color: "heading",
