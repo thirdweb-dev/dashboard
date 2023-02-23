@@ -19,6 +19,7 @@ import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { ContractCard } from "components/explore/contract-card";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { CodeOverview } from "contract-ui/tabs/code/components/code-overview";
 import { ExploreCategory, prefetchCategory } from "data/explore";
 import { useTrack } from "hooks/analytics/useTrack";
 import {
@@ -428,6 +429,8 @@ const ChainPage: ThirdwebNextPage = ({
             </SimpleGrid>
           </ChainSectionElement>
         ) : null}
+        <Divider />
+        <CodeOverview onlyInstall chain={chain} />
         {category && (
           <>
             <Divider />
