@@ -36,6 +36,8 @@ const COMMANDS = {
     web3button: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+    unity: `// Download the .unitypackage from the latest release: https://github.com/thirdweb-dev/unity-sdk/releases 
+// and drag it into your project`,
   },
   setup: {
     javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
@@ -82,6 +84,12 @@ contract = sdk.get_contract("{{contract_address}}")`,
 sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}")
 contract, err := sdk.GetContract("{{contract_address}}")
 `,
+    unity: `using Thirdweb;
+    
+private void Start() {
+    ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}");
+    Contract myContract = SDK.GetContract("{{contract_address}}");
+}`,
   },
   read: {
     javascript: `const data = await contract.call("{{function}}", {{args}})`,
@@ -129,12 +137,22 @@ export default function Component() {
     go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   events: {
-    javascript: `const events = await contract.getEvents("{{function}}", {{args}})`,
+    javascript: `// You can get a specific event
+const events = await contract.events.getEvents("{{function}}")
+// All events
+const allEvents = await contract.events.getAllEvents();
+// Or set up a listener for all events
+const listener = await contract.events.listenToAllEvents();`,
     react: `import { useContract, useContractEvents } from "@thirdweb-dev/react";
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractEvents(contract, "{{function}}", {{args}})
+  // You can get a specific event
+  const { data: event } = useContractEvents(contract, "{{function}}")
+  // All events
+  const { data: allEvents } = useContractEvents(contract)
+  // By default, you set up a listener for all events, but you can disable it
+  const { data: eventWithoutListener } = useContractEvents(contract, undefined, { subscribe: false })
 }`,
     python: `events = contract.get_events("{{function}}", {{args}})`,
     go: `events, err := contract.GetEvents("{{function}}", {{args}})`,
