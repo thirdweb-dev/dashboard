@@ -22,11 +22,12 @@ import {
   useChainId,
   useNetwork,
   useNetworkMismatch,
+  useSDK,
   useSDKChainId,
 } from "@thirdweb-dev/react";
 import {
-  useSDK,
   useBalance as useSolBalance,
+  useSDK as useSolanaSDK,
 } from "@thirdweb-dev/react/solana";
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -55,7 +56,7 @@ export const MismatchButton = React.forwardRef<
     const { publicKey } = useWallet();
     const evmBalance = useBalance();
     const solBalance = useSolBalance();
-    const solNetwork = useSDK()?.network;
+    const solNetwork = useSolanaSDK()?.network;
     const initialFocusRef = useRef<HTMLButtonElement>(null);
     const networksMismatch = useNetworkMismatch() && ecosystem === "evm";
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -271,7 +272,7 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
       window.open("/faucet/solana", "_blank");
     } else if (sdk && hasFaucet) {
       if (chainInfo.chainId === ChainId.Localhost) {
-        await (sdk.wallet as any).requestFunds(10);
+        await sdk.wallet.requestFunds(10);
         await balanceQuery.refetch();
         trackEvent({
           category: "no-funds",
@@ -310,7 +311,7 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
         {hasFaucet && " You can get some from the faucet below."}
       </Text>
 
-      {hasFaucet && (
+      {sdk && hasFaucet && (
         <Button size="sm" colorScheme="orange" onClick={requestFunds}>
           Get {symbol} from faucet
         </Button>
