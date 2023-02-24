@@ -39,7 +39,6 @@ import { PublishedContractOG } from "og-lib/url-utils";
 import { useMemo } from "react";
 import { BiPencil } from "react-icons/bi";
 import { BsShieldCheck } from "react-icons/bs";
-import { FcCheckmark } from "react-icons/fc";
 import { VscBook, VscCalendar } from "react-icons/vsc";
 import invariant from "tiny-invariant";
 import {
@@ -49,7 +48,6 @@ import {
   LinkButton,
   Text,
   TrackedIconButton,
-  TrackedLink,
 } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
 
