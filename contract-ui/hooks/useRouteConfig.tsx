@@ -1,8 +1,4 @@
-import {
-  contractType,
-  useContract,
-  useContractRead,
-} from "@thirdweb-dev/react";
+import { contractType, useContract } from "@thirdweb-dev/react";
 import {
   ExtensionDetectedState,
   extensionDetectedState,
