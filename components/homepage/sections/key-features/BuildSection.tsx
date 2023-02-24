@@ -227,13 +227,7 @@ export const BuildSection: React.FC = () => {
           <Aurora
             zIndex="auto"
             size={{ width: "100%", height: "100%" }}
-            pos={{ top: "80%", left: "0%" }}
-            color="#380D3F60"
-          />
-          <Aurora
-            zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
-            pos={{ top: "0%", left: "10%" }}
+            pos={{ top: "50%", left: "0%" }}
             color="#380D3F60"
           />
           <Heading
