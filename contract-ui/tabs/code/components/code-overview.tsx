@@ -5,6 +5,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Box,
   Flex,
   GridItem,
   List,
@@ -15,7 +16,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useQuery,
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import {
@@ -40,7 +40,7 @@ import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Button, Card, Heading, Link, Text } from "tw-components";
 
 interface CodeOverviewProps {
   abi?: Abi;
@@ -274,7 +274,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   onlyInstall = false,
   chain,
 }) => {
-  const { data, isLoading } = useFeatureContractCodeSnippetQuery();
+  const { data } = useFeatureContractCodeSnippetQuery();
   const enabledExtensions = useContractEnabledExtensions(abi);
 
   const filteredData = useMemo(() => {
@@ -319,285 +319,331 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
     events && events.length > 0 ? events[0] : undefined,
   );
 
+  console.log({ foundExtensions });
+
   return (
-    <Flex flexDir="column" gap={12}>
-      <Flex flexDirection="column" gap={3}>
-        <Heading size="title.md">
-          Getting Started {chain ? `with ${chain.name}` : null}
-        </Heading>
-        <Text>First, install the latest version of the SDK:</Text>
-        <CodeSegment
-          environment={environment}
-          setEnvironment={setEnvironment}
-          snippet={COMMANDS.install}
-          isInstallCommand
-        />
-        <Text>
-          Follow along below to get started using this contract in your code.
-        </Text>
-        <CodeSegment
-          environment={environment}
-          setEnvironment={setEnvironment}
-          snippet={formatSnippet(COMMANDS.setup as any, {
-            contractAddress,
-            chainName,
-            rpcUrl: rpc,
-          })}
-          hideTabs
-        />
-      </Flex>
-      {!onlyInstall ? (
-        <>
-          {foundExtensions.length > 0 ? (
-            <Flex flexDirection="column" gap={6}>
-              <Heading size="title.md">Extensions</Heading>
-              {/*               <Heading size="title.xl">Extensions</Heading>
-              <Text>
-                The following extensions are available for this contract.
-              </Text> */}
-              <SimpleGrid columns={1} gap={12}>
-                {foundExtensions.map((extension) => {
-                  const extensionData: any[] = filteredData[
-                    extension
-                  ] as unknown as any[];
-                  console.log({ extensionData, filteredData, extension });
-                  return (
-                    <Flex key={extension} flexDirection="column" gap={3}>
-                      <Heading size="title.sm">{extension}</Heading>
-                      {/*                       <Text>
+    <SimpleGrid columns={12} gap={8} justifyContent="space-between">
+      <GridItem
+        as={Flex}
+        colSpan={{ base: 12, md: 9 }}
+        flexDir="column"
+        gap={12}
+      >
+        <Flex flexDirection="column" gap={3}>
+          <Flex flexDir="column" gap={2}>
+            <Heading size="title.md">
+              Getting Started {chain ? `with ${chain.name}` : null}
+            </Heading>
+            <Text>First, install the latest version of the SDK:</Text>
+          </Flex>
+          <CodeSegment
+            environment={environment}
+            setEnvironment={setEnvironment}
+            snippet={COMMANDS.install}
+            isInstallCommand
+          />
+          <Text>
+            Follow along below to get started using this contract in your code.
+          </Text>
+          <CodeSegment
+            environment={environment}
+            setEnvironment={setEnvironment}
+            snippet={formatSnippet(COMMANDS.setup as any, {
+              contractAddress,
+              chainName,
+              rpcUrl: rpc,
+            })}
+            hideTabs
+          />
+        </Flex>
+        {!onlyInstall ? (
+          <>
+            {foundExtensions.length > 0 ? (
+              <Flex flexDirection="column" gap={6}>
+                <Flex flexDir="column" gap={2}>
+                  <Heading size="title.md">Extensions</Heading>
+                  <Text>
+                    This contract has the following extensions available, each
+                    providing a set of functions:
+                  </Text>
+                </Flex>
+                <SimpleGrid columns={1} gap={12}>
+                  {foundExtensions.map((extension) => {
+                    const extensionData: any[] = filteredData[
+                      extension
+                    ] as unknown as any[];
+                    return (
+                      <Flex key={extension} flexDirection="column" gap={3}>
+                        <Heading size="title.sm">{extension}</Heading>
+                        {/*                       <Text>
                         The following snippets are available for this extension.
                       </Text> */}
 
-                      <Accordion allowMultiple defaultIndex={[0]}>
-                        {extensionData?.map((ext) => {
-                          return (
-                            <AccordionItem key={ext.name}>
-                              <AccordionButton
-                                justifyContent="space-between"
-                                py={2}
-                              >
-                                <Text size="label.md">{ext.name}</Text>
-                                <AccordionIcon />
-                              </AccordionButton>
-                              <AccordionPanel>
-                                <Flex flexDir="column" gap={4}>
-                                  <Text>{ext.summary}</Text>
-                                  <CodeSegment
-                                    environment={environment}
-                                    setEnvironment={setEnvironment}
-                                    snippet={formatSnippet(ext.examples, {
-                                      contractAddress,
-                                      chainName,
-                                      rpcUrl: rpc,
-                                    })}
-                                  />
-                                </Flex>
-                              </AccordionPanel>
-                            </AccordionItem>
-                          );
-                        })}
-                      </Accordion>
-                    </Flex>
-                  );
-                })}
+                        <Accordion allowMultiple defaultIndex={[0]}>
+                          {extensionData?.map((ext) => {
+                            return (
+                              <Box key={ext.name} id={ext.name}>
+                                <AccordionItem
+                                  borderColor="gray.900"
+                                  borderBottom="none"
+                                >
+                                  <AccordionButton
+                                    justifyContent="space-between"
+                                    py={2}
+                                    px={0}
+                                  >
+                                    <Text size="label.md">{ext.name}</Text>
+                                    <AccordionIcon />
+                                  </AccordionButton>
+                                  <AccordionPanel px={0} pt={0}>
+                                    <Flex flexDir="column" gap={4}>
+                                      <Text>{ext.summary}</Text>
+                                      <CodeSegment
+                                        environment={environment}
+                                        setEnvironment={setEnvironment}
+                                        snippet={formatSnippet(ext.examples, {
+                                          contractAddress,
+                                          chainName,
+                                        })}
+                                      />
+                                    </Flex>
+                                  </AccordionPanel>
+                                </AccordionItem>
+                              </Box>
+                            );
+                          })}
+                        </Accordion>
+                      </Flex>
+                    );
+                  })}
+                </SimpleGrid>
+              </Flex>
+            ) : null}
+            <Flex flexDirection="column" gap={6}>
+              <Heading size="title.md">Functions and Events</Heading>
+              <SimpleGrid height="100%" columns={12} gap={3}>
+                <GridItem
+                  as={Card}
+                  px={0}
+                  pt={0}
+                  height="100%"
+                  overflow="auto"
+                  colSpan={{ base: 12, md: 4 }}
+                  overflowY="auto"
+                >
+                  <List height="100%" overflowX="hidden">
+                    {((writeFunctions || []).length > 0 ||
+                      (readFunctions || []).length > 0) && (
+                      <Tabs
+                        colorScheme="gray"
+                        h="100%"
+                        position="relative"
+                        display="flex"
+                        flexDir="column"
+                      >
+                        <TabList as={Flex}>
+                          {(writeFunctions || []).length > 0 && (
+                            <Tab gap={2} flex={"1 1 0"}>
+                              <Heading color="inherit" my={1} size="label.md">
+                                Write
+                              </Heading>
+                            </Tab>
+                          )}
+                          {(readFunctions || []).length > 0 && (
+                            <Tab gap={2} flex={"1 1 0"}>
+                              <Heading color="inherit" my={1} size="label.md">
+                                Read
+                              </Heading>
+                            </Tab>
+                          )}
+                          {(events || []).length > 0 && (
+                            <Tab gap={2} flex={"1 1 0"}>
+                              <Heading color="inherit" my={1} size="label.md">
+                                Events
+                              </Heading>
+                            </Tab>
+                          )}
+                        </TabList>
+                        <TabPanels h="auto" overflow="auto">
+                          <TabPanel>
+                            {writeFunctions?.map((fn) => (
+                              <ListItem my={0.5} key={fn.signature}>
+                                <Button
+                                  size="sm"
+                                  fontWeight={
+                                    tab === "write" &&
+                                    (write as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 600
+                                      : 400
+                                  }
+                                  opacity={
+                                    tab === "write" &&
+                                    (write as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 1
+                                      : 0.65
+                                  }
+                                  onClick={() => {
+                                    setTab("write");
+                                    setWrite(fn);
+                                  }}
+                                  color="heading"
+                                  _hover={{
+                                    opacity: 1,
+                                    textDecor: "underline",
+                                  }}
+                                  variant="link"
+                                  fontFamily="mono"
+                                >
+                                  {fn.name}
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </TabPanel>
+                          <TabPanel>
+                            {readFunctions?.map((fn) => (
+                              <ListItem my={0.5} key={fn.signature}>
+                                <Button
+                                  size="sm"
+                                  fontWeight={
+                                    tab === "read" &&
+                                    (read as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 600
+                                      : 400
+                                  }
+                                  opacity={
+                                    tab === "read" &&
+                                    (read as AbiFunction).signature ===
+                                      (fn as AbiFunction).signature
+                                      ? 1
+                                      : 0.65
+                                  }
+                                  onClick={() => {
+                                    setTab("read");
+                                    setRead(fn);
+                                  }}
+                                  color="heading"
+                                  _hover={{
+                                    opacity: 1,
+                                    textDecor: "underline",
+                                  }}
+                                  variant="link"
+                                  fontFamily="mono"
+                                >
+                                  {fn.name}
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </TabPanel>
+                          <TabPanel>
+                            {events?.map((ev) => (
+                              <ListItem my={0.5} key={ev.name}>
+                                <Button
+                                  size="sm"
+                                  fontWeight={
+                                    tab === "events" &&
+                                    (event as AbiEvent).name ===
+                                      (ev as AbiEvent).name
+                                      ? 600
+                                      : 400
+                                  }
+                                  opacity={
+                                    tab === "events" &&
+                                    (event as AbiEvent).name ===
+                                      (ev as AbiEvent).name
+                                      ? 1
+                                      : 0.65
+                                  }
+                                  onClick={() => {
+                                    setTab("events");
+                                    setEvent(ev);
+                                  }}
+                                  color="heading"
+                                  _hover={{
+                                    opacity: 1,
+                                    textDecor: "underline",
+                                  }}
+                                  variant="link"
+                                  fontFamily="mono"
+                                >
+                                  {ev.name}
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </TabPanel>
+                        </TabPanels>
+                      </Tabs>
+                    )}
+                  </List>
+                </GridItem>
+                <GridItem
+                  as={Card}
+                  height="100%"
+                  overflow="auto"
+                  colSpan={{ base: 12, md: 8 }}
+                >
+                  <CodeSegment
+                    environment={environment}
+                    setEnvironment={setEnvironment}
+                    snippet={formatSnippet(
+                      COMMANDS[tab as keyof typeof COMMANDS] as any,
+                      {
+                        contractAddress,
+                        fn:
+                          tab === "read"
+                            ? read?.name
+                            : tab === "write"
+                            ? write?.name
+                            : event?.name,
+                        args: (tab === "read"
+                          ? readFunctions
+                          : tab === "write"
+                          ? writeFunctions
+                          : events
+                        )
+                          ?.find(
+                            (f) =>
+                              f.name ===
+                              (tab === "read"
+                                ? read?.name
+                                : tab === "write"
+                                ? write?.name
+                                : event?.name),
+                          )
+                          ?.inputs?.map((i) => i.name),
+                        chainName,
+                      },
+                    )}
+                  />
+                </GridItem>
               </SimpleGrid>
             </Flex>
-          ) : null}
-          <Flex flexDirection="column" gap={6}>
-            <Heading size="title.md">Functions and Events</Heading>
-            <SimpleGrid height="100%" columns={12} gap={3}>
-              <GridItem
-                as={Card}
-                px={0}
-                pt={0}
-                height="100%"
-                overflow="auto"
-                colSpan={{ base: 12, md: 4 }}
-                overflowY="auto"
-              >
-                <List height="100%" overflowX="hidden">
-                  {((writeFunctions || []).length > 0 ||
-                    (readFunctions || []).length > 0) && (
-                    <Tabs
-                      colorScheme="gray"
-                      h="100%"
-                      position="relative"
-                      display="flex"
-                      flexDir="column"
-                    >
-                      <TabList as={Flex}>
-                        {(writeFunctions || []).length > 0 && (
-                          <Tab gap={2} flex={"1 1 0"}>
-                            <Heading color="inherit" my={1} size="label.md">
-                              Write
-                            </Heading>
-                          </Tab>
-                        )}
-                        {(readFunctions || []).length > 0 && (
-                          <Tab gap={2} flex={"1 1 0"}>
-                            <Heading color="inherit" my={1} size="label.md">
-                              Read
-                            </Heading>
-                          </Tab>
-                        )}
-                        {(events || []).length > 0 && (
-                          <Tab gap={2} flex={"1 1 0"}>
-                            <Heading color="inherit" my={1} size="label.md">
-                              Events
-                            </Heading>
-                          </Tab>
-                        )}
-                      </TabList>
-                      <TabPanels h="auto" overflow="auto">
-                        <TabPanel>
-                          {writeFunctions?.map((fn) => (
-                            <ListItem my={0.5} key={fn.signature}>
-                              <Button
-                                size="sm"
-                                fontWeight={
-                                  tab === "write" &&
-                                  (write as AbiFunction).signature ===
-                                    (fn as AbiFunction).signature
-                                    ? 600
-                                    : 400
-                                }
-                                opacity={
-                                  tab === "write" &&
-                                  (write as AbiFunction).signature ===
-                                    (fn as AbiFunction).signature
-                                    ? 1
-                                    : 0.65
-                                }
-                                onClick={() => {
-                                  setTab("write");
-                                  setWrite(fn);
-                                }}
-                                color="heading"
-                                _hover={{ opacity: 1, textDecor: "underline" }}
-                                variant="link"
-                                fontFamily="mono"
-                              >
-                                {fn.name}
-                              </Button>
-                            </ListItem>
-                          ))}
-                        </TabPanel>
-                        <TabPanel>
-                          {readFunctions?.map((fn) => (
-                            <ListItem my={0.5} key={fn.signature}>
-                              <Button
-                                size="sm"
-                                fontWeight={
-                                  tab === "read" &&
-                                  (read as AbiFunction).signature ===
-                                    (fn as AbiFunction).signature
-                                    ? 600
-                                    : 400
-                                }
-                                opacity={
-                                  tab === "read" &&
-                                  (read as AbiFunction).signature ===
-                                    (fn as AbiFunction).signature
-                                    ? 1
-                                    : 0.65
-                                }
-                                onClick={() => {
-                                  setTab("read");
-                                  setRead(fn);
-                                }}
-                                color="heading"
-                                _hover={{ opacity: 1, textDecor: "underline" }}
-                                variant="link"
-                                fontFamily="mono"
-                              >
-                                {fn.name}
-                              </Button>
-                            </ListItem>
-                          ))}
-                        </TabPanel>
-                        <TabPanel>
-                          {events?.map((ev) => (
-                            <ListItem my={0.5} key={ev.name}>
-                              <Button
-                                size="sm"
-                                fontWeight={
-                                  tab === "events" &&
-                                  (event as AbiEvent).name ===
-                                    (ev as AbiEvent).name
-                                    ? 600
-                                    : 400
-                                }
-                                opacity={
-                                  tab === "events" &&
-                                  (event as AbiEvent).name ===
-                                    (ev as AbiEvent).name
-                                    ? 1
-                                    : 0.65
-                                }
-                                onClick={() => {
-                                  setTab("events");
-                                  setEvent(ev);
-                                }}
-                                color="heading"
-                                _hover={{ opacity: 1, textDecor: "underline" }}
-                                variant="link"
-                                fontFamily="mono"
-                              >
-                                {ev.name}
-                              </Button>
-                            </ListItem>
-                          ))}
-                        </TabPanel>
-                      </TabPanels>
-                    </Tabs>
-                  )}
-                </List>
-              </GridItem>
-              <GridItem
-                as={Card}
-                height="100%"
-                overflow="auto"
-                colSpan={{ base: 12, md: 8 }}
-              >
-                <CodeSegment
-                  environment={environment}
-                  setEnvironment={setEnvironment}
-                  snippet={formatSnippet(
-                    COMMANDS[tab as keyof typeof COMMANDS] as any,
-                    {
-                      contractAddress,
-                      fn:
-                        tab === "read"
-                          ? read?.name
-                          : tab === "write"
-                          ? write?.name
-                          : event?.name,
-                      args: (tab === "read"
-                        ? readFunctions
-                        : tab === "write"
-                        ? writeFunctions
-                        : events
-                      )
-                        ?.find(
-                          (f) =>
-                            f.name ===
-                            (tab === "read"
-                              ? read?.name
-                              : tab === "write"
-                              ? write?.name
-                              : event?.name),
-                        )
-                        ?.inputs?.map((i) => i.name),
-                      chainName,
-                    },
-                  )}
-                />
-              </GridItem>
-            </SimpleGrid>
-          </Flex>
-        </>
-      ) : null}
-    </Flex>
+          </>
+        ) : null}
+      </GridItem>
+      <GridItem
+        as={Flex}
+        colSpan={{ base: 12, md: 3 }}
+        flexDir="column"
+        gap={4}
+        pos="relative"
+        boxSize="full"
+        position="static"
+      >
+        <Text size="label.lg">Getting Started</Text>
+        <Flex flexDir="column" gap={2}>
+          <Text size="label.lg">Extensions</Text>
+          {foundExtensions.map((ext) => (
+            <Link key={ext} href={`#${ext}`}>
+              <Text>{ext}</Text>
+            </Link>
+          ))}
+        </Flex>
+        <Text size="label.lg">Functions and Events</Text>
+      </GridItem>
+    </SimpleGrid>
   );
 };
 
