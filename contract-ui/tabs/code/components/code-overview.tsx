@@ -1,5 +1,10 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Flex,
   GridItem,
   List,
@@ -10,15 +15,27 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useQuery,
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { Abi, AbiEvent, AbiFunction } from "@thirdweb-dev/sdk";
 import {
+  Abi,
+  AbiEvent,
+  AbiFunction,
+  FeatureWithEnabled,
+} from "@thirdweb-dev/sdk";
+import {
+  useContractEnabledExtensions,
   useContractEvents,
   useContractFunctions,
+  useFeatureContractCodeSnippetQuery,
 } from "components/contract-components/hooks";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
-import { CodeEnvironment } from "components/contract-tabs/code/types";
+import {
+  CodeEnvironment,
+  SnippetApiResponse,
+  SnippetSchema,
+} from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
@@ -257,6 +274,20 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   onlyInstall = false,
   chain,
 }) => {
+  const { data, isLoading } = useFeatureContractCodeSnippetQuery();
+  const enabledExtensions = useContractEnabledExtensions(abi);
+
+  const filteredData = useMemo(() => {
+    if (!data) {
+      return {};
+    }
+    return filterData(data, enabledExtensions);
+  }, [data, enabledExtensions]);
+
+  const foundExtensions = useMemo(() => {
+    return Object.keys(filteredData || {});
+  }, [filteredData]);
+
   const chainId = useDashboardEVMChainId();
   const chainInfo = useConfiguredChain(chainId || -1);
   const chainName = chain?.slug || chainInfo?.slug;
@@ -289,12 +320,12 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   );
 
   return (
-    <>
-      <Card as={Flex} flexDirection="column" gap={3}>
-        <Heading size="title.sm">
+    <Flex flexDir="column" gap={12}>
+      <Flex flexDirection="column" gap={3}>
+        <Heading size="title.md">
           Getting Started {chain ? `with ${chain.name}` : null}
         </Heading>
-        <Text>First, install the latest version of the SDK.</Text>
+        <Text>First, install the latest version of the SDK:</Text>
         <CodeSegment
           environment={environment}
           setEnvironment={setEnvironment}
@@ -314,196 +345,276 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           })}
           hideTabs
         />
-      </Card>
+      </Flex>
       {!onlyInstall ? (
-        <SimpleGrid height="100%" columns={12} gap={3}>
-          <GridItem
-            as={Card}
-            px={0}
-            pt={0}
-            height="100%"
-            overflow="auto"
-            colSpan={{ base: 12, md: 4 }}
-            overflowY="auto"
-          >
-            <List height="100%" overflowX="hidden">
-              {((writeFunctions || []).length > 0 ||
-                (readFunctions || []).length > 0) && (
-                <Tabs
-                  colorScheme="gray"
-                  h="100%"
-                  position="relative"
-                  display="flex"
-                  flexDir="column"
-                >
-                  <TabList as={Flex}>
-                    {(writeFunctions || []).length > 0 && (
-                      <Tab gap={2} flex={"1 1 0"}>
-                        <Heading color="inherit" my={1} size="label.md">
-                          Write
-                        </Heading>
-                      </Tab>
-                    )}
-                    {(readFunctions || []).length > 0 && (
-                      <Tab gap={2} flex={"1 1 0"}>
-                        <Heading color="inherit" my={1} size="label.md">
-                          Read
-                        </Heading>
-                      </Tab>
-                    )}
-                    {(events || []).length > 0 && (
-                      <Tab gap={2} flex={"1 1 0"}>
-                        <Heading color="inherit" my={1} size="label.md">
-                          Events
-                        </Heading>
-                      </Tab>
-                    )}
-                  </TabList>
-                  <TabPanels h="auto" overflow="auto">
-                    <TabPanel>
-                      {writeFunctions?.map((fn) => (
-                        <ListItem my={0.5} key={fn.name}>
-                          <Button
-                            size="sm"
-                            fontWeight={
-                              tab === "write" &&
-                              (write as AbiFunction).signature ===
-                                (fn as AbiFunction).signature
-                                ? 600
-                                : 400
-                            }
-                            opacity={
-                              tab === "write" &&
-                              (write as AbiFunction).signature ===
-                                (fn as AbiFunction).signature
-                                ? 1
-                                : 0.65
-                            }
-                            onClick={() => {
-                              setTab("write");
-                              setWrite(fn);
-                            }}
-                            color="heading"
-                            _hover={{ opacity: 1, textDecor: "underline" }}
-                            variant="link"
-                            fontFamily="mono"
-                          >
-                            {fn.name}
-                          </Button>
-                        </ListItem>
-                      ))}
-                    </TabPanel>
-                    <TabPanel>
-                      {readFunctions?.map((fn) => (
-                        <ListItem my={0.5} key={fn.name}>
-                          <Button
-                            size="sm"
-                            fontWeight={
-                              tab === "read" &&
-                              (read as AbiFunction).signature ===
-                                (fn as AbiFunction).signature
-                                ? 600
-                                : 400
-                            }
-                            opacity={
-                              tab === "read" &&
-                              (read as AbiFunction).signature ===
-                                (fn as AbiFunction).signature
-                                ? 1
-                                : 0.65
-                            }
-                            onClick={() => {
-                              setTab("read");
-                              setRead(fn);
-                            }}
-                            color="heading"
-                            _hover={{ opacity: 1, textDecor: "underline" }}
-                            variant="link"
-                            fontFamily="mono"
-                          >
-                            {fn.name}
-                          </Button>
-                        </ListItem>
-                      ))}
-                    </TabPanel>
-                    <TabPanel>
-                      {events?.map((ev) => (
-                        <ListItem my={0.5} key={ev.name}>
-                          <Button
-                            size="sm"
-                            fontWeight={
-                              tab === "events" &&
-                              (event as AbiEvent).name === (ev as AbiEvent).name
-                                ? 600
-                                : 400
-                            }
-                            opacity={
-                              tab === "events" &&
-                              (event as AbiEvent).name === (ev as AbiEvent).name
-                                ? 1
-                                : 0.65
-                            }
-                            onClick={() => {
-                              setTab("events");
-                              setEvent(ev);
-                            }}
-                            color="heading"
-                            _hover={{ opacity: 1, textDecor: "underline" }}
-                            variant="link"
-                            fontFamily="mono"
-                          >
-                            {ev.name}
-                          </Button>
-                        </ListItem>
-                      ))}
-                    </TabPanel>
-                  </TabPanels>
-                </Tabs>
-              )}
-            </List>
-          </GridItem>
-          <GridItem
-            as={Card}
-            height="100%"
-            overflow="auto"
-            colSpan={{ base: 12, md: 8 }}
-          >
-            <CodeSegment
-              environment={environment}
-              setEnvironment={setEnvironment}
-              snippet={formatSnippet(
-                COMMANDS[tab as keyof typeof COMMANDS] as any,
-                {
-                  contractAddress,
-                  fn:
-                    tab === "read"
-                      ? read?.name
-                      : tab === "write"
-                      ? write?.name
-                      : event?.name,
-                  args: (tab === "read"
-                    ? readFunctions
-                    : tab === "write"
-                    ? writeFunctions
-                    : events
-                  )
-                    ?.find(
-                      (f) =>
-                        f.name ===
-                        (tab === "read"
+        <>
+          {foundExtensions.length > 0 ? (
+            <Flex flexDirection="column" gap={6}>
+              <Heading size="title.md">Extensions</Heading>
+              {/*               <Heading size="title.xl">Extensions</Heading>
+              <Text>
+                The following extensions are available for this contract.
+              </Text> */}
+              <SimpleGrid columns={1} gap={12}>
+                {foundExtensions.map((extension) => {
+                  const extensionData: any[] = filteredData[
+                    extension
+                  ] as unknown as any[];
+                  console.log({ extensionData, filteredData, extension });
+                  return (
+                    <Flex key={extension} flexDirection="column" gap={3}>
+                      <Heading size="title.sm">{extension}</Heading>
+                      {/*                       <Text>
+                        The following snippets are available for this extension.
+                      </Text> */}
+
+                      <Accordion allowMultiple defaultIndex={[0]}>
+                        {extensionData?.map((ext) => {
+                          return (
+                            <AccordionItem key={ext.name}>
+                              <AccordionButton
+                                justifyContent="space-between"
+                                py={2}
+                              >
+                                <Text size="label.md">{ext.name}</Text>
+                                <AccordionIcon />
+                              </AccordionButton>
+                              <AccordionPanel>
+                                <Flex flexDir="column" gap={4}>
+                                  <Text>{ext.summary}</Text>
+                                  <CodeSegment
+                                    environment={environment}
+                                    setEnvironment={setEnvironment}
+                                    snippet={formatSnippet(ext.examples, {
+                                      contractAddress,
+                                      chainName,
+                                      rpcUrl: rpc,
+                                    })}
+                                  />
+                                </Flex>
+                              </AccordionPanel>
+                            </AccordionItem>
+                          );
+                        })}
+                      </Accordion>
+                    </Flex>
+                  );
+                })}
+              </SimpleGrid>
+            </Flex>
+          ) : null}
+          <Flex flexDirection="column" gap={6}>
+            <Heading size="title.md">Functions and Events</Heading>
+            <SimpleGrid height="100%" columns={12} gap={3}>
+              <GridItem
+                as={Card}
+                px={0}
+                pt={0}
+                height="100%"
+                overflow="auto"
+                colSpan={{ base: 12, md: 4 }}
+                overflowY="auto"
+              >
+                <List height="100%" overflowX="hidden">
+                  {((writeFunctions || []).length > 0 ||
+                    (readFunctions || []).length > 0) && (
+                    <Tabs
+                      colorScheme="gray"
+                      h="100%"
+                      position="relative"
+                      display="flex"
+                      flexDir="column"
+                    >
+                      <TabList as={Flex}>
+                        {(writeFunctions || []).length > 0 && (
+                          <Tab gap={2} flex={"1 1 0"}>
+                            <Heading color="inherit" my={1} size="label.md">
+                              Write
+                            </Heading>
+                          </Tab>
+                        )}
+                        {(readFunctions || []).length > 0 && (
+                          <Tab gap={2} flex={"1 1 0"}>
+                            <Heading color="inherit" my={1} size="label.md">
+                              Read
+                            </Heading>
+                          </Tab>
+                        )}
+                        {(events || []).length > 0 && (
+                          <Tab gap={2} flex={"1 1 0"}>
+                            <Heading color="inherit" my={1} size="label.md">
+                              Events
+                            </Heading>
+                          </Tab>
+                        )}
+                      </TabList>
+                      <TabPanels h="auto" overflow="auto">
+                        <TabPanel>
+                          {writeFunctions?.map((fn) => (
+                            <ListItem my={0.5} key={fn.signature}>
+                              <Button
+                                size="sm"
+                                fontWeight={
+                                  tab === "write" &&
+                                  (write as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 600
+                                    : 400
+                                }
+                                opacity={
+                                  tab === "write" &&
+                                  (write as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 1
+                                    : 0.65
+                                }
+                                onClick={() => {
+                                  setTab("write");
+                                  setWrite(fn);
+                                }}
+                                color="heading"
+                                _hover={{ opacity: 1, textDecor: "underline" }}
+                                variant="link"
+                                fontFamily="mono"
+                              >
+                                {fn.name}
+                              </Button>
+                            </ListItem>
+                          ))}
+                        </TabPanel>
+                        <TabPanel>
+                          {readFunctions?.map((fn) => (
+                            <ListItem my={0.5} key={fn.signature}>
+                              <Button
+                                size="sm"
+                                fontWeight={
+                                  tab === "read" &&
+                                  (read as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 600
+                                    : 400
+                                }
+                                opacity={
+                                  tab === "read" &&
+                                  (read as AbiFunction).signature ===
+                                    (fn as AbiFunction).signature
+                                    ? 1
+                                    : 0.65
+                                }
+                                onClick={() => {
+                                  setTab("read");
+                                  setRead(fn);
+                                }}
+                                color="heading"
+                                _hover={{ opacity: 1, textDecor: "underline" }}
+                                variant="link"
+                                fontFamily="mono"
+                              >
+                                {fn.name}
+                              </Button>
+                            </ListItem>
+                          ))}
+                        </TabPanel>
+                        <TabPanel>
+                          {events?.map((ev) => (
+                            <ListItem my={0.5} key={ev.name}>
+                              <Button
+                                size="sm"
+                                fontWeight={
+                                  tab === "events" &&
+                                  (event as AbiEvent).name ===
+                                    (ev as AbiEvent).name
+                                    ? 600
+                                    : 400
+                                }
+                                opacity={
+                                  tab === "events" &&
+                                  (event as AbiEvent).name ===
+                                    (ev as AbiEvent).name
+                                    ? 1
+                                    : 0.65
+                                }
+                                onClick={() => {
+                                  setTab("events");
+                                  setEvent(ev);
+                                }}
+                                color="heading"
+                                _hover={{ opacity: 1, textDecor: "underline" }}
+                                variant="link"
+                                fontFamily="mono"
+                              >
+                                {ev.name}
+                              </Button>
+                            </ListItem>
+                          ))}
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
+                  )}
+                </List>
+              </GridItem>
+              <GridItem
+                as={Card}
+                height="100%"
+                overflow="auto"
+                colSpan={{ base: 12, md: 8 }}
+              >
+                <CodeSegment
+                  environment={environment}
+                  setEnvironment={setEnvironment}
+                  snippet={formatSnippet(
+                    COMMANDS[tab as keyof typeof COMMANDS] as any,
+                    {
+                      contractAddress,
+                      fn:
+                        tab === "read"
                           ? read?.name
                           : tab === "write"
                           ? write?.name
-                          : event?.name),
-                    )
-                    ?.inputs?.map((i) => i.name),
-                  chainName,
-                },
-              )}
-            />
-          </GridItem>
-        </SimpleGrid>
+                          : event?.name,
+                      args: (tab === "read"
+                        ? readFunctions
+                        : tab === "write"
+                        ? writeFunctions
+                        : events
+                      )
+                        ?.find(
+                          (f) =>
+                            f.name ===
+                            (tab === "read"
+                              ? read?.name
+                              : tab === "write"
+                              ? write?.name
+                              : event?.name),
+                        )
+                        ?.inputs?.map((i) => i.name),
+                      chainName,
+                    },
+                  )}
+                />
+              </GridItem>
+            </SimpleGrid>
+          </Flex>
+        </>
       ) : null}
-    </>
+    </Flex>
   );
 };
+
+function filterData(
+  data: SnippetApiResponse,
+  enabledExtensions: FeatureWithEnabled[],
+) {
+  const allowedKeys = enabledExtensions
+    .filter((extension) => extension.enabled)
+    .map((extension) => extension.name as keyof SnippetApiResponse);
+  const filteredData: Partial<SnippetApiResponse> = {};
+
+  for (const key in data) {
+    if (allowedKeys.includes(key as keyof SnippetApiResponse)) {
+      filteredData[key as keyof SnippetApiResponse] = data[key];
+    }
+  }
+
+  return filteredData;
+}
