@@ -1,4 +1,3 @@
-import { useContractEnabledExtensions } from "../../../components/contract-components/hooks";
 import { BuildYourApp } from "./components/BuildYourApp";
 import Extensions from "./components/Extensions";
 import { LatestEvents } from "./components/LatestEvents";
