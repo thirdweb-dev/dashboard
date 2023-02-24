@@ -105,7 +105,6 @@ export function useContractRouteConfig(
 ): EnhancedRoute[] {
   const ensQuery = useEns(contractAddress);
   const contractQuery = useContract(ensQuery.data?.address);
-  const { data: appURI } = useContractRead(contractQuery.contract, "appURI");
   const contractTypeQuery = contractType.useQuery(contractAddress);
 
   const claimconditionExtensionDetection = extensionDetectedState({
@@ -259,12 +258,12 @@ export function useContractRouteConfig(
     {
       title: "App",
       path: "appuri",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        matchStrategy: "any",
+        feature: ["AppURI"],
+      }),
       component: LazyCustomContractAppPage,
-      isEnabled: contractTypeQuery.isLoading
-        ? "loading"
-        : appURI
-        ? "enabled"
-        : "disabled",
     },
 
     {
