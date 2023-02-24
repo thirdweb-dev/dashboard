@@ -1,15 +1,15 @@
 import { useContractEnabledExtensions } from "../../../../components/contract-components/hooks";
 import { Flex, Icon, List, ListItem } from "@chakra-ui/react";
-import { SmartContract } from "@thirdweb-dev/sdk";
+import { ContractInterface } from "ethers";
 import { FcCheckmark } from "react-icons/fc";
 import { Heading, Text, TrackedLink } from "tw-components";
 
 type ExtensionsProps = {
-  contract: SmartContract;
+  abi: ContractInterface;
 };
 
-const Extensions: React.FC<ExtensionsProps> = ({ contract }) => {
-  const enabledExtensions = useContractEnabledExtensions(contract?.abi);
+const Extensions: React.FC<ExtensionsProps> = ({ abi }) => {
+  const enabledExtensions = useContractEnabledExtensions(abi);
 
   return (
     <Flex flexDir="column" gap={4}>

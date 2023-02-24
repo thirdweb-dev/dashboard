@@ -90,7 +90,7 @@ export const CustomContractOverviewPage: React.FC<
         />
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
-        {contract && <Extensions contract={contract} />}
+        {contract?.abi && <Extensions abi={contract?.abi} />}
         {(guides.length > 0 || templates.length > 0) && <Divider />}
         <RelevantDataSection
           data={guides}
