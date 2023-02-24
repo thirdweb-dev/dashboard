@@ -1,4 +1,6 @@
+import { useContractEnabledExtensions } from "../../../components/contract-components/hooks";
 import { BuildYourApp } from "./components/BuildYourApp";
+import Extensions from "./components/Extensions";
 import { LatestEvents } from "./components/LatestEvents";
 import { MarketplaceDetails } from "./components/MarketplaceDetails";
 import { NFTDetails } from "./components/NFTDetails";
@@ -89,6 +91,8 @@ export const CustomContractOverviewPage: React.FC<
         />
       </GridItem>
       <GridItem as={Flex} direction="column" gap={6}>
+        {contract && <Extensions contract={contract} />}
+        {(guides.length > 0 || templates.length > 0) && <Divider />}
         <RelevantDataSection
           data={guides}
           title="guide"
@@ -100,6 +104,7 @@ export const CustomContractOverviewPage: React.FC<
           title="template"
           TRACKING_CATEGORY={TRACKING_CATEGORY}
         />
+        {templates.length > 0 && <Divider />}
       </GridItem>
     </SimpleGrid>
   );
