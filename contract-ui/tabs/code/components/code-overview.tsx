@@ -43,13 +43,14 @@ const COMMANDS = {
 // and drag it into your project`,
   },
   setup: {
-    javascript: `import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
-import {{chainName}} from "@thirdweb-dev/chains";
+    javascript: `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+
 
 const sdk = new ThirdwebSDK({{chainName}});
 const contract = await sdk.getContract("{{contract_address}}");`,
-    react: `import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
-import {{chainName}} from "@thirdweb-dev/chains";
+    react: `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 function App() {
   return (
