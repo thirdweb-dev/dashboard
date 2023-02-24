@@ -37,7 +37,7 @@ const features: FeatureCardProps[] = [
   },
 
   {
-    title: "Composable.",
+    title: "No vendor lock-in.",
     description:
       "Our tools are designed to allow developers to assemble and reassemble different parts of our tools and provide their own configurations. No vendor lock-in.",
   },
