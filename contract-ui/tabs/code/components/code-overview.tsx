@@ -19,6 +19,7 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
+import { useAddress } from "@thirdweb-dev/react";
 import {
   Abi,
   AbiEvent,
@@ -204,11 +205,12 @@ interface SnippetOptions {
   args?: string[];
   chainName?: string;
   rpcUrl?: string;
+  address?: string;
 }
 
 function formatSnippet(
   snippet: Record<CodeEnvironment, any>,
-  { contractAddress, fn, args, chainName, rpcUrl }: SnippetOptions,
+  { contractAddress, fn, args, chainName, rpcUrl, address }: SnippetOptions,
 ) {
   const code = { ...snippet };
   for (const key of Object.keys(code)) {
@@ -216,6 +218,8 @@ function formatSnippet(
 
     code[env] = code[env]
       ?.replace(/{{contract_address}}/gm, contractAddress)
+      ?.replace(/{{wallet_address}}/gm, address)
+
       ?.replace(
         'import {{chainName}} from "@thirdweb-dev/chains";',
         preSupportedSlugs.includes(chainName as string)
@@ -267,6 +271,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const [tab, setTab] = useState("write");
   const { data } = useFeatureContractCodeSnippetQuery(environment);
   const enabledExtensions = useContractEnabledExtensions(abi);
+  const address = useAddress();
 
   const filteredData = useMemo(() => {
     if (!data) {
@@ -415,6 +420,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                                       snippet={formatSnippet(ext.examples, {
                                         contractAddress,
                                         chainName,
+                                        address,
                                       })}
                                     />
                                   </Flex>
