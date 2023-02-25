@@ -8,6 +8,7 @@ import {
   Box,
   Flex,
   GridItem,
+  Icon,
   List,
   ListItem,
   SimpleGrid,
@@ -34,12 +35,12 @@ import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import {
   CodeEnvironment,
   SnippetApiResponse,
-  SnippetSchema,
 } from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
+import { FiCheck } from "react-icons/fi";
 import { Button, Card, Heading, Link, Text } from "tw-components";
 
 interface CodeOverviewProps {
@@ -285,7 +286,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   }, [data, enabledExtensions]);
 
   const foundExtensions = useMemo(() => {
-    return Object.keys(filteredData || {});
+    return Object.keys(filteredData || {}).sort();
   }, [filteredData]);
 
   const chainId = useDashboardEVMChainId();
@@ -330,7 +331,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
         gap={12}
       >
         <Flex flexDirection="column" gap={3}>
-          <Flex flexDir="column" gap={2}>
+          <Flex flexDir="column" gap={2} id="getting-started">
             <Heading size="title.md">
               Getting Started {chain ? `with ${chain.name}` : null}
             </Heading>
@@ -373,16 +374,18 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                       extension
                     ] as unknown as any[];
                     return (
-                      <Flex key={extension} flexDirection="column" gap={3}>
+                      <Flex
+                        key={extension}
+                        flexDirection="column"
+                        gap={3}
+                        id={extension}
+                      >
                         <Heading size="title.sm">{extension}</Heading>
-                        {/*                       <Text>
-                        The following snippets are available for this extension.
-                      </Text> */}
 
-                        <Accordion allowMultiple defaultIndex={[0]}>
+                        <Accordion allowMultiple>
                           {extensionData?.map((ext) => {
                             return (
-                              <Box key={ext.name} id={ext.name}>
+                              <Box key={ext.name}>
                                 <AccordionItem
                                   borderColor="gray.900"
                                   borderBottom="none"
@@ -392,12 +395,11 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                                     py={2}
                                     px={0}
                                   >
-                                    <Text size="label.md">{ext.name}</Text>
+                                    <Text size="label.md">{ext.summary}</Text>
                                     <AccordionIcon />
                                   </AccordionButton>
                                   <AccordionPanel px={0} pt={0}>
                                     <Flex flexDir="column" gap={4}>
-                                      <Text>{ext.summary}</Text>
                                       <CodeSegment
                                         environment={environment}
                                         setEnvironment={setEnvironment}
@@ -419,8 +421,8 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                 </SimpleGrid>
               </Flex>
             ) : null}
-            <Flex flexDirection="column" gap={6}>
-              <Heading size="title.md">Functions and Events</Heading>
+            <Flex flexDirection="column" gap={6} id="functions-and-events">
+              <Heading size="title.md">All Functions & Events</Heading>
               <SimpleGrid height="100%" columns={12} gap={3}>
                 <GridItem
                   as={Card}
@@ -627,21 +629,27 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
         as={Flex}
         colSpan={{ base: 12, md: 3 }}
         flexDir="column"
-        gap={4}
+        gap={3}
         pos="relative"
         boxSize="full"
         position="static"
       >
-        <Text size="label.lg">Getting Started</Text>
-        <Flex flexDir="column" gap={2}>
-          <Text size="label.lg">Extensions</Text>
-          {foundExtensions.map((ext) => (
-            <Link key={ext} href={`#${ext}`}>
-              <Text>{ext}</Text>
-            </Link>
-          ))}
-        </Flex>
-        <Text size="label.lg">Functions and Events</Text>
+        <Link href="#getting-started">
+          <Text size="body.md">Getting Started</Text>
+        </Link>
+
+        {foundExtensions.map((ext) => (
+          <Link key={ext} href={`#${ext}`}>
+            <Flex alignItems="center" gap={1}>
+              <Icon as={FiCheck} color="green.500" />
+              <Text size="body.md">{ext}</Text>
+            </Flex>
+          </Link>
+        ))}
+
+        <Link href="#functions-and-events">
+          <Text size="body.md">All Functions & Events</Text>
+        </Link>
       </GridItem>
     </SimpleGrid>
   );
