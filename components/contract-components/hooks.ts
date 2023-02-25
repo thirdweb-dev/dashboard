@@ -689,9 +689,9 @@ export function useContractEvents(abi: Abi) {
 }
 
 export function useFeatureContractCodeSnippetQuery() {
-  return useQuery(["feature-code-snippet"], async () => {
+  return useQuery(["feature-code-snippet-5"], async () => {
     const res = await fetch(
-      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/feature_snippets_sdk.json`,
+      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/feature_snippets_react.json`,
     );
     return (await res.json()) as SnippetApiResponse;
   });
