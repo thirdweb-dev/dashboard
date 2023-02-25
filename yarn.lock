@@ -3590,15 +3590,6 @@
     form-data "^4.0.0"
     uuid "^9.0.0"
 
-"@thirdweb-dev/storage@^1.0.10-nightly-f3408d0":
-  version "1.0.10-nightly-f3408d0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.0.10-nightly-f3408d0.tgz#061d729bd4b2e98f6c905f33f343cf3ce89ce4ac"
-  integrity sha512-EXe+BoX0I1EAztz7mGX7l3/vCTbkUkt19wa+HHu9SlE5aGHVqJEIMnlEV5rAMl7pi9mBOLiiCJ9Fv4q1kg0eNA==
-  dependencies:
-    cross-fetch "^3.1.5"
-    form-data "^4.0.0"
-    uuid "^9.0.0"
-
 "@thirdweb-dev/wallets@^0.2.6":
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.2.6.tgz#895573638fd6cc4c1173d2483c7d8137977f647d"
