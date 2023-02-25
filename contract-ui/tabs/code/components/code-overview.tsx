@@ -47,6 +47,7 @@ interface CodeOverviewProps {
   contractAddress?: string;
   onlyInstall?: boolean;
   chain?: Chain;
+  noSidebar?: boolean;
 }
 
 const COMMANDS = {
@@ -273,6 +274,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   contractAddress = constants.AddressZero,
   onlyInstall = false,
   chain,
+  noSidebar = false,
 }) => {
   const { data } = useFeatureContractCodeSnippetQuery();
   const enabledExtensions = useContractEnabledExtensions(abi);
@@ -323,7 +325,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
     <SimpleGrid columns={12} gap={8} justifyContent="space-between">
       <GridItem
         as={Flex}
-        colSpan={{ base: 12, md: 9 }}
+        colSpan={{ base: 12, md: noSidebar ? 12 : 9 }}
         flexDir="column"
         gap={12}
       >
@@ -632,37 +634,36 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           </>
         ) : null}
       </GridItem>
-      <GridItem
-        as={Flex}
-        colSpan={{ base: 12, md: 3 }}
-        flexDir="column"
-        gap={3}
-        pos="relative"
-        boxSize="full"
-        position="static"
-      >
-        <Link href="#getting-started">
-          <Text size="body.md">Getting Started</Text>
-        </Link>
-
-        {foundExtensions.map((ext) => (
-          <Link key={ext} href={`#${ext}`}>
-            <Flex gap={2}>
-              <Image
-                src="/assets/dashboard/extension-check.svg"
-                alt="Extension detected"
-                objectFit="contain"
-                mb="1px"
-              />
-              <Text size="body.md">{ext}</Text>
-            </Flex>
+      {noSidebar ? null : (
+        <GridItem
+          as={Flex}
+          colSpan={{ base: 12, md: 3 }}
+          flexDir="column"
+          gap={3}
+        >
+          <Link href="#getting-started">
+            <Text size="body.md">Getting Started</Text>
           </Link>
-        ))}
 
-        <Link href="#functions-and-events">
-          <Text size="body.md">All Functions & Events</Text>
-        </Link>
-      </GridItem>
+          {foundExtensions.map((ext) => (
+            <Link key={ext} href={`#${ext}`}>
+              <Flex gap={2}>
+                <Image
+                  src="/assets/dashboard/extension-check.svg"
+                  alt="Extension detected"
+                  objectFit="contain"
+                  mb="1px"
+                />
+                <Text size="body.md">{ext}</Text>
+              </Flex>
+            </Link>
+          ))}
+
+          <Link href="#functions-and-events">
+            <Text size="body.md">All Functions & Events</Text>
+          </Link>
+        </GridItem>
+      )}
     </SimpleGrid>
   );
 };
