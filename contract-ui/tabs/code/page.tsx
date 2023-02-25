@@ -15,10 +15,7 @@ export const ContractCodePage: React.FC<ContractCodePageProps> = ({
   const contractQuery = useContract(contractAddress);
   const { data: contractType, isLoading } = useContractType(contractAddress);
 
-  const usePrebuiltCodeTab =
-    contractType === "marketplace" ||
-    contractType === "pack" ||
-    contractType === "multiwrap";
+  const useCustomCodeTab = contractType === "custom";
 
   useEffect(() => {
     window?.scrollTo({ top: 0, behavior: "smooth" });
@@ -31,17 +28,19 @@ export const ContractCodePage: React.FC<ContractCodePageProps> = ({
 
   return (
     <Flex direction="column" gap={6}>
-      {contractQuery?.contract && usePrebuiltCodeTab ? (
-        <ContractCode
-          contractAddress={contractQuery.contract?.getAddress()}
-          contractType={contractType}
-          ecosystem="evm"
-        />
-      ) : (
+      {contractQuery?.contract && useCustomCodeTab ? (
         <CodeOverview
           abi={contractQuery.contract?.abi as Abi}
           contractAddress={contractQuery.contract?.getAddress()}
         />
+      ) : (
+        contractType && (
+          <ContractCode
+            contractAddress={contractQuery.contract?.getAddress()}
+            contractType={contractType}
+            ecosystem="evm"
+          />
+        )
       )}
     </Flex>
   );
