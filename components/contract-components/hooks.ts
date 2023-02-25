@@ -688,10 +688,14 @@ export function useContractEvents(abi: Abi) {
   return abi ? extractEventsFromAbi(abi) : undefined;
 }
 
-export function useFeatureContractCodeSnippetQuery() {
-  return useQuery(["feature-code-snippet-5"], async () => {
+export function useFeatureContractCodeSnippetQuery(language: string) {
+  if (language === "javascript") {
+    language = "sdk";
+  }
+
+  return useQuery(["feature-code-snippet", language], async () => {
     const res = await fetch(
-      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/feature_snippets_react.json`,
+      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/feature_snippets_${language}.json`,
     );
     return (await res.json()) as SnippetApiResponse;
   });

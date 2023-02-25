@@ -263,7 +263,9 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   chain,
   noSidebar = false,
 }) => {
-  const { data } = useFeatureContractCodeSnippetQuery();
+  const [environment, setEnvironment] = useState<CodeEnvironment>("react");
+  const [tab, setTab] = useState("write");
+  const { data } = useFeatureContractCodeSnippetQuery(environment);
   const enabledExtensions = useContractEnabledExtensions(abi);
 
   const filteredData = useMemo(() => {
@@ -281,9 +283,6 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   const chainInfo = useConfiguredChain(chainId || -1);
   const chainName = chain?.slug || chainInfo?.slug;
   const rpc = chain?.rpc[0] || chainInfo?.rpc[0];
-
-  const [environment, setEnvironment] = useState<CodeEnvironment>("react");
-  const [tab, setTab] = useState("write");
 
   const functions = useContractFunctions(abi as Abi);
   const events = useContractEvents(abi as Abi);
