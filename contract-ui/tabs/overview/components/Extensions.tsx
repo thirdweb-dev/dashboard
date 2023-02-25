@@ -1,7 +1,6 @@
 import { useContractEnabledExtensions } from "../../../../components/contract-components/hooks";
-import { Flex, Icon, Image, List, ListItem } from "@chakra-ui/react";
+import { Flex, Image, List, ListItem } from "@chakra-ui/react";
 import { ContractInterface } from "ethers";
-import { FcCheckmark } from "react-icons/fc";
 import { Heading, Text, TrackedLink } from "tw-components";
 
 type ExtensionsProps = {

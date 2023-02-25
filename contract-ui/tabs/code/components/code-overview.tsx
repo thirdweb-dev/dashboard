@@ -40,9 +40,6 @@ import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
-import { BsCheckLg } from "react-icons/bs";
-import { FiCheck } from "react-icons/fi";
-import { MdCheck } from "react-icons/md";
 import { Button, Card, Heading, Link, Text } from "tw-components";
 
 interface CodeOverviewProps {
