@@ -80,9 +80,7 @@ function App() {
 }
 
 function Component() {
-  // While isLoading is true, contract is undefined.
   const { contract, isLoading } = useContract("{{contract_address}}");
-  // Now you can use the contract in the rest of the component
 }`,
     web3button: ``,
     python: `from thirdweb import ThirdwebSDK
