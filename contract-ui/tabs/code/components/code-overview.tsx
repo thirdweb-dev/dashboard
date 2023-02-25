@@ -8,7 +8,7 @@ import {
   Box,
   Flex,
   GridItem,
-  Icon,
+  Image,
   List,
   ListItem,
   SimpleGrid,
@@ -40,7 +40,9 @@ import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
+import { BsCheckLg } from "react-icons/bs";
 import { FiCheck } from "react-icons/fi";
+import { MdCheck } from "react-icons/md";
 import { Button, Card, Heading, Link, Text } from "tw-components";
 
 interface CodeOverviewProps {
@@ -320,8 +322,6 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
     events && events.length > 0 ? events[0] : undefined,
   );
 
-  console.log({ foundExtensions });
-
   return (
     <SimpleGrid columns={12} gap={8} justifyContent="space-between">
       <GridItem
@@ -360,66 +360,76 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
         {!onlyInstall ? (
           <>
             {foundExtensions.length > 0 ? (
-              <Flex flexDirection="column" gap={6}>
-                <Flex flexDir="column" gap={2}>
-                  <Heading size="title.md">Extensions</Heading>
-                  <Text>
-                    This contract has the following extensions available, each
-                    providing a set of functions:
-                  </Text>
-                </Flex>
-                <SimpleGrid columns={1} gap={12}>
-                  {foundExtensions.map((extension) => {
-                    const extensionData: any[] = filteredData[
-                      extension
-                    ] as unknown as any[];
-                    return (
-                      <Flex
-                        key={extension}
-                        flexDirection="column"
-                        gap={3}
-                        id={extension}
-                      >
-                        <Heading size="title.sm">{extension}</Heading>
-
-                        <Accordion allowMultiple>
-                          {extensionData?.map((ext) => {
-                            return (
-                              <Box key={ext.name}>
-                                <AccordionItem
-                                  borderColor="gray.900"
-                                  borderBottom="none"
-                                >
-                                  <AccordionButton
-                                    justifyContent="space-between"
-                                    py={2}
-                                    px={0}
-                                  >
-                                    <Text size="label.md">{ext.summary}</Text>
-                                    <AccordionIcon />
-                                  </AccordionButton>
-                                  <AccordionPanel px={0} pt={0}>
-                                    <Flex flexDir="column" gap={4}>
-                                      <CodeSegment
-                                        environment={environment}
-                                        setEnvironment={setEnvironment}
-                                        snippet={formatSnippet(ext.examples, {
-                                          contractAddress,
-                                          chainName,
-                                        })}
-                                      />
-                                    </Flex>
-                                  </AccordionPanel>
-                                </AccordionItem>
-                              </Box>
-                            );
-                          })}
-                        </Accordion>
+              <SimpleGrid columns={1} gap={12}>
+                {foundExtensions.map((extension) => {
+                  const extensionData: any[] = filteredData[
+                    extension
+                  ] as unknown as any[];
+                  return (
+                    <Flex
+                      key={extension}
+                      flexDirection="column"
+                      gap={3}
+                      id={extension}
+                    >
+                      <Flex flexDir="column" gap={2}>
+                        <Flex gap={1} alignItems="center">
+                          <Image
+                            src="/assets/dashboard/extension-check.svg"
+                            alt="Extension detected"
+                            objectFit="contain"
+                            mb="2px"
+                          />
+                          <Text
+                            textTransform="uppercase"
+                            size="label.sm"
+                            letterSpacing={0.1}
+                          >
+                            Extension
+                          </Text>
+                        </Flex>
+                        <Heading size="title.md">{extension}</Heading>
                       </Flex>
-                    );
-                  })}
-                </SimpleGrid>
-              </Flex>
+
+                      <Accordion allowMultiple>
+                        {extensionData?.map((ext) => {
+                          return (
+                            <Box key={ext.name}>
+                              <AccordionItem
+                                borderColor="gray.900"
+                                borderBottom="none"
+                              >
+                                <AccordionButton
+                                  justifyContent="space-between"
+                                  py={2}
+                                  px={0}
+                                >
+                                  <Text size="label.md" opacity="0.9">
+                                    {ext.summary}
+                                  </Text>
+                                  <AccordionIcon />
+                                </AccordionButton>
+                                <AccordionPanel px={0} pt={0}>
+                                  <Flex flexDir="column" gap={4}>
+                                    <CodeSegment
+                                      environment={environment}
+                                      setEnvironment={setEnvironment}
+                                      snippet={formatSnippet(ext.examples, {
+                                        contractAddress,
+                                        chainName,
+                                      })}
+                                    />
+                                  </Flex>
+                                </AccordionPanel>
+                              </AccordionItem>
+                            </Box>
+                          );
+                        })}
+                      </Accordion>
+                    </Flex>
+                  );
+                })}
+              </SimpleGrid>
             ) : null}
             <Flex flexDirection="column" gap={6} id="functions-and-events">
               <Heading size="title.md">All Functions & Events</Heading>
@@ -640,10 +650,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
 
         {foundExtensions.map((ext) => (
           <Link key={ext} href={`#${ext}`}>
-            <Flex alignItems="center" gap={1}>
-              <Icon as={FiCheck} color="green.500" />
-              <Text size="body.md">{ext}</Text>
-            </Flex>
+            <Text size="body.md">{ext}</Text>
           </Link>
         ))}
 
