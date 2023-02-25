@@ -650,7 +650,15 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
 
         {foundExtensions.map((ext) => (
           <Link key={ext} href={`#${ext}`}>
-            <Text size="body.md">{ext}</Text>
+            <Flex gap={2}>
+              <Image
+                src="/assets/dashboard/extension-check.svg"
+                alt="Extension detected"
+                objectFit="contain"
+                mb="1px"
+              />
+              <Text size="body.md">{ext}</Text>
+            </Flex>
           </Link>
         ))}
 
