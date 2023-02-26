@@ -40,6 +40,7 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk/evm";
+import { SnippetApiResponse } from "components/contract-tabs/code/types";
 import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
@@ -681,4 +682,26 @@ export function fetchEns(queryClient: QueryClient, addressOrEnsName: string) {
 
 export function useContractFunctions(abi: Abi) {
   return abi ? extractFunctionsFromAbi(abi) : undefined;
+}
+
+export function useContractEvents(abi: Abi) {
+  return abi ? extractEventsFromAbi(abi) : undefined;
+}
+
+export function useFeatureContractCodeSnippetQuery(language: string) {
+  if (language === "javascript") {
+    language = "sdk";
+  }
+
+  // Do this until we fix unity snippets
+  if (language === "unity") {
+    language = "";
+  }
+
+  return useQuery(["feature-code-snippet", language], async () => {
+    const res = await fetch(
+      `https://raw.githubusercontent.com/thirdweb-dev/docs/main/docs/feature_snippets_${language}.json`,
+    );
+    return (await res.json()) as SnippetApiResponse;
+  });
 }

@@ -37,9 +37,9 @@ const features: FeatureCardProps[] = [
   },
 
   {
-    title: "Composable.",
+    title: "No vendor lock-in.",
     description:
-      "Our tools are designed to allow developers to assemble and reassemble different parts of our tools and provide their own configurations. No vendor lock-in.",
+      "Our tools are fully composable. They are designed to allow developers to assemble and reassemble different parts of our tools and provide their own configurations.",
   },
 ];
 
@@ -59,7 +59,7 @@ const ValueCard: React.FC<FeatureCardProps> = ({ title, description }) => {
 
 export const ValuesSection: React.FC = () => {
   return (
-    <HomepageSection my={24} px={{ base: 4, lg: 0 }}>
+    <HomepageSection my={24}>
       <Heading
         as="h3"
         fontSize={{ base: "32px", md: "48px" }}
