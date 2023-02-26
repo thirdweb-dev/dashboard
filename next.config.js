@@ -8,7 +8,7 @@ const ContentSecurityPolicy = `
   frame-src * data:;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' *.thirdweb.com vercel.live;
   connect-src * data: blob:;
-  worker-src: blob:;
+  worker-src 'self' blob:;
   block-all-mixed-content;
 `;
 
