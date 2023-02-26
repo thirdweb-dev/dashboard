@@ -106,7 +106,7 @@ module.exports = withPlausibleProxy({
     wSentry(
       moduleExports,
       { silent: true, debug: false },
-      { tunnelRoute: "/st", hideSourceMaps: true, widenClientFileUpload: true },
+      { hideSourceMaps: true, widenClientFileUpload: true },
     ),
   ),
 );
