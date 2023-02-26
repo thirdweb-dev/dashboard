@@ -105,8 +105,8 @@ module.exports = withPlausibleProxy({
   withBundleAnalyzer(
     wSentry(
       moduleExports,
-      { silent: true },
-      { tunnelRoute: "/st", hideSourceMaps: true },
+      { silent: true, debug: false },
+      { tunnelRoute: "/st", hideSourceMaps: true, widenClientFileUpload: true },
     ),
   ),
 );
