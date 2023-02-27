@@ -257,7 +257,7 @@ export function useContractRouteConfig(
       isEnabled: extensionDetectedState({
         contractQuery,
         matchStrategy: "any",
-        feature: ["AppURI"],
+        feature: ["AppURI", "ContractMetadata"],
       }),
       component: LazyCustomContractAppPage,
     },
