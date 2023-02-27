@@ -33,15 +33,21 @@ export const BuildSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
+            size={{ width: "150%", height: "200%" }}
             pos={{ top: "80%", left: "0%" }}
-            color="#380D3F60"
+            color="#805AA860"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
+            size={{ width: "150%", height: "200%" }}
             pos={{ top: "0%", left: "10%" }}
-            color="#380D3F60"
+            color="#805AA860"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "50%", left: "90%" }}
+            color="#805AA860"
           />
           <Flex
             w="full"
@@ -90,21 +96,21 @@ export const BuildSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
+            size={{ width: "150%", height: "200%" }}
             pos={{ top: "20%", left: "100%" }}
-            color="#380D3F60"
+            color="#805AA860"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
+            size={{ width: "150%", height: "200%" }}
             pos={{ top: "0%", left: "0%" }}
-            color="#380D3F60"
+            color="#805AA860"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
-            pos={{ top: "100%", left: "0%" }}
-            color="#380D3F60"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "100%", left: "30%" }}
+            color="#805AA860"
           />
           <Flex
             w="full"
@@ -155,15 +161,21 @@ export const BuildSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "150%" }}
-            pos={{ top: "50%", left: "75%" }}
-            color="#380D3F60"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "70%", left: "100%" }}
+            color="#805AA860"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "150%" }}
-            pos={{ top: "50%", left: "0%" }}
-            color="#380D3F60"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "30%", left: "50%" }}
+            color="#805AA860"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "40%", left: "0%" }}
+            color="#805AA860"
           />
           <Flex
             h="full"
@@ -211,15 +223,15 @@ export const BuildSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "150%" }}
+            size={{ width: "150%", height: "200%" }}
             pos={{ top: "50%", left: "70%" }}
-            color="#380D3F60"
+            color="#805AA860"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "150%" }}
+            size={{ width: "150%", height: "200%" }}
             pos={{ top: "50%", left: "0%" }}
-            color="#380D3F60"
+            color="#805AA860"
           />
           <SimpleGrid
             columns={{ md: 2 }}
@@ -284,15 +296,15 @@ export const BuildSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "100%" }}
-            pos={{ top: "50%", left: "0%" }}
-            color="#380D3F60"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "40%", left: "0%" }}
+            color="#805AA860"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "100%", height: "200%" }}
-            pos={{ top: "70%", left: "80%" }}
-            color="#380D3F60"
+            size={{ width: "150%", height: "200%" }}
+            pos={{ top: "60%", left: "80%" }}
+            color="#805AA860"
           />
           <Heading
             as="h4"
