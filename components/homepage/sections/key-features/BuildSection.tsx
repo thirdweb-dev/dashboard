@@ -143,6 +143,64 @@ export const BuildSection: React.FC = () => {
             />
           </Flex>
         </LinkBox>
+        <GridItem
+          as={SimpleGrid}
+          columns={{ md: 2 }}
+          colSpan={{ md: 9 }}
+          h="full"
+          bg="#070707"
+          rounded="lg"
+          position="relative"
+          overflow="hidden"
+        >
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "150%" }}
+            pos={{ top: "50%", left: "75%" }}
+            color="#380D3F60"
+          />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "150%" }}
+            pos={{ top: "50%", left: "0%" }}
+            color="#380D3F60"
+          />
+          <Flex
+            h="full"
+            flexDir="column"
+            justify="center"
+            px={14}
+            py={12}
+            w="full"
+            gap={6}
+          >
+            <Heading
+              lineHeight="1.2"
+              size="label.xl"
+              fontSize="22"
+              textAlign={{ base: "center", md: "left" }}
+              as="h4"
+            >
+              <GradientText
+                category={TRACKING_CATEGORY}
+                label="infrastructure"
+                stopOne="#805AA8"
+                stopTwo="#BAA2D4"
+              >
+                Fully managed infrastructure services
+              </GradientText>{" "}
+              in a single toolkit to enable developers to build for scale
+            </Heading>
+          </Flex>
+          <Box px={14} py={10}>
+            <Image
+              h="full"
+              maxH={150}
+              src={require("/public/assets/landingpage/build-infrastructure.png")}
+              alt=""
+            />
+          </Box>
+        </GridItem>
         <LinkBox
           as={GridItem}
           colSpan={{ md: 6 }}
@@ -230,6 +288,12 @@ export const BuildSection: React.FC = () => {
             pos={{ top: "50%", left: "0%" }}
             color="#380D3F60"
           />
+          <Aurora
+            zIndex="auto"
+            size={{ width: "100%", height: "200%" }}
+            pos={{ top: "70%", left: "80%" }}
+            color="#380D3F60"
+          />
           <Heading
             as="h4"
             size="label.xl"
@@ -260,63 +324,6 @@ export const BuildSection: React.FC = () => {
             alt=""
           />
         </LinkBox>
-        <GridItem
-          colSpan={{ md: 9 }}
-          bg="#070707"
-          rounded="lg"
-          position="relative"
-          overflow="hidden"
-        >
-          <Aurora
-            zIndex="auto"
-            size={{ width: "100%", height: "150%" }}
-            pos={{ top: "50%", left: "75%" }}
-            color="#380D3F60"
-          />
-          <Aurora
-            zIndex="auto"
-            size={{ width: "100%", height: "150%" }}
-            pos={{ top: "50%", left: "0%" }}
-            color="#380D3F60"
-          />
-          <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
-            <Flex
-              h="full"
-              flexDir="column"
-              justify="center"
-              px={14}
-              py={12}
-              w="full"
-              gap={6}
-            >
-              <Heading
-                lineHeight="1.2"
-                size="label.xl"
-                fontSize="22"
-                textAlign={{ base: "center", md: "left" }}
-                as="h4"
-              >
-                <GradientText
-                  category={TRACKING_CATEGORY}
-                  label="infrastructure"
-                  stopOne="#805AA8"
-                  stopTwo="#BAA2D4"
-                >
-                  Fully managed infrastructure services
-                </GradientText>{" "}
-                in a single toolkit to enable developers to build for scale
-              </Heading>
-            </Flex>
-            <Box px={14} py={10}>
-              <Image
-                h="full"
-                maxH={150}
-                src={require("/public/assets/landingpage/build-infrastructure.png")}
-                alt=""
-              />
-            </Box>
-          </SimpleGrid>
-        </GridItem>
       </SimpleGrid>
     </KeyFeatureLayout>
   );
