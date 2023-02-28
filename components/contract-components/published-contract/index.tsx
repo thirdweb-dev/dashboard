@@ -10,6 +10,7 @@ import {
   usePublisherProfile,
 } from "../hooks";
 import { PublisherHeader } from "../publisher/publisher-header";
+import { AddressesModal, ImplementationsModal } from "./addresses-modal";
 import { MarkdownRenderer } from "./markdown-renderer";
 import {
   Divider,
@@ -205,6 +206,26 @@ Deploy it in one click`,
     return `${publishedContractName} | Published Smart Contract`;
   }, [extensionNames, publishedContractName]);
 
+  const implementationAddresses = useMemo(
+    () =>
+      publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData
+        ?.implementationAddresses,
+    [
+      publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData
+        ?.implementationAddresses,
+    ],
+  );
+
+  const factoryAddresses = useMemo(
+    () =>
+      publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData
+        ?.factoryAddresses,
+    [
+      publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData
+        ?.factoryAddresses,
+    ],
+  );
+
   return (
     <>
       <NextSeo
@@ -365,23 +386,20 @@ Deploy it in one click`,
                             : "Proxy"}{" "}
                           Enabled
                         </Heading>
-                        <Text size="body.md" lineHeight={1.2}>
-                          {/* TODO open modal showing all contracts in publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData?.factoryAddresses */}
-                          <Link
-                            href=""
-                            isExternal
-                            _dark={{
-                              color: "blue.400",
-                              _hover: { color: "blue.500" },
-                            }}
-                            _light={{
-                              color: "blue.500",
-                              _hover: { color: "blue.500" },
-                            }}
-                          >
-                            Implementations
-                          </Link>
-                        </Text>
+                        {implementationAddresses ? (
+                          <AddressesModal
+                            chainAddressRecord={implementationAddresses}
+                            title="Implementations"
+                          />
+                        ) : null}
+                        {factoryAddresses &&
+                        publishedContractInfo.data?.publishedMetadata
+                          ?.isDeployableViaFactory ? (
+                          <AddressesModal
+                            chainAddressRecord={factoryAddresses}
+                            title="Factories"
+                          />
+                        ) : null}
                       </Flex>
                     </Flex>
                   </ListItem>
