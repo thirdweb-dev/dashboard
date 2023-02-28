@@ -10,7 +10,7 @@ import {
   usePublisherProfile,
 } from "../hooks";
 import { PublisherHeader } from "../publisher/publisher-header";
-import { AddressesModal, ImplementationsModal } from "./addresses-modal";
+import { AddressesModal } from "./addresses-modal";
 import { MarkdownRenderer } from "./markdown-renderer";
 import {
   Divider,
