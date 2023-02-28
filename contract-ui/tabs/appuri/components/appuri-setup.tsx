@@ -47,9 +47,9 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   const storageUpload = useStorageUpload();
   const { mutate: setAppURI } = useSetAppURI(contract);
 
-  const watchAppUri = form.watch("appURI");
+  const watchAppUri = form.watch("appURI") || "";
 
-  const iframeSrc = buildIframeSrc(replaceIpfsUrl(watchAppUri || ""));
+  const iframeSrc = buildIframeSrc(replaceIpfsUrl(watchAppUri));
 
   const embedCode = `<iframe
   src="${iframeSrc}"
