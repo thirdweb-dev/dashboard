@@ -49,7 +49,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
 
   const watchAppUri = form.watch("appURI");
 
-  const iframeSrc = buildIframeSrc(replaceIpfsUrl(watchAppUri));
+  const iframeSrc = buildIframeSrc(replaceIpfsUrl(watchAppUri || ""));
 
   const embedCode = `<iframe
   src="${iframeSrc}"
@@ -79,7 +79,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
             <FormControl>
               <InputGroup display="flex">
                 <Input
-                  placeholder="string"
+                  placeholder="ipfs://Qm..."
                   isDisabled={storageUpload.isLoading}
                   pr={{ base: "90px", md: "160px" }}
                   {...form.register("appURI")}
