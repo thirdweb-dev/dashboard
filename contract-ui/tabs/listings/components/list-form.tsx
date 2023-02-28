@@ -33,6 +33,7 @@ import {
   NewDirectListing,
 } from "@thirdweb-dev/sdk/evm";
 import { CurrencySelector } from "components/shared/CurrencySelector";
+import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { formatEther, parseEther } from "ethers/lib/utils";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -42,6 +43,7 @@ import { useForm } from "react-hook-form";
 import { FiInfo } from "react-icons/fi";
 import {
   Card,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Heading,
@@ -117,7 +119,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
 
   const { data: walletNFTs, isLoading: isWalletNFTsLoading } = useWalletNFTs();
 
-  const { watch, register, setValue, handleSubmit } = useForm<ListForm>({
+  const form = useForm<ListForm>({
     defaultValues: {
       selected: undefined,
       contractAddress: "",
@@ -133,7 +135,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
     },
   });
 
-  const { contract } = useContract(watch("contractAddress"));
+  const { contract } = useContract(form.watch("contractAddress"));
   const address = useAddress();
   const { data: ownedNFTs, isLoading: isOwnedNFTsLoading } = useOwnedNFTs(
     contract,
@@ -141,8 +143,8 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
   );
   const isSelected = (nft: WalletNFT) => {
     return (
-      watch("selected")?.tokenId === nft.tokenId &&
-      watch("selected")?.contractAddress === nft.contractAddress
+      form.watch("selected")?.tokenId === nft.tokenId &&
+      form.watch("selected")?.contractAddress === nft.contractAddress
     );
   };
 
@@ -150,11 +152,11 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
     return ownedNFTs?.map((nft) => {
       return {
         ...nft,
-        contractAddress: watch("contractAddress"),
+        contractAddress: form.watch("contractAddress"),
         tokenId: parseInt(nft.metadata.id),
       };
     }) as WalletNFT[];
-  }, [ownedNFTs, watch]);
+  }, [ownedNFTs, form]);
 
   const nfts = ownedWalletNFTs || walletNFTs?.result;
 
@@ -171,7 +173,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
       spacing={6}
       as="form"
       id={formId}
-      onSubmit={handleSubmit((formData) => {
+      onSubmit={form.handleSubmit((formData) => {
         if (!formData.selected) {
           return;
         }
@@ -287,11 +289,19 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
                 contract address of the NFT you want to list.
               </Text>
             </Stack>
-            <FormControl>
+            <FormControl isInvalid={!!form.formState.errors.contractAddress}>
               <Heading as={FormLabel} size="label.lg">
                 Contract address
               </Heading>
-              <Input {...register("contractAddress")} />
+              <SolidityInput
+                solidityType="address"
+                formContext={form}
+                {...form.register("contractAddress")}
+                placeholder=""
+              />
+              <FormErrorMessage>
+                {form.formState.errors.contractAddress?.message}
+              </FormErrorMessage>
               <FormHelperText>
                 This will display all the NFTs you own from this contract.
               </FormHelperText>
@@ -301,7 +311,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
         {isWalletNFTsLoading ||
         (isOwnedNFTsLoading &&
           !isSupportedChain &&
-          watch("contractAddress")) ? (
+          form.watch("contractAddress")) ? (
           <Center height="60px">
             <Spinner />
           </Center>
@@ -322,8 +332,8 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
                     cursor="pointer"
                     onClick={() =>
                       isSelected(nft)
-                        ? setValue("selected", undefined)
-                        : setValue("selected", nft)
+                        ? form.setValue("selected", undefined)
+                        : form.setValue("selected", nft)
                     }
                     outline={isSelected(nft) ? "3px solid" : undefined}
                     outlineColor={isSelected(nft) ? "purple.500" : undefined}
@@ -381,7 +391,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           <Heading as={FormLabel} size="label.lg">
             Listing Type
           </Heading>
-          <Select {...register("listingType")}>
+          <Select {...form.register("listingType")}>
             <option value="direct">Direct</option>
             <option value="auction">Auction</option>
           </Select>
@@ -396,8 +406,10 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
           Listing Currency
         </Heading>
         <CurrencySelector
-          value={watch("currencyContractAddress")}
-          onChange={(e) => setValue("currencyContractAddress", e.target.value)}
+          value={form.watch("currencyContractAddress")}
+          onChange={(e) =>
+            form.setValue("currencyContractAddress", e.target.value)
+          }
         />
         <FormHelperText>
           The currency you want to sell your tokens for.
@@ -405,37 +417,37 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
       </FormControl>
       <FormControl isRequired isDisabled={noNfts}>
         <Heading as={FormLabel} size="label.lg">
-          {watch("listingType") === "auction"
+          {form.watch("listingType") === "auction"
             ? "Buyout Price Per Token"
             : "Listing Price"}
         </Heading>
-        <Input {...register("buyoutPricePerToken")} />
+        <Input {...form.register("buyoutPricePerToken")} />
         <FormHelperText>
-          {watch("listingType") === "auction"
+          {form.watch("listingType") === "auction"
             ? "The price per token a buyer can pay to instantly buyout the auction."
             : "The price of each token you are listing for sale."}
         </FormHelperText>
       </FormControl>
-      {watch("selected")?.type?.toLowerCase() !== "erc721" && (
+      {form.watch("selected")?.type?.toLowerCase() !== "erc721" && (
         <FormControl isRequired isDisabled={noNfts}>
           <Stack justify="space-between" direction="row">
             <Heading as={FormLabel} size="label.lg">
               Quantity
             </Heading>
           </Stack>
-          <Input {...register("quantity")} />
+          <Input {...form.register("quantity")} />
           <FormHelperText>
             The number of tokens to list for sale.
           </FormHelperText>
         </FormControl>
       )}
-      {watch("listingType") === "auction" && (
+      {form.watch("listingType") === "auction" && (
         <>
           <FormControl isRequired isDisabled={noNfts}>
             <Heading as={FormLabel} size="label.lg">
               Reserve Price Per Token
             </Heading>
-            <Input {...register("reservePricePerToken")} />
+            <Input {...form.register("reservePricePerToken")} />
             <FormHelperText>
               The minimum price per token necessary to bid on this auction
             </FormHelperText>
@@ -444,14 +456,13 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
             <Heading as={FormLabel} size="label.lg">
               Auction Duration
             </Heading>
-            <Select {...register("listingDurationInSeconds")}>
+            <Select {...form.register("listingDurationInSeconds")}>
               {auctionTimes.map((time) => (
                 <option key={time.value} value={time.value}>
                   {time.label}
                 </option>
               ))}
             </Select>
-            {/*             <Input {...register("listingDurationInSeconds")} /> */}
             <FormHelperText>The duration of this auction.</FormHelperText>
           </FormControl>
         </>
