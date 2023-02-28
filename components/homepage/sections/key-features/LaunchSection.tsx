@@ -33,13 +33,13 @@ export const LaunchSection: React.FC = () => {
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "10%", left: "50%" }}
-            color="#E8A7D960"
+            color="#C45DC060"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "100%", left: "50%" }}
-            color="#E8A7D960"
+            color="#C45DC060"
           />
           <Flex
             position="relative"
@@ -92,13 +92,13 @@ export const LaunchSection: React.FC = () => {
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "10%", left: "50%" }}
-            color="#E8A7D960"
+            color="#C45DC060"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "100%", left: "50%" }}
-            color="#E8A7D960"
+            color="#C45DC060"
           />
           <Flex
             position="relative"
