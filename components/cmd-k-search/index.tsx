@@ -434,7 +434,7 @@ export const CmdKSearch: React.FC = () => {
               autoFocus
               border="none"
               borderRadius="none"
-              placeholder="Search any contract address"
+              placeholder="Search any contract"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
