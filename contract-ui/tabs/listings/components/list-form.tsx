@@ -1,4 +1,4 @@
-import { useEVMContractInfo } from "@3rdweb-sdk/react";
+import { useDashboardEVMChainId, useEVMContractInfo } from "@3rdweb-sdk/react";
 import { useWalletNFTs } from "@3rdweb-sdk/react/hooks/useWalletNFTs";
 import {
   Box,
@@ -17,11 +17,15 @@ import {
 } from "@chakra-ui/react";
 import {
   UseContractResult,
+  useAddress,
+  useContract,
   useContractType,
   useCreateAuctionListing,
   useCreateDirectListing,
+  useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import {
+  ChainId,
   Marketplace,
   MarketplaceV3,
   NATIVE_TOKEN_ADDRESS,
@@ -33,6 +37,7 @@ import { formatEther, parseEther } from "ethers/lib/utils";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { WalletNFT } from "lib/wallet/nfts/types";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FiInfo } from "react-icons/fi";
 import {
@@ -50,6 +55,8 @@ interface ListForm
   extends Omit<NewDirectListing, "type">,
     Omit<NewAuctionListing, "type"> {
   selected?: WalletNFT;
+  contractAddress: string;
+  tokenId: string;
   listingType: "direct" | "auction";
   listingDurationInSeconds: string;
   quantity: string;
@@ -75,6 +82,22 @@ const auctionTimes = [
   { label: "1 year", value: 60 * 60 * 24 * 365 },
 ];
 
+const supportedChains = [
+  ChainId.Mainnet,
+  ChainId.Goerli,
+  ChainId.Polygon,
+  ChainId.Mumbai,
+  ChainId.BinanceSmartChainMainnet,
+  ChainId.BinanceSmartChainTestnet,
+  ChainId.Arbitrum,
+  ChainId.ArbitrumGoerli,
+  ChainId.Optimism,
+  ChainId.OptimismGoerli,
+  ChainId.Fantom,
+  ChainId.Avalanche,
+  ChainId.AvalancheFujiTestnet,
+];
+
 export const CreateListingsForm: React.FC<NFTMintForm> = ({
   contractQuery,
   directList,
@@ -84,16 +107,21 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
 }) => {
   const trackEvent = useTrack();
   const network = useEVMContractInfo()?.chain;
+  const chainId = useDashboardEVMChainId();
+
+  const isSupportedChain = supportedChains.includes(chainId as ChainId);
 
   const { data: contractType } = useContractType(
     contractQuery?.contract?.getAddress(),
   );
 
-  const { data: nfts, isLoading: nftsLoading } = useWalletNFTs();
+  const { data: walletNFTs, isLoading: isWalletNFTsLoading } = useWalletNFTs();
 
   const { watch, register, setValue, handleSubmit } = useForm<ListForm>({
     defaultValues: {
       selected: undefined,
+      contractAddress: "",
+      tokenId: "",
       currencyContractAddress: NATIVE_TOKEN_ADDRESS,
       quantity: "1",
       buyoutPricePerToken: "0",
@@ -105,6 +133,12 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
     },
   });
 
+  const { contract } = useContract(watch("contractAddress"));
+  const address = useAddress();
+  const { data: ownedNFTs, isLoading: isOwnedNFTsLoading } = useOwnedNFTs(
+    contract,
+    address,
+  );
   const isSelected = (nft: WalletNFT) => {
     return (
       watch("selected")?.tokenId === nft.tokenId &&
@@ -112,7 +146,19 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
     );
   };
 
-  const noNfts = !nfts?.result?.length;
+  const ownedWalletNFTs: WalletNFT[] = useMemo(() => {
+    return ownedNFTs?.map((nft) => {
+      return {
+        ...nft,
+        contractAddress: watch("contractAddress"),
+        tokenId: parseInt(nft.metadata.id),
+      };
+    }) as WalletNFT[];
+  }, [ownedNFTs, watch]);
+
+  const nfts = ownedWalletNFTs || walletNFTs?.result;
+
+  const noNfts = !nfts?.length;
 
   const modalContext = useModalContext();
 
@@ -214,13 +260,54 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
         <FormHelperText mb="8px">
           Select the NFT you want to list for sale
         </FormHelperText>
-        {nftsLoading ? (
+        {!isSupportedChain ? (
+          <Flex flexDir="column" gap={4} mb={4}>
+            <Stack
+              direction="row"
+              bg="orange.50"
+              borderRadius="md"
+              borderWidth="1px"
+              borderColor="orange.100"
+              align="center"
+              padding="10px"
+              spacing={3}
+              _dark={{
+                bg: "orange.300",
+                borderColor: "orange.300",
+              }}
+            >
+              <Icon
+                as={FiInfo}
+                color="orange.400"
+                _dark={{ color: "orange.900" }}
+                boxSize={6}
+              />
+              <Text color="orange.800" _dark={{ color: "orange.900" }}>
+                This chain is not supported by our NFT API, please enter the
+                contract address of the NFT you want to list.
+              </Text>
+            </Stack>
+            <FormControl>
+              <Heading as={FormLabel} size="label.lg">
+                Contract address
+              </Heading>
+              <Input {...register("contractAddress")} />
+              <FormHelperText>
+                This will display all the NFTs you own from this contract.
+              </FormHelperText>
+            </FormControl>
+          </Flex>
+        ) : null}
+        {isWalletNFTsLoading ||
+        (isOwnedNFTsLoading &&
+          !isSupportedChain &&
+          watch("contractAddress")) ? (
           <Center height="60px">
             <Spinner />
           </Center>
-        ) : nfts?.result?.length ? (
+        ) : nfts && nfts.length !== 0 ? (
           <Flex gap={2} flexWrap="wrap">
-            {nfts.result.map((nft, id) => {
+            {nfts?.map((nft, id) => {
               return (
                 <Tooltip
                   bg="transparent"
@@ -253,7 +340,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               );
             })}
           </Flex>
-        ) : (
+        ) : nfts && nfts.length === 0 ? (
           <Stack
             direction="row"
             bg="orange.50"
@@ -287,7 +374,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
               .
             </Text>
           </Stack>
-        )}
+        ) : null}
       </FormControl>
       {contractType === "marketplace" ? (
         <FormControl isDisabled={noNfts}>
