@@ -114,7 +114,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 alignSelf="flex-end"
                 disabled={form.getFieldState("appURI").isDirty}
                 onClick={() => setAppURI({ uri: watchAppUri })}
-                bg="blue.500"
+                colorScheme="blue"
               >
                 Update
               </Button>
