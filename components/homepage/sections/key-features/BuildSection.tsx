@@ -28,28 +28,29 @@ export const BuildSection: React.FC = () => {
           colSpan={{ md: 4 }}
           bg="#070707"
           rounded="lg"
-          position="relative"
           overflow="hidden"
+          position="relative"
         >
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "80%", left: "0%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "0%", left: "10%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "50%", left: "90%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Flex
+            position="relative"
             w="full"
             h="full"
             flexDir="column"
@@ -91,26 +92,20 @@ export const BuildSection: React.FC = () => {
           colSpan={{ md: 5 }}
           bg="#070707"
           rounded="lg"
-          position="relative"
           overflow="hidden"
+          position="relative"
         >
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "20%", left: "100%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "0%", left: "0%" }}
-            color="#805AA860"
-          />
-          <Aurora
-            zIndex="auto"
-            size={{ width: "150%", height: "200%" }}
-            pos={{ top: "100%", left: "30%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Flex
             w="full"
@@ -118,6 +113,7 @@ export const BuildSection: React.FC = () => {
             flexDir="column"
             align="center"
             justify="space-between"
+            position="relative"
           >
             <Heading
               as="h4"
@@ -156,28 +152,29 @@ export const BuildSection: React.FC = () => {
           h="full"
           bg="#070707"
           rounded="lg"
-          position="relative"
           overflow="hidden"
+          position="relative"
         >
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "70%", left: "100%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "30%", left: "50%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "40%", left: "0%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Flex
+            position="relative"
             h="full"
             flexDir="column"
             justify="center"
@@ -204,7 +201,7 @@ export const BuildSection: React.FC = () => {
               in a single toolkit to enable developers to build for scale
             </Heading>
           </Flex>
-          <Box px={14} py={10}>
+          <Box px={14} py={10} position="relative">
             <Image
               h="full"
               maxH={150}
@@ -225,13 +222,13 @@ export const BuildSection: React.FC = () => {
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "50%", left: "70%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "50%", left: "0%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <SimpleGrid
             columns={{ md: 2 }}
@@ -298,43 +295,45 @@ export const BuildSection: React.FC = () => {
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "40%", left: "0%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
           <Aurora
             zIndex="auto"
             size={{ width: "150%", height: "200%" }}
             pos={{ top: "60%", left: "80%" }}
-            color="#805AA860"
+            color="#4F135860"
           />
-          <Heading
-            as="h4"
-            size="label.xl"
-            fontSize="22"
-            lineHeight="1.2"
-            pt={6}
-            pb={8}
-            px={10}
-          >
-            Plug-and-play frontend{" "}
-            <GradientText
-              as={LinkOverlay}
-              href="/ui-components"
-              category={TRACKING_CATEGORY}
-              label="ui_components"
-              stopOne="#805AA8"
-              stopTwo="#BAA2D4"
+          <Flex position="relative" flexDir="column">
+            <Heading
+              as="h4"
+              size="label.xl"
+              fontSize="22"
+              lineHeight="1.2"
+              pt={6}
+              pb={8}
+              px={10}
             >
-              web3 components
-            </GradientText>
-          </Heading>
-          <Image
-            pointerEvents="none"
-            pl={10}
-            pb={10}
-            w="full"
-            src={require("/public/assets/landingpage/build-ui-components.png")}
-            alt=""
-          />
+              Plug-and-play frontend{" "}
+              <GradientText
+                as={LinkOverlay}
+                href="/ui-components"
+                category={TRACKING_CATEGORY}
+                label="ui_components"
+                stopOne="#805AA8"
+                stopTwo="#BAA2D4"
+              >
+                web3 components
+              </GradientText>
+            </Heading>
+            <Image
+              pointerEvents="none"
+              pl={10}
+              pb={10}
+              w="full"
+              src={require("/public/assets/landingpage/build-ui_components.png")}
+              alt=""
+            />
+          </Flex>
         </LinkBox>
       </SimpleGrid>
     </KeyFeatureLayout>

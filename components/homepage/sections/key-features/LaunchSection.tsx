@@ -17,7 +17,7 @@ export const LaunchSection: React.FC = () => {
   return (
     <KeyFeatureLayout
       title="Launch"
-      titleGradient="linear-gradient(65deg, #C77FBE, #D19FD4)"
+      titleGradient="linear-gradient(65deg, #C35AB1, #E9A8D9)"
       headline="Simplified workflow to launch contracts on-chain."
       description="Deploy your contracts on-chain easily with a single command or through our Dashboard without requiring private keys."
     >
@@ -59,8 +59,8 @@ export const LaunchSection: React.FC = () => {
                   href="/deploy"
                   category={TRACKING_CATEGORY}
                   label="deploy"
-                  stopOne="#C77FBE"
-                  stopTwo="#D19FD4"
+                  stopOne="#C35AB1"
+                  stopTwo="#E9A8D9"
                 >
                   Deploy
                 </GradientText>
@@ -118,8 +118,8 @@ export const LaunchSection: React.FC = () => {
                   href="/publish"
                   category={TRACKING_CATEGORY}
                   label="release"
-                  stopOne="#C77FBE"
-                  stopTwo="#D19FD4"
+                  stopOne="#C35AB1"
+                  stopTwo="#E9A8D9"
                 >
                   Publish
                 </GradientText>
