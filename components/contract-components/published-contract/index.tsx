@@ -39,7 +39,7 @@ import { PublishedContractOG } from "og-lib/url-utils";
 import { useMemo } from "react";
 import { BiPencil } from "react-icons/bi";
 import { BsShieldCheck } from "react-icons/bs";
-import { VscBook, VscCalendar } from "react-icons/vsc";
+import { VscBook, VscCalendar, VscServer } from "react-icons/vsc";
 import invariant from "tiny-invariant";
 import {
   Card,
@@ -350,6 +350,42 @@ Deploy it in one click`,
                     </Flex>
                   </Flex>
                 </ListItem>
+                {publishedContractInfo.data?.publishedMetadata
+                  ?.isDeployableViaProxy ||
+                publishedContractInfo.data?.publishedMetadata
+                  ?.isDeployableViaFactory ? (
+                  <ListItem>
+                    <Flex gap={2} alignItems="flex-start">
+                      <Icon color="paragraph" as={VscServer} boxSize={5} />
+                      <Flex direction="column" gap={1}>
+                        <Heading as="h5" size="label.sm">
+                          {publishedContractInfo.data?.publishedMetadata
+                            ?.isDeployableViaFactory
+                            ? "Factory"
+                            : "Proxy"}{" "}
+                          Enabled
+                        </Heading>
+                        <Text size="body.md" lineHeight={1.2}>
+                          {/* TODO open modal showing all contracts in publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData?.factoryAddresses */}
+                          <Link
+                            href=""
+                            isExternal
+                            _dark={{
+                              color: "blue.400",
+                              _hover: { color: "blue.500" },
+                            }}
+                            _light={{
+                              color: "blue.500",
+                              _hover: { color: "blue.500" },
+                            }}
+                          >
+                            Implementations
+                          </Link>
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  </ListItem>
+                ) : null}
               </>
             </List>
           </Flex>
