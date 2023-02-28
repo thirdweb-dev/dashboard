@@ -1,24 +1,17 @@
 import {
-  Box,
-  Center,
+  Container,
   Flex,
   FormControl,
-  HStack,
-  Icon,
   Input,
   InputGroup,
-  InputRightElement,
   Stack,
 } from "@chakra-ui/react";
-import { useStorageUpload } from "@thirdweb-dev/react";
+import { useSetAppURI, useStorageUpload } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
-import { FileInput } from "components/shared/FileInput";
-import { useErrorHandler } from "contexts/error-handler";
 import { BaseContract } from "ethers";
-import { useEffect } from "react";
+import { replaceIpfsUrl } from "lib/sdk";
 import { useForm } from "react-hook-form";
-import { FiUpload } from "react-icons/fi";
-import { Button, Card, CodeBlock, FormLabel, Heading } from "tw-components";
+import { Button, Card, CodeBlock, Heading, Text } from "tw-components";
 
 interface AppURISetupProps {
   appURI?: string;
@@ -43,7 +36,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   appURI,
   contract,
 }) => {
-  const { register, watch, getValues, setValue, getFieldState } = useForm<{
+  const form = useForm<{
     appURI: string;
   }>({
     defaultValues: {
@@ -51,29 +44,21 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
     },
     reValidateMode: "onChange",
   });
+  const storageUpload = useStorageUpload();
+  const { mutate: setAppURI } = useSetAppURI(contract);
 
-  const iframeSrc = buildIframeSrc(appURI);
+  const watchAppUri = form.watch("appURI");
 
-  const { onError } = useErrorHandler();
-  const { mutate: upload, isLoading } = useStorageUpload();
-
-  const handleUpload = (file: File) => {
-    upload(
-      { data: [file] },
-      {
-        onSuccess: ([uri]) => setValue("appURI", uri, { shouldDirty: true }),
-        onError: (error) => onError(error, "Failed to upload file"),
-      },
-    );
-  };
+  const iframeSrc = buildIframeSrc(replaceIpfsUrl(watchAppUri));
 
   const embedCode = `<iframe
-src="${iframeSrc}"
-width="600px"
-height="600px"
-style="max-width:100%;"
-frameborder="0"
-></iframe>`;
+  src="${iframeSrc}"
+  width="600px"
+  height="600px"
+  style="max-width:100%;"
+  frameborder="0"
+></iframe>
+`;
 
   return (
     <Flex gap={8} direction="column">
@@ -83,10 +68,38 @@ frameborder="0"
         justifyContent="center"
         alignItems="center"
       >
-        <Stack as={Card} w="100%" maxWidth="768px">
-          <FormControl>
-            <HStack justifyContent="center" pb={4}>
-              <FormLabel flexGrow={1}>App URI</FormLabel>
+        <Container maxW="2xl" h="full">
+          <Flex flexDir="column" gap={4}>
+            <Flex flexDir="column" gap={2}>
+              <Heading size="title.lg" as="h1">
+                App URI
+              </Heading>
+              <Text>Set the App URI for your contract.</Text>
+            </Flex>
+            <FormControl>
+              <InputGroup display="flex">
+                <Input
+                  placeholder="string"
+                  isDisabled={storageUpload.isLoading}
+                  pr={{ base: "90px", md: "160px" }}
+                  {...form.register("appURI")}
+                />
+                {/*               <InputRightElement mx={1} width={{ base: "75px", md: "145px" }}>
+                  <IpfsUploadButton
+                    onUpload={(uri) =>
+                      form.setValue("appURI", uri, { shouldDirty: true })
+                    }
+                    storageUpload={storageUpload}
+                  >
+                    <Box display={{ base: "none", md: "block" }} mr={1} as="span">
+                      Upload to
+                    </Box>
+                    IPFS
+                  </IpfsUploadButton>
+                </InputRightElement> */}
+              </InputGroup>
+            </FormControl>
+            <Flex gap={2} justifyContent="flex-end">
               <Button
                 w="auto"
                 variant="outline"
@@ -94,60 +107,30 @@ frameborder="0"
                 onClick={() => window.open(iframeSrc, "_blank")}
                 p={2}
               >
-                Visit App
+                Preview
               </Button>
-            </HStack>
-            <InputGroup display="flex">
-              <Input
-                placeholder="string"
-                isDisabled={isLoading}
-                pr={{ base: "90px", md: "160px" }}
-                {...register("appURI")}
+              <Button
+                w="100px"
+                alignSelf="flex-end"
+                disabled={form.getFieldState("appURI").isDirty}
+                onClick={() => setAppURI({ uri: watchAppUri })}
+                bg="blue.500"
+              >
+                Update
+              </Button>
+            </Flex>
+            <Stack as={Card} w="100%" maxWidth="768px">
+              <Heading size="label.md">Embed Code</Heading>
+              <CodeBlock
+                canCopy={true}
+                whiteSpace="pre"
+                overflowX="auto"
+                code={embedCode}
+                language="markup"
               />
-              <InputRightElement mx={1} width={{ base: "75px", md: "145px" }}>
-                <FileInput setValue={handleUpload}>
-                  <Button
-                    size="sm"
-                    variant="solid"
-                    aria-label="Upload to IPFS"
-                    rightIcon={<Icon as={FiUpload} />}
-                    isLoading={isLoading}
-                  >
-                    <Box
-                      display={{ base: "none", md: "block" }}
-                      mr={1}
-                      as="span"
-                    >
-                      Upload to
-                    </Box>
-                    IPFS
-                  </Button>
-                </FileInput>
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
-          <Center>
-            <Button
-              variant="solid"
-              w="100px"
-              alignSelf="flex-end"
-              disabled={getFieldState("appURI").isDirty}
-              onClick={() => contract?.appURI.set(getValues("appURI"))}
-            >
-              Save
-            </Button>
-          </Center>
-          <Stack as={Card} w="100%" maxWidth="768px">
-            <Heading size="label.md">Embed Code</Heading>
-            <CodeBlock
-              canCopy={true}
-              whiteSpace="pre"
-              overflowX="auto"
-              code={embedCode}
-              language="markup"
-            />
-          </Stack>
-        </Stack>
+            </Stack>
+          </Flex>
+        </Container>
       </Flex>
     </Flex>
   );
