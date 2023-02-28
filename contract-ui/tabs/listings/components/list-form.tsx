@@ -283,7 +283,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
                 boxSize={6}
               />
               <Text color="orange.800" _dark={{ color: "orange.900" }}>
-                This chain is not supported by our NFT API, please enter the
+                This chain is not supported by our NFT API yet, please enter the
                 contract address of the NFT you want to list.
               </Text>
             </Stack>
