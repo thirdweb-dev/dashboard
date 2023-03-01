@@ -1,5 +1,4 @@
 import { useContractMetadataWithAddress, useWeb3 } from "@3rdweb-sdk/react";
-import { useContractExtensions } from "@3rdweb-sdk/react/hooks/useContractExtensions";
 import {
   Box,
   Flex,
@@ -215,26 +214,6 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
           {metadataQuery.data?.name || shortenIfAddress(cell.address)}
         </Text>
       </ChakraNextLink>
-    </Skeleton>
-  );
-};
-
-interface AsyncContractExtensionsCellProps {
-  cell: ContractWithMetadata;
-}
-
-const AsyncContractExtensionsCell: React.FC<
-  AsyncContractExtensionsCellProps
-> = ({ cell }) => {
-  const extensionsQuery = useContractExtensions(
-    cell.address,
-    cell.extensions,
-    cell.chainId,
-  );
-
-  return (
-    <Skeleton isLoaded={!extensionsQuery.isLoading}>
-      <Text size="label.md">{extensionsQuery.data?.[0]}</Text>
     </Skeleton>
   );
 };

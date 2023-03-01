@@ -15,15 +15,7 @@ import { BaseContract } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useForm } from "react-hook-form";
-import {
-  Badge,
-  Button,
-  Card,
-  CodeBlock,
-  Heading,
-  LinkButton,
-  Text,
-} from "tw-components";
+import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
 
 interface AppURISetupProps {
   appURI?: string;
