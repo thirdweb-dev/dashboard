@@ -99,13 +99,18 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <InputGroup size="md">
                       <Flex flexDir="column" w="full">
                         <SolidityInput
-                          solidityType={param.type}
+                          solidityType={
+                            param.type === "address" ? "string" : param.type
+                          }
                           placeholder={
                             isMobile
                               ? "Pre-filled value."
                               : "This value will be pre-filled in the deploy form."
                           }
                           {...form.register(
+                            `constructorParams.${param.name}.defaultValue`,
+                          )}
+                          value={form.watch(
                             `constructorParams.${param.name}.defaultValue`,
                           )}
                         />
@@ -130,9 +135,20 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               padding="3"
                               paddingY="3.5"
                               onClick={() => {
+                                console.log({
+                                  watch: form.watch(
+                                    `constructorParams.${param.name}.defaultValue`,
+                                  ),
+                                });
                                 form.setValue(
                                   `constructorParams.${param.name}.defaultValue`,
                                   paramTemplateValues[0].value,
+                                  {
+                                    shouldDirty: true,
+                                  },
+                                );
+                                form.watch(
+                                  `constructorParams.${param.name}.defaultValue`,
                                 );
                               }}
                               bgColor="gray.700"
