@@ -92,6 +92,10 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings,
       }}
+      authConfig={{
+        domain: "thirdweb.com",
+        authUrl: "/api/auth",
+      }}
       thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
       storageInterface={StorageSingleton}
       walletConnectors={walletConnectors}
