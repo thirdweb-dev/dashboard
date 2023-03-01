@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Container,
   Flex,
   FormControl,
@@ -8,10 +10,20 @@ import {
 } from "@chakra-ui/react";
 import { useSetAppURI, useStorageUpload } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
+import { TransactionButton } from "components/buttons/TransactionButton";
 import { BaseContract } from "ethers";
+import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useForm } from "react-hook-form";
-import { Button, Card, CodeBlock, Heading, Text } from "tw-components";
+import {
+  Badge,
+  Button,
+  Card,
+  CodeBlock,
+  Heading,
+  LinkButton,
+  Text,
+} from "tw-components";
 
 interface AppURISetupProps {
   appURI?: string;
@@ -36,16 +48,18 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   appURI,
   contract,
 }) => {
+  const paramUri = useSingleQueryParam("uri") || "";
+
   const form = useForm<{
     appURI: string;
   }>({
     defaultValues: {
-      appURI,
+      appURI: `ipfs://${paramUri}` || appURI || "",
     },
     reValidateMode: "onChange",
   });
   const storageUpload = useStorageUpload();
-  const { mutate: setAppURI } = useSetAppURI(contract);
+  const { mutate: setAppURI, isLoading } = useSetAppURI(contract);
 
   const watchAppUri = form.watch("appURI") || "";
 
@@ -71,17 +85,33 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
         <Container maxW="2xl" h="full">
           <Flex flexDir="column" gap={4}>
             <Flex flexDir="column" gap={2}>
-              <Heading size="title.lg" as="h1">
-                App URI
-              </Heading>
+              <Flex justifyContent="space-between">
+                <Heading size="title.lg" as="h1">
+                  App URI
+                </Heading>
+                <LinkButton
+                  href={replaceIpfsUrl(watchAppUri)}
+                  colorScheme="blue"
+                  isExternal
+                  variant="outline"
+                >
+                  Preview App
+                </LinkButton>
+              </Flex>
               <Text>Set the App URI for your contract.</Text>
+              {paramUri ? (
+                <Alert status="info" borderRadius="lg">
+                  <AlertIcon />
+                  New app detected, now you can execute the transaction and
+                  update the app uri on your app.
+                </Alert>
+              ) : null}
             </Flex>
             <FormControl>
               <InputGroup display="flex">
                 <Input
                   placeholder="ipfs://Qm..."
                   isDisabled={storageUpload.isLoading}
-                  pr={{ base: "90px", md: "160px" }}
                   {...form.register("appURI")}
                 />
                 {/*               <InputRightElement mx={1} width={{ base: "75px", md: "145px" }}>
@@ -100,26 +130,18 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
               </InputGroup>
             </FormControl>
             <Flex gap={2} justifyContent="flex-end">
-              <Button
-                w="auto"
-                variant="outline"
-                justifySelf="flex-end"
-                onClick={() => window.open(iframeSrc, "_blank")}
-                p={2}
-              >
-                Preview
-              </Button>
-              <Button
-                w="100px"
+              <TransactionButton
                 alignSelf="flex-end"
                 disabled={form.getFieldState("appURI").isDirty}
                 onClick={() => setAppURI({ uri: watchAppUri })}
                 colorScheme="blue"
+                isLoading={isLoading}
+                transactionCount={1}
               >
                 Update
-              </Button>
+              </TransactionButton>
             </Flex>
-            <Stack as={Card} w="100%" maxWidth="768px">
+            <Stack as={Card} w="100%" gap={2}>
               <Heading size="label.md">Embed Code</Heading>
               <CodeBlock
                 canCopy={true}

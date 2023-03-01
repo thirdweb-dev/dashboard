@@ -1,8 +1,6 @@
+import { NoWallet } from "./no-wallet";
 import { useAllContractList } from "@3rdweb-sdk/react";
-import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
-  Container,
-  Divider,
   Flex,
   Tab,
   TabList,
@@ -18,7 +16,7 @@ import { PublishedContracts } from "components/contract-components/tables/publis
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
+import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -68,19 +66,7 @@ const Contracts: ThirdwebNextPage = () => {
               </TabPanels>
             </Tabs>
           ) : (
-            <Container maxW="lg">
-              <Card p={6} as={Flex} flexDir="column" gap={2}>
-                <Heading as="h2" size="title.sm">
-                  Please connect your wallet
-                </Heading>
-                <Text>
-                  In order to interact with your contracts you need to connect
-                  an EVM compatible wallet.
-                </Text>
-                <Divider my={4} />
-                <ConnectWallet ecosystem="evm" />
-              </Card>
-            </Container>
+            <NoWallet ecosystem="evm" />
           )}
         </>
       )}

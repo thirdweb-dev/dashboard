@@ -20,8 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import {
-  ChainId,
-  CommonContractOutputSchema,
   ContractType,
   ContractWithMetadata,
   PrebuiltContractType,
@@ -192,12 +190,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
 };
 
 interface ContractTableProps {
-  combinedList: {
-    chainId: ChainId;
-    address: string;
-    contractType: () => Promise<ContractType>;
-    metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
-  }[];
+  combinedList: ContractWithMetadata[];
   isFetching?: boolean;
 }
 
@@ -436,14 +429,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 };
 
 interface AsyncContractNameCellProps {
-  cell: {
-    address: string;
-    chainId: number;
-    contractType: ContractType;
-    metadata: () => Promise<
-      z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
-    >;
-  };
+  cell: ContractWithMetadata;
 }
 
 const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
