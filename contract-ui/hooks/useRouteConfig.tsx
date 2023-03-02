@@ -62,11 +62,6 @@ const LazyContractPermissionsPage = dynamic(() =>
     ({ ContractPermissionsPage }) => ContractPermissionsPage,
   ),
 );
-const LazyCustomContractEmbedPage = dynamic(() =>
-  import("../tabs/embed/page").then(
-    ({ CustomContractEmbedPage }) => CustomContractEmbedPage,
-  ),
-);
 const LazyContractCodePage = dynamic(() =>
   import("../tabs/code/page").then(({ ContractCodePage }) => ContractCodePage),
 );
@@ -214,42 +209,6 @@ export function useContractRouteConfig(
         feature: ["Permissions", "PermissionsEnumerable"],
       }),
       component: LazyContractPermissionsPage,
-    },
-    {
-      title: "Embed",
-      path: "embed",
-      component: LazyCustomContractEmbedPage,
-      isEnabled: contractTypeQuery.isLoading
-        ? "loading"
-        : contractTypeQuery.data === "marketplace"
-        ? "enabled"
-        : extensionDetectedState({
-            contractQuery,
-            matchStrategy: "any",
-            feature: [
-              // erc 721
-              "ERC721ClaimPhasesV1",
-              "ERC721ClaimPhasesV2",
-              "ERC721ClaimConditionsV1",
-              "ERC721ClaimConditionsV2",
-
-              // erc 1155
-              "ERC1155ClaimPhasesV1",
-              "ERC1155ClaimPhasesV2",
-              "ERC1155ClaimConditionsV1",
-              "ERC1155ClaimConditionsV2",
-
-              // erc 20
-              "ERC20ClaimConditionsV1",
-              "ERC20ClaimConditionsV2",
-              "ERC20ClaimPhasesV1",
-              "ERC20ClaimPhasesV2",
-
-              // marketplace v3
-              "DirectListings",
-              "EnglishAuctions",
-            ],
-          }),
     },
     {
       title: "App",

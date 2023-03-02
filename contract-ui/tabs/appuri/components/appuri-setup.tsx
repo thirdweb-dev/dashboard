@@ -1,3 +1,4 @@
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import {
   Alert,
   AlertIcon,
@@ -16,6 +17,7 @@ import {
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BaseContract } from "ethers";
+import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect } from "react";
@@ -27,24 +29,12 @@ interface AppURISetupProps {
   contract: SmartContract<BaseContract> | undefined;
 }
 
-const buildIframeSrc = (appUri: string | undefined): string => {
-  if (!appUri) {
-    return "";
-  }
-  appUri = appUri.startsWith("ipfs://")
-    ? `${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/${appUri.replace(
-        "ipfs://",
-        "",
-      )}`
-    : appUri;
-
-  return appUri;
-};
-
 export const AppURISetup: React.FC<AppURISetupProps> = ({
   appURI,
   contract,
 }) => {
+  const chainId = useDashboardEVMChainId();
+  const chainSlug = useChainSlug(chainId?.toString() || "0");
   const { contract: realContract } = useContract(contract?.getAddress());
   const form = useForm<{
     appURI: string;
@@ -59,10 +49,8 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
 
   const watchAppUri = form.watch("appURI") || "";
 
-  const iframeSrc = buildIframeSrc(replaceIpfsUrl(watchAppUri));
-
   const embedCode = `<iframe
-  src="${iframeSrc}"
+  src="https://${contract?.getAddress()}-${chainSlug}.third.app"
   width="600px"
   height="600px"
   style="max-width:100%;"
@@ -94,10 +82,10 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
             <Flex flexDir="column" gap={2}>
               <Flex justifyContent="space-between">
                 <Heading size="title.lg" as="h1">
-                  App URI
+                  App
                 </Heading>
                 <LinkButton
-                  href={replaceIpfsUrl(watchAppUri)}
+                  href={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
                   colorScheme="blue"
                   isExternal
                   variant="outline"
@@ -105,7 +93,8 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                   Preview App
                 </LinkButton>
               </Flex>
-              <Text>Set the App URI for your contract.</Text>
+              <Text>Set the official App URI for your contract.</Text>
+              <Text>Use npx thirdweb deploy --app to deploy a project</Text>
             </Flex>
             <FormControl>
               <InputGroup display="flex">
@@ -114,19 +103,6 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                   isDisabled={storageUpload.isLoading}
                   {...form.register("appURI")}
                 />
-                {/*               <InputRightElement mx={1} width={{ base: "75px", md: "145px" }}>
-                  <IpfsUploadButton
-                    onUpload={(uri) =>
-                      form.setValue("appURI", uri, { shouldDirty: true })
-                    }
-                    storageUpload={storageUpload}
-                  >
-                    <Box display={{ base: "none", md: "block" }} mr={1} as="span">
-                      Upload to
-                    </Box>
-                    IPFS
-                  </IpfsUploadButton>
-                </InputRightElement> */}
               </InputGroup>
             </FormControl>
             <Flex gap={2} justifyContent="flex-end">
