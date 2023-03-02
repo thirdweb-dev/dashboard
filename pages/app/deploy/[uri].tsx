@@ -1,11 +1,12 @@
 import { useAllContractList } from "@3rdweb-sdk/react";
-import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Spinner, VStack } from "@chakra-ui/react";
 import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { ContractWithMetadata } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { AppDeployTable } from "components/contract-components/tables/app-deploy";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
+import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { NoWallet } from "pages/dashboard/no-wallet";
 import { useCallback, useEffect, useState } from "react";
@@ -13,8 +14,10 @@ import { Button, Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const DeployAppUri: ThirdwebNextPage = () => {
-  const sdk = useSDK();
+  const router = useRouter();
+
   const uri = useSingleQueryParam("uri");
+  const sdk = useSDK();
   const address = useAddress();
   const allContractList = useAllContractList(address);
   const [selectedContract, setSelectedContract] =
@@ -25,18 +28,27 @@ const DeployAppUri: ThirdwebNextPage = () => {
     if (selectedContract && selectedContract.address && uri) {
       setIsSaving(true);
       const contract = await sdk?.getContract(selectedContract.address);
+      // eslint-disable-next-line no-console
+      console.log({ sdk });
       if (contract) {
         try {
-          await contract.app.set(`ipfs://${uri}`);
+          console.log("setting uri", `ipfs://${uri}`);
+          const result = await contract.app.set(`ipfs://${uri}`);
+          // eslint-disable-next-line no-console
+          console.log({ result });
+          router.push(
+            `/${selectedContract.chainId}/${selectedContract.address}/appuri`,
+          );
         } catch (e) {
           // eslint-disable-next-line no-console
           console.log(e);
         } finally {
+          setSelectedContract(undefined);
           setIsSaving(false);
         }
       }
     }
-  }, [selectedContract, sdk, uri, setIsSaving]);
+  }, [selectedContract, sdk, uri, setIsSaving, router]);
 
   return (
     <Flex flexDir="column" gap={4}>
@@ -53,8 +65,10 @@ const DeployAppUri: ThirdwebNextPage = () => {
       <Text>Select one of your contracts to assign this app to:</Text>
       {isSaving ? (
         <Center>
-          <Spinner />
-          <Text>Setting app URI...</Text>
+          <VStack>
+            <Spinner />
+            <Text>Setting app URI...</Text>
+          </VStack>
         </Center>
       ) : address ? (
         <>
@@ -114,6 +128,3 @@ DeployAppUri.getLayout = (page, props) => (
 DeployAppUri.pageId = PageId.DeployAppUri;
 
 export default DeployAppUri;
-function setiSSaving(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
