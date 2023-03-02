@@ -1,19 +1,42 @@
 import { useAllContractList } from "@3rdweb-sdk/react";
-import { Flex } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
+import { useAddress, useSDK } from "@thirdweb-dev/react";
+import { ContractWithMetadata } from "@thirdweb-dev/sdk";
 import { AppLayout } from "components/app-layouts/app";
 import { AppDeployTable } from "components/contract-components/tables/app-deploy";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
 import { PageId } from "page-id";
 import { NoWallet } from "pages/dashboard/no-wallet";
-import { Heading, LinkButton, Text } from "tw-components";
+import { useCallback, useEffect, useState } from "react";
+import { Button, Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const DeployAppUri: ThirdwebNextPage = () => {
+  const sdk = useSDK();
   const uri = useSingleQueryParam("uri");
   const address = useAddress();
   const allContractList = useAllContractList(address);
+  const [selectedContract, setSelectedContract] =
+    useState<ContractWithMetadata>();
+  const [isSaving, setIsSaving] = useState(false);
+
+  const setAppURIOnContract = useCallback(async () => {
+    if (selectedContract && selectedContract.address && uri) {
+      setIsSaving(true);
+      const contract = await sdk?.getContract(selectedContract.address);
+      if (contract) {
+        try {
+          await contract.app.set(`ipfs://${uri}`);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.log(e);
+        } finally {
+          setIsSaving(false);
+        }
+      }
+    }
+  }, [selectedContract, sdk, uri, setIsSaving]);
 
   return (
     <Flex flexDir="column" gap={4}>
@@ -28,8 +51,56 @@ const DeployAppUri: ThirdwebNextPage = () => {
         </LinkButton>
       </Flex>
       <Text>Select one of your contracts to assign this app to:</Text>
-      {address ? (
-        <AppDeployTable combinedList={allContractList.data} />
+      {isSaving ? (
+        <Center>
+          <Spinner />
+          <Text>Setting app URI...</Text>
+        </Center>
+      ) : address ? (
+        <>
+          <Box>Pick a contract</Box>
+          <Box>
+            {!selectedContract ? (
+              <>
+                <AppDeployTable
+                  combinedList={allContractList.data}
+                  onSelect={(row) => {
+                    // eslint-disable-next-line no-console
+                    console.log("onSelect", row);
+                    setSelectedContract(row);
+                  }}
+                />
+                <Center mt={4}>OR</Center>
+                <Center mt={4}>
+                  <Button>Deploy a new contract</Button>
+                </Center>
+              </>
+            ) : (
+              <Center>
+                <Box>
+                  <Text>Contract Address: {selectedContract.address}</Text>
+                  <Text>ChainId: {selectedContract.chainId}</Text>
+                  <Button
+                    m={2}
+                    onClick={() => {
+                      setSelectedContract(undefined);
+                      setIsSaving(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    m={2}
+                    colorScheme={"blue"}
+                    onClick={setAppURIOnContract}
+                  >
+                    Set AppURI
+                  </Button>
+                </Box>
+              </Center>
+            )}
+          </Box>
+        </>
       ) : (
         <NoWallet ecosystem="evm" />
       )}
@@ -43,3 +114,6 @@ DeployAppUri.getLayout = (page, props) => (
 DeployAppUri.pageId = PageId.DeployAppUri;
 
 export default DeployAppUri;
+function setiSSaving(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}

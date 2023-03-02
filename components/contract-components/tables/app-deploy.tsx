@@ -26,6 +26,7 @@ import { shortenIfAddress } from "utils/usedapp-external";
 
 interface AppDeployTableProps {
   combinedList: ContractWithMetadata[];
+  onSelect?: (row: any) => void;
   isFetching?: boolean;
 }
 
@@ -33,6 +34,7 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
   combinedList,
   children,
   isFetching,
+  onSelect,
 }) => {
   const { getNetworkMetadata } = useWeb3();
   const configuredChains = useConfiguredChains();
@@ -46,13 +48,6 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
           return <AsyncContractNameCell cell={cell.row.original} />;
         },
       },
-      /*       {
-        Header: "Extensions",
-        accessor: (row) => row.extensions,
-        Cell: (cell: any) => {
-          return <AsyncContractExtensionsCell cell={cell.row.original} />;
-        },
-      }, */
       {
         Header: "Network",
         accessor: (row) => row.chainId,
@@ -103,7 +98,8 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
       p={0}
       overflowX="auto"
       position="relative"
-      overflowY="hidden"
+      overflowY="auto"
+      maxHeight="400px"
     >
       {isFetching && (
         <Spinner
@@ -138,6 +134,7 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
               <AppDeployTableRow
                 row={row}
                 key={row.original.address + row.original.chainId}
+                onSelect={onSelect}
               />
             );
           })}
@@ -148,9 +145,10 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
   );
 };
 
-const AppDeployTableRow: React.FC<{ row: Row<ContractWithMetadata> }> = ({
-  row,
-}) => {
+const AppDeployTableRow: React.FC<{
+  row: Row<ContractWithMetadata>;
+  onSelect: (row: any) => void;
+}> = ({ row, onSelect }) => {
   const router = useRouter();
   const uri = useSingleQueryParam("uri");
   const chainSlug = useChainSlug(row.original.chainId);
@@ -162,7 +160,10 @@ const AppDeployTableRow: React.FC<{ row: Row<ContractWithMetadata> }> = ({
       // this is a hack to get around the fact that safari does not handle position: relative on table rows
       style={{ cursor: "pointer" }}
       onClick={() => {
-        router.push(`/${chainSlug}/${row.original.address}/appuri?uri=${uri}`);
+        // router.push(`/${chainSlug}/${row.original.address}/appuri?uri=${uri}`);
+        if (onSelect) {
+          onSelect(row.original);
+        }
       }}
       // end hack
       borderBottomWidth={1}
@@ -201,19 +202,14 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
 
   return (
     <Skeleton isLoaded={!metadataQuery.isLoading}>
-      <ChakraNextLink
-        href={`/${chainSlug}/${cell.address}/appuri?uri=${uri}`}
-        passHref
+      <Text
+        color="blue.500"
+        _dark={{ color: "blue.400" }}
+        size="label.md"
+        _groupHover={{ textDecor: "underline" }}
       >
-        <Text
-          color="blue.500"
-          _dark={{ color: "blue.400" }}
-          size="label.md"
-          _groupHover={{ textDecor: "underline" }}
-        >
-          {metadataQuery.data?.name || shortenIfAddress(cell.address)}
-        </Text>
-      </ChakraNextLink>
+        {metadataQuery.data?.name || shortenIfAddress(cell.address)}
+      </Text>
     </Skeleton>
   );
 };
