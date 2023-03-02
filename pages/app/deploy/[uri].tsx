@@ -32,6 +32,7 @@ const DeployAppUri: ThirdwebNextPage = () => {
       console.log({ sdk });
       if (contract) {
         try {
+          // eslint-disable-next-line no-console
           console.log("setting uri", `ipfs://${uri}`);
           const result = await contract.app.set(`ipfs://${uri}`);
           // eslint-disable-next-line no-console
@@ -42,9 +43,9 @@ const DeployAppUri: ThirdwebNextPage = () => {
         } catch (e) {
           // eslint-disable-next-line no-console
           console.log(e);
-        } finally {
-          setSelectedContract(undefined);
           setIsSaving(false);
+        } finally {
+          // setSelectedContract(undefined);
         }
       }
     }

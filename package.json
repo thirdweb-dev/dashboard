@@ -5,6 +5,7 @@
   "scripts": {
     "dev:no-cache": "rm -rf .next/cache && yarn dev",
     "dev": "next dev",
+    "fresh": "rm -rf ./node_modules && yarn",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -39,8 +40,8 @@
     "@thirdweb-dev/auth": "^3.0.6",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "^0.1.5",
-    "@thirdweb-dev/react": "3.10.0-dev-f114cee",
-    "@thirdweb-dev/sdk": "3.10.0-dev-f114cee",
+    "@thirdweb-dev/react": "^3.10.0-dev-fa52d9a",
+    "@thirdweb-dev/sdk": "^3.10.0-dev-fa52d9a",
     "@thirdweb-dev/storage": "^1.1.0-nightly-842ed519",
     "@types/cookie": "^0.5.1",
     "@vercel/og": "^0.2.0",

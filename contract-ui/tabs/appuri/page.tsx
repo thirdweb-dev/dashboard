@@ -11,6 +11,7 @@ export const CustomContractAppPage: React.FC<CustomContractAppPageProps> = ({
 }) => {
   const contractQuery = useContract(contractAddress);
   const { data: appURI } = useAppURI(contractQuery.contract);
+  console.log("appURI", appURI);
 
   if (contractQuery.isLoading) {
     // TODO build a skeleton for this

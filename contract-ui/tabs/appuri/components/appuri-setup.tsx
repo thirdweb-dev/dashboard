@@ -8,12 +8,17 @@ import {
   InputGroup,
   Stack,
 } from "@chakra-ui/react";
-import { useSetAppURI, useStorageUpload } from "@thirdweb-dev/react";
+import {
+  useContract,
+  useSetAppURI,
+  useStorageUpload,
+} from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BaseContract } from "ethers";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
 
@@ -40,13 +45,12 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   appURI,
   contract,
 }) => {
-  const paramUri = useSingleQueryParam("uri") || "";
-
+  const { contract: realContract } = useContract(contract?.getAddress());
   const form = useForm<{
     appURI: string;
   }>({
     defaultValues: {
-      appURI: `ipfs://${paramUri}` || appURI || "",
+      appURI: appURI || "",
     },
     reValidateMode: "onChange",
   });
@@ -65,6 +69,17 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   frameborder="0"
 ></iframe>
 `;
+
+  useEffect(() => {
+    if (realContract) {
+      // eslint-disable-next-line no-console
+      console.log({ realContract });
+      realContract.app.get().then((appUri) => {
+        // eslint-disable-next-line no-console
+        console.log({ appUri });
+      });
+    }
+  }, [realContract]);
 
   return (
     <Flex gap={8} direction="column">
@@ -91,13 +106,6 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 </LinkButton>
               </Flex>
               <Text>Set the App URI for your contract.</Text>
-              {paramUri ? (
-                <Alert status="info" borderRadius="lg">
-                  <AlertIcon />
-                  New app detected, now you can execute the transaction and
-                  update the app uri on your app.
-                </Alert>
-              ) : null}
             </Flex>
             <FormControl>
               <InputGroup display="flex">

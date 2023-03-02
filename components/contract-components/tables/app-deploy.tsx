@@ -26,7 +26,7 @@ import { shortenIfAddress } from "utils/usedapp-external";
 
 interface AppDeployTableProps {
   combinedList: ContractWithMetadata[];
-  onSelect?: (row: any) => void;
+  onSelect?: (row: ContractWithMetadata) => void;
   isFetching?: boolean;
 }
 
@@ -147,7 +147,7 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
 
 const AppDeployTableRow: React.FC<{
   row: Row<ContractWithMetadata>;
-  onSelect: (row: any) => void;
+  onSelect?: (row: ContractWithMetadata) => void;
 }> = ({ row, onSelect }) => {
   const router = useRouter();
   const uri = useSingleQueryParam("uri");
