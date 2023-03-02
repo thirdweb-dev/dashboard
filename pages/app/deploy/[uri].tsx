@@ -2,6 +2,7 @@ import { useAllContractList } from "@3rdweb-sdk/react";
 import { Box, Center, Flex, HStack, Spinner, VStack } from "@chakra-ui/react";
 import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { ContractWithMetadata } from "@thirdweb-dev/sdk";
+import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { AppDeployTable } from "components/contract-components/tables/app-deploy";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -52,74 +53,76 @@ const DeployAppUri: ThirdwebNextPage = () => {
   }, [selectedContract, sdk, uri, setIsSaving, router]);
 
   return (
-    <Flex flexDir="column" gap={4}>
-      <Flex justifyContent="space-between">
-        <Heading size="title.lg">Assign App to one of your contracts</Heading>
-        <LinkButton
-          href={replaceIpfsUrl(`ipfs://${uri}`)}
-          colorScheme="blue"
-          isExternal
-        >
-          Preview App
-        </LinkButton>
-      </Flex>
-      <Text>Select one of your contracts to assign this app to:</Text>
-      {isSaving ? (
-        <Center>
-          <VStack>
-            <Spinner />
-            <Text>Setting app URI...</Text>
-          </VStack>
-        </Center>
-      ) : address ? (
-        <>
-          <Box>Pick a contract</Box>
-          <Box>
-            {!selectedContract ? (
-              <>
-                <AppDeployTable
-                  combinedList={allContractList.data}
-                  onSelect={(row) => {
-                    // eslint-disable-next-line no-console
-                    console.log("onSelect", row);
-                    setSelectedContract(row);
-                  }}
-                />
-                <Center mt={4}>OR</Center>
-                <Center mt={4}>
-                  <Button>Deploy a new contract</Button>
-                </Center>
-              </>
-            ) : (
-              <Center>
-                <Box>
-                  <Text>Contract Address: {selectedContract.address}</Text>
-                  <Text>ChainId: {selectedContract.chainId}</Text>
-                  <Button
-                    m={2}
-                    onClick={() => {
-                      setSelectedContract(undefined);
-                      setIsSaving(false);
+    <ClientOnly ssr={null}>
+      <Flex flexDir="column" gap={4}>
+        <Flex justifyContent="space-between">
+          <Heading size="title.lg">Assign App to one of your contracts</Heading>
+          <LinkButton
+            href={replaceIpfsUrl(`ipfs://${uri}`)}
+            colorScheme="blue"
+            isExternal
+          >
+            Preview App
+          </LinkButton>
+        </Flex>
+        <Text>Select one of your contracts to assign this app to:</Text>
+        {isSaving ? (
+          <Center>
+            <VStack>
+              <Spinner />
+              <Text>Setting app URI...</Text>
+            </VStack>
+          </Center>
+        ) : address ? (
+          <>
+            <Box>Pick a contract</Box>
+            <Box>
+              {!selectedContract ? (
+                <>
+                  <AppDeployTable
+                    combinedList={allContractList.data}
+                    onSelect={(row) => {
+                      // eslint-disable-next-line no-console
+                      console.log("onSelect", row);
+                      setSelectedContract(row);
                     }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    m={2}
-                    colorScheme={"blue"}
-                    onClick={setAppURIOnContract}
-                  >
-                    Set AppURI
-                  </Button>
-                </Box>
-              </Center>
-            )}
-          </Box>
-        </>
-      ) : (
-        <NoWallet ecosystem="evm" />
-      )}
-    </Flex>
+                  />
+                  <Center mt={4}>OR</Center>
+                  <Center mt={4}>
+                    <Button>Deploy a new contract</Button>
+                  </Center>
+                </>
+              ) : (
+                <Center>
+                  <Box>
+                    <Text>Contract Address: {selectedContract.address}</Text>
+                    <Text>ChainId: {selectedContract.chainId}</Text>
+                    <Button
+                      m={2}
+                      onClick={() => {
+                        setSelectedContract(undefined);
+                        setIsSaving(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      m={2}
+                      colorScheme={"blue"}
+                      onClick={setAppURIOnContract}
+                    >
+                      Set AppURI
+                    </Button>
+                  </Box>
+                </Center>
+              )}
+            </Box>
+          </>
+        ) : (
+          <NoWallet ecosystem="evm" />
+        )}
+      </Flex>
+    </ClientOnly>
   );
 };
 
