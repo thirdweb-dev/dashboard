@@ -1,16 +1,16 @@
 import { useAllContractList } from "@3rdweb-sdk/react";
-import { Box, Center, Flex, HStack, Spinner, VStack } from "@chakra-ui/react";
+import { Box, Center, Flex, Spinner, VStack } from "@chakra-ui/react";
 import { useAddress, useSDK } from "@thirdweb-dev/react";
 import { ContractWithMetadata } from "@thirdweb-dev/sdk";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { AppDeployTable } from "components/contract-components/tables/app-deploy";
+import { NoWallet } from "components/no-wallet";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { NoWallet } from "pages/dashboard/no-wallet";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button, Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 

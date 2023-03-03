@@ -13,13 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { useChainSlug } from "hooks/chains/chainSlug";
 import { useConfiguredChains } from "hooks/chains/configureChains";
-import { useSingleQueryParam } from "hooks/useQueryParam";
-import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Column, Row, useTable } from "react-table";
-import { Badge, ChakraNextLink, Text } from "tw-components";
+import { Badge, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { ComponentWithChildren } from "types/component-with-children";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -149,9 +146,6 @@ const AppDeployTableRow: React.FC<{
   row: Row<ContractWithMetadata>;
   onSelect?: (row: ContractWithMetadata) => void;
 }> = ({ row, onSelect }) => {
-  const router = useRouter();
-  const uri = useSingleQueryParam("uri");
-  const chainSlug = useChainSlug(row.original.chainId);
   return (
     <Tr
       {...row.getRowProps()}
@@ -192,8 +186,6 @@ interface AsyncContractNameCellProps {
 const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
   cell,
 }) => {
-  const uri = useSingleQueryParam("uri");
-  const chainSlug = useChainSlug(cell.chainId);
   const metadataQuery = useContractMetadataWithAddress(
     cell.address,
     cell.metadata,

@@ -5,7 +5,6 @@ import {
   Flex,
   GridItem,
   List,
-  ListItem,
   SimpleGrid,
   Tab,
   TabList,

@@ -1,9 +1,9 @@
-import { NoWallet } from "./no-wallet";
 import { useAllProgramsList } from "@3rdweb-sdk/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedPrograms } from "components/contract-components/tables/deployed-programs";
+import { NoWallet } from "components/no-wallet";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
 import { ThirdwebNextPage } from "utils/types";

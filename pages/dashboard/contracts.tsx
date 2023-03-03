@@ -1,4 +1,3 @@
-import { NoWallet } from "./no-wallet";
 import { useAllContractList } from "@3rdweb-sdk/react";
 import {
   Flex,
@@ -13,6 +12,7 @@ import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { PublishedContracts } from "components/contract-components/tables/published-contracts";
+import { NoWallet } from "components/no-wallet";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
