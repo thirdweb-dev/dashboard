@@ -97,7 +97,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
         >
           {children}
           <Tooltip
-            bg="transparent"
+            bg="backgroundBody"
             boxShadow="none"
             p={0}
             w="auto"
