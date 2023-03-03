@@ -16,8 +16,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import React, { useMemo } from "react";
 import { Column, Row, useTable } from "react-table";
-import { Badge, Text } from "tw-components";
-import { AddressCopyButton } from "tw-components/AddressCopyButton";
+import { Badge, Button, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -67,7 +66,7 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
         Header: "Contract Address",
         accessor: (row) => row.address,
         Cell: (cell: any) => {
-          return <AddressCopyButton address={cell.row.original.address} />;
+          return <Button>Set</Button>;
         },
       },
     ],

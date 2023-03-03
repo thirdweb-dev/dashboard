@@ -55,9 +55,9 @@ const DeployAppUri: ThirdwebNextPage = () => {
     <ClientOnly ssr={null}>
       <Flex flexDir="column" gap={4}>
         <Flex justifyContent="space-between">
-          <Heading size="title.lg">Assign App to one of your contracts</Heading>
+          <Heading size="title.lg">Add App to a contract</Heading>
         </Flex>
-        <Text>Select one of your contracts to assign this app to:</Text>
+        <Text>Select one of your contracts to assign this app uri to:</Text>
         {isSaving ? (
           <Center>
             <VStack>
@@ -67,7 +67,6 @@ const DeployAppUri: ThirdwebNextPage = () => {
           </Center>
         ) : address ? (
           <>
-            <Box>Pick a contract</Box>
             <Box>
               {!selectedContract ? (
                 <>
