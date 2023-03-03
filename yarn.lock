@@ -3462,10 +3462,10 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.5.13.tgz#7ad94fcc9db72f3eb0ed7dbb9c511a6bd7ff9a06"
   integrity sha512-kvDRjC7LrLNNNgUMfsBz3nHOwbBLFdosWQ16dfbD9D/OJrvFHRXoUIPzF0MNqqSPghaj7/18fnwXHGypvzoh9Q==
 
-"@thirdweb-dev/auth@3.0.7-nightly-20230302201429-8f46a2ee":
-  version "3.0.7-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.7-nightly-20230302201429-8f46a2ee.tgz#072025c12dd5e35ba1fa36e6f1b906399ff3dbbb"
-  integrity sha512-W6Eg1+MsR2M+3V2d11gN2Kx/zbCWvdwwVxoTQ0wFX2HWPDmJO76oYqoX26QImr7CJxe3apG+shLn7YfNjLdxKA==
+"@thirdweb-dev/auth@3.0.7-nightly-20230303074206-0c883044":
+  version "3.0.7-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.7-nightly-20230303074206-0c883044.tgz#1b708de91a7587728ba8810b2d4d96b397c95e25"
+  integrity sha512-Dd37cl9uSA2z1UtZumgw/9ABzhlBOw3qoFzohh1ZGU1L/wkHWnjg5wcYNdWaA/IhyScozYucwq0qLdsgsY6oHw==
   dependencies:
     cookie "^0.5.0"
     uuid "^9.0.0"
@@ -3485,10 +3485,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/chains@0.1.6-nightly-20230302201429-8f46a2ee":
-  version "0.1.6-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.6-nightly-20230302201429-8f46a2ee.tgz#b2beea60519e1f82ef652bc6faaa0b9f5d36f360"
-  integrity sha512-hm8hYja86ZFgLn1vI0VxSSgyKNCXbIydQu/aqrSxrkyet1wG0Lw3bUTQH6uU1X0y3eXi+0aJ4qigeHBmwIhmlQ==
+"@thirdweb-dev/chains@0.1.6-nightly-20230303074206-0c883044":
+  version "0.1.6-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.6-nightly-20230303074206-0c883044.tgz#262fa9f3d9b8341c6539c1b1a1ac3ed1cba2d8ee"
+  integrity sha512-VLxJPILRxrvN9pee04SQnKd86h3tGNext6SnrGn3yZNOP78ahToiSCZdTsVz4xuurI5NzmTWxARMRCpC1nD4+w==
 
 "@thirdweb-dev/chains@^0.1.5":
   version "0.1.5"
@@ -3507,20 +3507,20 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.4.1.tgz#e5a63e705b2f2014fe3fabf3e30209e3c5034348"
   integrity sha512-BURfuFYZhJOmoycDwo8iaKUi+rdjt9vRGFd0vquqNjL2vQdI7dXqdbuJuOepIwGld5gvRNM+WlnVQ8EZgQIjqg==
 
-"@thirdweb-dev/react-core@3.10.0-nightly-20230302201429-8f46a2ee":
-  version "3.10.0-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-3.10.0-nightly-20230302201429-8f46a2ee.tgz#19a606d79911749f5f1949e461ca5c62de0db0fb"
-  integrity sha512-JOUy4I1iz3gGwECTZXpQpuuV5Q9JGRXT7Ma8MtfI8xWdXAGTYZjnftIu+OfHiFQg7hmiz59iEcoaSqrEsrk1NA==
+"@thirdweb-dev/react-core@3.10.0-nightly-20230303074206-0c883044":
+  version "3.10.0-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-3.10.0-nightly-20230303074206-0c883044.tgz#1af783006d29dd5f10c7308420681c852d3d9427"
+  integrity sha512-MxpocIoMvoftzxYZ7Fz0ug+OJOGl3hMDvhuDb0/a0Kq+Za4ELu17dsoHG2tDhz1hohko/SXMgcgHUMqgw0G+Rw==
   dependencies:
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/auth" "3.0.7-nightly-20230302201429-8f46a2ee"
-    "@thirdweb-dev/chains" "0.1.6-nightly-20230302201429-8f46a2ee"
+    "@thirdweb-dev/auth" "3.0.7-nightly-20230303074206-0c883044"
+    "@thirdweb-dev/chains" "0.1.6-nightly-20230303074206-0c883044"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@^3.10.0-nightly-20230302201429-8f46a2ee":
-  version "3.10.0-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.10.0-nightly-20230302201429-8f46a2ee.tgz#a2d44b812fb5aaa3b821e2bb875d1090b909da8f"
-  integrity sha512-84dRqac99uRTp2mvIUfh2zuGevt6xp5ercORz1FNSEdU6A0ZMLij/B18akp6RqJfft+JyunnPHYfpcWsgRZZNQ==
+"@thirdweb-dev/react@^3.10.0-nightly-20230303074206-0c883044":
+  version "3.10.0-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.10.0-nightly-20230303074206-0c883044.tgz#38bb43ef892cdb71949d771274a1103e8d63d095"
+  integrity sha512-nnwM8cAAZxgoNjCbXLHbOkgyBgrrRUYbR7ZoSawBOuheZaNq2UxCPJSUni/4DBf1AaZK4bW47jHbtyOG4EzRMw==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -3530,9 +3530,9 @@
     "@safe-global/safe-ethers-adapters" "0.1.0-alpha.13"
     "@safe-global/safe-ethers-lib" "^1.7.0"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/chains" "0.1.6-nightly-20230302201429-8f46a2ee"
-    "@thirdweb-dev/react-core" "3.10.0-nightly-20230302201429-8f46a2ee"
-    "@thirdweb-dev/wallets" "0.2.7-nightly-20230302201429-8f46a2ee"
+    "@thirdweb-dev/chains" "0.1.6-nightly-20230303074206-0c883044"
+    "@thirdweb-dev/react-core" "3.10.0-nightly-20230303074206-0c883044"
+    "@thirdweb-dev/wallets" "0.2.7-nightly-20230303074206-0c883044"
     "@zag-js/menu" "0.3.4"
     "@zag-js/react" "0.3.4"
     buffer "^6.0.3"
@@ -3544,14 +3544,14 @@
     tiny-invariant "^1.2.0"
     wagmi "^0.2.28"
 
-"@thirdweb-dev/sdk@^3.10.0-nightly-20230302201429-8f46a2ee":
-  version "3.10.0-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.0-nightly-20230302201429-8f46a2ee.tgz#c1b465594cf3bfd3b11acaa43aafa995d7940e4a"
-  integrity sha512-oxzYpPHvR4CIMQVh7re+QKj2GB3TPoSqYIWI2i5smNtL5sdspxD3ZUdGoFcfB/DBMtKHRWAs1sPuwHDuBwITWQ==
+"@thirdweb-dev/sdk@^3.10.0-nightly-20230303074206-0c883044":
+  version "3.10.0-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.0-nightly-20230303074206-0c883044.tgz#d92e39ccc7f361d0f6cd6e4969376f3c9d4467e7"
+  integrity sha512-3/b15e474fsPno52XSLLOsW5ZC+jfGzoqjuZDVJf8FCOSRkzwllDU2J7ugy5PO2v5PD48OzsH8hAFdMguun/rg==
   dependencies:
-    "@thirdweb-dev/chains" "0.1.6-nightly-20230302201429-8f46a2ee"
+    "@thirdweb-dev/chains" "0.1.6-nightly-20230303074206-0c883044"
     "@thirdweb-dev/contracts-js" "^1.3.1"
-    "@thirdweb-dev/storage" "1.1.0-nightly-20230302201429-8f46a2ee"
+    "@thirdweb-dev/storage" "1.1.0-nightly-20230303074206-0c883044"
     bn.js "^5.2.1"
     bs58 "^5.0.0"
     cross-fetch "^3.1.5"
@@ -3564,20 +3564,20 @@
     yaml "^2.1.1"
     zod "^3.11.6"
 
-"@thirdweb-dev/storage@1.1.0-nightly-20230302201429-8f46a2ee", "@thirdweb-dev/storage@^1.1.0-nightly-20230302201429-8f46a2ee":
-  version "1.1.0-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.0-nightly-20230302201429-8f46a2ee.tgz#8e7ccbc19e4038c1adad188f6c8af62623964953"
-  integrity sha512-kXQKh+9jlQ3tsBUTwmDfm9IpSIeq1D24+EILs0MOO19pSdJHK3Tq2xPjWIwLWfLcMgy8X8YLAUga2U+uD968Cw==
+"@thirdweb-dev/storage@1.1.0-nightly-20230303074206-0c883044", "@thirdweb-dev/storage@^1.1.0-nightly-20230303074206-0c883044":
+  version "1.1.0-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.0-nightly-20230303074206-0c883044.tgz#13485d879a6012d0cf6f267d879443ed2477f035"
+  integrity sha512-jBzfl/NB5l+o1WVzpVAKX2U1jyZzqnzpXdU9HabaLSuSMAiKZbc8xcfkwFi20/dX4yD+3Defi2lGRy6EHjpaPQ==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
     ipfs-unixfs-importer "^7.0.1"
     uuid "^9.0.0"
 
-"@thirdweb-dev/wallets@0.2.7-nightly-20230302201429-8f46a2ee":
-  version "0.2.7-nightly-20230302201429-8f46a2ee"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.2.7-nightly-20230302201429-8f46a2ee.tgz#33db6d68f13fe65c21a598d1b269d9b46664920b"
-  integrity sha512-B8uO3ouWThEyXUaWvChbpklaWtPCC0Kkz17bBMIw9oRR58DLv51nS5dM+7gj+siEIX4JQ9I8LmD1sjKv+QPYew==
+"@thirdweb-dev/wallets@0.2.7-nightly-20230303074206-0c883044":
+  version "0.2.7-nightly-20230303074206-0c883044"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.2.7-nightly-20230303074206-0c883044.tgz#fd7a6c4057c963c01b9d5d4f6cbbdf4ddba297c5"
+  integrity sha512-vJKqncyA1v0/LHtgFibg9juVuIx16ToP4EAzRr2F6xpyAxxpYsO/tLD4qYlGlIzJuaHm/7sR1u5qHNeVlyk6XQ==
   dependencies:
     eventemitter3 "^5.0.0"
     localforage "^1.10.0"
