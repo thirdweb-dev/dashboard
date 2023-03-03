@@ -196,7 +196,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           as="form"
           id="contract-release-form"
           onSubmit={form.handleSubmit((data) => {
-            console.log(data);
             // the drawer has another form inside it which triggers this one on submit
             // hacky solution to avoid double submission
             if (isDrawerOpen) {
