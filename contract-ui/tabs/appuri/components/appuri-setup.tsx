@@ -18,7 +18,6 @@ import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contr
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BaseContract } from "ethers";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FiExternalLink } from "react-icons/fi";
 import {
@@ -45,7 +44,6 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
 }) => {
   const chainId = useDashboardEVMChainId();
   const chainSlug = useChainSlug(chainId?.toString() || "0");
-  const { contract: realContract } = useContract(contract?.getAddress());
   const form = useForm<{
     appURI: string;
   }>({
@@ -68,17 +66,6 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
 ></iframe>
 `;
 
-  useEffect(() => {
-    if (realContract) {
-      // eslint-disable-next-line no-console
-      console.log({ realContract });
-      realContract.app.get().then((appUri) => {
-        // eslint-disable-next-line no-console
-        console.log({ appUri });
-      });
-    }
-  }, [realContract]);
-
   return (
     <Flex gap={8} direction="column">
       <Flex
@@ -87,15 +74,19 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Container maxW="2xl" h="full">
+        <Container maxW="100%" h="full">
           <Flex flexDir="column" gap={6}>
             <Flex flexDir="column" gap={2}>
               <Heading size="title.lg" as="h1">
                 App
               </Heading>
 
-              <Text>Set the official App URI for your contract.</Text>
-              <Text>Use npx thirdweb deploy --app to deploy a project</Text>
+              <Text>
+                Set the official URI that points to your app on the contract
+              </Text>
+              <Text>
+                Use npx thirdweb deploy --app in any web project to deploy
+              </Text>
             </Flex>
             <Card
               as={Flex}

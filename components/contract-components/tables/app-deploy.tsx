@@ -96,7 +96,6 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
       overflowX="auto"
       position="relative"
       overflowY="auto"
-      maxHeight="400px"
     >
       {isFetching && (
         <Spinner

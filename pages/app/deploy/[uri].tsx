@@ -7,7 +7,6 @@ import { AppLayout } from "components/app-layouts/app";
 import { AppDeployTable } from "components/contract-components/tables/app-deploy";
 import { NoWallet } from "components/no-wallet";
 import { useSingleQueryParam } from "hooks/useQueryParam";
-import { replaceIpfsUrl } from "lib/sdk";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { useCallback, useState } from "react";
@@ -57,13 +56,6 @@ const DeployAppUri: ThirdwebNextPage = () => {
       <Flex flexDir="column" gap={4}>
         <Flex justifyContent="space-between">
           <Heading size="title.lg">Assign App to one of your contracts</Heading>
-          <LinkButton
-            href={replaceIpfsUrl(`ipfs://${uri}`)}
-            colorScheme="blue"
-            isExternal
-          >
-            Preview App
-          </LinkButton>
         </Flex>
         <Text>Select one of your contracts to assign this app to:</Text>
         {isSaving ? (
@@ -87,10 +79,6 @@ const DeployAppUri: ThirdwebNextPage = () => {
                       setSelectedContract(row);
                     }}
                   />
-                  <Center mt={4}>OR</Center>
-                  <Center mt={4}>
-                    <Button>Deploy a new contract</Button>
-                  </Center>
                 </>
               ) : (
                 <Center>
