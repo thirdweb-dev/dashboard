@@ -72,9 +72,15 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       Display Name
                     </FormLabel>
                     <Input
-                      {...form.register(
+                      value={form.watch(
                         `constructorParams.${param.name}.displayName`,
                       )}
+                      onChange={(e) =>
+                        form.setValue(
+                          `constructorParams.${param.name}.displayName`,
+                          e.target.value,
+                        )
+                      }
                       placeholder={camelToTitle(param.name)}
                     />
                     <FormErrorMessage>
@@ -107,12 +113,15 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               ? "Pre-filled value."
                               : "This value will be pre-filled in the deploy form."
                           }
-                          {...form.register(
-                            `constructorParams.${param.name}.defaultValue`,
-                          )}
                           value={form.watch(
                             `constructorParams.${param.name}.defaultValue`,
                           )}
+                          onChange={(e) =>
+                            form.setValue(
+                              `constructorParams.${param.name}.defaultValue`,
+                              e.target.value,
+                            )
+                          }
                         />
                       </Flex>
                       {paramTemplateValues.length > 0 && (
@@ -135,20 +144,12 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               padding="3"
                               paddingY="3.5"
                               onClick={() => {
-                                console.log({
-                                  watch: form.watch(
-                                    `constructorParams.${param.name}.defaultValue`,
-                                  ),
-                                });
                                 form.setValue(
                                   `constructorParams.${param.name}.defaultValue`,
                                   paramTemplateValues[0].value,
                                   {
                                     shouldDirty: true,
                                   },
-                                );
-                                form.watch(
-                                  `constructorParams.${param.name}.defaultValue`,
                                 );
                               }}
                               bgColor="gray.700"
@@ -181,9 +182,15 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   >
                     <FormLabel as={Text}>Description</FormLabel>
                     <Textarea
-                      {...form.register(
+                      value={form.watch(
                         `constructorParams.${param.name}.description`,
                       )}
+                      onChange={(e) =>
+                        form.setValue(
+                          `constructorParams.${param.name}.description`,
+                          e.target.value,
+                        )
+                      }
                       h="full"
                       maxLength={400}
                       placeholder="Enter a description for this parameter."

@@ -122,10 +122,17 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
           <FormControl isRequired>
             {/** TODO this should be a selector of ABI functions **/}
             <Input
-              {...form.register(
-                `factoryDeploymentData.implementationInitializerFunction`,
-                { required: true },
-              )}
+              value={
+                form.watch(
+                  `factoryDeploymentData.implementationInitializerFunction`,
+                )?.name
+              }
+              onChange={(e) =>
+                form.setValue(
+                  `factoryDeploymentData.implementationInitializerFunction`,
+                  e.target.value,
+                )
+              }
               placeholder="function name to invoke"
               defaultValue="initialize"
             />
