@@ -7,6 +7,7 @@ import {
   FormControl,
   Input,
   InputGroup,
+  InputRightElement,
   Stack,
 } from "@chakra-ui/react";
 import {
@@ -22,12 +23,22 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Card, CodeBlock, Heading, LinkButton, Text } from "tw-components";
+import {
+  Card,
+  CodeBlock,
+  FormLabel,
+  Heading,
+  LinkButton,
+  Text,
+  TrackedCopyButton,
+} from "tw-components";
 
 interface AppURISetupProps {
   appURI?: string;
   contract: SmartContract<BaseContract> | undefined;
 }
+
+const TRACKING_CATEGORY = "app-uri";
 
 export const AppURISetup: React.FC<AppURISetupProps> = ({
   appURI,
@@ -78,25 +89,52 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
         alignItems="center"
       >
         <Container maxW="2xl" h="full">
-          <Flex flexDir="column" gap={4}>
+          <Flex flexDir="column" gap={6}>
             <Flex flexDir="column" gap={2}>
-              <Flex justifyContent="space-between">
-                <Heading size="title.lg" as="h1">
-                  App
-                </Heading>
-                <LinkButton
-                  href={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
-                  colorScheme="blue"
-                  isExternal
-                  variant="outline"
-                >
-                  Preview App
-                </LinkButton>
-              </Flex>
+              <Heading size="title.lg" as="h1">
+                App
+              </Heading>
+
               <Text>Set the official App URI for your contract.</Text>
               <Text>Use npx thirdweb deploy --app to deploy a project</Text>
             </Flex>
+            <Card
+              as={Flex}
+              flexDir="column"
+              gap={6}
+              p={6}
+              _groupHover={{ borderColor: "blue.500" }}
+              position="relative"
+            >
+              <Flex justifyContent="space-between">
+                <Flex gap={2} flexDir="column">
+                  <Heading size="subtitle.sm" as="h3" noOfLines={1}>
+                    Contract URL
+                  </Heading>
+                  <Text>
+                    This URL will resolve the App URI for your contract.
+                  </Text>
+                </Flex>
+              </Flex>
+              <InputGroup>
+                <Input
+                  readOnly
+                  value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                />
+                <InputRightElement>
+                  <TrackedCopyButton
+                    category={TRACKING_CATEGORY}
+                    label="copy-rpc-url"
+                    aria-label="Copy RPC url"
+                    size="sm"
+                    colorScheme={undefined}
+                    value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </Card>
             <FormControl>
+              <FormLabel>App URI</FormLabel>
               <InputGroup display="flex">
                 <Input
                   placeholder="ipfs://Qm..."
@@ -117,7 +155,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 Update
               </TransactionButton>
             </Flex>
-            <Stack as={Card} w="100%" gap={2}>
+            <Flex flexDir="column" gap={4}>
               <Heading size="label.md">Embed Code</Heading>
               <CodeBlock
                 canCopy={true}
@@ -126,7 +164,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 code={embedCode}
                 language="markup"
               />
-            </Stack>
+            </Flex>
           </Flex>
         </Container>
       </Flex>
