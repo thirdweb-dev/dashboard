@@ -6,11 +6,13 @@ import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 
 export interface SetAppUriProps {
-  selectedContract: ContractWithMetadata;
+  contractWithMetadata: ContractWithMetadata;
 }
 
-const SetAppUriWrapped: React.FC<SetAppUriProps> = ({ selectedContract }) => {
-  const { contract } = useContract(selectedContract.address);
+const SetAppUriWrapped: React.FC<SetAppUriProps> = ({
+  contractWithMetadata,
+}) => {
+  const { contract } = useContract(contractWithMetadata.address);
   const { mutate: setAppURI, isLoading } = useSetAppURI(contract);
   const uri = useSingleQueryParam("uri");
   const router = useRouter();
@@ -25,7 +27,7 @@ const SetAppUriWrapped: React.FC<SetAppUriProps> = ({ selectedContract }) => {
           {
             onSuccess: () =>
               router.push(
-                `/${selectedContract.chainId}/${selectedContract.address}/appuri`,
+                `/${contractWithMetadata.chainId}/${contractWithMetadata.address}/appuri`,
               ),
           },
         )
@@ -38,10 +40,12 @@ const SetAppUriWrapped: React.FC<SetAppUriProps> = ({ selectedContract }) => {
   );
 };
 
-export const SetAppUri: React.FC<SetAppUriProps> = ({ selectedContract }) => {
+export const SetAppUri: React.FC<SetAppUriProps> = ({
+  contractWithMetadata,
+}) => {
   return (
-    <CustomSDKContext desiredChainId={selectedContract.chainId}>
-      <SetAppUriWrapped selectedContract={selectedContract} />
+    <CustomSDKContext desiredChainId={contractWithMetadata.chainId}>
+      <SetAppUriWrapped contractWithMetadata={contractWithMetadata} />
     </CustomSDKContext>
   );
 };
