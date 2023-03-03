@@ -101,7 +101,6 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     }
                   >
                     <FormLabel as={Text}>Default Value</FormLabel>
-
                     <InputGroup size="md">
                       <Flex flexDir="column" w="full">
                         <SolidityInput
@@ -113,15 +112,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               ? "Pre-filled value."
                               : "This value will be pre-filled in the deploy form."
                           }
-                          value={form.watch(
+                          {...form.register(
                             `constructorParams.${param.name}.defaultValue`,
                           )}
-                          onChange={(e) =>
-                            form.setValue(
-                              `constructorParams.${param.name}.defaultValue`,
-                              e.target.value,
-                            )
-                          }
                         />
                       </Flex>
                       {paramTemplateValues.length > 0 && (
