@@ -77,12 +77,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 App
               </Heading>
 
-              <Text>
-                Set the official URI that points to your app on the contract
-              </Text>
-              <Text>
-                Use npx thirdweb deploy --app in any web project to deploy
-              </Text>
+              <Text>The official URI that points to your app</Text>
             </Flex>
             <Card
               as={Flex}
@@ -95,11 +90,9 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
               <Flex justifyContent="space-between">
                 <Flex gap={2} flexDir="column">
                   <Heading size="subtitle.sm" as="h3" noOfLines={1}>
-                    Contract URL
+                    Landing Page
                   </Heading>
-                  <Text>
-                    This URL will resolve the App URI for your contract.
-                  </Text>
+                  <Text>This URL is the landing page for your contract</Text>
                 </Flex>
               </Flex>
               <InputGroup>
@@ -168,6 +161,9 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                   {...form.register("appURI")}
                 />
               </InputGroup>
+              <Text>
+                Use npx thirdweb deploy --app in any web project to deploy
+              </Text>
             </FormControl>
             <Flex gap={2} justifyContent="flex-end">
               <TransactionButton
@@ -183,6 +179,9 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
             </Flex>
             <Flex flexDir="column" gap={2}>
               <Heading size="label.md">Embed Code</Heading>
+              <Text>
+                Add this code snippet to your website to embed the App UI
+              </Text>
               <CodeBlock
                 canCopy={true}
                 whiteSpace="pre"
