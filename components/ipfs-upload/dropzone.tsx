@@ -213,7 +213,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
                   {ipfsHash ? (
                     <Tooltip
                       p={0}
-                      bg="transparent"
+                      bg="backgroundBody"
                       boxShadow="none"
                       label={
                         <Card py={2} px={4}>
@@ -283,7 +283,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ files, updateFiles }) => {
                 <GridItem colSpan={1} rowSpan={1}>
                   <Tooltip
                     p={0}
-                    bg="transparent"
+                    bg="backgroundBody"
                     boxShadow="none"
                     label={
                       <Card py={2} px={4}>

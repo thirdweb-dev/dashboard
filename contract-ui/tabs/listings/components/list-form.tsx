@@ -320,7 +320,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
             {nfts?.map((nft, id) => {
               return (
                 <Tooltip
-                  bg="transparent"
+                  bg="backgroundBody"
                   boxShadow="none"
                   shouldWrapChildren
                   placement="left-end"

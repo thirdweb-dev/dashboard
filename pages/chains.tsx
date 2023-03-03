@@ -156,7 +156,6 @@ const SearchResult: React.FC<{
         flexDir="column"
         gap={4}
         px={6}
-        // bg="transparent"
         borderColor="borderColor"
         transition="150ms border-color ease-in-out"
         _hover={{

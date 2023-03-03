@@ -113,7 +113,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       {paramTemplateValues.length > 0 && (
                         <InputRightElement width="10.5rem">
                           <Tooltip
-                            bg="transparent"
+                            bg="backgroundBody"
                             boxShadow="none"
                             shouldWrapChildren
                             label={

@@ -150,7 +150,7 @@ export const PublishedContractTable: ComponentWithChildren<
             {cell.value.audit ? (
               <Tooltip
                 p={0}
-                bg="transparent"
+                bg="backgroundBody"
                 boxShadow="none"
                 label={
                   <Card py={2} px={4}>

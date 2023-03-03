@@ -59,7 +59,7 @@ export const AddressCopyButton: React.FC<AddressCopyButtonProps> = ({
   return (
     <Tooltip
       p={0}
-      bg="transparent"
+      bg="backgroundBody"
       boxShadow="none"
       label={
         <Card py={2} px={4}>

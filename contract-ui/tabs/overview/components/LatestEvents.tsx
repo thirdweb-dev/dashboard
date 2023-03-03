@@ -168,7 +168,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
           <Stack direction="row" align="center" spacing={3}>
             <Tooltip
               p={0}
-              bg="transparent"
+              bg="backgroundBody"
               boxShadow="none"
               label={
                 <Card py={2} px={4}>
@@ -180,7 +180,7 @@ export const EventsFeedItem: React.FC<EventsFeedItemProps> = ({
             >
               <Button
                 size="sm"
-                bg="transparent"
+                bg="backgroundBody"
                 onClick={() => {
                   onCopy();
                   toast({

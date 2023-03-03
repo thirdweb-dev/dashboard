@@ -680,7 +680,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             <>
               <MenuDivider py={0} />
               <Tooltip
-                bg="transparent"
+                bg="backgroundBody"
                 boxShadow="none"
                 p={0}
                 label={

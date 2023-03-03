@@ -1,14 +1,13 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import {
-  Alert,
-  AlertIcon,
   Container,
   Flex,
   FormControl,
+  Icon,
   Input,
   InputGroup,
   InputRightElement,
-  Stack,
+  Tooltip,
 } from "@chakra-ui/react";
 import {
   useContract,
@@ -19,18 +18,18 @@ import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contr
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BaseContract } from "ethers";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import { useSingleQueryParam } from "hooks/useQueryParam";
-import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { FiExternalLink } from "react-icons/fi";
 import {
   Card,
   CodeBlock,
   FormLabel,
   Heading,
-  LinkButton,
   Text,
   TrackedCopyButton,
+  TrackedIconButton,
+  TrackedLink,
 } from "tw-components";
 
 interface AppURISetupProps {
@@ -120,16 +119,56 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 <Input
                   readOnly
                   value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                  pr="75px"
                 />
-                <InputRightElement>
-                  <TrackedCopyButton
-                    category={TRACKING_CATEGORY}
-                    label="copy-rpc-url"
-                    aria-label="Copy RPC url"
-                    size="sm"
-                    colorScheme={undefined}
-                    value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
-                  />
+                <InputRightElement as={Flex} mr={4}>
+                  <Tooltip
+                    p={0}
+                    bg="backgroundBody"
+                    boxShadow="none"
+                    label={
+                      <Card py={2} px={4}>
+                        <Text size="label.sm">Copy URL</Text>
+                      </Card>
+                    }
+                    borderRadius="lg"
+                    shouldWrapChildren
+                    placement="right"
+                  >
+                    <TrackedCopyButton
+                      category={TRACKING_CATEGORY}
+                      label="copy-rpc-url"
+                      aria-label="Copy RPC url"
+                      size="sm"
+                      colorScheme={undefined}
+                      value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                    />
+                  </Tooltip>
+                  <Tooltip
+                    p={0}
+                    bg="backgroundBody"
+                    boxShadow="none"
+                    label={
+                      <Card py={2} px={4}>
+                        <Text size="label.sm">Open URL</Text>
+                      </Card>
+                    }
+                    borderRadius="lg"
+                    shouldWrapChildren
+                    placement="right"
+                  >
+                    <TrackedIconButton
+                      as={TrackedLink}
+                      href={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                      category={TRACKING_CATEGORY}
+                      label="open-url"
+                      aria-label="Open URL"
+                      icon={<Icon as={FiExternalLink} />}
+                      variant="ghost"
+                      isExternal
+                      size="sm"
+                    />
+                  </Tooltip>
                 </InputRightElement>
               </InputGroup>
             </Card>
@@ -155,7 +194,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 Update
               </TransactionButton>
             </Flex>
-            <Flex flexDir="column" gap={4}>
+            <Flex flexDir="column" gap={2}>
               <Heading size="label.md">Embed Code</Heading>
               <CodeBlock
                 canCopy={true}
