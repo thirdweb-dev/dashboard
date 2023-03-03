@@ -67,7 +67,7 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
         Header: "Action",
         accessor: (row) => row.address,
         Cell: (cell: any) => {
-          return <SetAppUri selectedContract={cell.row.original} />;
+          return <SetAppUri contractWithMetadata={cell.row.original} />;
         },
       },
     ],
