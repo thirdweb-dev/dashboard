@@ -12,11 +12,12 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
+import { SetAppUri } from "components/appuri/SetAppUri";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import React, { useMemo } from "react";
 import { Column, Row, useTable } from "react-table";
-import { Badge, Button, Text } from "tw-components";
+import { Badge, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -63,10 +64,10 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
         },
       },
       {
-        Header: "Contract Address",
+        Header: "Action",
         accessor: (row) => row.address,
         Cell: (cell: any) => {
-          return <Button>Set</Button>;
+          return <SetAppUri selectedContract={cell.row.original} />;
         },
       },
     ],
@@ -143,20 +144,20 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
 const AppDeployTableRow: React.FC<{
   row: Row<ContractWithMetadata>;
   onSelect?: (row: ContractWithMetadata) => void;
-}> = ({ row, onSelect }) => {
+}> = ({ row }) => {
   return (
     <Tr
       {...row.getRowProps()}
       role="group"
       cursor="pointer"
       // this is a hack to get around the fact that safari does not handle position: relative on table rows
-      style={{ cursor: "pointer" }}
+      /*       style={{ cursor: "pointer" }}
       onClick={() => {
         // router.push(`/${chainSlug}/${row.original.address}/appuri?uri=${uri}`);
         if (onSelect) {
           onSelect(row.original);
         }
-      }}
+      }} */
       // end hack
       borderBottomWidth={1}
       _last={{ borderBottomWidth: 0 }}

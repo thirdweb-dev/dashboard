@@ -9,11 +9,7 @@ import {
   InputRightElement,
   Tooltip,
 } from "@chakra-ui/react";
-import {
-  useContract,
-  useSetAppURI,
-  useStorageUpload,
-} from "@thirdweb-dev/react";
+import { useSetAppURI, useStorageUpload } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk/dist/declarations/src/evm/contracts/smart-contract";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { BaseContract } from "ethers";
