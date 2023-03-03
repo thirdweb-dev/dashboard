@@ -152,31 +152,33 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 </InputRightElement>
               </InputGroup>
             </Card>
-            <FormControl>
-              <FormLabel>App URI</FormLabel>
-              <InputGroup display="flex">
-                <Input
-                  placeholder="ipfs://Qm..."
-                  isDisabled={storageUpload.isLoading}
-                  {...form.register("appURI")}
-                />
-              </InputGroup>
-              <Text>
-                Use npx thirdweb deploy --app in any web project to deploy
-              </Text>
-            </FormControl>
-            <Flex gap={2} justifyContent="flex-end">
-              <TransactionButton
-                alignSelf="flex-end"
-                disabled={form.getFieldState("appURI").isDirty}
-                onClick={() => setAppURI({ uri: watchAppUri })}
-                colorScheme="blue"
-                isLoading={isLoading}
-                transactionCount={1}
-              >
-                Update
-              </TransactionButton>
-            </Flex>
+            <Card>
+              <FormControl>
+                <FormLabel>App URI</FormLabel>
+                <InputGroup display="flex">
+                  <Input
+                    placeholder="ipfs://Qm..."
+                    isDisabled={storageUpload.isLoading}
+                    {...form.register("appURI")}
+                  />
+                </InputGroup>
+                <Text p={2}>
+                  Use npx thirdweb deploy --app in any web project to deploy
+                </Text>
+                <Flex gap={2} justifyContent="flex-end">
+                  <TransactionButton
+                    alignSelf="flex-end"
+                    disabled={form.getFieldState("appURI").isDirty}
+                    onClick={() => setAppURI({ uri: watchAppUri })}
+                    colorScheme="blue"
+                    isLoading={isLoading}
+                    transactionCount={1}
+                  >
+                    Update
+                  </TransactionButton>
+                </Flex>
+              </FormControl>
+            </Card>
             <Flex flexDir="column" gap={2}>
               <Heading size="label.md">Embed Code</Heading>
               <Text>
