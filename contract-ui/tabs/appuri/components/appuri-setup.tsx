@@ -3,6 +3,7 @@ import {
   Container,
   Flex,
   FormControl,
+  HStack,
   Icon,
   Input,
   InputGroup,
@@ -163,7 +164,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 App
               </Heading>
 
-              <Text>The official URI that points to your app.</Text>
+              <Text>The official App landing page for your smart contract</Text>
             </Flex>
             {appURI ? (
               <Card
@@ -177,120 +178,129 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 <Flex justifyContent="space-between">
                   <Flex gap={2} flexDir="column">
                     <Heading size="subtitle.sm" as="h3" noOfLines={1}>
-                      Landing Page
+                      Hosted Website
                     </Heading>
-                    <Text>This URL is the landing page for your contract</Text>
+                    <Text>
+                      Your app lives at this URL, feel free to share it. If you
+                      want to CNAME it message us on discord
+                    </Text>
                   </Flex>
                 </Flex>
-                <InputGroup>
-                  <Input
-                    readOnly
-                    value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
-                    pr="75px"
-                  />
-                  <InputRightElement as={Flex} mr={4}>
-                    <Tooltip
-                      p={0}
-                      bg="backgroundBody"
-                      boxShadow="none"
-                      label={
-                        <Card py={2} px={4}>
-                          <Text size="label.sm">Copy URL</Text>
-                        </Card>
-                      }
-                      borderRadius="lg"
-                      shouldWrapChildren
-                      placement="right"
+                <HStack>
+                  <InputGroup>
+                    <Input
+                      readOnly
+                      value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                      pr="75px"
+                      variant={"outline"}
+                      _hover={{ cursor: "default" }}
+                    />
+                    <InputRightElement as={Flex} mr={2}>
+                      <Tooltip
+                        p={0}
+                        bg="backgroundBody"
+                        boxShadow="none"
+                        label={
+                          <Card py={2} px={4}>
+                            <Text size="label.sm">Copy URL</Text>
+                          </Card>
+                        }
+                        borderRadius="lg"
+                        shouldWrapChildren
+                        placement="right"
+                      >
+                        <TrackedCopyButton
+                          category={TRACKING_CATEGORY}
+                          label="copy-rpc-url"
+                          aria-label="Copy RPC url"
+                          size="sm"
+                          colorScheme={undefined}
+                          value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                        />
+                      </Tooltip>
+                    </InputRightElement>
+                  </InputGroup>
+                  <Tooltip
+                    p={0}
+                    bg="backgroundBody"
+                    boxShadow="none"
+                    label={
+                      <Card py={2} px={4}>
+                        <Text size="label.sm">Open URL</Text>
+                      </Card>
+                    }
+                    borderRadius="lg"
+                    shouldWrapChildren
+                    placement="right"
+                  >
+                    <TrackedIconButton
+                      as={TrackedLink}
+                      href={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
+                      category={TRACKING_CATEGORY}
+                      label="open-url"
+                      aria-label="Open URL"
+                      icon={<Icon as={FiExternalLink} />}
+                      variant="solid"
+                      isExternal
+                      size="sm"
                     >
-                      <TrackedCopyButton
-                        category={TRACKING_CATEGORY}
-                        label="copy-rpc-url"
-                        aria-label="Copy RPC url"
-                        size="sm"
-                        colorScheme={undefined}
-                        value={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
-                      />
-                    </Tooltip>
-                    <Tooltip
-                      p={0}
-                      bg="backgroundBody"
-                      boxShadow="none"
-                      label={
-                        <Card py={2} px={4}>
-                          <Text size="label.sm">Open URL</Text>
-                        </Card>
-                      }
-                      borderRadius="lg"
-                      shouldWrapChildren
-                      placement="right"
-                    >
-                      <TrackedIconButton
-                        as={TrackedLink}
-                        href={`https://${contract?.getAddress()}-${chainSlug}.third.app`}
-                        category={TRACKING_CATEGORY}
-                        label="open-url"
-                        aria-label="Open URL"
-                        icon={<Icon as={FiExternalLink} />}
-                        variant="ghost"
-                        isExternal
-                        size="sm"
-                      />
-                    </Tooltip>
-                  </InputRightElement>
-                </InputGroup>
+                      Open Url
+                    </TrackedIconButton>
+                  </Tooltip>
+                </HStack>
               </Card>
             ) : null}
 
-            <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-              <Card
-                as={Flex}
-                flexDir="column"
-                gap={4}
-                h="full"
-                justifyContent="space-between"
-              >
-                <FormControl as={Flex} flexDir="column">
-                  <FormLabel>App URI</FormLabel>
-                  <Text>
-                    Use npx thirdweb deploy --app in any web project to deploy
-                  </Text>
-                  <InputGroup display="flex" mt={4}>
-                    <Input
-                      placeholder="ipfs://Qm..."
-                      isDisabled={storageUpload.isLoading}
-                      {...form.register("appURI")}
-                    />
-                  </InputGroup>
-                </FormControl>
-                <Flex gap={2} justifyContent="flex-end">
-                  <TransactionButton
-                    alignSelf="flex-end"
-                    disabled={form.getFieldState("appURI").isDirty}
-                    onClick={() => setAppURI({ uri: watchAppUri })}
-                    colorScheme="blue"
-                    isLoading={isLoading}
-                    transactionCount={1}
-                  >
-                    Update
-                  </TransactionButton>
-                </Flex>
-              </Card>
-              {watchAppUri ? (
-                <Card as={Flex} flexDir="column" gap={2}>
-                  <Heading size="label.md">Embed Code</Heading>
-                  <Text>
-                    Add this code snippet to your website to embed the App UI
-                  </Text>
-                  <CodeBlock
-                    canCopy={true}
-                    whiteSpace="pre"
-                    overflowX="auto"
-                    code={embedCode}
-                    language="markup"
+            <Card
+              as={Flex}
+              flexDir="column"
+              gap={4}
+              h="full"
+              justifyContent="space-between"
+            >
+              <FormControl as={Flex} flexDir="column">
+                <FormLabel>App URI</FormLabel>
+                <Text>
+                  Set the URI for your application, this should be where your
+                  main html is. Use {"'npx thirdweb deploy --app'"} in any web
+                  project to deploy your app to IPFS and get the URI.
+                </Text>
+                <InputGroup display="flex" mt={4}>
+                  <Input
+                    placeholder="ipfs://Qm..."
+                    isDisabled={storageUpload.isLoading}
+                    {...form.register("appURI")}
                   />
-                </Card>
-              ) : null}
-            </SimpleGrid>
+                </InputGroup>
+              </FormControl>
+              <Flex gap={2} justifyContent="flex-end">
+                <TransactionButton
+                  alignSelf="flex-end"
+                  disabled={form.getFieldState("appURI").isDirty}
+                  onClick={() => setAppURI({ uri: watchAppUri })}
+                  colorScheme="blue"
+                  isLoading={isLoading}
+                  transactionCount={1}
+                >
+                  Update
+                </TransactionButton>
+              </Flex>
+            </Card>
+            {watchAppUri ? (
+              <Card as={Flex} flexDir="column" gap={2}>
+                <Heading size="label.md">Embed Code</Heading>
+                <Text>
+                  Add this code snippet to your website to embed the App UI
+                </Text>
+                <CodeBlock
+                  canCopy={true}
+                  whiteSpace="pre"
+                  overflowX="auto"
+                  code={embedCode}
+                  language="markup"
+                />
+              </Card>
+            ) : null}
 
             {appsDetected.length > 0 ? (
               <Flex flexDir="column" gap={4}>
