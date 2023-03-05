@@ -448,7 +448,6 @@ const ChainPage: ThirdwebNextPage = ({
                       onClick={!isConfigured ? addNetwork : undefined}
                     >
                       <ContractCard
-                        slim
                         key={publishedContractId}
                         publisher={publisher}
                         contractId={contractId}

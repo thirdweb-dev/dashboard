@@ -53,7 +53,6 @@ export const PublishedBy: React.FC<PublishedByProps> = ({
           contractId={publishedContractToShow.name}
           publisher={publisherAddress}
           version={publishedContractToShow.version}
-          slim
         />
       </CardElevationWrapper>
     </Box>
