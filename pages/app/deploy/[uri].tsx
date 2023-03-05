@@ -1,6 +1,7 @@
 import { useAllContractList } from "@3rdweb-sdk/react";
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
+import { ContractWithMetadata } from "@thirdweb-dev/sdk";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { AppDeployTable } from "components/contract-components/tables/app-deploy";
@@ -30,11 +31,31 @@ const DeployAppUri: ThirdwebNextPage = () => {
     setIpfsHash(hash);
   }, [router.query, ipfsHash]);
 
+  useEffect(() => {
+    if (!allContractList || !allContractList.data) {
+      return;
+    }
+    const contracts: any = allContractList.data.filter(
+      async (contract: ContractWithMetadata) => {
+        const extensions = await contract.extensions();
+        console.log({ extensions });
+        if (
+          extensions.indexOf("AppURI") !== -1 ||
+          extensions.indexOf("ContractMetadata") !== -1
+        ) {
+          return true;
+        }
+        return false;
+      },
+    );
+    console.log({ contracts });
+  }, [allContractList, ipfsHash]);
+
   return (
     <ClientOnly ssr={null}>
       <Flex flexDir="column" gap={4}>
         <Flex justifyContent="space-between">
-          <Heading size="title.lg">Your app is deploy!</Heading>
+          <Heading size="title.lg">App</Heading>
         </Flex>
         <Card p={4}>
           <Text size="body.lg">
