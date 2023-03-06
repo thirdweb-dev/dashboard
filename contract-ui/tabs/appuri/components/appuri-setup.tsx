@@ -182,7 +182,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                     </Heading>
                     <Text>
                       Your app lives at this URL, feel free to share it. If you
-                      want to CNAME it message us on discord
+                      want to CNAME it contact us on Discord.
                     </Text>
                   </Flex>
                 </Flex>
@@ -195,7 +195,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                       variant={"outline"}
                       _hover={{ cursor: "default" }}
                     />
-                    <InputRightElement as={Flex} mr={2}>
+                    <InputRightElement as={Flex}>
                       <Tooltip
                         p={0}
                         bg="backgroundBody"
@@ -262,7 +262,7 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 <FormLabel>App URI</FormLabel>
                 <Text>
                   Set the URI for your application, this should be where your
-                  main html is. Use {"'npx thirdweb deploy --app'"} in any web
+                  main HTML is. Use {"'npx thirdweb deploy --app'"} in any web
                   project to deploy your app to IPFS and get the URI.
                 </Text>
                 <InputGroup display="flex" mt={4}>
