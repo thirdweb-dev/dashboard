@@ -85,7 +85,7 @@ const dummyMetadata: (idx: number) => NFT = (idx) => ({
     name: "Loading...",
     description: "lorem ipsum loading sit amet",
     id: `${idx}`,
-    uri: `0x123-${idx}`,
+    uri: `1-0x123-${idx}`,
   },
   owner: `0x_fake_${idx}`,
   type: "ERC721",
