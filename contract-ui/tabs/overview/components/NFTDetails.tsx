@@ -112,7 +112,7 @@ const NFTCards: React.FC<ContractOverviewNFTGetAllProps> = ({
     <SimpleGrid gap={{ base: 3, md: 6 }} columns={{ base: 2, md: 3 }}>
       {nfts.map((token) => (
         <GridItem
-          key={token.owner}
+          key={token.metadata.uri}
           as={TrackedLink}
           category={trackingCategory}
           href={nftsHref}
