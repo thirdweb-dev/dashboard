@@ -45,7 +45,15 @@ const ERC721_DROP_TEMPLATE = {
   name: "ERC721 Drop",
   description:
     "Have users connect their wallet and claim the NFTs on your drop.",
-  uri: "ipfs://QmbvreDBRTsMK4kpJL8mx7nWZAdGz44gpg4XgGcVaxaZWf",
+  uri: "ipfs://QmZptmVipc6SGFbKAyXcxGgohzTwYRXZ9LauRX5ite1xDK",
+  image: require("/public/assets/app/erc721-drop.png"),
+};
+
+const ERC1155_DROP_TEMPLATE = {
+  name: "ERC1155 Drop",
+  description:
+    "Have users connect their wallet and claim the NFTs on your drop by token ID.",
+  uri: "ipfs://QmNm3wRzpKYWo1SRtJfgfxtvudp5p2nXD6EttcsQJHwTmk",
   image: require("/public/assets/app/erc721-drop.png"),
 };
 
@@ -86,10 +94,10 @@ const URI_FOR_EXTENSION: Record<string, App | undefined> = {
   ERC721Supply: undefined,
   ERC721: undefined,
   ERC1155Burnable: undefined,
-  ERC1155ClaimConditionsV1: undefined,
-  ERC1155ClaimConditionsV2: undefined,
-  ERC1155ClaimPhasesV2: undefined,
-  ERC1155ClaimPhasesV1: undefined,
+  ERC1155ClaimConditionsV1: ERC1155_DROP_TEMPLATE,
+  ERC1155ClaimConditionsV2: ERC1155_DROP_TEMPLATE,
+  ERC1155ClaimPhasesV2: ERC1155_DROP_TEMPLATE,
+  ERC1155ClaimPhasesV1: ERC1155_DROP_TEMPLATE,
   ERC1155ClaimCustom: undefined,
   ERC1155Revealable: undefined,
   ERC1155LazyMintableV2: undefined,
@@ -116,9 +124,11 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
   const chainSlug = useChainSlug(chainId?.toString() || "0");
   const form = useForm<{
     appURI: string;
+    tokenId: string;
   }>({
     defaultValues: {
       appURI: appURI || "",
+      tokenId: "",
     },
     reValidateMode: "onChange",
   });
@@ -339,9 +349,23 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                           </LinkButton>
                         </Flex>
                         <Text size="body.sm">{app?.description}</Text>
+                        {app.name.includes("ERC1155") ? (
+                          <Input
+                            {...form.register("tokenId")}
+                            placeholder="Token ID"
+                          />
+                        ) : null}
                         <TransactionButton
                           alignSelf="flex-end"
-                          onClick={() => setAppURI({ uri: app.uri })}
+                          onClick={() =>
+                            setAppURI({
+                              uri: `${app.uri}${
+                                form.watch("tokenId")
+                                  ? `?tokenId=${form.watch("tokenId")}`
+                                  : ""
+                              }`,
+                            })
+                          }
                           colorScheme="blue"
                           isLoading={isLoading}
                           transactionCount={1}
