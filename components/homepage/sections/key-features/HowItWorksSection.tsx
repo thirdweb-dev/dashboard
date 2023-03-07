@@ -226,7 +226,7 @@ export const HowItWorksSection: React.FC = () => {
           flexDir="column"
         >
           {data.map(({ title, icons }) => (
-            <Box>
+            <Box key={title}>
               <Heading
                 size="title.xs"
                 color="#A0A0A0"
