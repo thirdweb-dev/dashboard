@@ -31,7 +31,6 @@ import {
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
-import { getAbsoluteUrl } from "lib/vercel-utils";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
@@ -308,9 +307,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
     description: props.contractMetadata?.description || "",
   });
 
-  const url = `${getAbsoluteUrl()}/${props.contractInfo.chainSlug}/${
-    props.contractInfo.contractAddress
-  }/`;
+  const url = `https://thirdweb.com/${props.contractInfo.chainSlug}/${props.contractInfo.contractAddress}/`;
 
   return (
     // app layout has to come first in both getLayout and fallback
