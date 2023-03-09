@@ -1,20 +1,22 @@
-import { CodeSnippet, Environment, SupportedEnvironment } from "./types";
+import { CodeEnvironment, CodeSnippet, SupportedEnvironment } from "./types";
 import { ButtonGroup, Flex, Icon, Stack } from "@chakra-ui/react";
 import { SiGo } from "@react-icons/all-files/si/SiGo";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiPython } from "@react-icons/all-files/si/SiPython";
 import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { SiTypescript } from "@react-icons/all-files/si/SiTypescript";
+import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { Button, CodeBlock, Text, TrackedLink } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface ICodeSegment {
   snippet: CodeSnippet;
-  environment: Environment;
-  setEnvironment: Dispatch<SetStateAction<Environment>>;
+  environment: CodeEnvironment;
+  setEnvironment: Dispatch<SetStateAction<CodeEnvironment>>;
   isInstallCommand?: boolean;
   hideTabs?: boolean;
+  onlyTabs?: boolean;
 }
 
 const Environments: SupportedEnvironment[] = [
@@ -54,6 +56,12 @@ const Environments: SupportedEnvironment[] = [
     icon: SiGo,
     colorScheme: "blue",
   },
+  {
+    environment: "unity",
+    title: "Unity",
+    icon: SiUnity,
+    colorScheme: "purple",
+  },
 ];
 
 export const CodeSegment: React.FC<ICodeSegment> = ({
@@ -62,11 +70,12 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
   setEnvironment,
   isInstallCommand,
   hideTabs,
+  onlyTabs,
 }) => {
-  const activeEnvironment: Environment = useMemo(() => {
+  const activeEnvironment: CodeEnvironment = useMemo(() => {
     return (
       snippet[environment] ? environment : Object.keys(snippet)[0]
-    ) as Environment;
+    ) as CodeEnvironment;
   }, [environment, snippet]);
 
   const activeSnippet = useMemo(() => {
@@ -113,29 +122,35 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
         </Flex>
       )}
 
-      <CodeBlock
-        code={code}
-        language={
-          isInstallCommand
-            ? "bash"
-            : activeEnvironment === "react" ||
-              activeEnvironment === "web3button"
-            ? "jsx"
-            : activeEnvironment
-        }
-      />
-      {activeEnvironment === "web3button" && (
-        <Text>
-          <TrackedLink
-            href="https://portal.thirdweb.com/ui-components/web3button"
-            isExternal
-            category="code-tab"
-            label="web3button"
-          >
-            Read the full documentation on Web3Button
-          </TrackedLink>
-          .
-        </Text>
+      {onlyTabs ? null : (
+        <>
+          <CodeBlock
+            code={code}
+            language={
+              isInstallCommand
+                ? "bash"
+                : activeEnvironment === "react" ||
+                  activeEnvironment === "web3button"
+                ? "jsx"
+                : activeEnvironment === "unity"
+                ? "cpp"
+                : activeEnvironment
+            }
+          />
+          {activeEnvironment === "web3button" && (
+            <Text>
+              <TrackedLink
+                href="https://portal.thirdweb.com/ui-components/web3button"
+                isExternal
+                category="code-tab"
+                label="web3button"
+              >
+                Read the full documentation on Web3Button
+              </TrackedLink>
+              .
+            </Text>
+          )}
+        </>
       )}
     </Stack>
   );

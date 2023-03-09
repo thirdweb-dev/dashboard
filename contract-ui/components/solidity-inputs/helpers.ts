@@ -99,7 +99,7 @@ const isValidBytes = (value: string, solidityType: string) => {
     return true;
   }
 
-  if (value.startsWith("[") && value.endsWith("]")) {
+  if (value?.startsWith("[") && value?.endsWith("]")) {
     try {
       const arrayify = JSON.parse(value);
       return isBytesType ? !!arrayify.length : arrayify.length === maxLength;
@@ -201,7 +201,7 @@ function formatInputType(type: string, components?: FunctionComponents): any {
   } else if (type?.includes("string")) {
     return "...";
   } else if (type?.includes("int")) {
-    return 0;
+    return "0";
   } else if (type?.includes("bool")) {
     return true;
   } else if (type?.includes("address")) {

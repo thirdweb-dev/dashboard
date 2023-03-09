@@ -8,16 +8,16 @@ import { AppLayout } from "components/app-layouts/app";
 import {
   ensQuery,
   fetchPublishedContracts,
-  releaserProfileQuery,
+  publisherProfileQuery,
   useEns,
   usePublishedContractsQuery,
-  useReleaserProfile,
+  usePublisherProfile,
 } from "components/contract-components/hooks";
-import { EditProfile } from "components/contract-components/releaser/edit-profile";
-import { ReleaserAvatar } from "components/contract-components/releaser/masked-avatar";
-import { ReleaserSocials } from "components/contract-components/releaser/releaser-socials";
+import { PublisherSocials } from "components/contract-components/publisher/PublisherSocials";
+import { EditProfile } from "components/contract-components/publisher/edit-profile";
+import { PublisherAvatar } from "components/contract-components/publisher/masked-avatar";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
-import { ReleasedContracts } from "components/contract-components/tables/released-contracts";
+import { PublishedContracts } from "components/contract-components/tables/published-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -48,13 +48,13 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
     if (
       previousPath !== "[profileAddress]" &&
       props.profileAddress?.startsWith("Qm") &&
-      !props.profileAddress.endsWith(".eth")
+      !props.profileAddress?.endsWith(".eth")
     ) {
       router.replace(`/contracts/deploy/${previousPath}`);
     }
   }, [props.profileAddress, router]);
 
-  const releaserProfile = useReleaserProfile(ens.data?.address || undefined);
+  const publisherProfile = usePublisherProfile(ens.data?.address || undefined);
 
   const displayName = shortenIfAddress(
     ens?.data?.ensName || props.profileAddress,
@@ -76,23 +76,23 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
   const address = useAddress();
 
   const ogImage = useMemo(() => {
-    if (!releaserProfile.data || !publishedContracts.data) {
+    if (!publisherProfile.data || !publishedContracts.data) {
       return undefined;
     }
 
     return ProfileOG.toUrl({
       displayName,
-      bio: releaserProfile.data?.bio,
-      avatar: releaserProfile.data?.avatar || undefined,
-      releaseCnt: publishedContracts.data?.length.toString(),
+      bio: publisherProfile.data?.bio,
+      avatar: publisherProfile.data?.avatar || undefined,
+      publishedCnt: publishedContracts.data?.length.toString(),
     });
-  }, [displayName, publishedContracts.data, releaserProfile.data]);
+  }, [displayName, publishedContracts.data, publisherProfile.data]);
 
   return (
     <>
       <NextSeo
         title={displayName}
-        description={`Visit ${displayName}'s profile. See their releases and deploy them in one click.`}
+        description={`Visit ${displayName}'s profile. See their published contracts and deploy them in one click.`}
         openGraph={{
           title: displayName,
           images: ogImage
@@ -107,7 +107,6 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
             : undefined,
           url: currentRoute,
         }}
-        canonical={currentRoute}
       />
 
       <Flex flexDir="column" gap={12}>
@@ -120,7 +119,7 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
             gap={4}
           >
             <Flex gap={{ base: 4, md: 8 }} align="center" w="full">
-              <ReleaserAvatar
+              <PublisherAvatar
                 address={ens.data?.ensName || props.profileAddress}
                 boxSize={28}
               />
@@ -134,23 +133,23 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
                 >
                   {displayName}
                 </Heading>
-                {releaserProfile.data?.bio && (
+                {publisherProfile.data?.bio && (
                   <Text size="body.lg" noOfLines={2}>
-                    {releaserProfile.data.bio}
+                    {publisherProfile.data.bio}
                   </Text>
                 )}
-                {releaserProfile.data && (
-                  <ReleaserSocials
+                {publisherProfile.data && (
+                  <PublisherSocials
                     mt={1}
                     size="md"
-                    releaserProfile={releaserProfile.data}
+                    publisherProfile={publisherProfile.data}
                   />
                 )}
               </Flex>
             </Flex>
-            {ens.data?.address === address && releaserProfile.data && (
+            {ens.data?.address === address && publisherProfile.data && (
               <Box flexShrink={0}>
-                <EditProfile releaserProfile={releaserProfile.data} />
+                <EditProfile publisherProfile={publisherProfile.data} />
               </Box>
             )}
           </Flex>
@@ -163,7 +162,7 @@ const UserPage: ThirdwebNextPage = (props: UserPageProps) => {
             </Text>
           </Flex>
           {ens.data?.address && (
-            <ReleasedContracts address={ens.data?.address} noHeader />
+            <PublishedContracts address={ens.data?.address} noHeader />
           )}
         </Flex>
         <Flex flexDir="column" gap={4}>
@@ -273,10 +272,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
     // if profileAddress is not a valid address, ensQuery throws
     // in that case - redirect to 404
     return {
-      redirect: {
-        destination: "/404",
-        permanent: false,
-      },
+      notFound: true,
     };
   }
 
@@ -297,7 +293,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
 
   await Promise.all([
     ...ensQueries,
-    queryClient.prefetchQuery(releaserProfileQuery(address)),
+    queryClient.prefetchQuery(publisherProfileQuery(address)),
     queryClient.prefetchQuery(["published-contracts", address], () =>
       fetchPublishedContracts(polygonSdk, queryClient, address),
     ),

@@ -1,4 +1,5 @@
 import {
+  Box,
   Center,
   Flex,
   Icon,
@@ -30,7 +31,7 @@ import {
   MdNavigateNext,
 } from "react-icons/md";
 import { CellProps, Column, usePagination, useTable } from "react-table";
-import { Card, Heading, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { shortenIfAddress } from "utils/usedapp-external";
 
@@ -47,9 +48,9 @@ export const NFTGetAllTable: React.FC<{
           }
           return row.metadata.id;
         },
-        Cell: (cell: CellProps<NFT, string>) => (
+        Cell: (cell: CellProps<NFT, string | number>) => (
           <Text size="body.md" fontFamily="mono">
-            {shortenIfAddress(cell.value)}
+            {shortenIfAddress(`${cell.value}`)}
           </Text>
         ),
       },
@@ -145,10 +146,15 @@ export const NFTGetAllTable: React.FC<{
   const [tokenRow, setTokenRow] = useState<NFT | null>(null);
 
   const drawerTabs = useNFTDrawerTabs("solana", program, tokenRow);
-
   return (
     <Flex gap={4} direction="column">
-      <Card maxW="100%" overflowX="auto" position="relative" px={0} py={0}>
+      <Box
+        maxW="100%"
+        overflowX="auto"
+        position="relative"
+        p={0}
+        borderTopRadius="lg"
+      >
         {getAllQueryResult.isFetching && (
           <Spinner
             color="primary"
@@ -171,14 +177,14 @@ export const NFTGetAllTable: React.FC<{
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   // eslint-disable-next-line react/jsx-key
-                  <Th {...column.getHeaderProps()} py={5}>
-                    <Text as="label" size="label.md">
+                  <Th {...column.getHeaderProps()} border="none">
+                    <Text as="label" size="label.sm" color="faded">
                       {column.render("Header")}
                     </Text>
                   </Th>
                 ))}
                 {/* // Need to add an empty header for the drawer button */}
-                <Th />
+                <Th border="none" />
               </Tr>
             ))}
           </Thead>
@@ -196,15 +202,20 @@ export const NFTGetAllTable: React.FC<{
                   onClick={() => setTokenRow(row.original)}
                   // end hack
                   borderBottomWidth={1}
+                  borderColor="borderColor"
                   _last={{ borderBottomWidth: 0 }}
                 >
                   {row.cells.map((cell) => (
                     // eslint-disable-next-line react/jsx-key
-                    <Td {...cell.getCellProps()} borderBottomWidth="inherit">
+                    <Td
+                      {...cell.getCellProps()}
+                      borderBottomWidth="inherit"
+                      borderColor="borderColor"
+                    >
                       {cell.render("Cell")}
                     </Td>
                   ))}
-                  <Td borderBottomWidth="inherit">
+                  <Td borderBottomWidth="inherit" borderColor="borderColor">
                     <Icon as={FiArrowRight} />
                   </Td>
                 </Tr>
@@ -234,7 +245,7 @@ export const NFTGetAllTable: React.FC<{
             )}
           </Tbody>
         </Table>
-      </Card>
+      </Box>
       <Center w="100%">
         <Flex gap={2} direction="row" align="center">
           <IconButton

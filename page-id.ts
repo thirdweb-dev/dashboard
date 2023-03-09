@@ -17,8 +17,8 @@ export enum PageId {
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
-  // thirdweb.com/release
-  ReleaseLanding = "release-landing",
+  // thirdweb.com/publish
+  PublishLanding = "publish-landing",
 
   // thirdweb.com/deploy
   DeployLanding = "deploy-landing",
@@ -44,6 +44,9 @@ export enum PageId {
   // thirdweb.com/gas
   GasEstimator = "gas-estimator",
 
+  // thirdweb.com/chains
+  ChainsLanding = "chains-landing",
+
   // thirdweb.com/hackathon/solanathon
   SolanaHackathonLanding = "solanathon",
   ReadyPlayer3Landing = "readyplayer3",
@@ -58,8 +61,16 @@ export enum PageId {
   // thirdweb.com/dashboard
   Dashboard = "dashboard",
 
-  // thirdweb.com/contracts
+  // thirdweb.com/dashboard/storage
+  DashboardStorage = "dashboard-storage",
+
+  // thirdweb.com/dashboard/rpc
+  DashboardRPC = "dashboard-rpc",
+
+  // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
+  // thirdweb.com/dashboard/programs
+  Programs = "programs",
 
   // thirdweb.com/explore
   Explore = "explore",
@@ -69,10 +80,6 @@ export enum PageId {
 
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
-
-  // thirdweb.com/contracts
-  Programs = "programs",
-
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------
@@ -93,14 +100,14 @@ export enum PageId {
   FaucetSolana = "faucet-solana",
 
   // ---------------------------------------------------------------------------
-  //  "release" product pages
+  //  "publish" product pages
   // ---------------------------------------------------------------------------
 
-  // thirdweb.com/contracts/release
-  ReleaseMultiple = "release-multiple-contracts",
+  // thirdweb.com/contracts/publish
+  PublishMultiple = "publish-multiple-contracts",
 
-  // thirdweb.com/contracts/release/:id
-  ReleaseSingle = "release-single-contract",
+  // thirdweb.com/contracts/publish/:id
+  PublishSingle = "publish-single-contract",
 
   // thirdweb.com/:wallet
   // example: thirdweb.com/jns.eth
@@ -108,7 +115,7 @@ export enum PageId {
 
   // thirdweb.com/:wallet/:contractId
   // example: thirdweb.com/jns.eth/PermissionedERC721A
-  ReleasedContract = "released-contract",
+  PublishedContract = "published-contract",
 
   // ---------------------------------------------------------------------------
   //  "deploy" product pages
@@ -144,4 +151,8 @@ export enum PageId {
   // thirdweb.com/:network/:contractAddress (solana)
   // example: thirdweb.com/solana/5GYspMpsfw3Vrf7FQ37Jbhpg4PeVZHEPrfPcXY9sGQzy
   DeployedProgram = "deployed-program",
+
+  // thirdweb.com/:network
+  // example: thirdweb.com/ethereum
+  ChainLanding = "chain-landing",
 }

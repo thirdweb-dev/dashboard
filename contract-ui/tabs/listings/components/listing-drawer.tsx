@@ -143,12 +143,10 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
       <Flex py={6} px={2} flexDir="column" gap={6}>
         <Flex gap={6}>
           <NFTMediaWithEmptyState
-            borderRadius="lg"
             metadata={renderData.asset}
             requireInteraction
-            flexShrink={0}
-            boxSize={32}
-            objectFit="contain"
+            width="150px"
+            height="150px"
           />
           <Flex flexDir="column" gap={2} w="70%">
             <Heading size="title.lg">{renderData.asset.name}</Heading>
@@ -158,7 +156,7 @@ export const ListingDrawer: React.FC<NFTDrawerProps> = ({
           </Flex>
         </Flex>
 
-        <Tabs isLazy lazyBehavior="keepMounted">
+        <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
           <TabList
             px={0}
             borderBottomColor="borderColor"

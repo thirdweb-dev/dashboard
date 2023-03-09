@@ -3,16 +3,26 @@ import {
   useEVMContractInfo,
   useSetEVMContractInfo,
 } from "@3rdweb-sdk/react";
-import { Alert, AlertIcon, Box, Flex, Spinner } from "@chakra-ui/react";
+import { useAddContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Container,
+  Flex,
+  Spinner,
+} from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useContractMetadata } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
 import { ensQuery } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
 import { ContractHeader } from "components/custom-contract/contract-header";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { ContractTabRouter } from "contract-ui/layout/tab-router";
+import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
+import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/conditions-not-set";
+import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
 import {
   useConfiguredChainSlugRecord,
   useConfiguredChainsRecord,
@@ -20,16 +30,25 @@ import {
 } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getDashboardChainRpc } from "lib/rpc";
+import { getEVMThirdwebSDK } from "lib/sdk";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
+import { ContractOG } from "og-lib/url-utils";
 import { PageId } from "page-id";
 import { useEffect, useMemo, useState } from "react";
 import { getAllChainRecords } from "utils/allChainsRecords";
 import { ThirdwebNextPage } from "utils/types";
+import { shortenIfAddress } from "utils/usedapp-external";
 
 type EVMContractProps = {
   contractInfo: EVMContractInfo;
   dehydratedState: DehydratedState;
+  contractMetadata?: {
+    name: string;
+    image?: string | null;
+    description?: string | null;
+  } | null;
 };
 
 const EVMContractPage: ThirdwebNextPage = () => {
@@ -131,8 +150,18 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
   const activeTab = router.query?.paths?.[2] || "overview";
   const contractQuery = useContract(contractAddress);
+  const contractMetadataQuery = useContractMetadata(contractQuery.contract);
   const requiresImport = !!useSingleQueryParam("import");
+  const autoAddToDashboard = !!useSingleQueryParam("add");
   const [manuallyImported, setManuallyImported] = useState(false);
+  const routes = useContractRouteConfig(contractAddress);
+
+  const activeRoute = useMemo(
+    () => routes.find((route) => route.path === activeTab),
+    [activeTab, routes],
+  );
+
+  const addToDashboard = useAddContractMutation();
 
   useEffect(() => {
     setManuallyImported(false);
@@ -194,7 +223,10 @@ const EVMContractPage: ThirdwebNextPage = () => {
             prefillSlug={isSlugNumber ? undefined : chainSlug}
             prefillChainId={isSlugNumber ? chainSlug : undefined}
             onNetworkConfigured={(network) => {
-              if (chainSlug === network.slug) {
+              if (
+                chainSlug === network.slug ||
+                chainSlug === `${network.chainId}`
+              ) {
                 setChainNotFound(false);
               }
             }}
@@ -212,9 +244,21 @@ const EVMContractPage: ThirdwebNextPage = () => {
         contractAddress={contractAddress}
         chain={chain}
         autoImport={!!requiresImport}
-        onImport={() => {
+        onImport={async () => {
           // stop showing import contract
           setManuallyImported(true);
+
+          if (autoAddToDashboard && chain?.chainId) {
+            // add to dashboard
+            try {
+              await addToDashboard.mutateAsync({
+                chainId: chain.chainId,
+                contractAddress,
+              });
+            } catch (e) {
+              // failed to add to dashboard
+            }
+          }
 
           // remove search query param from url without reloading the page or triggering change in router
           const url = new URL(window.location.href);
@@ -226,11 +270,23 @@ const EVMContractPage: ThirdwebNextPage = () => {
       />
     );
   }
-
   return (
     <>
-      <ContractHeader contractAddress={contractAddress} />
-      <ContractTabRouter address={contractAddress} path={activeTab} />
+      <Flex direction="column" w="100%">
+        <ContractHeader contractAddress={contractAddress} />
+        <ContractProgramSidebar
+          address={contractAddress}
+          metadataQuery={contractMetadataQuery}
+          routes={routes}
+          activeRoute={activeRoute}
+        />
+        <Container pt={8} maxW="container.page">
+          <ConditionsNotSet address={contractAddress} />
+          {activeRoute?.component && (
+            <activeRoute.component contractAddress={contractAddress} />
+          )}
+        </Container>
+      </Flex>
     </>
   );
 };
@@ -238,22 +294,57 @@ const EVMContractPage: ThirdwebNextPage = () => {
 export default EVMContractPage;
 EVMContractPage.pageId = PageId.DeployedContract;
 EVMContractPage.getLayout = (page, props: EVMContractProps) => {
-  // app layout has to come first in both getLayout and fallback
+  const displayName = `${
+    props.contractMetadata?.name ||
+    shortenIfAddress(props.contractInfo.contractAddress) ||
+    "Contract"
+  } | ${props.contractInfo.chain?.name}`;
+
+  const ogImage = ContractOG.toUrl({
+    displayName: props.contractMetadata?.name || "",
+    contractAddress: props.contractInfo.contractAddress,
+    logo: props.contractMetadata?.image || "",
+    chainName: props.contractInfo.chain?.name || "",
+  });
+
+  const url = `https://thirdweb.com/${props.contractInfo.chainSlug}/${props.contractInfo.contractAddress}/`;
+
   return (
+    // app layout has to come first in both getLayout and fallback
     <AppLayout
       layout={"custom-contract"}
       dehydratedState={props.dehydratedState}
       // has to be passed directly because the provider can not be above app layout in the tree
       contractInfo={props.contractInfo}
+      noSEOOverride
     >
-      {page}
+      <>
+        <NextSeo
+          title={displayName}
+          openGraph={{
+            title: displayName,
+            images: ogImage
+              ? [
+                  {
+                    url: ogImage.toString(),
+                    alt: ``,
+                    width: 1200,
+                    height: 630,
+                  },
+                ]
+              : undefined,
+            url,
+          }}
+        />
+        {page}
+      </>
     </AppLayout>
   );
 };
 
 // app layout has to come first in both getLayout and fallback
 EVMContractPage.fallback = (
-  <AppLayout layout={"custom-contract"}>
+  <AppLayout layout={"custom-contract"} noSEOOverride>
     <Flex h="100%" justifyContent="center" alignItems="center">
       <Spinner size="xl" />
     </Flex>
@@ -266,15 +357,39 @@ const { slugToChain } = getAllChainRecords();
 export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   const [chainSlug, contractAddress] = ctx.params?.paths as string[];
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(ensQuery(contractAddress));
+  const { address } = await queryClient.fetchQuery(ensQuery(contractAddress));
+  // if we cannot get a contract address this becomes a 404
+  if (!address) {
+    return {
+      notFound: true,
+    };
+  }
+  const chain = chainSlug in slugToChain ? slugToChain[chainSlug] : null;
+
+  let contractMetadata;
+
+  if (chain) {
+    try {
+      // create the SDK on the chain
+      const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+      // get the contract metadata
+      contractMetadata = await (await sdk.getContract(address)).metadata.get();
+    } catch (e) {
+      // ignore, most likely requires import
+    }
+  }
+
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
       contractInfo: {
         chainSlug,
         contractAddress,
-        chain: chainSlug in slugToChain ? slugToChain[chainSlug] : null,
+        chain,
       },
+      contractMetadata: contractMetadata
+        ? JSON.parse(JSON.stringify(contractMetadata))
+        : null,
     },
   };
 };

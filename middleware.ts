@@ -21,13 +21,27 @@ export const config = {
 };
 
 // used for resolving chainId to network slug with constant time lookup
-const { chainIdToChain } = getAllChainRecords();
+const { chainIdToChain, slugToChain } = getAllChainRecords();
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // remove '/' in front and then split by '/'
   const paths = pathname.slice(1).split("/");
+
+  // we're in chain mode, rewrite to `/chain/<slug>`
+  if (paths.length === 1) {
+    // redirect numbers to strings
+    if (paths[0] in chainIdToChain) {
+      const chainId = Number(paths[0]);
+      return redirect(request, `/${chainIdToChain[chainId].slug}`);
+    }
+
+    if (paths[0] in slugToChain) {
+      return rewrite(request, `/chain/${slugToChain[paths[0]].slug}`);
+    }
+  }
+  // end chain mode
 
   // ignore paths that don't have at least 2 parts
   if (paths.length < 2) {
@@ -70,12 +84,12 @@ export function middleware(request: NextRequest) {
   }
 
   if (isPossibleEVMAddress(networkOrAddress)) {
-    return rewrite(request, `/release${pathname}`);
+    return rewrite(request, `/publish${pathname}`);
   }
 }
 
 function isPossibleEVMAddress(address: string) {
-  return address.startsWith("0x") || address.endsWith(".eth");
+  return address?.startsWith("0x") || address?.endsWith(".eth");
 }
 
 // utils for rewriting and redirecting with relative paths
@@ -101,12 +115,6 @@ function handleLegacyRedirects(
   networkOrAddress: string,
   catchAll: string[],
 ) {
-  // handle old dashboard urls
-  if (networkOrAddress === "dashboard") {
-    const destination = catchAll.join("/");
-    return redirect(request, `/${destination}`);
-  }
-
   // handle deployer.thirdweb.eth urls
   if (networkOrAddress === "deployer.thirdweb.eth") {
     return redirect(request, `/thirdweb.eth/${catchAll.join("/")}`, true);

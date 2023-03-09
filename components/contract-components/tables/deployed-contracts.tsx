@@ -1,3 +1,4 @@
+import { ImportModal } from "../import-contract/modal";
 import { ShowMoreButton } from "./show-more-button";
 import {
   useAllContractList,
@@ -6,6 +7,7 @@ import {
 } from "@3rdweb-sdk/react";
 import {
   Box,
+  ButtonGroup,
   Center,
   Flex,
   Icon,
@@ -17,6 +19,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -28,7 +31,7 @@ import {
   SchemaForPrebuiltContractType,
 } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
-import { useReleasesFromDeploy } from "components/contract-components/hooks";
+import { usePublishedContractsFromDeploy } from "components/contract-components/hooks";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { ChainIcon } from "components/icons/ChainIcon";
@@ -37,11 +40,11 @@ import { useChainSlug } from "hooks/chains/chainSlug";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
-import { FiArrowRight, FiPlus } from "react-icons/fi";
+import { FiArrowRight, FiFilePlus, FiPlus } from "react-icons/fi";
 import { Column, Row, useTable } from "react-table";
 import {
   Badge,
-  Card,
+  Button,
   ChakraNextLink,
   CodeBlock,
   Heading,
@@ -75,30 +78,47 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
 
   const router = useRouter();
 
+  const modalState = useDisclosure();
+
   return (
     <>
       {!noHeader && (
-        <Flex
-          justify="space-between"
-          align="top"
-          gap={4}
-          direction={{ base: "column", md: "row" }}
-        >
-          <Flex gap={2} direction="column">
-            <Heading size="title.md">Deployed contracts</Heading>
-            <Text fontStyle="italic" maxW="container.md">
-              The list of contract instances that you have deployed with
-              thirdweb across all networks.
-            </Text>
-          </Flex>
-          <LinkButton
-            leftIcon={<FiPlus />}
-            colorScheme="primary"
-            href="/explore"
+        <>
+          <ImportModal
+            isOpen={modalState.isOpen}
+            onClose={modalState.onClose}
+          />
+          <Flex
+            justify="space-between"
+            align="top"
+            gap={4}
+            direction={{ base: "column", md: "row" }}
           >
-            Deploy new contract
-          </LinkButton>
-        </Flex>
+            <Flex gap={2} direction="column">
+              <Heading size="title.md">Deployed contracts</Heading>
+              <Text fontStyle="italic" maxW="container.md">
+                The list of contract instances that you have deployed with
+                thirdweb across all networks.
+              </Text>
+            </Flex>
+            <ButtonGroup>
+              <Button
+                leftIcon={<FiFilePlus />}
+                variant="outline"
+                onClick={modalState.onOpen}
+              >
+                Import contract
+              </Button>
+              <LinkButton
+                rightIcon={<FiPlus />}
+                colorScheme="primary"
+                href="/explore"
+              >
+                Deploy contract
+              </LinkButton>
+            </ButtonGroup>
+          </Flex>
+        </>
       )}
 
       <ContractTable combinedList={slicedData}>
@@ -198,6 +218,7 @@ interface ContractTableProps {
     address: string;
     contractType: () => Promise<ContractType>;
     metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
+    extensions: () => Promise<string[]>;
   }[];
   isFetching?: boolean;
 }
@@ -233,12 +254,9 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
             <Flex align="center" gap={2}>
               <ChainIcon size={24} ipfsSrc={data.icon} sizes={data.iconSizes} />
               <Text size="label.md">{data.chainName}</Text>
-              {data.isTestnet !== "unknown" && (
-                <Badge
-                  colorScheme={data.isTestnet ? "blue" : "green"}
-                  textTransform="capitalize"
-                >
-                  {data.isTestnet ? "Testnet" : "Mainnet"}
+              {data.isTestnet !== "unknown" && data.isTestnet && (
+                <Badge colorScheme="gray" textTransform="capitalize">
+                  Testnet
                 </Badge>
               )}
             </Flex>
@@ -272,7 +290,13 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
     });
 
   return (
-    <Card p={0} overflowX="auto" position="relative" overflowY="hidden">
+    <Box
+      borderTopRadius="lg"
+      p={0}
+      overflowX="auto"
+      position="relative"
+      overflowY="hidden"
+    >
       {isFetching && (
         <Spinner
           color="primary"
@@ -282,29 +306,17 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
           right={4}
         />
       )}
-      <Table
-        {...getTableProps()}
-        bg="backgroundHighlight"
-        p={4}
-        borderTopRadius="lg"
-        overflow="hidden"
-      >
+      <Table {...getTableProps()}>
         <Thead>
           {headerGroups.map((headerGroup) => (
             // eslint-disable-next-line react/jsx-key
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 // eslint-disable-next-line react/jsx-key
-                <Th
-                  borderBottomColor="borderColor"
-                  {...column.getHeaderProps()}
-                >
-                  <Flex align="center" gap={2}>
-                    <Text as="label" size="label.md">
-                      {column.render("Header")}
-                    </Text>
-                    {column.render("Filter")}
-                  </Flex>
+                <Th {...column.getHeaderProps()} border="none">
+                  <Text as="label" size="label.sm" color="faded">
+                    {column.render("Header")}
+                  </Text>
                 </Th>
               ))}
             </Tr>
@@ -324,7 +336,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         </Tbody>
       </Table>
       {children}
-    </Card>
+    </Box>
   );
 };
 
@@ -388,7 +400,7 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 
   const contractType = contractTypeQuery.data;
   const isPrebuiltContract = contractType && contractType !== "custom";
-  const releasesFromDeploy = useReleasesFromDeploy(
+  const publishedContractsFromDeploy = usePublishedContractsFromDeploy(
     isPrebuiltContract ? undefined : cell.address || undefined,
     cell.chainId,
   );
@@ -412,11 +424,11 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
     );
   }
 
-  const actualRelease = releasesFromDeploy.data
-    ? releasesFromDeploy.data[0]
+  const actualPublishedContract = publishedContractsFromDeploy.data
+    ? publishedContractsFromDeploy.data[0]
     : null;
 
-  if (!releasesFromDeploy.isLoading && !actualRelease) {
+  if (!publishedContractsFromDeploy.isLoading && !actualPublishedContract) {
     return (
       <Flex align="center" gap={2}>
         {imgSrc ? (
@@ -431,15 +443,15 @@ const AsyncContractTypeCell: React.FC<AsyncContractTypeCellProps> = ({
 
   return (
     <Flex align="center" gap={2}>
-      <Skeleton isLoaded={!releasesFromDeploy.isLoading && !!imgSrc}>
+      <Skeleton isLoaded={!publishedContractsFromDeploy.isLoading && !!imgSrc}>
         {imgSrc ? (
           <ChakraNextImage boxSize={8} src={imgSrc} alt={Custom} />
         ) : (
           <Box boxSize={8} />
         )}
       </Skeleton>
-      <Skeleton isLoaded={!releasesFromDeploy.isLoading}>
-        <Text size="label.md">{actualRelease?.name || Custom}</Text>
+      <Skeleton isLoaded={!publishedContractsFromDeploy.isLoading}>
+        <Text size="label.md">{actualPublishedContract?.name || Custom}</Text>
       </Skeleton>
     </Flex>
   );
@@ -470,8 +482,8 @@ const AsyncContractNameCell: React.FC<AsyncContractNameCellProps> = ({
     <Skeleton isLoaded={!metadataQuery.isLoading}>
       <ChakraNextLink href={`/${chainSlug}/${cell.address}`} passHref>
         <Text
-          color="blue.700"
-          _dark={{ color: "blue.300" }}
+          color="blue.500"
+          _dark={{ color: "blue.400" }}
           size="label.md"
           _groupHover={{ textDecor: "underline" }}
         >

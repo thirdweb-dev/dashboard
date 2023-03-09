@@ -1,6 +1,6 @@
 import { getAbsoluteUrl } from "lib/vercel-utils";
 
-interface OGImageRelease {
+interface OGImagePublishedContract {
   name: string;
   version: string;
   publishDate: string;
@@ -16,25 +16,26 @@ interface OgImageProfile {
   displayName: string;
   bio?: string;
   avatar?: string;
-  releaseCnt?: string;
+  publishedCnt?: string;
 }
 
 interface OgImageContract {
   displayName: string;
   contractAddress: string;
+  chainName: string;
   description?: string;
   logo?: string;
   deployer?: string;
   erc?: string;
-  // maybe later add release metadata
-  // releaseMeta?: Pick<
-  //   OGImageRelease,
+  // maybe later add publish metadata
+  // publishMeta?: Pick<
+  //   OGImagePublishedContract,
   //   "name" | "version" | "publishDate" | "logo"
   // >;
 }
 
 type OgProps = {
-  release: OGImageRelease;
+  publishedContract: OGImagePublishedContract;
   profile: OgImageProfile;
   contract: OgImageContract;
 };
@@ -47,9 +48,11 @@ function toUrl<TOgType extends keyof OgProps>(
   Object.entries(props).forEach(([key, value]) => {
     if (value !== undefined) {
       if (Array.isArray(value)) {
-        value.forEach((item) => url.searchParams.append(key, item));
+        value.forEach((item) =>
+          url.searchParams.append(key.toLowerCase(), item),
+        );
       } else {
-        url.searchParams.append(key, value);
+        url.searchParams.append(key.toLowerCase(), value);
       }
     }
   });
@@ -59,42 +62,45 @@ function toUrl<TOgType extends keyof OgProps>(
 
 function fromUrl(type: keyof OgProps, url: URL): OgProps[typeof type] {
   switch (type) {
-    case "release":
+    case "publishedContract":
       return {
         name: url.searchParams.get("name") || "",
         version: url.searchParams.get("version") || "",
-        publishDate: url.searchParams.get("publishDate") || "",
+        publishDate: url.searchParams.get("publishdate") || "",
         publisher: url.searchParams.get("publisher") || "",
         logo: url.searchParams.get("logo") || undefined,
         description: url.searchParams.get("description") || undefined,
-        publisherAvatar: url.searchParams.get("publisherAvatar") || undefined,
+        publisherAvatar: url.searchParams.get("publisheravatar") || undefined,
         extension: url.searchParams.getAll("extension"),
         license: url.searchParams.getAll("license"),
       };
     case "profile":
       return {
-        displayName: url.searchParams.get("displayName") || "",
+        displayName: url.searchParams.get("displayname") || "",
         bio: url.searchParams.get("bio") || undefined,
         avatar: url.searchParams.get("avatar") || undefined,
-        releaseCnt: url.searchParams.get("releaseCnt") || undefined,
+        publishedCnt: url.searchParams.get("publishedcnt") || undefined,
       } as OgProps["profile"];
     case "contract":
       return {
-        displayName: url.searchParams.get("displayName") || "",
-        contractAddress: url.searchParams.get("contractAddress") || "",
+        displayName: url.searchParams.get("displayname") || "",
+        contractAddress: url.searchParams.get("contractaddress") || "",
         description: url.searchParams.get("description") || undefined,
         logo: url.searchParams.get("logo") || undefined,
         deployer: url.searchParams.get("deployer") || undefined,
         erc: url.searchParams.get("erc") || undefined,
+        chainName: url.searchParams.get("chainname") || "",
       } as OgProps["contract"];
     default:
       throw new Error(`Unknown OG type: ${type}`);
   }
 }
 
-export const ReleaseOG = {
-  toUrl: (props: OgProps["release"]) => toUrl("release", props),
-  fromUrl: (url: URL) => fromUrl("release", url) as OgProps["release"],
+export const PublishedContractOG = {
+  toUrl: (props: OgProps["publishedContract"]) =>
+    toUrl("publishedContract", props),
+  fromUrl: (url: URL) =>
+    fromUrl("publishedContract", url) as OgProps["publishedContract"],
 };
 
 export const ProfileOG = {

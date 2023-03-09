@@ -34,13 +34,13 @@ export const ManageSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "175%", height: "200%" }}
-            pos={{ top: "40%", left: "0%" }}
+            size={{ width: "125%", height: "200%" }}
+            pos={{ top: "40%", left: "30%" }}
             color="#9786DF60"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "175%", height: "200%" }}
+            size={{ width: "125%", height: "200%" }}
             pos={{ top: "20%", left: "100%" }}
             color="#9786DF60"
           />
@@ -51,7 +51,13 @@ export const ManageSection: React.FC = () => {
             px={14}
             _hover={{ textDecoration: "none" }}
           >
-            <Heading size="label.xl" lineHeight="1.2" py={12} as="h4">
+            <Heading
+              size="label.xl"
+              fontSize="22"
+              lineHeight="1.2"
+              py={12}
+              as="h4"
+            >
               Monitor and configure your contracts from your{" "}
               <GradientText
                 as={LinkOverlay}
@@ -81,18 +87,24 @@ export const ManageSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "175%", height: "200%" }}
-            pos={{ top: "20%", left: "0%" }}
-            color="#9786DF60"
+            size={{ width: "125%", height: "200%" }}
+            pos={{ top: "40%", left: "30%" }}
+            color="#9786DF40"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "175%", height: "200%" }}
-            pos={{ top: "40%", left: "120%" }}
+            size={{ width: "125%", height: "200%" }}
+            pos={{ top: "40%", left: "100%" }}
             color="#9786DF60"
           />
           <Flex h="full" position="relative" flexDir="column" px={14}>
-            <Heading size="label.xl" lineHeight="1.2" py={12} as="h4">
+            <Heading
+              size="label.xl"
+              fontSize="22"
+              lineHeight="1.2"
+              py={12}
+              as="h4"
+            >
               Collaborate with your team and{" "}
               <GradientText
                 category={TRACKING_CATEGORY}
@@ -121,14 +133,14 @@ export const ManageSection: React.FC = () => {
         >
           <Aurora
             zIndex="auto"
-            size={{ width: "80%", height: "200%" }}
-            pos={{ top: "50%", left: "20%" }}
+            size={{ width: "125%", height: "200%" }}
+            pos={{ top: "60%", left: "0%" }}
             color="#9786DF40"
           />
           <Aurora
             zIndex="auto"
-            size={{ width: "80%", height: "200%" }}
-            pos={{ top: "50%", left: "70%" }}
+            size={{ width: "125%", height: "200%" }}
+            pos={{ top: "40%", left: "70%" }}
             color="#9786DF40"
           />
           <SimpleGrid columns={{ md: 2 }} h="full" position="relative">
@@ -144,6 +156,7 @@ export const ManageSection: React.FC = () => {
               <Heading
                 lineHeight="1.2"
                 size="label.xl"
+                fontSize="22"
                 maxW={320}
                 textAlign={{ base: "center", md: "left" }}
                 as="h4"

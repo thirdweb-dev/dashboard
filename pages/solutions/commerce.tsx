@@ -60,7 +60,7 @@ const Commerce: ThirdwebNextPage = () => {
         title="Build Web3 Commerce apps easily"
         description="With thirdweb you can now add powerful web3 features to your Shopify storefront enabling tokengated commerce, NFT loyalty programs, digital collectible sales, and more."
         buttonText="Get started"
-        buttonLink="https://blog.thirdweb.com/tag/shopify/"
+        buttonLink="https://portal.thirdweb.com/commercekit"
         gradient="linear-gradient(147.15deg, #9BC055 30.17%, #7629E7 100.01%)"
         image={require("public/assets/solutions-pages/commerce/hero.png")}
         type="Solutions"
@@ -158,6 +158,87 @@ const Commerce: ThirdwebNextPage = () => {
             href="https://portal.thirdweb.com/dashboard"
           />
         </SimpleGrid>
+      </ProductSection>
+
+      <ProductSection overflow="hidden">
+        <Flex flexDir="column" py={24} align="center" gap={12}>
+          <Heading as="h2" size="display.sm" textAlign="center" mb={12}>
+            Build web3 commerce apps with CommerceKit across multiple use cases
+          </Heading>
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={6}>
+            <ProductCard
+              title="Launch customer loyalty reward programs"
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-1.png")}
+            >
+              <Text size="body.lg">
+                Distribute membership passes with contracts from{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  color="white"
+                  fontWeight="medium"
+                  href={"/explore"}
+                  label="use-case-explore"
+                >
+                  Explore
+                </TrackedLink>{" "}
+                or using{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  isExternal
+                  color="white"
+                  fontWeight="medium"
+                  href={"https://portal.thirdweb.com/contractkit"}
+                  label="use-case-contractkit"
+                >
+                  ContractKit
+                </TrackedLink>
+                . Reward your customers at different stages of their journey,
+                from initial free “drops” to claiming rewards at checkout.
+              </Text>
+            </ProductCard>
+            <ProductCard
+              title="Sell digital collectibles"
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-2.png")}
+            >
+              <Text size="body.lg">
+                Merchants can sell digital collectibles direct from e-commerce
+                store and collect royalties from secondary sales. (e.g.
+                One-of-One’s, Open Editions, Trading packs)
+              </Text>
+            </ProductCard>
+            <ProductCard
+              title="Unlock both virtual and real world experiences"
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-3.png")}
+            >
+              <Text size="body.lg">
+                Sell digital tickets with exclusive access to online and offline
+                events. Enable customers to redeem virtual items for real world
+                items.
+              </Text>
+            </ProductCard>
+            <ProductCard
+              title="Add web3 data to your customer funnel"
+              icon={require("/public/assets/solutions-pages/commerce/hero-icon-4.png")}
+            >
+              <Text size="body.lg">
+                Authenticate web3 users using{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  isExternal
+                  color="white"
+                  fontWeight="medium"
+                  href={"/auth"}
+                  label="use-case-auth"
+                >
+                  Auth
+                </TrackedLink>
+                . Merge data into existing CRM data stores. Get metrics and
+                analytics around transactions and owners of digital assets and
+                collections.
+              </Text>
+            </ProductCard>
+          </SimpleGrid>
+        </Flex>
       </ProductSection>
 
       <GuidesShowcase

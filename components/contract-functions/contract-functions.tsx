@@ -47,7 +47,7 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
 
   return (
     <Flex flexDir="column" gap={2} w="100%">
-      <Tabs isLazy lazyBehavior="keepMounted">
+      <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
         <TabList px={0} borderBottomColor="borderColor" borderBottomWidth="1px">
           {functions && functions.length > 0 ? (
             <Tab>
@@ -98,7 +98,7 @@ export const ContractFunctionsOverview: React.FC<ContractFunctionsOverview> = ({
           {abi && (
             <TabPanel>
               <Flex direction="column" gap={6}>
-                <CodeOverview abi={abi} />
+                <CodeOverview abi={abi} noSidebar />
               </Flex>
             </TabPanel>
           )}

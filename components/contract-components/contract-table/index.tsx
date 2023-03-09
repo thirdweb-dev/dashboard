@@ -3,11 +3,20 @@ import { ContractDeployActionCell } from "./cells/deploy-action";
 import { ContractDescriptionCell } from "./cells/description";
 import { ContractImageCell } from "./cells/image";
 import { ContractNameCell } from "./cells/name";
-import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+  Box,
+  Spinner,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 import { Column, Row, useTable } from "react-table";
-import { Card, Text } from "tw-components";
+import { Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface DeployableContractTableProps {
@@ -65,7 +74,7 @@ export const DeployableContractTable: ComponentWithChildren<
     data: contractIds.map((contractId) => ({ contractId })),
   });
   return (
-    <Card p={0} overflowX="auto" position="relative">
+    <Box borderTopRadius="lg" p={0} overflowX="auto" position="relative">
       {isFetching && (
         <Spinner
           color="primary"
@@ -86,10 +95,9 @@ export const DeployableContractTable: ComponentWithChildren<
                 <Th
                   {...column.getHeaderProps()}
                   key={column.getHeaderProps().key}
-                  py={5}
-                  borderBottomColor="borderColor"
+                  border="none"
                 >
-                  <Text as="label" size="label.md">
+                  <Text as="label" size="label.md" color="faded">
                     {column.render("Header")}
                   </Text>
                 </Th>
@@ -111,7 +119,7 @@ export const DeployableContractTable: ComponentWithChildren<
         </Tbody>
       </Table>
       {children}
-    </Card>
+    </Box>
   );
 };
 
@@ -142,7 +150,6 @@ const TableRow: React.FC<TableRowProps> = ({ row, context }) => {
           undefined,
           {
             scroll: true,
-            shallow: true,
           },
         );
       }}
@@ -165,8 +172,8 @@ const TableRow: React.FC<TableRowProps> = ({ row, context }) => {
 
 function actionUrlPath(context: ContractCellContext | undefined, hash: string) {
   switch (context) {
-    case "create_release":
-      return `/contracts/release/${encodeURIComponent(hash)}`;
+    case "publish":
+      return `/contracts/publish/${encodeURIComponent(hash)}`;
     case "deploy":
       return `/contracts/deploy/${encodeURIComponent(hash)}`;
     default:

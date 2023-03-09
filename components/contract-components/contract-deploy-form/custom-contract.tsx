@@ -6,26 +6,24 @@ import {
   useEns,
   useFunctionParamsFromABI,
 } from "../hooks";
-import { Divider, Flex, FormControl, Icon } from "@chakra-ui/react";
+import { ConfigureNetworkButton } from "../shared/configure-network-button";
+import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { DisabledChainsMap } from "constants/mappings";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
+import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { IoMdSettings } from "react-icons/io";
 import invariant from "tiny-invariant";
 import {
-  Button,
   Checkbox,
   FormErrorMessage,
   FormHelperText,
@@ -50,24 +48,23 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   isImplementationDeploy,
   onSuccessCallback,
 }) => {
-  const [showAddNetworkModal, setShowAddNetworkModal] = useState(false);
   const networkInfo = useConfiguredChain(selectedChain || -1);
   const address = useAddress();
   const ensQuery = useEns(address);
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
-  const fullReleaseMetadata = useContractFullPublishMetadata(ipfsHash);
+  const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const constructorParams = useConstructorParamsFromABI(
     compilerMetadata.data?.abi,
   );
   const initializerParams = useFunctionParamsFromABI(
     compilerMetadata.data?.abi,
-    fullReleaseMetadata.data?.factoryDeploymentData
+    fullPublishMetadata.data?.factoryDeploymentData
       ?.implementationInitializerFunction || "initialize",
   );
   const isFactoryDeployment =
-    (fullReleaseMetadata.data?.isDeployableViaFactory ||
-      fullReleaseMetadata.data?.isDeployableViaProxy) &&
+    (fullPublishMetadata.data?.isDeployableViaFactory ||
+      fullPublishMetadata.data?.isDeployableViaProxy) &&
     !isImplementationDeploy;
 
   const deployParams = isFactoryDeployment
@@ -75,10 +72,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     : constructorParams;
 
   const disabledChains =
-    isFactoryDeployment && fullReleaseMetadata.data?.factoryDeploymentData
+    isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
       ? SUPPORTED_CHAIN_IDS.filter((chain) => {
           const implementationAddress =
-            fullReleaseMetadata.data?.factoryDeploymentData
+            fullPublishMetadata.data?.factoryDeploymentData
               ?.implementationAddresses?.[chain];
           return (
             !implementationAddress ||
@@ -95,7 +92,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       addToDashboard: true,
       deployParams: deployParams.reduce((acc, param) => {
         acc[param.name] = replaceTemplateValues(
-          fullReleaseMetadata.data?.constructorParams?.[param.name]
+          fullPublishMetadata.data?.constructorParams?.[param.name]
             ?.defaultValue || "",
           param.type,
           {
@@ -110,7 +107,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       addToDashboard: true,
       deployParams: deployParams.reduce((acc, param) => {
         acc[param.name] = replaceTemplateValues(
-          fullReleaseMetadata.data?.constructorParams?.[param.name]
+          fullPublishMetadata.data?.constructorParams?.[param.name]
             ?.defaultValue || "",
           param.type,
           {
@@ -158,8 +155,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             contractMetadata: d,
             publishMetadata: compilerMetadata.data,
             chainId: selectedChain,
-            is_proxy: fullReleaseMetadata.data?.isDeployableViaProxy,
-            is_factory: fullReleaseMetadata.data?.isDeployableViaProxy,
+            is_proxy: fullPublishMetadata.data?.isDeployableViaProxy,
+            is_factory: fullPublishMetadata.data?.isDeployableViaProxy,
           };
           // always respect this since even factory deployments cannot auto-add to registry anymore
           const addToDashboard = d.addToDashboard;
@@ -180,6 +177,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   chainId: selectedChain,
                   address: deployedContractAddress,
                 });
+
+                // try verifying the contract, might as well
+                try {
+                  // we don't await this, just kick it off and be done with it
+                  verifyContract({
+                    contractAddress: deployedContractAddress,
+                    chainId: selectedChain,
+                  });
+                } catch (e) {
+                  // ignore
+                }
+
                 trackEvent({
                   category: "custom-contract",
                   action: "deploy",
@@ -239,7 +248,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
               const contructorParams =
-                fullReleaseMetadata.data?.constructorParams || {};
+                fullPublishMetadata.data?.constructorParams || {};
               const extraMetadataParam = contructorParams[paramKey];
               return (
                 <FormControl
@@ -364,24 +373,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </TransactionButton>
         </Flex>
 
-        <Button
-          variant="filled"
-          background="inputBg"
-          _hover={{
-            background: "inputBgHover",
-          }}
-          leftIcon={<Icon color="inherit" as={IoMdSettings} />}
-          onClick={() => setShowAddNetworkModal(true)}
-          py={3}
-        >
-          Configure Networks
-        </Button>
-
-        {showAddNetworkModal && (
-          <ConfigureNetworkModal
-            onClose={() => setShowAddNetworkModal(false)}
-          />
-        )}
+        <ConfigureNetworkButton label="deploy-contract" />
       </Flex>
     </FormProvider>
   );

@@ -37,7 +37,7 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
   trackingCategory,
 }) => {
   const allRoleMembers = useAllRoleMembers(contract);
-  const premissionsHref = useTabHref("permissions");
+  const permissionsHref = useTabHref("permissions");
 
   const members = useMemo(() => {
     return (
@@ -70,9 +70,9 @@ export const PermissionsTable: React.FC<PermissionsTableProps> = ({
             color: "blue.600",
           }}
           gap={4}
-          href={premissionsHref}
+          href={permissionsHref}
         >
-          View all permissions -&gt;
+          View all -&gt;
         </TrackedLink>
       </Flex>
       {contract && (

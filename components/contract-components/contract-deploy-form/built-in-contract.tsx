@@ -1,4 +1,5 @@
 import { useContractPublishMetadataFromURI } from "../hooks";
+import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractIdImage } from "../shared/contract-id-image";
 import { useDeploy } from "@3rdweb-sdk/react";
 import {
@@ -10,7 +11,6 @@ import {
   Divider,
   Flex,
   FormControl,
-  Icon,
   Input,
   LinkBox,
   LinkOverlay,
@@ -34,13 +34,13 @@ import {
 } from "@thirdweb-dev/sdk/evm";
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { RecipientForm } from "components/deployment/splits/recipients";
 import { BasisPointsInput } from "components/inputs/BasisPointsInput";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { FileInput } from "components/shared/FileInput";
 import { BuiltinContractMap, DisabledChainsMap } from "constants/mappings";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
+import { verifyContract } from "contract-ui/tabs/sources/page";
 import { constants, utils } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
@@ -51,10 +51,8 @@ import { useRouter } from "next/router";
 import twAudited from "public/brand/thirdweb-audited-2.png";
 import { useEffect, useMemo, useState } from "react";
 import { FieldPath, FormProvider, useForm } from "react-hook-form";
-import { IoMdSettings } from "react-icons/io";
 import invariant from "tiny-invariant";
 import {
-  Button,
   Checkbox,
   FormErrorMessage,
   FormHelperText,
@@ -101,7 +99,6 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
   onChainSelect,
 }) => {
   const publishMetadata = useContractPublishMetadataFromURI(contractType);
-  const [showAddNetworkModal, setShowAddNetworkModal] = useState(false);
   const contract =
     PREBUILT_CONTRACTS_MAP[contractType as keyof typeof PREBUILT_CONTRACTS_MAP];
   const chainInfo = useConfiguredChain(selectedChain || -1);
@@ -263,6 +260,18 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
                 chainId: selectedChain,
                 address: contractAddress,
               });
+
+              // try verifying the contract, might as well
+              try {
+                // we don't await this, just kick it off and be done with it
+                verifyContract({
+                  contractAddress,
+                  chainId: selectedChain,
+                });
+              } catch (e) {
+                // ignore
+              }
+
               trackEvent({
                 category: "builtin-contract",
                 action: "deploy",
@@ -936,23 +945,8 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
           </TransactionButton>
         </Flex>
 
-        <Button
-          variant="filled"
-          background="inputBg"
-          _hover={{
-            background: "inputBgHover",
-          }}
-          leftIcon={<Icon color="inherit" as={IoMdSettings} />}
-          onClick={() => setShowAddNetworkModal(true)}
-          py={3}
-        >
-          Configure Networks
-        </Button>
+        <ConfigureNetworkButton label="deploy-contract" />
       </Flex>
-
-      {showAddNetworkModal && (
-        <ConfigureNetworkModal onClose={() => setShowAddNetworkModal(false)} />
-      )}
     </FormProvider>
   );
 };

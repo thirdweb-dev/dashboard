@@ -2,7 +2,7 @@ import { ChakraNextLink } from "./link";
 import { convertFontSizeToCSSVar } from "./utils/typography";
 import {
   Button as ChakraButton,
-  ButtonProps as ChakraButtonprops,
+  ButtonProps as ChakraButtonProps,
   Icon,
   IconButton,
   IconButtonProps,
@@ -10,10 +10,11 @@ import {
   Link,
   forwardRef,
   useButtonGroup,
+  useClipboard,
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import React from "react";
-import { FiExternalLink } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { FiCheck, FiCopy, FiExternalLink } from "react-icons/fi";
 import { fontWeights, letterSpacings, lineHeights } from "theme/typography";
 
 export const buttonSizesMap = {
@@ -25,7 +26,7 @@ export const buttonSizesMap = {
 
 export type PossibleButtonSize = keyof typeof buttonSizesMap;
 
-export interface ButtonProps extends Omit<ChakraButtonprops, "size"> {
+export interface ButtonProps extends Omit<ChakraButtonProps, "size"> {
   size?: PossibleButtonSize;
   fromcolor?: string;
   tocolor?: string;
@@ -40,7 +41,6 @@ export const Button = forwardRef<ButtonProps, "button">(
     if (!(_size in buttonSizesMap)) {
       _size = "md";
     }
-
     const props: ButtonProps = {
       fontWeight: fontWeights.label,
       lineHeight: lineHeights.label,
@@ -67,7 +67,16 @@ export const Button = forwardRef<ButtonProps, "button">(
         </LightMode>
       );
     }
-    return <ChakraButton {...props} ref={ref} />;
+
+    return (
+      <ChakraButton
+        {...props}
+        fontWeight={fontWeights.label}
+        lineHeight={lineHeights.label}
+        letterSpacing={letterSpacings.label}
+        ref={ref}
+      />
+    );
   },
 );
 
@@ -121,6 +130,9 @@ export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
     const trackEvent = useTrack();
     return (
       <IconButton
+        _light={{
+          color: "gray.700",
+        }}
         ref={ref}
         onClick={() =>
           trackEvent({
@@ -136,3 +148,50 @@ export const TrackedIconButton = forwardRef<TrackedIconButtonProps, "button">(
 );
 
 TrackedIconButton.displayName = "TrackedIconButton";
+
+interface TrackedCopyButtonProps extends TrackedIconButtonProps {
+  value: string;
+}
+
+export const TrackedCopyButton = forwardRef<TrackedCopyButtonProps, "button">(
+  ({ value, ...restButtonProps }, ref) => {
+    const { onCopy, hasCopied, setValue } = useClipboard(value);
+
+    const copy = (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onCopy();
+    };
+
+    useEffect(() => {
+      if (value) {
+        setValue(value);
+      }
+    }, [value, setValue]);
+
+    return (
+      <TrackedIconButton
+        ref={ref}
+        borderRadius="md"
+        variant="ghost"
+        colorScheme="whiteAlpha"
+        size="sm"
+        onClick={copy}
+        icon={
+          hasCopied ? (
+            <Icon
+              color="green.400"
+              _light={{ color: "green.600" }}
+              as={FiCheck}
+            />
+          ) : (
+            <Icon as={FiCopy} />
+          )
+        }
+        {...restButtonProps}
+      />
+    );
+  },
+);
+
+TrackedCopyButton.displayName = "TrackedCopyButton";

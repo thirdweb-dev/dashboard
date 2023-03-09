@@ -1,8 +1,5 @@
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import {
-  useAddContractMutation,
-  useRemoveContractMutation,
-} from "@3rdweb-sdk/react/hooks/useRegistry";
+import { useAddContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
   useContractList,
   useMultiChainRegContractList,
@@ -13,7 +10,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { getDashboardChainRpc } from "lib/rpc";
 import { useMemo, useState } from "react";
-import { FiMinus, FiPlus } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { Button } from "tw-components";
 
 const TRACKING_CATEGORY = "add_to_dashboard_upsell";
@@ -46,11 +43,6 @@ export const AddToDashboardToggleButton: React.FC<AddToDashboardCardProps> = ({
     "Successfully added to dashboard",
     "Failed to add to dashboard",
   );
-  const { onSuccess: onRemoveSuccess, onError: onRemoveError } =
-    useTxNotifications(
-      "Successfully removed from dashboard",
-      "Failed to remove from dashboard",
-    );
 
   const onOldRegistry = useMemo(() => {
     return (
@@ -98,67 +90,21 @@ export const AddToDashboardToggleButton: React.FC<AddToDashboardCardProps> = ({
     );
   }, [newRegistryContractList.isFetched, oldRegistryContractList.isFetched]);
 
-  const removeContract = useRemoveContractMutation(
-    chain?.chainId || -1,
-    onOldRegistry ? "old" : onNewRegistry ? "new" : "none",
-  );
-
   if (!walletAddress || !contractAddress || !chain) {
     return null;
   }
 
-  return isAlreadyOnDashboard ? (
+  return isAlreadyOnDashboard ? null : (
     <Button
-      variant="outline"
-      size="xs"
-      leftIcon={<Icon as={FiMinus} />}
-      isLoading={addContract.isLoading || statusUnknown}
-      isDisabled={!chain?.chainId}
-      onClick={() => {
-        if (!chain) {
-          return;
-        }
-        trackEvent({
-          category: TRACKING_CATEGORY,
-          action: "remove-from-dashboard",
-          label: "attempt",
-          contractAddress,
-        });
-        removeContract.mutate(
-          {
-            contractAddress,
-          },
-          {
-            onSuccess: () => {
-              onRemoveSuccess();
-              trackEvent({
-                category: TRACKING_CATEGORY,
-                action: "remove-from-dashboard",
-                label: "success",
-                contractAddress,
-              });
-              setAddedState("removed");
-            },
-            onError: (err) => {
-              onRemoveError(err);
-              trackEvent({
-                category: TRACKING_CATEGORY,
-                action: "remove-from-dashboard",
-                label: "error",
-                contractAddress,
-                error: err,
-              });
-            },
-          },
-        );
+      variant="solid"
+      bg="bgBlack"
+      color="bgWhite"
+      _hover={{
+        opacity: 0.85,
       }}
-    >
-      Remove from dashboard
-    </Button>
-  ) : (
-    <Button
-      variant="outline"
-      size="xs"
+      _active={{
+        opacity: 0.75,
+      }}
       leftIcon={<Icon as={FiPlus} />}
       isLoading={addContract.isLoading || statusUnknown}
       isDisabled={!chain?.chainId || isAlreadyOnDashboard}

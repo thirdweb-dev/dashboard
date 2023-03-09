@@ -1,19 +1,20 @@
-export type Environment =
+export type CodeEnvironment =
   | "javascript"
   | "typescript"
   | "web3button"
   | "react"
   | "python"
-  | "go";
+  | "go"
+  | "unity";
 
 export interface SupportedEnvironment {
-  environment: Environment;
+  environment: CodeEnvironment;
   title: string;
   icon: React.FC;
   colorScheme: string;
 }
 
-export type CodeSnippet = Partial<Record<Environment, string>>;
+export type CodeSnippet = Partial<Record<CodeEnvironment, string>>;
 
 export interface SnippetSchema {
   name: string;

@@ -1,15 +1,19 @@
+import { AnyEVMSection } from "../components/homepage/sections/AnyEVM";
+import { BuildSection } from "../components/homepage/sections/key-features/BuildSection";
+import { HowItWorksSection } from "../components/homepage/sections/key-features/HowItWorksSection";
+import { LaunchSection } from "../components/homepage/sections/key-features/LaunchSection";
+import { ManageSection } from "../components/homepage/sections/key-features/ManageSection";
 import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
 import { HeroSection } from "components/homepage/sections/HeroSection";
-import { KeyFeaturesSection } from "components/homepage/sections/KeyFeaturesSection";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
-import { NetworksSection } from "components/homepage/sections/NextworksSection";
 import { PricingSection } from "components/homepage/sections/PricingSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { SolutionsSection } from "components/homepage/sections/Solutions";
 import { StatsSection } from "components/homepage/sections/StatsSection";
 import { ValuesSection } from "components/homepage/sections/ValuesSection";
+import { ExtensionsSection } from "components/homepage/sections/extensions";
 import { PartnerCarousel } from "components/partners/carousel";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { PageId } from "page-id";
@@ -36,11 +40,15 @@ const HomePage: ThirdwebNextPage = () => {
           <HeroSection />
           <PartnerCarousel />
           <StatsSection />
-          <KeyFeaturesSection />
+          <HowItWorksSection />
+          <ExtensionsSection />
+          <ValuesSection />
           <Suspense>
+            <BuildSection />
             <SDKSection />
-            <ValuesSection />
-            <NetworksSection />
+            <LaunchSection />
+            <ManageSection />
+            <AnyEVMSection />
             <PricingSection />
             <SolutionsSection />
             <GetStartedSection />

@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { PublicKey } from "@solana/web3.js";
 import type { NFT } from "@thirdweb-dev/sdk";
+import { BigNumber } from "ethers";
 import React from "react";
 import { Badge, Card, CodeBlock, Drawer, Heading, Text } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -42,7 +43,6 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
     renderData.metadata.id === PublicKey.default.toBase58()
       ? "Unclaimed"
       : renderData.metadata.id;
-
   return (
     <Drawer
       allowPinchZoom
@@ -56,9 +56,6 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           <NFTMediaWithEmptyState
             metadata={renderData.metadata}
             requireInteraction
-            flexShrink={0}
-            borderRadius="lg"
-            objectFit="contain"
             width="150px"
             height="150px"
           />
@@ -70,7 +67,7 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
           </Flex>
         </Flex>
 
-        <Tabs isLazy lazyBehavior="keepMounted">
+        <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
           <TabList
             px={0}
             borderBottomColor="borderColor"
@@ -96,22 +93,24 @@ export const NFTDrawer: React.FC<NFTDrawerProps> = ({
                     <GridItem colSpan={9}>
                       <AddressCopyButton size="xs" address={tokenId} tokenId />
                     </GridItem>
+
+                    {renderData.type !== "ERC1155" &&
+                      BigNumber.from(renderData.supply).lt(2) && (
+                        <>
+                          <GridItem colSpan={3}>
+                            <Heading size="label.md">Owner</Heading>
+                          </GridItem>
+                          <GridItem colSpan={9}>
+                            <AddressCopyButton
+                              size="xs"
+                              address={renderData.owner}
+                            />
+                          </GridItem>
+                        </>
+                      )}
                     <GridItem colSpan={3}>
-                      <Heading size="label.md">Owner</Heading>
+                      <Heading size="label.md">Token Standard</Heading>
                     </GridItem>
-                    {renderData.type === "ERC721" && (
-                      <>
-                        <GridItem colSpan={9}>
-                          <AddressCopyButton
-                            size="xs"
-                            address={renderData.owner}
-                          />
-                        </GridItem>
-                        <GridItem colSpan={3}>
-                          <Heading size="label.md">Token Standard</Heading>
-                        </GridItem>
-                      </>
-                    )}
                     <GridItem colSpan={9}>
                       <Badge size="label.sm" variant="subtle">
                         {renderData.type}

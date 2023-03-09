@@ -1,16 +1,16 @@
 import chakraTheme from "../theme";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
-import { IBM_Plex_Mono, Inter } from "@next/font/google";
 import type { DehydratedState } from "@tanstack/react-query";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
 import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
+import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import posthog from "posthog-js";
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import { generateBreakpointTypographyCssVars } from "tw-components/utils/typography";
 import type { ThirdwebNextPage } from "utils/types";
 
@@ -111,6 +111,16 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
     };
   }, [pageId]);
 
+  const canonicalUrl = useMemo(() => {
+    const base = `https://thirdweb.com`;
+    // replace all re-written middleware paths
+    const path = router.asPath
+      .replace("/evm/", "/")
+      .replace("/solana/", "/")
+      .replace("/chain/", "/");
+    return `${base}${path}`;
+  }, [router.asPath]);
+
   // shortcut everything and only set up the necessities for the OG renderer
   if (router.pathname.startsWith("/_og/")) {
     return (
@@ -134,10 +144,9 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
       </>
     );
   }
-
   return (
     <ConsoleApp
-      seoCanonical={`https://thirdweb.com${router.asPath}`}
+      seoCanonical={canonicalUrl}
       Component={Component}
       pageProps={pageProps}
       isFallback={router.isFallback}
@@ -156,7 +165,6 @@ const ConsoleApp = memo(function ConsoleApp({
   Component,
   pageProps,
   seoCanonical,
-
   isFallback,
 }: ConsoleAppProps) {
   const getLayout = Component.getLayout ?? ((page) => page);

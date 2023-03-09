@@ -1,7 +1,7 @@
 import { CodeSegment } from "./CodeSegment";
 import {
+  CodeEnvironment,
   CodeSnippet,
-  Environment,
   SnippetApiResponse,
   SnippetSchema,
 } from "./types";
@@ -23,7 +23,7 @@ function replaceVariablesInCodeSnippet(
   walletAddress?: string,
   chainName?: string,
 ): CodeSnippet {
-  const envs = Object.keys(snippet) as Environment[];
+  const envs = Object.keys(snippet) as CodeEnvironment[];
   for (const env of envs) {
     if (contractAddress) {
       snippet[env] = snippet[env]
@@ -56,6 +56,7 @@ const INSTALL_COMMANDS = {
     react: "npm install @thirdweb-dev/sdk @thirdweb-dev/react ethers@5",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+    unity: ``,
   },
   solana: {
     typescript: "npm install @thirdweb-dev/sdk",
@@ -64,6 +65,7 @@ const INSTALL_COMMANDS = {
       "npm install @thirdweb-dev/sdk @thirdweb-dev/react @solana/wallet-adapter-wallets @solana/wallet-adapter-react",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
+    unity: ``,
   },
 };
 
@@ -91,10 +93,10 @@ export const ContractCode: React.FC<ContractCodeProps> = ({
   const evmAddress = useAddress();
   const solanaAddress = useWallet().publicKey?.toBase58();
   const address = evmAddress || solanaAddress;
-  const [environment, setEnvironment] = useState<Environment>("react");
+  const [environment, setEnvironment] = useState<CodeEnvironment>("react");
 
   const replaceSnippetVars = useCallback(
-    (snip: Partial<Record<Environment, string>>) =>
+    (snip: Partial<Record<CodeEnvironment, string>>) =>
       replaceVariablesInCodeSnippet(snip, contractAddress, address, chainName),
     [address, contractAddress, chainName],
   );
@@ -178,7 +180,7 @@ export const ContractCode: React.FC<ContractCodeProps> = ({
           ) : (
             <>
               <Heading size="title.sm">Getting started</Heading>
-              <Text>First, install the latest version of the SDK.</Text>
+              <Text>First, install the latest version of the SDK:</Text>
               <CodeBlock
                 language="bash"
                 code={

@@ -5,9 +5,10 @@ const ContentSecurityPolicy = `
   object-src 'none';
   style-src 'self' 'unsafe-inline';
   font-src 'self';
-  frame-src *;
+  frame-src * data:;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' *.thirdweb.com vercel.live;
   connect-src * data: blob:;
+  worker-src 'self' blob:;
   block-all-mixed-content;
 `;
 
@@ -93,26 +94,19 @@ const { withSentryConfig } = require("@sentry/nextjs");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withPlausibleProxy } = require("next-plausible");
 
-const sentryWebpackPluginOptions = {
-  // Additional config options for the Sentry Webpack plugin. Keep in mind that
-  // the following options are set automatically, and overriding them is not
-  // recommended:
-  //   release, url, org, project, authToken, configFile, stripPrefix,
-  //   urlPrefix, include, ignore
-
-  // Suppresses all logs
-  silent: true,
-  // For all available options, see:
-  // https://github.com/getsentry/sentry-webpack-plugin#options.
-
-  hideSourceMaps: false,
-};
+// we only want sentry on production enviroments
+const wSentry =
+  process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
 
 module.exports = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",
   scriptName: "pl",
 })(
   withBundleAnalyzer(
-    withSentryConfig(moduleExports, sentryWebpackPluginOptions),
+    wSentry(
+      moduleExports,
+      { silent: true, debug: false },
+      { hideSourceMaps: true, widenClientFileUpload: true },
+    ),
   ),
 );
