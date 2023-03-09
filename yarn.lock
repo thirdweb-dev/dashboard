@@ -3582,16 +3582,6 @@
     ipfs-unixfs-importer "^7.0.1"
     uuid "^9.0.0"
 
-"@thirdweb-dev/storage@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.0.tgz#f2339d7994201c066e28d63ce4e29bd432af8c25"
-  integrity sha512-KVAfkQsd5lGYOe2OBOWju9TF0s5TsKk26ViO9BJLn0/FcAwI+Xev6iyeDpfiO6GMA8kUmX/KSR0EtLPlJJgOKw==
-  dependencies:
-    cross-fetch "^3.1.5"
-    form-data "^4.0.0"
-    ipfs-unixfs-importer "^7.0.1"
-    uuid "^9.0.0"
-
 "@thirdweb-dev/wallets@0.2.7-dev-20230308224750-0be7a54":
   version "0.2.7-dev-20230308224750-0be7a54"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.2.7-dev-20230308224750-0be7a54.tgz#aa4798654884c4af531bbc351ae305b559791dd3"
