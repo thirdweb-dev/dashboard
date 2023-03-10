@@ -1,25 +1,14 @@
+import { GetStarted } from "../../components/dashboard/GetStarted";
+import { ContractsSidebar } from "../../core-ui/sidebar/contracts";
 import { useAllContractList } from "@3rdweb-sdk/react";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import {
-  Box,
-  Container,
-  Divider,
-  Flex,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
-import { PublishedContracts } from "components/contract-components/tables/published-contracts";
-import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -40,51 +29,36 @@ const Contracts: ThirdwebNextPage = () => {
     }, 200);
   }, []);
 
+  const steps = [
+    {
+      title: "Connect your wallet to get started",
+      description:
+        "In order to interact with your contracts you need to connect an EVM compatible wallet.",
+      children: <ConnectWallet ecosystem="evm" />,
+      completed: !!address,
+    },
+    {
+      title: "Switch to the test network Mumbai",
+      description:
+        "This network allows you to deploy contracts within a testing environment.",
+      children: <ConnectWallet ecosystem="evm" />,
+      completed: false,
+    },
+  ];
+
   return (
     <Box pt={8}>
       <ClientOnly fadeInDuration={600} ssr={null}>
+        <ContractsSidebar activePage="deployed" />
         {!isLoading && (
-          <>
-            {address ? (
-              <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
-                <TabList
-                  px={0}
-                  borderBottomColor="borderColor"
-                  borderBottomWidth="1px"
-                  overflowX={{ base: "auto", md: "inherit" }}
-                >
-                  <Tab gap={2}>
-                    <Heading size="label.lg">Deployed Contracts</Heading>
-                  </Tab>
-                  <Tab gap={2}>
-                    <Heading size="label.lg">Published Contracts</Heading>
-                  </Tab>
-                </TabList>
-                <TabPanels px={0} py={2}>
-                  <TabPanel px={0}>
-                    <EVMContracts address={address} />
-                  </TabPanel>
-                  <TabPanel px={0}>
-                    <PublishedContractsPage address={address} />
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
-            ) : (
-              <Container maxW="lg">
-                <Card p={6} as={Flex} flexDir="column" gap={2}>
-                  <Heading as="h2" size="title.sm">
-                    Please connect your wallet
-                  </Heading>
-                  <Text>
-                    In order to interact with your contracts you need to connect
-                    an EVM compatible wallet.
-                  </Text>
-                  <Divider my={4} />
-                  <ConnectWallet ecosystem="evm" />
-                </Card>
-              </Container>
-            )}
-          </>
+          <Flex flexDir="column" gap={12}>
+            <GetStarted
+              title="Get started with deploying contracts"
+              description="This guide will help you start deploying contracts on-chain in just a few minutes."
+              steps={steps}
+            />
+            {address && <EVMContracts address={address} />}
+          </Flex>
         )}
       </ClientOnly>
     </Box>
@@ -109,17 +83,6 @@ const EVMContracts: React.FC<ContractsProps> = ({ address }) => {
   return (
     <Flex direction="column" gap={8}>
       <DeployedContracts contractListQuery={allContractList} limit={50} />
-    </Flex>
-  );
-};
-
-const PublishedContractsPage: React.FC<ContractsProps> = ({ address }) => {
-  return (
-    <Flex direction="column" gap={8}>
-      {/* this section needs to be on the publishersdk context (polygon SDK) */}
-      <PublisherSDKContext>
-        <PublishedContracts address={address} />
-      </PublisherSDKContext>
     </Flex>
   );
 };
