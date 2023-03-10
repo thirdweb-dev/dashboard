@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuList,
   useClipboard,
+  useColorMode,
 } from "@chakra-ui/react";
 import { AiOutlineDisconnect } from "@react-icons/all-files/ai/AiOutlineDisconnect";
 import {
@@ -117,6 +118,8 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   ecosystem = "either",
   ...buttonProps
 }) => {
+  const { colorMode } = useColorMode();
+
   // const trackEvent = useTrack();
   const solWallet = useSolWallet();
   // const [showConfigureNetworkModal, setShowConfigureNetworkModal] =
@@ -516,12 +519,8 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   // TOOO: set theme
 
   if (ecosystem === "evm" || ecosystem === "either") {
-    return <ConnectWalletNew />;
+    return <ConnectWalletNew theme={colorMode} />;
   }
-
-  console.log("eco:", ecosystem);
-
-  console.log("sol wallets", solWallet.wallets);
 
   return (
     <>
