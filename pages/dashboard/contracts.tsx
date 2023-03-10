@@ -1,5 +1,8 @@
 import { useAllContractList } from "@3rdweb-sdk/react";
 import {
+  Box,
+  Container,
+  Divider,
   Flex,
   Tab,
   TabList,
@@ -7,16 +10,15 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { PublishedContracts } from "components/contract-components/tables/published-contracts";
-import { NoWallet } from "components/no-wallet";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Heading } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -38,39 +40,53 @@ const Contracts: ThirdwebNextPage = () => {
   }, []);
 
   return (
-    <ClientOnly fadeInDuration={600} ssr={null}>
-      {!isLoading && (
-        <>
-          {address ? (
-            <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
-              <TabList
-                px={0}
-                borderBottomColor="borderColor"
-                borderBottomWidth="1px"
-                overflowX={{ base: "auto", md: "inherit" }}
-              >
-                <Tab gap={2}>
-                  <Heading size="label.lg">Deployed Contracts</Heading>
-                </Tab>
-                <Tab gap={2}>
-                  <Heading size="label.lg">Published Contracts</Heading>
-                </Tab>
-              </TabList>
-              <TabPanels px={0} py={2}>
-                <TabPanel px={0}>
-                  <EVMContracts address={address} />
-                </TabPanel>
-                <TabPanel px={0}>
-                  <PublishedContractsPage address={address} />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          ) : (
-            <NoWallet ecosystem="evm" />
-          )}
-        </>
-      )}
-    </ClientOnly>
+    <Box pt={8}>
+      <ClientOnly fadeInDuration={600} ssr={null}>
+        {!isLoading && (
+          <>
+            {address ? (
+              <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
+                <TabList
+                  px={0}
+                  borderBottomColor="borderColor"
+                  borderBottomWidth="1px"
+                  overflowX={{ base: "auto", md: "inherit" }}
+                >
+                  <Tab gap={2}>
+                    <Heading size="label.lg">Deployed Contracts</Heading>
+                  </Tab>
+                  <Tab gap={2}>
+                    <Heading size="label.lg">Published Contracts</Heading>
+                  </Tab>
+                </TabList>
+                <TabPanels px={0} py={2}>
+                  <TabPanel px={0}>
+                    <EVMContracts address={address} />
+                  </TabPanel>
+                  <TabPanel px={0}>
+                    <PublishedContractsPage address={address} />
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            ) : (
+              <Container maxW="lg">
+                <Card p={6} as={Flex} flexDir="column" gap={2}>
+                  <Heading as="h2" size="title.sm">
+                    Please connect your wallet
+                  </Heading>
+                  <Text>
+                    In order to interact with your contracts you need to connect
+                    an EVM compatible wallet.
+                  </Text>
+                  <Divider my={4} />
+                  <ConnectWallet />
+                </Card>
+              </Container>
+            )}
+          </>
+        )}
+      </ClientOnly>
+    </Box>
   );
 };
 

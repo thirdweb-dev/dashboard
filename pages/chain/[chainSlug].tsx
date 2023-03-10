@@ -172,6 +172,7 @@ const ChainPage: ThirdwebNextPage = ({
         }}
         pb={{ base: 12, md: 20 }}
         mb={{ base: 2, md: 6 }}
+        mt={-8}
         boxShadow="lg"
       >
         <Container
@@ -205,7 +206,7 @@ const ChainPage: ThirdwebNextPage = ({
               <Flex
                 direction="column"
                 gap={3}
-                alignItems={{ base: "center", md: "inherit" }}
+                alignItems={{ base: "center", md: "flex-start" }}
               >
                 <Heading size="title.lg" as="h1">
                   {chain.name} {chain.chain.length > 10 && <br />}
