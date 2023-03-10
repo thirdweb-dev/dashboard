@@ -3559,20 +3559,10 @@
     yaml "^2.1.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/storage@1.1.1-nightly-20230310185406-71532e5a":
+"@thirdweb-dev/storage@1.1.1-nightly-20230310185406-71532e5a", "@thirdweb-dev/storage@^1.1.1-nightly-20230310185406-71532e5a":
   version "1.1.1-nightly-20230310185406-71532e5a"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.1-nightly-20230310185406-71532e5a.tgz#3265e217adaa7e6c9e582a9128b6db78c79adbdc"
   integrity sha512-WrEUG/ma2Dkr7NHupvVGKFB40R4AA8iO7qhtu5qk2o0kF2Z+WPC/2jPBpV9pUnux9cs0D+e2hHgQ8CfWras8Vw==
-  dependencies:
-    cross-fetch "^3.1.5"
-    form-data "^4.0.0"
-    ipfs-unixfs-importer "^7.0.1"
-    uuid "^9.0.0"
-
-"@thirdweb-dev/storage@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.0.tgz#f2339d7994201c066e28d63ce4e29bd432af8c25"
-  integrity sha512-KVAfkQsd5lGYOe2OBOWju9TF0s5TsKk26ViO9BJLn0/FcAwI+Xev6iyeDpfiO6GMA8kUmX/KSR0EtLPlJJgOKw==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
