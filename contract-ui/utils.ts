@@ -36,7 +36,7 @@ export function useTabHref(
     | "nfts"
     | ""
     | "explorer"
-    | "events"
+    | "analytics"
     | "claim-conditions"
     | "permissions"
     | "embed"

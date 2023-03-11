@@ -2,22 +2,24 @@ import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { GraphWithLoadingState } from "components/analytics/graph-with-loading-state";
+import { useTabHref } from "contract-ui/utils";
 import {
   useGasAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
 } from "data/api/hooks/analytics/transactions";
 import { utils } from "ethers";
-import { Heading } from "tw-components";
+import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 
 export interface AnalyticsSectionProps {
   contractAddress: string;
 }
 
-export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({
-  contractAddress,
-}) => {
+export const AnalyticsSection: React.FC<
+  AnalyticsSectionProps & { trackingCategory: TrackedLinkProps["category"] }
+> = ({ contractAddress, trackingCategory }) => {
   const contractInfo = useEVMContractInfo();
+  const analyticsHref = useTabHref("analytics");
 
   if (!contractInfo?.chain) {
     return null;
@@ -25,7 +27,21 @@ export const AnalyticsSection: React.FC<AnalyticsSectionProps> = ({
 
   return (
     <Flex direction="column" gap={4}>
-      <Heading size="title.sm">Analytics</Heading>
+      <Flex align="center" justify="space-between" w="full">
+        <Heading size="title.sm">Analytics</Heading>
+        <TrackedLink
+          category={trackingCategory}
+          label="view_all_events"
+          color="blue.400"
+          _light={{
+            color: "blue.600",
+          }}
+          gap={4}
+          href={analyticsHref}
+        >
+          View all -&gt;
+        </TrackedLink>
+      </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
         <TransactionsOverTimeChart
           chain={contractInfo.chain}
