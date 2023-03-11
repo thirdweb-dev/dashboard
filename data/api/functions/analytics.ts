@@ -18,9 +18,17 @@ export async function getTransactionAnalytics(
   );
   url.searchParams.append("address", address);
 
-  const result = await fetch(url.toString());
+  const res = await fetch(url.toString());
 
-  return result.json() as Promise<AnalyticsTransactionResponse>;
+  const { result } = (await res.json()) as AnalyticsTransactionResponse;
+  return {
+    result: [
+      ...result.map((item) => ({
+        value: item.count,
+        timestamp: item.timestamp,
+      })),
+    ].reverse(),
+  };
 }
 
 export async function getUniqueAddressesAnalytics(
@@ -32,9 +40,17 @@ export async function getUniqueAddressesAnalytics(
   );
   url.searchParams.append("address", address);
   url.searchParams.append("type", type);
-  const result = await fetch(url.toString());
+  const res = await fetch(url.toString());
 
-  return result.json() as Promise<AnalyticsUniqueAddressesResponse>;
+  const { result } = (await res.json()) as AnalyticsUniqueAddressesResponse;
+  return {
+    result: [
+      ...result.map((item) => ({
+        value: item.count,
+        timestamp: item.timestamp,
+      })),
+    ].reverse(),
+  };
 }
 
 export async function getGasAnalytics(params: AnalyticsGasParams) {
@@ -44,9 +60,12 @@ export async function getGasAnalytics(params: AnalyticsGasParams) {
   );
   url.searchParams.append("address", address);
   url.searchParams.append("type", type);
-  const result = await fetch(url.toString());
+  const res = await fetch(url.toString());
 
-  return result.json() as Promise<AnalyticsGasResponse>;
+  const { result } = (await res.json()) as AnalyticsGasResponse;
+  return {
+    result: [...result].reverse(),
+  };
 }
 
 export async function getBalanceAnalytics(params: AnalyticsBalanceParams) {
