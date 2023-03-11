@@ -8,7 +8,6 @@ import {
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
 } from "data/api/hooks/analytics/transactions";
-import { utils } from "ethers";
 import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 
 export interface AnalyticsSectionProps {
@@ -153,10 +152,11 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
         chartType="area"
         tooltipProps={{
           valueLabel: "Gas Burned",
-          valueFormatter: (value: number) =>
-            `${NumberFormatter.format(
-              parseFloat(utils.formatEther(value.toString())),
-            )} ${chain.nativeCurrency.symbol || "ETH"}`,
+          valueFormatter: (value: number) => {
+            return `${NumberFormatter.format(
+              value / 10 ** chain.nativeCurrency.decimals,
+            )} ${chain.nativeCurrency.symbol}`;
+          },
         }}
         limit={30}
         reverse

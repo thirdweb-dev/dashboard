@@ -196,9 +196,21 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
                     formattingOptions,
                   )
                 }
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "var(--chakra-fonts-body)",
+                }}
               />
             )}
-            {showYAxis && <YAxis tickFormatter={tooltipProps.valueFormatter} />}
+            {showYAxis && (
+              <YAxis
+                tickFormatter={tooltipProps.valueFormatter}
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "var(--chakra-fonts-body)",
+                }}
+              />
+            )}
           </Wrapper>
         </ResponsiveContainer>
       </Box>
