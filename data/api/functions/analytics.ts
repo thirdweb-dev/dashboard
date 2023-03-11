@@ -22,12 +22,10 @@ export async function getTransactionAnalytics(
 
   const { result } = (await res.json()) as AnalyticsTransactionResponse;
   return {
-    result: [
-      ...result.map((item) => ({
-        value: item.count,
-        timestamp: item.timestamp,
-      })),
-    ].reverse(),
+    result: result.map((item) => ({
+      value: item.count,
+      timestamp: item.timestamp,
+    })),
   };
 }
 
@@ -44,12 +42,10 @@ export async function getUniqueAddressesAnalytics(
 
   const { result } = (await res.json()) as AnalyticsUniqueAddressesResponse;
   return {
-    result: [
-      ...result.map((item) => ({
-        value: item.count,
-        timestamp: item.timestamp,
-      })),
-    ].reverse(),
+    result: result.map((item) => ({
+      value: item.count,
+      timestamp: item.timestamp,
+    })),
   };
 }
 
@@ -64,7 +60,7 @@ export async function getGasAnalytics(params: AnalyticsGasParams) {
 
   const { result } = (await res.json()) as AnalyticsGasResponse;
   return {
-    result: [...result].reverse(),
+    result,
   };
 }
 

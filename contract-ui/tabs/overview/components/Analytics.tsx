@@ -10,7 +10,7 @@ import {
 import { utils } from "ethers";
 import { Heading } from "tw-components";
 
-interface AnalyticsSectionProps {
+export interface AnalyticsSectionProps {
   contractAddress: string;
 }
 
@@ -72,6 +72,7 @@ export const TransactionsOverTimeChart: React.FC<
           valueLabel: "Transactions",
         }}
         limit={30}
+        reverse
       />
     </Flex>
   );
@@ -105,6 +106,7 @@ export const UniqueWalletsOverTime: React.FC<UniqueWalletsOverTimeProps> = ({
           valueLabel: "Unique Wallets",
         }}
         limit={30}
+        reverse
       />
     </Flex>
   );
@@ -113,7 +115,6 @@ export const UniqueWalletsOverTime: React.FC<UniqueWalletsOverTimeProps> = ({
 interface GasSpentOverTimeProps extends AnalyticsSectionProps {
   chain: Chain;
 }
-
 export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
   chain,
   contractAddress,
@@ -137,12 +138,17 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
         tooltipProps={{
           valueLabel: "Gas Burned",
           valueFormatter: (value: number) =>
-            `${utils.formatEther(value.toString()).slice(0, 5)} ${
-              chain.nativeCurrency.symbol || "ETH"
-            }`,
+            `${NumberFormatter.format(
+              parseFloat(utils.formatEther(value.toString())),
+            )} ${chain.nativeCurrency.symbol || "ETH"}`,
         }}
         limit={30}
+        reverse
       />
     </Flex>
   );
 };
+
+const NumberFormatter = new Intl.NumberFormat(undefined, {
+  maximumFractionDigits: 3,
+});

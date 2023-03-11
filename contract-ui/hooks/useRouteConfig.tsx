@@ -11,9 +11,9 @@ const LazyContractExplorerPage = dynamic(() =>
     ({ ContractExplorerPage }) => ContractExplorerPage,
   ),
 );
-const LazyContractEventsPage = dynamic(() =>
-  import("../tabs/events/page").then(
-    ({ ContractEventsPage }) => ContractEventsPage,
+const LazyContractAnalyticsPage = dynamic(() =>
+  import("../tabs/analytics/page").then(
+    ({ ContractAnalyticsPage }) => ContractAnalyticsPage,
   ),
 );
 const LazyContractNFTPage = dynamic(() =>
@@ -116,9 +116,9 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
-      title: "Events",
-      path: "events",
-      component: LazyContractEventsPage,
+      title: "Analytics",
+      path: "analytics",
+      component: LazyContractAnalyticsPage,
       isDefault: true,
     },
     {

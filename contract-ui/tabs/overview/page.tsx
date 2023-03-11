@@ -1,7 +1,7 @@
 import { AnalyticsSection } from "./components/Analytics";
 import { BuildYourApp } from "./components/BuildYourApp";
 import Extensions from "./components/Extensions";
-import { LatestEvents } from "./components/LatestEvents";
+// import { LatestEvents } from "./components/LatestEvents";
 import { MarketplaceDetails } from "./components/MarketplaceDetails";
 import { NFTDetails } from "./components/NFTDetails";
 import { PermissionsTable } from "./components/PermissionsTable";
@@ -72,10 +72,10 @@ export const CustomContractOverviewPage: React.FC<
           ["ERC20"].some((type) => detectedFeatureNames.includes(type)) && (
             <TokenDetails contractAddress={contractAddress} />
           )}
-        <LatestEvents
+        {/* <LatestEvents
           address={contractAddress}
           trackingCategory={TRACKING_CATEGORY}
-        />
+        /> */}
         {contract &&
           ["PermissionsEnumerable"].some((type) =>
             detectedFeatureNames.includes(type),

@@ -7,7 +7,16 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { Area, AreaChart, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Heading, Text } from "tw-components";
 
 const charts = {
@@ -41,6 +50,36 @@ const charts = {
       </defs>
     ),
   },
+  bar: {
+    Wrapper: BarChart,
+    Element: Bar,
+    defs: (
+      <defs>
+        <linearGradient
+          id="barColor"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="100%"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stopColor="#3385FF" />
+          <stop offset="1" stopColor="#224A85" />
+        </linearGradient>
+        <linearGradient
+          id="areaColor"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="100%"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset="0" stopColor="#3385FF" />
+          <stop offset="1" stopColor="#224A85" />
+        </linearGradient>
+      </defs>
+    ),
+  },
 } as const;
 
 type ChartType = keyof typeof charts;
@@ -56,6 +95,9 @@ export interface GraphWithLoadingStateProps extends AspectRatioProps {
     valueFormatter?: (value: number) => string;
   };
   limit: number;
+  reverse?: boolean;
+  showXAxis?: boolean;
+  showYAxis?: boolean;
 }
 
 export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
@@ -63,6 +105,9 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
   chartType,
   tooltipProps,
   limit,
+  reverse,
+  showXAxis,
+  showYAxis,
   ...restProps
 }) => {
   const [loadingStateData, setLoadingStateData] = useState(generateFakeData());
@@ -81,14 +126,16 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
     return () => clearInterval(interval);
   }, [query.isLoading]);
 
-  const data = useMemo(
-    () =>
-      (query.isLoading ? loadingStateData : query.data?.result)?.slice(
-        0,
-        limit,
-      ),
-    [limit, loadingStateData, query.data?.result, query.isLoading],
-  );
+  const data = useMemo(() => {
+    if (query.isLoading || !query.data?.result) {
+      return loadingStateData;
+    }
+    const copiedData = [...query.data.result.slice(0, limit)];
+    if (reverse) {
+      return copiedData.reverse();
+    }
+    return copiedData;
+  }, [limit, loadingStateData, query.data?.result, query.isLoading, reverse]);
 
   return (
     <AspectRatio {...restProps}>
@@ -114,6 +161,7 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
         <ResponsiveContainer width="100%" height="100%">
           <Wrapper data={data}>
             {charts[chartType].defs}
+            {/* @ts-expect-error - this works fine */}
             <Element
               type="natural"
               dataKey="value"
@@ -134,10 +182,23 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
               )}
               cursor={{
                 stroke: "#3385FF",
+                fill: "#3385FF",
                 opacity: 0.3,
                 strokeDasharray: 2,
               }}
             />
+            {showXAxis && (
+              <XAxis
+                dataKey="timestamp"
+                tickFormatter={(payload) =>
+                  new Date(payload).toLocaleDateString(
+                    undefined,
+                    formattingOptions,
+                  )
+                }
+              />
+            )}
+            {showYAxis && <YAxis tickFormatter={tooltipProps.valueFormatter} />}
           </Wrapper>
         </ResponsiveContainer>
       </Box>
@@ -164,6 +225,12 @@ type CustomToolTipProps = {
   valueFormatter?: (value: any) => string;
 };
 
+const formattingOptions: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
+
 const CustomToolTip: React.FC<CustomToolTipProps> = ({
   active,
   payload,
@@ -173,8 +240,8 @@ const CustomToolTip: React.FC<CustomToolTipProps> = ({
   if (active && payload && payload.length) {
     return (
       <Flex
-        py={1}
-        px={2}
+        py={1.5}
+        px={2.5}
         backdropFilter="blur(10px)"
         bg="transparent"
         flexDirection="column"
@@ -182,6 +249,12 @@ const CustomToolTip: React.FC<CustomToolTipProps> = ({
         border="none"
         outline="none"
         borderRadius="lg"
+        _dark={{
+          bg: "rgba(0,0,0,0.2)",
+        }}
+        _light={{
+          bg: "rgba(255,255,255,0.2)",
+        }}
       >
         {payload[0]?.payload?.timestamp && (
           <Flex direction="column" gap={0.5}>
@@ -189,7 +262,10 @@ const CustomToolTip: React.FC<CustomToolTipProps> = ({
               Date
             </Heading>
             <Text size="body.sm">
-              {new Date(payload[0].payload.timestamp).toLocaleDateString()}
+              {new Date(payload[0].payload.timestamp).toLocaleDateString(
+                undefined,
+                formattingOptions,
+              )}
             </Text>
           </Flex>
         )}
@@ -197,7 +273,7 @@ const CustomToolTip: React.FC<CustomToolTipProps> = ({
           <Heading as="label" size="label.sm">
             {valueLabel}
           </Heading>
-          <Text size="body.sm">
+          <Text size="body.sm" fontFamily="mono">
             {valueFormatter
               ? valueFormatter(payload[0].value)
               : payload[0].value}
