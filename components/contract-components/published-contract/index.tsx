@@ -410,7 +410,7 @@ Deploy it in one click`,
             </List>
           </Flex>
           <Divider />
-          {(compositeAbi || contractPublishMetadata.data?.abi) && (
+          {contractPublishMetadata.data?.abi && (
             <Extensions
               abi={compositeAbi || contractPublishMetadata.data?.abi}
             />
