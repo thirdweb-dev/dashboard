@@ -284,17 +284,17 @@ const Base: ThirdwebNextPage = () => {
               {[
                 {
                   title: "Coinbase Wallet",
-                  href: "#",
+                  href: "https://www.coinbase.com/wallet",
                   image: "/assets/build/base/coinbase-wallet.png",
                 },
                 {
                   title: "Coinbase WaaS",
-                  href: "#",
+                  href: "https://www.coinbase.com/cloud/products/waas",
                   image: "/assets/build/base/coinbase-waas.png",
                 },
                 {
                   title: "Coinbase Pay",
-                  href: "#",
+                  href: "https://www.coinbase.com/cloud/products/pay-sdk",
                   image: "/assets/build/base/coinbase-pay.png",
                 },
               ].map(({ title, href, image }) => (
@@ -320,7 +320,7 @@ const Base: ThirdwebNextPage = () => {
                       _hover={{
                         backgroundPosition: "bottom right",
                       }}
-                      {...{ as: LinkOverlay, href }}
+                      {...{ as: LinkOverlay, href, isExternal: true }}
                     >
                       {title}
                     </Heading>
