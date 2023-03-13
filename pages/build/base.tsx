@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
+import Image from "next/image";
 import { PageId } from "page-id";
 import { Suspense } from "react";
 import { Card, Heading, Link, LinkButton, Text } from "tw-components";
@@ -90,7 +91,14 @@ const Base: ThirdwebNextPage = () => {
               </Box>{" "}
               brings your web3 ideas to production in record time.
             </Heading>
-            <Card p={0} w="full" mt={14} bg="#0F0F0F" border="0">
+            <Card
+              p={0}
+              w="full"
+              mt={14}
+              bg="#0F0F0F"
+              border="0"
+              overflow="hidden"
+            >
               <Flex flexDir="column" alignItems="center" p={12}>
                 <Heading
                   size="title.2xl"
@@ -174,6 +182,13 @@ const Base: ThirdwebNextPage = () => {
                   ))}
                 </Flex>
               </Flex>
+              <Image
+                rounded="lg"
+                width="862"
+                height="238"
+                src="/assets/build/base/cats.png"
+                alt=""
+              />
             </Card>
           </Flex>
           <Flex
