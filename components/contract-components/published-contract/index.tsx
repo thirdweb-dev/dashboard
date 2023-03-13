@@ -26,6 +26,9 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   PublishedContract as PublishedContractType,
   PublishedMetadata,
+  extractEventsFromAbi,
+  extractFunctionParamsFromAbi,
+  extractFunctionsFromAbi,
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk/evm";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
@@ -80,10 +83,12 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const contractPublishMetadata = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
+  const compositeAbi =
+    publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
-  const enabledExtensions = useContractEnabledExtensions(
-    contractPublishMetadata.data?.abi,
-  );
+  const enabledExtensions = compositeAbi
+    ? useContractEnabledExtensions(compositeAbi)
+    : useContractEnabledExtensions(contractPublishMetadata.data?.abi);
 
   const publisherProfile = usePublisherProfile(contract.publisher);
 
@@ -92,8 +97,12 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
     "",
   )}`.replace("deployer.thirdweb.eth", "thirdweb.eth");
 
-  const contractFunctions = usePublishedContractFunctions(contract);
-  const contractEvents = usePublishedContractEvents(contract);
+  const contractFunctions = compositeAbi
+    ? extractFunctionsFromAbi(compositeAbi)
+    : usePublishedContractFunctions(contract);
+  const contractEvents = compositeAbi
+    ? extractEventsFromAbi(compositeAbi)
+    : usePublishedContractEvents(contract);
 
   const ensQuery = useEns(contract.publisher);
 
@@ -408,8 +417,10 @@ Deploy it in one click`,
             </List>
           </Flex>
           <Divider />
-          {contractPublishMetadata.data?.abi && (
-            <Extensions abi={contractPublishMetadata.data?.abi} />
+          {(compositeAbi || contractPublishMetadata.data?.abi) && (
+            <Extensions
+              abi={compositeAbi || contractPublishMetadata.data?.abi}
+            />
           )}
           <Divider />
           <Flex flexDir="column" gap={4}>
