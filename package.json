@@ -40,7 +40,7 @@
     "@thirdweb-dev/auth": "^3.0.8-nightly-20230310185406-71532e5a",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "^0.1.7-nightly-20230310185406-71532e5a",
-    "@thirdweb-dev/react": "4.0.0-dev-20230313143117-bcef98b",
+    "@thirdweb-dev/react": "^3.10.4-nightly-20230310185406-71532e5a",
     "@thirdweb-dev/sdk": "4.0.0-dev-20230313143117-bcef98b",
     "@thirdweb-dev/storage": "1.1.1-dev-20230313143117-bcef98b",
     "@types/cookie": "^0.5.1",
