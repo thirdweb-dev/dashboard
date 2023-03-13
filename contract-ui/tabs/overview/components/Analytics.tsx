@@ -80,7 +80,7 @@ export const TransactionsOverTimeChart: React.FC<
       </Flex>
       <GraphWithLoadingState
         w="full"
-        ratio={2.5}
+        ratio={2}
         query={transactionAnalyticsQuery}
         chartType="area"
         tooltipProps={{
@@ -88,6 +88,8 @@ export const TransactionsOverTimeChart: React.FC<
         }}
         limit={30}
         reverse
+        showXAxis
+        startEndOnly
       />
     </Flex>
   );
@@ -114,7 +116,7 @@ export const UniqueWalletsOverTime: React.FC<UniqueWalletsOverTimeProps> = ({
       </Flex>
       <GraphWithLoadingState
         w="full"
-        ratio={2.5}
+        ratio={2}
         query={uniqueWalletsQuery}
         chartType="area"
         tooltipProps={{
@@ -122,6 +124,8 @@ export const UniqueWalletsOverTime: React.FC<UniqueWalletsOverTimeProps> = ({
         }}
         limit={30}
         reverse
+        showXAxis
+        startEndOnly
       />
     </Flex>
   );
@@ -147,7 +151,7 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
       </Flex>
       <GraphWithLoadingState
         w="full"
-        ratio={2.5}
+        ratio={2}
         query={gasAnalyticsQuery}
         chartType="area"
         tooltipProps={{
@@ -160,6 +164,8 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
         }}
         limit={30}
         reverse
+        showXAxis
+        startEndOnly
       />
     </Flex>
   );

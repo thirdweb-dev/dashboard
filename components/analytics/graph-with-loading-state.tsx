@@ -26,17 +26,6 @@ const charts = {
     defs: (
       <defs>
         <linearGradient
-          id="barColor"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="100%"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#3385FF" />
-          <stop offset="1" stopColor="#224A85" />
-        </linearGradient>
-        <linearGradient
           id="areaColor"
           x1="0"
           y1="0"
@@ -44,8 +33,8 @@ const charts = {
           y2="100%"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stopColor="#3385FF" />
-          <stop offset="1" stopColor="transparent" />
+          <stop offset="5%" stopColor="#3385FF" stopOpacity={0.4} />
+          <stop offset="75%" stopColor="#3385FF" stopOpacity={0} />
         </linearGradient>
       </defs>
     ),
@@ -55,17 +44,6 @@ const charts = {
     Element: Bar,
     defs: (
       <defs>
-        <linearGradient
-          id="barColor"
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="100%"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#3385FF" />
-          <stop offset="1" stopColor="#224A85" />
-        </linearGradient>
         <linearGradient
           id="areaColor"
           x1="0"
@@ -98,6 +76,7 @@ export interface GraphWithLoadingStateProps extends AspectRatioProps {
   reverse?: boolean;
   showXAxis?: boolean;
   showYAxis?: boolean;
+  startEndOnly?: boolean;
 }
 
 export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
@@ -108,6 +87,7 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
   reverse,
   showXAxis,
   showYAxis,
+  startEndOnly,
   ...restProps
 }) => {
   const [loadingStateData, setLoadingStateData] = useState(
@@ -167,10 +147,11 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
             <Element
               type="natural"
               dataKey="value"
-              stroke="url(#barColor)"
+              stroke="#3385FF"
               fill="url(#areaColor)"
               dot={false}
               activeDot={false}
+              strokeWidth={chartType === "area" ? 1.5 : 0}
             />
             <Tooltip
               wrapperStyle={{ outline: "none" }}
@@ -187,38 +168,54 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
                 fill: "#3385FF",
                 opacity: 0.3,
                 strokeDasharray: 2,
+                strokeWidth: chartType === "area" ? 2 : 0,
               }}
             />
-            {showXAxis && (
-              <XAxis
-                dataKey="timestamp"
-                tickFormatter={(payload) =>
-                  new Date(payload).toLocaleDateString(
-                    undefined,
-                    formattingOptions,
-                  )
-                }
-                style={{
-                  fontSize: "12px",
-                  fontFamily: "var(--chakra-fonts-body)",
-                }}
-                stroke="var(--chakra-colors-paragraph)"
-                tickLine={false}
-                axisLine={false}
-              />
-            )}
-            {showYAxis && (
-              <YAxis
-                tickFormatter={tooltipProps.valueFormatter}
-                style={{
-                  fontSize: "12px",
-                  fontFamily: "var(--chakra-fonts-body)",
-                }}
-                stroke="var(--chakra-colors-paragraph)"
-                tickLine={false}
-                axisLine={false}
-              />
-            )}
+
+            <XAxis
+              hide={!showXAxis}
+              dataKey="timestamp"
+              tickFormatter={(payload) =>
+                new Date(payload).toLocaleDateString(
+                  undefined,
+                  formattingOptions,
+                )
+              }
+              style={{
+                fontSize: "12px",
+                fontFamily: "var(--chakra-fonts-body)",
+              }}
+              stroke="var(--chakra-colors-paragraph)"
+              tickLine={false}
+              axisLine={false}
+              interval="preserveStartEnd"
+              padding={{ left: 8, right: 8 }}
+              minTickGap={5}
+              tick={{ transform: "translate(0, 6)" }}
+              ticks={
+                startEndOnly
+                  ? [
+                      data[0]["timestamp"]?.toString(),
+                      data[data.length - 1]["timestamp"]?.toString(),
+                    ]
+                  : undefined
+              }
+            />
+
+            <YAxis
+              hide={!showYAxis}
+              width={52}
+              tickFormatter={tooltipProps.valueFormatter}
+              style={{
+                fontSize: "12px",
+                fontFamily: "var(--chakra-fonts-body)",
+              }}
+              tick={{ transform: "translate(-3, 0)" }}
+              type="number"
+              stroke="var(--chakra-colors-paragraph)"
+              tickLine={false}
+              axisLine={false}
+            />
           </Wrapper>
         </ResponsiveContainer>
       </Box>
