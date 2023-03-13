@@ -342,6 +342,14 @@ export function usePublishedContractInfo(contract: PublishedContract) {
   );
 }
 export function usePublishedContractFunctions(contract: PublishedContract) {
+  const publishedContractInfo = usePublishedContractInfo(contract);
+  const compositeAbi =
+    publishedContractInfo.data?.publishedMetadata.compositeAbi;
+
+  if (compositeAbi) {
+    return extractFunctionsFromAbi(compositeAbi);
+  }
+
   const { data: meta } = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
@@ -350,6 +358,14 @@ export function usePublishedContractFunctions(contract: PublishedContract) {
     : undefined;
 }
 export function usePublishedContractEvents(contract: PublishedContract) {
+  const publishedContractInfo = usePublishedContractInfo(contract);
+  const compositeAbi =
+    publishedContractInfo.data?.publishedMetadata.compositeAbi;
+
+  if (compositeAbi) {
+    return extractEventsFromAbi(compositeAbi);
+  }
+
   const { data: meta } = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );

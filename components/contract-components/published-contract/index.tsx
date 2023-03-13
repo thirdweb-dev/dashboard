@@ -86,9 +86,9 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const compositeAbi =
     publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
-  const enabledExtensions = compositeAbi
-    ? useContractEnabledExtensions(compositeAbi)
-    : useContractEnabledExtensions(contractPublishMetadata.data?.abi);
+  const enabledExtensions = useContractEnabledExtensions(
+    compositeAbi || contractPublishMetadata.data?.abi,
+  );
 
   const publisherProfile = usePublisherProfile(contract.publisher);
 
@@ -97,12 +97,8 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
     "",
   )}`.replace("deployer.thirdweb.eth", "thirdweb.eth");
 
-  const contractFunctions = compositeAbi
-    ? extractFunctionsFromAbi(compositeAbi)
-    : usePublishedContractFunctions(contract);
-  const contractEvents = compositeAbi
-    ? extractEventsFromAbi(compositeAbi)
-    : usePublishedContractEvents(contract);
+  const contractFunctions = usePublishedContractFunctions(contract);
+  const contractEvents = usePublishedContractEvents(contract);
 
   const ensQuery = useEns(contract.publisher);
 
