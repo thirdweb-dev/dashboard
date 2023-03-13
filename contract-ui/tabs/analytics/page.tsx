@@ -1,7 +1,7 @@
 import { AnalyticsSectionProps } from "../overview/components/Analytics";
 import { EventsFeed } from "./components/events-feed";
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { ButtonGroup, Flex } from "@chakra-ui/react";
+import { ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { GraphWithLoadingState } from "components/analytics/graph-with-loading-state";
 import {
@@ -33,7 +33,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       {contractAddress && evmContractInfo?.chain && (
-        <>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
           <TransactionsOverTimeChart
             contractAddress={contractAddress}
             chain={evmContractInfo.chain}
@@ -46,7 +46,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             contractAddress={contractAddress}
             chain={evmContractInfo.chain}
           />
-        </>
+        </SimpleGrid>
       )}
       <EventsFeed contractAddress={contractAddress} />
     </Flex>

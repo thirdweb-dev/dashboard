@@ -73,5 +73,5 @@ export function queryGasAnalytics({
 }
 
 export function useGasAnalytics(params: Partial<AnalyticsGasParams>) {
-  return useQuery(queryGasAnalytics(params));
+  return useQuery({ ...queryGasAnalytics(params) });
 }

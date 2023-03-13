@@ -110,7 +110,9 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
   showYAxis,
   ...restProps
 }) => {
-  const [loadingStateData, setLoadingStateData] = useState(generateFakeData());
+  const [loadingStateData, setLoadingStateData] = useState(
+    generateFakeData(0, limit),
+  );
 
   const { Wrapper, Element } = useMemo(() => charts[chartType], [chartType]);
 
@@ -120,11 +122,11 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
     }
     let iteration = 0;
     const interval = setInterval(() => {
-      setLoadingStateData(generateFakeData(iteration));
+      setLoadingStateData(generateFakeData(iteration, limit));
       iteration++;
     }, 1500);
     return () => clearInterval(interval);
-  }, [query.isLoading]);
+  }, [query.isLoading, limit]);
 
   const data = useMemo(() => {
     if (query.isLoading || !query.data?.result) {
@@ -200,6 +202,9 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
                   fontSize: "12px",
                   fontFamily: "var(--chakra-fonts-body)",
                 }}
+                stroke="var(--chakra-colors-paragraph)"
+                tickLine={false}
+                axisLine={false}
               />
             )}
             {showYAxis && (
@@ -209,6 +214,9 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
                   fontSize: "12px",
                   fontFamily: "var(--chakra-fonts-body)",
                 }}
+                stroke="var(--chakra-colors-paragraph)"
+                tickLine={false}
+                axisLine={false}
               />
             )}
           </Wrapper>
@@ -218,13 +226,13 @@ export const GraphWithLoadingState: React.FC<GraphWithLoadingStateProps> = ({
   );
 };
 
-function generateFakeData(iteration = 0): Array<Value> {
+function generateFakeData(iteration = 0, elements = 7): Array<Value> {
   const data = [];
-  for (let i = 0; i < 7; i++) {
-    const randomNess = Math.floor(Math.random() * 10) / 10 + 1;
+  for (let i = 0; i < elements; i++) {
+    const random = Math.floor(Math.random() * 10) / 10 + 1;
     data.push({
       timestamp: new Date(),
-      value: randomNess * (iteration % 2 ? (i % 2 ? 3 : 1) : i % 2 ? 1 : 3),
+      value: random * (iteration % 2 ? (i % 2 ? 3 : 1) : i % 2 ? 1 : 3),
     });
   }
   return data;
