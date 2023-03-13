@@ -346,13 +346,14 @@ export function usePublishedContractFunctions(contract: PublishedContract) {
   const compositeAbi =
     publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
+  const { data: meta } = useContractPublishMetadataFromURI(
+    contract.metadataUri,
+  );
+
   if (compositeAbi) {
     return extractFunctionsFromAbi(compositeAbi);
   }
 
-  const { data: meta } = useContractPublishMetadataFromURI(
-    contract.metadataUri,
-  );
   return meta
     ? extractFunctionsFromAbi(meta.abi as Abi, meta?.compilerMetadata)
     : undefined;
@@ -362,13 +363,14 @@ export function usePublishedContractEvents(contract: PublishedContract) {
   const compositeAbi =
     publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
+  const { data: meta } = useContractPublishMetadataFromURI(
+    contract.metadataUri,
+  );
+
   if (compositeAbi) {
     return extractEventsFromAbi(compositeAbi);
   }
 
-  const { data: meta } = useContractPublishMetadataFromURI(
-    contract.metadataUri,
-  );
   return meta
     ? extractEventsFromAbi(meta.abi as Abi, meta?.compilerMetadata)
     : undefined;

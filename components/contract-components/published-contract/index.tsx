@@ -26,9 +26,6 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   PublishedContract as PublishedContractType,
   PublishedMetadata,
-  extractEventsFromAbi,
-  extractFunctionParamsFromAbi,
-  extractFunctionsFromAbi,
   fetchSourceFilesFromMetadata,
 } from "@thirdweb-dev/sdk/evm";
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
