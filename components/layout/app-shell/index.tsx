@@ -180,7 +180,8 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
           <LinkButton
             href="/dashboard"
             size="sm"
-            variant={pathname === "/dashboard" ? "solid" : "ghost"}
+            isActive={pathname === "/dashboard"}
+            variant="ghost"
           >
             Home
           </LinkButton>
@@ -188,12 +189,11 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             leftIcon={<Icon as={Ethereum} />}
             href="/dashboard/contracts"
             size="sm"
-            variant={
+            isActive={
               pathname === "/dashboard/contracts" ||
               route === "/[networkOrAddress]/[...catchAll]"
-                ? "solid"
-                : "ghost"
             }
+            variant="ghost"
           >
             Contracts
           </LinkButton>
@@ -201,26 +201,27 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             leftIcon={<Icon as={Solana} />}
             href="/dashboard/programs"
             size="sm"
-            variant={
+            isActive={
               pathname === "/dashboard/programs" ||
               route === "/[networkOrAddress]/[...catchAll]"
-                ? "solid"
-                : "ghost"
             }
+            variant="ghost"
           >
             Programs
           </LinkButton>
           <LinkButton
             href="/dashboard/storage"
             size="sm"
-            variant={pathname === "/dashboard/storage" ? "solid" : "ghost"}
+            isActive={pathname === "/dashboard/storage"}
+            variant="ghost"
           >
             Storage
           </LinkButton>
           <LinkButton
             href="/dashboard/rpc"
             size="sm"
-            variant={pathname === "/dashboard/rpc" ? "solid" : "ghost"}
+            isActive={pathname === "/dashboard/rpc"}
+            variant="ghost"
           >
             RPC
           </LinkButton>

@@ -25,6 +25,8 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
 
   const evmContractInfo = useEVMContractInfo();
 
+  const [days, setDays] = useState(90);
+
   if (!contractAddress) {
     // TODO build a skeleton for this
     return <div>Loading...</div>;
@@ -33,20 +35,41 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       {contractAddress && evmContractInfo?.chain && (
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-          <TransactionsOverTimeChart
-            contractAddress={contractAddress}
-            chain={evmContractInfo.chain}
-          />
-          <UniqueWalletsOverTimeChart
-            contractAddress={contractAddress}
-            chain={evmContractInfo.chain}
-          />
-          <GasUsedOverTimeTimeChart
-            contractAddress={contractAddress}
-            chain={evmContractInfo.chain}
-          />
-        </SimpleGrid>
+        <>
+          <Flex gap={2} direction="column">
+            <Heading as="h2" size="title.md">
+              Analytics
+            </Heading>
+            <ButtonGroup variant="ghost" size="xs">
+              <Button isActive={days === 30} onClick={() => setDays(30)}>
+                30 days
+              </Button>
+              <Button isActive={days === 60} onClick={() => setDays(60)}>
+                60 days
+              </Button>
+              <Button isActive={days === 90} onClick={() => setDays(90)}>
+                90 days
+              </Button>
+            </ButtonGroup>
+          </Flex>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+            <TransactionsOverTimeChart
+              contractAddress={contractAddress}
+              chain={evmContractInfo.chain}
+              limit={days}
+            />
+            <UniqueWalletsOverTimeChart
+              contractAddress={contractAddress}
+              chain={evmContractInfo.chain}
+              limit={days}
+            />
+            <GasUsedOverTimeTimeChart
+              contractAddress={contractAddress}
+              chain={evmContractInfo.chain}
+              limit={days}
+            />
+          </SimpleGrid>
+        </>
       )}
       <EventsFeed contractAddress={contractAddress} />
     </Flex>
@@ -55,34 +78,23 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
 
 interface TransactionsOverTimeChartProps extends AnalyticsSectionProps {
   chain: Chain;
+  limit: number;
 }
 const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
   chain,
   contractAddress,
+  limit,
 }) => {
-  const [days, setDays] = useState(90);
   const transactionAnalyticsQuery = useTransactionAnalytics({
     address: contractAddress,
     chain,
   });
   return (
     <Flex flexDir="column" gap={4}>
-      <Flex p={0} align="center" justify="space-between">
-        <Heading as="h2" size="title.sm">
-          Transactions
-        </Heading>
-        <ButtonGroup variant="outline" size="sm" isAttached>
-          <Button isActive={days === 30} onClick={() => setDays(30)}>
-            30 days
-          </Button>
-          <Button isActive={days === 60} onClick={() => setDays(60)}>
-            60 days
-          </Button>
-          <Button isActive={days === 90} onClick={() => setDays(90)}>
-            90 days
-          </Button>
-        </ButtonGroup>
-      </Flex>
+      <Heading as="h3" size="subtitle.sm">
+        Transactions
+      </Heading>
+
       <GraphWithLoadingState
         w="full"
         ratio={2.5}
@@ -91,7 +103,7 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
         tooltipProps={{
           valueLabel: "Transactions",
         }}
-        limit={days}
+        limit={limit}
         reverse
         showXAxis
         showYAxis
@@ -102,34 +114,23 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
 
 interface UniqueWalletsOverTimeChartProps extends AnalyticsSectionProps {
   chain: Chain;
+  limit: number;
 }
 const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
   chain,
   contractAddress,
+  limit,
 }) => {
-  const [days, setDays] = useState(90);
   const transactionAnalyticsQuery = useUniqueWalletsAnalytics({
     address: contractAddress,
     chain,
   });
   return (
     <Flex flexDir="column" gap={4}>
-      <Flex p={0} align="center" justify="space-between">
-        <Heading as="h2" size="title.sm">
-          Unique Wallets
-        </Heading>
-        <ButtonGroup variant="outline" size="sm" isAttached>
-          <Button isActive={days === 30} onClick={() => setDays(30)}>
-            30 days
-          </Button>
-          <Button isActive={days === 60} onClick={() => setDays(60)}>
-            60 days
-          </Button>
-          <Button isActive={days === 90} onClick={() => setDays(90)}>
-            90 days
-          </Button>
-        </ButtonGroup>
-      </Flex>
+      <Heading as="h3" size="subtitle.sm">
+        Unique Wallets
+      </Heading>
+
       <GraphWithLoadingState
         w="full"
         ratio={2.5}
@@ -138,7 +139,7 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
         tooltipProps={{
           valueLabel: "Unique Wallets",
         }}
-        limit={days}
+        limit={limit}
         reverse
         showXAxis
         showYAxis
@@ -149,34 +150,23 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
 
 interface GasUsedOverTimeTimeChartProps extends AnalyticsSectionProps {
   chain: Chain;
+  limit: number;
 }
 const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
   chain,
   contractAddress,
+  limit,
 }) => {
-  const [days, setDays] = useState(90);
   const transactionAnalyticsQuery = useGasAnalytics({
     address: contractAddress,
     chain,
   });
   return (
     <Flex flexDir="column" gap={4}>
-      <Flex p={0} align="center" justify="space-between">
-        <Heading as="h2" size="title.sm">
-          Gas Burned
-        </Heading>
-        <ButtonGroup variant="outline" size="sm" isAttached>
-          <Button isActive={days === 30} onClick={() => setDays(30)}>
-            30 days
-          </Button>
-          <Button isActive={days === 60} onClick={() => setDays(60)}>
-            60 days
-          </Button>
-          <Button isActive={days === 90} onClick={() => setDays(90)}>
-            90 days
-          </Button>
-        </ButtonGroup>
-      </Flex>
+      <Heading as="h3" size="subtitle.sm">
+        Gas Burned
+      </Heading>
+
       <GraphWithLoadingState
         w="full"
         ratio={2.5}
@@ -190,7 +180,7 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
             )} ${chain.nativeCurrency.symbol}`;
           },
         }}
-        limit={days}
+        limit={limit}
         reverse
         showXAxis
         showYAxis

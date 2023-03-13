@@ -50,6 +50,22 @@ export const Button = forwardRef<ButtonProps, "button">(
       ...buttonGroupContext,
       ...restButtonProps,
     };
+
+    // this handles the "tab button" use case
+    if (!restButtonProps.colorScheme) {
+      props._active = {
+        ...restButtonProps._active,
+        _dark: {
+          bg: "white",
+          color: "black",
+        },
+        _light: {
+          bg: "black",
+          color: "white",
+        },
+      };
+    }
+
     if (
       props.colorScheme &&
       props.variant !== "outline" &&
