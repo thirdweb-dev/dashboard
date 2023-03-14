@@ -15,6 +15,7 @@ import { landingSnippets } from "components/product-pages/homepage/CodeSelector"
 import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import Image from "next/image";
 import { PageId } from "page-id";
+import darkTheme from "prism-react-renderer/themes/dracula";
 import { Suspense } from "react";
 import {
   Card,
@@ -69,7 +70,13 @@ const SDKCard: ComponentWithChildren<SDKCardProps> = ({
           {title}
         </Heading>
         {children}
-        <CodeBlock my={8} {...code} />
+        <CodeBlock
+          my={8}
+          darkTheme={darkTheme}
+          color="white"
+          fontSize={{ base: "12px", md: "14px" }}
+          {...code}
+        />
         {links.map(({ text, href }) => (
           <Link
             mt={4}
@@ -491,7 +498,7 @@ const Base: ThirdwebNextPage = () => {
                       image: "/assets/build/base/games.svg",
                       code: {
                         code: landingSnippets["unity"],
-                        language: "unity",
+                        language: "cpp",
                       },
                       links: [
                         {
