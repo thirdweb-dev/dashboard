@@ -246,7 +246,6 @@ export function useContractRouteConfig(
       title: "Settings",
       path: "settings",
       component: LazyCustomContractSettingsPage,
-      isDefault: true,
     },
     {
       title: "Sources",

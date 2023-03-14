@@ -3,14 +3,14 @@ import { EventsFeed } from "./components/events-feed";
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { AspectRatio, ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { BarChart } from "components/analytics/bar-chart";
+import { AreaChart } from "components/analytics/area-chart";
 import {
   useGasAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
 } from "data/api/hooks/analytics/transactions";
 import { useEffect, useState } from "react";
-import { Button, Heading } from "tw-components";
+import { Button, Card, Heading } from "tw-components";
 
 interface ContractAnalyticsPageProps {
   contractAddress?: string;
@@ -52,7 +52,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </Button>
             </ButtonGroup>
           </Flex>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+          <SimpleGrid columns={{ base: 1, md: 1 }} gap={4}>
             <TransactionsOverTimeChart
               contractAddress={contractAddress}
               chain={evmContractInfo.chain}
@@ -91,13 +91,13 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
   });
 
   return (
-    <Flex flexDir="column" gap={4}>
+    <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
       <Heading as="h3" size="subtitle.sm">
         Transactions
       </Heading>
 
-      <AspectRatio w="full" ratio={2}>
-        <BarChart
+      <AspectRatio w="full" ratio={5}>
+        <AreaChart
           data={transactionAnalyticsQuery.data?.result.slice(0, limit) || []}
           index={{ id: "timestamp" }}
           categories={[{ id: "count" }]}
@@ -123,13 +123,13 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4}>
+    <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
       <Heading as="h3" size="subtitle.sm">
         Unique Wallets
       </Heading>
 
-      <AspectRatio w="full" ratio={2}>
-        <BarChart
+      <AspectRatio w="full" ratio={5}>
+        <AreaChart
           data={walletAnalyticsQuery.data?.result.slice(0, limit) || []}
           index={{ id: "timestamp" }}
           categories={[{ id: "count" }]}
@@ -155,13 +155,13 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4}>
+    <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
       <Heading as="h3" size="subtitle.sm">
         Gas Burned
       </Heading>
 
-      <AspectRatio w="full" ratio={2}>
-        <BarChart
+      <AspectRatio w="full" ratio={5}>
+        <AreaChart
           data={gasAnalyticsQuery.data?.result.slice(0, limit) || []}
           index={{ id: "timestamp" }}
           categories={[

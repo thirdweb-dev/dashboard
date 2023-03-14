@@ -9,7 +9,7 @@ import {
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
 } from "data/api/hooks/analytics/transactions";
-import { Heading, TrackedLink, TrackedLinkProps } from "tw-components";
+import { Card, Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 
 export interface AnalyticsSectionProps {
   contractAddress: string;
@@ -72,8 +72,15 @@ export const TransactionsOverTimeChart: React.FC<
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4}>
-      <Flex p={0} align="center" justify="space-between">
+    <Flex
+      flexDir="column"
+      gap={0}
+      as={Card}
+      py={0}
+      px={3}
+      bg="backgroundHighlight"
+    >
+      <Flex py={3} align="center" justify="space-between">
         <Heading as="h3" size="label.md">
           Transactions
         </Heading>
@@ -106,8 +113,15 @@ export const UniqueWalletsOverTime: React.FC<UniqueWalletsOverTimeProps> = ({
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4}>
-      <Flex p={0} align="center" justify="space-between">
+    <Flex
+      flexDir="column"
+      gap={0}
+      as={Card}
+      py={0}
+      px={3}
+      bg="backgroundHighlight"
+    >
+      <Flex py={3} align="center" justify="space-between">
         <Heading as="h3" size="label.md">
           Unique Wallets
         </Heading>
@@ -139,8 +153,15 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4}>
-      <Flex p={0} align="center" justify="space-between">
+    <Flex
+      flexDir="column"
+      gap={0}
+      as={Card}
+      py={0}
+      px={3}
+      bg="backgroundHighlight"
+    >
+      <Flex py={3} align="center" justify="space-between">
         <Heading as="h3" size="label.md">
           Gas Burned
         </Heading>
