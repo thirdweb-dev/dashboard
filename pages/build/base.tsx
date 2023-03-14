@@ -133,7 +133,7 @@ const Base: ThirdwebNextPage = () => {
                 Built to bring the next billion users to web3.
               </Heading>
               <Link
-                href="#"
+                href="https://base.org/"
                 color="#245CF1"
                 textDecoration="none"
                 fontSize="2rem"
