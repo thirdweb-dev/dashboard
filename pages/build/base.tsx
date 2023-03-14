@@ -9,13 +9,81 @@ import {
   LinkOverlay,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { SiGithub } from "@react-icons/all-files/si/SiGithub";
 import { HomepageFooter } from "components/footer/Footer";
+import { landingSnippets } from "components/product-pages/homepage/CodeSelector";
 import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import Image from "next/image";
 import { PageId } from "page-id";
 import { Suspense } from "react";
-import { Card, Heading, Link, LinkButton, Text } from "tw-components";
+import {
+  Card,
+  CodeBlock,
+  CodeBlockProps,
+  Heading,
+  Link,
+  LinkButton,
+  Text,
+} from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 import { ThirdwebNextPage } from "utils/types";
+
+type SDKCardProps = {
+  title: string;
+  image: string;
+  links: {
+    text: string;
+    href: string;
+  }[];
+  code: CodeBlockProps;
+};
+
+const SDKCard: ComponentWithChildren<SDKCardProps> = ({
+  title,
+  image,
+  links,
+  code,
+  children,
+}) => {
+  return (
+    <Card
+      as={Flex}
+      flexDir="column"
+      bg="#0F0F0F"
+      border="none"
+      p={10}
+      alignItems="flex-start"
+    >
+      <>
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          w={20}
+          h={20}
+          border="1px solid #A7BFFA1A"
+          rounded="lg"
+        >
+          <ChakraNextImage src={image} alt="" width={12} height={12} />
+        </Flex>
+        <Heading mt={4} mb={10} size="title.lg">
+          {title}
+        </Heading>
+        {children}
+        <CodeBlock my={8} {...code} />
+        {links.map(({ text, href }) => (
+          <Link
+            mt={4}
+            href={href}
+            color="blue.500"
+            _hover={{ textDecoration: "underline" }}
+          >
+            {text} &gt;
+          </Link>
+        ))}
+      </>
+    </Card>
+  );
+};
 
 const Base: ThirdwebNextPage = () => {
   return (
@@ -47,7 +115,7 @@ const Base: ThirdwebNextPage = () => {
                 height={380}
               />
             </GridItem>
-            <GridItem p={12}>
+            <GridItem p={{ base: 4, md: 12 }}>
               <Heading as="h1" size="title.xl">
                 Secure, low-cost, developer-friendly Ethereum L2.
               </Heading>
@@ -74,7 +142,7 @@ const Base: ThirdwebNextPage = () => {
             maxW="3xl"
             mx="auto"
             py={24}
-            px={{ base: 2, md: 8 }}
+            px={{ base: 4, md: 8 }}
           >
             <Heading
               as="h3"
@@ -123,9 +191,9 @@ const Base: ThirdwebNextPage = () => {
                   bg="white"
                   _hover={{ bg: "whiteAlpha.800" }}
                 >
-                  <Text as="span" size="label.lg" color="black">
+                  <Heading as="span" size="title.md" color="black">
                     Play the game
-                  </Text>
+                  </Heading>
                 </LinkButton>
                 <Heading
                   my={4}
@@ -133,21 +201,19 @@ const Base: ThirdwebNextPage = () => {
                   fontSize="16px"
                   color="whiteAlpha.600"
                 >
-                  Download the game
+                  Clone the code
                 </Heading>
-                <Flex gap={4}>
+                <SimpleGrid columns={{ md: 2 }} gap={4}>
                   {[
                     {
-                      title: "apple",
-                      image: "/assets/build/base/apple.svg",
-                      href: "#",
+                      title: "Web",
+                      href: "https://github.com/thirdweb-example/catattacknft",
                     },
                     {
-                      title: "google",
-                      image: "/assets/build/base/google.svg",
-                      href: "#",
+                      title: "Mobile",
+                      href: "https://github.com/thirdweb-example/catattacknft-react-native",
                     },
-                  ].map(({ title, image, href }) => (
+                  ].map(({ title, href }) => (
                     <Link
                       p={1}
                       rounded="lg"
@@ -156,6 +222,7 @@ const Base: ThirdwebNextPage = () => {
                       href={href}
                       transitionProperty="background-position, transform"
                       transitionDuration="slower"
+                      isExternal
                       _hover={{
                         backgroundPosition: "bottom right",
                       }}
@@ -164,26 +231,22 @@ const Base: ThirdwebNextPage = () => {
                       }}
                     >
                       <Flex
+                        p={4}
                         rounded="lg"
                         bg="backgroundDark"
-                        w={90}
-                        h={90}
                         alignItems="center"
                         justifyContent="center"
                       >
-                        <ChakraNextImage
-                          src={image}
-                          alt={title}
-                          width={16}
-                          height={12}
-                        />
+                        <SiGithub />
+                        <Text ml={2} color="white" size="label.lg">
+                          {title}
+                        </Text>
                       </Flex>
                     </Link>
                   ))}
-                </Flex>
+                </SimpleGrid>
               </Flex>
               <Image
-                rounded="lg"
                 width="862"
                 height="238"
                 src="/assets/build/base/cats.png"
@@ -197,7 +260,7 @@ const Base: ThirdwebNextPage = () => {
             maxW="3xl"
             mx="auto"
             py={24}
-            px={{ base: 2, md: 8 }}
+            px={{ base: 4, md: 8 }}
           >
             <Heading
               as="h3"
@@ -251,7 +314,7 @@ const Base: ThirdwebNextPage = () => {
             maxW="3xl"
             mx="auto"
             py={24}
-            px={{ base: 2, md: 8 }}
+            px={{ base: 4, md: 8 }}
           >
             <Heading
               size="title.sm"
@@ -278,7 +341,8 @@ const Base: ThirdwebNextPage = () => {
             maxW="6xl"
             mx="auto"
             py={24}
-            px={{ base: 2, md: 8 }}
+            gap={6}
+            px={{ base: 4, md: 8 }}
           >
             <Heading
               size="title.2xl"
@@ -295,7 +359,7 @@ const Base: ThirdwebNextPage = () => {
               </Box>{" "}
               build?
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 3 }} mt={16} gap={6}>
+            <SimpleGrid columns={{ base: 1, md: 3 }} mt={16} gap={6} w="full">
               {[
                 {
                   title: "Coinbase Wallet",
@@ -350,6 +414,101 @@ const Base: ThirdwebNextPage = () => {
                   </Flex>
                 </LinkBox>
               ))}
+            </SimpleGrid>
+            <SimpleGrid columns={{ base: 1, md: 2 }} w="100%" gap={6}>
+              <GridItem as={Flex} flexDir="column" gap={6}>
+                {(
+                  [
+                    {
+                      title: "Deploy Contracts",
+                      image: "/assets/build/base/contracts.svg",
+                      code: {
+                        code: "npx thirdweb deploy",
+                        language: "bash",
+                      },
+                      links: [{ text: "Deploy a contract", href: "/explore" }],
+                      children: (
+                        <LinkButton
+                          href="/explore"
+                          bg="white"
+                          _hover={{ bg: "whiteAlpha.800" }}
+                        >
+                          <Text as="span" size="label.lg" color="black">
+                            Deploy a contract
+                          </Text>
+                        </LinkButton>
+                      ),
+                    },
+                    {
+                      title: "Build Web3 Mobile apps",
+                      image: "/assets/build/base/apps.svg",
+                      code: {
+                        code: landingSnippets["react"].replace(
+                          "/react",
+                          "/react-native",
+                        ),
+                        language: "jsx",
+                      },
+                      links: [
+                        {
+                          text: "Browse docs",
+                          href: "https://portal.thirdweb.com/react-native",
+                        },
+                        {
+                          text: "Browse templates",
+                          href: "https://github.com/thirdweb-example",
+                        },
+                      ],
+                    },
+                  ] as SDKCardProps[]
+                ).map((props) => (
+                  <SDKCard key={props.title} {...props} />
+                ))}
+              </GridItem>
+              <GridItem as={Flex} flexDir="column" gap={6}>
+                {(
+                  [
+                    {
+                      title: "Build Web3 Websites",
+                      image: "/assets/build/base/websites.svg",
+                      code: {
+                        code: landingSnippets["react"],
+                        language: "jsx",
+                      },
+                      links: [
+                        {
+                          text: "Browse docs",
+                          href: "https://portal.thirdweb.com/react",
+                        },
+                        {
+                          text: "Browse templates",
+                          href: "https://github.com/thirdweb-example",
+                        },
+                      ],
+                    },
+                    {
+                      title: "Build Web3 Unity games",
+                      image: "/assets/build/base/games.svg",
+                      code: {
+                        code: landingSnippets["unity"],
+                        language: "unity",
+                      },
+                      links: [
+                        {
+                          text: "Browse docs",
+                          href: "https://portal.thirdweb.com/unity",
+                        },
+                        {
+                          text: "Browse templates",
+                          href: "https://github.com/thirdweb-example",
+                        },
+                      ],
+                    },
+                  ] as SDKCardProps[]
+                ).map((props) => (
+                  <SDKCard key={props.title} {...props} />
+                ))}
+              </GridItem>
             </SimpleGrid>
           </Flex>
           <Suspense>
