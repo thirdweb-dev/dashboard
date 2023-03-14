@@ -693,6 +693,10 @@ export function useFeatureContractCodeSnippetQuery(language: string) {
     language = "sdk";
   }
 
+  if (language === "react-native") {
+    language = "react";
+  }
+
   // Do this until we fix unity snippets
   if (language === "unity") {
     language = "";
