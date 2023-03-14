@@ -1,7 +1,8 @@
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { AspectRatio, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { GraphWithLoadingState } from "components/analytics/graph-with-loading-state";
+import { AreaChart } from "components/analytics/area-chart";
+// import { GraphWithLoadingState } from "components/analytics/graph-with-loading-state";
 import { useTabHref } from "contract-ui/utils";
 import {
   useGasAnalytics,
@@ -70,7 +71,6 @@ export const TransactionsOverTimeChart: React.FC<
     address: contractAddress,
     chain,
   });
-
   return (
     <Flex flexDir="column" gap={4}>
       <Flex p={0} align="center" justify="space-between">
@@ -78,19 +78,17 @@ export const TransactionsOverTimeChart: React.FC<
           Transactions
         </Heading>
       </Flex>
-      <GraphWithLoadingState
-        w="full"
-        ratio={2}
-        query={transactionAnalyticsQuery}
-        chartType="area"
-        tooltipProps={{
-          valueLabel: "Transactions",
-        }}
-        limit={30}
-        reverse
-        showXAxis
-        startEndOnly
-      />
+      <AspectRatio w="full" ratio={2}>
+        <AreaChart
+          data={transactionAnalyticsQuery.data?.result.slice(0, 30) || []}
+          index={{
+            id: "timestamp",
+          }}
+          categories={[{ id: "count", label: "Transactions" }]}
+          showXAxis
+          startEndOnly
+        />
+      </AspectRatio>
     </Flex>
   );
 };
@@ -114,19 +112,17 @@ export const UniqueWalletsOverTime: React.FC<UniqueWalletsOverTimeProps> = ({
           Unique Wallets
         </Heading>
       </Flex>
-      <GraphWithLoadingState
-        w="full"
-        ratio={2}
-        query={uniqueWalletsQuery}
-        chartType="area"
-        tooltipProps={{
-          valueLabel: "Unique Wallets",
-        }}
-        limit={30}
-        reverse
-        showXAxis
-        startEndOnly
-      />
+      <AspectRatio w="full" ratio={2}>
+        <AreaChart
+          data={uniqueWalletsQuery.data?.result.slice(0, 30) || []}
+          index={{
+            id: "timestamp",
+          }}
+          categories={[{ id: "count", label: "Unique Wallets" }]}
+          showXAxis
+          startEndOnly
+        />
+      </AspectRatio>
     </Flex>
   );
 };
@@ -149,24 +145,27 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
           Gas Burned
         </Heading>
       </Flex>
-      <GraphWithLoadingState
-        w="full"
-        ratio={2}
-        query={gasAnalyticsQuery}
-        chartType="area"
-        tooltipProps={{
-          valueLabel: "Gas Burned",
-          valueFormatter: (value: number) => {
-            return `${NumberFormatter.format(
-              value / 10 ** chain.nativeCurrency.decimals,
-            )} ${chain.nativeCurrency.symbol}`;
-          },
-        }}
-        limit={30}
-        reverse
-        showXAxis
-        startEndOnly
-      />
+      <AspectRatio w="full" ratio={2}>
+        <AreaChart
+          data={gasAnalyticsQuery.data?.result.slice(0, 30) || []}
+          index={{
+            id: "timestamp",
+          }}
+          categories={[
+            {
+              id: "value",
+              label: "Gas Burned",
+              format: (value: number) => {
+                return `${NumberFormatter.format(
+                  value / 10 ** chain.nativeCurrency.decimals,
+                )} ${chain.nativeCurrency.symbol}`;
+              },
+            },
+          ]}
+          showXAxis
+          startEndOnly
+        />
+      </AspectRatio>
     </Flex>
   );
 };

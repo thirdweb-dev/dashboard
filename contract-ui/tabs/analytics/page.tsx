@@ -1,9 +1,9 @@
 import { AnalyticsSectionProps } from "../overview/components/Analytics";
 import { EventsFeed } from "./components/events-feed";
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
+import { AspectRatio, ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { GraphWithLoadingState } from "components/analytics/graph-with-loading-state";
+import { BarChart } from "components/analytics/bar-chart";
 import {
   useGasAnalytics,
   useTransactionAnalytics,
@@ -89,25 +89,22 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
     address: contractAddress,
     chain,
   });
+
   return (
     <Flex flexDir="column" gap={4}>
       <Heading as="h3" size="subtitle.sm">
         Transactions
       </Heading>
 
-      <GraphWithLoadingState
-        w="full"
-        ratio={2.5}
-        query={transactionAnalyticsQuery}
-        chartType="bar"
-        tooltipProps={{
-          valueLabel: "Transactions",
-        }}
-        limit={limit}
-        reverse
-        showXAxis
-        showYAxis
-      />
+      <AspectRatio w="full" ratio={2}>
+        <BarChart
+          data={transactionAnalyticsQuery.data?.result.slice(0, limit) || []}
+          index={{ id: "timestamp" }}
+          categories={[{ id: "count" }]}
+          showXAxis
+          showYAxis
+        />
+      </AspectRatio>
     </Flex>
   );
 };
@@ -121,7 +118,7 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
   contractAddress,
   limit,
 }) => {
-  const transactionAnalyticsQuery = useUniqueWalletsAnalytics({
+  const walletAnalyticsQuery = useUniqueWalletsAnalytics({
     address: contractAddress,
     chain,
   });
@@ -131,19 +128,15 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
         Unique Wallets
       </Heading>
 
-      <GraphWithLoadingState
-        w="full"
-        ratio={2.5}
-        query={transactionAnalyticsQuery}
-        chartType="bar"
-        tooltipProps={{
-          valueLabel: "Unique Wallets",
-        }}
-        limit={limit}
-        reverse
-        showXAxis
-        showYAxis
-      />
+      <AspectRatio w="full" ratio={2}>
+        <BarChart
+          data={walletAnalyticsQuery.data?.result.slice(0, limit) || []}
+          index={{ id: "timestamp" }}
+          categories={[{ id: "count" }]}
+          showXAxis
+          showYAxis
+        />
+      </AspectRatio>
     </Flex>
   );
 };
@@ -157,7 +150,7 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
   contractAddress,
   limit,
 }) => {
-  const transactionAnalyticsQuery = useGasAnalytics({
+  const gasAnalyticsQuery = useGasAnalytics({
     address: contractAddress,
     chain,
   });
@@ -167,24 +160,24 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
         Gas Burned
       </Heading>
 
-      <GraphWithLoadingState
-        w="full"
-        ratio={2.5}
-        query={transactionAnalyticsQuery}
-        chartType="bar"
-        tooltipProps={{
-          valueLabel: "Gas Burned",
-          valueFormatter: (value: number) => {
-            return `${NumberFormatter.format(
-              value / 10 ** chain.nativeCurrency.decimals,
-            )} ${chain.nativeCurrency.symbol}`;
-          },
-        }}
-        limit={limit}
-        reverse
-        showXAxis
-        showYAxis
-      />
+      <AspectRatio w="full" ratio={2}>
+        <BarChart
+          data={gasAnalyticsQuery.data?.result.slice(0, limit) || []}
+          index={{ id: "timestamp" }}
+          categories={[
+            {
+              id: "value",
+              format: (value: number) => {
+                return `${NumberFormatter.format(
+                  value / 10 ** chain.nativeCurrency.decimals,
+                )} ${chain.nativeCurrency.symbol}`;
+              },
+            },
+          ]}
+          showXAxis
+          showYAxis
+        />
+      </AspectRatio>
     </Flex>
   );
 };

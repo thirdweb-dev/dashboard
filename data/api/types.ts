@@ -66,7 +66,7 @@ export interface AnalyticsBalanceResponse {
 }
 
 interface AnalyticsBalanceResult {
-  timestamp: Date;
+  timestamp: string;
   value: number;
 }
 
@@ -80,7 +80,7 @@ export interface AnalyticsTransactionResponse {
 }
 
 interface AnalyticsTransactionResult {
-  timestamp: Date;
+  timestamp: string;
   count: number;
 }
 
@@ -95,7 +95,7 @@ export interface AnalyticsUniqueAddressesResponse {
 }
 
 interface AnalyticsUniqueAddressesResult {
-  timestamp: Date;
+  timestamp: string;
   count: number;
 }
 
@@ -110,6 +110,6 @@ export interface AnalyticsGasResponse {
 }
 
 interface AnalyticsGasResult {
-  timestamp: Date;
+  timestamp: string;
   value: number;
 }
