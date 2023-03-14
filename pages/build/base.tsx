@@ -318,12 +318,13 @@ const Base: ThirdwebNextPage = () => {
           <Flex
             flexDir="column"
             alignItems="center"
-            maxW="3xl"
+            maxW="5xl"
             mx="auto"
             py={24}
             px={{ base: 4, md: 8 }}
           >
             <Heading
+              maxW="3xl"
               size="title.sm"
               bg="linear-gradient(0, #6891F7 -18.75%, #A7BFFA 100%)"
               bgClip="text"
@@ -333,14 +334,21 @@ const Base: ThirdwebNextPage = () => {
               You could be the next hit on Base.
             </Heading>
             <Heading
+              maxW="3xl"
               size="title.2xl"
               letterSpacing="-0.02em"
               textAlign="center"
               mt={4}
+              mb={12}
             >
               Learn how to build your own web3 apps or games.
             </Heading>
-            {/* <YoutubeEmbed /> */}
+            <YoutubeEmbed
+              maxWidth={1080}
+              videoId="b_tERTX4as0"
+              aspectRatio={16 / 9}
+              title="Building Your First Web3 Game With a Unity SDK (thirdweb's GamingKit)"
+            />
           </Flex>
           <Flex
             flexDir="column"
