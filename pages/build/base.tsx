@@ -210,7 +210,7 @@ const Base: ThirdwebNextPage = () => {
                 >
                   Clone the code
                 </Heading>
-                <SimpleGrid columns={2} gap={4}>
+                <SimpleGrid columns={{ sm: 2 }} gap={4}>
                   {[
                     {
                       title: "Web",
