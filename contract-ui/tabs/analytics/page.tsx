@@ -100,7 +100,7 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
         <AreaChart
           data={transactionAnalyticsQuery.data?.result.slice(0, limit) || []}
           index={{ id: "timestamp" }}
-          categories={[{ id: "count" }]}
+          categories={[{ id: "count", label: "Transactions" }]}
           showXAxis
           showYAxis
         />
@@ -132,7 +132,7 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
         <AreaChart
           data={walletAnalyticsQuery.data?.result.slice(0, limit) || []}
           index={{ id: "timestamp" }}
-          categories={[{ id: "count" }]}
+          categories={[{ id: "count", label: "Unique Wallets" }]}
           showXAxis
           showYAxis
         />
@@ -157,7 +157,7 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
   return (
     <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
       <Heading as="h3" size="subtitle.sm">
-        Gas Burned
+        {chain.nativeCurrency.symbol || "Gas"} Burned
       </Heading>
 
       <AspectRatio w="full" ratio={5}>
@@ -167,10 +167,11 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
           categories={[
             {
               id: "value",
+              label: `${chain.nativeCurrency.symbol || "Gas"} Burned`,
               format: (value: number) => {
                 return `${NumberFormatter.format(
                   value / 10 ** chain.nativeCurrency.decimals,
-                )} ${chain.nativeCurrency.symbol}`;
+                )}`;
               },
             },
           ]}

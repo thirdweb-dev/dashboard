@@ -163,7 +163,7 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
     >
       <Flex py={3} align="center" justify="space-between">
         <Heading as="h3" size="label.md">
-          Gas Burned
+          {chain.nativeCurrency.symbol || "Gas"} Burned
         </Heading>
       </Flex>
       <AspectRatio w="full" ratio={2}>
@@ -175,11 +175,11 @@ export const GasSpentOverTime: React.FC<GasSpentOverTimeProps> = ({
           categories={[
             {
               id: "value",
-              label: "Gas Burned",
+              label: `${chain.nativeCurrency.symbol || "Gas"} Burned`,
               format: (value: number) => {
                 return `${NumberFormatter.format(
                   value / 10 ** chain.nativeCurrency.decimals,
-                )} ${chain.nativeCurrency.symbol}`;
+                )}`;
               },
             },
           ]}

@@ -58,6 +58,7 @@ export const AreaChart = <
   if (!index.type) {
     index.type = "date";
   }
+
   return (
     <Box {...boxProps}>
       <ResponsiveContainer width="100%" height="100%">
@@ -181,6 +182,7 @@ export const AreaChart = <
             stroke="var(--chakra-colors-paragraph)"
             tickLine={false}
             axisLine={false}
+            interval="preserveStartEnd"
           />
         </RechartsAreaChart>
       </ResponsiveContainer>
