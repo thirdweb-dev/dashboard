@@ -113,7 +113,8 @@ const Base: ThirdwebNextPage = () => {
             maxW={{ base: "3xl", md: "8xl" }}
             mx="auto"
             columns={{ base: 1, md: 2 }}
-            minH={{ md: "calc(100vh - 80px)" }}
+            h={{ md: "calc(100vh - 80px)" }}
+            maxH={1080}
             alignItems="center"
           >
             <GridItem py={{ base: 12, md: 0 }}>
