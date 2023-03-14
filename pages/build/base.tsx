@@ -110,6 +110,8 @@ const Base: ThirdwebNextPage = () => {
         <HomepageTopNav />
         <Box mt="-80px" pt="80px" overflowX="hidden">
           <SimpleGrid
+            maxW={{ base: "3xl", md: "8xl" }}
+            mx="auto"
             columns={{ base: 1, md: 2 }}
             minH={{ md: "calc(100vh - 80px)" }}
             alignItems="center"
@@ -266,7 +268,7 @@ const Base: ThirdwebNextPage = () => {
             alignItems="center"
             maxW="3xl"
             mx="auto"
-            py={24}
+            py={12}
             px={{ base: 4, md: 8 }}
           >
             <Heading
@@ -360,34 +362,42 @@ const Base: ThirdwebNextPage = () => {
             px={{ base: 4, md: 8 }}
           >
             <Heading
+              maxW="xl"
               size="title.2xl"
               letterSpacing="-0.02em"
               textAlign="center"
             >
-              What will{" "}
+              Start building with{" "}
               <Box
                 as="span"
                 bg="linear-gradient(0, #6891F7 -18.75%, #A7BFFA 100%)"
                 bgClip="text"
               >
-                you
+                coinbase
               </Box>{" "}
-              build?
+              and{" "}
+              <Box
+                as="span"
+                background="linear-gradient(0deg, #A854F3 69.94%, #EEB2F9 93.45%)"
+                bgClip="text"
+              >
+                thirdweb.
+              </Box>
             </Heading>
-            <SimpleGrid columns={{ base: 1, md: 3 }} mt={16} gap={6} w="full">
+            <SimpleGrid columns={{ base: 1, md: 3 }} mt={12} gap={6} w="full">
               {[
                 {
-                  title: "Coinbase Wallet",
+                  title: "Wallet",
                   href: "https://www.coinbase.com/wallet",
                   image: "/assets/build/base/coinbase-wallet.png",
                 },
                 {
-                  title: "Coinbase WaaS",
+                  title: "Wallet as a Service",
                   href: "https://www.coinbase.com/cloud/products/waas",
                   image: "/assets/build/base/coinbase-waas.png",
                 },
                 {
-                  title: "Coinbase Pay",
+                  title: "Pay",
                   href: "https://www.coinbase.com/cloud/products/pay-sdk",
                   image: "/assets/build/base/coinbase-pay.png",
                 },
@@ -399,7 +409,8 @@ const Base: ThirdwebNextPage = () => {
                   transitionProperty="border"
                   transitionDuration="slow"
                   _hover={{ borderColor: "#2151F5" }}
-                  p={10}
+                  py={10}
+                  px={6}
                 >
                   <Flex flexDir="column" alignItems="center">
                     <Heading
