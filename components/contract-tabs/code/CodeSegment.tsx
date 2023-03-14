@@ -134,7 +134,9 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
             code={code}
             language={
               isInstallCommand
-                ? "bash"
+                ? activeEnvironment === "react-native"
+                  ? "jsx"
+                  : "bash"
                 : activeEnvironment === "react" ||
                   activeEnvironment === "react-native" ||
                   activeEnvironment === "web3button"
