@@ -80,7 +80,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             </Flex>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Heading as="h3" size="subtitle.sm">
-                Unique Wallets
+                {evmContractInfo.chain?.nativeCurrency.symbol || "Gas"} Burned
               </Heading>
               <ChartContainer w="full" ratio={5}>
                 <GasUsedOverTimeTimeChart
