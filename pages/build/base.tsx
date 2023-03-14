@@ -115,7 +115,7 @@ const Base: ThirdwebNextPage = () => {
             alignItems="center"
           >
             <GridItem py={{ base: 12, md: 0 }}>
-              <ChakraNextImage
+              <Image
                 src="/assets/build/base/base.png"
                 alt="Base"
                 width={757}
