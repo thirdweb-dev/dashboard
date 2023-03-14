@@ -1,9 +1,10 @@
 import { AnalyticsSectionProps } from "../overview/components/Analytics";
 import { EventsFeed } from "./components/events-feed";
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { AspectRatio, ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
+import { ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { AreaChart } from "components/analytics/area-chart";
+import { ChartContainer } from "components/analytics/chart-container";
 import {
   useGasAnalytics,
   useTransactionAnalytics,
@@ -53,21 +54,42 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             </ButtonGroup>
           </Flex>
           <SimpleGrid columns={{ base: 1, md: 1 }} gap={4}>
-            <TransactionsOverTimeChart
-              contractAddress={contractAddress}
-              chain={evmContractInfo.chain}
-              limit={days}
-            />
-            <UniqueWalletsOverTimeChart
-              contractAddress={contractAddress}
-              chain={evmContractInfo.chain}
-              limit={days}
-            />
-            <GasUsedOverTimeTimeChart
-              contractAddress={contractAddress}
-              chain={evmContractInfo.chain}
-              limit={days}
-            />
+            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+              <Heading as="h3" size="subtitle.sm">
+                Transactions
+              </Heading>
+              <ChartContainer w="full" ratio={5}>
+                <TransactionsOverTimeChart
+                  contractAddress={contractAddress}
+                  chain={evmContractInfo.chain}
+                  limit={days}
+                />
+              </ChartContainer>
+            </Flex>
+            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+              <Heading as="h3" size="subtitle.sm">
+                Unique Wallets
+              </Heading>
+              <ChartContainer w="full" ratio={5}>
+                <UniqueWalletsOverTimeChart
+                  contractAddress={contractAddress}
+                  chain={evmContractInfo.chain}
+                  limit={days}
+                />
+              </ChartContainer>
+            </Flex>
+            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+              <Heading as="h3" size="subtitle.sm">
+                Unique Wallets
+              </Heading>
+              <ChartContainer w="full" ratio={5}>
+                <GasUsedOverTimeTimeChart
+                  contractAddress={contractAddress}
+                  chain={evmContractInfo.chain}
+                  limit={days}
+                />
+              </ChartContainer>
+            </Flex>
           </SimpleGrid>
         </>
       )}
@@ -91,21 +113,13 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
   });
 
   return (
-    <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-      <Heading as="h3" size="subtitle.sm">
-        Transactions
-      </Heading>
-
-      <AspectRatio w="full" ratio={5}>
-        <AreaChart
-          data={transactionAnalyticsQuery.data?.result.slice(0, limit) || []}
-          index={{ id: "timestamp" }}
-          categories={[{ id: "count", label: "Transactions" }]}
-          showXAxis
-          showYAxis
-        />
-      </AspectRatio>
-    </Flex>
+    <AreaChart
+      data={transactionAnalyticsQuery.data?.result.slice(0, limit) || []}
+      index={{ id: "timestamp" }}
+      categories={[{ id: "count", label: "Transactions" }]}
+      showXAxis
+      showYAxis
+    />
   );
 };
 
@@ -123,21 +137,13 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-      <Heading as="h3" size="subtitle.sm">
-        Unique Wallets
-      </Heading>
-
-      <AspectRatio w="full" ratio={5}>
-        <AreaChart
-          data={walletAnalyticsQuery.data?.result.slice(0, limit) || []}
-          index={{ id: "timestamp" }}
-          categories={[{ id: "count", label: "Unique Wallets" }]}
-          showXAxis
-          showYAxis
-        />
-      </AspectRatio>
-    </Flex>
+    <AreaChart
+      data={walletAnalyticsQuery.data?.result.slice(0, limit) || []}
+      index={{ id: "timestamp" }}
+      categories={[{ id: "count", label: "Unique Wallets" }]}
+      showXAxis
+      showYAxis
+    />
   );
 };
 
@@ -155,31 +161,23 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
     chain,
   });
   return (
-    <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-      <Heading as="h3" size="subtitle.sm">
-        {chain.nativeCurrency.symbol || "Gas"} Burned
-      </Heading>
-
-      <AspectRatio w="full" ratio={5}>
-        <AreaChart
-          data={gasAnalyticsQuery.data?.result.slice(0, limit) || []}
-          index={{ id: "timestamp" }}
-          categories={[
-            {
-              id: "value",
-              label: `${chain.nativeCurrency.symbol || "Gas"} Burned`,
-              format: (value: number) => {
-                return `${NumberFormatter.format(
-                  value / 10 ** chain.nativeCurrency.decimals,
-                )}`;
-              },
-            },
-          ]}
-          showXAxis
-          showYAxis
-        />
-      </AspectRatio>
-    </Flex>
+    <AreaChart
+      data={gasAnalyticsQuery.data?.result.slice(0, limit) || []}
+      index={{ id: "timestamp" }}
+      categories={[
+        {
+          id: "value",
+          label: `${chain.nativeCurrency.symbol || "Gas"} Burned`,
+          format: (value: number) => {
+            return `${NumberFormatter.format(
+              value / 10 ** chain.nativeCurrency.decimals,
+            )}`;
+          },
+        },
+      ]}
+      showXAxis
+      showYAxis
+    />
   );
 };
 

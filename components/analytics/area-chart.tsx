@@ -1,6 +1,16 @@
+import type { ChartErrorStateProps } from "./chart-container";
 import { CustomToolTip } from "./custom-tooltip";
-import { Box, BoxProps } from "@chakra-ui/react";
-import { useId } from "react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  BoxProps,
+  Center,
+  Flex,
+} from "@chakra-ui/react";
+import { useEffect, useId, useState } from "react";
 import {
   Area,
   AreaChart as RechartsAreaChart,
@@ -9,6 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Button, Heading, Text } from "tw-components";
 
 type GenericDataType = Record<string, string | number>;
 
@@ -60,7 +71,7 @@ export const AreaChart = <
   }
 
   return (
-    <Box {...boxProps}>
+    <Box h="full" w="full" {...boxProps}>
       <ResponsiveContainer width="100%" height="100%">
         <RechartsAreaChart data={data}>
           <defs>
@@ -186,6 +197,108 @@ export const AreaChart = <
           />
         </RechartsAreaChart>
       </ResponsiveContainer>
+    </Box>
+  );
+};
+
+function randomNumber(min = 0, max = 100) {
+  return Math.random() * (max - min) + min;
+}
+
+function generateFakeData() {
+  const data = [];
+  for (let i = 0; i < 7; i++) {
+    data.push({
+      key: i,
+      value: randomNumber(i * 10, i * 10 + 30),
+    });
+  }
+  return data;
+}
+
+export const AreaChartLoadingState: React.FC = () => {
+  const [loadingData, setLoadingData] = useState(generateFakeData());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingData(generateFakeData());
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+  return (
+    <Box position="relative">
+      <Center
+        backdropFilter="blur(4px)"
+        zIndex={1}
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+      >
+        <Text size="label.lg" color="faded">
+          Loading Chart...
+        </Text>
+      </Center>
+      <AreaChart
+        pointerEvents="none"
+        data={loadingData}
+        index={{ id: "key" }}
+        categories={[{ id: "value", color: "var(--chakra-colors-faded)" }]}
+      />
+    </Box>
+  );
+};
+
+export const AreaChartErrorState: React.FC<
+  Pick<ChartErrorStateProps, "resetError">
+> = ({ resetError }) => {
+  const [fakeData] = useState(generateFakeData());
+
+  return (
+    <Box position="relative">
+      <Center
+        backdropFilter="blur(4px)"
+        zIndex={1}
+        position="absolute"
+        top={0}
+        left={0}
+        right={0}
+        bottom={0}
+      >
+        <Alert
+          w="auto"
+          status="error"
+          borderRadius="xl"
+          maxW="md"
+          alignItems="flex-start"
+        >
+          <AlertIcon />
+          <Flex direction="column">
+            <Heading as={AlertTitle} size="title.xs">
+              Chart Error
+            </Heading>
+            <Text as={AlertDescription} color="heading">
+              There was an error trying to load this chart.
+              <br /> You can try to{" "}
+              <Button
+                color="inherit"
+                fontSize="inherit"
+                variant="link"
+                onClick={resetError}
+              >
+                reload it
+              </Button>
+              .
+            </Text>
+          </Flex>
+        </Alert>
+      </Center>
+      <AreaChart
+        pointerEvents="none"
+        data={fakeData}
+        index={{ id: "key" }}
+        categories={[{ id: "value", color: "var(--chakra-colors-red-500)" }]}
+      />
     </Box>
   );
 };

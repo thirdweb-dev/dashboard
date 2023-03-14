@@ -23,6 +23,7 @@ export function queryTransactionAnalytics({
       return getTransactionAnalytics({ address, chain });
     },
     enabled: !!address && !!chain,
+    suspense: true,
   };
 }
 
@@ -46,6 +47,7 @@ export function queryUniqueWalletsAnalytics({
       return getUniqueAddressesAnalytics({ address, chain, type });
     },
     enabled: !!address && !!chain && !!type,
+    suspense: true,
   };
 }
 
@@ -69,6 +71,7 @@ export function queryGasAnalytics({
       return getGasAnalytics({ address, chain, type });
     },
     enabled: !!address && !!chain && !!type,
+    suspense: true,
   };
 }
 
