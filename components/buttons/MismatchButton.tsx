@@ -12,6 +12,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
@@ -32,7 +33,7 @@ import {
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Button, Card, Heading, Text } from "tw-components";
 
@@ -141,7 +142,7 @@ export const MismatchButton = React.forwardRef<
           </Button>
         </PopoverTrigger>
         <Card
-          maxW="sm"
+          maxW={{ base: "xs", md: "sm" }}
           w="auto"
           as={PopoverContent}
           bg="backgroundCardHighlight"
@@ -188,6 +189,7 @@ const MismatchNotice: React.FC<{
   const [network, switchNetwork] = useNetworkWithPatchedSwitching();
   const actuallyCanAttemptSwitch = !!switchNetwork;
   const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const chain = useConfiguredChain(desiredChainId || -1);
 
@@ -197,6 +199,17 @@ const MismatchNotice: React.FC<{
     }
     onClose();
   }, [chain, actuallyCanAttemptSwitch, desiredChainId, onClose, switchNetwork]);
+
+  const shortenedName = useMemo(() => {
+    const limit = isMobile ? 10 : 19;
+
+    if (!chain?.name) {
+      return undefined;
+    }
+    return chain.name.length > limit
+      ? `${chain.name.slice(0, limit)}...`
+      : undefined;
+  }, [chain?.name, isMobile]);
 
   return (
     <Flex direction="column" gap={4}>
@@ -228,8 +241,9 @@ const MismatchNotice: React.FC<{
         isDisabled={!actuallyCanAttemptSwitch}
         colorScheme="orange"
         textTransform="capitalize"
+        noOfLines={1}
       >
-        Switch wallet {chain ? `to ${chain.name}` : ""}
+        Switch wallet {chain ? `to ${shortenedName || chain.name}` : ""}
       </Button>
 
       {!actuallyCanAttemptSwitch && (
