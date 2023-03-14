@@ -111,10 +111,10 @@ const Base: ThirdwebNextPage = () => {
         <Box mt="-80px" pt="80px" overflowX="hidden">
           <SimpleGrid
             columns={{ base: 1, md: 2 }}
-            minH="calc(100vh - 80px)"
+            minH={{ md: "calc(100vh - 80px)" }}
             alignItems="center"
           >
-            <GridItem>
+            <GridItem py={{ base: 12, md: 0 }}>
               <ChakraNextImage
                 src="/assets/build/base/base.png"
                 alt="Base"
@@ -126,7 +126,7 @@ const Base: ThirdwebNextPage = () => {
               <Heading as="h1" size="title.xl">
                 Secure, low-cost, developer-friendly Ethereum L2.
               </Heading>
-              <Heading as="h2" size="title.xl" mt={8} mb={10}>
+              <Heading as="h2" size="title.xl" my={{ base: 4, md: 10 }}>
                 Built to bring the next billion users to web3.
               </Heading>
               <Link
@@ -194,7 +194,7 @@ const Base: ThirdwebNextPage = () => {
                 </Heading>
                 <LinkButton
                   my={8}
-                  href="#"
+                  href="https://catattacknft.vercel.app"
                   bg="white"
                   _hover={{ bg: "whiteAlpha.800" }}
                 >
@@ -281,7 +281,7 @@ const Base: ThirdwebNextPage = () => {
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 2 }} w="full" gap={6} mt={8}>
               {[
-                { title: "100k", label: "player" },
+                { title: "100k+", label: "players" },
                 { title: "1 Million+", label: "contract transactions" },
               ].map(({ title, label }) => (
                 <Card
@@ -433,7 +433,12 @@ const Base: ThirdwebNextPage = () => {
                         code: "npx thirdweb deploy",
                         language: "bash",
                       },
-                      links: [{ text: "Deploy a contract", href: "/explore" }],
+                      links: [
+                        {
+                          text: "Browse docs",
+                          href: "https://portal.thirdweb.com/deploy",
+                        },
+                      ],
                       children: (
                         <LinkButton
                           href="/explore"
@@ -463,7 +468,7 @@ const Base: ThirdwebNextPage = () => {
                         },
                         {
                           text: "Browse templates",
-                          href: "https://github.com/thirdweb-example",
+                          href: "https://portal.thirdweb.com/templates",
                         },
                       ],
                     },
@@ -489,7 +494,7 @@ const Base: ThirdwebNextPage = () => {
                         },
                         {
                           text: "Browse templates",
-                          href: "https://github.com/thirdweb-example",
+                          href: "https://portal.thirdweb.com/templates",
                         },
                       ],
                     },
@@ -507,7 +512,7 @@ const Base: ThirdwebNextPage = () => {
                         },
                         {
                           text: "Browse templates",
-                          href: "https://github.com/thirdweb-example",
+                          href: "https://portal.thirdweb.com/templates",
                         },
                       ],
                     },
