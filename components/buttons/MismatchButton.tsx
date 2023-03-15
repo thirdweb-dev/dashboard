@@ -49,6 +49,8 @@ export const MismatchButton = React.forwardRef<
       loadingText,
       type,
       ecosystem = "evm",
+      upsellTestnet = false,
+      onChainSelect,
       ...props
     },
     ref,
@@ -65,6 +67,11 @@ export const MismatchButton = React.forwardRef<
 
     const chainId = useChainId();
     const chainInfo = useConfiguredChain(chainId || -1);
+
+    const hasFaucet =
+      chainInfo &&
+      (chainInfo.chainId === ChainId.Localhost ||
+        (chainInfo.faucets && chainInfo.faucets.length > 0));
 
     const networkLabel = chainInfo ? chainInfo.name : `chain-id-${chainId}`;
 
@@ -155,6 +162,15 @@ export const MismatchButton = React.forwardRef<
               <MismatchNotice
                 initialFocusRef={initialFocusRef}
                 onClose={onClose}
+              />
+            ) : !hasFaucet &&
+              upsellTestnet &&
+              ecosystem === "evm" &&
+              onChainSelect ? (
+              <UpsellTestnetNotice
+                initialFocusRef={initialFocusRef}
+                onClose={onClose}
+                onChainSelect={onChainSelect}
               />
             ) : (
               <NoFundsNotice
@@ -328,6 +344,71 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
         <Button size="sm" colorScheme="orange" onClick={requestFunds}>
           Get {symbol} from faucet
         </Button>
+      )}
+    </Flex>
+  );
+};
+
+const UpsellTestnetNotice: React.FC<{
+  initialFocusRef: React.RefObject<HTMLButtonElement>;
+  onClose: () => void;
+  onChainSelect: (chainId: number) => void;
+}> = ({ initialFocusRef, onClose, onChainSelect }) => {
+  const connectedChainId = useChainId();
+  const [network, switchNetwork] = useNetworkWithPatchedSwitching();
+  const actuallyCanAttemptSwitch = !!switchNetwork;
+
+  const chain = useConfiguredChain(connectedChainId || -1);
+
+  const onSwitchWallet = useCallback(async () => {
+    if (actuallyCanAttemptSwitch && chain) {
+      await switchNetwork(80001);
+    }
+    onChainSelect(80001);
+    onClose();
+  }, [chain, actuallyCanAttemptSwitch, onClose, switchNetwork, onChainSelect]);
+
+  return (
+    <Flex direction="column" gap={4}>
+      <Heading size="label.lg">
+        <Flex gap={2} align="center">
+          <Icon boxSize={6} as={AiOutlineWarning} />
+          <span>No funds to deploy</span>
+        </Flex>
+      </Heading>
+
+      <Text>
+        You&apos;re trying to deploy to the{" "}
+        <Box as="strong" textTransform="capitalize">
+          {chain?.name}
+        </Box>{" "}
+        network but no funds have been detected.
+      </Text>
+      <Text>
+        You can either get funds on this network or switch to a testnet like
+        Mumbai to test your contract.
+      </Text>
+
+      <Button
+        ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
+        leftIcon={<Icon as={VscDebugDisconnect} />}
+        size="sm"
+        onClick={onSwitchWallet}
+        isLoading={network.loading}
+        isDisabled={!actuallyCanAttemptSwitch}
+        colorScheme="orange"
+        textTransform="capitalize"
+        noOfLines={1}
+      >
+        Switch wallet to Mumbai
+      </Button>
+
+      {!actuallyCanAttemptSwitch && (
+        <Text size="body.sm" fontStyle="italic">
+          Your connected wallet does not support programmatic switching.
+          <br />
+          Please manually switch the network in your wallet.
+        </Text>
       )}
     </Flex>
   );
