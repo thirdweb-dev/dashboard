@@ -354,6 +354,7 @@ const UpsellTestnetNotice: React.FC<{
   onClose: () => void;
   onChainSelect: (chainId: number) => void;
 }> = ({ initialFocusRef, onClose, onChainSelect }) => {
+  const trackEvent = useTrack();
   const connectedChainId = useChainId();
   const [network, switchNetwork] = useNetworkWithPatchedSwitching();
   const actuallyCanAttemptSwitch = !!switchNetwork;
@@ -361,12 +362,24 @@ const UpsellTestnetNotice: React.FC<{
   const chain = useConfiguredChain(connectedChainId || -1);
 
   const onSwitchWallet = useCallback(async () => {
+    trackEvent({
+      category: "no-funds",
+      action: "click",
+      label: "switch-to-testnet",
+    });
     if (actuallyCanAttemptSwitch && chain) {
       await switchNetwork(80001);
     }
     onChainSelect(80001);
     onClose();
-  }, [chain, actuallyCanAttemptSwitch, onClose, switchNetwork, onChainSelect]);
+  }, [
+    chain,
+    actuallyCanAttemptSwitch,
+    onClose,
+    switchNetwork,
+    onChainSelect,
+    trackEvent,
+  ]);
 
   return (
     <Flex direction="column" gap={4}>
