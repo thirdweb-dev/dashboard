@@ -33,7 +33,7 @@ import {
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Button, Card, Heading, Text } from "tw-components";
 
@@ -72,8 +72,6 @@ export const MismatchButton = React.forwardRef<
       chainInfo &&
       (chainInfo.chainId === ChainId.Localhost ||
         (chainInfo.faucets && chainInfo.faucets.length > 0));
-
-    const networkLabel = chainInfo ? chainInfo.name : `chain-id-${chainId}`;
 
     if (!address && ecosystem === "evm") {
       return (
@@ -122,17 +120,11 @@ export const MismatchButton = React.forwardRef<
             type={networksMismatch || shouldShowEitherFaucet ? "button" : type}
             loadingText={loadingText}
             onClick={(e) => {
-              if (shouldShowEVMFaucet) {
+              if (shouldShowEitherFaucet) {
                 trackEvent({
                   category: "no-funds",
                   action: "popover",
-                  label: networkLabel,
-                });
-              } else if (shouldShowSolanaFaucet) {
-                trackEvent({
-                  category: "no-funds",
-                  action: "popover",
-                  label: solNetwork,
+                  label: ecosystem,
                 });
               }
               if (networksMismatch || shouldShowEitherFaucet) {
@@ -180,11 +172,6 @@ export const MismatchButton = React.forwardRef<
                     : chainInfo?.nativeCurrency.symbol || ""
                 }
                 ecosystem={ecosystem}
-                label={
-                  ecosystem === "solana"
-                    ? solNetwork || "unknown_sol_network"
-                    : networkLabel
-                }
               />
             )}
           </PopoverBody>
@@ -275,15 +262,10 @@ const MismatchNotice: React.FC<{
 
 interface NoFundsNoticeProps {
   symbol: string;
-  label: string;
   ecosystem: "solana" | "evm" | "either";
 }
 
-const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
-  symbol,
-  label,
-  ecosystem,
-}) => {
+const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({ symbol, ecosystem }) => {
   const trackEvent = useTrack();
 
   const balanceQuery = useBalance();
@@ -300,25 +282,19 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
     if (ecosystem === "solana") {
       window.open("/faucet/solana", "_blank");
     } else if (sdk && hasFaucet) {
+      trackEvent({
+        category: "no-funds",
+        action: "click",
+        label: "request-funds",
+      });
       if (chainInfo.chainId === ChainId.Localhost) {
         await sdk.wallet.requestFunds(10);
         await balanceQuery.refetch();
-        trackEvent({
-          category: "no-funds",
-          action: "click",
-          label: "localhost",
-        });
       } else if (
         chainInfo &&
         chainInfo.faucets &&
         chainInfo.faucets.length > 0
       ) {
-        trackEvent({
-          category: "no-funds",
-          action: "click",
-          label,
-          faucet: chainInfo.faucets[0],
-        });
         const faucet = chainInfo.faucets[0];
         window.open(faucet, "_blank");
       }
@@ -360,6 +336,14 @@ const UpsellTestnetNotice: React.FC<{
   const actuallyCanAttemptSwitch = !!switchNetwork;
 
   const chain = useConfiguredChain(connectedChainId || -1);
+
+  useEffect(() => {
+    trackEvent({
+      category: "no-funds",
+      action: "popover",
+      label: "switch-to-testnet",
+    });
+  }, [trackEvent]);
 
   const onSwitchWallet = useCallback(async () => {
     trackEvent({
