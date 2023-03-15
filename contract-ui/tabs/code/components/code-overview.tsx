@@ -56,7 +56,8 @@ const COMMANDS = {
     javascript: "npm install @thirdweb-dev/sdk ethers@5",
     react: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5",
     "react-native": `
-npm install 'ethers@5' node-libs-browser react-native-crypto react-native-randombytes react-native-get-random-values react-native-svg react-native-mmkv@2.5.1 @react-native-async-storage/async-storage @thirdweb-dev/react-native @thirdweb-dev/react-native-compat
+// Add the dependencies:
+npm install 'ethers@5' @thirdweb-dev/react-native @thirdweb-dev/react-native-compat node-libs-browser react-native-crypto react-native-randombytes react-native-get-random-values react-native-svg react-native-mmkv@2.5.1 @react-native-async-storage/async-storage
 
 // Setup expo-modules:
 npx install-expo-modules@latest
