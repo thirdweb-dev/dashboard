@@ -27,7 +27,7 @@ export interface TransactionButtonProps
   isLoading: boolean;
   isGasless?: boolean;
   upsellTestnet?: boolean;
-  onChainSelect: (chainId: number) => void;
+  onChainSelect?: (chainId: number) => void;
 }
 
 export const TransactionButton: React.FC<TransactionButtonProps> = ({
