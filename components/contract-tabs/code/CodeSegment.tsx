@@ -21,6 +21,18 @@ interface ICodeSegment {
 
 const Environments: SupportedEnvironment[] = [
   {
+    environment: "javascript",
+    title: "JavaScript",
+    icon: SiJavascript,
+    colorScheme: "yellow",
+  },
+  {
+    environment: "typescript",
+    title: "TypeScript",
+    icon: SiTypescript,
+    colorScheme: "blue",
+  },
+  {
     environment: "react",
     title: "React",
     icon: SiReact,
@@ -37,18 +49,6 @@ const Environments: SupportedEnvironment[] = [
     title: "Web3Button",
     icon: SiReact,
     colorScheme: "purple",
-  },
-  {
-    environment: "javascript",
-    title: "JavaScript",
-    icon: SiJavascript,
-    colorScheme: "yellow",
-  },
-  {
-    environment: "typescript",
-    title: "TypeScript",
-    icon: SiTypescript,
-    colorScheme: "blue",
   },
   {
     environment: "python",
