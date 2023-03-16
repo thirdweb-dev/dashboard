@@ -55,33 +55,8 @@ const COMMANDS = {
   install: {
     javascript: "npm install @thirdweb-dev/sdk ethers@5",
     react: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5",
-    "react-native": `
-// Add the dependencies:
-npm install 'ethers@5' @thirdweb-dev/react-native @thirdweb-dev/react-native-compat node-libs-browser react-native-crypto react-native-randombytes react-native-get-random-values react-native-svg react-native-mmkv@2.5.1 @react-native-async-storage/async-storage
-
-// Setup expo-modules:
-npx install-expo-modules@latest
-
-// Setup crypto nodejs polyfill in your metro.config.js file:
-const extraNodeModules = require("node-libs-browser");
-
-module.exports = {
-  resolver: {
-    extraNodeModules,
-  },
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: true,
-      },
-    }),
-  },
-};
-
-// Import the polyfills in your index.js file:
-import "@thirdweb-dev/react-native-compat";
-       `,
+    "react-native": `// Please, follow the installation steps in our guide: 
+// https://portal.thirdweb.com/react-native`,
     web3button: "",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
