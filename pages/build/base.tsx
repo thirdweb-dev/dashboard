@@ -64,10 +64,14 @@ const SDKCard: ComponentWithChildren<SDKCardProps> = ({
         >
           <ChakraNextImage src={image} alt="" width={12} height={12} />
         </Flex>
-        <Heading mt={4} mb={10} size="title.lg">
+        <Heading mt={4} size="title.lg">
           {title}
         </Heading>
-        {children}
+        {children && (
+          <Box w="full" mt={10}>
+            {children}
+          </Box>
+        )}
         <CodeBlock
           my={8}
           darkTheme={darkTheme}
