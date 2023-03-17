@@ -4,6 +4,7 @@ import {
   Box,
   DarkMode,
   Flex,
+  FlexProps,
   GridItem,
   LinkBox,
   LinkOverlay,
@@ -32,10 +33,7 @@ import { ThirdwebNextPage } from "utils/types";
 type SDKCardProps = {
   title: string;
   image: string;
-  links: {
-    text: string;
-    href: string;
-  }[];
+  links: { text: string; href: string }[];
   code: CodeBlockProps;
 };
 
@@ -266,7 +264,6 @@ const Base: ThirdwebNextPage = () => {
           </Flex>
           <Flex
             flexDir="column"
-            alignItems="center"
             maxW="3xl"
             mx="auto"
             py={12}
@@ -274,13 +271,24 @@ const Base: ThirdwebNextPage = () => {
           >
             <Heading
               as="h3"
+              maxW="xl"
               size="title.xl"
-              textAlign="center"
               letterSpacing="-0.02em"
               background="linear-gradient(0deg, #A854F3 69.94%, #EEB2F9 93.45%)"
               bgClip="text"
             >
               Built with thirdweb in 2 days.
+            </Heading>
+            <Heading
+              mt={12}
+              as="h3"
+              maxW="md"
+              alignSelf="flex-end"
+              size="title.xl"
+              textAlign="right"
+              letterSpacing="-0.02em"
+            >
+              stats, only 48 hours after launch...
             </Heading>
             <SimpleGrid columns={{ base: 1, md: 2 }} w="full" gap={6} mt={8}>
               {[
@@ -368,43 +376,78 @@ const Base: ThirdwebNextPage = () => {
               letterSpacing="-0.02em"
               textAlign="center"
             >
-              Start building with{" "}
               <Box
                 as="span"
                 bg="linear-gradient(0, #6891F7 -18.75%, #A7BFFA 100%)"
                 bgClip="text"
               >
-                coinbase
+                Start building
               </Box>{" "}
-              and{" "}
-              <Box
-                as="span"
-                background="linear-gradient(0deg, #A854F3 69.94%, #EEB2F9 93.45%)"
-                bgClip="text"
-              >
-                thirdweb.
-              </Box>
+              with
             </Heading>
+            <Flex
+              alignItems="center"
+              gap={4}
+              flexDir={{ base: "column", md: "row" }}
+            >
+              <ChakraNextImage
+                width="190"
+                height="34"
+                src="/assets/build/base/coinbase.png"
+                alt=""
+              />
+              <Text size="body.2xl" color="#595959" transform="rotate(45deg)">
+                +
+              </Text>
+              <Image
+                width="225"
+                height="36"
+                src="/assets/build/base/thirdweb.png"
+                alt=""
+              />
+              <Text size="body.2xl" color="#595959" transform="rotate(45deg)">
+                +
+              </Text>
+              <Image
+                width="148"
+                height="50"
+                src="/assets/build/base/google.png"
+                alt=""
+              />
+            </Flex>
             <SimpleGrid columns={{ base: 1, md: 3 }} mt={12} gap={6} w="full">
               {[
                 {
                   title: "Wallet",
                   href: "https://www.coinbase.com/wallet",
                   image: "/assets/build/base/coinbase-wallet.png",
+                  flexDir: "row",
+                  width: 81,
+                  height: 81,
                 },
                 {
                   title: "Wallet as a Service",
                   href: "https://www.coinbase.com/cloud/products/waas",
                   image: "/assets/build/base/coinbase-waas.png",
+                  flexDir: "row",
+                  width: 81,
+                  height: 81,
                 },
                 {
-                  title: "Pay",
+                  title: "Payments",
                   href: "https://www.coinbase.com/cloud/products/pay-sdk",
                   image: "/assets/build/base/coinbase-pay.png",
+                  flexDir: "column",
+                  width: 133,
+                  height: 53,
                 },
-              ].map(({ title, href, image }) => (
+              ].map(({ title, href, image, flexDir, width, height }) => (
                 <LinkBox
+                  key={title}
                   as={Card}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
                   bg="#0F0F0F"
                   border="3px solid transparent"
                   transitionProperty="border"
@@ -413,7 +456,18 @@ const Base: ThirdwebNextPage = () => {
                   py={10}
                   px={6}
                 >
-                  <Flex flexDir="column" alignItems="center">
+                  <Flex
+                    alignItems="center"
+                    justifyContent="center"
+                    flexDir={flexDir as FlexProps["flexDir"]}
+                    gap={flexDir === "row" ? 10 : 4}
+                  >
+                    <ChakraNextImage
+                      width={width}
+                      height={height}
+                      src={image}
+                      alt=""
+                    />
                     <Heading
                       textAlign="center"
                       size="title.lg"
@@ -430,18 +484,63 @@ const Base: ThirdwebNextPage = () => {
                     >
                       {title}
                     </Heading>
-                    <Box h={20} mt={10}>
-                      <ChakraNextImage
-                        height="78"
-                        width="160"
-                        src={image}
-                        alt=""
-                      />{" "}
-                    </Box>
                   </Flex>
                 </LinkBox>
               ))}
             </SimpleGrid>
+            <LinkBox
+              as={Card}
+              w="full"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              bg="#0F0F0F"
+              border="3px solid transparent"
+              transitionProperty="border"
+              transitionDuration="slow"
+              _hover={{ borderColor: "#2151F5" }}
+              py={10}
+              px={6}
+            >
+              <Flex
+                alignItems="center"
+                justifyContent="center"
+                flexDir={{ base: "column", sm: "row" }}
+                gap={{ base: 2, sm: 10 }}
+                textAlign={{ base: "center", sm: "left" }}
+              >
+                <ChakraNextImage
+                  width="136"
+                  height="110"
+                  src="/assets/build/base/google-cloud.png"
+                  alt=""
+                />
+                <Box>
+                  <Heading
+                    size="title.lg"
+                    letterSpacing="-0.02em"
+                    background="linear-gradient(80deg, #6891F7, #C0D2FF, #6891F7)"
+                    backgroundClip="text"
+                    backgroundSize="200% 200%"
+                    transitionProperty="background-position, transform"
+                    transitionDuration="slower"
+                    _hover={{
+                      backgroundPosition: "bottom right",
+                    }}
+                    {...{
+                      as: LinkOverlay,
+                      href: "https://cloud.google.com/web3",
+                      isExternal: true,
+                    }}
+                  >
+                    Google Cloud for web3
+                  </Heading>
+                  <Text mt={2}>
+                    Secure tools and infrastructure for web3 --&gt;
+                  </Text>
+                </Box>
+              </Flex>
+            </LinkBox>
             <SimpleGrid columns={{ base: 1, md: 2 }} w="100%" gap={6}>
               <GridItem as={Flex} flexDir="column" gap={6}>
                 {(
