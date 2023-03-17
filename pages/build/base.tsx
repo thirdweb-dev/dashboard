@@ -195,6 +195,8 @@ const Base: ThirdwebNextPage = () => {
                 </Heading>
                 <LinkButton
                   my={8}
+                  px={6}
+                  h={14}
                   href="https://catattacknft.vercel.app"
                   bg="white"
                   _hover={{ bg: "whiteAlpha.800" }}
@@ -293,7 +295,7 @@ const Base: ThirdwebNextPage = () => {
             <SimpleGrid columns={{ base: 1, md: 2 }} w="full" gap={6} mt={8}>
               {[
                 { title: "100k+", label: "players" },
-                { title: "1 Million+", label: "contract transactions" },
+                { title: "1 Million+", label: "Base contract transactions" },
               ].map(({ title, label }) => (
                 <Card
                   as={GridItem}
