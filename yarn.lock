@@ -3470,6 +3470,15 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.5.13.tgz#7ad94fcc9db72f3eb0ed7dbb9c511a6bd7ff9a06"
   integrity sha512-kvDRjC7LrLNNNgUMfsBz3nHOwbBLFdosWQ16dfbD9D/OJrvFHRXoUIPzF0MNqqSPghaj7/18fnwXHGypvzoh9Q==
 
+"@thirdweb-dev/auth@*":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.7.tgz#9ef28a220e801805a0024deed9ac1ce5d468a45f"
+  integrity sha512-pIOFxTpmyyVNdws4pV6fRfPmrnrxRrC8t1Wg8cW86scJ2QOu6/y2AZkLVA8x92l4ADW/x9O1vK7t3VtYBOtdGQ==
+  dependencies:
+    cookie "^0.5.0"
+    uuid "^9.0.0"
+    zod "^3.20.2"
+
 "@thirdweb-dev/auth@3.0.8-nightly-20230310185406-71532e5a", "@thirdweb-dev/auth@^3.0.8-nightly-20230310185406-71532e5a":
   version "3.0.8-nightly-20230310185406-71532e5a"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.8-nightly-20230310185406-71532e5a.tgz#d055eec6f05cafdd97ec514bf030b18abd451d7d"
@@ -3483,6 +3492,11 @@
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
+
+"@thirdweb-dev/chains@*":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.6.tgz#6f382c800e702a4610f2dfa3ae71be613f1a2a40"
+  integrity sha512-iY0ptZ5nAn6N9Evv6uPSw4mDKdzEFSOWoqtjIB28dssYTlqpXc4GDabvKLLF0aqCFbq+iK33ux2mLCUp5X1NeQ==
 
 "@thirdweb-dev/chains@0.1.7-nightly-20230310185406-71532e5a", "@thirdweb-dev/chains@^0.1.7-nightly-20230310185406-71532e5a":
   version "0.1.7-nightly-20230310185406-71532e5a"
@@ -3509,6 +3523,15 @@
     "@tanstack/react-query" "^4.0.10"
     "@thirdweb-dev/auth" "3.0.8-nightly-20230310185406-71532e5a"
     "@thirdweb-dev/chains" "0.1.7-nightly-20230310185406-71532e5a"
+    tiny-invariant "^1.2.0"
+
+"@thirdweb-dev/react-core@file:.yalc/@thirdweb-dev/react-core":
+  version "3.10.3"
+  dependencies:
+    "@tanstack/react-query" "^4.0.10"
+    "@thirdweb-dev/auth" "*"
+    "@thirdweb-dev/chains" "*"
+    "@thirdweb-dev/wallets" "*"
     tiny-invariant "^1.2.0"
 
 "@thirdweb-dev/react@^3.10.4-nightly-20230310185406-71532e5a":
@@ -3568,6 +3591,14 @@
     form-data "^4.0.0"
     ipfs-unixfs-importer "^7.0.1"
     uuid "^9.0.0"
+
+"@thirdweb-dev/wallets@*":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.2.8.tgz#24ff14763b80347dce3920f6ced7fa3deadefa4c"
+  integrity sha512-EqZOSyVakHI8Qemku7Xk6c64ZCwdZF86FAOf1Nlg3FJOxUmav3zTW9AdkdZym6TbQE98KwR2pFsqL99rrGFyGw==
+  dependencies:
+    eventemitter3 "^5.0.0"
+    localforage "^1.10.0"
 
 "@thirdweb-dev/wallets@0.2.9-nightly-20230310185406-71532e5a":
   version "0.2.9-nightly-20230310185406-71532e5a"

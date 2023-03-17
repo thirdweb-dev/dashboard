@@ -34,27 +34,26 @@ export interface TransactionResponse {
 }
 
 export interface Transaction {
-  block_number: string;
+  block_number: number;
   hash: string;
-  nonce: string;
+  nonce: number;
   block_hash: string;
-  transaction_index: string;
+  transaction_index: number;
   from: string;
   to: string;
-  value: string;
-  gas: string;
-  gas_price: string;
-  is_error: string;
+  value: number;
+  gas: number;
+  gas_price: number;
   input: string;
   contract_address: string;
-  cumulative_gas_used: string;
-  gas_used: string;
-  confirmations: string;
+  cumulative_gas_used: number;
+  gas_used: number;
+  confirmations: number;
   method_id: string;
   function_name: string;
   function_signature: string;
-  tx_receipt_status: string;
-  timestamp: string;
+  status: number;
+  timestamp: number;
 }
 // https://data.thirdweb.com/ethereum/analytics/balance?address=0x0138d6b372c92096da771fbb5856c1d5631c7b9c
 export interface AnalyticsBalanceParams extends SharedParams {

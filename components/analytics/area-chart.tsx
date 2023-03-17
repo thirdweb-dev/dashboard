@@ -2,7 +2,6 @@ import type { ChartErrorStateProps } from "./chart-container";
 import { CustomToolTip } from "./custom-tooltip";
 import {
   Alert,
-  AlertDescription,
   AlertIcon,
   AlertTitle,
   Box,
@@ -156,7 +155,7 @@ export const AreaChart = <
             }}
             stroke="var(--chakra-colors-paragraph)"
             tickLine={false}
-            axisLine={false}
+            axisLine={{ stroke: "var(--chakra-colors-borderColor)" }}
             interval="preserveStartEnd"
             minTickGap={5}
             domain={["dataMin", "dataMax"]}
@@ -192,7 +191,7 @@ export const AreaChart = <
             type="number"
             stroke="var(--chakra-colors-paragraph)"
             tickLine={false}
-            axisLine={false}
+            axisLine={{ stroke: "var(--chakra-colors-borderColor)" }}
             interval="preserveStartEnd"
           />
         </RechartsAreaChart>
@@ -273,23 +272,13 @@ export const AreaChartErrorState: React.FC<
           alignItems="flex-start"
         >
           <AlertIcon />
-          <Flex direction="column">
+          <Flex direction="column" gap={2}>
             <Heading as={AlertTitle} size="title.xs">
               Chart Error
             </Heading>
-            <Text as={AlertDescription} color="heading">
-              There was an error trying to load this chart.
-              <br /> You can try to{" "}
-              <Button
-                color="inherit"
-                fontSize="inherit"
-                variant="link"
-                onClick={resetError}
-              >
-                reload it
-              </Button>
-              .
-            </Text>
+            <Button onClick={resetError} colorScheme="red" size="xs">
+              Reload
+            </Button>
           </Flex>
         </Alert>
       </Center>

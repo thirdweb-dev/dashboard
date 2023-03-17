@@ -4,7 +4,7 @@ import {
   useGasAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
-} from "data/api/hooks/analytics/transactions";
+} from "data/api/hooks/transactions";
 import { utils } from "ethers";
 import { useMemo, useState } from "react";
 import {

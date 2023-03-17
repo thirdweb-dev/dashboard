@@ -8,7 +8,7 @@ import {
   useGasAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
-} from "data/api/hooks/analytics/transactions";
+} from "data/api/hooks/analytics";
 import { Card, Heading, TrackedLink, TrackedLinkProps } from "tw-components";
 
 export interface AnalyticsSectionProps {

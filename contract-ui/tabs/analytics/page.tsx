@@ -5,12 +5,13 @@ import { ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { AreaChart } from "components/analytics/area-chart";
 import { ChartContainer } from "components/analytics/chart-container";
+import { InfiniteTransactionsTable } from "components/transactions/infinite-transaction-table";
 import {
   useGasAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
-} from "data/api/hooks/analytics/transactions";
-import { useEffect, useState } from "react";
+} from "data/api/hooks/analytics";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Card, Heading } from "tw-components";
 
 interface ContractAnalyticsPageProps {
@@ -58,7 +59,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               <Heading as="h3" size="subtitle.sm">
                 Transactions
               </Heading>
-              <ChartContainer w="full" ratio={5}>
+              <ChartContainer w="full" ratio={4.5 / 1}>
                 <TransactionsOverTimeChart
                   contractAddress={contractAddress}
                   chain={evmContractInfo.chain}
@@ -70,7 +71,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               <Heading as="h3" size="subtitle.sm">
                 Unique Wallets
               </Heading>
-              <ChartContainer w="full" ratio={5}>
+              <ChartContainer w="full" ratio={4.5 / 1}>
                 <UniqueWalletsOverTimeChart
                   contractAddress={contractAddress}
                   chain={evmContractInfo.chain}
@@ -82,7 +83,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               <Heading as="h3" size="subtitle.sm">
                 {evmContractInfo.chain?.nativeCurrency.symbol || "Gas"} Burned
               </Heading>
-              <ChartContainer w="full" ratio={5}>
+              <ChartContainer w="full" ratio={4.5 / 1}>
                 <GasUsedOverTimeTimeChart
                   contractAddress={contractAddress}
                   chain={evmContractInfo.chain}
@@ -91,9 +92,12 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </ChartContainer>
             </Flex>
           </SimpleGrid>
+          <InfiniteTransactionsTable
+            chain={evmContractInfo.chain}
+            contractAddress={contractAddress}
+          />
         </>
       )}
-      <EventsFeed contractAddress={contractAddress} />
     </Flex>
   );
 };
@@ -112,13 +116,43 @@ const TransactionsOverTimeChart: React.FC<TransactionsOverTimeChartProps> = ({
     chain,
   });
 
+  const data = useMemo(() => {
+    if (!transactionAnalyticsQuery.data) {
+      return [];
+    }
+    const currentPeriod = transactionAnalyticsQuery.data?.result.slice(
+      0,
+      limit,
+    );
+    const previousPeriod = transactionAnalyticsQuery.data?.result.slice(
+      limit,
+      limit * 2,
+    );
+    return currentPeriod.map((current, index) => {
+      const previous = previousPeriod[index];
+      return {
+        timestamp: current.timestamp,
+        current: current.count,
+        previous: previous?.count,
+      };
+    });
+  }, [transactionAnalyticsQuery.data, limit]);
+
   return (
     <AreaChart
-      data={transactionAnalyticsQuery.data?.result.slice(0, limit) || []}
+      data={data}
       index={{ id: "timestamp" }}
-      categories={[{ id: "count", label: "Transactions" }]}
+      categories={[
+        { id: "current", label: "Transactions" },
+        {
+          id: "previous",
+          color: "var(--chakra-colors-accent-300)",
+          label: "Previous",
+        },
+      ]}
       showXAxis
       showYAxis
+      startEndOnly
     />
   );
 };
@@ -143,6 +177,7 @@ const UniqueWalletsOverTimeChart: React.FC<UniqueWalletsOverTimeChartProps> = ({
       categories={[{ id: "count", label: "Unique Wallets" }]}
       showXAxis
       showYAxis
+      startEndOnly
     />
   );
 };
@@ -177,6 +212,7 @@ const GasUsedOverTimeTimeChart: React.FC<GasUsedOverTimeTimeChartProps> = ({
       ]}
       showXAxis
       showYAxis
+      startEndOnly
     />
   );
 };
