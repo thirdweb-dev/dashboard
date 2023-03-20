@@ -1,4 +1,3 @@
-import { ChakraNextImage } from "../../components/Image";
 import { GetStarted } from "../../components/dashboard/GetStarted";
 import { ContractsSidebar } from "../../core-ui/sidebar/contracts";
 import { useAllContractList } from "@3rdweb-sdk/react";

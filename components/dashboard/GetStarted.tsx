@@ -1,6 +1,6 @@
 import { Box, Flex, Progress } from "@chakra-ui/react";
 import { useState } from "react";
-import { FiCheck, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiCheck, FiChevronUp } from "react-icons/fi";
 import { Card, Heading, Text } from "tw-components";
 
 type Step = {
