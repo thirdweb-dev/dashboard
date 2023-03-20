@@ -1,6 +1,8 @@
+import { usePublishedContractsQuery } from "../../components/contract-components/hooks";
+import { GetStarted } from "../../components/dashboard/GetStarted";
 import { ContractsSidebar } from "../../core-ui/sidebar/contracts";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { Box, Container, Divider, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
@@ -8,7 +10,7 @@ import { PublishedContracts } from "components/contract-components/tables/publis
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
+import { Link } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -20,6 +22,7 @@ import { ThirdwebNextPage } from "utils/types";
 
 const Published: ThirdwebNextPage = () => {
   const address = useAddress();
+  const publishedContractsQuery = usePublishedContractsQuery(address);
 
   /** put the component is loading state for sometime to avoid layout shift */
   const [isLoading, setIsLoading] = useState(true);
@@ -29,15 +32,38 @@ const Published: ThirdwebNextPage = () => {
     }, 200);
   }, []);
 
+  const steps = [
+    {
+      title: "Connect your wallet to get started",
+      description:
+        "In order to interact with your contracts you need to connect an EVM compatible wallet.",
+      children: <ConnectWallet ecosystem="evm" />,
+      completed: !!address,
+    },
+    {
+      title: "Publish a contract",
+      children: (
+        <Link color="blue.500" href="/publish">
+          Learn how to publish contracts --&gt;
+        </Link>
+      ),
+      completed: (publishedContractsQuery?.data?.length || 0) > 0,
+    },
+  ];
+
   return (
     <Box pt={8}>
       <ClientOnly fadeInDuration={600} ssr={null}>
         <ContractsSidebar activePage="published" />
         {!isLoading && (
-          <>
-            {/* TODO: add <GetStarted /> */}
+          <Flex flexDir="column" gap={12}>
+            <GetStarted
+              title="Get started with deploying contracts"
+              description="This guide will help you start deploying contracts on-chain in just a few minutes."
+              steps={steps}
+            />
             {address && <PublishedContractsPage address={address} />}
-          </>
+          </Flex>
         )}
       </ClientOnly>
     </Box>

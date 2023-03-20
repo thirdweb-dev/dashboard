@@ -5,7 +5,7 @@ import { Card, Heading, Text } from "tw-components";
 
 type Step = {
   title: string;
-  description: string;
+  description?: string;
   completed: boolean;
   children: React.ReactNode;
 };
@@ -21,12 +21,14 @@ export const GetStarted: React.FC<GetStartedProps> = ({
   description,
   steps,
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const lastStepCompleted = steps.findIndex((step) => step.completed);
+  const firstIncomplete = steps.findIndex((step) => !step.completed);
+  const lastStepCompleted =
+    firstIncomplete === -1 ? steps.length - 1 : firstIncomplete - 1;
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
+  const [isOpen, setIsOpen] = useState(lastStepCompleted === -1);
 
   return (
-    <Card flexDir="column" p={8} gap={4} position="relative">
+    <Card flexDir="column" p={8} gap={4} position="relative" maxW="3xl">
       <Flex justifyContent="space-between" alignItems="center">
         <Text size="label.xl" color="white">
           {title}
@@ -63,6 +65,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
                 key={index}
                 mt={8}
                 gap={4}
+                w="full"
               >
                 <Flex
                   w={6}
@@ -81,14 +84,18 @@ export const GetStarted: React.FC<GetStartedProps> = ({
                     </Text>
                   )}
                 </Flex>
-                <Flex flexDir="column">
+                <Flex flexDir="column" w="full">
                   <Text color="white">{step.title}</Text>
                   {index === lastStepCompleted + 1 && (
                     <>
-                      <Text mt={2} mb={6} size="body.sm" color="whiteAlpha.500">
-                        {step.description}
-                      </Text>
-                      <Box w="full">{children}</Box>
+                      {step.description && (
+                        <Text my={2} size="body.sm" color="whiteAlpha.500">
+                          {step.description}
+                        </Text>
+                      )}
+                      <Box mt={4} w="full">
+                        {children}
+                      </Box>
                     </>
                   )}
                 </Flex>
