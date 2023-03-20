@@ -227,7 +227,7 @@ const ConsoleApp = memo(function ConsoleApp({
       />
       <DefaultSeo
         defaultTitle="thirdweb: The complete web3 development framework"
-        titleTemplate="%s"
+        titleTemplate="%s | thirdweb"
         description="Build web3 apps easily with thirdweb's powerful SDKs, audited smart contracts, and developer tools—for Ethereum, Polygon, Solana, & more. Try now."
         additionalLinkTags={[
           {
