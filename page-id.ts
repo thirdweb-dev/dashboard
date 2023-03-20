@@ -40,6 +40,9 @@ export enum PageId {
   // thirdweb.com/ui-components
   UIComponentsLanding = "ui-components-landing",
 
+  // thirdweb.com/build-base
+  BuildBaseLanding = "build-base-landing",
+
   // thirdweb.com/gas
   GasEstimator = "gas-estimator",
 
