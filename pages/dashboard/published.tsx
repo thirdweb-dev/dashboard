@@ -58,8 +58,8 @@ const Published: ThirdwebNextPage = () => {
         {!isLoading && (
           <Flex flexDir="column" gap={12}>
             <GetStarted
-              title="Get started with deploying contracts"
-              description="This guide will help you start deploying contracts on-chain in just a few minutes."
+              title="Get started with publishing contracts"
+              description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
               steps={steps}
             />
             {address && <PublishedContractsPage address={address} />}
