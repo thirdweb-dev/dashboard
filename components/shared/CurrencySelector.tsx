@@ -63,32 +63,25 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
     }
 
     setIsAddingCurrency(false);
+    setEditCustomCurrency("");
   };
 
   if (isAddingCurrency && !hideDefaultCurrencies) {
     return (
-      <Flex direction="column" mt={small ? 5 : 0}>
-        <Button
-          _hover={{ textDecoration: "none" }}
-          _focus={{ outline: "none" }}
-          size="sm"
-          variant="link"
-          top="0"
-          pos="absolute"
-          alignSelf="flex-end"
-          fontSize="12px"
-          mb="2px"
-          color="primary.500"
-          cursor="pointer"
-          onClick={() => setIsAddingCurrency(false)}
-        >
-          Cancel
-        </Button>
+      <Flex direction="column">
         <Flex align="center">
-          <Input
-            isRequired
-            placeholder="Enter contract address..."
+          <Button
             borderRadius="4px 0px 0px 4px"
+            colorScheme="primary"
+            onClick={() => setIsAddingCurrency(false)}
+          >
+            {"<-"}
+          </Button>
+          <Input
+            w="auto"
+            isRequired
+            placeholder="ERC20 Address"
+            borderRadius="none"
             value={editCustomCurrency}
             onChange={(e) => setEditCustomCurrency(e.target.value)}
           />
@@ -98,7 +91,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             onClick={addCustomCurrency}
             isDisabled={!utils.isAddress(editCustomCurrency)}
           >
-            +
+            Save
           </Button>
         </Flex>
       </Flex>
@@ -107,24 +100,6 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
 
   return (
     <Flex direction="column" mt={small && !hideDefaultCurrencies ? 5 : 0}>
-      {!hideDefaultCurrencies && (
-        <Button
-          _hover={{ textDecoration: "none" }}
-          _focus={{ outline: "none" }}
-          size="sm"
-          variant="link"
-          top="0"
-          pos="absolute"
-          alignSelf="flex-end"
-          fontSize="12px"
-          color="primary.500"
-          cursor="pointer"
-          onClick={() => setIsAddingCurrency(true)}
-          isDisabled={props.isDisabled}
-        >
-          Use Custom Currency
-        </Button>
-      )}
       <Select
         position="relative"
         value={
@@ -132,7 +107,13 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             ? OtherAddressZero.toLowerCase()
             : value?.toLowerCase()
         }
-        onChange={onChange}
+        onChange={(e) => {
+          if (e.target.value === "custom") {
+            setIsAddingCurrency(true);
+          } else {
+            onChange?.(e);
+          }
+        }}
         placeholder="Select Currency"
         {...props}
       >
@@ -156,6 +137,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             {customCurrency}
           </option>
         )}
+        {!hideDefaultCurrencies && <option value="custom">Custom ERC20</option>}
       </Select>
     </Flex>
   );
