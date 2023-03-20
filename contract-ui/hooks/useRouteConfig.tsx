@@ -112,6 +112,12 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
+      title: "Build",
+      path: "code",
+      component: LazyContractCodePage,
+      isDefault: true,
+    },
+    {
       title: "Explorer",
       path: "explorer",
       component: LazyContractExplorerPage,
@@ -213,12 +219,6 @@ export function useContractRouteConfig(
       component: LazyCustomContractAppPage,
     },
 
-    {
-      title: "Code",
-      path: "code",
-      component: LazyContractCodePage,
-      isDefault: true,
-    },
     {
       title: "Settings",
       path: "settings",
