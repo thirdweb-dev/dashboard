@@ -1,7 +1,8 @@
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { Flex, Input, Select, SelectProps } from "@chakra-ui/react";
-import { useSDKChainId } from "@thirdweb-dev/react";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { constants, utils } from "ethers";
+import { useAllChainsData } from "hooks/chains/allChains";
 import React, { useMemo, useState } from "react";
 import { Button } from "tw-components";
 import { OtherAddressZero } from "utils/zeroAddress";
@@ -19,7 +20,12 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   hideDefaultCurrencies,
   ...props
 }) => {
-  const chainId = useSDKChainId() as number;
+  const chainId = useDashboardEVMChainId() as number;
+  const { chainIdToChainRecord } = useAllChainsData();
+
+  const chain = chainIdToChainRecord[chainId];
+  const helperCurrencies = CURRENCIES[chainId] || [];
+
   const [isAddingCurrency, setIsAddingCurrency] = useState(false);
   const [editCustomCurrency, setEditCustomCurrency] = useState("");
   const [customCurrency, setCustomCurrency] = useState("");
@@ -42,10 +48,14 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   }, [chainId, customCurrency, initialValue]);
 
   const currencyOptions: CurrencyMetadata[] =
-    CURRENCIES[chainId]?.filter(
-      (currency: CurrencyMetadata) =>
-        currency.address.toLowerCase() !== constants.AddressZero.toLowerCase(),
-    ) || [];
+    [
+      {
+        address: OtherAddressZero.toLowerCase(),
+        name: chain.nativeCurrency.name,
+        symbol: chain.nativeCurrency.symbol,
+      },
+      ...(hideDefaultCurrencies ? [] : helperCurrencies),
+    ] || [];
 
   const addCustomCurrency = () => {
     if (!utils.isAddress(editCustomCurrency)) {
@@ -127,11 +137,12 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
               {currency.symbol} ({currency.name})
             </option>
           ))}
-        {isCustomCurrency && (
-          <option key={initialValue} value={initialValue.toLowerCase()}>
-            {initialValue}
-          </option>
-        )}
+        {isCustomCurrency &&
+          initialValue !== OtherAddressZero.toLowerCase() && (
+            <option key={initialValue} value={initialValue}>
+              {initialValue}
+            </option>
+          )}
         {customCurrency && (
           <option key={customCurrency} value={customCurrency.toLowerCase()}>
             {customCurrency}
