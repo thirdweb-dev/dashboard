@@ -362,9 +362,9 @@ const Base: ThirdwebNextPage = () => {
             </Heading>
             <YoutubeEmbed
               maxWidth={1080}
-              videoId="b_tERTX4as0"
+              videoId="fED_zrE0HLY"
               aspectRatio={16 / 9}
-              title="Building Your First Web3 Game With a Unity SDK (thirdweb's GamingKit)"
+              title="How to build a Web3 game on Base with thirdweb"
             />
           </Flex>
           <Flex
@@ -392,7 +392,7 @@ const Base: ThirdwebNextPage = () => {
               with
             </Heading>
             <Flex
-              alignItems="center"
+              align="center"
               gap={4}
               flexDir={{ base: "column", md: "row" }}
             >
@@ -400,7 +400,7 @@ const Base: ThirdwebNextPage = () => {
                 width="190"
                 height="34"
                 src="/assets/build/base/coinbase.png"
-                alt=""
+                alt="coinbase"
               />
               <Text size="body.2xl" color="#595959" transform="rotate(45deg)">
                 +
@@ -409,16 +409,16 @@ const Base: ThirdwebNextPage = () => {
                 width="225"
                 height="36"
                 src="/assets/build/base/thirdweb.png"
-                alt=""
+                alt="thirweb"
               />
               <Text size="body.2xl" color="#595959" transform="rotate(45deg)">
                 +
               </Text>
               <Image
-                width="148"
-                height="50"
+                width="231"
+                height="20"
                 src="/assets/build/base/google.png"
-                alt=""
+                alt="google cloud"
               />
             </Flex>
             <SimpleGrid columns={{ base: 1, md: 3 }} mt={12} gap={6} w="full">
