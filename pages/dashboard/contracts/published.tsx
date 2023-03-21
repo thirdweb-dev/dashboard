@@ -1,6 +1,6 @@
-import { usePublishedContractsQuery } from "../../components/contract-components/hooks";
-import { GetStarted } from "../../components/dashboard/GetStarted";
-import { ContractsSidebar } from "../../core-ui/sidebar/contracts";
+import { usePublishedContractsQuery } from "../../../components/contract-components/hooks";
+import { GetStarted } from "../../../components/dashboard/GetStarted";
+import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
