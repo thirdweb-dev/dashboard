@@ -20,6 +20,8 @@ export interface TransactionButtonProps
   transactionCount: number;
   isLoading: boolean;
   isGasless?: boolean;
+  upsellTestnet?: boolean;
+  onChainSelect?: (chainId: number) => void;
 }
 
 export const TransactionButton: React.FC<TransactionButtonProps> = ({
@@ -31,6 +33,8 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   variant,
   ecosystem,
   isGasless,
+  upsellTestnet,
+  onChainSelect,
   ...restButtonProps
 }) => {
   const colorMode = useColorMode();
@@ -79,6 +83,8 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
     >
       <PopoverTrigger>
         <ButtonComponent
+          upsellTestnet={upsellTestnet}
+          onChainSelect={onChainSelect}
           ecosystem={ecosystem}
           borderRadius="md"
           position="relative"

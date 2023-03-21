@@ -21,18 +21,6 @@ interface ICodeSegment {
 
 const Environments: SupportedEnvironment[] = [
   {
-    environment: "react",
-    title: "React",
-    icon: SiReact,
-    colorScheme: "purple",
-  },
-  {
-    environment: "web3button",
-    title: "Web3Button",
-    icon: SiReact,
-    colorScheme: "purple",
-  },
-  {
     environment: "javascript",
     title: "JavaScript",
     icon: SiJavascript,
@@ -43,6 +31,24 @@ const Environments: SupportedEnvironment[] = [
     title: "TypeScript",
     icon: SiTypescript,
     colorScheme: "blue",
+  },
+  {
+    environment: "react",
+    title: "React",
+    icon: SiReact,
+    colorScheme: "purple",
+  },
+  {
+    environment: "react-native",
+    title: "React Native",
+    icon: SiReact,
+    colorScheme: "purple",
+  },
+  {
+    environment: "web3button",
+    title: "Web3Button",
+    icon: SiReact,
+    colorScheme: "purple",
   },
   {
     environment: "python",
@@ -128,8 +134,11 @@ export const CodeSegment: React.FC<ICodeSegment> = ({
             code={code}
             language={
               isInstallCommand
-                ? "bash"
+                ? activeEnvironment === "react-native"
+                  ? "jsx"
+                  : "bash"
                 : activeEnvironment === "react" ||
+                  activeEnvironment === "react-native" ||
                   activeEnvironment === "web3button"
                 ? "jsx"
                 : activeEnvironment === "unity"

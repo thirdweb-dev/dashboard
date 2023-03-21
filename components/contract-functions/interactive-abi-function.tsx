@@ -70,7 +70,7 @@ function formatContractCall(
       | {
           [x: string]: any;
           type: string;
-          name: string;
+          name?: string;
         }[]
       | undefined;
   }[],
@@ -205,7 +205,10 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
                     <SolidityInput
                       solidityName={item.key}
                       solidityType={item.type}
-                      solidityComponents={item.components}
+                      solidityComponents={item.components?.map((c) => ({
+                        ...c,
+                        name: c.name || "",
+                      }))}
                       {...form.register(`params.${index}.value`)}
                     />
                     <FormErrorMessage>

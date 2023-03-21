@@ -81,7 +81,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                           e.target.value,
                         )
                       }
-                      placeholder={camelToTitle(param.name)}
+                      placeholder={camelToTitle(param.name || "")}
                     />
                     <FormErrorMessage>
                       {
@@ -108,7 +108,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                             param.type === "address" ? "string" : param.type
                           }
                           placeholder={
-                            isMobile
+                            isMobile ||
+                            paramTemplateValues?.[0]?.value ===
+                              "{{trusted_forwarders}}"
                               ? "Pre-filled value."
                               : "This value will be pre-filled in the deploy form."
                           }

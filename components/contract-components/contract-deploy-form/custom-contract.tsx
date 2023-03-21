@@ -91,8 +91,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     defaultValues: {
       addToDashboard: true,
       deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
+        acc[param.name || ""] = replaceTemplateValues(
+          fullPublishMetadata.data?.constructorParams?.[param.name || ""]
             ?.defaultValue || "",
           param.type,
           {
@@ -106,8 +106,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     values: {
       addToDashboard: true,
       deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
+        acc[param.name || ""] = replaceTemplateValues(
+          fullPublishMetadata.data?.constructorParams?.[param.name || ""]
             ?.defaultValue || "",
           param.type,
           {
@@ -357,6 +357,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             />
           </FormControl>
           <TransactionButton
+            onChainSelect={onChainSelect}
+            upsellTestnet
             flexShrink={0}
             type="submit"
             form="custom-contract-form"
