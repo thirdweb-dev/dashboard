@@ -25,7 +25,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
   const lastStepCompleted =
     firstIncomplete === -1 ? steps.length - 1 : firstIncomplete - 1;
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
-  const [isOpen, setIsOpen] = useState(lastStepCompleted === -1);
+  const [isOpen, setIsOpen] = useState(firstIncomplete !== -1);
 
   return (
     <Card flexDir="column" p={8} gap={4} position="relative" maxW="3xl">
@@ -76,7 +76,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
                   border="1px solid"
                   borderColor={step.completed ? "white" : "whiteAlpha.500"}
                 >
-                  {index <= lastStepCompleted ? (
+                  {step.completed ? (
                     <FiCheck />
                   ) : (
                     <Text size="label.sm" color="white">

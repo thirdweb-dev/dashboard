@@ -23,7 +23,7 @@ type Route = {
 
 const links: Route[] = [
   { path: "/dashboard/contracts", title: "Deployed" },
-  { path: "/dashboard/published", title: "Published" },
+  { path: "/dashboard/contracts/published", title: "Published" },
 ];
 
 export const ContractsSidebar: React.FC<ContractsSidebarProps> = ({

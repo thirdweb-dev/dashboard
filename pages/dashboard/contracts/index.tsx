@@ -115,42 +115,41 @@ const Contracts: ThirdwebNextPage = () => {
       children: <ConnectWallet ecosystem="evm" />,
       completed: !!address,
     },
-    {
-      title: "Switch to the test network Mumbai",
-      description:
-        "This network allows you to deploy contracts within a testing environment.",
-      children: (
-        <Button
-          bg="white"
-          color="black"
-          transitionProperty="opacity"
-          _hover={{
-            bg: "white",
-            color: "black",
-            opacity: 0.9,
-          }}
-          onClick={() => switchNetwork?.(ChainId.Mumbai)}
-        >
-          Switch networks
-        </Button>
-      ),
-      completed: chainId === ChainId.Mumbai,
-    },
-    {
-      title: "Get Mumbai testnet funds",
-      description:
-        "Follow the link to the testnet faucet, paste your wallet address and click submit.",
-      children: (
-        <Link href="https://faucet.polygon.technology/" color="blue.500">
-          Visit Mumbai faucet --&gt;
-        </Link>
-      ),
-      completed: BigNumber.from(evmBalance.data?.value || 0).gt(0),
-    },
+    // {
+    //   title: "Switch to the test network Mumbai",
+    //   description:
+    //     "This network allows you to deploy contracts within a testing environment.",
+    //   children: (
+    //     <Button
+    //       bg="white"
+    //       color="black"
+    //       transitionProperty="opacity"
+    //       _hover={{
+    //         bg: "white",
+    //         color: "black",
+    //         opacity: 0.9,
+    //       }}
+    //       onClick={() => switchNetwork?.(ChainId.Mumbai)}
+    //     >
+    //       Switch networks
+    //     </Button>
+    //   ),
+    //   completed: chainId === ChainId.Mumbai,
+    // },
+    // {
+    //   title: "Get Mumbai testnet funds",
+    //   description:
+    //     "Follow the link to the testnet faucet, paste your wallet address and click submit.",
+    //   children: (
+    //     <Link href="https://faucet.polygon.technology/" color="blue.500">
+    //       Visit Mumbai faucet --&gt;
+    //     </Link>
+    //   ),
+    //   completed: BigNumber.from(evmBalance.data?.value || 0).gt(0),
+    // },
     {
       title: "Deploy a contract",
-      description:
-        "Deploy a contract to the Mumbai chain with one of the methods below.",
+      description: "Deploy a contract with one of the methods below.",
       children: <DeployOptions />,
       completed: deployedContracts.data?.length > 0,
     },
