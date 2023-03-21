@@ -10,6 +10,7 @@ import {
   MetamaskWallet,
   SafeWallet,
   ThirdwebProvider,
+  WalletConnectV1,
 } from "@thirdweb-dev/react";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { useConfiguredChains } from "hooks/chains/configureChains";
@@ -65,6 +66,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         MetamaskWallet,
         CoinbaseWallet,
         DeviceWallet,
+        WalletConnectV1,
         SafeWallet,
       ]}
       storageInterface={StorageSingleton}
