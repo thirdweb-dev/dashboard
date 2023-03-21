@@ -67,7 +67,7 @@ const Gaming: ThirdwebNextPage = () => {
         title:
           "thirdweb GamingKit | SDKs, Smart Contracts & Dev Tools for Web3 Games",
         description:
-          "Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets.",
+          "Build web3 games with our Unity Native SDK for all supported platforms, including: Native, Mobile, Console, Browser, and VR.",
         openGraph: {
           images: [
             {
@@ -83,7 +83,7 @@ const Gaming: ThirdwebNextPage = () => {
       <Hero
         name="GamingKit"
         title="Reimagine gaming with web3 technologies"
-        description="Everything you need to build web3 games. Build a stronger community around your game by giving players ownership of in-game assets."
+        description="Build web3 games with our Unity Native SDK for all supported platforms, including: Native, Mobile, Console, Browser, and VR. "
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
@@ -137,20 +137,19 @@ const Gaming: ThirdwebNextPage = () => {
             from secondary sales for in-game assets represented as NFTs.
           </ProductCard>
           <ProductCard
-            title="Grow your gaming community"
-            icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
-          >
-            Foster a more engaged community by empowering players to become
-            owners of in-game assets, turning them into advocates for your
-            games.
-          </ProductCard>
-          <ProductCard
-            title="Create new gaming universes"
+            title="Build web3 games faster"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            Game assets represented by NFTs can be designed to be interoperable
-            across environments on the same blockchain. Assets can unlock perks
-            and rewards throughout the web3 ecosystem.
+            Our SDKs smart detects extensions in contracts to handle all common
+            contract operations for devs.
+          </ProductCard>
+          <ProductCard
+            title="Frictionless web3 experience for players"
+            icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
+          >
+            Generate wallets on the back-end for game players. Once game players
+            are connected to device wallet, they do not need to confirm
+            transactions as they play game with on-chain interactions.
           </ProductCard>
         </SimpleGrid>
       </Hero>
@@ -197,21 +196,21 @@ const Gaming: ThirdwebNextPage = () => {
           <ProductLearnMoreCard
             title="Build"
             category={TRACKING_CATEGORY}
-            description="Discover ready-to-go contracts or build your own with ContractKit for gaming use cases, e.g. NFT Marketplace, Multiwrap, Packs, Tokens, and more. Enable fiat-to-crypto capabilities with Coinbase Pay integration. Integrate NFT marketplace to enforce royalty fees."
+            description="Discover ready-to-go contracts for popular gaming use cases, e.g. Staking Contract, and more. Powerful Game Engine SDK includes Unity Native SDK to easily integrate web3 features into games across native, mobile, console, browser, and VR platforms. Unreal Engine SDK coming soon."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
             href="/explore/gaming"
           />
           <ProductLearnMoreCard
             title="Launch"
             category={TRACKING_CATEGORY}
-            description="Powerful Game Engine SDKs enable you to integrate web3 features into browser-based games built on Unity. SDKs allow you to easily integrate popular wallets and marketplaces into your game. Unreal Engine SDK coming soon."
+            description="Deploy web3 games to any EVM chain (700+). Seamless contract deployment workflow designed for web3 dev teams to easily collaborate."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
             href="https://portal.thirdweb.com/gamingkit"
           />
           <ProductLearnMoreCard
             title="Manage"
             category={TRACKING_CATEGORY}
-            description="View and interact with your web3 game smart contracts directly from a user interface, e.g. view all NFTs owned by a player."
+            description="A single dashboard to configure your contracts and monitor contract activity for all your game's deployed contracts. Get insights on transaction count, volume, gas spend per contract to inform your game development."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
             href="https://portal.thirdweb.com/dashboard"
           />
