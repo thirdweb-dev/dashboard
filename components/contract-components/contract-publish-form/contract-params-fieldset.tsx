@@ -81,7 +81,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                           e.target.value,
                         )
                       }
-                      placeholder={camelToTitle(param.name || "")}
+                      placeholder={camelToTitle(param.name)}
                     />
                     <FormErrorMessage>
                       {

@@ -700,7 +700,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
                                 ? write?.name
                                 : event?.name),
                           )
-                          ?.inputs?.map((i) => i.name || ""),
+                          ?.inputs?.map((i) => i.name),
                         chainName,
                       },
                     )}
