@@ -1,17 +1,12 @@
 import { GetStarted } from "../../../components/dashboard/GetStarted";
 import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
 import { useAllContractList } from "@3rdweb-sdk/react";
-import {
-  ConnectWallet,
-  useNetworkWithPatchedSwitching,
-} from "@3rdweb-sdk/react/components/connect-wallet";
+import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Flex } from "@chakra-ui/react";
-import { useAddress, useBalance, useChainId } from "@thirdweb-dev/react";
-import { ChainId } from "@thirdweb-dev/sdk/evm";
+import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
-import { BigNumber } from "ethers";
 import Image from "next/image";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
@@ -94,9 +89,9 @@ const DeployOptions = () => {
 
 const Contracts: ThirdwebNextPage = () => {
   const address = useAddress();
-  const chainId = useChainId();
-  const evmBalance = useBalance();
-  const [, switchNetwork] = useNetworkWithPatchedSwitching();
+  // const chainId = useChainId();
+  // const evmBalance = useBalance();
+  // const [, switchNetwork] = useNetworkWithPatchedSwitching();
   const deployedContracts = useAllContractList(address);
 
   /** put the component is loading state for sometime to avoid layout shift */
