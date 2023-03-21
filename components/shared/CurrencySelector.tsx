@@ -1,5 +1,5 @@
-import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { Flex, Input, Select, SelectProps } from "@chakra-ui/react";
+import { useSDKChainId } from "@thirdweb-dev/react";
 import { CURRENCIES, CurrencyMetadata } from "constants/currencies";
 import { constants, utils } from "ethers";
 import { useAllChainsData } from "hooks/chains/allChains";
@@ -20,7 +20,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   hideDefaultCurrencies,
   ...props
 }) => {
-  const chainId = useDashboardEVMChainId() as number;
+  const chainId = useSDKChainId() as number;
   const { chainIdToChainRecord } = useAllChainsData();
 
   const chain = chainIdToChainRecord[chainId];
