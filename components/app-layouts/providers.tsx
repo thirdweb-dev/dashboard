@@ -4,7 +4,13 @@ import {
   useEVMContractInfo,
 } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { useQueryClient } from "@tanstack/react-query";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
+import {
+  CoinbaseWallet,
+  DeviceWallet,
+  MetamaskWallet,
+  SafeWallet,
+  ThirdwebProvider,
+} from "@thirdweb-dev/react";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
@@ -55,6 +61,12 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         readonlySettings,
       }}
       thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
+      supportedWallets={[
+        MetamaskWallet,
+        CoinbaseWallet,
+        DeviceWallet,
+        SafeWallet,
+      ]}
       storageInterface={StorageSingleton}
     >
       <SolanaProvider>{children}</SolanaProvider>
