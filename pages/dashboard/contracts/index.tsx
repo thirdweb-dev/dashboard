@@ -48,7 +48,13 @@ const DeployOptions = () => {
     <Flex flexDir="column" gap={8} w="full">
       <Flex gap={4} flexWrap="wrap">
         {Object.entries(content).map(([key, v]) => (
-          <Button key={key} onClick={() => setTab(key as keyof typeof content)}>
+          <Button
+            key={key}
+            onClick={() => setTab(key as keyof typeof content)}
+            {...(key !== tab
+              ? { background: "transparent", opacity: 0.7 }
+              : {})}
+          >
             {v.title}
           </Button>
         ))}
