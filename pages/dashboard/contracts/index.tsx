@@ -74,7 +74,7 @@ const DeployOptions = () => {
           label: "deploy_options",
           trackingProps: { type: tab },
           href: content[tab].href,
-          isExternal: !content[tab].href.startsWith("/"),
+          isExternal: true,
         }}
       >
         <Box>

@@ -43,7 +43,14 @@ export const GetStarted: React.FC<GetStartedProps> = ({
 
   return (
     !isHidden && (
-      <Card flexDir="column" p={8} gap={4} position="relative" maxW="3xl">
+      <Card
+        flexDir="column"
+        p={8}
+        gap={4}
+        position="relative"
+        maxW="3xl"
+        onClick={() => !isOpen && setIsOpen(true)}
+      >
         <Box
           onClick={() => setIsHidden(true)}
           as="button"
@@ -64,7 +71,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
             alignItems="center"
             onClick={() => setIsOpen((prev) => !prev)}
           >
-            <Heading size="subtitle.xs" color="white">
+            <Heading size="subtitle.xs" color="white" mr="2">
               {isOpen ? "Collapse" : "Expand"}
             </Heading>
             <Box

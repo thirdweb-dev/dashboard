@@ -96,6 +96,10 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           >
             <Flex gap={2} direction="column">
               <Heading size="title.md">Your contracts</Heading>
+              <Text fontStyle="italic" maxW="container.md">
+                The list of contract instances that you have deployed or
+                imported with thirdweb across all networks.
+              </Text>
             </Flex>
             <ButtonGroup>
               <Button
