@@ -10,6 +10,7 @@ import {
 import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
 import { uploadContractMetadata } from "./deploy-form-utils";
+import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
@@ -169,6 +170,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const hasRoyalty =
     "_royaltyBps" in formDeployParams &&
     "_royaltyRecipient" in formDeployParams;
+  const hasPrimarySale = "_saleRecipient" in formDeployParams;
 
   return (
     <FormProvider {...form}>
@@ -303,6 +305,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               />
             )}
             {hasRoyalty && <RoyaltyFieldset form={form} />}
+            {hasPrimarySale && <PrimarySaleFieldset form={form} />}
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
               const contructorParams =
@@ -313,7 +316,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 (hasContractURI && paramKey === "_contractURI") ||
                 (hasRoyalty &&
                   (paramKey === "_royaltyBps" ||
-                    paramKey === "_royaltyRecipient"))
+                    paramKey === "_royaltyRecipient")) ||
+                (hasPrimarySale && paramKey === "_saleRecipient")
               ) {
                 return null;
               }
