@@ -107,7 +107,7 @@ const Gaming: ThirdwebNextPage = () => {
         }
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
-        gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
+        gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%)"
         image={require("public/assets/solutions-pages/gaming/hero.png")}
         type="Solutions"
         trackingCategory={TRACKING_CATEGORY}
