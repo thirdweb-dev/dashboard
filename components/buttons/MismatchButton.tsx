@@ -15,7 +15,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
-import { useWallet } from "@solana/wallet-adapter-react";
 import {
   ChainId,
   useAddress,
@@ -26,6 +25,7 @@ import {
   useSDK,
   useSDKChainId,
   useSwitchChain,
+  useWallet,
 } from "@thirdweb-dev/react";
 import {
   useBalance as useSolBalance,
@@ -192,8 +192,9 @@ const MismatchNotice: React.FC<{
   const desiredChainId = useSDKChainId();
   const switchNetwork = useSwitchChain();
   const connectionStatus = useConnectionStatus();
-  // const [network, switchNetwork] = useNetworkWithPatchedSwitching();
-  const actuallyCanAttemptSwitch = !!switchNetwork;
+  const activeChain = useWallet();
+  const actuallyCanAttemptSwitch =
+    activeChain && activeChain.walletId !== "Safe";
   const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);
   const isMobile = useBreakpointValue({ base: true, md: false });
 

@@ -4,16 +4,27 @@ import {
   Center,
   DarkMode,
   Flex,
+  Icon,
   Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
   PopoverTrigger,
   Tooltip,
   useColorMode,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useAddress } from "@thirdweb-dev/react";
-import React, { useMemo, useRef } from "react";
+import { useWallet as useSolWallet } from "@solana/wallet-adapter-react";
+import {
+  useAddress,
+  useChainId,
+  useInstalledWallets,
+  useWallet,
+} from "@thirdweb-dev/react";
+import { CHAIN_ID_TO_GNOSIS } from "constants/mappings";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BiTransferAlt } from "react-icons/bi";
-import { Button, Card, Text } from "tw-components";
+import { FiInfo } from "react-icons/fi";
+import { Button, Card, Heading, LinkButton, Text } from "tw-components";
 
 export interface TransactionButtonProps
   extends Omit<ConnectWalletProps, "leftIcon"> {
@@ -22,6 +33,22 @@ export interface TransactionButtonProps
   isGasless?: boolean;
   upsellTestnet?: boolean;
   onChainSelect?: (chainId: number) => void;
+}
+
+// this is in react-package as well
+export function useWalletRequiresConfirmation() {
+  const activeWallet = useWallet();
+  const installedWallets = useInstalledWallets();
+
+  return (
+    activeWallet &&
+    (activeWallet.walletId === "walletConnectV1" ||
+      activeWallet.walletId === "walletConnectV2" ||
+      activeWallet.walletId === "Safe" ||
+      (activeWallet.walletId === "metamask" && !installedWallets.metamask) ||
+      (activeWallet.walletId === "coinbaseWallet" &&
+        !installedWallets.coinbaseWallet))
+  );
 }
 
 export const TransactionButton: React.FC<TransactionButtonProps> = ({
@@ -38,16 +65,8 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   ...restButtonProps
 }) => {
   const colorMode = useColorMode();
-  // const [{ data }] = useAccount();
-  // const connectorRequiresExternalConfirmation = useMemo(() => {
-  //   return (
-  //     data?.connector?.id === "gnosis" ||
-  //     data?.connector?.id === "walletConnect"
-  //   );
-  // }, [data?.connector?.id]);
-
-  const connectorRequiresExternalConfirmation = false;
-
+  const activeWallet = useWallet();
+  const walletRequiresExternalConfirmation = useWalletRequiresConfirmation();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
 
   const ColorModeComp =
@@ -59,7 +78,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   }, [transactionCount]);
 
   const evmAddress = useAddress();
-  const solAddress = useWallet().publicKey;
+  const solAddress = useSolWallet().publicKey;
 
   const isConnected = useMemo(() => {
     if (ecosystem === "evm") {
@@ -79,7 +98,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
       returnFocusOnClose={false}
       initialFocusRef={initialFocusRef}
       isLazy
-      isOpen={connectorRequiresExternalConfirmation && isLoading}
+      isOpen={walletRequiresExternalConfirmation && isLoading}
     >
       <PopoverTrigger>
         <ButtonComponent
@@ -157,7 +176,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
           </Tooltip>
         </ButtonComponent>
       </PopoverTrigger>
-      {/* <Card
+      <Card
         maxW="sm"
         w="auto"
         as={PopoverContent}
@@ -168,93 +187,93 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
         <PopoverArrow bg="backgroundCardHighlight" />
         <PopoverBody>
           <ExternalApprovalNotice
-            connectorId={data?.connector?.id}
+            walletId={activeWallet?.walletId}
             initialFocusRef={initialFocusRef}
           />
         </PopoverBody>
-      </Card> */}
+      </Card>
     </Popover>
   );
 };
 
-// interface ExternalApprovalNoticeProps {
-//   connectorId?: string;
-//   initialFocusRef: React.RefObject<HTMLButtonElement>;
-// }
+interface ExternalApprovalNoticeProps {
+  walletId?: string;
+  initialFocusRef: React.RefObject<HTMLButtonElement>;
+}
 
-// const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
-//   connectorId,
-//   initialFocusRef,
-// }) => {
-//   const address = useAddress();
-//   const chainId = useChainId() || -1;
+const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
+  walletId,
+  initialFocusRef,
+}) => {
+  const address = useAddress();
+  const chainId = useChainId() || -1;
 
-//   const [showHint, setShowHint] = useState(false);
-//   useEffect(() => {
-//     const t = setTimeout(() => {
-//       setShowHint(true);
-//     }, 15_000);
-//     return () => clearTimeout(t);
-//   }, []);
+  const [showHint, setShowHint] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setShowHint(true);
+    }, 15_000);
+    return () => clearTimeout(t);
+  }, []);
 
-//   if (connectorId === "gnosis") {
-//     const isChainIdSupported = chainId in CHAIN_ID_TO_GNOSIS;
-//     return (
-//       <Flex direction="column" gap={4}>
-//         <Heading size="label.lg">
-//           <Flex gap={2} align="center">
-//             <Icon color="primary.500" boxSize={6} as={FiInfo} />
-//             <span>Execute Transaction</span>
-//           </Flex>
-//         </Heading>
-//         <Text>
-//           You will need to execute this transaction in your Gnosis Safe to
-//           continue.
-//         </Text>
+  if (walletId === "Safe") {
+    const isChainIdSupported = chainId in CHAIN_ID_TO_GNOSIS;
+    return (
+      <Flex direction="column" gap={4}>
+        <Heading size="label.lg">
+          <Flex gap={2} align="center">
+            <Icon color="primary.500" boxSize={6} as={FiInfo} />
+            <span>Execute Transaction</span>
+          </Flex>
+        </Heading>
+        <Text>
+          You will need to execute this transaction in your Gnosis Safe to
+          continue.
+        </Text>
 
-//         {showHint && (
-//           <Text fontStyle="italic" size="body.sm">
-//             Once you have approved and executed the transaction in your Gnosis
-//             Safe this action will continue automatically.
-//           </Text>
-//         )}
+        {showHint && (
+          <Text fontStyle="italic" size="body.sm">
+            Once you have approved and executed the transaction in your Gnosis
+            Safe this action will continue automatically.
+          </Text>
+        )}
 
-//         <LinkButton
-//           isDisabled={!isChainIdSupported}
-//           ref={initialFocusRef}
-//           colorScheme="primary"
-//           size="sm"
-//           href={`https://app.safe.global/${
-//             CHAIN_ID_TO_GNOSIS[chainId as keyof typeof CHAIN_ID_TO_GNOSIS]
-//           }:${address}/transactions/queue`}
-//           isExternal
-//         >
-//           Go To Gnosis Safe
-//         </LinkButton>
-//       </Flex>
-//     );
-//   } else if (connectorId === "walletConnect") {
-//     return (
-//       <Flex direction="column" gap={4}>
-//         <Heading size="label.lg">
-//           <Flex gap={2} align="center">
-//             <Icon color="primary.500" boxSize={6} as={FiInfo} />
-//             <span>Approve Transaction</span>
-//           </Flex>
-//         </Heading>
-//         <Text>
-//           You will need to approve this transaction in your connected wallet.
-//         </Text>
+        <LinkButton
+          isDisabled={!isChainIdSupported}
+          ref={initialFocusRef}
+          colorScheme="primary"
+          size="sm"
+          href={`https://app.safe.global/${
+            CHAIN_ID_TO_GNOSIS[chainId as keyof typeof CHAIN_ID_TO_GNOSIS]
+          }:${address}/transactions/queue`}
+          isExternal
+        >
+          Go To Gnosis Safe
+        </LinkButton>
+      </Flex>
+    );
+  } else if (walletId === "walletConnect" || walletId === "walletConnectV1") {
+    return (
+      <Flex direction="column" gap={4}>
+        <Heading size="label.lg">
+          <Flex gap={2} align="center">
+            <Icon color="primary.500" boxSize={6} as={FiInfo} />
+            <span>Approve Transaction</span>
+          </Flex>
+        </Heading>
+        <Text>
+          You will need to approve this transaction in your connected wallet.
+        </Text>
 
-//         {showHint && (
-//           <Text fontStyle="italic" size="body.sm">
-//             Once you have approved the transaction in your connected wallet this
-//             action will continue automatically.
-//           </Text>
-//         )}
-//       </Flex>
-//     );
-//   }
+        {showHint && (
+          <Text fontStyle="italic" size="body.sm">
+            Once you have approved the transaction in your connected wallet this
+            action will continue automatically.
+          </Text>
+        )}
+      </Flex>
+    );
+  }
 
-//   return null;
-// };
+  return null;
+};
