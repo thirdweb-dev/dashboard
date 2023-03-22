@@ -1,0 +1,74 @@
+import { Flex, FormControl } from "@chakra-ui/react";
+import { BasisPointsInput } from "components/inputs/BasisPointsInput";
+import { SolidityInput } from "contract-ui/components/solidity-inputs";
+import { UseFormReturn } from "react-hook-form";
+import { FormErrorMessage, FormLabel, Heading, Text } from "tw-components";
+
+interface RoyaltyFieldsetProps {
+  form: UseFormReturn<any, any>;
+}
+
+export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
+  return (
+    <Flex pb={4} direction="column" gap={2}>
+      <Heading size="label.lg">Royalties</Heading>
+      <Text size="body.md" fontStyle="italic">
+        Determine the address that should receive the revenue from royalties
+        earned from secondary sales of the assets.
+      </Text>
+      <Flex gap={4} direction={{ base: "column", md: "row" }}>
+        <FormControl
+          isInvalid={
+            !!form.getFieldState(
+              "contractMetadata.fee_recipient",
+              form.formState,
+            ).error
+          }
+        >
+          <FormLabel>Recipient Address</FormLabel>
+          <SolidityInput
+            solidityType="address"
+            variant="filled"
+            {...form.register("contractMetadata.fee_recipient")}
+          />
+          <FormErrorMessage>
+            {
+              form.getFieldState(
+                "contractMetadata.fee_recipient",
+                form.formState,
+              ).error?.message
+            }
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl
+          maxW={{ base: "100%", md: "150px" }}
+          isInvalid={
+            !!form.getFieldState(
+              "contractMetadata.seller_fee_basis_points",
+              form.formState,
+            ).error
+          }
+        >
+          <FormLabel>Percentage</FormLabel>
+          <BasisPointsInput
+            variant="filled"
+            value={form.watch("contractMetadata.seller_fee_basis_points")}
+            onChange={(value) =>
+              form.setValue("contractMetadata.seller_fee_basis_points", value, {
+                shouldTouch: true,
+              })
+            }
+          />
+          <FormErrorMessage>
+            {
+              form.getFieldState(
+                "contractMetadata.seller_fee_basis_points",
+                form.formState,
+              ).error?.message
+            }
+          </FormErrorMessage>
+        </FormControl>
+      </Flex>
+    </Flex>
+  );
+};

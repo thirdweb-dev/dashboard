@@ -10,6 +10,7 @@ import {
 import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
 import { uploadContractMetadata } from "./deploy-form-utils";
+import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
@@ -95,6 +96,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       description?: string;
       symbol?: string;
       image?: string;
+      seller_fee_basis_points?: string;
+      fee_recipient?: string;
     };
   }>({
     defaultValues: {
@@ -111,6 +114,19 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         );
         return acc;
       }, {} as Record<string, string>),
+      contractMetadata: {
+        seller_fee_basis_points:
+          fullPublishMetadata.data?.constructorParams?._royaltyBps
+            ?.defaultValue || "",
+        fee_recipient: replaceTemplateValues(
+          fullPublishMetadata.data?.constructorParams?._royaltyRecipient
+            ?.defaultValue || "",
+          "address",
+          {
+            connectedWallet: address,
+          },
+        ),
+      },
     },
     values: {
       addToDashboard: true,
@@ -150,6 +166,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   );
 
   const hasContractURI = "_contractURI" in formDeployParams;
+  const hasRoyalty =
+    "_royaltyBps" in formDeployParams &&
+    "_royaltyRecipient" in formDeployParams;
 
   return (
     <FormProvider {...form}>
@@ -187,6 +206,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             d.deployParams._contractURI = await uploadContractMetadata(
               d.contractMetadata,
             );
+          }
+
+          if (hasRoyalty) {
+            d.deployParams._royaltyRecipient =
+              d.contractMetadata?.fee_recipient || "";
+            d.deployParams._royaltyBps =
+              d.contractMetadata?.seller_fee_basis_points || "0";
           }
 
           console.log(d.deployParams);
@@ -276,13 +302,19 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 metadata={compilerMetadata}
               />
             )}
+            {hasRoyalty && <RoyaltyFieldset form={form} />}
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
               const contructorParams =
                 fullPublishMetadata.data?.constructorParams || {};
               const extraMetadataParam = contructorParams[paramKey];
 
-              if (paramKey === "_contractURI") {
+              if (
+                (hasContractURI && paramKey === "_contractURI") ||
+                (hasRoyalty &&
+                  (paramKey === "_royaltyBps" ||
+                    paramKey === "_royaltyRecipient"))
+              ) {
                 return null;
               }
 
