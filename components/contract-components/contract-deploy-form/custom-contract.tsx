@@ -1,5 +1,6 @@
 import {
   useConstructorParamsFromABI,
+  useContractEnabledExtensions,
   useContractFullPublishMetadata,
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
@@ -7,6 +8,8 @@ import {
   useFunctionParamsFromABI,
 } from "../hooks";
 import { ConfigureNetworkButton } from "../shared/configure-network-button";
+import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
+import { uploadContractMetadata } from "./deploy-form-utils";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
@@ -87,6 +90,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
+    contractMetadata?: {
+      name?: string;
+      description?: string;
+      symbol?: string;
+      image?: string;
+    };
   }>({
     defaultValues: {
       addToDashboard: true,
@@ -136,6 +145,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 
   const formDeployParams = form.watch("deployParams");
 
+  const enabledExtensions = useContractEnabledExtensions(
+    compilerMetadata.data?.abi,
+  );
+
+  const hasContractURI = "_contractURI" in formDeployParams;
+
   return (
     <FormProvider {...form}>
       <Flex
@@ -145,7 +160,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         direction="column"
         id="custom-contract-form"
         as="form"
-        onSubmit={form.handleSubmit((d) => {
+        onSubmit={form.handleSubmit(async (d) => {
+          console.log(d);
           if (!selectedChain) {
             return;
           }
@@ -166,6 +182,15 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             label: "attempt",
             deployData,
           });
+          console.log(d.deployParams);
+          if (hasContractURI) {
+            d.deployParams._contractURI = await uploadContractMetadata(
+              d.contractMetadata,
+            );
+          }
+
+          console.log(d.deployParams);
+
           deploy.mutate(
             {
               constructorParams: Object.values(d.deployParams),
@@ -245,11 +270,22 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 deployment.
               </Text>
             </Flex>
+            {hasContractURI && (
+              <ContractMetadataFieldset
+                form={form}
+                metadata={compilerMetadata}
+              />
+            )}
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
               const contructorParams =
                 fullPublishMetadata.data?.constructorParams || {};
               const extraMetadataParam = contructorParams[paramKey];
+
+              if (paramKey === "_contractURI") {
+                return null;
+              }
+
               return (
                 <FormControl
                   isRequired
