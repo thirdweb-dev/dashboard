@@ -203,10 +203,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 fee_recipient: d.deployParams._royaltyRecipient,
               }),
             });
-            if (d.deployParams?._name) {
+            if ("_name" in d.deployParams) {
               d.deployParams._name = d.contractMetadata?.name || "";
             }
-            if (d.deployParams?._symbol) {
+            if ("_symbol" in d.deployParams) {
               d.deployParams._symbol = d.contractMetadata?.symbol || "";
             }
           }

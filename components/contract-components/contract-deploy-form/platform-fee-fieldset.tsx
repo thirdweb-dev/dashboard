@@ -70,7 +70,7 @@ export const PlatformFeeFieldset: React.FC<PlatformFeeFieldsetProps> = ({
                 maxW={{ base: "100%", md: "150px" }}
                 isInvalid={
                   !!form.getFieldState(
-                    "deployParams._platformFeePerce_platformFeeBps",
+                    "deployParams._platformFeeBps",
                     form.formState,
                   ).error
                 }
