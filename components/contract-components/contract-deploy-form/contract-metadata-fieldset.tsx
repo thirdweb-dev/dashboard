@@ -15,8 +15,8 @@ export const ContractMetadataFieldset: React.FC<
 > = ({ form, metadata }) => {
   return (
     <>
-      <Flex direction="column">
-        <Heading size="subtitle.md">Contract Metadata</Heading>
+      <Flex direction="column" gap={2}>
+        <Heading size="label.lg">Contract Metadata</Heading>
         <Text size="body.md" fontStyle="italic">
           Settings to organize and distinguish between your different contracts.
         </Text>
@@ -58,6 +58,7 @@ export const ContractMetadataFieldset: React.FC<
         <Flex direction="column" gap={4} flexGrow={1} justify="space-between">
           <Flex gap={4} direction={{ base: "column", md: "row" }}>
             <FormControl
+              isRequired
               isDisabled={!metadata.isSuccess}
               isInvalid={
                 !!form.getFieldState("contractMetadata.name", form.formState)

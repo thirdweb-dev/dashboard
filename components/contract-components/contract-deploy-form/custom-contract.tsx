@@ -10,6 +10,7 @@ import {
 import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
 import { uploadContractMetadata } from "./deploy-form-utils";
+import { PlatformFeeFieldset } from "./platform-fee-fieldset";
 import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
@@ -171,6 +172,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "_royaltyBps" in formDeployParams &&
     "_royaltyRecipient" in formDeployParams;
   const hasPrimarySale = "_saleRecipient" in formDeployParams;
+  const hasPlatformFee =
+    "_platformFeeBps" in formDeployParams &&
+    "_platformFeeRecipient" in formDeployParams;
 
   return (
     <FormProvider {...form}>
@@ -208,6 +212,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             d.deployParams._contractURI = await uploadContractMetadata(
               d.contractMetadata,
             );
+            if (d.deployParams?._name) {
+              d.deployParams._name = d.contractMetadata?.name || "";
+            }
+            if (d.deployParams?._symbol) {
+              d.deployParams._symbol = d.contractMetadata?.symbol || "";
+            }
           }
 
           if (hasRoyalty) {
@@ -215,6 +225,22 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               d.contractMetadata?.fee_recipient || "";
             d.deployParams._royaltyBps =
               d.contractMetadata?.seller_fee_basis_points || "0";
+          }
+
+          if (d.deployParams?._defaultAdmin === "") {
+            d.deployParams._defaultAdmin = address || "";
+          }
+
+          if (d.deployParams?._trustedForwarders === "") {
+            d.deployParams._trustedForwarders = replaceTemplateValues(
+              fullPublishMetadata.data?.constructorParams?._trustedForwarders
+                ?.defaultValue || "",
+              "address[]",
+              {
+                connectedWallet: address,
+                chainId: selectedChain,
+              },
+            );
           }
 
           console.log(d.deployParams);
@@ -298,14 +324,17 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 deployment.
               </Text>
             </Flex>
-            {hasContractURI && (
-              <ContractMetadataFieldset
-                form={form}
-                metadata={compilerMetadata}
-              />
-            )}
-            {hasRoyalty && <RoyaltyFieldset form={form} />}
-            {hasPrimarySale && <PrimarySaleFieldset form={form} />}
+            <Flex gap={4} flexDir="column">
+              {hasContractURI && (
+                <ContractMetadataFieldset
+                  form={form}
+                  metadata={compilerMetadata}
+                />
+              )}
+              {hasRoyalty && <RoyaltyFieldset form={form} />}
+              {hasPrimarySale && <PrimarySaleFieldset form={form} />}
+              {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+            </Flex>
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
               const contructorParams =
@@ -313,11 +342,19 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               const extraMetadataParam = contructorParams[paramKey];
 
               if (
-                (hasContractURI && paramKey === "_contractURI") ||
+                (hasContractURI &&
+                  (paramKey === "_contractURI" ||
+                    paramKey === "_name" ||
+                    paramKey === "_symbol")) ||
                 (hasRoyalty &&
                   (paramKey === "_royaltyBps" ||
                     paramKey === "_royaltyRecipient")) ||
-                (hasPrimarySale && paramKey === "_saleRecipient")
+                (hasPrimarySale && paramKey === "_saleRecipient") ||
+                (hasPlatformFee &&
+                  (paramKey === "_platformFeeBps" ||
+                    paramKey === "_platformFeeRecipient")) ||
+                paramKey === "_defaultAdmin" ||
+                paramKey === "_trustedForwarders"
               ) {
                 return null;
               }
