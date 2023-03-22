@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
+import { useWallet as useWalletSol } from "@solana/wallet-adapter-react";
 import {
   ChainId,
   useAddress,
@@ -57,7 +58,7 @@ export const MismatchButton = React.forwardRef<
     ref,
   ) => {
     const address = useAddress();
-    const { publicKey } = useWallet();
+    const { publicKey } = useWalletSol();
     const evmBalance = useBalance();
     const solBalance = useSolBalance();
     const solNetwork = useSolanaSDK()?.network;
