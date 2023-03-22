@@ -1,4 +1,10 @@
-import { AspectRatio, Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  Container,
+  Flex,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { GameShowcase } from "components/product-pages/common/GameShowcase";
@@ -9,9 +15,9 @@ import { ProductLearnMoreCard } from "components/product-pages/common/ProductLea
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { getAbsoluteUrl } from "lib/vercel-utils";
-import Image from "next/image";
 import { PageId } from "page-id";
-import { Heading, TrackedLink } from "tw-components";
+import { CatAttackCard } from "pages/build/base";
+import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "gaming_kit";
@@ -182,35 +188,18 @@ const Gaming: ThirdwebNextPage = () => {
             as="h3"
             size="subtitle.lg"
             textAlign="center"
-            maxW={"container.md"}
+            maxW="lg"
             color="whiteAlpha.700"
             fontWeight={400}
             fontSize="20px"
             mb={8}
           >
-            Get inspiration from thirdweb viral web3 game &quot;Cat Attack&quot;
+            Get inspiration from viral web3 game <strong>Cat Attack</strong>{" "}
             built in just 2 days using thirdweb tools.
           </Heading>
-          <TrackedLink
-            category={TRACKING_CATEGORY}
-            href="https://catattack.io"
-            p={4}
-            bg="black"
-            rounded="lg"
-            background="linear-gradient(#00000080 0%, #00000040 100%)"
-            border="1px solid"
-            borderColor="transparent"
-            _hover={{
-              borderColor: "white",
-            }}
-          >
-            <Image
-              src="/assets/solutions-pages/gaming/catattack.png"
-              alt="Cat Attack"
-              width={400}
-              height={320}
-            />
-          </TrackedLink>
+          <Container maxW="3xl">
+            <CatAttackCard trackingCategory={TRACKING_CATEGORY} hideGithub />
+          </Container>
         </Flex>
       </ProductSection>
 
