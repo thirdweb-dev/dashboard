@@ -39,7 +39,7 @@ const DeployOptions = () => {
     deploy: {
       title: "Deploy from source",
       description: "Deploy your contract by using thirdweb’s interactive CLI.",
-      href: "/cli",
+      href: "https://portal.thirdweb.com/cli",
     },
   };
 
