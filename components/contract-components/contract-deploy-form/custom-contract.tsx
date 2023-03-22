@@ -98,8 +98,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       description?: string;
       symbol?: string;
       image?: string;
-      seller_fee_basis_points?: string;
-      fee_recipient?: string;
     };
   }>({
     defaultValues: {
@@ -116,19 +114,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         );
         return acc;
       }, {} as Record<string, string>),
-      contractMetadata: {
-        seller_fee_basis_points:
-          fullPublishMetadata.data?.constructorParams?._royaltyBps
-            ?.defaultValue || "",
-        fee_recipient: replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?._royaltyRecipient
-            ?.defaultValue || "",
-          "address",
-          {
-            connectedWallet: address,
-          },
-        ),
-      },
     },
     values: {
       addToDashboard: true,
@@ -209,22 +194,21 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           });
           console.log(d.deployParams);
           if (hasContractURI) {
-            d.deployParams._contractURI = await uploadContractMetadata(
-              d.contractMetadata,
-            );
+            d.deployParams._contractURI = await uploadContractMetadata({
+              ...d.contractMetadata,
+              ...(hasRoyalty && {
+                seller_fee_basis_points: d.deployParams._royaltyBps,
+              }),
+              ...(hasRoyalty && {
+                fee_recipient: d.deployParams._royaltyRecipient,
+              }),
+            });
             if (d.deployParams?._name) {
               d.deployParams._name = d.contractMetadata?.name || "";
             }
             if (d.deployParams?._symbol) {
               d.deployParams._symbol = d.contractMetadata?.symbol || "";
             }
-          }
-
-          if (hasRoyalty) {
-            d.deployParams._royaltyRecipient =
-              d.contractMetadata?.fee_recipient || "";
-            d.deployParams._royaltyBps =
-              d.contractMetadata?.seller_fee_basis_points || "0";
           }
 
           if (d.deployParams?._defaultAdmin === "") {

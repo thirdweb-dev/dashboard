@@ -20,7 +20,7 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
         <FormControl
           isInvalid={
             !!form.getFieldState(
-              "contractMetadata.fee_recipient",
+              "deployParams._royaltyRecipient",
               form.formState,
             ).error
           }
@@ -29,12 +29,12 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
           <SolidityInput
             solidityType="address"
             variant="filled"
-            {...form.register("contractMetadata.fee_recipient")}
+            {...form.register("deployParams._royaltyRecipient")}
           />
           <FormErrorMessage>
             {
               form.getFieldState(
-                "contractMetadata.fee_recipient",
+                "deployParams._royaltyRecipient",
                 form.formState,
               ).error?.message
             }
@@ -43,28 +43,24 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
         <FormControl
           maxW={{ base: "100%", md: "150px" }}
           isInvalid={
-            !!form.getFieldState(
-              "contractMetadata.seller_fee_basis_points",
-              form.formState,
-            ).error
+            !!form.getFieldState("deployParams._royaltyBps", form.formState)
+              .error
           }
         >
           <FormLabel>Percentage</FormLabel>
           <BasisPointsInput
             variant="filled"
-            value={form.watch("contractMetadata.seller_fee_basis_points")}
+            value={form.watch("deployParams._royaltyBps")}
             onChange={(value) =>
-              form.setValue("contractMetadata.seller_fee_basis_points", value, {
+              form.setValue("deployParams._royaltyBps", value, {
                 shouldTouch: true,
               })
             }
           />
           <FormErrorMessage>
             {
-              form.getFieldState(
-                "contractMetadata.seller_fee_basis_points",
-                form.formState,
-              ).error?.message
+              form.getFieldState("deployParams._royaltyBps", form.formState)
+                .error?.message
             }
           </FormErrorMessage>
         </FormControl>
