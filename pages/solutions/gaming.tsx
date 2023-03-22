@@ -8,10 +8,10 @@ import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { getAbsoluteUrl } from "lib/vercel-utils";
+import Image from "next/image";
 import { PageId } from "page-id";
-import { Heading } from "tw-components";
+import { Heading, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "gaming_kit";
@@ -176,14 +176,41 @@ const Gaming: ThirdwebNextPage = () => {
             mb={12}
             maxW={800}
           >
-            Bring your web2 game to web3 with GamingKit.
+            Create new gaming universes
           </Heading>
-          <YoutubeEmbed
-            maxWidth={680}
-            videoId="sEXCE21I2uw"
-            aspectRatio={16 / 9}
-            title="Get Started Building Web3 Games in Unity (thirdweb Unity SDK)"
-          />
+          <Heading
+            as="h3"
+            size="subtitle.lg"
+            textAlign="center"
+            maxW={"container.md"}
+            color="whiteAlpha.700"
+            fontWeight={400}
+            fontSize="20px"
+            mb={8}
+          >
+            Get inspiration from thirdweb viral web3 game &quot;Cat Attack&quot;
+            built in just 2 days using thirdweb tools.
+          </Heading>
+          <TrackedLink
+            category={TRACKING_CATEGORY}
+            href="https://catattack.io"
+            p={4}
+            bg="black"
+            rounded="lg"
+            background="linear-gradient(#00000080 0%, #00000040 100%)"
+            border="1px solid"
+            borderColor="transparent"
+            _hover={{
+              borderColor: "white",
+            }}
+          >
+            <Image
+              src="/assets/solutions-pages/gaming/catattack.png"
+              alt="Cat Attack"
+              width={400}
+              height={320}
+            />
+          </TrackedLink>
         </Flex>
       </ProductSection>
 
