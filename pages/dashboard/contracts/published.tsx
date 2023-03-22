@@ -10,7 +10,7 @@ import { PublishedContracts } from "components/contract-components/tables/publis
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Link } from "tw-components";
+import { Link, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -19,6 +19,8 @@ import { ThirdwebNextPage } from "utils/types";
  * Initially the FTUX is shown, then the contracts are shown. This creates a flash of wrong content.
  * To fix this, we need to hold off rendering either the FTUX or the contracts until we know which one to show.
  */
+
+const TRACKING_CATEGORY = "published_contracts";
 
 const Published: ThirdwebNextPage = () => {
   const address = useAddress();
@@ -43,9 +45,15 @@ const Published: ThirdwebNextPage = () => {
     {
       title: "Publish a contract",
       children: (
-        <Link color="blue.500" href="/publish">
+        <TrackedLink
+          category={TRACKING_CATEGORY}
+          label="learn_to_publish"
+          color="blue.500"
+          isExternal
+          href="https://portal.thirdweb.com/publish"
+        >
           Learn how to publish contracts --&gt;
-        </Link>
+        </TrackedLink>
       ),
       completed: (publishedContractsQuery?.data?.length || 0) > 0,
     },
@@ -61,6 +69,7 @@ const Published: ThirdwebNextPage = () => {
               title="Get started with publishing contracts"
               description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
               steps={steps}
+              storageKey="published-get-started"
             />
             {address && <PublishedContractsPage address={address} />}
           </Flex>

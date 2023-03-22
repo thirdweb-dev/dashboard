@@ -1,5 +1,6 @@
 import { GetStarted } from "../../../components/dashboard/GetStarted";
 import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
+import { useTrack } from "../../../hooks/analytics/useTrack";
 import { useAllContractList } from "@3rdweb-sdk/react";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Flex } from "@chakra-ui/react";
@@ -11,7 +12,7 @@ import Image from "next/image";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
 import { FiChevronsRight } from "react-icons/fi";
-import { Button, Card, Link, Text } from "tw-components";
+import { Button, Card, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 /**
@@ -20,7 +21,7 @@ import { ThirdwebNextPage } from "utils/types";
  * Initially the FTUX is shown, then the contracts are shown. This creates a flash of wrong content.
  * To fix this, we need to hold off rendering either the FTUX or the contracts until we know which one to show.
  */
-
+const TRACKING_CATEGORY = "your_contracts";
 const DeployOptions = () => {
   const content = {
     explore: {
@@ -67,7 +68,14 @@ const DeployOptions = () => {
         alignItems="center"
         w="full"
         _hover={{ borderColor: "white", textDecoration: "none!important" }}
-        {...{ as: Link, href: content[tab].href }}
+        {...{
+          as: TrackedLink,
+          category: TRACKING_CATEGORY,
+          label: "deploy_options",
+          trackingProps: { type: tab },
+          href: content[tab].href,
+          isExternal: !content[tab].href.startsWith("/"),
+        }}
       >
         <Box>
           <Flex alignItems="center">
@@ -149,7 +157,7 @@ const Contracts: ThirdwebNextPage = () => {
     //   completed: BigNumber.from(evmBalance.data?.value || 0).gt(0),
     // },
     {
-      title: "Deploy a contract",
+      title: "Deploy or import a contract",
       description: "Deploy a contract with one of the methods below.",
       children: <DeployOptions />,
       completed: deployedContracts.data?.length > 0,
@@ -166,6 +174,7 @@ const Contracts: ThirdwebNextPage = () => {
               title="Get started with deploying contracts"
               description="This guide will help you start deploying contracts on-chain in just a few minutes."
               steps={steps}
+              storageKey="deployed-get-started"
             />
             {address && <EVMContracts address={address} />}
           </Flex>

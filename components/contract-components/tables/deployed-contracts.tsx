@@ -95,11 +95,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             direction={{ base: "column", md: "row" }}
           >
             <Flex gap={2} direction="column">
-              <Heading size="title.md">Deployed contracts</Heading>
-              <Text fontStyle="italic" maxW="container.md">
-                The list of contract instances that you have deployed with
-                thirdweb across all networks.
-              </Text>
+              <Heading size="title.md">Your contracts</Heading>
             </Flex>
             <ButtonGroup>
               <Button
@@ -110,7 +106,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                 Import contract
               </Button>
               <LinkButton
-                rightIcon={<FiPlus />}
+                leftIcon={<FiPlus />}
                 colorScheme="primary"
                 href="/explore"
               >
