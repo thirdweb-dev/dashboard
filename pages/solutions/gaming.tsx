@@ -17,7 +17,7 @@ import { ProductSection } from "components/product-pages/common/ProductSection";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { CatAttackCard } from "pages/build/base";
-import { Heading } from "tw-components";
+import { Heading, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "gaming_kit";
@@ -73,7 +73,7 @@ const Gaming: ThirdwebNextPage = () => {
         title:
           "thirdweb GamingKit | SDKs, Smart Contracts & Dev Tools for Web3 Games",
         description:
-          "Build web3 games with our Unity Native SDK for all supported platforms, including: Native, Mobile, Console, Browser, and VR.",
+          "Build web3 games with our Unity SDK for all supported platforms, including: Native, Mobile, Console, Browser, and VR.",
         openGraph: {
           images: [
             {
@@ -88,8 +88,23 @@ const Gaming: ThirdwebNextPage = () => {
     >
       <Hero
         name="GamingKit"
-        title="Reimagine gaming with web3 technologies"
-        description="Build web3 games with our Unity Native SDK for all supported platforms, including: Native, Mobile, Console, Browser, and VR. "
+        title="Build web3 games on any platform"
+        description={
+          <>
+            Build web3 games with our{" "}
+            <TrackedLink
+              fontWeight={700}
+              category={TRACKING_CATEGORY}
+              href="https://portal.thirdweb.com/unity"
+              label="unity SDK"
+              isExternal
+            >
+              Unity SDK
+            </TrackedLink>{" "}
+            for all supported platforms, including: Native, Mobile, Console,
+            Browser, and VR.
+          </>
+        }
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/gamingkit"
         gradient="linear-gradient(145.96deg, rgba(205, 0, 238, 1) 5.07%, #1652F0 100%);"
@@ -146,16 +161,21 @@ const Gaming: ThirdwebNextPage = () => {
             title="Build web3 games faster"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            Our SDKs smart detects extensions in contracts to handle all common
-            contract operations for devs.
+            <span>
+              Our SDKs detect <strong>extensions</strong> in contracts to handle
+              all common contract operations for devs without the need for
+              boiler plate.
+            </span>
           </ProductCard>
           <ProductCard
             title="Frictionless web3 experience for players"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
-            Generate wallets on the back-end for game players. Once game players
-            are connected to device wallet, they do not need to confirm
-            transactions as they play game with on-chain interactions.
+            <span>
+              Generate wallets for players on the back-end. Remove the need for
+              distruptive transaction pop-ups entirely with{" "}
+              <strong>Device Wallet</strong>.
+            </span>
           </ProductCard>
         </SimpleGrid>
       </Hero>
@@ -172,7 +192,6 @@ const Gaming: ThirdwebNextPage = () => {
         />
       </ProductSection>
 
-      {/* Video Embed section*/}
       <ProductSection py={{ base: 12, lg: 24 }}>
         <Flex alignItems="center" flexDirection="column">
           <Heading
@@ -195,7 +214,7 @@ const Gaming: ThirdwebNextPage = () => {
             mb={8}
           >
             Get inspiration from viral web3 game <strong>Cat Attack</strong>{" "}
-            built in just 2 days using thirdweb tools.
+            built in just 2 days using thirdweb.
           </Heading>
           <Container maxW="3xl">
             <CatAttackCard trackingCategory={TRACKING_CATEGORY} hideGithub />
@@ -212,9 +231,49 @@ const Gaming: ThirdwebNextPage = () => {
           <ProductLearnMoreCard
             title="Build"
             category={TRACKING_CATEGORY}
-            description="Discover ready-to-go contracts for popular gaming use cases, e.g. Staking Contract, and more. Powerful Game Engine SDK includes Unity Native SDK to easily integrate web3 features into games across native, mobile, console, browser, and VR platforms. Unreal Engine SDK coming soon."
+            description={
+              <>
+                Discover{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  href="https://thirdweb.com/explore/gaming"
+                  isExternal
+                  label="build_explore"
+                  color="blue.400"
+                  _hover={{ textDecor: "underline" }}
+                >
+                  ready-to-go contracts
+                </TrackedLink>{" "}
+                for popular gaming use cases. Our powerful{" "}
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  href="https://portal.thirdweb.com/gamingkit"
+                  label="build_gaming_sdk"
+                  color="blue.400"
+                  _hover={{ textDecor: "underline" }}
+                >
+                  Gaming SDK
+                </TrackedLink>{" "}
+                enables you to easily integrate web3 features into games across
+                native, mobile, console, browser, and VR platforms.
+                <br />
+                <TrackedLink
+                  category={TRACKING_CATEGORY}
+                  href="https://portal.thirdweb.com/unity"
+                  label="build_unity_sdk"
+                  isExternal
+                  color="blue.400"
+                  _hover={{ textDecor: "underline" }}
+                >
+                  Unity SDK
+                </TrackedLink>{" "}
+                available now.
+                <br />
+                Unreal Engine SDK coming soon.
+              </>
+            }
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href="/explore/gaming"
+            href="https://portal.thirdweb.com/gamingkit"
           />
           <ProductLearnMoreCard
             title="Launch"
