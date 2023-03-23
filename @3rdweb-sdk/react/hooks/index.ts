@@ -3,5 +3,6 @@ export * from "./useCommon";
 
 export * from "./useContractRoles";
 export * from "./useSDK";
+export * from "./useWeb3";
 export * from "./useContractMetadata";
 export * from "./useWalletNFTs";

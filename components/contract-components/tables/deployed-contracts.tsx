@@ -3,6 +3,7 @@ import { ShowMoreButton } from "./show-more-button";
 import {
   useAllContractList,
   useContractMetadataWithAddress,
+  useWeb3,
 } from "@3rdweb-sdk/react";
 import {
   Box,
@@ -36,10 +37,7 @@ import { GettingStartedCard } from "components/getting-started/card";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { CONTRACT_TYPE_NAME_MAP, FeatureIconMap } from "constants/mappings";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import {
-  useConfiguredChains,
-  useConfiguredChainsRecord,
-} from "hooks/chains/configureChains";
+import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import { FiArrowRight, FiFilePlus, FiPlus } from "react-icons/fi";
@@ -230,8 +228,8 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   children,
   isFetching,
 }) => {
+  const { getNetworkMetadata } = useWeb3();
   const configuredChains = useConfiguredChains();
-  const chainRecord = useConfiguredChainsRecord();
 
   const columns: Column<(typeof combinedList)[number]>[] = useMemo(
     () => [
@@ -251,16 +249,12 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         Header: "Network",
         accessor: (row) => row.chainId,
         Cell: (cell: any) => {
-          const data = chainRecord[cell.row.original.chainId];
+          const data = getNetworkMetadata(cell.row.original.chainId);
           return (
             <Flex align="center" gap={2}>
-              <ChainIcon
-                size={24}
-                ipfsSrc={data.icon?.url}
-                sizes={data.icon?.sizes}
-              />
-              <Text size="label.md">{data.name}</Text>
-              {data.testnet && (
+              <ChainIcon size={24} ipfsSrc={data.icon} sizes={data.iconSizes} />
+              <Text size="label.md">{data.chainName}</Text>
+              {data.isTestnet !== "unknown" && data.isTestnet && (
                 <Badge colorScheme="gray" textTransform="capitalize">
                   Testnet
                 </Badge>

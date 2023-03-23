@@ -1,3 +1,4 @@
+import { useWeb3 } from "@3rdweb-sdk/react/hooks/useWeb3";
 import {
   Center,
   Flex,
@@ -179,7 +180,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
     useState(false);
 
   const [connector, connect] = useConnect();
-  const chainsRecord = useConfiguredChainsRecord();
+  const { getNetworkMetadata } = useWeb3();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const disconnect = useDisconnect();
   const disconnectFully = useDisconnect({ reconnectPrevious: false });
@@ -324,7 +325,7 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
   }
   // if EVM is connected we hit this
   if (address && chainId && ecosystem !== "solana") {
-    const chain = chainsRecord[chainId];
+    const networkMetadata = getNetworkMetadata(chainId, false);
     return (
       <>
         {showConfigureNetworkModal && (
@@ -347,19 +348,19 @@ export const ConnectWallet: React.FC<EcosystemButtonprops> = ({
             <Flex direction="row" gap={3} align="center">
               <ChainIcon
                 size={24}
-                ipfsSrc={chain.icon?.url}
-                sizes={chain.icon?.sizes}
+                ipfsSrc={networkMetadata.icon}
+                sizes={networkMetadata.iconSizes}
               />
               <Flex gap={0.5} direction="column" textAlign="left">
                 <Heading as="p" size="label.sm">
                   <Skeleton as="span" isLoaded={!balanceQuery.isLoading}>
                     {balanceQuery.data?.displayValue.slice(0, 6) || "0.000"}
                   </Skeleton>{" "}
-                  {chain.nativeCurrency.symbol}
+                  {networkMetadata.symbol}
                 </Heading>
                 <Text size="label.sm" color="accent.600">
                   {shortenIfAddress(ensQuery.data?.ensName || address, true)}
-                  {isMobile ? null : ` (${chain.name})`}
+                  {isMobile ? null : ` (${networkMetadata.chainName})`}
                 </Text>
               </Flex>
 
