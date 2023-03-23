@@ -25,19 +25,15 @@ export const GetStarted: React.FC<GetStartedProps> = ({
   const lastStepCompleted =
     firstIncomplete === -1 ? steps.length - 1 : firstIncomplete - 1;
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
-  const [isOpen, setIsOpen] = useState(firstIncomplete !== -1);
+  const isComplete = useMemo(() => firstIncomplete === -1, [firstIncomplete]);
+  const [isOpen, setIsOpen] = useState(!isComplete);
 
-  const isHidden = useMemo(() => firstIncomplete === -1, [firstIncomplete]);
-
-  return isHidden ? (
-    <></>
-  ) : (
+  return (
     <Card
       flexDir="column"
       p={8}
       gap={4}
       position="relative"
-      maxW="3xl"
       cursor={isOpen ? "default" : "pointer"}
       onClick={() => !isOpen && setIsOpen(true)}
     >
@@ -52,17 +48,19 @@ export const GetStarted: React.FC<GetStartedProps> = ({
         <Text size="label.xl" color="white">
           {title}
         </Text>
-        <Flex>
-          <Heading size="subtitle.xs" color="white" mr="2">
-            {isOpen ? "Collapse" : "Expand"}
-          </Heading>
-          <Box
-            transition="transform 0.2s"
-            transform={`rotate(${isOpen ? "0" : "180"}deg)`}
-          >
-            <FiChevronUp />
-          </Box>
-        </Flex>
+        {isComplete && (
+          <Flex alignItems="center">
+            <Heading size="subtitle.xs" color="white" mr="2">
+              {isOpen ? "Collapse" : "Expand"}
+            </Heading>
+            <Box
+              transition="transform 0.2s"
+              transform={`rotateX(${isOpen ? "0" : "180"}deg)`}
+            >
+              <FiChevronUp />
+            </Box>
+          </Flex>
+        )}
       </Flex>
       {isOpen && (
         <>

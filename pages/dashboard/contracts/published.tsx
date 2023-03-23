@@ -9,6 +9,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { PublishedContracts } from "components/contract-components/tables/published-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
+import { useMemo } from "react";
 import { TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -18,30 +19,38 @@ const Published: ThirdwebNextPage = () => {
   const address = useAddress();
   const publishedContractsQuery = usePublishedContractsQuery(address);
 
-  const steps = [
-    {
-      title: "Connect your wallet to get started",
-      description:
-        "In order to interact with your contracts you need to connect an EVM compatible wallet.",
-      children: <ConnectWallet ecosystem="evm" />,
-      completed: !!address,
-    },
-    {
-      title: "Publish a contract",
-      children: (
-        <TrackedLink
-          category={TRACKING_CATEGORY}
-          label="learn_to_publish"
-          color="blue.500"
-          isExternal
-          href="https://portal.thirdweb.com/publish"
-        >
-          Learn how to publish contracts --&gt;
-        </TrackedLink>
-      ),
-      completed: (publishedContractsQuery?.data?.length || 0) > 0,
-    },
-  ];
+  const hasContracts = useMemo(
+    () => (publishedContractsQuery?.data?.length || 0) > 0,
+    [publishedContractsQuery],
+  );
+
+  const steps = useMemo(
+    () => [
+      {
+        title: "Connect your wallet to get started",
+        description:
+          "In order to interact with your contracts you need to connect an EVM compatible wallet.",
+        children: <ConnectWallet ecosystem="evm" />,
+        completed: !!address,
+      },
+      {
+        title: "Publish a contract",
+        children: (
+          <TrackedLink
+            category={TRACKING_CATEGORY}
+            label="learn_to_publish"
+            color="blue.500"
+            isExternal
+            href="https://portal.thirdweb.com/publish"
+          >
+            Learn how to publish contracts --&gt;
+          </TrackedLink>
+        ),
+        completed: hasContracts,
+      },
+    ],
+    [address, hasContracts],
+  );
 
   return (
     <Box pt={8}>
@@ -58,7 +67,9 @@ const Published: ThirdwebNextPage = () => {
               description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
               steps={steps}
             />
-            {address && <PublishedContractsPage address={address} />}
+            {address && hasContracts && (
+              <PublishedContractsPage address={address} />
+            )}
           </Flex>
         )}
       </ClientOnly>

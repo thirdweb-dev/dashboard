@@ -9,7 +9,7 @@ import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import Image from "next/image";
 import { PageId } from "page-id";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { Button, Card, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -99,53 +99,61 @@ const Contracts: ThirdwebNextPage = () => {
   // const [, switchNetwork] = useNetworkWithPatchedSwitching();
   const deployedContracts = useAllContractList(address);
 
-  const steps = [
-    {
-      title: "Connect your wallet to get started",
-      description:
-        "In order to interact with your contracts you need to connect an EVM compatible wallet.",
-      children: <ConnectWallet ecosystem="evm" />,
-      completed: !!address,
-    },
-    // {
-    //   title: "Switch to the test network Mumbai",
-    //   description:
-    //     "This network allows you to deploy contracts within a testing environment.",
-    //   children: (
-    //     <Button
-    //       bg="white"
-    //       color="black"
-    //       transitionProperty="opacity"
-    //       _hover={{
-    //         bg: "white",
-    //         color: "black",
-    //         opacity: 0.9,
-    //       }}
-    //       onClick={() => switchNetwork?.(ChainId.Mumbai)}
-    //     >
-    //       Switch networks
-    //     </Button>
-    //   ),
-    //   completed: chainId === ChainId.Mumbai,
-    // },
-    // {
-    //   title: "Get Mumbai testnet funds",
-    //   description:
-    //     "Follow the link to the testnet faucet, paste your wallet address and click submit.",
-    //   children: (
-    //     <Link href="https://faucet.polygon.technology/" color="blue.500">
-    //       Visit Mumbai faucet --&gt;
-    //     </Link>
-    //   ),
-    //   completed: BigNumber.from(evmBalance.data?.value || 0).gt(0),
-    // },
-    {
-      title: "Deploy or import a contract",
-      description: "Deploy a contract with one of the methods below.",
-      children: <DeployOptions />,
-      completed: deployedContracts.data?.length > 0,
-    },
-  ];
+  const hasContracts = useMemo(
+    () => deployedContracts.data?.length > 0,
+    [deployedContracts.data?.length],
+  );
+
+  const steps = useMemo(
+    () => [
+      {
+        title: "Connect your wallet to get started",
+        description:
+          "In order to interact with your contracts you need to connect an EVM compatible wallet.",
+        children: <ConnectWallet ecosystem="evm" />,
+        completed: !!address,
+      },
+      // {
+      //   title: "Switch to the test network Mumbai",
+      //   description:
+      //     "This network allows you to deploy contracts within a testing environment.",
+      //   children: (
+      //     <Button
+      //       bg="white"
+      //       color="black"
+      //       transitionProperty="opacity"
+      //       _hover={{
+      //         bg: "white",
+      //         color: "black",
+      //         opacity: 0.9,
+      //       }}
+      //       onClick={() => switchNetwork?.(ChainId.Mumbai)}
+      //     >
+      //       Switch networks
+      //     </Button>
+      //   ),
+      //   completed: chainId === ChainId.Mumbai,
+      // },
+      // {
+      //   title: "Get Mumbai testnet funds",
+      //   description:
+      //     "Follow the link to the testnet faucet, paste your wallet address and click submit.",
+      //   children: (
+      //     <Link href="https://faucet.polygon.technology/" color="blue.500">
+      //       Visit Mumbai faucet --&gt;
+      //     </Link>
+      //   ),
+      //   completed: BigNumber.from(evmBalance.data?.value || 0).gt(0),
+      // },
+      {
+        title: "Deploy or import a contract",
+        description: "Deploy a contract with one of the methods below.",
+        children: <DeployOptions />,
+        completed: hasContracts,
+      },
+    ],
+    [address, hasContracts],
+  );
 
   return (
     <Box pt={8}>
@@ -162,7 +170,7 @@ const Contracts: ThirdwebNextPage = () => {
               description="This guide will help you start deploying contracts on-chain in just a few minutes."
               steps={steps}
             />
-            {address && <EVMContracts address={address} />}
+            {address && hasContracts && <EVMContracts address={address} />}
           </Flex>
         )}
       </ClientOnly>
