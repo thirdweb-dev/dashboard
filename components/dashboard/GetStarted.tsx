@@ -43,9 +43,10 @@ export const GetStarted: React.FC<GetStartedProps> = ({
         type="button"
         alignItems="center"
         justifyContent="space-between"
+        gap={4}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <Text size="label.xl" color="white">
+        <Text size="label.xl" color="white" textAlign="left">
           {title}
         </Text>
         {isComplete && (
