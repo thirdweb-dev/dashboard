@@ -1,7 +1,5 @@
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { Box, Flex, ModalCloseButton, Progress } from "@chakra-ui/react";
-import { FiX } from "@react-icons/all-files/fi/FiX";
-import { useEffect, useState } from "react";
+import { Box, Flex, Progress } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
 import { FiCheck, FiChevronUp } from "react-icons/fi";
 import { Card, Heading, Text } from "tw-components";
 
@@ -16,30 +14,20 @@ interface GetStartedProps {
   title: string;
   description: string;
   steps: Step[];
-  storageKey: string;
 }
 
 export const GetStarted: React.FC<GetStartedProps> = ({
   title,
   description,
   steps,
-  storageKey,
 }) => {
   const firstIncomplete = steps.findIndex((step) => !step.completed);
   const lastStepCompleted =
     firstIncomplete === -1 ? steps.length - 1 : firstIncomplete - 1;
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
   const [isOpen, setIsOpen] = useState(firstIncomplete !== -1);
-  const [isHidden, setIsHidden] = useLocalStorage(
-    storageKey,
-    firstIncomplete === -1,
-  );
 
-  useEffect(() => {
-    if (firstIncomplete === -1) {
-      setIsHidden(true);
-    }
-  }, [firstIncomplete, setIsHidden]);
+  const isHidden = useMemo(() => firstIncomplete === -1, [firstIncomplete]);
 
   return isHidden ? (
     <></>
@@ -53,16 +41,6 @@ export const GetStarted: React.FC<GetStartedProps> = ({
       cursor={isOpen ? "default" : "pointer"}
       onClick={() => !isOpen && setIsOpen(true)}
     >
-      <Box
-        onClick={() => setIsHidden(true)}
-        as="button"
-        position="absolute"
-        top={2}
-        right={2}
-        color="gray.700"
-      >
-        <FiX />
-      </Box>
       <Flex
         w="full"
         as="button"

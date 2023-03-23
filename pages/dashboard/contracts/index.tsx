@@ -1,26 +1,19 @@
 import { GetStarted } from "../../../components/dashboard/GetStarted";
 import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
-import { useTrack } from "../../../hooks/analytics/useTrack";
 import { useAllContractList } from "@3rdweb-sdk/react";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import Image from "next/image";
 import { PageId } from "page-id";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { Button, Card, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-/**
- *
- * @TODO
- * Initially the FTUX is shown, then the contracts are shown. This creates a flash of wrong content.
- * To fix this, we need to hold off rendering either the FTUX or the contracts until we know which one to show.
- */
 const TRACKING_CATEGORY = "your_contracts";
 const DeployOptions = () => {
   const content = {
@@ -52,9 +45,7 @@ const DeployOptions = () => {
           <Button
             key={key}
             onClick={() => setTab(key as keyof typeof content)}
-            {...(key !== tab
-              ? { background: "transparent", opacity: 0.7 }
-              : {})}
+            {...(key !== tab && { background: "transparent", opacity: 0.7 })}
           >
             {v.title}
           </Button>
@@ -108,14 +99,6 @@ const Contracts: ThirdwebNextPage = () => {
   // const [, switchNetwork] = useNetworkWithPatchedSwitching();
   const deployedContracts = useAllContractList(address);
 
-  /** put the component is loading state for sometime to avoid layout shift */
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 200);
-  }, []);
-
   const steps = [
     {
       title: "Connect your wallet to get started",
@@ -168,13 +151,16 @@ const Contracts: ThirdwebNextPage = () => {
     <Box pt={8}>
       <ClientOnly fadeInDuration={600} ssr={null}>
         <ContractsSidebar activePage="deployed" />
-        {!isLoading && (
+        {address && deployedContracts.isLoading ? (
+          <Flex w="full" h="full" alignItems="center" justifyContent="center">
+            <Spinner />
+          </Flex>
+        ) : (
           <Flex flexDir="column" gap={12}>
             <GetStarted
               title="Get started with deploying contracts"
               description="This guide will help you start deploying contracts on-chain in just a few minutes."
               steps={steps}
-              storageKey="deployed-onboarding-hidden"
             />
             {address && <EVMContracts address={address} />}
           </Flex>

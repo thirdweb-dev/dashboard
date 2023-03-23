@@ -2,37 +2,21 @@ import { usePublishedContractsQuery } from "../../../components/contract-compone
 import { GetStarted } from "../../../components/dashboard/GetStarted";
 import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Spinner } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
 import { PublishedContracts } from "components/contract-components/tables/published-contracts";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { PageId } from "page-id";
-import { useEffect, useState } from "react";
-import { Link, TrackedLink } from "tw-components";
+import { TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-
-/**
- *
- * @TODO
- * Initially the FTUX is shown, then the contracts are shown. This creates a flash of wrong content.
- * To fix this, we need to hold off rendering either the FTUX or the contracts until we know which one to show.
- */
 
 const TRACKING_CATEGORY = "published_contracts";
 
 const Published: ThirdwebNextPage = () => {
   const address = useAddress();
   const publishedContractsQuery = usePublishedContractsQuery(address);
-
-  /** put the component is loading state for sometime to avoid layout shift */
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 200);
-  }, []);
 
   const steps = [
     {
@@ -63,13 +47,16 @@ const Published: ThirdwebNextPage = () => {
     <Box pt={8}>
       <ClientOnly fadeInDuration={600} ssr={null}>
         <ContractsSidebar activePage="published" />
-        {!isLoading && (
+        {publishedContractsQuery.isLoading ? (
+          <Flex w="full" h="full" alignItems="center" justifyContent="center">
+            <Spinner />
+          </Flex>
+        ) : (
           <Flex flexDir="column" gap={12}>
             <GetStarted
               title="Get started with publishing contracts"
               description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
               steps={steps}
-              storageKey="published-onboarding-hidden"
             />
             {address && <PublishedContractsPage address={address} />}
           </Flex>
