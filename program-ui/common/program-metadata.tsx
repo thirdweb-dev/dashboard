@@ -1,10 +1,7 @@
 import { MetadataHeader } from "../../components/custom-contract/contract-header/metadata-header";
 import { Box, Container, Flex } from "@chakra-ui/react";
 import { useProgram, useProgramMetadata } from "@thirdweb-dev/react/solana";
-import {
-  FeatureIconMap,
-  PREBUILT_SOLANA_CONTRACTS_MAP,
-} from "constants/mappings";
+import { PREBUILT_SOLANA_CONTRACTS_MAP } from "constants/mappings";
 import { useMemo } from "react";
 
 interface ProgramMetadataProps {
@@ -21,7 +18,7 @@ export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
   const contractTypeImage = useMemo(() => {
     return programQuery.data
       ? PREBUILT_SOLANA_CONTRACTS_MAP[programQuery.data.accountType].icon
-      : FeatureIconMap["custom"];
+      : require("public/assets/tw-icons/general.png");
   }, [programQuery.data]);
 
   return (
