@@ -50,6 +50,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
       gap={4}
       position="relative"
       maxW="3xl"
+      cursor={isOpen ? "default" : "pointer"}
       onClick={() => !isOpen && setIsOpen(true)}
     >
       <Box
@@ -62,16 +63,18 @@ export const GetStarted: React.FC<GetStartedProps> = ({
       >
         <FiX />
       </Box>
-      <Flex justifyContent="space-between" alignItems="center">
+      <Flex
+        w="full"
+        as="button"
+        type="button"
+        alignItems="center"
+        justifyContent="space-between"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         <Text size="label.xl" color="white">
           {title}
         </Text>
-        <Flex
-          as="button"
-          type="button"
-          alignItems="center"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
+        <Flex>
           <Heading size="subtitle.xs" color="white" mr="2">
             {isOpen ? "Collapse" : "Expand"}
           </Heading>

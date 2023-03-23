@@ -69,7 +69,7 @@ const Published: ThirdwebNextPage = () => {
               title="Get started with publishing contracts"
               description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
               steps={steps}
-              storageKey="published-get-started"
+              storageKey="published-onboarding-hidden"
             />
             {address && <PublishedContractsPage address={address} />}
           </Flex>

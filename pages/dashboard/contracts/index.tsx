@@ -174,7 +174,7 @@ const Contracts: ThirdwebNextPage = () => {
               title="Get started with deploying contracts"
               description="This guide will help you start deploying contracts on-chain in just a few minutes."
               steps={steps}
-              storageKey="deployed-get-started"
+              storageKey="deployed-onboarding-hidden"
             />
             {address && <EVMContracts address={address} />}
           </Flex>
