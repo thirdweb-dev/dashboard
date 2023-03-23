@@ -14,14 +14,16 @@ import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
-import { SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
-import { useConfiguredChain } from "hooks/chains/configureChains";
+import {
+  useConfiguredChain,
+  useConfiguredChains,
+} from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
@@ -52,6 +54,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   isImplementationDeploy,
   onSuccessCallback,
 }) => {
+  const configuredChains = useConfiguredChains();
+  const configuredChainsIds = configuredChains.map((c) => c.chainId);
+
   const networkInfo = useConfiguredChain(selectedChain || -1);
   const address = useAddress();
   const ensQuery = useEns(address);
@@ -75,18 +80,24 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ? initializerParams
     : constructorParams;
 
-  const disabledChains =
-    isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
-      ? SUPPORTED_CHAIN_IDS.filter((chain) => {
-          const implementationAddress =
-            fullPublishMetadata.data?.factoryDeploymentData
-              ?.implementationAddresses?.[chain];
-          return (
-            !implementationAddress ||
-            (implementationAddress && implementationAddress.length === 0)
-          );
-        })
-      : undefined;
+  // for our own contracts, we force enable all chains since the SDK has fallbacks in place to deploy everywhere
+  const shouldForceEnableAllChains =
+    fullPublishMetadata?.data?.publisher === "deployer.thirdweb.eth" ||
+    fullPublishMetadata?.data?.publisher ===
+      "0xdd99b75f095d0c4d5112aCe938e4e6ed962fb024";
+  const disabledChains = shouldForceEnableAllChains
+    ? undefined
+    : isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
+    ? configuredChainsIds.filter((chain) => {
+        const implementationAddress =
+          fullPublishMetadata.data?.factoryDeploymentData
+            ?.implementationAddresses?.[chain];
+        return (
+          !implementationAddress ||
+          (implementationAddress && implementationAddress.length === 0)
+        );
+      })
+    : undefined;
 
   const form = useForm<{
     addToDashboard: boolean;
@@ -408,11 +419,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 !compilerMetadata.isSuccess
               }
               value={
-                (disabledChains || []).find((chain) => chain === selectedChain)
+                !(disabledChains || []).find((chain) => chain === selectedChain)
                   ? selectedChain
                   : -1
               }
-              onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
+              onChange={(e) => {
+                onChainSelect(parseInt(e.currentTarget.value));
+              }}
             />
           </FormControl>
           <TransactionButton
