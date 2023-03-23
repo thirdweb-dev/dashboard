@@ -47,7 +47,7 @@ const Published: ThirdwebNextPage = () => {
     <Box pt={8}>
       <ClientOnly fadeInDuration={600} ssr={null}>
         <ContractsSidebar activePage="published" />
-        {publishedContractsQuery.isLoading ? (
+        {address && publishedContractsQuery.isLoading ? (
           <Flex w="full" h="full" alignItems="center" justifyContent="center">
             <Spinner />
           </Flex>
