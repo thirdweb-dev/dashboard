@@ -1,6 +1,5 @@
 import {
   useConstructorParamsFromABI,
-  useContractEnabledExtensions,
   useContractFullPublishMetadata,
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
@@ -9,10 +8,10 @@ import {
 } from "../hooks";
 import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
-import { uploadContractMetadata } from "./deploy-form-utils";
 import { PlatformFeeFieldset } from "./platform-fee-fieldset";
 import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
+import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ContractType, SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
@@ -94,11 +93,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     addToDashboard: boolean;
     deployParams: Record<string, string>;
     contractMetadata?: {
-      name?: string;
-      description?: string;
-      symbol?: string;
-      image?: string;
+      name: string;
+      description: string;
+      symbol: string;
+      image: string;
     };
+    recipients?: Recipient[];
   }>({
     defaultValues: {
       addToDashboard: true,
@@ -114,6 +114,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         );
         return acc;
       }, {} as Record<string, string>),
+      recipients: [
+        {
+          address: "",
+          sharesBps: 10000,
+        },
+      ],
     },
     values: {
       addToDashboard: true,
@@ -135,22 +141,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     },
   });
 
-  const deploy = useCustomContractDeployMutation(
-    ipfsHash,
-    isImplementationDeploy,
-  );
-
-  const router = useRouter();
-  const { onSuccess, onError } = useTxNotifications(
-    "Successfully deployed contract",
-    "Failed to deploy contract",
-  );
-
   const formDeployParams = form.watch("deployParams");
-
-  const enabledExtensions = useContractEnabledExtensions(
-    compilerMetadata.data?.abi,
-  );
 
   const hasContractURI = "_contractURI" in formDeployParams;
   const hasRoyalty =
@@ -160,6 +151,20 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const hasPlatformFee =
     "_platformFeeBps" in formDeployParams &&
     "_platformFeeRecipient" in formDeployParams;
+  const isSplit =
+    "_payees" in formDeployParams && "_shares" in formDeployParams;
+
+  const deploy = useCustomContractDeployMutation(
+    ipfsHash,
+    isImplementationDeploy,
+    { hasContractURI, hasRoyalty, hasPrimarySale, hasPlatformFee, isSplit },
+  );
+
+  const router = useRouter();
+  const { onSuccess, onError } = useTxNotifications(
+    "Successfully deployed contract",
+    "Failed to deploy contract",
+  );
 
   return (
     <FormProvider {...form}>
@@ -171,7 +176,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         id="custom-contract-form"
         as="form"
         onSubmit={form.handleSubmit(async (d) => {
-          console.log(d);
           if (!selectedChain) {
             return;
           }
@@ -192,46 +196,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             label: "attempt",
             deployData,
           });
-          console.log(d.deployParams);
-          if (hasContractURI) {
-            d.deployParams._contractURI = await uploadContractMetadata({
-              ...d.contractMetadata,
-              ...(hasRoyalty && {
-                seller_fee_basis_points: d.deployParams._royaltyBps,
-              }),
-              ...(hasRoyalty && {
-                fee_recipient: d.deployParams._royaltyRecipient,
-              }),
-            });
-            if ("_name" in d.deployParams) {
-              d.deployParams._name = d.contractMetadata?.name || "";
-            }
-            if ("_symbol" in d.deployParams) {
-              d.deployParams._symbol = d.contractMetadata?.symbol || "";
-            }
-          }
-
-          if (d.deployParams?._defaultAdmin === "") {
-            d.deployParams._defaultAdmin = address || "";
-          }
-
-          if (d.deployParams?._trustedForwarders === "") {
-            d.deployParams._trustedForwarders = replaceTemplateValues(
-              fullPublishMetadata.data?.constructorParams?._trustedForwarders
-                ?.defaultValue || "",
-              "address[]",
-              {
-                connectedWallet: address,
-                chainId: selectedChain,
-              },
-            );
-          }
-
-          console.log(d.deployParams);
 
           deploy.mutate(
             {
-              constructorParams: Object.values(d.deployParams),
+              ...d,
+              address,
               addToDashboard,
             },
             {
@@ -318,6 +287,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
               {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+              {isSplit && <SplitFieldset form={form} />}
             </Flex>
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
@@ -338,7 +308,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   (paramKey === "_platformFeeBps" ||
                     paramKey === "_platformFeeRecipient")) ||
                 paramKey === "_defaultAdmin" ||
-                paramKey === "_trustedForwarders"
+                paramKey === "_trustedForwarders" ||
+                (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
               ) {
                 return null;
               }
