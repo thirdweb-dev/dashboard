@@ -204,7 +204,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             href="/dashboard/contracts"
             size="sm"
             variant={
-              pathname === "/dashboard/contracts" ||
+              pathname.startsWith("/dashboard/contracts") ||
               route === "/[networkOrAddress]/[...catchAll]"
                 ? "solid"
                 : "ghost"
