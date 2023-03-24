@@ -94,7 +94,15 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
           </Link>
           <CmdKSearch />
         </Flex>
-        <Flex align="center" gap={3} marginLeft="auto">
+        <Flex
+          align="center"
+          gap={3}
+          marginLeft="auto"
+          minH={{
+            base: "auto",
+            md: "60px",
+          }}
+        >
           <Button
             as={TrackedLink}
             variant="link"
@@ -166,6 +174,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
           <ConfigureNetworkButton
             bg="none"
             label="configure-networks"
+            iconOnly
           ></ConfigureNetworkButton>
           <ConnectWallet
             ml={{ base: 0, md: 2 }}
