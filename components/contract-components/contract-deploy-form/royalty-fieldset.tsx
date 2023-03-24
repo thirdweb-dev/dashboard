@@ -46,6 +46,7 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
             !!form.getFieldState("deployParams._royaltyBps", form.formState)
               .error
           }
+          defaultValue="0"
         >
           <FormLabel>Percentage</FormLabel>
           <BasisPointsInput
