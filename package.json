@@ -41,10 +41,10 @@
     "@tanstack/react-query-persist-client": "^4.19.1",
     "@tanstack/react-table": "8.7.9",
     "@thirdweb-dev/chain-icons": "^1.0.5",
-    "@thirdweb-dev/chains": "0.0.0-dev-20230324145521-9f32870",
-    "@thirdweb-dev/react": "0.0.0-dev-20230324145521-9f32870",
-    "@thirdweb-dev/sdk": "0.0.0-dev-20230324145521-9f32870",
-    "@thirdweb-dev/storage": "0.0.0-dev-20230324145521-9f32870",
+    "@thirdweb-dev/chains": "^0.1.7-nightly-20230325000222-6b145d4b",
+    "@thirdweb-dev/react": "^3.11.0-nightly-20230325000222-6b145d4b",
+    "@thirdweb-dev/sdk": "^3.10.4-nightly-20230325000222-6b145d4b",
+    "@thirdweb-dev/storage": "^1.1.1-nightly-20230325000222-6b145d4b",
     "@types/cookie": "^0.5.1",
     "@vercel/og": "^0.4.0",
     "bn.js": "^5.2.1",
@@ -117,8 +117,7 @@
     "bn.js": "^5.2.1",
     "typescript": "^4.7.0",
     "@tanstack/react-query": "^4.19.1",
-    "zod": "^3.19.1",
-    "@thirdweb-dev/chains": "0.0.0-dev-20230324145521-9f32870"
+    "zod": "^3.19.1"
   },
   "next-unused": {
     "alias": {},
