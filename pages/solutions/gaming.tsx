@@ -5,7 +5,6 @@ import {
   Flex,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { GameShowcase } from "components/product-pages/common/GameShowcase";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
@@ -30,10 +29,10 @@ const GAMING_GUIDES = [
     link: "https://blog.thirdweb.com/guides/get-started-with-thirdwebs-unity-sdk/",
   },
   {
-    title: "Add a Connect Wallet Button in a Unity Game",
+    title: "Build A Native Web3 Game (iOS, Android, Windows, Mac)",
     image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/This-is-the-one--33-.png",
-    link: "https://blog.thirdweb.com/guides/add-a-connect-wallet-button-in-a-unity-game/",
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/03/Sell-An-ERC20-Token-As-In-Game-Currency-In-A-Unity-Game.png",
+    link: "https://blog.thirdweb.com/guides/how-to-build-a-web3-game/",
   },
   {
     title: "Set up Coinbase Pay in your Unity Project",
@@ -173,7 +172,7 @@ const Gaming: ThirdwebNextPage = () => {
           >
             <span>
               Generate wallets for players on the back-end. Remove the need for
-              distruptive transaction pop-ups entirely with{" "}
+              disruptive transaction pop-ups entirely with{" "}
               <strong>Device Wallet</strong>.
             </span>
           </ProductCard>
