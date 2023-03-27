@@ -4009,10 +4009,10 @@
     yaml "^2.1.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/storage@^1.1.1-nightly-20230327173151-9a4a542c":
-  version "1.1.1-nightly-20230327173151-9a4a542c"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.1-nightly-20230327173151-9a4a542c.tgz#1ceed6bcfbf5c94144bb688bbfb21ce1d380c84f"
-  integrity sha512-wQ4d7D5A54QvYxzwDlOuqp1LYls86YSWT1G0HxNf5HwsOFcN8cXkg2yI3xWpCkZ/N0HM5lkerT2RwSN7czpkLw==
+"@thirdweb-dev/storage@^1.1.1-nightly-20230327173151-9a4a542c", "@thirdweb-dev/storage@^1.1.1-nightly-20230327182639-5ac451da":
+  version "1.1.1-nightly-20230327182639-5ac451da"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.1-nightly-20230327182639-5ac451da.tgz#736abde9765333385aef4957835404cd9a46e68b"
+  integrity sha512-LXBrRNO8W3GYDv4+uH9pohYlT7woUNxWCQV5lqNL6MNyNuevldF6nT8BR2ColvUs2jiUqOYpwcGdZNCXYOZH7Q==
   dependencies:
     cross-fetch "^3.1.5"
     form-data "^4.0.0"
