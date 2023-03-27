@@ -37,7 +37,7 @@
     "@tanstack/react-query-persist-client": "^4.19.1",
     "@tanstack/react-table": "8.7.9",
     "@thirdweb-dev/chain-icons": "^1.0.5",
-    "@thirdweb-dev/chains": "^0.1.7-nightly-20230327201828-13c1e237",
+    "@thirdweb-dev/chains": "^0.2.0-nightly-20230317023823-8ef5a6f2",
     "@thirdweb-dev/react": "^3.11.0-nightly-20230327201828-13c1e237",
     "@thirdweb-dev/sdk": "^3.10.4-nightly-20230327201828-13c1e237",
     "@thirdweb-dev/storage": "^1.1.1-nightly-20230327201828-13c1e237",
