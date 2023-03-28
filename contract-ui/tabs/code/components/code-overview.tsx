@@ -41,7 +41,7 @@ import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
-import { Button, Card, Heading, Link, Text } from "tw-components";
+import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
 interface CodeOverviewProps {
   abi?: Abi;
@@ -55,6 +55,7 @@ const COMMANDS = {
   install: {
     javascript: "npm install @thirdweb-dev/sdk ethers@5",
     react: "npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5",
+    "react-native": "React Native",
     web3button: "",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
@@ -63,13 +64,27 @@ const COMMANDS = {
 // and drag it into your project`,
   },
   setup: {
-    javascript: `import {{chainName}} from "@thirdweb-dev/chains";
+    javascript: `import { {{chainName}} } from "@thirdweb-dev/chains";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 
 const sdk = new ThirdwebSDK({{chainName}});
 const contract = await sdk.getContract("{{contract_address}}");`,
     react: `import {{chainName}} from "@thirdweb-dev/chains";
 import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
+
+function App() {
+  return (
+    <ThirdwebProvider activeChain={{chainName}}>
+      <Component />
+    </ThirdwebProvider>
+  )
+}
+
+function Component() {
+  const { contract, isLoading } = useContract("{{contract_address}}");
+}`,
+    "react-native": `import {{chainName}} from "@thirdweb-dev/chains";
+import { ThirdwebProvider, useContract } from "@thirdweb-dev/react-native";
 
 function App() {
   return (
@@ -107,12 +122,33 @@ export default function Component() {
   const { contract } = useContract("{{contract_address}}");
   const { data, isLoading } = useContractRead(contract, "{{function}}", {{args}})
 }`,
+    "react-native": `import { useContract, useContractRead } from "@thirdweb-dev/react-native";
+
+export default function Component() {
+  const { contract } = useContract("{{contract_address}}");
+  const { data, isLoading } = useContractRead(contract, "{{function}}", {{args}})
+}`,
     python: `data = contract.call("{{function}}", {{args}})`,
     go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   write: {
     javascript: `const data = await contract.call("{{function}}", {{args}})`,
     react: `import { useContract, useContractWrite } from "@thirdweb-dev/react";
+
+export default function Component() {
+  const { contract } = useContract("{{contract_address}}");
+  const { mutateAsync: {{function}}, isLoading } = useContractWrite(contract, "{{function}}")
+
+  const call = async () => {
+    try {
+      const data = await {{function}}([ {{args}} ]);
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  }
+}`,
+    "react-native": `import { useContract, useContractWrite } from "@thirdweb-dev/react-native";
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
@@ -152,6 +188,17 @@ const allEvents = await contract.events.getAllEvents();
 // Or set up a listener for all events
 const listener = await contract.events.listenToAllEvents();`,
     react: `import { useContract, useContractEvents } from "@thirdweb-dev/react";
+
+export default function Component() {
+  const { contract } = useContract("{{contract_address}}");
+  // You can get a specific event
+  const { data: event } = useContractEvents(contract, "{{function}}")
+  // All events
+  const { data: allEvents } = useContractEvents(contract)
+  // By default, you set up a listener for all events, but you can disable it
+  const { data: eventWithoutListener } = useContractEvents(contract, undefined, { subscribe: false })
+}`,
+    "react-native": `import { useContract, useContractEvents } from "@thirdweb-dev/react-native";
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
@@ -265,7 +312,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   chain,
   noSidebar = false,
 }) => {
-  const [environment, setEnvironment] = useState<CodeEnvironment>("react");
+  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
   const [tab, setTab] = useState("write");
   const { data } = useFeatureContractCodeSnippetQuery(environment);
   const enabledExtensions = useContractEnabledExtensions(abi);
@@ -341,14 +388,34 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
             />
           </Flex>
           <Flex flexDir="column" gap={2}>
-            <Text>Install the latest version of the SDK:</Text>
-            <CodeSegment
-              hideTabs
-              isInstallCommand
-              environment={environment}
-              setEnvironment={setEnvironment}
-              snippet={COMMANDS.install}
-            />
+            {environment === "react-native" || environment === "unity" ? (
+              <Text>
+                Install the latest version of the SDK. <br />
+                <TrackedLink
+                  color={"primary.500"}
+                  href={`https://portal.thirdweb.com/${environment}`}
+                  isExternal
+                  category="code-tab"
+                  label={environment}
+                >
+                  Learn how in the{" "}
+                  {environment === "react-native" ? "React Native" : "Unity"}{" "}
+                  documentation
+                </TrackedLink>
+                .
+              </Text>
+            ) : (
+              <>
+                <Text>Install the latest version of the SDK:</Text>
+                <CodeSegment
+                  hideTabs
+                  isInstallCommand
+                  environment={environment}
+                  setEnvironment={setEnvironment}
+                  snippet={COMMANDS.install}
+                />
+              </>
+            )}
           </Flex>
           <Flex flexDir="column" gap={2}>
             <Text>Initialize the SDK and contract on your project:</Text>

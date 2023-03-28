@@ -14,12 +14,14 @@ import {
 } from "@chakra-ui/react";
 import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import { useContract, useContractMetadata } from "@thirdweb-dev/react";
+import { detectContractFeature } from "@thirdweb-dev/sdk/evm";
 import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
 import { ensQuery } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
-import { ContractHeader } from "components/custom-contract/contract-header";
+import { ContractMetadata } from "components/custom-contract/contract-header/contract-metadata";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
 import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/conditions-not-set";
 import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
@@ -48,7 +50,9 @@ type EVMContractProps = {
     name: string;
     image?: string | null;
     description?: string | null;
+    symbol?: string | null;
   } | null;
+  detectedExtension: "erc20" | "erc721" | "erc1155" | "unknown";
 };
 
 const EVMContractPage: ThirdwebNextPage = () => {
@@ -65,9 +69,10 @@ const EVMContractPage: ThirdwebNextPage = () => {
   const updateConfiguredChains = useUpdateConfiguredChains();
 
   useEffect(() => {
-    // if server resolved the chain
+    // if server resolved the chain, or we resolved it on client
     if (chain) {
-      // but it is not configured
+      setChainNotFound(false);
+      // if it is not configured on client
       if (!(chainSlug in configuredChainSlugRecord)) {
         // auto configure it
         updateConfiguredChains.add([
@@ -78,7 +83,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
         ]);
       }
 
-      // it is configured
+      // it is configured on client
       else {
         // if server resolved it and user has it configured. user may have updated it on client
         // currently user can only update RPC - so check if it is updated or not
@@ -240,7 +245,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
     return (
       <ImportContract
         // key is used to force remounting of the component when chain or contract address changes
-        key={`${chainSlug}/${contractAddress}`}
+        key={`${chainSlug}/${contractAddress}/import`}
         contractAddress={contractAddress}
         chain={chain}
         autoImport={!!requiresImport}
@@ -271,23 +276,41 @@ const EVMContractPage: ThirdwebNextPage = () => {
     );
   }
   return (
-    <>
-      <Flex direction="column" w="100%">
-        <ContractHeader contractAddress={contractAddress} />
-        <ContractProgramSidebar
-          address={contractAddress}
-          metadataQuery={contractMetadataQuery}
-          routes={routes}
-          activeRoute={activeRoute}
-        />
-        <Container pt={8} maxW="container.page">
-          <ConditionsNotSet address={contractAddress} />
-          {activeRoute?.component && (
-            <activeRoute.component contractAddress={contractAddress} />
-          )}
+    <Flex
+      direction="column"
+      w="100%"
+      key={`${chainSlug}/${contractAddress}/contract`}
+    >
+      <Box borderColor="borderColor" borderBottomWidth={1} w="full" pb={8}>
+        <Container maxW="container.page">
+          <Flex
+            justify="space-between"
+            align={{ base: "inherit", md: "center" }}
+            direction={{ base: "column", md: "row" }}
+            gap={4}
+          >
+            <ContractMetadata
+              contractAddress={contractAddress}
+              metadataQuery={contractMetadataQuery}
+              chain={chain}
+            />
+            <PrimaryDashboardButton contractAddress={contractAddress} />
+          </Flex>
         </Container>
-      </Flex>
-    </>
+      </Box>
+      <ContractProgramSidebar
+        address={contractAddress}
+        metadataQuery={contractMetadataQuery}
+        routes={routes}
+        activeRoute={activeRoute}
+      />
+      <Container pt={8} maxW="container.page">
+        <ConditionsNotSet address={contractAddress} />
+        {activeRoute?.component && (
+          <activeRoute.component contractAddress={contractAddress} />
+        )}
+      </Container>
+    </Flex>
   );
 };
 
@@ -298,7 +321,9 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
     props.contractMetadata?.name ||
     shortenIfAddress(props.contractInfo.contractAddress) ||
     "Contract"
-  } | ${props.contractInfo.chain?.name}`;
+  }${
+    props.contractMetadata?.symbol ? ` (${props.contractMetadata.symbol})` : ""
+  }`;
 
   const ogImage = ContractOG.toUrl({
     displayName: props.contractMetadata?.name || "",
@@ -307,7 +332,35 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
     chainName: props.contractInfo.chain?.name || "",
   });
 
+  const cleanedChainName = props.contractInfo.chain?.name
+    .replace("Mainnet", "")
+    .replace("Testnet", "")
+    .trim();
+
   const url = `https://thirdweb.com/${props.contractInfo.chainSlug}/${props.contractInfo.contractAddress}/`;
+  const SEOTitle = `${displayName} | ${
+    cleanedChainName ? `${cleanedChainName} ` : ""
+  }Smart Contract`;
+
+  let SEOdescription = "";
+
+  // determine the SEO description
+  if (
+    props.detectedExtension === "erc721" ||
+    props.detectedExtension === "erc1155"
+  ) {
+    SEOdescription = `View tokens, source code, transactions, balances, and analytics for the ${displayName} smart contract${
+      cleanedChainName ? ` on ${cleanedChainName}` : ""
+    }.`;
+  } else if (props.detectedExtension === "erc20") {
+    SEOdescription = `View ERC20 tokens, transactions, balances, source code, and analytics for the ${displayName} smart contract${
+      cleanedChainName ? ` on ${cleanedChainName}` : ""
+    }.`;
+  } else {
+    SEOdescription = `View tokens, transactions, balances, source code, and analytics for the ${displayName} smart contract${
+      cleanedChainName ? ` on ${cleanedChainName}` : ""
+    }.`;
+  }
 
   return (
     // app layout has to come first in both getLayout and fallback
@@ -320,9 +373,11 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
     >
       <>
         <NextSeo
-          title={displayName}
+          title={SEOTitle}
+          description={SEOdescription}
           openGraph={{
-            title: displayName,
+            title: SEOTitle,
+            description: SEOdescription,
             images: ogImage
               ? [
                   {
@@ -368,12 +423,36 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
 
   let contractMetadata;
 
+  let detectedExtension: EVMContractProps["detectedExtension"] = "unknown";
+
   if (chain) {
     try {
       // create the SDK on the chain
       const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+      // get the contract
+      const contract = await sdk.getContract(address);
+      // extract the abi to detect extensions
+      // we know it's there...
+      const contractWrapper = (contract as any).contractWrapper;
+      // detect extension bases
+      const isErc20 = detectContractFeature(contractWrapper, "ERC20");
+      const isErc721 = detectContractFeature(contractWrapper, "ERC721");
+      const isErc1155 = detectContractFeature(contractWrapper, "ERC1155");
+      // set the detected extension
+      if (isErc20) {
+        detectedExtension = "erc20";
+      } else if (isErc721) {
+        detectedExtension = "erc721";
+      } else if (isErc1155) {
+        detectedExtension = "erc1155";
+      }
+
       // get the contract metadata
-      contractMetadata = await (await sdk.getContract(address)).metadata.get();
+      try {
+        contractMetadata = await contract.metadata.get();
+      } catch (err) {
+        // ignore, most likely requires import
+      }
     } catch (e) {
       // ignore, most likely requires import
     }
@@ -387,6 +466,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
         contractAddress,
         chain,
       },
+      detectedExtension,
       contractMetadata: contractMetadata
         ? JSON.parse(JSON.stringify(contractMetadata))
         : null,

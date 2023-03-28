@@ -711,9 +711,8 @@ export function useFeatureContractCodeSnippetQuery(language: string) {
     language = "sdk";
   }
 
-  // Do this until we fix unity snippets
-  if (language === "unity") {
-    language = "";
+  if (language === "react-native") {
+    language = "react";
   }
 
   return useQuery(["feature-code-snippet", language], async () => {

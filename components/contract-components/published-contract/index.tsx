@@ -228,6 +228,16 @@ Deploy it in one click`,
     ],
   );
 
+  const hasImplementationAddresses = useMemo(
+    () => Object.values(implementationAddresses || {}).some((v) => v !== ""),
+    [implementationAddresses],
+  );
+
+  const hasFactoryAddresses = useMemo(
+    () => Object.values(factoryAddresses || {}).some((v) => v !== ""),
+    [factoryAddresses],
+  );
+
   return (
     <>
       <NextSeo
@@ -373,10 +383,12 @@ Deploy it in one click`,
                     </Flex>
                   </Flex>
                 </ListItem>
-                {publishedContractInfo.data?.publishedMetadata
-                  ?.isDeployableViaProxy ||
-                publishedContractInfo.data?.publishedMetadata
-                  ?.isDeployableViaFactory ? (
+                {(publishedContractInfo.data?.publishedMetadata
+                  ?.isDeployableViaProxy &&
+                  hasImplementationAddresses) ||
+                (publishedContractInfo.data?.publishedMetadata
+                  ?.isDeployableViaFactory &&
+                  hasFactoryAddresses) ? (
                   <ListItem>
                     <Flex gap={2} alignItems="flex-start">
                       <Icon color="paragraph" as={VscServer} boxSize={5} />
@@ -388,18 +400,22 @@ Deploy it in one click`,
                             : "Proxy"}{" "}
                           Enabled
                         </Heading>
-                        {implementationAddresses ? (
+                        {implementationAddresses &&
+                        hasImplementationAddresses ? (
                           <AddressesModal
                             chainAddressRecord={implementationAddresses}
-                            title="Implementations"
+                            buttonTitle="Implementations"
+                            modalTitle="Implementation Addresses"
                           />
                         ) : null}
                         {factoryAddresses &&
+                        hasFactoryAddresses &&
                         publishedContractInfo.data?.publishedMetadata
                           ?.isDeployableViaFactory ? (
                           <AddressesModal
                             chainAddressRecord={factoryAddresses}
-                            title="Factories"
+                            buttonTitle="Factories"
+                            modalTitle="Factory Addresses"
                           />
                         ) : null}
                       </Flex>

@@ -1,14 +1,12 @@
 import {
   CONTRACTS_MAP,
-  ChainId,
   ContractType,
   FullPublishMetadata,
   Role,
-  SUPPORTED_CHAIN_ID,
 } from "@thirdweb-dev/sdk/evm";
 import { StaticImageData } from "next/image";
 
-export const FeatureIconMap: Record<ContractType, StaticImageData> = {
+const FeatureIconMap: Record<ContractType, StaticImageData> = {
   "nft-drop": require("public/assets/tw-icons/nft-drop.png"),
   "nft-collection": require("public/assets/tw-icons/nft-collection.png"),
   "edition-drop": require("public/assets/tw-icons/edition-drop.png"),
@@ -40,25 +38,6 @@ export interface BuiltinContractDetails {
   ecosytem: "evm" | "solana";
   metadata: Omit<FullPublishMetadata, "logo"> & { logo: StaticImageData };
 }
-
-export const deprecatedChains: SUPPORTED_CHAIN_ID[] = [];
-
-export const DisabledChainsMap: Record<ContractType, SUPPORTED_CHAIN_ID[]> = {
-  "nft-drop": [...deprecatedChains],
-  "nft-collection": [...deprecatedChains],
-  "edition-drop": [...deprecatedChains],
-  edition: [...deprecatedChains],
-  token: [...deprecatedChains],
-  vote: [...deprecatedChains],
-  marketplace: [...deprecatedChains],
-  "marketplace-v3": [...deprecatedChains],
-  pack: [...deprecatedChains],
-  split: [...deprecatedChains],
-  "token-drop": [...deprecatedChains],
-  "signature-drop": [...deprecatedChains],
-  multiwrap: [...deprecatedChains],
-  custom: [...deprecatedChains],
-};
 
 function buildContractForContractMap(
   type: ContractType,
@@ -280,31 +259,6 @@ export const PREBUILT_SOLANA_CONTRACTS_MAP: Record<
   },
 };
 
-interface ContractDeployMap {
-  drop: BuiltinContractDetails[];
-  token: BuiltinContractDetails[];
-  marketplace: BuiltinContractDetails[];
-  governance: BuiltinContractDetails[];
-}
-
-export const TYPE_CONTRACT_MAP: ContractDeployMap = {
-  drop: [
-    BuiltinContractMap["nft-drop"],
-    BuiltinContractMap["edition-drop"],
-    BuiltinContractMap["token-drop"],
-    BuiltinContractMap["signature-drop"],
-  ],
-  token: [
-    BuiltinContractMap["token"],
-    BuiltinContractMap["nft-collection"],
-    BuiltinContractMap["edition"],
-    BuiltinContractMap["multiwrap"],
-    BuiltinContractMap["pack"],
-  ],
-  marketplace: [BuiltinContractMap["marketplace"]],
-  governance: [BuiltinContractMap["vote"], BuiltinContractMap["split"]],
-};
-
 export interface GasPrice {
   deployContract: number;
   setClaimPhase?: number;
@@ -412,13 +366,13 @@ export const ROLE_DESCRIPTION_MAP: Record<Role | string, string> = {
 // gnosis mappings
 export const GNOSIS_TO_CHAIN_ID = {
   // supported mainnets
-  eth: ChainId.Mainnet,
-  matic: ChainId.Polygon,
-  avax: ChainId.Avalanche,
-  bnb: ChainId.BinanceSmartChainMainnet,
-  oeth: ChainId.Optimism,
+  eth: 1,
+  matic: 137,
+  avax: 43114,
+  bnb: 56,
+  oeth: 10,
   // supported testnets
-  gor: ChainId.Goerli,
+  gor: 5,
 } as const;
 
 export const CHAIN_ID_TO_GNOSIS = Object.entries(GNOSIS_TO_CHAIN_ID).reduce(

@@ -1,4 +1,5 @@
 import { DistributeButton } from "./components/distribute-button";
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import {
   useSplitBalances,
   useSplitData,
@@ -14,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useAddress, useContract } from "@thirdweb-dev/react";
 import { BigNumber, ethers } from "ethers";
+import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 import { Card, Heading, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
@@ -27,6 +29,9 @@ export const ContractSplitPage: React.FC<SplitPageProps> = ({
 }) => {
   const address = useAddress();
   const contractQuery = useContract(contractAddress, "split");
+  const configuredChainsRecord = useConfiguredChainsRecord();
+  const chainId = useDashboardEVMChainId();
+  const chain = chainId ? configuredChainsRecord[chainId] : undefined;
 
   const splitQuery = useSplitData(contractQuery.contract);
   const balanceQuery = useSplitBalances(contractAddress);
@@ -88,8 +93,10 @@ export const ContractSplitPage: React.FC<SplitPageProps> = ({
                 (balanceQuery?.data || [])?.map((balance) => (
                   <Card as={Stat} key={balance.token_address} maxWidth="2xs">
                     <StatLabel as={Heading} size="label.lg">
-                      {balance.symbol ||
-                        shortenIfAddress(balance.token_address)}
+                      {balance.name === "Native Token"
+                        ? chain?.nativeCurrency.symbol || "Native Token"
+                        : balance.symbol ||
+                          shortenIfAddress(balance.token_address)}
                     </StatLabel>
                     <StatNumber>
                       <Text size="body.md">{balance.display_balance}</Text>
