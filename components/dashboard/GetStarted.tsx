@@ -1,4 +1,5 @@
 import { Box, Flex, Progress } from "@chakra-ui/react";
+import useDelayedDisplay from "hooks/useDelayedDisplay";
 import { useMemo, useState } from "react";
 import { FiCheck, FiChevronUp } from "react-icons/fi";
 import { Card, Heading, Text } from "tw-components";
@@ -21,12 +22,18 @@ export const GetStarted: React.FC<GetStartedProps> = ({
   description,
   steps,
 }) => {
+  const displayContent = useDelayedDisplay(500);
   const firstIncomplete = steps.findIndex((step) => !step.completed);
   const lastStepCompleted =
     firstIncomplete === -1 ? steps.length - 1 : firstIncomplete - 1;
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
   const isComplete = useMemo(() => firstIncomplete === -1, [firstIncomplete]);
   const [isOpen, setIsOpen] = useState(true);
+
+  if (!displayContent) {
+    return null;
+  }
+
   return (
     <Card
       flexDir="column"
