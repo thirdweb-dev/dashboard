@@ -8,19 +8,22 @@ const settingTypeMap = {
   metadata: {
     name: "Contract Metadata",
     portalLink:
-      "https://portal.thirdweb.com/solidity/extensions/contractmetadata",
+      "https://portal.thirdweb.com/contractkit/extension-contracts/contractmetadata",
   },
   primarySale: {
     name: "Primary Sales",
-    portalLink: "https://portal.thirdweb.com/solidity/extensions/primarysale",
+    portalLink:
+      "https://portal.thirdweb.com/contractkit/extension-contracts/primarysale",
   },
   royalties: {
     name: "Royalties",
-    portalLink: "https://portal.thirdweb.com/solidity/extensions/royalty",
+    portalLink:
+      "https://portal.thirdweb.com/contractkit/extension-contracts/royalty",
   },
   platformFee: {
     name: "Platform Fee",
-    portalLink: "https://portal.thirdweb.com/solidity/extensions/platformfee",
+    portalLink:
+      "https://portal.thirdweb.com/contractkit/extension-contracts/platformfee",
   },
 } as const;
 

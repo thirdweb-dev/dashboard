@@ -195,7 +195,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                     linkProps={{
                       category: "getting-started",
                       label: "custom-contracts",
-                      href: "https://portal.thirdweb.com/solidity",
+                      href: "https://portal.thirdweb.com/contractkit",
                       isExternal: true,
                       children: (
                         <>
