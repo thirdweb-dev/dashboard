@@ -90,7 +90,7 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
                       <Box>
                         <Heading size="subtitle.md">
                           <TrackedLink
-                            href="https://portal.thirdweb.com/contractkit"
+                            href="https://portal.thirdweb.com/solidity"
                             category="extensions-deploy"
                             label="header"
                             isExternal
