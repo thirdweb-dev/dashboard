@@ -125,7 +125,7 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
             <LinkButton
               variant="outline"
               isExternal
-              href="https://portal.thirdweb.com/contractkit"
+              href="https://portal.thirdweb.com/solidity"
             >
               Learn about thirdweb extensions
             </LinkButton>
