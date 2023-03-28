@@ -1,0 +1,89 @@
+import { usePublishedContractsQuery } from "../../../components/contract-components/hooks";
+import { GetStarted } from "../../../components/dashboard/GetStarted";
+import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
+import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { Flex, Spinner } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
+import { AppLayout } from "components/app-layouts/app";
+import { PublishedContracts } from "components/contract-components/tables/published-contracts";
+import { PublisherSDKContext } from "contexts/custom-sdk-context";
+import { PageId } from "page-id";
+import { useMemo } from "react";
+import { TrackedLink } from "tw-components";
+import { ThirdwebNextPage } from "utils/types";
+
+const TRACKING_CATEGORY = "published_contracts";
+
+const Published: ThirdwebNextPage = () => {
+  const address = useAddress();
+  const publishedContractsQuery = usePublishedContractsQuery(address);
+
+  const hasContracts = useMemo(
+    () => (publishedContractsQuery?.data?.length || 0) > 0,
+    [publishedContractsQuery],
+  );
+
+  const steps = useMemo(
+    () => [
+      {
+        title: "Connect your wallet to get started",
+        description:
+          "In order to interact with your contracts you need to connect an EVM compatible wallet.",
+        children: <ConnectWallet ecosystem="evm" />,
+        completed: !!address,
+      },
+      {
+        title: "Publish a contract",
+        children: (
+          <TrackedLink
+            category={TRACKING_CATEGORY}
+            label="learn_to_publish"
+            color="blue.500"
+            isExternal
+            href="https://portal.thirdweb.com/publish"
+          >
+            Learn how to publish contracts --&gt;
+          </TrackedLink>
+        ),
+        completed: hasContracts,
+      },
+    ],
+    [address, hasContracts],
+  );
+
+  if (address && publishedContractsQuery.isLoading) {
+    return (
+      <Flex w="full" h="full" alignItems="center" justifyContent="center">
+        <Spinner />
+      </Flex>
+    );
+  }
+
+  return (
+    <Flex direction="column" gap={12}>
+      {hasContracts ? (
+        <Flex gap={8} direction="column">
+          <PublisherSDKContext>
+            <PublishedContracts address={address} />
+          </PublisherSDKContext>
+        </Flex>
+      ) : (
+        <GetStarted
+          title="Get started with publishing contracts"
+          description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
+          steps={steps}
+        />
+      )}
+    </Flex>
+  );
+};
+
+Published.getLayout = (page, props) => (
+  <AppLayout ecosystem="evm" {...props}>
+    <ContractsSidebar activePage="published" />
+    {page}
+  </AppLayout>
+);
+Published.pageId = PageId.Contracts;
+
+export default Published;

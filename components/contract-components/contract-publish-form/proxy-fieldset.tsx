@@ -1,5 +1,4 @@
 import { DeployFormDrawer } from "../contract-deploy-form/drawer";
-import { PasteInput } from "./PasteInput";
 import { Flex, FormControl, Input } from "@chakra-ui/react";
 import { SUPPORTED_CHAIN_ID } from "@thirdweb-dev/sdk";
 import { useConfiguredChains } from "hooks/chains/configureChains";
@@ -55,8 +54,18 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
                 >
                   {name}
                 </FormLabel>
-                <PasteInput
-                  formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
+                <Input
+                  placeholder="0x..."
+                  value={form.watch(
+                    `factoryDeploymentData.implementationAddresses.${chainId}`,
+                    "",
+                  )}
+                  onChange={(e) =>
+                    form.setValue(
+                      `factoryDeploymentData.implementationAddresses.${chainId}`,
+                      e.target.value,
+                    )
+                  }
                 />
                 <DeployFormDrawer
                   contractId={contractId}
@@ -89,8 +98,11 @@ export const ProxyFieldset: React.FC<ProxyFieldsetProps> = ({
                 >
                   {name}
                 </FormLabel>
-                <PasteInput
-                  formKey={`factoryDeploymentData.implementationAddresses.${chainId}`}
+                <Input
+                  placeholder="0x..."
+                  {...form.register(
+                    `factoryDeploymentData.implementationAddresses.${chainId}`,
+                  )}
                 />
                 <DeployFormDrawer
                   contractId={contractId}

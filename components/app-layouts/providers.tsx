@@ -6,7 +6,6 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import {
   CoinbaseWallet,
-  DeviceWallet,
   MetamaskWallet,
   SafeWallet,
   ThirdwebProvider,
@@ -65,7 +64,6 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       supportedWallets={[
         MetamaskWallet,
         CoinbaseWallet,
-        DeviceWallet,
         WalletConnectV1,
         SafeWallet,
       ]}

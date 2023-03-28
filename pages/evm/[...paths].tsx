@@ -19,8 +19,9 @@ import { AppLayout } from "components/app-layouts/app";
 import { ConfigureNetworks } from "components/configure-networks/ConfigureNetworks";
 import { ensQuery } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
-import { ContractHeader } from "components/custom-contract/contract-header";
+import { ContractMetadata } from "components/custom-contract/contract-header/contract-metadata";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
 import { ConditionsNotSet } from "contract-ui/tabs/claim-conditions/components/conditions-not-set";
 import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
@@ -68,9 +69,10 @@ const EVMContractPage: ThirdwebNextPage = () => {
   const updateConfiguredChains = useUpdateConfiguredChains();
 
   useEffect(() => {
-    // if server resolved the chain
+    // if server resolved the chain, or we resolved it on client
     if (chain) {
-      // but it is not configured
+      setChainNotFound(false);
+      // if it is not configured on client
       if (!(chainSlug in configuredChainSlugRecord)) {
         // auto configure it
         updateConfiguredChains.add([
@@ -81,7 +83,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
         ]);
       }
 
-      // it is configured
+      // it is configured on client
       else {
         // if server resolved it and user has it configured. user may have updated it on client
         // currently user can only update RPC - so check if it is updated or not
@@ -243,7 +245,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
     return (
       <ImportContract
         // key is used to force remounting of the component when chain or contract address changes
-        key={`${chainSlug}/${contractAddress}`}
+        key={`${chainSlug}/${contractAddress}/import`}
         contractAddress={contractAddress}
         chain={chain}
         autoImport={!!requiresImport}
@@ -274,23 +276,41 @@ const EVMContractPage: ThirdwebNextPage = () => {
     );
   }
   return (
-    <>
-      <Flex direction="column" w="100%">
-        <ContractHeader contractAddress={contractAddress} />
-        <ContractProgramSidebar
-          address={contractAddress}
-          metadataQuery={contractMetadataQuery}
-          routes={routes}
-          activeRoute={activeRoute}
-        />
-        <Container pt={8} maxW="container.page">
-          <ConditionsNotSet address={contractAddress} />
-          {activeRoute?.component && (
-            <activeRoute.component contractAddress={contractAddress} />
-          )}
+    <Flex
+      direction="column"
+      w="100%"
+      key={`${chainSlug}/${contractAddress}/contract`}
+    >
+      <Box borderColor="borderColor" borderBottomWidth={1} w="full" pb={8}>
+        <Container maxW="container.page">
+          <Flex
+            justify="space-between"
+            align={{ base: "inherit", md: "center" }}
+            direction={{ base: "column", md: "row" }}
+            gap={4}
+          >
+            <ContractMetadata
+              contractAddress={contractAddress}
+              metadataQuery={contractMetadataQuery}
+              chain={chain}
+            />
+            <PrimaryDashboardButton contractAddress={contractAddress} />
+          </Flex>
         </Container>
-      </Flex>
-    </>
+      </Box>
+      <ContractProgramSidebar
+        address={contractAddress}
+        metadataQuery={contractMetadataQuery}
+        routes={routes}
+        activeRoute={activeRoute}
+      />
+      <Container pt={8} maxW="container.page">
+        <ConditionsNotSet address={contractAddress} />
+        {activeRoute?.component && (
+          <activeRoute.component contractAddress={contractAddress} />
+        )}
+      </Container>
+    </Flex>
   );
 };
 

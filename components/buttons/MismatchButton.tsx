@@ -15,7 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet as useWalletSol } from "@solana/wallet-adapter-react";
 import {
   ChainId,
   useAddress,
@@ -26,6 +26,7 @@ import {
   useSDK,
   useSDKChainId,
   useSwitchChain,
+  useWallet,
 } from "@thirdweb-dev/react";
 import {
   useBalance as useSolBalance,
@@ -57,7 +58,7 @@ export const MismatchButton = React.forwardRef<
     ref,
   ) => {
     const address = useAddress();
-    const { publicKey } = useWallet();
+    const { publicKey } = useWalletSol();
     const evmBalance = useBalance();
     const solBalance = useSolBalance();
     const solNetwork = useSolanaSDK()?.network;
@@ -73,7 +74,7 @@ export const MismatchButton = React.forwardRef<
       chainInfo &&
       (chainInfo.chainId === ChainId.Localhost ||
         (chainInfo.faucets && chainInfo.faucets.length > 0));
-
+    const eventRef = useRef<React.MouseEvent<HTMLButtonElement, MouseEvent>>();
     if (!address && ecosystem === "evm") {
       return (
         <ConnectWallet
@@ -117,10 +118,15 @@ export const MismatchButton = React.forwardRef<
       >
         <PopoverTrigger>
           <Button
+            isLoading={
+              (ecosystem === "evm" && evmBalance.isLoading) ||
+              (ecosystem === "solana" && solBalance.isLoading)
+            }
             {...props}
             type={networksMismatch || shouldShowEitherFaucet ? "button" : type}
             loadingText={loadingText}
             onClick={(e) => {
+              e.stopPropagation();
               if (shouldShowEitherFaucet) {
                 trackEvent({
                   category: "no-funds",
@@ -129,6 +135,7 @@ export const MismatchButton = React.forwardRef<
                 });
               }
               if (networksMismatch || shouldShowEitherFaucet) {
+                eventRef.current = e;
                 return undefined;
               }
               if (onClick) {
@@ -154,7 +161,17 @@ export const MismatchButton = React.forwardRef<
             {networksMismatch ? (
               <MismatchNotice
                 initialFocusRef={initialFocusRef}
-                onClose={onClose}
+                onClose={(hasSwitched) => {
+                  onClose();
+                  if (hasSwitched && onClick) {
+                    // wait for the network switch to be finished - 100ms should be fine?
+                    setTimeout(() => {
+                      if (eventRef.current) {
+                        onClick(eventRef.current);
+                      }
+                    }, 100);
+                  }
+                }}
               />
             ) : !hasFaucet &&
               upsellTestnet &&
@@ -186,14 +203,15 @@ MismatchButton.displayName = "MismatchButton";
 
 const MismatchNotice: React.FC<{
   initialFocusRef: React.RefObject<HTMLButtonElement>;
-  onClose: () => void;
+  onClose: (hasSwitched: boolean) => void;
 }> = ({ initialFocusRef, onClose }) => {
   const connectedChainId = useChainId();
   const desiredChainId = useSDKChainId();
   const switchNetwork = useSwitchChain();
   const connectionStatus = useConnectionStatus();
-  // const [network, switchNetwork] = useNetworkWithPatchedSwitching();
-  const actuallyCanAttemptSwitch = !!switchNetwork;
+  const activeChain = useWallet();
+  const actuallyCanAttemptSwitch =
+    activeChain && activeChain.walletId !== "Safe";
   const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -201,9 +219,14 @@ const MismatchNotice: React.FC<{
 
   const onSwitchWallet = useCallback(async () => {
     if (actuallyCanAttemptSwitch && desiredChainId && chain) {
-      await switchNetwork(desiredChainId);
+      try {
+        await switchNetwork(desiredChainId);
+        onClose(true);
+      } catch (e) {
+        //  failed to switch network
+        onClose(false);
+      }
     }
-    onClose();
   }, [chain, actuallyCanAttemptSwitch, desiredChainId, onClose, switchNetwork]);
 
   const shortenedName = useMemo(() => {

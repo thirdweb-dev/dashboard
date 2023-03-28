@@ -1,6 +1,5 @@
 import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Aurora } from "components/homepage/Aurora";
-import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { SDKSection } from "components/homepage/sections/SDKSection";
 import { AuthenticationExamples } from "components/product-pages/authentication/AuthenticationExamples";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
@@ -190,8 +189,6 @@ const Authentication: ThirdwebNextPage = () => {
         solution="Auth"
         guides={GUIDES}
       />
-
-      <NewsletterSection />
     </ProductPage>
   );
 };
