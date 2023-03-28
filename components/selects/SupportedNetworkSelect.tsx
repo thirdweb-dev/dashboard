@@ -1,13 +1,12 @@
 import { Select, SelectProps, forwardRef } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
-import { ChainId } from "@thirdweb-dev/sdk/evm";
 import { StoredChain } from "contexts/configured-chains";
 import { useConfiguredChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 
 export interface SupportedNetworkSelectProps
   extends Omit<SelectProps, "children"> {
-  disabledChainIds?: ChainId[];
+  disabledChainIds?: number[];
   disabledChainIdText?: string;
 }
 
@@ -77,7 +76,7 @@ const isDefaultChain = (chainId: number) =>
   defaultChains.some((c) => c.chainId === chainId);
 
 const NetworkOptGroup: React.FC<{
-  disabledChainIds?: ChainId[];
+  disabledChainIds?: number[];
   chains: StoredChain[];
   disabledChainIdText: string;
   label: string;

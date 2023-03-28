@@ -102,13 +102,7 @@ export const PublishedContractTable: ComponentWithChildren<
             ) : (
               <ChakraNextImage alt="" src={cell.value} boxSize={8} />
             )
-          ) : (
-            <ChakraNextImage
-              alt=""
-              src={require("public/assets/tw-icons/general.png")}
-              boxSize={8}
-            />
-          ),
+          ) : null,
       },
       {
         Header: "Name",

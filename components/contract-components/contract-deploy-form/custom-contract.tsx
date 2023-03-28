@@ -412,20 +412,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <FormControl>
             <SupportedNetworkSelect
-              disabledChainIds={disabledChains || []}
               isDisabled={
                 isImplementationDeploy ||
                 deploy.isLoading ||
                 !compilerMetadata.isSuccess
               }
-              value={
-                !(disabledChains || []).find((chain) => chain === selectedChain)
-                  ? selectedChain
-                  : -1
-              }
-              onChange={(e) => {
-                onChainSelect(parseInt(e.currentTarget.value));
-              }}
+              value={selectedChain}
+              onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
             />
           </FormControl>
           <TransactionButton

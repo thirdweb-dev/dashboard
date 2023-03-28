@@ -1,26 +1,16 @@
 import { MetadataHeader } from "../../components/custom-contract/contract-header/metadata-header";
 import { Box, Container, Flex } from "@chakra-ui/react";
-import { useProgram, useProgramMetadata } from "@thirdweb-dev/react/solana";
-import { PREBUILT_SOLANA_CONTRACTS_MAP } from "constants/mappings";
-import { useMemo } from "react";
+import type { useProgramMetadata } from "@thirdweb-dev/react/solana";
 
 interface ProgramMetadataProps {
   address: string;
-  programQuery: ReturnType<typeof useProgram>;
   metadataQuery: ReturnType<typeof useProgramMetadata>;
 }
 
 export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
   address,
-  programQuery,
   metadataQuery,
 }) => {
-  const contractTypeImage = useMemo(() => {
-    return programQuery.data
-      ? PREBUILT_SOLANA_CONTRACTS_MAP[programQuery.data.accountType].icon
-      : require("public/assets/tw-icons/general.png");
-  }, [programQuery.data]);
-
   return (
     <Box borderColor="borderColor" borderBottomWidth={1} w="full" pb={8}>
       <Container maxW="container.page">
@@ -36,7 +26,6 @@ export const ProgramMetadata: React.FC<ProgramMetadataProps> = ({
             isLoaded={metadataQuery.isSuccess}
             data={metadataQuery.data}
             address={address}
-            contractTypeImage={contractTypeImage}
           />
         </Flex>
       </Container>
