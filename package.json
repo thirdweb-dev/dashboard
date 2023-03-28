@@ -43,7 +43,7 @@
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "0.0.0-dev-20230321190739-a5a8e09",
     "@thirdweb-dev/react": "0.0.0-dev-20230321181721-a99b708",
-    "@thirdweb-dev/sdk": "0.0.0-dev-20230321190739-a5a8e09",
+    "@thirdweb-dev/sdk": "0.0.0-dev-20230328181438-e3ae180",
     "@thirdweb-dev/storage": "0.0.0-dev-20230321190739-a5a8e09",
     "@types/cookie": "^0.5.1",
     "@vercel/og": "^0.4.0",
@@ -118,7 +118,7 @@
     "typescript": "^4.7.0",
     "@tanstack/react-query": "^4.19.1",
     "zod": "^3.19.1",
-    "@thirdweb-dev/chains": "0.0.0-dev-20230321190739-a5a8e09"
+    "@thirdweb-dev/sdk": "file:.yalc/@thirdweb-dev/sdk"
   },
   "next-unused": {
     "alias": {},
