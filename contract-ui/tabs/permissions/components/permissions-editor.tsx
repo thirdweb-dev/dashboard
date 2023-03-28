@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { constants, utils } from "ethers";
+import useDelayedDisplay from "hooks/useDelayedDisplay";
 import { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { BiPaste } from "react-icons/bi";
@@ -33,6 +34,7 @@ export const PermissionEditor: React.FC<PermissionEditorProps> = ({
   role,
   contract,
 }) => {
+  const displayContent = useDelayedDisplay(100);
   const {
     control,
     watch,
@@ -58,7 +60,7 @@ export const PermissionEditor: React.FC<PermissionEditorProps> = ({
 
   return (
     <Stack spacing={2}>
-      {!fields?.length && (
+      {!fields?.length && displayContent && (
         <Stack
           direction="row"
           bg="orange.50"
