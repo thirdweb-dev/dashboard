@@ -248,7 +248,7 @@ const Minting: ThirdwebNextPage = () => {
                 Build your own NFT and Marketplace contracts with{" "}
                 <Link
                   color="white"
-                  href="https://portal.thirdweb.com/contractkit"
+                  href="https://portal.thirdweb.com/solidity"
                   isExternal
                 >
                   ContractKit
@@ -382,6 +382,6 @@ const Minting: ThirdwebNextPage = () => {
   );
 };
 
-Minting.pageId = PageId.SolutionsCommerce;
+Minting.pageId = PageId.SolutionsMinting;
 
 export default Minting;

@@ -269,7 +269,9 @@ function formatSnippet(
         'import {{chainName}} from "@thirdweb-dev/chains";',
         preSupportedSlugs.includes(chainName as string)
           ? ""
-          : 'import {{chainName}} from "@thirdweb-dev/chains";',
+          : `import ${
+              env === "javascript" ? "{ {{chainName}} }" : "{{chainName}}"
+            } from "@thirdweb-dev/chains";`,
       )
       ?.replace(
         /{{chainName}}/gm,
@@ -390,7 +392,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           <Flex flexDir="column" gap={2}>
             {environment === "react-native" || environment === "unity" ? (
               <Text>
-                Install the latest version of the SDK.{" "}
+                Install the latest version of the SDK. <br />
                 <TrackedLink
                   color={"primary.500"}
                   href={`https://portal.thirdweb.com/${environment}`}

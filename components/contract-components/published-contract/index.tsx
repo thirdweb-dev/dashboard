@@ -80,9 +80,11 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const contractPublishMetadata = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
+  const compositeAbi =
+    publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
   const enabledExtensions = useContractEnabledExtensions(
-    contractPublishMetadata.data?.abi,
+    compositeAbi || contractPublishMetadata.data?.abi,
   );
 
   const publisherProfile = usePublisherProfile(contract.publisher);
@@ -402,7 +404,8 @@ Deploy it in one click`,
                         hasImplementationAddresses ? (
                           <AddressesModal
                             chainAddressRecord={implementationAddresses}
-                            title="Implementations"
+                            buttonTitle="Implementations"
+                            modalTitle="Implementation Addresses"
                           />
                         ) : null}
                         {factoryAddresses &&
@@ -411,7 +414,8 @@ Deploy it in one click`,
                           ?.isDeployableViaFactory ? (
                           <AddressesModal
                             chainAddressRecord={factoryAddresses}
-                            title="Factories"
+                            buttonTitle="Factories"
+                            modalTitle="Factory Addresses"
                           />
                         ) : null}
                       </Flex>
@@ -423,7 +427,9 @@ Deploy it in one click`,
           </Flex>
           <Divider />
           {contractPublishMetadata.data?.abi && (
-            <Extensions abi={contractPublishMetadata.data?.abi} />
+            <Extensions
+              abi={compositeAbi || contractPublishMetadata.data?.abi}
+            />
           )}
           <Divider />
           <Flex flexDir="column" gap={4}>
