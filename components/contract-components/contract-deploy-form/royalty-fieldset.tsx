@@ -24,6 +24,7 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
               form.formState,
             ).error
           }
+          defaultValue=""
         >
           <FormLabel>Recipient Address</FormLabel>
           <SolidityInput

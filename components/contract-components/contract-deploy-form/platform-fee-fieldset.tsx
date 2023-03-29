@@ -74,7 +74,6 @@ export const PlatformFeeFieldset: React.FC<PlatformFeeFieldsetProps> = ({
                     form.formState,
                   ).error
                 }
-                defaultValue="0"
               >
                 <FormLabel>Percentage</FormLabel>
                 <BasisPointsInput

@@ -46,7 +46,6 @@ export const BasisPointsInput: React.FC<BasisPointsInputProps> = ({
   return (
     <InputGroup {...restInputProps}>
       <Input
-        defaultValue={0}
         value={stringValue}
         onChange={(e) => setStringValue(e.target.value)}
         onBlur={(e) => {

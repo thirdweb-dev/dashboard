@@ -86,6 +86,7 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   return (
     <>
       <Input
+        defaultValue=""
         placeholder="address"
         // probably OK but obviously can be longer if ens name is passed?
         maxLength={42}
