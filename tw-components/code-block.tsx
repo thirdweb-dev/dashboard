@@ -19,8 +19,8 @@ import Highlight, {
 import Prism from "prism-react-renderer/prism";
 import darkThemeDefault from "prism-react-renderer/themes/vsDark";
 import lightThemeDefault from "prism-react-renderer/themes/vsLight";
-import { useEffect } from "react";
-import { FiCopy } from "react-icons/fi";
+import { useCallback, useEffect } from "react";
+import { FiCopy, FiLink } from "react-icons/fi";
 
 // add solidity lang support for code
 ((typeof global !== "undefined" ? global : window) as any).Prism = Prism;
@@ -31,6 +31,7 @@ export interface CodeBlockProps extends Omit<CodeProps, "size"> {
   code: string;
   language: Language | "solidity";
   canCopy?: boolean;
+  previewLink?: string;
   wrap?: boolean;
   prefix?: string;
   darkTheme?: PrismTheme;
@@ -49,6 +50,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   backgroundColor,
   prefix,
   canCopy = true,
+  previewLink = undefined,
   wrap = true,
   darkTheme,
   lightTheme,
@@ -59,6 +61,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     darkTheme || darkThemeDefault,
   );
   const { onCopy, hasCopied, setValue } = useClipboard(code);
+  const onClickIPFSLink = useCallback(() => {
+    window.open(previewLink, "_blank");
+  }, [previewLink]);
 
   useEffect(() => {
     if (code) {
@@ -96,6 +101,21 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           {...restCodeProps}
           as={Code}
         >
+          {previewLink && (
+            <IconButton
+              mr={-2}
+              onClick={onClickIPFSLink}
+              position="relative"
+              float="right"
+              aria-label="Preview"
+              borderRadius="md"
+              variant="ghost"
+              colorScheme="gray"
+              size="sm"
+              icon={<Icon as={FiLink} />}
+            />
+          )}
+
           {canCopy && code && (
             <IconButton
               mr={-2}

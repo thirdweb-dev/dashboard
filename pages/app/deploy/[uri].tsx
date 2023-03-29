@@ -39,23 +39,22 @@ const DeployAppUri: ThirdwebNextPage = () => {
         <Flex justifyContent="space-between">
           <Heading size="title.lg">App</Heading>
         </Flex>
-        <Card p={4}>
+        <Card>
           <Text size="body.lg">
-            Your app is now deployed to IPFS and ready to be used.
-            <CodeBlock mt={2} code={ipfsHash} language={"json"}></CodeBlock>
+            Your App is now uploaded to IPFS
+            <CodeBlock
+              mt={2}
+              code={ipfsHash}
+              variant={"subtle"}
+              previewLink={storage.resolveScheme(ipfsHash)}
+              language={"json"}
+            ></CodeBlock>
           </Text>
-          <Flex width="100%" flexDir="row" justifyContent="flex-end">
-            <Link href={storage.resolveScheme(ipfsHash)} isExternal>
-              <Button mt={2} variant="outline" rightIcon={<FiExternalLink />}>
-                Preview
-              </Button>
-            </Link>
-          </Flex>
         </Card>
         {address ? (
           <Card>
             <Text mb={2} pb={2} size="body.lg">
-              Select the contract below to connect with your app
+              Select a contract below to link with your App
             </Text>
             <AppDeployTable combinedList={allContractList.data} />
           </Card>
