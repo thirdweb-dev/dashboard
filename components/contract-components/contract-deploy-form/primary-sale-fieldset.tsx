@@ -23,7 +23,6 @@ export const PrimarySaleFieldset: React.FC<PrimarySaleFieldsetProps> = ({
             !!form.getFieldState("deployParams._saleRecipient", form.formState)
               .error
           }
-          defaultValue=""
         >
           <FormLabel>Recipient Address</FormLabel>
           <SolidityInput
