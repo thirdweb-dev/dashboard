@@ -33,6 +33,8 @@ const SolanaProgramPage: ThirdwebNextPage = (props: SolanaProgramProps) => {
 
   const routes = useProgramRouteConfig(programAddress);
 
+  // console.log("*** programQuery", programQuery, programMetadataQuery);
+
   const activeRoute = useMemo(
     () => routes.find((route) => route.path === activeTab),
     [activeTab, routes],
