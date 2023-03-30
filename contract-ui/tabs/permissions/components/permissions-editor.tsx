@@ -17,8 +17,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
+import { DelayedDisplay } from "components/delayed-display/delayed-display";
 import { constants, utils } from "ethers";
-import useDelayedDisplay from "hooks/useDelayedDisplay";
 import { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { BiPaste } from "react-icons/bi";
@@ -34,7 +34,6 @@ export const PermissionEditor: React.FC<PermissionEditorProps> = ({
   role,
   contract,
 }) => {
-  const displayContent = useDelayedDisplay(100);
   const {
     control,
     watch,
@@ -60,24 +59,26 @@ export const PermissionEditor: React.FC<PermissionEditorProps> = ({
 
   return (
     <Stack spacing={2}>
-      {!fields?.length && displayContent && (
-        <Stack
-          direction="row"
-          bg="orange.50"
-          borderRadius="md"
-          borderWidth="1px"
-          borderColor="orange.100"
-          align="center"
-          padding="10px"
-          spacing={3}
-        >
-          <Icon as={FiInfo} color="orange.400" boxSize={6} />
-          <Text color="orange.800">
-            {role === "asset"
-              ? "No asset contracts are permitted to be listed on this marketplace."
-              : "Nobody has this permission for this contract."}
-          </Text>
-        </Stack>
+      {!fields?.length && (
+        <DelayedDisplay delay={100}>
+          <Stack
+            direction="row"
+            bg="orange.50"
+            borderRadius="md"
+            borderWidth="1px"
+            borderColor="orange.100"
+            align="center"
+            padding="10px"
+            spacing={3}
+          >
+            <Icon as={FiInfo} color="orange.400" boxSize={6} />
+            <Text color="orange.800">
+              {role === "asset"
+                ? "No asset contracts are permitted to be listed on this marketplace."
+                : "Nobody has this permission for this contract."}
+            </Text>
+          </Stack>
+        </DelayedDisplay>
       )}
       {fields?.map((field, index) => (
         <PermissionAddress
