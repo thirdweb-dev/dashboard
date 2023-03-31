@@ -6,11 +6,9 @@ import {
   useAppURI,
   useClaimConditions,
   useClaimedNFTSupply,
-  useMintNFTSupply,
   useNFTs,
   useTokenBalance,
   useTokenSupply,
-  useUnclaimedNFTSupply,
 } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
 import { BigNumber } from "ethers";
