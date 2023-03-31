@@ -38,12 +38,12 @@
     "@tanstack/react-query": "^4.28.0",
     "@tanstack/react-query-persist-client": "^4.19.1",
     "@tanstack/react-table": "8.7.9",
-    "@thirdweb-dev/contracts-js": "0.0.0-dev-e95c356-20230328191643",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "0.0.0-dev-e95c356-20230328191643",
-    "@thirdweb-dev/react": "0.0.0-dev-e95c356-20230328191643",
-    "@thirdweb-dev/react-core": "0.0.0-dev-e95c356-20230328191643",
-    "@thirdweb-dev/sdk": "0.0.0-dev-e95c356-20230328191643",
+    "@thirdweb-dev/contracts-js": "0.0.0-dev-d5a660d-20230331172436",
+    "@thirdweb-dev/react": "0.0.0-dev-d5a660d-20230331172436",
+    "@thirdweb-dev/react-core": "0.0.0-dev-d5a660d-20230331172436",
+    "@thirdweb-dev/sdk": "0.0.0-dev-d5a660d-20230331172436",
     "@thirdweb-dev/storage": "0.0.0-dev-e95c356-20230328191643",
     "@vercel/og": "^0.4.0",
     "bn.js": "^5.2.1",
@@ -116,7 +116,8 @@
     "bn.js": "^5.2.1",
     "typescript": "^4.7.0",
     "@tanstack/react-query": "^4.19.1",
-    "zod": "^3.19.1"
+    "zod": "^3.19.1",
+    "@thirdweb-dev/sdk": "0.0.0-dev-d5a660d-20230331172436"
   },
   "peerDependencies": {},
   "next-unused": {
