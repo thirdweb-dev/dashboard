@@ -53,7 +53,7 @@ function redirects() {
     },
     {
       source: "/extensions",
-      destination: "/solidity/extensions",
+      destination: "/contractkit",
       permanent: false,
     },
     //  old (deprecated) routes
@@ -86,9 +86,10 @@ function redirects() {
       destination: "/chainlist",
       permanent: true,
     },
+    // polygon zkevm beta to non-beta
     {
-      source: "/contractkit",
-      destination: "/solidity",
+      source: "/polygon-zkevm-beta",
+      destination: "/polygon-zkevm",
       permanent: false,
     },
   ];
