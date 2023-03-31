@@ -12,7 +12,7 @@ type Step = {
 
 interface GetStartedProps {
   title: string;
-  description: string;
+  description?: string;
   steps: Step[];
 }
 
@@ -27,6 +27,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
   const isComplete = useMemo(() => firstIncomplete === -1, [firstIncomplete]);
   const [isOpen, setIsOpen] = useState(true);
+
   return (
     <Card
       flexDir="column"

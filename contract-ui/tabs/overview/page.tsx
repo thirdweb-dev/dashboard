@@ -1,17 +1,30 @@
+import { GetStarted } from "../../../components/dashboard/GetStarted";
+import { useTabHref } from "../../utils";
 import { BuildYourApp } from "./components/BuildYourApp";
 import Extensions from "./components/Extensions";
 import { LatestEvents } from "./components/LatestEvents";
 import { MarketplaceDetails } from "./components/MarketplaceDetails";
 import { NFTDetails } from "./components/NFTDetails";
+import Onboarding from "./components/Onboarding";
 import { PermissionsTable } from "./components/PermissionsTable";
 import { TokenDetails } from "./components/TokenDetails";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
 import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
-import { contractType, useContract } from "@thirdweb-dev/react";
+import {
+  contractType,
+  useClaimConditions,
+  useClaimedNFTSupply,
+  useContract,
+  useMintNFTSupply,
+  useNFTs,
+  useUnclaimedNFTSupply,
+} from "@thirdweb-dev/react";
 import { Abi, getAllDetectedFeatureNames } from "@thirdweb-dev/sdk";
 import { PublishedBy } from "components/contract-components/shared/published-by";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
+import { BigNumber } from "ethers";
 import { useMemo } from "react";
+import { Link } from "tw-components";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;
@@ -44,6 +57,9 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 10 }} gap={20}>
       <GridItem as={Flex} colSpan={{ xl: 7 }} direction="column" gap={16}>
+        {contract && detectedFeatureNames && (
+          <Onboarding contract={contract} features={detectedFeatureNames} />
+        )}
         {contract &&
           (contractTypeData === "marketplace" ||
             ["DirectListings", "EnglishAuctions"].some((type) =>
