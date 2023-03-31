@@ -149,32 +149,34 @@ const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
           to mint your first token.
         </>
       ),
-      completed: BigNumber.from(tokensMintedQuery?.data || 0).gt(0),
+      completed: BigNumber.from(tokensMintedQuery.data?.value || 0).gt(0),
     });
   }
 
-  // if (
-  //   [
-  //     "ERC721BatchMintable",
-  //     "ERC721Mintable",
-  //     "ERC1155BatchMintable",
-  //     "ERC1155Mintable",
-  //   ].some((f) => features.includes(f))
-  // ) {
-  //   steps.push({
-  //     title: "First NFT minted",
-  //     children: (
-  //       <>
-  //         Head to the{" "}
-  //         <Link href={nftHref} color="blue.500">
-  //           NFT tab
-  //         </Link>{" "}
-  //         to mint your first token.
-  //       </>
-  //     ),
-  //     // completed: BigNumber.from(nftsMintedQuery?.data || 0).gt(0),
-  //   });
-  // }
+  if (
+    [
+      "ERC721BatchMintable",
+      "ERC721Mintable",
+      "ERC1155BatchMintable",
+      "ERC1155Mintable",
+    ].some((f) => features.includes(f))
+  ) {
+    const nfts = useNFTs(contract);
+
+    steps.push({
+      title: "First NFT minted",
+      children: (
+        <>
+          Head to the{" "}
+          <Link href={nftHref} color="blue.500">
+            NFT tab
+          </Link>{" "}
+          to mint your first token.
+        </>
+      ),
+      completed: (nfts.data?.length || 0) > 0,
+    });
+  }
 
   // if (
   //   ["ERC721Revealable", "ERC1155Revealable"].some((f) => features.includes(f))
