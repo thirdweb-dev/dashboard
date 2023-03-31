@@ -8,6 +8,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Box,
   Divider,
   Flex,
   FormControl,
@@ -300,67 +301,80 @@ const BuiltinContractForm: React.FC<BuiltinContractFormProps> = ({
         })}
       >
         <Flex
-          justifyContent="space-between"
-          direction={{ base: "column", md: "row" }}
+          direction={"column"}
+          justifyContent={"center"}
           gap={6}
+          position="sticky"
+          top="-5"
+          background={"Background"}
+          width="full"
+          zIndex="10"
+          height="24"
         >
-          <Flex gap={4} align="center">
-            <ContractIdImage boxSize={12} contractId={contractType} />
-            <Flex direction="column">
-              <Skeleton isLoaded={publishMetadata.isSuccess}>
-                <Flex gap={2}>
-                  <Heading minW="60px" size="subtitle.lg">
-                    {publishMetadata.data?.name}
-                  </Heading>
-                  {audit && (
-                    <Flex
-                      justifyContent="center"
-                      alignItems="center"
-                      as={LinkBox}
-                    >
-                      <LinkOverlay
-                        isExternal
-                        href={replaceIpfsUrl(audit)}
-                        onClick={() =>
-                          trackEvent({
-                            category: "visit-audit",
-                            action: "click",
-                            label: contractType,
-                          })
-                        }
-                        width={20}
+          <Flex
+            justifyContent="flex-start"
+            direction={{ base: "column", md: "row" }}
+            alignItems={"center"}
+            gap={10}
+          >
+            <Flex gap={4} align="center">
+              <ContractIdImage boxSize={12} contractId={contractType} />
+              <Flex direction="column">
+                <Skeleton isLoaded={publishMetadata.isSuccess}>
+                  <Flex gap={2}>
+                    <Heading minW="60px" size="subtitle.lg">
+                      {publishMetadata.data?.name}
+                    </Heading>
+                    {audit && (
+                      <Flex
+                        justifyContent="center"
+                        alignItems="center"
+                        as={LinkBox}
                       >
-                        <ChakraNextImage src={twAudited} alt="audited" />
-                      </LinkOverlay>
-                    </Flex>
-                  )}
-                </Flex>
-              </Skeleton>
-              <Skeleton isLoaded={publishMetadata.isSuccess}>
-                <Text maxW="xs" fontStyle="italic" noOfLines={2}>
-                  {publishMetadata.data?.description || "No description"}
-                </Text>
-              </Skeleton>
+                        <LinkOverlay
+                          isExternal
+                          href={replaceIpfsUrl(audit)}
+                          onClick={() =>
+                            trackEvent({
+                              category: "visit-audit",
+                              action: "click",
+                              label: contractType,
+                            })
+                          }
+                          width={20}
+                        >
+                          <ChakraNextImage src={twAudited} alt="audited" />
+                        </LinkOverlay>
+                      </Flex>
+                    )}
+                  </Flex>
+                </Skeleton>
+                <Skeleton isLoaded={publishMetadata.isSuccess}>
+                  <Text maxW="xs" fontStyle="italic" noOfLines={2}>
+                    {publishMetadata.data?.description || "No description"}
+                  </Text>
+                </Skeleton>
+              </Flex>
+            </Flex>
+            <Flex gap={2}>
+              <LinkButton
+                variant="outline"
+                isExternal
+                href={`https://portal.thirdweb.com/pre-built-contracts/${contractType}`}
+                onClick={() =>
+                  trackEvent({
+                    category: "learn-more-deploy",
+                    action: "click",
+                    label: contractType,
+                  })
+                }
+              >
+                Learn more
+              </LinkButton>
             </Flex>
           </Flex>
-          <Flex gap={2}>
-            <LinkButton
-              variant="outline"
-              isExternal
-              href={`https://portal.thirdweb.com/pre-built-contracts/${contractType}`}
-              onClick={() =>
-                trackEvent({
-                  category: "learn-more-deploy",
-                  action: "click",
-                  label: contractType,
-                })
-              }
-            >
-              Learn more
-            </LinkButton>
-          </Flex>
+          <Divider />
         </Flex>
-        <Divider />
         <Flex direction="column">
           <Heading size="subtitle.md">Contract Metadata</Heading>
           <Text size="body.md" fontStyle="italic">
