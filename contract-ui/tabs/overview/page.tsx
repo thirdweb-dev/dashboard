@@ -1,5 +1,3 @@
-import { GetStarted } from "../../../components/dashboard/GetStarted";
-import { useTabHref } from "../../utils";
 import { BuildYourApp } from "./components/BuildYourApp";
 import Extensions from "./components/Extensions";
 import { LatestEvents } from "./components/LatestEvents";
@@ -10,21 +8,11 @@ import { PermissionsTable } from "./components/PermissionsTable";
 import { TokenDetails } from "./components/TokenDetails";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
 import { Divider, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
-import {
-  contractType,
-  useClaimConditions,
-  useClaimedNFTSupply,
-  useContract,
-  useMintNFTSupply,
-  useNFTs,
-  useUnclaimedNFTSupply,
-} from "@thirdweb-dev/react";
+import { contractType, useContract } from "@thirdweb-dev/react";
 import { Abi, getAllDetectedFeatureNames } from "@thirdweb-dev/sdk";
 import { PublishedBy } from "components/contract-components/shared/published-by";
 import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
-import { BigNumber } from "ethers";
 import { useMemo } from "react";
-import { Link } from "tw-components";
 
 interface CustomContractOverviewPageProps {
   contractAddress?: string;

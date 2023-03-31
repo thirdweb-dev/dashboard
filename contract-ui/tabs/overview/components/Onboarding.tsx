@@ -165,7 +165,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
       "ERC1155Mintable",
     ].some((f) => features.includes(f))
   ) {
-    const nftsMintedQuery = useMintNFTSupply(contract);
+    const nftsMintedQuery = useMintNFTSupply(contract as any);
 
     steps.push({
       title: "First NFT minted",

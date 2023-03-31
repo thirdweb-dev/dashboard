@@ -1,6 +1,3 @@
-import { ConnectWallet } from "../../../@3rdweb-sdk/react/components/connect-wallet";
-import { GetStarted } from "../../../components/dashboard/GetStarted";
-import { useTabHref } from "../../../contract-ui/utils";
 import {
   Box,
   Center,
@@ -25,16 +22,9 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { FiArrowLeft, FiExternalLink } from "react-icons/fi";
-import {
-  Card,
-  Heading,
-  Link,
-  LinkButton,
-  Text,
-  TrackedLink,
-} from "tw-components";
+import { Card, Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const ContractDeployDetailPage: ThirdwebNextPage = () => {
