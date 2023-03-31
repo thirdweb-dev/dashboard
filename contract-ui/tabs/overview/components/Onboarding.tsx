@@ -7,6 +7,7 @@ import {
   useClaimConditions,
   useClaimedNFTSupply,
   useMintNFTSupply,
+  useNFTs,
   useTokenBalance,
   useTokenSupply,
   useUnclaimedNFTSupply,
@@ -44,8 +45,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
       "ERC1155LazyMintableV1",
     ].some((f) => features.includes(f))
   ) {
-    const nftsClaimedQuery = useClaimedNFTSupply(contract);
-    const nftsUnclaimedQuery = useUnclaimedNFTSupply(contract);
+    const nfts = useNFTs(contract);
 
     steps.push({
       title: "First NFT uploaded",
@@ -58,9 +58,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
           to upload your NFT metadata.
         </>
       ),
-      completed: BigNumber.from(nftsClaimedQuery?.data || 0)
-        .add(BigNumber.from(nftsUnclaimedQuery?.data || 0))
-        .gt(0),
+      completed: (nfts.data?.length || 0) > 0,
     });
   }
 
@@ -157,30 +155,28 @@ const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
     });
   }
 
-  if (
-    [
-      "ERC721BatchMintable",
-      "ERC721Mintable",
-      "ERC1155BatchMintable",
-      "ERC1155Mintable",
-    ].some((f) => features.includes(f))
-  ) {
-    const nftsMintedQuery = useMintNFTSupply(contract as any);
-
-    steps.push({
-      title: "First NFT minted",
-      children: (
-        <>
-          Head to the{" "}
-          <Link href={nftHref} color="blue.500">
-            NFT tab
-          </Link>{" "}
-          to mint your first token.
-        </>
-      ),
-      completed: BigNumber.from(nftsMintedQuery?.data || 0).gt(0),
-    });
-  }
+  // if (
+  //   [
+  //     "ERC721BatchMintable",
+  //     "ERC721Mintable",
+  //     "ERC1155BatchMintable",
+  //     "ERC1155Mintable",
+  //   ].some((f) => features.includes(f))
+  // ) {
+  //   steps.push({
+  //     title: "First NFT minted",
+  //     children: (
+  //       <>
+  //         Head to the{" "}
+  //         <Link href={nftHref} color="blue.500">
+  //           NFT tab
+  //         </Link>{" "}
+  //         to mint your first token.
+  //       </>
+  //     ),
+  //     // completed: BigNumber.from(nftsMintedQuery?.data || 0).gt(0),
+  //   });
+  // }
 
   // if (
   //   ["ERC721Revealable", "ERC1155Revealable"].some((f) => features.includes(f))
