@@ -2,7 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -13,12 +17,18 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "jsx": "preserve",
     "incremental": true,
     "downlevelIteration": true,
     "paths": {
-      "tw-components": ["tw-components"],
-      "tw-components/*": ["tw-components/*"]
+      "tw-components": [
+        "tw-components"
+      ],
+      "tw-components/*": [
+        "tw-components/*"
+      ]
     },
     "plugins": [
       {
@@ -33,5 +43,8 @@
     "additional.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".next"]
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
 }
