@@ -8,7 +8,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Box,
   Divider,
   Flex,
   FormControl,

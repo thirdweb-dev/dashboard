@@ -40,7 +40,7 @@ export const ContractProposalsPage: React.FC<ProposalsPageProps> = ({
 
     const allProposals = data.data;
     return allProposals.map(
-      (p, index) => allProposals[allProposals.length - 1 - index],
+      (_, index) => allProposals[allProposals.length - 1 - index],
     );
   }, [data]);
 

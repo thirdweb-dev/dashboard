@@ -40,7 +40,7 @@ export function useImportContract() {
       return await res.json();
     },
     {
-      onSuccess: (d, variables) => {
+      onSuccess: (_, variables) => {
         trackEvent({
           category: "import-contract",
           action: "click",

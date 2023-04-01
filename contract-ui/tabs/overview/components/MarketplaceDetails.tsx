@@ -19,7 +19,6 @@ import {
   useEnglishAuctionsCount,
   useListings,
   useListingsCount,
-  useTotalCirculatingSupply,
 } from "@thirdweb-dev/react";
 import {
   AuctionListing,
