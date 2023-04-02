@@ -128,92 +128,34 @@ const Minting: ThirdwebNextPage = () => {
         gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={HeroImage}
       >
+      </Hero>
+      <ProductSection>
         <SimpleGrid
-          justifyContent="flex-start"
-          w="100%"
           columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
+          py={{ base: 12, md: 24 }}
         >
+          {/* TODO: Browse / update icons */}
           <ProductCard
-            title="Owned by you"
+            title="Comprehensive curriculum"
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
-            Apps and contracts built with our tools are completely owned by you.
-            No other parties have control over your apps and contracts.
+            Learn essential web3 concepts and gain in-depth knowledge of the thirdweb SDK that empowers you to build secure, cutting-edge decentralized applications and get to market faster.
           </ProductCard>
           <ProductCard
-            title="Minting for all use cases"
+            title="Expert-Led Training"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
-            <span>
-              We support all types of configurable minting mechanics for{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
-                isExternal
-              >
-                EVM Contracts
-              </Link>{" "}
-              and{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/solana/nft-drop"
-                isExternal
-              >
-                Solana programs
-              </Link>
-              , including:{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/signature-drop"
-                isExternal
-              >
-                signature-based minting
-              </Link>
-              ,{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/nft-drop"
-                isExternal
-              >
-                releasing a collection of unique NFTs
-              </Link>
-              ,{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/multiwrap"
-                isExternal
-              >
-                wrap tokens into new wrapped NFT
-              </Link>
-              ,{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/pack"
-                isExternal
-              >
-                randomized lootbox
-              </Link>
-              { },{" "}
-              <Link
-                color="white"
-                href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
-                isExternal
-              >
-                and more
-              </Link>
-              .
-            </span>
+            Learn from industry-leading web3 developers who bring real-world experience and insights into the classroom, providing personalized guidance and support throughout the program.
           </ProductCard>
           <ProductCard
-            title="Unlock powerful tooling"
+            title="Flexible Program Formats"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            Get auto-generated SDKs and dashboards to build apps on top of your
-            NFT contracts and easily manage them.
+            Choose from a range of program formats, including self-paced courses, virtual workshops, or live bootcamps, to suit your learning style, schedule, and goals.
           </ProductCard>
         </SimpleGrid>
-      </Hero>
+      </ProductSection>
 
       {/* Video Embed section*/}
       <ProductSection py={{ base: 12, lg: 24 }}>
