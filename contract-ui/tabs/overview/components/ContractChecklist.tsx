@@ -1,6 +1,7 @@
 import {
   useBatchesToReveal,
   useClaimConditions,
+  useClaimedNFTSupply,
   useNFTs,
   useTokenSupply,
 } from "@thirdweb-dev/react";
@@ -31,14 +32,15 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   const steps: Step[] = [
     {
       title: "Contract deployed",
-      children: <></>,
+      children: null,
       completed: true,
     },
   ];
 
   const nfts = useNFTs(contract, { count: 1 });
-  const claimConditions = useClaimConditions(contract);
-  const tokenSupply = useTokenSupply(contract);
+  const erc721Claimed = useClaimedNFTSupply(contract);
+  const erc721ClaimConditions = useClaimConditions(contract);
+  const erc20Supply = useTokenSupply(contract);
   const batchesToReveal = useBatchesToReveal(contract);
 
   const isLazyMintable = detectFeatures(contract, [
@@ -62,19 +64,14 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     });
   }
 
-  const nftHasClaimConditions = detectFeatures(contract, [
+  const erc721hasClaimConditions = detectFeatures(contract, [
     "ERC721ClaimPhasesV1",
     "ERC721ClaimPhasesV2",
     "ERC721ClaimConditionsV1",
     "ERC721ClaimConditionsV2",
     "ERC721ClaimCustom",
-    "ERC1155ClaimPhasesV1",
-    "ERC1155ClaimPhasesV2",
-    "ERC1155ClaimConditionsV1",
-    "ERC1155ClaimConditionsV2",
-    "ERC1155ClaimCustom",
   ]);
-  if (nftHasClaimConditions) {
+  if (erc721hasClaimConditions) {
     steps.push({
       title: "Set Claim Conditions",
       children: (
@@ -84,19 +81,19 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
             Claim Conditions tab
           </Link>{" "}
           to set your claim conditions. Users will be able to claim your drop
-          only if a claim phase is active
+          only if a claim phase is active.
         </Text>
       ),
       completed:
-        (claimConditions.data?.length || 0) > 0 ||
-        BigNumber.from(nfts?.data?.length || 0).gt(0),
+        (erc721ClaimConditions.data?.length || 0) > 0 ||
+        BigNumber.from(erc721Claimed?.data || 0).gt(0),
     });
   }
-  if (nftHasClaimConditions) {
+  if (erc721hasClaimConditions) {
     steps.push({
       title: "First NFT claimed",
-      children: <>No NFTs have been claimed so far</>,
-      completed: BigNumber.from(nfts?.data?.length || 0).gt(0),
+      children: <Text size="label.sm">No NFTs have been claimed so far.</Text>,
+      completed: BigNumber.from(erc721Claimed?.data || 0).gt(0),
     });
   }
 
@@ -109,8 +106,10 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   if (tokenHasClaimConditions) {
     steps.push({
       title: "First token claimed",
-      children: <>No tokens have been claimed so far</>,
-      completed: BigNumber.from(tokenSupply?.data?.value || 0).gt(0),
+      children: (
+        <Text size="label.sm">No tokens have been claimed so far.</Text>
+      ),
+      completed: BigNumber.from(erc20Supply?.data?.value || 0).gt(0),
     });
   }
 
@@ -119,7 +118,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     steps.push({
       title: "First token minted",
       children: (
-        <Text>
+        <Text size="label.sm">
           Head to the{" "}
           <Link href={tokenHref} color="blue.500">
             token tab
@@ -127,7 +126,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
           to mint your first token.
         </Text>
       ),
-      completed: BigNumber.from(tokenSupply.data?.value || 0).gt(0),
+      completed: BigNumber.from(erc20Supply.data?.value || 0).gt(0),
     });
   }
 
@@ -140,7 +139,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     steps.push({
       title: "First NFT minted",
       children: (
-        <Text>
+        <Text size="label.sm">
           Head to the{" "}
           <Link href={nftHref} color="blue.500">
             NFTs tab
@@ -160,9 +159,9 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
 
   if (isRevealable && needsReveal) {
     steps.push({
-      title: "Need to reveal NFTs",
+      title: "NFTs revealed",
       children: (
-        <Text>
+        <Text size="label.sm">
           Head to the{" "}
           <Link href={nftHref} color="blue.500">
             NFTs tab
