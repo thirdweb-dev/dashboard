@@ -227,8 +227,6 @@ const Learn: ThirdwebNextPage = () => {
                 borderRadius="md"
                 // TODO: update url
                 href="formURL.com"
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 <Box as="span" py={0.5}>
                   Join waitlist
