@@ -11,7 +11,7 @@ import { useTabHref } from "contract-ui/utils";
 import { BigNumber } from "ethers";
 import { Link, Text } from "tw-components";
 
-interface OnboardingProps {
+interface ContractChecklistProps {
   contract: SmartContract;
 }
 
@@ -21,7 +21,9 @@ type Step = {
   completed: boolean;
 };
 
-const Onboarding: React.FC<OnboardingProps> = ({ contract }) => {
+export const ContractChecklist: React.FC<ContractChecklistProps> = ({
+  contract,
+}) => {
   const nftHref = useTabHref("nfts");
   const tokenHref = useTabHref("tokens");
   const claimConditionsHref = useTabHref("claim-conditions");
@@ -175,5 +177,3 @@ const Onboarding: React.FC<OnboardingProps> = ({ contract }) => {
 
   return <StepsCard title="Contract checklist" steps={steps} />;
 };
-
-export default Onboarding;

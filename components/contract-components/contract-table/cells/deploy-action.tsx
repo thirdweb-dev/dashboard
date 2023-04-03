@@ -1,5 +1,5 @@
-import { DeployableContractContractCellProps } from "../../types";
 import { Icon, Tooltip } from "@chakra-ui/react";
+import { DeployableContractContractCellProps } from "components/contract-components/types";
 import { BuiltinContractMap } from "constants/mappings";
 import { useTrack } from "hooks/analytics/useTrack";
 import { replaceIpfsUrl } from "lib/sdk";

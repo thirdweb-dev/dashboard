@@ -1,9 +1,9 @@
 import { BuildYourApp } from "./components/BuildYourApp";
-import Extensions from "./components/Extensions";
+import { ContractChecklist } from "./components/ContractChecklist";
+import { Extensions } from "./components/Extensions";
 import { LatestEvents } from "./components/LatestEvents";
 import { MarketplaceDetails } from "./components/MarketplaceDetails";
 import { NFTDetails } from "./components/NFTDetails";
-import Onboarding from "./components/Onboarding";
 import { PermissionsTable } from "./components/PermissionsTable";
 import { TokenDetails } from "./components/TokenDetails";
 import { getGuidesAndTemplates } from "./helpers/getGuidesAndTemplates";
@@ -45,7 +45,7 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 10 }} gap={20}>
       <GridItem as={Flex} colSpan={{ xl: 7 }} direction="column" gap={16}>
-        {contract && <Onboarding contract={contract} />}
+        {contract && <ContractChecklist contract={contract} />}
         {contract &&
           (contractTypeData === "marketplace" ||
             ["DirectListings", "EnglishAuctions"].some((type) =>
