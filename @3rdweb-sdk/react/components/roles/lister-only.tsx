@@ -10,8 +10,8 @@ export const ListerOnly: ComponentWithChildren<IListerOnlyProps> = ({
   children,
   contract,
 }) => {
-  const isMinter = useIsLister(contract);
-  if (!isMinter) {
+  const isLister = useIsLister(contract);
+  if (!isLister) {
     return null;
   }
   return <>{children}</>;

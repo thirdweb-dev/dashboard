@@ -1,4 +1,4 @@
-import { useIsMinter } from "@3rdweb-sdk/react";
+import { useIsMinter } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { ComponentWithChildren } from "types/component-with-children";
 

@@ -1,5 +1,5 @@
 import { PermissionEditor } from "./permissions-editor";
-import { useIsAdmin } from "@3rdweb-sdk/react";
+import { useIsAdmin } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { Flex, Icon, Select, Spinner, Stack } from "@chakra-ui/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { constants } from "ethers";
@@ -279,7 +279,9 @@ export const ContractPermission: React.FC<ContractPermissionProps> = ({
           {isLoading ? (
             <Spinner />
           ) : (
-            isRestricted && <PermissionEditor role={role} contract={contract} />
+            isRestricted &&
+            role &&
+            contract && <PermissionEditor role={role} contract={contract} />
           )}
         </Stack>
       </Flex>
