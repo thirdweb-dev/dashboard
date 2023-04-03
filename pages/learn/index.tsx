@@ -69,8 +69,7 @@ const Learn: ThirdwebNextPage = () => {
             trackingCategory={TRACKING_CATEGORY}
             buttonText="Join waitlist"
             type="Learn"
-            // TODO: Update the button link
-            buttonLink="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
+            buttonLink="https://forms.gle/7WfLNoFJ7dp67HeKA"
             gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
             image={HeroImage}
           >
@@ -225,8 +224,7 @@ const Learn: ThirdwebNextPage = () => {
                 tocolor="#E0507A"
                 size="lg"
                 borderRadius="md"
-                // TODO: update url
-                href="formURL.com"
+                href="https://forms.gle/7WfLNoFJ7dp67HeKA"
               >
                 <Box as="span" py={0.5}>
                   Join waitlist
