@@ -176,6 +176,37 @@ const Minting: ThirdwebNextPage = () => {
         </SimpleGrid>
       </ProductSection>
 
+      <ProductSection py={{ base: 12, md: 24 }}>
+        <Heading size="title.2xl" as="h2" textAlign="center">
+          Pick a Path
+        </Heading>
+
+        <SimpleGrid
+          columns={{ base: 1, md: 3 }}
+          gap={{ base: 12, md: 6 }}
+          py={{ base: 12, md: 24 }}
+        >
+          <ProductCard
+            title="NFT and Digital Asset Expert"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+          >
+            Learn how to create, manage, and integrate NFTs and other digital assets into dApps and platforms using thirdweb technologies.
+          </ProductCard>
+          <ProductCard
+            title="dApp Developer"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+          >
+            Learn how to build secure and scalable dApps using the Thirdweb SDK and relevant programming languages.
+          </ProductCard>
+          <ProductCard
+            title="Smart Contract Engineer"
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
+          >
+            Gain expertise in writing, testing, and deploying smart contracts on various blockchain platforms, integrating with the thirdweb SDK.
+          </ProductCard>
+        </SimpleGrid>
+      </ProductSection>
+
       {/* Video Embed section*/}
       <ProductSection py={{ base: 12, lg: 24 }}>
         <Flex alignItems="center" flexDirection="column">
@@ -198,57 +229,6 @@ const Minting: ThirdwebNextPage = () => {
         </Flex>
       </ProductSection>
 
-      <ProductSection>
-        <SimpleGrid
-          columns={{ base: 1, md: 3 }}
-          gap={{ base: 12, md: 6 }}
-          py={{ base: 12, md: 24 }}
-        >
-          <ProductLearnMoreCard
-            title="Build"
-            category={TRACKING_CATEGORY}
-            description={
-              <>
-                Build your own NFT and Marketplace contracts with{" "}
-                <Link
-                  color="white"
-                  href="https://portal.thirdweb.com/solidity"
-                  isExternal
-                >
-                  ContractKit
-                </Link>{" "}
-                or discover and deploy in 1-click via{" "}
-                <Link
-                  color="white"
-                  href="https://thirdweb.com/explore"
-                  isExternal
-                >
-                  Explore
-                </Link>
-                {". "}
-                Use our powerful SDKs to easily integrate NFT checkout into your
-                app for easy fiat-on ramp.
-              </>
-            }
-            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
-          />
-          <ProductLearnMoreCard
-            title="Launch"
-            category={TRACKING_CATEGORY}
-            description="Deploy your NFT & Marketplace contracts on-chain with a simple contract deployment workflow designed for team collaboration"
-            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
-            href="https://portal.thirdweb.com/deploy"
-          />
-          <ProductLearnMoreCard
-            title="Manage"
-            category={TRACKING_CATEGORY}
-            description="All your on-chain analytics in one place. Monitor, configure, and interact with your NFT contracts directly from a user interface."
-            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
-            href="https://portal.thirdweb.com/dashboard"
-          />
-        </SimpleGrid>
-      </ProductSection>
 
       {/* Explore NFT contracts */}
       <ProductSection py={{ base: 12, md: 24 }}>
