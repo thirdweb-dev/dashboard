@@ -719,7 +719,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           </>
         ) : null}
       </GridItem>
-      {noSidebar ? null : (
+      {noSidebar || isMobile ? null : (
         <GridItem
           as={Flex}
           colSpan={{ base: 12, md: 3 }}
