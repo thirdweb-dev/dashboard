@@ -2,6 +2,7 @@ import {
   useBatchesToReveal,
   useClaimConditions,
   useClaimedNFTSupply,
+  useDirectListingsCount,
   useNFTs,
   useTokenSupply,
 } from "@thirdweb-dev/react";
@@ -97,13 +98,13 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     });
   }
 
-  const tokenHasClaimConditions = detectFeatures(contract, [
+  const erc20HasClaimConditions = detectFeatures(contract, [
     "ERC20ClaimPhasesV1",
     "ERC20ClaimPhasesV2",
     "ERC20ClaimConditionsV1",
     "ERC20ClaimConditionsV2",
   ]);
-  if (tokenHasClaimConditions) {
+  if (erc20HasClaimConditions) {
     steps.push({
       title: "First token claimed",
       children: (
@@ -134,7 +135,6 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     "ERC721Mintable",
     "ERC1155Mintable",
   ]);
-
   if (nftIsMintable) {
     steps.push({
       title: "First NFT minted",
@@ -156,7 +156,6 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     "ERC1155Revealable",
   ]);
   const needsReveal = batchesToReveal.data?.length || 0 > 0;
-
   if (isRevealable && needsReveal) {
     steps.push({
       title: "NFTs revealed",
@@ -172,6 +171,10 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
       // This is always false because if there are batches to reveal, the step doesn't show.
       completed: false,
     });
+  }
+
+  if (steps.length === 1) {
+    return null;
   }
 
   return <StepsCard title="Contract checklist" steps={steps} />;
