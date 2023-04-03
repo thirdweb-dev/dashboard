@@ -3,6 +3,7 @@ import {
   Center,
   DarkMode,
   Flex,
+  Icon,
   LightMode,
   SimpleGrid,
 } from "@chakra-ui/react";
@@ -14,12 +15,17 @@ import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { GeneralCta } from "components/shared/GeneralCta";
+import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
 import HeroImage from "public/assets/landingpage/hero.png";
-import { Heading, Text } from "tw-components";
+import { BsLightningCharge } from "react-icons/bs";
+import {
+  Heading,
+  LinkButton,
+  Text,
+} from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "learn";
@@ -30,6 +36,8 @@ const SEO = {
 };
 
 const Learn: ThirdwebNextPage = () => {
+  const trackEvent = useTrack();
+
   return (
     <DarkMode>
       <NextSeo {...SEO} />
@@ -189,11 +197,43 @@ const Learn: ThirdwebNextPage = () => {
               Ready to learn more?
             </Heading>
             <LightMode>
-              <GeneralCta
-                title="Join the waitlist"
+              <LinkButton
+                role="group"
+                leftIcon={
+                  <Icon
+                    as={BsLightningCharge}
+                    color="#1D64EF"
+                    transitionDuration="slow"
+                    transitionTimingFunction="easeOut"
+                    _groupHover={{ color: "#E0507A" }}
+                  />
+                }
+                color="black"
+                px={20}
+                py={{ base: 5, md: 7 }}
+                onClick={() =>
+                  trackEvent({
+                    category: "cta-button",
+                    action: "click",
+                    label: "start",
+                    title: "Join the waitlist",
+                  })
+                }
+                textAlign="center"
+                variant="gradient"
+                fromcolor="#1D64EF"
+                tocolor="#E0507A"
                 size="lg"
-                w={{ base: "full", md: "inherit" }}
-              />
+                borderRadius="md"
+                // TODO: update url
+                href="formURL.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Box as="span" py={0.5}>
+                  Join waitlist
+                </Box>
+              </LinkButton>
             </LightMode>
           </Flex>
         </HomepageSection>
