@@ -1,17 +1,24 @@
 import {
   Box,
+  Center,
   DarkMode,
-  Flex, SimpleGrid
+  Flex,
+  LightMode,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { Hero } from "components/product-pages/common/Hero";
-import HeroImage from "public/assets/landingpage/hero.png";
+import { ChakraNextImage } from "components/Image";
 import { HomepageFooter } from "components/footer/Footer";
-import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
-import { NextSeo } from "next-seo";
-import { PageId } from "page-id";
+import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductSection } from "components/product-pages/common/ProductSection";
+import { HomepageTopNav } from "components/product-pages/common/Topnav";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { GeneralCta } from "components/shared/GeneralCta";
+import { NextSeo } from "next-seo";
+import { PageId } from "page-id";
+import WhiteLogo from "public/assets/landingpage/white-logo.png";
+import HeroImage from "public/assets/landingpage/hero.png";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -137,7 +144,6 @@ const Learn: ThirdwebNextPage = () => {
               </ProductCard>
             </SimpleGrid>
           </ProductSection>
-
           <Box
             h="1px"
             bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
@@ -149,6 +155,48 @@ const Learn: ThirdwebNextPage = () => {
             opacity="0.8"
           />
         </Box>
+        <HomepageSection id="get-started" bottomPattern>
+          <Flex
+            flexDir="column"
+            pt={{ base: 12, lg: 24 }}
+            pb={{ base: 24, lg: 0 }}
+            align="center"
+            gap={{ base: 6, md: 8 }}
+          >
+            <Center mb={6} pt={{ base: 8, lg: 24 }}>
+              <Center p={2} position="relative" mb={6}>
+                <Box
+                  position="absolute"
+                  bgGradient="linear(to-r, #F213A4, #040BBF)"
+                  top={0}
+                  left={0}
+                  bottom={0}
+                  right={0}
+                  borderRadius="3xl"
+                  overflow="visible"
+                  filter="blur(15px)"
+                />
+
+                <ChakraNextImage
+                  alt=""
+                  boxSize={{ base: 24, md: 32 }}
+                  placeholder="empty"
+                  src={WhiteLogo}
+                />
+              </Center>
+            </Center>
+            <Heading as="h2" size="display.md" textAlign="center">
+              Ready to learn more?
+            </Heading>
+            <LightMode>
+              <GeneralCta
+                title="Join the waitlist"
+                size="lg"
+                w={{ base: "full", md: "inherit" }}
+              />
+            </LightMode>
+          </Flex>
+        </HomepageSection>
         <NewsletterSection />
         <HomepageFooter />
       </Flex>
