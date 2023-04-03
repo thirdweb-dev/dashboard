@@ -1,4 +1,4 @@
-import { GetStarted } from "../../../components/dashboard/GetStarted";
+import { StepsCard } from "../../../components/dashboard/StepsCard";
 import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
 import { useAllContractList } from "@3rdweb-sdk/react";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
@@ -134,7 +134,7 @@ const Contracts: ThirdwebNextPage = () => {
           <DeployedContracts contractListQuery={deployedContracts} limit={50} />
         </Flex>
       ) : (
-        <GetStarted
+        <StepsCard
           title="Get started with deploying contracts"
           description="This guide will help you start deploying contracts on-chain in just a few minutes."
           steps={steps}

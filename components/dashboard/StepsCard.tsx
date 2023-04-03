@@ -11,13 +11,13 @@ type Step = {
   children: React.ReactNode;
 };
 
-interface GetStartedProps {
+interface StepsCardProps {
   title: string;
   description?: string;
   steps: Step[];
 }
 
-export const GetStarted: React.FC<GetStartedProps> = ({
+export const StepsCard: React.FC<StepsCardProps> = ({
   title,
   description,
   steps,

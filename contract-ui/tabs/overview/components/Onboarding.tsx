@@ -6,7 +6,7 @@ import {
 } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
 import { detectFeatures } from "components/contract-components/utils";
-import { GetStarted } from "components/dashboard/GetStarted";
+import { StepsCard } from "components/dashboard/StepsCard";
 import { useTabHref } from "contract-ui/utils";
 import { BigNumber } from "ethers";
 import { Link, Text } from "tw-components";
@@ -173,7 +173,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ contract }) => {
     });
   }
 
-  return <GetStarted title="Contract checklist" steps={steps} />;
+  return <StepsCard title="Contract checklist" steps={steps} />;
 };
 
 export default Onboarding;

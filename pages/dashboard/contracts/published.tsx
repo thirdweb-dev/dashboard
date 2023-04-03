@@ -1,5 +1,5 @@
 import { usePublishedContractsQuery } from "../../../components/contract-components/hooks";
-import { GetStarted } from "../../../components/dashboard/GetStarted";
+import { StepsCard } from "../../../components/dashboard/StepsCard";
 import { ContractsSidebar } from "../../../core-ui/sidebar/contracts";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Flex, Spinner } from "@chakra-ui/react";
@@ -68,7 +68,7 @@ const Published: ThirdwebNextPage = () => {
           </PublisherSDKContext>
         </Flex>
       ) : (
-        <GetStarted
+        <StepsCard
           title="Get started with publishing contracts"
           description="Use this guide to start publishing contracts and be discovered by our community of web3 devs."
           steps={steps}
