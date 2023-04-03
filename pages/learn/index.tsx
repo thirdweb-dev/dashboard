@@ -129,6 +129,25 @@ const Minting: ThirdwebNextPage = () => {
         image={HeroImage}
       >
       </Hero>
+      <ProductSection py={{ base: 12, md: 24 }}>
+        <Heading size="title.2xl" mb={12} as="h2" textAlign="center">
+          Learn web3 Foundations and Beyond
+        </Heading>
+
+        <Text fontSize="large" mb={12}>
+          thirdweb's mission is to accelerate web3 development by empowering individuals and organizations
+          to get to market faster. By participating in our education program, you'll gain the skills, knowledge,
+          and confidence to navigate teh rapidly-evolving web3 landscape.
+          <br />
+          <br />
+          You'll be at the forefront of innovation, equipped with the expertise to build transformative solutions
+          and drive the adoption of next-generation technologies.
+          <br />
+          <br />
+          The program will incorporate a combination of lecture, exercises, and hands-on projects modeled off of
+          real-world use cases, covering fundamental web3 concepts, distributed applications, and the thirdweb SDK.
+        </Text>
+      </ProductSection>
       <ProductSection>
         <SimpleGrid
           columns={{ base: 1, md: 3 }}
@@ -179,7 +198,6 @@ const Minting: ThirdwebNextPage = () => {
         </Flex>
       </ProductSection>
 
-      {/* build, launch, manage */}
       <ProductSection>
         <SimpleGrid
           columns={{ base: 1, md: 3 }}
