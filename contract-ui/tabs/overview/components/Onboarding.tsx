@@ -1,32 +1,32 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { GetStarted } from "../../../../components/dashboard/GetStarted";
-import { useTabHref } from "../../../utils";
 import {
-  useAddress,
-  useAppURI,
+  useBatchesToReveal,
   useClaimConditions,
-  useClaimedNFTSupply,
   useNFTs,
-  useTokenBalance,
   useTokenSupply,
 } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
+import { detectFeatures } from "components/contract-components/utils";
+import { GetStarted } from "components/dashboard/GetStarted";
+import { useTabHref } from "contract-ui/utils";
 import { BigNumber } from "ethers";
-import { Link } from "tw-components";
+import { Link, Text } from "tw-components";
 
 interface OnboardingProps {
-  features: string[];
   contract: SmartContract;
 }
 
-const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
-  const address = useAddress();
+type Step = {
+  title: string;
+  children: React.ReactNode;
+  completed: boolean;
+};
 
+const Onboarding: React.FC<OnboardingProps> = ({ contract }) => {
   const nftHref = useTabHref("nfts");
   const tokenHref = useTabHref("tokens");
-  const appHref = useTabHref("app");
+  const claimConditionsHref = useTabHref("claim-conditions");
 
-  const steps = [
+  const steps: Step[] = [
     {
       title: "Contract deployed",
       children: <></>,
@@ -34,217 +34,146 @@ const Onboarding: React.FC<OnboardingProps> = ({ features, contract }) => {
     },
   ];
 
-  const claimConditionsHref = useTabHref("claim-conditions");
+  const nfts = useNFTs(contract, { count: 1 });
+  const claimConditions = useClaimConditions(contract);
+  const tokenSupply = useTokenSupply(contract);
+  const batchesToReveal = useBatchesToReveal(contract);
 
-  if (
-    [
-      "ERC721LazyMintable",
-      "ERC1155LazyMintableV2",
-      "ERC1155LazyMintableV1",
-    ].some((f) => features.includes(f))
-  ) {
-    const nfts = useNFTs(contract);
-
+  const isLazyMintable = detectFeatures(contract, [
+    "ERC721LazyMintable",
+    "ERC1155LazyMintableV2",
+    "ERC1155LazyMintableV1",
+  ]);
+  if (isLazyMintable) {
     steps.push({
       title: "First NFT uploaded",
       children: (
-        <>
+        <Text size="body.sm">
           Head to the{" "}
           <Link href={tokenHref} color="blue.500">
-            NFT tab
+            NFTs tab
           </Link>{" "}
           to upload your NFT metadata.
-        </>
+        </Text>
       ),
       completed: (nfts.data?.length || 0) > 0,
     });
   }
 
-  if (
-    [
-      "ERC20ClaimConditionsV1",
-      "ERC20ClaimConditionsV2",
-      "ERC20ClaimPhasesV1",
-      "ERC20ClaimPhasesV2",
-      "ERC721ClaimConditionsV1",
-      "ERC721ClaimConditionsV2",
-      "ERC721ClaimPhasesV1",
-      "ERC721ClaimPhasesV2",
-      "ERC1155ClaimConditionsV1",
-      "ERC1155ClaimConditionsV2",
-      "ERC1155ClaimPhasesV1",
-      "ERC1155ClaimPhasesV2",
-    ].some((f) => features.includes(f))
-  ) {
-    const claimConditionsQuery = useClaimConditions(contract);
-
+  const nftHasClaimConditions = detectFeatures(contract, [
+    "ERC721ClaimPhasesV1",
+    "ERC721ClaimPhasesV2",
+    "ERC721ClaimConditionsV1",
+    "ERC721ClaimConditionsV2",
+    "ERC721ClaimCustom",
+    "ERC1155ClaimPhasesV1",
+    "ERC1155ClaimPhasesV2",
+    "ERC1155ClaimConditionsV1",
+    "ERC1155ClaimConditionsV2",
+    "ERC1155ClaimCustom",
+  ]);
+  if (nftHasClaimConditions) {
     steps.push({
-      title: "Set claim conditions",
+      title: "Set Claim Conditions",
       children: (
-        <>
+        <Text size="label.sm">
           Head to the{" "}
           <Link href={claimConditionsHref} color="blue.500">
-            claim conditions tab
+            Claim Conditions tab
           </Link>{" "}
           to set your claim conditions. Users will be able to claim your drop
           only if a claim phase is active
-        </>
+        </Text>
       ),
-      completed: (claimConditionsQuery.data?.length || 0) > 0,
+      completed:
+        (claimConditions.data?.length || 0) > 0 ||
+        BigNumber.from(nfts?.data?.length || 0).gt(0),
     });
   }
-
-  if (
-    [
-      "ERC721ClaimConditionsV1",
-      "ERC721ClaimConditionsV2",
-      "ERC721ClaimPhasesV1",
-      "ERC721ClaimPhasesV2",
-      "ERC721ClaimCustom",
-      "ERC1155ClaimConditionsV1",
-      "ERC1155ClaimConditionsV2",
-      "ERC1155ClaimPhasesV1",
-      "ERC1155ClaimPhasesV2",
-    ].some((f) => features.includes(f))
-  ) {
-    const nftsClaimedQuery = useClaimedNFTSupply(contract);
-
+  if (nftHasClaimConditions) {
     steps.push({
       title: "First NFT claimed",
       children: <>No NFTs have been claimed so far</>,
-      completed: BigNumber.from(nftsClaimedQuery?.data || 0).gt(0),
+      completed: BigNumber.from(nfts?.data?.length || 0).gt(0),
     });
   }
 
-  if (
-    [
-      "ERC20ClaimConditionsV1",
-      "ERC20ClaimConditionsV2",
-      "ERC20ClaimPhasesV1",
-      "ERC20ClaimPhasesV2",
-    ].some((f) => features.includes(f))
-  ) {
-    const tokensClaimedQuery = useTokenBalance(contract, address);
-
+  const tokenHasClaimConditions = detectFeatures(contract, [
+    "ERC20ClaimPhasesV1",
+    "ERC20ClaimPhasesV2",
+    "ERC20ClaimConditionsV1",
+    "ERC20ClaimConditionsV2",
+  ]);
+  if (tokenHasClaimConditions) {
     steps.push({
       title: "First token claimed",
       children: <>No tokens have been claimed so far</>,
-      completed: BigNumber.from(tokensClaimedQuery?.data || 0).gt(0),
+      completed: BigNumber.from(tokenSupply?.data?.value || 0).gt(0),
     });
   }
 
-  if (
-    ["ERC20BatchMintable", "ERC20Mintable"].some((f) => features.includes(f))
-  ) {
-    const tokensMintedQuery = useTokenSupply(contract);
-
+  const tokenIsMintable = detectFeatures(contract, ["ERC20Mintable"]);
+  if (tokenIsMintable) {
     steps.push({
       title: "First token minted",
       children: (
-        <>
+        <Text>
           Head to the{" "}
           <Link href={tokenHref} color="blue.500">
             token tab
           </Link>{" "}
           to mint your first token.
-        </>
+        </Text>
       ),
-      completed: BigNumber.from(tokensMintedQuery.data?.value || 0).gt(0),
+      completed: BigNumber.from(tokenSupply.data?.value || 0).gt(0),
     });
   }
 
-  if (
-    [
-      "ERC721BatchMintable",
-      "ERC721Mintable",
-      "ERC1155BatchMintable",
-      "ERC1155Mintable",
-    ].some((f) => features.includes(f))
-  ) {
-    const nfts = useNFTs(contract);
+  const nftIsMintable = detectFeatures(contract, [
+    "ERC721Mintable",
+    "ERC1155Mintable",
+  ]);
 
+  if (nftIsMintable) {
     steps.push({
       title: "First NFT minted",
       children: (
-        <>
+        <Text>
           Head to the{" "}
           <Link href={nftHref} color="blue.500">
-            NFT tab
+            NFTs tab
           </Link>{" "}
           to mint your first token.
-        </>
+        </Text>
       ),
       completed: (nfts.data?.length || 0) > 0,
     });
   }
 
-  // if (
-  //   ["ERC721Revealable", "ERC1155Revealable"].some((f) => features.includes(f))
-  // ) {
-  //
-  //   steps.push({
-  //     title: "First NFT revealed",
-  //     children: (
-  //       <>
-  //         NFTs haven&apos;t been revealed yet. Head to the{" "}
-  //         <Link href={nftHref} color="blue.500">
-  //           NFT tab
-  //         </Link>{" "}
-  //         to reveal them.
-  //       </>
-  //     ),
-  //     completed: BigNumber.from(nftsRevealedQuery?.data || 0).eq(0),
-  //   });
-  // }
+  const isRevealable = detectFeatures(contract, [
+    "ERC721Revealable",
+    "ERC1155Revealable",
+  ]);
+  const needsReveal = batchesToReveal.data?.length || 0 > 0;
 
-  if (features.includes("AppURI")) {
-    const appURIQuery = useAppURI(contract);
-
+  if (isRevealable && needsReveal) {
     steps.push({
-      title: "App linked",
+      title: "Need to reveal NFTs",
       children: (
-        <>
+        <Text>
           Head to the{" "}
-          <Link href={appHref} color="blue.500">
-            app tab
+          <Link href={nftHref} color="blue.500">
+            NFTs tab
           </Link>{" "}
-          to link it to your contract
-        </>
+          to reveal your NFTs.
+        </Text>
       ),
-      completed: appURIQuery?.data !== undefined,
+      // This is always false because if there are batches to reveal, the step doesn't show.
+      completed: false,
     });
   }
 
-  // if (
-  //   [
-  //     "StakingERC721",
-  //     "StakingERC1155",
-  //     "StakingERC20",
-  //     "AirdropERC721",
-  //     "AirdropERC1155",
-  //     "AirdropERC20",
-  //   ].some((f) => features.includes(f))
-  // ) {
-  //   // add approved contracts step
-  // }
-
-  // if (
-  //   ["StakingERC721", "StakingERC1155", "StakingERC20"].some((f) =>
-  //     features.includes(f),
-  //   )
-  // ) {
-  //   // add staking step
-  // }
-
-  // if (
-  //   ["AirdropERC721", "AirdropERC1155", "AirdropERC20"].some((f) =>
-  //     features.includes(f),
-  //   )
-  // ) {
-  //   // add airdrop step
-  // }
-
-  return <GetStarted title="Contract Checklist" steps={steps} />;
+  return <GetStarted title="Contract checklist" steps={steps} />;
 };
 
 export default Onboarding;

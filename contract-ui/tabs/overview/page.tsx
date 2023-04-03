@@ -45,9 +45,7 @@ export const CustomContractOverviewPage: React.FC<
   return (
     <SimpleGrid columns={{ base: 1, xl: 10 }} gap={20}>
       <GridItem as={Flex} colSpan={{ xl: 7 }} direction="column" gap={16}>
-        {contract && detectedFeatureNames && (
-          <Onboarding contract={contract} features={detectedFeatureNames} />
-        )}
+        {contract && <Onboarding contract={contract} />}
         {contract &&
           (contractTypeData === "marketplace" ||
             ["DirectListings", "EnglishAuctions"].some((type) =>

@@ -109,7 +109,7 @@ export const GetStarted: React.FC<GetStartedProps> = ({
           {description && <Text mt={4}>{description}</Text>}
           <Progress value={percentage} mt={8} mb={2} rounded="full" size="sm" />
           <Text size="body.sm" color="gray.700">
-            {lastStepCompleted + 1}/{steps.length} Tasks Completed
+            {lastStepCompleted + 1}/{steps.length} tasks completed
           </Text>
           {steps.map(({ children, ...step }, index) => {
             return (
