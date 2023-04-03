@@ -38,8 +38,6 @@ export const CustomContractEmbedPage: React.FC<
     return <div>Loading...</div>;
   }
 
-  console.log({ ercOrMarketplace });
-
   return (
     <Flex direction="column" gap={6}>
       {contractQuery?.contract && ercOrMarketplace && (
