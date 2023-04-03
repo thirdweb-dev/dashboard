@@ -1,6 +1,7 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import HeroImage from "public/assets/landingpage/hero.png";
+import { PageId } from "page-id";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
@@ -127,6 +128,6 @@ const Learn: ThirdwebNextPage = () => {
   );
 };
 
-// Minting.pageId = PageId.SolutionsMinting;
+Learn.pageId = PageId.Learn;
 
 export default Learn;
