@@ -173,7 +173,7 @@ export default function Component() {
     <Web3Button
       contractAddress="{{contract_address}}"
       action={(contract) => {
-        contract.call("{{function}}", {{args}})
+        contract.call("{{function}}", [{{args}}])
       }}
     >
       {{function}}
