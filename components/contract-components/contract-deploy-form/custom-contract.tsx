@@ -15,6 +15,10 @@ import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
+import {
+  THIRDWEB_DEPLOYER_ADDRESS,
+  THIRDWEB_DEPLOYER_ENS,
+} from "constants/addresses";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { verifyContract } from "contract-ui/tabs/sources/page";
@@ -80,15 +84,21 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ? initializerParams
     : constructorParams;
 
-  const disabledChainIds =
-    isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
-      ? configuredChainsIds.filter((chain) => {
-          const implementationAddress =
-            fullPublishMetadata.data?.factoryDeploymentData
-              ?.implementationAddresses?.[chain];
-          return !implementationAddress;
-        })
-      : undefined;
+  // for our own contracts, we force enable all chains since the SDK has fallbacks in place to deploy everywhere
+  const shouldForceEnableAllChains =
+    fullPublishMetadata?.data?.publisher === THIRDWEB_DEPLOYER_ENS ||
+    fullPublishMetadata?.data?.publisher === THIRDWEB_DEPLOYER_ADDRESS;
+
+  const disabledChainIds = shouldForceEnableAllChains
+    ? undefined
+    : isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
+    ? configuredChainsIds.filter((chain) => {
+        const implementationAddress =
+          fullPublishMetadata.data?.factoryDeploymentData
+            ?.implementationAddresses?.[chain];
+        return !implementationAddress;
+      })
+    : undefined;
 
   const form = useForm<{
     addToDashboard: boolean;
