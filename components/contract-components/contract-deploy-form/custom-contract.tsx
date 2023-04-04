@@ -64,6 +64,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 
   const networkInfo = useConfiguredChain(selectedChain || -1);
   const ensQuery = useEns(walletAddress);
+  const connectedWallet = ensQuery.data?.address || walletAddress;
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
@@ -125,7 +126,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               : "",
             param.type,
             {
-              connectedWallet: ensQuery.data?.address || walletAddress,
+              connectedWallet,
               chainId: selectedChain,
             },
           );
@@ -141,7 +142,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             ?.defaultValue || "",
           param.type,
           {
-            connectedWallet: ensQuery.data?.address || walletAddress,
+            connectedWallet,
             chainId: selectedChain,
           },
         );
@@ -240,11 +241,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployData,
                   contractAddress: deployedContractAddress,
                   addToDashboard,
-                  deployer: ensQuery.data?.ensName || walletAddress,
+                  deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
-                  deployerAndContractName: `${
-                    ensQuery.data?.ensName || walletAddress
-                  }__${compilerMetadata.data?.name}`,
+                  deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
