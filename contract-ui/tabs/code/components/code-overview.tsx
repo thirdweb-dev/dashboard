@@ -118,7 +118,7 @@ private void Start() {
 }`,
   },
   read: {
-    javascript: `const data = await contract.call("{{function}}", {{args}})`,
+    javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
     react: `import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 export default function Component() {
@@ -135,7 +135,7 @@ export default function Component() {
     go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   write: {
-    javascript: `const data = await contract.call("{{function}}", {{args}})`,
+    javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
     react: `import { useContract, useContractWrite } from "@thirdweb-dev/react";
 
 export default function Component() {
