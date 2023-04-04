@@ -123,13 +123,13 @@ private void Start() {
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractRead(contract, "{{function}}", {{args}})
+  const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
 }`,
     "react-native": `import { useContract, useContractRead } from "@thirdweb-dev/react-native";
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractRead(contract, "{{function}}", {{args}})
+  const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
 }`,
     python: `data = contract.call("{{function}}", {{args}})`,
     go: `data, err := contract.Call("{{function}}", {{args}})`,
@@ -144,7 +144,7 @@ export default function Component() {
 
   const call = async () => {
     try {
-      const data = await {{function}}([ {{args}} ]);
+      const data = await {{function}}({ args: [{{args}}] });
       console.info("contract call successs", data);
     } catch (err) {
       console.error("contract call failure", err);
@@ -159,7 +159,7 @@ export default function Component() {
 
   const call = async () => {
     try {
-      const data = await {{function}}([ {{args}} ]);
+      const data = await {{function}}({ args: [{{args}}] });
       console.info("contract call successs", data);
     } catch (err) {
       console.error("contract call failure", err);
