@@ -1,8 +1,11 @@
 import {
+  useIsAdmin,
+  useIsMinter,
+} from "@3rdweb-sdk/react/hooks/useContractRoles";
+import {
   useBatchesToReveal,
   useClaimConditions,
   useClaimedNFTSupply,
-  useDirectListingsCount,
   useNFTs,
   useTokenSupply,
 } from "@thirdweb-dev/react";
@@ -30,6 +33,12 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   const tokenHref = useTabHref("tokens");
   const claimConditionsHref = useTabHref("claim-conditions");
 
+  const nfts = useNFTs(contract, { count: 1 });
+  const erc721Claimed = useClaimedNFTSupply(contract);
+  const erc721ClaimConditions = useClaimConditions(contract);
+  const erc20Supply = useTokenSupply(contract);
+  const batchesToReveal = useBatchesToReveal(contract);
+
   const steps: Step[] = [
     {
       title: "Contract deployed",
@@ -38,18 +47,19 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     },
   ];
 
-  const nfts = useNFTs(contract, { count: 1 });
-  const erc721Claimed = useClaimedNFTSupply(contract);
-  const erc721ClaimConditions = useClaimConditions(contract);
-  const erc20Supply = useTokenSupply(contract);
-  const batchesToReveal = useBatchesToReveal(contract);
+  const isAdmin = useIsAdmin(contract);
+  const isMinter = useIsMinter(contract);
+
+  if (!isAdmin) {
+    return null;
+  }
 
   const isLazyMintable = detectFeatures(contract, [
     "ERC721LazyMintable",
     "ERC1155LazyMintableV2",
     "ERC1155LazyMintableV1",
   ]);
-  if (isLazyMintable) {
+  if (isLazyMintable && isMinter) {
     steps.push({
       title: "First NFT uploaded",
       children: (
@@ -115,7 +125,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   }
 
   const tokenIsMintable = detectFeatures(contract, ["ERC20Mintable"]);
-  if (tokenIsMintable) {
+  if (tokenIsMintable && isMinter) {
     steps.push({
       title: "First token minted",
       children: (
@@ -135,7 +145,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     "ERC721Mintable",
     "ERC1155Mintable",
   ]);
-  if (nftIsMintable) {
+  if (nftIsMintable && isMinter) {
     steps.push({
       title: "First NFT minted",
       children: (
