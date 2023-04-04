@@ -19,6 +19,7 @@ export const PrimarySaleFieldset: React.FC<PrimarySaleFieldsetProps> = ({
       </Text>
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl
+          isRequired
           isInvalid={
             !!form.getFieldState("deployParams._saleRecipient", form.formState)
               .error

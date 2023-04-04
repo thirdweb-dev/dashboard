@@ -18,13 +18,13 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
       </Text>
       <Flex gap={4} direction={{ base: "column", md: "row" }}>
         <FormControl
+          isRequired
           isInvalid={
             !!form.getFieldState(
               "deployParams._royaltyRecipient",
               form.formState,
             ).error
           }
-          defaultValue=""
         >
           <FormLabel>Recipient Address</FormLabel>
           <SolidityInput
@@ -42,6 +42,7 @@ export const RoyaltyFieldset: React.FC<RoyaltyFieldsetProps> = ({ form }) => {
           </FormErrorMessage>
         </FormControl>
         <FormControl
+          isRequired
           maxW={{ base: "100%", md: "150px" }}
           isInvalid={
             !!form.getFieldState("deployParams._royaltyBps", form.formState)

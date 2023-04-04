@@ -44,6 +44,7 @@ export const PlatformFeeFieldset: React.FC<PlatformFeeFieldsetProps> = ({
             </Text>
             <Flex gap={4} direction={{ base: "column", md: "row" }}>
               <FormControl
+                isRequired
                 isInvalid={
                   !!form.getFieldState(
                     "deployParams._platformFeeRecipient",
@@ -67,6 +68,7 @@ export const PlatformFeeFieldset: React.FC<PlatformFeeFieldsetProps> = ({
                 </FormErrorMessage>
               </FormControl>
               <FormControl
+                isRequired
                 maxW={{ base: "100%", md: "150px" }}
                 isInvalid={
                   !!form.getFieldState(
