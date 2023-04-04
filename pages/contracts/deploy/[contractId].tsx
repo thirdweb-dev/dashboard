@@ -170,7 +170,7 @@ const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => {
             alt=""
           />
           <LinkOverlay
-            href={`https://portal.thirdweb.com/contracts/${feature.docLinks.contracts}`}
+            href={`https://portal.thirdweb.com/solidity/${feature.docLinks.contracts}`}
             isExternal
             onClick={() =>
               trackEvent({
