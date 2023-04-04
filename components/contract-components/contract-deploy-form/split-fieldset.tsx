@@ -36,9 +36,7 @@ export const SplitFieldset: React.FC<SplitFieldsetProps> = ({ form }) => {
     if (fields.length === 0) {
       append({ address: "", sharesBps: 10000 }, { shouldFocus: false });
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fields, append]);
 
   const totalShares =
     form

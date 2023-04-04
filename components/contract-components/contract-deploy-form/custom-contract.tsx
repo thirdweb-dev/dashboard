@@ -80,16 +80,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ? initializerParams
     : constructorParams;
 
-  const disabledChains =
+  const disabledChainIds =
     isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
       ? configuredChainsIds.filter((chain) => {
           const implementationAddress =
             fullPublishMetadata.data?.factoryDeploymentData
               ?.implementationAddresses?.[chain];
-          return (
-            !implementationAddress ||
-            (implementationAddress && implementationAddress.length === 0)
-          );
+          return !implementationAddress;
         })
       : undefined;
 
@@ -106,24 +103,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   }>({
     defaultValues: {
       addToDashboard: true,
-      deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue || "",
-          param.type,
-          {
-            connectedWallet: address,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      }, {} as Record<string, string>),
-      recipients: [
-        {
-          address: "",
-          sharesBps: 10000,
-        },
-      ],
+      deployParams: {
+        ...deployParams.reduce((acc, param) => {
+          acc[param.name] = replaceTemplateValues(
+            fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue
+              ? fullPublishMetadata.data?.constructorParams?.[param.name]
+                  ?.defaultValue || ""
+              : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+              ? "0"
+              : "",
+            param.type,
+            {
+              connectedWallet: address,
+              chainId: selectedChain,
+            },
+          );
+          return acc;
+        }, {} as Record<string, string>),
+      },
     },
     values: {
       addToDashboard: true,
@@ -413,6 +411,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               }
               value={selectedChain}
               onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
+              disabledChainIds={disabledChainIds}
             />
           </FormControl>
           <TransactionButton
@@ -425,7 +424,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             isDisabled={
               !compilerMetadata.isSuccess ||
               !selectedChain ||
-              !!disabledChains?.find((chain) => chain === selectedChain)
+              !!disabledChainIds?.find((chain) => chain === selectedChain)
             }
             colorScheme="blue"
             transactionCount={form.watch("addToDashboard") ? 2 : 1}
