@@ -144,9 +144,9 @@ const DashboardStorage: ThirdwebNextPage = () => {
                   <Tooltip
                     p={0}
                     label={
-                      <Flex p={2}>
+                      <Card py={2} px={4} bgColor="backgroundHighlight">
                         <Text>Copy code</Text>
-                      </Flex>
+                      </Card>
                     }
                     bgColor="backgroundCardHighlight"
                     borderRadius="xl"
