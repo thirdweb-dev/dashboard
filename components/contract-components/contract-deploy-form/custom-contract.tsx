@@ -13,7 +13,6 @@ import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
@@ -45,6 +44,7 @@ interface CustomContractFormProps {
   onChainSelect: (chainId: number) => void;
   isImplementationDeploy?: true;
   onSuccessCallback?: (contractAddress: string) => void;
+  walletAddress: string | undefined;
 }
 
 const CustomContractForm: React.FC<CustomContractFormProps> = ({
@@ -53,13 +53,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   onChainSelect,
   isImplementationDeploy,
   onSuccessCallback,
+  walletAddress,
 }) => {
   const configuredChains = useConfiguredChains();
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
 
   const networkInfo = useConfiguredChain(selectedChain || -1);
-  const address = useAddress();
-  const ensQuery = useEns(address);
+  const ensQuery = useEns(walletAddress);
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
@@ -115,7 +115,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               : "",
             param.type,
             {
-              connectedWallet: address,
+              connectedWallet: ensQuery.data?.address || walletAddress,
               chainId: selectedChain,
             },
           );
@@ -131,7 +131,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             ?.defaultValue || "",
           param.type,
           {
-            connectedWallet: address,
+            connectedWallet: ensQuery.data?.address || walletAddress,
             chainId: selectedChain,
           },
         );
@@ -202,7 +202,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           deploy.mutate(
             {
               ...d,
-              address,
+              address: walletAddress,
               addToDashboard,
             },
             {
@@ -230,10 +230,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployData,
                   contractAddress: deployedContractAddress,
                   addToDashboard,
-                  deployer: ensQuery.data?.ensName || address,
+                  deployer: ensQuery.data?.ensName || walletAddress,
                   contractName: compilerMetadata.data?.name,
                   deployerAndContractName: `${
-                    ensQuery.data?.ensName || address
+                    ensQuery.data?.ensName || walletAddress
                   }__${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
