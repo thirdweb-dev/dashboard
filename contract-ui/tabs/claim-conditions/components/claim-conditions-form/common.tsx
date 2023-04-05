@@ -1,4 +1,4 @@
-import { useClaimsConditionFormContext } from ".";
+import { useClaimConditionsFormContext } from ".";
 import { Flex, FormControl } from "@chakra-ui/react";
 import React from "react";
 import { FieldError } from "react-hook-form";
@@ -8,16 +8,18 @@ import {
   FormLabel,
   Heading,
 } from "tw-components";
+import { ComponentWithChildren } from "types/component-with-children";
 
 interface CustomFormControlProps {
   disabled: boolean;
   label: string;
   error?: FieldError;
-  children: React.ReactNode;
   helperText?: React.ReactNode;
 }
 
-export const CustomFormControl: React.FC<CustomFormControlProps> = (props) => {
+export const CustomFormControl: ComponentWithChildren<
+  CustomFormControlProps
+> = (props) => {
   return (
     <FormControl isDisabled={props.disabled} isInvalid={!!props.error}>
       {/* label */}
@@ -39,10 +41,8 @@ export const CustomFormControl: React.FC<CustomFormControlProps> = (props) => {
   );
 };
 
-export const CustomFormGroup: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const { isColumn } = useClaimsConditionFormContext();
+export const CustomFormGroup: ComponentWithChildren = ({ children }) => {
+  const { isColumn } = useClaimConditionsFormContext();
   return (
     <Flex
       direction={{

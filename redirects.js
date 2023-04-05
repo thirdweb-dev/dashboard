@@ -81,6 +81,17 @@ function redirects() {
       destination: "/thirdweb.eth/:path*",
       permanent: true,
     },
+    {
+      source: "/chains",
+      destination: "/chainlist",
+      permanent: true,
+    },
+    // polygon zkevm beta to non-beta
+    {
+      source: "/polygon-zkevm-beta",
+      destination: "/polygon-zkevm",
+      permanent: false,
+    },
   ];
 }
 

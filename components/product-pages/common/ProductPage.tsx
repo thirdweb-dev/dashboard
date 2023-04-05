@@ -1,5 +1,7 @@
 import { Box, DarkMode, Flex } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
+import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
+import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { NextSeo, NextSeoProps } from "next-seo";
 import React, { PropsWithChildren } from "react";
@@ -35,6 +37,8 @@ export const ProductPage: React.FC<PropsWithChildren<IProductPage>> = ({
         <Box mt="-80px" overflowX="hidden">
           {children}
         </Box>
+        <GetStartedSection />
+        <NewsletterSection />
         <HomepageFooter />
       </Flex>
     </DarkMode>

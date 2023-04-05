@@ -90,7 +90,7 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
                       <Box>
                         <Heading size="subtitle.md">
                           <TrackedLink
-                            href="https://portal.thirdweb.com/contractkit"
+                            href="https://portal.thirdweb.com/solidity"
                             category="extensions-deploy"
                             label="header"
                             isExternal
@@ -125,7 +125,7 @@ const ContractDeployDetailPage: ThirdwebNextPage = () => {
             <LinkButton
               variant="outline"
               isExternal
-              href="https://portal.thirdweb.com/contractkit"
+              href="https://portal.thirdweb.com/solidity"
             >
               Learn about thirdweb extensions
             </LinkButton>
@@ -170,7 +170,7 @@ const EnabledFeature: React.FC<EnabledFeatureProps> = ({ feature }) => {
             alt=""
           />
           <LinkOverlay
-            href={`https://portal.thirdweb.com/contracts/${feature.docLinks.contracts}`}
+            href={`https://portal.thirdweb.com/solidity/extensions/${feature.docLinks.contracts}`}
             isExternal
             onClick={() =>
               trackEvent({

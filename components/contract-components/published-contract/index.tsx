@@ -1,4 +1,3 @@
-import Extensions from "../../../contract-ui/tabs/overview/components/Extensions";
 import {
   useContractEnabledExtensions,
   useContractPublishMetadataFromURI,
@@ -31,6 +30,7 @@ import {
 import { ContractFunctionsOverview } from "components/contract-functions/contract-functions";
 import { replaceDeployerAddress } from "components/explore/publisher";
 import { ShareButton } from "components/share-buttom";
+import { Extensions } from "contract-ui/tabs/overview/components/Extensions";
 import { format } from "date-fns";
 import { correctAndUniqueLicenses } from "lib/licenses";
 import { StorageSingleton, replaceIpfsUrl } from "lib/sdk";
@@ -80,9 +80,11 @@ export const PublishedContract: React.FC<PublishedContractProps> = ({
   const contractPublishMetadata = useContractPublishMetadataFromURI(
     contract.metadataUri,
   );
+  const compositeAbi =
+    publishedContractInfo.data?.publishedMetadata.compositeAbi;
 
   const enabledExtensions = useContractEnabledExtensions(
-    contractPublishMetadata.data?.abi,
+    compositeAbi || contractPublishMetadata.data?.abi,
   );
 
   const publisherProfile = usePublisherProfile(contract.publisher);
@@ -224,6 +226,16 @@ Deploy it in one click`,
       publishedContractInfo.data?.publishedMetadata?.factoryDeploymentData
         ?.factoryAddresses,
     ],
+  );
+
+  const hasImplementationAddresses = useMemo(
+    () => Object.values(implementationAddresses || {}).some((v) => v !== ""),
+    [implementationAddresses],
+  );
+
+  const hasFactoryAddresses = useMemo(
+    () => Object.values(factoryAddresses || {}).some((v) => v !== ""),
+    [factoryAddresses],
   );
 
   return (
@@ -371,10 +383,12 @@ Deploy it in one click`,
                     </Flex>
                   </Flex>
                 </ListItem>
-                {publishedContractInfo.data?.publishedMetadata
-                  ?.isDeployableViaProxy ||
-                publishedContractInfo.data?.publishedMetadata
-                  ?.isDeployableViaFactory ? (
+                {(publishedContractInfo.data?.publishedMetadata
+                  ?.isDeployableViaProxy &&
+                  hasImplementationAddresses) ||
+                (publishedContractInfo.data?.publishedMetadata
+                  ?.isDeployableViaFactory &&
+                  hasFactoryAddresses) ? (
                   <ListItem>
                     <Flex gap={2} alignItems="flex-start">
                       <Icon color="paragraph" as={VscServer} boxSize={5} />
@@ -386,18 +400,22 @@ Deploy it in one click`,
                             : "Proxy"}{" "}
                           Enabled
                         </Heading>
-                        {implementationAddresses ? (
+                        {implementationAddresses &&
+                        hasImplementationAddresses ? (
                           <AddressesModal
                             chainAddressRecord={implementationAddresses}
-                            title="Implementations"
+                            buttonTitle="Implementations"
+                            modalTitle="Implementation Addresses"
                           />
                         ) : null}
                         {factoryAddresses &&
+                        hasFactoryAddresses &&
                         publishedContractInfo.data?.publishedMetadata
                           ?.isDeployableViaFactory ? (
                           <AddressesModal
                             chainAddressRecord={factoryAddresses}
-                            title="Factories"
+                            buttonTitle="Factories"
+                            modalTitle="Factory Addresses"
                           />
                         ) : null}
                       </Flex>
@@ -409,7 +427,9 @@ Deploy it in one click`,
           </Flex>
           <Divider />
           {contractPublishMetadata.data?.abi && (
-            <Extensions abi={contractPublishMetadata.data?.abi} />
+            <Extensions
+              abi={compositeAbi || contractPublishMetadata.data?.abi}
+            />
           )}
           <Divider />
           <Flex flexDir="column" gap={4}>

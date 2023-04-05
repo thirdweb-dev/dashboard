@@ -1,7 +1,6 @@
 import {
   ConnectWallet,
-  EcosystemButtonprops,
-  useNetworkWithPatchedSwitching,
+  ConnectWalletProps,
 } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   Box,
@@ -12,18 +11,22 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet as useWalletSol } from "@solana/wallet-adapter-react";
 import {
   ChainId,
   useAddress,
   useBalance,
   useChainId,
+  useConnectionStatus,
   useNetworkMismatch,
   useSDK,
   useSDKChainId,
+  useSwitchChain,
+  useWallet,
 } from "@thirdweb-dev/react";
 import {
   useBalance as useSolBalance,
@@ -32,13 +35,13 @@ import {
 import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useConfiguredChain } from "hooks/chains/configureChains";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { Button, Card, Heading, Text } from "tw-components";
 
 export const MismatchButton = React.forwardRef<
   HTMLButtonElement,
-  EcosystemButtonprops
+  ConnectWalletProps
 >(
   (
     {
@@ -48,12 +51,14 @@ export const MismatchButton = React.forwardRef<
       loadingText,
       type,
       ecosystem = "evm",
+      upsellTestnet = false,
+      onChainSelect,
       ...props
     },
     ref,
   ) => {
     const address = useAddress();
-    const { publicKey } = useWallet();
+    const { publicKey } = useWalletSol();
     const evmBalance = useBalance();
     const solBalance = useSolBalance();
     const solNetwork = useSolanaSDK()?.network;
@@ -65,8 +70,11 @@ export const MismatchButton = React.forwardRef<
     const chainId = useChainId();
     const chainInfo = useConfiguredChain(chainId || -1);
 
-    const networkLabel = chainInfo ? chainInfo.name : `chain-id-${chainId}`;
-
+    const hasFaucet =
+      chainInfo &&
+      (chainInfo.chainId === ChainId.Localhost ||
+        (chainInfo.faucets && chainInfo.faucets.length > 0));
+    const eventRef = useRef<React.MouseEvent<HTMLButtonElement, MouseEvent>>();
     if (!address && ecosystem === "evm") {
       return (
         <ConnectWallet
@@ -110,24 +118,24 @@ export const MismatchButton = React.forwardRef<
       >
         <PopoverTrigger>
           <Button
+            isLoading={
+              (ecosystem === "evm" && evmBalance.isLoading) ||
+              (ecosystem === "solana" && solBalance.isLoading)
+            }
             {...props}
             type={networksMismatch || shouldShowEitherFaucet ? "button" : type}
             loadingText={loadingText}
             onClick={(e) => {
-              if (shouldShowEVMFaucet) {
+              e.stopPropagation();
+              if (shouldShowEitherFaucet) {
                 trackEvent({
                   category: "no-funds",
                   action: "popover",
-                  label: networkLabel,
-                });
-              } else if (shouldShowSolanaFaucet) {
-                trackEvent({
-                  category: "no-funds",
-                  action: "popover",
-                  label: solNetwork,
+                  label: ecosystem,
                 });
               }
               if (networksMismatch || shouldShowEitherFaucet) {
+                eventRef.current = e;
                 return undefined;
               }
               if (onClick) {
@@ -141,7 +149,7 @@ export const MismatchButton = React.forwardRef<
           </Button>
         </PopoverTrigger>
         <Card
-          maxW="sm"
+          maxW={{ base: "xs", md: "sm" }}
           w="auto"
           as={PopoverContent}
           bg="backgroundCardHighlight"
@@ -153,7 +161,26 @@ export const MismatchButton = React.forwardRef<
             {networksMismatch ? (
               <MismatchNotice
                 initialFocusRef={initialFocusRef}
+                onClose={(hasSwitched) => {
+                  onClose();
+                  if (hasSwitched && onClick) {
+                    // wait for the network switch to be finished - 100ms should be fine?
+                    setTimeout(() => {
+                      if (eventRef.current) {
+                        onClick(eventRef.current);
+                      }
+                    }, 100);
+                  }
+                }}
+              />
+            ) : !hasFaucet &&
+              upsellTestnet &&
+              ecosystem === "evm" &&
+              onChainSelect ? (
+              <UpsellTestnetNotice
+                initialFocusRef={initialFocusRef}
                 onClose={onClose}
+                onChainSelect={onChainSelect}
               />
             ) : (
               <NoFundsNotice
@@ -163,11 +190,6 @@ export const MismatchButton = React.forwardRef<
                     : chainInfo?.nativeCurrency.symbol || ""
                 }
                 ecosystem={ecosystem}
-                label={
-                  ecosystem === "solana"
-                    ? solNetwork || "unknown_sol_network"
-                    : networkLabel
-                }
               />
             )}
           </PopoverBody>
@@ -181,22 +203,42 @@ MismatchButton.displayName = "MismatchButton";
 
 const MismatchNotice: React.FC<{
   initialFocusRef: React.RefObject<HTMLButtonElement>;
-  onClose: () => void;
+  onClose: (hasSwitched: boolean) => void;
 }> = ({ initialFocusRef, onClose }) => {
   const connectedChainId = useChainId();
   const desiredChainId = useSDKChainId();
-  const [network, switchNetwork] = useNetworkWithPatchedSwitching();
-  const actuallyCanAttemptSwitch = !!switchNetwork;
+  const switchNetwork = useSwitchChain();
+  const connectionStatus = useConnectionStatus();
+  const activeChain = useWallet();
+  const actuallyCanAttemptSwitch =
+    activeChain && activeChain.walletId !== "Safe";
   const walletConnectedNetworkInfo = useConfiguredChain(connectedChainId || -1);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const chain = useConfiguredChain(desiredChainId || -1);
 
   const onSwitchWallet = useCallback(async () => {
     if (actuallyCanAttemptSwitch && desiredChainId && chain) {
-      await switchNetwork(desiredChainId);
+      try {
+        await switchNetwork(desiredChainId);
+        onClose(true);
+      } catch (e) {
+        //  failed to switch network
+        onClose(false);
+      }
     }
-    onClose();
   }, [chain, actuallyCanAttemptSwitch, desiredChainId, onClose, switchNetwork]);
+
+  const shortenedName = useMemo(() => {
+    const limit = isMobile ? 10 : 19;
+
+    if (!chain?.name) {
+      return undefined;
+    }
+    return chain.name.length > limit
+      ? `${chain.name.slice(0, limit)}...`
+      : undefined;
+  }, [chain?.name, isMobile]);
 
   return (
     <Flex direction="column" gap={4}>
@@ -224,12 +266,15 @@ const MismatchNotice: React.FC<{
         leftIcon={<Icon as={VscDebugDisconnect} />}
         size="sm"
         onClick={onSwitchWallet}
-        isLoading={network.loading}
+        isLoading={
+          connectionStatus === "connecting" || connectionStatus === "unknown"
+        }
         isDisabled={!actuallyCanAttemptSwitch}
         colorScheme="orange"
         textTransform="capitalize"
+        noOfLines={1}
       >
-        Switch wallet {chain ? `to ${chain.name}` : ""}
+        Switch wallet {chain ? `to ${shortenedName || chain.name}` : ""}
       </Button>
 
       {!actuallyCanAttemptSwitch && (
@@ -245,15 +290,10 @@ const MismatchNotice: React.FC<{
 
 interface NoFundsNoticeProps {
   symbol: string;
-  label: string;
   ecosystem: "solana" | "evm" | "either";
 }
 
-const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
-  symbol,
-  label,
-  ecosystem,
-}) => {
+const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({ symbol, ecosystem }) => {
   const trackEvent = useTrack();
 
   const balanceQuery = useBalance();
@@ -270,25 +310,19 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
     if (ecosystem === "solana") {
       window.open("/faucet/solana", "_blank");
     } else if (sdk && hasFaucet) {
+      trackEvent({
+        category: "no-funds",
+        action: "click",
+        label: "request-funds",
+      });
       if (chainInfo.chainId === ChainId.Localhost) {
         await sdk.wallet.requestFunds(10);
         await balanceQuery.refetch();
-        trackEvent({
-          category: "no-funds",
-          action: "click",
-          label: "localhost",
-        });
       } else if (
         chainInfo &&
         chainInfo.faucets &&
         chainInfo.faucets.length > 0
       ) {
-        trackEvent({
-          category: "no-funds",
-          action: "click",
-          label,
-          faucet: chainInfo.faucets[0],
-        });
         const faucet = chainInfo.faucets[0];
         window.open(faucet, "_blank");
       }
@@ -314,6 +348,92 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({
         <Button size="sm" colorScheme="orange" onClick={requestFunds}>
           Get {symbol} from faucet
         </Button>
+      )}
+    </Flex>
+  );
+};
+
+const UpsellTestnetNotice: React.FC<{
+  initialFocusRef: React.RefObject<HTMLButtonElement>;
+  onClose: () => void;
+  onChainSelect: (chainId: number) => void;
+}> = ({ initialFocusRef, onClose, onChainSelect }) => {
+  const trackEvent = useTrack();
+  const connectedChainId = useChainId();
+  const switchNetwork = useSwitchChain();
+  const actuallyCanAttemptSwitch = !!switchNetwork;
+
+  const chain = useConfiguredChain(connectedChainId || -1);
+
+  useEffect(() => {
+    trackEvent({
+      category: "no-funds",
+      action: "popover",
+      label: "switch-to-testnet",
+    });
+  }, [trackEvent]);
+
+  const onSwitchWallet = useCallback(async () => {
+    trackEvent({
+      category: "no-funds",
+      action: "click",
+      label: "switch-to-testnet",
+    });
+    if (actuallyCanAttemptSwitch && chain) {
+      await switchNetwork(80001);
+    }
+    onChainSelect(80001);
+    onClose();
+  }, [
+    chain,
+    actuallyCanAttemptSwitch,
+    onClose,
+    switchNetwork,
+    onChainSelect,
+    trackEvent,
+  ]);
+
+  return (
+    <Flex direction="column" gap={4}>
+      <Heading size="label.lg">
+        <Flex gap={2} align="center">
+          <Icon boxSize={6} as={AiOutlineWarning} />
+          <span>No funds to deploy</span>
+        </Flex>
+      </Heading>
+
+      <Text>
+        You&apos;re trying to deploy to the{" "}
+        <Box as="strong" textTransform="capitalize">
+          {chain?.name}
+        </Box>{" "}
+        network but no funds have been detected.
+      </Text>
+      <Text>
+        You can either get funds on this network or switch to a testnet like
+        Mumbai to test your contract.
+      </Text>
+
+      <Button
+        ref={actuallyCanAttemptSwitch ? initialFocusRef : undefined}
+        leftIcon={<Icon as={VscDebugDisconnect} />}
+        size="sm"
+        onClick={onSwitchWallet}
+        // isLoading={network.loading}
+        isDisabled={!actuallyCanAttemptSwitch}
+        colorScheme="orange"
+        textTransform="capitalize"
+        noOfLines={1}
+      >
+        Switch wallet to Mumbai
+      </Button>
+
+      {!actuallyCanAttemptSwitch && (
+        <Text size="body.sm" fontStyle="italic">
+          Your connected wallet does not support programmatic switching.
+          <br />
+          Please manually switch the network in your wallet.
+        </Text>
       )}
     </Flex>
   );

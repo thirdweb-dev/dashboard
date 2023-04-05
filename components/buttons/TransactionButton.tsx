@@ -1,5 +1,5 @@
 import { MismatchButton } from "./MismatchButton";
-import type { EcosystemButtonprops } from "@3rdweb-sdk/react/components/connect-wallet";
+import type { ConnectWalletProps } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   Center,
   DarkMode,
@@ -13,8 +13,13 @@ import {
   Tooltip,
   useColorMode,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { useAccount, useAddress, useChainId } from "@thirdweb-dev/react";
+import { useWallet as useSolWallet } from "@solana/wallet-adapter-react";
+import {
+  useAddress,
+  useChainId,
+  useInstalledWallets,
+  useWallet,
+} from "@thirdweb-dev/react";
 import { CHAIN_ID_TO_GNOSIS } from "constants/mappings";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { BiTransferAlt } from "react-icons/bi";
@@ -22,10 +27,28 @@ import { FiInfo } from "react-icons/fi";
 import { Button, Card, Heading, LinkButton, Text } from "tw-components";
 
 export interface TransactionButtonProps
-  extends Omit<EcosystemButtonprops, "leftIcon"> {
+  extends Omit<ConnectWalletProps, "leftIcon"> {
   transactionCount: number;
   isLoading: boolean;
   isGasless?: boolean;
+  upsellTestnet?: boolean;
+  onChainSelect?: (chainId: number) => void;
+}
+
+// this is in react-package as well
+export function useWalletRequiresConfirmation() {
+  const activeWallet = useWallet();
+  const installedWallets = useInstalledWallets();
+
+  return (
+    activeWallet &&
+    (activeWallet.walletId === "walletConnectV1" ||
+      activeWallet.walletId === "walletConnectV2" ||
+      activeWallet.walletId === "Safe" ||
+      (activeWallet.walletId === "metamask" && !installedWallets.metamask) ||
+      (activeWallet.walletId === "coinbaseWallet" &&
+        !installedWallets.coinbaseWallet))
+  );
 }
 
 export const TransactionButton: React.FC<TransactionButtonProps> = ({
@@ -37,17 +60,13 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   variant,
   ecosystem,
   isGasless,
+  upsellTestnet,
+  onChainSelect,
   ...restButtonProps
 }) => {
   const colorMode = useColorMode();
-  const [{ data }] = useAccount();
-  const connectorRequiresExternalConfirmation = useMemo(() => {
-    return (
-      data?.connector?.id === "gnosis" ||
-      data?.connector?.id === "walletConnect"
-    );
-  }, [data?.connector?.id]);
-
+  const activeWallet = useWallet();
+  const walletRequiresExternalConfirmation = useWalletRequiresConfirmation();
   const initialFocusRef = useRef<HTMLButtonElement>(null);
 
   const ColorModeComp =
@@ -59,7 +78,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
   }, [transactionCount]);
 
   const evmAddress = useAddress();
-  const solAddress = useWallet().publicKey;
+  const solAddress = useSolWallet().publicKey;
 
   const isConnected = useMemo(() => {
     if (ecosystem === "evm") {
@@ -79,10 +98,12 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
       returnFocusOnClose={false}
       initialFocusRef={initialFocusRef}
       isLazy
-      isOpen={connectorRequiresExternalConfirmation && isLoading}
+      isOpen={walletRequiresExternalConfirmation && isLoading}
     >
       <PopoverTrigger>
         <ButtonComponent
+          upsellTestnet={upsellTestnet}
+          onChainSelect={onChainSelect}
           ecosystem={ecosystem}
           borderRadius="md"
           position="relative"
@@ -109,7 +130,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
             w="auto"
             label={
               <ColorModeComp>
-                <Card w="auto" py={2}>
+                <Card w="auto" py={2} bgColor="backgroundHighlight">
                   <Text>
                     This action will trigger {transactionCount}{" "}
                     {transactionCount > 1 ? "transactions" : "transaction"}.
@@ -166,7 +187,7 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
         <PopoverArrow bg="backgroundCardHighlight" />
         <PopoverBody>
           <ExternalApprovalNotice
-            connectorId={data?.connector?.id}
+            walletId={activeWallet?.walletId}
             initialFocusRef={initialFocusRef}
           />
         </PopoverBody>
@@ -176,12 +197,12 @@ export const TransactionButton: React.FC<TransactionButtonProps> = ({
 };
 
 interface ExternalApprovalNoticeProps {
-  connectorId?: string;
+  walletId?: string;
   initialFocusRef: React.RefObject<HTMLButtonElement>;
 }
 
 const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
-  connectorId,
+  walletId,
   initialFocusRef,
 }) => {
   const address = useAddress();
@@ -195,7 +216,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
     return () => clearTimeout(t);
   }, []);
 
-  if (connectorId === "gnosis") {
+  if (walletId === "Safe") {
     const isChainIdSupported = chainId in CHAIN_ID_TO_GNOSIS;
     return (
       <Flex direction="column" gap={4}>
@@ -231,7 +252,7 @@ const ExternalApprovalNotice: React.FC<ExternalApprovalNoticeProps> = ({
         </LinkButton>
       </Flex>
     );
-  } else if (connectorId === "walletConnect") {
+  } else if (walletId === "walletConnect" || walletId === "walletConnectV1") {
     return (
       <Flex direction="column" gap={4}>
         <Heading size="label.lg">

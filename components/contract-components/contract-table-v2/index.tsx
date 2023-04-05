@@ -29,11 +29,7 @@ import type {
 import { ChakraNextImage } from "components/Image";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { replaceDeployerAddress } from "components/explore/publisher";
-import {
-  BuiltinContractDetails,
-  FeatureIconMap,
-  SolContractType,
-} from "constants/mappings";
+import { BuiltinContractDetails, SolContractType } from "constants/mappings";
 import { getSOLRPC } from "constants/rpc";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -106,13 +102,7 @@ export const PublishedContractTable: ComponentWithChildren<
             ) : (
               <ChakraNextImage alt="" src={cell.value} boxSize={8} />
             )
-          ) : (
-            <ChakraNextImage
-              alt=""
-              src={FeatureIconMap["custom"]}
-              boxSize={8}
-            />
-          ),
+          ) : null,
       },
       {
         Header: "Name",
@@ -153,7 +143,7 @@ export const PublishedContractTable: ComponentWithChildren<
                 bg="transparent"
                 boxShadow="none"
                 label={
-                  <Card py={2} px={4}>
+                  <Card py={2} px={4} bgColor="backgroundHighlight">
                     <Text size="label.sm">Audited Contract</Text>
                   </Card>
                 }

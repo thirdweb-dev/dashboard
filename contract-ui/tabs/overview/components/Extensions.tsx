@@ -1,5 +1,5 @@
-import { useContractEnabledExtensions } from "../../../../components/contract-components/hooks";
 import { Flex, Image, List, ListItem } from "@chakra-ui/react";
+import { useContractEnabledExtensions } from "components/contract-components/hooks";
 import { ContractInterface } from "ethers";
 import { Heading, Text, TrackedLink } from "tw-components";
 
@@ -7,7 +7,7 @@ type ExtensionsProps = {
   abi: ContractInterface;
 };
 
-const Extensions: React.FC<ExtensionsProps> = ({ abi }) => {
+export const Extensions: React.FC<ExtensionsProps> = ({ abi }) => {
   const enabledExtensions = useContractEnabledExtensions(abi);
 
   return (
@@ -28,7 +28,7 @@ const Extensions: React.FC<ExtensionsProps> = ({ abi }) => {
                 />
                 <Text size="label.md">
                   <TrackedLink
-                    href={`https://portal.thirdweb.com/contracts/${extension.docLinks.contracts}`}
+                    href={`https://portal.thirdweb.com/solidity/extensions/${extension.docLinks.contracts}`}
                     isExternal
                     category="extension"
                     label={extension.name}
@@ -50,5 +50,3 @@ const Extensions: React.FC<ExtensionsProps> = ({ abi }) => {
     </Flex>
   );
 };
-
-export default Extensions;

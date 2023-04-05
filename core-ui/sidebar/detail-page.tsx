@@ -40,7 +40,7 @@ export const ContractProgramSidebar: React.FC<ContractSidebarProps> = ({
     <SideBarTunnel>
       <>
         <Box
-          zIndex="sticky"
+          zIndex="banner"
           position="sticky"
           top={0}
           p={{ base: 0, md: 8 }}
@@ -196,9 +196,10 @@ const NavLink: ComponentWithChildren<NavLinkProps> = ({
 }) => {
   const { query } = useRouter();
   const [computedBasePath, tabHref] = useMemo(() => {
-    const [network, address, tab = ""] = (
-      (query.paths as string[]) || []
-    ).filter((c) => c !== "evm" && c !== "solana");
+    const [network, address, tab = ""] = [
+      ...new Set(((query.paths as string[]) || []).filter((c) => c !== "evm")),
+    ];
+
     return [`/${network}/${address}`, tab] as const;
   }, [query.paths]);
 
