@@ -2,7 +2,6 @@ import { Skeleton } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { useContractPrePublishMetadata } from "components/contract-components/hooks";
 import { DeployableContractContractCellProps } from "components/contract-components/types";
-import { BuiltinContractMap } from "constants/mappings";
 import { Text } from "tw-components";
 
 export const ContractDescriptionCell: React.FC<
@@ -12,21 +11,15 @@ export const ContractDescriptionCell: React.FC<
 
   const fullPublishMetadata = useContractPrePublishMetadata(value, address);
 
-  const description =
-    BuiltinContractMap[value as keyof typeof BuiltinContractMap]?.description;
-
   return (
     <Skeleton
       isLoaded={
-        fullPublishMetadata.isSuccess ||
-        !fullPublishMetadata.isFetching ||
-        !!description
+        fullPublishMetadata.isSuccess || !fullPublishMetadata.isFetching
       }
     >
       <Text size="body.md" noOfLines={1}>
         {fullPublishMetadata.data?.latestPublishedContractMetadata
           ?.publishedMetadata.description ||
-          description ||
           (!fullPublishMetadata.isFetching ? "First Version" : "None")}
       </Text>
     </Skeleton>
