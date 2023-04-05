@@ -65,7 +65,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
       children: (
         <Text size="body.sm">
           Head to the{" "}
-          <Link href={tokenHref} color="blue.500">
+          <Link href={nftHref} color="blue.500">
             NFTs tab
           </Link>{" "}
           to upload your NFT metadata.

@@ -27,7 +27,11 @@ export const StepsCard: React.FC<StepsCardProps> = ({
     firstIncomplete === -1 ? steps.length - 1 : firstIncomplete - 1;
   const percentage = ((lastStepCompleted + 1) / steps.length) * 100;
   const isComplete = useMemo(() => firstIncomplete === -1, [firstIncomplete]);
-  const [isOpen, setIsOpen] = useState(isComplete ? false : true);
+  const [isOpen, setIsOpen] = useState(true);
+
+  if (steps.length === 0 || isComplete) {
+    return null;
+  }
 
   return (
     <DelayedDisplay delay={500}>
