@@ -36,7 +36,6 @@ import {
   TransactionResult,
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
-import axios from "axios";
 import { FC, useCallback, useEffect, useState } from "react";
 
 type HeroProps = {
