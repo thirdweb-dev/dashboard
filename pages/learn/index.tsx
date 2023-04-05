@@ -24,7 +24,6 @@ import { BsLightningCharge } from "react-icons/bs";
 import {
   Heading,
   LinkButton,
-  Text,
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -62,8 +61,10 @@ const Learn: ThirdwebNextPage = () => {
             title="Learn. Build. Grow."
             description={
               <>
-                Accelerate your journey to become a web3 developer with our expert-led program.<br />
-                Create powerful experiences using thirdweb.
+                Accelerate your journey to become a web3 developer with our expert-led program.
+                <br />
+                <br />
+                Join the waitlist now! We are working on tailoring the experience best for you.
               </>
             }
             trackingCategory={TRACKING_CATEGORY}
@@ -75,52 +76,54 @@ const Learn: ThirdwebNextPage = () => {
           >
           </Hero>
           <ProductSection py={{ base: 12, md: 24 }}>
-            <Heading size="title.2xl" mb={12} as="h2" textAlign="center">
-              Learn web3 Foundations and Beyond
+            <Heading size="title.2xl" as="h2" textAlign="center">
+              Program Benefits
             </Heading>
 
-            <Text fontSize="large" mb={12}>
-              thirdweb's mission is to accelerate web3 development by empowering individuals and organizations
-              to get to market faster. By participating in our education program, you'll gain the skills, knowledge,
-              and confidence to navigate teh rapidly-evolving web3 landscape.
-              <br />
-              <br />
-              You'll be at the forefront of innovation, equipped with the expertise to build transformative solutions
-              and drive the adoption of next-generation technologies.
-              <br />
-              <br />
-              The program will incorporate a combination of lecture, exercises, and hands-on projects modeled off of
-              real-world use cases, covering fundamental web3 concepts, distributed applications, and the thirdweb SDK.
-            </Text>
-          </ProductSection>
-          <ProductSection>
             <SimpleGrid
               columns={{ base: 1, md: 3 }}
               gap={{ base: 12, md: 6 }}
               py={{ base: 12, md: 24 }}
             >
-              {/* TODO: Browse / update icons */}
+              <ProductCard
+                title="Domain Expertise"
+                icon={require("/public/assets/product-pages/sdk/hero-icon-3.png")}
+              >
+                Our program will help you enhance your technical skills and knowledge, enabling you to excel in web3 development and become a master in the field.
+              </ProductCard>
+              <ProductCard
+                title="Community Building"
+                icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
+              >
+                Connect with a network of web3 developers and content matter experts through our program. Build lasting relationships and gain valuable insights to help you grow your career in web3.
+              </ProductCard>
+              <ProductCard
+                title="Career Launch"
+                icon={require("/public/assets/product-pages/sdk/hero-icon-2.png")}
+              >
+                Get access to valuable resources to help you find your next job or start your own web3 company.
+              </ProductCard>
               <ProductCard
                 title="Comprehensive curriculum"
-                icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+                icon={require("/public/assets/product-pages/deploy/hero-icon-1.png")}
               >
-                Learn essential web3 concepts and gain in-depth knowledge of the thirdweb SDK that empowers you to build secure, cutting-edge decentralized applications and get to market faster.
+                Learn essential web3 concepts and gain in-depth knowledge of the thirdweb SDK that empowers you to build secure decentralized applications.
               </ProductCard>
               <ProductCard
                 title="Expert-Led Training"
-                icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
+                icon={require("/public/assets/product-pages/authentication/verify.png")}
               >
-                Learn from industry-leading web3 developers who bring real-world experience and insights into the classroom, providing personalized guidance and support throughout the program.
+                Learn from industry-leading web3 developers who bring real-world experience and insights into the classroom.
               </ProductCard>
               <ProductCard
                 title="Flexible Program Formats"
-                icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
+                icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
               >
-                Choose from a range of program formats, including self-paced courses, virtual workshops, or live bootcamps, to suit your learning style, schedule, and goals.
+                Choose from a range of program formats, including self-paced courses, virtual workshops, or live bootcamps, to suit your goals.
               </ProductCard>
+
             </SimpleGrid>
           </ProductSection>
-
           <ProductSection py={{ base: 12, md: 24 }}>
             <Heading size="title.2xl" as="h2" textAlign="center">
               Pick a Path
@@ -132,22 +135,22 @@ const Learn: ThirdwebNextPage = () => {
               py={{ base: 12, md: 24 }}
             >
               <ProductCard
-                title="NFT and Digital Asset Expert"
+                title="Product Manager"
                 icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
               >
                 Learn how to create, manage, and integrate NFTs and other digital assets into dApps and platforms using thirdweb technologies.
               </ProductCard>
               <ProductCard
-                title="dApp Developer"
+                title="Web3 Developer"
                 icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
               >
-                Learn how to build secure and scalable dApps using the Thirdweb SDK and relevant programming languages.
+                For both front and back-end engineers to learn how to build secure and scalable dApps using the Thirdweb SDK and relevant programming languages.
               </ProductCard>
               <ProductCard
-                title="Smart Contract Engineer"
+                title="Back-end Engineer"
                 icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
               >
-                Gain expertise in writing, testing, and deploying smart contracts on various blockchain platforms, integrating with the thirdweb SDK.
+                Gain expertise in developing web3 services by reviewing common server-side workflows as well as creating and integrating smart contracts using thirdweb's Solidity SDK.
               </ProductCard>
             </SimpleGrid>
           </ProductSection>
