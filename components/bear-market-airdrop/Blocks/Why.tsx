@@ -39,7 +39,7 @@ export const Why: React.FC = () => {
           We salute you.{" "}
         </Text>
         <ChakraNextImage
-          src="/assets/bear-market-airdrop/Ellipse-100.png"
+          src={require("public/assets/bear-market-airdrop/Ellipse-100.png")}
           position="absolute"
           top={14}
           left={-4}
@@ -65,7 +65,7 @@ export const Why: React.FC = () => {
         >
           worth up to $25,000.
           <ChakraNextImage
-            src="/assets/bear-market-airdrop/Ellipse 101.png"
+            src={require("public/assets/bear-market-airdrop/Ellipse 101.png")}
             position="absolute"
             top={-4}
             left={0}
@@ -93,7 +93,7 @@ export const Why: React.FC = () => {
           support the builders of Web3 in 2023.
         </Text>
         <ChakraNextImage
-          src="/assets/bear-market-airdrop/Ellipse 102.png"
+          src={require("public/assets/bear-market-airdrop/Ellipse 102.png")}
           position="absolute"
           top={14}
           left={-6}

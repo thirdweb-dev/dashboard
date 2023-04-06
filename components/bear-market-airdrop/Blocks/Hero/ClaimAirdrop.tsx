@@ -67,7 +67,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
           <ChakraNextImage
             alt="checkmark"
             alignSelf="end"
-            src="/assets/checkmark.svg"
+            src={require("public/assets/bear-market-airdrop/checkmark.svg")}
           />
         )}
       </Flex>

@@ -57,7 +57,7 @@ export const Email: React.FC<EmailProps> = ({
               isDisabled={isSubmittingEmail}
             >
               <ChakraNextImage
-                src="/assets/bear-market-airdrop/rightArrow.svg"
+                src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
                 alt="rightArrow"
               />
             </Button>
@@ -75,7 +75,7 @@ export const Email: React.FC<EmailProps> = ({
           Ensure your email is correct as it will be used to send you rewards.
         </Text>
         <ChakraNextImage
-          src="/assets/bear-market-airdrop/email-icon.svg"
+          src={require("public/assets/bear-market-airdrop/email-icon.svg")}
           alt="Bear market builders hero image"
         />
       </Flex>

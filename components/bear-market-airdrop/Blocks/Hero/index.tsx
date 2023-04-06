@@ -232,6 +232,7 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
         base: "column",
         lg: "row",
       }}
+      maxW="100%"
       overflow="hidden"
       mx={!hasPack ? "auto" : 0}
       gap={!hasPack ? 40 : 10}
@@ -278,9 +279,7 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
                 <Supply supply={supply} initialSupply={initialSupply} />
               )}
               {!address ? (
-                <Box w="min-content">
-                  <ConnectWallet />
-                </Box>
+                <ConnectWallet />
               ) : isMismatched ? (
                 <Button
                   bg="white"
@@ -380,9 +379,9 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
                   </Box>
                   <Flex alignItems="center">
                     <ChakraNextImage
-                      src="/assets/bear-market-airdrop/tiny-logo-white.png"
-                      h={4}
+                      src={require("public/assets/bear-market-airdrop/tiny-logo-white.png")}
                       alt=""
+                      h={4}
                     />
                     <Text color="white" ml={4}>
                       &rarr;

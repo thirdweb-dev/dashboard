@@ -2,12 +2,12 @@ import { Prize } from "./Prize";
 import { Box, Container, Flex } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
-export const prizes = [
+const prizes = [
   {
     id: 1,
     name: "5 MATIC",
     rarity: "rare",
-    src: "/assets/bear-market-airdrop/prizes/5-Matic.png",
+    src: require("public/assets/bear-market-airdrop/prizes/5-Matic.png"),
     alt: "Prize: 5 MATIC",
     multiple: false,
   },
@@ -15,7 +15,7 @@ export const prizes = [
     id: 2,
     name: "Lexica AI Art Pass",
     rarity: "rare",
-    src: "/assets/bear-market-airdrop/prizes/lexica-ai-art-pass.png",
+    src: require("public/assets/bear-market-airdrop/prizes/lexica-ai-art-pass.png"),
     alt: "Prize: Lexica AI Art Pass",
     multiple: false,
   },

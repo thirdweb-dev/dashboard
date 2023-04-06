@@ -19,7 +19,7 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
       alignItems="center"
     >
       <ChakraNextImage
-        src="assets/bear-market-airdrop/bear-market-pack.png"
+        src={require("public/assets/bear-market-airdrop/bear-market-pack.png")}
         alt="pack-img"
         w="400px"
       />
@@ -45,7 +45,7 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
           <ChakraNextImage
             alt="checkmark"
             alignSelf="end"
-            src="/assets/bear-market-airdrop/checkmark.svg"
+            src={require("public/assets/bear-market-airdrop/checkmark.svg")}
           />
         </Flex>
         <Flex mt={4} w="full">

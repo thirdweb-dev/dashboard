@@ -27,13 +27,9 @@ export const FAQ: React.FC = () => {
         FAQ
       </Heading>
       <Accordion mt={8} allowMultiple rounded="xl">
-        <AccordionItem
-          p={4}
-          border="1px solid rgba(255, 255, 255, 0.1)"
-          roundedTop="xl"
-        >
+        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
           <Text fontSize="1rem" color="white">
-            <AccordionButton>
+            <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 Who is eligible to claim?
               </Box>
@@ -74,9 +70,9 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)" p={4}>
+        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
           <Text fontSize="1rem" color="white">
-            <AccordionButton>
+            <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 What can I win?
               </Box>
@@ -131,9 +127,9 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem p={4} border="1px solid rgba(255, 255, 255, 0.1)">
+        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
           <Text fontSize="1rem" color="white">
-            <AccordionButton>
+            <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 How does the airdrop work?
               </Box>
@@ -175,9 +171,9 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem p={4} border="1px solid rgba(255, 255, 255, 0.1)">
+        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
           <Text fontSize="1rem" color="white">
-            <AccordionButton>
+            <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 How do I redeem a prize?
               </Box>

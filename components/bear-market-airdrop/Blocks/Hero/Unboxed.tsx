@@ -69,7 +69,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
         mb={5}
       >
         <ChakraNextImage
-          src="/assets/bear-market-airdrop/confetti1.png"
+          src={require("public/assets/bear-market-airdrop/confetti1.png")}
           alt="confetti1"
           position="absolute"
           top={{
@@ -86,7 +86,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           }}
         />
         <ChakraNextImage
-          src="/assets/bear-market-airdrop/confetti2.png"
+          src={require("public/assets/bear-market-airdrop/confetti2.png")}
           alt="confetti1"
           position="absolute"
           top={{
@@ -198,7 +198,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             target="_blank"
             leftIcon={
               <ChakraNextImage
-                src="/assets/bear-market-airdrop/socials/opensea.svg"
+                src={require("public/assets/bear-market-airdrop/socials/opensea.svg")}
                 alt="openseaicon"
               />
             }
@@ -236,8 +236,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               p={0}
             >
               <ChakraNextImage
-                src="/assets/bear-market-airdrop/socials/twitter.svg"
-                alt="twitter"
+                src={require("public/assets/bear-market-airdrop/socials/twitter.svg")}
+                alt="twitter share"
               />
             </Button>
             <Button
@@ -249,8 +249,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               p={0}
             >
               <ChakraNextImage
-                src="/assets/bear-market-airdrop/socials/facebook.svg"
-                alt="twitter"
+                src={require("public/assets/bear-market-airdrop/socials/facebook.svg")}
+                alt="facebook share"
               />
             </Button>
             <Button
@@ -262,8 +262,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               p={0}
             >
               <ChakraNextImage
-                src="/assets/bear-market-airdrop/socials/instagram.svg"
-                alt="twitter"
+                src={require("public/assets/bear-market-airdrop/socials/instagram.svg")}
+                alt="instagram share"
               />
             </Button>
           </ButtonGroup>

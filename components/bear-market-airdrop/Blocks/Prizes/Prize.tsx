@@ -61,7 +61,7 @@ export const Prize: React.FC<PrizeProps> = (props) => {
           {rarity} {multiple ? "prizes" : "prize"}
         </Text>
       </Flex>
-      <ChakraNextImage src={src} alt={alt} w="full" px={12} mt={6} />
+      <ChakraNextImage src={src} alt={alt} px={12} mt={6} />
     </Flex>
   );
 };
