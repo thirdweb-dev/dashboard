@@ -1,27 +1,16 @@
-/* eslint-disable no-restricted-imports */
-
-/* eslint-disable react/forbid-dom-props */
 import { gradientMapping } from "../Prizes/Prize";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  Flex,
-  Heading,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { Box, ButtonGroup, Flex } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
 import { NFT, NFTMetadata, TransactionResult } from "@thirdweb-dev/sdk";
-import { FC } from "react";
+import { ChakraNextImage } from "components/Image";
 import { BsEyeFill } from "react-icons/bs";
+import { Button, Card, Heading, Text } from "tw-components";
 
 interface UnboxedProps {
   reward: NFT | undefined;
   tx: TransactionResult | null;
+  editionAddress: string;
 }
 
 type Metadata = NFTMetadata & {
@@ -50,11 +39,13 @@ const deliveryMethodMapping: {
   "Checks NFT (VV Edition)": "airdrop",
 };
 
-const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
+export const Unboxed: React.FC<UnboxedProps> = ({
+  reward,
+  tx,
+  editionAddress,
+}) => {
   const nft = reward?.metadata as unknown as Metadata;
   const rarity = nft?.attributes[0]?.value;
-  const chain = process.env.NEXT_PUBLIC_CHAIN;
-  const editionAddress = process.env.NEXT_PUBLIC_EDITION_ADDRESS;
   const address = useAddress();
   const image = nft.image?.replaceAll(/ /g, "%20");
   const twitterUrl = `https://twitter.com/intent/tweet?text=I%20just%20unboxed%20a%20${rarity}%20prize%20on%20%40thirdweb%20and%20it%20is%20a%20${nft?.name}%20${image}`;
@@ -77,7 +68,7 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
         mt="74px"
         mb={5}
       >
-        <Image
+        <ChakraNextImage
           src="/assets/bear-market-airdrop/confetti1.png"
           alt="confetti1"
           position="absolute"
@@ -94,7 +85,7 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
             xl: "auto",
           }}
         />
-        <Image
+        <ChakraNextImage
           src="/assets/bear-market-airdrop/confetti2.png"
           alt="confetti1"
           position="absolute"
@@ -115,7 +106,6 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          fontSize={56}
           textAlign={{
             base: "center",
             xl: "left",
@@ -126,26 +116,25 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
             bgClip="text"
             w="min-content"
             fontWeight="bold"
+            fontSize={56}
           >
             Congratulations
           </Heading>
-          <Heading>you’ve unpacked</Heading>
+          <Heading fontSize={56}>you’ve unpacked</Heading>
         </Flex>
       </Box>
       <Flex justifyContent="center" alignItems="center" direction="column">
-        <Card bg="transparent" maxW="450px" p={0} mb={1}>
+        <Card bg="transparent" maxW="450px" p={0} mb={1} border="none">
           <ThirdwebNftMedia metadata={nft} width="100%" />
-          <CardBody
-            display="flex"
-            flexDirection="column"
-            h="full"
-            w="full"
+          <Flex
+            direction="column"
             alignItems="center"
             borderBottom="1px solid #151515"
             borderX="1px solid #151515"
-            roundedBottom="xl"
             pt={6}
             pb={2}
+            px={4}
+            roundedBottom="xl"
           >
             <Text
               textTransform="uppercase"
@@ -166,31 +155,23 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
               {method === "email" && (
                 <>
                   An email has been sent to{" "}
-                  <span
-                    style={{
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
+                  <Box as="span" color="white" fontWeight="bold">
                     mariano@thirdweb.com
-                  </span>
+                  </Box>
                 </>
               )}
               {method === "pack" && (
                 <>
                   has been sent to <br />{" "}
-                  <span
-                    style={{
-                      color: "#fff",
-                      textDecoration: "italic",
-                    }}
-                  >{`${address?.slice(0, 5)}...${address?.slice(
-                    address.length - 4,
-                  )}`}</span>
+                  <Box as="span" color="white" textDecoration="italic">
+                    {`${address?.slice(0, 5)}...${address?.slice(
+                      address.length - 4,
+                    )}`}
+                  </Box>
                 </>
               )}
             </Text>
-          </CardBody>
+          </Flex>
         </Card>
         <ButtonGroup fontSize="12px" mb={10}>
           {tx && (
@@ -216,7 +197,7 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
             href={`https://opensea.io/assets/${Polygon.nativeCurrency.name}/${editionAddress}/${nft.id}`}
             target="_blank"
             leftIcon={
-              <Image
+              <ChakraNextImage
                 src="/assets/bear-market-airdrop/socials/opensea.svg"
                 alt="openseaicon"
               />
@@ -254,7 +235,7 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
               outline="1px solid #9D2889"
               p={0}
             >
-              <Image
+              <ChakraNextImage
                 src="/assets/bear-market-airdrop/socials/twitter.svg"
                 alt="twitter"
               />
@@ -267,7 +248,7 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
               outline="1px solid #9D2889"
               p={0}
             >
-              <Image
+              <ChakraNextImage
                 src="/assets/bear-market-airdrop/socials/facebook.svg"
                 alt="twitter"
               />
@@ -280,7 +261,7 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
               outline="1px solid #9D2889"
               p={0}
             >
-              <Image
+              <ChakraNextImage
                 src="/assets/bear-market-airdrop/socials/instagram.svg"
                 alt="twitter"
               />
@@ -291,5 +272,3 @@ const Unboxed: FC<UnboxedProps> = ({ reward, tx }) => {
     </Flex>
   );
 };
-
-export default Unboxed;

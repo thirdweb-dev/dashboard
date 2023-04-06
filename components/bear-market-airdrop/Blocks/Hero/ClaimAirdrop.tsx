@@ -1,8 +1,6 @@
-/* eslint-disable no-restricted-imports */
-
-/* eslint-disable react/forbid-dom-props */
-import { Button, Flex, Image, Text } from "@chakra-ui/react";
-import { FC } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { Button, Text } from "tw-components";
 
 interface ClaimAirdropProps {
   canClaim: boolean;
@@ -10,7 +8,7 @@ interface ClaimAirdropProps {
   isClaiming: boolean;
 }
 
-const ClaimAirdrop: FC<ClaimAirdropProps> = ({
+export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   canClaim,
   claim,
   isClaiming,
@@ -66,7 +64,11 @@ const ClaimAirdrop: FC<ClaimAirdropProps> = ({
             : "You are not eligible to claim"}
         </Text>
         {canClaim && (
-          <Image alt="checkmark" alignSelf="end" src="/assets/checkmark.svg" />
+          <ChakraNextImage
+            alt="checkmark"
+            alignSelf="end"
+            src="/assets/checkmark.svg"
+          />
         )}
       </Flex>
       {canClaim ? (
@@ -80,19 +82,13 @@ const ClaimAirdrop: FC<ClaimAirdropProps> = ({
         <Flex gap={1} mt={4} fontSize="14px">
           <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
             You are only eligible{" "}
-            <span
-              style={{
-                color: "white",
-              }}
-            >
+            <Box as="span" color="white">
               if you have deployed a contract on the evm between 2022-01-01 and
               2023-04-01
-            </span>
+            </Box>
           </Text>
         </Flex>
       )}
     </Flex>
   );
 };
-
-export default ClaimAirdrop;

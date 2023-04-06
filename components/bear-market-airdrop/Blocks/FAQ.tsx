@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-imports */
 import {
   Accordion,
   AccordionButton,
@@ -8,15 +7,13 @@ import {
   Box,
   Container,
   Flex,
-  Heading,
   ListItem,
-  Text,
   UnorderedList,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { FC } from "react";
+import { Heading, Text } from "tw-components";
 
-const FAQ: FC = () => {
+export const FAQ: React.FC = () => {
   return (
     <Container
       maxW={{
@@ -235,5 +232,3 @@ const FAQ: FC = () => {
     </Container>
   );
 };
-
-export default FAQ;

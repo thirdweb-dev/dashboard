@@ -1,25 +1,9 @@
-/* eslint-disable no-restricted-imports */
-
-/* eslint-disable no-console */
-
-/* eslint-disable line-comment-position */
-
-/* eslint-disable react/jsx-key */
-import ClaimAirdrop from "./ClaimAirdrop";
-import Email from "./Email";
-import OpenPack from "./OpenPack";
-import Supply from "./Supply";
-import Unboxed from "./Unboxed";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Spinner,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { ClaimAirdrop } from "./ClaimAirdrop";
+import { Email } from "./Email";
+import { OpenPack } from "./OpenPack";
+import { Supply } from "./Supply";
+import { Unboxed } from "./Unboxed";
+import { Box, Flex, Spinner, useToast } from "@chakra-ui/react";
 import { Chain, Fantom, Polygon } from "@thirdweb-dev/chains";
 import {
   ConnectWallet,
@@ -36,7 +20,9 @@ import {
   TransactionResult,
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
-import { FC, useCallback, useEffect, useState } from "react";
+import { ChakraNextImage } from "components/Image";
+import { useCallback, useEffect, useState } from "react";
+import { Button, Heading, Text } from "tw-components";
 
 type HeroProps = {
   desiredChain: Chain;
@@ -46,7 +32,7 @@ const EDITION_ADDRESS = "0xF56ed23b139E351B8507e91e7486fe5a1C305D30";
 const PACK_ADDRESS = "0x08cefAC85De8671dA2CA491396e662Db03C8F448";
 const AIRDROP_ADDRESS = "0x20b40b3486f7c39E46bD598F5b35e6be5AB311c9";
 
-const Hero: FC<HeroProps> = ({ desiredChain }) => {
+export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
   const address = useAddress();
   const toast = useToast();
   const sdk = useSDK();
@@ -60,6 +46,7 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
   const [packTx, setPackTx] = useState<TransactionResult | null>(null);
   const switchNetwork = useSwitchChain();
   const [initialSupply, setInitialSupply] = useState(0);
+  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
 
   const canClaim = !!snapshot?.proof?.length || false;
   const isMismatched = useNetworkMismatch();
@@ -116,7 +103,7 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
         status: "success",
       });
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setClaiming(false);
     }
@@ -131,7 +118,7 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
       const tx = await pack.call("openPack", [0, 1]);
       setPackTx(tx);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setUnboxing(false);
     }
@@ -142,6 +129,7 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
       if (!email) {
         return;
       }
+      setIsSubmittingEmail(true);
       await fetch("/api/bear-market-airdrop/airtable", {
         method: "POST",
         headers: {
@@ -166,6 +154,9 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
             variant: "left-accent",
             status: "error",
           });
+        })
+        .finally(() => {
+          setIsSubmittingEmail(false);
         });
     },
     [address, toast],
@@ -201,17 +192,17 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
       const _merkleUri = merkleURI;
       const merkleMetadata = await sdk.storage.downloadJSON(_merkleUri);
       const snapshotEntry = await fetchSnapshotEntryForAddress(
-        address as string, // address
-        merkleMetadata.merkleRoot, // merkle root
-        { [merkleMetadata.merkleRoot]: _merkleUri }, // merkle metadata
-        sdk.getProvider(), // provider
-        sdk.storage, // storage
-        2, // snapshot format version
+        address as string,
+        merkleMetadata.merkleRoot,
+        { [merkleMetadata.merkleRoot]: _merkleUri },
+        sdk.getProvider(),
+        sdk.storage,
+        2,
       );
 
       setSnapshot(snapshotEntry);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setCheckingClaimed(false);
   }, [address, merkleURI, sdk]);
@@ -259,6 +250,10 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
               base: 0,
               lg: 0,
             }}
+            ml={{
+              base: 0,
+              lg: 20,
+            }}
           >
             {!hasPack && (
               <Box
@@ -298,7 +293,7 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
                     try {
                       await switchNetwork(desiredChain.chainId);
                     } catch (err) {
-                      console.log(err);
+                      console.error(err);
                     }
                   }}
                 >
@@ -307,7 +302,10 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
               ) : hasPack ? (
                 <OpenPack openPack={openPack} unboxing={unboxing} />
               ) : !emailSubmitted ? (
-                <Email handleEmailSubmit={handleEmailSubmit} />
+                <Email
+                  handleEmailSubmit={handleEmailSubmit}
+                  isSubmittingEmail={isSubmittingEmail}
+                />
               ) : (
                 <ClaimAirdrop
                   canClaim={canClaim}
@@ -319,7 +317,11 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
           </Flex>
         </Flex>
       ) : (
-        <Unboxed tx={packTx} reward={ownsReward && ownsReward[0]} />
+        <Unboxed
+          tx={packTx}
+          reward={ownsReward && ownsReward[0]}
+          editionAddress={EDITION_ADDRESS}
+        />
       )}
       {!unboxed && (
         <Flex direction="row" mt={20}>
@@ -377,7 +379,7 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
                     </Text>
                   </Box>
                   <Flex alignItems="center">
-                    <Image
+                    <ChakraNextImage
                       src="/assets/bear-market-airdrop/tiny-logo-white.png"
                       h={4}
                       alt=""
@@ -395,5 +397,3 @@ const Hero: FC<HeroProps> = ({ desiredChain }) => {
     </Flex>
   );
 };
-
-export default Hero;

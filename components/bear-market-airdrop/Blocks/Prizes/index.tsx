@@ -1,7 +1,6 @@
-/* eslint-disable no-restricted-imports */
-import Prize from "./Prize";
-import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react";
-import { FC } from "react";
+import { Prize } from "./Prize";
+import { Box, Container, Flex } from "@chakra-ui/react";
+import { Heading, Text } from "tw-components";
 
 export const prizes = [
   {
@@ -22,7 +21,7 @@ export const prizes = [
   },
 ];
 
-const PrizesDisplay: FC = () => {
+export const PrizesDisplay: React.FC = () => {
   return (
     <Container
       maxW={{
@@ -152,5 +151,3 @@ const PrizesDisplay: FC = () => {
     </Container>
   );
 };
-
-export default PrizesDisplay;

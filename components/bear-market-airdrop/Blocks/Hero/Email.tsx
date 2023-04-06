@@ -1,20 +1,18 @@
-/* eslint-disable no-restricted-imports */
 import {
   Box,
-  Button,
   Flex,
-  Image,
   Input,
   InputGroup,
   InputRightElement,
-  Text,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { ChakraNextImage } from "components/Image";
 import { useForm } from "react-hook-form";
 import { SubmitHandler } from "react-hook-form/dist/types";
+import { Button, Text } from "tw-components";
 
 interface EmailProps {
   handleEmailSubmit: (email: string) => void;
+  isSubmittingEmail: boolean;
 }
 
 type Inputs = {
@@ -22,7 +20,10 @@ type Inputs = {
   exampleRequired: string;
 };
 
-const Email: FC<EmailProps> = ({ handleEmailSubmit }) => {
+export const Email: React.FC<EmailProps> = ({
+  handleEmailSubmit,
+  isSubmittingEmail,
+}) => {
   const {
     register,
     handleSubmit,
@@ -52,8 +53,10 @@ const Email: FC<EmailProps> = ({ handleEmailSubmit }) => {
               type="submit"
               roundedLeft="none"
               disabled={!watch("email")}
+              isLoading={isSubmittingEmail}
+              isDisabled={isSubmittingEmail}
             >
-              <Image
+              <ChakraNextImage
                 src="/assets/bear-market-airdrop/rightArrow.svg"
                 alt="rightArrow"
               />
@@ -71,7 +74,7 @@ const Email: FC<EmailProps> = ({ handleEmailSubmit }) => {
         <Text color="white">
           Ensure your email is correct as it will be used to send you rewards.
         </Text>
-        <Image
+        <ChakraNextImage
           src="/assets/bear-market-airdrop/email-icon.svg"
           alt="Bear market builders hero image"
         />
@@ -79,5 +82,3 @@ const Email: FC<EmailProps> = ({ handleEmailSubmit }) => {
     </Box>
   );
 };
-
-export default Email;

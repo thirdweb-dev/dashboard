@@ -1,6 +1,6 @@
-/* eslint-disable no-restricted-imports */
-import { Flex, Image, Text } from "@chakra-ui/react";
-import { FC } from "react";
+import { Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { Text } from "tw-components";
 
 interface GradientMapping {
   [key: string]: string;
@@ -23,7 +23,7 @@ export const gradientMapping: GradientMapping = {
   common: "linear(to-r, #743F9E, #BFA3DA)",
 };
 
-const Prize: FC<PrizeProps> = (props) => {
+export const Prize: React.FC<PrizeProps> = (props) => {
   const { name, src, multiple, alt, rarity } = props.prize;
   return (
     <Flex
@@ -61,9 +61,7 @@ const Prize: FC<PrizeProps> = (props) => {
           {rarity} {multiple ? "prizes" : "prize"}
         </Text>
       </Flex>
-      <Image src={src} alt={alt} w="full" px={12} mt={6} />
+      <ChakraNextImage src={src} alt={alt} w="full" px={12} mt={6} />
     </Flex>
   );
 };
-
-export default Prize;

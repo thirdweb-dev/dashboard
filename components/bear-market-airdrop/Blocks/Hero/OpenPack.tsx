@@ -1,13 +1,13 @@
-/* eslint-disable no-restricted-imports */
-import { Button, Flex, Image, Text } from "@chakra-ui/react";
-import { FC } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { Button, Text } from "tw-components";
 
 interface OpenPackProps {
   openPack: () => void;
   unboxing: boolean;
 }
 
-const OpenPack: FC<OpenPackProps> = ({ openPack, unboxing }) => {
+export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
   return (
     <Flex
       direction={{
@@ -18,7 +18,7 @@ const OpenPack: FC<OpenPackProps> = ({ openPack, unboxing }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <Image
+      <ChakraNextImage
         src="assets/bear-market-airdrop/bear-market-pack.png"
         alt="pack-img"
         w="400px"
@@ -42,28 +42,24 @@ const OpenPack: FC<OpenPackProps> = ({ openPack, unboxing }) => {
           <Text fontWeight="bold" fontSize="19px" color="#3FE06C" mt={4}>
             You own 1 pack
           </Text>
-          <Image
+          <ChakraNextImage
             alt="checkmark"
             alignSelf="end"
             src="/assets/bear-market-airdrop/checkmark.svg"
           />
         </Flex>
-        <Flex mt={4} fontSize="14px" w="full">
+        <Flex mt={4} w="full">
           <Text
             bgGradient="linear(to-tr, #743F9E, #BFA3DA)"
             bgClip="text"
             w="full"
             display="inline-block"
+            fontSize="14px"
           >
             Open your pack{" "}
-            <span
-              // eslint-disable-next-line react/forbid-dom-props
-              style={{
-                color: "white",
-              }}
-            >
+            <Box as="span" color="white">
               to claim your lootbox rewards!
-            </span>
+            </Box>
           </Text>
         </Flex>
         <Text fontSize="12px" as="i">
@@ -74,5 +70,3 @@ const OpenPack: FC<OpenPackProps> = ({ openPack, unboxing }) => {
     </Flex>
   );
 };
-
-export default OpenPack;
