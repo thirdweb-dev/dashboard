@@ -14,7 +14,7 @@ const prizes = [
   {
     id: 2,
     name: "Lexica AI Art Pass",
-    rarity: "rare",
+    rarity: "legendary",
     src: require("public/assets/bear-market-airdrop/prizes/lexica-ai-art-pass.png"),
     alt: "Prize: Lexica AI Art Pass",
     multiple: false,
@@ -102,7 +102,7 @@ export const PrizesDisplay: React.FC = () => {
       >
         {/* <Heading fontSize="40">All rewards</Heading> */}
         <Box>
-          <Text fontWeight="bold" color="white" fontSize="x-large">
+          <Text fontWeight="bold" fontSize="x-large">
             Common
           </Text>
           <Text fontWeight="normal" fontSize="large">

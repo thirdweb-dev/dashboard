@@ -27,8 +27,8 @@ export const FAQ: React.FC = () => {
         FAQ
       </Heading>
       <Accordion mt={8} allowMultiple rounded="xl">
-        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
-          <Text fontSize="1rem" color="white">
+        <AccordionItem>
+          <Text fontSize="1rem">
             <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 Who is eligible to claim?
@@ -70,8 +70,8 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
-          <Text fontSize="1rem" color="white">
+        <AccordionItem>
+          <Text fontSize="1rem">
             <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 What can I win?
@@ -82,9 +82,7 @@ export const FAQ: React.FC = () => {
           <AccordionPanel pb={4}>
             <Flex gap={4} flexDirection="column">
               <Box>
-                <Text fontWeight="bold" color="white">
-                  Common
-                </Text>
+                <Text fontWeight="bold">Common</Text>
                 <Text fontWeight="normal">Bear Market Builder NFT</Text>
               </Box>
 
@@ -127,8 +125,8 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
-          <Text fontSize="1rem" color="white">
+        <AccordionItem>
+          <Text fontSize="1rem">
             <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 How does the airdrop work?
@@ -171,8 +169,8 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
 
-        <AccordionItem border="1px solid rgba(255, 255, 255, 0.1)">
-          <Text fontSize="1rem" color="white">
+        <AccordionItem>
+          <Text fontSize="1rem">
             <AccordionButton p={6}>
               <Box as="span" flex="1" textAlign="left">
                 How do I redeem a prize?

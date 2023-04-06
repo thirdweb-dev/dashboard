@@ -1,5 +1,4 @@
 import { ClaimAirdrop } from "./ClaimAirdrop";
-import { Email } from "./Email";
 import { OpenPack } from "./OpenPack";
 import { Supply } from "./Supply";
 import { Unboxed } from "./Unboxed";
@@ -10,19 +9,16 @@ import {
   MediaRenderer,
   useAddress,
   useContract,
-  useNetworkMismatch,
   useOwnedNFTs,
   useSDK,
-  useSwitchChain,
 } from "@thirdweb-dev/react";
 import {
   SnapshotEntryWithProof,
   TransactionResult,
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
-import { ChakraNextImage } from "components/Image";
 import { useCallback, useEffect, useState } from "react";
-import { Button, Heading, Text } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 
 type HeroProps = {
   desiredChain: Chain;
@@ -32,24 +28,20 @@ const EDITION_ADDRESS = "0xF56ed23b139E351B8507e91e7486fe5a1C305D30";
 const PACK_ADDRESS = "0x08cefAC85De8671dA2CA491396e662Db03C8F448";
 const AIRDROP_ADDRESS = "0x20b40b3486f7c39E46bD598F5b35e6be5AB311c9";
 
-export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
+export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
   const toast = useToast();
   const sdk = useSDK();
 
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [checkingClaimed, setCheckingClaimed] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [snapshot, setSnapshot] = useState<SnapshotEntryWithProof | null>(null);
   const [unboxing, setUnboxing] = useState(false);
   const [supply, setSupplyLeft] = useState(0);
   const [packTx, setPackTx] = useState<TransactionResult | null>(null);
-  const switchNetwork = useSwitchChain();
   const [initialSupply, setInitialSupply] = useState(0);
-  const [isSubmittingEmail, setIsSubmittingEmail] = useState(false);
 
   const canClaim = !!snapshot?.proof?.length || false;
-  const isMismatched = useNetworkMismatch();
   const merkleURI = process.env.NEXT_PUBLIC_MERKLE_URI;
 
   const { contract: airdrop, isLoading: airdropContractLoading } =
@@ -82,32 +74,68 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
     editionContractLoading ||
     checkingClaimed;
 
-  const claim = useCallback(async () => {
-    if (!canClaim || !airdrop || !address || !snapshot || !pack) {
-      return;
-    }
-    setClaiming(true);
-    try {
-      await airdrop.call("claim", [
-        address,
-        1,
-        0,
-        snapshot.proof,
-        Number(snapshot.maxClaimable),
-      ]);
+  const handleEmailSubmit = useCallback(
+    async (email: string) => {
+      if (!email) {
+        return;
+      }
+      await fetch("/api/bear-market-airdrop/airtable", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, address }),
+      })
+        .then(() => {
+          toast({
+            title: "Email submitted!",
+            position: "top",
+            variant: "left-accent",
+            status: "success",
+          });
+        })
+        .catch((err) => {
+          toast({
+            title: err.response.data.message,
+            position: "top",
+            variant: "left-accent",
+            status: "error",
+          });
+        });
+    },
+    [address, toast],
+  );
 
-      toast({
-        title: "Pack claimed!",
-        position: "top",
-        variant: "left-accent",
-        status: "success",
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setClaiming(false);
-    }
-  }, [address, airdrop, canClaim, pack, snapshot, toast]);
+  const claim = useCallback(
+    async (email: string) => {
+      if (!canClaim || !airdrop || !address || !snapshot || !pack || !email) {
+        return;
+      }
+      setClaiming(true);
+      try {
+        await airdrop.call("claim", [
+          address,
+          1,
+          0,
+          snapshot.proof,
+          Number(snapshot.maxClaimable),
+        ]);
+        await handleEmailSubmit(email);
+
+        toast({
+          title: "Pack claimed!",
+          position: "top",
+          variant: "left-accent",
+          status: "success",
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setClaiming(false);
+      }
+    },
+    [address, airdrop, canClaim, handleEmailSubmit, pack, snapshot, toast],
+  );
 
   const openPack = useCallback(async () => {
     if (!hasPack || !address || !pack) {
@@ -123,44 +151,6 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
       setUnboxing(false);
     }
   }, [address, hasPack, pack]);
-
-  const handleEmailSubmit = useCallback(
-    async (email: string) => {
-      if (!email) {
-        return;
-      }
-      setIsSubmittingEmail(true);
-      await fetch("/api/bear-market-airdrop/airtable", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, address }),
-      })
-        .then(() => {
-          setEmailSubmitted(true);
-          toast({
-            title: "Email submitted!",
-            position: "top",
-            variant: "left-accent",
-            status: "success",
-          });
-        })
-        .catch((err) => {
-          setEmailSubmitted(true);
-          toast({
-            title: err.response.data.message,
-            position: "top",
-            variant: "left-accent",
-            status: "error",
-          });
-        })
-        .finally(() => {
-          setIsSubmittingEmail(false);
-        });
-    },
-    [address, toast],
-  );
 
   const getSupply = useCallback(async () => {
     if (!pack) {
@@ -230,7 +220,7 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
     <Flex
       direction={{
         base: "column",
-        lg: "row",
+        xl: "row",
       }}
       maxW="100%"
       overflow="hidden"
@@ -238,7 +228,7 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
       gap={!hasPack ? 40 : 10}
       justifyContent="center"
     >
-      {!unboxed ? (
+      {unboxed ? (
         <Flex direction="column" pb={16} mt={24} alignItems="center" gap={8}>
           <Flex
             gap={8}
@@ -280,31 +270,8 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
               )}
               {!address ? (
                 <ConnectWallet />
-              ) : isMismatched ? (
-                <Button
-                  bg="white"
-                  color="black"
-                  w="min-content"
-                  onClick={async () => {
-                    if (!switchNetwork) {
-                      return null;
-                    }
-                    try {
-                      await switchNetwork(desiredChain.chainId);
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }}
-                >
-                  Switch Network
-                </Button>
               ) : hasPack ? (
                 <OpenPack openPack={openPack} unboxing={unboxing} />
-              ) : !emailSubmitted ? (
-                <Email
-                  handleEmailSubmit={handleEmailSubmit}
-                  isSubmittingEmail={isSubmittingEmail}
-                />
               ) : (
                 <ClaimAirdrop
                   canClaim={canClaim}
@@ -322,10 +289,9 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
           editionAddress={EDITION_ADDRESS}
         />
       )}
-      {!unboxed && (
+      {unboxed && (
         <Flex direction="row" mt={20}>
-          <Box
-            bg="#121018"
+          <Card
             h="587px"
             w="464px"
             border="1px solid"
@@ -370,27 +336,15 @@ export const Hero: React.FC<HeroProps> = ({ desiredChain }) => {
                     />
                   </Box>
                   <Box w="60%">
-                    <Text color="white" fontSize="16px">
-                      {contract.name}
-                    </Text>
+                    <Text fontSize="16px">{contract.name}</Text>
                     <Text fontSize="14px">
                       {contract.chainName} * {contract.address}
                     </Text>
                   </Box>
-                  <Flex alignItems="center">
-                    <ChakraNextImage
-                      src={require("public/assets/bear-market-airdrop/tiny-logo-white.png")}
-                      alt=""
-                      h={4}
-                    />
-                    <Text color="white" ml={4}>
-                      &rarr;
-                    </Text>
-                  </Flex>
                 </Flex>
               ))}
             </Flex>
-          </Box>
+          </Card>
         </Flex>
       )}
     </Flex>

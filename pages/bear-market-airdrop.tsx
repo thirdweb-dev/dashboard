@@ -37,7 +37,7 @@ const BearMarketAirdropPage: ThirdwebNextPage = () => {
         }}
       />
       <Flex flexDirection="column" height="full">
-        <Flex direction="column" maxW="full" color="gray.500" gap={24} pb={60}>
+        <Flex direction="column" maxW="full" gap={24} pb={60}>
           <Hero desiredChain={desiredChain} />
           <PrizesDisplay />
           <Why />

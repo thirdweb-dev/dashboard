@@ -30,7 +30,6 @@ export const Prize: React.FC<PrizeProps> = (props) => {
       direction="column"
       alignItems="center"
       maxW="325px"
-      border="1px solid #FFFFFF50"
       pb={8}
       rounded="lg"
     >
@@ -43,12 +42,7 @@ export const Prize: React.FC<PrizeProps> = (props) => {
         h="full"
         roundedBottom="xl"
       >
-        <Text
-          textAlign="center"
-          fontSize="32px"
-          color="white"
-          fontWeight="bold"
-        >
+        <Text textAlign="center" fontSize="32px" fontWeight="bold">
           {name}
         </Text>
         <Text

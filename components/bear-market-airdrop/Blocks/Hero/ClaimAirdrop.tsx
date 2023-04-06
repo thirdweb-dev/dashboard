@@ -1,18 +1,38 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, HStack, Input, VStack } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { useForm } from "react-hook-form";
 import { Button, Text } from "tw-components";
 
 interface ClaimAirdropProps {
   canClaim: boolean;
-  claim: () => void;
+  claim: (email: string) => void;
   isClaiming: boolean;
 }
+
+type Inputs = {
+  email: string;
+};
 
 export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   canClaim,
   claim,
   isClaiming,
 }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit = (data: Inputs) => {
+    if (!data.email || !canClaim) {
+      return;
+    }
+    claim(data.email);
+  };
+
+  const invalidEmail = errors.email && errors.email.type === "pattern";
+
   return (
     <Flex
       direction="column"
@@ -23,28 +43,6 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
         lg: 0,
       }}
     >
-      {canClaim && (
-        <Button
-          color="black"
-          bg="white"
-          w="min-content"
-          px={6}
-          py={3}
-          isDisabled={!canClaim}
-          disabled={isClaiming || !canClaim}
-          _disabled={{
-            opacity: 0.2,
-            cursor: "not-allowed",
-          }}
-          _hover={{
-            opacity: 0.8,
-          }}
-          onClick={claim}
-          isLoading={isClaiming}
-        >
-          Claim airdrop
-        </Button>
-      )}
       <Flex
         gap={2}
         alignItems="center"
@@ -71,24 +69,75 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
           />
         )}
       </Flex>
-      {canClaim ? (
-        <Flex gap={1} mt={4} fontSize="14px">
-          <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
-            Stay on this page
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <HStack mt={2} mb={8} alignItems="start">
+          <VStack alignItems="start">
+            <Input
+              variant="outline"
+              placeholder="Enter your email"
+              type="email"
+              {...register("email", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+            />
+            {invalidEmail && (
+              <Text color="red.500" fontSize="sm" mt={2}>
+                Email is invalid
+              </Text>
+            )}
+          </VStack>
+          <Button
+            px={6}
+            py={3}
+            isDisabled={invalidEmail || isClaiming}
+            isLoading={isClaiming}
+            type="submit"
+          >
+            {canClaim ? "Claim" : "Signup"}
+          </Button>
+        </HStack>
+        <Flex alignItems="center" mt={2} justifyContent="center">
+          <Text>
+            {canClaim
+              ? "Ensure your email is correct as it will be used to send you rewards."
+              : ""}
           </Text>
-          <Text color="white">to open your airdrop after claiming.</Text>
+          {canClaim && (
+            <ChakraNextImage
+              src={require("public/assets/bear-market-airdrop/email-icon.svg")}
+              alt="Bear market builders hero image"
+            />
+          )}
         </Flex>
-      ) : (
-        <Flex gap={1} mt={4} fontSize="14px">
-          <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
-            You are only eligible{" "}
-            <Box as="span" color="white">
-              if you have deployed a contract on the evm between 2022-01-01 and
-              2023-04-01
-            </Box>
-          </Text>
-        </Flex>
-      )}
+        {canClaim ? (
+          <Flex gap={1} fontSize="14px">
+            <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
+              Stay on this page
+            </Text>
+            <Text>to open your airdrop after claiming.</Text>
+          </Flex>
+        ) : (
+          <Flex
+            gap={1}
+            mt={4}
+            fontSize="14px"
+            maxW="70%"
+            mx={{
+              base: "auto",
+              xl: 0,
+            }}
+          >
+            <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
+              You are only eligible{" "}
+              <Box as="span" color="initial">
+                if you have deployed a contract on the evm between 2022-01-01
+                and 2023-04-01
+              </Box>
+            </Text>
+          </Flex>
+        )}
+      </form>
     </Flex>
   );
 };

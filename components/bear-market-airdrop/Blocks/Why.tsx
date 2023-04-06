@@ -23,7 +23,7 @@ export const Why: React.FC = () => {
         Why?
       </Heading>
       <Flex p={0} position="relative" direction="column">
-        <Text fontSize="32px" color="white" fontWeight="bold" lineHeight="120%">
+        <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
           2022 was a difficult year for crypto. <br />
           For those that continued building,
         </Text>
@@ -51,7 +51,7 @@ export const Why: React.FC = () => {
         />
       </Flex>
       <Flex direction="column" position="relative">
-        <Text color="white" fontSize="32px" fontWeight="bold" lineHeight="120%">
+        <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
           We are giving away 101,887 lootbox prizes
         </Text>
         <Text
@@ -78,7 +78,7 @@ export const Why: React.FC = () => {
         </Text>
       </Flex>
       <Flex position="relative" direction="column">
-        <Text color="white" fontSize="32px" fontWeight="bold" lineHeight="120%">
+        <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
           Inside each lootbox is a random reward <br />
           provided by thirdweb and our partners to
         </Text>

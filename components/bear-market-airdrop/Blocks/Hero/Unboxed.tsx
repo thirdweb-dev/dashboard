@@ -47,7 +47,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
   const nft = reward?.metadata as unknown as Metadata;
   const rarity = nft?.attributes[0]?.value;
   const address = useAddress();
-  const image = nft.image?.replaceAll(/ /g, "%20");
+  const image = nft?.image?.replaceAll(/ /g, "%20");
   const twitterUrl = `https://twitter.com/intent/tweet?text=I%20just%20unboxed%20a%20${rarity}%20prize%20on%20%40thirdweb%20and%20it%20is%20a%20${nft?.name}%20${image}`;
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${image}`;
   const instagramUrl = `https://www.instagram.com/sharer/sharer.php?u=${image}`;
@@ -58,7 +58,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
   const method = deliveryMethodMapping[nft?.name ?? ""] || "pack";
 
   return (
-    <Flex direction="column" w="full" pb={16} alignItems="center" color="white">
+    <Flex direction="column" w="full" pb={16} alignItems="center">
       <Box
         fontSize={{
           base: "2.5rem",
@@ -80,10 +80,6 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             base: -16,
             xl: -40,
           }}
-          w={{
-            base: "50%",
-            xl: "auto",
-          }}
         />
         <ChakraNextImage
           src={require("public/assets/bear-market-airdrop/confetti2.png")}
@@ -96,10 +92,6 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           left={{
             base: 80,
             xl: 60,
-          }}
-          w={{
-            base: "50%",
-            xl: "auto",
           }}
         />
         <Flex
@@ -124,7 +116,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
         </Flex>
       </Box>
       <Flex justifyContent="center" alignItems="center" direction="column">
-        <Card bg="transparent" maxW="450px" p={0} mb={1} border="none">
+        <Card maxW="450px" p={0} mb={1} border="none">
           <ThirdwebNftMedia metadata={nft} width="100%" />
           <Flex
             direction="column"
@@ -148,14 +140,14 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             >
               {rarity} Prize
             </Text>
-            <Text textAlign="center" fontSize="21px" color="white">
+            <Text textAlign="center" fontSize="21px">
               {nft?.name}
             </Text>
             <Text fontSize="12px" lineHeight="150%" as="i" textAlign="center">
               {method === "email" && (
                 <>
                   An email has been sent to{" "}
-                  <Box as="span" color="white" fontWeight="bold">
+                  <Box as="span" fontWeight="bold">
                     mariano@thirdweb.com
                   </Box>
                 </>
@@ -163,7 +155,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               {method === "pack" && (
                 <>
                   has been sent to <br />{" "}
-                  <Box as="span" color="white" textDecoration="italic">
+                  <Box as="span" textDecoration="italic">
                     {`${address?.slice(0, 5)}...${address?.slice(
                       address.length - 4,
                     )}`}
@@ -190,7 +182,6 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           )}
           <Button
             fontWeight="400"
-            bg="transparent"
             outline="1px solid #151515"
             size="xs"
             as="a"
@@ -207,15 +198,9 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           </Button>
         </ButtonGroup>
         <Button
-          bg="white"
-          color="black"
           as="a"
           href="https://thirdweb.com"
           target="_blank"
-          _hover={{
-            bg: "white",
-            opacity: 0.8,
-          }}
           py={3}
           px={6}
           mb={6}
@@ -223,15 +208,12 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           Discover thirdweb
         </Button>
         <Box textAlign="center">
-          <Text color="white" mb={3}>
-            Share your win
-          </Text>
+          <Text mb={3}>Share your win</Text>
           <ButtonGroup>
             <Button
               as="a"
               href={twitterUrl}
               target="_blank"
-              bg="transparent"
               outline="1px solid #9D2889"
               p={0}
             >
@@ -244,7 +226,6 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               as="a"
               href={facebookUrl}
               target="_blank"
-              bg="transparent"
               outline="1px solid #9D2889"
               p={0}
             >
@@ -257,7 +238,6 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               as="a"
               href={instagramUrl}
               target="_blank"
-              bg="transparent"
               outline="1px solid #9D2889"
               p={0}
             >
