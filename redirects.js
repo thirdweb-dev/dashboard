@@ -59,7 +59,7 @@ function redirects() {
     {
       source: "/contractkit",
       destination: "/solidity-sdk",
-      permanent: false,
+      permanent: true,
     },
     //  old (deprecated) routes
     {
