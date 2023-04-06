@@ -46,6 +46,7 @@ const BearMarketAirdropPage: ThirdwebNextPage = () => {
         alignItems="center"
         mx="auto"
         mt={-8}
+        pb={8}
       >
         <Hero desiredChain={desiredChain} />
         <PrizesDisplay />

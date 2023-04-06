@@ -64,7 +64,7 @@ export const Hero: React.FC<HeroProps> = () => {
     address,
   );
 
-  const hasPack = ownsPack?.length || 0;
+  const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
 
   const isAnythingLoading =
@@ -247,7 +247,7 @@ export const Hero: React.FC<HeroProps> = () => {
           }}
           mt={52}
         >
-          {hasPack < 1 && (
+          {!hasPack && (
             <Box
               textAlign={{
                 base: "center",
@@ -266,14 +266,14 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {hasPack < 1 && (
+            {!hasPack && (
               <Supply supply={supply} initialSupply={initialSupply} />
             )}
             {!address ? (
               <Box>
                 <ConnectWallet />
               </Box>
-            ) : hasPack > 0 ? (
+            ) : hasPack ? (
               <OpenPack openPack={openPack} unboxing={unboxing} />
             ) : (
               <ClaimAirdrop
