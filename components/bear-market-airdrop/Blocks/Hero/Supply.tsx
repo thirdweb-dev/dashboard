@@ -8,7 +8,13 @@ interface SupplyProps {
 
 export const Supply: React.FC<SupplyProps> = ({ supply, initialSupply }) => {
   return (
-    <Flex gap={2}>
+    <Flex
+      gap={2}
+      mx={{
+        base: "auto",
+        lg: 0,
+      }}
+    >
       <Text
         bgGradient="linear(to-tr, #743F9E, #BFA3DA)"
         bgClip="text"
@@ -19,7 +25,9 @@ export const Supply: React.FC<SupplyProps> = ({ supply, initialSupply }) => {
       >
         {supply}
       </Text>
-      <Text fontSize="1.5rem">/ {initialSupply} Remaining</Text>
+      <Text fontSize="1.5rem" color="initial">
+        / {initialSupply} Remaining
+      </Text>
     </Flex>
   );
 };

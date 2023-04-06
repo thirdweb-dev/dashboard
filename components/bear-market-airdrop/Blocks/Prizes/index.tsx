@@ -1,55 +1,34 @@
-import { Prize } from "./Prize";
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
+import { PrizesCarousel } from "components/bear-market-airdrop/PrizeCarousel";
 import { Heading, Text } from "tw-components";
-
-const prizes = [
-  {
-    id: 1,
-    name: "5 MATIC",
-    rarity: "rare",
-    src: require("public/assets/bear-market-airdrop/prizes/5-Matic.png"),
-    alt: "Prize: 5 MATIC",
-    multiple: false,
-  },
-  {
-    id: 2,
-    name: "Lexica AI Art Pass",
-    rarity: "legendary",
-    src: require("public/assets/bear-market-airdrop/prizes/lexica-ai-art-pass.png"),
-    alt: "Prize: Lexica AI Art Pass",
-    multiple: false,
-  },
-];
 
 export const PrizesDisplay: React.FC = () => {
   return (
-    <Container
-      maxW={{
-        base: "full",
-        md: "container.page",
-      }}
-      // h="full"
+    <Box
       display="flex"
       flexDirection="column"
-      gap={8}
-      justifyContent="start"
+      maxW={{
+        base: "full",
+        lg: "container.page",
+      }}
+      mt={24}
+      mx="10"
     >
       <Flex
         fontSize={{
           base: "3rem",
-          md: "3.5rem",
+          lg: "3.5rem",
         }}
         gap={4}
-        justifyContent={{
+        alignSelf={{
           base: "center",
-          md: "center",
+          lg: "flex-start",
         }}
-        mb={8}
       >
         <Heading
           fontSize={{
             base: "3rem",
-            md: "3.5rem",
+            lg: "3.5rem",
           }}
         >
           You could{" "}
@@ -61,32 +40,20 @@ export const PrizesDisplay: React.FC = () => {
           w="min"
           fontSize={{
             base: "3rem",
-            md: "3.5rem",
+            lg: "3.5rem",
           }}
         >
           win...{" "}
         </Heading>
       </Flex>
-      <Flex
-        gap={24}
-        justifyContent="center"
-        alignItems="center"
-        direction={{
-          base: "column",
-          md: "row",
-        }}
-      >
-        {prizes.map((prize) => (
-          <Prize key={prize.id} prize={prize} />
-        ))}
-      </Flex>
+      <PrizesCarousel />
       <Heading
         fontSize={{
           base: "3rem",
-          md: "3.5rem",
+          lg: "3.5rem",
         }}
         mx="auto"
-        mt={12}
+        mb={12}
       >
         All Prizes
       </Heading>
@@ -94,7 +61,7 @@ export const PrizesDisplay: React.FC = () => {
         gap={20}
         flexDirection={{
           base: "column",
-          md: "row",
+          lg: "row",
         }}
         justifyContent="center"
         mx="auto"
@@ -148,6 +115,6 @@ export const PrizesDisplay: React.FC = () => {
           </Text>
         </Box>
       </Flex>
-    </Container>
+    </Box>
   );
 };

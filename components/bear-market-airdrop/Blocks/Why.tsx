@@ -1,24 +1,25 @@
-import { Container, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Heading, Text } from "tw-components";
 
 export const Why: React.FC = () => {
   return (
-    <Container
+    <Box
       maxW={{
-        base: "full",
-        md: "55%",
+        base: "100%",
+        lg: "container.md",
       }}
+      px="10"
       display="flex"
       flexDirection="column"
       gap={16}
+      mt={24}
     >
       <Heading
         fontSize="56px"
         w="min"
         bgGradient="linear(to-r, #743F9E, #BFA3DA)"
         bgClip="text"
-        alignSelf="center"
       >
         Why?
       </Heading>
@@ -104,6 +105,6 @@ export const Why: React.FC = () => {
           }}
         />
       </Flex>
-    </Container>
+    </Box>
   );
 };

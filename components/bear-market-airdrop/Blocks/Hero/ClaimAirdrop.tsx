@@ -1,4 +1,11 @@
-import { Box, Flex, HStack, Input, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
+  VStack,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { useForm } from "react-hook-form";
 import { Button, Text } from "tw-components";
@@ -21,6 +28,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -42,6 +50,10 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
         base: 8,
         lg: 0,
       }}
+      mx={{
+        base: "auto",
+        lg: 0,
+      }}
     >
       <Flex
         gap={2}
@@ -54,12 +66,13 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
         <Text
           fontWeight="normal"
           fontSize="19px"
-          color={canClaim ? "#3FE06C" : "red.500"}
+          color={canClaim ? "#3FE06C" : "initial"}
           mt={4}
+          mb={2}
         >
           {canClaim
             ? "You are eligible to claim 1 airdrop"
-            : "You are not eligible to claim"}
+            : "You're unfortunately not eligible to claim."}
         </Text>
         {canClaim && (
           <ChakraNextImage
@@ -72,30 +85,63 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <HStack mt={2} mb={8} alignItems="start">
           <VStack alignItems="start">
-            <Input
-              variant="outline"
-              placeholder="Enter your email"
-              type="email"
-              {...register("email", {
-                required: true,
-                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              })}
-            />
+            <InputGroup size="md">
+              <Input
+                variant="outline"
+                placeholder="Enter your email"
+                type="email"
+                {...register("email", {
+                  required: true,
+                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                })}
+              />
+              <InputRightElement width="3rem">
+                <Button
+                  type="submit"
+                  roundedLeft="none"
+                  disabled={!watch("email")}
+                >
+                  <ChakraNextImage
+                    src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
+                    alt="rightArrow"
+                  />
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            {!canClaim && (
+              <Flex gap={2}>
+                <Text
+                  fontSize="14px"
+                  fontWeight="semibold"
+                  mt={2}
+                  color="initial"
+                >
+                  Subscribe to thirdweb&apos;s newsletter for the latest
+                  updates.
+                </Text>
+                <ChakraNextImage
+                  src={require("public/assets/bear-market-airdrop/email-icon.svg")}
+                  alt="Bear market builders hero image"
+                />
+              </Flex>
+            )}
             {invalidEmail && (
               <Text color="red.500" fontSize="sm" mt={2}>
                 Email is invalid
               </Text>
             )}
           </VStack>
-          <Button
-            px={6}
-            py={3}
-            isDisabled={invalidEmail || isClaiming}
-            isLoading={isClaiming}
-            type="submit"
-          >
-            {canClaim ? "Claim" : "Signup"}
-          </Button>
+          {canClaim && (
+            <Button
+              px={6}
+              py={3}
+              isDisabled={invalidEmail || isClaiming}
+              isLoading={isClaiming}
+              type="submit"
+            >
+              Claim
+            </Button>
+          )}
         </HStack>
         <Flex alignItems="center" mt={2} justifyContent="center">
           <Text>
@@ -110,31 +156,12 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             />
           )}
         </Flex>
-        {canClaim ? (
+        {canClaim && (
           <Flex gap={1} fontSize="14px">
             <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
               Stay on this page
             </Text>
             <Text>to open your airdrop after claiming.</Text>
-          </Flex>
-        ) : (
-          <Flex
-            gap={1}
-            mt={4}
-            fontSize="14px"
-            maxW="70%"
-            mx={{
-              base: "auto",
-              xl: 0,
-            }}
-          >
-            <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
-              You are only eligible{" "}
-              <Box as="span" color="initial">
-                if you have deployed a contract on the evm between 2022-01-01
-                and 2023-04-01
-              </Box>
-            </Text>
           </Flex>
         )}
       </form>

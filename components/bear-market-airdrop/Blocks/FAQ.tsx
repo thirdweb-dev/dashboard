@@ -5,7 +5,6 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Container,
   Flex,
   ListItem,
   UnorderedList,
@@ -15,13 +14,16 @@ import { Heading, Text } from "tw-components";
 
 export const FAQ: React.FC = () => {
   return (
-    <Container
-      maxW={{
-        base: "full",
-        md: "55%",
-      }}
+    <Box
       display="flex"
       flexDirection="column"
+      w="full"
+      px="10"
+      mt={24}
+      maxW={{
+        base: "100%",
+        lg: "container.md",
+      }}
     >
       <Heading fontSize="3.5rem" alignSelf="center">
         FAQ
@@ -223,6 +225,6 @@ export const FAQ: React.FC = () => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-    </Container>
+    </Box>
   );
 };

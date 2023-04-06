@@ -17,6 +17,7 @@ import {
   TransactionResult,
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
+import { ChakraNextImage } from "components/Image";
 import { useCallback, useEffect, useState } from "react";
 import { Card, Heading, Text } from "tw-components";
 
@@ -218,69 +219,66 @@ export const Hero: React.FC<HeroProps> = () => {
 
   return (
     <Flex
+      justifyContent={{
+        base: "center",
+        lg: "space-between",
+      }}
+      alignItems={{
+        base: "center",
+        lg: "",
+      }}
+      w="full"
+      mt={52}
       direction={{
         base: "column",
-        xl: "row",
+        lg: "row",
       }}
-      maxW="100%"
-      overflow="hidden"
-      mx={!hasPack ? "auto" : 0}
-      gap={!hasPack ? 40 : 10}
-      justifyContent="center"
     >
       {unboxed ? (
-        <Flex direction="column" pb={16} mt={24} alignItems="center" gap={8}>
-          <Flex
-            gap={8}
-            direction="column"
-            alignItems={{
-              base: "center",
-              lg: "flex-start",
-            }}
-            mt={{
-              base: 0,
-              lg: 0,
-            }}
-            ml={{
-              base: 0,
-              lg: 20,
-            }}
-          >
-            {!hasPack && (
-              <Box
-                textAlign={{
-                  base: "center",
-                  lg: "left",
-                }}
+        <Flex
+          gap={8}
+          direction="column"
+          w={{
+            base: "full",
+            lg: "50%",
+          }}
+        >
+          {hasPack < 1 && (
+            <Box
+              textAlign={{
+                base: "center",
+                lg: "left",
+              }}
+            >
+              <Heading fontSize="3.5rem">Bear Market</Heading>
+              <Heading
+                bgGradient="linear(to-r, #743F9E, #BFA3DA)"
+                bgClip="text"
+                fontSize="3.5rem"
+                display="inline-block"
               >
-                <Heading fontSize="3.5rem">Bear Market</Heading>
-                <Heading
-                  bgGradient="linear(to-r, #743F9E, #BFA3DA)"
-                  bgClip="text"
-                  fontSize="3.5rem"
-                  display="inline-block"
-                >
-                  Builders Airdrop.
-                </Heading>
-              </Box>
+                Builders Airdrop.
+              </Heading>
+            </Box>
+          )}
+          <>
+            {hasPack < 1 && (
+              <Supply supply={supply} initialSupply={initialSupply} />
             )}
-            <>
-              {!hasPack && (
-                <Supply supply={supply} initialSupply={initialSupply} />
-              )}
-              {!address ? (
+            {!address ? (
+              <Box>
                 <ConnectWallet />
-              ) : hasPack ? (
-                <OpenPack openPack={openPack} unboxing={unboxing} />
-              ) : (
-                <ClaimAirdrop
-                  canClaim={canClaim}
-                  isClaiming={claiming}
-                  claim={claim}
-                />
-              )}
-            </>
-          </Flex>
+              </Box>
+            ) : hasPack > 0 ? (
+              <OpenPack openPack={openPack} unboxing={unboxing} />
+            ) : (
+              <ClaimAirdrop
+                canClaim={canClaim}
+                isClaiming={claiming}
+                claim={claim}
+              />
+            )}
+          </>
         </Flex>
       ) : (
         <Unboxed
@@ -289,64 +287,85 @@ export const Hero: React.FC<HeroProps> = () => {
           editionAddress={EDITION_ADDRESS}
         />
       )}
-      {unboxed && (
-        <Flex direction="row" mt={20}>
-          <Card
-            h="587px"
-            w="464px"
-            border="1px solid"
-            borderColor="#A07CED"
-            rounded="xl"
-            mx="auto"
-            px={8}
+      <Flex
+        direction="row"
+        w={{
+          base: "full",
+          lg: "50%",
+        }}
+      >
+        {!address ? (
+          <ChakraNextImage
+            src={require("public/assets/bear-market-airdrop/bear-pack-with-bg.png")}
+            alt={"bear-market-pack"}
+          />
+        ) : (
+          <Flex
+            ml={{
+              base: "auto",
+            }}
+            mr={{
+              base: "auto",
+              lg: 0,
+            }}
           >
-            <Heading textAlign="center" mt={28} fontSize="20px">
-              Contracts you&apos;ve deployed:
-            </Heading>
-            <Flex direction="column" mt={8}>
-              {/*
+            <Card
+              mt={-8}
+              px={8}
+              py={12}
+              rounded="xl"
+              h={561}
+              w={464}
+              bg="#121018"
+            >
+              <Heading textAlign="center" fontSize="20px">
+                Contracts you&apos;ve deployed:
+              </Heading>
+              <Flex direction="column">
+                {/* h
                 This list is temporary, once I get the list from Adam I'll replace it.
               */}
-              {[
-                {
-                  address: "0x23...341",
-                  name: "test",
-                  chainName: "Polygon Mainnet",
-                  icon: Polygon.icon.url,
-                },
-                {
-                  address: "0x45...678",
-                  name: "test",
-                  chainName: "Fantom Opera",
-                  icon: Fantom.icon.url,
-                },
-              ].map((contract) => (
-                <Flex
-                  key={contract.address}
-                  rounded="xl"
-                  gap={2}
-                  mt={6}
-                  alignItems="end"
-                >
-                  <Box mr={4} alignSelf="center">
-                    <MediaRenderer
-                      src={contract.icon}
-                      height="32px"
-                      width="32px"
-                    />
-                  </Box>
-                  <Box w="60%">
-                    <Text fontSize="16px">{contract.name}</Text>
-                    <Text fontSize="14px">
-                      {contract.chainName} * {contract.address}
-                    </Text>
-                  </Box>
-                </Flex>
-              ))}
-            </Flex>
-          </Card>
-        </Flex>
-      )}
+                {[
+                  {
+                    address: "0x23...341",
+                    name: "test",
+                    chainName: "Polygon Mainnet",
+                    icon: Polygon.icon.url,
+                  },
+                  {
+                    address: "0x45...678",
+                    name: "test",
+                    chainName: "Fantom Opera",
+                    icon: Fantom.icon.url,
+                  },
+                ].map((contract) => (
+                  <Flex
+                    key={contract.address}
+                    rounded="xl"
+                    gap={2}
+                    mt={6}
+                    alignItems="end"
+                  >
+                    <Box mr={4} alignSelf="center">
+                      <MediaRenderer
+                        src={contract.icon}
+                        height="32px"
+                        width="32px"
+                      />
+                    </Box>
+                    <Box w="60%">
+                      <Text fontSize="16px">{contract.name}</Text>
+                      <Text fontSize="14px">
+                        {contract.chainName} * {contract.address}
+                      </Text>
+                    </Box>
+                  </Flex>
+                ))}
+              </Flex>
+            </Card>
+          </Flex>
+        )}
+      </Flex>
     </Flex>
   );
 };
