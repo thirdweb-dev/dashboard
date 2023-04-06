@@ -24,6 +24,7 @@ import {
   useSigner,
 } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
+import { DeploymentTransaction } from "@thirdweb-dev/sdk/dist/declarations/src/evm/types/any-evm/deploy-data";
 import {
   Abi,
   ContractInfoSchema,
@@ -569,6 +570,28 @@ export function useCustomContractDeployMutation(
       },
     },
   );
+}
+
+export function useTransactionsForDeploy(publishMetadataOrUri: string) {
+  const sdk = useSDK();
+  const chainId = useChainId();
+
+  const queryResult = useQuery<DeploymentTransaction[]>(
+    ["transactions-for-deploy", publishMetadataOrUri, chainId],
+    async () => {
+      invariant(sdk, "sdk not provided");
+      return await sdk.deployer.getTransactionsForDeploy(
+        publishMetadataOrUri.startsWith("ipfs://")
+          ? publishMetadataOrUri
+          : `ipfs://${publishMetadataOrUri}`,
+      );
+    },
+    {
+      enabled: !!publishMetadataOrUri && !!sdk,
+    },
+  );
+
+  return queryResult;
 }
 
 export async function fetchPublishedContracts(
