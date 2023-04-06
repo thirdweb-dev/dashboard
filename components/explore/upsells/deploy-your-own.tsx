@@ -48,7 +48,7 @@ export const DeployUpsellCard: React.FC = () => {
               as={TrackedLink}
               {...{
                 category: "deploy_upsell",
-                label: "contract_kit",
+                label: "solidity_sdk",
               }}
               fontWeight={400}
               _light={{ color: "blue.500", _hover: { color: "blue.500" } }}
@@ -58,7 +58,7 @@ export const DeployUpsellCard: React.FC = () => {
               isExternal
               variant="link"
             >
-              Learn more about ContractKit
+              Learn more about the Solidity SDK
             </LinkButton>
           </Flex>
 

@@ -49,16 +49,16 @@ const solutions: SolutionCardProps[] = [
     description: (
       <>
         An all-in-one toolkit to build and mint NFTs. Create powerful NFT
-        experiences. Build your own NFT and Marketplace contracts with{" "}
+        experiences. Build your own NFT and Marketplace contracts with the{" "}
         <TrackedLink
           color="white"
           fontWeight="500"
           isExternal
           category="solutions"
-          label="contractkit"
+          label="solidity-sdk"
           href="https://portal.thirdweb.com/solidity"
         >
-          ContractKit
+          Solidity SDK
         </TrackedLink>{" "}
         or discover and deploy in 1-click via{" "}
         <TrackedLink

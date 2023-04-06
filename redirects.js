@@ -53,7 +53,12 @@ function redirects() {
     },
     {
       source: "/extensions",
-      destination: "/contractkit",
+      destination: "/solidity-sdk",
+      permanent: false,
+    },
+    {
+      source: "/contractkit",
+      destination: "/solidity-sdk",
       permanent: false,
     },
     //  old (deprecated) routes
