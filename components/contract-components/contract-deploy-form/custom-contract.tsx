@@ -101,6 +101,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       })
     : undefined;
 
+  const parseDeployParams = {
+    ...deployParams.reduce((acc, param) => {
+      acc[param.name] = replaceTemplateValues(
+        fullPublishMetadata.data?.constructorParams?.[param.name]?.defaultValue
+          ? fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue || ""
+          : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+          ? "0"
+          : "",
+        param.type,
+        {
+          connectedWallet,
+          chainId: selectedChain,
+        },
+      );
+      return acc;
+    }, {} as Record<string, string>),
+  };
+
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
@@ -114,42 +133,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   }>({
     defaultValues: {
       addToDashboard: true,
-      deployParams: {
-        ...deployParams.reduce((acc, param) => {
-          acc[param.name] = replaceTemplateValues(
-            fullPublishMetadata.data?.constructorParams?.[param.name]
-              ?.defaultValue
-              ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                  ?.defaultValue || ""
-              : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-              ? "0"
-              : "",
-            param.type,
-            {
-              connectedWallet,
-              chainId: selectedChain,
-            },
-          );
-          return acc;
-        }, {} as Record<string, string>),
-      },
+      deployParams: parseDeployParams,
     },
     values: {
       addToDashboard: true,
-      deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue || "",
-          param.type,
-          {
-            connectedWallet,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      }, {} as Record<string, string>),
+      deployParams: parseDeployParams,
     },
     resetOptions: {
+      keepDirty: true,
       keepDirtyValues: true,
     },
   });
@@ -244,7 +235,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
                   deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
-                  publisherAndContractName: `${fullPublishMetadata.data?.publisher}/${compilerMetadata.data?.name}`,
+                  publisherAndContractName: `${
+                    fullPublishMetadata.data?.publisher || "deploy-form"
+                  }/${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
