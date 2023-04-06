@@ -62,8 +62,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 }) => {
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
 
-  console.log(transactions);
-
   const configuredChains = useConfiguredChains();
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
 

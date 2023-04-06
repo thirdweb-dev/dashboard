@@ -1,6 +1,6 @@
 import {
+  getStepDeploy,
   stepAddToRegistry,
-  stepDeploy,
   useDeployContextModal,
 } from "./contract-deploy-form/deploy-context-modal";
 import { uploadContractMetadata } from "./contract-deploy-form/deploy-form-utils";
@@ -463,6 +463,7 @@ export function useCustomContractDeployMutation(
   const chainId = useChainId();
   const signer = useSigner();
   const deployContext = useDeployContextModal();
+  const { data: transactions } = useTransactionsForDeploy(ipfsHash);
 
   return useMutation(
     async (data: ContractDeployMutationParams) => {
@@ -470,6 +471,8 @@ export function useCustomContractDeployMutation(
         sdk && "getPublisher" in sdk,
         "sdk is not ready or does not support publishing",
       );
+
+      const stepDeploy = getStepDeploy(transactions?.length || 1);
 
       // open the modal with the appropriate steps
       deployContext.open(
