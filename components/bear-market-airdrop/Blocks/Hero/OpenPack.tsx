@@ -18,11 +18,6 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
       justifyContent="center"
       alignItems="center"
     >
-      <ChakraNextImage
-        src={require("public/assets/bear-market-airdrop/bear-market-pack.png")}
-        alt="pack-img"
-        w="400px"
-      />
       <Flex direction="column" w="full" gap={8} alignSelf="end">
         <Button
           bg="white"

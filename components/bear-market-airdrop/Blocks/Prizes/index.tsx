@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { PrizesCarousel } from "components/bear-market-airdrop/PrizeCarousel";
-import { Heading, Text } from "tw-components";
+import { Heading } from "tw-components";
 
 export const PrizesDisplay: React.FC = () => {
   return (
