@@ -223,18 +223,21 @@ export const Hero: React.FC<HeroProps> = () => {
         base: "center",
         lg: "space-between",
       }}
-      alignItems={{
-        base: "center",
-        lg: "",
-      }}
+      // alignItems={{
+      //   base: "center",
+      //   lg: "",
+      // }}
       w="full"
-      mt={52}
       direction={{
         base: "column",
         lg: "row",
       }}
+      gap={{
+        base: 16,
+        lg: 0,
+      }}
     >
-      {unboxed ? (
+      {!unboxed ? (
         <Flex
           gap={8}
           direction="column"
@@ -242,6 +245,7 @@ export const Hero: React.FC<HeroProps> = () => {
             base: "full",
             lg: "50%",
           }}
+          mt={52}
         >
           {hasPack < 1 && (
             <Box
@@ -281,11 +285,13 @@ export const Hero: React.FC<HeroProps> = () => {
           </>
         </Flex>
       ) : (
-        <Unboxed
-          tx={packTx}
-          reward={ownsReward && ownsReward[0]}
-          editionAddress={EDITION_ADDRESS}
-        />
+        <Box mt={52}>
+          <Unboxed
+            tx={packTx}
+            reward={ownsReward && ownsReward[0]}
+            editionAddress={EDITION_ADDRESS}
+          />
+        </Box>
       )}
       <Flex
         direction="row"
@@ -308,6 +314,8 @@ export const Hero: React.FC<HeroProps> = () => {
               base: "auto",
               lg: 0,
             }}
+            maxW="100%"
+            mt={36}
           >
             <Card
               mt={-8}

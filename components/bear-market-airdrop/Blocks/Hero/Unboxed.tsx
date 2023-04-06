@@ -58,27 +58,34 @@ export const Unboxed: React.FC<UnboxedProps> = ({
   const method = deliveryMethodMapping[nft?.name ?? ""] || "pack";
 
   return (
-    <Flex direction="column" w="full" pb={16} alignItems="center">
+    <Flex
+      direction="column"
+      w="full"
+      pb={16}
+      alignItems="center"
+      maxW="100%"
+      overflowX="clip"
+    >
       <Box
         fontSize={{
           base: "2.5rem",
           xl: "3.5rem",
         }}
         position="relative"
-        mt="74px"
         mb={5}
+        mt={-120}
       >
         <ChakraNextImage
           src={require("public/assets/bear-market-airdrop/confetti1.png")}
           alt="confetti1"
           position="absolute"
           top={{
-            base: -16,
-            xl: -40,
+            base: -40,
+            lg: -40,
           }}
           left={{
-            base: -16,
-            xl: -40,
+            base: -20,
+            lg: -40,
           }}
         />
         <ChakraNextImage
@@ -86,12 +93,12 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           alt="confetti1"
           position="absolute"
           top={{
-            base: -12,
-            xl: -40,
+            base: -40,
+            lg: -40,
           }}
           left={{
-            base: 80,
-            xl: 60,
+            base: 40,
+            lg: 60,
           }}
         />
         <Flex
