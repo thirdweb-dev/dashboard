@@ -6,6 +6,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
+import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
 import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -60,11 +61,16 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
               placeholder="Contract address"
               {...form.register("contractAddress")}
             />
-            <SupportedNetworkSelect
+            {/* <SupportedNetworkSelect
               value={form.watch("chainId")}
               onChange={(e) =>
                 form.setValue("chainId", parseInt(e.target.value))
               }
+            /> */}
+            <NetworkSelectorButton
+              onSwitchChain={(chain) => {
+                form.setValue("chainId", chain.chainId);
+              }}
             />
           </Flex>
           <TransactionButton

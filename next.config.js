@@ -40,6 +40,7 @@ const redirects = require("./redirects");
 
 /** @type {import('next').NextConfig} */
 const moduleExports = {
+  transpilePackages: ["@thirdweb-dev/react", "@thirdweb-dev/react-core"],
   async headers() {
     return [
       {

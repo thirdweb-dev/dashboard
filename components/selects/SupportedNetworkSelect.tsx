@@ -1,7 +1,7 @@
 import { Select, SelectProps, forwardRef } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { StoredChain } from "contexts/configured-chains";
-import { useConfiguredChains } from "hooks/chains/configureChains";
+import { useSupportedChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
 
 export interface SupportedNetworkSelectProps
@@ -18,25 +18,20 @@ export const SupportedNetworkSelect = forwardRef<
     { disabledChainIds, disabledChainIdText = "Unsupported", ...selectProps },
     ref,
   ) => {
-    const configuredNetworks = useConfiguredChains();
+    const supportedChains = useSupportedChains();
 
     const testnets = useMemo(() => {
-      return configuredNetworks.filter((n) => !n.isAutoConfigured && n.testnet);
-    }, [configuredNetworks]);
+      return supportedChains.filter((n) => n.testnet);
+    }, [supportedChains]);
 
     const mainnets = useMemo(() => {
-      return configuredNetworks.filter(
-        (n) => !n.isAutoConfigured && !n.testnet,
-      );
-    }, [configuredNetworks]);
+      return supportedChains.filter((n) => !n.testnet);
+    }, [supportedChains]);
 
     const value =
       selectProps.value === undefined || selectProps.value === -1
         ? -1
-        : configuredNetworks?.some(
-            (chain) =>
-              !chain.isAutoConfigured && chain.chainId === selectProps.value,
-          )
+        : supportedChains?.some((chain) => chain.chainId === selectProps.value)
         ? (selectProps.value as number)
         : -2;
 
