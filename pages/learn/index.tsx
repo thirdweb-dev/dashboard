@@ -55,7 +55,7 @@ const Learn: ThirdwebNextPage = () => {
         {/* pull it up by as much as the topnav is tall */}
         <Box mt="-80px" overflowX="hidden">
           <Hero
-            name="web3 and thirdweb sdk"
+            name="Web3 & thirdweb SDK"
             title="Learn. Build. Grow."
             description={
               <>
