@@ -42,13 +42,15 @@ import {
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
 import { utils } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
+import { CAPTCHA_ENABLED_CHAINS } from "lib/captcha-enabled-chains";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { isEnsName } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { StaticImageData } from "next/image";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import invariant from "tiny-invariant";
 import { z } from "zod";
 
@@ -465,6 +467,18 @@ export function useCustomContractDeployMutation(
   const deployContext = useDeployContextModal();
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
 
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  // Create an event handler so you can call the verification on button click event or form submit
+  const handleReCaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      return undefined;
+    }
+
+    const token = await executeRecaptcha("addToDashboard");
+    return token;
+  }, [executeRecaptcha]);
+
   return useMutation(
     async (data: ContractDeployMutationParams) => {
       invariant(
@@ -542,12 +556,19 @@ export function useCustomContractDeployMutation(
         // let user decide if they want this or not
         if (data.addToDashboard) {
           invariant(chainId, "chainId is not provided");
+
+          let captchaToken: string | undefined = "";
+          // only on base goerli
+          if (CAPTCHA_ENABLED_CHAINS.includes(chainId)) {
+            captchaToken = await handleReCaptchaVerify();
+          }
           await addContractToMultiChainRegistry(
             {
               address: contractAddress,
               chainId,
             },
             signer,
+            captchaToken,
           );
 
           deployContext.nextStep();

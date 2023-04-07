@@ -27,7 +27,8 @@ import { ErrorProvider } from "contexts/error-handler";
 import { del, get, set } from "idb-keyval";
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { ComponentWithChildren } from "types/component-with-children";
 import { bigNumberReplacer } from "utils/bignumber";
 import { isBrowser } from "utils/isBrowser";
@@ -108,35 +109,47 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
   );
 
   const router = useRouter();
+
+  const captchaContainerRef = useRef<HTMLElement>();
+  useEffect(() => {
+    captchaContainerRef.current =
+      document.getElementById("hidden-captacha-container") || undefined;
+  }, []);
+
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{
-        persister,
-        buster: __CACHE_BUSTER,
-        dehydrateOptions: {
-          shouldDehydrateQuery: (q) => !shouldNeverPersistQuery(q.queryKey),
-        },
-      }}
+    <GoogleReCaptchaProvider
+      reCaptchaKey="6LegNWolAAAAALdzyBcjLOuOKAeaZVHpu3A0wJTa"
+      container={{ parameters: { badge: "inline" } }}
     >
-      <Hydrate state={props.dehydratedState}>
-        <ErrorProvider>
-          <DeployModalProvider>
-            <AllChainsProvider>
-              <ConfiguredChainsProvider>
-                <EVMContractInfoProvider value={props.contractInfo}>
-                  <DashboardThirdwebProvider>
-                    <PHIdentifier />
-                    {router.pathname !== "/dashboard" && <PrivacyNotice />}
-                    <AppShell {...props} />
-                  </DashboardThirdwebProvider>
-                </EVMContractInfoProvider>
-              </ConfiguredChainsProvider>
-            </AllChainsProvider>
-          </DeployModalProvider>
-        </ErrorProvider>
-      </Hydrate>
-    </PersistQueryClientProvider>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{
+          persister,
+          buster: __CACHE_BUSTER,
+          dehydrateOptions: {
+            shouldDehydrateQuery: (q) => !shouldNeverPersistQuery(q.queryKey),
+          },
+        }}
+      >
+        <Hydrate state={props.dehydratedState}>
+          <ErrorProvider>
+            <DeployModalProvider>
+              <AllChainsProvider>
+                <ConfiguredChainsProvider>
+                  <EVMContractInfoProvider value={props.contractInfo}>
+                    <DashboardThirdwebProvider>
+                      <PHIdentifier />
+                      {router.pathname !== "/dashboard" && <PrivacyNotice />}
+                      <AppShell {...props} />
+                    </DashboardThirdwebProvider>
+                  </EVMContractInfoProvider>
+                </ConfiguredChainsProvider>
+              </AllChainsProvider>
+            </DeployModalProvider>
+          </ErrorProvider>
+        </Hydrate>
+      </PersistQueryClientProvider>
+    </GoogleReCaptchaProvider>
   );
 };
 

@@ -178,6 +178,9 @@ const ConsoleApp = memo(function ConsoleApp({
     >
       <Global
         styles={css`
+          .grecaptcha-badge {
+            visibility: hidden;
+          }
           #walletconnect-wrapper {
             color: #000;
           }
