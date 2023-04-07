@@ -27,8 +27,9 @@ import { ThirdwebNextPage } from "utils/types";
 const TRACKING_CATEGORY = "learn";
 
 const SEO = {
-  title: "Learn | web3",
-  description: "Learn web3 foundations and the thirdweb sdk",
+  title: "Learn Web3 Development | Web3 Course | thirdweb",
+  description:
+    "Learn everything you need to know about web3 development — whether you’re a beginner or a full-stack developer. Get started with thirdweb.",
 };
 
 const Learn: ThirdwebNextPage = () => {
