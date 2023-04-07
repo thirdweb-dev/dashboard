@@ -18,8 +18,8 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import HeroImage from "public/assets/landingpage/hero.png";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
+import HeroImage from "public/assets/learn/hero.png";
 import { BsLightningCharge } from "react-icons/bs";
 import { Heading, LinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -29,7 +29,7 @@ const TRACKING_CATEGORY = "learn";
 const SEO = {
   title: "Learn Web3 Development | Web3 Course | thirdweb",
   description:
-    "Learn everything you need to know about web3 development — whether you’re a beginner or a full-stack developer. Get started with thirdweb.",
+    "Learn everything you need to know about web3 development — whether you&apos;re a beginner or a full-stack developer. Get started with thirdweb.",
 };
 
 const Learn: ThirdwebNextPage = () => {
