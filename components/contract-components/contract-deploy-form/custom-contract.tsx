@@ -5,6 +5,7 @@ import {
   useCustomContractDeployMutation,
   useEns,
   useFunctionParamsFromABI,
+  useTransactionsForDeploy,
 } from "../hooks";
 import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
@@ -59,6 +60,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   onSuccessCallback,
   walletAddress,
 }) => {
+  const { data: transactions } = useTransactionsForDeploy(ipfsHash);
+
   const configuredChains = useConfiguredChains();
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
 
@@ -101,6 +104,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       })
     : undefined;
 
+  const parseDeployParams = {
+    ...deployParams.reduce((acc, param) => {
+      acc[param.name] = replaceTemplateValues(
+        fullPublishMetadata.data?.constructorParams?.[param.name]?.defaultValue
+          ? fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue || ""
+          : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+          ? "0"
+          : "",
+        param.type,
+        {
+          connectedWallet,
+          chainId: selectedChain,
+        },
+      );
+      return acc;
+    }, {} as Record<string, string>),
+  };
+
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
@@ -114,42 +136,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   }>({
     defaultValues: {
       addToDashboard: true,
-      deployParams: {
-        ...deployParams.reduce((acc, param) => {
-          acc[param.name] = replaceTemplateValues(
-            fullPublishMetadata.data?.constructorParams?.[param.name]
-              ?.defaultValue
-              ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                  ?.defaultValue || ""
-              : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-              ? "0"
-              : "",
-            param.type,
-            {
-              connectedWallet,
-              chainId: selectedChain,
-            },
-          );
-          return acc;
-        }, {} as Record<string, string>),
-      },
+      deployParams: parseDeployParams,
     },
     values: {
       addToDashboard: true,
-      deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue || "",
-          param.type,
-          {
-            connectedWallet,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      }, {} as Record<string, string>),
+      deployParams: parseDeployParams,
     },
     resetOptions: {
+      keepDirty: true,
       keepDirtyValues: true,
     },
   });
@@ -244,7 +238,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
                   deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
-                  publisherAndContractName: `${fullPublishMetadata.data?.publisher}/${compilerMetadata.data?.name}`,
+                  publisherAndContractName: `${
+                    fullPublishMetadata.data?.publisher || "deploy-form"
+                  }/${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
@@ -437,7 +433,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               !!disabledChainIds?.find((chain) => chain === selectedChain)
             }
             colorScheme="blue"
-            transactionCount={form.watch("addToDashboard") ? 2 : 1}
+            transactionCount={
+              form.watch("addToDashboard")
+                ? transactions?.length
+                  ? transactions.length + 1
+                  : 2
+                : transactions?.length || 1
+            }
           >
             Deploy Now
           </TransactionButton>
