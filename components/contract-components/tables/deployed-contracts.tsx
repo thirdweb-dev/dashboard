@@ -539,10 +539,10 @@ const AsyncExtensionCell = memo(({ cell }: AsyncExtensionCellProps) => {
     staleTime: 1000 * 60 * 60,
   });
 
-  const [importantExtension, contractType] = useMemo(() => {
-    const [extensions, cType] = contractExtensionsQuery.data || [[], ""];
-    const imp = getImportantExtension(extensions);
-    return [imp, cType];
+  const [importantExtension, contractType, extensions] = useMemo(() => {
+    const [exts, cType] = contractExtensionsQuery.data || [[], ""];
+    const imp = getImportantExtension(exts);
+    return [imp, cType, exts];
   }, [contractExtensionsQuery.data]);
 
   let tag: JSX.Element;
@@ -560,7 +560,7 @@ const AsyncExtensionCell = memo(({ cell }: AsyncExtensionCellProps) => {
             variant="outline"
             colorScheme="blue"
           >
-            +{importantExtension.count}
+            +{extensions.length - importantExtension.count}
           </Badge>
         ) : null}
       </Flex>
@@ -574,7 +574,8 @@ const AsyncExtensionCell = memo(({ cell }: AsyncExtensionCellProps) => {
   } else {
     tag = (
       <Text fontStyle="italic" size="label.md" as="h4">
-        No Extensions
+        {extensions?.length === 0 ? "No" : extensions.length} Extension
+        {extensions.length === 1 ? "" : "s"}
       </Text>
     );
   }

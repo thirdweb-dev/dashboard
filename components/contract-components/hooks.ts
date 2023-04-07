@@ -1,13 +1,12 @@
 import {
+  getStepDeploy,
   stepAddToRegistry,
-  stepDeploy,
   useDeployContextModal,
 } from "./contract-deploy-form/deploy-context-modal";
+import { uploadContractMetadata } from "./contract-deploy-form/deploy-form-utils";
+import { Recipient } from "./contract-deploy-form/split-fieldset";
 import { ContractId } from "./types";
-import {
-  addContractToMultiChainRegistry,
-  isContractIdBuiltInContract,
-} from "./utils";
+import { addContractToMultiChainRegistry } from "./utils";
 import { contractKeys, networkKeys } from "@3rdweb-sdk/react";
 import { useMutationWithInvalidate } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
 import {
@@ -25,10 +24,10 @@ import {
   useSigner,
 } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
+import { DeploymentTransaction } from "@thirdweb-dev/sdk/dist/declarations/src/evm/types/any-evm/deploy-data";
 import {
   Abi,
   ContractInfoSchema,
-  ContractType,
   ExtraPublishMetadata,
   ProfileMetadata,
   PublishedContract,
@@ -41,9 +40,9 @@ import {
   fetchPreDeployMetadata,
 } from "@thirdweb-dev/sdk/evm";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
-import { BuiltinContractMap } from "constants/mappings";
 import { utils } from "ethers";
 import { useConfiguredChain } from "hooks/chains/configureChains";
+import { replaceTemplateValues } from "lib/deployment/template-values";
 import { isEnsName } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
@@ -81,16 +80,6 @@ export async function fetchContractPublishMetadataFromURI(
   contractId: ContractId,
 ) {
   const contractIdIpfsHash = toContractIdIpfsHash(contractId);
-
-  if (isContractIdBuiltInContract(contractId)) {
-    const details = BuiltinContractMap[contractIdIpfsHash as ContractType];
-    return {
-      image: details.icon,
-      name: details.title,
-      deployDisabled: details.comingSoon,
-      description: details.description,
-    };
-  }
 
   invariant(contractId !== "ipfs://undefined", "uri can't be undefined");
   let resolved;
@@ -140,10 +129,6 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
   return useQuery(
     ["pre-publish-metadata", uri, address],
     async () => {
-      invariant(
-        !isContractIdBuiltInContract(uri),
-        "Skipping publish metadata fetch for built-in contract",
-      );
       invariant(address, "address is not defined");
       // TODO: Make this nicer.
       invariant(uri !== "ipfs://undefined", "uri can't be undefined");
@@ -190,11 +175,6 @@ export function useContractFullPublishMetadata(uri: string) {
   return useQuery(
     ["full-publish-metadata", uri],
     async () => {
-      invariant(
-        !isContractIdBuiltInContract(uri),
-        "Skipping publish metadata fetch for built-in contract",
-      );
-
       invariant(sdk, "sdk is not defined");
       // TODO: Make this nicer.
       invariant(uri !== "ipfs://undefined", "uri can't be undefined");
@@ -397,10 +377,7 @@ export function useFunctionParamsFromABI(abi?: any, functionName?: string) {
 }
 
 export function toContractIdIpfsHash(contractId: ContractId) {
-  if (
-    isContractIdBuiltInContract(contractId) ||
-    contractId?.startsWith("ipfs://")
-  ) {
+  if (contractId?.startsWith("ipfs://")) {
     return contractId;
   }
   return `ipfs://${contractId}`;
@@ -463,13 +440,22 @@ export function useEditProfileMutation() {
 }
 
 interface ContractDeployMutationParams {
-  constructorParams: unknown[];
+  recipients?: Recipient[];
+  deployParams: Record<string, string>;
+  contractMetadata?: {
+    name: string;
+    description: string;
+    image: string;
+    symbol: string;
+  };
+  address?: string;
   addToDashboard?: boolean;
 }
 
 export function useCustomContractDeployMutation(
   ipfsHash: string,
   forceDirectDeploy?: boolean,
+  { hasContractURI, hasRoyalty, isSplit }: Record<string, boolean> = {},
 ) {
   const sdk = useSDK();
   const queryClient = useQueryClient();
@@ -477,6 +463,7 @@ export function useCustomContractDeployMutation(
   const chainId = useChainId();
   const signer = useSigner();
   const deployContext = useDeployContextModal();
+  const { data: transactions } = useTransactionsForDeploy(ipfsHash);
 
   return useMutation(
     async (data: ContractDeployMutationParams) => {
@@ -485,6 +472,8 @@ export function useCustomContractDeployMutation(
         "sdk is not ready or does not support publishing",
       );
 
+      const stepDeploy = getStepDeploy(transactions?.length || 1);
+
       // open the modal with the appropriate steps
       deployContext.open(
         data.addToDashboard ? [stepDeploy, stepAddToRegistry] : [stepDeploy],
@@ -492,10 +481,51 @@ export function useCustomContractDeployMutation(
 
       let contractAddress: string;
       try {
+        if (hasContractURI) {
+          data.deployParams._contractURI = await uploadContractMetadata({
+            ...data.contractMetadata,
+            ...(hasRoyalty && {
+              seller_fee_basis_points:
+                typeof data.deployParams._royaltyBps === "string"
+                  ? parseInt(data.deployParams._royaltyBps, 10)
+                  : data.deployParams?._royaltyBps || 0,
+            }),
+            ...(hasRoyalty && {
+              fee_recipient: data.deployParams._royaltyRecipient,
+            }),
+          });
+          if ("_name" in data.deployParams) {
+            data.deployParams._name = data.contractMetadata?.name || "";
+          }
+          if ("_symbol" in data.deployParams) {
+            data.deployParams._symbol = data.contractMetadata?.symbol || "";
+          }
+        }
+
+        if (isSplit) {
+          data.deployParams._payees = JSON.stringify(
+            data.recipients?.map((r) => r.address) || [],
+          );
+          data.deployParams._shares = JSON.stringify(
+            data.recipients?.map((r) => r.sharesBps) || [],
+          );
+        }
+
+        if (data.deployParams?._defaultAdmin === "") {
+          data.deployParams._defaultAdmin = data.address || "";
+        }
+
+        if (data.deployParams?._trustedForwarders === "") {
+          data.deployParams._trustedForwarders = replaceTemplateValues(
+            "{{trusted_forwarders}}",
+            "address[]",
+            {},
+          );
+        }
         // deploy contract
         contractAddress = await sdk.deployer.deployContractFromUri(
           ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-          data.constructorParams,
+          Object.values(data.deployParams),
           {
             forceDirectDeploy,
           },
@@ -543,6 +573,28 @@ export function useCustomContractDeployMutation(
       },
     },
   );
+}
+
+export function useTransactionsForDeploy(publishMetadataOrUri: string) {
+  const sdk = useSDK();
+  const chainId = useChainId();
+
+  const queryResult = useQuery<DeploymentTransaction[]>(
+    ["transactions-for-deploy", publishMetadataOrUri, chainId],
+    async () => {
+      invariant(sdk, "sdk not provided");
+      return await sdk.deployer.getTransactionsForDeploy(
+        publishMetadataOrUri.startsWith("ipfs://")
+          ? publishMetadataOrUri
+          : `ipfs://${publishMetadataOrUri}`,
+      );
+    },
+    {
+      enabled: !!publishMetadataOrUri && !!sdk,
+    },
+  );
+
+  return queryResult;
 }
 
 export async function fetchPublishedContracts(
