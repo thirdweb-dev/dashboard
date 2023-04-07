@@ -1,21 +1,37 @@
+import { useSupportedChainsRecord } from "./configureChains";
 import {
-  AddRecentlyUsedChainsContext,
-  RecentlyUsedChainsContext,
+  AddRecentlyUsedChainIdsContext,
+  RecentlyUsedChainIdsContext,
+  SupportedChainsReadyContext,
 } from "contexts/configured-chains";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import invariant from "tiny-invariant";
 
 export function useRecentlyUsedChains() {
-  const context = useContext(RecentlyUsedChainsContext);
+  const recentlyUsedChainIds = useContext(RecentlyUsedChainIdsContext);
+  const supportedChainsRecord = useSupportedChainsRecord();
+
+  const isSupportedChainsReady = useContext(SupportedChainsReadyContext);
+
+  const recentlyUsedChains = useMemo(() => {
+    if (!recentlyUsedChainIds || !isSupportedChainsReady) {
+      return [];
+    }
+    return recentlyUsedChainIds.map((chainId) => {
+      return supportedChainsRecord[chainId];
+    });
+  }, [supportedChainsRecord, recentlyUsedChainIds, isSupportedChainsReady]);
+
   invariant(
-    context,
+    recentlyUsedChainIds,
     "useRecentlyUsedChains must be used within ModifyChainContext",
   );
-  return context;
+
+  return recentlyUsedChains;
 }
 
-export function useAddRecentlyUsedChains() {
-  const context = useContext(AddRecentlyUsedChainsContext);
+export function useAddRecentlyUsedChainId() {
+  const context = useContext(AddRecentlyUsedChainIdsContext);
   invariant(
     context,
     "useRecentlyUsedChains must be used within ModifyChainContext",

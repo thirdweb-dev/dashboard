@@ -22,7 +22,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { CustomChainRenderer } from "components/selects/CustomChainRenderer";
 import {
-  useAddRecentlyUsedChains,
+  useAddRecentlyUsedChainId,
   useRecentlyUsedChains,
 } from "hooks/chains/recentlyUsedChains";
 import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
@@ -44,7 +44,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const recentChains = useRecentlyUsedChains();
-  const addRecentlyUsedChains = useAddRecentlyUsedChains();
+  const addRecentlyUsedChainId = useAddRecentlyUsedChainId();
   const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
 
   const solWallet = useSolWallet();
@@ -116,7 +116,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
           popularChains: defaultChains,
           recentChains,
           onSwitch(chain) {
-            addRecentlyUsedChains(chain);
+            addRecentlyUsedChainId(chain.chainId);
           },
           onCustomClick() {
             setIsNetworkConfigModalOpen(true);

@@ -1,13 +1,12 @@
 import { Box, Flex, IconButton, Spinner } from "@chakra-ui/react";
 import { NetworkSelectorProps } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { useAddRecentlyUsedChains } from "hooks/chains/recentlyUsedChains";
+import { useAddRecentlyUsedChainId } from "hooks/chains/recentlyUsedChains";
 import {
   useSetEditChain,
   useSetIsNetworkConfigModalOpen,
 } from "hooks/networkConfigModal";
 import { RxGear } from "react-icons/rx";
-import { Button } from "tw-components";
 
 export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
   chain,
@@ -17,18 +16,20 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
   close,
 }) => {
   const setIsOpenNetworkConfigModal = useSetIsNetworkConfigModalOpen();
-  const addRecentlyUsedChain = useAddRecentlyUsedChains();
+  const addRecentlyUsedChain = useAddRecentlyUsedChainId();
   const setEditChain = useSetEditChain();
 
   return (
-    <Button
-      variant="solid"
+    <Flex
       w="100%"
       justifyContent="start"
       bg="inputBg"
       _hover={{
         bg: "inputBgHover",
       }}
+      borderRadius="md"
+      px={3}
+      cursor="pointer"
       h="auto"
       minH="56px"
     >
@@ -79,7 +80,7 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
           icon={<RxGear />}
           onClick={() => {
             setEditChain(chain);
-            addRecentlyUsedChain(chain);
+            addRecentlyUsedChain(chain.chainId);
             setIsOpenNetworkConfigModal(true);
             if (close) {
               close();
@@ -89,6 +90,6 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
           }}
         />
       </Flex>
-    </Button>
+    </Flex>
   );
 };

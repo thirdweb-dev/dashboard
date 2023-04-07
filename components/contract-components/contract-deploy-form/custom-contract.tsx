@@ -14,7 +14,6 @@ import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
-import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
 import {
   THIRDWEB_DEPLOYER_ADDRESS,
   THIRDWEB_DEPLOYER_ENS,
@@ -405,19 +404,17 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         </Flex>
 
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
-          <FormControl>
-            <NetworkSelectorButton
-              isDisabled={
-                isImplementationDeploy ||
-                deploy.isLoading ||
-                !compilerMetadata.isSuccess
-              }
-              onSwitchChain={(chain) => {
-                onChainSelect(chain.chainId);
-              }}
-              disabledChainIds={disabledChainIds}
-            />
-          </FormControl>
+          <NetworkSelectorButton
+            isDisabled={
+              isImplementationDeploy ||
+              deploy.isLoading ||
+              !compilerMetadata.isSuccess
+            }
+            onSwitchChain={(chain) => {
+              onChainSelect(chain.chainId);
+            }}
+            disabledChainIds={disabledChainIds}
+          />
           <TransactionButton
             onChainSelect={onChainSelect}
             upsellTestnet

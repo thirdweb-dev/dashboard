@@ -18,7 +18,6 @@ import { AiOutlineWarning } from "@react-icons/all-files/ai/AiOutlineWarning";
 import { useWallet as useWalletSol } from "@solana/wallet-adapter-react";
 import {
   ChainId,
-  useAddress,
   useBalance,
   useChainId,
   useConnectionStatus,
@@ -57,7 +56,7 @@ export const MismatchButton = React.forwardRef<
     },
     ref,
   ) => {
-    const address = useAddress();
+    const wallet = useWallet();
     const { publicKey } = useWalletSol();
     const evmBalance = useBalance();
     const solBalance = useSolBalance();
@@ -75,7 +74,7 @@ export const MismatchButton = React.forwardRef<
       (chainInfo.chainId === ChainId.Localhost ||
         (chainInfo.faucets && chainInfo.faucets.length > 0));
     const eventRef = useRef<React.MouseEvent<HTMLButtonElement, MouseEvent>>();
-    if (!address && ecosystem === "evm") {
+    if (!wallet && ecosystem === "evm") {
       return (
         <ConnectWallet
           borderRadius="md"

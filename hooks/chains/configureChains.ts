@@ -14,7 +14,7 @@ export function useSupportedChains() {
 
   invariant(
     chains,
-    "useConfiguredChains must be used within a ConfiguredNetworksProvider",
+    "useSupportedChains must be used within a ConfiguredNetworksProvider",
   );
   return chains;
 }
@@ -26,45 +26,45 @@ export type ConfiguredChainRecord = Record<number, StoredChain>;
  * @returns a list of record that maps configured chainId to `Chain` object
  */
 export function useSupportedChainsRecord() {
-  const configuredNetworks = useSupportedChains();
+  const chains = useSupportedChains();
   return useMemo(() => {
     const record: ConfiguredChainRecord = {};
-    configuredNetworks.forEach((network) => {
+    chains.forEach((network) => {
       record[network.chainId] = network;
     });
 
     return record;
-  }, [configuredNetworks]);
+  }, [chains]);
 }
 
 /**
  * @returns a list of record that maps configured chainId to `Chain` object
  */
 export function useSupportedChainsNameRecord() {
-  const configuredNetworks = useSupportedChains();
+  const chains = useSupportedChains();
   return useMemo(() => {
     const record: Record<string, StoredChain | undefined> = {};
-    configuredNetworks.forEach((network) => {
+    chains.forEach((network) => {
       record[network.name] = network;
     });
 
     return record;
-  }, [configuredNetworks]);
+  }, [chains]);
 }
 
 /**
  * @returns a list of record that maps configured chainSlug to `Chain` object
  */
 export function useSupportedChainsSlugRecord() {
-  const configuredNetworks = useSupportedChains();
+  const chains = useSupportedChains();
   return useMemo(() => {
     const record: Record<string, Chain> = {};
-    configuredNetworks.forEach((network) => {
+    chains.forEach((network) => {
       record[network.slug] = network;
     });
 
     return record;
-  }, [configuredNetworks]);
+  }, [chains]);
 }
 
 /**

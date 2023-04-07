@@ -10,7 +10,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import {
-  useAddRecentlyUsedChains,
+  useAddRecentlyUsedChainId,
   useRecentlyUsedChains,
 } from "hooks/chains/recentlyUsedChains";
 import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
@@ -25,7 +25,7 @@ export const NetworkSelectorButton: React.FC<{
 }> = (props) => {
   const [showNetworkSelector, setShowNetworkSelector] = useState(false);
   const recentlyUsedChains = useRecentlyUsedChains();
-  const addRecentlyUsedChains = useAddRecentlyUsedChains();
+  const addRecentlyUsedChains = useAddRecentlyUsedChainId();
   const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
   const { colorMode } = useColorMode();
   const supportedChains = useSupportedChains();
@@ -89,7 +89,7 @@ export const NetworkSelectorButton: React.FC<{
           }}
           onSwitch={(_chain) => {
             props.onSwitchChain?.(_chain);
-            addRecentlyUsedChains(_chain);
+            addRecentlyUsedChains(_chain.chainId);
           }}
         />
       )}

@@ -25,7 +25,7 @@ import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { AllChainsProvider } from "contexts/all-chains";
 import { SupportedChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
-import { useAddRecentlyUsedChains } from "hooks/chains/recentlyUsedChains";
+import { useAddRecentlyUsedChainId } from "hooks/chains/recentlyUsedChains";
 import {
   useIsNetworkConfigModalOpen,
   useSetIsNetworkConfigModalOpen,
@@ -151,7 +151,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
 function ConfigModal() {
   const isNetworkConfigModalOpen = useIsNetworkConfigModalOpen();
   const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
-  const addRecentlyUsedChains = useAddRecentlyUsedChains();
+  const addRecentlyUsedChains = useAddRecentlyUsedChainId();
 
   if (!isNetworkConfigModalOpen) {
     return null;
@@ -160,7 +160,7 @@ function ConfigModal() {
   return (
     <ConfigureNetworkModal
       onNetworkAdded={(_chain) => {
-        addRecentlyUsedChains(_chain);
+        addRecentlyUsedChains(_chain.chainId);
       }}
       onClose={() => setIsNetworkConfigModalOpen(false)}
     />
