@@ -218,7 +218,7 @@ const NetworkListItem: React.FC<{
         borderRadius={0}
         lineHeight={1.5}
       >
-        <ChainIcon size={16} ipfsSrc={props.img} sizes={props.iconSizes} />
+        <ChainIcon size={16} ipfsSrc={props.img} />
         {props.name}
       </Button>
     </ListItem>
@@ -248,7 +248,7 @@ const AddNetworkItem: React.FC<{
         bg="transparent"
       >
         <Flex alignItems="center" gap={3}>
-          <ChainIcon size={16} ipfsSrc={props.img} sizes={props.iconSizes} />
+          <ChainIcon size={16} ipfsSrc={props.img} />
           {props.name}
         </Flex>
 
