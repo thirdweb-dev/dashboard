@@ -88,7 +88,7 @@ export const ContractsDeployed = () => {
       <Heading textAlign="center" fontSize="20px">
         Contracts you&apos;ve deployed:
       </Heading>
-      {fakeList.length < 0 ? (
+      {fakeList.length > 0 ? (
         <>
           <Flex direction="column">
             {paginatedList.map((contract) => (
@@ -99,7 +99,7 @@ export const ContractsDeployed = () => {
                 mt={6}
                 alignItems="end"
               >
-                <ChainIcon size={48} ipfsSrc={Polygon.icon.url} />
+                <ChainIcon size={42} ipfsSrc={Polygon.icon.url} />
                 <Box w="60%">
                   <Text fontSize="16px" color="initial">
                     {contract.name}
