@@ -76,7 +76,7 @@ export const SetEditChainContext = createContext<
 /**
  * if no networks are configured by the user, return the defaultChains
  */
-export function SupportedChainsProvider(props: { children: React.ReactNode }) {
+export function ChainsProvider(props: { children: React.ReactNode }) {
   const [supportedChains, setSupportedChains] =
     useState<StoredChain[]>(defaultChains);
   const [modifiedChains, setModifiedChains] = useState<StoredChain[]>([]);
