@@ -1,12 +1,12 @@
 import { ClaimAirdrop } from "./ClaimAirdrop";
+import { ContractsDeployed } from "./ContractsDeployed";
 import { OpenPack } from "./OpenPack";
 import { Supply } from "./Supply";
 import { Unboxed } from "./Unboxed";
 import { Box, Flex, Spinner, useToast } from "@chakra-ui/react";
-import { Chain, Fantom, Polygon } from "@thirdweb-dev/chains";
+import { Chain } from "@thirdweb-dev/chains";
 import {
   ConnectWallet,
-  MediaRenderer,
   useAddress,
   useContract,
   useOwnedNFTs,
@@ -19,14 +19,14 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { useCallback, useEffect, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
+import { Heading } from "tw-components";
 
 type HeroProps = {
   desiredChain: Chain;
 };
 
-const EDITION_ADDRESS = "0xF56ed23b139E351B8507e91e7486fe5a1C305D30";
-const PACK_ADDRESS = "0x08cefAC85De8671dA2CA491396e662Db03C8F448";
+const EDITION_ADDRESS = "0x8BF11976EA6c23a5e69622ea5e32fE241767e0A8";
+const PACK_ADDRESS = "0x799b84a01f311bE9Cff8D49E9a37521931224b53";
 const AIRDROP_ADDRESS = "0x20b40b3486f7c39E46bD598F5b35e6be5AB311c9";
 
 export const Hero: React.FC<HeroProps> = () => {
@@ -317,60 +317,7 @@ export const Hero: React.FC<HeroProps> = () => {
             maxW="100%"
             mt={36}
           >
-            <Card
-              mt={-8}
-              px={8}
-              py={12}
-              rounded="xl"
-              h={561}
-              w={464}
-              bg="#121018"
-            >
-              <Heading textAlign="center" fontSize="20px">
-                Contracts you&apos;ve deployed:
-              </Heading>
-              <Flex direction="column">
-                {/* h
-                This list is temporary, once I get the list from Adam I'll replace it.
-              */}
-                {[
-                  {
-                    address: "0x23...341",
-                    name: "test",
-                    chainName: "Polygon Mainnet",
-                    icon: Polygon.icon.url,
-                  },
-                  {
-                    address: "0x45...678",
-                    name: "test",
-                    chainName: "Fantom Opera",
-                    icon: Fantom.icon.url,
-                  },
-                ].map((contract) => (
-                  <Flex
-                    key={contract.address}
-                    rounded="xl"
-                    gap={2}
-                    mt={6}
-                    alignItems="end"
-                  >
-                    <Box mr={4} alignSelf="center">
-                      <MediaRenderer
-                        src={contract.icon}
-                        height="32px"
-                        width="32px"
-                      />
-                    </Box>
-                    <Box w="60%">
-                      <Text fontSize="16px">{contract.name}</Text>
-                      <Text fontSize="14px">
-                        {contract.chainName} * {contract.address}
-                      </Text>
-                    </Box>
-                  </Flex>
-                ))}
-              </Flex>
-            </Card>
+            <ContractsDeployed />
           </Flex>
         )}
       </Flex>
