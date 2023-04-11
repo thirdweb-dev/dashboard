@@ -1,6 +1,5 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { useQueryWithNetwork } from "@3rdweb-sdk/react/hooks/query/useQueryWithNetwork";
-import { usePrebuiltSource } from "@3rdweb-sdk/react/hooks/usePrebuiltSource";
 import {
   Divider,
   Flex,
@@ -20,7 +19,7 @@ import { useContract } from "@thirdweb-dev/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { SourcesPanel } from "components/contract-components/shared/sources-panel";
 import { useContractSources } from "contract-ui/hooks/useContractSources";
-import { useConfiguredChain } from "hooks/chains/configureChains";
+import { useSupportedChain } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import { VerificationStatus, blockExplorerMap } from "pages/api/verify";
 import { useMemo } from "react";
@@ -60,6 +59,23 @@ function useVerifyCall(shouldFetch: boolean, contractAddress = "") {
     () => (chainId ? verifyContract({ contractAddress, chainId }) : null),
     {
       enabled: !!contractAddress && !!chainId && shouldFetch,
+    },
+  );
+}
+
+function useIsVerifiedOnEtherscan(contractAddress = "") {
+  const chainId = useDashboardEVMChainId();
+  return useQueryWithNetwork(
+    ["etherscan-fetch", contractAddress, chainId],
+    async () => {
+      const response = await fetch(
+        `/api/etherscan-fetch?contractAddress=${contractAddress}&chainId=${chainId}`,
+      );
+      // if the contract is verified, we'll get a 200 response
+      return response.status === 200;
+    },
+    {
+      enabled: !!contractAddress && !!chainId,
     },
   );
 }
@@ -109,7 +125,7 @@ const VerifyContractModal: React.FC<ConnectorModalProps> = ({
     verificationStatus?.result === VerificationStatus.SUCCESS;
   const chainId = useDashboardEVMChainId();
 
-  const chainInfo = useConfiguredChain(chainId || -1);
+  const chainInfo = useSupportedChain(chainId || -1);
 
   const blockExplorerName =
     getBlockExplorerName(chainId) ||
@@ -206,42 +222,34 @@ export const CustomContractSourcesPage: React.FC<
   const { isOpen, onOpen, onClose } = useDisclosure();
   const contractSourcesQuery = useContractSources(contractAddress);
   const chainId = useDashboardEVMChainId();
-  const defaultChainsRecord = useDefaultChainsRecord();
-  const isDefaultChain = chainId && chainId in defaultChainsRecord;
+  const { data: isVerifiedOnEtherscan, isLoading: isVerifiedLoading } =
+    useIsVerifiedOnEtherscan(contractAddress);
 
-  const router = useRouter();
-  const forceVerifyButton = router.query.verify === "true";
-
-  const { data: prebuiltSource } = usePrebuiltSource(contractAddress);
   const { contract } = useContract(contractAddress);
 
   const abi = useMemo(() => contract?.abi as Abi, [contract]);
 
   // clean up the source filenames and filter out libraries
   const sources = useMemo(() => {
+    if (!contractSourcesQuery.data) {
+      return [];
+    }
     return contractSourcesQuery.data
-      ? contractSourcesQuery.data
-          .map((source) => {
-            return {
-              ...source,
-              filename: source.filename.split("/").pop(),
-            };
-          })
-          .slice()
-          .reverse()
-      : prebuiltSource
-      ? [prebuiltSource]
-      : [];
-  }, [contractSourcesQuery.data, prebuiltSource]);
+      .map((source) => {
+        return {
+          ...source,
+          filename: source.filename.split("/").pop(),
+        };
+      })
+      .slice()
+      .reverse();
+  }, [contractSourcesQuery.data]);
 
   if (!contractAddress) {
     return <div>No contract address provided</div>;
   }
 
-  if (
-    (!contractSourcesQuery || contractSourcesQuery?.isLoading) &&
-    !prebuiltSource
-  ) {
+  if (!contractSourcesQuery || contractSourcesQuery?.isLoading) {
     return (
       <Flex direction="row" align="center" gap={2}>
         <Spinner color="purple.500" size="xs" />
@@ -266,13 +274,9 @@ export const CustomContractSourcesPage: React.FC<
             Sources
           </Heading>
 
-          {isDefaultChain && (
+          {blockExplorerUrl && (
             <>
-              {!prebuiltSource || forceVerifyButton ? (
-                <Button variant="solid" colorScheme="purple" onClick={onOpen}>
-                  Verify on {blockExplorerName}
-                </Button>
-              ) : blockExplorerUrl ? (
+              {isVerifiedOnEtherscan ? (
                 <LinkButton
                   variant="ghost"
                   colorScheme="green"
@@ -284,7 +288,16 @@ export const CustomContractSourcesPage: React.FC<
                 >
                   Verified on {blockExplorerName}
                 </LinkButton>
-              ) : null}
+              ) : (
+                <Button
+                  variant="solid"
+                  colorScheme="purple"
+                  onClick={onOpen}
+                  isLoading={isVerifiedLoading}
+                >
+                  Verify on {blockExplorerName}
+                </Button>
+              )}
             </>
           )}
         </Flex>

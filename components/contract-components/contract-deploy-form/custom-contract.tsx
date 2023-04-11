@@ -5,18 +5,28 @@ import {
   useCustomContractDeployMutation,
   useEns,
   useFunctionParamsFromABI,
+  useTransactionsForDeploy,
 } from "../hooks";
-import { ConfigureNetworkButton } from "../shared/configure-network-button";
+import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
+import { PlatformFeeFieldset } from "./platform-fee-fieldset";
+import { PrimarySaleFieldset } from "./primary-sale-fieldset";
+import { RoyaltyFieldset } from "./royalty-fieldset";
+import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
-import { SUPPORTED_CHAIN_IDS } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
+import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
+import {
+  THIRDWEB_DEPLOYER_ADDRESS,
+  THIRDWEB_DEPLOYER_ENS,
+} from "constants/addresses";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
-import { useConfiguredChain } from "hooks/chains/configureChains";
+import {
+  useSupportedChain,
+  useSupportedChains,
+} from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
@@ -38,6 +48,7 @@ interface CustomContractFormProps {
   onChainSelect: (chainId: number) => void;
   isImplementationDeploy?: true;
   onSuccessCallback?: (contractAddress: string) => void;
+  walletAddress: string | undefined;
 }
 
 const CustomContractForm: React.FC<CustomContractFormProps> = ({
@@ -46,10 +57,16 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   onChainSelect,
   isImplementationDeploy,
   onSuccessCallback,
+  walletAddress,
 }) => {
-  const networkInfo = useConfiguredChain(selectedChain || -1);
-  const address = useAddress();
-  const ensQuery = useEns(address);
+  const { data: transactions } = useTransactionsForDeploy(ipfsHash);
+
+  const configuredChains = useSupportedChains();
+  const configuredChainsIds = configuredChains.map((c) => c.chainId);
+
+  const networkInfo = useSupportedChain(selectedChain || -1);
+  const ensQuery = useEns(walletAddress);
+  const connectedWallet = ensQuery.data?.address || walletAddress;
   const trackEvent = useTrack();
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
@@ -70,61 +87,83 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     ? initializerParams
     : constructorParams;
 
-  const disabledChains =
-    isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
-      ? SUPPORTED_CHAIN_IDS.filter((chain) => {
-          const implementationAddress =
-            fullPublishMetadata.data?.factoryDeploymentData
-              ?.implementationAddresses?.[chain];
-          return (
-            !implementationAddress ||
-            (implementationAddress && implementationAddress.length === 0)
-          );
-        })
-      : undefined;
+  // for our own contracts, we force enable all chains since the SDK has fallbacks in place to deploy everywhere
+  const shouldForceEnableAllChains =
+    fullPublishMetadata?.data?.publisher === THIRDWEB_DEPLOYER_ENS ||
+    fullPublishMetadata?.data?.publisher === THIRDWEB_DEPLOYER_ADDRESS;
+
+  const disabledChainIds = shouldForceEnableAllChains
+    ? undefined
+    : isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
+    ? configuredChainsIds.filter((chain) => {
+        const implementationAddress =
+          fullPublishMetadata.data?.factoryDeploymentData
+            ?.implementationAddresses?.[chain];
+        return !implementationAddress;
+      })
+    : undefined;
+
+  const parseDeployParams = {
+    ...deployParams.reduce((acc, param) => {
+      acc[param.name] = replaceTemplateValues(
+        fullPublishMetadata.data?.constructorParams?.[param.name]?.defaultValue
+          ? fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue || ""
+          : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+          ? "0"
+          : "",
+        param.type,
+        {
+          connectedWallet,
+          chainId: selectedChain,
+        },
+      );
+      return acc;
+    }, {} as Record<string, string>),
+  };
 
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
+    contractMetadata?: {
+      name: string;
+      description: string;
+      symbol: string;
+      image: string;
+    };
+    recipients?: Recipient[];
   }>({
     defaultValues: {
       addToDashboard: true,
-      deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue || "",
-          param.type,
-          {
-            connectedWallet: address,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      }, {} as Record<string, string>),
+      deployParams: parseDeployParams,
     },
     values: {
       addToDashboard: true,
-      deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue || "",
-          param.type,
-          {
-            connectedWallet: address,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      }, {} as Record<string, string>),
+      deployParams: parseDeployParams,
     },
     resetOptions: {
+      keepDirty: true,
       keepDirtyValues: true,
     },
   });
 
+  const formDeployParams = form.watch("deployParams");
+
+  const hasContractURI = "_contractURI" in formDeployParams;
+  const hasRoyalty =
+    "_royaltyBps" in formDeployParams &&
+    "_royaltyRecipient" in formDeployParams;
+  const hasPrimarySale = "_saleRecipient" in formDeployParams;
+  const hasPlatformFee =
+    "_platformFeeBps" in formDeployParams &&
+    "_platformFeeRecipient" in formDeployParams;
+  const isSplit =
+    "_payees" in formDeployParams && "_shares" in formDeployParams;
+
   const deploy = useCustomContractDeployMutation(
     ipfsHash,
     isImplementationDeploy,
+    { hasContractURI, hasRoyalty, hasPrimarySale, hasPlatformFee, isSplit },
   );
 
   const router = useRouter();
@@ -132,8 +171,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "Successfully deployed contract",
     "Failed to deploy contract",
   );
-
-  const formDeployParams = form.watch("deployParams");
 
   return (
     <FormProvider {...form}>
@@ -144,7 +181,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         direction="column"
         id="custom-contract-form"
         as="form"
-        onSubmit={form.handleSubmit((d) => {
+        onSubmit={form.handleSubmit(async (d) => {
           if (!selectedChain) {
             return;
           }
@@ -165,9 +202,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             label: "attempt",
             deployData,
           });
+
           deploy.mutate(
             {
-              constructorParams: Object.values(d.deployParams),
+              ...d,
+              address: walletAddress,
               addToDashboard,
             },
             {
@@ -195,11 +234,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployData,
                   contractAddress: deployedContractAddress,
                   addToDashboard,
-                  deployer: ensQuery.data?.ensName || address,
+                  deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
-                  deployerAndContractName: `${
-                    ensQuery.data?.ensName || address
-                  }__${compilerMetadata.data?.name}`,
+                  deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
+                  publisherAndContractName: `${
+                    fullPublishMetadata.data?.publisher || "deploy-form"
+                  }/${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
@@ -244,11 +284,43 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                 deployment.
               </Text>
             </Flex>
+            <Flex gap={4} flexDir="column">
+              {hasContractURI && (
+                <ContractMetadataFieldset
+                  form={form}
+                  metadata={compilerMetadata}
+                />
+              )}
+              {hasRoyalty && <RoyaltyFieldset form={form} />}
+              {hasPrimarySale && <PrimarySaleFieldset form={form} />}
+              {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+              {isSplit && <SplitFieldset form={form} />}
+            </Flex>
             {Object.keys(formDeployParams).map((paramKey) => {
               const deployParam = deployParams.find((p) => p.name === paramKey);
               const contructorParams =
                 fullPublishMetadata.data?.constructorParams || {};
               const extraMetadataParam = contructorParams[paramKey];
+
+              if (
+                (hasContractURI &&
+                  (paramKey === "_contractURI" ||
+                    paramKey === "_name" ||
+                    paramKey === "_symbol")) ||
+                (hasRoyalty &&
+                  (paramKey === "_royaltyBps" ||
+                    paramKey === "_royaltyRecipient")) ||
+                (hasPrimarySale && paramKey === "_saleRecipient") ||
+                (hasPlatformFee &&
+                  (paramKey === "_platformFeeBps" ||
+                    paramKey === "_platformFeeRecipient")) ||
+                paramKey === "_defaultAdmin" ||
+                paramKey === "_trustedForwarders" ||
+                (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
+              ) {
+                return null;
+              }
+
               return (
                 <FormControl
                   isRequired
@@ -335,17 +407,17 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         </Flex>
 
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
-          <FormControl>
-            <SupportedNetworkSelect
-              isDisabled={
-                isImplementationDeploy ||
-                deploy.isLoading ||
-                !compilerMetadata.isSuccess
-              }
-              value={selectedChain}
-              onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
-            />
-          </FormControl>
+          <NetworkSelectorButton
+            isDisabled={
+              isImplementationDeploy ||
+              deploy.isLoading ||
+              !compilerMetadata.isSuccess
+            }
+            onSwitchChain={(chain) => {
+              onChainSelect(chain.chainId);
+            }}
+            disabledChainIds={disabledChainIds}
+          />
           <TransactionButton
             onChainSelect={onChainSelect}
             upsellTestnet
@@ -356,16 +428,22 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             isDisabled={
               !compilerMetadata.isSuccess ||
               !selectedChain ||
-              !!disabledChains?.find((chain) => chain === selectedChain)
+              !!disabledChainIds?.find((chain) => chain === selectedChain)
             }
             colorScheme="blue"
-            transactionCount={form.watch("addToDashboard") ? 2 : 1}
+            transactionCount={
+              form.watch("addToDashboard")
+                ? transactions?.length
+                  ? transactions.length + 1
+                  : 2
+                : transactions?.length || 1
+            }
           >
             Deploy Now
           </TransactionButton>
         </Flex>
 
-        <ConfigureNetworkButton label="deploy-contract" />
+        {/* <ConfigureNetworkButton label="deploy-contract" /> */}
       </Flex>
     </FormProvider>
   );

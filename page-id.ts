@@ -162,4 +162,10 @@ export enum PageId {
   // thirdweb.com/:network
   // example: thirdweb.com/ethereum
   ChainLanding = "chain-landing",
+
+  // ---------------------------------------------------------------------------
+  //  learn pages
+  // ---------------------------------------------------------------------------
+
+  Learn = "learn",
 }

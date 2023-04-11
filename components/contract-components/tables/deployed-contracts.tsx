@@ -40,7 +40,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useChainSlug } from "hooks/chains/chainSlug";
-import { useConfiguredChainsRecord } from "hooks/chains/configureChains";
+import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
 import React, { memo, useMemo, useState } from "react";
 import {
@@ -318,7 +318,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   isFetching,
 }) => {
   const { chainIdToChainRecord } = useAllChainsData();
-  const configuredChains = useConfiguredChainsRecord();
+  const configuredChains = useSupportedChainsRecord();
 
   const columns: Column<(typeof combinedList)[number]>[] = useMemo(
     () => [
@@ -547,10 +547,10 @@ const AsyncExtensionCell = memo(({ cell }: AsyncExtensionCellProps) => {
     staleTime: 1000 * 60 * 60,
   });
 
-  const [importantExtension, contractType] = useMemo(() => {
-    const [extensions, cType] = contractExtensionsQuery.data || [[], ""];
-    const imp = getImportantExtension(extensions);
-    return [imp, cType];
+  const [importantExtension, contractType, extensions] = useMemo(() => {
+    const [exts, cType] = contractExtensionsQuery.data || [[], ""];
+    const imp = getImportantExtension(exts);
+    return [imp, cType, exts];
   }, [contractExtensionsQuery.data]);
 
   let tag: JSX.Element;
@@ -568,7 +568,7 @@ const AsyncExtensionCell = memo(({ cell }: AsyncExtensionCellProps) => {
             variant="outline"
             colorScheme="blue"
           >
-            +{importantExtension.count}
+            +{extensions.length - importantExtension.count}
           </Badge>
         ) : null}
       </Flex>
@@ -582,7 +582,8 @@ const AsyncExtensionCell = memo(({ cell }: AsyncExtensionCellProps) => {
   } else {
     tag = (
       <Text fontStyle="italic" size="label.md" as="h4">
-        No Extensions
+        {extensions?.length === 0 ? "No" : extensions.length} Extension
+        {extensions.length === 1 ? "" : "s"}
       </Text>
     );
   }

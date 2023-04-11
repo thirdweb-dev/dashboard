@@ -42,7 +42,7 @@ import {
 } from "components/contract-tabs/code/types";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
-import { useConfiguredChain } from "hooks/chains/configureChains";
+import { useSupportedChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
@@ -62,8 +62,8 @@ const COMMANDS = {
     web3button: "",
     python: "pip install thirdweb-sdk",
     go: "go get github.com/thirdweb-dev/go-sdk/thirdweb",
-    unity: `// Download the .unitypackage from the latest release: 
-// https://github.com/thirdweb-dev/unity-sdk/releases 
+    unity: `// Download the .unitypackage from the latest release:
+// https://github.com/thirdweb-dev/unity-sdk/releases
 // and drag it into your project`,
   },
   setup: {
@@ -111,31 +111,31 @@ sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}")
 contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
-    
+
 private void Start() {
     ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}");
     Contract myContract = SDK.GetContract("{{contract_address}}");
 }`,
   },
   read: {
-    javascript: `const data = await contract.call("{{function}}", {{args}})`,
+    javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
     react: `import { useContract, useContractRead } from "@thirdweb-dev/react";
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractRead(contract, "{{function}}", {{args}})
+  const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
 }`,
     "react-native": `import { useContract, useContractRead } from "@thirdweb-dev/react-native";
 
 export default function Component() {
   const { contract } = useContract("{{contract_address}}");
-  const { data, isLoading } = useContractRead(contract, "{{function}}", {{args}})
+  const { data, isLoading } = useContractRead(contract, "{{function}}", [{{args}}])
 }`,
     python: `data = contract.call("{{function}}", {{args}})`,
     go: `data, err := contract.Call("{{function}}", {{args}})`,
   },
   write: {
-    javascript: `const data = await contract.call("{{function}}", {{args}})`,
+    javascript: `const data = await contract.call("{{function}}", [{{args}}])`,
     react: `import { useContract, useContractWrite } from "@thirdweb-dev/react";
 
 export default function Component() {
@@ -144,7 +144,7 @@ export default function Component() {
 
   const call = async () => {
     try {
-      const data = await {{function}}([ {{args}} ]);
+      const data = await {{function}}({ args: [{{args}}] });
       console.info("contract call successs", data);
     } catch (err) {
       console.error("contract call failure", err);
@@ -159,7 +159,7 @@ export default function Component() {
 
   const call = async () => {
     try {
-      const data = await {{function}}([ {{args}} ]);
+      const data = await {{function}}({ args: [{{args}}] });
       console.info("contract call successs", data);
     } catch (err) {
       console.error("contract call failure", err);
@@ -173,7 +173,7 @@ export default function Component() {
     <Web3Button
       contractAddress="{{contract_address}}"
       action={(contract) => {
-        contract.call("{{function}}", {{args}})
+        contract.call("{{function}}", [{{args}}])
       }}
     >
       {{function}}
@@ -336,7 +336,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   }, [filteredData]);
 
   const chainId = useDashboardEVMChainId();
-  const chainInfo = useConfiguredChain(chainId || -1);
+  const chainInfo = useSupportedChain(chainId || -1);
   const chainName = chain?.slug || chainInfo?.slug;
   const rpc = chain?.rpc[0] || chainInfo?.rpc[0];
 

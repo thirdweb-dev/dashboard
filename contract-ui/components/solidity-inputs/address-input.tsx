@@ -1,6 +1,7 @@
 import { SolidityInputProps } from ".";
 import { validateAddress } from "./helpers";
 import { Box, Flex, Icon, Input, Spinner } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { useEns } from "components/contract-components/hooks";
 import { utils } from "ethers";
 import { useEffect, useMemo, useState } from "react";
@@ -14,6 +15,7 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
   const inputName = inputProps.name as string;
   const inputNameWatch = form.watch(inputName);
   const [localInput, setLocalInput] = useState(inputNameWatch);
+  const address = useAddress();
 
   const ensQuery = useEns(localInput);
 
@@ -82,6 +84,13 @@ export const SolidityAddressInput: React.FC<SolidityInputProps> = ({
     () => utils.isAddress(localInput) && !hasError && ensQuery?.data?.ensName,
     [ensQuery?.data?.ensName, hasError, localInput],
   );
+
+  useEffect(() => {
+    // Check if the default value has changed and update localInput
+    if (inputNameWatch !== localInput && inputNameWatch === address) {
+      setLocalInput(inputNameWatch);
+    }
+  }, [inputNameWatch, localInput, address]);
 
   return (
     <>
