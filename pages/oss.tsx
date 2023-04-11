@@ -1,4 +1,11 @@
-import { Box, DarkMode, Flex, Icon, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  DarkMode,
+  Flex,
+  Icon,
+  LinkBox,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -88,7 +95,7 @@ interface GithubRepository {
 
 const RepoCard: React.FC<RepoCardProps> = ({ title, description, url }) => {
   return (
-    <Box
+    <LinkBox
       as="a"
       background={"rgba(0,0,0,0.2)"}
       boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
@@ -106,7 +113,7 @@ const RepoCard: React.FC<RepoCardProps> = ({ title, description, url }) => {
       <Text size="body.lg" lineHeight={1.7} color="#888">
         {description}
       </Text>
-    </Box>
+    </LinkBox>
   );
 };
 
