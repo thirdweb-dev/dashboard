@@ -3,8 +3,7 @@ import {
   HStack,
   Input,
   InputGroup,
-  InputRightElement,
-  VStack,
+  InputRightElement, useColorMode, VStack
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { useForm } from "react-hook-form";
@@ -31,6 +30,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+  const email = watch("email");
 
   const onSubmit = (data: Inputs) => {
     if (!data.email || !canClaim) {
@@ -39,7 +39,8 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
     claim(data.email);
   };
 
-  const invalidEmail = errors.email && errors.email.type === "pattern";
+  const invalidEmail = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+  const { colorMode } = useColorMode();
 
   return (
     <Flex
@@ -55,57 +56,43 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
         lg: 0,
       }}
     >
-      <Flex
-        gap={2}
-        alignItems="center"
-        justifyContent={{
-          base: "center",
-          lg: "flex-start",
-        }}
-      >
-        <Text
-          fontWeight="normal"
-          fontSize="19px"
-          color={canClaim ? "#3FE06C" : "initial"}
-          mt={4}
-          mb={2}
-        >
-          {canClaim
-            ? "You are eligible to claim 1 airdrop"
-            : "You're unfortunately not eligible to claim."}
-        </Text>
-        {canClaim && (
-          <ChakraNextImage
-            alt="checkmark"
-            alignSelf="end"
-            src={require("public/assets/bear-market-airdrop/checkmark.svg")}
-          />
-        )}
-      </Flex>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <HStack mt={2} mb={8} alignItems="start">
+        <HStack mt={2} mb={2} alignItems="start">
           <VStack alignItems="start">
             <InputGroup size="md">
               <Input
+                id="email"
                 variant="outline"
                 placeholder="Enter your email"
-                type="email"
+                // type="email"
                 {...register("email", {
-                  required: true,
-                  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
                 })}
+                w="400px"
               />
               <InputRightElement width="3rem">
-                <Button
-                  type="submit"
-                  roundedLeft="none"
-                  disabled={!watch("email")}
-                >
+                {!canClaim ? (
+                  <Button
+                    type="submit"
+                    roundedLeft="none"
+                    disabled={!watch("email")}
+                    bg={colorMode === "light" ? "black" : "white"}
+                  >
+                    <ChakraNextImage
+                      src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
+                      alt="rightArrow"
+                    />
+                  </Button>
+                ) : (
                   <ChakraNextImage
-                    src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
-                    alt="rightArrow"
+                    src={require("public/assets/bear-market-airdrop/white-checkmark.svg")}
+                    alt="valid email"
                   />
-                </Button>
+                )}
               </InputRightElement>
             </InputGroup>
             {!canClaim && (
@@ -131,24 +118,14 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
               </Text>
             )}
           </VStack>
-          {canClaim && (
-            <Button
-              px={6}
-              py={3}
-              isDisabled={invalidEmail || isClaiming}
-              isLoading={isClaiming}
-              type="submit"
-            >
-              Claim
-            </Button>
-          )}
         </HStack>
-        <Flex alignItems="center" mt={2} justifyContent="center">
-          <Text>
-            {canClaim
-              ? "Ensure your email is correct as it will be used to send you rewards."
-              : ""}
-          </Text>
+        <Flex alignItems="center" gap={2} mb={8}>
+          {canClaim && (
+            <Text color="initial">
+              Ensure your email is correct as it will be used to send you
+              rewards.
+            </Text>
+          )}
           {canClaim && (
             <ChakraNextImage
               src={require("public/assets/bear-market-airdrop/email-icon.svg")}
@@ -156,13 +133,52 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             />
           )}
         </Flex>
+        <Flex
+          gap={2}
+          alignItems="center"
+          justifyContent={{
+            base: "center",
+            lg: "flex-start",
+          }}
+        >
+          <Text
+            fontWeight="normal"
+            fontSize="19px"
+            color={"initial"}
+            mt={4}
+            mb={2}
+          >
+            {canClaim
+              ? "You are eligible to claim 1 airdrop"
+              : "You're unfortunately not eligible to claim."}
+          </Text>
+          {canClaim && (
+            <ChakraNextImage
+              alt="checkmark"
+              alignSelf="center"
+              src={require("public/assets/bear-market-airdrop/checkmark.svg")}
+            />
+          )}
+        </Flex>
         {canClaim && (
-          <Flex gap={1} fontSize="14px">
-            <Text bgGradient="linear(to-tr, #743F9E, #BFA3DA)" bgClip="text">
-              Stay on this page
-            </Text>
-            <Text>to open your airdrop after claiming.</Text>
-          </Flex>
+          <Button
+            px={6}
+            py={3}
+            isDisabled={invalidEmail || isClaiming || !watch("email")}
+            isLoading={isClaiming}
+            type="submit"
+            w="200px"
+            mt={4}
+            bg={colorMode === "light" ? "black" : "white"}
+            color={colorMode === "light" ? "white" : "black"}
+            _hover={{
+              bg: colorMode === "light" ? "black" : "white",
+              color: colorMode === "light" ? "white" : "black",
+              opacity: 0.7,
+            }}
+          >
+            Claim
+          </Button>
         )}
       </form>
     </Flex>

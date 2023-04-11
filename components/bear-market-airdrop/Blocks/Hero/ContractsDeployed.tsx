@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, Spacer, useColorMode } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
-import { ChakraNextImage } from "components/Image";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { ChakraNextImage } from "components/Image";
 import { useMemo, useState } from "react";
 import { Card, Heading, Text } from "tw-components";
 
@@ -123,6 +123,7 @@ export const ContractsDeployed = () => {
               aria-label={""}
               bg="transparent"
               onClick={handlePrevPage}
+              _hover={{ bg: "transparent" }}
             >
               <ChakraNextImage
                 src={require("public/assets/bear-market-airdrop/left-arr.svg")}
@@ -141,7 +142,7 @@ export const ContractsDeployed = () => {
               <Text
                 key={pageNum}
                 fontWeight={pageNum === currPage ? "bold" : "normal"}
-                color={pageNum === currPage ? "white" : "gray.400"}
+                color={pageNum === currPage ? "initial" : "gray.400"}
                 cursor="pointer"
                 onClick={() => handleClickedPage(pageNum)}
               >
@@ -163,6 +164,7 @@ export const ContractsDeployed = () => {
               aria-label={""}
               bg="transparent"
               onClick={handleNextPage}
+              _hover={{ bg: "transparent" }}
             >
               <ChakraNextImage
                 src={require("public/assets/bear-market-airdrop/right-arr.svg")}

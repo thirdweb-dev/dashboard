@@ -1,4 +1,3 @@
-import { gradientMapping } from "../Prizes/Prize";
 import { Box, ButtonGroup, Flex, useColorMode } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
@@ -6,6 +5,7 @@ import { NFT, NFTMetadata, TransactionResult } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { BsEyeFill } from "react-icons/bs";
 import { Button, Card, Heading, Text } from "tw-components";
+import { gradientMapping } from "../Prizes/Prize";
 
 interface UnboxedProps {
   reward: NFT | undefined;
@@ -176,13 +176,17 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           {tx && (
             <Button
               leftIcon={<BsEyeFill />}
-              bg="transparent"
               outline="1px solid #151515"
               size="xs"
               fontWeight="400"
               as="a"
               href={`https://blockscan.com/tx/${tx?.receipt.transactionHash}`}
               target="_blank"
+              bg={colorMode === "light" ? "black" : "transparent"}
+              color="white"
+              _hover={{
+                bg: "black",
+              }}
             >
               View transaction
             </Button>

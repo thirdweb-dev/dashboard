@@ -1,8 +1,3 @@
-import { ClaimAirdrop } from "./ClaimAirdrop";
-import { ContractsDeployed } from "./ContractsDeployed";
-import { OpenPack } from "./OpenPack";
-import { Supply } from "./Supply";
-import { Unboxed } from "./Unboxed";
 import { Box, Flex, Spinner, useToast } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import {
@@ -10,24 +5,29 @@ import {
   useAddress,
   useContract,
   useOwnedNFTs,
-  useSDK,
+  useSDK
 } from "@thirdweb-dev/react";
 import {
-  SnapshotEntryWithProof,
-  TransactionResult,
-  fetchSnapshotEntryForAddress,
+  fetchSnapshotEntryForAddress, SnapshotEntryWithProof,
+  TransactionResult
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
+import { ClaimAirdrop } from "./ClaimAirdrop";
+import { ContractsDeployed } from "./ContractsDeployed";
+import { OpenPack } from "./OpenPack";
+import { Supply } from "./Supply";
+import { Unboxed } from "./Unboxed";
 
 type HeroProps = {
   desiredChain: Chain;
 };
 
-const EDITION_ADDRESS = "0x8BF11976EA6c23a5e69622ea5e32fE241767e0A8";
+const EDITION_ADDRESS = "0xD4F38Ef6db88031F597B0C238773805906990c21";
 const PACK_ADDRESS = "0x799b84a01f311bE9Cff8D49E9a37521931224b53";
-const AIRDROP_ADDRESS = "0x20b40b3486f7c39E46bD598F5b35e6be5AB311c9";
+const AIRDROP_ADDRESS = "0xFE10908Be146123d51f178483462A58C58549Ce7";
+const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 
 export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
@@ -43,7 +43,6 @@ export const Hero: React.FC<HeroProps> = () => {
   const [initialSupply, setInitialSupply] = useState(0);
 
   const canClaim = !!snapshot?.proof?.length || false;
-  const merkleURI = process.env.NEXT_PUBLIC_MERKLE_URI;
 
   const { contract: airdrop, isLoading: airdropContractLoading } =
     useContract(AIRDROP_ADDRESS);
@@ -55,14 +54,16 @@ export const Hero: React.FC<HeroProps> = () => {
     EDITION_ADDRESS,
     "edition",
   );
-  const { data: ownsReward, isLoading: loadingOwnedRewards } = useOwnedNFTs(
-    edition,
-    address,
-  );
-  const { data: ownsPack, isLoading: loadingPacksOwned } = useOwnedNFTs(
-    pack,
-    address,
-  );
+  const {
+    data: ownsReward,
+    isLoading: loadingOwnedRewards,
+    refetch: refetchReward,
+  } = useOwnedNFTs(edition, address);
+  const {
+    data: ownsPack,
+    isLoading: loadingPacksOwned,
+    refetch: refetchPack,
+  } = useOwnedNFTs(pack, address);
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
@@ -132,10 +133,20 @@ export const Hero: React.FC<HeroProps> = () => {
       } catch (err) {
         console.error(err);
       } finally {
+        await refetchPack();
         setClaiming(false);
       }
     },
-    [address, airdrop, canClaim, handleEmailSubmit, pack, snapshot, toast],
+    [
+      address,
+      airdrop,
+      canClaim,
+      handleEmailSubmit,
+      pack,
+      refetchPack,
+      snapshot,
+      toast,
+    ],
   );
 
   const openPack = useCallback(async () => {
@@ -149,9 +160,10 @@ export const Hero: React.FC<HeroProps> = () => {
     } catch (err) {
       console.error(err);
     } finally {
+      await refetchReward();
       setUnboxing(false);
     }
-  }, [address, hasPack, pack]);
+  }, [address, hasPack, pack, refetchReward]);
 
   const getSupply = useCallback(async () => {
     if (!pack) {
@@ -196,7 +208,7 @@ export const Hero: React.FC<HeroProps> = () => {
       console.error(err);
     }
     setCheckingClaimed(false);
-  }, [address, merkleURI, sdk]);
+  }, [address, sdk]);
 
   useEffect(() => {
     checkClaimed();
@@ -247,7 +259,7 @@ export const Hero: React.FC<HeroProps> = () => {
           }}
           mt={52}
         >
-          {!hasPack && (
+          {!unboxed && (
             <Box
               textAlign={{
                 base: "center",
@@ -266,7 +278,7 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!hasPack && (
+            {!unboxed && (
               <Supply supply={supply} initialSupply={initialSupply} />
             )}
             {!address ? (
