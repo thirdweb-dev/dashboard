@@ -48,9 +48,9 @@ export const Unboxed: React.FC<UnboxedProps> = ({
   const rarity = nft?.attributes[0]?.value;
   const address = useAddress();
   const image = nft?.image?.replaceAll(/ /g, "%20");
-  const twitterUrl = `https://twitter.com/intent/tweet?text=I%20just%20unboxed%20a%20${rarity}%20prize%20on%20%40thirdweb%20and%20it%20is%20a%20${nft?.name}%20${image}`;
-  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${image}`;
-  const instagramUrl = `https://www.instagram.com/sharer/sharer.php?u=${image}`;
+  const text = `Proud to be a bear market builder. 💪%0AI just claimed a free ${nft?.name} from @thirdweb%0A%0AClaim yours at: https://thirdweb.com/bear-market-airdrop
+  `;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${text}`;
   const { colorMode } = useColorMode();
 
   if (!nft) {
@@ -69,7 +69,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
       <Box
         fontSize={{
           base: "2.5rem",
-          xl: "3.5rem",
+          lg: "3.5rem",
         }}
         position="relative"
         mb={5}
@@ -81,11 +81,11 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           position="absolute"
           top={{
             base: -40,
-            xl: -40,
+            lg: -40,
           }}
           left={{
-            base: -60,
-            xl: -40,
+            base: -40,
+            lg: -40,
           }}
         />
         <ChakraNextImage
@@ -94,11 +94,11 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           position="absolute"
           top={{
             base: -40,
-            xl: -40,
+            lg: -40,
           }}
           left={{
             base: 40,
-            xl: 60,
+            lg: 40,
           }}
         />
         <Flex
@@ -107,19 +107,28 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           alignItems="center"
           textAlign={{
             base: "center",
-            xl: "left",
+            lg: "left",
           }}
         >
           <Heading
             bgGradient={gradientMapping[rarity as string]}
             bgClip="text"
-            w="min-content"
             fontWeight="bold"
-            fontSize={56}
+            fontSize={{
+              base: 32,
+              lg: 40,
+            }}
           >
             Congratulations
           </Heading>
-          <Heading fontSize={56}>you’ve unpacked</Heading>
+          <Heading
+            fontSize={{
+              base: 32,
+              lg: 40,
+            }}
+          >
+            you’ve unpacked
+          </Heading>
         </Flex>
       </Box>
       <Flex justifyContent="center" alignItems="center" direction="column">
@@ -180,7 +189,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               size="xs"
               fontWeight="400"
               as="a"
-              href={`https://blockscan.com/tx/${tx?.receipt.transactionHash}`}
+              href={`https://polygonscan.com/tx/${tx?.receipt.transactionHash}`}
               target="_blank"
               bg={colorMode === "light" ? "black" : "transparent"}
               color="white"
@@ -227,57 +236,27 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           Discover thirdweb
         </Button>
         <Box textAlign="center">
-          <Text mb={3}>Share your win</Text>
-          <ButtonGroup>
-            <Button
-              as="a"
-              href={twitterUrl}
-              target="_blank"
-              outline="1px solid #9D2889"
-              p={0}
-              bg={colorMode === "light" ? "black" : "transparent"}
-              _hover={{
-                bg: "black",
-              }}
-            >
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/socials/twitter.svg")}
-                alt="twitter share"
-              />
-            </Button>
-            <Button
-              as="a"
-              href={facebookUrl}
-              target="_blank"
-              outline="1px solid #9D2889"
-              p={0}
-              bg={colorMode === "light" ? "black" : "transparent"}
-              _hover={{
-                bg: "black",
-              }}
-            >
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/socials/facebook.svg")}
-                alt="facebook share"
-              />
-            </Button>
-            <Button
-              as="a"
-              href={instagramUrl}
-              target="_blank"
-              outline="1px solid #9D2889"
-              p={0}
-              bg={colorMode === "light" ? "black" : "transparent"}
-              _hover={{
-                bg: "black",
-              }}
-            >
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/socials/instagram.svg")}
-                alt="instagram share"
-              />
-            </Button>
-          </ButtonGroup>
+          <Button
+            as="a"
+            href={twitterUrl}
+            target="_blank"
+            outline="1px solid #9D2889"
+            cursor="pointer"
+            py={3}
+            px={6}
+            bg={colorMode === "light" ? "black" : "transparent"}
+            _hover={{
+              bg: "black",
+              opacity: 0.8,
+            }}
+          >
+            <ChakraNextImage
+              src={require("public/assets/bear-market-airdrop/socials/twitter.svg")}
+              alt="twitter share"
+              mr="2"
+            />
+            Tell the world!
+          </Button>
         </Box>
       </Flex>
     </Flex>

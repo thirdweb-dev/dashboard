@@ -3,10 +3,13 @@ import { Text } from "tw-components";
 
 interface SupplyProps {
   supply: number;
-  initialSupply: number;
 }
 
-export const Supply: React.FC<SupplyProps> = ({ supply, initialSupply }) => {
+const addCommas = (num: number) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const Supply: React.FC<SupplyProps> = ({ supply }) => {
   return (
     <Flex
       gap={2}
@@ -23,10 +26,10 @@ export const Supply: React.FC<SupplyProps> = ({ supply, initialSupply }) => {
         fontWeight="bold"
         fontSize="1.5rem"
       >
-        {supply}
+        {addCommas(supply)}
       </Text>
       <Text fontSize="1.5rem" color="initial">
-        / {initialSupply} Remaining
+        Packs Remaining
       </Text>
     </Flex>
   );

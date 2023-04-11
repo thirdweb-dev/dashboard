@@ -25,9 +25,9 @@ type HeroProps = {
   desiredChain: Chain;
 };
 
-const EDITION_ADDRESS = "0xD4F38Ef6db88031F597B0C238773805906990c21";
-const PACK_ADDRESS = "0x799b84a01f311bE9Cff8D49E9a37521931224b53";
-const AIRDROP_ADDRESS = "0xFE10908Be146123d51f178483462A58C58549Ce7";
+const EDITION_ADDRESS = "0x941d8799eDc8424357DD86Bea762D35439976Cfc";
+const PACK_ADDRESS = "0xd7E960c6627B700Cf3551E772F0DD362dc087eF9";
+const AIRDROP_ADDRESS = "0x3cc3CF3c4bfd05b5F9e589c6345586e4180b96A9";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 
 export const Hero: React.FC<HeroProps> = () => {
@@ -41,7 +41,6 @@ export const Hero: React.FC<HeroProps> = () => {
   const [unboxing, setUnboxing] = useState(false);
   const [supply, setSupplyLeft] = useState(0);
   const [packTx, setPackTx] = useState<TransactionResult | null>(null);
-  const [initialSupply, setInitialSupply] = useState(0);
 
   const canClaim = !!snapshot?.proof?.length || false;
 
@@ -79,7 +78,7 @@ export const Hero: React.FC<HeroProps> = () => {
     checkingClaimed;
 
   const handleEmailSubmit = useCallback(
-    async (email: string) => {
+    async (email: string, fromClaim = false) => {
       if (!email) {
         return;
       }
@@ -107,7 +106,7 @@ export const Hero: React.FC<HeroProps> = () => {
                 rounded: "lg",
               },
             });
-          } else {
+          } else if (!fromClaim) {
             toast({
               title: "Email submitted!",
               position: "top",
@@ -149,7 +148,7 @@ export const Hero: React.FC<HeroProps> = () => {
           snapshot.proof,
           Number(snapshot.maxClaimable),
         ]);
-        await handleEmailSubmit(email);
+        await handleEmailSubmit(email, true);
 
         toast({
           title: "Pack claimed!",
@@ -199,19 +198,7 @@ export const Hero: React.FC<HeroProps> = () => {
 
     const quantity = await pack.erc1155.totalSupply(0);
     setSupplyLeft(quantity.toNumber());
-
-    if (edition) {
-      let _supply = 0;
-      // Fetching each prize and adding up the supply.
-      const prizes = await edition?.erc1155.getAll();
-
-      prizes?.forEach((prize) => {
-        _supply += Number(prize.supply);
-      });
-
-      setInitialSupply(_supply);
-    }
-  }, [edition, pack]);
+  }, [pack]);
 
   const checkClaimed = useCallback(async () => {
     if (!sdk || !address || !merkleURI) {
@@ -305,11 +292,14 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!unboxed && (
-              <Supply supply={supply} initialSupply={initialSupply} />
-            )}
+            {!unboxed && <Supply supply={supply} />}
             {!address ? (
-              <Box>
+              <Box
+                mx={{
+                  base: "auto",
+                  lg: 0,
+                }}
+              >
                 <ConnectWallet />
               </Box>
             ) : hasPack ? (

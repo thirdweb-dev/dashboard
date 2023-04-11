@@ -1,5 +1,4 @@
 import { Box, Flex, IconButton, Spacer, useColorMode } from "@chakra-ui/react";
-import { Polygon } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { getSearchQuery } from "components/cmd-k-search";
@@ -31,7 +30,7 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
 
   return (
     <Flex rounded="xl" gap={4} mt={6} alignItems="end" w="full">
-      <ChainIcon size={42} ipfsSrc={Polygon.icon.url} />
+      <ChainIcon size={42} ipfsSrc={chain?.icon?.url} />
       <Box>
         <Text fontSize="16px" color="initial">
           {name}
@@ -163,7 +162,7 @@ export const ContractsDeployed = () => {
       flexDirection="column"
     >
       <Heading textAlign="center" fontSize="20px">
-        Contracts you&apos;ve deployed:
+        Contracts you&apos;ve deployed
       </Heading>
       {contracts.length > 0 ? (
         <>
@@ -247,16 +246,38 @@ export const ContractsDeployed = () => {
           </Flex>
         </>
       ) : (
-        <Text
-          color={colorMode === "dark" ? "#433A5E" : "initial"}
-          textAlign="center"
-          mt={8}
-          fontSize="24px"
-          fontWeight="bold"
-          my="auto"
+        <Flex
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          h="full"
         >
-          It looks like you haven&apos;t deployed any contracts.
-        </Text>
+          <Text
+            color={colorMode === "dark" ? "#433A5E" : "initial"}
+            textAlign="center"
+            mt={8}
+            fontSize="24px"
+            fontWeight="bold"
+            my="auto"
+          >
+            It looks like you haven&apos;t deployed any contracts.
+          </Text>
+          <Box alignSelf="center" justifySelf="end" pb={8}>
+            <ChakraNextImage
+              src={require("public/assets/bear-market-airdrop/gift.svg")}
+              alt="gift-image"
+              mx="auto"
+              mb={4}
+            />
+            <Text>Want to be eligible for future airdrops?</Text>
+            <Link
+              href="https://thirdweb.com/dashboard/contracts"
+              target="_blank"
+            >
+              <Text color="blue.500">Deploy a contract on thirdweb &rarr;</Text>
+            </Link>
+          </Box>
+        </Flex>
       )}
     </Card>
   );

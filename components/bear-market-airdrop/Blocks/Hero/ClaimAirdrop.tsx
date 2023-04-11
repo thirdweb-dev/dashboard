@@ -30,12 +30,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   handleEmailSubmit,
   submittingEmail,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit, watch } = useForm<Inputs>();
   const email = watch("email");
 
   const onSubmit = async (data: Inputs) => {
@@ -45,11 +40,13 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
     if (!canClaim) {
       handleEmailSubmit(data.email);
     } else {
-      claim(data.email);
+      await claim(data.email);
     }
   };
 
-  const invalidEmail = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
+  const invalidEmail = email
+    ? !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+    : false;
   const { colorMode } = useColorMode();
 
   return (
@@ -66,14 +63,32 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
         lg: 0,
       }}
     >
-      {!canClaim && (
-        <Text
-          fontWeight="normal"
-          fontSize="19px"
-          color={"initial"}
-          mt={4}
-          mb={2}
+      {canClaim ? (
+        <Flex
+          gap={2}
+          alignItems="center"
+          justifyContent={{
+            base: "center",
+            lg: "flex-start",
+          }}
         >
+          <Text
+            fontWeight="bold"
+            fontSize="19px"
+            color={"initial"}
+            mt={4}
+            mb={2}
+          >
+            You are eligible to claim 1 airdrop!
+          </Text>
+          <ChakraNextImage
+            alt="checkmark"
+            alignSelf="center"
+            src={require("public/assets/bear-market-airdrop/checkmark.svg")}
+          />
+        </Flex>
+      ) : (
+        <Text fontWeight="bold" fontSize="19px" color={"initial"} mt={4} mb={2}>
           You&apos;re unfortunately not eligible to claim.
         </Text>
       )}
@@ -93,36 +108,32 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                     message: "Invalid email address",
                   },
                 })}
-                w="400px"
               />
-              <InputRightElement width="">
-                {!canClaim ? (
-                  <Button
-                    mr={!canClaim ? 7 : 0}
-                    type="submit"
-                    roundedLeft="none"
-                    isDisabled={!watch("email") || invalidEmail}
-                    isLoading={submittingEmail}
-                    bg={colorMode === "light" ? "black" : "white"}
-                    _hover={{
-                      bg: colorMode === "light" ? "black" : "white",
-                    }}
-                    _loading={{
-                      bg: colorMode === "light" ? "white" : "black",
-                    }}
-                  >
-                    <ChakraNextImage
-                      src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
-                      alt="rightArrow"
-                    />
-                  </Button>
-                ) : (
+              <InputRightElement w="auto">
+                <Button
+                  type="submit"
+                  roundedLeft="none"
+                  isDisabled={
+                    !watch("email") ||
+                    invalidEmail ||
+                    isClaiming ||
+                    submittingEmail
+                  }
+                  isLoading={submittingEmail || isClaiming}
+                  bg={colorMode === "light" ? "black" : "white"}
+                  _hover={{
+                    bg: colorMode === "light" ? "black" : "white",
+                  }}
+                  _loading={{
+                    bg: colorMode === "light" ? "white" : "black",
+                  }}
+                >
                   <ChakraNextImage
-                    src={require("public/assets/bear-market-airdrop/white-checkmark.svg")}
-                    alt="valid email"
-                    mr={2}
+                    src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
+                    alt="rightArrow"
+                    w={4}
                   />
-                )}
+                </Button>
               </InputRightElement>
             </InputGroup>
             {invalidEmail && (
@@ -163,32 +174,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             />
           )}
         </Flex>
-        {canClaim && (
-          <Flex
-            gap={2}
-            alignItems="center"
-            justifyContent={{
-              base: "center",
-              lg: "flex-start",
-            }}
-          >
-            <Text
-              fontWeight="normal"
-              fontSize="19px"
-              color={"initial"}
-              mt={4}
-              mb={2}
-            >
-              You are eligible to claim 1 airdrop
-            </Text>
-            <ChakraNextImage
-              alt="checkmark"
-              alignSelf="center"
-              src={require("public/assets/bear-market-airdrop/checkmark.svg")}
-            />
-          </Flex>
-        )}
-        {canClaim && (
+        {/* {canClaim && (
           <Button
             px={6}
             py={3}
@@ -197,6 +183,10 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             type="submit"
             w="200px"
             mt={4}
+            mx={{
+              base: "auto",
+              lg: 0,
+            }}
             bg={colorMode === "light" ? "black" : "white"}
             color={colorMode === "light" ? "white" : "black"}
             _hover={{
@@ -207,7 +197,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
           >
             Claim
           </Button>
-        )}
+        )} */}
       </form>
     </Flex>
   );

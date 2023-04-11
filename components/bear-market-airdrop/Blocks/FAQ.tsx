@@ -46,21 +46,18 @@ export const FAQ: React.FC = () => {
                 eligible to claim:
               </Text>
               <UnorderedList>
-                <ListItem>Ethereum</ListItem>
+                <ListItem>💎 Ethereum</ListItem>
                 <ListItem>
-                  Polygon <br />
+                  💜 Polygon <br />
                 </ListItem>
                 <ListItem>
-                  Avax <br />
+                  🔺 Avalanche <br />
                 </ListItem>
                 <ListItem>
-                  Fantom <br />
+                  🟦 Arbitrum <br />
                 </ListItem>
                 <ListItem>
-                  Goerli <br />
-                </ListItem>
-                <ListItem>
-                  Mumbai <br />
+                  🔴 Optimism <br />
                 </ListItem>
               </UnorderedList>
               <Text>
@@ -142,7 +139,7 @@ export const FAQ: React.FC = () => {
                 We have compiled a list of every wallet address which deployed a
                 smart contract between <b>January 1st 2022</b> and{" "}
                 <b>April 1st 2023</b>. These addresses have been added to a
-                whitelist which will allow you to claim an ERC1155 NFT
+                allowlist which will allow you to claim an ERC1155 NFT
               </Text>
               <Text>
                 The ERC1155 NFT is an NFT lootbox which uses{" "}
@@ -217,6 +214,7 @@ export const FAQ: React.FC = () => {
               </Text>
               <Text>The following prizes will follow this method:</Text>
               <UnorderedList>
+                <ListItem>1K AWS Credits</ListItem>
                 <ListItem>Lexica AI Art Pass</ListItem>
                 <ListItem>Club IRL NFT</ListItem>
                 <ListItem>Consensus 2023 Two-Day Pass</ListItem>
