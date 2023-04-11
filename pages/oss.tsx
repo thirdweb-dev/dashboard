@@ -52,8 +52,9 @@ const repositories = [
     description: "Documentation, templates, and guides for developers.",
   },
   {
-    id: "solana",
-    name: "Solana SDK",
+    id: "examples",
+    url: "https://github.com/thirdweb-example",
+    name: "Examples",
     description: "Build web3 applications on the Solana blockchain.",
   },
   {
@@ -91,7 +92,8 @@ const RepoCard: React.FC<RepoCardProps> = ({ title, description, url }) => {
   return (
     <LinkBox
       as="a"
-      background={"rgba(0,0,0,0.2)"}
+      target="_blank"
+      background="rgba(0,0,0,0.2)"
       boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
       borderRadius="12px"
       padding={8}
@@ -184,6 +186,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                 <Flex flexDir="column" gap={3} flexGrow={1} minW={300}>
                   <LinkButton
                     href="https://github.com/orgs/thirdweb-dev/"
+                    isExternal
                     onClick={() =>
                       trackEvent({
                         category: "cta-button",
@@ -255,7 +258,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                   key={repo.id}
                   title={repo.name}
                   description={repo.description}
-                  url={`https://github.com/thirdweb-dev/${repo.id}`}
+                  url={repo.url ?? `https://github.com/thirdweb-dev/${repo.id}`}
                 />
               ))}
             </SimpleGrid>
