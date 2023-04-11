@@ -329,6 +329,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: { contributors: sortedContributors },
-    revalidate: 3600, // revalidate the data at most once every hour
+    revalidate: 3600,
   };
 };
