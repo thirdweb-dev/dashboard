@@ -106,10 +106,6 @@ const employees = [
     twitter: "theyoungpatrice",
   },
   {
-    name: "Pengcheng Chen",
-    twitter: "blockchainian",
-  },
-  {
     name: "Rahul Menon",
     twitter: "rahulphenomenon",
   },
@@ -124,10 +120,6 @@ const employees = [
   {
     name: "Sian Morton",
     twitter: "Sian_Morton",
-  },
-  {
-    name: "Siddharth Adusumelli",
-    twitter: "shift4id",
   },
   {
     name: "Yan Giet",

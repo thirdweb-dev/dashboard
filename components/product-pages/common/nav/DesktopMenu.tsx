@@ -196,6 +196,13 @@ export const RESOURCES: NavCardProps[] = [
     icon: require("public/assets/tw-icons/general.png"),
   },
   {
+    name: "Open Source",
+    label: "open-source",
+    description: "Learn how to contribute to thirdweb",
+    link: "/oss",
+    icon: require("public/assets/tw-icons/advanced-nfts.png"),
+  },
+  {
     name: "Docs",
     label: "docs",
     description: "Complete thirdweb documentation",

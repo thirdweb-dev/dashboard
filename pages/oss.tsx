@@ -147,7 +147,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
             },
           }}
         >
-          <HomepageSection bottomPattern pb={32}>
+          <HomepageSection pt="100px" bottomPattern pb={32}>
             <Aurora
               pos={{ left: "50%", top: "0%" }}
               size={{ width: "2400px", height: "2400px" }}
