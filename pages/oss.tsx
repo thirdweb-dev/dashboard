@@ -4,76 +4,19 @@ import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
+import { GetStaticProps } from "next";
 import { PageId } from "page-id";
 import { ReactNode } from "react";
 import { BsGithub } from "react-icons/bs";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const contributors = [
-  {
-    name: "aeither",
-    contributions: 3,
-    image: "https://avatars.githubusercontent.com/u/36173828?s=60&v=4",
-  },
-  {
-    name: "yehia67",
-    contributions: 2,
-    image: "https://avatars.githubusercontent.com/u/21314724?s=60&v=4",
-  },
-  {
-    name: "mykcryptodev",
-    contributions: 2,
-    image: "https://avatars.githubusercontent.com/u/89474773?s=60&v=4",
-  },
-  {
-    name: "b4s36t4",
-    contributions: 2,
-    image: "https://avatars.githubusercontent.com/u/59088937?s=60&v=4",
-  },
-  {
-    name: "lucoadam",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/43247609?s=60&v=4",
-  },
-  {
-    name: "JustinTime42",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/5600414?s=60&v=4",
-  },
-  {
-    name: "retocrooman",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/83130624?s=60&v=4",
-  },
-  {
-    name: "easonchai",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/43127107?s=60&v=4",
-  },
-  {
-    name: "ElasticBottle",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/44563205?s=60&v=4",
-  },
-  {
-    name: "simonlim94",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/10826896?s=60&v=4",
-  },
-  {
-    name: "jnebab",
-    contributions: 1,
-    image: "https://avatars.githubusercontent.com/u/6265768?s=60&v=4",
-  },
-].sort((a, b) => b.contributions - a.contributions);
-
 const repositories = [
   {
     id: "contracts",
     name: "Contracts",
     description:
-      "Solidity smart contracts that power our ContractKit and Explore.",
+      "Solidity smart contracts that power our Solidity SDK and Explore.",
   },
   {
     id: "dashboard",
@@ -126,6 +69,23 @@ interface RepoCardProps {
   url: string;
 }
 
+interface PageProps {
+  contributors: GithubContributor[];
+}
+
+interface GithubContributor {
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  contributions: number;
+}
+
+interface GithubRepository {
+  id: number;
+  name: string;
+  fork: boolean;
+}
+
 const RepoCard: React.FC<RepoCardProps> = ({ title, description, url }) => {
   return (
     <Box
@@ -150,7 +110,7 @@ const RepoCard: React.FC<RepoCardProps> = ({ title, description, url }) => {
   );
 };
 
-const About: ThirdwebNextPage = () => {
+const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
   const trackEvent = useTrack();
 
   return (
@@ -242,33 +202,30 @@ const About: ThirdwebNextPage = () => {
               gap={8}
               justifyContent="space-evenly"
             >
-              {contributors.map((contributor) => (
-                <Flex key={contributor.name} flexDir="column" gap={1}>
-                  <Heading size="title.sm">{contributor.name}</Heading>
-                  {contributor.name ? (
+              {contributors
+                .filter((contributor) => contributor.contributions > 0)
+                .filter(
+                  (contributor) => contributor.login.indexOf("[bot]") === -1,
+                )
+                .slice(0, 24)
+                .map((contributor) => (
+                  <Flex key={contributor.login} flexDir="column" gap={1}>
                     <TrackedLink
-                      href={`https://github.com/${contributor.name}`}
+                      href={`https://github.com/${contributor.login}`}
                       isExternal
                       category="team"
-                      label={contributor.name}
+                      label={contributor.login}
                     >
-                      <Text size="label.md" color="gray.500">
-                        {contributor.contributions}{" "}
-                        {contributor.contributions === 1 ? "commit" : "commits"}
-                      </Text>
+                      <Heading size="title.sm">@{contributor.login}</Heading>
                     </TrackedLink>
-                  ) : (
-                    <Text
-                      size="label.md"
-                      color="gray.700"
-                      fontWeight={400}
-                      fontStyle="italic"
-                    >
-                      no github
+                    <Text size="label.md" color="gray.500">
+                      {contributor.contributions}{" "}
+                      {contributor.contributions === 1
+                        ? "contribution"
+                        : "contributions"}
                     </Text>
-                  )}
-                </Flex>
-              ))}
+                  </Flex>
+                ))}
             </SimpleGrid>
           </HomepageSection>
           <HomepageSection pb={32}>
@@ -294,6 +251,64 @@ const About: ThirdwebNextPage = () => {
   );
 };
 
-About.pageId = PageId.About;
+OSS.pageId = PageId.OSS;
 
-export default About;
+export default OSS;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const orgName = "thirdweb-dev";
+
+  const authHeader = {
+    headers: {
+      Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+    },
+  };
+
+  // Fetch the list of all repositories belonging to the organization
+  const reposResponse = await fetch(
+    `https://api.github.com/orgs/${orgName}/repos?per_page=100`,
+    authHeader,
+  );
+
+  const reposData = (await reposResponse.json()) as GithubRepository[];
+
+  const repos = reposData
+    .filter((repo) => repo.fork === false)
+    .filter((repo) => repo.name !== "shopify-thirdweb-theme")
+    .map((repo) => repo.name);
+
+  const contributors: Record<string, GithubContributor> = {};
+
+  for (const repo of repos) {
+    const response = await fetch(
+      `https://api.github.com/repos/${orgName}/${repo}/contributors`,
+      authHeader,
+    );
+    const data = (await response.json()) as GithubContributor[];
+
+    data.forEach((contributor) => {
+      const login = contributor.login;
+      const contributions = contributor.contributions;
+      if (contributors[login]) {
+        contributors[login].contributions += contributions;
+      } else {
+        contributors[login] = {
+          login,
+          avatar_url: contributor.avatar_url,
+          html_url: contributor.html_url,
+          contributions,
+        };
+      }
+    });
+  }
+
+  // Sort the contributors by their contributions in descending order
+  const sortedContributors = Object.values(contributors).sort(
+    (a, b) => b.contributions - a.contributions,
+  );
+
+  return {
+    props: { contributors: sortedContributors },
+    revalidate: 3600, // revalidate the data at most once every hour
+  };
+};
