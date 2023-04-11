@@ -1,15 +1,7 @@
-import {
-  Box,
-  DarkMode,
-  Flex,
-  Icon,
-  LinkBox,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { DarkMode, Flex, Icon, LinkBox, SimpleGrid } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { ProductPage } from "components/product-pages/common/ProductPage";
-import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -210,6 +202,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                     _hover={{
                       background: "rgba(255,255,255,0.9)!important",
                     }}
+                    zIndex={12}
                   >
                     View GitHub
                   </LinkButton>
