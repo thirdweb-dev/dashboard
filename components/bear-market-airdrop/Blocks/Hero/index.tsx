@@ -68,6 +68,7 @@ export const Hero: React.FC<HeroProps> = () => {
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
+  const [submittingEmail, setSubmittingEmail] = useState(false);
 
   const isAnythingLoading =
     (loadingPacksOwned && address) ||
@@ -82,20 +83,42 @@ export const Hero: React.FC<HeroProps> = () => {
       if (!email) {
         return;
       }
+      setSubmittingEmail(true);
       await fetch("/api/bear-market-airdrop/airtable", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, address }),
+        body: JSON.stringify({
+          email,
+          address,
+          optIn: !canClaim ? true : false,
+        }),
       })
-        .then(() => {
-          toast({
-            title: "Email submitted!",
-            position: "top",
-            variant: "left-accent",
-            status: "success",
-          });
+        .then((res) => {
+          if (res.status === 500) {
+            toast({
+              title: "Email already registered",
+              position: "top",
+              variant: "left-accent",
+              status: "info",
+              containerStyle: {
+                bg: "black",
+                rounded: "lg",
+              },
+            });
+          } else {
+            toast({
+              title: "Email submitted!",
+              position: "top",
+              variant: "left-accent",
+              status: "success",
+              containerStyle: {
+                bg: "black",
+                rounded: "lg",
+              },
+            });
+          }
         })
         .catch((err) => {
           toast({
@@ -104,9 +127,12 @@ export const Hero: React.FC<HeroProps> = () => {
             variant: "left-accent",
             status: "error",
           });
+        })
+        .finally(() => {
+          setSubmittingEmail(false);
         });
     },
-    [address, toast],
+    [address, canClaim, toast],
   );
 
   const claim = useCallback(
@@ -293,6 +319,8 @@ export const Hero: React.FC<HeroProps> = () => {
                 canClaim={canClaim}
                 isClaiming={claiming}
                 claim={claim}
+                handleEmailSubmit={handleEmailSubmit}
+                submittingEmail={submittingEmail}
               />
             )}
           </>

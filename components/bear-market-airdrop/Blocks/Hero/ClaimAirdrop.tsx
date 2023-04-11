@@ -15,6 +15,8 @@ interface ClaimAirdropProps {
   canClaim: boolean;
   claim: (email: string) => void;
   isClaiming: boolean;
+  handleEmailSubmit: (email: string) => void;
+  submittingEmail: boolean;
 }
 
 type Inputs = {
@@ -25,6 +27,8 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   canClaim,
   claim,
   isClaiming,
+  handleEmailSubmit,
+  submittingEmail,
 }) => {
   const {
     register,
@@ -34,11 +38,15 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   } = useForm<Inputs>();
   const email = watch("email");
 
-  const onSubmit = (data: Inputs) => {
-    if (!data.email || !canClaim) {
+  const onSubmit = async (data: Inputs) => {
+    if (!data.email) {
       return;
     }
-    claim(data.email);
+    if (!canClaim) {
+      handleEmailSubmit(data.email);
+    } else {
+      claim(data.email);
+    }
   };
 
   const invalidEmail = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
@@ -58,6 +66,17 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
         lg: 0,
       }}
     >
+      {!canClaim && (
+        <Text
+          fontWeight="normal"
+          fontSize="19px"
+          color={"initial"}
+          mt={4}
+          mb={2}
+        >
+          You&apos;re unfortunately not eligible to claim.
+        </Text>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <HStack mt={2} mb={2} alignItems="start">
           <VStack alignItems="start">
@@ -76,13 +95,21 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                 })}
                 w="400px"
               />
-              <InputRightElement width="3rem">
+              <InputRightElement width="">
                 {!canClaim ? (
                   <Button
+                    mr={!canClaim ? 7 : 0}
                     type="submit"
                     roundedLeft="none"
-                    disabled={!watch("email")}
+                    isDisabled={!watch("email") || invalidEmail}
+                    isLoading={submittingEmail}
                     bg={colorMode === "light" ? "black" : "white"}
+                    _hover={{
+                      bg: colorMode === "light" ? "black" : "white",
+                    }}
+                    _loading={{
+                      bg: colorMode === "light" ? "white" : "black",
+                    }}
                   >
                     <ChakraNextImage
                       src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
@@ -93,10 +120,16 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                   <ChakraNextImage
                     src={require("public/assets/bear-market-airdrop/white-checkmark.svg")}
                     alt="valid email"
+                    mr={2}
                   />
                 )}
               </InputRightElement>
             </InputGroup>
+            {invalidEmail && (
+              <Text color="red.500" fontSize="sm" mt={2}>
+                Email is invalid
+              </Text>
+            )}
             {!canClaim && (
               <Flex gap={2}>
                 <Text
@@ -114,11 +147,6 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                 />
               </Flex>
             )}
-            {invalidEmail && (
-              <Text color="red.500" fontSize="sm" mt={2}>
-                Email is invalid
-              </Text>
-            )}
           </VStack>
         </HStack>
         <Flex alignItems="center" gap={2} mb={8}>
@@ -135,33 +163,31 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             />
           )}
         </Flex>
-        <Flex
-          gap={2}
-          alignItems="center"
-          justifyContent={{
-            base: "center",
-            lg: "flex-start",
-          }}
-        >
-          <Text
-            fontWeight="normal"
-            fontSize="19px"
-            color={"initial"}
-            mt={4}
-            mb={2}
+        {canClaim && (
+          <Flex
+            gap={2}
+            alignItems="center"
+            justifyContent={{
+              base: "center",
+              lg: "flex-start",
+            }}
           >
-            {canClaim
-              ? "You are eligible to claim 1 airdrop"
-              : "You're unfortunately not eligible to claim."}
-          </Text>
-          {canClaim && (
+            <Text
+              fontWeight="normal"
+              fontSize="19px"
+              color={"initial"}
+              mt={4}
+              mb={2}
+            >
+              You are eligible to claim 1 airdrop
+            </Text>
             <ChakraNextImage
               alt="checkmark"
               alignSelf="center"
               src={require("public/assets/bear-market-airdrop/checkmark.svg")}
             />
-          )}
-        </Flex>
+          </Flex>
+        )}
         {canClaim && (
           <Button
             px={6}

@@ -1,34 +1,75 @@
 import { Box, Flex, IconButton, Spacer, useColorMode } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
+import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
+import { getSearchQuery } from "components/cmd-k-search";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { useMemo, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
+import { useSupportedChain } from "hooks/chains/configureChains";
+import { useCallback, useEffect, useState } from "react";
+import { Card, Heading, Link, Text } from "tw-components";
+import { shortenString } from "utils/usedapp-external";
+
+type ContractSearchResult = {
+  address: string;
+  chainId: number;
+  metadata: { name: string; image?: string; symbol?: string };
+  needsImport: boolean;
+};
+
+const typesenseApiKey =
+  process.env.NEXT_PUBLIC_TYPESENSE_CONTRACT_API_KEY || "";
+
+const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
+  contract,
+}) => {
+  const {
+    chainId,
+    address,
+    metadata: { name },
+  } = contract;
+  const chain = useSupportedChain(chainId);
+
+  return (
+    <Flex rounded="xl" gap={4} mt={6} alignItems="end" w="full">
+      <ChainIcon size={42} ipfsSrc={Polygon.icon.url} />
+      <Box>
+        <Text fontSize="16px" color="initial">
+          {name}
+        </Text>
+        <Text fontSize="16px" opacity={0.7}>
+          {chain?.name} - {shortenString(address, true)}
+        </Text>
+      </Box>
+      <Link
+        href={`/${chain?.slug}/${address}`}
+        target="_blank"
+        justifySelf="end"
+        ml="auto"
+        alignSelf="center"
+      >
+        <ChakraNextImage
+          cursor="pointer"
+          src={require("public/assets/bear-market-airdrop/contract-arr.svg")}
+          alt="contract link"
+        />
+      </Link>
+    </Flex>
+  );
+};
 
 export const ContractsDeployed = () => {
   const { colorMode } = useColorMode();
-  const fakeList = useMemo(() => {
-    const arr = [];
-    for (let i = 0; i < 100; i++) {
-      arr.push({
-        id: i,
-        name: "test",
-        contract_address: "0x2323...34154",
-        chain: "polygon",
-      });
-    }
-    return arr;
-  }, []);
-
+  const walletAddress = useAddress();
   const [currPage, setCurrPage] = useState(1);
+  const [contracts, setContracts] = useState<ContractSearchResult[]>([]);
 
   const perPage = 5;
-  const total = fakeList.length;
+  const total = contracts.length;
   const totalPages = Math.ceil(total / perPage);
   const start = (currPage - 1) * perPage;
   const end = start + perPage;
   const [paginatedList, setPaginatedList] = useState(
-    fakeList.slice(start, end),
+    contracts.slice(start, end),
   );
 
   const handleNextPage = () => {
@@ -36,7 +77,7 @@ export const ContractsDeployed = () => {
       const newStart = start + perPage;
       const newEnd = newStart + perPage;
       setCurrPage(currPage + 1);
-      setPaginatedList(fakeList.slice(newStart, newEnd));
+      setPaginatedList(contracts.slice(newStart, newEnd));
     }
   };
 
@@ -45,7 +86,7 @@ export const ContractsDeployed = () => {
       const newStart = start - perPage;
       const newEnd = end - perPage;
       setCurrPage(currPage - 1);
-      setPaginatedList(fakeList.slice(newStart, newEnd));
+      setPaginatedList(contracts.slice(newStart, newEnd));
     }
   };
 
@@ -54,16 +95,52 @@ export const ContractsDeployed = () => {
       const newStart = start + perPage;
       const newEnd = newStart + perPage;
       setCurrPage(page);
-      setPaginatedList(fakeList.slice(newStart, newEnd));
+      setPaginatedList(contracts.slice(newStart, newEnd));
       return;
     } else if (page < currPage) {
       const newStart = start - perPage;
       const newEnd = end - perPage;
       setCurrPage(page);
-      setPaginatedList(fakeList.slice(newStart, newEnd));
+      setPaginatedList(contracts.slice(newStart, newEnd));
       return;
     }
   };
+
+  const getContracts = useCallback(async () => {
+    if (!walletAddress || !typesenseApiKey) {
+      return;
+    }
+    const res = await fetch(
+      getSearchQuery({
+        query: "",
+        walletAddress,
+        searchMode: "all",
+      }),
+      {
+        headers: {
+          "x-typesense-api-key": typesenseApiKey,
+        },
+      },
+    );
+    const result = await res.json();
+    const data = result.hits.map((hit: any) => {
+      const document = hit.document;
+      return {
+        address: document.contract_address,
+        chainId: document.chain_id,
+        metadata: {
+          name: document.name,
+        },
+      } as ContractSearchResult;
+    }) as ContractSearchResult[];
+
+    setContracts(data);
+    setPaginatedList(data.slice(start, end));
+  }, [walletAddress, start, end]);
+
+  useEffect(() => {
+    getContracts();
+  }, [getContracts]);
 
   const pageNumbersToShow = [];
   if (currPage <= totalPages - 3) {
@@ -88,33 +165,11 @@ export const ContractsDeployed = () => {
       <Heading textAlign="center" fontSize="20px">
         Contracts you&apos;ve deployed:
       </Heading>
-      {fakeList.length > 0 ? (
+      {contracts.length > 0 ? (
         <>
           <Flex direction="column">
             {paginatedList.map((contract) => (
-              <Flex
-                key={contract.id}
-                rounded="xl"
-                gap={4}
-                mt={6}
-                alignItems="end"
-              >
-                <ChainIcon size={42} ipfsSrc={Polygon.icon.url} />
-                <Box w="60%">
-                  <Text fontSize="16px" color="initial">
-                    {contract.name}
-                  </Text>
-                  <Text fontSize="16px" opacity={0.7}>
-                    {contract.chain} - {contract.contract_address}
-                  </Text>
-                </Box>
-                <ChakraNextImage
-                  ml="auto"
-                  cursor="pointer"
-                  src={require("public/assets/bear-market-airdrop/contract-arr.svg")}
-                  alt=""
-                />
-              </Flex>
+              <ListItem key={contract.address} contract={contract} />
             ))}
           </Flex>
           <Spacer />
@@ -130,34 +185,52 @@ export const ContractsDeployed = () => {
                 alt=""
               />
             </IconButton>
-            {currPage > 1 && (
+            {totalPages <= 5 ? (
+              Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <Text
+                    key={pageNum}
+                    fontWeight={pageNum === currPage ? "bold" : "normal"}
+                    color={pageNum === currPage ? "initial" : "gray.400"}
+                    cursor="pointer"
+                    onClick={() => handleClickedPage(pageNum)}
+                  >
+                    {pageNum}
+                  </Text>
+                ),
+              )
+            ) : (
               <>
-                <Text onClick={() => handleClickedPage(1)} cursor="pointer">
-                  1
-                </Text>
-                <Text>...</Text>
-              </>
-            )}
-            {pageNumbersToShow.map((pageNum) => (
-              <Text
-                key={pageNum}
-                fontWeight={pageNum === currPage ? "bold" : "normal"}
-                color={pageNum === currPage ? "initial" : "gray.400"}
-                cursor="pointer"
-                onClick={() => handleClickedPage(pageNum)}
-              >
-                {pageNum}
-              </Text>
-            ))}
-            {currPage < totalPages - 2 && (
-              <>
-                <Text>...</Text>
-                <Text
-                  onClick={() => handleClickedPage(totalPages)}
-                  cursor="pointer"
-                >
-                  {totalPages}
-                </Text>
+                {currPage > 1 && (
+                  <>
+                    <Text onClick={() => handleClickedPage(1)} cursor="pointer">
+                      1
+                    </Text>
+                    <Text>...</Text>
+                  </>
+                )}
+                {pageNumbersToShow.map((pageNum) => (
+                  <Text
+                    key={pageNum}
+                    fontWeight={pageNum === currPage ? "bold" : "normal"}
+                    color={pageNum === currPage ? "initial" : "gray.400"}
+                    cursor="pointer"
+                    onClick={() => handleClickedPage(pageNum)}
+                  >
+                    {pageNum}
+                  </Text>
+                ))}
+                {currPage < totalPages - 2 && (
+                  <>
+                    <Text>...</Text>
+                    <Text
+                      onClick={() => handleClickedPage(totalPages)}
+                      cursor="pointer"
+                    >
+                      {totalPages}
+                    </Text>
+                  </>
+                )}
               </>
             )}
             <IconButton

@@ -165,7 +165,7 @@ function onChainContractSearchQuery(
 const typesenseApiKey =
   process.env.NEXT_PUBLIC_TYPESENSE_CONTRACT_API_KEY || "";
 
-const getSearchQuery = ({
+export const getSearchQuery = ({
   query,
   walletAddress = "",
   searchMode = "all",

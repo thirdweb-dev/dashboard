@@ -18,7 +18,7 @@ export default async function handler(
   );
 
   if (req.method === "POST") {
-    const { email, address } = req.body;
+    const { email, address, optIn } = req.body;
 
     // Check if email is already in the database
     base("Table 1")
@@ -41,6 +41,7 @@ export default async function handler(
                 fields: {
                   Email: email,
                   Address: address,
+                  emailCampaign: optIn ? "true" : "false",
                 },
               },
             ],
