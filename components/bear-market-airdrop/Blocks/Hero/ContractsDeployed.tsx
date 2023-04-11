@@ -1,7 +1,7 @@
 import { Box, Flex, IconButton, Spacer, useColorMode } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
-import { ChainIcon } from "components/icons/ChainIcon";
 import { ChakraNextImage } from "components/Image";
+import { ChainIcon } from "components/icons/ChainIcon";
 import { useMemo, useState } from "react";
 import { Card, Heading, Text } from "tw-components";
 

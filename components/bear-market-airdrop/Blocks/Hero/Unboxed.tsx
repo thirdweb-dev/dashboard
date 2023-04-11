@@ -1,3 +1,4 @@
+import { gradientMapping } from "../Prizes/Prize";
 import { Box, ButtonGroup, Flex, useColorMode } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
@@ -5,7 +6,6 @@ import { NFT, NFTMetadata, TransactionResult } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { BsEyeFill } from "react-icons/bs";
 import { Button, Card, Heading, Text } from "tw-components";
-import { gradientMapping } from "../Prizes/Prize";
 
 interface UnboxedProps {
   reward: NFT | undefined;

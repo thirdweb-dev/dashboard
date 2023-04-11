@@ -19,7 +19,7 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
       alignItems="center"
       mx={{
         base: "auto",
-        lg: 0
+        lg: 0,
       }}
     >
       <Flex direction="column" w="full" alignSelf="end">

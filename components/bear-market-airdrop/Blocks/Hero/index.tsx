@@ -1,3 +1,8 @@
+import { ClaimAirdrop } from "./ClaimAirdrop";
+import { ContractsDeployed } from "./ContractsDeployed";
+import { OpenPack } from "./OpenPack";
+import { Supply } from "./Supply";
+import { Unboxed } from "./Unboxed";
 import { Box, Flex, Spinner, useToast } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import {
@@ -5,20 +10,16 @@ import {
   useAddress,
   useContract,
   useOwnedNFTs,
-  useSDK
+  useSDK,
 } from "@thirdweb-dev/react";
 import {
-  fetchSnapshotEntryForAddress, SnapshotEntryWithProof,
-  TransactionResult
+  SnapshotEntryWithProof,
+  TransactionResult,
+  fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
-import { ClaimAirdrop } from "./ClaimAirdrop";
-import { ContractsDeployed } from "./ContractsDeployed";
-import { OpenPack } from "./OpenPack";
-import { Supply } from "./Supply";
-import { Unboxed } from "./Unboxed";
 
 type HeroProps = {
   desiredChain: Chain;
