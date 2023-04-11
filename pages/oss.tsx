@@ -8,9 +8,11 @@ import {
 } from "@chakra-ui/react";
 import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
+import { ProductPage } from "components/product-pages/common/ProductPage";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { useTrack } from "hooks/analytics/useTrack";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { GetStaticProps } from "next";
 import { PageId } from "page-id";
 import { ReactNode } from "react";
@@ -134,8 +136,23 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
         as="main"
         bg="#000"
       >
-        <HomepageTopNav />
-        <Box mt="-80px" pt="100px" overflowX="hidden">
+        <ProductPage
+          seo={{
+            title: "Open Source Community",
+            description:
+              "All of our SDKs, infrastructure, and documentation are open source under the Apache 2.0 license and open to contributions.",
+            openGraph: {
+              images: [
+                {
+                  url: `${getAbsoluteUrl()}/assets/og-image/sdk.png`,
+                  width: 2334,
+                  height: 1260,
+                  alt: "thirdweb Open Source SDKs",
+                },
+              ],
+            },
+          }}
+        >
           <HomepageSection bottomPattern pb={32}>
             <Aurora
               pos={{ left: "50%", top: "0%" }}
@@ -252,7 +269,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
           </HomepageSection>
 
           <HomepageFooter />
-        </Box>
+        </ProductPage>
       </Flex>
     </DarkMode>
   );
