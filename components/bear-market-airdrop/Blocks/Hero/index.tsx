@@ -37,9 +37,9 @@ export type ContractSearchResult = {
 
 const typesenseApiKey =
   process.env.NEXT_PUBLIC_TYPESENSE_CONTRACT_API_KEY || "";
-const EDITION_ADDRESS = "0x941d8799eDc8424357DD86Bea762D35439976Cfc";
-const PACK_ADDRESS = "0xd7E960c6627B700Cf3551E772F0DD362dc087eF9";
-const AIRDROP_ADDRESS = "0x3cc3CF3c4bfd05b5F9e589c6345586e4180b96A9";
+const EDITION_ADDRESS = "0xfEae55deA0781BBE5E967Ddfa29e7C01918ad6cb";
+const PACK_ADDRESS = "0xD21fE9b1bC8901525288A29fa08175a27070755f";
+const AIRDROP_ADDRESS = "0x8C3972ED94c789B0c3721Fe05078FC4918129d37";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 
 export const Hero: React.FC<HeroProps> = () => {
@@ -334,9 +334,7 @@ export const Hero: React.FC<HeroProps> = () => {
                 <ConnectWallet />
               </Box>
             ) : hasPack ? (
-              <BearMarketBuilderSDK isPack>
-                <OpenPack openPack={openPack} unboxing={unboxing} />
-              </BearMarketBuilderSDK>
+              <OpenPack openPack={openPack} unboxing={unboxing} />
             ) : (
               <ClaimAirdrop
                 canClaim={canClaim}

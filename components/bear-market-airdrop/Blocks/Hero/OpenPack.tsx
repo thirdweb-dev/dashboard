@@ -40,9 +40,7 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
           _hover={{
             bg: "white",
           }}
-          onClick={() => {
-            openPack();
-          }}
+          onClick={openPack}
           isLoading={unboxing}
         >
           Open Pack
