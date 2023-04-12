@@ -20,7 +20,6 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { getSearchQuery } from "lib/search";
-import { BearMarketBuilderSDK } from "pages/bear-market-airdrop";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
 
