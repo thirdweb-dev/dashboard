@@ -11,6 +11,7 @@ import {
   useContract,
   useOwnedNFTs,
   useSDK,
+  useTotalCirculatingSupply,
 } from "@thirdweb-dev/react";
 import {
   SnapshotEntryWithProof,
@@ -19,7 +20,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { getSearchQuery } from "lib/search";
-import { BearkMarketBuilderSDK } from "pages/bear-market-airdrop";
+import { BearMarketBuilderSDK } from "pages/bear-market-airdrop";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
 
@@ -52,21 +53,17 @@ export const Hero: React.FC<HeroProps> = () => {
   const [claiming, setClaiming] = useState(false);
   const [snapshot, setSnapshot] = useState<SnapshotEntryWithProof | null>(null);
   const [unboxing, setUnboxing] = useState(false);
-  const [supply, setSupplyLeft] = useState(0);
   const [packTx, setPackTx] = useState<TransactionResult | null>(null);
 
-  const canClaim = !!snapshot?.proof?.length || false;
+  const canClaim = !!snapshot?.proof?.length;
 
   const { contract: airdrop, isLoading: airdropContractLoading } =
     useContract(AIRDROP_ADDRESS);
-  const { contract: pack, isLoading: packContractLoading } = useContract(
-    PACK_ADDRESS,
-    "pack",
-  );
-  const { contract: edition, isLoading: editionContractLoading } = useContract(
-    EDITION_ADDRESS,
-    "edition",
-  );
+  const { contract: pack, isLoading: packContractLoading } =
+    useContract(PACK_ADDRESS);
+  const { contract: edition, isLoading: editionContractLoading } =
+    useContract(EDITION_ADDRESS);
+
   const {
     data: ownsReward,
     isLoading: loadingOwnedRewards,
@@ -77,6 +74,8 @@ export const Hero: React.FC<HeroProps> = () => {
     isLoading: loadingPacksOwned,
     refetch: refetchPack,
   } = useOwnedNFTs(pack, address);
+
+  const { data: supply } = useTotalCirculatingSupply(pack, 0);
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
@@ -149,7 +148,7 @@ export const Hero: React.FC<HeroProps> = () => {
 
   const claim = useCallback(
     async (email: string) => {
-      if (!canClaim || !airdrop || !address || !snapshot || !pack || !email) {
+      if (!canClaim || !airdrop || !address || !snapshot || !email) {
         return;
       }
       setClaiming(true);
@@ -181,7 +180,6 @@ export const Hero: React.FC<HeroProps> = () => {
       airdrop,
       canClaim,
       handleEmailSubmit,
-      pack,
       refetchPack,
       snapshot,
       toast,
@@ -203,15 +201,6 @@ export const Hero: React.FC<HeroProps> = () => {
       setUnboxing(false);
     }
   }, [address, hasPack, pack, refetchReward]);
-
-  const getSupply = useCallback(async () => {
-    if (!pack) {
-      return;
-    }
-
-    const quantity = await pack.erc1155.totalSupply(0);
-    setSupplyLeft(quantity.toNumber());
-  }, [pack]);
 
   const checkClaimed = useCallback(async () => {
     if (!sdk || !address || !merkleURI) {
@@ -274,13 +263,6 @@ export const Hero: React.FC<HeroProps> = () => {
   }, [checkClaimed]);
 
   useEffect(() => {
-    if (!pack || !edition) {
-      return;
-    }
-    getSupply();
-  }, [pack, edition, getSupply]);
-
-  useEffect(() => {
     getContracts();
   }, [getContracts, address]);
 
@@ -341,7 +323,7 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!unboxed && <Supply supply={supply} />}
+            {!unboxed && supply && <Supply supply={supply.toString()} />}
             {!address ? (
               <Box
                 mx={{
@@ -352,9 +334,9 @@ export const Hero: React.FC<HeroProps> = () => {
                 <ConnectWallet />
               </Box>
             ) : hasPack ? (
-              <BearkMarketBuilderSDK isPack>
+              <BearMarketBuilderSDK isPack>
                 <OpenPack openPack={openPack} unboxing={unboxing} />
-              </BearkMarketBuilderSDK>
+              </BearMarketBuilderSDK>
             ) : (
               <ClaimAirdrop
                 canClaim={canClaim}
