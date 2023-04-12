@@ -67,21 +67,7 @@ BearMarketAirdropPage.getLayout = (page, props) => {
       noSEOOverride
       dehydratedState={props.dehydratedState}
     >
-      <CustomSDKContext
-        desiredChainId={desiredChain.chainId}
-        options={{
-          gasless: {
-            openzeppelin: {
-              relayerUrl: process.env.NEXT_PUBLIC_OPENZEPELLIN_URL as string,
-              relayerForwarderAddress:
-                "0xEbc1977d1aC2fe1F6DAaF584E2957F7c436fcdEF",
-            },
-            experimentalChainlessSupport: true,
-          },
-        }}
-      >
-        {page}
-      </CustomSDKContext>
+      <BearMarketBuilderSDK>{page}</BearMarketBuilderSDK>
     </AppLayout>
   );
 };
@@ -91,7 +77,7 @@ interface BearMarketBuilderSDKProps {
   isPack?: boolean;
 }
 
-export const BearkMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
+export const BearMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
   children,
   isPack = false,
 }) => {
@@ -105,7 +91,7 @@ export const BearkMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
       options={{
         gasless: {
           openzeppelin: {
-            relayerUrl: process.env.NEXT_PUBLIC_OPENZEPELLIN_URL as string,
+            relayerUrl: process.env.NEXT_PUBLIC_OPENZEPPELIN_URL as string,
             relayerForwarderAddress: forwarderAddress,
           },
           experimentalChainlessSupport: true,

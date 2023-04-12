@@ -20,7 +20,7 @@ import {
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { getSearchQuery } from "lib/search";
-import { BearkMarketBuilderSDK } from "pages/bear-market-airdrop";
+import { BearMarketBuilderSDK } from "pages/bear-market-airdrop";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
 
@@ -334,9 +334,9 @@ export const Hero: React.FC<HeroProps> = () => {
                 <ConnectWallet />
               </Box>
             ) : hasPack ? (
-              <BearkMarketBuilderSDK isPack>
+              <BearMarketBuilderSDK isPack>
                 <OpenPack openPack={openPack} unboxing={unboxing} />
-              </BearkMarketBuilderSDK>
+              </BearMarketBuilderSDK>
             ) : (
               <ClaimAirdrop
                 canClaim={canClaim}
