@@ -12,6 +12,40 @@ import { BsGithub } from "react-icons/bs";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
+const filterOut = [
+  "joaquim-verges",
+  "jnsdls",
+  "jakeloo",
+  "nkrishang",
+  "adam-maj",
+  "nachoiacovino",
+  "atbe",
+  "jarrodwatts",
+  "ayshptk",
+  "kumaryash90",
+  "avneesh0612",
+  "MananTank",
+  "furqanrydhan",
+  "warengonzaga",
+  "razacodespython",
+  "0xFirekeeper",
+  "iketw",
+  "saminacodes",
+  "shift4id",
+  "nessup",
+  "ciaranightingale",
+  "eabdelmoneim",
+  "ndeto",
+  "MGoldstein18",
+  "atharvadeosthale",
+  "palerthanale",
+  "rattrayd11",
+  "juandolealt",
+  "Marfuen",
+  "Abbas-Khann",
+  "JustinTime42",
+];
+
 const repositories = [
   {
     id: "contracts",
@@ -192,7 +226,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                         category: "cta-button",
                         action: "click",
                         label: "oss",
-                        title: "View GitHub",
+                        title: "Contribute Now",
                       })
                     }
                     px={4}
@@ -207,7 +241,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                     }}
                     zIndex={12}
                   >
-                    View GitHub
+                    Contribute Now
                   </LinkButton>
                 </Flex>
               </Flex>
@@ -215,7 +249,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
           </HomepageSection>
           <HomepageSection pb={32}>
             <Heading size="display.sm" mb={12}>
-              Top Contributors
+              Top External Contributors
             </Heading>
             <SimpleGrid
               columns={{ base: 2, md: 4 }}
@@ -227,7 +261,8 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                 .filter(
                   (contributor) => contributor.login.indexOf("[bot]") === -1,
                 )
-                .slice(0, 24)
+                .filter((contributor) => !filterOut.includes(contributor.login))
+                .slice(0, 12) // cut it to three rows
                 .map((contributor) => (
                   <Flex key={contributor.login} flexDir="column" gap={1}>
                     <TrackedLink
