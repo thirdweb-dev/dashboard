@@ -18,6 +18,7 @@ import {
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
 
@@ -25,6 +26,15 @@ type HeroProps = {
   desiredChain: Chain;
 };
 
+export type ContractSearchResult = {
+  address: string;
+  chainId: number;
+  metadata: { name: string; image?: string; symbol?: string };
+  needsImport: boolean;
+};
+
+const typesenseApiKey =
+  process.env.NEXT_PUBLIC_TYPESENSE_CONTRACT_API_KEY || "";
 const EDITION_ADDRESS = "0x941d8799eDc8424357DD86Bea762D35439976Cfc";
 const PACK_ADDRESS = "0xd7E960c6627B700Cf3551E772F0DD362dc087eF9";
 const AIRDROP_ADDRESS = "0x3cc3CF3c4bfd05b5F9e589c6345586e4180b96A9";
@@ -34,7 +44,9 @@ export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
   const toast = useToast();
   const sdk = useSDK();
+  const walletAddress = useAddress();
 
+  const [contracts, setContracts] = useState<ContractSearchResult[]>([]);
   const [checkingClaimed, setCheckingClaimed] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [snapshot, setSnapshot] = useState<SnapshotEntryWithProof | null>(null);
@@ -224,6 +236,38 @@ export const Hero: React.FC<HeroProps> = () => {
     setCheckingClaimed(false);
   }, [address, sdk]);
 
+  const getContracts = useCallback(async () => {
+    if (!walletAddress || !typesenseApiKey) {
+      return;
+    }
+    const res = await fetch(
+      getSearchQuery({
+        query: "",
+        walletAddress,
+        searchMode: "all",
+        getAllOwnedByWallet: true,
+      }),
+      {
+        headers: {
+          "x-typesense-api-key": typesenseApiKey,
+        },
+      },
+    );
+    const result = await res.json();
+    const data = result.hits.map((hit: any) => {
+      const document = hit.document;
+      return {
+        address: document.contract_address,
+        chainId: document.chain_id,
+        metadata: {
+          name: document.name,
+        },
+      } as ContractSearchResult;
+    }) as ContractSearchResult[];
+
+    setContracts(data);
+  }, [walletAddress]);
+
   useEffect(() => {
     checkClaimed();
   }, [checkClaimed]);
@@ -234,6 +278,10 @@ export const Hero: React.FC<HeroProps> = () => {
     }
     getSupply();
   }, [pack, edition, getSupply]);
+
+  useEffect(() => {
+    getContracts();
+  }, [getContracts]);
 
   if (isAnythingLoading) {
     return (
@@ -348,7 +396,7 @@ export const Hero: React.FC<HeroProps> = () => {
             maxW="100%"
             mt={36}
           >
-            <ContractsDeployed />
+            <ContractsDeployed contracts={contracts} />
           </Flex>
         )}
       </Flex>

@@ -5,7 +5,7 @@ import { FAQ } from "components/bear-market-airdrop/Blocks/FAQ";
 import { Hero } from "components/bear-market-airdrop/Blocks/Hero";
 import { PrizesDisplay } from "components/bear-market-airdrop/Blocks/Prizes";
 import { Why } from "components/bear-market-airdrop/Blocks/Why";
-import { PublisherSDKContext } from "contexts/custom-sdk-context";
+import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
@@ -67,7 +67,21 @@ BearMarketAirdropPage.getLayout = (page, props) => {
       noSEOOverride
       dehydratedState={props.dehydratedState}
     >
-      <PublisherSDKContext>{page}</PublisherSDKContext>
+      <CustomSDKContext
+        desiredChainId={desiredChain.chainId}
+        options={{
+          gasless: {
+            openzeppelin: {
+              relayerUrl: process.env.NEXT_PUBLIC_OPENZEPELLIN_URL as string,
+              relayerForwarderAddress:
+                "0xEbc1977d1aC2fe1F6DAaF584E2957F7c436fcdEF",
+            },
+            experimentalChainlessSupport: true,
+          },
+        }}
+      >
+        {page}
+      </CustomSDKContext>
     </AppLayout>
   );
 };

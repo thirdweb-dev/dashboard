@@ -1,22 +1,15 @@
+import { ContractSearchResult } from ".";
 import { Box, Flex, IconButton, Spacer, useColorMode } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
-import { getSearchQuery } from "components/cmd-k-search";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useSupportedChain } from "hooks/chains/configureChains";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Card, Heading, Link, Text } from "tw-components";
 import { shortenString } from "utils/usedapp-external";
 
-type ContractSearchResult = {
-  address: string;
-  chainId: number;
-  metadata: { name: string; image?: string; symbol?: string };
-  needsImport: boolean;
-};
-
-const typesenseApiKey =
-  process.env.NEXT_PUBLIC_TYPESENSE_CONTRACT_API_KEY || "";
+interface ContractsDeployedProps {
+  contracts: ContractSearchResult[];
+}
 
 const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
   contract,
@@ -56,11 +49,11 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
   );
 };
 
-export const ContractsDeployed = () => {
+export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
+  contracts,
+}) => {
   const { colorMode } = useColorMode();
-  const walletAddress = useAddress();
   const [currPage, setCurrPage] = useState(1);
-  const [contracts, setContracts] = useState<ContractSearchResult[]>([]);
 
   const perPage = 5;
   const total = contracts.length;
@@ -104,42 +97,6 @@ export const ContractsDeployed = () => {
       return;
     }
   };
-
-  const getContracts = useCallback(async () => {
-    if (!walletAddress || !typesenseApiKey) {
-      return;
-    }
-    const res = await fetch(
-      getSearchQuery({
-        query: "",
-        walletAddress,
-        searchMode: "all",
-      }),
-      {
-        headers: {
-          "x-typesense-api-key": typesenseApiKey,
-        },
-      },
-    );
-    const result = await res.json();
-    const data = result.hits.map((hit: any) => {
-      const document = hit.document;
-      return {
-        address: document.contract_address,
-        chainId: document.chain_id,
-        metadata: {
-          name: document.name,
-        },
-      } as ContractSearchResult;
-    }) as ContractSearchResult[];
-
-    setContracts(data);
-    setPaginatedList(data.slice(start, end));
-  }, [walletAddress, start, end]);
-
-  useEffect(() => {
-    getContracts();
-  }, [getContracts]);
 
   const pageNumbersToShow = [];
   if (currPage <= totalPages - 3) {
