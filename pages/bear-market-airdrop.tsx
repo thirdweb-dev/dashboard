@@ -85,3 +85,34 @@ BearMarketAirdropPage.getLayout = (page, props) => {
     </AppLayout>
   );
 };
+
+interface BearMarketBuilderSDKProps {
+  children: React.ReactNode;
+  isPack?: boolean;
+}
+
+export const BearkMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
+  children,
+  isPack = false,
+}) => {
+  const forwarderAddress = isPack
+    ? "0x4f247c69184ad61036EC2Bb3213b69F10FbEDe1Fs"
+    : "0xEbc1977d1aC2fe1F6DAaF584E2957F7c436fcdEF";
+
+  return (
+    <CustomSDKContext
+      desiredChainId={desiredChain.chainId}
+      options={{
+        gasless: {
+          openzeppelin: {
+            relayerUrl: process.env.NEXT_PUBLIC_OPENZEPELLIN_URL as string,
+            relayerForwarderAddress: forwarderAddress,
+          },
+          experimentalChainlessSupport: true,
+        },
+      }}
+    >
+      {children}
+    </CustomSDKContext>
+  );
+};
