@@ -11,6 +11,7 @@ import {
   useContract,
   useOwnedNFTs,
   useSDK,
+  useTotalCirculatingSupply,
 } from "@thirdweb-dev/react";
 import {
   SnapshotEntryWithProof,
@@ -52,7 +53,6 @@ export const Hero: React.FC<HeroProps> = () => {
   const [claiming, setClaiming] = useState(false);
   const [snapshot, setSnapshot] = useState<SnapshotEntryWithProof | null>(null);
   const [unboxing, setUnboxing] = useState(false);
-  const [supply, setSupplyLeft] = useState(0);
   const [packTx, setPackTx] = useState<TransactionResult | null>(null);
 
   const canClaim = !!snapshot?.proof?.length || false;
@@ -77,6 +77,8 @@ export const Hero: React.FC<HeroProps> = () => {
     isLoading: loadingPacksOwned,
     refetch: refetchPack,
   } = useOwnedNFTs(pack, address);
+
+  const { data: supply } = useTotalCirculatingSupply(pack, 0);
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
@@ -204,15 +206,6 @@ export const Hero: React.FC<HeroProps> = () => {
     }
   }, [address, hasPack, pack, refetchReward]);
 
-  const getSupply = useCallback(async () => {
-    if (!pack) {
-      return;
-    }
-
-    const quantity = await pack.erc1155.totalSupply(0);
-    setSupplyLeft(quantity.toNumber());
-  }, [pack]);
-
   const checkClaimed = useCallback(async () => {
     if (!sdk || !address || !merkleURI) {
       return;
@@ -272,13 +265,6 @@ export const Hero: React.FC<HeroProps> = () => {
   useEffect(() => {
     checkClaimed();
   }, [checkClaimed]);
-
-  useEffect(() => {
-    if (!pack || !edition) {
-      return;
-    }
-    getSupply();
-  }, [pack, edition, getSupply]);
 
   useEffect(() => {
     getContracts();
@@ -341,7 +327,7 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!unboxed && <Supply supply={supply} />}
+            {!unboxed && supply && <Supply supply={supply.toString()} />}
             {!address ? (
               <Box
                 mx={{

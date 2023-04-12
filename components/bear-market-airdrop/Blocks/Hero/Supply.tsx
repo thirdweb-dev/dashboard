@@ -2,11 +2,11 @@ import { Flex } from "@chakra-ui/react";
 import { Text } from "tw-components";
 
 interface SupplyProps {
-  supply: number;
+  supply: string;
 }
 
-const addCommas = (num: number) => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const addCommas = (num: string) => {
+  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export const Supply: React.FC<SupplyProps> = ({ supply }) => {
