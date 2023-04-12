@@ -151,7 +151,7 @@ export const Hero: React.FC<HeroProps> = () => {
 
   const claim = useCallback(
     async (email: string) => {
-      if (!canClaim || !airdrop || !address || !snapshot || !pack || !email) {
+      if (!canClaim || !airdrop || !address || !snapshot || !email) {
         return;
       }
       setClaiming(true);
@@ -183,7 +183,6 @@ export const Hero: React.FC<HeroProps> = () => {
       airdrop,
       canClaim,
       handleEmailSubmit,
-      pack,
       refetchPack,
       snapshot,
       toast,
