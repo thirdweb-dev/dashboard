@@ -55,18 +55,15 @@ export const Hero: React.FC<HeroProps> = () => {
   const [unboxing, setUnboxing] = useState(false);
   const [packTx, setPackTx] = useState<TransactionResult | null>(null);
 
-  const canClaim = !!snapshot?.proof?.length || false;
+  const canClaim = !!snapshot?.proof?.length;
 
   const { contract: airdrop, isLoading: airdropContractLoading } =
     useContract(AIRDROP_ADDRESS);
-  const { contract: pack, isLoading: packContractLoading } = useContract(
-    PACK_ADDRESS,
-    "pack",
-  );
-  const { contract: edition, isLoading: editionContractLoading } = useContract(
-    EDITION_ADDRESS,
-    "edition",
-  );
+  const { contract: pack, isLoading: packContractLoading } =
+    useContract(PACK_ADDRESS);
+  const { contract: edition, isLoading: editionContractLoading } =
+    useContract(EDITION_ADDRESS);
+
   const {
     data: ownsReward,
     isLoading: loadingOwnedRewards,
