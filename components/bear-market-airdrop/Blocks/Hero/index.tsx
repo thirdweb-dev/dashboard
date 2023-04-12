@@ -282,7 +282,7 @@ export const Hero: React.FC<HeroProps> = () => {
 
   useEffect(() => {
     getContracts();
-  }, [getContracts]);
+  }, [getContracts, address]);
 
   if (isAnythingLoading) {
     return (
@@ -386,6 +386,7 @@ export const Hero: React.FC<HeroProps> = () => {
           <ChakraNextImage
             src={require("public/assets/bear-market-airdrop/bear-pack-with-bg.png")}
             alt={"bear-market-pack"}
+            priority
           />
         ) : (
           <Flex
