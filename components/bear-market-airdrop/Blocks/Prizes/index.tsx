@@ -1,52 +1,31 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { PrizesCarousel } from "components/bear-market-airdrop/PrizeCarousel";
 import { Heading } from "tw-components";
 
 export const PrizesDisplay: React.FC = () => {
   return (
-    <Box
-      display="flex"
+    <Flex
+      px={12}
       flexDirection="column"
       maxW={{
         base: "full",
         lg: "container.page",
       }}
       mt={24}
-      mx="10"
     >
-      <Flex
-        fontSize={{
-          base: "3rem",
-          lg: "3.5rem",
-        }}
-        gap={4}
-        alignSelf={{
-          base: "center",
-          lg: "flex-start",
-        }}
-      >
-        <Heading
-          fontSize={{
-            base: "3rem",
-            lg: "3.5rem",
-          }}
-        >
-          You could{" "}
-        </Heading>
+      <Flex gap={4} display={{ base: "block", md: "flex" }}>
+        <Heading size="display.md">You could </Heading>
         <Heading
           display="inline-block"
           bgGradient="linear(to-r, #743F9E, #BFA3DA)"
           bgClip="text"
           w="min"
-          fontSize={{
-            base: "3rem",
-            lg: "3.5rem",
-          }}
+          size="display.md"
         >
-          win...{" "}
+          win...
         </Heading>
       </Flex>
       <PrizesCarousel />
-    </Box>
+    </Flex>
   );
 };

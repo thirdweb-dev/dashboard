@@ -51,7 +51,7 @@ const PARTNER_LOGO_MAP = {
   },
 } as const;
 
-type Partner = keyof typeof PARTNER_LOGO_MAP;
+export type Partner = keyof typeof PARTNER_LOGO_MAP;
 
 interface PartnerLogoProps {
   partner: Partner;

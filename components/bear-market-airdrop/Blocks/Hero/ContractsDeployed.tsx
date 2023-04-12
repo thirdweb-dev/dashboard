@@ -22,30 +22,48 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
   const chain = useSupportedChain(chainId);
 
   return (
-    <Flex rounded="xl" gap={4} mt={6} alignItems="end" w="full">
-      <ChainIcon size={42} ipfsSrc={chain?.icon?.url} />
-      <Box>
-        <Text fontSize="16px" color="initial">
-          {name}
-        </Text>
-        <Text fontSize="16px" opacity={0.7}>
-          {chain?.name} - {shortenString(address, true)}
-        </Text>
-      </Box>
-      <Link
-        href={`/${chain?.slug}/${address}`}
-        target="_blank"
-        justifySelf="end"
-        ml="auto"
-        alignSelf="center"
-      >
+    <Link
+      href={`/${chain?.slug}/${address}`}
+      target="_blank"
+      w="full"
+      alignSelf="center"
+      _hover={{
+        textDecoration: "none",
+      }}
+      role="group"
+    >
+      <Flex rounded="xl" gap={4} mt={6} justifyContent="space-between" w="full">
+        <Flex gap={4}>
+          <Flex alignItems="center" h="full">
+            <ChainIcon size={36} ipfsSrc={chain?.icon?.url} />
+          </Flex>
+          <Flex
+            flexDir="column"
+            _groupHover={{
+              opacity: 0.8,
+            }}
+          >
+            <Flex gap={1} justifyContent="center">
+              <Text fontSize="16px" opacity={0.7}>
+                {chain?.name}
+              </Text>
+            </Flex>
+            <Text fontSize="16px" color="initial">
+              {name} {name && "- "}
+              <Text fontFamily="monospace">{shortenString(address, true)}</Text>
+            </Text>
+          </Flex>
+        </Flex>
         <ChakraNextImage
+          _groupHover={{
+            opacity: 0.8,
+          }}
           cursor="pointer"
           src={require("public/assets/bear-market-airdrop/contract-arr.svg")}
           alt="contract link"
         />
-      </Link>
-    </Flex>
+      </Flex>
+    </Link>
   );
 };
 
@@ -107,12 +125,10 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
 
   return (
     <Card
-      mt={-8}
-      px={12}
-      pt={12}
+      px={{ base: 6, md: 10 }}
+      pt={{ base: 6, md: 10 }}
       rounded="xl"
-      h={561}
-      w={464}
+      h={{ base: "auto", md: 561 }}
       bg="#121018"
       overflow="auto"
       display="flex"

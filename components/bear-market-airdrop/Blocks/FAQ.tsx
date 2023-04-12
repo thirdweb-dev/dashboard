@@ -47,18 +47,10 @@ export const FAQ: React.FC = () => {
               </Text>
               <UnorderedList>
                 <ListItem>💎 Ethereum</ListItem>
-                <ListItem>
-                  💜 Polygon <br />
-                </ListItem>
-                <ListItem>
-                  🔺 Avalanche <br />
-                </ListItem>
-                <ListItem>
-                  🟦 Arbitrum <br />
-                </ListItem>
-                <ListItem>
-                  🔴 Optimism <br />
-                </ListItem>
+                <ListItem>💜 Polygon</ListItem>
+                <ListItem>🔺 Avalanche</ListItem>
+                <ListItem>🟦 Arbitrum</ListItem>
+                <ListItem>🔴 Optimism</ListItem>
               </UnorderedList>
               <Text>
                 Whilst we appreciate there are many more chains with thousands

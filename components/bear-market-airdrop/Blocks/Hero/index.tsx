@@ -3,7 +3,7 @@ import { ContractsDeployed } from "./ContractsDeployed";
 import { OpenPack } from "./OpenPack";
 import { Supply } from "./Supply";
 import { Unboxed } from "./Unboxed";
-import { Box, Flex, Spinner, useToast } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Spinner, useToast } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import {
   ConnectWallet,
@@ -78,7 +78,6 @@ export const Hero: React.FC<HeroProps> = () => {
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
-  const [submittingEmail, setSubmittingEmail] = useState(false);
 
   const isAnythingLoading =
     (loadingPacksOwned && address) ||
@@ -93,7 +92,6 @@ export const Hero: React.FC<HeroProps> = () => {
       if (!email) {
         return;
       }
-      setSubmittingEmail(true);
       await fetch("/api/bear-market-airdrop/airtable", {
         method: "POST",
         headers: {
@@ -137,9 +135,6 @@ export const Hero: React.FC<HeroProps> = () => {
             variant: "left-accent",
             status: "error",
           });
-        })
-        .finally(() => {
-          setSubmittingEmail(false);
         });
     },
     [address, canClaim, toast],
@@ -274,35 +269,18 @@ export const Hero: React.FC<HeroProps> = () => {
   }
 
   return (
-    <Flex
+    <SimpleGrid
+      columns={{ base: 1, md: 2 }}
+      px={12}
       justifyContent={{
         base: "center",
         lg: "space-between",
       }}
-      // alignItems={{
-      //   base: "center",
-      //   lg: "",
-      // }}
-      w="full"
-      direction={{
-        base: "column",
-        lg: "row",
-      }}
-      gap={{
-        base: 16,
-        lg: 0,
-      }}
+      pt={{ base: 16, md: 24 }}
+      gap={{ base: 8, md: 36 }}
     >
       {!unboxed ? (
-        <Flex
-          gap={8}
-          direction="column"
-          w={{
-            base: "full",
-            lg: "50%",
-          }}
-          mt={52}
-        >
+        <Flex gap={8} flexDir="column" justifyContent="center" h="full">
           {!unboxed && (
             <Box
               textAlign={{
@@ -340,7 +318,6 @@ export const Hero: React.FC<HeroProps> = () => {
                 isClaiming={claiming}
                 claim={claim}
                 handleEmailSubmit={handleEmailSubmit}
-                submittingEmail={submittingEmail}
               />
             )}
           </>
@@ -354,13 +331,7 @@ export const Hero: React.FC<HeroProps> = () => {
           />
         </Box>
       )}
-      <Flex
-        direction="row"
-        w={{
-          base: "full",
-          lg: "50%",
-        }}
-      >
+      <Flex direction="row">
         {!address ? (
           <ChakraNextImage
             src={require("public/assets/bear-market-airdrop/bear-pack-with-bg.png")}
@@ -368,21 +339,11 @@ export const Hero: React.FC<HeroProps> = () => {
             priority
           />
         ) : (
-          <Flex
-            ml={{
-              base: "auto",
-            }}
-            mr={{
-              base: "auto",
-              lg: 0,
-            }}
-            maxW="100%"
-            mt={36}
-          >
+          <Flex maxW="100%" w="full" justifyContent="center">
             <ContractsDeployed contracts={contracts} />
           </Flex>
         )}
       </Flex>
-    </Flex>
+    </SimpleGrid>
   );
 };

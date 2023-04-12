@@ -29,7 +29,7 @@ export const Supply: React.FC<SupplyProps> = ({ supply }) => {
         {addCommas(supply)}
       </Text>
       <Text fontSize="1.5rem" color="initial">
-        Packs Remaining
+        Packs remaining
       </Text>
     </Flex>
   );

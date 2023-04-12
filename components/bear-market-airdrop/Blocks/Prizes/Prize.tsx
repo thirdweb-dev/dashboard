@@ -23,16 +23,11 @@ export const gradientMapping: GradientMapping = {
   common: "linear(to-r, #743F9E, #BFA3DA)",
 };
 
-export const Prize: React.FC<PrizeProps> = (props) => {
-  const { name, src, multiple, alt, rarity } = props.prize;
+export const Prize: React.FC<PrizeProps> = ({
+  prize: { name, src, multiple, alt, rarity },
+}) => {
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      maxW="325px"
-      pb={8}
-      rounded="lg"
-    >
+    <Flex direction="column" alignItems="center" maxW="325px" rounded="lg">
       <Flex
         direction="column"
         alignItems="center"
