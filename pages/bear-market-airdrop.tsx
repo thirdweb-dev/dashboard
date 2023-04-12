@@ -94,6 +94,7 @@ export const BearMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
           openzeppelin: {
             relayerUrl: process.env.NEXT_PUBLIC_OPENZEPPELIN_URL as string,
             relayerForwarderAddress: forwarderAddress,
+            useEOAForwarder: false,
           },
           experimentalChainlessSupport: true,
         },
