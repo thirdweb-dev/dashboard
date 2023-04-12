@@ -33,7 +33,7 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
       role="group"
     >
       <Flex rounded="xl" gap={4} mt={6} justifyContent="space-between" w="full">
-        <Flex gap={4}>
+        <Flex gap={3}>
           <Flex alignItems="center" h="full">
             <ChainIcon size={36} ipfsSrc={chain?.icon?.url} />
           </Flex>
@@ -72,6 +72,8 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const [currPage, setCurrPage] = useState(1);
+
+  console.log({ contracts });
 
   const perPage = 5;
   const total = contracts.length;

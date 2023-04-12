@@ -24,12 +24,12 @@ export const Supply: React.FC<SupplyProps> = ({ supply }) => {
         display="inline-block"
         w="min"
         fontWeight="bold"
-        fontSize="1.5rem"
+        size="body.2xl"
       >
         {addCommas(supply)}
       </Text>
-      <Text fontSize="1.5rem" color="initial">
-        Packs remaining
+      <Text size="body.2xl" color="initial">
+        packs remaining
       </Text>
     </Flex>
   );

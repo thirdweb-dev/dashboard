@@ -5,6 +5,8 @@ import { FAQ } from "components/bear-market-airdrop/Blocks/FAQ";
 import { Hero } from "components/bear-market-airdrop/Blocks/Hero";
 import { PrizesDisplay } from "components/bear-market-airdrop/Blocks/Prizes";
 import { Why } from "components/bear-market-airdrop/Blocks/Why";
+import { Aurora } from "components/homepage/Aurora";
+import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
@@ -38,10 +40,6 @@ const BearMarketAirdropPage: ThirdwebNextPage = () => {
       />
       <Flex
         direction="column"
-        maxW={{
-          base: "100%",
-          lg: "container.page",
-        }}
         justifyContent="center"
         alignItems="center"
         mx="auto"
@@ -49,7 +47,14 @@ const BearMarketAirdropPage: ThirdwebNextPage = () => {
         pb={8}
         overflowX="hidden"
       >
-        <Hero desiredChain={desiredChain} />
+        <HomepageSection>
+          <Aurora
+            pos={{ top: "0%", left: "50%" }}
+            size={{ width: "1400px", height: "1400px" }}
+            color="hsl(289deg 78% 30% / 35%)"
+          />
+          <Hero desiredChain={desiredChain} />
+        </HomepageSection>
         <PrizesDisplay />
         <Why />
         <FAQ />

@@ -5,7 +5,7 @@ import { Heading } from "tw-components";
 export const PrizesDisplay: React.FC = () => {
   return (
     <Flex
-      px={12}
+      px={{ base: 0, md: 12 }}
       flexDirection="column"
       maxW={{
         base: "full",
@@ -13,7 +13,11 @@ export const PrizesDisplay: React.FC = () => {
       }}
       mt={24}
     >
-      <Flex gap={4} display={{ base: "block", md: "flex" }}>
+      <Flex
+        gap={4}
+        display={{ base: "block", md: "flex" }}
+        px={{ base: 12, md: 0 }}
+      >
         <Heading size="display.md">You could </Heading>
         <Heading
           display="inline-block"

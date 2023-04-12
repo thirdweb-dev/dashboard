@@ -5,13 +5,11 @@ import { Marquee } from "components/partners/carousel";
 export const PrizesCarousel: React.FC = () => {
   return (
     <Box
+      overflow="hidden"
       zIndex={10}
       position="relative"
       pointerEvents="none"
       userSelect="none"
-      // slightly larger than container.lg
-      maxW="1200px"
-      mx="auto"
       sx={{
         maskImage: `linear-gradient(to right, hsl(0 0% 0% / 0), hsl(0 0% 0% / 1) 10%, hsl(0 0% 0% / 1) 90%, hsl(0 0% 0% / 0));`,
       }}
