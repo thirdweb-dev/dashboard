@@ -5,8 +5,8 @@ import {
   useCustomContractDeployMutation,
   useEns,
   useFunctionParamsFromABI,
+  useTransactionsForDeploy,
 } from "../hooks";
-import { ConfigureNetworkButton } from "../shared/configure-network-button";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
 import { PlatformFeeFieldset } from "./platform-fee-fieldset";
 import { PrimarySaleFieldset } from "./primary-sale-fieldset";
@@ -14,7 +14,7 @@ import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { SupportedNetworkSelect } from "components/selects/SupportedNetworkSelect";
+import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
 import {
   THIRDWEB_DEPLOYER_ADDRESS,
   THIRDWEB_DEPLOYER_ENS,
@@ -24,8 +24,8 @@ import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
 import {
-  useConfiguredChain,
-  useConfiguredChains,
+  useSupportedChain,
+  useSupportedChains,
 } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
@@ -59,10 +59,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   onSuccessCallback,
   walletAddress,
 }) => {
-  const configuredChains = useConfiguredChains();
+  const { data: transactions } = useTransactionsForDeploy(ipfsHash);
+
+  const configuredChains = useSupportedChains();
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
 
-  const networkInfo = useConfiguredChain(selectedChain || -1);
+  const networkInfo = useSupportedChain(selectedChain || -1);
   const ensQuery = useEns(walletAddress);
   const connectedWallet = ensQuery.data?.address || walletAddress;
   const trackEvent = useTrack();
@@ -101,6 +103,25 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       })
     : undefined;
 
+  const parseDeployParams = {
+    ...deployParams.reduce((acc, param) => {
+      acc[param.name] = replaceTemplateValues(
+        fullPublishMetadata.data?.constructorParams?.[param.name]?.defaultValue
+          ? fullPublishMetadata.data?.constructorParams?.[param.name]
+              ?.defaultValue || ""
+          : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
+          ? "0"
+          : "",
+        param.type,
+        {
+          connectedWallet,
+          chainId: selectedChain,
+        },
+      );
+      return acc;
+    }, {} as Record<string, string>),
+  };
+
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
@@ -114,42 +135,14 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   }>({
     defaultValues: {
       addToDashboard: true,
-      deployParams: {
-        ...deployParams.reduce((acc, param) => {
-          acc[param.name] = replaceTemplateValues(
-            fullPublishMetadata.data?.constructorParams?.[param.name]
-              ?.defaultValue
-              ? fullPublishMetadata.data?.constructorParams?.[param.name]
-                  ?.defaultValue || ""
-              : param.name === "_royaltyBps" || param.name === "_platformFeeBps"
-              ? "0"
-              : "",
-            param.type,
-            {
-              connectedWallet,
-              chainId: selectedChain,
-            },
-          );
-          return acc;
-        }, {} as Record<string, string>),
-      },
+      deployParams: parseDeployParams,
     },
     values: {
       addToDashboard: true,
-      deployParams: deployParams.reduce((acc, param) => {
-        acc[param.name] = replaceTemplateValues(
-          fullPublishMetadata.data?.constructorParams?.[param.name]
-            ?.defaultValue || "",
-          param.type,
-          {
-            connectedWallet,
-            chainId: selectedChain,
-          },
-        );
-        return acc;
-      }, {} as Record<string, string>),
+      deployParams: parseDeployParams,
     },
     resetOptions: {
+      keepDirty: true,
       keepDirtyValues: true,
     },
   });
@@ -244,7 +237,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   deployer: connectedWallet,
                   contractName: compilerMetadata.data?.name,
                   deployerAndContractName: `${connectedWallet}__${compilerMetadata.data?.name}`,
-                  publisherAndContractName: `${fullPublishMetadata.data?.publisher}/${compilerMetadata.data?.name}`,
+                  publisherAndContractName: `${
+                    fullPublishMetadata.data?.publisher || "deploy-form"
+                  }/${compilerMetadata.data?.name}`,
                   releaseAsPath: router.asPath,
                 });
                 trackEvent({
@@ -412,18 +407,17 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         </Flex>
 
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
-          <FormControl>
-            <SupportedNetworkSelect
-              isDisabled={
-                isImplementationDeploy ||
-                deploy.isLoading ||
-                !compilerMetadata.isSuccess
-              }
-              value={selectedChain}
-              onChange={(e) => onChainSelect(parseInt(e.currentTarget.value))}
-              disabledChainIds={disabledChainIds}
-            />
-          </FormControl>
+          <NetworkSelectorButton
+            isDisabled={
+              isImplementationDeploy ||
+              deploy.isLoading ||
+              !compilerMetadata.isSuccess
+            }
+            onSwitchChain={(chain) => {
+              onChainSelect(chain.chainId);
+            }}
+            disabledChainIds={disabledChainIds}
+          />
           <TransactionButton
             onChainSelect={onChainSelect}
             upsellTestnet
@@ -437,13 +431,19 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               !!disabledChainIds?.find((chain) => chain === selectedChain)
             }
             colorScheme="blue"
-            transactionCount={form.watch("addToDashboard") ? 2 : 1}
+            transactionCount={
+              form.watch("addToDashboard")
+                ? transactions?.length
+                  ? transactions.length + 1
+                  : 2
+                : transactions?.length || 1
+            }
           >
             Deploy Now
           </TransactionButton>
         </Flex>
 
-        <ConfigureNetworkButton label="deploy-contract" />
+        {/* <ConfigureNetworkButton label="deploy-contract" /> */}
       </Flex>
     </FormProvider>
   );

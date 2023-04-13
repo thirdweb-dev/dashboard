@@ -1,11 +1,11 @@
 import { PasteInput } from "./PasteInput";
 import { Flex, FormControl } from "@chakra-ui/react";
-import { useConfiguredChains } from "hooks/chains/configureChains";
+import { defaultChains } from "@thirdweb-dev/chains";
 import { useMemo } from "react";
 import { FormLabel, Heading, Link, Text } from "tw-components";
 
 export const FactoryFieldset = () => {
-  const configuredChains = useConfiguredChains();
+  const configuredChains = defaultChains;
 
   const { mainnets, testnets } = useMemo(() => {
     return {

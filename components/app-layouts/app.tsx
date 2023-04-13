@@ -3,7 +3,7 @@ import {
   DashboardThirdwebProviderProps,
 } from "./providers";
 import { EVMContractInfoProvider } from "@3rdweb-sdk/react";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useWallet as useSolanaWallet } from "@solana/wallet-adapter-react";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
 import {
@@ -15,14 +15,21 @@ import {
   useAddress,
   useBalance,
   useChainId,
+  useWallet,
 } from "@thirdweb-dev/react";
 import { useSDK } from "@thirdweb-dev/react/solana";
+import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
 import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { AllChainsProvider } from "contexts/all-chains";
-import { ConfiguredChainsProvider } from "contexts/configured-chains";
+import { ChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
+import { useAddRecentlyUsedChainId } from "hooks/chains/recentlyUsedChains";
+import {
+  useIsNetworkConfigModalOpen,
+  useSetIsNetworkConfigModalOpen,
+} from "hooks/networkConfigModal";
 import { del, get, set } from "idb-keyval";
 import { useRouter } from "next/router";
 import posthog from "posthog-js";
@@ -107,6 +114,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
   );
 
   const router = useRouter();
+
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -122,15 +130,16 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
         <ErrorProvider>
           <DeployModalProvider>
             <AllChainsProvider>
-              <ConfiguredChainsProvider>
+              <ChainsProvider>
                 <EVMContractInfoProvider value={props.contractInfo}>
                   <DashboardThirdwebProvider>
                     <PHIdentifier />
                     {router.pathname !== "/dashboard" && <PrivacyNotice />}
                     <AppShell {...props} />
+                    <ConfigModal />
                   </DashboardThirdwebProvider>
                 </EVMContractInfoProvider>
-              </ConfiguredChainsProvider>
+              </ChainsProvider>
             </AllChainsProvider>
           </DeployModalProvider>
         </ErrorProvider>
@@ -139,12 +148,49 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
   );
 };
 
+function ConfigModal() {
+  const isNetworkConfigModalOpen = useIsNetworkConfigModalOpen();
+  const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
+  const addRecentlyUsedChains = useAddRecentlyUsedChainId();
+
+  if (!isNetworkConfigModalOpen) {
+    return null;
+  }
+
+  return (
+    <ConfigureNetworkModal
+      onNetworkAdded={(_chain) => {
+        addRecentlyUsedChains(_chain.chainId);
+      }}
+      onClose={() => setIsNetworkConfigModalOpen(false)}
+    />
+  );
+}
+
+const walletIdToPHName: Record<string, string> = {
+  metamask: "metamask",
+  walletConnectV1: "WalletConnect",
+  walletConnectV2: "WalletConnect",
+  "paper-wallet": "Paper Wallet",
+  coinbaseWallet: "Coinbase Wallet",
+  injected: "Injected",
+};
+
 const PHIdentifier: React.FC = () => {
-  const publicKey = useWallet().publicKey;
+  const publicKey = useSolanaWallet().publicKey;
   const address = useAddress();
   const chainId = useChainId();
   const balance = useBalance();
   const solSDKNetwork = useSDK()?.network;
+  const wallet = useWallet();
+
+  useEffect(() => {
+    if (wallet) {
+      const connector = walletIdToPHName[wallet.walletId] || wallet.walletId;
+      posthog.register({ connector });
+      posthog.capture("wallet_connected", { connector });
+    }
+  }, [wallet]);
 
   useEffect(() => {
     if (address) {
