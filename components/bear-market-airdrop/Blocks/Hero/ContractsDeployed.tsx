@@ -14,11 +14,7 @@ interface ContractsDeployedProps {
 const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
   contract,
 }) => {
-  const {
-    chainId,
-    address,
-    metadata: { name },
-  } = contract;
+  const { chainId, address } = contract;
   const chain = useSupportedChain(chainId);
 
   return (
@@ -49,7 +45,6 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
               </Text>
             </Flex>
             <Text fontSize="16px" color="initial">
-              {name} {name && "- "}
               <Text fontFamily="monospace">{shortenString(address, true)}</Text>
             </Text>
           </Flex>
