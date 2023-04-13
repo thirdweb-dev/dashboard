@@ -1,4 +1,4 @@
-import { BEAR_MARKET_AIRDROP_CATEGORY, ContractSearchResult } from ".";
+import { BEAR_MARKET_TRACKING_CATEGORY, ContractSearchResult } from ".";
 import {
   Box,
   Flex,
@@ -37,7 +37,7 @@ const ListItem: React.FC<ListItemProps> = ({ contract }) => {
         textDecoration: "none",
       }}
       role="group"
-      category={BEAR_MARKET_AIRDROP_CATEGORY}
+      category={BEAR_MARKET_TRACKING_CATEGORY}
       trackingProps={{
         action: "click",
         label: "contracts_deployed",
@@ -225,7 +225,7 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
             <TrackedLink
               href="https://thirdweb.com/dashboard/contracts"
               target="_blank"
-              category={BEAR_MARKET_AIRDROP_CATEGORY}
+              category={BEAR_MARKET_TRACKING_CATEGORY}
               trackingProps={{
                 action: "click",
                 label: "contracts_deployed",
