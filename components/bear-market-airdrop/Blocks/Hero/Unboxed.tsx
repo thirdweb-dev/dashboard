@@ -1,3 +1,4 @@
+import { bearMarketTrackerCategory } from ".";
 import { gradientMapping } from "../Prizes/Prize";
 import {
   AspectRatio,
@@ -7,9 +8,10 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
-import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { NFT, NFTMetadata, TransactionResult } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { useTrack } from "hooks/analytics/useTrack";
 import { BsEyeFill } from "react-icons/bs";
 import { Button, Card, Heading, Text } from "tw-components";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
@@ -54,12 +56,13 @@ export const Unboxed: React.FC<UnboxedProps> = ({
 }) => {
   const nft = reward?.metadata as unknown as Metadata;
   const rarity = nft?.attributes[0]?.value;
-  const address = useAddress();
+  const walletAddress = useAddress();
   const image = nft?.image?.replaceAll(/ /g, "%20");
   const text = `Proud to be a bear market builder. 💪%0AI just claimed a free ${nft?.name} from @thirdweb%0A%0AClaim yours at: https://thirdweb.com/bear-market-airdrop
   `;
   const twitterUrl = `https://twitter.com/intent/tweet?text=${text}`;
   const { colorMode } = useColorMode();
+  const trackEvent = useTrack();
 
   if (!nft) {
     return null;
@@ -167,7 +170,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
                   <>
                     has been sent to <br />{" "}
                     <Box as="span" textDecoration="italic">
-                      {`${shortenString(address || "", true)}`}
+                      {`${shortenString(walletAddress || "", true)}`}
                     </Box>
                   </>
                 )}
@@ -190,6 +193,14 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               _hover={{
                 bg: "black",
               }}
+              onClick={() => {
+                trackEvent({
+                  category: bearMarketTrackerCategory,
+                  action: "click",
+                  label: "Unboxed: View transaction",
+                  walletAddress,
+                });
+              }}
             >
               View transaction
             </Button>
@@ -205,6 +216,14 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             color="white"
             _hover={{
               bg: "black",
+            }}
+            onClick={() => {
+              trackEvent({
+                category: bearMarketTrackerCategory,
+                action: "click",
+                label: "Unboxed: View on OpenSea",
+                walletAddress,
+              });
             }}
             leftIcon={
               <ChakraNextImage
@@ -226,6 +245,14 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           py={3}
           px={6}
           mb={6}
+          onClick={() => {
+            trackEvent({
+              category: bearMarketTrackerCategory,
+              action: "click",
+              label: "Unboxed: Discover thirdweb",
+              walletAddress,
+            });
+          }}
         >
           Discover thirdweb
         </Button>
@@ -242,6 +269,14 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             _hover={{
               bg: "black",
               opacity: 0.8,
+            }}
+            onClick={() => {
+              trackEvent({
+                category: bearMarketTrackerCategory,
+                action: "click",
+                label: "Unboxed: Twitter Share",
+                walletAddress,
+              });
             }}
           >
             <ChakraNextImage
