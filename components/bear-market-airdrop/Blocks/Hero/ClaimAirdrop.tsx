@@ -105,8 +105,9 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                   _loading={{
                     bg: colorMode === "light" ? "white" : "black",
                   }}
+                  color={colorMode === "light" ? "white" : "black"}
                 >
-                  Claim
+                  {canClaim ? "Claim" : "Subscribe"}
                 </Button>
               </InputRightElement>
             </InputGroup>
