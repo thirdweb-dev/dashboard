@@ -19,6 +19,7 @@ import {
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { useTrack } from "hooks/analytics/useTrack";
 import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
 import { Heading } from "tw-components";
@@ -40,11 +41,13 @@ const EDITION_ADDRESS = "0xfEae55deA0781BBE5E967Ddfa29e7C01918ad6cb";
 const PACK_ADDRESS = "0xD21fE9b1bC8901525288A29fa08175a27070755f";
 const AIRDROP_ADDRESS = "0x8C3972ED94c789B0c3721Fe05078FC4918129d37";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
+export const bearMarketTrackerCategory = "bear-market-airdrop";
 
 export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
   const toast = useToast();
   const sdk = useSDK();
+  const trackEvent = useTrack();
 
   const [contracts, setContracts] = useState<ContractSearchResult[]>([]);
   const [checkingClaimed, setCheckingClaimed] = useState(false);
@@ -91,19 +94,41 @@ export const Hero: React.FC<HeroProps> = () => {
       if (!email) {
         return;
       }
-      await fetch("/api/bear-market-airdrop/airtable", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          address,
-          optIn: !canClaim ? true : false,
-        }),
-      })
-        .then((res) => {
-          if (res.status === 500) {
+      try {
+        const res = await fetch("/api/bear-market-airdrop/airtable", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            address,
+            optIn: !canClaim ? true : false,
+          }),
+        });
+        switch (res.status) {
+          case 200:
+            if (!fromClaim) {
+              toast({
+                title: "Email submitted!",
+                position: "top",
+                variant: "left-accent",
+                status: "success",
+                containerStyle: {
+                  bg: "black",
+                  rounded: "lg",
+                },
+              });
+            }
+            trackEvent({
+              category: bearMarketTrackerCategory,
+              action: "event",
+              label: "Submitted Email: Success",
+              walletAddress: address,
+              email,
+            });
+            break;
+          case 401:
             toast({
               title: "Email already registered",
               position: "top",
@@ -114,29 +139,55 @@ export const Hero: React.FC<HeroProps> = () => {
                 rounded: "lg",
               },
             });
-          } else if (!fromClaim) {
+            trackEvent({
+              category: bearMarketTrackerCategory,
+              action: "event",
+              label: "Submitted Email: Already Registered",
+              walletAddress: address,
+              email,
+            });
+            break;
+          case 500:
+            trackEvent({
+              category: bearMarketTrackerCategory,
+              action: "event",
+              label: "Submitted Email: Error",
+              walletAddress: address,
+              email,
+            });
             toast({
-              title: "Email submitted!",
+              title: "Error submitting email",
               position: "top",
               variant: "left-accent",
-              status: "success",
+              status: "error",
               containerStyle: {
                 bg: "black",
                 rounded: "lg",
               },
             });
-          }
-        })
-        .catch((err) => {
-          toast({
-            title: err.response.data.message,
-            position: "top",
-            variant: "left-accent",
-            status: "error",
-          });
+            break;
+        }
+      } catch (err) {
+        trackEvent({
+          category: bearMarketTrackerCategory,
+          action: "event",
+          label: "Submitted Email: Error",
+          walletAddress: address,
+          email,
         });
+        toast({
+          title: "Error submitting email",
+          position: "top",
+          variant: "left-accent",
+          status: "error",
+          containerStyle: {
+            bg: "black",
+            rounded: "lg",
+          },
+        });
+      }
     },
-    [address, canClaim, toast],
+    [address, canClaim, toast, trackEvent],
   );
 
   const claim = useCallback(
@@ -153,6 +204,13 @@ export const Hero: React.FC<HeroProps> = () => {
           snapshot.proof,
           Number(snapshot.maxClaimable),
         ]);
+        trackEvent({
+          category: bearMarketTrackerCategory,
+          action: "event",
+          label: "Claimed Pack: Success",
+          walletAddress: address,
+          email,
+        });
         await handleEmailSubmit(email, true);
 
         toast({
@@ -162,7 +220,13 @@ export const Hero: React.FC<HeroProps> = () => {
           status: "success",
         });
       } catch (err) {
-        console.error(err);
+        trackEvent({
+          category: bearMarketTrackerCategory,
+          action: "event",
+          label: "Claimed Pack: Error",
+          walletAddress: address,
+          email,
+        });
       } finally {
         await refetchPack();
         setClaiming(false);
@@ -176,6 +240,7 @@ export const Hero: React.FC<HeroProps> = () => {
       refetchPack,
       snapshot,
       toast,
+      trackEvent,
     ],
   );
 
@@ -186,14 +251,25 @@ export const Hero: React.FC<HeroProps> = () => {
     setUnboxing(true);
     try {
       const tx = await pack.call("openPack", [0, 1]);
+      trackEvent({
+        category: bearMarketTrackerCategory,
+        action: "event",
+        label: "Opened Pack: Success",
+        walletAddress: address,
+      });
       setPackTx(tx);
     } catch (err) {
-      console.error(err);
+      trackEvent({
+        category: bearMarketTrackerCategory,
+        action: "event",
+        label: "Opened Pack: Error",
+        walletAddress: address,
+      });
     } finally {
       await refetchReward();
       setUnboxing(false);
     }
-  }, [address, hasPack, pack, refetchReward]);
+  }, [address, hasPack, pack, refetchReward, trackEvent]);
 
   const checkClaimed = useCallback(async () => {
     if (!sdk || !address || !merkleURI) {

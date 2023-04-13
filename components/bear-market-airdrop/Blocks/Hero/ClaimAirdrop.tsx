@@ -28,7 +28,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
   isClaiming,
   handleEmailSubmit,
 }) => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
 
   const onSubmit = async (data: Inputs) => {
     if (!data.email) {
@@ -36,8 +36,9 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
     }
     if (!canClaim) {
       handleEmailSubmit(data.email);
+      reset();
     } else {
-      await claim(data.email);
+      claim(data.email);
     }
   };
 

@@ -13,6 +13,7 @@ import { ChakraNextImage } from "components/Image";
 import { BsEyeFill } from "react-icons/bs";
 import { Button, Card, Heading, Text } from "tw-components";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
+import { shortenString } from "utils/usedapp-external";
 
 interface UnboxedProps {
   reward: NFT | undefined;
@@ -158,7 +159,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
                   <>
                     An email has been sent to{" "}
                     <Box as="span" fontWeight="bold">
-                      mariano@thirdweb.com
+                      the email you registered with.
                     </Box>
                   </>
                 )}
@@ -166,9 +167,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
                   <>
                     has been sent to <br />{" "}
                     <Box as="span" textDecoration="italic">
-                      {`${address?.slice(0, 5)}...${address?.slice(
-                        address.length - 4,
-                      )}`}
+                      {`${shortenString(address || "", true)}`}
                     </Box>
                   </>
                 )}

@@ -1,3 +1,4 @@
+import { bearMarketTrackerCategory } from "./Hero";
 import {
   Accordion,
   AccordionButton,
@@ -9,10 +10,23 @@ import {
   ListItem,
   UnorderedList,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import Link from "next/link";
 import { Heading, Text } from "tw-components";
 
 export const FAQ: React.FC = () => {
+  const trackEvent = useTrack();
+  const walletAddress = useAddress();
+  const trackToggleFAQ = (title: string) => {
+    trackEvent({
+      category: bearMarketTrackerCategory,
+      action: "click",
+      label: `FAQ: Toggled: ${title}`,
+      walletAddress,
+    });
+  };
+
   return (
     <Box
       display="flex"
@@ -31,7 +45,10 @@ export const FAQ: React.FC = () => {
       <Accordion mt={8} allowMultiple rounded="xl">
         <AccordionItem>
           <Text fontSize="1rem">
-            <AccordionButton p={6}>
+            <AccordionButton
+              p={6}
+              onClick={() => trackToggleFAQ("Who is eligible to claim?")}
+            >
               <Box as="span" flex="1" textAlign="left">
                 Who is eligible to claim?
               </Box>
@@ -63,7 +80,10 @@ export const FAQ: React.FC = () => {
 
         <AccordionItem>
           <Text fontSize="1rem">
-            <AccordionButton p={6}>
+            <AccordionButton
+              p={6}
+              onClick={() => trackToggleFAQ("What can I win?")}
+            >
               <Box as="span" flex="1" textAlign="left">
                 What can I win?
               </Box>
@@ -118,7 +138,10 @@ export const FAQ: React.FC = () => {
 
         <AccordionItem>
           <Text fontSize="1rem">
-            <AccordionButton p={6}>
+            <AccordionButton
+              p={6}
+              onClick={() => trackToggleFAQ("How does the airdrop work?")}
+            >
               <Box as="span" flex="1" textAlign="left">
                 How does the airdrop work?
               </Box>
@@ -162,7 +185,10 @@ export const FAQ: React.FC = () => {
 
         <AccordionItem>
           <Text fontSize="1rem">
-            <AccordionButton p={6}>
+            <AccordionButton
+              p={6}
+              onClick={() => trackToggleFAQ("How do I redeem a prize?")}
+            >
               <Box as="span" flex="1" textAlign="left">
                 How do I redeem a prize?
               </Box>

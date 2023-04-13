@@ -1,4 +1,4 @@
-import { ContractSearchResult } from ".";
+import { ContractSearchResult, bearMarketTrackerCategory } from ".";
 import {
   Box,
   Flex,
@@ -7,8 +7,10 @@ import {
   Spacer,
   useColorMode,
 } from "@chakra-ui/react";
+import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
@@ -19,11 +21,15 @@ interface ContractsDeployedProps {
   contracts: ContractSearchResult[];
 }
 
-const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
-  contract,
-}) => {
+interface ListItemProps {
+  contract: ContractSearchResult;
+  walletAddress: string | undefined;
+}
+
+const ListItem: React.FC<ListItemProps> = ({ contract, walletAddress }) => {
   const { chainId, address } = contract;
   const chain = useSupportedChain(chainId);
+  const trackEvent = useTrack();
 
   return (
     <Link
@@ -35,6 +41,14 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
         textDecoration: "none",
       }}
       role="group"
+      onClick={() => {
+        trackEvent({
+          category: bearMarketTrackerCategory,
+          action: "click",
+          label: "Contracts Deployed: Contract Link",
+          walletAddress,
+        });
+      }}
     >
       <Flex rounded="xl" gap={4} mt={6} justifyContent="space-between" w="full">
         <Flex gap={3}>
@@ -76,8 +90,10 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
   contracts,
 }) => {
   const { colorMode } = useColorMode();
-  const [currPage, setCurrPage] = useState(1);
+  const trackEvent = useTrack();
+  const walletAddress = useAddress();
 
+  const [currPage, setCurrPage] = useState(1);
   const totalPages = useMemo(() => {
     return Math.ceil(contracts.length / perPage);
   }, [contracts]);
@@ -101,6 +117,7 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
       pt={{ base: 6, md: 10 }}
       rounded="xl"
       h={{ base: "auto", md: 561 }}
+      w={{ base: "auto", md: 400 }}
       bg="#121018"
       overflow="auto"
       display="flex"
@@ -113,7 +130,11 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
         <>
           <Flex direction="column">
             {paginatedList.map((contract) => (
-              <ListItem key={contract.address} contract={contract} />
+              <ListItem
+                key={contract.address}
+                contract={contract}
+                walletAddress={walletAddress}
+              />
             ))}
           </Flex>
           {totalPages > 1 && (
@@ -216,6 +237,14 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
             <Link
               href="https://thirdweb.com/dashboard/contracts"
               target="_blank"
+              onClick={() => {
+                trackEvent({
+                  category: bearMarketTrackerCategory,
+                  action: "click",
+                  label: "Contracts Deployed: Deploy Contract",
+                  walletAddress,
+                });
+              }}
             >
               <Text color="blue.500">Deploy a contract on thirdweb &rarr;</Text>
             </Link>
