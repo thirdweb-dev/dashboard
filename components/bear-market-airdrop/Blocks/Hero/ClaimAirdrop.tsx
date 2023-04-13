@@ -106,11 +106,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                     bg: colorMode === "light" ? "white" : "black",
                   }}
                 >
-                  <ChakraNextImage
-                    src={require("public/assets/bear-market-airdrop/rightArrow.svg")}
-                    alt="rightArrow"
-                    w={4}
-                  />
+                  Claim
                 </Button>
               </InputRightElement>
             </InputGroup>

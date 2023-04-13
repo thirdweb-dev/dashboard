@@ -45,7 +45,6 @@ export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
   const toast = useToast();
   const sdk = useSDK();
-  const walletAddress = useAddress();
 
   const [contracts, setContracts] = useState<ContractSearchResult[]>([]);
   const [checkingClaimed, setCheckingClaimed] = useState(false);
@@ -220,7 +219,7 @@ export const Hero: React.FC<HeroProps> = () => {
     setCheckingClaimed(false);
   }, [address, sdk]);
 
-  const getContracts = useCallback(async () => {
+  const getContracts = useCallback(async (walletAddress: string) => {
     if (!walletAddress || !typesenseApiKey) {
       return;
     }
@@ -250,15 +249,19 @@ export const Hero: React.FC<HeroProps> = () => {
     }) as ContractSearchResult[];
 
     setContracts(data);
-  }, [walletAddress]);
+  }, []);
 
   useEffect(() => {
     checkClaimed();
   }, [checkClaimed]);
 
   useEffect(() => {
-    getContracts();
-  }, [getContracts, address]);
+    if (!address) {
+      setContracts([]);
+    } else {
+      getContracts(address);
+    }
+  }, [address, getContracts]);
 
   if (isAnythingLoading) {
     return (
@@ -323,13 +326,11 @@ export const Hero: React.FC<HeroProps> = () => {
           </>
         </Flex>
       ) : (
-        <Box mt={52}>
-          <Unboxed
-            tx={packTx}
-            reward={ownsReward && ownsReward[0]}
-            editionAddress={EDITION_ADDRESS}
-          />
-        </Box>
+        <Unboxed
+          tx={packTx}
+          reward={ownsReward && ownsReward[0]}
+          editionAddress={EDITION_ADDRESS}
+        />
       )}
       <Flex direction="row">
         {!address ? (

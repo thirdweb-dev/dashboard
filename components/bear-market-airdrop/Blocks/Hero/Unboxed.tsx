@@ -1,11 +1,18 @@
 import { gradientMapping } from "../Prizes/Prize";
-import { Box, ButtonGroup, Flex, useColorMode } from "@chakra-ui/react";
+import {
+  AspectRatio,
+  Box,
+  ButtonGroup,
+  Flex,
+  useColorMode,
+} from "@chakra-ui/react";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ThirdwebNftMedia, useAddress } from "@thirdweb-dev/react";
 import { NFT, NFTMetadata, TransactionResult } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
 import { BsEyeFill } from "react-icons/bs";
 import { Button, Card, Heading, Text } from "tw-components";
+import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 
 interface UnboxedProps {
   reward: NFT | undefined;
@@ -59,13 +66,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
   const method = deliveryMethodMapping[nft?.name ?? ""] || "pack";
 
   return (
-    <Flex
-      direction="column"
-      w="full"
-      pb={16}
-      // alignItems="center"
-      overflowX="clip"
-    >
+    <Flex direction="column" w="full" pb={16} overflowX="clip">
       <Box
         fontSize={{
           base: "2.5rem",
@@ -73,7 +74,6 @@ export const Unboxed: React.FC<UnboxedProps> = ({
         }}
         position="relative"
         mb={5}
-        mt={-120}
       >
         <ChakraNextImage
           src={require("public/assets/bear-market-airdrop/unboxedGif.gif")}
@@ -132,18 +132,11 @@ export const Unboxed: React.FC<UnboxedProps> = ({
         </Flex>
       </Box>
       <Flex justifyContent="center" alignItems="center" direction="column">
-        <Card maxW="450px" p={0} mb={1} border="none">
-          <ThirdwebNftMedia metadata={nft} width="100%" />
-          <Flex
-            direction="column"
-            alignItems="center"
-            borderBottom="1px solid #151515"
-            borderX="1px solid #151515"
-            pt={6}
-            pb={2}
-            px={4}
-            roundedBottom="xl"
-          >
+        <Card p={0}>
+          <AspectRatio w="100%" ratio={1} overflow="hidden" rounded="xl">
+            <NFTMediaWithEmptyState metadata={nft} width="100%" height="100%" />
+          </AspectRatio>
+          <Flex p={4} pb={3} gap={3} direction="column">
             <Text
               textTransform="uppercase"
               bgGradient={gradientMapping[rarity as string]}
@@ -152,36 +145,38 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               fontWeight="bold"
               letterSpacing="1px"
               lineHeight="120%"
-              mb={3}
+              textAlign="center"
             >
               {rarity} Prize
             </Text>
             <Text textAlign="center" fontSize="21px">
               {nft?.name}
             </Text>
-            <Text fontSize="12px" lineHeight="150%" as="i" textAlign="center">
-              {method === "email" && (
-                <>
-                  An email has been sent to{" "}
-                  <Box as="span" fontWeight="bold">
-                    mariano@thirdweb.com
-                  </Box>
-                </>
-              )}
-              {method === "pack" && (
-                <>
-                  has been sent to <br />{" "}
-                  <Box as="span" textDecoration="italic">
-                    {`${address?.slice(0, 5)}...${address?.slice(
-                      address.length - 4,
-                    )}`}
-                  </Box>
-                </>
-              )}
+            <Text textAlign="center">
+              <Text noOfLines={3}>
+                {method === "email" && (
+                  <>
+                    An email has been sent to{" "}
+                    <Box as="span" fontWeight="bold">
+                      mariano@thirdweb.com
+                    </Box>
+                  </>
+                )}
+                {method === "pack" && (
+                  <>
+                    has been sent to <br />{" "}
+                    <Box as="span" textDecoration="italic">
+                      {`${address?.slice(0, 5)}...${address?.slice(
+                        address.length - 4,
+                      )}`}
+                    </Box>
+                  </>
+                )}
+              </Text>
             </Text>
           </Flex>
         </Card>
-        <ButtonGroup fontSize="12px" mb={10}>
+        <ButtonGroup fontSize="12px" mt={4} mb={6}>
           {tx && (
             <Button
               leftIcon={<BsEyeFill />}
@@ -219,7 +214,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               />
             }
           >
-            View on Opensea
+            View on OpenSea
           </Button>
         </ButtonGroup>
         <Button
