@@ -89,7 +89,7 @@ const repositories = [
     id: "examples",
     url: "https://github.com/thirdweb-example",
     name: "Examples",
-    description: "Build web3 applications on the Solana blockchain.",
+    description: "Explore example projects built with thirdweb.",
   },
   {
     id: "dynamic-contracts",
