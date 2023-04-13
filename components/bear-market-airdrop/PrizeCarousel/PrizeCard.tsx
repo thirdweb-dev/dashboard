@@ -59,12 +59,9 @@ export const PrizeCard: React.FC<PartnerLogoProps> = ({ prize }) => {
       pointerEvents="none"
       w="auto"
       h={{ base: "300px", md: "400px" }}
-      loading="eager"
       filter={PRIZE_MAP[prize].filter}
       src={PRIZE_MAP[prize].img}
       alt={prize}
-      sizes="(max-width: 768px) 25vw,
-              10vw"
     />
   );
 };

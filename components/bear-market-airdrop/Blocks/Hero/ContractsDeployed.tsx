@@ -1,10 +1,18 @@
 import { ContractSearchResult } from ".";
-import { Box, Flex, IconButton, Spacer, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Icon,
+  IconButton,
+  Spacer,
+  useColorMode,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useSupportedChain } from "hooks/chains/configureChains";
-import { useState } from "react";
-import { Card, Heading, Link, Text } from "tw-components";
+import { useMemo, useState } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { Button, Card, Heading, Link, Text } from "tw-components";
 import { shortenString } from "utils/usedapp-external";
 
 interface ContractsDeployedProps {
@@ -62,56 +70,23 @@ const ListItem: React.FC<{ contract: ContractSearchResult }> = ({
   );
 };
 
+const perPage = 5;
+
 export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
   contracts,
 }) => {
   const { colorMode } = useColorMode();
   const [currPage, setCurrPage] = useState(1);
 
-  console.log({ contracts });
+  const totalPages = useMemo(() => {
+    return Math.ceil(contracts.length / perPage);
+  }, [contracts]);
 
-  const perPage = 5;
-  const total = contracts.length;
-  const totalPages = Math.ceil(total / perPage);
-  const start = (currPage - 1) * perPage;
-  const end = start + perPage;
-  const [paginatedList, setPaginatedList] = useState(
-    contracts.slice(start, end),
-  );
-
-  const handleNextPage = () => {
-    if (currPage < totalPages) {
-      const newStart = start + perPage;
-      const newEnd = newStart + perPage;
-      setCurrPage(currPage + 1);
-      setPaginatedList(contracts.slice(newStart, newEnd));
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currPage > 1) {
-      const newStart = start - perPage;
-      const newEnd = end - perPage;
-      setCurrPage(currPage - 1);
-      setPaginatedList(contracts.slice(newStart, newEnd));
-    }
-  };
-
-  const handleClickedPage = (page: number) => {
-    if (page > currPage) {
-      const newStart = start + perPage;
-      const newEnd = newStart + perPage;
-      setCurrPage(page);
-      setPaginatedList(contracts.slice(newStart, newEnd));
-      return;
-    } else if (page < currPage) {
-      const newStart = start - perPage;
-      const newEnd = end - perPage;
-      setCurrPage(page);
-      setPaginatedList(contracts.slice(newStart, newEnd));
-      return;
-    }
-  };
+  const paginatedList = useMemo(() => {
+    const start = (currPage - 1) * perPage;
+    const end = start + perPage;
+    return contracts.slice(start, end);
+  }, [contracts, currPage]);
 
   const pageNumbersToShow = [];
   if (currPage <= totalPages - 3) {
@@ -141,79 +116,77 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
               <ListItem key={contract.address} contract={contract} />
             ))}
           </Flex>
-          <Spacer />
-          <Flex gap={8} justifyContent="center" alignItems="center">
-            <IconButton
-              aria-label={""}
-              bg="transparent"
-              onClick={handlePrevPage}
-              _hover={{ bg: "transparent" }}
-            >
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/left-arr.svg")}
-                alt=""
-              />
-            </IconButton>
-            {totalPages <= 5 ? (
-              Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (pageNum) => (
-                  <Text
-                    key={pageNum}
-                    fontWeight={pageNum === currPage ? "bold" : "normal"}
-                    color={pageNum === currPage ? "initial" : "gray.400"}
-                    cursor="pointer"
-                    onClick={() => handleClickedPage(pageNum)}
-                  >
-                    {pageNum}
-                  </Text>
-                ),
-              )
-            ) : (
-              <>
-                {currPage > 1 && (
+          {totalPages > 1 && (
+            <>
+              <Spacer />
+              <Flex gap={8} justifyContent="center" alignItems="center">
+                <IconButton
+                  aria-label="Previous page"
+                  bg="transparent"
+                  onClick={() => setCurrPage(currPage - 1)}
+                  _hover={{ bg: "transparent" }}
+                  isDisabled={currPage === 1}
+                  icon={<Icon as={FiChevronLeft} />}
+                />
+                {totalPages <= 5 ? (
+                  Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (pageNum) => (
+                      <Button
+                        variant="ghost"
+                        bg="transparent"
+                        key={pageNum}
+                        fontWeight={pageNum === currPage ? "bold" : "normal"}
+                        onClick={() => setCurrPage(pageNum)}
+                      >
+                        {pageNum}
+                      </Button>
+                    ),
+                  )
+                ) : (
                   <>
-                    <Text onClick={() => handleClickedPage(1)} cursor="pointer">
-                      1
-                    </Text>
-                    <Text>...</Text>
+                    {currPage > 1 && (
+                      <>
+                        <Text onClick={() => setCurrPage(1)} cursor="pointer">
+                          1
+                        </Text>
+                        <Text>...</Text>
+                      </>
+                    )}
+                    {pageNumbersToShow.map((pageNum) => (
+                      <Text
+                        key={pageNum}
+                        fontWeight={pageNum === currPage ? "bold" : "normal"}
+                        color={pageNum === currPage ? "initial" : "gray.400"}
+                        cursor="pointer"
+                        onClick={() => setCurrPage(pageNum)}
+                      >
+                        {pageNum}
+                      </Text>
+                    ))}
+                    {currPage < totalPages - 2 && (
+                      <>
+                        <Text>...</Text>
+                        <Text
+                          onClick={() => setCurrPage(totalPages)}
+                          cursor="pointer"
+                        >
+                          {totalPages}
+                        </Text>
+                      </>
+                    )}
                   </>
                 )}
-                {pageNumbersToShow.map((pageNum) => (
-                  <Text
-                    key={pageNum}
-                    fontWeight={pageNum === currPage ? "bold" : "normal"}
-                    color={pageNum === currPage ? "initial" : "gray.400"}
-                    cursor="pointer"
-                    onClick={() => handleClickedPage(pageNum)}
-                  >
-                    {pageNum}
-                  </Text>
-                ))}
-                {currPage < totalPages - 2 && (
-                  <>
-                    <Text>...</Text>
-                    <Text
-                      onClick={() => handleClickedPage(totalPages)}
-                      cursor="pointer"
-                    >
-                      {totalPages}
-                    </Text>
-                  </>
-                )}
-              </>
-            )}
-            <IconButton
-              aria-label={""}
-              bg="transparent"
-              onClick={handleNextPage}
-              _hover={{ bg: "transparent" }}
-            >
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/right-arr.svg")}
-                alt=""
-              />
-            </IconButton>
-          </Flex>
+                <IconButton
+                  aria-label="Next page"
+                  bg="transparent"
+                  onClick={() => setCurrPage(currPage + 1)}
+                  _hover={{ bg: "transparent" }}
+                  isDisabled={currPage === totalPages}
+                  icon={<Icon as={FiChevronRight} />}
+                />
+              </Flex>
+            </>
+          )}
         </>
       ) : (
         <Flex
