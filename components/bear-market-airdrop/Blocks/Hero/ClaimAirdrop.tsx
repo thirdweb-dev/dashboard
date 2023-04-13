@@ -132,16 +132,11 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             </Flex>
           )}
           <Flex alignItems="center" gap={2} mb={8}>
-            {canClaim ? (
+            {canClaim && (
               <Text>
                 Ensure your email is correct as it will be used to send you
                 rewards.
               </Text>
-            ) : (
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/email-icon.svg")}
-                alt="Bear market builders hero image"
-              />
             )}
           </Flex>
         </VStack>
