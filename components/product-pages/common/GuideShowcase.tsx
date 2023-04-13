@@ -64,7 +64,7 @@ export const GuidesShowcase: React.FC<GuidesShowcaseProps> = ({
         {solution && (
           <TrackedLink
             href={`https://blog.thirdweb.com/tag/${
-              mode === "case-studies"
+              caseStudies
                 ? "case-study"
                 : solution.toLowerCase().replace(" ", "-")
             }/`}
