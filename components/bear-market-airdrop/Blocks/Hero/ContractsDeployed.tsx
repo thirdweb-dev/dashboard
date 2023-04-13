@@ -38,9 +38,8 @@ const ListItem: React.FC<ListItemProps> = ({ contract }) => {
       }}
       role="group"
       category={BEAR_MARKET_TRACKING_CATEGORY}
+      label="contracts_deployed"
       trackingProps={{
-        action: "click",
-        label: "contracts_deployed",
         contractLabel: "contract_link",
       }}
     >
@@ -226,9 +225,8 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
               href="https://thirdweb.com/dashboard/contracts"
               target="_blank"
               category={BEAR_MARKET_TRACKING_CATEGORY}
+              label="contracts_deployed"
               trackingProps={{
-                action: "click",
-                label: "contracts_deployed",
                 contractLabel: "deploy_contract",
               }}
             >

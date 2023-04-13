@@ -21,8 +21,8 @@ export const FAQ: React.FC = () => {
   const trackToggleFAQ = (title: string) => {
     trackEvent({
       category: BEAR_MARKET_TRACKING_CATEGORY,
-      action: "faq",
-      label: `toggle`,
+      action: "toggle",
+      label: "faq",
       faqTitle: title,
       walletAddress,
     });
