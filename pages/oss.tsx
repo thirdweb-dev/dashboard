@@ -262,7 +262,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                   (contributor) => contributor.login.indexOf("[bot]") === -1,
                 )
                 .filter((contributor) => !filterOut.includes(contributor.login))
-                .slice(0, 12) // cut it to three rows
+                .slice(0, 12)
                 .map((contributor) => (
                   <Flex key={contributor.login} flexDir="column" gap={1}>
                     <TrackedLink
