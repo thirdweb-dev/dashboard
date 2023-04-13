@@ -21,8 +21,9 @@ export const FAQ: React.FC = () => {
   const trackToggleFAQ = (title: string) => {
     trackEvent({
       category: bearMarketTrackerCategory,
-      action: "click",
-      label: `FAQ: Toggled: ${title}`,
+      action: "faq",
+      label: `toggle`,
+      faqTitle: title,
       walletAddress,
     });
   };
@@ -47,7 +48,7 @@ export const FAQ: React.FC = () => {
           <Text fontSize="1rem">
             <AccordionButton
               p={6}
-              onClick={() => trackToggleFAQ("Who is eligible to claim?")}
+              onClick={() => trackToggleFAQ("eligibility")}
             >
               <Box as="span" flex="1" textAlign="left">
                 Who is eligible to claim?
@@ -80,10 +81,7 @@ export const FAQ: React.FC = () => {
 
         <AccordionItem>
           <Text fontSize="1rem">
-            <AccordionButton
-              p={6}
-              onClick={() => trackToggleFAQ("What can I win?")}
-            >
+            <AccordionButton p={6} onClick={() => trackToggleFAQ("rewards")}>
               <Box as="span" flex="1" textAlign="left">
                 What can I win?
               </Box>
@@ -140,7 +138,7 @@ export const FAQ: React.FC = () => {
           <Text fontSize="1rem">
             <AccordionButton
               p={6}
-              onClick={() => trackToggleFAQ("How does the airdrop work?")}
+              onClick={() => trackToggleFAQ("how_it_works")}
             >
               <Box as="span" flex="1" textAlign="left">
                 How does the airdrop work?
@@ -187,7 +185,7 @@ export const FAQ: React.FC = () => {
           <Text fontSize="1rem">
             <AccordionButton
               p={6}
-              onClick={() => trackToggleFAQ("How do I redeem a prize?")}
+              onClick={() => trackToggleFAQ("how_to_redeem")}
             >
               <Box as="span" flex="1" textAlign="left">
                 How do I redeem a prize?

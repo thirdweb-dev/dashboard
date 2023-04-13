@@ -122,8 +122,8 @@ export const Hero: React.FC<HeroProps> = () => {
             }
             trackEvent({
               category: bearMarketTrackerCategory,
-              action: "event",
-              label: "Submitted Email: Success",
+              action: "submit_email",
+              label: "success",
               walletAddress: address,
               email,
             });
@@ -141,8 +141,8 @@ export const Hero: React.FC<HeroProps> = () => {
             });
             trackEvent({
               category: bearMarketTrackerCategory,
-              action: "event",
-              label: "Submitted Email: Already Registered",
+              action: "submit_email",
+              label: "already_registered",
               walletAddress: address,
               email,
             });
@@ -150,8 +150,8 @@ export const Hero: React.FC<HeroProps> = () => {
           case 500:
             trackEvent({
               category: bearMarketTrackerCategory,
-              action: "event",
-              label: "Submitted Email: Error",
+              action: "submit_email",
+              label: "error",
               walletAddress: address,
               email,
             });
@@ -170,10 +170,11 @@ export const Hero: React.FC<HeroProps> = () => {
       } catch (err) {
         trackEvent({
           category: bearMarketTrackerCategory,
-          action: "event",
-          label: "Submitted Email: Error",
+          action: "submit_email",
+          label: "error",
           walletAddress: address,
           email,
+          error: err,
         });
         toast({
           title: "Error submitting email",
@@ -206,8 +207,8 @@ export const Hero: React.FC<HeroProps> = () => {
         ]);
         trackEvent({
           category: bearMarketTrackerCategory,
-          action: "event",
-          label: "Claimed Pack: Success",
+          action: "claim",
+          label: "success",
           walletAddress: address,
           email,
         });
@@ -222,8 +223,8 @@ export const Hero: React.FC<HeroProps> = () => {
       } catch (err) {
         trackEvent({
           category: bearMarketTrackerCategory,
-          action: "event",
-          label: "Claimed Pack: Error",
+          action: "claim",
+          label: "error",
           walletAddress: address,
           email,
         });
@@ -253,16 +254,16 @@ export const Hero: React.FC<HeroProps> = () => {
       const tx = await pack.call("openPack", [0, 1]);
       trackEvent({
         category: bearMarketTrackerCategory,
-        action: "event",
-        label: "Opened Pack: Success",
+        action: "unbox",
+        label: "success",
         walletAddress: address,
       });
       setPackTx(tx);
     } catch (err) {
       trackEvent({
         category: bearMarketTrackerCategory,
-        action: "event",
-        label: "Opened Pack: Error",
+        action: "unbox",
+        label: "error",
         walletAddress: address,
       });
     } finally {

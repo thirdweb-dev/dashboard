@@ -197,7 +197,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
                 trackEvent({
                   category: bearMarketTrackerCategory,
                   action: "click",
-                  label: "Unboxed: View transaction",
+                  label: "unboxed",
+                  unboxedLabel: "view_transaction",
                   walletAddress,
                 });
               }}
@@ -221,7 +222,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               trackEvent({
                 category: bearMarketTrackerCategory,
                 action: "click",
-                label: "Unboxed: View on OpenSea",
+                label: "unboxed",
+                unboxedLabel: "view_on_opensea",
                 walletAddress,
               });
             }}
@@ -249,7 +251,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             trackEvent({
               category: bearMarketTrackerCategory,
               action: "click",
-              label: "Unboxed: Discover thirdweb",
+              label: "unboxed",
+              unboxedLabel: "discover_thirdweb",
               walletAddress,
             });
           }}
@@ -274,7 +277,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               trackEvent({
                 category: bearMarketTrackerCategory,
                 action: "click",
-                label: "Unboxed: Twitter Share",
+                label: "unboxed",
+                unboxedLabel: "twitter_share",
                 walletAddress,
               });
             }}

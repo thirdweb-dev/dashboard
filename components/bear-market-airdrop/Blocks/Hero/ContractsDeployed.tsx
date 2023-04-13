@@ -7,14 +7,12 @@ import {
   Spacer,
   useColorMode,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { Button, Card, Heading, Link, Text } from "tw-components";
+import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
 import { shortenString } from "utils/usedapp-external";
 
 interface ContractsDeployedProps {
@@ -23,16 +21,14 @@ interface ContractsDeployedProps {
 
 interface ListItemProps {
   contract: ContractSearchResult;
-  walletAddress: string | undefined;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ contract, walletAddress }) => {
+const ListItem: React.FC<ListItemProps> = ({ contract }) => {
   const { chainId, address } = contract;
   const chain = useSupportedChain(chainId);
-  const trackEvent = useTrack();
 
   return (
-    <Link
+    <TrackedLink
       href={`/${chain?.slug}/${address}`}
       target="_blank"
       w="full"
@@ -41,13 +37,11 @@ const ListItem: React.FC<ListItemProps> = ({ contract, walletAddress }) => {
         textDecoration: "none",
       }}
       role="group"
-      onClick={() => {
-        trackEvent({
-          category: bearMarketTrackerCategory,
-          action: "click",
-          label: "Contracts Deployed: Contract Link",
-          walletAddress,
-        });
+      category={bearMarketTrackerCategory}
+      trackingProps={{
+        action: "click",
+        label: "contracts_deployed",
+        contractLabel: "contract_link",
       }}
     >
       <Flex rounded="xl" gap={4} mt={6} justifyContent="space-between" w="full">
@@ -80,7 +74,7 @@ const ListItem: React.FC<ListItemProps> = ({ contract, walletAddress }) => {
           alt="contract link"
         />
       </Flex>
-    </Link>
+    </TrackedLink>
   );
 };
 
@@ -90,8 +84,6 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
   contracts,
 }) => {
   const { colorMode } = useColorMode();
-  const trackEvent = useTrack();
-  const walletAddress = useAddress();
 
   const [currPage, setCurrPage] = useState(1);
   const totalPages = useMemo(() => {
@@ -130,11 +122,7 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
         <>
           <Flex direction="column">
             {paginatedList.map((contract) => (
-              <ListItem
-                key={contract.address}
-                contract={contract}
-                walletAddress={walletAddress}
-              />
+              <ListItem key={contract.address} contract={contract} />
             ))}
           </Flex>
           {totalPages > 1 && (
@@ -234,20 +222,18 @@ export const ContractsDeployed: React.FC<ContractsDeployedProps> = ({
               mb={4}
             />
             <Text>Want to be eligible for future airdrops?</Text>
-            <Link
+            <TrackedLink
               href="https://thirdweb.com/dashboard/contracts"
               target="_blank"
-              onClick={() => {
-                trackEvent({
-                  category: bearMarketTrackerCategory,
-                  action: "click",
-                  label: "Contracts Deployed: Deploy Contract",
-                  walletAddress,
-                });
+              category={bearMarketTrackerCategory}
+              trackingProps={{
+                action: "click",
+                label: "contracts_deployed",
+                contractLabel: "deploy_contract",
               }}
             >
               <Text color="blue.500">Deploy a contract on thirdweb &rarr;</Text>
-            </Link>
+            </TrackedLink>
           </Box>
         </Flex>
       )}
