@@ -187,7 +187,7 @@ const Commerce: ThirdwebNextPage = () => {
                   color="white"
                   fontWeight="medium"
                   href={"https://portal.thirdweb.com/solidity"}
-                  label="use-case-solidity-sdk"
+                  label="use-case-contractkit"
                 >
                   Solidity SDK
                 </TrackedLink>

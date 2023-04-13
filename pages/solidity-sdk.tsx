@@ -32,7 +32,7 @@ const GUIDES = [
   },
 ];
 
-const TRACKING_CATEGORY = "solidity_sdk";
+const TRACKING_CATEGORY = "contract_kit";
 
 const ContractExtensions: ThirdwebNextPage = () => {
   return (

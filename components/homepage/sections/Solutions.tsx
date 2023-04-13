@@ -55,7 +55,7 @@ const solutions: SolutionCardProps[] = [
           fontWeight="500"
           isExternal
           category="solutions"
-          label="solidity-sdk"
+          label="contractkit"
           href="https://portal.thirdweb.com/solidity"
         >
           Solidity SDK

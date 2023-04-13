@@ -48,7 +48,7 @@ export const DeployUpsellCard: React.FC = () => {
               as={TrackedLink}
               {...{
                 category: "deploy_upsell",
-                label: "solidity_sdk",
+                label: "contract_kit",
               }}
               fontWeight={400}
               _light={{ color: "blue.500", _hover: { color: "blue.500" } }}

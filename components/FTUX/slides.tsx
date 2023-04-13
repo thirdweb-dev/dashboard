@@ -45,7 +45,7 @@ export const slides: Slide[] = [
           color="blue.500"
           href="https://portal.thirdweb.com/solidity"
           category={TRACK_CATEGORY}
-          label="build-solidity-sdk"
+          label="build-contractkit"
           isExternal
         >
           Solidity SDK

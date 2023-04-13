@@ -115,7 +115,7 @@ export const PRODUCTS: NavCardProps[] = [
   },
   {
     name: "Solidity SDK",
-    label: "solidity-sdk",
+    label: "contractkit",
     description: "Build your own contract easily",
     link: "/solidity-sdk",
     icon: require("public/assets/product-icons/extensions.png"),

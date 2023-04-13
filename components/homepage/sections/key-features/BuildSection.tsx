@@ -70,7 +70,7 @@ export const BuildSection: React.FC = () => {
                 as={LinkOverlay}
                 href="/solidity-sdk"
                 category={TRACKING_CATEGORY}
-                label="solidity-sdk"
+                label="contractkit"
                 stopOne="#805AA8"
                 stopTwo="#BAA2D4"
               >
