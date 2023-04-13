@@ -41,7 +41,7 @@ const EDITION_ADDRESS = "0xfEae55deA0781BBE5E967Ddfa29e7C01918ad6cb";
 const PACK_ADDRESS = "0xD21fE9b1bC8901525288A29fa08175a27070755f";
 const AIRDROP_ADDRESS = "0x8C3972ED94c789B0c3721Fe05078FC4918129d37";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
-export const bearMarketTrackerCategory = "bear-market-airdrop";
+export const BEAR_MARKET_AIRDROP_CATEGORY = "bear-market-airdrop";
 
 export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
@@ -121,7 +121,7 @@ export const Hero: React.FC<HeroProps> = () => {
               });
             }
             trackEvent({
-              category: bearMarketTrackerCategory,
+              category: BEAR_MARKET_AIRDROP_CATEGORY,
               action: "submit_email",
               label: "success",
               walletAddress: address,
@@ -140,7 +140,7 @@ export const Hero: React.FC<HeroProps> = () => {
               },
             });
             trackEvent({
-              category: bearMarketTrackerCategory,
+              category: BEAR_MARKET_AIRDROP_CATEGORY,
               action: "submit_email",
               label: "already_registered",
               walletAddress: address,
@@ -149,7 +149,7 @@ export const Hero: React.FC<HeroProps> = () => {
             break;
           case 500:
             trackEvent({
-              category: bearMarketTrackerCategory,
+              category: BEAR_MARKET_AIRDROP_CATEGORY,
               action: "submit_email",
               label: "error",
               walletAddress: address,
@@ -169,7 +169,7 @@ export const Hero: React.FC<HeroProps> = () => {
         }
       } catch (err) {
         trackEvent({
-          category: bearMarketTrackerCategory,
+          category: BEAR_MARKET_AIRDROP_CATEGORY,
           action: "submit_email",
           label: "error",
           walletAddress: address,
@@ -206,7 +206,7 @@ export const Hero: React.FC<HeroProps> = () => {
           Number(snapshot.maxClaimable),
         ]);
         trackEvent({
-          category: bearMarketTrackerCategory,
+          category: BEAR_MARKET_AIRDROP_CATEGORY,
           action: "claim",
           label: "success",
           walletAddress: address,
@@ -222,7 +222,7 @@ export const Hero: React.FC<HeroProps> = () => {
         });
       } catch (err) {
         trackEvent({
-          category: bearMarketTrackerCategory,
+          category: BEAR_MARKET_AIRDROP_CATEGORY,
           action: "claim",
           label: "error",
           walletAddress: address,
@@ -253,7 +253,7 @@ export const Hero: React.FC<HeroProps> = () => {
     try {
       const tx = await pack.call("openPack", [0, 1]);
       trackEvent({
-        category: bearMarketTrackerCategory,
+        category: BEAR_MARKET_AIRDROP_CATEGORY,
         action: "unbox",
         label: "success",
         walletAddress: address,
@@ -261,7 +261,7 @@ export const Hero: React.FC<HeroProps> = () => {
       setPackTx(tx);
     } catch (err) {
       trackEvent({
-        category: bearMarketTrackerCategory,
+        category: BEAR_MARKET_AIRDROP_CATEGORY,
         action: "unbox",
         label: "error",
         walletAddress: address,

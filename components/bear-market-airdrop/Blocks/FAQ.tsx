@@ -1,4 +1,4 @@
-import { bearMarketTrackerCategory } from "./Hero";
+import { BEAR_MARKET_AIRDROP_CATEGORY } from "./Hero";
 import {
   Accordion,
   AccordionButton,
@@ -20,7 +20,7 @@ export const FAQ: React.FC = () => {
   const walletAddress = useAddress();
   const trackToggleFAQ = (title: string) => {
     trackEvent({
-      category: bearMarketTrackerCategory,
+      category: BEAR_MARKET_AIRDROP_CATEGORY,
       action: "faq",
       label: `toggle`,
       faqTitle: title,

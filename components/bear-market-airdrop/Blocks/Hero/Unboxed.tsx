@@ -1,4 +1,4 @@
-import { bearMarketTrackerCategory } from ".";
+import { BEAR_MARKET_AIRDROP_CATEGORY } from ".";
 import { gradientMapping } from "../Prizes/Prize";
 import {
   AspectRatio,
@@ -195,7 +195,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
               }}
               onClick={() => {
                 trackEvent({
-                  category: bearMarketTrackerCategory,
+                  category: BEAR_MARKET_AIRDROP_CATEGORY,
                   action: "click",
                   label: "unboxed",
                   unboxedLabel: "view_transaction",
@@ -220,7 +220,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             }}
             onClick={() => {
               trackEvent({
-                category: bearMarketTrackerCategory,
+                category: BEAR_MARKET_AIRDROP_CATEGORY,
                 action: "click",
                 label: "unboxed",
                 unboxedLabel: "view_on_opensea",
@@ -249,7 +249,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           mb={6}
           onClick={() => {
             trackEvent({
-              category: bearMarketTrackerCategory,
+              category: BEAR_MARKET_AIRDROP_CATEGORY,
               action: "click",
               label: "unboxed",
               unboxedLabel: "discover_thirdweb",
@@ -275,7 +275,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             }}
             onClick={() => {
               trackEvent({
-                category: bearMarketTrackerCategory,
+                category: BEAR_MARKET_AIRDROP_CATEGORY,
                 action: "click",
                 label: "unboxed",
                 unboxedLabel: "twitter_share",
