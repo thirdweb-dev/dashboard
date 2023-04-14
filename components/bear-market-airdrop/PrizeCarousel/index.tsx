@@ -29,6 +29,11 @@ export const PrizesCarousel: React.FC = () => {
         <PrizeCard prize="consensusPass" />
         <PrizeCard prize="5Matic" />
         <PrizeCard prize="lexicaAiArtPass" />
+        <PrizeCard prize="quicknode900" />
+        <PrizeCard prize="quicknode5000" />
+        <PrizeCard prize="quicknode25000" />
+        <PrizeCard prize="lexicaAiArtPass" />
+        <PrizeCard prize="lexicaAiArtPass" />
       </Marquee>
 
       {/* mobile - 2 rows with logos split in two rows */}
@@ -39,6 +44,7 @@ export const PrizesCarousel: React.FC = () => {
         <PrizeCard prize="5Matic" />
         <PrizeCard prize="consensusPass" />
         <PrizeCard prize="0.1Eth" />
+        <PrizeCard prize="quicknode900" />
       </Marquee>
 
       <Marquee
@@ -50,6 +56,8 @@ export const PrizesCarousel: React.FC = () => {
         <PrizeCard prize="1Eth" />
         <PrizeCard prize="clubIrlNft" />
         <PrizeCard prize="bearMarketBuilderNft" />
+        <PrizeCard prize="quicknode5000" />
+        <PrizeCard prize="quicknode25000" />
       </Marquee>
     </Box>
   );

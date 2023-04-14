@@ -45,6 +45,18 @@ const PRIZE_MAP = {
     img: require("./prizes/cpg-genesis-nft.png"),
     filter: undefined,
   },
+  quicknode900: {
+    img: require("./prizes/quicknode-900.png"),
+    filter: undefined,
+  },
+  quicknode5000: {
+    img: require("./prizes/quicknode-5000.png"),
+    filter: undefined,
+  },
+  quicknode25000: {
+    img: require("./prizes/quicknode-25000.png"),
+    filter: undefined,
+  },
 } as const;
 
 type Prize = keyof typeof PRIZE_MAP;
