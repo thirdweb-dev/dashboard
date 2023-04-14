@@ -7,6 +7,7 @@ export const getSearchQuery = ({
   page = 1,
   perPage = 10,
   getAllOwnedByWallet = false,
+  filterByChains = [],
 }: {
   query: string;
   walletAddress?: string;
@@ -14,6 +15,7 @@ export const getSearchQuery = ({
   page?: number;
   perPage?: number;
   getAllOwnedByWallet?: boolean;
+  filterByChains?: number[];
 }) => {
   const baseUrl = new URL(
     "https://search.thirdweb.com/collections/contracts/documents/search",
@@ -40,7 +42,10 @@ export const getSearchQuery = ({
     baseUrl.searchParams.set("filter_by", "testnet:true");
   }
   if (getAllOwnedByWallet) {
-    baseUrl.searchParams.set("filter_by", `deployer_address:${walletAddress}`);
+    baseUrl.searchParams.set(
+      "filter_by",
+      `deployer_address:${walletAddress} && chain_id:[${filterByChains}]`,
+    );
   }
   return baseUrl.toString();
 };
