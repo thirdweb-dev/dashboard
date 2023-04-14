@@ -62,7 +62,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
             mt={4}
             mb={2}
           >
-            You are eligible to claim 1 airdrop!
+            You are eligible to claim 1 pack!
           </Text>
           <ChakraNextImage
             alt="checkmark"
@@ -99,14 +99,15 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                   roundedLeft="none"
                   isDisabled={isClaiming}
                   isLoading={isClaiming}
-                  bg={colorMode === "light" ? "black" : "white"}
+                  bg={colorMode === "dark" ? "white" : "black"}
                   _hover={{
-                    bg: colorMode === "light" ? "black" : "white",
+                    bg: colorMode === "dark" ? "white" : "black",
                   }}
                   _loading={{
-                    bg: colorMode === "light" ? "white" : "black",
+                    bg: colorMode === "dark" ? "white" : "black",
+                    color: colorMode === "dark" ? "black" : "white",
                   }}
-                  color={colorMode === "light" ? "white" : "black"}
+                  color={colorMode === "dark" ? "black" : "white"}
                 >
                   {canClaim ? "Claim" : "Subscribe"}
                 </Button>
