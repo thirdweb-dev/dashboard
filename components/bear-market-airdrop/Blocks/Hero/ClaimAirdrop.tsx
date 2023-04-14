@@ -102,6 +102,7 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
                   bg={colorMode === "dark" ? "white" : "black"}
                   _hover={{
                     bg: colorMode === "dark" ? "white" : "black",
+                    opacity: 0.8,
                   }}
                   _loading={{
                     bg: colorMode === "dark" ? "white" : "black",
