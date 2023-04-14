@@ -30,7 +30,7 @@ const BearMarketAirdropPage: ThirdwebNextPage = () => {
           description,
           images: [
             {
-              url: `${getAbsoluteUrl()}/api/og/bear-market-airdrop}`,
+              url: `${getAbsoluteUrl()}/assets/og-image/bear-market-airdrop.png`,
               width: 1200,
               height: 630,
               alt: title,
