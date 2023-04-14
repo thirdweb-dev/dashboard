@@ -299,7 +299,7 @@ const Minting: ThirdwebNextPage = () => {
                 >
                   Dashboard
                 </TrackedLink>{" "}
-                and API for balances, gas spent, transactions and owners
+                and API for balances, gas spent, transactions and owners.
               </>
             }
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
