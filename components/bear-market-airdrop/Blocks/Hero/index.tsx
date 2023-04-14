@@ -302,10 +302,11 @@ export const Hero: React.FC<HeroProps> = () => {
     }
     const res = await fetch(
       getSearchQuery({
-        query: "",
+        query: "*",
         walletAddress,
-        searchMode: "all",
+        searchMode: "mainnet",
         getAllOwnedByWallet: true,
+        filterByChains: [1, 137, 43114, 42161, 10],
       }),
       {
         headers: {
