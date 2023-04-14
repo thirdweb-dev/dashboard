@@ -106,16 +106,18 @@ export const Why: React.FC = () => {
         />
       </Flex>
       <Flex position="relative" direction="column">
+        <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
+          For builders
+        </Text>
         <Text
-          mt={14}
           bgGradient="linear(to-r, #743F9E, #BFA3DA)"
           bgClip="text"
           w="fit-content"
-          fontSize="42px"
+          fontSize="32px"
           fontWeight="extrabold"
           lineHeight="120%"
         >
-          For builders, there is no bear market.
+          there is no bear market.
         </Text>
       </Flex>
     </Box>
