@@ -53,7 +53,7 @@ export const Why: React.FC = () => {
       </Flex>
       <Flex direction="column" position="relative">
         <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
-          We are giving away 100,000 lootboxes with prizes
+          We are giving away 100,000 packs with prizes
         </Text>
         <Text
           bgGradient="linear(to-r, #743F9E, #BFA3DA)"
@@ -80,7 +80,7 @@ export const Why: React.FC = () => {
       </Flex>
       <Flex position="relative" direction="column">
         <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
-          Inside each lootbox is a random reward provided by thirdweb and our
+          Inside each pack is a random reward provided by thirdweb and our
           partners to
         </Text>
         <Text
