@@ -213,10 +213,8 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             href={`https://opensea.io/assets/${Polygon.nativeCurrency.name}/${editionAddress}/${nft.id}`}
             target="_blank"
             bg={colorMode === "light" ? "black" : "transparent"}
+            _hover={{ bg: "black", opacity: 0.8 }}
             color="white"
-            _hover={{
-              bg: "black",
-            }}
             onClick={() => {
               trackEvent({
                 category: BEAR_MARKET_TRACKING_CATEGORY,
@@ -241,7 +239,11 @@ export const Unboxed: React.FC<UnboxedProps> = ({
           target="_blank"
           bg={colorMode === "light" ? "black" : "white"}
           color={colorMode === "light" ? "white" : "black"}
-          _hover={colorMode === "light" ? { bg: "black" } : { bg: "white" }}
+          _hover={
+            colorMode === "light"
+              ? { bg: "black", opacity: 0.8 }
+              : { bg: "white", opacity: 0.8 }
+          }
           py={3}
           px={6}
           mb={6}
@@ -266,6 +268,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
             py={3}
             px={6}
             bg={colorMode === "light" ? "black" : "transparent"}
+            color="white"
             _hover={{
               bg: "black",
               opacity: 0.8,
