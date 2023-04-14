@@ -298,8 +298,6 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
               ))}
             </SimpleGrid>
           </HomepageSection>
-
-          <HomepageFooter />
         </ProductPage>
       </Flex>
     </DarkMode>
