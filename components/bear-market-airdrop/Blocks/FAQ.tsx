@@ -60,8 +60,8 @@ export const FAQ: React.FC = () => {
             <Flex gap={4} flexDirection="column">
               <Text>
                 Any wallet which has deployed a smart contract between the dates
-                of 2022-01-01 and 2023-04-01 to the following blockchains is
-                eligible to claim:
+                of 2022-01-01 and 2023-04-01 to the following mainnet
+                blockchains is eligible to claim:
               </Text>
               <UnorderedList>
                 <ListItem>💎 Ethereum</ListItem>
@@ -73,7 +73,7 @@ export const FAQ: React.FC = () => {
               <Text>
                 Whilst we appreciate there are many more chains with thousands
                 more builders, technical limitations in scraping this data meant
-                we could only make the above chains eligible.{" "}
+                we could only make the above chains eligible.
               </Text>
             </Flex>
           </AccordionPanel>
@@ -110,7 +110,10 @@ export const FAQ: React.FC = () => {
                   5 MATIC <br />
                   0.1 ETH <br />
                   1 ETH <br />
-                  1K AWS Credits
+                  1K AWS Credits <br />
+                  <Link href="https://www.quicknode.com/" target="_blank">
+                    Quicknode Credts
+                  </Link>
                 </Text>
               </Box>
 
@@ -123,11 +126,32 @@ export const FAQ: React.FC = () => {
                 >
                   Legendary
                 </Text>
-                <Text fontWeight="normal">
-                  Lexica AI Art Pass <br />
-                  Club IRL NFT <br />
-                  Consensus 2023 Two-Day Pass <br />
-                  CPG Genesis NFT
+                <Text fontWeight="bold" textDecoration="underline">
+                  <Link href="https://lexica.art/" target="_blank">
+                    Lexica AI PRO Pass <br />
+                  </Link>
+                </Text>
+
+                <Text fontWeight="bold" textDecoration="underline">
+                  <Link
+                    href="https://opensea.io/assets/matic/0xd94b9a574b8b3c926906f11b99a760188d98f0f4/0"
+                    target="_blank"
+                  >
+                    Club IRL NFT <br />
+                  </Link>
+                </Text>
+                <Text fontWeight="bold" textDecoration="underline">
+                  <Link href="https://consensus.coindesk.com/" target="_blank">
+                    Consensus 2023 Two-Day Pass <br />
+                  </Link>
+                </Text>
+                <Text fontWeight="bold" textDecoration="underline">
+                  <Link
+                    href="https://opensea.io/collection/crypto-packaged-goods"
+                    target="_blank"
+                  >
+                    CPG Genesis NFT
+                  </Link>
                 </Text>
               </Box>
             </Flex>
@@ -151,11 +175,11 @@ export const FAQ: React.FC = () => {
               <Text>
                 We have compiled a list of every wallet address which deployed a
                 smart contract between <b>January 1st 2022</b> and{" "}
-                <b>April 1st 2023</b>. These addresses have been added to a
+                <b>April 1st 2023</b>. These addresses have been added to an
                 allowlist which will allow you to claim an ERC1155 NFT
               </Text>
               <Text>
-                The ERC1155 NFT is an NFT lootbox which uses{" "}
+                The ERC1155 NFT is an NFT which uses{" "}
                 <Link
                   style={{
                     textDecoration: "underline",
@@ -167,7 +191,7 @@ export const FAQ: React.FC = () => {
                 >
                   thirdweb&apos;s pack contract
                 </Link>{" "}
-                to bundle other tokens together. When a lootbox is opened, a
+                to bundle other tokens together. When a pack is opened, a
                 pre-defined quantity of tokens are randomly selected from the
                 ones that were used to create the packs (that haven&apos;t
                 already been selected), and awarded to the opener. The pack NFT
@@ -176,6 +200,10 @@ export const FAQ: React.FC = () => {
               <Text>
                 These ‘tokens’ are ERC721 NFTs, and some of which can be
                 ‘redeemed’ for the prizes listed above.
+              </Text>
+              <Text>
+                The airdrop is fully gasless, and only requires you to sign a
+                transaction.
               </Text>
             </Flex>
           </AccordionPanel>
@@ -195,22 +223,7 @@ export const FAQ: React.FC = () => {
           </Text>
           <AccordionPanel pb={4}>
             <Flex direction="column" gap={4}>
-              <Text>There are three different ways to redeem a prize:</Text>
-              <Text fontWeight="bold">In Pack</Text>
-              <Text>
-                For some prizes, they will be wrapped inside the packs
-                themselves. When you open the pack, these prizes will be
-                automatically sent to your wallet.
-              </Text>
-              <Text>The following prizes will follow this method:</Text>
-              <UnorderedList>
-                <ListItem>Bear Market Builder NFT</ListItem>
-                <ListItem>thirdweb pro early access NFT</ListItem>
-                <ListItem>1 MATIC</ListItem>
-                <ListItem>5 MATIC</ListItem>
-                <ListItem>0.1 ETH</ListItem>
-                <ListItem>1 ETH</ListItem>
-              </UnorderedList>
+              <Text>There are two different ways to redeem a prize:</Text>
               <Text fontWeight="bold">NFT Airdrop</Text>
               <Text>
                 For some prizes, you will be sent a placeholder NFT once you
@@ -219,7 +232,24 @@ export const FAQ: React.FC = () => {
               </Text>
               <Text>The following prizes will follow this method:</Text>
               <UnorderedList>
-                <ListItem>CPG Genesis NFT</ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">CPG Genesis NFT</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">thirdweb pro early access NFT</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">1 MATIC</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">5 MATIC</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">0.1 ETH</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">1 ETH</Text>
+                </ListItem>
               </UnorderedList>
               <Text fontWeight="bold">Email</Text>
               <Text>
@@ -230,10 +260,21 @@ export const FAQ: React.FC = () => {
               </Text>
               <Text>The following prizes will follow this method:</Text>
               <UnorderedList>
-                <ListItem>1K AWS Credits</ListItem>
-                <ListItem>Lexica AI Art Pass</ListItem>
-                <ListItem>Club IRL NFT</ListItem>
-                <ListItem>Consensus 2023 Two-Day Pass</ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">1K AWS Credits</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">Quicknode Credits</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">Lexica AI Art Pass</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">Club IRL NFT</Text>
+                </ListItem>
+                <ListItem>
+                  <Text fontWeight="bold">Consensus 2023 Two-Day Pass</Text>
+                </ListItem>
               </UnorderedList>
             </Flex>
           </AccordionPanel>
