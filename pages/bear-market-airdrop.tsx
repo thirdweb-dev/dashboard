@@ -92,7 +92,8 @@ export const BearMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
       options={{
         gasless: {
           openzeppelin: {
-            relayerUrl: process.env.NEXT_PUBLIC_OPENZEPPELIN_URL as string,
+            relayerUrl:
+              "https://api.defender.openzeppelin.com/autotasks/b1b8a5d1-bdb4-414b-afd3-4411a1da5b05/runs/webhook/7d6a1834-dd33-4b7b-8af4-b6b4719a0b97/Szsk8cMMDDshUDEHyMPQ3x",
             relayerForwarderAddress: forwarderAddress,
             useEOAForwarder: false,
           },
