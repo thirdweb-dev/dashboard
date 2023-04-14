@@ -77,6 +77,7 @@ export const HeroSection = () => {
                       action: "click",
                       label: "start",
                       title: "Start building",
+                      experiment: "open_dashboard",
                     })
                   }
                   px={4}
