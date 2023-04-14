@@ -58,7 +58,7 @@ export const Unboxed: React.FC<UnboxedProps> = ({
   const rarity = nft?.attributes[0]?.value;
   const walletAddress = useAddress();
   const image = nft?.image?.replaceAll(/ /g, "%20");
-  const text = `Proud to be a bear market builder. 💪%0AI just claimed a free ${nft?.name} from @thirdweb%0A%0AClaim yours at: https://thirdweb.com/bear-market-airdrop
+  const text = `Proud to be a bear market builder. 💪%0A%0AI just claimed a free ${nft?.name} from @thirdweb%0A%0AClaim yours at: https://thirdweb.com/bear-market-airdrop
   `;
   const twitterUrl = `https://twitter.com/intent/tweet?text=${text}`;
   const { colorMode } = useColorMode();
