@@ -26,6 +26,7 @@ interface ListItemProps {
 const ListItem: React.FC<ListItemProps> = ({ contract }) => {
   const { chainId, address } = contract;
   const chain = useSupportedChain(chainId);
+  const { colorMode } = useColorMode();
 
   return (
     <TrackedLink
@@ -55,7 +56,10 @@ const ListItem: React.FC<ListItemProps> = ({ contract }) => {
             }}
           >
             <Flex gap={1} justifyContent="center">
-              <Text fontSize="16px" opacity={0.7}>
+              <Text
+                fontSize="16px"
+                color={colorMode === "dark" ? "white" : "black"}
+              >
                 {chain?.name}
               </Text>
             </Flex>
