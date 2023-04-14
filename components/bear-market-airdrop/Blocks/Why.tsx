@@ -25,8 +25,8 @@ export const Why: React.FC = () => {
       </Heading>
       <Flex p={0} position="relative" direction="column">
         <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
-          2022 was a difficult year for crypto. <br />
-          For those that continued building,
+          The last 18 months haven’t been easy. For those that continued
+          building
         </Text>
         <Text
           bgGradient="linear(to-r, #4830A4, #9786DF)"
@@ -53,7 +53,7 @@ export const Why: React.FC = () => {
       </Flex>
       <Flex direction="column" position="relative">
         <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
-          We are giving away 101,887 lootbox prizes
+          We are giving away 100,000 lootboxes with prizes
         </Text>
         <Text
           bgGradient="linear(to-r, #743F9E, #BFA3DA)"
@@ -80,8 +80,8 @@ export const Why: React.FC = () => {
       </Flex>
       <Flex position="relative" direction="column">
         <Text fontSize="32px" fontWeight="bold" lineHeight="120%">
-          Inside each lootbox is a random reward <br />
-          provided by thirdweb and our partners to
+          Inside each lootbox is a random reward provided by thirdweb and our
+          partners to
         </Text>
         <Text
           bgGradient="linear(to-r, #C35AB1, #E9A8D9)"
@@ -104,6 +104,19 @@ export const Why: React.FC = () => {
             xl: "block",
           }}
         />
+      </Flex>
+      <Flex position="relative" direction="column">
+        <Text
+          mt={14}
+          bgGradient="linear(to-r, #743F9E, #BFA3DA)"
+          bgClip="text"
+          w="fit-content"
+          fontSize="42px"
+          fontWeight="extrabold"
+          lineHeight="120%"
+        >
+          For builders, there is no bear market.
+        </Text>
       </Flex>
     </Box>
   );
