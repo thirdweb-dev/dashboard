@@ -3,10 +3,13 @@ import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import {
   Box,
   Flex,
-  GridItem,
   Icon,
-  SimpleGrid,
   Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
@@ -20,9 +23,25 @@ import { FiChevronsRight } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const content = {
+type ContentItem = {
+  title: string;
+  description: string;
+  href: string;
+};
+
+type Content = {
+  [key: string]: ContentItem;
+};
+
+const content: Content = {
   explore: {
-    title: "Explore",
+    title: "Ready-to-deploy",
+    description:
+      "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
+    href: "/explore",
+  },
+  import: {
+    title: "Import",
     description:
       "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
     href: "/explore",
@@ -42,51 +61,97 @@ const content = {
 };
 
 const TRACKING_CATEGORY = "your_contracts";
-const DeployOptions = () => {
-  return (
-    <SimpleGrid columns={3} gap={4}>
-      {Object.entries(content).map(([key, value]) => (
-        <GridItem key={key} colSpan={{ base: 3, md: 1 }} h="full">
-          <Card
-            h="full"
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            w="full"
-            _hover={{
-              borderColor: "blue.500",
-              textDecoration: "none!important",
-            }}
-            {...{
-              as: TrackedLink,
-              category: TRACKING_CATEGORY,
-              label: "deploy_options",
-              trackingProps: { type: key },
-              href: value.href,
-              isExternal: key !== "explore",
-            }}
-            gap={4}
-          >
-            <Box mb="auto">
-              <Flex alignItems="center">
-                <Image
-                  width={32}
-                  height={32}
-                  alt=""
-                  src={`/assets/dashboard/contracts/${key}.png`}
-                />
-                <Heading ml={2} size="label.lg" as="h4" fontWeight="bold">
-                  {value.title}
-                </Heading>
-              </Flex>
-              <Text mt={3}>{value.description}</Text>
-            </Box>
 
-            <Icon flexShrink={0} as={FiChevronsRight} boxSize={6} />
-          </Card>
-        </GridItem>
-      ))}
-    </SimpleGrid>
+interface CardContentProps {
+  tab: string;
+  value: ContentItem;
+}
+
+const CardContent: React.FC<CardContentProps> = ({ tab, value }) => (
+  <>
+    <Box mb="auto">
+      <Flex alignItems="center">
+        <Image
+          width={32}
+          height={32}
+          alt=""
+          src={`/assets/dashboard/contracts/${tab}.png`}
+        />
+        <Heading ml={2} size="label.lg" as="h4" fontWeight="bold">
+          {value.title}
+        </Heading>
+      </Flex>
+      <Text mt={3}>{value.description}</Text>
+    </Box>
+
+    <Icon flexShrink={0} as={FiChevronsRight} boxSize={6} />
+  </>
+);
+
+const DeployOptions = () => {
+  const handleImportClick = () => {
+    // Your logic for the import option goes here
+    console.log("Import clicked");
+  };
+  return (
+    <Tabs isFitted>
+      <TabList>
+        {Object.entries(content).map(([key, value]) => (
+          <Tab key={key}>{value.title}</Tab>
+        ))}
+      </TabList>
+
+      <TabPanels>
+        {Object.entries(content).map(([key, value]) => (
+          <TabPanel key={key} px={0}>
+            {key === "import" ? (
+              <Box
+                as={Card}
+                bg="backgroundCardHighlight"
+                h="full"
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                w="full"
+                _hover={{
+                  borderColor: "blue.500",
+                  textDecoration: "none!important",
+                }}
+                onClick={handleImportClick}
+                gap={4}
+                cursor="pointer"
+              >
+                <CardContent tab={key} value={value} />
+              </Box>
+            ) : (
+              <Card
+                bg="backgroundCardHighlight"
+                h="full"
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                w="full"
+                _hover={{
+                  borderColor: "blue.500",
+                  textDecoration: "none!important",
+                }}
+                {...{
+                  as: TrackedLink,
+                  category: TRACKING_CATEGORY,
+                  label: "deploy_options",
+                  trackingProps: { type: key },
+                  href: value.href,
+                  isExternal: key !== "explore",
+                }}
+                gap={4}
+              >
+                <CardContent tab={key} value={value} />
+              </Card>
+            )}
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </Tabs>
   );
 };
 
