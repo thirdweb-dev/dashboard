@@ -412,7 +412,7 @@ export const Hero: React.FC<HeroProps> = () => {
       <Flex direction="row">
         {!address ? (
           <ChakraNextImage
-            src={require("public/assets/bear-market-airdrop/bear-pack-with-bg.png")}
+            src={require("public/assets/bear-market-airdrop/bear-market-pack.png")}
             alt={"bear-market-pack"}
             priority
           />
