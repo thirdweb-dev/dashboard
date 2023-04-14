@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorMode } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Button, Text } from "tw-components";
 
@@ -8,6 +8,7 @@ interface OpenPackProps {
 }
 
 export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
+  const { colorMode } = useColorMode();
   return (
     <Flex
       direction={{
@@ -32,13 +33,15 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
         }}
       >
         <Button
-          bg="white"
-          color="black"
+          bg={colorMode === "dark" ? "white" : "black"}
+          color={colorMode === "dark" ? "black" : "white"}
           w="min-content"
           px={6}
           py={3}
           _hover={{
-            bg: "white",
+            bg: colorMode === "dark" ? "white" : "black",
+            color: colorMode === "dark" ? "black" : "white",
+            opacity: 0.8,
           }}
           onClick={openPack}
           isLoading={unboxing}
@@ -80,7 +83,7 @@ export const OpenPack: React.FC<OpenPackProps> = ({ openPack, unboxing }) => {
           >
             Open your pack{" "}
             <Box as="span" color="white">
-              to claim your lootbox rewards!
+              to claim your reward!
             </Box>
           </Text>
         </Flex>
