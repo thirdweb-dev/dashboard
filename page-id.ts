@@ -155,6 +155,9 @@ export enum PageId {
 
   // thirdweb.com/app/deploy/:uri
   DeployAppUri = "deploy-app-uri",
+  // thirdweb.com/bear-market-airdrop
+  BearMarketAirdrop = "bear-market-airdrop",
+
   // ---------------------------------------------------------------------------
   //  learn pages
   // ---------------------------------------------------------------------------

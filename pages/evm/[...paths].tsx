@@ -198,7 +198,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
   if (chainNotFound) {
     return (
-      <HomepageSection>
+      <HomepageSection maxW="container.md" mx="auto">
         <Box mb={8} mt={8}>
           <Alert borderRadius="md" background="backgroundHighlight">
             <AlertIcon />
@@ -324,7 +324,7 @@ EVMContractPage.pageId = PageId.DeployedContract;
 EVMContractPage.getLayout = (page, props: EVMContractProps) => {
   const displayName = `${
     props.contractMetadata?.name ||
-    shortenIfAddress(props.contractInfo.contractAddress) ||
+    shortenIfAddress(props.contractInfo?.contractAddress) ||
     "Contract"
   }${
     props.contractMetadata?.symbol ? ` (${props.contractMetadata.symbol})` : ""
