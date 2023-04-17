@@ -1,5 +1,6 @@
-import { Box, DarkMode, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, DarkMode, Flex, SimpleGrid, Skeleton } from "@chakra-ui/react";
 import { DevRelEvent } from "components/devRelEvents/DevRelEvent";
+import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -39,10 +40,12 @@ type LumaResponse = {
 
 const EventsPage: ThirdwebNextPage = () => {
   const [lumaEvents, setLumaEvents] = useState<LumaEvent[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setIsLoading(true);
         const res = await fetch("/api/luma-events");
         if (!res.ok) {
           const errorData = await res.json();
@@ -52,6 +55,8 @@ const EventsPage: ThirdwebNextPage = () => {
         setLumaEvents(data.entries);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -76,7 +81,13 @@ const EventsPage: ThirdwebNextPage = () => {
         <HomepageTopNav />
 
         <Box maxW="100vw" mt="-100px" overflowX="hidden" minH="100vh" pt={20}>
-          <HomepageSection id="header">
+          <HomepageSection
+            id="header"
+            pb={{
+              base: 12,
+              md: 24,
+            }}
+          >
             <Aurora
               pos={{ left: "50%", top: "50%" }}
               size={{ width: "2000px", height: "2000px" }}
@@ -99,24 +110,25 @@ const EventsPage: ThirdwebNextPage = () => {
               gap={8}
               columns={{ base: 1, md: 3 }}
             >
-              {lumaEvents.map(
+              {lumaEvents?.map(
                 ({
                   event: { name, start_at, description, url, social_image_url },
                 }) => (
-                  <DevRelEvent
-                    key={name}
-                    type=""
-                    title={name}
-                    timestamp={start_at}
-                    location=""
-                    description={description}
-                    link={url}
-                    image={social_image_url}
-                  />
+                  <Skeleton isLoaded={!isLoading} key={name} borderRadius="lg">
+                    <DevRelEvent
+                      title={name}
+                      timestamp={start_at}
+                      location=""
+                      description={description}
+                      link={url}
+                      image={social_image_url}
+                    />
+                  </Skeleton>
                 ),
               )}
             </SimpleGrid>
           </HomepageSection>
+          <HomepageFooter />
         </Box>
       </Flex>
     </DarkMode>

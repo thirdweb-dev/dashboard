@@ -1,19 +1,9 @@
-import {
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Flex,
-  Icon,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Flex, Icon, Image } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { FiCalendar, FiChevronDown, FiClock } from "react-icons/fi";
-import { Badge, Card, Heading, LinkButton, Text } from "tw-components";
+import { FiCalendar, FiClock } from "react-icons/fi";
+import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface EventProps {
-  type: string;
   title: string;
   timestamp: string;
   location: string;
@@ -23,17 +13,13 @@ interface EventProps {
 }
 
 export const DevRelEvent: React.FC<EventProps> = ({
-  type,
   title,
   timestamp,
-  location,
   description,
   link,
   image,
 }) => {
   const trackEvent = useTrack();
-
-  console.log("image", image);
 
   return (
     <Card bgColor="backgroundCardHighlight" gap={4} p={0} overflow="hidden">
@@ -82,12 +68,6 @@ export const DevRelEvent: React.FC<EventProps> = ({
                 })}
               </Text>
             </Flex>
-            {/*           {location && (
-              <Flex align="center" gap={1}>
-                <Icon as={FaMapMarkerAlt} color="gray.300" />
-                <Text color="gray.300">{location}</Text>
-              </Flex>
-            )} */}
           </Flex>
         </Flex>
         <Box>
