@@ -4,8 +4,6 @@ import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { getAbsoluteUrl } from "lib/vercel-utils";
-import { GetServerSideProps } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
@@ -89,13 +87,7 @@ const EventsPage: ThirdwebNextPage = () => {
           pt={20}
           overflow="hidden"
         >
-          <HomepageSection
-            id="header"
-            pb={{
-              base: 12,
-              md: 24,
-            }}
-          >
+          <HomepageSection id="header">
             <Aurora
               pos={{ left: "50%", top: "50%" }}
               size={{ width: "2000px", height: "2000px" }}
@@ -152,8 +144,8 @@ const EventsPage: ThirdwebNextPage = () => {
                   ))}
             </SimpleGrid>
           </HomepageSection>
-          <HomepageFooter />
         </Box>
+        <HomepageFooter />
       </Flex>
     </DarkMode>
   );
