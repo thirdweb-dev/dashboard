@@ -80,7 +80,14 @@ const EventsPage: ThirdwebNextPage = () => {
       >
         <HomepageTopNav />
 
-        <Box maxW="100vw" mt="-100px" overflowX="hidden" minH="100vh" pt={20}>
+        <Box
+          maxW="100vw"
+          mt="-100px"
+          overflowX="hidden"
+          minH="100vh"
+          pt={20}
+          overflow="hidden"
+        >
           <HomepageSection
             id="header"
             pb={{
