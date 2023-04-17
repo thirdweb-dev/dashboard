@@ -21,7 +21,13 @@ export const DevRelEvent: React.FC<EventProps> = ({
   const trackEvent = useTrack();
 
   return (
-    <Card bgColor="backgroundCardHighlight" gap={4} p={0} overflow="hidden">
+    <Card
+      bgColor="backgroundCardHighlight"
+      gap={4}
+      p={0}
+      overflow="hidden"
+      minH="324px"
+    >
       <Image src={image} alt={title} objectFit="cover" />
 
       <Flex

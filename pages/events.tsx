@@ -4,6 +4,8 @@ import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { getAbsoluteUrl } from "lib/vercel-utils";
+import { GetServerSideProps } from "next";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
@@ -39,13 +41,14 @@ type LumaResponse = {
 };
 
 const EventsPage: ThirdwebNextPage = () => {
+  const numberOfSkeletons = 1;
+  const skeletonsArray = new Array(numberOfSkeletons).fill(null);
+
   const [lumaEvents, setLumaEvents] = useState<LumaEvent[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        setIsLoading(true);
         const res = await fetch("/api/luma-events");
         if (!res.ok) {
           const errorData = await res.json();
@@ -55,8 +58,6 @@ const EventsPage: ThirdwebNextPage = () => {
         setLumaEvents(data.entries);
       } catch (error) {
         console.error(error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -117,21 +118,38 @@ const EventsPage: ThirdwebNextPage = () => {
               gap={8}
               columns={{ base: 1, md: 3 }}
             >
-              {lumaEvents?.map(
-                ({
-                  event: { name, start_at, description, url, social_image_url },
-                }) => (
-                  <Skeleton isLoaded={!isLoading} key={name} borderRadius="lg">
-                    <DevRelEvent
-                      title={name}
-                      timestamp={start_at}
-                      description={description}
-                      link={url}
-                      image={social_image_url}
-                    />
-                  </Skeleton>
-                ),
-              )}
+              {lumaEvents.length > 0
+                ? lumaEvents.map(
+                    ({
+                      event: {
+                        name,
+                        start_at,
+                        description,
+                        url,
+                        social_image_url,
+                      },
+                    }) => (
+                      <DevRelEvent
+                        key={name}
+                        title={name}
+                        timestamp={start_at}
+                        description={description}
+                        link={url}
+                        image={social_image_url}
+                      />
+                    ),
+                  )
+                : skeletonsArray.map((_, index) => (
+                    <Skeleton key={index} borderRadius="lg">
+                      <DevRelEvent
+                        title=""
+                        timestamp=""
+                        description=""
+                        link=""
+                        image=""
+                      />
+                    </Skeleton>
+                  ))}
             </SimpleGrid>
           </HomepageSection>
           <HomepageFooter />
@@ -140,6 +158,7 @@ const EventsPage: ThirdwebNextPage = () => {
     </DarkMode>
   );
 };
+
 EventsPage.pageId = PageId.Events;
 
 export default EventsPage;
