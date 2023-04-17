@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-type LumaEvent = {
+export type LumaEvent = {
   api_id: string;
   event: {
     api_id: string;
@@ -42,18 +42,17 @@ const EventsPage: ThirdwebNextPage = () => {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const res = await fetch(
-        `https://api.lu.ma/public/v2/event/get-events-hosting?series_mode=series&after=${new Date().toISOString()}`,
-        {
-          method: "GET",
-          headers: {
-            accept: "application/json",
-            "x-luma-api-key": "secret-cBxcdj71w3Ai12euzLHoYvs7k",
-          },
-        },
-      );
-      const data: LumaResponse = await res.json();
-      setLumaEvents(data.entries);
+      try {
+        const res = await fetch("/api/luma-events");
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message);
+        }
+        const data: LumaResponse = await res.json();
+        setLumaEvents(data.entries);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     fetchEvents();
