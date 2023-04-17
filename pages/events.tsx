@@ -1,125 +1,63 @@
-import {
-  Accordion,
-  Box,
-  DarkMode,
-  Flex,
-  Grid,
-  Input,
-  Select,
-} from "@chakra-ui/react";
+import { Box, DarkMode, Flex, SimpleGrid } from "@chakra-ui/react";
 import { DevRelEvent } from "components/devRelEvents/DevRelEvent";
-import { FeaturedCard } from "components/devRelEvents/FeaturedCard";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const featuredEvents = [
-  {
-    type: "Hackathon",
-    title: "Ready Player 3 Hackathon",
-    date: "Jan 16th - 31st",
-    banner: require("public/assets/og-image/readyplayer3.png"),
-    link: "https://thirdweb.com/hackathon/readyplayer3",
-  },
-] as const;
+type LumaEvent = {
+  api_id: string;
+  event: {
+    api_id: string;
+    cover_url: string;
+    name: string;
+    description: string;
+    series_api_id: string | null;
+    start_at: string;
+    duration_interval: string;
+    end_at: string;
+    geo_address_json: null;
+    geo_latitude: null;
+    geo_longitude: null;
+    url: string;
+    social_image_url: string;
+    timezone: string;
+    event_type: string;
+    user_api_id: string;
+  };
+};
 
-const allEvents = [
-  {
-    type: "Hackathon",
-    title: "Hackathon Kickoff & Intro to GamingKit | Ready Player 3 Hackathon",
-    timestamp: "2023-01-16T13:00:00+05:00",
-    location: "online",
-    description:
-      "Come learn about how to get started with thirdweb's GamingKit and then put your skills to the test in a boundary-pushing web3 gaming hackathon! This event is perfect for beginners who want to learn about game development, or for experienced developers who want to try out our new tools. We'll have prizes for the most innovative and seamless games created during the hackathon, so come ready to showcase your talents!",
-    link: "https://lu.ma/rp3kickoff",
-  },
-  {
-    type: "Workshop",
-    title: "Getting Started with thirdweb | Ready Player 3 Hackathon",
-    timestamp: "2023-01-17T13:00:00-05:00",
-    location: "online",
-    description:
-      "Join us for a workshop on getting started with thirdweb, and then put your new skills to the test in our Ready Player 3 Hackathon!",
-    link: "https://lu.ma/rp3gettingstarted",
-  },
-  {
-    type: "Workshop",
-    title:
-      "Create AI Generated In-Game NFT Assets with Scenario.gg | Ready Player 3 Hackathon",
-    timestamp: "2023-01-18T13:00:00-05:00",
-    location: "online",
-    description:
-      "Come learn how to use the new AI game asset generation tool from scenario.gg in combination with thirdweb's GamingKit!",
-    link: "https://lu.ma/rp3scenario",
-  },
-  {
-    type: "Workshop",
-    title:
-      "thirdweb & Coinbase Cloud Code-Along: Build With GamingKit | Ready Player 3 Hackathon",
-    timestamp: "2023-01-19T13:00:00-05:00",
-    location: "online",
-    description:
-      "​Learn how to build a web3 game, powered by thirdweb's GamingKit!",
-    link: "https://lu.ma/rp3gamecodealong",
-  },
-  {
-    type: "Workshop",
-    title: "Workshop with Spindl.xyz | Ready Player 3 Hackathon",
-    timestamp: "2023-01-23T13:00:00-05:00",
-    location: "online",
-    description: "",
-    link: "https://lu.ma/rp3spindl",
-  },
-  {
-    type: "Workshop",
-    title: "Fireside Chat with Fractal | Ready Player 3 Hackathon",
-    timestamp: "2023-01-24T13:00:00-05:00",
-    location: "online",
-    description: "",
-    link: "https://lu.ma/rp3fractal",
-  },
-  {
-    type: "Workshop",
-    title:
-      "How to Create Your Hackathon Submission on DevPost + Q&A | Ready Player 3 Hackathon",
-    timestamp: "2023-01-25T13:00:00-05:00",
-    location: "online",
-    description: "",
-    link: "https://lu.ma/rp3submissions",
-  },
-  {
-    type: "Workshop",
-    title: "Ready Player 3 Hackathon | Closing Ceremony + Winners Announcement",
-    timestamp: "2023-02-06T13:00:00-05:00",
-    location: "online",
-    description: "",
-    link: "https://lu.ma/rp3closing",
-  },
-];
+type LumaResponse = {
+  entries: LumaEvent[];
+  has_more: boolean;
+  next_cursor: string;
+};
 
 const EventsPage: ThirdwebNextPage = () => {
-  const [search, setSearch] = useState("");
-  const [showPastEvents, setShowPastEvents] = useState(false);
+  const [lumaEvents, setLumaEvents] = useState<LumaEvent[]>([]);
 
-  const sortedEvents = useMemo(() => {
-    let e = allEvents;
-    if (showPastEvents) {
-      e = e.filter((event) => new Date(event.timestamp) < new Date());
-    } else {
-      e = e.filter((event) => new Date(event.timestamp) >= new Date());
-    }
-    if (search) {
-      e = e.filter((event) =>
-        event.title.toLowerCase().includes(search.toLowerCase()),
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const res = await fetch(
+        `https://api.lu.ma/public/v2/event/get-events-hosting?series_mode=series&after=${new Date().toISOString()}`,
+        {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            "x-luma-api-key": "secret-cBxcdj71w3Ai12euzLHoYvs7k",
+          },
+        },
       );
-    }
-    return e;
-  }, [search, showPastEvents]);
+      const data: LumaResponse = await res.json();
+      setLumaEvents(data.entries);
+    };
+
+    fetchEvents();
+  }, []);
 
   return (
     <DarkMode>
@@ -153,88 +91,38 @@ const EventsPage: ThirdwebNextPage = () => {
               mt={{ base: 12, md: 24 }}
             >
               <Heading size="title.xl" textAlign="center">
-                Events
+                Upcoming Events
               </Heading>
             </Flex>
-            <Grid
-              column={{ base: 1, md: featuredEvents.length > 1 ? 3 : 1 }}
-              gap={12}
-              mt={12}
-              placeContent="center"
-              w="100%"
-            >
-              {featuredEvents.map(({ type, title, date, banner, link }) => (
-                <FeaturedCard
-                  key={title}
-                  type={type}
-                  title={title}
-                  date={date}
-                  banner={banner}
-                  link={link}
-                />
-              ))}
-            </Grid>
-          </HomepageSection>
-
-          <HomepageSection mt={20}>
-            <Flex
-              direction={{ base: "column", md: "row" }}
-              align="center"
-              gap={4}
-            >
-              <Input
-                flexGrow={1}
-                placeholder="Search events"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                }}
-                color="white"
-              />
-
-              <Select
-                minW={250}
-                flexShrink={1}
-                flexGrow={0}
-                w={{ base: "100%", md: 300 }}
-                value={showPastEvents ? "past" : "upcoming"}
-                onChange={(e) => setShowPastEvents(e.target.value === "past")}
-                color="white"
-              >
-                <option value="upcoming">Upcoming Events</option>
-                <option value="past">Past Events</option>
-              </Select>
-            </Flex>
-
-            <Accordion
+            <SimpleGrid
               mt={10}
               flexDir="column"
-              gap={12}
-              allowMultiple
-              mx="auto"
+              gap={8}
+              columns={{ base: 1, md: 3 }}
             >
-              {sortedEvents.map(
-                ({ type, title, timestamp, location, description, link }) => (
+              {lumaEvents.map(
+                ({
+                  event: { name, start_at, description, url, social_image_url },
+                }) => (
                   <DevRelEvent
-                    key={title}
-                    type={type}
-                    title={title}
-                    timestamp={timestamp}
-                    location={location}
+                    key={name}
+                    type=""
+                    title={name}
+                    timestamp={start_at}
+                    location=""
                     description={description}
-                    link={link}
-                    isPast={showPastEvents}
+                    link={url}
+                    image={social_image_url}
                   />
                 ),
               )}
-            </Accordion>
+            </SimpleGrid>
           </HomepageSection>
         </Box>
       </Flex>
     </DarkMode>
   );
 };
-
 EventsPage.pageId = PageId.Events;
 
 export default EventsPage;
