@@ -57,8 +57,8 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            Everything you need to connect your apps or games to decentralized
-            networks.
+            Leverage our powerful SDKs, CLI and robust dashboard to streamline
+            your web3 app development.
           </Heading>
 
           <LightMode>
@@ -76,6 +76,7 @@ export const HeroSection = () => {
                       action: "click",
                       label: "start",
                       title: "Start building",
+                      experiment: "open_dashboard",
                     })
                   }
                   px={4}
@@ -90,7 +91,7 @@ export const HeroSection = () => {
                     background: "rgba(255,255,255,0.9)!important",
                   }}
                 >
-                  Start Building
+                  Go to Dashboard
                 </LinkButton>
                 <Link
                   href="#pricing"
