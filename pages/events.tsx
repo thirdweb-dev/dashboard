@@ -125,7 +125,6 @@ const EventsPage: ThirdwebNextPage = () => {
                     <DevRelEvent
                       title={name}
                       timestamp={start_at}
-                      location=""
                       description={description}
                       link={url}
                       image={social_image_url}

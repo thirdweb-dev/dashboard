@@ -6,7 +6,6 @@ import { Card, Heading, LinkButton, Text } from "tw-components";
 interface EventProps {
   title: string;
   timestamp: string;
-  location: string;
   description: string;
   link: string;
   image: string;
