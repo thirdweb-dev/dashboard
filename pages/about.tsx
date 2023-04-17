@@ -181,7 +181,7 @@ const About: ThirdwebNextPage = () => {
 
             <Flex
               pt={24}
-              mb={{ base: 24, md: -24 }}
+              mb={{ base: 24, lg: -24 }}
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               align={{ base: "initial", md: "start" }}
