@@ -22,7 +22,7 @@ import { ChakraNextImage } from "components/Image";
 import { useTrack } from "hooks/analytics/useTrack";
 import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
-import { Heading } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 
 type HeroProps = {
   desiredChain: Chain;
@@ -42,6 +42,20 @@ const PACK_ADDRESS = "0x24c1636c3d5506a6bD86Da188de16253B8064494";
 const AIRDROP_ADDRESS = "0xEC287fA0A7FDec3C02982267787A78Db01952B01";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 export const BEAR_MARKET_TRACKING_CATEGORY = "bear-market-airdrop";
+
+const TEMPORARILY_DISABLED = true;
+
+const TempDisabledMessage: React.FC = () => {
+  return (
+    <Flex direction="column" gap={4} mt={4} mb={2}>
+      <Button isDisabled>Claim</Button>
+      <Text>
+        Due to extremely high demand we have temporarily disabled claiming while
+        we work on improving the experience, please check back soon!
+      </Text>
+    </Flex>
+  );
+};
 
 export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
@@ -391,6 +405,8 @@ export const Hero: React.FC<HeroProps> = () => {
               >
                 <ConnectWallet />
               </Box>
+            ) : TEMPORARILY_DISABLED ? (
+              <TempDisabledMessage />
             ) : hasPack ? (
               <OpenPack openPack={openPack} unboxing={unboxing} />
             ) : (
