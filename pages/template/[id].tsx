@@ -24,11 +24,6 @@ type SolanaProgramProps = {
 const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
   const router = useRouter();
 
-  console.log("repo:", props.repo);
-  console.log("query id:", router.query.id);
-
-  console.log(templates);
-
   return (
     <DarkMode>
       <Flex
@@ -65,8 +60,10 @@ const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
             mb={4}
             textAlign="center"
           >
-            {templates.find((template) => template.id === router.query.id)
-              ?.title + " Template"}
+            {`${
+              templates.find((template) => template.id === router.query.id)
+                ?.title
+            } Template`}
           </Heading>
           <Text fontSize="20px" textAlign="center" size="body.lg" mb={6}>
             {
