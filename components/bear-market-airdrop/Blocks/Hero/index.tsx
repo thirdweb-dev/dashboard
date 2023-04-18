@@ -86,14 +86,10 @@ export const Hero: React.FC<HeroProps> = () => {
     pack,
     0,
   );
-  const [previousSupply, setPreviousSupply] = useState(0);
 
   useEffect(() => {
-    setPreviousSupply(BigNumber.from(supply || 0).toNumber());
-
     const updateInterval = setInterval(() => {
       refetchSupply();
-      setPreviousSupply(BigNumber.from(supply || 0).toNumber());
     }, 2000);
 
     return () => {
@@ -407,10 +403,7 @@ export const Hero: React.FC<HeroProps> = () => {
           )}
           <>
             {!unboxed && supply && (
-              <Supply
-                supply={BigNumber.from(supply || 0).toNumber()}
-                previousSupply={previousSupply}
-              />
+              <Supply supply={BigNumber.from(supply || 0).toString()} />
             )}
             {!address ? (
               <Box
