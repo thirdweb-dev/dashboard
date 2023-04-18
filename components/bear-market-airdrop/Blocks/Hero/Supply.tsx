@@ -1,15 +1,13 @@
 import { Flex } from "@chakra-ui/react";
+import CountUp from "react-countup";
 import { Text } from "tw-components";
 
 interface SupplyProps {
-  supply: string;
+  supply: number;
+  previousSupply: number;
 }
 
-const addCommas = (num: string) => {
-  return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-export const Supply: React.FC<SupplyProps> = ({ supply }) => {
+export const Supply: React.FC<SupplyProps> = ({ supply, previousSupply }) => {
   return (
     <Flex
       gap={2}
@@ -26,11 +24,9 @@ export const Supply: React.FC<SupplyProps> = ({ supply }) => {
         fontWeight="bold"
         size="body.2xl"
       >
-        {addCommas(supply)}
+        <CountUp start={previousSupply} end={supply} duration={1} useEasing />
       </Text>
-      <Text size="body.2xl" color="initial">
-        packs remaining
-      </Text>
+      <Text size="body.2xl">packs remaining</Text>
     </Flex>
   );
 };

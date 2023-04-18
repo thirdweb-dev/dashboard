@@ -21,6 +21,7 @@ import {
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
@@ -81,7 +82,24 @@ export const Hero: React.FC<HeroProps> = () => {
     refetch: refetchPack,
   } = useOwnedNFTs(pack, address);
 
-  const { data: supply } = useTotalCirculatingSupply(pack, 0);
+  const { data: supply, refetch: refetchSupply } = useTotalCirculatingSupply(
+    pack,
+    0,
+  );
+  const [previousSupply, setPreviousSupply] = useState(0);
+
+  useEffect(() => {
+    setPreviousSupply(BigNumber.from(supply || 0).toNumber());
+
+    const updateInterval = setInterval(() => {
+      refetchSupply();
+      setPreviousSupply(BigNumber.from(supply || 0).toNumber());
+    }, 2000);
+
+    return () => {
+      clearInterval(updateInterval);
+    };
+  }, [refetchSupply, supply]);
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
@@ -388,7 +406,12 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!unboxed && supply && <Supply supply={supply.toString()} />}
+            {!unboxed && supply && (
+              <Supply
+                supply={BigNumber.from(supply || 0).toNumber()}
+                previousSupply={previousSupply}
+              />
+            )}
             {!address ? (
               <Box
                 mx={{
