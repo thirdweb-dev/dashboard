@@ -35,7 +35,6 @@ const SEO = {
 
 const Ambassadors: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
-
   return (
     <DarkMode>
       <NextSeo {...SEO} />

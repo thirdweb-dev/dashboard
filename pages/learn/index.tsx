@@ -18,7 +18,7 @@ import { HomepageSection } from "components/product-pages/homepage/HomepageSecti
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import WhiteLogo from "public/assets/landingpage/white-logo.png";
+import WhiteLogo from "public/assets/landingpage/white-logo.png"
 import HeroImage from "public/assets/learn/hero.png";
 import { BsLightningCharge } from "react-icons/bs";
 import { Heading, LinkButton } from "tw-components";

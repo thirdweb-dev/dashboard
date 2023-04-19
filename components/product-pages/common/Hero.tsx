@@ -23,7 +23,7 @@ export interface HeroProps {
   buttonLink: string;
   gradient: string;
   image?: StaticImageData;
-  type?: "Products" | "Solutions" | "Learn";
+  type?: "Products" | "Solutions" | "Learn" | "Ambassador";
   underGetStarted?: ReactElement;
   trackingCategory: string;
   secondaryButton?: {

@@ -4,6 +4,7 @@ import { ComponentWithChildren } from "types/component-with-children";
 interface IHomepageSection extends BoxProps {
   id?: string;
   bottomPattern?: true;
+  paddingY?: number;
 }
 
 export const HomepageSection: ComponentWithChildren<IHomepageSection> = ({

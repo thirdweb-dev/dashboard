@@ -15,7 +15,7 @@ module.exports = {
       {
         // future defaults
         "ts-expect-error": "allow-with-description",
-        minimumDescriptionLength: 10,
+        minimumDescriptionLength: 10
       },
     ],
     "@typescript-eslint/ban-types": [
