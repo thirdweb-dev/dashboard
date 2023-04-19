@@ -48,6 +48,15 @@ const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 export const BEAR_MARKET_TRACKING_CATEGORY = "bear-market-airdrop";
 
 const IS_GASLESS_DISABLED = true;
+const IS_CLAIMING_DISABLED = true;
+
+const BackSoon = () => {
+  return (
+    <Heading size="title.sm" mb="2">
+      Too many requests. Please check back soon.
+    </Heading>
+  );
+};
 
 export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
@@ -476,6 +485,8 @@ export const Hero: React.FC<HeroProps> = () => {
                   </Button>
                 ) : hasPack ? (
                   <OpenPack openPack={openPack} unboxing={unboxing} />
+                ) : IS_CLAIMING_DISABLED ? (
+                  <BackSoon />
                 ) : (
                   <ClaimAirdrop
                     canClaim={canClaim}
