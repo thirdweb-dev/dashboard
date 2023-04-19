@@ -1,15 +1,8 @@
-import {
-  Flex,
-  FormControl,
-  Input,
-  InputGroup,
-  InputRightElement,
-  VStack,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
+import { EmailInput } from "components/bear-market-airdrop/Email/EmailInput";
 import { useForm } from "react-hook-form";
-import { Button, Text } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 interface ClaimAirdropProps {
   canClaim: boolean;
@@ -20,6 +13,16 @@ interface ClaimAirdropProps {
 
 type Inputs = {
   email: string;
+};
+
+const IS_CLAIMING_DISABLED = true;
+
+const BackSoon = () => {
+  return (
+    <Heading size="title.xs" mb="2" color="red.300">
+      Something went wrong! Check back soon to claim your pack!
+    </Heading>
+  );
 };
 
 export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
@@ -41,8 +44,6 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
       claim(data.email);
     }
   };
-
-  const { colorMode } = useColorMode();
 
   return (
     <Flex direction="column" gap={4} justifyContent="center">
@@ -75,72 +76,35 @@ export const ClaimAirdrop: React.FC<ClaimAirdropProps> = ({
           You&apos;re unfortunately not eligible to claim.
         </Text>
       )}
-      <Flex
-        flexDir="column"
-        as="form"
-        mt={2}
-        mb={2}
-        alignItems="start"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <VStack alignItems="start" w={{ base: "full", md: "auto" }}>
-          <FormControl isRequired>
-            <InputGroup size="md">
-              <Input
-                type="email"
-                id="email"
-                variant="outline"
-                placeholder="Enter your email"
-                {...register("email")}
-              />
-              <InputRightElement w="auto">
-                <Button
-                  type="submit"
-                  roundedLeft="none"
-                  isDisabled={isClaiming}
-                  isLoading={isClaiming}
-                  bg={colorMode === "dark" ? "white" : "black"}
-                  _hover={{
-                    bg: colorMode === "dark" ? "white" : "black",
-                    opacity: 0.8,
-                  }}
-                  _loading={{
-                    bg: colorMode === "dark" ? "white" : "black",
-                    color: colorMode === "dark" ? "black" : "white",
-                  }}
-                  color={colorMode === "dark" ? "black" : "white"}
-                >
-                  {canClaim ? "Claim" : "Subscribe"}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
-          {!canClaim && (
-            <Flex gap={2}>
-              <Text
-                fontSize="14px"
-                fontWeight="semibold"
-                mt={2}
-                color="initial"
-              >
-                Subscribe to thirdweb&apos;s newsletter for the latest updates.
-              </Text>
-              <ChakraNextImage
-                src={require("public/assets/bear-market-airdrop/email-icon.svg")}
-                alt="Bear market builders hero image"
-              />
-            </Flex>
-          )}
-          <Flex alignItems="center" gap={2} mb={8}>
-            {canClaim && (
-              <Text>
-                Ensure your email is correct as it will be used to send you
-                rewards.
-              </Text>
-            )}
-          </Flex>
-        </VStack>
-      </Flex>
+      <EmailInput
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        register={register}
+        isDisabled={isClaiming || IS_CLAIMING_DISABLED}
+        isLoading={isClaiming}
+        buttonText={canClaim ? "Claim" : "Subscribe"}
+      />
+      {IS_CLAIMING_DISABLED && <BackSoon />}
+      {!canClaim && (
+        <Flex gap={2}>
+          <Text fontSize="14px" fontWeight="semibold" mt={2}>
+            Subscribe to thirdweb&apos;s newsletter for the latest updates.
+          </Text>
+          <ChakraNextImage
+            src={require("public/assets/bear-market-airdrop/email-icon.svg")}
+            alt="Bear market builders hero image"
+          />
+        </Flex>
+      )}
+      {canClaim && (
+        <>
+          <Text>
+            Ensure your email is correct as it will be used to send you rewards.
+            We&apos;ll also subscribe you to our newsletter for the latest
+            updates.
+          </Text>
+        </>
+      )}
     </Flex>
   );
 };
