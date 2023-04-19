@@ -20,7 +20,7 @@ const IS_CLAIMING_DISABLED = true;
 const BackSoon = () => {
   return (
     <Heading size="title.xs" mb="2" color="red.300">
-      Too many requests. Please check back soon.
+      Something went wrong! Check back soon to claim your pack!
     </Heading>
   );
 };
