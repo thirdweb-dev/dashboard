@@ -1,6 +1,7 @@
 import { ClaimAirdrop } from "./ClaimAirdrop";
 import { ContractsDeployed } from "./ContractsDeployed";
 import { OpenPack } from "./OpenPack";
+import { OutOfPacks } from "./OutOfPacks";
 import { Supply } from "./Supply";
 import { Unboxed } from "./Unboxed";
 import { Box, Flex, SimpleGrid, Spinner, useToast } from "@chakra-ui/react";
@@ -25,7 +26,7 @@ import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
-import { Button, Heading, Text } from "tw-components";
+import { Button, Heading } from "tw-components";
 
 type HeroProps = {
   desiredChain: Chain;
@@ -87,6 +88,8 @@ export const Hero: React.FC<HeroProps> = () => {
     0,
   );
 
+  const outOfPacks = BigNumber.from(supply || 0).toNumber() === 0;
+
   useEffect(() => {
     const updateInterval = setInterval(() => {
       refetchSupply();
@@ -114,6 +117,44 @@ export const Hero: React.FC<HeroProps> = () => {
         return;
       }
       try {
+        const beeHivRes = await fetch("/api/email-signup", {
+          method: "POST",
+          body: JSON.stringify({ email }),
+        });
+        if (!fromClaim) {
+          trackEvent({
+            category: BEAR_MARKET_TRACKING_CATEGORY,
+            action: "submit_email",
+            label: "success",
+            walletAddress: address,
+            email,
+          });
+          if (beeHivRes.status === 200) {
+            toast({
+              title: "Email submitted!",
+              position: "top",
+              variant: "left-accent",
+              status: "success",
+              containerStyle: {
+                bg: "black",
+                rounded: "lg",
+              },
+            });
+          } else {
+            toast({
+              title: "Error submitting email",
+              position: "top",
+              variant: "left-accent",
+              status: "error",
+              containerStyle: {
+                bg: "black",
+                rounded: "lg",
+              },
+            });
+          }
+
+          return;
+        }
         const res = await fetch("/api/bear-market-airdrop/airtable", {
           method: "POST",
           headers: {
@@ -402,52 +443,50 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!unboxed && supply && (
-              <Supply supply={BigNumber.from(supply || 0).toString()} />
-            )}
-            {!address ? (
-              <Box
-                mx={{
-                  base: "auto",
-                  lg: 0,
-                }}
-              >
-                <ConnectWallet />
-              </Box>
-            ) : IS_GASLESS_DISABLED && chainId !== 137 ? (
-              <Button
-                bg="bgBlack!important"
-                color="bgWhite!important"
-                _hover={{
-                  opacity: 0.8,
-                }}
-                onClick={() => {
-                  switchChain(137).catch((e) => {
-                    console.error(e);
-                  });
-                }}
-              >
-                Switch to Polygon
-              </Button>
-            ) : hasPack ? (
-              <OpenPack openPack={openPack} unboxing={unboxing} />
+            {outOfPacks ? (
+              <OutOfPacks handleEmailSubmit={handleEmailSubmit} />
             ) : (
-              <ClaimAirdrop
-                canClaim={canClaim}
-                isClaiming={claiming}
-                claim={claim}
-                handleEmailSubmit={handleEmailSubmit}
-              />
+              <>
+                {!unboxed && supply && (
+                  <Supply supply={BigNumber.from(supply || 0).toString()} />
+                )}
+                {!address ? (
+                  <Box
+                    mx={{
+                      base: "auto",
+                      lg: 0,
+                    }}
+                  >
+                    <ConnectWallet />
+                  </Box>
+                ) : IS_GASLESS_DISABLED && chainId !== 137 ? (
+                  <Button
+                    bg="bgBlack!important"
+                    color="bgWhite!important"
+                    _hover={{
+                      opacity: 0.8,
+                    }}
+                    onClick={() => {
+                      switchChain(137).catch((e) => {
+                        console.error(e);
+                      });
+                    }}
+                  >
+                    Switch to Polygon
+                  </Button>
+                ) : hasPack ? (
+                  <OpenPack openPack={openPack} unboxing={unboxing} />
+                ) : (
+                  <ClaimAirdrop
+                    canClaim={canClaim}
+                    isClaiming={claiming}
+                    claim={claim}
+                    handleEmailSubmit={handleEmailSubmit}
+                  />
+                )}
+              </>
             )}
           </>
-          {IS_GASLESS_DISABLED && (
-            <Text>
-              Due to extremely high demand claiming and opening packs is
-              currently <strong>not gasless</strong>. You can still claim and
-              open your pack, but you will need to pay gas fees while we work on
-              a solution.
-            </Text>
-          )}
         </Flex>
       ) : (
         <Unboxed
