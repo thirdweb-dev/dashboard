@@ -47,6 +47,7 @@ const AIRDROP_ADDRESS = "0xaD7D915a27FDCB1Ca8aE5Cf24B0a291ABD741D5a";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 export const BEAR_MARKET_TRACKING_CATEGORY = "bear-market-airdrop";
 
+// For gasless
 const IS_GASLESS_DISABLED = true;
 
 export const Hero: React.FC<HeroProps> = () => {
