@@ -46,7 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                <strong>Bear Market Builders Airdrop:</strong> Deployed a contract in the past 18 months? Claim a free NFT pack!
+                <strong>Bear Market Builders Airdrop:</strong> Deployed a
+                contract in the past 18 months? Claim a free NFT pack!
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
