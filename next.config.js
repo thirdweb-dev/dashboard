@@ -78,6 +78,7 @@ const moduleExports = {
   experimental: {
     scrollRestoration: true,
     esmExternals: "loose",
+    appDir: true,
   },
   compiler: {
     emotion: true,

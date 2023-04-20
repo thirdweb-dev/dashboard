@@ -1,3 +1,5 @@
+'use client';
+
 import { DesktopMenu } from "./nav/DesktopMenu";
 import { MobileMenu } from "./nav/MobileMenu";
 import { Box, Container, Flex, useBreakpointValue } from "@chakra-ui/react";

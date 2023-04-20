@@ -1,3 +1,5 @@
+'use client';
+
 import { Game, GameCard } from "./GameCard";
 import { ProductSection } from "./ProductSection";
 import {

@@ -1,3 +1,5 @@
+'use client';
+
 import { CodeOptionButton, CodeOptions } from "../common/CodeOptionButton";
 import { Flex, Icon } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
