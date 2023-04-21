@@ -1,34 +1,32 @@
-import { Aurora } from "../../components/homepage/Aurora";
 import {
-  AspectRatio,
   Box,
   DarkMode,
   Flex,
-  GridItem,
-  SimpleGrid,
+  Image,
+  useBreakpointValue,
 } from "@chakra-ui/react";
+import { CopyButton } from "components/homepage/AnimatedCLICommand/AnimatedCLICommand";
 import { ProductButton } from "components/product-pages/common/ProductButton";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
-import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { templates } from "pages/templates";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 type SolanaProgramProps = {
-  repo: any;
+  repo: any; // TODO
+  template: (typeof templates)[0];
 };
 
 const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
-  const router = useRouter();
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <DarkMode>
       <Flex
         sx={{
-          // overwrite the theme colors because the home page is *always* in "dark mode"
+          // overwrite the theme colors because the page is *always* in "dark mode"
           "--chakra-colors-heading": "#F2F2F7",
           "--chakra-colors-paragraph": "#AEAEB2",
           "--chakra-colors-borderColor": "rgba(255,255,255,0.1)",
@@ -36,94 +34,208 @@ const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
         justify="center"
         flexDir="column"
         as="main"
-        bg="#000"
       >
         <HomepageTopNav />
-        <HomepageSection py={24} ml="auto" mr="auto">
-          <Aurora
-            pos={{ left: "10%", top: "60%" }}
-            size={{ width: "2400px", height: "1800px" }}
-            color="hsl(219deg 78% 30% / 25%)"
-          />
 
-          <Aurora
-            pos={{ left: "90%", top: "60%" }}
-            size={{ width: "2400px", height: "1800px" }}
-            color="hsl(289deg 78% 30% / 25%)"
-          />
+        <Flex
+          pt={24}
+          px={{ base: 4, md: 8 }}
+          ml="auto"
+          mr="auto"
+          direction={{ base: "column", md: "row" }}
+          alignItems={{ base: "center", md: "flex-start" }}
+          justifyContent={{ base: "center", md: "flex-start" }}
+          gap={{ base: 8, md: 0 }}
+        >
+          <Box maxWidth={440} pr={{ base: 0, md: 8 }}>
+            {isMobile && (
+              <Image
+                src={"/assets/templates/marketplace.png"}
+                alt={`Screenshot of ${props.template.title} template`}
+                width="100%"
+                height={{ base: "auto", md: 442 }}
+                objectFit="cover"
+                mb={12}
+              />
+            )}
 
-          <Heading
-            as="h3"
-            fontSize={{ base: "32px", md: "48px" }}
-            fontWeight={700}
-            letterSpacing="-0.04em"
-            mb={4}
-            textAlign="center"
-          >
-            {`${
-              templates.find((template) => template.id === router.query.id)
-                ?.title
-            } Template`}
-          </Heading>
-          <Text fontSize="20px" textAlign="center" size="body.lg" mb={6}>
-            {
-              templates.find((template) => template.id === router.query.id)
-                ?.description
-            }
-          </Text>
+            <Heading as="h1" fontSize="48px" fontWeight={700}>
+              {props.template.title}
+            </Heading>
+            <Text
+              mt={4}
+              fontWeight={500}
+              fontSize={16}
+              lineHeight={1.5}
+              opacity={0.7}
+              color="whiteAlpha.900"
+            >
+              {props.template.description}
+            </Text>
+            <Flex
+              direction="row"
+              alignItems="center"
+              gap={1}
+              my={4}
+              flexWrap="wrap"
+            >
+              {props.template.tags.map((tag, idx) => (
+                <Box
+                  as="div"
+                  key={idx}
+                  color="whiteAlpha.700"
+                  border="1px solid #383838"
+                  borderRadius="8px"
+                  height="26px"
+                  padding="6px 12px"
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  mt={1}
+                >
+                  <Text
+                    as="span"
+                    fontSize="12px"
+                    fontWeight={500}
+                    lineHeight={1.2}
+                    letterSpacing="-0.015em"
+                    opacity={0.7}
+                    color="whiteAlpha.900"
+                  >
+                    {tag}
+                  </Text>
+                </Box>
+              ))}
+            </Flex>
 
-          <SimpleGrid
-            mb={8}
-            columns={{ base: 1, lg: 2 }}
-            gap={2}
-            rowGap={4}
-            placeItems="center"
-            w="50%"
-            mx="auto"
-          >
-            <GridItem w="full">
+            <Box my={8}>
+              <Text
+                textTransform="uppercase"
+                fontWeight={600}
+                color="#646D7A"
+                letterSpacing={"0.1em"}
+                fontSize={"12px"}
+              >
+                Author
+              </Text>
+              <Flex direction="row" alignItems="center" mt={2}>
+                <Image
+                  src="/assets/templates/thirdweb-eth.png"
+                  width={"16px"}
+                  height={"16px"}
+                  mr={1}
+                />
+                <Text
+                  as="span"
+                  color="whiteAlpha.900"
+                  lineHeight={1.5}
+                  fontSize={"12px"}
+                  fontWeight={500}
+                  letterSpacing="-0.02em"
+                  opacity={0.75}
+                >
+                  thirdweb.eth
+                </Text>
+              </Flex>
+            </Box>
+
+            <Flex mt={8}>
               <ProductButton
                 title={"View Demo"}
-                href={props?.repo?.homepage || "#"}
+                href={props.repo.homepage}
                 color="blackAlpha.900"
                 bg="white"
+                height="44px"
+                width="149px"
+                fontSize="14px"
+                lineHeight="20px"
+                fontWeight={600}
+                iconColor="blackAlpha.900"
               />
-            </GridItem>
-            <GridItem w="full">
               <LinkButton
                 as={TrackedLink}
                 variant="outline"
                 borderWidth="2px"
                 w="full"
                 py={"22px"}
-                fontSize="20px"
-                fontWeight="bold"
                 textAlign="center"
                 borderRadius="md"
-                // {...{
-                //   category: trackingCategory,
-                //   label: secondaryButton.text
-                //     .replaceAll(" ", "_")
-                //     .toLowerCase(),
-                // }}
                 href={props?.repo?.html_url}
                 isExternal={true}
                 noIcon
+                height="44px"
+                width="149px"
+                fontSize="14px"
+                lineHeight="20px"
+                fontWeight={600}
+                ml={4}
               >
                 View Repo
               </LinkButton>
-            </GridItem>
-          </SimpleGrid>
+            </Flex>
+          </Box>
 
-          <AspectRatio ratio={{ base: 16 / 9, md: 16 / 9 }} w="100%">
-            <Box
-              bg="#000"
-              borderRadius={{ base: "md", md: "lg" }}
-              as="iframe"
-              src={props?.repo?.homepage}
-            />
-          </AspectRatio>
-        </HomepageSection>
+          <Box
+            borderLeft={{
+              base: "none",
+              md: "1px solid #222222",
+            }}
+            pl={{ base: 0, md: 16 }}
+            minHeight="75vh"
+            height={"100%"}
+          >
+            {!isMobile && (
+              <Image
+                src={"/assets/templates/marketplace.png"}
+                alt={`Screenshot of ${props.template.title} template`}
+                width="100%"
+                height={{ base: "auto", md: 442 }}
+                objectFit="cover"
+              />
+            )}
+
+            <Heading as="h2" fontSize="32px" fontWeight={700} mt={16}>
+              Get started
+            </Heading>
+
+            <Text
+              mt={4}
+              fontWeight={500}
+              fontSize={16}
+              lineHeight={1.5}
+              opacity={0.7}
+              color="whiteAlpha.900"
+            >
+              Kick start your project by copying this command into your CLI.
+            </Text>
+
+            <Flex
+              border="1px solid rgba(255, 255, 255, 0.2)"
+              borderRadius="md"
+              flexShrink={0}
+              py={3}
+              px={4}
+              my={4}
+              minW={"300px"}
+              gap={1}
+              align="center"
+              alignSelf="start"
+            >
+              <Text
+                color="white"
+                fontFamily="mono"
+                fontSize="16px"
+                fontWeight="500"
+                whiteSpace="nowrap"
+              >
+                <span>npx thirdweb create --template {props.template.id}</span>
+              </Text>
+              <CopyButton
+                text={`npx thirdweb create --template ${props.template.id}`}
+              />
+            </Flex>
+          </Box>
+        </Flex>
       </Flex>
     </DarkMode>
   );
@@ -145,11 +257,19 @@ export const getStaticProps: GetStaticProps<SolanaProgramProps> = async (
       `https://api.github.com/repos/thirdweb-example/${id}`,
     );
 
+    const template = templates.find((t) => t.id === id);
     const data = await repo.json();
+
+    if (!template) {
+      return {
+        notFound: true,
+      };
+    }
 
     return {
       props: {
         repo: data,
+        template,
       },
     };
   } catch (error) {
@@ -162,6 +282,10 @@ export const getStaticProps: GetStaticProps<SolanaProgramProps> = async (
 export const getStaticPaths: GetStaticPaths = () => {
   return {
     fallback: true,
-    paths: [],
+    paths: templates.map((template) => ({
+      params: {
+        id: template.id,
+      },
+    })),
   };
 };

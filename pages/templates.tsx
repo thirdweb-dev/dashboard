@@ -1,4 +1,3 @@
-import { Aurora } from "../components/homepage/Aurora";
 import {
   Box,
   DarkMode,
@@ -20,6 +19,7 @@ interface TemplateCardProps {
   description: React.ReactNode;
   img: string;
   hoverBorderColor: string;
+  tags: string[];
 }
 
 export const templates: TemplateCardProps[] = [
@@ -30,22 +30,25 @@ export const templates: TemplateCardProps[] = [
       "Allow users to claim tokens under the criteria of claim conditions to receive ERC721 NFT(s).",
     img: "/assets/landingpage/GamingKit.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
-  },
-  {
-    id: "pack",
-    title: "Pack",
-    description:
-      "Release pack NFTs containing various NFTs and tokens and allow users to open random rewards.",
-    img: "/assets/landingpage/GamingKit.png",
-    hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
+    tags: ["ERC721", "Custom Claim Conditions"],
   },
   {
     id: "marketplace",
     title: "Marketplace",
     description:
-      "Allow holders of your NFTs to trade in a marketplace with a built-in escrow system.",
+      "Allow holders of your NFTs to trade in a marketplace with a built-in escrow and auctioning system.",
     img: "/assets/landingpage/GamingKit.png",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
+    tags: ["Multi-currency", "Buy & Sell"],
+  },
+  {
+    id: "packs",
+    title: "Pack",
+    description:
+      "Release pack NFTs containing various NFTs and tokens and allow users to open random rewards.",
+    img: "/assets/landingpage/GamingKit.png",
+    hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
+    tags: ["Randomized Rewards", "Lootbox Drop"],
   },
 ];
 
@@ -55,6 +58,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   description,
   img,
   hoverBorderColor,
+  tags,
 }) => {
   return (
     <Flex
@@ -74,7 +78,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         src={img}
         alt=""
         width="100%"
-        height={{ lg: 250, base: 180 }}
+        height={{ lg: 196, base: 196 }}
         objectFit="cover"
       />
       <Flex
@@ -85,7 +89,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
         flexGrow={1}
       >
         <Box>
-          <Heading as="h3" fontSize="24px" mb={3} bgClip="text">
+          <Heading as="h2" fontSize="20px" mb={3}>
             <TrackedLink
               as={LinkOverlay}
               href={`/template/${id}`}
@@ -100,7 +104,42 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
               {title}
             </TrackedLink>
           </Heading>
-          <Text size="body.lg" lineHeight={1.7} color="whiteAlpha.700">
+
+          <Flex direction="row" alignItems="center" gap={1} mb={3}>
+            {tags.map((tag, idx) => (
+              <Box
+                as="div"
+                key={idx}
+                color="whiteAlpha.700"
+                border="1px solid #383838"
+                borderRadius="8px"
+                height="26px"
+                padding="6px 12px"
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Text
+                  as="span"
+                  fontSize="12px"
+                  fontWeight={500}
+                  lineHeight={1.2}
+                  letterSpacing="-0.015em"
+                  opacity={0.7}
+                  color="whiteAlpha.900"
+                >
+                  {tag}
+                </Text>
+              </Box>
+            ))}
+          </Flex>
+
+          <Text
+            size="body.md"
+            lineHeight={1.7}
+            color="whiteAlpha.700"
+            opacity={0.7}
+          >
             {description}
           </Text>
         </Box>
@@ -122,33 +161,37 @@ const Templates: ThirdwebNextPage = () => {
         justify="center"
         flexDir="column"
         as="main"
-        bg="#000"
       >
         <HomepageTopNav />
         <HomepageSection py={24} ml="auto" mr="auto">
-          <Aurora
-            pos={{ left: "10%", top: "60%" }}
-            size={{ width: "2400px", height: "1800px" }}
-            color="hsl(219deg 78% 30% / 25%)"
-          />
-
-          <Aurora
-            pos={{ left: "90%", top: "60%" }}
-            size={{ width: "2400px", height: "1800px" }}
-            color="hsl(289deg 78% 30% / 25%)"
-          />
-
           <Heading
-            as="h3"
-            fontSize={{ base: "32px", md: "48px" }}
+            as="h1"
+            fontSize={{ base: "64px", md: "64px" }}
             fontWeight={700}
             letterSpacing="-0.04em"
             mb={4}
             textAlign="center"
           >
-            Explore templates.
+            Explore{" "}
+            <Text
+              fontSize={{ base: "64px", md: "64px" }}
+              fontWeight={700}
+              letterSpacing="-0.04em"
+              as="span"
+              bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+              bgClip={"text"}
+            >
+              templates
+            </Text>
+            .
           </Heading>
-          <Text fontSize="20px" textAlign="center" size="body.lg" mb={14}>
+          <Text
+            fontSize="20px"
+            textAlign="center"
+            size="body.lg"
+            mb={14}
+            fontWeight={500}
+          >
             Kickstart your development process with ready-to-ship repositories.
           </Text>
           <SimpleGrid columns={{ lg: 3, base: 1 }} gap={6} margin="0 auto">
