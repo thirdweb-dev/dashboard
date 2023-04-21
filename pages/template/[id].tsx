@@ -304,7 +304,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   );
 
   return {
-    fallback: true,
+    fallback: false,
     paths: templates.map((template) => ({
       params: {
         id: template.id,
