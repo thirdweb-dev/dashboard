@@ -19,9 +19,6 @@ type TemplatePageProps = {
 };
 
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
-  console.log("-=== Client Side ===-");
-  console.log({ props });
-
   // TODO: Bug: this flashes desktop-version first before rendering properly.
   // Right now we bias towards desktop vresion, so on mobile it flashes desktop version first.
   const isMobile = useBreakpointValue({
@@ -262,25 +259,13 @@ export const getStaticProps: GetStaticProps<TemplatePageProps> = async (
     // Using the id from the context, we can fetch the data for the template from GitHub.
     const { id } = ctx.params as { id: string };
 
-    console.log({ id });
-
-    console.log({ templates });
-
     const template = templates.find((t) => t.id === id);
-
-    console.log({ template });
 
     if (!template) {
       return {
         notFound: true,
       };
     }
-
-    console.log("Returning:", {
-      props: {
-        template,
-      },
-    });
 
     return {
       props: {
@@ -295,14 +280,6 @@ export const getStaticProps: GetStaticProps<TemplatePageProps> = async (
 };
 
 export const getStaticPaths: GetStaticPaths = () => {
-  console.log(
-    templates.map((template) => ({
-      params: {
-        id: template.id,
-      },
-    })),
-  );
-
   return {
     fallback: false,
     paths: templates.map((template) => ({
