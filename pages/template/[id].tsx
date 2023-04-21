@@ -19,6 +19,8 @@ type TemplatePageProps = {
 };
 
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
+  console.log(props);
+
   // TODO: Bug: this flashes desktop-version first before rendering properly.
   // Right now we bias towards desktop vresion, so on mobile it flashes desktop version first.
   const isMobile = useBreakpointValue({
@@ -280,6 +282,14 @@ export const getStaticProps: GetStaticProps<TemplatePageProps> = async (
 };
 
 export const getStaticPaths: GetStaticPaths = () => {
+  console.log(
+    templates.map((template) => ({
+      params: {
+        id: template.id,
+      },
+    })),
+  );
+
   return {
     fallback: true,
     paths: templates.map((template) => ({
