@@ -2290,10 +2290,10 @@
   resolved "https://registry.yarnpkg.com/@n8tb1t/use-scroll-position/-/use-scroll-position-2.0.3.tgz#207c54d584285cac0954d556964f83cf5774940b"
   integrity sha512-6GO4FHVJTMI4jbRHborzemuL6B319qh2cVLOLj8DApJhjyT71eLgANbQ4bNKSZ51zBm3uJ3WmqnyNF17eSsDyw==
 
-"@next/bundle-analyzer@^13.0.6":
-  version "13.2.4"
-  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-13.2.4.tgz#ad319bf566528f8afee34df07574fd97170b03f2"
-  integrity sha512-bY4Clt7f1roJextpeQOQQWfNiXI0O5UvfOEyfuM5YUGPQMOCAZD2zjLjolakdn9Dm2yyMQUQ6JDE+iJK0dIeLA==
+"@next/bundle-analyzer@^13.3.0":
+  version "13.3.0"
+  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-13.3.0.tgz#3dc6224d2020ee7198423b9989a173d19a069eff"
+  integrity sha512-MNtsx3MFh/kqq2DDa4ladjzfUV8McncEowNvt/s7Z9UjvX6DkuJGFRdjq/RYtxWvjQAsDgiOsgyIOLzDbvQo3g==
   dependencies:
     webpack-bundle-analyzer "4.7.0"
 
@@ -4485,10 +4485,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.26", "@types/react@^18.0.30":
-  version "18.0.30"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.30.tgz#83944e679fc7aeab3f042b76d63c4d755b56b7c4"
-  integrity sha512-AnME2cHDH11Pxt/yYX6r0w448BfTwQOLEhQEjCdwB7QskEI7EKtxhGUsExTQe/MsY3D9D5rMtu62WRocw9A8FA==
+"@types/react@*", "@types/react@^18.0.26", "@types/react@^18.0.37":
+  version "18.0.37"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.37.tgz#7a784e2a8b8f83abb04dc6b9ed9c9b4c0aee9be7"
+  integrity sha512-4yaZZtkRN3ZIQD3KSEwkfcik8s0SWV+82dlJot1AbGYHCzJkWP3ENBY6wYeDRmKZ6HkrgoGAmR2HqdwYGp6OEw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -10971,10 +10971,10 @@ postcss@^8.0.9, postcss@^8.1.7:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-posthog-js@^1.52.0:
-  version "1.52.0"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.52.0.tgz#bd1a066f1ca9e445da554fd3838586091b6c1824"
-  integrity sha512-fXMGIZol1cCoedZS6Y8/fuUV6npK1ekkAZfKZxCxVp2WR4OnAEq5pKA6IBEJpVWaCn7p5HgWjXGgr0YWNu9uiQ==
+posthog-js@^1.53.3:
+  version "1.53.3"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.53.3.tgz#3b0bf113896cf7f2e861095819d2d80fbd904a13"
+  integrity sha512-BOfsuzzt+IcUB9bjHjCg3P0bp7gIjNEeC3NT/0zoTfajRvpNX5nQJ85xgAshRC8mKSXW6NiWEC70gsi+zMQVmQ==
   dependencies:
     fflate "^0.4.1"
     rrweb-snapshot "^1.1.14"
