@@ -14,11 +14,11 @@ import { templates } from "pages/templates";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-type SolanaProgramProps = {
+type TemplatePageProps = {
   template: (typeof templates)[0];
 };
 
-const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
+const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
   // TODO: Bug: this flashes desktop-version first before rendering properly.
   // Right now we bias towards desktop vresion, so on mobile it flashes desktop version first.
   const isMobile = useBreakpointValue({
@@ -252,7 +252,7 @@ export default TemplatePage;
 TemplatePage.pageId = PageId.Template;
 
 // server side ---------------------------------------------------------------
-export const getStaticProps: GetStaticProps<SolanaProgramProps> = async (
+export const getStaticProps: GetStaticProps<TemplatePageProps> = async (
   ctx,
 ) => {
   try {
