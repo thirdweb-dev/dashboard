@@ -33,7 +33,7 @@ export const templates: TemplateCardProps[] = [
     tags: ["ERC721", "Custom Claim Conditions"],
   },
   {
-    id: "marketplace",
+    id: "marketplace-v3",
     title: "Marketplace",
     description:
       "Allow holders of your NFTs to trade in a marketplace with a built-in escrow and auctioning system.",
