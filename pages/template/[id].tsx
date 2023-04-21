@@ -15,12 +15,18 @@ import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 type SolanaProgramProps = {
-  repo: any; // TODO
   template: (typeof templates)[0];
 };
 
 const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  // TODO: Bug: this flashes desktop-version first before rendering properly.
+  // Right now we bias towards desktop vresion, so on mobile it flashes desktop version first.
+  const isMobile = useBreakpointValue({
+    base: false,
+    xs: true,
+    sm: true,
+    md: false,
+  });
 
   return (
     <DarkMode>
@@ -142,7 +148,7 @@ const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
             <Flex mt={8}>
               <ProductButton
                 title={"View Demo"}
-                href={props.repo.homepage}
+                href={props.template.homepage}
                 color="blackAlpha.900"
                 bg="white"
                 height="44px"
@@ -160,7 +166,7 @@ const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
                 py={"22px"}
                 textAlign="center"
                 borderRadius="md"
-                href={props?.repo?.html_url}
+                href={props.template.repo}
                 isExternal={true}
                 noIcon
                 height="44px"
@@ -252,13 +258,7 @@ export const getStaticProps: GetStaticProps<SolanaProgramProps> = async (
     // Using the id from the context, we can fetch the data for the template from GitHub.
     const { id } = ctx.params as { id: string };
 
-    // Fetch the repository information from GitHub.
-    const repo = await fetch(
-      `https://api.github.com/repos/thirdweb-example/${id}`,
-    );
-
     const template = templates.find((t) => t.id === id);
-    const data = await repo.json();
 
     if (!template) {
       return {
@@ -268,7 +268,6 @@ export const getStaticProps: GetStaticProps<SolanaProgramProps> = async (
 
     return {
       props: {
-        repo: data,
         template,
       },
     };

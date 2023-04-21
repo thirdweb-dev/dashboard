@@ -16,6 +16,10 @@ import { ThirdwebNextPage } from "utils/types";
 interface TemplateCardProps {
   id: string;
   title: string;
+  // Homepage is usually just <id>.thirdweb-example.com, but just to be safe.
+  homepage: string;
+  // Repo is usually just github.com/thirdweb-example/<id>, but just to be safe.
+  repo: string;
   description: React.ReactNode;
   img: string;
   hoverBorderColor: string;
@@ -26,6 +30,8 @@ export const templates: TemplateCardProps[] = [
   {
     id: "nft-drop",
     title: "NFT Drop",
+    homepage: "https://nft-drop.thirdweb-example.com/",
+    repo: "https://github.com/thirdweb-example/nft-drop",
     description:
       "Allow users to claim tokens under the criteria of claim conditions to receive ERC721 NFT(s).",
     img: "/assets/landingpage/GamingKit.png",
@@ -35,6 +41,8 @@ export const templates: TemplateCardProps[] = [
   {
     id: "marketplace-v3",
     title: "Marketplace",
+    homepage: "https://nft-drop.thirdweb-example.com/",
+    repo: "https://github.com/thirdweb-example/marketplace-v3",
     description:
       "Allow holders of your NFTs to trade in a marketplace with a built-in escrow and auctioning system.",
     img: "/assets/landingpage/GamingKit.png",
@@ -44,6 +52,8 @@ export const templates: TemplateCardProps[] = [
   {
     id: "packs",
     title: "Pack",
+    homepage: "https://packs.thirdweb-example.com/",
+    repo: "https://github.com/thirdweb-example/packs",
     description:
       "Release pack NFTs containing various NFTs and tokens and allow users to open random rewards.",
     img: "/assets/landingpage/GamingKit.png",
