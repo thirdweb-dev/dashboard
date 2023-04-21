@@ -127,6 +127,7 @@ const TemplatePage: ThirdwebNextPage = (props: SolanaProgramProps) => {
               <Flex direction="row" alignItems="center" mt={2}>
                 <Image
                   src="/assets/templates/thirdweb-eth.png"
+                  alt={"thirdweb icon"}
                   width={"16px"}
                   height={"16px"}
                   mr={1}
