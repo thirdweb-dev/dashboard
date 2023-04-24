@@ -60,7 +60,7 @@ import {
 } from "react-hook-form";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import invariant from "tiny-invariant";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Badge, Button, Card, Heading, Text } from "tw-components";
 import * as z from "zod";
 import { ZodError } from "zod";
 
@@ -206,7 +206,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
   const [resetFlag, setResetFlag] = useState(false);
   const isAdmin = useIsAdmin(contract);
   const [openSnapshotIndex, setOpenSnapshotIndex] = useState(-1);
-  const setClaimsConditionQuery = useSetClaimConditions(contract, tokenId);
+  const setClaimConditionsQuery = useSetClaimConditions(contract, tokenId);
 
   const tokenDecimals = useTokenDecimals(
     isErc20 ? (contract as TokenContract) : undefined,
@@ -217,12 +217,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     "Failed to save claim phases",
   );
 
-  const claimsConditionQuery = useClaimConditions(contract, tokenId, {
+  const claimConditionsQuery = useClaimConditions(contract, tokenId, {
     withAllowList: true,
   });
 
   const transformedQueryData = useMemo(() => {
-    return (claimsConditionQuery.data || [])
+    return (claimConditionsQuery.data || [])
       .map((phase, idx) => ({
         ...phase,
         price: phase.currencyMetadata.displayValue,
@@ -249,10 +249,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         },
       }))
       .filter((phase) => isMultiPhase || phase.maxClaimableSupply !== "0");
-  }, [claimsConditionQuery.data, isMultiPhase]);
+  }, [claimConditionsQuery.data, isMultiPhase]);
 
   const isFetchingData =
-    claimsConditionQuery.isFetching || setClaimsConditionQuery.isLoading;
+    claimConditionsQuery.isFetching || setClaimConditionsQuery.isLoading;
 
   const canEditForm = isAdmin && !isFetchingData;
 
@@ -348,7 +348,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     });
 
     try {
-      await setClaimsConditionQuery.mutateAsync({
+      await setClaimConditionsQuery.mutateAsync({
         phases: d.phases as ClaimConditionInput[],
         reset: resetFlag,
       });
@@ -374,6 +374,25 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
       }
     }
   });
+
+  const activePhaseId = useMemo(() => {
+    let phaseId: string | null = null;
+    let latestStartTime: number = 0;
+
+    controlledFields.forEach(phase => {
+      if (!phase.startTime) return;
+
+      const phaseStartTime = typeof phase.startTime === "object" ? phase.startTime.getTime() : phase.startTime;
+      const currentTime = new Date().getTime();
+
+      if (phaseStartTime < currentTime && phaseStartTime > latestStartTime) {
+        latestStartTime = phaseStartTime;
+        phaseId = phase.id;
+      }
+    });
+
+    return phaseId;
+  }, []);
 
   return (
     <>
@@ -402,6 +421,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
               field,
               walletAddress,
             );
+
+            // TODO: Fix this boolean to show only after saving
+            const isActive = activePhaseId === field.id;
 
             const snapshotValue = field.snapshot?.map((v) =>
               typeof v === "string"
@@ -473,7 +495,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             aria-label="Delete Claim Phase"
                             colorScheme="red"
                             icon={<Icon as={FiTrash} />}
-                            isDisabled={setClaimsConditionQuery.isLoading}
+                            isDisabled={setClaimConditionsQuery.isLoading}
                             onClick={() => {
                               removePhase(index);
                               if (!isMultiPhase) {
@@ -485,9 +507,14 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       </Flex>
 
                       <Flex flexDir="column" gap={2}>
-                        <Heading>
-                          {ClaimConditionTypeData[claimConditionType].name}
-                        </Heading>
+                        <Flex gap={3} alignItems="center">
+                          <Heading>
+                            {ClaimConditionTypeData[claimConditionType].name}
+                          </Heading>
+                          {isActive && (
+                            <Badge colorScheme="green" borderRadius="lg" p={1.5}>Currently active</Badge>
+                          )}
+                        </Flex>
                         <Text>
                           {
                             ClaimConditionTypeData[claimConditionType]
@@ -564,7 +591,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         variant={phases?.length > 0 ? "outline" : "solid"}
                         borderRadius="md"
                         leftIcon={<Icon as={FiPlus} />}
-                        isDisabled={setClaimsConditionQuery.isLoading}
+                        isDisabled={setClaimConditionsQuery.isLoading}
                       >
                         Add Phase
                       </MenuButton>
@@ -605,7 +632,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       borderRadius="md"
                       leftIcon={<Icon as={FiPlus} />}
                         onClick={() => addPhase("custom")}
-                      isDisabled={setClaimsConditionQuery.isLoading}
+                        isDisabled={setClaimConditionsQuery.isLoading}
                     >
                         Add Claim Conditions
                     </Button>
@@ -628,9 +655,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 <TransactionButton
                   colorScheme="primary"
                   transactionCount={1}
-                  isDisabled={claimsConditionQuery.isLoading}
+                  isDisabled={claimConditionsQuery.isLoading}
                   type="submit"
-                  isLoading={setClaimsConditionQuery.isLoading}
+                  isLoading={setClaimConditionsQuery.isLoading}
                   loadingText="Saving..."
                   size="md"
                 >
