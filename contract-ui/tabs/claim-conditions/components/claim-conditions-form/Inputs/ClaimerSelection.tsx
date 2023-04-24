@@ -146,10 +146,11 @@ export const ClaimerSelection = () => {
               _light={{
                 color: field.snapshot?.length === 0 ? "red.500" : "green.500",
               }}
+              ml={2}
             >
               <Icon as={BsCircleFill} boxSize={2} />
               <Text size="body.sm" color="inherit">
-                <strong>{field.snapshot?.length} addresses</strong> in snapshot
+                <strong>{field.snapshot?.length} address{field.snapshot?.length === 1 ? "" : "es"}</strong> in snapshot
               </Text>
             </Flex>
           </Flex>

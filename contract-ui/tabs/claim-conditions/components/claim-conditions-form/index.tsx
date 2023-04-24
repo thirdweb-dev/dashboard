@@ -86,8 +86,8 @@ type DropType = "any" | "specific" | "overrides";
 
 type ClaimConditionType =
   | "public"
-  | "specific"
   | "overrides"
+  | "specific"
   | "creator"
   | "custom";
 
@@ -99,15 +99,15 @@ const ClaimConditionTypeData: Record<
     name: "Public",
     description: "Allow any wallet to claim this drop during this claim phase.",
   },
-  specific: {
-    name: "Allowlist",
-    description:
-      "Only wallet addresses in the allowlist can claim this drop during this claim phase.",
-  },
   overrides: {
     name: "Public (With Overrides)",
     description:
       "Allow any wallet to claim this drop during this claim phase with special overrides for some wallet addresses.",
+  },
+  specific: {
+    name: "Allowlist",
+    description:
+      "Only wallet addresses in the allowlist can claim this drop during this claim phase.",
   },
   creator: {
     name: "Creator",
@@ -575,6 +575,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       >
                         {Object.keys(ClaimConditionTypeData).map((key) => {
                           const type = key as ClaimConditionType;
+
+                          if (type === "custom") return null;
+
                           return (
                             <MenuItem onClick={() => addPhase(type)}>
                               <Flex>
