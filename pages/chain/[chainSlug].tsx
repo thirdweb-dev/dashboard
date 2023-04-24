@@ -113,7 +113,7 @@ const ChainPage: ThirdwebNextPage = ({
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
   const description = `Use the best ${sanitizedChainName} RPC and add to your wallet. Discover the chain ID, native token, explorers, and ${
-    chain.testnet ? "faucet options" : "more"
+    chain.testnet && chain.faucets?.length ? "faucet options" : "more"
   }.`;
 
   const gradient = useMemo(() => {
