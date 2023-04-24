@@ -1,4 +1,4 @@
-import { Box, Icon, Tooltip } from "@chakra-ui/react";
+import { Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { BsQuestionCircle } from "react-icons/bs";
 
 export const ToolTipBox: React.FC<{
@@ -15,9 +15,9 @@ export const ToolTipBox: React.FC<{
       minW={{ md: "450px" }}
       label={content}
     >
-      <Box>
-        <Icon ml={2} mr={1} as={BsQuestionCircle} color={iconColor} />
-      </Box>
+      <Flex alignItems="center" justifyContent="center">
+        <Icon ml={2} mr={1} as={BsQuestionCircle} color={iconColor} boxSize={4} />
+      </Flex>
     </Tooltip>
   );
 };

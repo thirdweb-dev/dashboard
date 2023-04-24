@@ -23,6 +23,7 @@ export const ClaimerSelection = () => {
     setOpenSnapshotIndex: setOpenIndex,
     isAdmin,
     isColumn,
+    claimConditionType,
   } = useClaimConditionsFormContext();
 
   const handleClaimerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -82,6 +83,10 @@ export const ClaimerSelection = () => {
         </>
       );
     }
+  }
+
+  if (claimConditionType === "public" || claimConditionType === "creator") {
+    return null;
   }
 
   return (
