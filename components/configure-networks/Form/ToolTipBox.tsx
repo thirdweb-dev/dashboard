@@ -16,7 +16,13 @@ export const ToolTipBox: React.FC<{
       label={content}
     >
       <Flex alignItems="center" justifyContent="center">
-        <Icon ml={2} mr={1} as={BsQuestionCircle} color={iconColor} boxSize={4} />
+        <Icon
+          ml={2}
+          mr={1}
+          as={BsQuestionCircle}
+          color={iconColor}
+          boxSize={4}
+        />
       </Flex>
     </Tooltip>
   );
