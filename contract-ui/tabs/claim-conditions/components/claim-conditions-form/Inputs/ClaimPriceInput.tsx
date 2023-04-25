@@ -9,10 +9,10 @@ import { CurrencySelector } from "components/shared/CurrencySelector";
  * Allows the user to select how much they want to charge to claim each NFT
  */
 export const ClaimPriceInput = () => {
-  const { formDisabled, isErc20, form, phaseIndex, field, isColumn, claimConditionType } =
+  const { formDisabled, isErc20, form, phaseIndex, field, isColumn, claimConditionType, isClaimPhaseV1 } =
     useClaimConditionsFormContext();
 
-  if (claimConditionType === "creator") {
+  if (!isClaimPhaseV1 && claimConditionType === "creator") {
     return null;
   }
 

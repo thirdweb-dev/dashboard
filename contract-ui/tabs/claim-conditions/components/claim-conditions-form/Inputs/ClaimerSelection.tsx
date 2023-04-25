@@ -85,7 +85,7 @@ export const ClaimerSelection = () => {
     }
   }
 
-  if (claimConditionType === "public" || claimConditionType === "creator") {
+  if (!isClaimPhaseV1 && (claimConditionType === "public" || claimConditionType === "creator")) {
     return null;
   }
 

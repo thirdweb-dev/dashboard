@@ -6,10 +6,10 @@ import { CustomFormControl } from "../common";
  * Allows the user to select how many NFTs will be dropped in a phase
  */
 export const MaxClaimableSupplyInput: React.FC = () => {
-  const { isErc20, form, formDisabled, phaseIndex, tokenDecimals, field, claimConditionType } =
+  const { isErc20, form, formDisabled, phaseIndex, tokenDecimals, field, claimConditionType, isClaimPhaseV1 } =
     useClaimConditionsFormContext();
 
-  if (claimConditionType === "creator") {
+  if (!isClaimPhaseV1 && claimConditionType === "creator") {
     return null;
   }
 

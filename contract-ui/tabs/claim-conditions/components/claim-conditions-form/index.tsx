@@ -45,6 +45,7 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { ToolTipBox } from "components/configure-networks/Form/ToolTipBox";
 import { detectFeatures } from "components/contract-components/utils";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
+import { format } from "date-fns";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -60,15 +61,13 @@ import {
   useForm,
 } from "react-hook-form";
 import { FiPlus, FiTrash, FiX } from "react-icons/fi";
+import { RxCaretDown, RxCaretUp } from "react-icons/rx";
 import invariant from "tiny-invariant";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 import { shortenIfAddress } from "utils/usedapp-external";
+import { isAddressZero } from "utils/zeroAddress";
 import * as z from "zod";
 import { ZodError } from "zod";
-import { isAddressZero, OtherAddressZero } from "utils/zeroAddress";
-import { RxCaretDown, RxCaretUp } from "react-icons/rx";
-import { toDateTimeLocal } from "utils/date-utils";
-import { format } from "date-fns";
 
 const DEFAULT_PHASE: ClaimConditionInput = {
   startTime: new Date(),
@@ -419,15 +418,11 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         />
       )}
 
-
-
       <Flex onSubmit={handleFormSubmit} direction="column" as="form" gap={10}>
         <Flex direction={"column"} gap={6}>
           {/* Show the reason why the form is disabled */}
           {!isAdmin && (
-            <Text>
-              Connect with admin wallet to edit claim conditions.
-            </Text>
+            <Text>Connect with admin wallet to edit claim conditions.</Text>
           )}
           {controlledFields.map((field, index) => {
             const dropType: DropType = field.snapshot
@@ -510,10 +505,23 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             })
                           }
                           size="sm"
-                          rightIcon={<Icon as={editingPhases[field.id] ? RxCaretUp : RxCaretDown} boxSize={5} />}
+                          rightIcon={
+                            <Icon
+                              as={
+                                editingPhases[field.id]
+                                  ? RxCaretUp
+                                  : RxCaretDown
+                              }
+                              boxSize={5}
+                            />
+                          }
                         >
-                          {editingPhases[field.id] ? "Done" : isAdmin ? "Edit" : "See Phase"}
-                        </Button> 
+                          {editingPhases[field.id]
+                            ? "Done"
+                            : isAdmin
+                              ? "Edit"
+                              : "See Phase"}
+                        </Button>
                         <AdminOnly contract={contract as ValidContractInstance}>
                           <Button
                             variant="ghost"
@@ -536,7 +544,11 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       <Flex flexDir="column" gap={2} mt={{ base: 4, md: 0 }}>
                         <Flex gap={3} alignItems="center">
                           <Heading>
-                            {ClaimConditionTypeData[claimConditionType].name}
+                            {isClaimPhaseV1
+                              ? isMultiPhase
+                                ? `Claim Phase ${index + 1}`
+                                : "Claim Conditions"
+                              : ClaimConditionTypeData[claimConditionType].name}
                           </Heading>
                           {isActive && (
                             <Badge
@@ -548,12 +560,16 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             </Badge>
                           )}
                         </Flex>
-                        <Text>
-                          {
-                            ClaimConditionTypeData[claimConditionType]
-                              .description
-                          }
-                        </Text>
+                        {isClaimPhaseV1 ? (
+                          ""
+                        ) : (
+                            <Text>
+                              {
+                                ClaimConditionTypeData[claimConditionType]
+                                  .description
+                              }
+                            </Text>
+                        )}
                       </Flex>
 
                       {!editingPhases[field.id] ? (
@@ -578,13 +594,18 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               <Text>
                                 {field.price}{" "}
                                 {/* TODO: Show correct symbol, not ETH */}
-                                {field.currencyAddress && isAddressZero(field.currencyAddress) ? "ETH" : shortenIfAddress(field.currencyAddress)}
+                                  {field.currencyAddress &&
+                                    isAddressZero(field.currencyAddress)
+                                    ? "ETH"
+                                    : shortenIfAddress(field.currencyAddress)}
                               </Text>
                             )}
                           </Flex>
                           <Flex direction="column">
                             <Text fontWeight="bold">Limit per wallet</Text>
-                            <Text textTransform="capitalize">{field.maxClaimablePerWallet}</Text>
+                            <Text textTransform="capitalize">
+                              {field.maxClaimablePerWallet}
+                            </Text>
                           </Flex>
                         </SimpleGrid>
                       ) : (
@@ -649,7 +670,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
           >
             <Flex gap={2}>
               <AdminOnly contract={contract as ValidContractInstance}>
-                {isMultiPhase ? (
+                {!isClaimPhaseV1 ? (
                   <>
                     <Menu>
                       <MenuButton
@@ -661,7 +682,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         leftIcon={<Icon as={FiPlus} />}
                         isDisabled={setClaimConditionsQuery.isLoading}
                       >
-                        Add Phase
+                        Add {isMultiPhase ? "Phase" : "Claim Conditions"}
                       </MenuButton>
                       <MenuList
                         borderRadius="lg"
@@ -674,7 +695,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                           if (type === "custom") return null;
 
                           return (
-                            <MenuItem onClick={() => addPhase(type)}>
+                            <MenuItem
+                              onClick={() => {
+                                addPhase(type);
+                                // TODO: Automatically start editing the new phase after adding it
+                              }}
+                            >
                               <Flex>
                                 {ClaimConditionTypeData[type].name}
                                 <ToolTipBox
@@ -692,19 +718,17 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                     </Menu>
                   </>
                 ) : (
-                  phases?.length === 0 && (
                     <Button
                       size="sm"
-                        colorScheme="primary"
+                      colorScheme="primary"
                       variant="solid"
                       borderRadius="md"
                       leftIcon={<Icon as={FiPlus} />}
-                        onClick={() => addPhase("custom")}
-                        isDisabled={setClaimConditionsQuery.isLoading}
+                      onClick={() => addPhase("custom")}
+                      isDisabled={setClaimConditionsQuery.isLoading}
                     >
-                        Add Claim Conditions
+                      Add {isMultiPhase ? "Phase" : "Claim Conditions"}
                     </Button>
-                  )
                 )}
               </AdminOnly>
               <ResetClaimEligibility
