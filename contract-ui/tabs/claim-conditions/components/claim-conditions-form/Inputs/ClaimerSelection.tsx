@@ -85,14 +85,19 @@ export const ClaimerSelection = () => {
     }
   }
 
-  if (!isClaimPhaseV1 && (claimConditionType === "public" || claimConditionType === "creator")) {
+  if (
+    !isClaimPhaseV1 &&
+    (claimConditionType === "public" || claimConditionType === "creator")
+  ) {
     return null;
   }
+
+  const label = claimConditionType === "overrides" ? "Add Override Snapshot" : claimConditionType === "specific" ? "Add Allowlist" : `Who can claim ${isErc20 ? "tokens" : "NFTs"} during this phase?`;
 
   return (
     <CustomFormControl
       disabled={formDisabled}
-      label={`Who can claim ${isErc20 ? "tokens" : "NFTs"} during this phase?`}
+      label={label}
       error={
         form.getFieldState(`phases.${phaseIndex}.snapshot`, form.formState)
           .error
@@ -100,19 +105,21 @@ export const ClaimerSelection = () => {
       helperText={helperText}
     >
       <Flex direction={{ base: "column", md: "row" }} gap={4}>
-        {/* Select Wallet Eligibility */}
-        <Select
-          isDisabled={formDisabled}
-          w={{ base: "100%", md: "50%" }}
-          value={dropType}
-          onChange={handleClaimerChange}
-        >
-          <option value="any">Any wallet</option>
-          {!isClaimPhaseV1 ? (
-            <option value="overrides">Any wallet (with overrides)</option>
-          ) : null}
-          <option value="specific">Only specific wallets</option>
-        </Select>
+        {claimConditionType === "overrides" ||
+          claimConditionType === "specific" ? null : (
+          <Select
+            isDisabled={formDisabled}
+            w={{ base: "100%", md: "50%" }}
+            value={dropType}
+            onChange={handleClaimerChange}
+          >
+            <option value="any">Any wallet</option>
+            {!isClaimPhaseV1 ? (
+              <option value="overrides">Any wallet (with overrides)</option>
+            ) : null}
+            <option value="specific">Only specific wallets</option>
+          </Select>
+        )}
 
         {/* Edit or See Snapshot */}
         {field.snapshot ? (
@@ -150,7 +157,11 @@ export const ClaimerSelection = () => {
             >
               <Icon as={BsCircleFill} boxSize={2} />
               <Text size="body.sm" color="inherit">
-                <strong>{field.snapshot?.length} address{field.snapshot?.length === 1 ? "" : "es"}</strong> in snapshot
+                <strong>
+                  {field.snapshot?.length} address
+                  {field.snapshot?.length === 1 ? "" : "es"}
+                </strong>{" "}
+                in snapshot
               </Text>
             </Flex>
           </Flex>

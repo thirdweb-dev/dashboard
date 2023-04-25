@@ -575,7 +575,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                       {!editingPhases[field.id] ? (
                         <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
                           <Flex direction="column">
-                            <Text fontWeight="bold">Phase Start</Text>
+                            <Text fontWeight="bold">Phase start</Text>
                             <Text>{field.startTime?.toLocaleString()}</Text>
                           </Flex>
                           <Flex direction="column">
@@ -587,8 +587,8 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             </Text>
                           </Flex>
                           <Flex direction="column">
-                            <Text fontWeight="bold">Price</Text>
-                            {field.price === "0.0" ? (
+                            <Text fontWeight="bold">Default price</Text>
+                            {field.price === "0.0" || field.price === "0" ? (
                               <Text>Free</Text>
                             ) : (
                               <Text>
@@ -603,9 +603,13 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                           </Flex>
                           <Flex direction="column">
                             <Text fontWeight="bold">Limit per wallet</Text>
-                            <Text textTransform="capitalize">
-                              {field.maxClaimablePerWallet}
-                            </Text>
+                            {claimConditionType === "specific" ? (
+                              <Text>Set in the snapshot</Text>
+                            ) : (
+                                <Text textTransform="capitalize">
+                                  {field.maxClaimablePerWallet}
+                                </Text>
+                            )}
                           </Flex>
                         </SimpleGrid>
                       ) : (
@@ -623,8 +627,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               <ClaimPriceInput />
                             </CustomFormGroup>
 
-                            <ClaimerSelection />
-
                             <CustomFormGroup>
                               <MaxClaimablePerWalletInput />
                               {isClaimPhaseV1 ? (
@@ -636,6 +638,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                                 />
                               )}
                             </CustomFormGroup>
+
+                            <ClaimerSelection />
+
                         </>
                       )}
                     </Flex>

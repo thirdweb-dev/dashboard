@@ -19,7 +19,7 @@ export const MaxClaimablePerWalletInput: React.FC = () => {
     claimConditionType,
   } = useClaimConditionsFormContext();
 
-  if (claimConditionType === "creator") {
+  if (claimConditionType === "creator" || claimConditionType === "specific") {
     return null;
   }
 
