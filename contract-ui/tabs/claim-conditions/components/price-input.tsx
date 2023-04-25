@@ -21,8 +21,6 @@ export const PriceInput: React.FC<PriceInputProps> = ({
     <InputGroup>
       <NumberInput
         defaultValue={0}
-        bgColor="inputBg"
-        borderColor="inputBg"
         isDisabled={isDisabled}
         {...restInputProps}
       >
