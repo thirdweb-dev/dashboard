@@ -42,7 +42,7 @@ import {
   ValidContractInstance,
 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { TooltipBox } from "components/configure-networks/Form/TooltipBox";
+import { TooltipBox } from "components/configure-networks/Form/TooltipBox2";
 import { detectFeatures } from "components/contract-components/utils";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
 import { constants } from "ethers";
