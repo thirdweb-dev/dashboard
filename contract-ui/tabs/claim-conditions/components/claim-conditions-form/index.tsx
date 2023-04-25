@@ -44,7 +44,6 @@ import { TransactionButton } from "components/buttons/TransactionButton";
 import { TooltipBox } from "components/configure-networks/Form/TooltipBox";
 import { detectFeatures } from "components/contract-components/utils";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
-import { format } from "date-fns";
 import { constants } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -52,21 +51,20 @@ import {
   hasLegacyClaimConditions,
   hasMultiphaseClaimConditions,
 } from "lib/claimcondition-utils";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   UseFieldArrayReturn,
   UseFormReturn,
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { FiPlus, FiTrash, FiX } from "react-icons/fi";
+import { FiPlus, FiX } from "react-icons/fi";
 import { RxCaretDown, RxCaretUp } from "react-icons/rx";
 import invariant from "tiny-invariant";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
-import { shortenIfAddress } from "utils/usedapp-external";
-import { isAddressZero } from "utils/zeroAddress";
 import * as z from "zod";
 import { ZodError } from "zod";
+import { PricePreview } from "../price-preview";
 
 const DEFAULT_PHASE: ClaimConditionInput = {
   startTime: new Date(),
@@ -504,6 +502,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         position="absolute"
                         top="10px"
                         right="10px"
+                        gap={1}
                       >
                         <Button
                           variant="ghost"
@@ -595,21 +594,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               {field.maxClaimableSupply}
                             </Text>
                           </Flex>
-                          <Flex direction="column">
-                            <Text fontWeight="bold">Default price</Text>
-                            {field.price === "0.0" || field.price === "0" ? (
-                              <Text>Free</Text>
-                            ) : (
-                              <Text>
-                                {field.price}{" "}
-                                {/* TODO: Show correct symbol, not ETH */}
-                                  {field.currencyAddress &&
-                                    isAddressZero(field.currencyAddress)
-                                    ? "ETH"
-                                    : shortenIfAddress(field.currencyAddress)}
-                              </Text>
-                            )}
-                          </Flex>
+                          <PricePreview price={field.price} currencyAddress={field.currencyAddress} />
                           <Flex direction="column">
                             <Text fontWeight="bold">Limit per wallet</Text>
                             {claimConditionType === "specific" ? (
