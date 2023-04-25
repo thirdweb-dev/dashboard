@@ -3,7 +3,7 @@ import { IconUpload } from "./Form/IconUpload";
 import { NetworkIDInput } from "./Form/NetworkIdInput";
 import { RemoveButton } from "./Form/RemoveButton";
 import { RpcInput } from "./Form/RpcInput";
-import { TooltipBox } from "./Form/TooltipBox2";
+import { TooltipBox } from "./Form/TooltipBox";
 import {
   Flex,
   FormControl,

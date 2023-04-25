@@ -1,5 +1,5 @@
 import { NetworkConfigFormData } from "../ConfigureNetworkForm";
-import { TooltipBox } from "./TooltipBox2";
+import { TooltipBox } from "./TooltipBox";
 import { FormControl, Input } from "@chakra-ui/react";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { UseFormReturn } from "react-hook-form";

@@ -3,7 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { DropContract, useResetClaimConditions } from "@thirdweb-dev/react";
 import { ValidContractInstance } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { TooltipBox } from "components/configure-networks/Form/TooltipBox2";
+import { TooltipBox } from "components/configure-networks/Form/TooltipBox";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React from "react";
