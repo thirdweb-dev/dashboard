@@ -28,83 +28,89 @@ const SEO = {
 
 const CommunitySections = [
   {
-    title: "Learn",
-    description:
-      "Lorem ipsum dolor sit amet, te vix mazim invidunt forensibus. Ne per aliquid invenire expetendis. Fastidii theophrastus id mea, commune quaerendum instructior vix te.",
+    title: "Learn web3 development",
+    description: (
+      <>
+        Whether you&apos;re interested in web3 or thirdweb, our mission is to
+        cultivate a community of <br /> like-minded individuals who share our
+        passion for the future of decentralized technology.
+      </>
+    ),
+
     cards: [
       {
         image: "https://dummyimage.com/600x400/000/fff",
         link: "/learn",
         title: "thirdweb learn",
       },
+      // {
+      //   image: "https://dummyimage.com/600x400/000/fff",
+      //   link: "/learn",
+      //   title: "Bootcamp",
+      // },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "/events",
+        title: "Events",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
-      },
-      {
-        image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "/events",
+        title: "Office Hours",
       },
     ],
   },
   {
-    title: "Build",
+    title: "Build innovative projects!",
     description:
-      "Lorem ipsum dolor sit amet, te vix mazim invidunt forensibus. Ne per aliquid invenire expetendis. Fastidii theophrastus id mea, commune quaerendum instructior vix te.",
+      "From hackathons to bounties, open source to community projects, there are so many ways to build no matter your level of contribution. ",
     cards: [
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "thirdweb learn",
+        link: "/events",
+        title: "Hackathons",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "https://www.notion.so/thirdweb/Paid-Projects-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
+        title: "Projects",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706",
+        title: "Bug Bounty",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "/oss",
+        title: "OSS Contributions",
       },
     ],
   },
   {
-    title: "Grow",
+    title: "Join the community!",
     description:
-      "Lorem ipsum dolor sit amet, te vix mazim invidunt forensibus. Ne per aliquid invenire expetendis. Fastidii theophrastus id mea, commune quaerendum instructior vix te.",
+      "Explore programs to educate, host events, and showcase your achievements - together, we can take the web3 community to new heights!",
     cards: [
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "thirdweb learn",
+        link: "https://ambassador.thirdweb.com/",
+        title: "Ambassadors",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "https://www.notion.so/thirdweb/University-Program-Page-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
+        title: "University Program",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "https://www.notion.so/thirdweb/Regional-Champions-Page-cebe9db7b2534162b0fd87e60039280c?pvs=4",
+        title: "Regional Champions",
       },
       {
         image: "https://dummyimage.com/600x400/000/fff",
-        link: "/learn",
-        title: "Bootcamp",
+        link: "/",
+        title: "Showcase",
       },
     ],
   },
@@ -112,39 +118,39 @@ const CommunitySections = [
 
 const galleryImages = [
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/1.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/2.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/3.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/4.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/5.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/6.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/7.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/8.png",
     alt: "Image",
   },
   {
-    src: "https://dummyimage.com/600x400/000/fff",
+    src: "/assets/community/gallery/9.png",
     alt: "Image",
   },
 ];
@@ -186,12 +192,12 @@ const Community: ThirdwebNextPage = () => {
               borderRadius="lg"
             />
 
-            <Heading mt={6} textAlign="center">
+            <Heading mt={8} textAlign="center" fontSize="48px">
               A decentralized internet begins with <br /> decentralized talent.
             </Heading>
 
             <Flex
-              mt={4}
+              mt={8}
               justify="center"
               align="center"
               gap={4}
@@ -243,16 +249,11 @@ const Community: ThirdwebNextPage = () => {
 
           {CommunitySections.map(({ title, cards, description }) => (
             <ProductSection py={{ base: 12, md: 24 }} key={title}>
-              <Heading
-                size="title.2xl"
-                as="h2"
-                textAlign="left"
-                fontSize="36px"
-              >
+              <Heading as="h2" textAlign="left" fontSize="36px">
                 {title}
               </Heading>
 
-              <Text mt={2} textAlign="left" color="paragraph" fontSize="20px">
+              <Text mt={2} textAlign="left" color="paragraph" fontSize="24px">
                 {description}
               </Text>
 

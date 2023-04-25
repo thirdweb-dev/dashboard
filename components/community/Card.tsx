@@ -33,7 +33,7 @@ export const CommunityCard: FC<CommunityCardProps> = ({
           <Heading
             as="h3"
             fontSize="20px"
-            textAlign="center"
+            textAlign="left"
             fontWeight="semibold"
           >
             {title}
