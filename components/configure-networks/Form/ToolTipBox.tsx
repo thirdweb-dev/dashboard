@@ -14,7 +14,11 @@ export const TooltipBox: React.FC<{
       boxShadow="none"
       p={4}
       minW={{ md: "450px" }}
-      label={<Card py={2} px={4} bgColor="backgroundCardHighlight" >{content}</Card>}
+      label={
+        <Card py={2} px={4} bgColor="backgroundCardHighlight">
+          {content}
+        </Card>
+      }
     >
       <Flex alignItems="center" justifyContent="center">
         <Icon
