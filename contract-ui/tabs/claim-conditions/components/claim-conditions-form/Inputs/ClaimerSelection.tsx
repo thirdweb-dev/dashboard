@@ -124,12 +124,10 @@ export const ClaimerSelection = () => {
         {/* Edit or See Snapshot */}
         {field.snapshot ? (
           <Flex
-            w={{ base: "100%", md: "50%" }}
             direction={{
               base: "column",
               md: isColumn ? "column" : "row",
             }}
-            align="center"
             gap={1.5}
           >
             {/* disable the "Edit" button when form is disabled, but not when it's a "See" button */}

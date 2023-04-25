@@ -1,3 +1,4 @@
+import { PricePreview } from "../price-preview";
 import { ResetClaimEligibility } from "../reset-claim-eligibility";
 import { ClaimPriceInput } from "./Inputs/ClaimPriceInput";
 import { ClaimerSelection } from "./Inputs/ClaimerSelection";
@@ -64,7 +65,6 @@ import invariant from "tiny-invariant";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
 import * as z from "zod";
 import { ZodError } from "zod";
-import { PricePreview } from "../price-preview";
 
 const DEFAULT_PHASE: ClaimConditionInput = {
   startTime: new Date(),
@@ -594,7 +594,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               {field.maxClaimableSupply}
                             </Text>
                           </Flex>
-                          <PricePreview price={field.price} currencyAddress={field.currencyAddress} />
+                          <PricePreview
+                            price={field.price}
+                            currencyAddress={field.currencyAddress}
+                          />
                           <Flex direction="column">
                             <Text fontWeight="bold">Limit per wallet</Text>
                             {claimConditionType === "specific" ? (
@@ -623,6 +626,8 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               <ClaimPriceInput />
                             </CustomFormGroup>
 
+                            {claimConditionType === "specific" ||
+                              claimConditionType === "creator" ? null : (
                             <CustomFormGroup>
                               <MaxClaimablePerWalletInput />
                               {isClaimPhaseV1 ? (
@@ -634,6 +639,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                                 />
                               )}
                             </CustomFormGroup>
+                            )}
 
                             <ClaimerSelection />
                         </>

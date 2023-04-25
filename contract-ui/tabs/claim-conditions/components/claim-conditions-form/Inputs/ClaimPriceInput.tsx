@@ -27,14 +27,15 @@ export const ClaimPriceInput = () => {
       }
     >
       <Flex gap={2} flexDir={{ base: "column", md: "row" }}>
-        <Box w={{ base: "full", md: "20%" }}>
+        <Box w={{ base: "100%", md: "20%" }} minW="70px">
           <PriceInput
+            w="full"
             value={field.price?.toString() || ""}
             onChange={(val) => form.setValue(`phases.${phaseIndex}.price`, val)}
             placeholder="0"
           />
         </Box>
-        <Box w={{ base: "100%", md: isColumn ? "80%" : "400px" }}>
+        <Box w={{ base: "100%", md: isColumn ? "80%" : "100%" }}>
           <CurrencySelector
             isDisabled={formDisabled}
             value={field?.currencyAddress || NATIVE_TOKEN_ADDRESS}
