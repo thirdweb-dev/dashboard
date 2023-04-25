@@ -18,7 +18,6 @@ import {
   Box,
   Flex,
   Icon,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -405,6 +404,16 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     return phaseId;
   }, []);
 
+  const { hasAddedPhases, hasRemovedPhases } = useMemo(() => {
+    const initialPhases = claimConditionsQuery.data || [];
+    const currentPhases = controlledFields;
+
+    const hasAddedPhases = currentPhases.length > initialPhases.length;
+    const hasRemovedPhases = currentPhases.length < initialPhases.length;
+
+    return { hasAddedPhases, hasRemovedPhases };
+  }, [claimConditionsQuery.data, controlledFields]);
+
   return (
     <>
       {/* spinner */}
@@ -605,10 +614,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             <Text fontWeight="bold">Limit per wallet</Text>
                             {claimConditionType === "specific" ? (
                               <Text>Set in the snapshot</Text>
+                            ) : claimConditionType === "creator" ? (
+                              <Text>Unlimited</Text>
                             ) : (
-                                <Text textTransform="capitalize">
-                                  {field.maxClaimablePerWallet}
-                                </Text>
+                                  <Text textTransform="capitalize">
+                                    {field.maxClaimablePerWallet}
+                                  </Text>
                             )}
                           </Flex>
                         </SimpleGrid>
@@ -640,7 +651,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             </CustomFormGroup>
 
                             <ClaimerSelection />
-
                         </>
                       )}
                     </Flex>
@@ -749,17 +759,27 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 contract={contract as ValidContractInstance}
                 fallback={<Box pb={5} />}
               >
-                <TransactionButton
-                  colorScheme="primary"
-                  transactionCount={1}
-                  isDisabled={claimConditionsQuery.isLoading}
-                  type="submit"
-                  isLoading={setClaimConditionsQuery.isLoading}
-                  loadingText="Saving..."
-                  size="md"
-                >
-                  Save Phases
-                </TransactionButton>
+                <Flex justifyContent="center" alignItems="center" gap={3}>
+                  {((hasRemovedPhases && controlledFields?.length === 0) ||
+                    (hasAddedPhases &&
+                      claimConditionsQuery?.data?.length === 0 &&
+                      controlledFields?.length > 0)) && (
+                      <Text color="red.500" fontWeight="bold">
+                        You have unsaved changes
+                      </Text>
+                    )}
+                  <TransactionButton
+                    colorScheme="primary"
+                    transactionCount={1}
+                    isDisabled={claimConditionsQuery.isLoading}
+                    type="submit"
+                    isLoading={setClaimConditionsQuery.isLoading}
+                    loadingText="Saving..."
+                    size="md"
+                  >
+                    Save Phases
+                  </TransactionButton>
+                </Flex>
               </AdminOnly>
             </Flex>
           </Flex>
