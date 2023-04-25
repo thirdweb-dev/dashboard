@@ -41,7 +41,7 @@ import {
   ValidContractInstance,
 } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { ToolTipBox } from "components/configure-networks/Form/ToolTipBox";
+import { TooltipBox } from "components/configure-networks/Form/TooltipBox";
 import { detectFeatures } from "components/contract-components/utils";
 import { SnapshotUpload } from "contract-ui/tabs/claim-conditions/components/snapshot-upload";
 import { format } from "date-fns";
@@ -718,7 +718,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             >
                               <Flex>
                                 {ClaimConditionTypeData[type].name}
-                                <ToolTipBox
+                                <TooltipBox
                                   content={
                                     <Text size="body.md">
                                       {ClaimConditionTypeData[type].description}

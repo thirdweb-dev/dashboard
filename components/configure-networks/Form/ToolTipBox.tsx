@@ -1,7 +1,8 @@
 import { Flex, Icon, Tooltip } from "@chakra-ui/react";
 import { BsQuestionCircle } from "react-icons/bs";
+import { Card } from "tw-components";
 
-export const ToolTipBox: React.FC<{
+export const TooltipBox: React.FC<{
   content: React.ReactNode;
   iconColor?: string;
 }> = ({ content, iconColor = "accent.600" }) => {
@@ -9,11 +10,11 @@ export const ToolTipBox: React.FC<{
     <Tooltip
       placement="top-start"
       borderRadius="md"
-      boxShadow="lg"
-      bg="backgroundHighlight"
+      bg="transparent"
+      boxShadow="none"
       p={4}
       minW={{ md: "450px" }}
-      label={content}
+      label={<Card py={2} px={4} bgColor="backgroundCardHighlight" >{content}</Card>}
     >
       <Flex alignItems="center" justifyContent="center">
         <Icon
