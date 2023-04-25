@@ -23,6 +23,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  SimpleGrid,
   Spinner,
 } from "@chakra-ui/react";
 import {
@@ -51,18 +52,23 @@ import {
   hasLegacyClaimConditions,
   hasMultiphaseClaimConditions,
 } from "lib/claimcondition-utils";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   UseFieldArrayReturn,
   UseFormReturn,
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { FiPlus, FiTrash } from "react-icons/fi";
+import { FiPlus, FiTrash, FiX } from "react-icons/fi";
 import invariant from "tiny-invariant";
 import { Badge, Button, Card, Heading, Text } from "tw-components";
+import { shortenIfAddress } from "utils/usedapp-external";
 import * as z from "zod";
 import { ZodError } from "zod";
+import { isAddressZero, OtherAddressZero } from "utils/zeroAddress";
+import { RxCaretDown, RxCaretUp } from "react-icons/rx";
+import { toDateTimeLocal } from "utils/date-utils";
+import { format } from "date-fns";
 
 const DEFAULT_PHASE: ClaimConditionInput = {
   startTime: new Date(),
@@ -192,6 +198,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
   tokenId,
   isColumn,
 }) => {
+  const [editingPhases, setEditingPhases] = useState<Record<string, boolean>>(
+    {},
+  );
   // memoized contract info
   const { isMultiPhase, isClaimPhaseV1, isErc20 } = useMemo(() => {
     return {
@@ -379,10 +388,13 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     let phaseId: string | null = null;
     let latestStartTime: number = 0;
 
-    controlledFields.forEach(phase => {
+    controlledFields.forEach((phase) => {
       if (!phase.startTime) return;
 
-      const phaseStartTime = typeof phase.startTime === "object" ? phase.startTime.getTime() : phase.startTime;
+      const phaseStartTime =
+        typeof phase.startTime === "object"
+          ? phase.startTime.getTime()
+          : phase.startTime;
       const currentTime = new Date().getTime();
 
       if (phaseStartTime < currentTime && phaseStartTime > latestStartTime) {
@@ -407,8 +419,16 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         />
       )}
 
+
+
       <Flex onSubmit={handleFormSubmit} direction="column" as="form" gap={10}>
         <Flex direction={"column"} gap={6}>
+          {/* Show the reason why the form is disabled */}
+          {!isAdmin && (
+            <Text>
+              Connect with admin wallet to edit claim conditions.
+            </Text>
+          )}
           {controlledFields.map((field, index) => {
             const dropType: DropType = field.snapshot
               ? isClaimPhaseV1 ||
@@ -456,13 +476,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                   isDisabled={!canEditForm}
                 />
 
-                {/* Show the reason why the form is disabled */}
-                {!isAdmin && (
-                  <Text>
-                    Connect with admin wallet to edit claim conditions
-                  </Text>
-                )}
-
                 <ClaimsConditionFormContext.Provider
                   value={{
                     form,
@@ -485,34 +498,54 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         align="flex-start"
                         justify="space-between"
                         position="absolute"
-                        top="8px"
-                        right="8px"
+                        top="10px"
+                        right="10px"
                       >
+                        <Button
+                          variant="ghost"
+                          onClick={() =>
+                            setEditingPhases({
+                              ...editingPhases,
+                              [field.id]: !editingPhases[field.id],
+                            })
+                          }
+                          size="sm"
+                          rightIcon={<Icon as={editingPhases[field.id] ? RxCaretUp : RxCaretDown} boxSize={5} />}
+                        >
+                          {editingPhases[field.id] ? "Done" : isAdmin ? "Edit" : "See Phase"}
+                        </Button> 
                         <AdminOnly contract={contract as ValidContractInstance}>
-                          <IconButton
-                            size="sm"
+                          <Button
                             variant="ghost"
-                            aria-label="Delete Claim Phase"
-                            colorScheme="red"
-                            icon={<Icon as={FiTrash} />}
-                            isDisabled={setClaimConditionsQuery.isLoading}
                             onClick={() => {
                               removePhase(index);
                               if (!isMultiPhase) {
                                 setResetFlag(true);
                               }
                             }}
-                          />
+                            isDisabled={setClaimConditionsQuery.isLoading}
+                            colorScheme="red"
+                            size="sm"
+                            rightIcon={<Icon as={FiX} />}
+                          >
+                            Remove
+                          </Button>
                         </AdminOnly>
                       </Flex>
 
-                      <Flex flexDir="column" gap={2}>
+                      <Flex flexDir="column" gap={2} mt={{ base: 4, md: 0 }}>
                         <Flex gap={3} alignItems="center">
                           <Heading>
                             {ClaimConditionTypeData[claimConditionType].name}
                           </Heading>
                           {isActive && (
-                            <Badge colorScheme="green" borderRadius="lg" p={1.5}>Currently active</Badge>
+                            <Badge
+                              colorScheme="green"
+                              borderRadius="lg"
+                              p={1.5}
+                            >
+                              Currently active
+                            </Badge>
                           )}
                         </Flex>
                         <Text>
@@ -523,32 +556,67 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         </Text>
                       </Flex>
 
-                      <CustomFormGroup>
-                        {/* Phase Name Input / Form Title */}
-                        {isMultiPhase ? <PhaseNameInput /> : null}
-                        <PhaseStartTimeInput />
-                      </CustomFormGroup>
+                      {!editingPhases[field.id] ? (
+                        <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
+                          <Flex direction="column">
+                            <Text fontWeight="bold">Phase Start</Text>
+                            <Text>{field.startTime?.toLocaleString()}</Text>
+                          </Flex>
+                          <Flex direction="column">
+                            <Text fontWeight="bold">
+                              {isErc20 ? "tokens" : "NFTs"} to drop
+                            </Text>
+                            <Text textTransform="capitalize">
+                              {field.maxClaimableSupply}
+                            </Text>
+                          </Flex>
+                          <Flex direction="column">
+                            <Text fontWeight="bold">Price</Text>
+                            {field.price === "0.0" ? (
+                              <Text>Free</Text>
+                            ) : (
+                              <Text>
+                                {field.price}{" "}
+                                {/* TODO: Show correct symbol, not ETH */}
+                                {field.currencyAddress && isAddressZero(field.currencyAddress) ? "ETH" : shortenIfAddress(field.currencyAddress)}
+                              </Text>
+                            )}
+                          </Flex>
+                          <Flex direction="column">
+                            <Text fontWeight="bold">Limit per wallet</Text>
+                            <Text textTransform="capitalize">{field.maxClaimablePerWallet}</Text>
+                          </Flex>
+                        </SimpleGrid>
+                      ) : (
+                        <>
+                            <CustomFormGroup>
+                              {/* Phase Name Input / Form Title */}
+                              {isMultiPhase ? <PhaseNameInput /> : null}
+                              <PhaseStartTimeInput />
+                            </CustomFormGroup>
 
-                      <CreatorInput />
+                            <CreatorInput />
 
-                      <CustomFormGroup>
-                        <MaxClaimableSupplyInput />
-                        <ClaimPriceInput />
-                      </CustomFormGroup>
+                            <CustomFormGroup>
+                              <MaxClaimableSupplyInput />
+                              <ClaimPriceInput />
+                            </CustomFormGroup>
 
-                      <ClaimerSelection />
+                            <ClaimerSelection />
 
-                      <CustomFormGroup>
-                        <MaxClaimablePerWalletInput />
-                        {isClaimPhaseV1 ? (
-                          <WaitingTimeInput />
-                        ) : (
-                          <Box
-                            w="100%"
-                            display={{ base: "none", md: "block" }}
-                          />
-                        )}
-                      </CustomFormGroup>
+                            <CustomFormGroup>
+                              <MaxClaimablePerWalletInput />
+                              {isClaimPhaseV1 ? (
+                                <WaitingTimeInput />
+                              ) : (
+                                <Box
+                                  w="100%"
+                                  display={{ base: "none", md: "block" }}
+                                />
+                              )}
+                            </CustomFormGroup>
+                        </>
+                      )}
                     </Flex>
                   </Card>
                 </ClaimsConditionFormContext.Provider>
