@@ -129,7 +129,9 @@ const DeployOptions = () => {
                     textDecoration: "none!important",
                   }}
                   onClick={() => {
-                    value.onClick && value.onClick();
+                    if (value.onClick) {
+                      value.onClick();
+                    }
                     trackEvent({
                       category: TRACKING_CATEGORY,
                       action: "click",
