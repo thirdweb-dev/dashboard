@@ -10,12 +10,15 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
+import { ImportModal } from "components/contract-components/import-contract/modal";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { StepsCard } from "components/dashboard/StepsCard";
 import { ContractsSidebar } from "core-ui/sidebar/contracts";
+import { useTrack } from "hooks/analytics/useTrack";
 import Image from "next/image";
 import { PageId } from "page-id";
 import { useMemo } from "react";
@@ -26,38 +29,12 @@ import { ThirdwebNextPage } from "utils/types";
 type ContentItem = {
   title: string;
   description: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
 };
 
 type Content = {
   [key: string]: ContentItem;
-};
-
-const content: Content = {
-  explore: {
-    title: "Ready-to-deploy",
-    description:
-      "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
-    href: "/explore",
-  },
-  import: {
-    title: "Import",
-    description:
-      "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
-    href: "/explore",
-  },
-  build: {
-    title: "Build your own",
-    description:
-      "Get started with the Solidity SDK to create custom contracts specific to your use case.",
-    href: "/solidity-sdk",
-  },
-  deploy: {
-    title: "Deploy from source",
-    description:
-      "Deploy your contract by using our interactive CLI. (Supports Hardhat, Forge, Truffle, and more)",
-    href: "https://portal.thirdweb.com/cli",
-  },
 };
 
 const TRACKING_CATEGORY = "your_contracts";
@@ -75,7 +52,7 @@ const CardContent: React.FC<CardContentProps> = ({ tab, value }) => (
           width={32}
           height={32}
           alt=""
-          src={`/assets/dashboard/contracts/${tab}.png`}
+          src={`/assets/dashboard/contracts/${tab}.${tab === "import" ? "svg" : "png"}`}
         />
         <Heading ml={2} size="label.lg" as="h4" fontWeight="bold">
           {value.title}
@@ -89,11 +66,43 @@ const CardContent: React.FC<CardContentProps> = ({ tab, value }) => (
 );
 
 const DeployOptions = () => {
-  const handleImportClick = () => {
-    // Your logic for the import option goes here
-    console.log("Import clicked");
-  };
+  const modalState = useDisclosure();
+  const trackEvent = useTrack();
+
+  const content: Content = useMemo(() => ({
+    explore: {
+      title: "Ready-to-deploy",
+      description:
+        "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
+      href: "/explore",
+    },
+    import: {
+      title: "Import",
+      description:
+        "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
+      onClick: modalState.onOpen,
+    },
+    build: {
+      title: "Build your own",
+      description:
+        "Get started with the Solidity SDK to create custom contracts specific to your use case.",
+      href: "/solidity-sdk",
+    },
+    deploy: {
+      title: "Deploy from source",
+      description:
+        "Deploy your contract by using our interactive CLI. (Supports Hardhat, Forge, Truffle, and more)",
+      href: "https://portal.thirdweb.com/cli",
+    },
+  }), [[modalState.onOpen]]);
+
   return (
+    <>
+      <ImportModal
+        isOpen={modalState.isOpen}
+        onClose={modalState.onClose}
+      />
+
     <Tabs isFitted>
       <TabList>
         {Object.entries(content).map(([key, value]) => (
@@ -104,7 +113,7 @@ const DeployOptions = () => {
       <TabPanels>
         {Object.entries(content).map(([key, value]) => (
           <TabPanel key={key} px={0}>
-            {key === "import" ? (
+            {value?.onClick ? (
               <Box
                 as={Card}
                 bg="backgroundCardHighlight"
@@ -117,7 +126,17 @@ const DeployOptions = () => {
                   borderColor: "blue.500",
                   textDecoration: "none!important",
                 }}
-                onClick={handleImportClick}
+                onClick={() => {
+                  value.onClick && value.onClick();
+                  trackEvent({
+                    category: TRACKING_CATEGORY,
+                    action: "click",
+                    label: "deploy_options",
+                    type: key,
+                    href: null,
+                    isExternal: false,
+                  });
+                }}
                 gap={4}
                 cursor="pointer"
               >
@@ -141,7 +160,7 @@ const DeployOptions = () => {
                   label: "deploy_options",
                   trackingProps: { type: key },
                   href: value.href,
-                  isExternal: key !== "explore",
+                    isExternal: value?.href?.startsWith("http"),
                 }}
                 gap={4}
               >
@@ -152,6 +171,7 @@ const DeployOptions = () => {
         ))}
       </TabPanels>
     </Tabs>
+    </>
   );
 };
 
