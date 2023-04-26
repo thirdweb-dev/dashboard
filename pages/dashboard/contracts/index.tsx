@@ -97,7 +97,7 @@ const DeployOptions = () => {
         href: "https://portal.thirdweb.com/cli",
       },
     }),
-    [[modalState.onOpen]],
+    [modalState.onOpen],
   );
 
   return (
