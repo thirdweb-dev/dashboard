@@ -64,7 +64,7 @@ function redirects() {
     //  old (deprecated) routes
     {
       source:
-        "/:network/(edition|nft-collection|token|pack|nft-drop|signature-drop|edition-drop|token-drop|split|vote)/:address",
+        "/:network/(edition|nft-collection|token|nft-drop|signature-drop|edition-drop|token-drop|vote)/:address",
       destination: "/:network/:address",
       permanent: false,
     },
@@ -95,6 +95,11 @@ function redirects() {
     {
       source: "/polygon-zkevm-beta",
       destination: "/polygon-zkevm",
+      permanent: false,
+    },
+    {
+      source: "/contracts",
+      destination: "/explore",
       permanent: false,
     },
   ];
