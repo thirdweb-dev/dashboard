@@ -363,6 +363,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         label: "success",
       });
       saveClaimPhaseNotification.onSuccess();
+      setEditingPhases({});
     } catch (error) {
       trackEvent({
         category,
@@ -686,7 +687,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         variant={phases?.length > 0 ? "outline" : "solid"}
                         borderRadius="md"
                         leftIcon={<Icon as={FiPlus} />}
-                        isDisabled={setClaimConditionsQuery.isLoading}
+                        isDisabled={setClaimConditionsQuery.isLoading || !isMultiPhase && phases?.length > 0}
                       >
                         Add {isMultiPhase ? "Phase" : "Claim Conditions"}
                       </MenuButton>
