@@ -52,7 +52,8 @@ const CardContent: React.FC<CardContentProps> = ({ tab, value }) => (
           width={32}
           height={32}
           alt=""
-          src={`/assets/dashboard/contracts/${tab}.${tab === "import" ? "svg" : "png"}`}
+          src={`/assets/dashboard/contracts/${tab}.${tab === "import" ? "svg" : "png"
+            }`}
         />
         <Heading ml={2} size="label.lg" as="h4" fontWeight="bold">
           {value.title}
@@ -69,108 +70,108 @@ const DeployOptions = () => {
   const modalState = useDisclosure();
   const trackEvent = useTrack();
 
-  const content: Content = useMemo(() => ({
-    explore: {
-      title: "Ready-to-deploy",
-      description:
-        "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
-      href: "/explore",
-    },
-    import: {
-      title: "Import",
-      description:
-        "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
-      onClick: modalState.onOpen,
-    },
-    build: {
-      title: "Build your own",
-      description:
-        "Get started with the Solidity SDK to create custom contracts specific to your use case.",
-      href: "/solidity-sdk",
-    },
-    deploy: {
-      title: "Deploy from source",
-      description:
-        "Deploy your contract by using our interactive CLI. (Supports Hardhat, Forge, Truffle, and more)",
-      href: "https://portal.thirdweb.com/cli",
-    },
-  }), [[modalState.onOpen]]);
+  const content: Content = useMemo(
+    () => ({
+      explore: {
+        title: "Ready-to-deploy",
+        description:
+          "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
+        href: "/explore",
+      },
+      import: {
+        title: "Import",
+        description:
+          "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
+        onClick: modalState.onOpen,
+      },
+      build: {
+        title: "Build your own",
+        description:
+          "Get started with the Solidity SDK to create custom contracts specific to your use case.",
+        href: "/solidity-sdk",
+      },
+      deploy: {
+        title: "Deploy from source",
+        description:
+          "Deploy your contract by using our interactive CLI. (Supports Hardhat, Forge, Truffle, and more)",
+        href: "https://portal.thirdweb.com/cli",
+      },
+    }),
+    [[modalState.onOpen]],
+  );
 
   return (
     <>
-      <ImportModal
-        isOpen={modalState.isOpen}
-        onClose={modalState.onClose}
-      />
+      <ImportModal isOpen={modalState.isOpen} onClose={modalState.onClose} />
 
-    <Tabs isFitted>
-      <TabList>
-        {Object.entries(content).map(([key, value]) => (
-          <Tab key={key}>{value.title}</Tab>
-        ))}
-      </TabList>
+      <Tabs isFitted>
+        <TabList>
+          {Object.entries(content).map(([key, value]) => (
+            <Tab key={key}>{value.title}</Tab>
+          ))}
+        </TabList>
 
-      <TabPanels>
-        {Object.entries(content).map(([key, value]) => (
-          <TabPanel key={key} px={0}>
-            {value?.onClick ? (
-              <Box
-                as={Card}
-                bg="backgroundCardHighlight"
-                h="full"
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                w="full"
-                _hover={{
-                  borderColor: "blue.500",
-                  textDecoration: "none!important",
-                }}
-                onClick={() => {
-                  value.onClick && value.onClick();
-                  trackEvent({
+        <TabPanels>
+          {Object.entries(content).map(([key, value]) => (
+            <TabPanel key={key} px={0}>
+              {value?.onClick ? (
+                <Box
+                  as={Card}
+                  bg="backgroundCardHighlight"
+                  h="full"
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  w="full"
+                  _hover={{
+                    borderColor: "blue.500",
+                    textDecoration: "none!important",
+                  }}
+                  onClick={() => {
+                    value.onClick && value.onClick();
+                    trackEvent({
+                      category: TRACKING_CATEGORY,
+                      action: "click",
+                      label: "deploy_options",
+                      type: key,
+                      href: null,
+                      isExternal: false,
+                    });
+                  }}
+                  gap={4}
+                  cursor="pointer"
+                >
+                  <CardContent tab={key} value={value} />
+                </Box>
+              ) : (
+                <Card
+                  bg="backgroundCardHighlight"
+                  h="full"
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  w="full"
+                  _hover={{
+                    borderColor: "blue.500",
+                    textDecoration: "none!important",
+                  }}
+                  {...{
+                    as: TrackedLink,
                     category: TRACKING_CATEGORY,
-                    action: "click",
                     label: "deploy_options",
-                    type: key,
-                    href: null,
-                    isExternal: false,
-                  });
-                }}
-                gap={4}
-                cursor="pointer"
-              >
-                <CardContent tab={key} value={value} />
-              </Box>
-            ) : (
-              <Card
-                bg="backgroundCardHighlight"
-                h="full"
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                w="full"
-                _hover={{
-                  borderColor: "blue.500",
-                  textDecoration: "none!important",
-                }}
-                {...{
-                  as: TrackedLink,
-                  category: TRACKING_CATEGORY,
-                  label: "deploy_options",
-                  trackingProps: { type: key },
-                  href: value.href,
+                    trackingProps: { type: key },
+                    href: value.href,
                     isExternal: value?.href?.startsWith("http"),
-                }}
-                gap={4}
-              >
-                <CardContent tab={key} value={value} />
-              </Card>
-            )}
-          </TabPanel>
-        ))}
-      </TabPanels>
-    </Tabs>
+                  }}
+                  gap={4}
+                >
+                  <CardContent tab={key} value={value} />
+                </Card>
+              )}
+            </TabPanel>
+          ))}
+        </TabPanels>
+      </Tabs>
     </>
   );
 };
