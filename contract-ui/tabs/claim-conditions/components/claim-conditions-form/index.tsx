@@ -659,8 +659,8 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 </AlertTitle>
                 <AlertDescription as={Text}>
                   {isMultiPhase
-                    ? "While no Claim Phase is defined no-one will be able to claim this drop."
-                    : "While no Claim Conditions are defined no-one will be able to claim this drop."}
+                    ? "You need to set at least one claim phase for people to claim this drop."
+                    : "You need to set claim conditions for people to claim this drop."}
                 </AlertDescription>
               </Flex>
             </Alert>
