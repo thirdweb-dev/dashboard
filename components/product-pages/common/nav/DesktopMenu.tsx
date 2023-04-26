@@ -199,7 +199,7 @@ export const RESOURCES: NavCardProps[] = [
     name: "Open Source",
     label: "open-source",
     description: "Learn how to contribute to thirdweb",
-    link: "/oss",
+    link: "/open-source",
     icon: require("public/assets/tw-icons/advanced-nfts.png"),
   },
   {

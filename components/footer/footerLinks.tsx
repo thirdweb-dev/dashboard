@@ -45,8 +45,8 @@ export const RESOURCES: FooterLinkInfo[] = [
   },
   {
     name: "Open Source",
-    link: "/oss",
-    label: "oss",
+    link: "/open-source",
+    label: "open-source",
   },
   {
     name: "Guides",

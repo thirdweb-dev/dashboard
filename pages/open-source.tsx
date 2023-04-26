@@ -1,5 +1,4 @@
 import { DarkMode, Flex, Icon, LinkBox, SimpleGrid } from "@chakra-ui/react";
-import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
@@ -10,6 +9,7 @@ import { PageId } from "page-id";
 import { ReactNode } from "react";
 import { BsGithub } from "react-icons/bs";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { MaskedAvatar } from "tw-components/masked-avatar";
 import { ThirdwebNextPage } from "utils/types";
 
 const filterOut = [
@@ -264,21 +264,29 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                 .filter((contributor) => !filterOut.includes(contributor.login))
                 .slice(0, 12)
                 .map((contributor) => (
-                  <Flex key={contributor.login} flexDir="column" gap={1}>
-                    <TrackedLink
-                      href={`https://github.com/${contributor.login}`}
-                      isExternal
-                      category="team"
-                      label={contributor.login}
-                    >
-                      <Heading size="title.sm">@{contributor.login}</Heading>
-                    </TrackedLink>
-                    <Text size="label.md" color="gray.500">
-                      {contributor.contributions}{" "}
-                      {contributor.contributions === 1
-                        ? "contribution"
-                        : "contributions"}
-                    </Text>
+                  <Flex
+                    key={contributor.login}
+                    flexDir="row"
+                    gap={2}
+                    alignItems="center"
+                  >
+                    <MaskedAvatar src={contributor.avatar_url} />
+                    <Flex key={contributor.login} flexDir="column" gap={1}>
+                      <TrackedLink
+                        href={`https://github.com/${contributor.login}`}
+                        isExternal
+                        category="team"
+                        label={contributor.login}
+                      >
+                        <Heading size="title.sm">@{contributor.login}</Heading>
+                      </TrackedLink>
+                      <Text size="label.md" color="gray.500">
+                        {contributor.contributions}{" "}
+                        {contributor.contributions === 1
+                          ? "contribution"
+                          : "contributions"}
+                      </Text>
+                    </Flex>
                   </Flex>
                 ))}
             </SimpleGrid>
