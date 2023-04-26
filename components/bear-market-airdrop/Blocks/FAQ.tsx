@@ -60,8 +60,9 @@ export const FAQ: React.FC = () => {
             <Flex gap={4} flexDirection="column">
               <Text>
                 Any wallet which has deployed a smart contract between the dates
-                of 2022-01-01 and 2023-04-01 to the following mainnet
-                blockchains is eligible to claim:
+                of <strong>January 1st 2022</strong> and{" "}
+                <strong>April 1st 2023</strong> to the following{" "}
+                <strong>mainnet</strong> blockchains is eligible to claim:
               </Text>
               <UnorderedList>
                 <ListItem>💎 Ethereum</ListItem>
@@ -200,10 +201,6 @@ export const FAQ: React.FC = () => {
               <Text>
                 These ‘tokens’ are ERC721 NFTs, and some of which can be
                 ‘redeemed’ for the prizes listed above.
-              </Text>
-              <Text>
-                The airdrop is fully gasless, and only requires you to sign a
-                transaction.
               </Text>
             </Flex>
           </AccordionPanel>
