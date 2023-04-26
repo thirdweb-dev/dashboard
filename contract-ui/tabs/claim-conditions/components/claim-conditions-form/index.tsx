@@ -124,18 +124,13 @@ const ClaimConditionTypeData: Record<
 
 const getClaimConditionTypeFromPhase = (
   phase: ClaimConditionInput,
-  walletAddress?: string,
 ): ClaimConditionType => {
   if (!phase.snapshot) {
     return "public";
   } else if (phase.snapshot) {
     if (
-      walletAddress &&
       typeof phase.snapshot !== "string" &&
       phase.snapshot.length === 1 &&
-      phase.snapshot.some(
-        (a) => (a as SnapshotEntry).address === walletAddress,
-      ) &&
       phase.snapshot.some(
         (a) => (a as SnapshotEntry).maxClaimable === "unlimited",
       )
@@ -440,12 +435,8 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 : "overrides"
               : "any";
 
-            const claimConditionType = getClaimConditionTypeFromPhase(
-              field,
-              walletAddress,
-            );
+            const claimConditionType = getClaimConditionTypeFromPhase(field);
 
-            // TODO: Fix this boolean to show only after saving
             const isActive = activePhaseId === field.id;
 
             const snapshotValue = field.snapshot?.map((v) =>
@@ -620,7 +611,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                               <PhaseStartTimeInput />
                             </CustomFormGroup>
 
-                            <CreatorInput />
+                            <CreatorInput
+                              creatorAddress={
+                                (field.snapshot?.[0] as { address: string; })
+                                  ?.address
+                              }
+                            />
 
                             <CustomFormGroup>
                               <MaxClaimableSupplyInput />
@@ -687,7 +683,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         variant={phases?.length > 0 ? "outline" : "solid"}
                         borderRadius="md"
                         leftIcon={<Icon as={FiPlus} />}
-                        isDisabled={setClaimConditionsQuery.isLoading || !isMultiPhase && phases?.length > 0}
+                        isDisabled={
+                          setClaimConditionsQuery.isLoading ||
+                          (!isMultiPhase && phases?.length > 0)
+                        }
                       >
                         Add {isMultiPhase ? "Phase" : "Claim Conditions"}
                       </MenuButton>
@@ -752,7 +751,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 fallback={<Box pb={5} />}
               >
                 <Flex justifyContent="center" alignItems="center" gap={3}>
-                  {((hasRemovedPhases && controlledFields?.length === 0) ||
+                  {((isMultiPhase &&
+                    hasRemovedPhases &&
+                    controlledFields?.length === 0) ||
                     (hasAddedPhases &&
                       claimConditionsQuery?.data?.length === 0 &&
                       controlledFields?.length > 0)) && (

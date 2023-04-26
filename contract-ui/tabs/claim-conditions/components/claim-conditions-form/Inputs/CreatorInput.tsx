@@ -7,8 +7,15 @@ import React from "react";
 /**
  * Display the creator address
  */
-export const CreatorInput: React.FC = () => {
-  const { formDisabled, claimConditionType } =
+
+interface CreatorInputProps {
+  creatorAddress: string;
+}
+
+export const CreatorInput: React.FC<CreatorInputProps> = ({
+  creatorAddress,
+}) => {
+  const { formDisabled, claimConditionType, isAdmin } =
     useClaimConditionsFormContext();
   const walletAddress = useAddress();
 
@@ -20,9 +27,13 @@ export const CreatorInput: React.FC = () => {
     <CustomFormControl
       disabled={formDisabled}
       label="Creator address"
-      helperText="This wallet address will be able to indefinitely claim. To use a different address, please connect a different wallet."
+      helperText={
+        <>
+          This wallet address will be able to indefinitely claim. {isAdmin && "To use a different address, please connect a different wallet."}
+        </>
+      }
     >
-      <Input disabled readOnly value={walletAddress} />
+      <Input disabled readOnly value={creatorAddress || walletAddress} />
     </CustomFormControl>
   );
 };
