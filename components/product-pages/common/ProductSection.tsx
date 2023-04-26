@@ -4,7 +4,11 @@ import { ComponentWithChildren } from "types/component-with-children";
 interface IProductSection extends BoxProps {
   id?: string;
   showPattern?: boolean;
+  paddingY?: { base: number; md: number };
+  alignItems?: "flex-start" | "center" | "flex-end";
+  children?: React.ReactNode;
 }
+
 export const ProductSection: ComponentWithChildren<IProductSection> = ({
   id,
   children,
@@ -60,7 +64,7 @@ const BottomPattern: React.FC = () => {
         <rect
           x="220.999"
           y="59.7456"
-          width="931"
+          width="1440"
           height="1"
           fill="url(#paint1_linear_3597_5639)"
           fillOpacity="0.6"
