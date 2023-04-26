@@ -385,6 +385,53 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
 
           <HomepageSection pb={32}>
             <Heading size="display.sm" mb={12}>
+              Open Bounties
+            </Heading>
+
+            <Accordion allowToggle defaultIndex={[]}>
+              {bounties.map((bounty) => (
+                <AccordionItem
+                  key={bounty.id}
+                  background={"rgba(0,0,0,0.2)"}
+                  boxShadow="0 0 0 1px hsl(0deg 0% 100% / 15%)"
+                  borderRadius="12px"
+                  p={{ base: 6, md: 8 }}
+                  my={4}
+                >
+                  <AccordionButton justifyContent="space-between" py={2}>
+                    <Flex direction="column" alignItems="flex-start" gap={4}>
+                      <Heading size="label.lg" color="green.400">
+                        ${bounty.amount} USD
+                      </Heading>
+                      <Heading size="label.lg">{bounty.title}</Heading>
+                    </Flex>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <Text size="label.md" color="gray.500" mt={2}>
+                      {bounty.description}
+                    </Text>
+                    <LinkButton
+                      href="https://github.com/orgs/thirdweb-dev/"
+                      isExternal
+                      color="black"
+                      flexShrink={0}
+                      background="rgba(255,255,255,1)"
+                      _hover={{
+                        background: "rgba(255,255,255,0.9)!important",
+                      }}
+                      mt={6}
+                    >
+                      Learn More
+                    </LinkButton>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </HomepageSection>
+
+          <HomepageSection pb={32}>
+            <Heading size="display.sm" mb={12}>
               Repositories
             </Heading>
             <SimpleGrid columns={{ lg: 3, base: 1 }} gap={{ lg: 12, base: 12 }}>
