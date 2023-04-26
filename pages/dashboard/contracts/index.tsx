@@ -52,8 +52,9 @@ const CardContent: React.FC<CardContentProps> = ({ tab, value }) => (
           width={32}
           height={32}
           alt=""
-          src={`/assets/dashboard/contracts/${tab}.${tab === "import" ? "svg" : "png"
-            }`}
+          src={`/assets/dashboard/contracts/${tab}.${
+            tab === "import" ? "svg" : "png"
+          }`}
         />
         <Heading ml={2} size="label.lg" as="h4" fontWeight="bold">
           {value.title}
