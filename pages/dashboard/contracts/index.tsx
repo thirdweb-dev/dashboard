@@ -82,7 +82,7 @@ const DeployOptions = () => {
       import: {
         title: "Import",
         description:
-          "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
+          "Importing your contract unlocks smarter SDKs, custom admin dashboards, and tailored data feeds.",
         onClick: modalState.onOpen,
       },
       build: {
