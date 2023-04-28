@@ -1,16 +1,18 @@
-import { HomePageCodeBlock } from "../CodeBox";
+import { HomePageCodeBlock } from "../CodeBlock";
 import { KeyFeatureLayout } from "./key-features/KeyFeatureLayout";
-import { AspectRatio, Flex } from "@chakra-ui/react";
+import { AspectRatio, Flex, useBreakpointValue } from "@chakra-ui/react";
 import darkTheme from "prism-react-renderer/themes/dracula";
-import { InView } from "react-intersection-observer";
 
-const withThirdwebCode = `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+const withThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon.
+
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 const sdk = new ThirdwebSDK("polygon");
 const contract = await sdk.getContract("0x..");
 const nfts = await contract.erc721.getAll();`;
 
-const withoutThirdwebCode = `import { ethers, BigNumberish, BigNumber } from "ethers";
+const withoutThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon.
+import { ethers, BigNumberish, BigNumber } from "ethers";
 
 const provider = ethers.providers.getDefaultProvider(
   "https://rpc-mumbai.maticvigil.com/"
@@ -96,6 +98,8 @@ async function getAll(paginationStart?: number, pageCount?: number) {
 const nfts = await getAll();`;
 
 export const WithoutThirdwebSection: React.FC = () => {
+  const fontSize = useBreakpointValue({ base: "12px", md: "14px" });
+
   return (
     <>
       <KeyFeatureLayout
@@ -104,56 +108,60 @@ export const WithoutThirdwebSection: React.FC = () => {
         headline="Streamlined workflow for lightning-fast web3 development."
         description="Fully managed infrastructure services that enables you to build for scale. Any contract, any chain, any platform."
       >
-        <AspectRatio ratio={915 / 589} w="full">
+        <AspectRatio
+          ratio={{
+            base: 4 / 5,
+            md: 915 / 589,
+          }}
+          w="full"
+          h={{
+            base: "full",
+            md: "400px",
+          }}
+        >
           <Flex
             w="full"
-            h="50%"
             direction={{
               base: "column",
               md: "row",
             }}
+            alignItems="start"
+            h={{
+              base: "full",
+              md: "50%",
+            }}
+            gap={4}
           >
-            <InView threshold={0.1} triggerOnce>
-              {({ inView, ref }) => (
-                <>
-                  {inView && (
-                    <Flex w="full" h="50%" gap={12}>
-                      <HomePageCodeBlock
-                        darkTheme={darkTheme}
-                        color="white"
-                        fontSize={{ base: "12px", md: "14px" }}
-                        borderWidth={0}
-                        w="full"
-                        pb={{ base: 12, md: 6 }}
-                        code={withoutThirdwebCode}
-                        language="javascript"
-                        backgroundColor="transparent"
-                        overflow="auto"
-                        autoType
-                        typingSpeed={50}
-                        title="without_thirdweb.js"
-                      />
-                      <HomePageCodeBlock
-                        darkTheme={darkTheme}
-                        color="white"
-                        fontSize={{ base: "12px", md: "14px" }}
-                        borderWidth={0}
-                        w="full"
-                        pb={{ base: 12, md: 6 }}
-                        code={withThirdwebCode}
-                        language="javascript"
-                        backgroundColor="transparent"
-                        overflow="auto"
-                        autoType
-                        typingSpeed={50}
-                        title="with_thirdweb.js"
-                      />
-                    </Flex>
-                  )}
-                  <div ref={ref} />
-                </>
-              )}
-            </InView>
+            <HomePageCodeBlock
+              darkTheme={darkTheme}
+              color="white"
+              fontSize={fontSize}
+              borderWidth={0}
+              w="full"
+              code={withoutThirdwebCode}
+              language="javascript"
+              backgroundColor="transparent"
+              overflowY="auto"
+              autoType
+              typingSpeed={50}
+              title="without_thirdweb.js"
+              containerHeight={{ base: "200px", md: "full" }}
+            />
+            <HomePageCodeBlock
+              darkTheme={darkTheme}
+              color="white"
+              fontSize={fontSize}
+              borderWidth={0}
+              w="full"
+              code={withThirdwebCode}
+              language="javascript"
+              backgroundColor="transparent"
+              overflow="auto"
+              autoType
+              typingSpeed={50}
+              title="with_thirdweb.js"
+              containerHeight={{ base: "200px", md: "full" }}
+            />
           </Flex>
         </AspectRatio>
       </KeyFeatureLayout>
