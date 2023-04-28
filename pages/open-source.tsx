@@ -249,7 +249,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
           </HomepageSection>
           <HomepageSection pb={32}>
             <Heading size="display.sm" mb={12}>
-              Top External Contributors
+              Top Community Contributors
             </Heading>
             <SimpleGrid
               columns={{ base: 2, md: 4 }}
@@ -259,7 +259,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
               {contributors
                 .filter((contributor) => contributor.contributions > 0)
                 .filter(
-                  (contributor) => contributor.login.indexOf("[bot]") === -1,
+                  (contributor) => contributor.login.indexOf("[bot]") === -1
                 )
                 .filter((contributor) => !filterOut.includes(contributor.login))
                 .slice(0, 12)
@@ -328,7 +328,7 @@ export const getStaticProps: GetStaticProps = async () => {
   // Fetch the list of all repositories belonging to the organization
   const reposResponse = await fetch(
     `https://api.github.com/orgs/${orgName}/repos?per_page=100`,
-    authHeader,
+    authHeader
   );
 
   const reposData = (await reposResponse.json()) as GithubRepository[];
@@ -343,7 +343,7 @@ export const getStaticProps: GetStaticProps = async () => {
   for (const repo of repos) {
     const response = await fetch(
       `https://api.github.com/repos/${orgName}/${repo}/contributors`,
-      authHeader,
+      authHeader
     );
     const data = (await response.json()) as GithubContributor[];
 
@@ -365,7 +365,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   // Sort the contributors by their contributions in descending order
   const sortedContributors = Object.values(contributors).sort(
-    (a, b) => b.contributions - a.contributions,
+    (a, b) => b.contributions - a.contributions
   );
 
   return {
