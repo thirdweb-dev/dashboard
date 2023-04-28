@@ -462,10 +462,10 @@
     "@chakra-ui/visually-hidden" "2.0.15"
     "@zag-js/focus-visible" "0.2.2"
 
-"@chakra-ui/cli@^2.0.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/cli/-/cli-2.3.0.tgz#66f229b91c53c9738fb1592ba8b0bc4b1c55f16f"
-  integrity sha512-63Xs4aMYxc17U8GfyPuQnAv8qRg/z2oCd8lgAdn6m755lvQ0e5RZ+mNecfJN1uNXRs3BmKXWnmGh1NvfQ6q1UQ==
+"@chakra-ui/cli@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/cli/-/cli-2.4.0.tgz#720b6cd36b96ebc13894a659c566c3a31dd87961"
+  integrity sha512-Ko8bnQ4lbSwoldHyf2aHANuITL09XTlLJFAKCvgN/e/G+ZuL9ciHnITNG9nchLZKiK6mNj7o8pVfRbxkLm5xVw==
   dependencies:
     "@swc/core" "^1.2.177"
     chokidar "^3.5.3"

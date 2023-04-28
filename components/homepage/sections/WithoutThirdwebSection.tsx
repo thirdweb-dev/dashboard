@@ -1,12 +1,11 @@
 import { HomePageCodeBlock } from "../CodeBox";
 import { KeyFeatureLayout } from "./key-features/KeyFeatureLayout";
-import { AspectRatio, Flex } from "@chakra-ui/react";
-import darkTheme from "prism-react-renderer/themes/dracula";
-import { InView } from "react-intersection-observer";
+import { AspectRatio, GridItem, SimpleGrid } from "@chakra-ui/react";
+import darkTheme from "prism-react-renderer/themes/vsDark";
 
 const withThirdwebCode = `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-const sdk = new ThirdwebSDK("polygon");
+const sdk = new ThirdwebSDK("mumbai");
 const contract = await sdk.getContract("0x..");
 const nfts = await contract.erc721.getAll();`;
 
@@ -16,7 +15,9 @@ const provider = ethers.providers.getDefaultProvider(
   "https://rpc-mumbai.maticvigil.com/"
 );
 const contractAddress = "0x...";
-const contractAbi = [ ... ]; // copy pasted from etherscan or contract project
+
+// copy pasted from etherscan or contract project
+const contractAbi = [ ... ];
 
 const contract = new ethers.Contract(contractAddress, contractAbi, provider);
 
@@ -104,58 +105,40 @@ export const WithoutThirdwebSection: React.FC = () => {
         headline="Streamlined workflow for lightning-fast web3 development."
         description="Fully managed infrastructure services that enables you to build for scale. Any contract, any chain, any platform."
       >
-        <AspectRatio ratio={915 / 589} w="full">
-          <Flex
-            w="full"
-            h="50%"
-            direction={{
-              base: "column",
-              md: "row",
-            }}
-          >
-            <InView threshold={0.1} triggerOnce>
-              {({ inView, ref }) => (
-                <>
-                  {inView && (
-                    <Flex w="full" h="50%" gap={12}>
-                      <HomePageCodeBlock
-                        darkTheme={darkTheme}
-                        color="white"
-                        fontSize={{ base: "12px", md: "14px" }}
-                        borderWidth={0}
-                        w="full"
-                        pb={{ base: 12, md: 6 }}
-                        code={withoutThirdwebCode}
-                        language="javascript"
-                        backgroundColor="transparent"
-                        overflow="auto"
-                        autoType
-                        typingSpeed={50}
-                        title="without_thirdweb.js"
-                      />
-                      <HomePageCodeBlock
-                        darkTheme={darkTheme}
-                        color="white"
-                        fontSize={{ base: "12px", md: "14px" }}
-                        borderWidth={0}
-                        w="full"
-                        pb={{ base: 12, md: 6 }}
-                        code={withThirdwebCode}
-                        language="javascript"
-                        backgroundColor="transparent"
-                        overflow="auto"
-                        autoType
-                        typingSpeed={50}
-                        title="with_thirdweb.js"
-                      />
-                    </Flex>
-                  )}
-                  <div ref={ref} />
-                </>
-              )}
-            </InView>
-          </Flex>
-        </AspectRatio>
+        <SimpleGrid columns={12} gap={8} w="full">
+          <GridItem colSpan={{ base: 12, md: 6 }}>
+            <AspectRatio ratio={16 / 10} w="full">
+              <HomePageCodeBlock
+                darkTheme={darkTheme}
+                color="white"
+                fontSize={{ base: "12px", md: "14px" }}
+                borderWidth={0}
+                code={withoutThirdwebCode}
+                language="typescript"
+                overflow="auto"
+                autoType
+                typingSpeed={50}
+                title="without_thirdweb.ts"
+              />
+            </AspectRatio>
+          </GridItem>
+          <GridItem colSpan={{ base: 12, md: 6 }}>
+            <AspectRatio ratio={16 / 10} w="full">
+              <HomePageCodeBlock
+                darkTheme={darkTheme}
+                color="white"
+                fontSize={{ base: "12px", md: "14px" }}
+                borderWidth={0}
+                code={withThirdwebCode}
+                language="typescript"
+                overflow="auto"
+                autoType
+                typingSpeed={50}
+                title="with_thirdweb.ts"
+              />
+            </AspectRatio>
+          </GridItem>
+        </SimpleGrid>
       </KeyFeatureLayout>
     </>
   );
