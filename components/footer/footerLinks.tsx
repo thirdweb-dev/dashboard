@@ -20,6 +20,11 @@ export const SOLUTIONS: FooterLinkInfo[] = [
     name: "Minting",
     label: "minting",
   },
+  {
+    link: "/solutions/mobile",
+    name: "Mobile",
+    label: "mobile",
+  },
 ];
 
 export const RESOURCES: FooterLinkInfo[] = [

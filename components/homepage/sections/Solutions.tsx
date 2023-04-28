@@ -78,6 +78,15 @@ const solutions: SolutionCardProps[] = [
     href: "/solutions/minting",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
   },
+  {
+    title: "Mobile",
+    gradient: "linear-gradient(90deg, #A79AF9, #7AA8D2)",
+    description:
+      "An all-in-one solution to build complete web3 mobile experiences, from selecting a wide range of digital asset types and minting strategies to creating wallets and credit card checkout.",
+    img: "/assets/landingpage/mobile-solutions.png",
+    href: "/solutions/mobile",
+    hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
+  },
 ];
 
 const SolutionCard: React.FC<SolutionCardProps> = ({

@@ -5,6 +5,7 @@ import { SiDiscord } from "@react-icons/all-files/si/SiDiscord";
 import { SiGithub } from "@react-icons/all-files/si/SiGithub";
 import { SiTwitter } from "@react-icons/all-files/si/SiTwitter";
 import { SiYoutube } from "@react-icons/all-files/si/SiYoutube";
+import { BiMobile } from "react-icons/bi";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { TfiStamp } from "react-icons/tfi";
@@ -184,6 +185,13 @@ export const SOLUTIONS: NavCardProps[] = [
     description: "Build and mint NFTs at scale easily",
     link: "/solutions/minting",
     iconType: TfiStamp,
+  },
+  {
+    name: "Mobile",
+    label: "mobile",
+    description: "Build web3 mobile apps",
+    link: "/solutions/mobile",
+    iconType: BiMobile,
   },
 ];
 
