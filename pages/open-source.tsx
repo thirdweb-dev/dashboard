@@ -259,7 +259,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
               {contributors
                 .filter((contributor) => contributor.contributions > 0)
                 .filter(
-                  (contributor) => contributor.login.indexOf("[bot]") === -1
+                  (contributor) => contributor.login.indexOf("[bot]") === -1,
                 )
                 .filter((contributor) => !filterOut.includes(contributor.login))
                 .slice(0, 12)
