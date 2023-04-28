@@ -193,28 +193,6 @@ const Minting: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Hero>
 
-      {/* Video Embed section*/}
-      <ProductSection py={{ base: 12, lg: 24 }}>
-        <Flex alignItems="center" flexDirection="column">
-          <Heading
-            as="h2"
-            size="title.xl"
-            textAlign="center"
-            mb={12}
-            maxW={900}
-          >
-            Focus on creating powerful NFT experiences and let us handle the
-            complexity
-          </Heading>
-          <YoutubeEmbed
-            maxWidth={680}
-            videoId="Eoy84LxJKEU"
-            aspectRatio={16 / 9}
-            title="Create an ERC721 NFT drop using thirdweb"
-          />
-        </Flex>
-      </ProductSection>
-
       {/* build, launch, manage */}
       <ProductSection>
         <SimpleGrid
