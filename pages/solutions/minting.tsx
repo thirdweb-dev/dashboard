@@ -282,7 +282,7 @@ const Minting: ThirdwebNextPage = () => {
               <Text size="body.lg">
                 A minting API that is easily integrated into your existing web2
                 systems. Enable developers to quickly build and deploy web3
-                applications.
+                applications
               </Text>
               <UnorderedList>
                 <ListItem>
@@ -327,18 +327,8 @@ const Minting: ThirdwebNextPage = () => {
               <UnorderedList>
                 <ListItem>
                   <Text my={4} size="body.lg">
-                    Create limited edition digital collectibles.
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text size="body.lg">
-                    Open editions with configurable minting times.
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text my={4} size="body.lg">
                     Quests where users are rewarded with digital collectibles
-                    for engagement.
+                    for engagement
                   </Text>
                 </ListItem>
                 <ListItem>
@@ -366,15 +356,15 @@ const Minting: ThirdwebNextPage = () => {
               <UnorderedList>
                 <ListItem>
                   <Text my={4} size="body.lg">
-                    In-game asset digital collectibles.
+                    In-game asset digital collectibles
                   </Text>
                 </ListItem>
                 <ListItem>
-                  <Text size="body.lg">Digital trading cards.</Text>
+                  <Text size="body.lg">Digital trading cards</Text>
                 </ListItem>
                 <ListItem>
                   <Text mt={4} size="body.lg">
-                    White-label marketplaces to trade in-asset games.
+                    White-label marketplaces to trade in-asset games
                   </Text>
                 </ListItem>
               </UnorderedList>
