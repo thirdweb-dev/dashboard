@@ -10,12 +10,248 @@ import { ProductButton } from "components/product-pages/common/ProductButton";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { PageId } from "page-id";
-import { templates } from "pages/templates";
-import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { TemplateCardProps, templates } from "pages/templates";
+import React from "react";
+import { Heading, Link, LinkButton, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
+type TemplateContentsProps = {
+  overview: React.ReactNode;
+  featurePoints: React.ReactNode[];
+  runningLocally?: React.ReactNode;
+};
+
+const CodeBlock: React.FC<{ text: string }> = (props) => {
+  return (
+    <Flex
+      border="1px solid rgba(255, 255, 255, 0.2)"
+      borderRadius="md"
+      flexShrink={0}
+      py={3}
+      px={4}
+      my={4}
+      minW={"300px"}
+      gap={1}
+      align="center"
+      alignSelf="start"
+    >
+      <Text color="white" fontFamily="mono" fontSize="16px" fontWeight="500">
+        <span>{props.text}</span>
+      </Text>
+      <CopyButton text={props.text} />
+    </Flex>
+  );
+};
+
+const TemplateContents: React.FC<TemplateContentsProps> = (props) => {
+  return (
+    <>
+      <Heading as="h3" fontSize="24px" fontWeight={700} mt={12} mb={4}>
+        Overview
+      </Heading>
+      {props.overview}
+
+      {props.featurePoints.length > 0 && (
+        <>
+          <Box as="ul" listStyleType="inherit" pl={4} mt={4}>
+            {props.featurePoints.map((feature, idx) => (
+              <Box
+                as="li"
+                key={idx}
+                fontWeight={400}
+                fontSize={16}
+                lineHeight={1.5}
+                opacity={0.7}
+                color="whiteAlpha.900"
+                mb={2}
+              >
+                {feature}
+              </Box>
+            ))}
+          </Box>
+        </>
+      )}
+
+      <Heading as="h3" fontSize="24px" fontWeight={700} mt={12} mb={4}>
+        Running locally
+      </Heading>
+
+      <Text
+        fontWeight={400}
+        fontSize={16}
+        lineHeight={1.5}
+        opacity={0.7}
+        color="whiteAlpha.900"
+        mb={2}
+      >
+        {props.runningLocally}
+      </Text>
+    </>
+  );
+};
+
+// Use the "id" fields from the templates array of objects to create a mappign of contents for each template id
+const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
+  {
+    "nft-drop": (
+      <TemplateContents
+        overview={
+          <>
+            <Text
+              fontWeight={400}
+              fontSize={16}
+              lineHeight={1.5}
+              opacity={0.7}
+              color="whiteAlpha.900"
+            >
+              A web and mobile friendly page for users to claim NFTs from a
+              smart contract implementing{" "}
+              <TrackedLink
+                href="https://portal.thirdweb.com/solidity/extensions/erc721claimable"
+                isExternal
+                category="templates" // TODO???
+                label="contractkit" // TODO???
+                color="blue.300"
+              >
+                ERC721Claimable
+              </TrackedLink>
+              , such as the{" "}
+              <TrackedLink
+                href="https://thirdweb.com/thirdweb.eth/DropERC721"
+                isExternal
+                category="pre-built-contract" // TODO???
+                label="nft-drop" // TODO???
+                color="blue.300"
+              >
+                NFT Drop
+              </TrackedLink>
+              .
+            </Text>
+          </>
+        }
+        featurePoints={[
+          <>
+            Built with our{" "}
+            <TrackedLink
+              fontWeight="500"
+              isExternal
+              category="templates"
+              label="react-sdk" // todo
+              href="https://portal.thirdweb.com/react"
+              color="blue.300"
+            >
+              React SDK
+            </TrackedLink>
+            .
+          </>,
+          <>Uses Vite, TypeScript, and Tailwind.</>,
+          <>
+            Render NFT metadata with the{" "}
+            <TrackedLink
+              fontWeight="500"
+              isExternal
+              category="templates"
+              label="react-sdk" // todo
+              href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
+              color="blue.300"
+            >
+              NFT Renderer
+            </TrackedLink>{" "}
+            UI Component.
+          </>,
+          <>
+            Configure wallet options with the{" "}
+            <TrackedLink
+              fontWeight="500"
+              isExternal
+              category="templates"
+              label="react-sdk" // todo
+              href="https://portal.thirdweb.com/react/react.connectwallet"
+              color="blue.300"
+            >
+              Connect Wallet Button
+            </TrackedLink>{" "}
+            UI Component.
+          </>,
+          <>
+            View{" "}
+            <TrackedLink
+              fontWeight="500"
+              isExternal
+              category="templates"
+              label="react-sdk" // todo
+              href="https://portal.thirdweb.com/react/react.usemetadata"
+              color="blue.300"
+            >
+              contract metadata
+            </TrackedLink>{" "}
+            such as the name, remaining & total supply, description, etc.
+          </>,
+          <>
+            Claim NFTs from the smart contract under the criteria of{" "}
+            <TrackedLink
+              fontWeight="500"
+              isExternal
+              category="templates"
+              label="react-sdk" // todo
+              href="https://portal.thirdweb.com/glossary/claim-phases"
+              color="blue.300"
+            >
+              claim phases
+            </TrackedLink>
+            .
+          </>,
+        ]}
+        runningLocally={
+          <>
+            <>
+              First, set your smart contract address in the{" "}
+              <Link
+                href="https://github.com/thirdweb-example/nft-drop/blob/main/const/yourDetails.ts"
+                isExternal
+                color="blue.300"
+                fontWeight="500"
+              >
+                const/yourDetails.ts
+              </Link>{" "}
+              file.
+              <br />
+              <br />
+            </>
+            <>
+              Next, set the chain that your smart contract is deployed to in the{" "}
+              <Link
+                href="https://github.com/thirdweb-example/nft-drop/blob/main/pages/_app.tsx#L7-L8"
+                isExternal
+                color="blue.300"
+                fontWeight="500"
+              >
+                pages/_app.tsx
+              </Link>{" "}
+              file.
+            </>
+            <br />
+            <br />
+            Run the application from the command line:
+            <CodeBlock text={"npm run dev"} />
+            This will make the application available to preview at{" "}
+            <Link
+              href="http://localhost:3000"
+              isExternal
+              color="blue.300"
+              fontWeight="500"
+            >
+              http://localhost:3000
+            </Link>
+            .
+          </>
+        }
+      />
+    ),
+  };
+
 type TemplatePageProps = {
-  template: (typeof templates)[0];
+  template: TemplateCardProps;
 };
 
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
@@ -46,8 +282,15 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
           alignItems={{ base: "center", md: "flex-start" }}
           justifyContent={{ base: "center", md: "flex-start" }}
           gap={{ base: 8, md: 0 }}
+          maxWidth={1280}
+          mb={16}
         >
-          <Box maxWidth={440} pr={{ base: 0, md: 8 }}>
+          <Box
+            maxWidth={440}
+            pr={{ base: 0, md: 8 }}
+            position={isMobile ? "static" : "sticky"}
+            top={isMobile ? "auto" : 24}
+          >
             {isMobile && (
               <Image
                 src={props.template.img}
@@ -56,6 +299,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                 height={{ base: "auto", md: 442 }}
                 objectFit="cover"
                 mb={12}
+                borderRadius={8}
               />
             )}
 
@@ -192,13 +436,12 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                 width="100%"
                 height={{ base: "auto", md: 442 }}
                 objectFit="cover"
+                borderRadius={8}
               />
             )}
-
             <Heading as="h2" fontSize="32px" fontWeight={700} mt={16}>
               Get started
             </Heading>
-
             <Text
               mt={4}
               fontWeight={500}
@@ -209,31 +452,13 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             >
               Kick start your project by copying this command into your CLI.
             </Text>
-
-            <Flex
-              border="1px solid rgba(255, 255, 255, 0.2)"
-              borderRadius="md"
-              flexShrink={0}
-              py={3}
-              px={4}
-              my={4}
-              minW={"300px"}
-              gap={1}
-              align="center"
-              alignSelf="start"
-            >
-              <Text
-                color="white"
-                fontFamily="mono"
-                fontSize="16px"
-                fontWeight="500"
-              >
-                <span>npx thirdweb create --template {props.template.id}</span>
-              </Text>
-              <CopyButton
-                text={`npx thirdweb create --template ${props.template.id}`}
-              />
-            </Flex>
+            <CodeBlock
+              text={`npx thirdweb create --template ${props.template.id}`}
+            />
+            {
+              // render templateContents fro thsi tmeplate
+              templateContents[props.template.id]
+            }
           </Box>
         </Flex>
       </Flex>

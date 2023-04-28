@@ -13,7 +13,7 @@ import { PageId } from "page-id";
 import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-interface TemplateCardProps {
+export interface TemplateCardProps {
   id: string;
   title: string;
   // Homepage is usually just <id>.thirdweb-example.com, but just to be safe.
@@ -41,7 +41,7 @@ export const templates: TemplateCardProps[] = [
   {
     id: "marketplace-v3",
     title: "Marketplace",
-    homepage: "https://nft-drop.thirdweb-example.com/",
+    homepage: "https://marketplace-v3.thirdweb-preview.com/",
     repo: "https://github.com/thirdweb-example/marketplace-v3",
     description:
       "Allow holders of your NFTs to trade in a marketplace with a built-in escrow and auctioning system.",
