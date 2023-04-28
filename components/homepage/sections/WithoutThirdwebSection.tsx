@@ -105,8 +105,8 @@ export const WithoutThirdwebSection: React.FC = () => {
     <KeyFeatureLayout
       title=""
       titleGradient="linear-gradient(246.04deg, #3385FF 9.81%, #91B7F0 76.17%, #95BBF2 93.64%)"
-      headline="Streamlined workflow for lightning-fast web3 development."
-      description="Fully managed infrastructure services that enables you to build for scale. Any contract, any chain, any platform."
+      headline="Build web3 apps faster"
+      description="Utilities for common use cases so that you do not have to reinvent the wheel every time and have faster development cycles."
     >
       <SimpleGrid columns={12} gap={8} w="full">
         <GridItem colSpan={{ base: 12, md: 6 }}>
