@@ -122,6 +122,7 @@ export const WithoutThirdwebSection: React.FC = () => {
               autoType
               typingSpeed={5}
               title="without_thirdweb.ts"
+              borderTopRadius={0}
             />
           </AspectRatio>
         </GridItem>
@@ -138,6 +139,7 @@ export const WithoutThirdwebSection: React.FC = () => {
               autoType
               typingSpeed={5}
               title="with_thirdweb.ts"
+              borderTopRadius={0}
             />
           </AspectRatio>
         </GridItem>
