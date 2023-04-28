@@ -328,7 +328,7 @@ export const getStaticProps: GetStaticProps = async () => {
   // Fetch the list of all repositories belonging to the organization
   const reposResponse = await fetch(
     `https://api.github.com/orgs/${orgName}/repos?per_page=100`,
-    authHeader
+    authHeader,
   );
 
   const reposData = (await reposResponse.json()) as GithubRepository[];
@@ -343,7 +343,7 @@ export const getStaticProps: GetStaticProps = async () => {
   for (const repo of repos) {
     const response = await fetch(
       `https://api.github.com/repos/${orgName}/${repo}/contributors`,
-      authHeader
+      authHeader,
     );
     const data = (await response.json()) as GithubContributor[];
 
@@ -365,7 +365,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   // Sort the contributors by their contributions in descending order
   const sortedContributors = Object.values(contributors).sort(
-    (a, b) => b.contributions - a.contributions
+    (a, b) => b.contributions - a.contributions,
   );
 
   return {
