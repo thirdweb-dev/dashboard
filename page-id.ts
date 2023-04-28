@@ -20,6 +20,9 @@ export enum PageId {
   // thirdweb.com/template/[templateId]
   Template = "template-page",
 
+  // thirdweb.com
+  OSS = "oss-page",
+
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
