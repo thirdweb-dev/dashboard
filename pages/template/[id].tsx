@@ -19,14 +19,8 @@ type TemplatePageProps = {
 };
 
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
-  // TODO: Bug: this flashes desktop-version first before rendering properly.
-  // Right now we bias towards desktop vresion, so on mobile it flashes desktop version first.
-  const isMobile = useBreakpointValue({
-    base: false,
-    xs: true,
-    sm: true,
-    md: false,
-  });
+  // TODO: Bug: this flashes mobile-version first before rendering properly.
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <DarkMode>
@@ -44,7 +38,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
         <HomepageTopNav />
 
         <Flex
-          pt={24}
+          pt={isMobile ? 4 : 24}
           px={{ base: 4, md: 8 }}
           ml="auto"
           mr="auto"
@@ -56,7 +50,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
           <Box maxWidth={440} pr={{ base: 0, md: 8 }}>
             {isMobile && (
               <Image
-                src={"/assets/templates/marketplace.png"}
+                src={props.template.img}
                 alt={`Screenshot of ${props.template.title} template`}
                 width="100%"
                 height={{ base: "auto", md: 442 }}
@@ -193,7 +187,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
           >
             {!isMobile && (
               <Image
-                src={"/assets/templates/marketplace.png"}
+                src={props.template.img}
                 alt={`Screenshot of ${props.template.title} template`}
                 width="100%"
                 height={{ base: "auto", md: 442 }}
@@ -233,7 +227,6 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
                 fontFamily="mono"
                 fontSize="16px"
                 fontWeight="500"
-                whiteSpace="nowrap"
               >
                 <span>npx thirdweb create --template {props.template.id}</span>
               </Text>
