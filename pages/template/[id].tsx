@@ -109,8 +109,10 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               <TrackedLink
                 href="https://portal.thirdweb.com/solidity/extensions/erc721claimable"
                 isExternal
-                category="templates" // TODO???
-                label="contractkit" // TODO???
+                // TODO???
+                category="templates"
+                // TODO???
+                label="contractkit"
                 color="blue.300"
               >
                 ERC721Claimable
@@ -119,8 +121,10 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               <TrackedLink
                 href="https://thirdweb.com/thirdweb.eth/DropERC721"
                 isExternal
-                category="pre-built-contract" // TODO???
-                label="nft-drop" // TODO???
+                // TODO???
+                category="pre-built-contract"
+                // TODO???
+                label="nft-drop"
                 color="blue.300"
               >
                 NFT Drop
@@ -136,7 +140,8 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               fontWeight="500"
               isExternal
               category="templates"
-              label="react-sdk" // todo
+              // todo
+              label="react-sdk"
               href="https://portal.thirdweb.com/react"
               color="blue.300"
             >
@@ -151,7 +156,8 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               fontWeight="500"
               isExternal
               category="templates"
-              label="react-sdk" // todo
+              // todo
+              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
               color="blue.300"
             >
@@ -165,7 +171,8 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               fontWeight="500"
               isExternal
               category="templates"
-              label="react-sdk" // todo
+              // todo
+              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.connectwallet"
               color="blue.300"
             >
@@ -179,7 +186,8 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               fontWeight="500"
               isExternal
               category="templates"
-              label="react-sdk" // todo
+              // todo
+              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.usemetadata"
               color="blue.300"
             >
@@ -193,7 +201,8 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               fontWeight="500"
               isExternal
               category="templates"
-              label="react-sdk" // todo
+              // todo
+              label="react-sdk"
               href="https://portal.thirdweb.com/glossary/claim-phases"
               color="blue.300"
             >
