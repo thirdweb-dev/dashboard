@@ -82,7 +82,7 @@ const DeployOptions = () => {
       import: {
         title: "Import",
         description:
-          "Importing your contract unlocks smarter SDKs, custom admin dashboards, and tailored data feeds.",
+          "Import an already deployed contract to build apps on top of contract using thirdweb tools..",
         onClick: modalState.onOpen,
       },
       build: {
@@ -199,8 +199,9 @@ const Contracts: ThirdwebNextPage = () => {
       },
 
       {
-        title: "Deploy or import a contract",
-        description: "Deploy a contract with one of the methods below.",
+        title: "Build, deploy or import a contract",
+        description:
+          "Choose between deploying your own contract or import an existing one.",
         children: <DeployOptions />,
         completed: hasContracts,
       },
@@ -225,7 +226,7 @@ const Contracts: ThirdwebNextPage = () => {
       ) : (
         <StepsCard
           title="Get started with deploying contracts"
-          description="This guide will help you start deploying contracts on-chain in just a few minutes."
+          description="This guide will help you to start deploying contracts on-chain in just a few minutes."
           steps={steps}
         />
       )}
