@@ -12,6 +12,7 @@ const contract = await sdk.getContract("0x..");
 const nfts = await contract.erc721.getAll();`;
 
 const withoutThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon.
+
 import { ethers, BigNumberish, BigNumber } from "ethers";
 
 const provider = ethers.providers.getDefaultProvider(
@@ -143,7 +144,7 @@ export const WithoutThirdwebSection: React.FC = () => {
               backgroundColor="transparent"
               overflowY="auto"
               autoType
-              typingSpeed={50}
+              typingSpeed={5}
               title="without_thirdweb.js"
               containerHeight={{ base: "200px", md: "full" }}
             />
@@ -158,7 +159,7 @@ export const WithoutThirdwebSection: React.FC = () => {
               backgroundColor="transparent"
               overflow="auto"
               autoType
-              typingSpeed={50}
+              typingSpeed={5}
               title="with_thirdweb.js"
               containerHeight={{ base: "200px", md: "full" }}
             />

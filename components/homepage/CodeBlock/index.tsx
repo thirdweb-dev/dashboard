@@ -143,9 +143,7 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
             <IconButton
               onClick={() => {
                 setSpeedUpEnabled((prev) => {
-                  setCurrentTypingSpeed(
-                    prev ? typingSpeed : Number(typingSpeed / 400),
-                  );
+                  setCurrentTypingSpeed(prev ? typingSpeed : 1);
                   return !prev;
                 });
               }}
