@@ -1,4 +1,12 @@
-import { Box, Flex, Icon, Image, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Icon,
+  Image,
+  ListItem,
+  SimpleGrid,
+  UnorderedList,
+} from "@chakra-ui/react";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -298,13 +306,19 @@ const Minting: ThirdwebNextPage = () => {
                 systems. Enable developers to quickly build and deploy web3
                 applications.
               </Text>
-              <Text size="body.lg" my={4}>
-                Launch minting and web3 API based managed services
-              </Text>
-              <Text size="body.lg">
-                Enhance existing content and creator platforms with digital
-                assets{" "}
-              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text size="body.lg" my={4}>
+                    Launch minting and web3 API based managed services
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text size="body.lg">
+                    Enhance existing content and creator platforms with digital
+                    assets{" "}
+                  </Text>
+                </ListItem>
+              </UnorderedList>
             </ProductCard>
             <ProductCard
               title="For Chains"
@@ -314,11 +328,15 @@ const Minting: ThirdwebNextPage = () => {
                 Supercharge on-boarding for brands, apps and developers to your
                 chain
               </Text>
-              <Text size="body.lg" mt={4}>
-                NFT Launchpad makes it easy for users to easily launch new smart
-                contracts and incorporate minting to smart contracts using API
-                call
-              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text size="body.lg" mt={4}>
+                    NFT Launchpad makes it easy for users to easily launch new
+                    smart contracts and incorporate minting to smart contracts
+                    using API call
+                  </Text>
+                </ListItem>
+              </UnorderedList>
             </ProductCard>
             <ProductCard
               title="For Creators"
@@ -328,27 +346,36 @@ const Minting: ThirdwebNextPage = () => {
                 Enable NFT minting for your users with familiar web2-like user
                 experience
               </Text>
-              <Text my={4} size="body.lg">
-                Limited edition series: Create limited edition collectibles with
-                specific quantities, enforced scarcity and configurable access
-                (public vs private).
-              </Text>
-              <Text size="body.lg">
-                Open editions: Allow open minting with control over start and
-                stop times
-              </Text>
-              <Text my={4} size="body.lg">
-                Reward based Quests: Create quests where users are rewarded with
-                digital collectibles for engagement
-              </Text>
-              <Text size="body.lg">
-                Music and video NFTs: Tokenize multimedia content to create
-                unique digital collectibles with royalty sharing mechanisms.
-              </Text>
-              <Text mt={4} size="body.lg">
-                Tickets and IRL events: Launch digital collectibles to unlock
-                access to exclusive content, events, or experiences.
-              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text my={4} size="body.lg">
+                    Create limited edition digital collectibles.
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text size="body.lg">
+                    Open editions with configurable minting times.
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text my={4} size="body.lg">
+                    Quests where users are rewarded with digital collectibles
+                    for engagement.
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text size="body.lg">
+                    Music & video digital collectibles with royalty sharing
+                    mechanism.
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text mt={4} size="body.lg">
+                    Access-based digital collectibles for IRL ticketing &
+                    events.
+                  </Text>
+                </ListItem>
+              </UnorderedList>
             </ProductCard>
             <ProductCard
               title="For Games"
@@ -358,19 +385,21 @@ const Minting: ThirdwebNextPage = () => {
                 Easily connect game engines via an API to minting and blockchain
                 infrastructure
               </Text>
-              <Text my={4} size="body.lg">
-                Gaming items and assets: Integrate in-game items, characters, or
-                virtual land as digital collectibles that can be owned, traded,
-                or used within a gaming ecosystem.
-              </Text>
-              <Text size="body.lg">
-                Digital trading cards: Develop digital cards with transferable
-                and tradable properties using customizable smart contracts.
-              </Text>
-              <Text mt={4} size="body.lg">
-                White labeled marketplaces: Allow collectors to trade with each
-                other and build community
-              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text my={4} size="body.lg">
+                    In-game asset digital collectibles.
+                  </Text>
+                </ListItem>
+                <ListItem>
+                  <Text size="body.lg">Digital trading cards.</Text>
+                </ListItem>
+                <ListItem>
+                  <Text mt={4} size="body.lg">
+                    White-label marketplaces to trade in-asset games.
+                  </Text>
+                </ListItem>
+              </UnorderedList>
             </ProductCard>
           </SimpleGrid>
         </Flex>
