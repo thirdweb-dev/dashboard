@@ -1,15 +1,19 @@
-import { HomePageCodeBlock } from "../CodeBox";
+import { HomePageCodeBlock } from "../CodeBlock";
 import { KeyFeatureLayout } from "./key-features/KeyFeatureLayout";
 import { AspectRatio, GridItem, SimpleGrid } from "@chakra-ui/react";
 import darkTheme from "prism-react-renderer/themes/vsDark";
 
-const withThirdwebCode = `import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+const withThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon.
+
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 const sdk = new ThirdwebSDK("mumbai");
 const contract = await sdk.getContract("0x..");
 const nfts = await contract.erc721.getAll();`;
 
-const withoutThirdwebCode = `import { ethers, BigNumberish, BigNumber } from "ethers";
+const withoutThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon.
+
+import { ethers, BigNumberish, BigNumber } from "ethers";
 
 const provider = ethers.providers.getDefaultProvider(
   "https://rpc-mumbai.maticvigil.com/"
@@ -98,48 +102,46 @@ const nfts = await getAll();`;
 
 export const WithoutThirdwebSection: React.FC = () => {
   return (
-    <>
-      <KeyFeatureLayout
-        title=""
-        titleGradient="linear-gradient(246.04deg, #3385FF 9.81%, #91B7F0 76.17%, #95BBF2 93.64%)"
-        headline="Streamlined workflow for lightning-fast web3 development."
-        description="Fully managed infrastructure services that enables you to build for scale. Any contract, any chain, any platform."
-      >
-        <SimpleGrid columns={12} gap={8} w="full">
-          <GridItem colSpan={{ base: 12, md: 6 }}>
-            <AspectRatio ratio={16 / 10} w="full">
-              <HomePageCodeBlock
-                darkTheme={darkTheme}
-                color="white"
-                fontSize={{ base: "12px", md: "14px" }}
-                borderWidth={0}
-                code={withoutThirdwebCode}
-                language="typescript"
-                overflow="auto"
-                autoType
-                typingSpeed={50}
-                title="without_thirdweb.ts"
-              />
-            </AspectRatio>
-          </GridItem>
-          <GridItem colSpan={{ base: 12, md: 6 }}>
-            <AspectRatio ratio={16 / 10} w="full">
-              <HomePageCodeBlock
-                darkTheme={darkTheme}
-                color="white"
-                fontSize={{ base: "12px", md: "14px" }}
-                borderWidth={0}
-                code={withThirdwebCode}
-                language="typescript"
-                overflow="auto"
-                autoType
-                typingSpeed={50}
-                title="with_thirdweb.ts"
-              />
-            </AspectRatio>
-          </GridItem>
-        </SimpleGrid>
-      </KeyFeatureLayout>
-    </>
+    <KeyFeatureLayout
+      title=""
+      titleGradient="linear-gradient(246.04deg, #3385FF 9.81%, #91B7F0 76.17%, #95BBF2 93.64%)"
+      headline="Streamlined workflow for lightning-fast web3 development."
+      description="Fully managed infrastructure services that enables you to build for scale. Any contract, any chain, any platform."
+    >
+      <SimpleGrid columns={12} gap={8} w="full">
+        <GridItem colSpan={{ base: 12, md: 6 }}>
+          <AspectRatio ratio={16 / 10} w="full">
+            <HomePageCodeBlock
+              darkTheme={darkTheme}
+              color="white"
+              fontSize={{ base: "12px", md: "14px" }}
+              borderWidth={0}
+              code={withoutThirdwebCode}
+              language="typescript"
+              overflow="auto"
+              autoType
+              typingSpeed={5}
+              title="without_thirdweb.ts"
+            />
+          </AspectRatio>
+        </GridItem>
+        <GridItem colSpan={{ base: 12, md: 6 }}>
+          <AspectRatio ratio={16 / 10} w="full">
+            <HomePageCodeBlock
+              darkTheme={darkTheme}
+              color="white"
+              fontSize={{ base: "12px", md: "14px" }}
+              borderWidth={0}
+              code={withThirdwebCode}
+              language="typescript"
+              overflow="auto"
+              autoType
+              typingSpeed={5}
+              title="with_thirdweb.ts"
+            />
+          </AspectRatio>
+        </GridItem>
+      </SimpleGrid>
+    </KeyFeatureLayout>
   );
 };

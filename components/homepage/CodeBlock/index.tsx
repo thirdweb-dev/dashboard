@@ -35,6 +35,7 @@ export interface CodeBlockProps extends Omit<CodeProps, "size"> {
   autoType?: boolean;
   typingSpeed?: number;
   title?: string;
+  containerHeight?: any;
 }
 export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
   code,
@@ -53,8 +54,9 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
   darkTheme,
   lightTheme,
   autoType = false,
-  typingSpeed = 100,
+  typingSpeed = 50,
   title,
+
   ...restCodeProps
 }) => {
   const { ref, inView } = useInView({
@@ -142,9 +144,7 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
               <IconButton
                 onClick={() => {
                   setSpeedUpEnabled((prev) => {
-                    setCurrentTypingSpeed(
-                      prev ? typingSpeed : Number(typingSpeed / 400),
-                    );
+                    setCurrentTypingSpeed(prev ? typingSpeed : 1);
                     return !prev;
                   });
                 }}
