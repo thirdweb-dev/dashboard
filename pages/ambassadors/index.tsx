@@ -139,7 +139,7 @@ const Ambassadors: ThirdwebNextPage = () => {
             <Center marginTop={16}>
               <Flex gap={6} align="center">
                 <MaskedAvatar
-                  src={"/assets/landingpage/warren-gonzaga.png"}
+                  src={"/assets/landingpage/danny-roberts.png"}
                   alt=""
                   boxSize={40}
                 />
@@ -150,16 +150,16 @@ const Ambassadors: ThirdwebNextPage = () => {
                     bgGradient="linear(to-r, #B8EEFF, #8689E3)"
                     bgClip="text"
                   >
-                    Warren Gonzaga
+                    Danny Roberts
                   </Heading>
                   <TrackedLink
-                    href="https://twitter.com/warengonzaga"
+                    href="https://twitter.com/danny_roberts"
                     isExternal
                     category="team"
-                    label="Warren Gonzaga"
+                    label="Danny Roberts"
                   >
                     <Text size="label.md" color="gray.500">
-                      @warengonzaga
+                      @danny_roberts
                     </Text>
                   </TrackedLink>
                 </Flex>
