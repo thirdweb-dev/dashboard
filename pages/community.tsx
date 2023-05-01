@@ -2,19 +2,20 @@ import {
   AspectRatio,
   Box,
   Center,
+  Container,
   DarkMode,
   Flex,
+  Icon,
   Image,
   SimpleGrid,
 } from "@chakra-ui/react";
 import { CommunityCard } from "components/community/Card";
 import { HomepageFooter } from "components/footer/Footer";
-import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
-import { ProductSection } from "components/product-pages/common/ProductSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
+import { FiZap } from "react-icons/fi";
 import { Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -28,89 +29,110 @@ const SEO = {
 
 const CommunitySections = [
   {
-    title: "Learn web3 development",
-    description: (
-      <>
-        Whether you&apos;re interested in web3 or thirdweb, our mission is to
-        cultivate a community of <br /> like-minded individuals who share our
-        passion for the future of decentralized technology.
-      </>
-    ),
+    title1: "Learn",
+    title2: "web3 development",
+    description:
+      "Whether you're interested in web3 or thirdweb, our mission is to cultivate a community of like-minded individuals who share our passion for the future of decentralized technology.",
 
     cards: [
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "/learn",
         title: "thirdweb learn",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       // {
-      //   image: "https://dummyimage.com/600x400/000/fff",
+      //   image: "https://dummyimage.com/270x170/000/fff",
       //   link: "/learn",
       //   title: "Bootcamp",
+      // description: "This is a short description about this section and what it offers."
       // },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "/events",
         title: "Events",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "/events",
         title: "Office Hours",
+        description:
+          "This is a short description about this section and what it offers.",
       },
     ],
   },
   {
-    title: "Build innovative projects!",
+    title1: "Build",
+    title2: "innovative projects",
     description:
       "From hackathons to bounties, open source to community projects, there are so many ways to build no matter your level of contribution. ",
     cards: [
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "/events",
         title: "Hackathons",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "https://www.notion.so/thirdweb/Paid-Projects-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
         title: "Projects",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706",
         title: "Bug Bounty",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "/oss",
         title: "OSS Contributions",
+        description:
+          "This is a short description about this section and what it offers.",
       },
     ],
   },
   {
-    title: "Join the community!",
+    title1: "Join",
+    title2: "the community",
     description:
       "Explore programs to educate, host events, and showcase your achievements - together, we can take the web3 community to new heights!",
     cards: [
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "https://ambassador.thirdweb.com/",
         title: "Ambassadors",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "https://www.notion.so/thirdweb/University-Program-Page-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
         title: "University Program",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "https://www.notion.so/thirdweb/Regional-Champions-Page-cebe9db7b2534162b0fd87e60039280c?pvs=4",
         title: "Regional Champions",
+        description:
+          "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/600x400/000/fff",
+        image: "https://dummyimage.com/270x170/000/fff",
         link: "/",
         title: "Showcase",
+        description:
+          "This is a short description about this section and what it offers.",
       },
     ],
   },
@@ -181,114 +203,147 @@ const Community: ThirdwebNextPage = () => {
             py={{ base: 12, md: 24 }}
             px={{ base: 4, md: 8 }}
             flexDir="column"
-            bg="#030A19"
           >
-            <Image
-              src="https://dummyimage.com/600x400/000/fff"
-              alt="Image"
-              width="450px"
-              height="450px"
-              objectFit="cover"
-              borderRadius="lg"
-            />
-
-            <Heading mt={8} textAlign="center" fontSize="48px">
-              A decentralized internet begins with <br /> decentralized talent.
+            <Heading mt={8} textAlign="center" fontSize="64px">
+              A decentralized internet begins
+              <br /> with{" "}
+              <Text
+                as="span"
+                fontSize="48px"
+                fontWeight="bold"
+                background="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%), #ECECEC"
+                backgroundClip="text"
+                color="transparent"
+              >
+                decentralized talent.
+              </Text>
             </Heading>
 
-            <Flex
+            <LinkButton
+              href="https://discord.gg/thirdweb"
+              size="lg"
+              onClick={() =>
+                trackEvent({
+                  category: TRACKING_CATEGORY,
+                  action: "click",
+                  title: "Join the community",
+                })
+              }
+              background="white"
+              _hover={{
+                background: "white",
+                color: "#000",
+              }}
+              color="#000"
+              fontSize="18px"
+              leftIcon={<Icon as={FiZap} />}
               mt={8}
-              justify="center"
-              align="center"
-              gap={4}
-              flexDir={{ base: "column", md: "row" }}
             >
-              <LinkButton
-                href="/learn"
-                size="lg"
-                onClick={() =>
-                  trackEvent({
-                    category: TRACKING_CATEGORY,
-                    action: "click",
-                    title: "Apply to thirdweb learn",
-                  })
-                }
-                background="white"
-                _hover={{
-                  background: "white",
-                  color: "#000",
-                }}
-                color="#000"
-                fontSize="18px"
-              >
-                Apply to thirdweb learn
-              </LinkButton>
-              <LinkButton
-                href="https://discord.gg/thirdweb"
-                size="lg"
-                onClick={() =>
-                  trackEvent({
-                    category: TRACKING_CATEGORY,
-                    action: "click",
-                    title: "Join the community",
-                  })
-                }
-                isExternal
-                variant="outline"
-                borderWidth="2px"
-                py="22px"
-                fontSize="18px"
-                fontWeight="bold"
-                textAlign="center"
-                borderRadius="md"
-              >
-                Join the community
-              </LinkButton>
-            </Flex>
+              Join the community
+            </LinkButton>
           </Center>
 
-          {CommunitySections.map(({ title, cards, description }) => (
-            <ProductSection py={{ base: 12, md: 24 }} key={title}>
-              <Heading as="h2" textAlign="left" fontSize="36px">
-                {title}
-              </Heading>
-
-              <Text mt={2} textAlign="left" color="paragraph" fontSize="24px">
-                {description}
-              </Text>
-
-              <SimpleGrid
-                columns={{ base: 1, md: 4 }}
-                gap={{ base: 12, md: 6 }}
-                py={{ base: 12, md: 8 }}
+          {CommunitySections.map(
+            ({ title1, title2, cards, description }, i) => (
+              <Box
+                w="100%"
+                as="section"
+                zIndex={2}
+                position="relative"
+                key={title1}
               >
-                {cards.map(({ image, title: cTitle, link }) => (
-                  <CommunityCard
-                    key={cTitle}
-                    image={image}
-                    title={cTitle}
-                    link={link}
-                  />
-                ))}
-              </SimpleGrid>
-            </ProductSection>
-          ))}
+                <Box
+                  h="1px"
+                  bg="#3F3F3F"
+                  opacity="0.8"
+                  maxW="container.page"
+                  display={i === 0 ? "none" : "block"}
+                  mx="auto"
+                />
+                <Container
+                  maxW="container.page"
+                  position="relative"
+                  py={{ base: 12, md: 24 }}
+                >
+                  <Heading
+                    as="h2"
+                    textAlign="left"
+                    fontSize="48px"
+                    color="#ECECEC"
+                  >
+                    {title1}{" "}
+                    <Text
+                      as="span"
+                      fontSize="48px"
+                      color="transparent"
+                      fontWeight="bold"
+                      background="linear-gradient(249.19deg, #BFA3DA 53.72%, #84309C 78.01%, #C735B0 112.02%), #ECECEC"
+                      backgroundClip="text"
+                    >
+                      {title2}
+                    </Text>
+                  </Heading>
+
+                  <Text
+                    mt={2}
+                    textAlign="left"
+                    fontSize="20px"
+                    color="white"
+                    opacity={0.7}
+                    maxW="container.md"
+                  >
+                    {description}
+                  </Text>
+
+                  <SimpleGrid
+                    columns={{ base: 1, md: 4 }}
+                    gap={{ base: 12, md: 6 }}
+                    py={{ base: 12, md: 8 }}
+                  >
+                    {cards.map(
+                      ({
+                        image,
+                        title: cTitle,
+                        link,
+                        description: cdescription,
+                      }) => (
+                        <CommunityCard
+                          key={cTitle}
+                          image={image}
+                          title={cTitle}
+                          link={link}
+                          description={cdescription}
+                        />
+                      ),
+                    )}
+                  </SimpleGrid>
+                </Container>
+              </Box>
+            ),
+          )}
 
           <Box
             h="1px"
-            bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
+            bg="#3F3F3F"
             opacity="0.8"
-          />
-          <Box
-            h="1px"
-            bg="linear-gradient(93.96deg, rgba(25, 26, 27, 0.8) 17.14%, rgba(24, 67, 78, 0.8) 36.78%, rgba(108, 47, 115, 0.8) 61%, rgba(25, 26, 27, 0.8) 79.98%)"
-            opacity="0.8"
+            maxW="container.page"
+            mx="auto"
           />
         </Box>
 
-        <ProductSection py={{ base: 12, md: 24 }}>
-          <Heading size="title.2xl" as="h2" fontSize="36px" textAlign="center">
-            and most importantly... have fun!
+        <Container maxW="container.page" position="relative" py={12}>
+          <Heading size="title.2xl" as="h2" fontSize="48px" textAlign="center">
+            and most importantly...{" "}
+            <Text
+              as="span"
+              fontSize="48px"
+              color="transparent"
+              fontWeight="bold"
+              background="linear-gradient(249.19deg, #BFA3DA 53.72%, #84309C 78.01%, #C735B0 112.02%), #ECECEC"
+              backgroundClip="text"
+            >
+              have fun!
+            </Text>
           </Heading>
 
           <SimpleGrid
@@ -308,9 +363,49 @@ const Community: ThirdwebNextPage = () => {
               </AspectRatio>
             ))}
           </SimpleGrid>
-        </ProductSection>
+        </Container>
 
-        <NewsletterSection />
+        <Center px={{ base: 4, md: 8 }} flexDir="column" mb={10}>
+          <Heading mt={8} textAlign="center" fontSize="64px">
+            Start
+            <Text
+              as="span"
+              fontSize="64px"
+              fontWeight="bold"
+              background="linear-gradient(248.71deg, #BFA3DA 53.44%, #84309C 72.94%, #C735B0 100.23%), #ECECEC"
+              backgroundClip="text"
+              color="transparent"
+            >
+              {" "}
+              building{" "}
+            </Text>
+            today.
+          </Heading>
+
+          <LinkButton
+            href="https://discord.gg/thirdweb"
+            size="lg"
+            onClick={() =>
+              trackEvent({
+                category: TRACKING_CATEGORY,
+                action: "click",
+                title: "Join the community",
+              })
+            }
+            background="white"
+            _hover={{
+              background: "white",
+              color: "#000",
+            }}
+            color="#000"
+            fontSize="18px"
+            leftIcon={<Icon as={FiZap} />}
+            mt={4}
+          >
+            Join the community
+          </LinkButton>
+        </Center>
+
         <HomepageFooter />
       </Flex>
     </DarkMode>
