@@ -36,27 +36,27 @@ const CommunitySections = [
 
     cards: [
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "/learn",
         title: "thirdweb learn",
         description:
           "This is a short description about this section and what it offers.",
       },
       // {
-      //   image: "https://dummyimage.com/270x170/000/fff",
+      //   image: "",
       //   link: "/learn",
       //   title: "Bootcamp",
       // description: "This is a short description about this section and what it offers."
       // },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "/events",
         title: "Events",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "/events",
         title: "Office Hours",
         description:
@@ -71,28 +71,28 @@ const CommunitySections = [
       "From hackathons to bounties, open source to community projects, there are so many ways to build no matter your level of contribution. ",
     cards: [
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "/events",
         title: "Hackathons",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "https://www.notion.so/thirdweb/Paid-Projects-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
         title: "Projects",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706",
         title: "Bug Bounty",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "/oss",
         title: "OSS Contributions",
         description:
@@ -107,28 +107,28 @@ const CommunitySections = [
       "Explore programs to educate, host events, and showcase your achievements - together, we can take the web3 community to new heights!",
     cards: [
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "https://ambassador.thirdweb.com/",
         title: "Ambassadors",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "https://www.notion.so/thirdweb/University-Program-Page-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
         title: "University Program",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "https://www.notion.so/thirdweb/Regional-Champions-Page-cebe9db7b2534162b0fd87e60039280c?pvs=4",
         title: "Regional Champions",
         description:
           "This is a short description about this section and what it offers.",
       },
       {
-        image: "https://dummyimage.com/270x170/000/fff",
+        image: "",
         link: "/",
         title: "Showcase",
         description:
