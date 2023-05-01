@@ -4125,7 +4125,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/chains@0.1.13-nightly-fc96e147-20230429021411", "@thirdweb-dev/chains@^0.1.13-nightly-8f962bc1-20230429012918":
+"@thirdweb-dev/chains@0.1.13-nightly-fc96e147-20230429021411", "@thirdweb-dev/chains@^0.1.13-nightly-28b5d1eb-20230501215005":
   version "0.1.13-nightly-fc96e147-20230429021411"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.13-nightly-fc96e147-20230429021411.tgz#99853334a286212f65b233f50fa81a1d4d696bb5"
   integrity sha512-Jl3ffikwCETN81laO0+1ngFKoBE9D2L25ZoQgz+Q605pgAPB76PtAbSVZyQ65SwJAlgFjYAeOU0cMqGXTjF91g==
@@ -4160,7 +4160,7 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@^3.11.9-nightly-8f962bc1-20230429012918":
+"@thirdweb-dev/react@^3.11.9-nightly-28b5d1eb-20230501215005":
   version "3.11.9-nightly-fc96e147-20230429021411"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.11.9-nightly-fc96e147-20230429021411.tgz#caf507c08c2a99715bf089fa7269be280bed09be"
   integrity sha512-x763XhyFl3ydHu8vdoSxAEAlh1SS8XfWJdkKAUcWjIKl4WHw49nwSRt8Wh6cF7bkHQeU0TLJs/vTs2I4ocNGKQ==
@@ -4187,7 +4187,7 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@3.10.12-nightly-fc96e147-20230429021411", "@thirdweb-dev/sdk@^3.10.12-nightly-8f962bc1-20230429012918":
+"@thirdweb-dev/sdk@3.10.12-nightly-fc96e147-20230429021411", "@thirdweb-dev/sdk@^3.10.12-nightly-28b5d1eb-20230501215005":
   version "3.10.12-nightly-fc96e147-20230429021411"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.12-nightly-fc96e147-20230429021411.tgz#27992a9218314a3fc82afb8eefb9e1de30ad61e4"
   integrity sha512-+iS1vFZ1bdDY0bL5+ZCYO1uWnpANOdYTebXhSFE3MNTLerVBJVTAuNFGyTJgG1wUHfuzp4vjcBh0jbCYp+FHew==
