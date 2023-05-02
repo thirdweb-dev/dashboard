@@ -19,8 +19,6 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
     "Failed to create API key",
   );
 
-  console.log(keysQuery.data);
-
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
       <Flex

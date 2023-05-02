@@ -1,6 +1,6 @@
 import { apiKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
 
@@ -24,12 +24,12 @@ export function useApiKeys() {
         },
       });
       const data = await res.json();
-
       if (data.error) {
         throw new Error(data.error);
       }
 
-      return (data.keys as ApiKeyInfo[]).filter((item) => !item.revoked);
+      const keys = (data.keys as ApiKeyInfo[]).filter((item) => !item.revoked);
+      return keys;
     },
     { enabled: !!user?.address },
   );
@@ -37,8 +37,9 @@ export function useApiKeys() {
 
 export function useCreateApiKey() {
   const { user } = useUser();
+  const queryClient = useQueryClient();
 
-  return useMutationWithInvalidate(
+  return useMutation(
     async () => {
       invariant(user, "No user is logged in");
 
@@ -59,8 +60,10 @@ export function useCreateApiKey() {
       return data;
     },
     {
-      onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([apiKeys.keys(user?.address as string)]);
+      onSuccess: (_data, _variables, _options) => {
+        return queryClient.invalidateQueries(
+          apiKeys.keys(user?.address as string),
+        );
       },
     },
   );
@@ -68,6 +71,7 @@ export function useCreateApiKey() {
 
 export function useRevokeApiKey() {
   const { user } = useUser();
+  const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
     async (key: string) => {
@@ -95,8 +99,10 @@ export function useRevokeApiKey() {
       return data;
     },
     {
-      onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([apiKeys.keys(user?.address as string)]);
+      onSuccess: (_data, _variables, _options) => {
+        return queryClient.invalidateQueries(
+          apiKeys.keys(user?.address as string),
+        );
       },
     },
   );
