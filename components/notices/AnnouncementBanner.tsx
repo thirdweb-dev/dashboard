@@ -27,7 +27,7 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="https://thirdweb.com/open-source"
+          href="/open-source"
           category="announcement"
           label="open-source"
         >
