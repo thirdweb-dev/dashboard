@@ -100,6 +100,7 @@ const chakraTheme: Theme = extendTheme({
           size: "lg",
           borderRadius: props.fullCircle ? "full" : "12px",
           height: props.height,
+          width: props.width,
         }),
       },
     },
