@@ -1,13 +1,6 @@
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
-import {
-  Center,
-  Container,
-  Divider,
-  Flex,
-  Icon,
-  Spinner,
-} from "@chakra-ui/react";
+import { Center, Container, Divider, Flex, Spinner } from "@chakra-ui/react";
 import { useAddress, useLogout, useUser } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { StepsCard } from "components/dashboard/StepsCard";
@@ -15,8 +8,7 @@ import { ApiKeyTable } from "components/settings/ApiKeyTable";
 import { CreateApiKeyButton } from "components/settings/CreateApiKeyButton";
 import { PageId } from "page-id";
 import { useEffect, useMemo } from "react";
-import { FiPlus } from "react-icons/fi";
-import { Button, Card, Heading, Text } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const DashboardApiKeys: ThirdwebNextPage = () => {
@@ -29,7 +21,9 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
     if (address !== user?.address) {
       logout();
     }
-  }, [address, user?.address]);
+  }, [address, user?.address, logout]);
+
+  console.log(user?.address);
 
   const steps = useMemo(
     () => [
@@ -48,7 +42,7 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
         completed: (keysQuery.data?.length || 0) > 0,
       },
     ],
-    [user?.address],
+    [user?.address, keysQuery.data?.length],
   );
 
   if (!user?.address || (keysQuery.isFetched && keysQuery.data?.length === 0)) {
