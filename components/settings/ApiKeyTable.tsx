@@ -12,14 +12,24 @@ import {
   Td,
   Th,
   Thead,
+  Tooltip,
   Tr,
+  useClipboard,
+  useToast,
 } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { memo, useMemo } from "react";
-import { FiMoreVertical, FiX } from "react-icons/fi";
+import { FiCopy, FiMoreVertical, FiX } from "react-icons/fi";
 import { Column, Row, useTable } from "react-table";
-import { Heading, MenuItem, Text, TrackedIconButton } from "tw-components";
-import { AddressCopyButton } from "tw-components/AddressCopyButton";
+import {
+  Button,
+  Card,
+  Heading,
+  MenuItem,
+  Text,
+  TrackedIconButton,
+} from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface ApiKeyTableProps {
@@ -38,36 +48,32 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
         Header: "API Key",
         accessor: (row) => row.key,
         Cell: (cell: any) => {
-          return (
-            <AddressCopyButton
-              size="xs"
-              address={cell.row.original.key}
-              shortenAddress={false}
-            />
-          );
+          return <CopyApiKeyButton apiKey={cell.row.original.key} />;
         },
       },
       {
         id: "actions",
         Cell: (cell: any) => {
           return (
-            <Menu isLazy>
-              <MenuButton
-                as={TrackedIconButton}
-                variant="gost"
-                icon={<FiMoreVertical />}
-                onClick={(e) => e.stopPropagation()}
-              />
-              <MenuList
-                onClick={(e) => e.stopPropagation()}
-                borderWidth={1}
-                borderColor="borderColor"
-                borderRadius="lg"
-                overflow="hidden"
-              >
-                <RevokeApiKeyButton apiKey={cell.row.original.key} />
-              </MenuList>
-            </Menu>
+            <Flex width="100%" justify="flex-end">
+              <Menu isLazy>
+                <MenuButton
+                  as={TrackedIconButton}
+                  variant="gost"
+                  icon={<FiMoreVertical />}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <MenuList
+                  onClick={(e) => e.stopPropagation()}
+                  borderWidth={1}
+                  borderColor="borderColor"
+                  borderRadius="lg"
+                  overflow="hidden"
+                >
+                  <RevokeApiKeyButton apiKey={cell.row.original.key} />
+                </MenuList>
+              </Menu>
+            </Flex>
           );
         },
       },
@@ -157,15 +163,11 @@ const ApiKeyTableRow = memo(({ row }: { row: Row<ApiKeyInfo> }) => {
 
 ApiKeyTableRow.displayName = "ApiKeyTableRow";
 
-interface RevokeApiKeyButtonProps {
+interface ApiKeyButtonProps {
   apiKey: string;
 }
 
-const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({
-  apiKey,
-}: {
-  apiKey: string;
-}) => {
+const RevokeApiKeyButton: React.FC<ApiKeyButtonProps> = ({ apiKey }) => {
   const mutation = useRevokeApiKey();
   const { onSuccess, onError } = useTxNotifications(
     "API key revoked",
@@ -200,5 +202,55 @@ const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({
         </Heading>
       </Flex>
     </MenuItem>
+  );
+};
+
+const CopyApiKeyButton: React.FC<ApiKeyButtonProps> = ({ apiKey }) => {
+  const { onCopy, setValue } = useClipboard(apiKey);
+  const trackEvent = useTrack();
+  const toast = useToast();
+
+  return (
+    <Flex gap={2} align="center">
+      <Text fontSize="xs">
+        {apiKey.substring(0, 12)}...{apiKey.substring(apiKey.length - 12)}
+      </Text>
+      <Tooltip
+        p={0}
+        bg="transparent"
+        boxShadow={"none"}
+        label={
+          <Card py={2} px={4} bgColor="backgroundHighlight">
+            <Text size="label.sm">Copy API key to clipboard</Text>
+          </Card>
+        }
+      >
+        <Button
+          size="sm"
+          p={0}
+          variant="ghost"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            onCopy();
+            toast({
+              variant: "solid",
+              position: "bottom",
+              title: `API key copied.`,
+              status: "success",
+              duration: 5000,
+              isClosable: true,
+            });
+            trackEvent({
+              category: "api_key_button",
+              action: "copy",
+              apiKey,
+            });
+          }}
+        >
+          <Icon boxSize={3} as={FiCopy} />
+        </Button>
+      </Tooltip>
+    </Flex>
   );
 };
