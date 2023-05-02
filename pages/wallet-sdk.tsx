@@ -189,7 +189,7 @@ const WalletSDK: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         name="Wallet SDK"
         title="Build any wallet experience."
-        description="Wallet SDK makes it easy for devs to build any wallet experience. Integrate with any existing wallet provider (non-custodial, custodial, smart wallets, and email wallets), build your own fully featured custom wallet solutions, and create on-chain smart wallets."
+        description="Wallet SDK makes it easy for devs to build for any wallet experience, from onboarding web2 users with an invisible wallet experience to programmable smart wallets for web3 natives."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/wallet"
         image={require("public/assets/product-pages/wallet-sdk/hero.png")}
@@ -216,7 +216,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             title="Simple"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
-            We’ve made the entire web3 wallet development simple— from
+            We’ve made the entire web3 wallet development simple — from
             integrating, building to managing wallets. Out-of-the-box UI
             components for ConnectWallet button. SDK hooks to connect with any
             wallet providers with our Connectors. Ready-to-deploy starter bases
@@ -246,14 +246,14 @@ const WalletSDK: ThirdwebNextPage = () => {
             >
               <UnorderedList>
                 <ListItem>
-                  Powerful tool with raw capabilities to build your own fully
-                  featured wallet solution
+                  Out-of-the-box UI components to easily integrate into your
+                  apps and games with cross-platform support (Unity,
+                  ReactNative).
                 </ListItem>
                 <ListItem mt={4}>
-                  All-in-one toolkit to build your own fully featured wallet—
-                  from generating wallets on the backend to managing wallets
-                  (importing & exporting keys, save keys to secure storage, and
-                  private key recovery.)
+                  Enable end users to connect with popular wallets (170+
+                  supported) across all types of wallets. Includes native Safe
+                  multi-sig support.
                 </ListItem>
               </UnorderedList>
             </ProductCard>
@@ -263,10 +263,14 @@ const WalletSDK: ThirdwebNextPage = () => {
             >
               <UnorderedList>
                 <ListItem>
-                  Build, launch, and manage your own smart contract wallets
-                  easily using Solidity SDK, which includes 3 base starter
-                  templates specific for smart wallets. Base template follows
-                  account abstraction standard (fully compliant ERC-4337).
+                  Powerful tool with raw capabilities to build your own fully
+                  featured wallet solution
+                </ListItem>
+                <ListItem mt={4}>
+                  Everything you need to build your own fully featured wallet—
+                  from generating wallets on the backend to managing wallets
+                  (importing & exporting keys, save keys to secure storage, and
+                  private key recovery).
                 </ListItem>
               </UnorderedList>
             </ProductCard>
@@ -276,14 +280,10 @@ const WalletSDK: ThirdwebNextPage = () => {
             >
               <UnorderedList>
                 <ListItem>
-                  Out-of-the-box UI components to easily integrate into your
-                  apps and games with cross-platform support (Unity,
-                  ReactNative).
-                </ListItem>
-                <ListItem mt={4}>
-                  Enable end users to connect with popular wallets (170+
-                  supported) across all types of wallets. Includes native Safe
-                  multi-sig support.
+                  Build, launch, and manage your own smart contract wallets
+                  easily using Solidity SDK, which includes 3 base starter
+                  templates specific for smart wallets. Base template follows
+                  account abstraction standard (fully compliant ERC-4337).
                 </ListItem>
               </UnorderedList>
             </ProductCard>
@@ -314,6 +314,10 @@ const WalletSDK: ThirdwebNextPage = () => {
               isHighlighted={selectedTab === "invisible-wallet-experience"}
               title="Invisible wallet experience"
               height="63px"
+              width={{
+                base: "full",
+                md: "236px",
+              }}
               onClick={() => {
                 setSelectedTab("invisible-wallet-experience");
               }}
@@ -322,6 +326,10 @@ const WalletSDK: ThirdwebNextPage = () => {
               isHighlighted={selectedTab === "email-sign-in"}
               title="Email sign-in"
               height="63px"
+              width={{
+                base: "full",
+                md: "236px",
+              }}
               onClick={() => {
                 setSelectedTab("email-sign-in");
               }}
@@ -330,6 +338,10 @@ const WalletSDK: ThirdwebNextPage = () => {
               isHighlighted={selectedTab === "smart-wallet"}
               title="Smart wallet"
               height="63px"
+              width={{
+                base: "full",
+                md: "236px",
+              }}
               onClick={() => {
                 setSelectedTab("smart-wallet");
               }}

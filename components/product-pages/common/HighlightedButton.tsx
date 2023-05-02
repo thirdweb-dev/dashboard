@@ -7,35 +7,35 @@ interface HighlightedButtonProps extends ButtonProps {
   isHighlighted?: boolean;
   fullCircle?: boolean;
   height?: string;
+  width?: ButtonProps["width"];
 }
 
 export const HighlightedButton = React.forwardRef<
   HTMLButtonElement,
   HighlightedButtonProps
->(({ title, isHighlighted, fullCircle = false, height, ...rest }, ref) => {
-  const boxShadow = useColorModeValue(
-    isHighlighted ? "0 0 10px 2px rgba(51, 133, 255, 1)" : "none",
-    isHighlighted ? "0 0 10px 2px rgba(51, 133, 255, 1)" : "none",
-  );
+>(
+  (
+    { title, isHighlighted, fullCircle = false, height, width, ...rest },
+    ref,
+  ) => {
+    const boxShadow = useColorModeValue(
+      isHighlighted ? "0 0 10px 2px rgba(51, 133, 255, 1)" : "none",
+      isHighlighted ? "0 0 10px 2px rgba(51, 133, 255, 1)" : "none",
+    );
 
-  const styles = useStyleConfig("Button", {
-    variant: "highlighted",
-    fullCircle,
-    height,
-  });
+    const styles = useStyleConfig("Button", {
+      variant: "highlighted",
+      fullCircle,
+      height,
+      width,
+    });
 
-  return (
-    <Button
-      ref={ref}
-      {...rest}
-      sx={styles}
-      boxShadow={boxShadow}
-      borderRadius={fullCircle ? "full" : 12}
-      height={height}
-    >
-      {title}
-    </Button>
-  );
-});
+    return (
+      <Button ref={ref} {...rest} sx={styles} boxShadow={boxShadow}>
+        {title}
+      </Button>
+    );
+  },
+);
 
 HighlightedButton.displayName = "HighlightedButton";
