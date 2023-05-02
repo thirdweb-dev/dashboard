@@ -22,9 +22,9 @@ import { ThirdwebNextPage } from "utils/types";
 const TRACKING_CATEGORY = "community";
 
 const SEO = {
-  title: "Learn Web3 Development | Web3 Course | thirdweb",
+  title: "Join the Best Web3 Community | Learn, Build, Grow",
   description:
-    "Learn everything you need to know about web3 development — whether you&apos;re a beginner or a full-stack developer. Get started with thirdweb.",
+    "Join the thirdweb community and share your web3 journey alongside 35,000+ other builders. Learn, build, & grow with thirdweb.",
 };
 
 const CommunitySections = [
@@ -39,28 +39,25 @@ const CommunitySections = [
         image: "",
         link: "/learn",
         title: "thirdweb learn",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       // {
       //   image: "",
       //   link: "/learn",
       //   title: "Bootcamp",
-      // description: "This is a short description about this section and what it offers."
+      // description: ""
       // },
       {
         image: "",
         link: "/events",
         title: "Events",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "/events",
         title: "Office Hours",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
     ],
   },
@@ -74,29 +71,25 @@ const CommunitySections = [
         image: "",
         link: "/events",
         title: "Hackathons",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "https://www.notion.so/thirdweb/Paid-Projects-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
         title: "Projects",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706",
         title: "Bug Bounty",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "/oss",
         title: "OSS Contributions",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
     ],
   },
@@ -110,29 +103,25 @@ const CommunitySections = [
         image: "",
         link: "https://ambassador.thirdweb.com/",
         title: "Ambassadors",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "https://www.notion.so/thirdweb/University-Program-Page-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
         title: "University Program",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "https://www.notion.so/thirdweb/Regional-Champions-Page-cebe9db7b2534162b0fd87e60039280c?pvs=4",
         title: "Regional Champions",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
       {
         image: "",
         link: "/",
         title: "Showcase",
-        description:
-          "This is a short description about this section and what it offers.",
+        description: "",
       },
     ],
   },
@@ -141,39 +130,30 @@ const CommunitySections = [
 const galleryImages = [
   {
     src: "/assets/community/gallery/1.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/2.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/3.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/4.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/5.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/6.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/7.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/8.png",
-    alt: "Image",
   },
   {
     src: "/assets/community/gallery/9.png",
-    alt: "Image",
   },
 ];
 
@@ -356,7 +336,7 @@ const Community: ThirdwebNextPage = () => {
                 <Image
                   key={image.src}
                   src={image.src}
-                  alt={image.alt}
+                  alt="thirdweb gallery image"
                   w="100%"
                   objectFit="cover"
                 />
