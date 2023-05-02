@@ -1,28 +1,41 @@
-import { Button } from "tw-components";
+import { useColorModeValue, useStyleConfig } from "@chakra-ui/react";
+import React from "react";
+import { Button, ButtonProps } from "tw-components";
 
-interface HighlightedButtonProps {
+interface HighlightedButtonProps extends ButtonProps {
   title: string;
-  onClick: () => void;
+  isHighlighted?: boolean;
+  fullCircle?: boolean;
+  height?: string;
 }
 
-export const HighlightedButton: React.FC<HighlightedButtonProps> = ({
-  title,
-}) => {
+export const HighlightedButton = React.forwardRef<
+  HTMLButtonElement,
+  HighlightedButtonProps
+>(({ title, isHighlighted, fullCircle = false, height, ...rest }, ref) => {
+  const boxShadow = useColorModeValue(
+    isHighlighted ? "0 0 10px 2px rgba(51, 133, 255, 1)" : "none",
+    isHighlighted ? "0 0 10px 2px rgba(51, 133, 255, 1)" : "none",
+  );
+
+  const styles = useStyleConfig("Button", {
+    variant: "highlighted",
+    fullCircle,
+    height,
+  });
+
   return (
     <Button
-      variant="outline"
-      colorScheme="purple"
-      size="lg"
-      fontWeight={700}
-      borderRadius={100}
-      px={8}
-      py={6}
-      _hover={{
-        bg: "purple.500",
-        color: "white",
-      }}
+      ref={ref}
+      {...rest}
+      sx={styles}
+      boxShadow={boxShadow}
+      borderRadius={fullCircle ? "full" : 12}
+      height={height}
     >
       {title}
     </Button>
   );
-};
+});
+
+HighlightedButton.displayName = "HighlightedButton";
