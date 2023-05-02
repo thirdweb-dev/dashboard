@@ -161,6 +161,13 @@ export const PRODUCTS: NavCardProps[] = [
     link: "/ui-components",
     icon: require("public/assets/product-icons/ui-components.png"),
   },
+  {
+    name: "Wallet SDK",
+    label: "wallet-sdk",
+    description: "Build any wallet experience",
+    link: "/wallet-sdk",
+    icon: require("public/assets/product-icons/ui-components.png"),
+  },
 ];
 
 export const SOLUTIONS: NavCardProps[] = [
