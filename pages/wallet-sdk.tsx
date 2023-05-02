@@ -194,6 +194,7 @@ const WalletSDK: ThirdwebNextPage = () => {
         buttonLink="https://portal.thirdweb.com/wallet"
         image={require("public/assets/product-pages/wallet-sdk/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
+        imageHeight="650px"
       >
         <SimpleGrid
           justifyContent="flex-start"
