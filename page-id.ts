@@ -73,6 +73,9 @@ export enum PageId {
   // thirdweb.com/dashboard/rpc
   DashboardRPC = "dashboard-rpc",
 
+  // thirdweb.com/dashboard/api-keys
+  DashboardApiKeys = "dashboard-api-keys",
+
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
   // thirdweb.com/dashboard/programs

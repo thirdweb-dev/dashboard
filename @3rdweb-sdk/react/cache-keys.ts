@@ -7,6 +7,12 @@ export const networkKeys = {
   multiChainRegistry: ["multi-chain-registry"] as const,
 };
 
+export const apiKeys = {
+  all: ["api"] as const,
+  keys: () => [...apiKeys.all, "keys"] as const,
+  key: (id: string) => [...apiKeys.keys(), id] as const,
+};
+
 export const contractKeys = {
   all: ["contract"] as const,
   lists: () => [...contractKeys.all, "list"] as const,
