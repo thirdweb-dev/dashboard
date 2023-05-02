@@ -4,6 +4,7 @@ import { Flex, Icon, SimpleGrid } from "@chakra-ui/react";
 import { useUser } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ApiKeyTable } from "components/settings/ApiKeyTable";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import { PageId } from "page-id";
 import { FiPlus } from "react-icons/fi";
 import { Button, Heading } from "tw-components";
@@ -13,6 +14,12 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
   const { user } = useUser();
   const keysQuery = useApiKeys();
   const createKeyMutation = useCreateApiKey();
+  const { onSuccess, onError } = useTxNotifications(
+    "API key created",
+    "Failed to create API key",
+  );
+
+  console.log(keysQuery.data);
 
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
@@ -28,7 +35,16 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
         </Flex>
         {user?.address ? (
           <Button
-            onClick={() => createKeyMutation.mutate()}
+            onClick={() =>
+              createKeyMutation.mutate(undefined, {
+                onSuccess: () => {
+                  onSuccess();
+                },
+                onError: (err) => {
+                  onError(err);
+                },
+              })
+            }
             colorScheme="blue"
             leftIcon={<Icon as={FiPlus} boxSize={4} />}
             isLoading={createKeyMutation.isLoading}

@@ -9,8 +9,11 @@ export const networkKeys = {
 
 export const apiKeys = {
   all: ["api"] as const,
-  keys: () => [...apiKeys.all, "keys"] as const,
-  key: (id: string) => [...apiKeys.keys(), id] as const,
+  wallet: (walletAddress: string) => [...apiKeys.all, walletAddress] as const,
+  keys: (walletAddress: string) =>
+    [...apiKeys.wallet(walletAddress), "keys"] as const,
+  key: (id: string, walletAddress: string) =>
+    [...apiKeys.keys(walletAddress), id] as const,
 };
 
 export const contractKeys = {

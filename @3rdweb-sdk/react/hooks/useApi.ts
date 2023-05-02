@@ -14,7 +14,7 @@ export function useApiKeys() {
   const { user } = useUser();
 
   return useQuery(
-    apiKeys.keys(),
+    apiKeys.keys(user?.address as string),
     async () => {
       const res = await fetch("https://api.thirdweb.com/v1/dashboard/keys", {
         method: "GET",
@@ -29,7 +29,7 @@ export function useApiKeys() {
         throw new Error(data.error);
       }
 
-      return data.keys as ApiKeyInfo[];
+      return (data.keys as ApiKeyInfo[]).filter((item) => !item.revoked);
     },
     { enabled: !!user?.address },
   );
@@ -60,7 +60,7 @@ export function useCreateApiKey() {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([apiKeys.keys()]);
+        return invalidate([apiKeys.keys(user?.address as string)]);
       },
     },
   );
@@ -96,7 +96,7 @@ export function useRevokeApiKey() {
     },
     {
       onSuccess: (_data, _variables, _options, invalidate) => {
-        return invalidate([apiKeys.keys()]);
+        return invalidate([apiKeys.keys(user?.address as string)]);
       },
     },
   );

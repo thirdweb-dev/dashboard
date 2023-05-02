@@ -15,10 +15,11 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { memo, useMemo } from "react";
 import { FiMoreVertical, FiX } from "react-icons/fi";
 import { Column, Row, useTable } from "react-table";
-import { Button, Heading, Text, TrackedIconButton } from "tw-components";
+import { Heading, Text, TrackedIconButton } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -32,8 +33,6 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
   isLoading,
   children,
 }) => {
-  const revokeMutation = useRevokeApiKey();
-
   const columns: Column<ApiKeyInfo>[] = useMemo(
     () => [
       {
@@ -67,14 +66,14 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
                 borderRadius="lg"
                 overflow="hidden"
               >
-                {/* <RevokeApiKeyButton apiKey={cell.row.original.key} /> */}
+                <RevokeApiKeyButton apiKey={cell.row.original.key} />
               </MenuList>
             </Menu>
           );
         },
       },
     ],
-    [revokeMutation],
+    [],
   );
 
   const { rows, prepareRow, getTableProps, getTableBodyProps, headerGroups } =
@@ -169,13 +168,24 @@ const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({
   apiKey: string;
 }) => {
   const mutation = useRevokeApiKey();
+  const { onSuccess, onError } = useTxNotifications(
+    "API key revoked",
+    "Failed to revoke API key",
+  );
 
   return (
     <MenuItem
       borderWidth={0}
       onClick={(e) => {
         e.stopPropagation();
-        mutation.mutate(apiKey);
+        mutation.mutate(apiKey, {
+          onSuccess: () => {
+            onSuccess();
+          },
+          onError: (err) => {
+            onError(err);
+          },
+        });
       }}
       isDisabled={mutation.isLoading}
       closeOnSelect={false}
@@ -187,7 +197,7 @@ const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({
           <Icon as={FiX} color="red.500" />
         )}
         <Heading as="span" size="label.md">
-          Remove from dashboard
+          Revoke key
         </Heading>
       </Flex>
     </MenuItem>
