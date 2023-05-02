@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-bear-market-airdrop", false, true);
+    useLocalStorage("dismissed-open-source", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
