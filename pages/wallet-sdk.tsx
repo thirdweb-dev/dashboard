@@ -290,14 +290,10 @@ const WalletSDK: ThirdwebNextPage = () => {
             >
               <UnorderedList>
                 <ListItem>
-                  Out-of-the-box UI components to easily integrate into your
-                  apps and games with cross-platform support (Unity,
-                  ReactNative).
-                </ListItem>
-                <ListItem mt={4}>
-                  Enable end users to connect with popular wallets (170+
-                  supported) across all types of wallets. Includes native Safe
-                  multi-sig support.
+                  Build, launch, and manage your own smart contract wallets
+                  easily using Solidity SDK, which includes 3 base starter
+                  templates specific for smart wallets. Base template follows
+                  account abstraction standard (fully compliant ERC-4337).
                 </ListItem>
               </UnorderedList>
             </ProductCard>
