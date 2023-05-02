@@ -23,8 +23,6 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
     }
   }, [address, user?.address, logout]);
 
-  console.log(user?.address);
-
   const steps = useMemo(
     () => [
       {
