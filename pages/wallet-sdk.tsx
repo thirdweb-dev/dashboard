@@ -1,8 +1,8 @@
 import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
 import { ProductSection } from "../components/product-pages/common/ProductSection";
-import { YoutubeEmbed } from "../components/video-embed/YoutubeEmbed";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
+import { ProductButton } from "components/product-pages/common/ProductButton";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
@@ -107,20 +107,14 @@ const WalletSDK: ThirdwebNextPage = () => {
             textAlign="center"
             mb={{ base: 16, lg: 24 }}
           >
-            Contracts for every use case
+            What can you build with Wallet SDK?
           </Heading>
           <SimpleGrid columns={{ base: 1, md: 2 }} gap={14}>
             <ProductCard
               title="What can you build with Wallet SDK?"
               icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
             ></ProductCard>
-            <ProductLearnMoreCard
-              title="Extensions"
-              category={TRACKING_CATEGORY}
-              description="Each extension that you implement in your smart contract unlocks corresponding functionality for you to utilize in the SDK."
-              icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
-              href="https://portal.thirdweb.com/solidity/extensions"
-            />
+            <ProductButton title="hello" href="/" />
           </SimpleGrid>
         </ProductSection>
 
