@@ -5,7 +5,6 @@ import {
   Icon,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   Spinner,
   Table,
@@ -19,7 +18,7 @@ import { useTxNotifications } from "hooks/useTxNotifications";
 import React, { memo, useMemo } from "react";
 import { FiMoreVertical, FiX } from "react-icons/fi";
 import { Column, Row, useTable } from "react-table";
-import { Heading, Text, TrackedIconButton } from "tw-components";
+import { Heading, MenuItem, Text, TrackedIconButton } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { ComponentWithChildren } from "types/component-with-children";
 
