@@ -313,7 +313,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             <HighlightedButton
               isHighlighted={selectedTab === "invisible-wallet-experience"}
               title="Invisible wallet experience"
-              height="63px"
+              minHeight="63px"
               width={{
                 base: "full",
                 md: "236px",
@@ -325,7 +325,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             <HighlightedButton
               isHighlighted={selectedTab === "email-sign-in"}
               title="Email sign-in"
-              height="63px"
+              minHeight="63px"
               width={{
                 base: "full",
                 md: "236px",
@@ -337,7 +337,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             <HighlightedButton
               isHighlighted={selectedTab === "smart-wallet"}
               title="Smart wallet"
-              height="63px"
+              minHeight="63px"
               width={{
                 base: "full",
                 md: "236px",
