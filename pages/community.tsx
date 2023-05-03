@@ -206,7 +206,7 @@ const Community: ThirdwebNextPage = () => {
                 trackEvent({
                   category: TRACKING_CATEGORY,
                   action: "click",
-                  title: "Join the community",
+                  label: "join-the-community",
                 })
               }
               background="white"
