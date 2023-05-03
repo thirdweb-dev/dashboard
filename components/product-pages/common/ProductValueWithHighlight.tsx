@@ -1,5 +1,4 @@
 import { HighlightedButton } from "./HighlightedButton";
-import { Box } from "@chakra-ui/react";
 import { Text } from "tw-components";
 
 interface ProductValueWithHighlightProps {
