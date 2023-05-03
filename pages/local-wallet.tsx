@@ -38,15 +38,15 @@ const LocalWallet: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Solidity SDK",
-        description: "Build your own contract easily",
+        title: "Local Wallet",
+        description: "Build your own fully featured wallet",
         openGraph: {
           images: [
             {
               url: `${getAbsoluteUrl()}/assets/og-image/solidity-sdk.png`,
               width: 2334,
               height: 1260,
-              alt: "thirdweb Solidity SDK",
+              alt: "thirdweb Local Wallet",
             },
           ],
         },
@@ -59,7 +59,7 @@ const LocalWallet: ThirdwebNextPage = () => {
         title="Build your own fully featured wallet"
         description="Out-of-the-box base contracts and a set of reusable standards, or extensions, that can be integrated into your own smart contract."
         buttonText="Get started"
-        buttonLink="https://portal.thirdweb.com/solidity"
+        buttonLink="https://portal.thirdweb.com/wallet/local-wallet"
         image={require("public/assets/product-pages/local-wallet/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #D45CFF 100.01%)"
       >
@@ -70,49 +70,31 @@ const LocalWallet: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
         >
           <ProductCard
-            title="Base contracts for your needs"
+            title="Improve user onboarding"
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
-            Fully featured base contracts (ERC721, ERC1155, ERC20) that are
-            extendable. Build contracts for all types of web3 apps and games.
+            Enable a “continue as guest” experience without users needing to
+            interact with a wallet. Simply onboard users with a username and
+            password flow by generating wallets on the fly in backend.
           </ProductCard>
           <ProductCard
-            title="Extensions to add functionality"
+            title="Complete"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            Use extensions to override or add functionality to fine-tune
-            contract behavior, e.g. Royalties, Permissions, Staking, etc.
+            Everything you need to build your own fully featured wallet— from
+            generating wallets on the backend to managing wallets (importing &
+            exporting keys, save keys to secure storage, and private key
+            recovery).
           </ProductCard>
           <ProductCard
-            title="Out-of-the-box tooling"
+            title="Customize"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
-            Get auto-generated SDKs and dashboards to build apps on top of your
-            contracts and easily manage them.
+            Local wallets can be used to build any type of wallet experience,
+            including: custodial wallet, non-custodial, semi-custodial wallet.
           </ProductCard>
         </SimpleGrid>
       </Hero>
-
-      {/* Video Embed section*/}
-      <ProductSection py={{ base: 12, lg: 24 }}>
-        <Flex alignItems="center" flexDirection="column">
-          <Heading
-            as="h2"
-            size="display.sm"
-            textAlign="center"
-            mb={12}
-            maxW={800}
-          >
-            Build contracts for your web3 apps and games
-          </Heading>
-          <YoutubeEmbed
-            maxWidth={680}
-            videoId="G3IHeKhVtpQ"
-            aspectRatio={16 / 9}
-            title="Introducing the Solidity SDK: The Web3 Tool for Base Contracts, Basic Contracts, and Extensions"
-          />
-        </Flex>
-      </ProductSection>
 
       {/* Learn More section */}
       <ProductSection py={{ base: 12, lg: 24 }}>
