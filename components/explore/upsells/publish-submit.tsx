@@ -68,7 +68,7 @@ export const PublishUpsellCard: React.FC = () => {
               color: "accent.900",
             }}
           >
-            Get In Touch
+            Get in touch
           </LinkButton>
           <LinkButton
             as={TrackedLink}
