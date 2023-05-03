@@ -60,6 +60,9 @@ export enum PageId {
   // thirdweb.com/404
   PageNotFound = "page-not-found",
 
+  // thirdweb.com/wallet-sdk
+  WalletSDKLanding = "wallet-sdk-landing",
+
   // ---------------------------------------------------------------------------
   //  general product pages
   // ---------------------------------------------------------------------------
@@ -86,6 +89,7 @@ export enum PageId {
 
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
+
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------
