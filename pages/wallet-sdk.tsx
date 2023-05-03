@@ -229,7 +229,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             title="Simple"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
-            We've made the entire web3 wallet development workflow simple.
+            We&apos;ve made the entire web3 wallet development workflow simple.
             (delete: from integrating, building to managing wallets)
           </ProductCard>
           <ProductCard
