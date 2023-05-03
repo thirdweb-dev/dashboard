@@ -140,7 +140,7 @@ const Minting: ThirdwebNextPage = () => {
         gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
         secondaryButton={{
-          text: "Get in touch",
+          text: "Get In Touch",
           link: "https://thirdweb.typeform.com/to/fMIj602T#hubspot_utk=xxxxx&hubspot_page_name=xxxxx&hubspot_page_url=xxxxx",
         }}
       >
