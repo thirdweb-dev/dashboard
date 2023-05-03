@@ -10,6 +10,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { CommunityCard } from "components/community/Card";
 import { HomepageFooter } from "components/footer/Footer";
+import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
@@ -128,52 +129,59 @@ const Community: ThirdwebNextPage = () => {
         bg="#000"
       >
         <HomepageTopNav />
-        {/* pull it up by as much as the topnav is tall */}
-        <Box mt="-80px" overflowX="hidden">
-          <Center
-            py={{ base: 12, md: 24 }}
-            px={{ base: 4, md: 8 }}
-            flexDir="column"
-          >
-            <Heading mt={8} textAlign="center" size="title.2xl">
-              A decentralized internet begins
-              <br /> with{" "}
-              <Heading
-                as="span"
-                size="title.2xl"
-                background="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%), #ECECEC"
-                backgroundClip="text"
-                color="transparent"
-              >
-                decentralized talent.
-              </Heading>
-            </Heading>
+        <Box maxW="100vw" mt="-100px" py="100px" overflowX="hidden">
+          <Container zIndex={1} position="relative" maxW="container.page">
+            <Aurora
+              pos={{ left: "50%", top: "50%" }}
+              size={{ width: "2000px", height: "2000px" }}
+              color="hsl(280deg 78% 30% / 30%)"
+            />
 
-            <LinkButton
-              href="https://discord.gg/thirdweb"
-              size="lg"
-              onClick={() =>
-                trackEvent({
-                  category: TRACKING_CATEGORY,
-                  action: "click",
-                  title: "join-the-community",
-                })
-              }
-              background="white"
-              _hover={{
-                background: "white",
-                color: "#000",
-              }}
-              color="#000"
-              fontSize="larger"
-              leftIcon={<Icon as={BsLightningCharge} />}
-              mt={8}
-              isExternal
-              rightIcon={<></>}
+            <Center
+              py={{ base: 12, md: 24 }}
+              px={{ base: 4, md: 8 }}
+              flexDir="column"
             >
-              Join the community
-            </LinkButton>
-          </Center>
+              <Heading mt={8} textAlign="center" size="title.2xl">
+                A decentralized internet begins
+                <br /> with{" "}
+                <Heading
+                  as="span"
+                  size="title.2xl"
+                  background="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%), #ECECEC"
+                  backgroundClip="text"
+                  color="transparent"
+                >
+                  decentralized talent.
+                </Heading>
+              </Heading>
+
+              <LinkButton
+                href="https://discord.gg/thirdweb"
+                size="lg"
+                onClick={() =>
+                  trackEvent({
+                    category: TRACKING_CATEGORY,
+                    action: "click",
+                    title: "join-the-community",
+                  })
+                }
+                background="white"
+                _hover={{
+                  background: "white",
+                  color: "#000",
+                }}
+                color="#000"
+                fontSize="larger"
+                leftIcon={<Icon as={BsLightningCharge} />}
+                mt={8}
+                isExternal
+                rightIcon={<></>}
+              >
+                Join the community
+              </LinkButton>
+            </Center>
+          </Container>
 
           {communitySections.map(
             ({ title1, title2, cards, description }, i) => (
@@ -330,7 +338,6 @@ const Community: ThirdwebNextPage = () => {
             fontSize="larger"
             leftIcon={<Icon as={BsLightningCharge} />}
             mt={4}
-            mb={10}
             isExternal
             rightIcon={<></>}
           >
