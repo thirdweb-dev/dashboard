@@ -16,7 +16,7 @@ import { ProductValueWithHighlight } from "components/product-pages/common/Produ
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import React, { useState } from "react";
-import { Heading, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const GRIDS = {
@@ -159,7 +159,7 @@ const GRIDS = {
 //   },
 // ];
 
-const TRACKING_CATEGORY = "dashboards";
+const TRACKING_CATEGORY = "wallet-sdk";
 
 const WalletSDK: ThirdwebNextPage = () => {
   const [selectedTab, setSelectedTab] = useState<
@@ -229,24 +229,57 @@ const WalletSDK: ThirdwebNextPage = () => {
             title="Simple"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
-            We’ve made the entire web3 wallet development simple — from
-            integrating, building to managing wallets. Out-of-the-box UI
-            components for ConnectWallet button. SDK hooks to connect with any
-            wallet providers with our Connectors. Ready-to-deploy starter bases
-            for smart wallets. Fully managed account abstraction infrastructure
-            services.
+            We've made the entire web3 wallet development workflow simple.
+            (delete: from integrating, building to managing wallets)
           </ProductCard>
           <ProductCard
             title="Composable"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
           >
-            Use Wallet SDK as a turnkey out-of-the box solution or bring your
-            own provider/solutions to complement with parts of our Wallet SDK.
+            <Text fontSize="lg">
+              Use{" "}
+              <TrackedLink
+                href="https://portal.thirdweb.com/wallet"
+                category={TRACKING_CATEGORY}
+                textDecoration="underline"
+                color="blue.200"
+                target="_blank"
+              >
+                Wallet SDK
+              </TrackedLink>{" "}
+              as a turnkey out-of-the box solution or bring your own
+              provider/solutions to complement with parts of our{" "}
+              <TrackedLink
+                href="https://portal.thirdweb.com/wallet/smart-wallet"
+                category={TRACKING_CATEGORY}
+                textDecoration="underline"
+                color="blue.200"
+                target="_blank"
+              >
+                Wallet SDK
+              </TrackedLink>
+              .
+            </Text>
           </ProductCard>
         </SimpleGrid>
 
         {/* Products */}
         <ProductSection py={{ base: 12, lg: 24 }}>
+          <Heading
+            as="h2"
+            size="display.sm"
+            fontWeight={700}
+            textAlign="center"
+            mb={{ base: 8, lg: 16 }}
+          >
+            How it works
+          </Heading>
+          <ChakraNextImage
+            src={require("/public/assets/product-pages/wallet-sdk/how-it-works.png")}
+            alt="How it works"
+            mb={16}
+            maxH="700px"
+          />
           <SimpleGrid
             justifyContent="flex-start"
             w="100%"
@@ -256,6 +289,8 @@ const WalletSDK: ThirdwebNextPage = () => {
             <ProductCard
               title="ConnectWallet"
               icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+              titleLink="https://portal.thirdweb.com/unity/connectwalletnative"
+              linkCategory={TRACKING_CATEGORY}
             >
               <UnorderedList>
                 <ListItem>
@@ -273,6 +308,8 @@ const WalletSDK: ThirdwebNextPage = () => {
             <ProductCard
               title="Local Wallet"
               icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+              titleLink="https://portal.thirdweb.com/wallet/local-wallet"
+              linkCategory={TRACKING_CATEGORY}
             >
               <UnorderedList>
                 <ListItem>
@@ -290,13 +327,25 @@ const WalletSDK: ThirdwebNextPage = () => {
             <ProductCard
               title="Smart Wallet"
               icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+              titleLink="https://portal.thirdweb.com/wallet/smart-wallet"
+              linkCategory={TRACKING_CATEGORY}
             >
               <UnorderedList>
                 <ListItem>
                   Build, launch, and manage your own smart contract wallets
                   easily using Solidity SDK, which includes 3 base starter
-                  templates specific for smart wallets. Base template follows
-                  account abstraction standard (fully compliant ERC-4337).
+                  templates specific for{" "}
+                  <TrackedLink
+                    href="https://portal.thirdweb.com/wallet/smart-wallet"
+                    category={TRACKING_CATEGORY}
+                    textDecoration="underline"
+                    color="blue.200"
+                    target="_blank"
+                  >
+                    smart wallets
+                  </TrackedLink>
+                  . Base template follows account abstraction standard (fully
+                  compliant ERC-4337).
                 </ListItem>
               </UnorderedList>
             </ProductCard>
