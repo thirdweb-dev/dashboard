@@ -39,7 +39,8 @@ const LocalWallet: ThirdwebNextPage = () => {
     <ProductPage
       seo={{
         title: "Local Wallet",
-        description: "Build your own fully featured wallet",
+        description:
+          "A powerful tool with raw capabilities to build your own fully featured wallet.",
         openGraph: {
           images: [
             {
@@ -57,11 +58,15 @@ const LocalWallet: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         name="Local Wallet"
         title="Build your own fully featured wallet"
-        description="Out-of-the-box base contracts and a set of reusable standards, or extensions, that can be integrated into your own smart contract."
+        description="A powerful tool with raw capabilities to build your own fully featured wallet."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/wallet/local-wallet"
         image={require("public/assets/product-pages/local-wallet/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #D45CFF 100.01%)"
+        secondaryButton={{
+          text: "Contact Us",
+          link: "https://thirdweb.typeform.com/to/Q93CVgUc?typeform-source=thirdweb-www-git-mariano-ftd-1679.thirdweb-preview.com",
+        }}
       >
         <SimpleGrid
           justifyContent="flex-start"
@@ -70,7 +75,7 @@ const LocalWallet: ThirdwebNextPage = () => {
           gap={{ base: 12, md: 6 }}
         >
           <ProductCard
-            title="Improve user onboarding"
+            title="Improve user experience"
             icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
           >
             Enable a “continue as guest” experience without users needing to
@@ -78,7 +83,7 @@ const LocalWallet: ThirdwebNextPage = () => {
             password flow by generating wallets on the fly in backend.
           </ProductCard>
           <ProductCard
-            title="Complete"
+            title="Complete dev tools"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
             Everything you need to build your own fully featured wallet— from
@@ -87,11 +92,11 @@ const LocalWallet: ThirdwebNextPage = () => {
             recovery).
           </ProductCard>
           <ProductCard
-            title="Customize"
+            title="Flexible use cases"
             icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
           >
-            Local wallets can be used to build any type of wallet experience,
-            including: custodial wallet, non-custodial, semi-custodial wallet.
+            Local wallets can be used to build any type of wallet, including:
+            custodial wallet, non-custodial, semi-custodial wallet.
           </ProductCard>
         </SimpleGrid>
       </Hero>
