@@ -63,6 +63,9 @@ export enum PageId {
   // thirdweb.com/wallet-sdk
   WalletSDKLanding = "wallet-sdk-landing",
 
+  // thirdweb.com/smart-wallet
+  SmartWalletLanding = "smart-wallet-landing",
+
   // ---------------------------------------------------------------------------
   //  general product pages
   // ---------------------------------------------------------------------------
