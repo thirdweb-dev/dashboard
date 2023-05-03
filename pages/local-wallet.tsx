@@ -1,13 +1,6 @@
 // import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
 import { ProductSection } from "../components/product-pages/common/ProductSection";
-import {
-  Flex,
-  GridItem,
-  ListItem,
-  SimpleGrid,
-  UnorderedList,
-} from "@chakra-ui/react";
-import { ChakraNextImage } from "components/Image";
+import { Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { HighlightedButton } from "components/product-pages/common/HighlightedButton";
 import { ProductCard } from "components/product-pages/common/ProductCard";
