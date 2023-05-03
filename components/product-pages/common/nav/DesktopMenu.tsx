@@ -168,6 +168,13 @@ export const PRODUCTS: NavCardProps[] = [
     link: "/wallet-sdk",
     icon: require("public/assets/product-icons/wallet-sdk.png"),
   },
+  {
+    name: "Smart Wallet",
+    label: "smart-wallet",
+    description: "The simplest way to build and manage smart wallets",
+    link: "/smart-wallet",
+    icon: require("public/assets/product-icons/smart-wallet.png"),
+  },
 ];
 
 export const SOLUTIONS: NavCardProps[] = [
