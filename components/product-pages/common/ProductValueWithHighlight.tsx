@@ -11,7 +11,7 @@ export const ProductValueWithHighlight: React.FC<
   ProductValueWithHighlightProps
 > = ({ circleLabel = "1", children }) => {
   return (
-    <Box flexWrap="wrap">
+    <>
       <HighlightedButton
         title={circleLabel}
         fontWeight="bold"
@@ -21,6 +21,6 @@ export const ProductValueWithHighlight: React.FC<
       <Text mt={6} fontSize="lg" fontWeight="semi-bold" color="white">
         {children}
       </Text>
-    </Box>
+    </>
   );
 };

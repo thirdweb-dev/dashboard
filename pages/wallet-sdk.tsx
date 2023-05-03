@@ -24,17 +24,16 @@ const GRIDS = {
     <SimpleGrid columns={12} spacing={12} mt={24}>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="1">
-          User logs into mobile web3 game and selects “Continue as Guest”.
+          User logs into mobile web3 game and select “continue as Guest”.
           <br />
           <br />
-          (Initially, user does not have to set up a “web3 wallet” to play game.
-          This reduces onboarding friction.)
+          (Initially, user does not have to set up a “web3 wallet” to reduce
+          onboarding friction)
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="2">
-          Developer generates local wallet on backend for user with key stored
-          on device
+          Developer generates local wallet on backend with key stored on device
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
@@ -42,13 +41,13 @@ const GRIDS = {
           User receives in-game assets as they play game
           <br />
           <br />
-          (Initially, web3 is completely abstracted away. User does not have to
-          be aware of “digital assets” ownership)
+          (Initially, user does not have to be aware of “digital assets”
+          ownership)
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="4">
-          After user accumulates in-game assets, they receive a message to
+          After user accumulates in-game assets they receive a message to
           upgrade their local wallet to export assets into personal
           non-custodial wallet
           <br />
@@ -77,15 +76,17 @@ const GRIDS = {
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="2">
-          Dev subsidizes gas costs with Gasless Relayer. Dev generates a local
-          wallet on the backend on behalf of the user. Key is stored across
-          device and email.
+          Developer subsidizes gas costs with Gasless Relayer. Dev generates a
+          local wallet on the backend on behalf of the user. Key is stored
+          across device and email.
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="3">
-          User uses app and selects “claim NFT” to get NFT (No wallet connection
-          or disruptive transactions signing required)
+          User uses app and selects “claim NFT” to get NFT
+          <br />
+          <br />
+          (no wallet connection or transactions signing required)
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem
@@ -102,28 +103,35 @@ const GRIDS = {
     <SimpleGrid columns={12} spacing={12} mt={24}>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="1">
-          Game dev deploys smart contract wallet using thirdweb base template
-          for smart wallets
+          Dev deploys smart contract wallet using thirdweb base template for
+          smart wallets.
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
-        <ProductValueWithHighlight circleLabel="2">
-          Later on, new contract extensions for smart wallets are released. Game
-          dev decides to upgrade all smart wallets under its factory contract
-          with this new extension.
-        </ProductValueWithHighlight>
+        <UnorderedList>
+          <ProductValueWithHighlight circleLabel="2">
+            Dev sets custom logic for their team wallet
+            <ListItem mt={4}>
+              Logic 1: for outgoing transactions greater than 10 ETH from team
+              wallet, 3 designated signers (Dev team members) must sign off on
+              transactions before it can be executed on chain
+            </ListItem>
+            <ListItem mt={4}>
+              Logic 2: daily outgoing transaction total capped at 20 ETH
+            </ListItem>
+          </ProductValueWithHighlight>
+        </UnorderedList>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="3">
-          New extension rolled out to all Game dev’s smart contract wallets
-          ensures that wallets are restricted to only send/receive specific Game
-          assets only
+          Dev team member wants to send transaction greater than 10 ETH to an
+          infrastructure provider as part of ongoing expenses
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="4">
-          Players can only interact with Games’ digital assets when they are
-          using Game’s smart wallet
+          Since this transaction is greater than 10 ETH, it requires Dev’s team
+          members to sign transaction before it is executed on chain
         </ProductValueWithHighlight>
       </GridItem>
     </SimpleGrid>
@@ -195,6 +203,10 @@ const WalletSDK: ThirdwebNextPage = () => {
         image={require("public/assets/product-pages/wallet-sdk/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
         imageHeight="650px"
+        secondaryButton={{
+          text: "Contact Us",
+          link: "https://thirdweb.typeform.com/to/Q93CVgUc",
+        }}
       >
         <SimpleGrid
           justifyContent="flex-start"
@@ -300,7 +312,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             textAlign="center"
             mb={{ base: 16, lg: 24 }}
           >
-            What can you build with Wallet SDK?
+            Build for any use case with Wallet SDK
           </Heading>
           <Flex
             direction={{
