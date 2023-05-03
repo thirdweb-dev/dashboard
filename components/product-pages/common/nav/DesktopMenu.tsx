@@ -174,7 +174,7 @@ export const PRODUCTS: NavCardProps[] = [
     description:
       "A powerful tool with raw capabilities to build your own fully featured wallet.",
     link: "/local-wallet",
-    icon: require("public/assets/product-icons/ui-components.png"),
+    icon: require("public/assets/product-icons/local-wallet.png"),
   },
 ];
 
