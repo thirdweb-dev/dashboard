@@ -1,5 +1,4 @@
 import { Box, Flex, Image, VStack } from "@chakra-ui/react";
-import type { FC } from "react";
 import { Heading, Link, Text } from "tw-components";
 
 interface CommunityCardProps {
