@@ -1,21 +1,20 @@
 import {
-  AspectRatio,
   Box,
   Center,
   Container,
   DarkMode,
   Flex,
   Icon,
-  Image,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { CommunityCard } from "components/community/Card";
 import { HomepageFooter } from "components/footer/Footer";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { FiZap } from "react-icons/fi";
+import { BsLightningCharge } from "react-icons/bs";
 import { Heading, LinkButton, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -27,7 +26,7 @@ const SEO = {
     "Join the thirdweb community and share your web3 journey alongside 35,000+ other builders. Learn, build, & grow with thirdweb.",
 };
 
-const CommunitySections = [
+const communitySections = [
   {
     title1: "Learn",
     title2: "web3 development",
@@ -41,12 +40,6 @@ const CommunitySections = [
         title: "thirdweb learn",
         description: "",
       },
-      // {
-      //   image: "",
-      //   link: "/learn",
-      //   title: "Bootcamp",
-      // description: ""
-      // },
       {
         image: "",
         link: "/events",
@@ -55,7 +48,7 @@ const CommunitySections = [
       },
       {
         image: "",
-        link: "/events",
+        link: "https://lu.ma/0js9ms13",
         title: "Office Hours",
         description: "",
       },
@@ -87,7 +80,7 @@ const CommunitySections = [
       },
       {
         image: "",
-        link: "/oss",
+        link: "/open-source",
         title: "OSS Contributions",
         description: "",
       },
@@ -127,36 +120,6 @@ const CommunitySections = [
   },
 ];
 
-const galleryImages = [
-  {
-    src: "/assets/community/gallery/1.png",
-  },
-  {
-    src: "/assets/community/gallery/2.png",
-  },
-  {
-    src: "/assets/community/gallery/3.png",
-  },
-  {
-    src: "/assets/community/gallery/4.png",
-  },
-  {
-    src: "/assets/community/gallery/5.png",
-  },
-  {
-    src: "/assets/community/gallery/6.png",
-  },
-  {
-    src: "/assets/community/gallery/7.png",
-  },
-  {
-    src: "/assets/community/gallery/8.png",
-  },
-  {
-    src: "/assets/community/gallery/9.png",
-  },
-];
-
 const Community: ThirdwebNextPage = () => {
   const trackEvent = useTrack();
 
@@ -184,19 +147,18 @@ const Community: ThirdwebNextPage = () => {
             px={{ base: 4, md: 8 }}
             flexDir="column"
           >
-            <Heading mt={8} textAlign="center" fontSize="64px">
+            <Heading mt={8} textAlign="center" size="title.2xl">
               A decentralized internet begins
               <br /> with{" "}
-              <Text
+              <Heading
                 as="span"
-                fontSize="48px"
-                fontWeight="bold"
+                size="title.2xl"
                 background="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%), #ECECEC"
                 backgroundClip="text"
                 color="transparent"
               >
                 decentralized talent.
-              </Text>
+              </Heading>
             </Heading>
 
             <LinkButton
@@ -206,7 +168,7 @@ const Community: ThirdwebNextPage = () => {
                 trackEvent({
                   category: TRACKING_CATEGORY,
                   action: "click",
-                  label: "join-the-community",
+                  title: "join-the-community",
                 })
               }
               background="white"
@@ -215,15 +177,17 @@ const Community: ThirdwebNextPage = () => {
                 color: "#000",
               }}
               color="#000"
-              fontSize="18px"
-              leftIcon={<Icon as={FiZap} />}
+              fontSize="larger"
+              leftIcon={<Icon as={BsLightningCharge} />}
               mt={8}
+              isExternal
+              rightIcon={<></>}
             >
               Join the community
             </LinkButton>
           </Center>
 
-          {CommunitySections.map(
+          {communitySections.map(
             ({ title1, title2, cards, description }, i) => (
               <Box
                 w="100%"
@@ -240,6 +204,7 @@ const Community: ThirdwebNextPage = () => {
                   display={i === 0 ? "none" : "block"}
                   mx="auto"
                 />
+
                 <Container
                   maxW="container.page"
                   position="relative"
@@ -248,26 +213,25 @@ const Community: ThirdwebNextPage = () => {
                   <Heading
                     as="h2"
                     textAlign="left"
-                    fontSize="48px"
+                    size="title.2xl"
                     color="#ECECEC"
                   >
                     {title1}{" "}
-                    <Text
+                    <Heading
                       as="span"
-                      fontSize="48px"
+                      size="title.2xl"
                       color="transparent"
-                      fontWeight="bold"
                       background="linear-gradient(249.19deg, #BFA3DA 53.72%, #84309C 78.01%, #C735B0 112.02%), #ECECEC"
                       backgroundClip="text"
                     >
                       {title2}
-                    </Text>
+                    </Heading>
                   </Heading>
 
                   <Text
                     mt={2}
                     textAlign="left"
-                    fontSize="20px"
+                    size="body.xl"
                     color="white"
                     opacity={0.7}
                     maxW="container.md"
@@ -276,23 +240,23 @@ const Community: ThirdwebNextPage = () => {
                   </Text>
 
                   <SimpleGrid
-                    columns={{ base: 1, md: 4 }}
+                    columns={{ base: 2, sm: 3, md: 4 }}
                     gap={{ base: 12, md: 6 }}
                     py={{ base: 12, md: 8 }}
                   >
                     {cards.map(
                       ({
                         image,
-                        title: cTitle,
+                        title: cardTitle,
                         link,
-                        description: cdescription,
+                        description: cardDescription,
                       }) => (
                         <CommunityCard
-                          key={cTitle}
+                          key={cardTitle}
                           image={image}
-                          title={cTitle}
+                          title={cardTitle}
                           link={link}
-                          description={cdescription}
+                          description={cardDescription}
                         />
                       ),
                     )}
@@ -312,18 +276,17 @@ const Community: ThirdwebNextPage = () => {
         </Box>
 
         <Container maxW="container.page" position="relative" py={12}>
-          <Heading size="title.2xl" as="h2" fontSize="48px" textAlign="center">
+          <Heading as="h2" size="title.2xl" textAlign="center">
             and most importantly...{" "}
-            <Text
+            <Heading
               as="span"
-              fontSize="48px"
+              size="title.2xl"
               color="transparent"
-              fontWeight="bold"
               background="linear-gradient(249.19deg, #BFA3DA 53.72%, #84309C 78.01%, #C735B0 112.02%), #ECECEC"
               backgroundClip="text"
             >
               have fun!
-            </Text>
+            </Heading>
           </Heading>
 
           <SimpleGrid
@@ -331,34 +294,32 @@ const Community: ThirdwebNextPage = () => {
             gap={{ base: 12, md: 6 }}
             py={{ base: 12, md: 8 }}
           >
-            {galleryImages.slice(0, 9).map((image) => (
-              <AspectRatio ratio={1} key={image.src} w="100%">
-                <Image
-                  key={image.src}
-                  src={image.src}
-                  alt="thirdweb gallery image"
-                  w="100%"
-                  objectFit="cover"
-                />
-              </AspectRatio>
+            {Array.from({ length: 9 }).map((_, i) => (
+              <ChakraNextImage
+                key={i}
+                src={`/assets/community/gallery/${i + 1}.png`}
+                alt="thirdweb gallery image"
+                width="350"
+                height="350"
+                objectFit="cover"
+              />
             ))}
           </SimpleGrid>
         </Container>
 
         <Center px={{ base: 4, md: 8 }} flexDir="column" mb={10}>
-          <Heading mt={8} textAlign="center" fontSize="64px">
+          <Heading mt={8} size="display.md">
             Start
-            <Text
+            <Heading
               as="span"
-              fontSize="64px"
-              fontWeight="bold"
+              size="display.md"
               background="linear-gradient(248.71deg, #BFA3DA 53.44%, #84309C 72.94%, #C735B0 100.23%), #ECECEC"
               backgroundClip="text"
               color="transparent"
             >
               {" "}
               building{" "}
-            </Text>
+            </Heading>
             today.
           </Heading>
 
@@ -369,7 +330,7 @@ const Community: ThirdwebNextPage = () => {
               trackEvent({
                 category: TRACKING_CATEGORY,
                 action: "click",
-                title: "Join the community",
+                title: "join-the-community",
               })
             }
             background="white"
@@ -378,10 +339,12 @@ const Community: ThirdwebNextPage = () => {
               color: "#000",
             }}
             color="#000"
-            fontSize="18px"
-            leftIcon={<Icon as={FiZap} />}
+            fontSize="larger"
+            leftIcon={<Icon as={BsLightningCharge} />}
             mt={4}
-         isExternal >
+            mb={10}
+            isExternal
+          >
             Join the community
           </LinkButton>
         </Center>

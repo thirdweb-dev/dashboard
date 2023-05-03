@@ -1,5 +1,6 @@
-import { Box, Flex, Image, VStack } from "@chakra-ui/react";
-import { Heading, Link, Text } from "tw-components";
+import { Box, Flex, LinkOverlay, VStack } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { Heading, Text } from "tw-components";
 
 interface CommunityCardProps {
   image: string;
@@ -8,45 +9,47 @@ interface CommunityCardProps {
   description: string;
 }
 
-export const CommunityCard: FC<CommunityCardProps> = ({
+export const CommunityCard: React.FC<CommunityCardProps> = ({
   image,
   link,
   title,
   description,
 }) => {
   return (
-    <Link href={link} _hover={{ textDecor: "none" }}>
-      <VStack bg="transparent" borderRadius="xl" w="full" border="1px solid">
-        {image ? (
-          <Image
-            alt={title}
-            borderTopRadius="xl"
-            boxSize="100%"
-            objectFit="cover"
-            src={image}
-          />
-        ) : (
-          <Box
-            borderTopRadius="xl"
-            boxSize="100%"
-            w="full"
-            bg="linear-gradient(180deg, #893AA1 0%, #BFA3DA 100%)"
-            h="180px"
-          />
-        )}
+    <VStack
+      bg="transparent"
+      borderRadius="xl"
+      w="full"
+      border="1px solid"
+      as={LinkOverlay}
+      href={link}
+      _hover={{ textDecor: "none" }}
+      isExternal
+    >
+      {image ? (
+        <ChakraNextImage
+          alt={title}
+          borderTopRadius="xl"
+          boxSize="100%"
+          objectFit="cover"
+          src={image}
+        />
+      ) : (
+        <Box
+          borderTopRadius="xl"
+          boxSize="100%"
+          w="full"
+          bg="linear-gradient(180deg, #893AA1 0%, #BFA3DA 100%)"
+          h="180px"
+        />
+      )}
 
-        <Flex w="full" p={4} gap={4} flexDir="column">
-          <Heading
-            as="h3"
-            fontSize="22px"
-            textAlign="left"
-            fontWeight="semibold"
-          >
-            {title}
-          </Heading>
-          <Text color="#949494">{description}</Text>
-        </Flex>
-      </VStack>
-    </Link>
+      <Flex w="full" p={4} gap={4} flexDir="column">
+        <Heading as="h3" size="title.md" textAlign="left" fontWeight="semibold">
+          {title}
+        </Heading>
+        {description && <Text color="#949494">{description}</Text>}
+      </Flex>
+    </VStack>
   );
 };
