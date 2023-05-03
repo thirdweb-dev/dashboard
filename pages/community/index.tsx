@@ -104,18 +104,6 @@ const communitySections = [
         title: "University Program",
         description: "",
       },
-      {
-        image: "",
-        link: "https://www.notion.so/thirdweb/Regional-Champions-Page-cebe9db7b2534162b0fd87e60039280c?pvs=4",
-        title: "Regional Champions",
-        description: "",
-      },
-      {
-        image: "",
-        link: "/",
-        title: "Showcase",
-        description: "",
-      },
     ],
   },
 ];

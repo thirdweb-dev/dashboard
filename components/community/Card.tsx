@@ -21,10 +21,10 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
       borderRadius="xl"
       w="full"
       border="1px solid"
+      borderColor="borderColor"
       as={LinkOverlay}
       href={link}
       _hover={{ textDecor: "none" }}
-      isExternal
     >
       {image ? (
         <ChakraNextImage
