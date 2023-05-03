@@ -381,7 +381,7 @@ const Community: ThirdwebNextPage = () => {
             fontSize="18px"
             leftIcon={<Icon as={FiZap} />}
             mt={4}
-          >
+         isExternal >
             Join the community
           </LinkButton>
         </Center>
