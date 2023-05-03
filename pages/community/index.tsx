@@ -344,6 +344,7 @@ const Community: ThirdwebNextPage = () => {
             mt={4}
             mb={10}
             isExternal
+            rightIcon={<></>}
           >
             Join the community
           </LinkButton>
