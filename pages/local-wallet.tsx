@@ -1,11 +1,9 @@
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
-import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading } from "tw-components";
@@ -101,43 +99,75 @@ const LocalWallet: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Hero>
 
-      {/* Learn More section */}
-      <ProductSection py={{ base: 12, lg: 24 }}>
-        <Heading
-          as="h2"
-          size="display.sm"
-          fontWeight={700}
-          textAlign="center"
-          mb={{ base: 16, lg: 24 }}
+      {/* Use Cases */}
+      <ProductSection overflow="hidden">
+        <Flex
+          flexDir="column"
+          py={{ base: 12, lg: 24 }}
+          align="center"
+          gap={{ base: 12, lg: 24 }}
         >
-          Contracts for every use case
-        </Heading>
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={14}>
-          <ProductLearnMoreCard
-            title="Base Contracts"
-            category={TRACKING_CATEGORY}
-            description="Fully featured base contracts, including ERC721, ERC1155 & ERC20. This provides capability to mint NFTs to sell on a marketplace, signature-based minting, batch lazy mint NFTs, delayed reveal and claim conditions to define how your NFTs can be claimed."
-            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href="https://portal.thirdweb.com/solidity/base-contracts"
-          />
-          <ProductLearnMoreCard
-            title="Extensions"
-            category={TRACKING_CATEGORY}
-            description="Each extension that you implement in your smart contract unlocks corresponding functionality for you to utilize in the SDK."
-            icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
-            href="https://portal.thirdweb.com/solidity/extensions"
-          />
-        </SimpleGrid>
+          <Box>
+            <Heading
+              as="h2"
+              size="display.sm"
+              fontWeight={700}
+              textAlign="center"
+              mb={6}
+            >
+              Build for any use case with Local Wallet
+            </Heading>
+
+            <Heading
+              as="h3"
+              size="subtitle.lg"
+              textAlign="center"
+              maxW="container.lg"
+            >
+              Improve user onboarding with an invisible web3 wallet experience
+            </Heading>
+          </Box>
+
+          <SimpleGrid
+            justifyContent="flex-start"
+            w="100%"
+            columns={{ base: 1, md: 3 }}
+            gap={{ base: 12, md: 6 }}
+          >
+            <ProductCard
+              title=""
+              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+            >
+              User logs into mobile web3 game and select “continue as Guest”.
+              (Initially, user does not have to set up a “web3 wallet” to reduce
+              onboarding friction)
+            </ProductCard>
+            <ProductCard
+              title=""
+              icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
+            >
+              Developer generates local wallet on backend with key stored on
+              device
+            </ProductCard>
+            <ProductCard
+              title=""
+              icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
+            >
+              User receives in-game assets as they play game (Initially, user
+              does not have to be aware of “digital assets” ownership)
+            </ProductCard>
+          </SimpleGrid>
+        </Flex>
       </ProductSection>
 
       {/* Guides */}
-      <GuidesShowcase
+      {/* <GuidesShowcase
         title="Learn how to build"
         category={TRACKING_CATEGORY}
         description="Check out our guides to learn how to build with the Solidity SDK"
         solution="Solidity SDK"
         guides={GUIDES}
-      />
+      /> */}
     </ProductPage>
   );
 };
