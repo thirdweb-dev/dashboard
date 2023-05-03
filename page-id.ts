@@ -60,6 +60,9 @@ export enum PageId {
   // thirdweb.com/404
   PageNotFound = "page-not-found",
 
+  // thirdweb.com/local-wallet
+  LocalWalletLanding = "local-wallet-landing",
+
   // ---------------------------------------------------------------------------
   //  general product pages
   // ---------------------------------------------------------------------------

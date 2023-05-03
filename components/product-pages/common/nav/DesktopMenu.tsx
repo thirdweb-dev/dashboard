@@ -161,6 +161,14 @@ export const PRODUCTS: NavCardProps[] = [
     link: "/ui-components",
     icon: require("public/assets/product-icons/ui-components.png"),
   },
+  {
+    name: "Local Wallet",
+    label: "local-wallet",
+    description:
+      "A powerful tool with raw capabilities to build your own fully featured wallet.",
+    link: "/local-wallet",
+    icon: require("public/assets/product-icons/ui-components.png"),
+  },
 ];
 
 export const SOLUTIONS: NavCardProps[] = [
