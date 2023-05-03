@@ -112,12 +112,9 @@ const GRIDS = {
           <ProductValueWithHighlight circleLabel="2">
             Dev sets custom logic for their team wallet
             <ListItem mt={4}>
-              Logic 1: for outgoing transactions greater than 10 ETH from team
+              Logic: for outgoing transactions greater than 10 ETH from team
               wallet, 3 designated signers (Dev team members) must sign off on
               transactions before it can be executed on chain
-            </ListItem>
-            <ListItem mt={4}>
-              Logic 2: daily outgoing transaction total capped at 20 ETH
             </ListItem>
           </ProductValueWithHighlight>
         </UnorderedList>
