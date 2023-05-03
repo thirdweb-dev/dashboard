@@ -1,27 +1,19 @@
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { Center, Flex, Spinner } from "@chakra-ui/react";
-import { useAddress, useLogout, useUser } from "@thirdweb-dev/react";
+import { useUser } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { StepsCard } from "components/dashboard/StepsCard";
 import { ApiKeyTable } from "components/settings/ApiKeyTable";
 import { CreateApiKeyButton } from "components/settings/CreateApiKeyButton";
 import { PageId } from "page-id";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const DashboardApiKeys: ThirdwebNextPage = () => {
   const { user } = useUser();
-  const address = useAddress();
-  const { logout } = useLogout();
   const keysQuery = useApiKeys();
-
-  useEffect(() => {
-    if (user?.address !== address) {
-      logout();
-    }
-  }, [address, user, logout]);
 
   const steps = useMemo(
     () => [
