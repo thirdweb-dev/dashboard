@@ -285,7 +285,7 @@ const WalletSDK: ThirdwebNextPage = () => {
           >
             <ProductCard
               title="ConnectWallet"
-              icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+              icon={require("/public/assets/product-pages/wallet-sdk/connect-wallet.png")}
               titleLink="https://portal.thirdweb.com/unity/connectwalletnative"
               linkCategory={TRACKING_CATEGORY}
             >
@@ -304,7 +304,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             </ProductCard>
             <ProductCard
               title="Local Wallet"
-              icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+              icon={require("/public/assets/product-pages/wallet-sdk/local-wallet.png")}
               titleLink="https://portal.thirdweb.com/wallet/local-wallet"
               linkCategory={TRACKING_CATEGORY}
             >
@@ -323,7 +323,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             </ProductCard>
             <ProductCard
               title="Smart Wallet"
-              icon={require("/public/assets/product-pages/deploy/hero-icon-2.png")}
+              icon={require("/public/assets/product-pages/wallet-sdk/smart-wallet.png")}
               titleLink="https://portal.thirdweb.com/wallet/smart-wallet"
               linkCategory={TRACKING_CATEGORY}
             >
