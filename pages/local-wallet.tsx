@@ -1,57 +1,106 @@
-import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
-import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
+// import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
+import { ProductSection } from "../components/product-pages/common/ProductSection";
+import {
+  Flex,
+  GridItem,
+  ListItem,
+  SimpleGrid,
+  UnorderedList,
+} from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import { Hero } from "components/product-pages/common/Hero";
+import { HighlightedButton } from "components/product-pages/common/HighlightedButton";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
-import { ProductSection } from "components/product-pages/common/ProductSection";
+import { ProductValueWithHighlight } from "components/product-pages/common/ProductValueWithHighlight";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Heading } from "tw-components";
+import React, { useState } from "react";
+import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-const GUIDES = [
-  {
-    title: "Build An ERC721A NFT Collection using Solidity",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-19.png",
-    link: "https://blog.thirdweb.com/guides/get-started-with-the-contracts-sdk/",
-  },
-  {
-    title: "Create A Generative Art NFT Collection Using Solidity & JavaScript",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/This-is-the-one--8-.png",
-    link: "https://blog.thirdweb.com/guides/create-a-generative-art-nft-collection-using-solidity-javascript/",
-  },
-  {
-    title: "Build a Blockchain Game using the Solidity SDK",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/Group-625858--1-.png",
-    link: "https://blog.thirdweb.com/guides/build-a-blockchain-game-using-contractkit/",
-  },
-];
+const GRIDS = {
+  "local-wallet": (
+    <SimpleGrid columns={12} spacing={12} mt={24}>
+      <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
+        <ProductValueWithHighlight circleLabel="1">
+          User logs into mobile web3 game and select “continue as Guest”.
+          (Initially, user does not have to set up a “web3 wallet” to reduce
+          onboarding friction)
+        </ProductValueWithHighlight>
+      </GridItem>
+      <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
+        <ProductValueWithHighlight circleLabel="2">
+          Developer generates local wallet on backend with key stored on device
+        </ProductValueWithHighlight>
+      </GridItem>
+      <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
+        <ProductValueWithHighlight circleLabel="3">
+          User receives in-game assets as they play game (Initially, user does
+          not have to be aware of “digital assets” ownership)
+        </ProductValueWithHighlight>
+      </GridItem>
+      <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
+        <ProductValueWithHighlight circleLabel="4">
+          After user accumulates in-game assets they receive a message to
+          upgrade their local wallet to export assets into personal
+          non-custodial wallet (User only needs to set up wallets after they
+          have invested time in game)
+        </ProductValueWithHighlight>
+      </GridItem>
+    </SimpleGrid>
+  ),
+};
 
-const TRACKING_CATEGORY = "contract_kit";
+// const GUIDES = [
+//   {
+//     title: "How to verify a Custom Contract on Etherscan using the dashboard",
+//     image:
+//       "https://blog.thirdweb.com/content/images/size/w2000/2022/12/verification.png",
+//     link: "https://blog.thirdweb.com/guides/how-to-verify-a-custom-contract-on-etherscan/",
+//   },
+//   {
+//     title: "How to Add Permissions to Your Smart Contract in Solidity",
+//     image:
+//       "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--13-.png",
+//     link: "https://blog.thirdweb.com/guides/how-to-add-permissions-to-your-smart-contract-contractkit/",
+//   },
+//   {
+//     title: "How to Create an NFT Drop on Solana without writing any code",
+//     image:
+//       "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--12-.png",
+//     link: "https://blog.thirdweb.com/guides/how-to-create-an-nft-collection-on-solana-without-code/",
+//   },
+// ];
 
-const LocalWallet: ThirdwebNextPage = () => {
+const TRACKING_CATEGORY = "local-wallet";
+
+const LocalWalletPage: ThirdwebNextPage = () => {
+  const [selectedTab] = useState<"local-wallet">("local-wallet");
+
+  const descriptions = {
+    "local-wallet":
+      "Improve user onboarding with an invisible web3 wallet experience ",
+  };
+
   return (
     <ProductPage
       seo={{
-        title: "Local Wallet",
+        title: "Local Wallet: The Complete Web3 Wallet Toolkit",
         description:
-          "A powerful tool with raw capabilities to build your own fully featured wallet.",
+          "Build any web3 wallet experience with thirdweb’s Wallet SDK for Ethereum. Connect Wallet UI, ERC-4337 smart accounts, local wallets, and more.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/solidity-sdk.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/wallet-sdk.png`,
               width: 2334,
               height: 1260,
-              alt: "thirdweb Local Wallet",
+              alt: "Local Wallet: The Complete Web3 Wallet Toolkit",
             },
           ],
         },
       }}
     >
-      {/* hero section */}
       <Hero
         trackingCategory={TRACKING_CATEGORY}
         name="Local Wallet"
@@ -60,7 +109,8 @@ const LocalWallet: ThirdwebNextPage = () => {
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/wallet/local-wallet"
         image={require("public/assets/product-pages/local-wallet/hero.png")}
-        gradient="linear-gradient(147.15deg, #410AB6 30.17%, #D45CFF 100.01%)"
+        gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
+        imageHeight="650px"
         secondaryButton={{
           text: "Contact Us",
           link: "https://thirdweb.typeform.com/to/Q93CVgUc?typeform-source=thirdweb-www-git-mariano-ftd-1679.thirdweb-preview.com",
@@ -74,7 +124,7 @@ const LocalWallet: ThirdwebNextPage = () => {
         >
           <ProductCard
             title="Improve user experience"
-            icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
           >
             Enable a “continue as guest” experience without users needing to
             interact with a wallet. Simply onboard users with a username and
@@ -82,7 +132,7 @@ const LocalWallet: ThirdwebNextPage = () => {
           </ProductCard>
           <ProductCard
             title="Complete dev tools"
-            icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
             Everything you need to build your own fully featured wallet— from
             generating wallets on the backend to managing wallets (importing &
@@ -91,87 +141,73 @@ const LocalWallet: ThirdwebNextPage = () => {
           </ProductCard>
           <ProductCard
             title="Flexible use cases"
-            icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
+            icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
           >
             Local wallets can be used to build any type of wallet, including:
             custodial wallet, non-custodial, semi-custodial wallet.
           </ProductCard>
         </SimpleGrid>
-      </Hero>
 
-      {/* Use Cases */}
-      <ProductSection overflow="hidden">
-        <Flex
-          flexDir="column"
-          py={{ base: 12, lg: 24 }}
-          align="center"
-          gap={{ base: 12, lg: 24 }}
-        >
-          <Box>
-            <Heading
-              as="h2"
-              size="display.sm"
-              fontWeight={700}
-              textAlign="center"
-              mb={6}
-            >
-              Build for any use case with Local Wallet
-            </Heading>
-
-            <Heading
-              as="h3"
-              size="subtitle.lg"
-              textAlign="center"
-              maxW="container.lg"
-            >
-              Improve user onboarding with an invisible web3 wallet experience
-            </Heading>
-          </Box>
-
-          <SimpleGrid
-            justifyContent="flex-start"
-            w="100%"
-            columns={{ base: 1, md: 3 }}
-            gap={{ base: 12, md: 6 }}
+        {/* Use cases */}
+        <ProductSection py={{ base: 12, lg: 24 }}>
+          <Heading
+            as="h2"
+            size="display.sm"
+            fontWeight={700}
+            textAlign="center"
+            mb={{ base: 16, lg: 24 }}
           >
-            <ProductCard
-              title=""
-              icon={require("/public/assets/product-pages/extensions/hero-icon-1.png")}
-            >
-              User logs into mobile web3 game and select “continue as Guest”.
-              (Initially, user does not have to set up a “web3 wallet” to reduce
-              onboarding friction)
-            </ProductCard>
-            <ProductCard
-              title=""
-              icon={require("/public/assets/product-pages/extensions/hero-icon-3.png")}
-            >
-              Developer generates local wallet on backend with key stored on
-              device
-            </ProductCard>
-            <ProductCard
-              title=""
-              icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
-            >
-              User receives in-game assets as they play game (Initially, user
-              does not have to be aware of “digital assets” ownership)
-            </ProductCard>
-          </SimpleGrid>
-        </Flex>
-      </ProductSection>
+            Build for any use case with Local Wallet
+          </Heading>
+          <Flex
+            direction={{
+              base: "column",
+              md: "row",
+            }}
+            justifyContent="center"
+            gap={12}
+            mb={12}
+          >
+            <HighlightedButton
+              isHighlighted={selectedTab === "local-wallet"}
+              title="Local Wallet"
+              minHeight="63px"
+              width={{
+                base: "full",
+                md: "236px",
+              }}
+            />
+          </Flex>
+          <Text
+            alignSelf="center"
+            textAlign="center"
+            mb={24}
+            color="white"
+            fontWeight="bold"
+            fontSize="xl"
+          >
+            {descriptions[selectedTab]}
+          </Text>
+          {/* <ChakraNextImage
+            mx="auto"
+            alt="invisible-wallet-experience"
+            src={require(`/public/assets/product-pages/local-wallet/${selectedTab}.svg`)}
+          /> */}
+          {GRIDS[selectedTab]}
+        </ProductSection>
 
-      {/* Guides */}
-      {/* <GuidesShowcase
-        title="Learn how to build"
-        category={TRACKING_CATEGORY}
-        description="Check out our guides to learn how to build with the Solidity SDK"
-        solution="Solidity SDK"
-        guides={GUIDES}
-      /> */}
+        {/* Guides */}
+        {/* <GuidesShowcase
+          title="Learn how to build"
+          category={TRACKING_CATEGORY}
+          description="Check out our guides to learn how to use Dashboard"
+          guides={GUIDES}
+        /> */}
+      </Hero>
     </ProductPage>
   );
 };
 
-LocalWallet.pageId = PageId.LocalWalletLanding;
+LocalWalletPage.pageId = PageId.LocalWalletLanding;
 
-export default LocalWallet;
+export default LocalWalletPage;
