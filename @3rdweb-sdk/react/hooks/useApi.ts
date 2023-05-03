@@ -25,7 +25,7 @@ export function useApiKeys() {
       });
       const data = await res.json();
       if (data.error) {
-        throw new Error(data.error);
+        throw new Error(data.error?.message || data.error);
       }
 
       const keys = (data.keys as ApiKeyInfo[]).filter((item) => !item.revoked);
@@ -54,7 +54,7 @@ export function useCreateApiKey() {
       const data = await res.json();
 
       if (data.error) {
-        throw new Error(data.error);
+        throw new Error(data.error?.message || data.error);
       }
 
       return data;
@@ -93,7 +93,7 @@ export function useRevokeApiKey() {
       const data = await res.json();
 
       if (data.error) {
-        throw new Error(data.error);
+        throw new Error(data.error?.message || data.error);
       }
 
       return data;
