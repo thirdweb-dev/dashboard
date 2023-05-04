@@ -1,9 +1,10 @@
-import { Flex, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
+import { Flex, Icon, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { PageId } from "page-id";
 import React from "react";
-import { Card, Heading, Text } from "tw-components";
+import { FiArrowRight } from "react-icons/fi";
+import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const WALLETS = [
@@ -104,10 +105,20 @@ const DashboardWallets: ThirdwebNextPage = () => {
           <Heading size="title.lg" as="h1">
             Wallets
           </Heading>
+          <Link
+            href="https://portal.thirdweb.com/wallet"
+            color="blue.400"
+            isExternal
+          >
+            <Text color="blue.400" size="body.lg">
+              View Documentation →
+            </Text>
+          </Link>
         </Flex>
         <Text>
-          thirdweb&apos;s wallet SDK lets your users connect to your
-          applications with any wallet.
+          With the thirdweb wallet SDK, you can build fully custom wallet
+          experiences and allow your users to connect to your applications with
+          any wallet.
         </Text>
       </Flex>
 
