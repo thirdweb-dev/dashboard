@@ -507,7 +507,7 @@ const WalletSDK: ThirdwebNextPage = () => {
           >
             <HighlightedButton
               isHighlighted={selectedTab === "invisible-wallet-experience"}
-              title="Invisible wallet experience"
+              title="Invisible wallet"
               minHeight="63px"
               width={{
                 base: "full",
