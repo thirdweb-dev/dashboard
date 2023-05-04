@@ -7,7 +7,7 @@ import { StepsCard } from "components/dashboard/StepsCard";
 import { ApiKeyTable } from "components/settings/ApiKeyTable";
 import { CreateApiKeyButton } from "components/settings/CreateApiKeyButton";
 import { PageId } from "page-id";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 

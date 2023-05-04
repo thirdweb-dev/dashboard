@@ -76,6 +76,9 @@ export enum PageId {
   // thirdweb.com/dashboard/api-keys
   DashboardApiKeys = "dashboard-api-keys",
 
+  // thirdweb.com/dashboard/wallets
+  DashboardWallets = "dashboard-wallets",
+
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
   // thirdweb.com/dashboard/programs

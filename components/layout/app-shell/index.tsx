@@ -257,6 +257,17 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             RPC
           </LinkButton>
           <LinkButton
+            href="/dashboard/wallets"
+            isActive={pathname === "/dashboard/wallets"}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+          >
+            Wallets
+          </LinkButton>
+          <LinkButton
             href="/dashboard/api-keys"
             isActive={pathname === "/dashboard/api-keys"}
             _active={{
