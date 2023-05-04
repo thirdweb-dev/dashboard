@@ -75,7 +75,7 @@ const GRIDS = {
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="2">
-          Dev generates a local wallet for the user
+          A MPC wallet is generated for the user
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
@@ -110,13 +110,13 @@ const GRIDS = {
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="2">
-          User selects multiple digital assets to purchase
+          A smart contract wallet is deployed for the user
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="3">
-          Multiple transactions are combined together into a single transaction
-          and executed on-chain in 1-click
+          User can execute multiple onchain actions with one click using batched
+          transactions
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem
@@ -450,57 +450,51 @@ const WalletSDK: ThirdwebNextPage = () => {
               title="Connect Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/connect-wallet.png")}
             >
-              <UnorderedList>
-                <ListItem>
-                  Out-of-the-box UI components to easily integrate into your
-                  apps and games with cross-platform support (Unity, React,
-                  ReactNative).
-                </ListItem>
-                <ListItem mt={4}>
-                  Enable end users to connect with popular wallets (170+
-                  supported) across all types of wallets. Includes Safe
-                  multi-sig support.
-                </ListItem>
-              </UnorderedList>
+              <Text fontSize="lg">
+                Out-of-the-box UI components to easily integrate into your apps
+                and games with cross-platform support (Unity, React,
+                ReactNative).
+              </Text>
+              <Text fontSize="lg" mt={4}>
+                Enable end users to connect with popular wallets (170+
+                supported) across all types of wallets. Includes Safe multi-sig
+                support.
+              </Text>
             </ProductCard>
             <ProductCard
               title="Local Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/local-wallet.png")}
             >
-              <UnorderedList>
-                <ListItem>
-                  Powerful tool with raw capabilities to build your own fully
-                  featured wallet solution
-                </ListItem>
-                <ListItem mt={4}>
-                  Everything you need to build your own fully featured wallet—
-                  from generating wallets on the backend to managing wallets
-                  (importing & exporting keys, save keys to secure storage, and
-                  private key recovery).
-                </ListItem>
-              </UnorderedList>
+              <Text fontSize="lg">
+                Powerful tool with raw capabilities to build your own fully
+                featured wallet solution
+              </Text>
+              <Text fontSize="lg" mt={4}>
+                Everything you need to build your own fully featured wallet—
+                from generating wallets on the backend to managing wallets
+                (importing & exporting keys, save keys to secure storage, and
+                private key recovery).
+              </Text>
             </ProductCard>
             <ProductCard
               title="Smart Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/smart-wallet.png")}
             >
-              <UnorderedList>
-                <ListItem>
-                  Deploy and manage ERC-4337{" "}
-                  <TrackedLink
-                    href="https://portal.thirdweb.com/wallet/smart-wallet"
-                    category={TRACKING_CATEGORY}
-                    textDecoration="underline"
-                    color="blue.200"
-                    target="_blank"
-                  >
-                    smart contract wallets
-                  </TrackedLink>{" "}
-                  for you users. Unlock fully programmable wallets with
-                  transaction batching, multiple owners, conditional gasless and
-                  your own custom functionality.
-                </ListItem>
-              </UnorderedList>
+              <Text fontSize="lg">
+                Deploy and manage ERC-4337{" "}
+                <TrackedLink
+                  href="https://portal.thirdweb.com/wallet/smart-wallet"
+                  category={TRACKING_CATEGORY}
+                  textDecoration="underline"
+                  color="blue.200"
+                  target="_blank"
+                >
+                  smart contract wallets
+                </TrackedLink>{" "}
+                for you users. Unlock fully programmable wallets with
+                transaction batching, multiple owners, conditional gasless and
+                your own custom functionality.
+              </Text>
             </ProductCard>
           </SimpleGrid>
         </ProductSection>
