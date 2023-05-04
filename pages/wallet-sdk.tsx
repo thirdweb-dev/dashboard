@@ -286,6 +286,10 @@ const WalletSDK: ThirdwebNextPage = () => {
           w="100%"
           columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
+          mb={{
+            base: 12,
+            md: 24,
+          }}
         >
           <ProductCard
             title="Complete"
@@ -293,16 +297,16 @@ const WalletSDK: ThirdwebNextPage = () => {
           >
             Build any wallet experience, including support for: non-custodial
             wallets, custodial wallets, MPC wallets, email wallets, and more.
-            Cross-platform support (Unity, ReactNative).
+            Cross-platform support (Web, Mobile, Unity).
           </ProductCard>
           <ProductCard
             title="Simple"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
             We’ve made the entire web3 wallet development simple. Out-of-the-box
-            UI components for ConnectWallet button. SDK hooks to connect with
-            any wallet providers with our Connectors. Ready-to-deploy starter
-            bases for smart wallets.
+            UI components for ConnectWallet button. SDK to connect with any
+            wallet providers with our Connectors. Ready-to-deploy starter bases
+            for smart wallets.
           </ProductCard>
           <ProductCard
             title="Composable"
