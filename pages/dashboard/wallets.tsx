@@ -106,8 +106,8 @@ const DashboardWallets: ThirdwebNextPage = () => {
           </Heading>
         </Flex>
         <Text>
-          thirdweb's wallet SDK lets your users connect to your applications
-          with any wallet.
+          thirdweb&apos;s wallet SDK lets your users connect to your
+          applications with any wallet.
         </Text>
       </Flex>
 
