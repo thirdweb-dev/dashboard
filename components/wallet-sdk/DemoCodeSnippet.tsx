@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-dom-props */
-import styles from "../styles/Home.module.css";
+// import styles from "../styles/Home.module.css";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import darkTheme from "prism-react-renderer/themes/oceanicNext";
 import React from "react";
@@ -10,7 +10,7 @@ interface Props {
 
 export const DemoCodeSnippet: React.FC<Props> = ({ text }) => {
   return (
-    <div className={styles.codeSnippet}>
+    <div>
       <Highlight {...defaultProps} code={text} language="jsx" theme={darkTheme}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <pre className={className} style={style}>
