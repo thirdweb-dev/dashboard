@@ -20,6 +20,7 @@ import {
 } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { HighlightedButton } from "components/product-pages/common/HighlightedButton";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -213,6 +214,21 @@ const WALLETS = [
     iconUrl:
       "ipfs://QmUMBFZGXxBpgDmZzZAHhbcCL5nYvZnVaYLTajsNjLcxMU/1-Icon_Magic_Color.svg",
     link: "https://portal.thirdweb.com/wallet",
+  },
+];
+
+const GUIDES = [
+  {
+    title: "How to use ERC-4337 Smart Wallets",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-use-smart-wallet-.png",
+    link: "https://blog.thirdweb.com/guides/how-to-use-erc4337-smart-wallets/",
+  },
+  {
+    title: "How to use Local Wallets",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-use-paper-wallet-with-thirdweb.png",
+    link: "https://blog.thirdweb.com/guides/how-to-use-local-wallets/",
   },
 ];
 
@@ -560,6 +576,13 @@ const WalletSDK: ThirdwebNextPage = () => {
           {GRIDS[selectedTab]}
         </ProductSection>
       </Hero>
+      <GuidesShowcase
+        title="Learn how to build"
+        category={TRACKING_CATEGORY}
+        description="Check out our Wallet SDK guides to start building"
+        solution="Wallet"
+        guides={GUIDES}
+      />
     </ProductPage>
   );
 };
