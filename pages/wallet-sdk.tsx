@@ -443,7 +443,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             gap={{ base: 12, md: 6 }}
           >
             <ProductCard
-              title="ConnectWallet"
+              title="Connect Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/connect-wallet.png")}
             >
               <UnorderedList>
