@@ -1,10 +1,9 @@
-import { Flex, Icon, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
+import { Flex, LinkBox, LinkOverlay, SimpleGrid } from "@chakra-ui/react";
 import { ConnectWallet } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { PageId } from "page-id";
 import React from "react";
-import { FiArrowRight } from "react-icons/fi";
 import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -24,25 +23,11 @@ const WALLETS = [
     link: "https://portal.thirdweb.com/wallet/local-wallet",
   },
   {
-    name: "Gnosis Safe",
-    description: "Connect to multi-sig wallets via Gnosis Safe",
+    name: "Coinbase Wallet",
+    description: "Connect with Coinbase Wallet",
     iconUrl:
-      "ipfs://QmbbyxDDmmLQh8DzzeUR6X6B75bESsNUFmbdvS3ZsQ2pN1/SafeToken.svg",
-    link: "https://portal.thirdweb.com/wallet/safe",
-  },
-  {
-    name: "Magic Link",
-    description: "Connect with email or phone number via Magic",
-    iconUrl:
-      "ipfs://QmUMBFZGXxBpgDmZzZAHhbcCL5nYvZnVaYLTajsNjLcxMU/1-Icon_Magic_Color.svg",
-    link: "https://portal.thirdweb.com/wallet",
-  },
-  {
-    name: "Paper",
-    description: "Connect with email via Paper",
-    iconUrl:
-      "ipfs://QmNrLXtPoFrh4yjZbXui39zUMozS1oetpgU8dvZhFAxfRa/paper-logo-icon.svg",
-    link: "https://portal.thirdweb.com/wallet/paper",
+      "ipfs://QmcJBHopbwfJcLqJpX2xEufSS84aLbF7bHavYhaXUcrLaH/coinbase.svg",
+    link: "https://portal.thirdweb.com/wallet/coinbase-wallet",
   },
   {
     name: "MetaMask",
@@ -52,18 +37,24 @@ const WALLETS = [
     link: "https://portal.thirdweb.com/wallet/metamask",
   },
   {
-    name: "Coinbase Wallet",
-    description: "Connect with Coinbase Wallet",
+    name: "Paper",
+    description: "Connect with email via Paper",
     iconUrl:
-      "ipfs://QmcJBHopbwfJcLqJpX2xEufSS84aLbF7bHavYhaXUcrLaH/coinbase.svg",
-    link: "https://portal.thirdweb.com/wallet/coinbase-wallet",
+      "ipfs://QmNrLXtPoFrh4yjZbXui39zUMozS1oetpgU8dvZhFAxfRa/paper-logo-icon.svg",
+    link: "https://portal.thirdweb.com/wallet/paper",
   },
   {
-    name: "WalletConnect",
-    description: "Connect with WalletConnect",
+    name: "Ethers.js",
+    description: "Connect any ethers.js compatible wallet",
+    iconUrl: "ipfs://QmTWXcv6XnRqwUwEQxWp21oCrXZJ5QomiSTVBjKPQAv92k/ethers.png",
+    link: "https://portal.thirdweb.com/wallet",
+  },
+  {
+    name: "Private Key",
+    description: "Connect a wallet directly by private key",
     iconUrl:
-      "ipfs://QmX58KPRaTC9JYZ7KriuBzeoEaV2P9eZcA3qbFnTHZazKw/wallet-connect.svg",
-    link: "https://portal.thirdweb.com/wallet/wallet-connect-v1",
+      "ipfs://QmNrycnX15y8EwxDPrwSxnwQgTBWRxUgwSirmhAFoGSod7/private-key.png",
+    link: "https://portal.thirdweb.com/wallet",
   },
   {
     name: "AWS KMS",
@@ -80,16 +71,24 @@ const WALLETS = [
     link: "https://portal.thirdweb.com/wallet",
   },
   {
-    name: "Ethers.js",
-    description: "Connect any ethers.js compatible wallet",
-    iconUrl: "ipfs://QmTWXcv6XnRqwUwEQxWp21oCrXZJ5QomiSTVBjKPQAv92k/ethers.png",
-    link: "https://portal.thirdweb.com/wallet",
+    name: "WalletConnect",
+    description: "Connect with WalletConnect (v1 & v2)",
+    iconUrl:
+      "ipfs://QmX58KPRaTC9JYZ7KriuBzeoEaV2P9eZcA3qbFnTHZazKw/wallet-connect.svg",
+    link: "https://portal.thirdweb.com/wallet/wallet-connect-v1",
   },
   {
-    name: "Private Key",
-    description: "Connect a wallet directly by private key",
+    name: "Gnosis Safe",
+    description: "Connect to multi-sig wallets via Gnosis Safe",
     iconUrl:
-      "ipfs://QmNrycnX15y8EwxDPrwSxnwQgTBWRxUgwSirmhAFoGSod7/private-key.png",
+      "ipfs://QmbbyxDDmmLQh8DzzeUR6X6B75bESsNUFmbdvS3ZsQ2pN1/SafeToken.svg",
+    link: "https://portal.thirdweb.com/wallet/safe",
+  },
+  {
+    name: "Magic Link",
+    description: "Connect with email or phone number via Magic",
+    iconUrl:
+      "ipfs://QmUMBFZGXxBpgDmZzZAHhbcCL5nYvZnVaYLTajsNjLcxMU/1-Icon_Magic_Color.svg",
     link: "https://portal.thirdweb.com/wallet",
   },
 ];
@@ -108,14 +107,13 @@ const DashboardWallets: ThirdwebNextPage = () => {
           </Heading>
         </Flex>
         <Text>
-          Simplified wallet connection to your app, game or backend using a
-          universal wallet interface.{" "}
+          Simplified wallet connection to your app, game or backend using a{" "}
           <Link
             href="https://portal.thirdweb.com/wallet"
             color="blue.400"
             isExternal
           >
-            View Documentation
+            universal wallet interface
           </Link>
         </Text>
       </Flex>
@@ -125,15 +123,15 @@ const DashboardWallets: ThirdwebNextPage = () => {
           Connect Wallet button
         </Heading>
         <Text>
-          One line of code to add a Connect Wallet functionality to React, React
-          Native and Unity apps.{" "}
+          One line of code to add a{" "}
           <Link
             href="https://portal.thirdweb.com/react/react.connectwallet"
             color="blue.400"
             isExternal
           >
-            View Documentation
-          </Link>
+            Connect Wallet UI component
+          </Link>{" "}
+          to React, React Native and Unity apps.
         </Text>
         <Flex direction="row" justifyContent={"left"}>
           <ConnectWallet
