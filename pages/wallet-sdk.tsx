@@ -559,14 +559,6 @@ const WalletSDK: ThirdwebNextPage = () => {
           />
           {GRIDS[selectedTab]}
         </ProductSection>
-
-        {/* Guides */}
-        {/* <GuidesShowcase
-          title="Learn how to build"
-          category={TRACKING_CATEGORY}
-          description="Check out our guides to learn how to use Dashboard"
-          guides={GUIDES}
-        /> */}
       </Hero>
     </ProductPage>
   );
