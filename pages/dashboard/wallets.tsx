@@ -116,9 +116,8 @@ const DashboardWallets: ThirdwebNextPage = () => {
           </Link>
         </Flex>
         <Text>
-          With the thirdweb wallet SDK, you can build fully custom wallet
-          experiences and allow your users to connect to your applications with
-          any wallet.
+          Build any wallet experience and let users connect to your app with any
+          wallet.
         </Text>
       </Flex>
 
