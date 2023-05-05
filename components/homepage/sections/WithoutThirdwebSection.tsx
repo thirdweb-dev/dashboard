@@ -7,7 +7,7 @@ const withThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon.
 
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-const sdk = new ThirdwebSDK("mumbai");
+const sdk = new ThirdwebSDK("polygon");
 const contract = await sdk.getContract("0x..");
 const nfts = await contract.erc721.getAll();`;
 
@@ -16,7 +16,7 @@ const withoutThirdwebCode = `// Fetch all nfts from a erc721 contract on polygon
 import { ethers, BigNumberish, BigNumber } from "ethers";
 
 const provider = ethers.providers.getDefaultProvider(
-  "https://rpc-mumbai.maticvigil.com/"
+  "https://polygon-rpc.com/"
 );
 const contractAddress = "0x...";
 
@@ -103,10 +103,10 @@ const nfts = await getAll();`;
 export const WithoutThirdwebSection: React.FC = () => {
   return (
     <KeyFeatureLayout
-      title=""
+      title="Simple"
       titleGradient="linear-gradient(246.04deg, #3385FF 9.81%, #91B7F0 76.17%, #95BBF2 93.64%)"
-      headline="Build web3 apps faster"
-      description="Utilities for common use cases so that you do not have to reinvent the wheel every time and have faster development cycles."
+      headline="Web3 made easy."
+      description=""
     >
       <SimpleGrid columns={12} gap={8} w="full">
         <GridItem colSpan={{ base: 12, md: 6 }}>

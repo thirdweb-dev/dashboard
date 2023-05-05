@@ -19,8 +19,8 @@ export const BuildSection: React.FC = () => {
     <KeyFeatureLayout
       title="Build"
       titleGradient="linear-gradient(70deg, #805AA8, #BAA2D4)"
-      headline="Build for any web3 use case"
-      description="Leverage our smart SDKs and developer tools to easily build web3 apps and games across platforms."
+      headline="Contracts, apps and games."
+      description=""
     >
       <SimpleGrid columns={{ md: 9 }} gap={6}>
         <LinkBox

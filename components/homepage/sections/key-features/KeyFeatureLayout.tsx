@@ -38,7 +38,7 @@ export const KeyFeatureLayout: ComponentWithChildren<LayoutProps> = ({
       >
         <Heading
           as="h2"
-          size="label.xl"
+          size="title.lg"
           lineHeight="1.15"
           bgGradient={titleGradient}
           bgClip="text"

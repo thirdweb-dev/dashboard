@@ -49,7 +49,8 @@ export const HeroSection = () => {
             fontSize={{ base: "36px", md: "52px", lg: "64px" }}
             textAlign={{ base: "center", lg: "left" }}
           >
-            The complete <br /> web3 development framework.
+            Build web3 apps.
+            <br /> Faster.
           </Heading>
           <Heading
             as="h3"
@@ -57,8 +58,8 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            Leverage our powerful SDKs, CLI and robust dashboard to streamline
-            your web3 app development.
+            100% free.
+            <br /> 100% open source.
           </Heading>
 
           <LightMode>
@@ -102,17 +103,7 @@ export const HeroSection = () => {
                       el.scrollIntoView();
                     }
                   }}
-                >
-                  <Text
-                    color="whiteAlpha.700"
-                    size="label.sm"
-                    fontStyle="italic"
-                    textAlign="center"
-                    whiteSpace={"nowrap"}
-                  >
-                    Completely free to use. No hidden fees.
-                  </Text>
-                </Link>
+                ></Link>
               </Flex>
               <AnimatedCLICommand />
             </Flex>

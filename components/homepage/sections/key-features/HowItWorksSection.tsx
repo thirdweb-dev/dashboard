@@ -132,10 +132,10 @@ const Item: React.FC<{ item: Item }> = ({ item }) => {
 export const HowItWorksSection: React.FC = () => {
   return (
     <KeyFeatureLayout
-      title="How it works"
+      title="Complete"
       titleGradient="linear-gradient(70deg, #A3469D, #B799D5)"
-      headline="Building for web3 has never been easier."
-      description="Powerful dev tools and managed infrastructure services that simplify the entire web3 development cycle."
+      headline="All-in-one developer platform."
+      description=""
     >
       <Image
         w="14"
