@@ -50,7 +50,7 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
           >
             Build web3 apps.
-            <br /> Faster.
+            <br /> Fast.
           </Heading>
           <Heading
             as="h3"
@@ -58,8 +58,8 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            Any contract. Any chain.
-            <br /> 100% open source.
+            SDKs for every language, smart contracts, tools, and infrastructure
+            for web3 development.
           </Heading>
 
           <LightMode>

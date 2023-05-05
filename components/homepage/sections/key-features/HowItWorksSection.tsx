@@ -134,7 +134,7 @@ export const HowItWorksSection: React.FC = () => {
     <KeyFeatureLayout
       title="Complete"
       titleGradient="linear-gradient(70deg, #A3469D, #B799D5)"
-      headline="All-in-one developer platform."
+      headline="All-in-one solution."
       description=""
     >
       <Image

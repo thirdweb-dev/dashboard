@@ -20,7 +20,7 @@ export const ManageSection: React.FC = () => {
     <KeyFeatureLayout
       title="Manage"
       titleGradient="linear-gradient(70deg, #4F3DA5, #8E81D0)"
-      headline="Your blockchain data."
+      headline="Your onchain data."
       description=""
     >
       <SimpleGrid columns={{ md: 11 }} gap={6}>
