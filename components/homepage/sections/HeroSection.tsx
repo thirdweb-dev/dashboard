@@ -115,7 +115,6 @@ export const HeroSection = () => {
           alt=""
           maxW="100%"
           w={96}
-          mt={8}
           src={Hero}
           priority
           quality={95}
