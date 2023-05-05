@@ -58,7 +58,7 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            100% free.
+            Any contract. Any chain.
             <br /> 100% open source.
           </Heading>
 
