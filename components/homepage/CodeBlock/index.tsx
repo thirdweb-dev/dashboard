@@ -35,6 +35,7 @@ export interface CodeBlockProps extends Omit<CodeProps, "size"> {
   autoType?: boolean;
   typingSpeed?: number;
   title?: string;
+  titleColor?: string;
   containerHeight?: any;
 }
 export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
@@ -56,6 +57,7 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
   autoType = false,
   typingSpeed = 50,
   title,
+  titleColor,
 
   ...restCodeProps
 }) => {
@@ -115,24 +117,37 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
         borderRadius="lg"
       >
         <Flex
-          justify={title ? "space-between" : "flex-end"}
+          justify={"space-between"}
           align="center"
           px={2}
           py={2}
           bg="#161b22"
           roundedTop="lg"
         >
+          {canCopy && code && autoType && (
+            <IconButton
+              onClick={() => {
+                setSpeedUpEnabled((prev) => {
+                  setCurrentTypingSpeed(prev ? typingSpeed : 1);
+                  return !prev;
+                });
+              }}
+              aria-label="Copy"
+              borderRadius="md"
+              variant="ghost"
+              colorScheme="gray"
+              size="sm"
+              icon={<Icon as={BsLightning} />}
+            />
+          )}
           {title && (
             <Text
               fontSize="large"
+              fontWeight={"bold"}
               position="static"
-              bg="black"
+              color={titleColor ? titleColor : "white"}
               px={4}
-              py={1}
-              roundedTop="md"
-              borderX="1px solid"
-              borderTop="1px solid"
-              borderColor="borderColor"
+              py={2}
               h="120%"
               mb={-2}
             >
@@ -140,22 +155,6 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
             </Text>
           )}
           <HStack>
-            {canCopy && code && autoType && (
-              <IconButton
-                onClick={() => {
-                  setSpeedUpEnabled((prev) => {
-                    setCurrentTypingSpeed(prev ? typingSpeed : 1);
-                    return !prev;
-                  });
-                }}
-                aria-label="Copy"
-                borderRadius="md"
-                variant="ghost"
-                colorScheme="gray"
-                size="sm"
-                icon={<Icon as={BsLightning} />}
-              />
-            )}
             {canCopy && code && (
               <IconButton
                 onClick={onCopy}

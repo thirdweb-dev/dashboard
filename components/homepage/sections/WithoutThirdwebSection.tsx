@@ -121,7 +121,8 @@ export const WithoutThirdwebSection: React.FC = () => {
               overflow="auto"
               autoType
               typingSpeed={5}
-              title="without_thirdweb.ts"
+              title="Without thirdweb (88 lines)"
+              titleColor="gray.600"
               borderTopRadius={0}
             />
           </AspectRatio>
@@ -138,7 +139,8 @@ export const WithoutThirdwebSection: React.FC = () => {
               overflow="auto"
               autoType
               typingSpeed={5}
-              title="with_thirdweb.ts"
+              title="With thirdweb (7 lines)"
+              titleColor="white"
               borderTopRadius={0}
             />
           </AspectRatio>
