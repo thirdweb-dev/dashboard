@@ -211,7 +211,7 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
               as={Code}
               h="full"
             >
-              <Text>
+              <Box>
                 <Box as="span" display="block" my={1} color="heading">
                   {tokens.map((line, i) => (
                     // eslint-disable-next-line react/jsx-key
@@ -228,7 +228,7 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
                     </Box>
                   ))}
                 </Box>
-              </Text>
+              </Box>
             </Box>
           )}
         </Highlight>
