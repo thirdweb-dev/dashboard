@@ -63,6 +63,7 @@ const DashboardApiKeys: ThirdwebNextPage = () => {
           infrastructure services. Find the full list of supported networks{" "}
           <Link
             href="https://portal.thirdweb.com/wallet/smart-wallet"
+            color="blue.400"
             isExternal
           >
             here
