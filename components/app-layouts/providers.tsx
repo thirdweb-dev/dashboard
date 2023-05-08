@@ -19,6 +19,7 @@ import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
 import { useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
+import {THIRDWEB_API_HOST, THIRDWEB_DOMAIN} from "../../constants/urls";
 
 export interface DashboardThirdwebProviderProps {
   contractInfo?: EVMContractInfo;
@@ -70,8 +71,8 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       ]}
       storageInterface={StorageSingleton}
       authConfig={{
-        domain: "thirdweb.com",
-        authUrl: "https://api.thirdweb.com/v1/auth",
+        domain: THIRDWEB_DOMAIN,
+        authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
       }}
     >
       <SolanaProvider>{children}</SolanaProvider>
