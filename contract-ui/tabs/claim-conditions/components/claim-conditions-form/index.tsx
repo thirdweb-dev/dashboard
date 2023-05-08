@@ -21,7 +21,6 @@ import {
   Icon,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   SimpleGrid,
   Spinner,
@@ -62,7 +61,7 @@ import {
 import { FiPlus, FiX } from "react-icons/fi";
 import { RxCaretDown, RxCaretUp } from "react-icons/rx";
 import invariant from "tiny-invariant";
-import { Badge, Button, Card, Heading, Text } from "tw-components";
+import { Badge, Button, Card, Heading, MenuItem, Text } from "tw-components";
 import * as z from "zod";
 import { ZodError } from "zod";
 
@@ -95,7 +94,7 @@ type ClaimConditionType =
 
 const ClaimConditionTypeData: Record<
   ClaimConditionType,
-  { name: string; description: string; }
+  { name: string; description: string }
 > = Object.freeze({
   public: {
     name: "Public",
@@ -308,12 +307,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
           maxClaimableSupply: "unlimited",
           snapshot: walletAddress
             ? [
-              {
-                address: walletAddress,
-                maxClaimable: "unlimited",
-                price: "0",
-              },
-            ]
+                {
+                  address: walletAddress,
+                  maxClaimable: "unlimited",
+                  price: "0",
+                },
+              ]
             : [],
         });
         break;
@@ -378,10 +377,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
 
   const activePhaseId = useMemo(() => {
     let phaseId: string | null = null;
-    let latestStartTime: number = 0;
+    let latestStartTime = 0;
 
     controlledFields.forEach((phase) => {
-      if (!phase.startTime) return;
+      if (!phase.startTime) {
+        return;
+      }
 
       const phaseStartTime =
         typeof phase.startTime === "object"
@@ -396,16 +397,19 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     });
 
     return phaseId;
-  }, []);
+  }, [controlledFields]);
 
   const { hasAddedPhases, hasRemovedPhases } = useMemo(() => {
     const initialPhases = claimConditionsQuery.data || [];
     const currentPhases = controlledFields;
 
-    const hasAddedPhases = currentPhases.length > initialPhases.length;
-    const hasRemovedPhases = currentPhases.length < initialPhases.length;
+    const _hasAddedPhases = currentPhases.length > initialPhases.length;
+    const _hasRemovedPhases = currentPhases.length < initialPhases.length;
 
-    return { hasAddedPhases, hasRemovedPhases };
+    return {
+      hasAddedPhases: _hasAddedPhases,
+      hasRemovedPhases: _hasRemovedPhases,
+    };
   }, [claimConditionsQuery.data, controlledFields]);
 
   return (
@@ -519,8 +523,8 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                           {editingPhases[field.id]
                             ? "Done"
                             : isAdmin
-                              ? "Edit"
-                              : "See Phase"}
+                            ? "Edit"
+                            : "See Phase"}
                         </Button>
                         <AdminOnly contract={contract as ValidContractInstance}>
                           <Button
@@ -563,12 +567,12 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         {isClaimPhaseV1 ? (
                           ""
                         ) : (
-                            <Text>
-                              {
-                                ClaimConditionTypeData[claimConditionType]
-                                  .description
-                              }
-                            </Text>
+                          <Text>
+                            {
+                              ClaimConditionTypeData[claimConditionType]
+                                .description
+                            }
+                          </Text>
                         )}
                       </Flex>
 
@@ -597,34 +601,34 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                             ) : claimConditionType === "creator" ? (
                               <Text>Unlimited</Text>
                             ) : (
-                                  <Text textTransform="capitalize">
-                                    {field.maxClaimablePerWallet}
-                                  </Text>
+                              <Text textTransform="capitalize">
+                                {field.maxClaimablePerWallet}
+                              </Text>
                             )}
                           </Flex>
                         </SimpleGrid>
                       ) : (
                         <>
-                            <CustomFormGroup>
-                              {/* Phase Name Input / Form Title */}
-                              {isMultiPhase ? <PhaseNameInput /> : null}
-                              <PhaseStartTimeInput />
-                            </CustomFormGroup>
+                          <CustomFormGroup>
+                            {/* Phase Name Input / Form Title */}
+                            {isMultiPhase ? <PhaseNameInput /> : null}
+                            <PhaseStartTimeInput />
+                          </CustomFormGroup>
 
-                            <CreatorInput
-                              creatorAddress={
-                                (field.snapshot?.[0] as { address: string; })
-                                  ?.address
-                              }
-                            />
+                          <CreatorInput
+                            creatorAddress={
+                              (field.snapshot?.[0] as { address: string })
+                                ?.address
+                            }
+                          />
 
-                            <CustomFormGroup>
-                              <MaxClaimableSupplyInput />
-                              <ClaimPriceInput />
-                            </CustomFormGroup>
+                          <CustomFormGroup>
+                            <MaxClaimableSupplyInput />
+                            <ClaimPriceInput />
+                          </CustomFormGroup>
 
-                            {claimConditionType === "specific" ||
-                              claimConditionType === "creator" ? null : (
+                          {claimConditionType === "specific" ||
+                          claimConditionType === "creator" ? null : (
                             <CustomFormGroup>
                               <MaxClaimablePerWalletInput />
                               {isClaimPhaseV1 ? (
@@ -636,9 +640,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                                 />
                               )}
                             </CustomFormGroup>
-                            )}
+                          )}
 
-                            <ClaimerSelection />
+                          <ClaimerSelection />
                         </>
                       )}
                     </Flex>
@@ -698,10 +702,13 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                         {Object.keys(ClaimConditionTypeData).map((key) => {
                           const type = key as ClaimConditionType;
 
-                          if (type === "custom") return null;
+                          if (type === "custom") {
+                            return null;
+                          }
 
                           return (
                             <MenuItem
+                              key={type}
                               onClick={() => {
                                 addPhase(type);
                                 // TODO: Automatically start editing the new phase after adding it
@@ -724,17 +731,17 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                     </Menu>
                   </>
                 ) : (
-                    <Button
-                      size="sm"
-                      colorScheme="primary"
-                      variant="solid"
-                      borderRadius="md"
-                      leftIcon={<Icon as={FiPlus} />}
-                      onClick={() => addPhase("custom")}
-                      isDisabled={setClaimConditionsQuery.isLoading}
-                    >
-                      Add {isMultiPhase ? "Phase" : "Claim Conditions"}
-                    </Button>
+                  <Button
+                    size="sm"
+                    colorScheme="primary"
+                    variant="solid"
+                    borderRadius="md"
+                    leftIcon={<Icon as={FiPlus} />}
+                    onClick={() => addPhase("custom")}
+                    isDisabled={setClaimConditionsQuery.isLoading}
+                  >
+                    Add {isMultiPhase ? "Phase" : "Claim Conditions"}
+                  </Button>
                 )}
               </AdminOnly>
               <ResetClaimEligibility
@@ -757,10 +764,10 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                     (hasAddedPhases &&
                       claimConditionsQuery?.data?.length === 0 &&
                       controlledFields?.length > 0)) && (
-                      <Text color="red.500" fontWeight="bold">
-                        You have unsaved changes
-                      </Text>
-                    )}
+                    <Text color="red.500" fontWeight="bold">
+                      You have unsaved changes
+                    </Text>
+                  )}
                   <TransactionButton
                     colorScheme="primary"
                     transactionCount={1}
