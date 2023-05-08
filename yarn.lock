@@ -462,10 +462,10 @@
     "@chakra-ui/visually-hidden" "2.0.15"
     "@zag-js/focus-visible" "0.2.2"
 
-"@chakra-ui/cli@^2.0.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/cli/-/cli-2.3.0.tgz#66f229b91c53c9738fb1592ba8b0bc4b1c55f16f"
-  integrity sha512-63Xs4aMYxc17U8GfyPuQnAv8qRg/z2oCd8lgAdn6m755lvQ0e5RZ+mNecfJN1uNXRs3BmKXWnmGh1NvfQ6q1UQ==
+"@chakra-ui/cli@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/cli/-/cli-2.4.0.tgz#720b6cd36b96ebc13894a659c566c3a31dd87961"
+  integrity sha512-Ko8bnQ4lbSwoldHyf2aHANuITL09XTlLJFAKCvgN/e/G+ZuL9ciHnITNG9nchLZKiK6mNj7o8pVfRbxkLm5xVw==
   dependencies:
     "@swc/core" "^1.2.177"
     chokidar "^3.5.3"
@@ -4156,10 +4156,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.13.tgz#1f1338e13b6b30a05903252824953ac133647407"
   integrity sha512-jOE2cQUlhbMuy/wqGaUzXjjDgE+S94gAXNxmj9e6jrDianuW/fVg8BfRxZxNYrtzogU70YR0subf1oBRfgqEAQ==
 
-"@thirdweb-dev/chains@^0.1.13-nightly-28b5d1eb-20230501215005":
-  version "0.1.13-nightly-fc96e147-20230429021411"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.13-nightly-fc96e147-20230429021411.tgz#99853334a286212f65b233f50fa81a1d4d696bb5"
-  integrity sha512-Jl3ffikwCETN81laO0+1ngFKoBE9D2L25ZoQgz+Q605pgAPB76PtAbSVZyQ65SwJAlgFjYAeOU0cMqGXTjF91g==
+"@thirdweb-dev/chains@^0.1.14-nightly-05ebbc15-20230505235625":
+  version "0.1.14-nightly-eb521d24-20230505195559"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.14-nightly-eb521d24-20230505195559.tgz#db1d63e3270215be0776aeee0bf28d961f1de033"
+  integrity sha512-/slQxgB/BpCCpoVnO76VAFO6XPTU2qGCHmKPRKyhAuhAv+qCAv3XYHDQfFQtUknmMx8dJaBy6UfjHc95gSLoCA==
 
 "@thirdweb-dev/contracts-js@1.3.4":
   version "1.3.4"
@@ -11560,6 +11560,11 @@ react-icons@^4.2.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.8.0.tgz#621e900caa23b912f737e41be57f27f6b2bff445"
   integrity sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==
+
+react-intersection-observer@^9.4.3:
+  version "9.4.3"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-9.4.3.tgz#ec84ce0c25cad548075130ea045ac5c7adf908f3"
+  integrity sha512-WNRqMQvKpupr6MzecAQI0Pj0+JQong307knLP4g/nBex7kYfIaZsPpXaIhKHR+oV8z+goUbH9e10j6lGRnTzlQ==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
