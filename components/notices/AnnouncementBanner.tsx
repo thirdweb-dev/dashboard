@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-bear-market-airdrop", false, true);
+    useLocalStorage("dismissed-open-source", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="/bear-market-airdrop"
+          href="/wallet-sdk"
           category="announcement"
-          label="bear-market-airdrop"
+          label="open-source"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                <strong>Bear Market Builders Airdrop:</strong> Deployed a
-                contract in the past 18 months? Claim a free NFT pack!
+                <strong>Wallet SDK</strong> allows you to connect any wallet to
+                your apps and games
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>
