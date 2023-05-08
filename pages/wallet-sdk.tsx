@@ -1,13 +1,25 @@
 // import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
 import { ProductSection } from "../components/product-pages/common/ProductSection";
 import {
+  Box,
   Flex,
   GridItem,
-  ListItem,
+  LinkBox,
+  LinkOverlay,
   SimpleGrid,
-  UnorderedList,
 } from "@chakra-ui/react";
+import {
+  ConnectWallet,
+  ThirdwebProvider,
+  coinbaseWallet,
+  localWallet,
+  metamaskWallet,
+  safeWallet,
+  walletConnect,
+} from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
+import { ChainIcon } from "components/icons/ChainIcon";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { HighlightedButton } from "components/product-pages/common/HighlightedButton";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -16,7 +28,7 @@ import { ProductValueWithHighlight } from "components/product-pages/common/Produ
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import React, { useState } from "react";
-import { Heading, Text, TrackedLink } from "tw-components";
+import { Card, Heading, Link, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const GRIDS = {
@@ -24,36 +36,23 @@ const GRIDS = {
     <SimpleGrid columns={12} spacing={12} mt={24}>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="1">
-          User logs into mobile web3 game and select “continue as Guest”.
-          <br />
-          <br />
-          (Initially, user does not have to set up a “web3 wallet” to reduce
-          onboarding friction)
+          User logs into mobile web3 game as “guest”
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="2">
-          Developer generates local wallet on backend with key stored on device
+          Developer generates a local wallet for user
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="3">
-          User receives in-game assets as they play game
-          <br />
-          <br />
-          (Initially, user does not have to be aware of “digital assets”
-          ownership)
+          User receives digital assets as they play game
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="4">
-          After user accumulates in-game assets they receive a message to
-          upgrade their local wallet to export assets into personal
-          non-custodial wallet
-          <br />
-          <br />
-          (User only needs to set up wallets after they have invested time in
-          game)
+          Later on, user can upgrade local wallet to a non-custodial wallet so
+          they can have full control of their digital assets
         </ProductValueWithHighlight>
       </GridItem>
     </SimpleGrid>
@@ -70,23 +69,18 @@ const GRIDS = {
       {/* Empty GridItem for centering */}
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="1">
-          User logs into app with their email address and confirms email with a
-          one-time 6 digit email verification code.
+          User logs into app with their email address
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="2">
-          Developer subsidizes gas costs with Gasless Relayer. Dev generates a
-          local wallet on the backend on behalf of the user. Key is stored
-          across device and email.
+          A MPC wallet is generated for the user
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="3">
-          User uses app and selects “claim NFT” to get NFT
-          <br />
-          <br />
-          (no wallet connection or transactions signing required)
+          User selects “claim digital asset” in app with no transaction signing
+          required
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem
@@ -101,60 +95,141 @@ const GRIDS = {
   ),
   "smart-wallet": (
     <SimpleGrid columns={12} spacing={12} mt={24}>
+      <GridItem
+        display={{
+          base: "none",
+          md: "block",
+        }}
+        colSpan={{ md: 2 }}
+      />
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="1">
-          Dev deploys smart contract wallet using thirdweb base template for
-          smart wallets.
+          User logs into app to buy digital assets from marketplace
         </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
-        <UnorderedList>
-          <ProductValueWithHighlight circleLabel="2">
-            Dev sets custom logic for their team wallet
-            <ListItem mt={4}>
-              Logic: for outgoing transactions greater than 10 ETH from team
-              wallet, 3 designated signers (Dev team members) must sign off on
-              transactions before it can be executed on chain
-            </ListItem>
-          </ProductValueWithHighlight>
-        </UnorderedList>
+        <ProductValueWithHighlight circleLabel="2">
+          A smart contract wallet is deployed for the user
+        </ProductValueWithHighlight>
       </GridItem>
       <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
         <ProductValueWithHighlight circleLabel="3">
-          Dev team member wants to send transaction greater than 10 ETH to an
-          infrastructure provider as part of ongoing expenses
+          User can execute multiple onchain actions with one click using batched
+          transactions
         </ProductValueWithHighlight>
       </GridItem>
-      <GridItem colSpan={{ base: 8, md: 3 }} mt={12}>
-        <ProductValueWithHighlight circleLabel="4">
-          Since this transaction is greater than 10 ETH, it requires Dev’s team
-          members to sign transaction before it is executed on chain
-        </ProductValueWithHighlight>
-      </GridItem>
+      <GridItem
+        display={{
+          base: "none",
+          md: "block",
+        }}
+        colSpan={{ md: 1 }}
+      />
+      {/* Empty GridItem for centering */}
     </SimpleGrid>
   ),
 };
 
-// const GUIDES = [
-//   {
-//     title: "How to verify a Custom Contract on Etherscan using the dashboard",
-//     image:
-//       "https://blog.thirdweb.com/content/images/size/w2000/2022/12/verification.png",
-//     link: "https://blog.thirdweb.com/guides/how-to-verify-a-custom-contract-on-etherscan/",
-//   },
-//   {
-//     title: "How to Add Permissions to Your Smart Contract in Solidity",
-//     image:
-//       "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--13-.png",
-//     link: "https://blog.thirdweb.com/guides/how-to-add-permissions-to-your-smart-contract-contractkit/",
-//   },
-//   {
-//     title: "How to Create an NFT Drop on Solana without writing any code",
-//     image:
-//       "https://blog.thirdweb.com/content/images/size/w2000/2022/10/This-is-the-one--12-.png",
-//     link: "https://blog.thirdweb.com/guides/how-to-create-an-nft-collection-on-solana-without-code/",
-//   },
-// ];
+const WALLETS = [
+  {
+    name: "Smart Wallet",
+    description: "Deploy smart contract wallets for your users",
+    iconUrl:
+      "ipfs://QmeAJVqn17aDNQhjEU3kcWVZCFBrfta8LzaDGkS8Egdiyk/smart-wallet.svg",
+    link: "https://portal.thirdweb.com/wallet/smart-wallet",
+  },
+  {
+    name: "Local Wallet",
+    description: "Generate wallets for new users on the fly",
+    iconUrl:
+      "ipfs://QmeAJVqn17aDNQhjEU3kcWVZCFBrfta8LzaDGkS8Egdiyk/local-wallet-desktop.svg",
+    link: "https://portal.thirdweb.com/wallet/local-wallet",
+  },
+  {
+    name: "Coinbase Wallet",
+    description: "Connect with Coinbase Wallet",
+    iconUrl:
+      "ipfs://QmcJBHopbwfJcLqJpX2xEufSS84aLbF7bHavYhaXUcrLaH/coinbase.svg",
+    link: "https://portal.thirdweb.com/wallet/coinbase-wallet",
+  },
+  {
+    name: "MetaMask",
+    description: "Connect with MetaMask",
+    iconUrl:
+      "ipfs://QmZZHcw7zcXursywnLDAyY6Hfxzqop5GKgwoq8NB9jjrkN/metamask.svg",
+    link: "https://portal.thirdweb.com/wallet/metamask",
+  },
+  {
+    name: "Paper",
+    description: "Connect with email via Paper",
+    iconUrl:
+      "ipfs://QmNrLXtPoFrh4yjZbXui39zUMozS1oetpgU8dvZhFAxfRa/paper-logo-icon.svg",
+    link: "https://portal.thirdweb.com/wallet/paper",
+  },
+  {
+    name: "Ethers.js",
+    description: "Connect any ethers.js compatible wallet",
+    iconUrl: "ipfs://QmTWXcv6XnRqwUwEQxWp21oCrXZJ5QomiSTVBjKPQAv92k/ethers.png",
+    link: "https://portal.thirdweb.com/wallet",
+  },
+  {
+    name: "Private Key",
+    description: "Connect a wallet directly by private key",
+    iconUrl:
+      "ipfs://QmNrycnX15y8EwxDPrwSxnwQgTBWRxUgwSirmhAFoGSod7/private-key.png",
+    link: "https://portal.thirdweb.com/wallet",
+  },
+  {
+    name: "AWS KMS",
+    description: "Connect with AWS Key Management Service",
+    iconUrl:
+      "ipfs://QmVuWYpq5CaMfmbB1qMXXgc4dtUUGY31xiG6sxwvNafoZg/aws-kms.png",
+    link: "https://portal.thirdweb.com/wallet",
+  },
+  {
+    name: "AWS Secrets Manager",
+    description: "Connect with AWS Secrets Manager",
+    iconUrl:
+      "ipfs://QmVuWYpq5CaMfmbB1qMXXgc4dtUUGY31xiG6sxwvNafoZg/aws-secrets-manager.png",
+    link: "https://portal.thirdweb.com/wallet",
+  },
+  {
+    name: "WalletConnect",
+    description: "Connect with WalletConnect (v1 & v2)",
+    iconUrl:
+      "ipfs://QmX58KPRaTC9JYZ7KriuBzeoEaV2P9eZcA3qbFnTHZazKw/wallet-connect.svg",
+    link: "https://portal.thirdweb.com/wallet/wallet-connect-v1",
+  },
+  {
+    name: "Safe",
+    description: "Connect to multi-sig wallets via Safe",
+    iconUrl:
+      "ipfs://QmbbyxDDmmLQh8DzzeUR6X6B75bESsNUFmbdvS3ZsQ2pN1/SafeToken.svg",
+    link: "https://portal.thirdweb.com/wallet/safe",
+  },
+  {
+    name: "Magic Link",
+    description: "Connect with email or phone number via Magic",
+    iconUrl:
+      "ipfs://QmUMBFZGXxBpgDmZzZAHhbcCL5nYvZnVaYLTajsNjLcxMU/1-Icon_Magic_Color.svg",
+    link: "https://portal.thirdweb.com/wallet",
+  },
+];
+
+const GUIDES = [
+  {
+    title: "How to use ERC-4337 Smart Wallets",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-use-smart-wallet-.png",
+    link: "https://blog.thirdweb.com/guides/how-to-use-erc4337-smart-wallets/",
+  },
+  {
+    title: "How to use Local Wallets",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/05/How-to-use-paper-wallet-with-thirdweb.png",
+    link: "https://blog.thirdweb.com/guides/how-to-use-local-wallets/",
+  },
+];
 
 const TRACKING_CATEGORY = "wallet-sdk";
 
@@ -169,7 +244,7 @@ const WalletSDK: ThirdwebNextPage = () => {
     "email-sign-in":
       "Increase user activation rates with familiar web2 email sign-in flows",
     "smart-wallet":
-      "Programmable wallets with on-chain transaction rules that can be upgraded over time",
+      "Programmable wallets to enable 1-click batch transactions user experience",
   };
 
   return (
@@ -193,15 +268,15 @@ const WalletSDK: ThirdwebNextPage = () => {
       <Hero
         trackingCategory={TRACKING_CATEGORY}
         name="Wallet SDK"
-        title="Build any wallet experience."
-        description="Wallet SDK makes it easy for devs to build for any wallet experience, from onboarding web2 users with an invisible wallet experience to programmable smart wallets for web3 natives."
+        title="Connect any wallet"
+        description="Connect any wallet to your apps, from custodial wallets to non-custodial wallets."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/wallet"
         image={require("public/assets/product-pages/wallet-sdk/hero.png")}
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
         imageHeight="650px"
         secondaryButton={{
-          text: "Contact Us",
+          text: "Request Demo",
           link: "https://thirdweb.typeform.com/to/Q93CVgUc",
         }}
       >
@@ -210,23 +285,27 @@ const WalletSDK: ThirdwebNextPage = () => {
           w="100%"
           columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
+          mb={{
+            base: 12,
+            md: 24,
+          }}
         >
           <ProductCard
             title="Complete"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
           >
-            Whether you’re building for web3 natives or you want to onboard web2
-            users, we have wallet solutions that will match your use case.
-            Support for non-custodial wallets, custodial wallets, smart contract
-            wallets, and email wallets. Cross-platform support (Unity,
-            ReactNative).
+            Build any wallet experience, including support for: non-custodial
+            wallets, custodial wallets, MPC wallets, email wallets, and more.
+            Cross-platform support (Web, Mobile, Unity).
           </ProductCard>
           <ProductCard
             title="Simple"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
-            We&apos;ve made the entire web3 wallet development workflow simple.
-            (delete: from integrating, building to managing wallets)
+            We’ve made the entire web3 wallet development simple. Out-of-the-box
+            UI components for ConnectWallet button. SDK to connect with any
+            wallet providers with our Connectors. Ready-to-deploy starter bases
+            for smart wallets.
           </ProductCard>
           <ProductCard
             title="Composable"
@@ -244,20 +323,111 @@ const WalletSDK: ThirdwebNextPage = () => {
                 Wallet SDK
               </TrackedLink>{" "}
               as a turnkey out-of-the box solution or bring your own
-              provider/solutions to complement with parts of our{" "}
-              <TrackedLink
-                href="https://portal.thirdweb.com/wallet/smart-wallet"
-                category={TRACKING_CATEGORY}
-                textDecoration="underline"
-                color="blue.200"
-                target="_blank"
-              >
-                Wallet SDK
-              </TrackedLink>
-              .
+              provider/solutions to complement with parts of our Wallet SDK.
             </Text>
           </ProductCard>
         </SimpleGrid>
+
+        {/* Connect Wallet Button */}
+        <ProductSection py={{ base: 12, lg: 24 }}>
+          <Heading
+            as="h2"
+            size="display.sm"
+            fontWeight={700}
+            textAlign="center"
+          >
+            Connect Wallet Button
+          </Heading>
+          <ThirdwebProvider
+            activeChain="goerli"
+            supportedWallets={[
+              localWallet(),
+              coinbaseWallet(),
+              metamaskWallet(),
+              walletConnect(),
+              safeWallet(),
+            ]}
+          >
+            <Flex flexDir="column" gap={12} mt={{ base: 2, md: 6 }}>
+              <Flex
+                direction={"column"}
+                gap={4}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Text>
+                  One line of code to add a{" "}
+                  <Link
+                    href="https://portal.thirdweb.com/react/react.connectwallet"
+                    color="blue.400"
+                    isExternal
+                  >
+                    Connect Wallet UI component
+                  </Link>{" "}
+                  to React, React Native and Unity apps.
+                </Text>
+                <Text>
+                  Access the largest catalog of wallets, from custodial to MPC
+                  to smart contracts.{" "}
+                </Text>
+                <Flex direction="row" justifyContent={"left"} mt={4}>
+                  <Box
+                    _hover={{
+                      transition: "all 0.2s ease-in-out",
+                      transform: "scale(1.05)",
+                    }}
+                  >
+                    <ConnectWallet
+                      theme="dark"
+                      btnTitle="Try Connect Wallet"
+                      auth={{
+                        loginOptional: true,
+                      }}
+                    />
+                  </Box>
+                </Flex>
+              </Flex>
+
+              <Flex direction={"column"} gap={4}>
+                <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+                  {WALLETS.map((wallet) => (
+                    <LinkBox key={wallet.name} position="relative" role="group">
+                      <LinkOverlay href={wallet.link} isExternal>
+                        <Card
+                          as={Flex}
+                          flexDir="column"
+                          gap={3}
+                          p={6}
+                          _groupHover={{ borderColor: "blue.500" }}
+                          position="relative"
+                        >
+                          <Flex justifyContent="space-between">
+                            <Flex alignItems="center" gap={3}>
+                              <ChainIcon
+                                size={25}
+                                ipfsSrc={wallet.iconUrl}
+                                sizes={[]}
+                              />
+
+                              <Heading size="subtitle.sm" as="h3" noOfLines={1}>
+                                {wallet.name}
+                              </Heading>
+                            </Flex>
+                          </Flex>
+                          <Flex>
+                            <Flex flexDir="column" gap={1} w="full">
+                              <Text opacity={0.6}>{wallet.description}</Text>
+                            </Flex>
+                          </Flex>
+                        </Card>
+                      </LinkOverlay>
+                    </LinkBox>
+                  ))}
+                </SimpleGrid>
+              </Flex>
+            </Flex>
+          </ThirdwebProvider>
+        </ProductSection>
 
         {/* Products */}
         <ProductSection py={{ base: 12, lg: 24 }}>
@@ -283,67 +453,54 @@ const WalletSDK: ThirdwebNextPage = () => {
             gap={{ base: 12, md: 6 }}
           >
             <ProductCard
-              title="ConnectWallet"
+              title="Connect Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/connect-wallet.png")}
-              titleLink="https://portal.thirdweb.com/unity/connectwalletnative"
-              linkCategory={TRACKING_CATEGORY}
             >
-              <UnorderedList>
-                <ListItem>
-                  Out-of-the-box UI components to easily integrate into your
-                  apps and games with cross-platform support (Unity,
-                  ReactNative).
-                </ListItem>
-                <ListItem mt={4}>
-                  Enable end users to connect with popular wallets (170+
-                  supported) across all types of wallets. Includes native Safe
-                  multi-sig support.
-                </ListItem>
-              </UnorderedList>
+              <Text fontSize="lg">
+                Out-of-the-box UI components to easily integrate into your apps
+                and games with cross-platform support (Unity, React,
+                ReactNative).
+              </Text>
+              <Text fontSize="lg" mt={4}>
+                Enable end users to connect with popular wallets (170+
+                supported) across all types of wallets. Includes Safe multi-sig
+                support.
+              </Text>
             </ProductCard>
             <ProductCard
               title="Local Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/local-wallet.png")}
-              titleLink="https://portal.thirdweb.com/wallet/local-wallet"
-              linkCategory={TRACKING_CATEGORY}
             >
-              <UnorderedList>
-                <ListItem>
-                  Powerful tool with raw capabilities to build your own fully
-                  featured wallet solution
-                </ListItem>
-                <ListItem mt={4}>
-                  Everything you need to build your own fully featured wallet—
-                  from generating wallets on the backend to managing wallets
-                  (importing & exporting keys, save keys to secure storage, and
-                  private key recovery).
-                </ListItem>
-              </UnorderedList>
+              <Text fontSize="lg">
+                Powerful tool with raw capabilities to build your own fully
+                featured wallet solution
+              </Text>
+              <Text fontSize="lg" mt={4}>
+                Everything you need to build your own fully featured wallet—
+                from generating wallets on the backend to managing wallets
+                (importing & exporting keys, save keys to secure storage, and
+                private key recovery).
+              </Text>
             </ProductCard>
             <ProductCard
               title="Smart Wallet"
               icon={require("/public/assets/product-pages/wallet-sdk/smart-wallet.png")}
-              titleLink="https://portal.thirdweb.com/wallet/smart-wallet"
-              linkCategory={TRACKING_CATEGORY}
             >
-              <UnorderedList>
-                <ListItem>
-                  Build, launch, and manage your own smart contract wallets
-                  easily using Solidity SDK, which includes 3 base starter
-                  templates specific for{" "}
-                  <TrackedLink
-                    href="https://portal.thirdweb.com/wallet/smart-wallet"
-                    category={TRACKING_CATEGORY}
-                    textDecoration="underline"
-                    color="blue.200"
-                    target="_blank"
-                  >
-                    smart wallets
-                  </TrackedLink>
-                  . Base template follows account abstraction standard (fully
-                  compliant ERC-4337).
-                </ListItem>
-              </UnorderedList>
+              <Text fontSize="lg">
+                Deploy and manage ERC-4337{" "}
+                <TrackedLink
+                  href="https://portal.thirdweb.com/wallet/smart-wallet"
+                  category={TRACKING_CATEGORY}
+                  textDecoration="underline"
+                  color="blue.200"
+                  target="_blank"
+                >
+                  smart contract wallets
+                </TrackedLink>{" "}
+                for you users. Unlock fully programmable wallets with
+                transaction batching, multiple owners, conditional gasless and
+                your own custom functionality.
+              </Text>
             </ProductCard>
           </SimpleGrid>
         </ProductSection>
@@ -357,7 +514,7 @@ const WalletSDK: ThirdwebNextPage = () => {
             textAlign="center"
             mb={{ base: 16, lg: 24 }}
           >
-            Build for any use case with Wallet SDK
+            What you can build with Wallet SDK
           </Heading>
           <Flex
             direction={{
@@ -370,7 +527,7 @@ const WalletSDK: ThirdwebNextPage = () => {
           >
             <HighlightedButton
               isHighlighted={selectedTab === "invisible-wallet-experience"}
-              title="Invisible wallet experience"
+              title="Invisible wallet"
               minHeight="63px"
               width={{
                 base: "full",
@@ -422,15 +579,14 @@ const WalletSDK: ThirdwebNextPage = () => {
           />
           {GRIDS[selectedTab]}
         </ProductSection>
-
-        {/* Guides */}
-        {/* <GuidesShowcase
-          title="Learn how to build"
-          category={TRACKING_CATEGORY}
-          description="Check out our guides to learn how to use Dashboard"
-          guides={GUIDES}
-        /> */}
       </Hero>
+      <GuidesShowcase
+        title="Learn how to build"
+        category={TRACKING_CATEGORY}
+        description="Check out our Wallet SDK guides to start building"
+        solution="Wallet"
+        guides={GUIDES}
+      />
     </ProductPage>
   );
 };
