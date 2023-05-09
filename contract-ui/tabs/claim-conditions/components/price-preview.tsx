@@ -29,7 +29,7 @@ export const PricePreview: React.FC<PricePreviewProps> = ({
   return (
     <Flex direction="column">
       <Text fontWeight="bold">Default price</Text>
-      {price === "0.0" || price === "0" ? (
+      {Number(price) === 0 ? (
         <Text>Free</Text>
       ) : (
         <Text>
@@ -37,9 +37,8 @@ export const PricePreview: React.FC<PricePreviewProps> = ({
           {foundCurrency
             ? foundCurrency.symbol
             : isAddressZero(currencyAddress || "")
-              ? chain?.nativeCurrency.symbol || "(Native Token)"
-              : `(${shortenIfAddress(currencyAddress)})`
-          }
+            ? chain?.nativeCurrency.symbol || "(Native Token)"
+            : `(${shortenIfAddress(currencyAddress)})`}
         </Text>
       )}
     </Flex>

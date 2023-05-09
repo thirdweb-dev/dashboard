@@ -114,7 +114,7 @@ export const ClaimConditionsPhase: React.FC<ClaimConditionsPhaseProps> = ({
             </Flex>
             <Flex direction="column">
               <Text fontWeight="bold">
-                {isErc20 ? "tokens" : "NFTs"} to drop
+                {isErc20 ? "Tokens" : "NFTs"} to drop
               </Text>
               <Text textTransform="capitalize">{field.maxClaimableSupply}</Text>
             </Flex>

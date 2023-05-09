@@ -240,7 +240,9 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         },
         isEditing: false,
       }))
-      .filter((phase) => isMultiPhase || phase.maxClaimableSupply !== "0");
+      .filter(
+        (phase) => isMultiPhase || Number(phase.maxClaimableSupply) !== 0,
+      );
   }, [claimConditionsQuery.data, isMultiPhase]);
 
   const isFetchingData =
