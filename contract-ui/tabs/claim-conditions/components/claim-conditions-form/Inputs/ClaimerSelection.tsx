@@ -92,7 +92,12 @@ export const ClaimerSelection = () => {
     return null;
   }
 
-  const label = claimConditionType === "overrides" ? "Add Override Snapshot" : claimConditionType === "specific" ? "Add Allowlist" : `Who can claim ${isErc20 ? "tokens" : "NFTs"} during this phase?`;
+  const label =
+    claimConditionType === "overrides"
+      ? "Add Override Snapshot"
+      : claimConditionType === "specific"
+      ? "Add Allowlist"
+      : `Who can claim ${isErc20 ? "tokens" : "NFTs"} during this phase?`;
 
   return (
     <CustomFormControl
@@ -106,7 +111,7 @@ export const ClaimerSelection = () => {
     >
       <Flex direction={{ base: "column", md: "row" }} gap={4}>
         {claimConditionType === "overrides" ||
-          claimConditionType === "specific" ? null : (
+        claimConditionType === "specific" ? null : (
           <Select
             isDisabled={formDisabled}
             w={{ base: "100%", md: "50%" }}
