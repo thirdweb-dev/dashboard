@@ -39,11 +39,11 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
   getTrustedForwarders,
+  zkDeployContractFromUri,
 } from "@thirdweb-dev/sdk/evm";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
-import { utils } from "ethers";
+import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
-import { replaceTemplateValues } from "lib/deployment/template-values";
 import { isEnsName } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
@@ -51,6 +51,7 @@ import { getAbsoluteUrl } from "lib/vercel-utils";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
+import { Web3Provider } from "zksync-web3";
 import { z } from "zod";
 
 export interface ContractPublishMetadata {
@@ -532,13 +533,31 @@ export function useCustomContractDeployMutation(
         }
 
         // deploy contract
-        contractAddress = await sdk.deployer.deployContractFromUri(
-          ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-          Object.values(data.deployParams),
-          {
-            forceDirectDeploy,
-          },
-        );
+
+        console.log("signer: ", signer);
+        console.log("provider: ", signer?.provider);
+        contractAddress =
+          chainId === 280
+            ? await zkDeployContractFromUri(
+                ipfsHash.startsWith("ipfs://")
+                  ? ipfsHash
+                  : `ipfs://${ipfsHash}`,
+                Object.values(data.deployParams),
+                new Web3Provider(
+                  window.ethereum as unknown as providers.ExternalProvider,
+                ).getSigner(),
+                StorageSingleton,
+                chainId,
+              )
+            : await sdk.deployer.deployContractFromUri(
+                ipfsHash.startsWith("ipfs://")
+                  ? ipfsHash
+                  : `ipfs://${ipfsHash}`,
+                Object.values(data.deployParams),
+                {
+                  forceDirectDeploy,
+                },
+              );
 
         deployContext.nextStep();
       } catch (e) {
