@@ -364,6 +364,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
       const newPhases = d.phases.map((phase) => ({
         ...phase,
         isEditing: false,
+        fromSdk: true,
       }));
 
       form.setValue("phases", newPhases);
@@ -412,14 +413,20 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     const initialPhases = claimConditionsQuery.data || [];
     const currentPhases = controlledFields;
 
-    const _hasAddedPhases = currentPhases.length > initialPhases.length;
-    const _hasRemovedPhases = currentPhases.length < initialPhases.length;
+    const _hasAddedPhases =
+      currentPhases.length > initialPhases.length &&
+      claimConditionsQuery?.data?.length === 0 &&
+      controlledFields?.length > 0;
+    const _hasRemovedPhases =
+      currentPhases.length < initialPhases.length &&
+      isMultiPhase &&
+      controlledFields?.length === 0;
 
     return {
       hasAddedPhases: _hasAddedPhases,
       hasRemovedPhases: _hasRemovedPhases,
     };
-  }, [claimConditionsQuery.data, controlledFields]);
+  }, [claimConditionsQuery.data, controlledFields, isMultiPhase]);
 
   return (
     <>
@@ -608,12 +615,14 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                   </Button>
                 )}
               </AdminOnly>
-              <ResetClaimEligibility
-                isErc20={isErc20}
-                contract={contract}
-                isColumn={isColumn}
-                tokenId={tokenId}
-              />
+              {controlledFields.some((field) => field.fromSdk) && (
+                <ResetClaimEligibility
+                  isErc20={isErc20}
+                  contract={contract}
+                  isColumn={isColumn}
+                  tokenId={tokenId}
+                />
+              )}
             </Flex>
 
             <Flex>
@@ -622,27 +631,24 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 fallback={<Box pb={5} />}
               >
                 <Flex justifyContent="center" alignItems="center" gap={3}>
-                  {((isMultiPhase &&
-                    hasRemovedPhases &&
-                    controlledFields?.length === 0) ||
-                    (hasAddedPhases &&
-                      claimConditionsQuery?.data?.length === 0 &&
-                      controlledFields?.length > 0)) && (
+                  {(hasRemovedPhases || hasAddedPhases) && (
                     <Text color="red.500" fontWeight="bold">
                       You have unsaved changes
                     </Text>
                   )}
-                  <TransactionButton
-                    colorScheme="primary"
-                    transactionCount={1}
-                    isDisabled={claimConditionsQuery.isLoading}
-                    type="submit"
-                    isLoading={setClaimConditionsQuery.isLoading}
-                    loadingText="Saving..."
-                    size="md"
-                  >
-                    Save Phases
-                  </TransactionButton>
+                  {controlledFields.length > 0 || hasRemovedPhases ? (
+                    <TransactionButton
+                      colorScheme="primary"
+                      transactionCount={1}
+                      isDisabled={claimConditionsQuery.isLoading}
+                      type="submit"
+                      isLoading={setClaimConditionsQuery.isLoading}
+                      loadingText="Saving..."
+                      size="md"
+                    >
+                      Save Phases
+                    </TransactionButton>
+                  ) : null}
                 </Flex>
               </AdminOnly>
             </Flex>
