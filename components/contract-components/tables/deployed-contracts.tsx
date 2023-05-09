@@ -25,6 +25,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { Chain } from "@thirdweb-dev/chains";
 import {
   ChainId,
   CommonContractOutputSchema,
@@ -37,6 +38,7 @@ import { MismatchButton } from "components/buttons/MismatchButton";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { NetworkSelectDropdown } from "components/selects/NetworkSelectDropdown";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useChainSlug } from "hooks/chains/chainSlug";
@@ -79,13 +81,26 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   limit = 10,
 }) => {
   const [showMoreLimit, setShowMoreLimit] = useState(limit);
+  const [chain, setChain] = useState<Chain | undefined>(undefined);
+  const filteredContractListQuery = useMemo(
+    () =>
+      !chain
+        ? contractListQuery
+        : {
+            ...contractListQuery,
+            data: contractListQuery.data?.filter(
+              (contract) => contract.chainId === chain.chainId,
+            ),
+          },
+    [chain, contractListQuery],
+  );
 
   const slicedData = useMemo(() => {
-    if (contractListQuery.data) {
-      return contractListQuery.data.slice(0, showMoreLimit);
+    if (filteredContractListQuery.data) {
+      return filteredContractListQuery.data.slice(0, showMoreLimit);
     }
     return [];
-  }, [contractListQuery.data, showMoreLimit]);
+  }, [filteredContractListQuery.data, showMoreLimit]);
 
   const router = useRouter();
 
@@ -147,6 +162,10 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </Flex>
         </>
       )}
+
+      <NetworkSelectDropdown
+        onSelect={(selectedChain) => setChain(selectedChain)}
+      />
 
       <ContractTable combinedList={slicedData}>
         {contractListQuery.isLoading && (
@@ -227,7 +246,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </Flex>
           </Center>
         )}
-        {contractListQuery.data.length > slicedData.length && (
+        {filteredContractListQuery.data.length > slicedData.length && (
           <ShowMoreButton
             limit={limit}
             showMoreLimit={showMoreLimit}

@@ -3,42 +3,25 @@ import {
   Box,
   Flex,
   Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  Spinner,
-  useColorMode,
 } from "@chakra-ui/react";
-import {
-  Chain,
-  useActiveChain,
-  useWallet,
-} from "@thirdweb-dev/react";
+import { Chain } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { useSupportedChains } from "hooks/chains/configureChains";
-import {
-  useAddRecentlyUsedChainId,
-} from "hooks/chains/recentlyUsedChains";
-import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "tw-components";
 
-export const NetworkMultiSelectDropdown: React.FC<{
+export const NetworkSelectDropdown: React.FC<{
   disabledChainIds?: number[];
   isDisabled?: boolean;
   onSelect?: (chain: Chain) => void;
 }> = (props) => {
-  const addRecentlyUsedChains = useAddRecentlyUsedChainId();
-  const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
-  const { colorMode } = useColorMode();
   const supportedChains = useSupportedChains();
 
   const { disabledChainIds } = props;
@@ -50,6 +33,7 @@ export const NetworkMultiSelectDropdown: React.FC<{
         (chain) => !disabledChainIdsSet.has(chain.chainId),
       );
     }
+    return supportedChains;
   }, [supportedChains, disabledChainIds]);
   const { onSelect } = props;
  
@@ -63,7 +47,7 @@ export const NetworkMultiSelectDropdown: React.FC<{
     if (!searchText) {
       return popularChains;
     } else {
-      return supportedChains
+      return chains
         .filter(
           (c) =>
             c.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -71,9 +55,9 @@ export const NetworkMultiSelectDropdown: React.FC<{
               ?.toLowerCase()
               .includes(searchText.toLowerCase()),
         )
-        .slice(0, 5);
+        .slice(0, 50);
     }
-  }, [supportedChains, searchText]);
+  }, [chains, searchText]);
 
   const handleSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
@@ -100,7 +84,6 @@ export const NetworkMultiSelectDropdown: React.FC<{
           justifyContent: "start",
           alignItems: "center",
           gap: "0.5rem",
-          height: "56px",
         }}
         onClick={() => {
           setIsOpen(true);
@@ -117,7 +100,7 @@ export const NetworkMultiSelectDropdown: React.FC<{
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent rounded={"2xl"} padding={2}>
           <ModalHeader>Select Network</ModalHeader>
           <ModalCloseButton />
           <ModalBody maxHeight={480} overflowY={"scroll"}>
