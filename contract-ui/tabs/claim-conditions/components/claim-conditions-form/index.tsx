@@ -56,6 +56,7 @@ import { ZodError } from "zod";
 
 export type ClaimConditionDashboardInput = ClaimConditionInput & {
   isEditing: boolean;
+  fromSdk: boolean;
 };
 
 const DEFAULT_PHASE: ClaimConditionDashboardInput = {
@@ -70,11 +71,17 @@ const DEFAULT_PHASE: ClaimConditionDashboardInput = {
   metadata: {
     name: "",
   },
-  isEditing: false,
+  isEditing: true,
+  fromSdk: false,
 };
 
 const ClaimConditionsSchema = z.object({
-  phases: z.array(ClaimConditionInputSchema.extend({ isEditing: z.boolean() })),
+  phases: z.array(
+    ClaimConditionInputSchema.extend({
+      isEditing: z.boolean(),
+      fromSdk: z.boolean(),
+    }),
+  ),
 });
 
 type DropType = "any" | "specific" | "overrides";
@@ -239,6 +246,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
           name: phase?.metadata?.name || `Phase ${idx + 1}`,
         },
         isEditing: false,
+        fromSdk: true,
       }))
       .filter(
         (phase) => isMultiPhase || Number(phase.maxClaimableSupply) !== 0,
@@ -272,7 +280,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         append({
           ...DEFAULT_PHASE,
           metadata: { name },
-          isEditing: true,
         });
         break;
 
@@ -282,7 +289,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
           metadata: { name },
           maxClaimablePerWallet: "0",
           snapshot: [],
-          isEditing: true,
         });
         break;
 
@@ -292,7 +298,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
           metadata: { name },
           maxClaimablePerWallet: "1",
           snapshot: [],
-          isEditing: true,
         });
         break;
 
@@ -312,7 +317,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
                 },
               ]
             : [],
-          isEditing: true,
         });
         break;
 
@@ -320,7 +324,6 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
         append({
           ...DEFAULT_PHASE,
           metadata: { name },
-          isEditing: true,
         });
     }
   };
@@ -386,7 +389,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     let latestStartTime = 0;
 
     controlledFields.forEach((phase) => {
-      if (!phase.startTime) {
+      if (!phase.startTime || !phase.fromSdk) {
         return;
       }
 
@@ -403,8 +406,7 @@ export const ClaimConditionsForm: React.FC<ClaimConditionsFormProps> = ({
     });
 
     return phaseId;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [controlledFields]);
 
   const { hasAddedPhases, hasRemovedPhases } = useMemo(() => {
     const initialPhases = claimConditionsQuery.data || [];
