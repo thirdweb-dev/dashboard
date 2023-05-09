@@ -12,7 +12,7 @@ import {
   Tabs,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { Chain, useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ImportModal } from "components/contract-components/import-contract/modal";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
@@ -21,10 +21,11 @@ import { ContractsSidebar } from "core-ui/sidebar/contracts";
 import { useTrack } from "hooks/analytics/useTrack";
 import Image from "next/image";
 import { PageId } from "page-id";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { FiChevronsRight } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import { NetworkMultiSelectDropdown } from "components/selects/NetworkMultiSelectDropdown";
 
 type ContentItem = {
   title: string;
@@ -181,7 +182,20 @@ const DeployOptions = () => {
 
 const Contracts: ThirdwebNextPage = () => {
   const address = useAddress();
+  const [chain, setChain] = useState<Chain | undefined>(undefined);
   const deployedContracts = useAllContractList(address);
+  const filteredDeployedContracts = useMemo(
+    () =>
+      !chain
+        ? deployedContracts
+        : {
+            ...deployedContracts,
+            data: deployedContracts.data?.filter(
+              (contract) => contract.chainId === chain.chainId,
+            ),
+          },
+    [chain, deployedContracts],
+  );
 
   const hasContracts = useMemo(
     () => deployedContracts.data?.length > 0,
@@ -219,9 +233,15 @@ const Contracts: ThirdwebNextPage = () => {
 
   return (
     <Flex direction="column" gap={12}>
+      <NetworkMultiSelectDropdown
+        onSelect={(selectedChain) => setChain(selectedChain)}
+      />
       {hasContracts ? (
         <Flex gap={8} direction="column">
-          <DeployedContracts contractListQuery={deployedContracts} limit={50} />
+          <DeployedContracts
+            contractListQuery={filteredDeployedContracts}
+            limit={50}
+          />
         </Flex>
       ) : (
         <StepsCard
