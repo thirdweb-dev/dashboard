@@ -1,7 +1,9 @@
 import { popularChains } from "@3rdweb-sdk/react/components/popularChains";
 import {
   Box,
+  CloseButton,
   Flex,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -15,7 +17,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
-import { Button } from "tw-components";
+import { Button, Text } from "tw-components";
 
 export const NetworkSelectDropdown: React.FC<{
   disabledChainIds?: number[];
@@ -36,7 +38,6 @@ export const NetworkSelectDropdown: React.FC<{
     return supportedChains;
   }, [supportedChains, disabledChainIds]);
   const { onSelect } = props;
- 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Chain | undefined>(
     undefined,
@@ -59,8 +60,17 @@ export const NetworkSelectDropdown: React.FC<{
     }
   }, [chains, searchText]);
 
-  const handleSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchTextChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setSearchText(event.target.value);
+  };
+
+  const handleSelection = (option) => {
+    setSelectedOption(option);
+    onSelect?.(option);
+    setIsOpen(false);
+    setSearchText("");
   };
 
   const onClose = () => {
@@ -70,34 +80,45 @@ export const NetworkSelectDropdown: React.FC<{
 
   return (
     <>
-      <Button
-        isDisabled={props.isDisabled}
-        display="flex"
-        bg="inputBg"
-        _hover={{
-          bg: "inputBgHover",
-        }}
-        width="100%"
-        variant="solid"
-        style={{
-          textAlign: "left",
-          justifyContent: "start",
-          alignItems: "center",
-          gap: "0.5rem",
-        }}
-        onClick={() => {
-          setIsOpen(true);
-        }}
-        leftIcon={<ChainIcon ipfsSrc={selectedOption?.icon?.url} size={20} />}
-      >
-        {selectedOption?.name || "Filter by Network"}
-
-        <BiChevronDown
-          style={{
-            marginLeft: "auto",
+      <Flex gap={2}>
+        <Button
+          isDisabled={props.isDisabled}
+          display="flex"
+          bg="inputBg"
+          _hover={{
+            bg: "inputBgHover",
           }}
-        />
-      </Button>
+          width="100%"
+          variant="solid"
+          style={{
+            textAlign: "left",
+            justifyContent: "start",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+          onClick={() => {
+            setIsOpen(true);
+          }}
+          leftIcon={<ChainIcon ipfsSrc={selectedOption?.icon?.url} size={20} />}
+        >
+          <Text size="lg">{selectedOption?.name || "Filter by Network"}</Text>
+          <BiChevronDown
+            style={{
+              marginLeft: "auto",
+            }}
+          />
+        </Button>
+        {selectedOption && (
+          <IconButton
+            variant="ghost"
+            aria-label="Clear network filter"
+            icon={<CloseButton />}
+            onClick={() => {
+              handleSelection(undefined);
+            }}
+          />
+        )}
+      </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent rounded={"2xl"} padding={2}>
@@ -129,12 +150,7 @@ export const NetworkSelectDropdown: React.FC<{
                       gap: "0.5rem",
                       height: "56px",
                     }}
-                    onClick={() => {
-                      setSelectedOption(option);
-                      onSelect?.(option);
-                      setIsOpen(false);
-                      setSearchText("");
-                    }}
+                    onClick={() => handleSelection(option)}
                     leftIcon={
                       <ChainIcon ipfsSrc={option?.icon?.url} size={20} />
                     }
