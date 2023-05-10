@@ -1,10 +1,10 @@
+import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
 import { SolanaProvider } from "./solana-provider";
 import {
   EVMContractInfo,
   useEVMContractInfo,
 } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { useQueryClient } from "@tanstack/react-query";
-import { Ethereum } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
   coinbaseWallet,
@@ -70,8 +70,8 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       ]}
       storageInterface={StorageSingleton}
       authConfig={{
-        domain: "thirdweb.com",
-        authUrl: "https://api.thirdweb.com/v1/auth",
+        domain: THIRDWEB_DOMAIN,
+        authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
       }}
     >
       <SolanaProvider>{children}</SolanaProvider>
