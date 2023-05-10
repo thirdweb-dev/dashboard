@@ -39,8 +39,11 @@ import {
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
   getTrustedForwarders,
-  zkDeployContractFromUri,
 } from "@thirdweb-dev/sdk/evm";
+import {
+  getZkTransactionsForDeploy,
+  zkDeployContractFromUri,
+} from "@thirdweb-dev/sdk/evm/zksync";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
 import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
@@ -611,6 +614,15 @@ export function useTransactionsForDeploy(publishMetadataOrUri: string) {
     ["transactions-for-deploy", publishMetadataOrUri, chainId],
     async () => {
       invariant(sdk, "sdk not provided");
+
+      // Handle separately for ZkSync
+      if (
+        chainId === ZksyncEraTestnet.chainId ||
+        chainId === ZksyncEra.chainId
+      ) {
+        return await getZkTransactionsForDeploy();
+      }
+
       return await sdk.deployer.getTransactionsForDeploy(
         publishMetadataOrUri.startsWith("ipfs://")
           ? publishMetadataOrUri
