@@ -18,11 +18,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import {
-  AbiEvent,
-  AbiFunction,
-  ValidContractInstance,
-} from "@thirdweb-dev/sdk/evm";
+import { AbiEvent, AbiFunction, SmartContract } from "@thirdweb-dev/sdk/evm";
 import { MarkdownRenderer } from "components/contract-components/published-contract/markdown-renderer";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
@@ -30,7 +26,7 @@ import { Badge, Button, Card, Heading, Text } from "tw-components";
 
 interface ContractFunctionProps {
   fn?: AbiFunction | AbiEvent;
-  contract?: ValidContractInstance;
+  contract?: SmartContract;
 }
 
 export const ContractFunction: React.FC<ContractFunctionProps> = ({
@@ -144,7 +140,7 @@ export const ContractFunction: React.FC<ContractFunctionProps> = ({
 
 interface ContractFunctionsPanelProps {
   fnsOrEvents: (AbiFunction | AbiEvent)[];
-  contract?: ValidContractInstance;
+  contract?: SmartContract;
 }
 
 export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({

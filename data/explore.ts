@@ -19,7 +19,7 @@ const POPULAR = {
   description: "A collection of our most deployed contracts.",
   contracts: [
     "thirdweb.eth/DropERC721",
-    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/MarketplaceV3",
     "unlock-protocol.eth/PublicLock",
     "thirdweb.eth/DropERC1155",
     "thirdweb.eth/TokenERC20",
@@ -77,7 +77,7 @@ const MARKETS = {
   displayName: "Marketplaces",
   description: "Quickly spin up your own on-chain marketplace for NFTs.",
   contracts: [
-    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/MarketplaceV3",
     "thirdweb.eth/TokenERC20",
     "thirdweb.eth/Split",
   ],
@@ -142,13 +142,17 @@ const STAKING = {
   showInExplore: true,
 } as const;
 
-const BETA = {
-  id: "beta",
-  name: "Beta",
-  displayName: "Beta",
+const SMART_WALLET = {
+  id: "smart-wallet",
+  name: "Smart Wallet",
+  displayName: "Smart Wallet (Beta)",
   description:
-    "Contracts that are not ready yet, but you can already start deploying on selected testnets.",
-  contracts: ["thirdweb.eth/MarketplaceV3"],
+    "Smart wallet factories that let you spin up Account Abstraction (ERC-4337) wallets for your users.",
+  contracts: [
+    "thirdweb.eth/AccountFactory",
+    "thirdweb.eth/DynamicAccountFactory",
+    "thirdweb.eth/ManagedAccountFactory",
+  ],
   showInExplore: true,
 } as const;
 
@@ -157,12 +161,12 @@ const CATEGORIES = {
   [NFTS.id]: NFTS,
   [MARKETS.id]: MARKETS,
   [DROPS.id]: DROPS,
-  [GOVERNANCE.id]: GOVERNANCE,
+  [SMART_WALLET.id]: SMART_WALLET,
   [AIRDROP.id]: AIRDROP,
   [GAMING.id]: GAMING,
   [COMMERCE.id]: COMMERCE,
   [STAKING.id]: STAKING,
-  [BETA.id]: BETA,
+  [GOVERNANCE.id]: GOVERNANCE,
 } as const;
 
 export function getCategory(id: string): ExploreCategory | null {

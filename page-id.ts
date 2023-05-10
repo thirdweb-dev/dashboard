@@ -13,6 +13,9 @@ export enum PageId {
   // thirdweb.com
   About = "about-page",
 
+  // thirdweb.com
+  OSS = "oss-page",
+
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
@@ -56,6 +59,9 @@ export enum PageId {
   // thirdweb.com/404
   PageNotFound = "page-not-found",
 
+  // thirdweb.com/wallet-sdk
+  WalletSDKLanding = "wallet-sdk-landing",
+
   // ---------------------------------------------------------------------------
   //  general product pages
   // ---------------------------------------------------------------------------
@@ -67,6 +73,12 @@ export enum PageId {
 
   // thirdweb.com/dashboard/rpc
   DashboardRPC = "dashboard-rpc",
+
+  // thirdweb.com/dashboard/api-keys
+  DashboardApiKeys = "dashboard-api-keys",
+
+  // thirdweb.com/dashboard/wallets
+  DashboardWallets = "dashboard-wallets",
 
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
@@ -81,6 +93,7 @@ export enum PageId {
 
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
+
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------

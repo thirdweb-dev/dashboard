@@ -1,6 +1,7 @@
 import { ClaimAirdrop } from "./ClaimAirdrop";
 import { ContractsDeployed } from "./ContractsDeployed";
 import { OpenPack } from "./OpenPack";
+import { OutOfPacks } from "./OutOfPacks";
 import { Supply } from "./Supply";
 import { Unboxed } from "./Unboxed";
 import { Box, Flex, SimpleGrid, Spinner, useToast } from "@chakra-ui/react";
@@ -8,10 +9,12 @@ import { Chain } from "@thirdweb-dev/chains";
 import {
   ConnectWallet,
   useAddress,
+  useChainId,
   useContract,
+  useContractRead,
   useOwnedNFTs,
   useSDK,
-  useTotalCirculatingSupply,
+  useSwitchChain,
 } from "@thirdweb-dev/react";
 import {
   SnapshotEntryWithProof,
@@ -19,10 +22,11 @@ import {
   fetchSnapshotEntryForAddress,
 } from "@thirdweb-dev/sdk";
 import { ChakraNextImage } from "components/Image";
+import { BigNumber } from "ethers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
-import { Heading } from "tw-components";
+import { Button, Heading } from "tw-components";
 
 type HeroProps = {
   desiredChain: Chain;
@@ -39,12 +43,16 @@ const typesenseApiKey =
   process.env.NEXT_PUBLIC_TYPESENSE_CONTRACT_API_KEY || "";
 const EDITION_ADDRESS = "0x3C29F6B19bcbeB85d26460bB2f7Bd4cd065cE28E";
 const PACK_ADDRESS = "0x24c1636c3d5506a6bD86Da188de16253B8064494";
-const AIRDROP_ADDRESS = "0xEC287fA0A7FDec3C02982267787A78Db01952B01";
+const AIRDROP_ADDRESS = "0x1809A9c8c9A0234D53E85fc50f894D18590b79DC";
 const merkleURI = "ipfs://QmSfGFUaVUx4M7ZMuSSbqeTLXb9CsSQfWPFauHE7j9r4NZ/0";
 export const BEAR_MARKET_TRACKING_CATEGORY = "bear-market-airdrop";
 
+// For gasless
+const IS_GASLESS_DISABLED = true;
+
 export const Hero: React.FC<HeroProps> = () => {
   const address = useAddress();
+  const chainId = useChainId();
   const toast = useToast();
   const sdk = useSDK();
   const trackEvent = useTrack();
@@ -76,7 +84,23 @@ export const Hero: React.FC<HeroProps> = () => {
     refetch: refetchPack,
   } = useOwnedNFTs(pack, address);
 
-  const { data: supply } = useTotalCirculatingSupply(pack, 0);
+  const { data: supply, refetch: refetchSupply } = useContractRead(
+    airdrop,
+    "availableAmount",
+    [0],
+  );
+
+  const outOfPacks = BigNumber.from(supply || 0).toNumber() === 0;
+
+  useEffect(() => {
+    const updateInterval = setInterval(() => {
+      refetchSupply();
+    }, 2000);
+
+    return () => {
+      clearInterval(updateInterval);
+    };
+  }, [refetchSupply, supply]);
 
   const hasPack = (ownsPack && ownsPack?.length > 0) || false;
   const unboxed = ownsReward?.length || 0;
@@ -95,6 +119,44 @@ export const Hero: React.FC<HeroProps> = () => {
         return;
       }
       try {
+        const beeHivRes = await fetch("/api/email-signup", {
+          method: "POST",
+          body: JSON.stringify({ email }),
+        });
+        if (!fromClaim) {
+          trackEvent({
+            category: BEAR_MARKET_TRACKING_CATEGORY,
+            action: "submit_email",
+            label: "success",
+            walletAddress: address,
+            email,
+          });
+          if (beeHivRes.status === 200) {
+            toast({
+              title: "Email submitted!",
+              position: "top",
+              variant: "left-accent",
+              status: "success",
+              containerStyle: {
+                bg: "black",
+                rounded: "lg",
+              },
+            });
+          } else {
+            toast({
+              title: "Error submitting email",
+              position: "top",
+              variant: "left-accent",
+              status: "error",
+              containerStyle: {
+                bg: "black",
+                rounded: "lg",
+              },
+            });
+          }
+
+          return;
+        }
         const res = await fetch("/api/bear-market-airdrop/airtable", {
           method: "POST",
           headers: {
@@ -190,12 +252,14 @@ export const Hero: React.FC<HeroProps> = () => {
     },
     [address, canClaim, toast, trackEvent],
   );
+  const switchChain = useSwitchChain();
 
   const claim = useCallback(
     async (email: string) => {
       if (!canClaim || !airdrop || !address || !snapshot || !email) {
         return;
       }
+
       setClaiming(true);
       try {
         await airdrop.call("claim", [
@@ -381,7 +445,9 @@ export const Hero: React.FC<HeroProps> = () => {
             </Box>
           )}
           <>
-            {!unboxed && supply && <Supply supply={supply.toString()} />}
+            {!unboxed && supply && (
+              <Supply supply={BigNumber.from(supply || 0).toString()} />
+            )}
             {!address ? (
               <Box
                 mx={{
@@ -391,8 +457,25 @@ export const Hero: React.FC<HeroProps> = () => {
               >
                 <ConnectWallet />
               </Box>
+            ) : IS_GASLESS_DISABLED && chainId !== 137 ? (
+              <Button
+                bg="bgBlack!important"
+                color="bgWhite!important"
+                _hover={{
+                  opacity: 0.8,
+                }}
+                onClick={() => {
+                  switchChain(137).catch((e) => {
+                    console.error(e);
+                  });
+                }}
+              >
+                Switch to Polygon
+              </Button>
             ) : hasPack ? (
               <OpenPack openPack={openPack} unboxing={unboxing} />
+            ) : outOfPacks ? (
+              <OutOfPacks handleEmailSubmit={handleEmailSubmit} />
             ) : (
               <ClaimAirdrop
                 canClaim={canClaim}

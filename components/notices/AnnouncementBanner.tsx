@@ -5,7 +5,7 @@ import { Heading, TrackedLink } from "tw-components";
 
 export const AnnouncementBanner = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-learn-announcement", false, true);
+    useLocalStorage("dismissed-open-source", false, true);
 
   if (hasDismissedAnnouncement) {
     return null;
@@ -27,9 +27,9 @@ export const AnnouncementBanner = () => {
       >
         <Box display={{ base: "none", md: "block" }} />
         <TrackedLink
-          href="/learn"
+          href="/wallet-sdk"
           category="announcement"
-          label="learn-announcement"
+          label="open-source"
         >
           <Container maxW="container.page" display="flex" px={0}>
             <Flex
@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                <strong>thirdweb Learn:</strong> Join the waitlist now and break
-                into web3!
+                <strong>Wallet SDK</strong> allows you to connect any wallet to
+                your apps and games
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

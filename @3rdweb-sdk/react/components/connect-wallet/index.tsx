@@ -1,3 +1,4 @@
+import { popularChains } from "../popularChains";
 import {
   Flex,
   Icon,
@@ -14,10 +15,12 @@ import {
   useWallet as useSolWallet,
 } from "@solana/wallet-adapter-react";
 import Solana from "@thirdweb-dev/chain-icons/dist/solana";
-import { defaultChains } from "@thirdweb-dev/chains";
 import {
   ConnectWallet as ConnectWalletNew,
+  useAddress,
   useConnectionStatus,
+  useLogout,
+  useUser,
 } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { CustomChainRenderer } from "components/selects/CustomChainRenderer";
@@ -33,15 +36,20 @@ import { shortenString } from "utils/usedapp-external";
 
 export interface ConnectWalletProps extends ButtonProps {
   ecosystem?: "evm" | "solana" | "either";
+  requireLogin?: boolean;
   shrinkMobile?: boolean;
   upsellTestnet?: boolean;
   onChainSelect?: (chainId: number) => void;
 }
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
+  requireLogin = false,
   ecosystem = "either",
   ...buttonProps
 }) => {
+  const { user } = useUser();
+  const address = useAddress();
+  const { logout } = useLogout();
   const { colorMode } = useColorMode();
   const recentChains = useRecentlyUsedChains();
   const addRecentlyUsedChainId = useAddRecentlyUsedChainId();
@@ -59,6 +67,12 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       setValueSol(solWallet.publicKey?.toBase58());
     }
   }, [solWallet.publicKey, setValueSol]);
+
+  useEffect(() => {
+    if (!!user && user?.address !== address) {
+      logout();
+    }
+  }, [address, user, logout]);
 
   const connectionStatus = useConnectionStatus();
 
@@ -111,7 +125,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       <ConnectWalletNew
         theme={colorMode}
         networkSelector={{
-          popularChains: defaultChains,
+          popularChains,
           recentChains,
           onSwitch(chain) {
             addRecentlyUsedChainId(chain.chainId);
@@ -120,6 +134,9 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
             setIsNetworkConfigModalOpen(true);
           },
           renderChain: CustomChainRenderer,
+        }}
+        auth={{
+          loginOptional: !requireLogin,
         }}
       />
     );
