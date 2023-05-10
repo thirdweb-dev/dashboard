@@ -15,7 +15,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Polygon } from "@thirdweb-dev/chains";
+import { Polygon, ZksyncEra, ZksyncEraTestnet } from "@thirdweb-dev/chains";
 import {
   useAddress,
   useChainId,
@@ -533,31 +533,31 @@ export function useCustomContractDeployMutation(
         }
 
         // deploy contract
+        // Handle ZkSync deployments separately
+        const isZkSync =
+          chainId === ZksyncEraTestnet.chainId || chainId === ZksyncEra.chainId;
+        if (isZkSync) {
+          // Get metamask signer using zksync-web3 library -- for custom fields in signature
+          const zkSigner = new Web3Provider(
+            window.ethereum as unknown as providers.ExternalProvider,
+          ).getSigner();
 
-        console.log("signer: ", signer);
-        console.log("provider: ", signer?.provider);
-        contractAddress =
-          chainId === 280
-            ? await zkDeployContractFromUri(
-                ipfsHash.startsWith("ipfs://")
-                  ? ipfsHash
-                  : `ipfs://${ipfsHash}`,
-                Object.values(data.deployParams),
-                new Web3Provider(
-                  window.ethereum as unknown as providers.ExternalProvider,
-                ).getSigner(),
-                StorageSingleton,
-                chainId,
-              )
-            : await sdk.deployer.deployContractFromUri(
-                ipfsHash.startsWith("ipfs://")
-                  ? ipfsHash
-                  : `ipfs://${ipfsHash}`,
-                Object.values(data.deployParams),
-                {
-                  forceDirectDeploy,
-                },
-              );
+          contractAddress = await zkDeployContractFromUri(
+            ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+            Object.values(data.deployParams),
+            zkSigner,
+            StorageSingleton,
+            chainId,
+          );
+        } else {
+          contractAddress = await sdk.deployer.deployContractFromUri(
+            ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+            Object.values(data.deployParams),
+            {
+              forceDirectDeploy,
+            },
+          );
+        }
 
         deployContext.nextStep();
       } catch (e) {
