@@ -25,7 +25,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Chain } from "@thirdweb-dev/chains";
 import {
   ChainId,
   CommonContractOutputSchema,
@@ -52,7 +51,7 @@ import {
   FiPlus,
   FiX,
 } from "react-icons/fi";
-import { Column, Row, useTable } from "react-table";
+import { Column, Row, useFilters, useTable } from "react-table";
 import {
   Badge,
   Button,
@@ -81,26 +80,13 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   limit = 10,
 }) => {
   const [showMoreLimit, setShowMoreLimit] = useState(limit);
-  const [chain, setChain] = useState<Chain | undefined>(undefined);
-  const filteredContractListQuery = useMemo(
-    () =>
-      !chain
-        ? contractListQuery
-        : {
-            ...contractListQuery,
-            data: contractListQuery.data?.filter(
-              (contract) => contract.chainId === chain.chainId,
-            ),
-          },
-    [chain, contractListQuery],
-  );
 
   const slicedData = useMemo(() => {
-    if (filteredContractListQuery.data) {
-      return filteredContractListQuery.data.slice(0, showMoreLimit);
+    if (contractListQuery.data) {
+      return contractListQuery.data.slice(0, showMoreLimit);
     }
     return [];
-  }, [filteredContractListQuery.data, showMoreLimit]);
+  }, [contractListQuery.data, showMoreLimit]);
 
   const router = useRouter();
 
@@ -162,10 +148,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
           </Flex>
         </>
       )}
-
-      <NetworkSelectDropdown
-        onSelect={(selectedChain) => setChain(selectedChain)}
-      />
 
       <ContractTable combinedList={slicedData}>
         {contractListQuery.isLoading && (
@@ -246,7 +228,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </Flex>
           </Center>
         )}
-        {filteredContractListQuery.data.length > slicedData.length && (
+        {contractListQuery.data.length > slicedData.length && (
           <ShowMoreButton
             limit={limit}
             showMoreLimit={showMoreLimit}
@@ -320,6 +302,29 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
   );
 };
 
+// This is a custom filter UI for selecting
+// a unique option from a list
+function SelectNetworkFilter({ column: { setFilter, preFilteredRows, id } }) {
+  // Calculate the options for filtering using the preFilteredRows
+  const chainIdsWithDeployments = useMemo(() => {
+    const options = new Set();
+    preFilteredRows.forEach((row) => {
+      options.add(row.values[id]);
+    });
+    return [...options.values()];
+  }, [id, preFilteredRows]);
+
+  return (
+    <NetworkSelectDropdown
+      useCleanChainName={true}
+      enabledChainIds={chainIdsWithDeployments.map((option) => Number(option))}
+      onSelect={(selectedChain) => {
+        setFilter(selectedChain?.chainId?.toString());
+      }}
+    />
+  );
+}
+
 interface ContractTableProps {
   combinedList: {
     chainId: ChainId;
@@ -356,6 +361,8 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       {
         Header: "Network",
         accessor: (row) => row.chainId,
+        Filter: SelectNetworkFilter,
+        filter: "equals",
         Cell: (cell: any) => {
           const data =
             configuredChains[cell.row.original.chainId] ||
@@ -426,11 +433,14 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data: combinedList,
-      defaultColumn,
-    });
+    useTable(
+      {
+        columns,
+        data: combinedList,
+        defaultColumn,
+      },
+      useFilters,
+    );
 
   return (
     <Box
@@ -459,6 +469,9 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
                 <Th {...column.getHeaderProps()} border="none">
                   <Text as="label" size="label.sm" color="faded">
                     {column.render("Header")}
+                    <div>
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
                   </Text>
                 </Th>
               ))}

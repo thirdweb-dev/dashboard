@@ -20,23 +20,34 @@ import { BiChevronDown } from "react-icons/bi";
 import { Button, Text } from "tw-components";
 
 export const NetworkSelectDropdown: React.FC<{
+  enabledChainIds?: number[];
   disabledChainIds?: number[];
+  useCleanChainName?: boolean;
   isDisabled?: boolean;
   onSelect?: (chain: Chain) => void;
 }> = (props) => {
   const supportedChains = useSupportedChains();
 
-  const { disabledChainIds } = props;
+  const { enabledChainIds, disabledChainIds, useCleanChainName } = props;
 
   const chains = useMemo(() => {
+    // return only enabled chains if enabled chains are specified
+    if (enabledChainIds && enabledChainIds.length > 0) {
+      const enabledChainIdsSet = new Set(enabledChainIds);
+      return supportedChains.filter((chain) =>
+        enabledChainIdsSet.has(chain.chainId),
+      );
+    }
+    // return supported chains that are not disabled if disabled chains are specified
     if (disabledChainIds && disabledChainIds.length > 0) {
       const disabledChainIdsSet = new Set(disabledChainIds);
       return supportedChains.filter(
         (chain) => !disabledChainIdsSet.has(chain.chainId),
       );
     }
+    // if no enabled or disabled chains are specified, return all supported chains
     return supportedChains;
-  }, [supportedChains, disabledChainIds]);
+  }, [supportedChains, enabledChainIds, disabledChainIds]);
   const { onSelect } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<Chain | undefined>(
@@ -46,7 +57,8 @@ export const NetworkSelectDropdown: React.FC<{
 
   const options = useMemo(() => {
     if (!searchText) {
-      return popularChains;
+      // if no search text, return enabled chains if enabled chains are specified
+      return enabledChainIds?.length > 0 ? chains : popularChains;
     } else {
       return chains
         .filter(
@@ -58,7 +70,7 @@ export const NetworkSelectDropdown: React.FC<{
         )
         .slice(0, 50);
     }
-  }, [chains, searchText]);
+  }, [chains, enabledChainIds?.length, searchText]);
 
   const handleSearchTextChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -78,9 +90,13 @@ export const NetworkSelectDropdown: React.FC<{
     setIsOpen(false);
   };
 
+  const cleanChainName = (chainName: string) => {
+    return chainName.replace("Mainnet", "");
+  };
+
   return (
     <>
-      <Flex gap={2}>
+      <Flex gap={2} alignItems="center">
         <Button
           isDisabled={props.isDisabled}
           display="flex"
@@ -88,29 +104,43 @@ export const NetworkSelectDropdown: React.FC<{
           _hover={{
             bg: "inputBgHover",
           }}
-          width="100%"
           variant="solid"
           style={{
             textAlign: "left",
             justifyContent: "start",
             alignItems: "center",
             gap: "0.5rem",
-          }}
-          onClick={() => {
-            setIsOpen(true);
+            height: "32px",
           }}
           leftIcon={<ChainIcon ipfsSrc={selectedOption?.icon?.url} size={20} />}
         >
-          <Text size="lg">{selectedOption?.name || "Filter by Network"}</Text>
+          <Text
+            onClick={() => {
+              setIsOpen(true);
+            }}
+            overflow="hidden"
+            textOverflow="ellipsis"
+            whiteSpace="nowrap"
+          >
+            {!selectedOption
+              ? "All Networks"
+              : useCleanChainName
+              ? cleanChainName(selectedOption.name)
+              : selectedOption.name}
+          </Text>
           <BiChevronDown
             style={{
               marginLeft: "auto",
+            }}
+            onClick={() => {
+              setIsOpen(true);
             }}
           />
         </Button>
         {selectedOption && (
           <IconButton
             variant="ghost"
+            size="sm"
             aria-label="Clear network filter"
             icon={<CloseButton />}
             onClick={() => {
@@ -155,7 +185,11 @@ export const NetworkSelectDropdown: React.FC<{
                       <ChainIcon ipfsSrc={option?.icon?.url} size={20} />
                     }
                   >
-                    <Flex>{option.name}</Flex>
+                    <Flex>
+                      {useCleanChainName
+                        ? cleanChainName(option.name)
+                        : option.name}
+                    </Flex>
                   </Button>
                 ))}
               </Flex>
