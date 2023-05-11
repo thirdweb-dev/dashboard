@@ -19,7 +19,7 @@ import { ThirdwebNextPage } from "utils/types";
 
 const WALLETS = [
   {
-    id: "smart",
+    id: "smartWallet",
     name: "Smart Wallet",
     description: "Deploy smart contract wallets for your users",
     iconUrl:
@@ -28,7 +28,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript", "React", "React Native"],
   },
   {
-    id: "local",
+    id: "localWallet",
     name: "Local Wallet",
     description: "Generate wallets for new users on the fly",
     iconUrl:
@@ -37,7 +37,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript", "React", "Unity", "React Native"],
   },
   {
-    id: "coinbase",
+    id: "coinbaseWallet",
     name: "Coinbase Wallet",
     description: "Connect with Coinbase Wallet",
     iconUrl:
@@ -46,7 +46,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript", "React", "Unity", "React Native"],
   },
   {
-    id: "metamask",
+    id: "metamaskWallet",
     name: "MetaMask",
     description: "Connect with MetaMask",
     iconUrl:
@@ -55,7 +55,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript", "React", "Unity", "React Native"],
   },
   {
-    id: "paper",
+    id: "paperWallet",
     name: "Paper",
     description: "Connect with email via Paper",
     iconUrl:
@@ -99,7 +99,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript"],
   },
   {
-    id: "wallet-connect",
+    id: "walletConnect",
     name: "WalletConnect",
     description: "Connect with WalletConnect (v1 & v2)",
     iconUrl:
@@ -108,7 +108,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript", "React", "Unity", "React Native"],
   },
   {
-    id: "safe",
+    id: "safeWallet",
     name: "Safe",
     description: "Connect to multi-sig wallets via Safe",
     iconUrl:
@@ -117,7 +117,7 @@ const WALLETS = [
     supportedLanguages: ["JavaScript", "React"],
   },
   {
-    id: "magic-link",
+    id: "magicLink",
     name: "Magic Link",
     description: "Connect with email or phone number via Magic",
     iconUrl:
@@ -222,7 +222,7 @@ const SupportedWalletsSelector: React.FC<SupportedWalletsSelectorProps> = ({
             <Box opacity={isWalletSupported ? 1 : 0.3}>
               <Flex justifyContent="space-between">
                 <Flex alignItems="center" gap={3}>
-                  <ChainIcon size={25} ipfsSrc={wallet.iconUrl} sizes={[]} />
+                  <ChainIcon size={25} ipfsSrc={wallet.iconUrl} />
 
                   <Heading size="subtitle.sm" as="h3" noOfLines={1}>
                     {wallet.name}
@@ -321,6 +321,8 @@ const DashboardWallets: ThirdwebNextPage = () => {
           setSelectedWallet={setSelectedWallet}
         />
       </Flex>
+
+      <ConnectWalletWithPreview />
 
       {/* <Flex direction={"column"} gap={2}>
         <Heading size="title.sm" as="h3">
