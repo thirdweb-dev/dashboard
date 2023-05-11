@@ -359,7 +359,9 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         Cell: (cell: any) => <AsyncExtensionCell cell={cell.row.original} />,
       },
       {
-        Header: "Network",
+        // No header, show filter instead
+        Header: () => null,
+        id: "Network",
         accessor: (row) => row.chainId,
         Filter: SelectNetworkFilter,
         filter: "equals",
