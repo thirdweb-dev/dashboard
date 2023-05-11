@@ -603,21 +603,31 @@ const DashboardWallets: ThirdwebNextPage = () => {
         />
       </Flex>
 
-      {/*       <ConnectWalletWithPreview /> */}
       {selectedWallet && WALLETS.find((w) => w.id === selectedWallet?.id) && (
         <Flex direction={"column"} gap={4}>
           <Heading size="subtitle.sm" as="h3">
             Step 3: Integrate into your app
           </Heading>
-          <CodeSegment
-            snippet={
-              (WALLETS.find((w) => w.id === selectedWallet?.id) as any)
-                .supportedLanguages
-            }
-            environment={selectedLanguage}
-            setEnvironment={setSelectedLanguage}
-            hideTabs
-          />
+          {selectedLanguage === "react" ? (
+            <ConnectWalletWithPreview
+              code={
+                (
+                  (WALLETS.find((w) => w.id === selectedWallet?.id) as any)
+                    .supportedLanguages as any
+                )?.react as string
+              }
+            />
+          ) : (
+            <CodeSegment
+              snippet={
+                (WALLETS.find((w) => w.id === selectedWallet?.id) as any)
+                  .supportedLanguages
+              }
+              environment={selectedLanguage}
+              setEnvironment={setSelectedLanguage}
+              hideTabs
+            />
+          )}
         </Flex>
       )}
 
@@ -678,7 +688,13 @@ DashboardWallets.pageId = PageId.DashboardWallets;
 
 export default DashboardWallets;
 
-const ConnectWalletWithPreview: React.FC = () => {
+interface ConnectWalletWithPreviewProps {
+  code: string;
+}
+
+const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
+  code,
+}) => {
   const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("light");
   return (
     <SimpleGrid columns={{ base: 6, md: 12 }} gap={8} mt={8}>
@@ -687,15 +703,7 @@ const ConnectWalletWithPreview: React.FC = () => {
           <Heading size="label.md">Code</Heading>
           <CodeBlock
             language="jsx"
-            code={`import { ThirdwebProvider, ConnectWallet } from "@thirdweb/react";
-
-export default function App() {
-return (
-    <ThirdwebProvider>
-      <ConnectWallet theme="${selectedTheme}" />
-    </ThirdwebProvider>
-  );
-}`}
+            code={code.replace("{{theme}}", selectedTheme)}
           />
         </Flex>
       </GridItem>
