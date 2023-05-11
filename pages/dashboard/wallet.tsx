@@ -630,52 +630,6 @@ const DashboardWallets: ThirdwebNextPage = () => {
           )}
         </Flex>
       )}
-
-      {/* <Flex direction={"column"} gap={2}>
-        <Heading size="title.sm" as="h3">
-          Connect Wallet button
-        </Heading>
-        <Text>
-          One line of code to add a{" "}
-          <Link
-            href="https://portal.thirdweb.com/react/react.connectwallet"
-            color="blue.400"
-            isExternal
-          >
-            Connect Wallet UI component
-          </Link>{" "}
-          to React, React Native and Unity apps.
-        </Text>
-        <ConnectWalletWithPreview />
-      </Flex>
-
-      <Flex direction={"column"} gap={4}>
-        <Flex direction={"column"} gap={2}>
-          <Heading size="title.sm" as="h3">
-            Supported Wallets
-          </Heading>
-          <Text>
-            Access the largest catalog of wallets, from custodial to MPC to
-            smart contracts.{" "}
-          </Text>
-        </Flex>
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
-          {WALLETS.map((wallet) => (
-            <LinkBox key={wallet.name} position="relative" role="group">
-              <LinkOverlay href={wallet.link} isExternal>
-                <Card
-                  as={Flex}
-                  flexDir="column"
-                  gap={3}
-                  p={6}
-                  _groupHover={{ borderColor: "blue.500" }}
-                  position="relative"
-                >
-                  <Flex justifyContent="space-between">
-                    <Flex alignItems="center" gap={3}>
-                      <ChainIcon size={25} ipfsSrc={wallet.iconUrl} />
-
-      </Flex> */}
     </Flex>
   );
 };
@@ -731,7 +685,7 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
               onClick={() => {
                 setSelectedTheme(selectedTheme === "light" ? "dark" : "light");
               }}
-              icon={selectedTheme === "light" ? <FiSun /> : <FiMoon />}
+              icon={selectedTheme === "light" ? <FiMoon /> : <FiSun />}
               aria-label="Toggle button theme"
               variant="ghost"
             />
