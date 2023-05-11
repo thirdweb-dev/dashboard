@@ -46,8 +46,8 @@ export const AnnouncementBanner = () => {
                 color="white"
                 fontWeight={500}
               >
-                <strong>NEW Release: Wallet SDK</strong> allows you to connect
-                any wallet to your apps and games
+                <strong>LAUNCH:</strong> Introducing <strong>Wallet SDK</strong>
+                ! Connect any wallets to your apps. Learn more
               </Heading>
               <Icon display={{ base: "none", md: "block" }} as={FiArrowRight} />
             </Flex>

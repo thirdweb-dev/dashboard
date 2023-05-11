@@ -358,6 +358,21 @@ const DashboardWallets: ThirdwebNextPage = () => {
             smart contracts.{" "}
           </Text>
         </Flex>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+          {WALLETS.map((wallet) => (
+            <LinkBox key={wallet.name} position="relative" role="group">
+              <LinkOverlay href={wallet.link} isExternal>
+                <Card
+                  as={Flex}
+                  flexDir="column"
+                  gap={3}
+                  p={6}
+                  _groupHover={{ borderColor: "blue.500" }}
+                  position="relative"
+                >
+                  <Flex justifyContent="space-between">
+                    <Flex alignItems="center" gap={3}>
+                      <ChainIcon size={25} ipfsSrc={wallet.iconUrl} />
 
       </Flex> */}
     </Flex>
