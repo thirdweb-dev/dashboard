@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  GridItem,
-  IconButton,
-  LinkBox,
-  LinkOverlay,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Flex, GridItem, IconButton, SimpleGrid } from "@chakra-ui/react";
 import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
 import { SiReact } from "@react-icons/all-files/si/SiReact";
 import { SiUnity } from "@react-icons/all-files/si/SiUnity";
@@ -20,7 +12,7 @@ import {
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { PageId } from "page-id";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { Button, Card, CodeBlock, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -94,7 +86,7 @@ const WALLETS = [
     description: "Connect with AWS Key Management Service",
     iconUrl:
       "ipfs://QmVuWYpq5CaMfmbB1qMXXgc4dtUUGY31xiG6sxwvNafoZg/aws-kms.png",
-    link: "https://portal.thirdweb.com/wallet",
+    link: "https://portal.thirdweb.com/wallet/aws-kms",
     supportedLanguages: ["JavaScript"],
   },
   {
@@ -103,7 +95,7 @@ const WALLETS = [
     description: "Connect with AWS Secrets Manager",
     iconUrl:
       "ipfs://QmVuWYpq5CaMfmbB1qMXXgc4dtUUGY31xiG6sxwvNafoZg/aws-secrets-manager.png",
-    link: "https://portal.thirdweb.com/wallet",
+    link: "https://portal.thirdweb.com/wallet/aws-secrets-manager",
     supportedLanguages: ["JavaScript"],
   },
   {
@@ -130,7 +122,7 @@ const WALLETS = [
     description: "Connect with email or phone number via Magic",
     iconUrl:
       "ipfs://QmUMBFZGXxBpgDmZzZAHhbcCL5nYvZnVaYLTajsNjLcxMU/1-Icon_Magic_Color.svg",
-    link: "https://portal.thirdweb.com/wallet",
+    link: "https://portal.thirdweb.com/wallet/magic",
     supportedLanguages: ["JavaScript", "React", "Unity"],
   },
 ] as const;
