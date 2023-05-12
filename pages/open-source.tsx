@@ -401,7 +401,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                   <AccordionButton justifyContent="space-between" py={2}>
                     <Flex direction="column" alignItems="flex-start" gap={4}>
                       <Heading size="label.lg" color="green.400">
-                        ${bounty.amount} USD
+                        {bounty.amount}
                       </Heading>
                       <Heading size="label.lg">{bounty.title}</Heading>
                     </Flex>
@@ -412,7 +412,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                       {bounty.description}
                     </Text>
                     <LinkButton
-                      href="https://github.com/orgs/thirdweb-dev/"
+                      href={bounty.link}
                       isExternal
                       color="black"
                       flexShrink={0}
@@ -422,7 +422,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                       }}
                       mt={6}
                     >
-                      Learn More
+                      {bounty.linkText}
                     </LinkButton>
                   </AccordionPanel>
                 </AccordionItem>
