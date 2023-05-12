@@ -4,7 +4,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Box,
   DarkMode,
   Flex,
   Icon,
@@ -111,16 +110,65 @@ const repositories = [
   },
 ];
 
-// TODO: this won't be hardcoded, will pull from somewhere
 const bounties = [
   {
     id: 0,
-    title: "Ready-to-deploy contract factory gas optimizations",
-    description:
-      "Via the thirdweb dashboard, Allow the user to choose which type of factory is used to deploy their contracts.",
+    title: "Smart Contract Gas Optimizations: Known Optimizations",
+    description: (
+      <>
+        Provide a pull request that implements one of our{" "}
+        <TrackedLink
+          href="https://ipfs.thirdwebcdn.com/ipfs/QmXwEZDfS8PTWSqQj2xBod6XGPQjkykzX6tYqtU9zo6kcr/"
+          color="blue.500"
+          category="oss"
+          label="known-gas-optimizations"
+          isExternal
+        >
+          known gas optimizations
+        </TrackedLink>{" "}
+        to the thirdweb contracts repository.
+      </>
+    ),
     status: "open",
-    amount: 1000,
-    link: "https://github.com/thirdweb-dev/todo",
+    amount: "$1 per gwei saved",
+    link: "https://github.com/thirdweb-dev/contracts",
+    linkText: "Create a PR",
+  },
+
+  {
+    id: 1,
+    title: "Smart Contract Gas Optimizations: Unknown Optimizations",
+    description: (
+      <>
+        Provide a pull request that is not listed in our{" "}
+        <TrackedLink
+          href="https://ipfs.thirdwebcdn.com/ipfs/QmXwEZDfS8PTWSqQj2xBod6XGPQjkykzX6tYqtU9zo6kcr/"
+          color="blue.500"
+          category="oss"
+          label="known-gas-optimizations"
+          isExternal
+        >
+          known gas optimizations
+        </TrackedLink>{" "}
+        to the thirdweb contracts repository.
+      </>
+    ),
+    status: "open",
+    amount: "$5 per gwei saved",
+    link: "https://github.com/thirdweb-dev/contracts",
+    linkText: "Create a PR",
+  },
+
+  {
+    id: 2,
+    title: "Security Vulnerabilities",
+    description: (
+      <>Raise security vulnerability to our team using the guidelines below.</>
+    ),
+    status: "open",
+    amount: "$100 - $20,000",
+    link: "https://ipfs.thirdwebcdn.com/ipfs/QmPWH8RDRi1aaGkM29k6ygLJwvcwC6BDXMYvvMjD7QkyCX",
+    linkText: "Read Guidelines",
   },
 ];
 
@@ -335,7 +383,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                   <AccordionButton justifyContent="space-between" py={2}>
                     <Flex direction="column" alignItems="flex-start" gap={4}>
                       <Heading size="label.lg" color="green.400">
-                        ${bounty.amount} USD
+                        {bounty.amount}
                       </Heading>
                       <Heading size="label.lg">{bounty.title}</Heading>
                     </Flex>
@@ -346,7 +394,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                       {bounty.description}
                     </Text>
                     <LinkButton
-                      href="https://github.com/orgs/thirdweb-dev/"
+                      href={bounty.link}
                       isExternal
                       color="black"
                       flexShrink={0}
@@ -356,7 +404,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                       }}
                       mt={6}
                     >
-                      Learn More
+                      {bounty.linkText}
                     </LinkButton>
                   </AccordionPanel>
                 </AccordionItem>
