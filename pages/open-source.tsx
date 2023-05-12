@@ -310,11 +310,8 @@ OSS.pageId = PageId.OSS;
 export default OSS;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const orgName = "thirdweb-dev";
-
-  if (!process.env.GITHUB_API_TOKEN) {
-    throw new Error("Missing GITHUB_API_TOKEN");
-  }
+  // Array of accounts to be tracked
+  const accounts = ["thirdweb-dev", "thirdweb-example"];
 
   const authHeader = {
     headers: {
@@ -322,64 +319,58 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 
-  // Fetch the list of all repositories belonging to the organization
-  const reposResponse = await fetch(
-    `https://api.github.com/orgs/${orgName}/repos?per_page=100`,
-    authHeader,
-  );
-
-  const reposData = (await reposResponse.json()) as GithubRepository[];
-
-  const repos = reposData
-    .filter((repo) => repo.fork === false)
-    .filter((repo) => repo.name !== "shopify-thirdweb-theme")
-    .map((repo) => repo.name);
-
   const contributors: Record<string, GithubContributor> = {};
 
-  // fetch the contributors for each repository and aggregate them
+  const accountPromises = accounts.map(async (account) => {
+    // Fetch the list of all repositories belonging to the account
+    const reposResponse = await fetch(
+      `https://api.github.com/orgs/${account}/repos?per_page=100`,
+      authHeader,
+    );
+    const reposData = (await reposResponse.json()) as GithubRepository[];
 
-  const contributorData = await Promise.all(
-    repos.map(async (repo) => {
+    const repos = reposData
+      .filter((repo) => repo.fork === false)
+      .filter((repo) => repo.name !== "shopify-thirdweb-theme")
+      .map((repo) => repo.name);
+
+    const repoPromises = repos.map(async (repo) => {
       const response = await fetch(
-        `https://api.github.com/repos/${orgName}/${repo}/contributors`,
+        `https://api.github.com/repos/${account}/${repo}/contributors`,
         authHeader,
       );
       const data = (await response.json()) as GithubContributor[];
 
-      return data;
-    }),
-  );
-
-  for (const data of contributorData) {
-    data.forEach((contributor) => {
-      const login = contributor.login;
-      const contributions = contributor.contributions;
-      if (contributors[login]) {
-        contributors[login].contributions += contributions;
-      } else {
-        contributors[login] = {
-          login,
-          avatar_url: contributor.avatar_url,
-          html_url: contributor.html_url,
-          contributions,
-        };
-      }
+      data.forEach((contributor) => {
+        const login = contributor.login;
+        const contributions = contributor.contributions;
+        if (contributors[login]) {
+          contributors[login].contributions += contributions;
+        } else {
+          contributors[login] = {
+            login,
+            avatar_url: contributor.avatar_url,
+            html_url: contributor.html_url,
+            contributions,
+          };
+        }
+      });
     });
-  }
+
+    // Wait for all repositories of the current account to be processed
+    await Promise.all(repoPromises);
+  });
+
+  // Wait for all accounts to be processed
+  await Promise.all(accountPromises);
 
   // Sort the contributors by their contributions in descending order
   const sortedContributors = Object.values(contributors).sort(
     (a, b) => b.contributions - a.contributions,
   );
 
-  const filteredContributors = sortedContributors
-    .filter((contributor) => contributor.contributions > 0)
-    .filter((contributor) => contributor.login.indexOf("[bot]") === -1)
-    .filter((contributor) => !filterOut.includes(contributor.login));
-
   return {
-    props: { contributors: filteredContributors },
+    props: { contributors: sortedContributors },
     revalidate: 3600,
   };
 };
