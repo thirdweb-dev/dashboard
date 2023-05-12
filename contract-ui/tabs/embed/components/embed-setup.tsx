@@ -37,6 +37,7 @@ interface EmbedSetupProps {
 }
 
 const IPFS_URI = "ipfs://QmfK9mw9eQKE9vCbtZht9kygpkNWffdwibsJPnCo7MBN4M";
+const ERC721_IPFS_URI = `ipfs://QmRtKLLjdksJtcFhYd7mFx4yoAhgtfrcREAP3Dncsnzoqm`;
 
 interface IframeSrcOptions {
   chain: string;
@@ -82,7 +83,10 @@ const buildIframeSrc = (
   ercOrMarketplace?: string,
   options?: IframeSrcOptions,
 ): string => {
-  const contractEmbedHash = `${IPFS_URI}/${ercOrMarketplace}.html`;
+  const contractEmbedHash =
+    ercOrMarketplace === "erc721"
+      ? ERC721_IPFS_URI
+      : `${IPFS_URI}/${ercOrMarketplace}.html`;
 
   if (!contract || !options || !contractEmbedHash) {
     return "";
