@@ -91,6 +91,15 @@ const chakraTheme: Theme = extendTheme({
             },
           };
         },
+        highlighted: (props: any) => ({
+          bg: "#151515",
+          _hover: {
+            boxShadow: "0 0 10px 2px rgba(51, 133, 255, 1)",
+            transform: "scale(1.05)",
+          },
+          size: "lg",
+          borderRadius: props.fullCircle ? "full" : "12px",
+        }),
       },
     },
     Modal: {
@@ -132,6 +141,40 @@ const chakraTheme: Theme = extendTheme({
       },
     },
     Input: {
+      defaultProps: {
+        variant: "filled",
+      },
+      variants: {
+        filled: {
+          field: {
+            borderWidth: "1px",
+            borderColor: "inputBorder",
+            background: "inputBg",
+            _hover: {
+              background: "inputBgHover",
+              borderColor: "blue.500",
+            },
+          },
+        },
+      },
+      sizes: {
+        xl: {
+          field: {
+            fontSize: "lg",
+            px: 4,
+            h: 14,
+            borderRadius: "md",
+          },
+          addon: {
+            fontSize: "lg",
+            px: 4,
+            h: 14,
+            borderRadius: "md",
+          },
+        },
+      },
+    },
+    NumberInput: {
       defaultProps: {
         variant: "filled",
       },

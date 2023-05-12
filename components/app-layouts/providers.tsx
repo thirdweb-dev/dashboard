@@ -1,3 +1,4 @@
+import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
 import { SolanaProvider } from "./solana-provider";
 import {
   EVMContractInfo,
@@ -54,7 +55,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         isDarkMode: false,
         url: "https://thirdweb.com",
       }}
-      activeChain={chain?.chainId}
+      activeChain={chain === null ? undefined : chain}
       supportedChains={supportedChains}
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },
@@ -68,6 +69,10 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         safeWallet(),
       ]}
       storageInterface={StorageSingleton}
+      authConfig={{
+        domain: THIRDWEB_DOMAIN,
+        authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
+      }}
     >
       <SolanaProvider>{children}</SolanaProvider>
     </ThirdwebProvider>
