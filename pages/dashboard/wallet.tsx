@@ -1,7 +1,4 @@
 import { Box, Flex, GridItem, IconButton, SimpleGrid } from "@chakra-ui/react";
-import { SiJavascript } from "@react-icons/all-files/si/SiJavascript";
-import { SiReact } from "@react-icons/all-files/si/SiReact";
-import { SiUnity } from "@react-icons/all-files/si/SiUnity";
 import {
   ConnectWallet,
   ThirdwebProvider,
@@ -16,7 +13,7 @@ import { ChainIcon } from "components/icons/ChainIcon";
 import { PageId } from "page-id";
 import React, { useMemo, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
-import { Button, Card, CodeBlock, Heading, Link, Text } from "tw-components";
+import { Card, CodeBlock, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const WALLETS = [
@@ -383,58 +380,6 @@ return (
   },
 ] as const;
 
-const WALLET_LANGUAGES = [
-  "javascript",
-  "react",
-  "react-native",
-  /*   "unity", */
-] as const;
-
-type WalletLanguage = (typeof WALLET_LANGUAGES)[number];
-
-const langToIconMap: Record<WalletLanguage, JSX.Element> = {
-  javascript: <SiJavascript />,
-  react: <SiReact />,
-  "react-native": <SiReact />,
-  /*   unity: <SiUnity />, */
-};
-
-interface WalletLanguageSelectorProps {
-  setSelectedLanguage: (language: CodeEnvironment) => void;
-  selectedLanguage: CodeEnvironment;
-}
-
-const WalletLanguageSelector: React.FC<WalletLanguageSelectorProps> = ({
-  setSelectedLanguage,
-  selectedLanguage,
-}) => {
-  return (
-    <Flex gap={4}>
-      {WALLET_LANGUAGES.map((language) => (
-        <Button
-          key={language}
-          size="sm"
-          variant="outline"
-          _active={{
-            bg: "bgBlack",
-            color: "bgWhite",
-          }}
-          leftIcon={langToIconMap[language]}
-          isActive={language === selectedLanguage}
-          onClick={() => setSelectedLanguage(language)}
-          textTransform="capitalize"
-        >
-          {language === "react-native"
-            ? "React Native"
-            : language === "javascript"
-            ? "JavaScript"
-            : language}
-        </Button>
-      ))}
-    </Flex>
-  );
-};
-
 interface SupportedWalletsSelectorProps {
   selectedLanguage: CodeEnvironment;
   selectedWallet: (typeof WALLETS)[number] | null;
@@ -586,9 +531,14 @@ const DashboardWallets: ThirdwebNextPage = () => {
         <Heading size="subtitle.sm" as="h3">
           Step 1: Pick a language to get started
         </Heading>
-        <WalletLanguageSelector
-          selectedLanguage={selectedLanguage}
-          setSelectedLanguage={onLanguageSelect}
+        {/* Rendering the code snippet for MetaMask since it supports all languages */}
+        <CodeSegment
+          snippet={
+            WALLETS.find((w) => w.id === "metamask")?.supportedLanguages || {}
+          }
+          environment={selectedLanguage}
+          setEnvironment={onLanguageSelect}
+          onlyTabs
         />
       </Flex>
 
@@ -603,7 +553,9 @@ const DashboardWallets: ThirdwebNextPage = () => {
         />
       </Flex>
 
-      {selectedWallet && WALLETS.find((w) => w.id === selectedWallet?.id) && (
+      {selectedWallet?.supportedLanguages[
+        selectedLanguage as keyof typeof selectedWallet.supportedLanguages
+      ] && (
         <Flex direction={"column"} gap={4}>
           <Heading size="subtitle.sm" as="h3">
             Step 3: Integrate into your app
@@ -611,18 +563,14 @@ const DashboardWallets: ThirdwebNextPage = () => {
           {selectedLanguage === "react" ? (
             <ConnectWalletWithPreview
               code={
-                (
-                  (WALLETS.find((w) => w.id === selectedWallet?.id) as any)
-                    .supportedLanguages as any
-                )?.react as string
+                selectedWallet.supportedLanguages[
+                  "react" as keyof typeof selectedWallet.supportedLanguages
+                ]
               }
             />
           ) : (
             <CodeSegment
-              snippet={
-                (WALLETS.find((w) => w.id === selectedWallet?.id) as any)
-                  .supportedLanguages
-              }
+              snippet={selectedWallet.supportedLanguages}
               environment={selectedLanguage}
               setEnvironment={setSelectedLanguage}
               hideTabs
