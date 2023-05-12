@@ -86,9 +86,25 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   contractListQuery,
   limit = 10,
 }) => {
+  const [showMoreLimit, setShowMoreLimit] = useState(limit);
+  const slicedData = useMemo(() => {
+    if (contractListQuery.data) {
+      return contractListQuery.data.slice(0, showMoreLimit);
+    }
+    return [];
+  }, [contractListQuery.data, showMoreLimit]);
+
   const router = useRouter();
 
   const modalState = useDisclosure();
+
+  const chainIdsWithDeployments = useMemo(() => {
+    const set = new Set<number>();
+    contractListQuery.data.forEach((contract) => {
+      set.add(contract.chainId);
+    });
+    return [...set];
+  }, [contractListQuery.data]);
 
   return (
     <>
@@ -147,7 +163,11 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
         </>
       )}
 
-      <ContractTable combinedList={contractListQuery.data} limit={limit}>
+      <ContractTable
+        combinedList={slicedData}
+        limit={limit}
+        chainIdsWithDeployments={chainIdsWithDeployments}
+      >
         {contractListQuery.isLoading && (
           <Center>
             <Flex py={4} direction="row" gap={4} align="center">
@@ -226,6 +246,13 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </Flex>
           </Center>
         )}
+        {contractListQuery.data.length > slicedData.length && (
+          <ShowMoreButton
+            limit={limit}
+            showMoreLimit={showMoreLimit}
+            setShowMoreLimit={setShowMoreLimit}
+          />
+        )}
       </ContractTable>
     </>
   );
@@ -293,10 +320,7 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
   );
 };
 
-// This is a custom filter UI for selecting from a list of chains that the user deployed to
-function SelectNetworkFilter({
-  column: { setFilter, preFilteredRows, id },
-}: {
+type SelectNetworkFilterProps = {
   column: ColumnInstance<{
     chainId: number;
     address: string;
@@ -304,20 +328,21 @@ function SelectNetworkFilter({
     metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
     extensions: () => Promise<string[]>;
   }>;
-}) {
-  // Calculate the options for filtering using the preFilteredRows
-  const chainIdsWithDeployments = useMemo(() => {
-    const options = new Set();
-    preFilteredRows.forEach((row) => {
-      options.add(row.values[id]);
-    });
-    return [...options.values()];
-  }, [id, preFilteredRows]);
+  chainIdsWithDeployments: number[];
+};
 
+// This is a custom filter UI for selecting from a list of chains that the user deployed to
+function SelectNetworkFilter({
+  column: { setFilter },
+  chainIdsWithDeployments,
+}: SelectNetworkFilterProps) {
+  if (chainIdsWithDeployments.length < 2) {
+    return <> NETWORKS </>;
+  }
   return (
     <NetworkSelectDropdown
       useCleanChainName={true}
-      enabledChainIds={chainIdsWithDeployments.map((option) => Number(option))}
+      enabledChainIds={chainIdsWithDeployments}
       onSelect={(selectedChain) => {
         setFilter(selectedChain?.chainId.toString());
       }}
@@ -335,6 +360,7 @@ interface ContractTableProps {
   }[];
   isFetching?: boolean;
   limit: number;
+  chainIdsWithDeployments: number[];
 }
 
 export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
@@ -342,6 +368,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   children,
   isFetching,
   limit,
+  chainIdsWithDeployments,
 }) => {
   const { chainIdToChainRecord } = useAllChainsData();
   const configuredChains = useSupportedChainsRecord();
@@ -365,7 +392,12 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         Header: () => null,
         id: "Network",
         accessor: (row) => row.chainId,
-        Filter: SelectNetworkFilter,
+        Filter: (props) => (
+          <SelectNetworkFilter
+            {...props}
+            chainIdsWithDeployments={chainIdsWithDeployments}
+          />
+        ),
         filter: "equals",
         Cell: (cell: any) => {
           const data =
@@ -426,7 +458,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [configuredChains],
+    [configuredChains, chainIdsWithDeployments],
   );
 
   const defaultColumn = useMemo(
@@ -466,9 +498,10 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
     <Box
       borderTopRadius="lg"
       p={0}
-      overflowX="auto"
       position="relative"
-      overflowY="hidden"
+      overflowX={{ base: "auto", md: "initial" }}
+      // to avoid clipping the network selector menu on mobile
+      minH={{ base: "600px", md: "initial" }}
     >
       {isFetching && (
         <Spinner
