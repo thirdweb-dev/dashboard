@@ -144,7 +144,7 @@ const buildIframeSrc = (
   if (theme && theme !== "light") {
     url.searchParams.append("theme", theme);
   }
-  if (primaryColor && primaryColor !== "purple") {
+  if (primaryColor && primaryColor !== "default") {
     url.searchParams.append("primaryColor", primaryColor);
   }
   if (secondaryColor && secondaryColor !== "orange") {
@@ -373,6 +373,9 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
           <FormControl>
             <FormLabel>Primary Color</FormLabel>
             <Select {...register("primaryColor")}>
+              {ercOrMarketplace === "erc721" && (
+                <option value="default">Default</option>
+              )}
               {colorOptions.map((color) => (
                 <option key={color} value={color}>
                   {color[0].toUpperCase() + color.substring(1)}
