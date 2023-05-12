@@ -111,7 +111,17 @@ return (
     </ThirdwebProvider>
   );
 }`,
-      unity: ``,
+      unity: `using UnityEngine;
+using Thirdweb;
+
+public class ConnectWalletNativePlatforms : MonoBehaviour
+{
+    public async void ConnectLocalWalletWithPassword()
+    {
+        var address = await ThirdwebManager.Instance.SDK.wallet.Connect(new WalletConnection() { password = "myEpicPassword" });
+        Debug.Log("Connected successfully to: " + address);
+    }
+}`,
     },
   },
   {
@@ -304,7 +314,17 @@ return (
     </ThirdwebProvider>
   );
 }`,
-      unity: ``,
+      unity: `using UnityEngine;
+using Thirdweb;
+
+public class ConnectWalletNativePlatforms : MonoBehaviour
+{
+    public async void ConnectWalletConnect()
+    {
+        var address = await ThirdwebManager.Instance.SDK.wallet.Connect(new WalletConnection() { provider = WalletProvider.WalletConnect });
+        Debug.Log("Connected successfully to: " + address);
+    }
+}`,
     },
   },
   {
@@ -531,10 +551,11 @@ const DashboardWallets: ThirdwebNextPage = () => {
         <Heading size="subtitle.sm" as="h3">
           Step 1: Pick a language to get started
         </Heading>
-        {/* Rendering the code snippet for MetaMask since it supports all languages */}
+        {/* Rendering the code snippet for WalletConnect since it supports all languages */}
         <CodeSegment
           snippet={
-            WALLETS.find((w) => w.id === "metamask")?.supportedLanguages || {}
+            WALLETS.find((w) => w.id === "wallet-connect")
+              ?.supportedLanguages || {}
           }
           environment={selectedLanguage}
           setEnvironment={onLanguageSelect}
