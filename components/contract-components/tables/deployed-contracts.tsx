@@ -337,7 +337,7 @@ function SelectNetworkFilter({
   chainIdsWithDeployments,
 }: SelectNetworkFilterProps) {
   if (chainIdsWithDeployments.length < 2) {
-    return <> NETWORKS </>;
+    return <> NETWORK </>;
   }
   return (
     <NetworkSelectDropdown
