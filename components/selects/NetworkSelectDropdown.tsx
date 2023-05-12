@@ -12,8 +12,8 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { Chain } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { StoredChain } from "contexts/configured-chains";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useMemo, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
@@ -24,7 +24,7 @@ export const NetworkSelectDropdown: React.FC<{
   disabledChainIds?: number[];
   useCleanChainName?: boolean;
   isDisabled?: boolean;
-  onSelect?: (chain: Chain) => void;
+  onSelect?: (chain: StoredChain | undefined) => void;
 }> = (props) => {
   const supportedChains = useSupportedChains();
 
@@ -50,7 +50,7 @@ export const NetworkSelectDropdown: React.FC<{
   }, [supportedChains, enabledChainIds, disabledChainIds]);
   const { onSelect } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<Chain | undefined>(
+  const [selectedOption, setSelectedOption] = useState<StoredChain | undefined>(
     undefined,
   );
   const [searchText, setSearchText] = useState<string>("");
@@ -58,7 +58,7 @@ export const NetworkSelectDropdown: React.FC<{
   const options = useMemo(() => {
     if (!searchText) {
       // if no search text, return enabled chains if enabled chains are specified
-      return enabledChainIds?.length > 0 ? chains : popularChains;
+      return enabledChainIds?.length ? chains : popularChains;
     } else {
       return chains
         .filter(
@@ -78,7 +78,7 @@ export const NetworkSelectDropdown: React.FC<{
     setSearchText(event.target.value);
   };
 
-  const handleSelection = (option) => {
+  const handleSelection = (option: StoredChain | undefined) => {
     setSelectedOption(option);
     onSelect?.(option);
     setIsOpen(false);

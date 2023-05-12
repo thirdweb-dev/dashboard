@@ -51,7 +51,14 @@ import {
   FiPlus,
   FiX,
 } from "react-icons/fi";
-import { Column, Row, useFilters, usePagination, useTable } from "react-table";
+import {
+  Column,
+  ColumnInstance,
+  Row,
+  useFilters,
+  usePagination,
+  useTable,
+} from "react-table";
 import {
   Badge,
   Button,
@@ -286,9 +293,18 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
   );
 };
 
-// This is a custom filter UI for selecting
-// a unique option from a list
-function SelectNetworkFilter({ column: { setFilter, preFilteredRows, id } }) {
+// This is a custom filter UI for selecting from a list of chains that the user deployed to
+function SelectNetworkFilter({
+  column: { setFilter, preFilteredRows, id },
+}: {
+  column: ColumnInstance<{
+    chainId: number;
+    address: string;
+    contractType: () => Promise<ContractType>;
+    metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
+    extensions: () => Promise<string[]>;
+  }>;
+}) {
   // Calculate the options for filtering using the preFilteredRows
   const chainIdsWithDeployments = useMemo(() => {
     const options = new Set();
@@ -303,7 +319,7 @@ function SelectNetworkFilter({ column: { setFilter, preFilteredRows, id } }) {
       useCleanChainName={true}
       enabledChainIds={chainIdsWithDeployments.map((option) => Number(option))}
       onSelect={(selectedChain) => {
-        setFilter(selectedChain?.chainId?.toString());
+        setFilter(selectedChain?.chainId.toString());
       }}
     />
   );
