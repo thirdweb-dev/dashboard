@@ -527,7 +527,7 @@ const DashboardWallets: ThirdwebNextPage = () => {
         </Text>
       </Flex>
 
-      <Flex direction={"column"} gap={4}>
+      <Flex direction="column" gap={4}>
         <Heading size="subtitle.sm" as="h3">
           Step 1: Pick a language to get started
         </Heading>
@@ -542,7 +542,7 @@ const DashboardWallets: ThirdwebNextPage = () => {
         />
       </Flex>
 
-      <Flex direction={"column"} gap={4}>
+      <Flex direction="column" gap={4}>
         <Heading size="subtitle.sm" as="h3">
           Step 2: Pick a supported wallet
         </Heading>
@@ -553,13 +553,48 @@ const DashboardWallets: ThirdwebNextPage = () => {
         />
       </Flex>
 
+      {selectedWallet?.id === "smart-wallet" && (
+        <Flex direction="column" gap={4}>
+          <Heading size="subtitle.sm" as="h3">
+            Step 3: Getting started with Smart Wallet
+          </Heading>
+          <Flex flexDir="column">
+            <Text>
+              1. Deploy a smart wallet factory contract, you can deploy one in
+              1-click via the{" "}
+              <Link href="/explore/smart-wallet" isExternal color="blue.500">
+                explore page
+              </Link>
+              .
+            </Text>
+            <Text>
+              2.{" "}
+              <Link href="/dashboard/api-keys" isExternal color="blue.500">
+                Get an API key
+              </Link>{" "}
+              to access thirdweb&apos;s bundler and paymaster infrastructure,
+              which is required for the smart wallet to operate and optionally
+              enable gasless transactions.
+            </Text>
+          </Flex>
+        </Flex>
+      )}
+
       {selectedWallet?.supportedLanguages[
         selectedLanguage as keyof typeof selectedWallet.supportedLanguages
       ] && (
-        <Flex direction={"column"} gap={4}>
+        <Flex direction="column" gap={4}>
           <Heading size="subtitle.sm" as="h3">
-            Step 3: Integrate into your app
+            Step {selectedWallet?.id === "smart-wallet" ? "4" : "3"}: Integrate
+            into your app
           </Heading>
+          <Text>
+            Learn more about {selectedWallet.name} integration in{" "}
+            <Link href={selectedWallet.link} isExternal color="blue.500">
+              our docs
+            </Link>
+            .
+          </Text>
           {selectedLanguage === "react" ? (
             <ConnectWalletWithPreview
               code={
