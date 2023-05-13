@@ -1165,9 +1165,21 @@
   integrity sha512-WWULIiucYRBIewHKFA7BssQ2ABLHLVd9lrUo3N3SZgR0u4ZRDDVEUNOy+r+9ruDze8+36dGbN9wsN1IdELtdOw==
 
 "@codemirror/autocomplete@^6.0.0", "@codemirror/autocomplete@^6.4.0":
+<<<<<<< HEAD
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.7.1.tgz#3364799b78dff70fb8f81615536c52ea53ce40b2"
   integrity sha512-hSxf9S0uB+GV+gBsjY1FZNo53e1FFdzPceRfCfD1gWOnV6o21GfB5J5Wg9G/4h76XZMPrF0A6OCK/Rz5+V1egg==
+=======
+<<<<<<< HEAD
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.7.0.tgz#8cc6ec437beb2aafd3186d63cb475c30ba3aa3c3"
+  integrity sha512-di5NFfxuG3c2dllwb33Zyw6Qsmo/W+cFCO2JzBPZLWlLSkgKQfr+r0Kf3qK1b/TwkQ3MbnBQY8Z01hkSYX6Qfw==
+=======
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@codemirror/autocomplete/-/autocomplete-6.7.1.tgz#3364799b78dff70fb8f81615536c52ea53ce40b2"
+  integrity sha512-hSxf9S0uB+GV+gBsjY1FZNo53e1FFdzPceRfCfD1gWOnV6o21GfB5J5Wg9G/4h76XZMPrF0A6OCK/Rz5+V1egg==
+>>>>>>> da1502d (make req. updates)
+>>>>>>> 4522b75 (make req. updates)
   dependencies:
     "@codemirror/language" "^6.0.0"
     "@codemirror/state" "^6.0.0"
@@ -1211,9 +1223,21 @@
     "@lezer/html" "^1.3.0"
 
 "@codemirror/lang-javascript@^6.0.0", "@codemirror/lang-javascript@^6.1.2":
+<<<<<<< HEAD
   version "6.1.8"
   resolved "https://registry.yarnpkg.com/@codemirror/lang-javascript/-/lang-javascript-6.1.8.tgz#2d0f7de0175f7ad05b6a71d3fe580809b884b339"
   integrity sha512-5cIA6IOkslTu1DtldcYnj7hsBm3p+cD37qSaKvW1kV16M6q9ysKvKrveCOWgbrj4+ilSWRL2JtSLudbeB158xg==
+=======
+<<<<<<< HEAD
+  version "6.1.7"
+  resolved "https://registry.yarnpkg.com/@codemirror/lang-javascript/-/lang-javascript-6.1.7.tgz#e39fb9757b1cf47de432e4244d18ca5284a73a58"
+  integrity sha512-KXKqxlZ4W6t5I7i2ScmITUD3f/F5Cllk3kj0De9P9mFeYVfhOVOWuDLgYiLpk357u7Xh4dhqjJAnsNPPoTLghQ==
+=======
+  version "6.1.8"
+  resolved "https://registry.yarnpkg.com/@codemirror/lang-javascript/-/lang-javascript-6.1.8.tgz#2d0f7de0175f7ad05b6a71d3fe580809b884b339"
+  integrity sha512-5cIA6IOkslTu1DtldcYnj7hsBm3p+cD37qSaKvW1kV16M6q9ysKvKrveCOWgbrj4+ilSWRL2JtSLudbeB158xg==
+>>>>>>> da1502d (make req. updates)
+>>>>>>> 4522b75 (make req. updates)
   dependencies:
     "@codemirror/autocomplete" "^6.0.0"
     "@codemirror/language" "^6.6.0"
@@ -1250,9 +1274,21 @@
   integrity sha512-69QXtcrsc3RYtOtd+GsvczJ319udtBf1PTrr2KbLWM/e2CXUPnh0Nz9AUo8WfhSQ7GeL8dPVNUmhQVgpmuaNGA==
 
 "@codemirror/view@^6.0.0", "@codemirror/view@^6.2.2", "@codemirror/view@^6.6.0", "@codemirror/view@^6.7.1":
+<<<<<<< HEAD
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-6.12.0.tgz#e9d88b82f607373ec6549e38a5a0651325e4eb2f"
   integrity sha512-xNHvbJBc2v8JuEcIGOck6EUGShpP+TYGCEMVEVQMYxbFXfMhYnoF3znxB/2GgeKR0nrxBs+nhBupiTYQqCp2kw==
+=======
+<<<<<<< HEAD
+  version "6.11.1"
+  resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-6.11.1.tgz#53626f8d6f5d0a227b045230027ae5471b08f646"
+  integrity sha512-ffKhfty5XcadA2/QSmDCnG6ZQnDfKT4YsH9ACWluhoTpkHuW5gMAK07s9Y76j/OzUqyoUuF+/VISr9BuCWzPqw==
+=======
+  version "6.11.2"
+  resolved "https://registry.yarnpkg.com/@codemirror/view/-/view-6.11.2.tgz#964a746119e6d07c75fddecaf90cb463ccf59f71"
+  integrity sha512-AzxJ9Aub6ubBvoPBGvjcd4zITqcBBiLpJ89z0ZjnphOHncbvUvQcb9/WMVGpuwTT95+jW4knkH6gFIy0oLdaUQ==
+>>>>>>> da1502d (make req. updates)
+>>>>>>> 4522b75 (make req. updates)
   dependencies:
     "@codemirror/state" "^6.1.4"
     style-mod "^4.0.0"

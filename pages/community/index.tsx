@@ -69,12 +69,6 @@ const communitySections = [
       },
       {
         image: "",
-        link: "https://www.notion.so/thirdweb/Paid-Projects-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
-        title: "Projects",
-        description: "",
-      },
-      {
-        image: "",
         link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706",
         title: "Bug Bounty",
         description: "",
@@ -82,7 +76,7 @@ const communitySections = [
       {
         image: "",
         link: "/open-source",
-        title: "OSS Contributions",
+        title: "Open Source & Grants",
         description: "",
       },
     ],
@@ -99,10 +93,11 @@ const communitySections = [
         title: "Ambassadors",
         description: "",
       },
+
       {
         image: "",
-        link: "https://www.notion.so/thirdweb/University-Program-Page-e090e7cefdc14c0f8e8ad6aa47dbdb74?pvs=4",
-        title: "University Program",
+        link: "https://discord.gg/thirdweb",
+        title: "Join Discord",
         description: "",
       },
     ],
@@ -156,30 +151,55 @@ const Community: ThirdwebNextPage = () => {
                 </Heading>
               </Heading>
 
-              <LinkButton
-                href="https://discord.gg/thirdweb"
-                size="lg"
-                onClick={() =>
-                  trackEvent({
-                    category: TRACKING_CATEGORY,
-                    action: "click",
-                    title: "join-the-community",
-                  })
-                }
-                background="white"
-                _hover={{
-                  background: "white",
-                  color: "#000",
-                }}
-                color="#000"
-                fontSize="larger"
-                leftIcon={<Icon as={BsLightningCharge} />}
+              <Flex
                 mt={8}
-                isExternal
-                rightIcon={<></>}
+                justify="center"
+                align="center"
+                gap={4}
+                flexDir={{ base: "column", md: "row" }}
               >
-                Join the community
-              </LinkButton>
+                <LinkButton
+                  href="https://discord.gg/thirdweb"
+                  size="lg"
+                  onClick={() =>
+                    trackEvent({
+                      category: TRACKING_CATEGORY,
+                      action: "click",
+                      title: "join-the-community",
+                    })
+                  }
+                  background="white"
+                  _hover={{
+                    background: "white",
+                    color: "#000",
+                  }}
+                  color="#000"
+                  fontSize="larger"
+                  leftIcon={<Icon as={BsLightningCharge} />}
+                  isExternal
+                  rightIcon={<></>}
+                >
+                  Join the community
+                </LinkButton>
+
+                <LinkButton
+                  href="https://thirdweb.typeform.com/to/ZV3gUhiP"
+                  size="lg"
+                  onClick={() =>
+                    trackEvent({
+                      category: TRACKING_CATEGORY,
+                      action: "click",
+                      title: "partner-with-us",
+                    })
+                  }
+                  isExternal
+                  variant="outline"
+                  fontSize="larger"
+                  h={12}
+                >
+                  Partner with us
+                </LinkButton>
+              </Flex>
             </Center>
           </Container>
 
@@ -319,30 +339,55 @@ const Community: ThirdwebNextPage = () => {
             today.
           </Heading>
 
-          <LinkButton
-            href="https://discord.gg/thirdweb"
-            size="lg"
-            onClick={() =>
-              trackEvent({
-                category: TRACKING_CATEGORY,
-                action: "click",
-                title: "join-the-community",
-              })
-            }
-            background="white"
-            _hover={{
-              background: "white",
-              color: "#000",
-            }}
-            color="#000"
-            fontSize="larger"
-            leftIcon={<Icon as={BsLightningCharge} />}
-            mt={4}
-            isExternal
-            rightIcon={<></>}
+          <Flex
+            my={8}
+            justify="center"
+            align="center"
+            gap={4}
+            flexDir={{ base: "column", md: "row" }}
           >
-            Join the community
-          </LinkButton>
+            <LinkButton
+              href="https://discord.gg/thirdweb"
+              size="lg"
+              onClick={() =>
+                trackEvent({
+                  category: TRACKING_CATEGORY,
+                  action: "click",
+                  title: "join-the-community",
+                })
+              }
+              background="white"
+              _hover={{
+                background: "white",
+                color: "#000",
+              }}
+              color="#000"
+              fontSize="larger"
+              leftIcon={<Icon as={BsLightningCharge} />}
+              isExternal
+              rightIcon={<></>}
+            >
+              Join the community
+            </LinkButton>
+
+            <LinkButton
+              href="https://thirdweb.typeform.com/to/ZV3gUhiP"
+              size="lg"
+              onClick={() =>
+                trackEvent({
+                  category: TRACKING_CATEGORY,
+                  action: "click",
+                  title: "partner-with-us",
+                })
+              }
+              isExternal
+              variant="outline"
+              fontSize="larger"
+              h={12}
+            >
+              Partner with us
+            </LinkButton>
+          </Flex>
         </Center>
 
         <HomepageFooter />
