@@ -86,14 +86,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   contractListQuery,
   limit = 10,
 }) => {
-  const [showMoreLimit, setShowMoreLimit] = useState(limit);
-  const slicedData = useMemo(() => {
-    if (contractListQuery.data) {
-      return contractListQuery.data.slice(0, showMoreLimit);
-    }
-    return [];
-  }, [contractListQuery.data, showMoreLimit]);
-
   const router = useRouter();
 
   const modalState = useDisclosure();
@@ -164,7 +156,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
       )}
 
       <ContractTable
-        combinedList={slicedData}
+        combinedList={contractListQuery.data}
         limit={limit}
         chainIdsWithDeployments={chainIdsWithDeployments}
       >
@@ -245,13 +237,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
               )}
             </Flex>
           </Center>
-        )}
-        {contractListQuery.data.length > slicedData.length && (
-          <ShowMoreButton
-            limit={limit}
-            showMoreLimit={showMoreLimit}
-            setShowMoreLimit={setShowMoreLimit}
-          />
         )}
       </ContractTable>
     </>
