@@ -4328,7 +4328,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.15.tgz#f58db7a54be7a321d894436970b9c82f6e8b15d1"
   integrity sha512-7jmneTK1ExhigH5O8S5Ez7Th19SNSBQXzGsTKFOSDtdn4B7PobKNxd3O9MWtOgeSlM+54vVsDjXPHmpIAP7pAg==
 
-"@thirdweb-dev/chains@0.1.16-nightly-e9b69300-20230510232559", "@thirdweb-dev/chains@^0.1.16-nightly-9886c858-20230512223813":
+"@thirdweb-dev/chains@0.1.16-nightly-e9b69300-20230510232559", "@thirdweb-dev/chains@^0.1.16-nightly-9886c858-20230512232048":
   version "0.1.16-nightly-e9b69300-20230510232559"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.16-nightly-e9b69300-20230510232559.tgz#664a96fbf1305c470ad462f10869c1b5de317d20"
   integrity sha512-qN62lWQyiKvW44Uwbivup6t5RAkeAGBaWtocL6S/u6L7/p1aJEIG/8EkhV1aurdJbWuwmWKBa9v/TacTb0TGnA==
@@ -4364,7 +4364,7 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@^3.11.12-nightly-9886c858-20230512223813":
+"@thirdweb-dev/react@^3.11.12-nightly-9886c858-20230512232048":
   version "3.11.12-nightly-e9b69300-20230510232559"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.11.12-nightly-e9b69300-20230510232559.tgz#d345212cfb696a3e2668050b754e73b554796f4e"
   integrity sha512-8MdvV7U3q0/nCrhgRrJwp7LP3fYu51yJs0dbB7ntavz9WcjnYFymhPdQVa1TiTGoiP9aOFuemhF/56LqC2Qb1g==
@@ -4391,30 +4391,7 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@3.10.14":
-  version "3.10.14"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.14.tgz#7d0a12b0d4e3aaf99ab1b8e1f1b1250c55014bf3"
-  integrity sha512-FNVVI77u9OTBI99AXKapvvj8pRwYTumUekX3zi3+/rzoWqlVNNd6GW3yznckcRq3ZURH4V4YWyw61SIl54NozA==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.15"
-    "@thirdweb-dev/contracts-js" "1.3.4"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "1.1.2"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.5"
-    eventemitter3 "^5.0.0"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.0"
-    yaml "^2.1.1"
-    zod "^3.20.2"
-
-"@thirdweb-dev/sdk@3.10.15-nightly-e9b69300-20230510232559", "@thirdweb-dev/sdk@^3.10.15-nightly-9886c858-20230512223813":
+"@thirdweb-dev/sdk@3.10.14", "@thirdweb-dev/sdk@3.10.15-nightly-e9b69300-20230510232559", "@thirdweb-dev/sdk@^3.10.15-nightly-9886c858-20230512232048":
   version "3.10.15-nightly-e9b69300-20230510232559"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.15-nightly-e9b69300-20230510232559.tgz#b4d234e9aa3e09076d3dcdf0c15dd8e65662eab3"
   integrity sha512-4pgmmMHJR1Y5dWphIDriiaeYgNXk+VSCt9262YlmTcnbWKYZHbagtUpjcrFPWekgVs/VNsPkJKd8MM4iXfysYA==
