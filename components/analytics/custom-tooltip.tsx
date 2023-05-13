@@ -39,13 +39,13 @@ export const CustomToolTip: React.FC<CustomToolTipProps> = ({
           bg: "rgba(255,255,255,0.2)",
         }}
       >
-        {payload[0]?.payload?.timestamp && (
+        {payload[0]?.payload?.time && (
           <Flex direction="column" gap={0.5}>
             <Heading as="label" size="label.sm">
               Date
             </Heading>
             <Text size="body.sm">
-              {new Date(payload[0].payload.timestamp).toLocaleDateString(
+              {new Date(payload[0].payload.time).toLocaleDateString(
                 undefined,
                 formattingOptions,
               )}

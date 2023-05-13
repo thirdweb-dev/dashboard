@@ -1,5 +1,11 @@
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { ButtonGroup, Flex, SimpleGrid } from "@chakra-ui/react";
+import {
+  ButtonGroup,
+  Flex,
+  Input,
+  InputGroup,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import { AreaChart } from "components/analytics/area-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
@@ -9,7 +15,9 @@ import {
   useValueAnalytics,
 } from "data/analytics/hooks";
 import { useEffect, useMemo, useState } from "react";
-import { Button, Card, Heading } from "tw-components";
+import { useForm } from "react-hook-form";
+import { Button, Card, Heading, Text } from "tw-components";
+import { toDateTimeLocal } from "utils/date-utils";
 
 interface ContractAnalyticsPageProps {
   contractAddress?: string;
@@ -18,19 +26,30 @@ interface ContractAnalyticsPageProps {
 export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   contractAddress,
 }) => {
-  const startDate = (() => {
-    const date = new Date();
-    date.setDate(new Date().getDate() - 30);
-    return date;
-  })();
+  const [startDate, setStartDate] = useState(
+    (() => {
+      const date = new Date();
+      date.setDate(date.getDate() - 30);
+      return date;
+    })(),
+  );
+  const [endDate, setEndDate] = useState(new Date());
+  const { handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      startDate: (() => {
+        const date = new Date();
+        date.setDate(date.getDate() - 30);
+        return date;
+      })(),
+      endDate: new Date(),
+    },
+  });
 
   useEffect(() => {
     window?.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const evmContractInfo = useEVMContractInfo();
-
-  const [days, setDays] = useState(90);
 
   if (!contractAddress) {
     // TODO build a skeleton for this
@@ -45,17 +64,40 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             <Heading as="h2" size="title.md">
               Analytics
             </Heading>
-            <ButtonGroup variant="ghost" size="xs">
-              <Button isActive={days === 30} onClick={() => setDays(30)}>
-                30 days
-              </Button>
-              <Button isActive={days === 60} onClick={() => setDays(60)}>
-                60 days
-              </Button>
-              <Button isActive={days === 90} onClick={() => setDays(90)}>
-                90 days
-              </Button>
-            </ButtonGroup>
+            <form
+              onSubmit={handleSubmit((data) => {
+                setStartDate(data.startDate);
+                setEndDate(data.endDate);
+              })}
+            >
+              <Flex gap={4}>
+                <Flex flexDirection="column" gap={1}>
+                  <Text size="body.sm">Start Date</Text>
+                  <Input
+                    size="sm"
+                    type="datetime-local"
+                    value={toDateTimeLocal(watch("startDate"))}
+                    onChange={(e) =>
+                      setValue("startDate", new Date(e.target.value))
+                    }
+                  />
+                </Flex>
+                <Flex flexDirection="column" gap={1}>
+                  <Text size="body.sm">End Date</Text>
+                  <Input
+                    size="sm"
+                    type="datetime-local"
+                    value={toDateTimeLocal(watch("endDate"))}
+                    onChange={(e) =>
+                      setValue("endDate", new Date(e.target.value))
+                    }
+                  />
+                </Flex>
+                <Button alignSelf="flex-end" type="submit" size="sm">
+                  Apply
+                </Button>
+              </Flex>
+            </form>
           </Flex>
           <SimpleGrid columns={{ base: 1, md: 1 }} gap={4}>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
@@ -67,6 +109,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
+                  endDate={endDate}
                 />
               </ChartContainer>
             </Flex>
@@ -79,6 +122,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
+                  endDate={endDate}
                 />
               </ChartContainer>
             </Flex>
@@ -91,6 +135,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
+                  endDate={endDate}
                 />
               </ChartContainer>
             </Flex>
@@ -103,6 +148,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
+                  endDate={endDate}
                 />
               </ChartContainer>
             </Flex>
@@ -117,17 +163,20 @@ interface AnalyticsChartProps {
   chainId: number;
   contractAddress: string;
   startDate: Date;
+  endDate: Date;
 }
 
 const TransactionsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
   chainId,
   contractAddress,
   startDate,
+  endDate,
 }) => {
   const transactionAnalyticsQuery = useTransactionAnalytics({
     contractAddress,
     chainId,
     startDate,
+    endDate,
   });
 
   const data = useMemo(() => {
@@ -154,11 +203,13 @@ const ValueAnalyticsChart: React.FC<AnalyticsChartProps> = ({
   chainId,
   contractAddress,
   startDate,
+  endDate,
 }) => {
   const valueAnalyticsQuery = useValueAnalytics({
     contractAddress,
     chainId,
     startDate,
+    endDate,
   });
 
   const data = useMemo(() => {
@@ -185,11 +236,13 @@ const UniqueWalletsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
   chainId,
   contractAddress,
   startDate,
+  endDate,
 }) => {
   const unqiqueWalletsAnalyticsQuery = useUniqueWalletsAnalytics({
     contractAddress,
     chainId,
     startDate,
+    endDate,
   });
 
   const data = useMemo(() => {
@@ -216,11 +269,13 @@ const CumulativeWalletsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
   chainId,
   contractAddress,
   startDate,
+  endDate,
 }) => {
   const cumulativeWalletsAnalyticsQuery = useCumulativeWalletsAnalytics({
     contractAddress,
     chainId,
     startDate,
+    endDate,
   });
 
   const data = useMemo(() => {

@@ -52,6 +52,7 @@ export function useTransactionAnalytics(params: AnalyticsQueryParams) {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
         startDate: `${params.startDate?.getDate()}-${params.startDate?.getMonth()}-${params.startDate?.getFullYear()}`,
+        endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
       },
     ] as const,
     queryFn: () => {
@@ -94,6 +95,7 @@ export function useValueAnalytics(params: AnalyticsQueryParams) {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
         startDate: `${params.startDate?.getDate()}-${params.startDate?.getMonth()}-${params.startDate?.getFullYear()}`,
+        endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
       },
     ] as const,
     queryFn: () => {
@@ -136,6 +138,7 @@ export function useUniqueWalletsAnalytics(params: AnalyticsQueryParams) {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
         startDate: `${params.startDate?.getDate()}-${params.startDate?.getMonth()}-${params.startDate?.getFullYear()}`,
+        endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
       },
     ] as const,
     queryFn: () => {
@@ -173,6 +176,7 @@ export function useCumulativeWalletsAnalytics(params: AnalyticsQueryParams) {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
         startDate: `${params.startDate?.getDate()}-${params.startDate?.getMonth()}-${params.startDate?.getFullYear()}`,
+        endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
       },
     ] as const,
     queryFn: () => {
