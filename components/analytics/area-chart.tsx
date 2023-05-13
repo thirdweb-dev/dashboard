@@ -20,7 +20,7 @@ import {
 } from "recharts";
 import { Button, Heading, Text } from "tw-components";
 
-type GenericDataType = Record<string, string | number>;
+export type GenericDataType = Record<string, string | number>;
 
 type IndexType = "date";
 

@@ -2,7 +2,7 @@ import { THIRDWEB_ANALYTICS_API_HOSTNAME } from "./constants";
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 
-type AnalyticsQueryParams = {
+export type AnalyticsQueryParams = {
   chainId: number;
   contractAddress: string;
   startDate?: Date;
@@ -57,6 +57,44 @@ export function useTransactionAnalytics(params: AnalyticsQueryParams) {
     ] as const,
     queryFn: () => {
       return getTransactionAnalytics(params);
+    },
+    enabled: !!params.contractAddress && !!params.chainId,
+    suspense: true,
+  });
+}
+
+async function getLogsAnalytics(
+  params: AnalyticsQueryParams,
+): Promise<TransactionQueryResult[]> {
+  const res = await makeQuery("/logs", {
+    chainId: params.chainId,
+    contractAddress: params.contractAddress,
+    startDate: params.startDate?.toString(),
+    endDate: params.endDate?.toString(),
+    interval: params.interval,
+  });
+
+  const { results } = await res.json();
+  return results.map((item: any) => ({
+    count: parseInt(item.cnt),
+    time: new Date(item.time).getTime(),
+  }));
+}
+
+export function useLogsAnalytics(params: AnalyticsQueryParams) {
+  return useQuery({
+    queryKey: [
+      "analytics",
+      "logs",
+      {
+        contractAddress: params.contractAddress,
+        chainId: params.chainId,
+        startDate: `${params.startDate?.getDate()}-${params.startDate?.getMonth()}-${params.startDate?.getFullYear()}`,
+        endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
+      },
+    ] as const,
+    queryFn: () => {
+      return getLogsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
     suspense: true,

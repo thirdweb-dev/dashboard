@@ -6,10 +6,17 @@ import {
   InputGroup,
   SimpleGrid,
 } from "@chakra-ui/react";
-import { AreaChart } from "components/analytics/area-chart";
+import { UseQueryResult } from "@tanstack/react-query";
+import {
+  AreaChart,
+  AreaChartProps,
+  GenericDataType,
+} from "components/analytics/area-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
+  AnalyticsQueryParams,
   useCumulativeWalletsAnalytics,
+  useLogsAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
   useValueAnalytics,
@@ -76,6 +83,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   <Input
                     size="sm"
                     type="datetime-local"
+                    max={toDateTimeLocal(watch("endDate"))}
                     value={toDateTimeLocal(watch("startDate"))}
                     onChange={(e) =>
                       setValue("startDate", new Date(e.target.value))
@@ -87,6 +95,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   <Input
                     size="sm"
                     type="datetime-local"
+                    min={toDateTimeLocal(watch("startDate"))}
                     value={toDateTimeLocal(watch("endDate"))}
                     onChange={(e) =>
                       setValue("endDate", new Date(e.target.value))
@@ -105,24 +114,30 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 Transactions
               </Heading>
               <ChartContainer w="full" ratio={4.5 / 1}>
-                <TransactionsAnalyticsChart
+                <AnalyticsChart
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
                   endDate={endDate}
+                  index={"time"}
+                  categories={[{ id: "count", label: "Transactions" }]}
+                  useAnalytics={useTransactionAnalytics}
                 />
               </ChartContainer>
             </Flex>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Heading as="h3" size="subtitle.sm">
-                Native Value
+                Events
               </Heading>
               <ChartContainer w="full" ratio={4.5 / 1}>
-                <ValueAnalyticsChart
+                <AnalyticsChart
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
                   endDate={endDate}
+                  index={"time"}
+                  categories={[{ id: "count", label: "Events" }]}
+                  useAnalytics={useLogsAnalytics}
                 />
               </ChartContainer>
             </Flex>
@@ -131,11 +146,14 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 Unique Wallets
               </Heading>
               <ChartContainer w="full" ratio={4.5 / 1}>
-                <UniqueWalletsAnalyticsChart
+                <AnalyticsChart
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
                   endDate={endDate}
+                  index={"time"}
+                  categories={[{ id: "wallets", label: "Unique Wallets" }]}
+                  useAnalytics={useUniqueWalletsAnalytics}
                 />
               </ChartContainer>
             </Flex>
@@ -144,11 +162,30 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 Cumulative Wallets
               </Heading>
               <ChartContainer w="full" ratio={4.5 / 1}>
-                <CumulativeWalletsAnalyticsChart
+                <AnalyticsChart
                   contractAddress={contractAddress}
                   chainId={evmContractInfo.chain.chainId}
                   startDate={startDate}
                   endDate={endDate}
+                  index={"time"}
+                  categories={[{ id: "wallets", label: "Cumulative Wallets" }]}
+                  useAnalytics={useCumulativeWalletsAnalytics}
+                />
+              </ChartContainer>
+            </Flex>
+            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+              <Heading as="h3" size="subtitle.sm">
+                Native Volume
+              </Heading>
+              <ChartContainer w="full" ratio={4.5 / 1}>
+                <AnalyticsChart
+                  contractAddress={contractAddress}
+                  chainId={evmContractInfo.chain.chainId}
+                  startDate={startDate}
+                  endDate={endDate}
+                  index={"time"}
+                  categories={[{ id: "value", label: "Native Value" }]}
+                  useAnalytics={useValueAnalytics}
                 />
               </ChartContainer>
             </Flex>
@@ -159,20 +196,28 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   );
 };
 
-interface AnalyticsChartProps {
+interface AnalyticsChartProps<
+  TAnalytics extends GenericDataType = GenericDataType,
+> {
   chainId: number;
   contractAddress: string;
   startDate: Date;
   endDate: Date;
+  index: string;
+  categories: AreaChartProps<TAnalytics, "time">["categories"];
+  useAnalytics: (params: AnalyticsQueryParams) => UseQueryResult<TAnalytics[]>;
 }
 
-const TransactionsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
+const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
   chainId,
   contractAddress,
   startDate,
   endDate,
+  index,
+  categories,
+  useAnalytics,
 }) => {
-  const transactionAnalyticsQuery = useTransactionAnalytics({
+  const analyticsQuery = useAnalytics({
     contractAddress,
     chainId,
     startDate,
@@ -180,117 +225,18 @@ const TransactionsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
   });
 
   const data = useMemo(() => {
-    if (!transactionAnalyticsQuery.data) {
+    if (!analyticsQuery.data) {
       return [];
     }
 
-    return transactionAnalyticsQuery.data;
-  }, [transactionAnalyticsQuery.data]);
+    return analyticsQuery.data;
+  }, [analyticsQuery.data]);
 
   return (
     <AreaChart
       data={data}
-      index={{ id: "time" }}
-      categories={[{ id: "count", label: "Transactions" }]}
-      showXAxis
-      showYAxis
-      startEndOnly
-    />
-  );
-};
-
-const ValueAnalyticsChart: React.FC<AnalyticsChartProps> = ({
-  chainId,
-  contractAddress,
-  startDate,
-  endDate,
-}) => {
-  const valueAnalyticsQuery = useValueAnalytics({
-    contractAddress,
-    chainId,
-    startDate,
-    endDate,
-  });
-
-  const data = useMemo(() => {
-    if (!valueAnalyticsQuery.data) {
-      return [];
-    }
-
-    return valueAnalyticsQuery.data;
-  }, [valueAnalyticsQuery.data]);
-
-  return (
-    <AreaChart
-      data={data}
-      index={{ id: "time" }}
-      categories={[{ id: "value", label: "Native Value" }]}
-      showXAxis
-      showYAxis
-      startEndOnly
-    />
-  );
-};
-
-const UniqueWalletsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
-  chainId,
-  contractAddress,
-  startDate,
-  endDate,
-}) => {
-  const unqiqueWalletsAnalyticsQuery = useUniqueWalletsAnalytics({
-    contractAddress,
-    chainId,
-    startDate,
-    endDate,
-  });
-
-  const data = useMemo(() => {
-    if (!unqiqueWalletsAnalyticsQuery.data) {
-      return [];
-    }
-
-    return unqiqueWalletsAnalyticsQuery.data;
-  }, [unqiqueWalletsAnalyticsQuery.data]);
-
-  return (
-    <AreaChart
-      data={data}
-      index={{ id: "time" }}
-      categories={[{ id: "wallets", label: "Unique Wallets" }]}
-      showXAxis
-      showYAxis
-      startEndOnly
-    />
-  );
-};
-
-const CumulativeWalletsAnalyticsChart: React.FC<AnalyticsChartProps> = ({
-  chainId,
-  contractAddress,
-  startDate,
-  endDate,
-}) => {
-  const cumulativeWalletsAnalyticsQuery = useCumulativeWalletsAnalytics({
-    contractAddress,
-    chainId,
-    startDate,
-    endDate,
-  });
-
-  const data = useMemo(() => {
-    if (!cumulativeWalletsAnalyticsQuery.data) {
-      return [];
-    }
-
-    return cumulativeWalletsAnalyticsQuery.data;
-  }, [cumulativeWalletsAnalyticsQuery.data]);
-
-  return (
-    <AreaChart
-      data={data}
-      index={{ id: "time" }}
-      categories={[{ id: "wallets", label: "Cumulative Wallets" }]}
+      index={{ id: index }}
+      categories={categories}
       showXAxis
       showYAxis
       startEndOnly
