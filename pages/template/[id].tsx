@@ -49,6 +49,7 @@ const TemplateContents: React.FC<TemplateContentsProps> = (props) => {
       <Heading as="h3" fontSize="24px" fontWeight={700} mt={12} mb={4}>
         Overview
       </Heading>
+
       {props.overview}
 
       {props.featurePoints.length > 0 && (
@@ -76,7 +77,7 @@ const TemplateContents: React.FC<TemplateContentsProps> = (props) => {
         Running locally
       </Heading>
 
-      <Text
+      <Box
         fontWeight={400}
         fontSize={16}
         lineHeight={1.5}
@@ -85,7 +86,7 @@ const TemplateContents: React.FC<TemplateContentsProps> = (props) => {
         mb={2}
       >
         {props.runningLocally}
-      </Text>
+      </Box>
     </>
   );
 };
@@ -212,21 +213,19 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
           </>,
         ]}
         runningLocally={
-          <>
-            <>
-              First, set your smart contract address in the{" "}
-              <Link
-                href="https://github.com/thirdweb-example/nft-drop/blob/main/const/yourDetails.ts"
-                isExternal
-                color="blue.300"
-                fontWeight="500"
-              >
-                const/yourDetails.ts
-              </Link>{" "}
-              file.
-              <br />
-              <br />
-            </>
+          <div>
+            First, set your smart contract address in the{" "}
+            <Link
+              href="https://github.com/thirdweb-example/nft-drop/blob/main/const/yourDetails.ts"
+              isExternal
+              color="blue.300"
+              fontWeight="500"
+            >
+              const/yourDetails.ts
+            </Link>{" "}
+            file.
+            <br />
+            <br />
             <>
               Next, set the chain that your smart contract is deployed to in the{" "}
               <Link
@@ -253,7 +252,7 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
               http://localhost:3000
             </Link>
             .
-          </>
+          </div>
         }
       />
     ),
@@ -266,6 +265,8 @@ type TemplatePageProps = {
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
   // TODO: Bug: this flashes mobile-version first before rendering properly.
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const contents = templateContents[props.template.id];
 
   return (
     <DarkMode>
@@ -464,10 +465,7 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             <CodeBlock
               text={`npx thirdweb create --template ${props.template.id}`}
             />
-            {
-              // render templateContents fro thsi tmeplate
-              templateContents[props.template.id]
-            }
+            {contents}
           </Box>
         </Flex>
       </Flex>
