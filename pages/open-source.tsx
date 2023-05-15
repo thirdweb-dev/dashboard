@@ -44,9 +44,6 @@ const filterOut = [
   "Marfuen",
   "Abbas-Khann",
   "JustinTime42",
-  "dependabot[bot]",
-  "github-actions[bot]",
-  "imgbot[bot]",
 ];
 
 const repositories = [
@@ -367,15 +364,16 @@ export const getStaticProps: GetStaticProps = async () => {
   // Wait for all accounts to be processed
   await Promise.all(accountPromises);
 
-  // Filter out unwanted contributors
-  const filteredContributors = Object.values(contributors).filter(
-    (contributor) => !filterOut.includes(contributor.login),
-  );
-
   // Sort the contributors by their contributions in descending order
   const sortedContributors = filteredContributors.sort(
     (a, b) => b.contributions - a.contributions,
   );
+  
+  // Filter out unwanted contributors
+  const filteredContributors = Object.values(contributors)
+    .filter((contributor) => contributor.contributions > 0)
+    .filter((contributor) => contributor.login.indexOf("[bot]") === -1)
+    .filter((contributor) => !filterOut.includes(contributor.login));
 
   return {
     props: { contributors: sortedContributors },
