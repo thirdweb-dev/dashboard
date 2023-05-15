@@ -2,10 +2,10 @@ import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { Flex, Input, SimpleGrid } from "@chakra-ui/react";
 import { UseQueryResult } from "@tanstack/react-query";
 import {
-  AreaChart,
   AreaChartProps,
   GenericDataType,
 } from "components/analytics/area-chart";
+import { BarChart } from "components/analytics/bar-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
   AnalyticsQueryParams,
@@ -227,7 +227,7 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
   }, [analyticsQuery.data]);
 
   return (
-    <AreaChart
+    <BarChart
       data={data}
       index={{ id: index }}
       categories={categories}
