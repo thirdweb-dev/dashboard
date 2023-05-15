@@ -1,11 +1,5 @@
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import {
-  ButtonGroup,
-  Flex,
-  Input,
-  InputGroup,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Flex, Input, SimpleGrid } from "@chakra-ui/react";
 import { UseQueryResult } from "@tanstack/react-query";
 import {
   AreaChart,
