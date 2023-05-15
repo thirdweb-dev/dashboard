@@ -151,7 +151,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 />
               </ChartContainer>
             </Flex>
-            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+            {/* <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Heading as="h3" size="subtitle.sm">
                 Cumulative Wallets
               </Heading>
@@ -166,7 +166,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   useAnalytics={useCumulativeWalletsAnalytics}
                 />
               </ChartContainer>
-            </Flex>
+            </Flex> */}
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Heading as="h3" size="subtitle.sm">
                 Native Volume
