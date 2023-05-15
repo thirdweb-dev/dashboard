@@ -13,7 +13,6 @@ import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { YoutubeEmbed } from "components/video-embed/YoutubeEmbed";
 import { replaceIpfsUrl } from "lib/sdk";
 import { PageId } from "page-id";
 import { FiArrowRight } from "react-icons/fi";
@@ -140,8 +139,8 @@ const Minting: ThirdwebNextPage = () => {
         gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
         secondaryButton={{
-          text: "Request demo",
-          link: "https://thirdweb.typeform.com/tw-solutions",
+          text: "Get In Touch",
+          link: "https://thirdweb.typeform.com/to/fMIj602T#hubspot_utk=xxxxx&hubspot_page_name=xxxxx&hubspot_page_url=xxxxx",
         }}
       >
         <SimpleGrid
