@@ -321,59 +321,65 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const contributors: Record<string, GithubContributor> = {};
 
-  const accountPromises = accounts.map(async (account) => {
-    // Fetch the list of all repositories belonging to the account
-    const reposResponse = await fetch(
-      `https://api.github.com/orgs/${account}/repos?per_page=100`,
-      authHeader,
-    );
-    const reposData = (await reposResponse.json()) as GithubRepository[];
-
-    const repos = reposData
-      .filter((repo) => repo.fork === false)
-      .filter((repo) => repo.name !== "shopify-thirdweb-theme")
-      .map((repo) => repo.name);
-
-    const repoPromises = repos.map(async (repo) => {
-      const response = await fetch(
-        `https://api.github.com/repos/${account}/${repo}/contributors`,
+  await Promise.all(
+    accounts.map(async (account) => {
+      // Fetch the list of all repositories belonging to the account
+      const reposResponse = await fetch(
+        `https://api.github.com/orgs/${account}/repos?per_page=100`,
         authHeader,
       );
-      const data = (await response.json()) as GithubContributor[];
+      const reposData = (await reposResponse.json()) as GithubRepository[];
 
-      data.forEach((contributor) => {
-        const login = contributor.login;
-        const contributions = contributor.contributions;
-        if (contributors[login]) {
-          contributors[login].contributions += contributions;
-        } else {
-          contributors[login] = {
-            login,
-            avatar_url: contributor.avatar_url,
-            html_url: contributor.html_url,
-            contributions,
-          };
-        }
-      });
-    });
+      const repos = reposData
+        .filter((repo) => repo.fork === false)
+        .filter((repo) => repo.name !== "shopify-thirdweb-theme")
+        .map((repo) => repo.name);
 
-    // Wait for all repositories of the current account to be processed
-    await Promise.all(repoPromises);
-  });
+      // Fetch the list of all contributors for each repository and add up their contributions
+      await Promise.all(
+        repos.map(async (repo) => {
+          const response = await fetch(
+            `https://api.github.com/repos/${account}/${repo}/contributors`,
+            authHeader,
+          );
+          const data = (await response.json()) as GithubContributor[];
 
-  // Wait for all accounts to be processed
-  await Promise.all(accountPromises);
+          data.forEach((contributor) => {
+            // filter out bots
+            if (contributor.login.indexOf("[bot]") >= 0) {
+              return;
+            }
+            // filter out cotributors that are in the filter list
+            if (filterOut.includes(contributor.login)) {
+              return;
+            }
+            // filter out contributors that have 0 contributions
+            if (contributor.contributions < 1) {
+              return;
+            }
+
+            const login = contributor.login;
+            const contributions = contributor.contributions;
+            if (contributors[login]) {
+              contributors[login].contributions += contributions;
+            } else {
+              contributors[login] = {
+                login,
+                avatar_url: contributor.avatar_url,
+                html_url: contributor.html_url,
+                contributions,
+              };
+            }
+          });
+        }),
+      );
+    }),
+  );
 
   // Sort the contributors by their contributions in descending order
-  const sortedContributors = filteredContributors.sort(
+  const sortedContributors = Object.values(contributors).sort(
     (a, b) => b.contributions - a.contributions,
   );
-  
-  // Filter out unwanted contributors
-  const filteredContributors = Object.values(contributors)
-    .filter((contributor) => contributor.contributions > 0)
-    .filter((contributor) => contributor.login.indexOf("[bot]") === -1)
-    .filter((contributor) => !filterOut.includes(contributor.login));
 
   return {
     props: { contributors: sortedContributors },
