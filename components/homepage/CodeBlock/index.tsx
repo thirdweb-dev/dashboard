@@ -3,7 +3,6 @@ import {
   Code,
   CodeProps,
   Flex,
-  HStack,
   Icon,
   IconButton,
   useClipboard,
@@ -11,22 +10,21 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
-import Highlight, {
-  Language,
-  PrismTheme,
-  defaultProps,
-} from "prism-react-renderer";
-import darkThemeDefault from "prism-react-renderer/themes/vsDark";
-import lightThemeDefault from "prism-react-renderer/themes/vsLight";
+import { Highlight, themes } from "prism-react-renderer";
 import { useEffect, useRef, useState } from "react";
 import { BsLightning } from "react-icons/bs";
 import { FiCopy } from "react-icons/fi";
 import { useInView } from "react-intersection-observer";
 import { Text } from "tw-components";
 
+const darkThemeDefault = themes.vsDark;
+const lightThemeDefault = themes.vsLight;
+
+type PrismTheme = typeof darkThemeDefault;
+
 export interface CodeBlockProps extends Omit<CodeProps, "size"> {
   code: string;
-  language: Language | "solidity";
+  language: string;
   canCopy?: boolean;
   wrap?: boolean;
   prefix?: string;
@@ -71,9 +69,9 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
     darkTheme || darkThemeDefault,
   );
   const { onCopy, hasCopied, setValue } = useClipboard(code);
-  const [, setSpeedUpEnabled] = useState(false);
+  const [speedUpEnabled, setSpeedUpEnabled] = useState(false);
   const [currentCodeIndex, setCurrentCodeIndex] = useState(0);
-  const [currentTypingSpeed, setCurrentTypingSpeed] = useState(typingSpeed);
+  const [currentTypingSpeed] = useState(typingSpeed);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const chakraTheme = useTheme();
@@ -117,18 +115,19 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
         borderRadius="lg"
       >
         <Flex
-          justify={"space-between"}
+          justify="space-between"
           align="center"
           px={2}
           py={2}
           bg="#161b22"
           roundedTop="lg"
+          w="full"
         >
-          {canCopy && code && autoType && (
+          {canCopy && code && autoType && currentCodeIndex < code.length ? (
             <IconButton
               onClick={() => {
                 setSpeedUpEnabled((prev) => {
-                  setCurrentTypingSpeed(prev ? typingSpeed : 1);
+                  setCurrentCodeIndex(code.length);
                   return !prev;
                 });
               }}
@@ -139,6 +138,8 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
               size="sm"
               icon={<Icon as={BsLightning} />}
             />
+          ) : (
+            <Box w="32px" />
           )}
           {title && (
             <Text
@@ -154,35 +155,34 @@ export const HomePageCodeBlock: React.FC<CodeBlockProps> = ({
               {title}
             </Text>
           )}
-          <HStack>
-            {canCopy && code && (
-              <IconButton
-                onClick={onCopy}
-                aria-label="Copy"
-                borderRadius="md"
-                variant="ghost"
-                colorScheme="gray"
-                size="sm"
-                icon={
-                  <Icon
-                    as={hasCopied ? IoMdCheckmark : FiCopy}
-                    fill={hasCopied ? "green.500" : undefined}
-                  />
-                }
-              />
-            )}
-          </HStack>
+          {canCopy && code && (
+            <IconButton
+              onClick={onCopy}
+              aria-label="Copy"
+              borderRadius="md"
+              variant="ghost"
+              colorScheme="gray"
+              size="sm"
+              icon={
+                <Icon
+                  as={hasCopied ? IoMdCheckmark : FiCopy}
+                  fill={hasCopied ? "green.500" : undefined}
+                />
+              }
+            />
+          )}
         </Flex>
         <Highlight
-          {...defaultProps}
           code={
             prefix
               ? `${prefix} ${code}`
               : autoType
-              ? code.slice(0, currentCodeIndex)
+              ? speedUpEnabled
+                ? code
+                : code.slice(0, currentCodeIndex)
               : code
           }
-          language={language as Language}
+          language={language}
           theme={{
             ...theme,
             plain: {
