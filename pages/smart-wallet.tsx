@@ -1,6 +1,7 @@
 // import { GuidesShowcase } from "../components/product-pages/common/GuideShowcase";
 import { ProductSection } from "../components/product-pages/common/ProductSection";
 import {
+  Box,
   Flex,
   GridItem,
   ListItem,
@@ -16,7 +17,7 @@ import { ProductValueWithHighlight } from "components/product-pages/common/Produ
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import React, { useState } from "react";
-import { Heading, Text } from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const GRIDS = {
@@ -130,10 +131,32 @@ const SmartWalletPage: ThirdwebNextPage = () => {
             title="Build Faster"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
           >
-            3 ready-to-deploy base contracts with a range of pre-configured
-            Admin permissions to get you started quickly: simple, managed, and
-            dynamic contracts. Base template follows account abstraction
-            standard (fully compliant ERC-4337).
+            <Text fontSize="lg">
+              <TrackedLink
+                href="https://thirdweb.com/explore/smart-wallet"
+                category={TRACKING_CATEGORY}
+                textDecoration="underline"
+                color="blue.200"
+                target="_blank"
+                display="inline-block"
+              >
+                3 ready-to-deploy base contracts
+              </TrackedLink>{" "}
+              with a range of pre-configured Admin permissions to get you
+              started quickly: simple, managed, and dynamic contracts. Base
+              template follows account abstraction standard (fully compliant{" "}
+              <TrackedLink
+                href="https://eips.ethereum.org/EIPS/eip-4337"
+                category={TRACKING_CATEGORY}
+                textDecoration="underline"
+                color="blue.200"
+                target="_blank"
+                display="inline-block"
+              >
+                ERC-4337
+              </TrackedLink>
+              ).
+            </Text>
           </ProductCard>
           <ProductCard
             title="Complete"
@@ -177,6 +200,7 @@ const SmartWalletPage: ThirdwebNextPage = () => {
               isHighlighted={selectedTab === "smart-wallet"}
               title="Smart Wallet"
               minHeight="63px"
+              pointerEvents="none"
               width={{
                 base: "full",
                 md: "236px",

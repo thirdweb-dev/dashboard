@@ -16,6 +16,7 @@ export const ProductValueWithHighlight: React.FC<
         fontWeight="bold"
         fullCircle
         isHighlighted
+        pointerEvents="none"
       />
       <Text mt={6} fontSize="lg" fontWeight="semi-bold" color="white">
         {children}
