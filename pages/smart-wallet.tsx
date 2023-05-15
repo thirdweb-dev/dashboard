@@ -126,6 +126,10 @@ const SmartWalletPage: ThirdwebNextPage = () => {
           w="100%"
           columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
+          mb={{
+            base: 12,
+            md: 24,
+          }}
         >
           <ProductCard
             title="Build Faster"
