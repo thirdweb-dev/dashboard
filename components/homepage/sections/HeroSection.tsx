@@ -49,7 +49,9 @@ export const HeroSection = () => {
             fontSize={{ base: "36px", md: "52px", lg: "64px" }}
             textAlign={{ base: "center", lg: "left" }}
           >
-            The fastest way to build web3 apps.
+            The fastest way to
+            <br />
+            build web3 apps.
           </Heading>
           <Heading
             as="h3"
