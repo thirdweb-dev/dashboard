@@ -36,10 +36,8 @@ import {
 } from "tw-components";
 
 interface LandingFieldsetProps {
-  contractSelection: "standard" | "proxy" | "factory";
-  setContractSelection: Dispatch<
-    SetStateAction<"standard" | "proxy" | "factory">
-  >;
+  contractSelection: "standard" | "factory";
+  setContractSelection: Dispatch<SetStateAction<"standard" | "factory">>;
   latestVersion: string | undefined;
   placeholderVersion: string;
 }
@@ -337,14 +335,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
             name="Standard contract"
             onClick={() => setContractSelection("standard")}
             isActive={contractSelection === "standard"}
-            infoText="Use this if your contract does not follow the factory contract or proxy contract pattern."
-            width="full"
-          />
-          <SelectOption
-            name="Proxy contract"
-            onClick={() => setContractSelection("proxy")}
-            isActive={contractSelection === "proxy"}
-            infoText="Use this if your contract follows the proxy contract pattern. This makes it cheaper for users to deploy your contract."
+            infoText="Use this if your contract does not follow the factory contract pattern."
             width="full"
           />
           <SelectOption

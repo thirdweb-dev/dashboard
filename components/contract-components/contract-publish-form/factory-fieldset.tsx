@@ -1,29 +1,17 @@
-import { PasteInput } from "./PasteInput";
-import { Flex, FormControl } from "@chakra-ui/react";
-import { defaultChains } from "@thirdweb-dev/chains";
-import { useMemo } from "react";
-import { FormLabel, Heading, Link, Text } from "tw-components";
+import { Flex, FormControl, Input, Select } from "@chakra-ui/react";
+import { useFormContext } from "react-hook-form";
+import { Heading, Link, Text } from "tw-components";
 
 export const FactoryFieldset = () => {
-  const configuredChains = defaultChains;
-
-  const { mainnets, testnets } = useMemo(() => {
-    return {
-      mainnets: configuredChains.filter((n) => !n.testnet),
-      testnets: configuredChains.filter((n) => n.testnet),
-    };
-  }, [configuredChains]);
-
+  const form = useFormContext();
   return (
-    <Flex gap={16} direction="column" as="fieldset">
+    <Flex gap={12} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
         <Heading size="title.lg">Factory deploy settings</Heading>
         <Text fontStyle="normal">
-          Factory deployment requires having deployed implementations of your
-          contract already available on each chain you want to support. If you
-          already have a contract address, paste it into the corresponding
-          network. Your contracts will need to implement the IContract
-          interface.{" "}
+          Auto factory lets users deploy your contract to any network with much
+          lower gas fees. Your contract needs to be written in the upgradeable
+          pattern (as per EIP-1967).{" "}
           <Link
             href="https://portal.thirdweb.com/publish#factory-deploys"
             color="blue.600"
@@ -34,42 +22,44 @@ export const FactoryFieldset = () => {
         </Text>
       </Flex>
       <Flex flexDir="column" gap={4}>
-        <Heading size="title.md">Mainnets</Heading>
-        {mainnets.map(({ chainId, name }) => (
-          <FormControl key={`factory${chainId}`}>
-            <Flex gap={4} alignItems="center">
-              <FormLabel
-                mb={2}
-                width={{ base: "150px", md: "270px" }}
-                lineHeight="150%"
-              >
-                {name}
-              </FormLabel>
-              <PasteInput
-                formKey={`factoryDeploymentData.factoryAddresses.${chainId}`}
-              />
-            </Flex>
-          </FormControl>
-        ))}
+        <Flex flexDir="column" gap={2}>
+          <Heading size="title.md">Initializer function</Heading>
+          <Text>
+            Choose the initializer function to invoke on your proxy contracts.
+          </Text>
+        </Flex>
+        <FormControl isRequired>
+          {/** TODO this should be a selector of ABI functions **/}
+          <Input
+            value={
+              form.watch(
+                `factoryDeploymentData.implementationInitializerFunction`,
+              )?.name
+            }
+            onChange={(e) =>
+              form.setValue(
+                `factoryDeploymentData.implementationInitializerFunction`,
+                e.target.value,
+              )
+            }
+            placeholder="Function name to invoke"
+            defaultValue="initialize"
+          />
+        </FormControl>
       </Flex>
       <Flex flexDir="column" gap={4}>
-        <Heading size="title.md">Testnets</Heading>
-        {testnets.map(({ chainId, name }) => (
-          <FormControl key={`factory${chainId}`}>
-            <Flex gap={4} alignItems="center">
-              <FormLabel
-                mb={2}
-                width={{ base: "150px", md: "270px" }}
-                lineHeight="150%"
-              >
-                {name}
-              </FormLabel>
-              <PasteInput
-                formKey={`factoryDeploymentData.factoryAddresses.${chainId}`}
-              />
-            </Flex>
-          </FormControl>
-        ))}
+        <Flex flexDir="column" gap={2}>
+          <Heading size="title.md">
+            Networks that your contract can be deployed to
+          </Heading>
+        </Flex>
+        <FormControl isRequired>
+          <Select>
+            <option value="all">All networks</option>
+            <option value="mainnet">Mainnet only</option>
+            <option value="testnet">Testnets only</option>
+          </Select>
+        </FormControl>
       </Flex>
     </Flex>
   );

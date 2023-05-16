@@ -11,7 +11,6 @@ import { ContractId } from "../types";
 import { ContractParamsFieldset } from "./contract-params-fieldset";
 import { FactoryFieldset } from "./factory-fieldset";
 import { LandingFieldset } from "./landing-fieldset";
-import { ProxyFieldset } from "./proxy-fieldset";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Divider, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
@@ -38,10 +37,10 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   const configuredChains = defaultChains;
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
   const [contractSelection, setContractSelection] = useState<
-    "standard" | "proxy" | "factory"
+    "standard" | "factory"
   >("standard");
   const [fieldsetToShow, setFieldsetToShow] = useState<
-    "landing" | "proxy" | "factory" | "contractParams"
+    "landing" | "factory" | "contractParams"
   >("landing");
   const trackEvent = useTrack();
 
@@ -52,7 +51,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
   const address = useAddress();
   const publishMutation = usePublishMutation();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const publishMetadata = useContractPublishMetadataFromURI(contractId);
   const prePublishMetadata = useContractPrePublishMetadata(contractId, address);
@@ -141,11 +139,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           ?.publishedMetadata.isDeployableViaFactory
       ) {
         setContractSelection("factory");
-      } else if (
-        prePublishMetadata.data?.latestPublishedContractMetadata
-          ?.publishedMetadata.isDeployableViaProxy
-      ) {
-        setContractSelection("proxy");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,9 +178,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
 
   const deployParams =
-    contractSelection === "proxy" || contractSelection === "factory"
-      ? initializerParams
-      : constructorParams;
+    contractSelection === "factory" ? initializerParams : constructorParams;
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
@@ -206,11 +197,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           as="form"
           id="contract-release-form"
           onSubmit={form.handleSubmit((data) => {
-            // the drawer has another form inside it which triggers this one on submit
-            // hacky solution to avoid double submission
-            if (isDrawerOpen) {
-              return;
-            }
             trackEvent({
               category: "publish",
               action: "click",
@@ -224,7 +210,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 extraMetadata: {
                   ...data,
                   isDeployableViaFactory: contractSelection === "factory",
-                  isDeployableViaProxy: contractSelection === "proxy",
                 },
                 contractName: publishMetadata.data?.name,
               },
@@ -263,7 +248,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                     label: "error",
                     uris: contractId,
                     release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
-                    is_proxy: data.isDeployableViaProxy,
                     is_factory: data.isDeployableViaFactory,
                   });
                 },
@@ -280,10 +264,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 variant="ghost"
                 onClick={() =>
                   fieldsetToShow === "contractParams" &&
-                  contractSelection === "proxy"
-                    ? setFieldsetToShow("proxy")
-                    : fieldsetToShow === "contractParams" &&
-                      contractSelection === "factory"
+                  contractSelection === "factory"
                     ? setFieldsetToShow("factory")
                     : setFieldsetToShow("landing")
                 }
@@ -305,18 +286,8 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           {fieldsetToShow === "contractParams" && (
             <ContractParamsFieldset deployParams={deployParams} />
           )}
-          {fieldsetToShow === "proxy" && (
-            <ProxyFieldset
-              setIsDrawerOpen={setIsDrawerOpen}
-              contractId={contractId}
-            />
-          )}
           {fieldsetToShow === "factory" && (
             <Flex flexDir="column" gap={24}>
-              <ProxyFieldset
-                setIsDrawerOpen={setIsDrawerOpen}
-                contractId={contractId}
-              />
               <FactoryFieldset />
             </Flex>
           )}
@@ -332,18 +303,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 <>
                   <Box />
                   <ConnectWallet />
-                </>
-              ) : fieldsetToShow === "landing" &&
-                contractSelection === "proxy" ? (
-                <>
-                  <Box />
-                  <Button
-                    onClick={() => setFieldsetToShow("proxy")}
-                    colorScheme="primary"
-                    isDisabled={disableNext}
-                  >
-                    Next
-                  </Button>
                 </>
               ) : fieldsetToShow === "landing" &&
                 contractSelection === "factory" ? (
