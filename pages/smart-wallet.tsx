@@ -91,9 +91,9 @@ const SmartWalletPage: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Smart Wallet: The Complete Web3 Wallet Toolkit",
+        title: "Smart Wallets: The Account Abstraction Toolkit (ERC-4337)",
         description:
-          "Build any web3 wallet experience with thirdweb’s Wallet SDK for Ethereum. Connect Wallet UI, ERC-4337 smart accounts, local wallets, and more.",
+          "Build smart wallets with ERC-4337 compliance, full customizability, & powerful features. Learn more & implement account abstraction wallets.",
         openGraph: {
           images: [
             {
@@ -110,7 +110,7 @@ const SmartWalletPage: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         name="Smart Wallet"
         title="The simplest way to build and manage smart wallets"
-        description="Create programmable wallets with on-chain rules to unlock new use cases for your apps and games"
+        description="Your wallet, upgraded. Introducing: Smart Wallet."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/wallet/smart-wallet"
         image={require("public/assets/product-pages/smart-wallet/hero.png")}
@@ -136,47 +136,52 @@ const SmartWalletPage: ThirdwebNextPage = () => {
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
           >
             <Text fontSize="lg">
+              ERC-4337 compliant smart wallets to{" "}
               <TrackedLink
-                href="https://thirdweb.com/explore/smart-wallet"
+                href="https://thirdweb.com/explore"
                 category={TRACKING_CATEGORY}
                 textDecoration="underline"
                 color="blue.200"
                 target="_blank"
-                display="inline-block"
               >
-                3 ready-to-deploy base contracts
-              </TrackedLink>{" "}
-              with a range of pre-configured Admin permissions to get you
-              started quickly: simple, managed, and dynamic contracts. Base
-              template follows account abstraction standard (fully compliant{" "}
-              <TrackedLink
-                href="https://eips.ethereum.org/EIPS/eip-4337"
-                category={TRACKING_CATEGORY}
-                textDecoration="underline"
-                color="blue.200"
-                target="_blank"
-                display="inline-block"
-              >
-                ERC-4337
+                deploy in one click{" "}
               </TrackedLink>
-              ).
+              or{" "}
+              <TrackedLink
+                href="https://portal.thirdweb.com/wallet/smart-wallet"
+                category={TRACKING_CATEGORY}
+                textDecoration="underline"
+                color="blue.200"
+                target="_blank"
+              >
+                extend with your custom logic
+              </TrackedLink>
             </Text>
           </ProductCard>
           <ProductCard
             title="Complete"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-2.png")}
           >
-            An end-to-end toolkit that enables you to build, deploy, and manage
-            smart wallets. Fully managed account abstraction infrastructure
-            services under the hood. No need to manually integrate with separate
-            bundler and paymaster services.
+            <Text fontSize="lg">
+              Account abstraction infrastructure out of the box with{" "}
+              <TrackedLink
+                href="https://thirdweb.com/wallet-sdk"
+                category={TRACKING_CATEGORY}
+                textDecoration="underline"
+                color="blue.200"
+                target="_blank"
+              >
+                Wallet SDK.
+              </TrackedLink>{" "}
+              Fully compatible with ERC-4337.
+            </Text>
           </ProductCard>
           <ProductCard
             title="Best-in-class developer experience"
             icon={require("/public/assets/product-pages/dashboard/hero-icon-3.png")}
           >
             Easily integrate smart wallets into your app or games using our
-            intuitive web3 SDKs
+            intuitive web3 SDKs.
           </ProductCard>
         </SimpleGrid>
 
