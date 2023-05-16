@@ -144,8 +144,8 @@ const SmartWalletPage: ThirdwebNextPage = () => {
                 color="blue.200"
                 target="_blank"
               >
-                deploy in one click{" "}
-              </TrackedLink>
+                deploy in one click
+              </TrackedLink>{" "}
               or{" "}
               <TrackedLink
                 href="https://portal.thirdweb.com/wallet/smart-wallet"
