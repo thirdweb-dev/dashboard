@@ -35,12 +35,13 @@ import { MismatchButton } from "components/buttons/MismatchButton";
 import { GettingStartedBox } from "components/getting-started/box";
 import { GettingStartedCard } from "components/getting-started/card";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { NetworkSelectDropdown } from "components/selects/NetworkSelectDropdown";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { useRouter } from "next/router";
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import {
   FiArrowRight,
   FiFilePlus,
@@ -48,7 +49,14 @@ import {
   FiPlus,
   FiX,
 } from "react-icons/fi";
-import { Column, Row, useTable } from "react-table";
+import {
+  Column,
+  ColumnInstance,
+  Row,
+  useFilters,
+  usePagination,
+  useTable,
+} from "react-table";
 import {
   Badge,
   Button,
@@ -76,18 +84,17 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
   contractListQuery,
   limit = 10,
 }) => {
-  const [showMoreLimit, setShowMoreLimit] = useState(limit);
-
-  const slicedData = useMemo(() => {
-    if (contractListQuery.data) {
-      return contractListQuery.data.slice(0, showMoreLimit);
-    }
-    return [];
-  }, [contractListQuery.data, showMoreLimit]);
-
   const router = useRouter();
 
   const modalState = useDisclosure();
+
+  const chainIdsWithDeployments = useMemo(() => {
+    const set = new Set<number>();
+    contractListQuery.data.forEach((contract) => {
+      set.add(contract.chainId);
+    });
+    return [...set];
+  }, [contractListQuery.data]);
 
   return (
     <>
@@ -101,23 +108,8 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             justify="space-between"
             align="top"
             gap={4}
-            direction={{ base: "column", md: "row" }}
-            pos="sticky"
-            top={{ base: "56px", md: 0 }}
+            direction={{ base: "column", lg: "row" }}
             py={{ base: 4, md: 8 }}
-            zIndex="docked"
-            backdropFilter="blur(4px)"
-            _after={{
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: -1,
-              opacity: 0.8,
-              bg: "linear-gradient(180deg, var(--chakra-colors-backgroundBody) 50%, transparent 100%)",
-            }}
           >
             <Flex gap={2} direction="column">
               <Heading size="title.md">Your contracts</Heading>
@@ -146,7 +138,11 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
         </>
       )}
 
-      <ContractTable combinedList={slicedData}>
+      <ContractTable
+        combinedList={contractListQuery.data}
+        limit={limit}
+        chainIdsWithDeployments={chainIdsWithDeployments}
+      >
         {contractListQuery.isLoading && (
           <Center>
             <Flex py={4} direction="row" gap={4} align="center">
@@ -225,13 +221,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             </Flex>
           </Center>
         )}
-        {contractListQuery.data.length > slicedData.length && (
-          <ShowMoreButton
-            limit={limit}
-            showMoreLimit={showMoreLimit}
-            setShowMoreLimit={setShowMoreLimit}
-          />
-        )}
       </ContractTable>
     </>
   );
@@ -299,15 +288,49 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
   );
 };
 
+type SelectNetworkFilterProps = {
+  column: ColumnInstance<{
+    chainId: number;
+    address: string;
+    contractType: () => Promise<ContractType>;
+    metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
+    extensions: () => Promise<string[]>;
+  }>;
+  chainIdsWithDeployments: number[];
+};
+
+// This is a custom filter UI for selecting from a list of chains that the user deployed to
+function SelectNetworkFilter({
+  column: { setFilter },
+  chainIdsWithDeployments,
+}: SelectNetworkFilterProps) {
+  if (chainIdsWithDeployments.length < 2) {
+    return <> NETWORK </>;
+  }
+  return (
+    <NetworkSelectDropdown
+      useCleanChainName={true}
+      enabledChainIds={chainIdsWithDeployments}
+      onSelect={(selectedChain) => {
+        setFilter(selectedChain?.chainId.toString());
+      }}
+    />
+  );
+}
+
 interface ContractTableProps {
   combinedList: ContractWithMetadata[];
   isFetching?: boolean;
+  limit: number;
+  chainIdsWithDeployments: number[];
 }
 
 export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   combinedList,
   children,
   isFetching,
+  limit,
+  chainIdsWithDeployments,
 }) => {
   const { chainIdToChainRecord } = useAllChainsData();
   const configuredChains = useSupportedChainsRecord();
@@ -327,8 +350,17 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         Cell: (cell: any) => <AsyncExtensionCell cell={cell.row.original} />,
       },
       {
-        Header: "Network",
+        // No header, show filter instead
+        Header: () => null,
+        id: "Network",
         accessor: (row) => row.chainId,
+        Filter: (props) => (
+          <SelectNetworkFilter
+            {...props}
+            chainIdsWithDeployments={chainIdsWithDeployments}
+          />
+        ),
+        filter: "equals",
         Cell: (cell: any) => {
           const data =
             configuredChains[cell.row.original.chainId] ||
@@ -388,7 +420,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [configuredChains],
+    [configuredChains, chainIdsWithDeployments],
   );
 
   const defaultColumn = useMemo(
@@ -398,20 +430,40 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
     [],
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    page,
+    canNextPage,
+    setPageSize,
+    state: { pageSize },
+  } = useTable(
+    {
       columns,
       data: combinedList,
       defaultColumn,
-    });
+    },
+    useFilters,
+    usePagination,
+  );
+
+  // the ShowMoreButton component callback sets this state variable
+  const [numRowsOnPage, setNumRowsOnPage] = useState(limit);
+  // when the state variable is updated, update the page size
+  useEffect(() => {
+    setPageSize(numRowsOnPage);
+  }, [numRowsOnPage, pageSize, setPageSize]);
 
   return (
     <Box
       borderTopRadius="lg"
       p={0}
-      overflowX="auto"
       position="relative"
-      overflowY="hidden"
+      overflowX={{ base: "auto", md: "initial" }}
+      // to avoid clipping the network selector menu on mobile
+      minH={{ base: "600px", md: "initial" }}
     >
       {isFetching && (
         <Spinner
@@ -432,6 +484,9 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
                 <Th {...column.getHeaderProps()} border="none">
                   <Text as="label" size="label.sm" color="faded">
                     {column.render("Header")}
+                    <div>
+                      {column.canFilter ? column.render("Filter") : null}
+                    </div>
                   </Text>
                 </Th>
               ))}
@@ -440,7 +495,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         </Thead>
 
         <Tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <ContractTableRow
@@ -451,6 +506,13 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
           })}
         </Tbody>
       </Table>
+      {canNextPage && (
+        <ShowMoreButton
+          limit={limit}
+          showMoreLimit={pageSize}
+          setShowMoreLimit={setNumRowsOnPage}
+        />
+      )}
       {children}
     </Box>
   );
