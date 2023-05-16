@@ -1,5 +1,5 @@
 import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
-import { Flex, Input, SimpleGrid } from "@chakra-ui/react";
+import { Flex, Input, SimpleGrid, Stack } from "@chakra-ui/react";
 import { UseQueryResult } from "@tanstack/react-query";
 import {
   AreaChartProps,
@@ -9,7 +9,6 @@ import { BarChart } from "components/analytics/bar-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
   AnalyticsQueryParams,
-  useCumulativeWalletsAnalytics,
   useLogsAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
@@ -104,9 +103,15 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
           </Flex>
           <SimpleGrid columns={{ base: 1, md: 1 }} gap={4}>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-              <Heading as="h3" size="subtitle.sm">
-                Transactions
-              </Heading>
+              <Stack spacing={0}>
+                <Heading as="h3" size="subtitle.sm">
+                  Transactions
+                </Heading>
+                <Text>
+                  The number of transactions that have been sent to this
+                  contract.
+                </Text>
+              </Stack>
               <ChartContainer w="full" ratio={4.5 / 1}>
                 <AnalyticsChart
                   contractAddress={contractAddress}
@@ -120,9 +125,15 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </ChartContainer>
             </Flex>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-              <Heading as="h3" size="subtitle.sm">
-                Events
-              </Heading>
+              <Stack spacing={0}>
+                <Heading as="h3" size="subtitle.sm">
+                  Events
+                </Heading>
+                <Text>
+                  The number of on-chain events that have been emitted from this
+                  contract.
+                </Text>
+              </Stack>
               <ChartContainer w="full" ratio={4.5 / 1}>
                 <AnalyticsChart
                   contractAddress={contractAddress}
@@ -136,9 +147,15 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </ChartContainer>
             </Flex>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-              <Heading as="h3" size="subtitle.sm">
-                Unique Wallets
-              </Heading>
+              <Stack spacing={0}>
+                <Heading as="h3" size="subtitle.sm">
+                  Unique Wallets
+                </Heading>
+                <Text>
+                  The number of unique wallet addresses that have sent a
+                  transaction to this contract.
+                </Text>
+              </Stack>
               <ChartContainer w="full" ratio={4.5 / 1}>
                 <AnalyticsChart
                   contractAddress={contractAddress}
@@ -168,9 +185,16 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </ChartContainer>
             </Flex> */}
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-              <Heading as="h3" size="subtitle.sm">
-                Native Volume
-              </Heading>
+              <Stack spacing={0}>
+                <Heading as="h3" size="subtitle.sm">
+                  Native Volume
+                </Heading>
+                <Text>
+                  The amount of native currency that has been sent directly
+                  through this contract.
+                </Text>
+              </Stack>
+
               <ChartContainer w="full" ratio={4.5 / 1}>
                 <AnalyticsChart
                   contractAddress={contractAddress}

@@ -137,6 +137,7 @@ export function useContractRouteConfig(
       path: "analytics",
       component: LazyContractAnalyticsPage,
       isDefault: true,
+      isBeta: true,
     },
     {
       title: "NFTs",
