@@ -1,16 +1,6 @@
-import {
-  AspectRatio,
-  Box,
-  Container,
-  Flex,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { SDKSection } from "components/homepage/sections/SDKSection";
-import { GameShowcase } from "components/product-pages/common/GameShowcase";
-import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
+import { Box, Container, Flex, SimpleGrid } from "@chakra-ui/react";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
-import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -21,56 +11,12 @@ import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "chains-landing";
 
-const GAMING_GUIDES = [
-  {
-    title: "Get Started with the Unity SDK",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Group-625859--1-.png",
-    link: "https://blog.thirdweb.com/guides/get-started-with-thirdwebs-unity-sdk/",
-  },
-  {
-    title: "Build A Native Web3 Game (iOS, Android, Windows, Mac)",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/03/Sell-An-ERC20-Token-As-In-Game-Currency-In-A-Unity-Game.png",
-    link: "https://blog.thirdweb.com/guides/how-to-build-a-web3-game/",
-  },
-  {
-    title: "Set up Coinbase Pay in your Unity Project",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/12/Coinbase-Pay-guide.png",
-    link: "https://blog.thirdweb.com/guides/set-up-coinbase-pay-in-your-unity-project/",
-  },
-];
-
-const GAMING_CASE_STUDIES = [
-  {
-    title: "Pixels Builds an On-Chain Ecosystem for its Open-World Web3 Game",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2023/04/Pixels-Builds-an-Onchain-Ecosystem-for-its-Web3-Game-thirdweb-Case-Study.png",
-    link: "https://blog.thirdweb.com/case-studies/pixels-builds-an-onchain-ecosystem-for-its-web3-game/",
-  },
-  {
-    title: "Fractal, Web3 Gaming Platform and Marketplace for Blockchain Games",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/11/Fractal.png",
-    link: "https://blog.thirdweb.com/fractal-web3-gaming-platform-and-marketplace-for-blockchain-games-expands-to-evm-chains/",
-  },
-  {
-    title:
-      "Dreamworks Launches NFT Avatars for the Metaverse in Collaboration with Gala's VOX",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w2000/2022/10/DreamWorks-Launches-NFT-Avatars-with-Gala-s-VOX---thirdweb-Case-Study-2.png",
-    link: "https://blog.thirdweb.com/dreamworks-launches-nft-avatars-for-web3-games-with-gala-and-the-sims-creators-voxverse/",
-  },
-];
-
 const Chains: ThirdwebNextPage = () => {
   return (
     <ProductPage
       accentColor="rgba(22,82,240,.75)"
       seo={{
-        title:
-          "thirdweb GamingKit | SDKs, Smart Contracts & Dev Tools for Web3 Games",
+        title: "Chains | SDKs, Smart Contracts & Dev Tools for Web3 Games",
         description:
           "Build web3 games with our Unity SDK for all supported platforms, including: Native, Mobile, Console, Browser, and VR.",
         openGraph: {
