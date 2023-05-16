@@ -109,8 +109,8 @@ const SmartWalletPage: ThirdwebNextPage = () => {
       <Hero
         trackingCategory={TRACKING_CATEGORY}
         name="Smart Wallet"
-        title="The simplest way to build and manage smart wallets"
-        description="Your wallet, upgraded. Introducing: Smart Wallet."
+        title="Your wallet, upgraded. Introducing: Smart Wallet."
+        description="Create programmable wallets with on-chain rules to unlock new use cases for your apps and games."
         buttonText="Get started"
         buttonLink="https://portal.thirdweb.com/wallet/smart-wallet"
         image={require("public/assets/product-pages/smart-wallet/hero.png")}
