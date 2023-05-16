@@ -61,6 +61,7 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         as="main"
         colSpan={{ base: 2, md: 1 }}
         rowSpan={1}
+        overflowX="auto"
       >
         {layout === "custom-contract" ? (
           children
@@ -255,6 +256,28 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             rounded="lg"
           >
             RPC
+          </LinkButton>
+          <LinkButton
+            href="/dashboard/wallet"
+            isActive={pathname === "/dashboard/wallet"}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+          >
+            Wallet
+          </LinkButton>
+          <LinkButton
+            href="/dashboard/api-keys"
+            isActive={pathname === "/dashboard/api-keys"}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+          >
+            API Keys
           </LinkButton>
         </ButtonGroup>
       </Container>

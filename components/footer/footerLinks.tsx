@@ -27,6 +27,24 @@ export const SOLUTIONS: FooterLinkInfo[] = [
   },
 ];
 
+export const COMMUNITY: FooterLinkInfo[] = [
+  {
+    label: "events",
+    name: "Events",
+    link: "/events",
+  },
+  {
+    link: "https://ambassador.thirdweb.com/",
+    name: "Ambassadors",
+    label: "ambassadors",
+  },
+  {
+    link: "/learn",
+    name: "thirdweb learn",
+    label: "thirdweb-learn",
+  },
+];
+
 export const RESOURCES: FooterLinkInfo[] = [
   {
     label: "about",
@@ -67,6 +85,11 @@ export const RESOURCES: FooterLinkInfo[] = [
     name: "Careers",
     label: "careers",
     link: "https://careers.thirdweb.com/",
+  },
+  {
+    name: "Press Kit",
+    label: "press-kit",
+    link: "https://ipfs.thirdwebcdn.com/ipfs/QmTWMy6Dw1PDyMxHxNcmDmPE8zqFCQMfD6m2feHVY89zgu/",
   },
 ];
 

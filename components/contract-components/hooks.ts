@@ -15,7 +15,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Polygon } from "@thirdweb-dev/chains";
+import { Polygon, ZksyncEra, ZksyncEraTestnet } from "@thirdweb-dev/chains";
 import {
   useAddress,
   useChainId,
@@ -38,11 +38,15 @@ import {
   extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
   fetchPreDeployMetadata,
+  getTrustedForwarders,
 } from "@thirdweb-dev/sdk/evm";
+import {
+  getZkTransactionsForDeploy,
+  zkDeployContractFromUri,
+} from "@thirdweb-dev/sdk/evm/zksync";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
-import { utils } from "ethers";
+import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
-import { replaceTemplateValues } from "lib/deployment/template-values";
 import { isEnsName } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
@@ -50,6 +54,7 @@ import { getAbsoluteUrl } from "lib/vercel-utils";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
+import { Web3Provider } from "zksync-web3";
 import { z } from "zod";
 
 export interface ContractPublishMetadata {
@@ -464,6 +469,7 @@ export function useCustomContractDeployMutation(
   const signer = useSigner();
   const deployContext = useDeployContextModal();
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
+  const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
 
   return useMutation(
     async (data: ContractDeployMutationParams) => {
@@ -515,21 +521,46 @@ export function useCustomContractDeployMutation(
           data.deployParams._defaultAdmin = data.address || "";
         }
 
-        if (data.deployParams?._trustedForwarders === "") {
-          data.deployParams._trustedForwarders = replaceTemplateValues(
-            "{{trusted_forwarders}}",
-            "address[]",
-            {},
+        if (
+          data.deployParams?._trustedForwarders?.length === 0 ||
+          data.deployParams?._trustedForwarders === "[]"
+        ) {
+          const trustedForwarders = await getTrustedForwarders(
+            sdk.getProvider(),
+            sdk.storage,
+            compilerMetadata.data?.name,
+          );
+
+          data.deployParams._trustedForwarders =
+            JSON.stringify(trustedForwarders);
+        }
+
+        // deploy contract
+        // Handle ZkSync deployments separately
+        const isZkSync =
+          chainId === ZksyncEraTestnet.chainId || chainId === ZksyncEra.chainId;
+        if (isZkSync) {
+          // Get metamask signer using zksync-web3 library -- for custom fields in signature
+          const zkSigner = new Web3Provider(
+            window.ethereum as unknown as providers.ExternalProvider,
+          ).getSigner();
+
+          contractAddress = await zkDeployContractFromUri(
+            ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+            Object.values(data.deployParams),
+            zkSigner,
+            StorageSingleton,
+            chainId,
+          );
+        } else {
+          contractAddress = await sdk.deployer.deployContractFromUri(
+            ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+            Object.values(data.deployParams),
+            {
+              forceDirectDeploy,
+            },
           );
         }
-        // deploy contract
-        contractAddress = await sdk.deployer.deployContractFromUri(
-          ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-          Object.values(data.deployParams),
-          {
-            forceDirectDeploy,
-          },
-        );
 
         deployContext.nextStep();
       } catch (e) {
@@ -583,6 +614,15 @@ export function useTransactionsForDeploy(publishMetadataOrUri: string) {
     ["transactions-for-deploy", publishMetadataOrUri, chainId],
     async () => {
       invariant(sdk, "sdk not provided");
+
+      // Handle separately for ZkSync
+      if (
+        chainId === ZksyncEraTestnet.chainId ||
+        chainId === ZksyncEra.chainId
+      ) {
+        return await getZkTransactionsForDeploy();
+      }
+
       return await sdk.deployer.getTransactionsForDeploy(
         publishMetadataOrUri.startsWith("ipfs://")
           ? publishMetadataOrUri

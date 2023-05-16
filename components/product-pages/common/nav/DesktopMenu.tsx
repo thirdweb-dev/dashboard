@@ -162,6 +162,13 @@ export const PRODUCTS: NavCardProps[] = [
     link: "/ui-components",
     icon: require("public/assets/product-icons/ui-components.png"),
   },
+  {
+    name: "Wallet SDK",
+    label: "wallet-sdk",
+    description: "Connect any wallet",
+    link: "/wallet-sdk",
+    icon: require("public/assets/product-icons/wallet-sdk.png"),
+  },
 ];
 
 export const SOLUTIONS: NavCardProps[] = [
@@ -230,5 +237,12 @@ export const RESOURCES: NavCardProps[] = [
     description: "Our latest news and updates",
     link: "https://blog.thirdweb.com",
     icon: require("public/assets/tw-icons/datastore.png"),
+  },
+  {
+    name: "Events",
+    label: "events",
+    description: "Our latest events",
+    link: "/events",
+    icon: require("public/assets/tw-icons/events.png"),
   },
 ];
