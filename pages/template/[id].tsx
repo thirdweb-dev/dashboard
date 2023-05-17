@@ -211,33 +211,23 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
             </TrackedLink>
             .
           </>,
+            <>
+            Compatible with all EVM chains.
+            </>,
+          
         ]}
         runningLocally={
           <div>
-            First, set your smart contract address in the{" "}
+            First, set your smart contract address and chain name in the{" "}
             <Link
-              href="https://github.com/thirdweb-example/nft-drop/blob/main/const/yourDetails.ts"
+              href="https://github.com/thirdweb-example/nft-drop/blob/main/src/consts/parameters.ts"
               isExternal
               color="blue.300"
               fontWeight="500"
             >
-              const/yourDetails.ts
+              consts/parameters.ts
             </Link>{" "}
             file.
-            <br />
-            <br />
-            <>
-              Next, set the chain that your smart contract is deployed to in the{" "}
-              <Link
-                href="https://github.com/thirdweb-example/nft-drop/blob/main/pages/_app.tsx#L7-L8"
-                isExternal
-                color="blue.300"
-                fontWeight="500"
-              >
-                pages/_app.tsx
-              </Link>{" "}
-              file.
-            </>
             <br />
             <br />
             Run the application from the command line:
@@ -256,6 +246,193 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
         }
       />
     ),
+    "marketplace-v3": (
+      <TemplateContents
+      overview={
+      <>
+      <Text
+                 fontWeight={400}
+                 fontSize={16}
+                 lineHeight={1.5}
+                 opacity={0.7}
+                 color="whiteAlpha.900"
+               >
+      Create your own NFT marketplace where users can buy and sell NFTs
+      from your NFT collection. This template provides the foundation
+      for building an NFT marketplace application.
+      </Text>
+      </>
+      }
+      featurePoints={[
+      <>
+      Built with our{" "}
+      <TrackedLink
+      fontWeight="500"
+      isExternal
+      category="templates"
+      // todo
+      label="react-sdk"
+      href="https://portal.thirdweb.com/react"
+      color="blue.300"
+      >
+      React SDK
+      </TrackedLink>
+      .
+      </>,
+      <>
+      Uses Next.js, TypeScript, and CSS Modules.
+      </>,
+      <>
+      Display all NFTs from your collection using the{" "}
+      <TrackedLink
+      fontWeight="500"
+      isExternal
+      category="templates"
+      // todo
+      label="react-sdk"
+      href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
+      color="blue.300"
+      >
+      NFT Media Renderer
+      </TrackedLink>{" "}
+      UI component.
+      </>,
+      <>Allow users to buy, sell and make offers on NFTs in your collection.
+      </>,
+      <>
+      Supports both direct listings and english auction sales.
+      </>,
+      <>
+      You control the platform fees of each sale made on the smart contract.
+      </>,
+        <>
+        Compatible with all EVM chains.
+        </>,
+      
+      ]}
+      runningLocally={
+      <div>
+      Configure your smart contract address and chain name in the{" "}
+      <Link
+                 href="https://github.com/thirdweb-example/marketplace-v3/blob/main/const/contractAddresses.ts"
+                 isExternal
+                 color="blue.300"
+                 fontWeight="500"
+               >
+      const/contractAddresses.ts
+      </Link>{" "}
+      file.
+      <br />
+      <br />
+      Run the application from the command line:
+      <CodeBlock text={"npm run dev"} />
+      This will make the application available to preview at{" "}
+      <Link
+                 href="http://localhost:3000"
+                 isExternal
+                 color="blue.300"
+                 fontWeight="500"
+               >
+      http://localhost:3000
+      </Link>
+      .
+      </div>
+      }
+      />
+      )
+      ,
+
+      "nft-gallery": (
+        <TemplateContents
+        overview={
+        <>
+        <Text
+                   fontWeight={400}
+                   fontSize={16}
+                   lineHeight={1.5}
+                   opacity={0.7}
+                   color="whiteAlpha.900"
+                 >
+        Showcase your NFT collection with a gallery application that allows users to view the metadata
+        of all NFTs in your collection.
+        </Text>
+        </>
+        }
+        featurePoints={[
+        <>
+        Built with our{" "}
+        <TrackedLink
+        fontWeight="500"
+        isExternal
+        category="templates"
+        // todo
+        label="react-sdk"
+        href="https://portal.thirdweb.com/react"
+        color="blue.300"
+        >
+        React SDK
+        </TrackedLink>
+        .
+        </>,
+        <>
+        Uses Vite, TypeScript, and Tailwind.
+        </>,
+        <>
+         Compatible with both ERC721 and ERC1155 NFT collections.
+        </>,
+        <>
+        Display all NFTs from your collection using the{" "}
+      <TrackedLink
+      fontWeight="500"
+      isExternal
+      category="templates"
+      // todo
+      label="react-sdk"
+      href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
+      color="blue.300"
+      >
+      NFT Media Renderer
+      </TrackedLink>{" "}
+      UI component.
+      </>,
+        <>
+        Search for NFTs by token ID, or paginate through all NFTs.
+        </>,
+         <>
+         Compatible with all EVM chains.
+         </>,
+       
+        ]}
+        runningLocally={
+        <div>
+        First, set your smart contract address and chain name in the{" "}
+        <Link
+                   href="https://github.com/thirdweb-example/nft-gallery/blob/main/src/consts/parameters.ts"
+                   isExternal
+                   color="blue.300"
+                   fontWeight="500"
+                 >
+        consts/parameters.ts
+        </Link>{" "}
+        file.
+        <br />
+        <br />
+        Run the application from the command line:
+        <CodeBlock text={"npm run dev"} />
+        This will make the application available to preview at{" "}
+        <Link
+                   href="http://localhost:3000"
+                   isExternal
+                   color="blue.300"
+                   fontWeight="500"
+                 >
+        http://localhost:3000
+        </Link>
+        .
+        </div>
+        }
+        />
+        )
   };
 
 type TemplatePageProps = {

@@ -58,7 +58,7 @@ export const templates: TemplateCardProps[] = [
       "View the metadata of all NFTs in your collection, where you can filter and sort by traits & properties.",
     img: "/assets/templates/nft-gallery.png",
     hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
-    tags: ["Randomized Rewards", "Lootbox Drop"],
+    tags: ["ERC721", "ERC1155"]
   },
 ];
 
