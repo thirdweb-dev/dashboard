@@ -45,7 +45,7 @@ export const TableToolTip: React.FC<CustomToolTipProps> = ({
 
       <Flex direction="column" gap={0.5}>
         {Object.entries(values).map(([key, value]) => (
-          <Text fontSize="12px" color="white">
+          <Text key={key} fontSize="12px" color="white">
             <strong>{key}: </strong>
             {value}
           </Text>
