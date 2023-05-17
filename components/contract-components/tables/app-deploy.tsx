@@ -1,4 +1,4 @@
-import { useContractMetadataWithAddress, useWeb3 } from "@3rdweb-sdk/react";
+import { useContractMetadataWithAddress } from "@3rdweb-sdk/react";
 import {
   Box,
   Flex,
@@ -11,10 +11,10 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { Chain, getChainByChainId } from "@thirdweb-dev/chains";
 import { ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
 import { SetAppUri } from "components/appuri/SetAppUri";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { useConfiguredChains } from "hooks/chains/configureChains";
 import React, { useMemo } from "react";
 import { Column, Row, useTable } from "react-table";
 import { Badge, Text } from "tw-components";
@@ -33,9 +33,6 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
   isFetching,
   onSelect,
 }) => {
-  const { getNetworkMetadata } = useWeb3();
-  const configuredChains = useConfiguredChains();
-
   const columns: Column<(typeof combinedList)[number]>[] = useMemo(
     () => [
       {
@@ -49,12 +46,12 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
         Header: "Network",
         accessor: (row) => row.chainId,
         Cell: (cell: any) => {
-          const data = getNetworkMetadata(cell.row.original.chainId);
+          const chain: Chain = getChainByChainId(cell.row.original.chainId);
           return (
             <Flex align="center" gap={2}>
-              <ChainIcon size={24} ipfsSrc={data.icon} sizes={data.iconSizes} />
-              <Text size="label.md">{data.chainName}</Text>
-              {data.isTestnet !== "unknown" && data.isTestnet && (
+              <ChainIcon size={24} ipfsSrc={chain.icon?.url} />
+              <Text size="label.md">{chain.name}</Text>
+              {chain.testnet && (
                 <Badge colorScheme="gray" textTransform="capitalize">
                   Testnet
                 </Badge>
@@ -71,8 +68,7 @@ export const AppDeployTable: ComponentWithChildren<AppDeployTableProps> = ({
         },
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [configuredChains],
+    [],
   );
 
   const defaultColumn = useMemo(

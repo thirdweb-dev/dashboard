@@ -188,12 +188,8 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                 <Flex justifyContent="space-between">
                   <Flex gap={2} flexDir="column">
                     <Heading size="subtitle.sm" as="h3" noOfLines={1}>
-                      Hosted Website
+                      Hosted App URL
                     </Heading>
-                    <Text>
-                      Your app lives at this URL, feel free to share it. If you
-                      want to CNAME it contact us on Discord.
-                    </Text>
                   </Flex>
                 </Flex>
                 <HStack>
@@ -258,6 +254,9 @@ export const AppURISetup: React.FC<AppURISetupProps> = ({
                     </TrackedIconButton>
                   </Tooltip>
                 </HStack>
+                <Text m={0} p={0}>
+                  For custom domains, contact us in Discord
+                </Text>
               </Card>
             ) : null}
 
