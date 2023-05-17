@@ -101,6 +101,69 @@ export function useLogsAnalytics(params: AnalyticsQueryParams) {
   });
 }
 
+type FunctionsQueryResponse = {
+  function_name: string;
+  cnt: string;
+  time: string;
+};
+
+type FunctionsQueryResult = {
+  time: string;
+  [key: string]: any;
+};
+
+async function getFunctionsAnalytics(
+  params: AnalyticsQueryParams,
+): Promise<FunctionsQueryResult[]> {
+  const res = await makeQuery("/functions", {
+    chainId: params.chainId,
+    contractAddress: params.contractAddress,
+    startDate: params.startDate?.toString(),
+    endDate: params.endDate?.toString(),
+    interval: params.interval,
+  });
+
+  const { results } = await res.json();
+  const callsByTime = (results as FunctionsQueryResponse[]).reduce(
+    (acc, item) => {
+      const time = new Date(item.time).getTime();
+      if (!acc[time]) {
+        acc[time] = {
+          [item.function_name]: parseInt(item.cnt),
+        };
+      } else {
+        acc[time][item.function_name] = parseInt(item.cnt);
+      }
+      return acc;
+    },
+    {} as Record<string, any>,
+  );
+
+  return Object.keys(callsByTime).map((time) => {
+    return { time: parseInt(time), ...callsByTime[time] };
+  });
+}
+
+export function useFunctionsAnalytics(params: AnalyticsQueryParams) {
+  return useQuery({
+    queryKey: [
+      "analytics",
+      "functions",
+      {
+        contractAddress: params.contractAddress,
+        chainId: params.chainId,
+        startDate: `${params.startDate?.getDate()}-${params.startDate?.getMonth()}-${params.startDate?.getFullYear()}`,
+        endDate: `${params.endDate?.getDate()}-${params.endDate?.getMonth()}-${params.endDate?.getFullYear()}`,
+      },
+    ] as const,
+    queryFn: () => {
+      return getFunctionsAnalytics(params);
+    },
+    enabled: !!params.contractAddress && !!params.chainId,
+    suspense: true,
+  });
+}
+
 type ValueQueryResult = {
   value: number;
   time: string;

@@ -1,6 +1,7 @@
 import { CustomToolTip } from "./custom-tooltip";
+import { TableToolTip } from "./table-tooltip";
 import { Box, BoxProps } from "@chakra-ui/react";
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import {
   Bar,
   BarChart as RechartsBarChart,
@@ -14,7 +15,7 @@ type GenericDataType = Record<string, string | number>;
 
 type IndexType = "date";
 
-export interface BarChartProps<
+export interface AutoBarChartProps<
   TData extends GenericDataType,
   TIndexKey extends keyof TData,
 > extends BoxProps {
@@ -25,31 +26,24 @@ export interface BarChartProps<
     type?: IndexType;
     format?: (index: TData[TIndexKey]) => string;
   };
-
-  categories: Array<{
-    id: keyof TData;
-    label?: string;
-    color?: string;
-    format?: (value: number) => string;
-  }>;
-
   showXAxis?: boolean;
   showYAxis?: boolean;
   startEndOnly?: boolean;
 }
 
-export const BarChart = <
+const BAR_COLORS = ["#3385FF", "#10B981", "#af4dd6"];
+
+export const AutoBarChart = <
   TData extends GenericDataType,
   TIndexKey extends keyof TData,
 >({
   data,
   index,
-  categories,
   showXAxis,
   showYAxis,
   startEndOnly,
   ...boxProps
-}: BarChartProps<TData, TIndexKey>) => {
+}: AutoBarChartProps<TData, TIndexKey>) => {
   const id = useId();
 
   if (!data.length) {
@@ -59,6 +53,27 @@ export const BarChart = <
   if (!index.type) {
     index.type = "date";
   }
+
+  const categories = useMemo(() => {
+    const autoKeys: string[] = [];
+    data.forEach((item) => {
+      for (const key of Object.keys(item)) {
+        if (key === index.id) {
+          continue;
+        }
+
+        if (!autoKeys.includes(key)) {
+          autoKeys.push(key);
+        }
+      }
+    });
+
+    return autoKeys.map((key, id) => ({
+      id: key,
+      label: key,
+      color: BAR_COLORS[id % BAR_COLORS.length],
+    }));
+  }, [data]);
 
   return (
     <Box {...boxProps}>
@@ -93,7 +108,7 @@ export const BarChart = <
             <Bar
               key={`${cat.id as string}`}
               dataKey={cat.id as string}
-              stackId="a"
+              stackId={`${cat.id as string}`}
               stroke={cat.color || "#3385FF"}
               fill={`url(#bar_color_${id}_${cat.id as string})`}
               strokeWidth={0}
@@ -102,15 +117,14 @@ export const BarChart = <
           <Tooltip
             wrapperStyle={{ outline: "none" }}
             content={({ active, payload }) => {
-              const payloadKey = payload?.[0]?.dataKey;
-              const category = categories.find((cat) => cat.id === payloadKey);
+              if (!active || !payload) {
+                return null;
+              }
+
+              const { time, ...data } = payload[0].payload;
+
               return (
-                <CustomToolTip
-                  active={active}
-                  payload={payload}
-                  valueLabel={category?.label || ""}
-                  valueFormatter={category?.format}
-                />
+                <TableToolTip time={payload[0]?.payload?.time} values={data} />
               );
             }}
             cursor={{
@@ -144,10 +158,8 @@ export const BarChart = <
             tickLine={false}
             axisLine={false}
             interval="preserveStartEnd"
-            minTickGap={5}
             domain={["dataMin - 86400000", "dataMax + 86400000"]}
             type="number"
-            tick={{ transform: "translate(0, 6)" }}
             ticks={
               startEndOnly
                 ? [data[0][index.id], data[data.length - 1][index.id]]
@@ -159,10 +171,7 @@ export const BarChart = <
             hide={!showYAxis}
             width={60}
             tickFormatter={(payload) => {
-              const category = categories[0];
-              return category?.format
-                ? category.format(payload)
-                : payload.toString();
+              return payload.toString();
             }}
             style={{
               fontSize: "12px",

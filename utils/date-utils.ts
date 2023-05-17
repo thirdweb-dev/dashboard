@@ -11,3 +11,7 @@ export function toDateTimeLocal(date?: Date | number) {
     ? format(date, DATE_TIME_LOCAL_FORMAT)
     : undefined;
 }
+
+export function toDateString(date: Date | string | number) {
+  return new Date(date).toISOString().split("T")[0];
+}

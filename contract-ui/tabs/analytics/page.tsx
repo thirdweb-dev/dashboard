@@ -5,10 +5,12 @@ import {
   AreaChartProps,
   GenericDataType,
 } from "components/analytics/area-chart";
+import { AutoBarChart } from "components/analytics/auto-bar-chart";
 import { BarChart } from "components/analytics/bar-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
   AnalyticsQueryParams,
+  useFunctionsAnalytics,
   useLogsAnalytics,
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
@@ -17,7 +19,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Card, Heading, Text } from "tw-components";
-import { toDateTimeLocal } from "utils/date-utils";
+import { toDateString, toDateTimeLocal } from "utils/date-utils";
 
 interface ContractAnalyticsPageProps {
   contractAddress?: string;
@@ -56,6 +58,8 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
     return <div>Loading...</div>;
   }
 
+  console.log(watch("startDate"));
+
   return (
     <Flex direction="column" gap={6}>
       {contractAddress && evmContractInfo?.chain && (
@@ -75,9 +79,9 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   <Text size="body.sm">Start Date</Text>
                   <Input
                     size="sm"
-                    type="datetime-local"
-                    max={toDateTimeLocal(watch("endDate"))}
-                    value={toDateTimeLocal(watch("startDate"))}
+                    type="date"
+                    max={toDateString(watch("endDate"))}
+                    value={toDateString(watch("startDate"))}
                     onChange={(e) =>
                       setValue("startDate", new Date(e.target.value))
                     }
@@ -87,9 +91,9 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   <Text size="body.sm">End Date</Text>
                   <Input
                     size="sm"
-                    type="datetime-local"
-                    min={toDateTimeLocal(watch("startDate"))}
-                    value={toDateTimeLocal(watch("endDate"))}
+                    type="date"
+                    min={toDateString(watch("startDate"))}
+                    value={toDateString(watch("endDate"))}
                     onChange={(e) =>
                       setValue("endDate", new Date(e.target.value))
                     }
@@ -149,6 +153,28 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Stack spacing={0}>
                 <Heading as="h3" size="subtitle.sm">
+                  Function Calls
+                </Heading>
+                <Text>
+                  The breakdown of calls to each write function from
+                  transactions.
+                </Text>
+              </Stack>
+              <ChartContainer w="full" ratio={4.5 / 1}>
+                <AnalyticsChart
+                  contractAddress={contractAddress}
+                  chainId={evmContractInfo.chain.chainId}
+                  startDate={startDate}
+                  endDate={endDate}
+                  index={"time"}
+                  categories={"auto"}
+                  useAnalytics={useFunctionsAnalytics}
+                />
+              </ChartContainer>
+            </Flex>
+            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+              <Stack spacing={0}>
+                <Heading as="h3" size="subtitle.sm">
                   Unique Wallets
                 </Heading>
                 <Text>
@@ -168,45 +194,6 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 />
               </ChartContainer>
             </Flex>
-            {/* <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-              <Heading as="h3" size="subtitle.sm">
-                Cumulative Wallets
-              </Heading>
-              <ChartContainer w="full" ratio={4.5 / 1}>
-                <AnalyticsChart
-                  contractAddress={contractAddress}
-                  chainId={evmContractInfo.chain.chainId}
-                  startDate={startDate}
-                  endDate={endDate}
-                  index={"time"}
-                  categories={[{ id: "wallets", label: "Cumulative Wallets" }]}
-                  useAnalytics={useCumulativeWalletsAnalytics}
-                />
-              </ChartContainer>
-            </Flex> */}
-            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
-              <Stack spacing={0}>
-                <Heading as="h3" size="subtitle.sm">
-                  Native Volume
-                </Heading>
-                <Text>
-                  The amount of native currency that has been sent directly
-                  through this contract.
-                </Text>
-              </Stack>
-
-              <ChartContainer w="full" ratio={4.5 / 1}>
-                <AnalyticsChart
-                  contractAddress={contractAddress}
-                  chainId={evmContractInfo.chain.chainId}
-                  startDate={startDate}
-                  endDate={endDate}
-                  index={"time"}
-                  categories={[{ id: "value", label: "Native Value" }]}
-                  useAnalytics={useValueAnalytics}
-                />
-              </ChartContainer>
-            </Flex>
           </SimpleGrid>
         </>
       )}
@@ -222,7 +209,7 @@ interface AnalyticsChartProps<
   startDate: Date;
   endDate: Date;
   index: string;
-  categories: AreaChartProps<TAnalytics, "time">["categories"];
+  categories: AreaChartProps<TAnalytics, "time">["categories"] | "auto";
   useAnalytics: (params: AnalyticsQueryParams) => UseQueryResult<TAnalytics[]>;
 }
 
@@ -249,6 +236,18 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
 
     return analyticsQuery.data;
   }, [analyticsQuery.data]);
+
+  if (categories === "auto") {
+    return (
+      <AutoBarChart
+        data={data}
+        index={{ id: index }}
+        showXAxis
+        showYAxis
+        startEndOnly
+      />
+    );
+  }
 
   return (
     <BarChart
