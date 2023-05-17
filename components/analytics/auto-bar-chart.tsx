@@ -1,4 +1,3 @@
-import { CustomToolTip } from "./custom-tooltip";
 import { TableToolTip } from "./table-tooltip";
 import { Box, BoxProps } from "@chakra-ui/react";
 import { useId, useMemo } from "react";
@@ -46,14 +45,6 @@ export const AutoBarChart = <
 }: AutoBarChartProps<TData, TIndexKey>) => {
   const id = useId();
 
-  if (!data.length) {
-    return null;
-  }
-
-  if (!index.type) {
-    index.type = "date";
-  }
-
   const categories = useMemo(() => {
     const autoKeys: string[] = [];
     data.forEach((item) => {
@@ -68,12 +59,20 @@ export const AutoBarChart = <
       }
     });
 
-    return autoKeys.map((key, id) => ({
+    return autoKeys.map((key, idx) => ({
       id: key,
       label: key,
-      color: BAR_COLORS[id % BAR_COLORS.length],
+      color: BAR_COLORS[idx % BAR_COLORS.length],
     }));
-  }, [data]);
+  }, [data, index.id]);
+
+  if (!data.length) {
+    return null;
+  }
+
+  if (!index.type) {
+    index.type = "date";
+  }
 
   return (
     <Box {...boxProps}>
@@ -121,10 +120,13 @@ export const AutoBarChart = <
                 return null;
               }
 
-              const { time, ...data } = payload[0].payload;
+              const { time, ...values } = payload[0].payload;
 
               return (
-                <TableToolTip time={payload[0]?.payload?.time} values={data} />
+                <TableToolTip
+                  time={payload[0]?.payload?.time}
+                  values={values}
+                />
               );
             }}
             cursor={{
