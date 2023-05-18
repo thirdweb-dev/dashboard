@@ -107,29 +107,21 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
             >
               A web and mobile friendly page for users to claim NFTs from a
               smart contract implementing{" "}
-              <TrackedLink
+              <Link
                 href="https://portal.thirdweb.com/solidity/extensions/erc721claimable"
                 isExternal
-                // TODO???
-                category="templates"
-                // TODO???
-                label="contractkit"
                 color="blue.300"
               >
                 ERC721Claimable
-              </TrackedLink>
+              </Link>
               , such as the{" "}
-              <TrackedLink
+              <Link
                 href="https://thirdweb.com/thirdweb.eth/DropERC721"
                 isExternal
-                // TODO???
-                category="pre-built-contract"
-                // TODO???
-                label="nft-drop"
                 color="blue.300"
               >
                 NFT Drop
-              </TrackedLink>
+              </Link>
               .
             </Text>
           </>
@@ -137,78 +129,63 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
         featurePoints={[
           <>
             Built with our{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react"
               color="blue.300"
             >
               React SDK
-            </TrackedLink>
+            </Link>
             .
           </>,
           <>Uses Vite, TypeScript, and Tailwind.</>,
           <>
             Render NFT metadata with the{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
               color="blue.300"
             >
               NFT Renderer
-            </TrackedLink>{" "}
+            </Link>{" "}
             UI Component.
           </>,
           <>
             Configure wallet options with the{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.connectwallet"
               color="blue.300"
             >
               Connect Wallet Button
-            </TrackedLink>{" "}
+            </Link>{" "}
             UI Component.
           </>,
           <>
             View{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.usemetadata"
               color="blue.300"
             >
               contract metadata
-            </TrackedLink>{" "}
+            </Link>{" "}
             such as the name, remaining & total supply, description, etc.
           </>,
           <>
             Claim NFTs from the smart contract under the criteria of{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/glossary/claim-phases"
               color="blue.300"
             >
               claim phases
-            </TrackedLink>
+            </Link>
             .
           </>,
           <>Compatible with all EVM chains.</>,
@@ -284,33 +261,27 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
         featurePoints={[
           <>
             Built with our{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react"
               color="blue.300"
             >
               React SDK
-            </TrackedLink>
+            </Link>
             .
           </>,
           <>Uses Next.js, TypeScript, and CSS Modules.</>,
           <>
             Display all NFTs from your collection using the{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
               color="blue.300"
             >
               NFT Media Renderer
-            </TrackedLink>{" "}
+            </Link>{" "}
             UI component.
           </>,
           <>
@@ -393,34 +364,28 @@ const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
         featurePoints={[
           <>
             Built with our{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react"
               color="blue.300"
             >
               React SDK
-            </TrackedLink>
+            </Link>
             .
           </>,
           <>Uses Vite, TypeScript, and Tailwind.</>,
           <>Compatible with both ERC721 and ERC1155 NFT collections.</>,
           <>
             Display all NFTs from your collection using the{" "}
-            <TrackedLink
+            <Link
               fontWeight="500"
               isExternal
-              category="templates"
-              // todo
-              label="react-sdk"
               href="https://portal.thirdweb.com/react/react.thirdwebnftmedia"
               color="blue.300"
             >
               NFT Media Renderer
-            </TrackedLink>{" "}
+            </Link>{" "}
             UI component.
           </>,
           <>Search for NFTs by token ID, or paginate through all NFTs.</>,
@@ -484,9 +449,6 @@ type TemplatePageProps = {
 };
 
 const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
-  // TODO: Bug: this flashes mobile-version first before rendering properly.
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
   const contents = templateContents[props.template.id];
 
   return (
@@ -505,34 +467,33 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
         <HomepageTopNav />
 
         <Flex
-          pt={isMobile ? 4 : 24}
+          pt={{ base: 4, md: 24 }}
           px={{ base: 4, md: 8 }}
           ml="auto"
           mr="auto"
           direction={{ base: "column", md: "row" }}
-          alignItems={{ base: "center", md: "flex-start" }}
+          alignItems={{ base: "baseline", md: "flex-start" }}
           justifyContent={{ base: "center", md: "flex-start" }}
           gap={{ base: 8, md: 0 }}
           maxWidth={1280}
           mb={16}
         >
           <Box
-            maxWidth={440}
+            maxWidth={{ base: "100%", md: 440 }}
             pr={{ base: 0, md: 8 }}
-            position={isMobile ? "static" : "sticky"}
-            top={isMobile ? "auto" : 24}
+            position={{ base: "static", md: "sticky" }}
+            top={{ base: "auto", md: 24 }}
           >
-            {isMobile && (
-              <Image
-                src={props.template.img}
-                alt={`Screenshot of ${props.template.title} template`}
-                width="100%"
-                height={{ base: "auto", md: 442 }}
-                objectFit="cover"
-                mb={12}
-                borderRadius={8}
-              />
-            )}
+            <Image
+              src={props.template.img}
+              alt={`Screenshot of ${props.template.title} template`}
+              width="100%"
+              height={{ base: "auto", md: 442 }}
+              objectFit="cover"
+              mb={12}
+              borderRadius={8}
+              display={{ base: "block", md: "none" }}
+            />
 
             <Heading as="h1" fontSize="48px" fontWeight={700}>
               {props.template.title}
@@ -660,16 +621,15 @@ const TemplatePage: ThirdwebNextPage = (props: TemplatePageProps) => {
             minHeight="75vh"
             height={"100%"}
           >
-            {!isMobile && (
-              <Image
-                src={props.template.img}
-                alt={`Screenshot of ${props.template.title} template`}
-                width="100%"
-                height={{ base: "auto", md: 442 }}
-                objectFit="cover"
-                borderRadius={8}
-              />
-            )}
+            <Image
+              src={props.template.img}
+              alt={`Screenshot of ${props.template.title} template`}
+              width="100%"
+              height={{ base: "auto", md: 442 }}
+              objectFit="cover"
+              borderRadius={8}
+              display={{ base: "none", md: "block" }}
+            />
             <Heading as="h2" fontSize="32px" fontWeight={700} mt={16}>
               Get started
             </Heading>
