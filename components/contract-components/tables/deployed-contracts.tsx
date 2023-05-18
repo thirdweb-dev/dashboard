@@ -398,7 +398,10 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
           const data =
             configuredChains[cell.row.original.chainId] ||
             chainIdToChainRecord[cell.row.original.chainId];
-          const blockExplorerUrl = data?.explorers?.[0]?.url;
+
+          const blockExplorerUrl = data?.explorers?.find(
+            (explorer) => explorer.standard === "EIP3091",
+          )?.url;
 
           return (
             <Flex align="center" gap={2}>
