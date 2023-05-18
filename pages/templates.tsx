@@ -7,6 +7,9 @@ import {
   LinkOverlay,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { HomepageFooter } from "components/footer/Footer";
+import { GetStartedSection } from "components/homepage/sections/GetStartedSection";
+import { NewsletterSection } from "components/homepage/sections/NewsletterSection";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { PageId } from "page-id";
@@ -30,7 +33,7 @@ export const templates: TemplateCardProps[] = [
   {
     id: "nft-drop",
     title: "NFT Drop",
-    homepage: "https://nft-drop.thirdweb-example.com/",
+    homepage: "https://nft-drop.thirdweb-preview.com/",
     repo: "https://github.com/thirdweb-example/nft-drop",
     description:
       "Allow users to claim tokens under the criteria of claim conditions to receive ERC721 NFT(s).",
@@ -52,7 +55,7 @@ export const templates: TemplateCardProps[] = [
   {
     id: "nft-gallery",
     title: "NFT Gallery",
-    homepage: "https://nft-gallery.thirdweb-example.com/",
+    homepage: "https://nft-gallery.thirdweb-preview.com/",
     repo: "https://github.com/thirdweb-example/nft-gallery",
     description:
       "View the metadata of all NFTs in your collection, where you can filter and sort by traits & properties.",
@@ -211,6 +214,9 @@ const Templates: ThirdwebNextPage = () => {
           </SimpleGrid>
         </HomepageSection>
       </Flex>
+      <GetStartedSection />
+      <NewsletterSection />
+      <HomepageFooter />
     </DarkMode>
   );
 };
