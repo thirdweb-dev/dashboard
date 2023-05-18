@@ -130,6 +130,9 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           constructorParams:
             prePublishMetadata.data?.latestPublishedContractMetadata
               ?.publishedMetadata?.constructorParams || {},
+          networksForDeployment: {
+            allNetworks: true,
+          },
         },
         { keepDirtyValues: true },
       );

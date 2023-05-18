@@ -1,3 +1,4 @@
+import { NetworkDropdown } from "./NetworkDropdown";
 import { Flex, FormControl, Input, Select } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
 import { Heading, Link, Text } from "tw-components";
@@ -54,12 +55,31 @@ export const FactoryFieldset = () => {
           </Heading>
         </Flex>
         <FormControl isRequired>
-          <Select>
+          <Select
+            onChange={(e) =>
+              form.setValue(
+                `networksForDeployment.allNetworks`,
+                e.target.value === "all",
+              )
+            }
+          >
             <option value="all">All networks</option>
-            <option value="mainnet">Mainnet only</option>
-            <option value="testnet">Testnets only</option>
+            <option value="specific">Specific networks</option>
           </Select>
         </FormControl>
+        {!form.watch(`networksForDeployment.allNetworks`) && (
+          <Flex flexDir="column" gap={2}>
+            <Text>Please select the networks you want to enable:</Text>
+            <NetworkDropdown
+              onChange={(networksEnabled) =>
+                form.setValue(
+                  "networksForDeployment.networksEnabled",
+                  networksEnabled,
+                )
+              }
+            />
+          </Flex>
+        )}
       </Flex>
     </Flex>
   );
