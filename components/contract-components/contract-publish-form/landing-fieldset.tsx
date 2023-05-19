@@ -22,7 +22,6 @@ import { FileInput } from "components/shared/FileInput";
 import { SelectOption } from "core-ui/batch-upload/lazy-mint-form/select-option";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { replaceIpfsUrl } from "lib/sdk";
-import { Dispatch, SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
 import { FiTrash, FiUpload } from "react-icons/fi";
 import {
@@ -36,15 +35,11 @@ import {
 } from "tw-components";
 
 interface LandingFieldsetProps {
-  contractSelection: "standard" | "factory";
-  setContractSelection: Dispatch<SetStateAction<"standard" | "factory">>;
   latestVersion: string | undefined;
   placeholderVersion: string;
 }
 
 export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
-  contractSelection,
-  setContractSelection,
   latestVersion,
   placeholderVersion,
 }) => {
@@ -333,15 +328,15 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
         <Flex flexDir="column" gap={2} width="full">
           <SelectOption
             name="Standard contract"
-            onClick={() => setContractSelection("standard")}
-            isActive={contractSelection === "standard"}
+            onClick={() => form.setValue("deployType", "standard")}
+            isActive={form.watch("deployType") === "standard"}
             infoText="Use this if your contract does not follow the factory contract pattern."
             width="full"
           />
           <SelectOption
             name="Factory contract"
-            onClick={() => setContractSelection("factory")}
-            isActive={contractSelection === "factory"}
+            onClick={() => form.setValue("deployType", "autoFactory")}
+            isActive={form.watch("deployType") === "autoFactory"}
             infoText="Use this if your contract follows the factory contract pattern. This lets you call an initializer function when users deploy your contract."
             width="full"
           />

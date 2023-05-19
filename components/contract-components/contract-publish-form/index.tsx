@@ -36,9 +36,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
 }) => {
   const configuredChains = defaultChains;
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
-  const [contractSelection, setContractSelection] = useState<
-    "standard" | "factory"
-  >("standard");
   const [fieldsetToShow, setFieldsetToShow] = useState<
     "landing" | "factory" | "contractParams"
   >("landing");
@@ -130,19 +127,17 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           constructorParams:
             prePublishMetadata.data?.latestPublishedContractMetadata
               ?.publishedMetadata?.constructorParams || {},
-          networksForDeployment: {
+          networksForDeployment: prePublishMetadata.data
+            ?.latestPublishedContractMetadata?.publishedMetadata
+            .networksForDeployment || {
             allNetworks: true,
           },
+          deployType:
+            prePublishMetadata.data?.latestPublishedContractMetadata
+              ?.publishedMetadata?.deployType || "standard",
         },
         { keepDirtyValues: true },
       );
-
-      if (
-        prePublishMetadata.data?.latestPublishedContractMetadata
-          ?.publishedMetadata.isDeployableViaFactory
-      ) {
-        setContractSelection("factory");
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -181,7 +176,9 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
 
   const deployParams =
-    contractSelection === "factory" ? initializerParams : constructorParams;
+    form.watch("deployType") === "autoFactory"
+      ? initializerParams
+      : constructorParams;
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
@@ -210,10 +207,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
             publishMutation.mutate(
               {
                 predeployUri: contractId,
-                extraMetadata: {
-                  ...data,
-                  isDeployableViaFactory: contractSelection === "factory",
-                },
+                extraMetadata: data,
                 contractName: publishMetadata.data?.name,
               },
               {
@@ -226,13 +220,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                     uris: contractId,
                     release_id: `${ensNameOrAddress}/${publishMetadata.data?.name}`,
                     version: data.version,
-                    type: data.isDeployableViaProxy
-                      ? "proxy"
-                      : data.isDeployableViaFactory
-                      ? "factory"
-                      : "standard",
-                    is_proxy: data.isDeployableViaProxy,
-                    is_factory: data.isDeployableViaFactory,
+                    type: data.deployType,
                   });
                   if (successRedirectUrl) {
                     router.push(
@@ -267,7 +255,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 variant="ghost"
                 onClick={() =>
                   fieldsetToShow === "contractParams" &&
-                  contractSelection === "factory"
+                    form.watch("deploytype") === "autoFactory"
                     ? setFieldsetToShow("factory")
                     : setFieldsetToShow("landing")
                 }
@@ -280,8 +268,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           )}
           {fieldsetToShow === "landing" && (
             <LandingFieldset
-              contractSelection={contractSelection}
-              setContractSelection={setContractSelection}
               latestVersion={latestVersion}
               placeholderVersion={placeholderVersion}
             />
@@ -308,7 +294,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                   <ConnectWallet />
                 </>
               ) : fieldsetToShow === "landing" &&
-                contractSelection === "factory" ? (
+                  form.watch("deployType") === "autoFactory" ? (
                 <>
                   <Box />
                   <Button

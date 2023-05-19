@@ -1,11 +1,7 @@
 import { CustomChainRenderer } from "./CustomChainRenderer";
 import { popularChains } from "@3rdweb-sdk/react/components/popularChains";
 import { useColorMode } from "@chakra-ui/react";
-import {
-  NetworkSelector,
-  useActiveChain,
-  useWallet,
-} from "@thirdweb-dev/react";
+import { NetworkSelector, useChain, useWallet } from "@thirdweb-dev/react";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { StoredChain } from "contexts/configured-chains";
 import { useSupportedChains } from "hooks/chains/configureChains";
@@ -22,15 +18,13 @@ export const NetworkSelectorButton: React.FC<{
   disabledChainIds?: number[];
   isDisabled?: boolean;
   onSwitchChain?: (chain: StoredChain) => void;
-}> = (props) => {
+}> = ({ disabledChainIds, isDisabled, onSwitchChain }) => {
   const [showNetworkSelector, setShowNetworkSelector] = useState(false);
   const recentlyUsedChains = useRecentlyUsedChains();
   const addRecentlyUsedChains = useAddRecentlyUsedChainId();
   const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();
   const { colorMode } = useColorMode();
   const supportedChains = useSupportedChains();
-
-  const { disabledChainIds } = props;
 
   const chains = useMemo(() => {
     if (disabledChainIds && disabledChainIds.length > 0) {
@@ -40,9 +34,8 @@ export const NetworkSelectorButton: React.FC<{
       );
     }
   }, [supportedChains, disabledChainIds]);
-  const chain = useActiveChain();
+  const chain = useChain();
   const prevChain = useRef(chain);
-  const { onSwitchChain } = props;
 
   // handle switch network done from wallet app/extension
   useEffect(() => {
@@ -63,7 +56,7 @@ export const NetworkSelectorButton: React.FC<{
   return (
     <>
       <Button
-        isDisabled={props.isDisabled || !wallet}
+        isDisabled={isDisabled || !wallet}
         display="flex"
         bg="inputBg"
         _hover={{
@@ -105,7 +98,7 @@ export const NetworkSelectorButton: React.FC<{
             setShowNetworkSelector(false);
           }}
           onSwitch={(_chain) => {
-            props.onSwitchChain?.(_chain);
+            onSwitchChain?.(_chain);
             addRecentlyUsedChains(_chain.chainId);
           }}
         />

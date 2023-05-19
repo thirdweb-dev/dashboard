@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 
 interface NetworkDropdownProps {
   useCleanChainName?: boolean;
@@ -17,6 +18,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   useCleanChainName = true,
   onChange,
 }) => {
+  const form = useFormContext();
   const supportedChains = useSupportedChains();
 
   const options = useMemo(() => {
@@ -30,15 +32,21 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
     });
   }, [supportedChains, useCleanChainName]);
 
+  const defaultValues = useMemo(() => {
+    return options.filter(({ value }) =>
+      form.watch("networksForDeployment.networksEnabled")?.includes(value),
+    );
+  }, [form, options]);
+
   return (
     <Flex gap={2} alignItems="center" w="full">
       <Select
         placeholder="Select networks"
         isMulti
-        closeMenuOnSelect={false}
         selectedOptionStyle="check"
         hideSelectedOptions={false}
         options={options}
+        defaultValue={defaultValues}
         onChange={(selectedNetworks) => {
           onChange(selectedNetworks.map(({ value }) => value));
         }}
