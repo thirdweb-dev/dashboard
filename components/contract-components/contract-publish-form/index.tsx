@@ -255,7 +255,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 variant="ghost"
                 onClick={() =>
                   fieldsetToShow === "contractParams" &&
-                    form.watch("deploytype") === "autoFactory"
+                  form.watch("deploytype") === "autoFactory"
                     ? setFieldsetToShow("factory")
                     : setFieldsetToShow("landing")
                 }
@@ -294,7 +294,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                   <ConnectWallet />
                 </>
               ) : fieldsetToShow === "landing" &&
-                  form.watch("deployType") === "autoFactory" ? (
+                form.watch("deployType") === "autoFactory" ? (
                 <>
                   <Box />
                   <Button
