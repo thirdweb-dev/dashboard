@@ -1,4 +1,11 @@
-import { Box, Flex, LinkBox, LinkOverlay, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  LinkBox,
+  LinkOverlay,
+  Stack,
+  VStack,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { Heading, Text } from "tw-components";
 
@@ -31,20 +38,30 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
         _hover={{ textDecor: "none" }}
       >
         {image ? (
-          <ChakraNextImage
-            alt={title}
-            borderTopRadius="xl"
-            boxSize="100%"
-            objectFit="cover"
-            src={image}
-          />
+          <Stack
+            align="center"
+            justify="center"
+            w="full"
+            bg="#181818"
+            h="11.5rem"
+          >
+            <ChakraNextImage
+              alt={title}
+              borderTopRadius="xl"
+              boxSize="100%"
+              objectFit="cover"
+              src={image}
+              width={90}
+              height={90}
+            />
+          </Stack>
         ) : (
           <Box
             borderTopRadius="xl"
             boxSize="100%"
             w="full"
             bg="linear-gradient(180deg, #893AA1 0%, #BFA3DA 100%)"
-            h="180px"
+            h="11.5rem"
           />
         )}
 

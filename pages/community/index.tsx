@@ -33,22 +33,21 @@ const communitySections = [
     title2: "web3 development",
     description:
       "Whether you're interested in web3 or thirdweb, our mission is to cultivate a community of like-minded individuals who share our passion for the future of decentralized technology.",
-
     cards: [
       {
-        image: "",
+        image: "/assets/community/home/learn.svg",
         link: "/learn",
         title: "thirdweb learn",
         description: "",
       },
       {
-        image: "",
+        image: "/assets/community/home/events.svg",
         link: "/events",
         title: "Events",
         description: "",
       },
       {
-        image: "",
+        image: "/assets/community/home/office-hours.svg",
         link: "https://lu.ma/0js9ms13",
         title: "Office Hours",
         description: "",
@@ -62,19 +61,19 @@ const communitySections = [
       "From hackathons to bounties, open source to community projects, there are so many ways to build no matter your level of contribution. ",
     cards: [
       {
-        image: "",
+        image: "/assets/community/home/hackathon.svg",
         link: "/events",
         title: "Hackathons",
         description: "",
       },
       {
-        image: "",
+        image: "/assets/community/home/bug-bounty.svg",
         link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706",
         title: "Bug Bounty",
         description: "",
       },
       {
-        image: "",
+        image: "/assets/community/home/oss.svg",
         link: "/open-source",
         title: "Open Source & Grants",
         description: "",
@@ -88,7 +87,7 @@ const communitySections = [
       "Explore programs to educate, host events, and showcase your achievements - together, we can take the web3 community to new heights!",
     cards: [
       {
-        image: "",
+        image: "/assets/community/home/ambassadors.svg",
         link: "https://ambassador.thirdweb.com/",
         title: "Ambassadors",
         description: "",
