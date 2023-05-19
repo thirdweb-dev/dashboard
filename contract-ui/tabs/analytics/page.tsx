@@ -10,6 +10,7 @@ import { BarChart } from "components/analytics/bar-chart";
 import { ChartContainer } from "components/analytics/chart-container";
 import {
   AnalyticsQueryParams,
+  useEventsAnalytics,
   useFunctionsAnalytics,
   useLogsAnalytics,
   useTransactionAnalytics,
@@ -109,7 +110,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Stack spacing={0}>
                 <Heading as="h3" size="subtitle.sm">
-                  Transactions
+                  Total Transactions
                 </Heading>
                 <Text>
                   The number of transactions that have been sent to this
@@ -131,7 +132,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Stack spacing={0}>
                 <Heading as="h3" size="subtitle.sm">
-                  Events
+                  Total Events
                 </Heading>
                 <Text>
                   The number of on-chain events that have been emitted from this
@@ -153,7 +154,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
               <Stack spacing={0}>
                 <Heading as="h3" size="subtitle.sm">
-                  Function Calls
+                  Function Breakdown
                 </Heading>
                 <Text>
                   The breakdown of calls to each write function from
@@ -169,6 +170,25 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   index={"time"}
                   categories={"auto"}
                   useAnalytics={useFunctionsAnalytics}
+                />
+              </ChartContainer>
+            </Flex>
+            <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
+              <Stack spacing={0}>
+                <Heading as="h3" size="subtitle.sm">
+                  Event Breakdown
+                </Heading>
+                <Text>The breakdown of events emitted by this contract.</Text>
+              </Stack>
+              <ChartContainer w="full" ratio={4.5 / 1}>
+                <AnalyticsChart
+                  contractAddress={contractAddress}
+                  chainId={evmContractInfo.chain.chainId}
+                  startDate={startDate}
+                  endDate={endDate}
+                  index={"time"}
+                  categories={"auto"}
+                  useAnalytics={useEventsAnalytics}
                 />
               </ChartContainer>
             </Flex>

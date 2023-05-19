@@ -30,7 +30,7 @@ export interface AutoBarChartProps<
   startEndOnly?: boolean;
 }
 
-const BAR_COLORS = ["#3385FF", "#10B981", "#af4dd6"];
+const BAR_COLORS = ["#3385FF"];
 
 export const AutoBarChart = <
   TData extends GenericDataType,
