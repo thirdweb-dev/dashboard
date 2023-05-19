@@ -69,9 +69,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       ?.implementationInitializerFunction || "initialize",
   );
   const isFactoryDeployment =
-    (fullPublishMetadata.data?.isDeployableViaFactory ||
+    ((fullPublishMetadata.data?.isDeployableViaFactory ||
       fullPublishMetadata.data?.isDeployableViaProxy) &&
-    !isImplementationDeploy;
+      !isImplementationDeploy) ||
+    fullPublishMetadata.data?.deployType === "autoFactory" ||
+    fullPublishMetadata.data?.deployType === "customFactory";
 
   const deployParams = isFactoryDeployment
     ? initializerParams
@@ -390,6 +392,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             onSwitchChain={(chain) => {
               onChainSelect(chain.chainId);
             }}
+            networksEnabled={
+              fullPublishMetadata.data?.networksForDeployment?.allNetworks ||
+              !fullPublishMetadata.data?.networksForDeployment
+                ? undefined
+                : fullPublishMetadata.data?.networksForDeployment
+                    ?.networksEnabled
+            }
           />
           <TransactionButton
             onChainSelect={onChainSelect}

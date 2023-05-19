@@ -14,11 +14,19 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { Button } from "tw-components";
 
-export const NetworkSelectorButton: React.FC<{
+interface NetworkSelectorButtonProps {
   disabledChainIds?: number[];
+  networksEnabled?: number[];
   isDisabled?: boolean;
   onSwitchChain?: (chain: StoredChain) => void;
-}> = ({ disabledChainIds, isDisabled, onSwitchChain }) => {
+}
+
+export const NetworkSelectorButton: React.FC<NetworkSelectorButtonProps> = ({
+  disabledChainIds,
+  networksEnabled,
+  isDisabled,
+  onSwitchChain,
+}) => {
   const [showNetworkSelector, setShowNetworkSelector] = useState(false);
   const recentlyUsedChains = useRecentlyUsedChains();
   const addRecentlyUsedChains = useAddRecentlyUsedChainId();
@@ -33,7 +41,33 @@ export const NetworkSelectorButton: React.FC<{
         (chain) => !disabledChainIdsSet.has(chain.chainId),
       );
     }
-  }, [supportedChains, disabledChainIds]);
+
+    if (networksEnabled && networksEnabled.length > 0) {
+      const networksEnabledSet = new Set(networksEnabled);
+      return supportedChains.filter((chain) =>
+        networksEnabledSet.has(chain.chainId),
+      );
+    }
+  }, [disabledChainIds, networksEnabled, supportedChains]);
+
+  const filteredRecentlyUsedChains = useMemo(() => {
+    if (recentlyUsedChains && recentlyUsedChains.length > 0) {
+      if (disabledChainIds && disabledChainIds.length > 0) {
+        const disabledChainIdsSet = new Set(disabledChainIds);
+        return recentlyUsedChains.filter(
+          (chain) => !disabledChainIdsSet.has(chain.chainId),
+        );
+      }
+
+      if (networksEnabled && networksEnabled.length > 0) {
+        const networksEnabledSet = new Set(networksEnabled);
+        return recentlyUsedChains.filter((chain) =>
+          networksEnabledSet.has(chain.chainId),
+        );
+      }
+    }
+  }, [recentlyUsedChains, disabledChainIds, networksEnabled]);
+
   const chain = useChain();
   const prevChain = useRef(chain);
 
@@ -88,12 +122,16 @@ export const NetworkSelectorButton: React.FC<{
         <NetworkSelector
           theme={colorMode}
           chains={chains}
-          recentChains={recentlyUsedChains}
-          popularChains={popularChains}
+          recentChains={filteredRecentlyUsedChains}
+          popularChains={networksEnabled ? undefined : popularChains}
           renderChain={CustomChainRenderer}
-          onCustomClick={() => {
-            setIsNetworkConfigModalOpen(true);
-          }}
+          onCustomClick={
+            networksEnabled
+              ? undefined
+              : () => {
+                  setIsNetworkConfigModalOpen(true);
+                }
+          }
           onClose={() => {
             setShowNetworkSelector(false);
           }}
