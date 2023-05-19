@@ -15,18 +15,11 @@ import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
-import {
-  THIRDWEB_DEPLOYER_ADDRESS,
-  THIRDWEB_DEPLOYER_ENS,
-} from "constants/addresses";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
-import {
-  useSupportedChain,
-  useSupportedChains,
-} from "hooks/chains/configureChains";
+import { useSupportedChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
@@ -61,9 +54,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 }) => {
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
 
-  const configuredChains = useSupportedChains();
-  const configuredChainsIds = configuredChains.map((c) => c.chainId);
-
   const networkInfo = useSupportedChain(selectedChain || -1);
   const ensQuery = useEns(walletAddress);
   const connectedWallet = ensQuery.data?.address || walletAddress;
@@ -86,22 +76,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const deployParams = isFactoryDeployment
     ? initializerParams
     : constructorParams;
-
-  // for our own contracts, we force enable all chains since the SDK has fallbacks in place to deploy everywhere
-  const shouldForceEnableAllChains =
-    fullPublishMetadata?.data?.publisher === THIRDWEB_DEPLOYER_ENS ||
-    fullPublishMetadata?.data?.publisher === THIRDWEB_DEPLOYER_ADDRESS;
-
-  const disabledChainIds = shouldForceEnableAllChains
-    ? undefined
-    : isFactoryDeployment && fullPublishMetadata.data?.factoryDeploymentData
-    ? configuredChainsIds.filter((chain) => {
-        const implementationAddress =
-          fullPublishMetadata.data?.factoryDeploymentData
-            ?.implementationAddresses?.[chain];
-        return !implementationAddress;
-      })
-    : undefined;
 
   const parseDeployParams = {
     ...deployParams.reduce((acc, param) => {
@@ -416,7 +390,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             onSwitchChain={(chain) => {
               onChainSelect(chain.chainId);
             }}
-            disabledChainIds={disabledChainIds}
           />
           <TransactionButton
             onChainSelect={onChainSelect}
@@ -425,11 +398,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             type="submit"
             form="custom-contract-form"
             isLoading={deploy.isLoading}
-            isDisabled={
-              !compilerMetadata.isSuccess ||
-              !selectedChain ||
-              !!disabledChainIds?.find((chain) => chain === selectedChain)
-            }
+            isDisabled={!compilerMetadata.isSuccess || !selectedChain}
             colorScheme="blue"
             transactionCount={
               form.watch("addToDashboard")
@@ -442,8 +411,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             Deploy Now
           </TransactionButton>
         </Flex>
-
-        {/* <ConfigureNetworkButton label="deploy-contract" /> */}
       </Flex>
     </FormProvider>
   );
