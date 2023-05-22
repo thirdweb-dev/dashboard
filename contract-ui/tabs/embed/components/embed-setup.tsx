@@ -36,8 +36,8 @@ interface EmbedSetupProps {
   ercOrMarketplace: string;
 }
 
-const IPFS_URI = "ipfs://Qmcf49DcTQZ77gN6tGkS1uroWa9AS9wpi4rw15V61BTfrM";
-const ERC721_IPFS_URI = `ipfs://QmRtKLLjdksJtcFhYd7mFx4yoAhgtfrcREAP3Dncsnzoqm`;
+const IPFS_URI = "ipfs://Qmbob2atKA3hK5ED75jquZXMj5cQ1afr69hdr8TkQZcgXn";
+const ERC721_IPFS_URI = `ipfs://QmRk9QWugbKSGkJdAEgLpxkBzKmU2w1Ku1aDRa5hGk7gc6`;
 
 interface IframeSrcOptions {
   chain: string;
