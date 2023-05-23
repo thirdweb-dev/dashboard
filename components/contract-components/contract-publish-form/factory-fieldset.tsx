@@ -1,7 +1,10 @@
 import { NetworkDropdown } from "./NetworkDropdown";
 import {
+  Box,
   Flex,
   FormControl,
+  Icon,
+  IconButton,
   Input,
   Select,
   Tab,
@@ -10,11 +13,25 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
-import { useFormContext } from "react-hook-form";
-import { Heading, Link, Text } from "tw-components";
+import { useEffect } from "react";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import { FiPlus, FiTrash } from "react-icons/fi";
+import { Button, Heading, Link, Text } from "tw-components";
 
 export const FactoryFieldset = () => {
   const form = useFormContext();
+
+  const { fields, append, remove } = useFieldArray({
+    name: "factoryDeploymentData.customFactoryInput.customFactoryAddresses",
+    control: form.control,
+  });
+
+  useEffect(() => {
+    if (fields.length === 0) {
+      append({ key: "", value: "" }, { shouldFocus: false });
+    }
+  }, [fields, append]);
+
   return (
     <Flex gap={12} direction="column" as="fieldset">
       <Flex gap={2} direction="column">
@@ -33,7 +50,10 @@ export const FactoryFieldset = () => {
             </Tab>
             <Tab
               gap={2}
-              onClick={() => form.setValue("deployType", "customFactory")}
+              onClick={() => {
+                form.setValue("deployType", "customFactory");
+                form.setValue("networksForDeployment.allNetworks", false);
+              }}
             >
               <Heading size="label.lg">Custom Factory (Advanced)</Heading>
             </Tab>
@@ -102,12 +122,15 @@ export const FactoryFieldset = () => {
                   <Flex flexDir="column" gap={2}>
                     <Text>Please select the networks you want to enable:</Text>
                     <NetworkDropdown
-                      onChange={(networksEnabled) =>
+                      onMultiChange={(networksEnabled) =>
                         form.setValue(
                           "networksForDeployment.networksEnabled",
                           networksEnabled,
                         )
                       }
+                      value={form.watch(
+                        "networksForDeployment.networksEnabled",
+                      )}
                     />
                   </Flex>
                 )}
@@ -127,6 +150,71 @@ export const FactoryFieldset = () => {
                 </Link>
                 .
               </Text>
+              <Flex flexDir="column" gap={4}>
+                {fields.map((field, index) => (
+                  <div key={field.id}>
+                    <FormControl isRequired as={Flex} gap={4}>
+                      <Box w={{ base: "full", md: "30%" }}>
+                        <Controller
+                          name={`factoryDeploymentData.customFactoryInput.customFactoryAddresses[${index}].key`}
+                          control={form.control}
+                          render={({ field: _field }) => (
+                            <NetworkDropdown
+                              {..._field}
+                              onSingleChange={(value) => {
+                                _field.onChange(value);
+                              }}
+                              value={_field.value}
+                            />
+                          )}
+                        />
+                      </Box>
+                      <Box w="full">
+                        <Input
+                          {...form.register(
+                            `factoryDeploymentData.customFactoryInput.customFactoryAddresses[${index}].value`,
+                          )}
+                          placeholder="Factory contract address"
+                        />
+                      </Box>
+                      <IconButton
+                        isDisabled={
+                          fields.length === 1 || form.formState.isSubmitting
+                        }
+                        icon={<Icon as={FiTrash} boxSize={5} />}
+                        aria-label="Remove row"
+                        onClick={() => remove(index)}
+                      />
+                    </FormControl>
+                  </div>
+                ))}
+                <Box>
+                  <Button
+                    type="button"
+                    size="sm"
+                    colorScheme="primary"
+                    borderRadius="md"
+                    leftIcon={<Icon as={FiPlus} />}
+                    onClick={() => append({ key: "", value: "" })}
+                  >
+                    Add Network
+                  </Button>
+                </Box>
+              </Flex>
+              {/*               <Flex flexDir="column" gap={4}>
+                <FormControl key={`factory-test`}>
+                  <Flex gap={4} alignItems="center">
+                    <Flex width={{ base: "150px", md: "270px" }}>
+                      <NetworkSelectorButton />
+                    </Flex>
+                    <Input
+                      {...form.register(
+                        `factoryDeploymentData.factoryAddresses.1`,
+                      )}
+                    />
+                  </Flex>
+                </FormControl>
+              </Flex> */}
               <Flex flexDir="column" gap={4}>
                 <Flex flexDir="column" gap={2}>
                   <Heading size="title.md">Factory function</Heading>

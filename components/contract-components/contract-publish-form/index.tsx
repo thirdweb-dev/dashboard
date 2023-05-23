@@ -135,6 +135,14 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           deployType:
             prePublishMetadata.data?.latestPublishedContractMetadata
               ?.publishedMetadata?.deployType || "standard",
+          customFactoryInput: {
+            factoryFunction: "deployProxyByImplementation",
+            customFactoryAddresses: Object.entries(
+              prePublishMetadata.data?.latestPublishedContractMetadata
+                ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
+                ?.customFactoryAddresses || {},
+            ).map(([key, value]) => ({ key: Number(key), value })),
+          },
         },
         { keepDirtyValues: true },
       );
@@ -198,6 +206,20 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           as="form"
           id="contract-release-form"
           onSubmit={form.handleSubmit((data) => {
+            const addressArray =
+              (data?.factoryDeploymentData?.customFactoryInput
+                ?.customFactoryAddresses as unknown as {
+                key: number;
+                value: string;
+              }[]) || [];
+            const addressObj = addressArray.reduce<Record<number, string>>(
+              (obj, item) => {
+                obj[item.key] = item.value;
+                return obj;
+              },
+              {},
+            );
+
             trackEvent({
               category: "publish",
               action: "click",
@@ -208,7 +230,31 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
             publishMutation.mutate(
               {
                 predeployUri: contractId,
-                extraMetadata: data,
+                extraMetadata: {
+                  ...data,
+                  networksForDeployment: {
+                    allNetworks: addressObj
+                      ? false
+                      : data.networksForDeployment?.allNetworks,
+                    networksEnabled:
+                      Object.keys(addressObj).map((val) => Number(val)) ||
+                      data.networksForDeployment?.networksEnabled,
+                  },
+                  factoryDeploymentData: {
+                    ...data.factoryDeploymentData,
+                    implementationAddresses:
+                      data.factoryDeploymentData?.implementationAddresses || {},
+                    customFactoryInput: {
+                      factoryFunction:
+                        data.factoryDeploymentData?.customFactoryInput
+                          ?.factoryFunction || "deployProxyByImplementation",
+                      customFactoryAddresses:
+                        addressObj ||
+                        data.factoryDeploymentData?.customFactoryInput
+                          ?.customFactoryAddresses,
+                    },
+                  },
+                },
                 contractName: publishMetadata.data?.name,
               },
               {

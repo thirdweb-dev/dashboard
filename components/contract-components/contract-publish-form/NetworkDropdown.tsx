@@ -7,7 +7,9 @@ import { useFormContext } from "react-hook-form";
 interface NetworkDropdownProps {
   useCleanChainName?: boolean;
   isDisabled?: boolean;
-  onChange: (networksEnabled: any) => void;
+  onMultiChange?: (networksEnabled: number[]) => void;
+  onSingleChange?: (networksEnabled: number) => void;
+  value: any;
 }
 
 function cleanChainName(chainName: string) {
@@ -16,7 +18,9 @@ function cleanChainName(chainName: string) {
 
 export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   useCleanChainName = true,
-  onChange,
+  onMultiChange,
+  onSingleChange,
+  value,
 }) => {
   const form = useFormContext();
   const supportedChains = useSupportedChains();
@@ -33,22 +37,36 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   }, [supportedChains, useCleanChainName]);
 
   const defaultValues = useMemo(() => {
-    return options.filter(({ value }) =>
-      form.watch("networksForDeployment.networksEnabled")?.includes(value),
+    return options.filter(({ value: val }) =>
+      form.watch("networksForDeployment.networksEnabled")?.includes(val),
     );
   }, [form, options]);
 
   return (
     <Flex gap={2} alignItems="center" w="full">
       <Select
-        placeholder="Select networks"
-        isMulti
+        placeholder={`${
+          onSingleChange ? "Select a network" : "Select Networks"
+        }`}
+        isMulti={onMultiChange !== undefined}
         selectedOptionStyle="check"
         hideSelectedOptions={false}
         options={options}
         defaultValue={defaultValues}
         onChange={(selectedNetworks) => {
-          onChange(selectedNetworks.map(({ value }) => value));
+          if (selectedNetworks) {
+            if (onMultiChange) {
+              onMultiChange(
+                (selectedNetworks as any).map(
+                  ({ value: val }: { value: string }) => val,
+                ),
+              );
+            } else if (onSingleChange) {
+              onSingleChange(
+                (selectedNetworks as { label: string; value: number }).value,
+              );
+            }
+          }
         }}
         chakraStyles={{
           container: (provided) => ({
@@ -56,6 +74,11 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             width: "full",
           }),
         }}
+        value={
+          onMultiChange
+            ? options.filter(({ value: val }) => value?.includes(val))
+            : options.find(({ value: val }) => val === value)
+        }
       />
     </Flex>
   );
