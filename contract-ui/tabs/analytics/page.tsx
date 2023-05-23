@@ -341,7 +341,7 @@ const AnalyticsStat: React.FC<AnalyticsStatProps> = ({
 }) => {
   return (
     <Suspense fallback={<AnalyticsSkeleton label={label} />}>
-      <AnalyticsStat
+      <AnalyticsData
         chainId={chainId}
         contractAddress={contractAddress}
         useTotal={useTotal}
