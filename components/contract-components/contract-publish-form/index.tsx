@@ -11,6 +11,7 @@ import { ContractId } from "../types";
 import { ContractParamsFieldset } from "./contract-params-fieldset";
 import { FactoryFieldset } from "./factory-fieldset";
 import { LandingFieldset } from "./landing-fieldset";
+import { NetworksFieldset } from "./networks-fieldset";
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { Box, Divider, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
@@ -37,7 +38,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   const configuredChains = defaultChains;
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
   const [fieldsetToShow, setFieldsetToShow] = useState<
-    "landing" | "factory" | "contractParams"
+    "landing" | "factory" | "contractParams" | "networks"
   >("landing");
   const trackEvent = useTrack();
 
@@ -328,6 +329,11 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
               <FactoryFieldset />
             </Flex>
           )}
+          {fieldsetToShow === "networks" && (
+            <Flex flexDir="column" gap={24}>
+              <NetworksFieldset fromStandard />
+            </Flex>
+          )}
           <Flex flexDir="column" gap={6}>
             <Divider />
             <Flex
@@ -342,6 +348,18 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                   <ConnectWallet />
                 </>
               ) : fieldsetToShow === "landing" &&
+                  form.watch("deployType") === "standard" ? (
+                  <>
+                    <Box />
+                    <Button
+                      onClick={() => setFieldsetToShow("networks")}
+                      colorScheme="primary"
+                      isDisabled={disableNext}
+                    >
+                      Next
+                    </Button>
+                  </>
+                ) : fieldsetToShow === "landing" &&
                 (form.watch("deployType") === "autoFactory" ||
                   form.watch("deployType") === "customFactory") ? (
                 <>

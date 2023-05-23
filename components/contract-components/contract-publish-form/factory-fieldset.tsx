@@ -1,4 +1,5 @@
 import { NetworkDropdown } from "./NetworkDropdown";
+import { NetworksFieldset } from "./networks-fieldset";
 import {
   Box,
   Flex,
@@ -6,7 +7,6 @@ import {
   Icon,
   IconButton,
   Input,
-  Select,
   Tab,
   TabList,
   TabPanel,
@@ -99,42 +99,7 @@ export const FactoryFieldset = () => {
                   />
                 </FormControl>
               </Flex>
-              <Flex flexDir="column" gap={4}>
-                <Flex flexDir="column" gap={2}>
-                  <Heading size="title.md">
-                    Networks that your contract can be deployed to
-                  </Heading>
-                </Flex>
-                <FormControl isRequired>
-                  <Select
-                    onChange={(e) =>
-                      form.setValue(
-                        `networksForDeployment.allNetworks`,
-                        e.target.value === "all",
-                      )
-                    }
-                  >
-                    <option value="all">All networks</option>
-                    <option value="specific">Specific networks</option>
-                  </Select>
-                </FormControl>
-                {!form.watch(`networksForDeployment.allNetworks`) && (
-                  <Flex flexDir="column" gap={2}>
-                    <Text>Please select the networks you want to enable:</Text>
-                    <NetworkDropdown
-                      onMultiChange={(networksEnabled) =>
-                        form.setValue(
-                          "networksForDeployment.networksEnabled",
-                          networksEnabled,
-                        )
-                      }
-                      value={form.watch(
-                        "networksForDeployment.networksEnabled",
-                      )}
-                    />
-                  </Flex>
-                )}
-              </Flex>
+              <NetworksFieldset />
             </TabPanel>
             <TabPanel px={0} pb={0} as={Flex} flexDir="column" gap={12}>
               <Text fontStyle="normal">
@@ -201,20 +166,6 @@ export const FactoryFieldset = () => {
                   </Button>
                 </Box>
               </Flex>
-              {/*               <Flex flexDir="column" gap={4}>
-                <FormControl key={`factory-test`}>
-                  <Flex gap={4} alignItems="center">
-                    <Flex width={{ base: "150px", md: "270px" }}>
-                      <NetworkSelectorButton />
-                    </Flex>
-                    <Input
-                      {...form.register(
-                        `factoryDeploymentData.factoryAddresses.1`,
-                      )}
-                    />
-                  </Flex>
-                </FormControl>
-              </Flex> */}
               <Flex flexDir="column" gap={4}>
                 <Flex flexDir="column" gap={2}>
                   <Heading size="title.md">Factory function</Heading>
