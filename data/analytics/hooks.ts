@@ -63,6 +63,43 @@ export function useTransactionAnalytics(params: AnalyticsQueryParams) {
   });
 }
 
+export type TotalQueryResult = {
+  count: number;
+};
+
+async function getTotalTransactionAnalytics(
+  params: AnalyticsQueryParams,
+): Promise<TotalQueryResult> {
+  const res = await makeQuery("/transactions/total", {
+    chainId: params.chainId,
+    contractAddress: params.contractAddress,
+  });
+
+  const { results } = await res.json();
+  return {
+    count: parseInt(results[0].cnt),
+  };
+}
+
+export function useTotalTransactionAnalytics(params: AnalyticsQueryParams) {
+  return useQuery({
+    queryKey: [
+      "analytics",
+      "total-transactions",
+      {
+        contractAddress: params.contractAddress,
+        chainId: params.chainId,
+        startDate: `${new Date().toISOString().split("T")[0]}`,
+      },
+    ] as const,
+    queryFn: () => {
+      return getTotalTransactionAnalytics(params);
+    },
+    enabled: !!params.contractAddress && !!params.chainId,
+    suspense: true,
+  });
+}
+
 async function getLogsAnalytics(
   params: AnalyticsQueryParams,
 ): Promise<TransactionQueryResult[]> {
@@ -95,6 +132,39 @@ export function useLogsAnalytics(params: AnalyticsQueryParams) {
     ] as const,
     queryFn: () => {
       return getLogsAnalytics(params);
+    },
+    enabled: !!params.contractAddress && !!params.chainId,
+    suspense: true,
+  });
+}
+
+async function getTotalLogsAnalytics(
+  params: AnalyticsQueryParams,
+): Promise<TotalQueryResult> {
+  const res = await makeQuery("/logs/total", {
+    chainId: params.chainId,
+    contractAddress: params.contractAddress,
+  });
+
+  const { results } = await res.json();
+  return {
+    count: parseInt(results[0].cnt),
+  };
+}
+
+export function useTotalLogsAnalytics(params: AnalyticsQueryParams) {
+  return useQuery({
+    queryKey: [
+      "analytics",
+      "total-logs",
+      {
+        contractAddress: params.contractAddress,
+        chainId: params.chainId,
+        startDate: new Date().toISOString().split("T")[0],
+      },
+    ] as const,
+    queryFn: () => {
+      return getTotalLogsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
     suspense: true,
@@ -342,6 +412,39 @@ export function useCumulativeWalletsAnalytics(params: AnalyticsQueryParams) {
     ] as const,
     queryFn: () => {
       return getCumulativeWalletsAnalytics(params);
+    },
+    enabled: !!params.contractAddress && !!params.chainId,
+    suspense: true,
+  });
+}
+
+async function getTotalWalletsAnalytics(
+  params: AnalyticsQueryParams,
+): Promise<TotalQueryResult> {
+  const res = await makeQuery("/wallets/total", {
+    chainId: params.chainId,
+    contractAddress: params.contractAddress,
+  });
+
+  const { results } = await res.json();
+  return {
+    count: parseInt(results[0].cnt),
+  };
+}
+
+export function useTotalWalletsAnalytics(params: AnalyticsQueryParams) {
+  return useQuery({
+    queryKey: [
+      "analytics",
+      "total-wallets",
+      {
+        contractAddress: params.contractAddress,
+        chainId: params.chainId,
+        startDate: new Date().toISOString().split("T")[0],
+      },
+    ] as const,
+    queryFn: () => {
+      return getTotalWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
     suspense: true,
