@@ -80,7 +80,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
     <Flex direction="column" gap={6}>
       {contractAddress && evmContractInfo?.chain && (
         <>
-          <Flex gap={12} direction="column">
+          <Flex gap={10} direction="column">
             <Flex direction="column" gap={2}>
               <Alert status="info" borderRadius="md" mb={4}>
                 <AlertIcon />
