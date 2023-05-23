@@ -4,7 +4,6 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
-  Box,
   Flex,
   Input,
   SimpleGrid,
@@ -34,7 +33,7 @@ import {
   useTransactionAnalytics,
   useUniqueWalletsAnalytics,
 } from "data/analytics/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Card, Heading, Text } from "tw-components";
 import { toDateString } from "utils/date-utils";
@@ -99,12 +98,12 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   useTotal={useTotalWalletsAnalytics}
                   label="Unique Wallets"
                 />
-                <AnalyticsStat
+                {/* <AnalyticsStat
                   chainId={evmContractInfo.chain.chainId}
                   contractAddress={contractAddress}
                   useTotal={useTotalTransactionAnalytics}
                   label="Total Transactions"
-                />
+                /> */}
                 <AnalyticsStat
                   chainId={evmContractInfo.chain.chainId}
                   contractAddress={contractAddress}
@@ -344,11 +343,19 @@ const AnalyticsStat: React.FC<AnalyticsStatProps> = ({
     chainId,
   });
 
+  const data = useMemo(() => {
+    if (!totalQuery.data) {
+      return 0;
+    }
+
+    return totalQuery.data.count;
+  }, [totalQuery.data]);
+
   return (
     <Card as={Stat}>
       <StatLabel mb={{ base: 1, md: 0 }}>{label}</StatLabel>
-      <Skeleton isLoaded={true}>
-        <StatNumber>{totalQuery.data?.count || 0}</StatNumber>
+      <Skeleton isLoaded={totalQuery.isFetched}>
+        <StatNumber>{data}</StatNumber>
       </Skeleton>
     </Card>
   );
