@@ -162,7 +162,7 @@ export const BarChart = <
               const category = categories[0];
               return category?.format
                 ? category.format(payload)
-                : payload.toString();
+                : payload.toLocaleString();
             }}
             style={{
               fontSize: "12px",

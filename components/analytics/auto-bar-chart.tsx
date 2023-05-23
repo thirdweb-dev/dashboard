@@ -30,7 +30,34 @@ export interface AutoBarChartProps<
   startEndOnly?: boolean;
 }
 
-const BAR_COLORS = ["#3385FF"];
+const BAR_COLORS = [
+  // brick red
+  "#D62728",
+  // safety orange
+  "#FF7F0E",
+  // light yellow
+  "#DBDB8D",
+  // cooked asparagus green
+  "#2CA02C",
+  // slime green
+  "#BCBD22",
+  // muted blue
+  "#1F77B4",
+  // blue-teal
+  "#17BECF",
+  // muted purple
+  "#9467BD",
+  // light pink
+  "#F7B6D2",
+  // raspberry yogurt pink
+  "#E377C2",
+  // chestnut brown
+  "#8C564B",
+  // silver
+  "#C7C7C7",
+  // middle gray
+  "#7F7F7F",
+];
 
 export const AutoBarChart = <
   TData extends GenericDataType,
@@ -66,12 +93,18 @@ export const AutoBarChart = <
     }));
   }, [data, index.id]);
 
-  if (!data.length) {
-    return null;
-  }
-
   if (!index.type) {
     index.type = "date";
+  }
+
+  const sortedData = useMemo(() => {
+    return [...data].sort(
+      (a, b) => (a[index.id] as number) - (b[index.id] as number),
+    );
+  }, [data, index]);
+
+  if (!data.length) {
+    return null;
   }
 
   return (
@@ -107,7 +140,7 @@ export const AutoBarChart = <
             <Bar
               key={`${cat.id as string}`}
               dataKey={cat.id as string}
-              stackId={`${cat.id as string}`}
+              stackId="a"
               stroke={cat.color || "#3385FF"}
               fill={`url(#bar_color_${id}_${cat.id as string})`}
               strokeWidth={0}
@@ -160,11 +193,16 @@ export const AutoBarChart = <
             tickLine={false}
             axisLine={false}
             interval="preserveStartEnd"
+            minTickGap={5}
             domain={["dataMin - 86400000", "dataMax + 86400000"]}
             type="number"
+            tick={{ transform: "translate(0, 6)" }}
             ticks={
               startEndOnly
-                ? [data[0][index.id], data[data.length - 1][index.id]]
+                ? [
+                    sortedData[0][index.id],
+                    sortedData[data.length - 1][index.id],
+                  ]
                 : undefined
             }
           />
@@ -173,7 +211,7 @@ export const AutoBarChart = <
             hide={!showYAxis}
             width={60}
             tickFormatter={(payload) => {
-              return payload.toString();
+              return payload.toLocaleString();
             }}
             style={{
               fontSize: "12px",

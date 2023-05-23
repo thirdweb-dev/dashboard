@@ -395,7 +395,7 @@ const AnalyticsData: React.FC<AnalyticsStatProps> = ({
     <Card as={Stat}>
       <StatLabel mb={{ base: 1, md: 0 }}>{label}</StatLabel>
       <Skeleton isLoaded={totalQuery.isFetched}>
-        <StatNumber>{data}</StatNumber>
+        <StatNumber>{data.toLocaleString()}</StatNumber>
       </Skeleton>
     </Card>
   );
