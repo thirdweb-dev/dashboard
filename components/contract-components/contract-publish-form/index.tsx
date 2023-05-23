@@ -348,18 +348,18 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                   <ConnectWallet />
                 </>
               ) : fieldsetToShow === "landing" &&
-                  form.watch("deployType") === "standard" ? (
-                  <>
-                    <Box />
-                    <Button
-                      onClick={() => setFieldsetToShow("networks")}
-                      colorScheme="primary"
-                      isDisabled={disableNext}
-                    >
-                      Next
-                    </Button>
-                  </>
-                ) : fieldsetToShow === "landing" &&
+                form.watch("deployType") === "standard" ? (
+                <>
+                  <Box />
+                  <Button
+                    onClick={() => setFieldsetToShow("networks")}
+                    colorScheme="primary"
+                    isDisabled={disableNext}
+                  >
+                    Next
+                  </Button>
+                </>
+              ) : fieldsetToShow === "landing" &&
                 (form.watch("deployType") === "autoFactory" ||
                   form.watch("deployType") === "customFactory") ? (
                 <>
