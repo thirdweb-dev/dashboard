@@ -302,6 +302,17 @@ const AnalyticsChart: React.FC<AnalyticsChartProps> = ({
     return analyticsQuery.data;
   }, [analyticsQuery.data]);
 
+  if (data.length <= 1) {
+    return (
+      <Alert status="info" borderRadius="md" mb={4}>
+        <AlertIcon />
+        <AlertDescription>
+          Data for this chart is unavailable for this contract
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
   if (categories === "auto") {
     return (
       <AutoBarChart
