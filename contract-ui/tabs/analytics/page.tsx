@@ -91,26 +91,26 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               <Heading as="h2" size="title.md">
                 Analytics
               </Heading>
-              <Flex gap={4}>
+              {/* <Flex gap={4}>
                 <AnalyticsStat
                   chainId={evmContractInfo.chain.chainId}
                   contractAddress={contractAddress}
                   useTotal={useTotalWalletsAnalytics}
                   label="Unique Wallets"
                 />
-                {/* <AnalyticsStat
+                <AnalyticsStat
                   chainId={evmContractInfo.chain.chainId}
                   contractAddress={contractAddress}
                   useTotal={useTotalTransactionAnalytics}
                   label="Total Transactions"
-                /> */}
+                />
                 <AnalyticsStat
                   chainId={evmContractInfo.chain.chainId}
                   contractAddress={contractAddress}
                   useTotal={useTotalLogsAnalytics}
                   label="Total Events"
                 />
-              </Flex>
+              </Flex> */}
             </Flex>
             <form
               onSubmit={handleSubmit((data) => {

@@ -89,7 +89,7 @@ export function useTotalTransactionAnalytics(params: AnalyticsQueryParams) {
       {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
-        startDate: `${new Date().toISOString().split("T")[0]}`,
+        currentDate: new Date().toISOString().split("T")[0],
       },
     ] as const,
     queryFn: () => {
@@ -160,7 +160,7 @@ export function useTotalLogsAnalytics(params: AnalyticsQueryParams) {
       {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
-        startDate: new Date().toISOString().split("T")[0],
+        currentDate: new Date().toISOString().split("T")[0],
       },
     ] as const,
     queryFn: () => {
@@ -440,7 +440,7 @@ export function useTotalWalletsAnalytics(params: AnalyticsQueryParams) {
       {
         contractAddress: params.contractAddress,
         chainId: params.chainId,
-        startDate: new Date().toISOString().split("T")[0],
+        currentDate: new Date().toISOString().split("T")[0],
       },
     ] as const,
     queryFn: () => {
