@@ -137,6 +137,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                     size="sm"
                     type="date"
                     min={toDateString(watch("startDate"))}
+                    max={toDateString(new Date())}
                     value={toDateString(watch("endDate"))}
                     onChange={(e) =>
                       setValue("endDate", new Date(e.target.value))
