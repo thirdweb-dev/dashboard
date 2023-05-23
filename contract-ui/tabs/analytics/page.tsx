@@ -8,6 +8,7 @@ import {
   Input,
   SimpleGrid,
   Skeleton,
+  Spinner,
   Stack,
   Stat,
   StatLabel,
@@ -78,12 +79,12 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       {contractAddress && evmContractInfo?.chain && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <>
           <Flex gap={12} direction="column">
             <Flex direction="column" gap={2}>
               <Alert status="info" borderRadius="md" mb={4}>
                 <AlertIcon />
-                <AlertTitle>Analytics is in beta</AlertTitle>
+                <AlertTitle>Analytics is in beta.</AlertTitle>
                 <AlertDescription>
                   Some data may be partially inaccurate or incomplete.
                 </AlertDescription>
@@ -259,7 +260,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </ChartContainer>
             </Flex>
           </SimpleGrid>
-        </Suspense>
+        </>
       )}
     </Flex>
   );
@@ -333,6 +334,35 @@ interface AnalyticsStatProps {
 }
 
 const AnalyticsStat: React.FC<AnalyticsStatProps> = ({
+  label,
+  chainId,
+  contractAddress,
+  useTotal,
+}) => {
+  return (
+    <Suspense fallback={<AnalyticsSkeleton label={label} />}>
+      <AnalyticsStat
+        chainId={chainId}
+        contractAddress={contractAddress}
+        useTotal={useTotal}
+        label={label}
+      />
+    </Suspense>
+  );
+};
+
+const AnalyticsSkeleton: React.FC<{ label: string }> = ({ label }) => {
+  return (
+    <Card as={Stat}>
+      <StatLabel mb={{ base: 1, md: 0 }}>{label}</StatLabel>
+      <Skeleton isLoaded={false}>
+        <StatNumber>{0}</StatNumber>
+      </Skeleton>
+    </Card>
+  );
+};
+
+const AnalyticsData: React.FC<AnalyticsStatProps> = ({
   label,
   chainId,
   contractAddress,
