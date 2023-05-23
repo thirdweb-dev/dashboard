@@ -78,7 +78,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       {contractAddress && evmContractInfo?.chain && (
-        <>
+        <Suspense fallback={<div>Loading...</div>}>
           <Flex gap={12} direction="column">
             <Flex direction="column" gap={2}>
               <Alert status="info" borderRadius="md" mb={4}>
@@ -91,7 +91,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               <Heading as="h2" size="title.md">
                 Analytics
               </Heading>
-              {/* <Flex gap={4}>
+              <Flex gap={4}>
                 <AnalyticsStat
                   chainId={evmContractInfo.chain.chainId}
                   contractAddress={contractAddress}
@@ -110,7 +110,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                   useTotal={useTotalLogsAnalytics}
                   label="Total Events"
                 />
-              </Flex> */}
+              </Flex>
             </Flex>
             <form
               onSubmit={handleSubmit((data) => {
@@ -259,7 +259,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
               </ChartContainer>
             </Flex>
           </SimpleGrid>
-        </>
+        </Suspense>
       )}
     </Flex>
   );
