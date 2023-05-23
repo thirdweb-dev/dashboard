@@ -112,7 +112,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                 />
               </Flex>
             </Flex>
-            <form
+            {/* <form
               onSubmit={handleSubmit((data) => {
                 setStartDate(data.startDate);
                 setEndDate(data.endDate);
@@ -129,6 +129,7 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                     onChange={(e) =>
                       setValue("startDate", new Date(e.target.value))
                     }
+                    isDisabled
                   />
                 </Flex>
                 <Flex flexDirection="column" gap={1}>
@@ -142,13 +143,14 @@ export const ContractAnalyticsPage: React.FC<ContractAnalyticsPageProps> = ({
                     onChange={(e) =>
                       setValue("endDate", new Date(e.target.value))
                     }
+                    isDisabled
                   />
                 </Flex>
                 <Button alignSelf="flex-end" type="submit" size="sm">
                   Apply
                 </Button>
               </Flex>
-            </form>
+            </form> */}
           </Flex>
           <SimpleGrid columns={{ base: 1, md: 1 }} gap={4}>
             <Flex flexDir="column" gap={4} as={Card} bg="backgroundHighlight">
