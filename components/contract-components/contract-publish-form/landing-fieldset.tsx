@@ -336,7 +336,10 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
           <SelectOption
             name="Factory contract"
             onClick={() => form.setValue("deployType", "autoFactory")}
-            isActive={form.watch("deployType") === "autoFactory"}
+            isActive={
+              form.watch("deployType") === "autoFactory" ||
+              form.watch("deployType") === "customFactory"
+            }
             infoText="Use this if your contract follows the factory contract pattern. This lets you call an initializer function when users deploy your contract."
             width="full"
           />

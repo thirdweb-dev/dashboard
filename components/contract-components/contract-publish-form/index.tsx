@@ -176,7 +176,8 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
 
   const deployParams =
-    form.watch("deployType") === "autoFactory"
+    form.watch("deployType") === "autoFactory" ||
+    form.watch("deployType") === "customFactory"
       ? initializerParams
       : constructorParams;
 
@@ -255,7 +256,8 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 variant="ghost"
                 onClick={() =>
                   fieldsetToShow === "contractParams" &&
-                  form.watch("deploytype") === "autoFactory"
+                  (form.watch("deployType") === "autoFactory" ||
+                    form.watch("deployType") === "customFactory")
                     ? setFieldsetToShow("factory")
                     : setFieldsetToShow("landing")
                 }
@@ -294,7 +296,8 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                   <ConnectWallet />
                 </>
               ) : fieldsetToShow === "landing" &&
-                form.watch("deployType") === "autoFactory" ? (
+                (form.watch("deployType") === "autoFactory" ||
+                  form.watch("deployType") === "customFactory") ? (
                 <>
                   <Box />
                   <Button
