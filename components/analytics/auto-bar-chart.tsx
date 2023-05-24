@@ -168,7 +168,7 @@ export const AutoBarChart = <
               );
             }}
             cursor={
-              !hoverKey
+              !hoverKey || categories.length <= 1
                 ? {
                     stroke: "#EAEAEA",
                     fill: "#EAEAEA",
