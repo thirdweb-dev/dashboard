@@ -46,7 +46,7 @@ export const PrivacyNotice: React.FC = () => {
 
   return (
     <Modal
-      size={isMobile ? "full" : "xl"}
+      size={isMobile ? "full" : "lg"}
       closeOnEsc={false}
       allowPinchZoom
       closeOnOverlayClick={false}
