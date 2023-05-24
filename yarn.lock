@@ -4328,6 +4328,11 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.18.tgz#deb081e33b91d402f2e86a72528a9f9803877fce"
   integrity sha512-SoWWDugdYNWl7bKMtw/OtO9IN461G+GktzOSWmpsI49wz2GBMdGLR1QznyR3oswoOngUeM8+vOyqlP7zC/fWLA==
 
+"@thirdweb-dev/chains@0.1.19-nightly-d24a6146-20230524231418":
+  version "0.1.19-nightly-d24a6146-20230524231418"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.19-nightly-d24a6146-20230524231418.tgz#2652544977128d9d44e74b2c04921083b0b46bca"
+  integrity sha512-QxkkoMNCovruy6JS+U6oTf3H9yM0d1gSqqoAWp28KnazFnVfWvez8pv4BRQJ2C7ZgoJLF9VdL1mrjjvOfTdP0Q==
+
 "@thirdweb-dev/chains@0.1.19-nightly-f7b352a5-20230524180550":
   version "0.1.19-nightly-f7b352a5-20230524180550"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.19-nightly-f7b352a5-20230524180550.tgz#441a8e602657ff5c78a301055c6f3e946a97555b"
@@ -4391,12 +4396,12 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@3.10.17":
-  version "3.10.17"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.17.tgz#9176c8dea83d45aca79241d62603f784ddc5eddf"
-  integrity sha512-DRWl+SJ7x918zhvsngFGLR3Eg+jZI0FPlntyIy55VDT4LHmb0Ix1zaO0eT/5yfKu8ZPsSZOKd2ArLopncRpJnA==
+"@thirdweb-dev/sdk@3.10.17", "@thirdweb-dev/sdk@3.10.18-nightly-d24a6146-20230524231418", "@thirdweb-dev/sdk@3.10.18-nightly-f7b352a5-20230524180550":
+  version "3.10.18-nightly-d24a6146-20230524231418"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.18-nightly-d24a6146-20230524231418.tgz#3129e1e5df16b80a0bf2a8c8587b0a49bfdabf34"
+  integrity sha512-xe/bj0p5q22QDALqmI6MS4KXyV4dBpJazAOXqGU+tBTTMu0ovKMjJNeJFzJXJJQyME6NIkAIxHkOqKmd/Owkyw==
   dependencies:
-    "@thirdweb-dev/chains" "0.1.18"
+    "@thirdweb-dev/chains" "0.1.19-nightly-d24a6146-20230524231418"
     "@thirdweb-dev/contracts-js" "1.3.4"
     "@thirdweb-dev/generated-abis" "0.0.1"
     "@thirdweb-dev/storage" "1.1.3"
@@ -4414,7 +4419,7 @@
     yaml "^2.1.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/sdk@3.10.18-nightly-f7b352a5-20230524180550", "@thirdweb-dev/sdk@^3.10.18-nightly-d24a6146-20230524231418":
+"@thirdweb-dev/sdk@^3.10.18-nightly-d24a6146-20230524231418":
   version "3.10.18-nightly-f7b352a5-20230524180550"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.18-nightly-f7b352a5-20230524180550.tgz#17f78e4494097e52302a61f12cd6eefbba2cb7de"
   integrity sha512-nzx4QobmQX2jmrOZ8wi1z6lfYUvYA3kOzicUXnxtBCF6dN6ZWxzmoPLDfuRQSweO2GkfCjF0c1E9mJWnnvujZg==
