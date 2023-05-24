@@ -316,7 +316,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
       </Box>
       <Box>
         <Heading size="title.md" mb={2}>
-          Choose your contract type
+          Choose your contract deployment
         </Heading>
         <Text size="body.md" mb={4}>
           Not sure which contract type to choose?{" "}
@@ -327,14 +327,14 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
         </Text>
         <Flex flexDir="column" gap={2} width="full">
           <SelectOption
-            name="Standard contract"
+            name="Standard deployment"
             onClick={() => form.setValue("deployType", "standard")}
             isActive={form.watch("deployType") === "standard"}
-            infoText="Use this if your contract does not follow the factory contract pattern."
+            infoText="Use this for contracts meant to be deployed directly."
             width="full"
           />
           <SelectOption
-            name="Factory contract"
+            name="Factory deployment"
             onClick={() => form.setValue("deployType", "autoFactory")}
             isActive={
               form.watch("deployType") === "autoFactory" ||
