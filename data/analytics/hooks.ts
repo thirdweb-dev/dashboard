@@ -15,7 +15,7 @@ async function makeQuery(
   query: Record<string, string | number | undefined>,
 ) {
   const queryString = `?${Object.entries(query)
-    .filter(([_, value]) => !!value)
+    .filter(([, value]) => !!value)
     .map(([key, value]) => `${key}=${value}`)
     .join(`&`)}`;
   return fetch(`${THIRDWEB_ANALYTICS_API_HOSTNAME}${path}${queryString}`, {
