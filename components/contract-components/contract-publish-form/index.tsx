@@ -178,17 +178,26 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   const constructorParams = useConstructorParamsFromABI(
     publishMetadata.data?.abi,
   );
+
   const initializerParams = useFunctionParamsFromABI(
     publishMetadata.data?.abi,
-    fullPublishMetadata.data?.factoryDeploymentData
-      ?.implementationInitializerFunction || "initialize",
+    form.watch("deployType") === "customFactory"
+      ? form.watch(
+          `factoryDeploymentData.customFactoryInput.factoryFunction`,
+        ) ||
+          fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
+            ?.factoryFunction ||
+          "deployProxyByImplementation"
+      : form.watch("factoryDeploymentData.implementationInitializerFunction") ||
+          fullPublishMetadata.data?.factoryDeploymentData
+            ?.implementationInitializerFunction ||
+          "initialize",
   );
 
   const deployParams =
-    form.watch("deployType") === "autoFactory" ||
-    form.watch("deployType") === "customFactory"
-      ? initializerParams
-      : constructorParams;
+    form.watch("deployType") === "standard"
+      ? constructorParams
+      : initializerParams;
 
   // during loading and after success we should stay in loading state
   const isLoading = publishMutation.isLoading || publishMutation.isSuccess;
@@ -327,7 +336,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           )}
           {fieldsetToShow === "factory" && (
             <Flex flexDir="column" gap={24}>
-              <FactoryFieldset />
+              <FactoryFieldset abi={publishMetadata.data?.abi || []} />
             </Flex>
           )}
           {fieldsetToShow === "networks" && (

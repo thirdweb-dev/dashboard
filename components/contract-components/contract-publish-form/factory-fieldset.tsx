@@ -1,4 +1,5 @@
 import { NetworkDropdown } from "./NetworkDropdown";
+import { AbiSelector } from "./abi-selector";
 import { NetworksFieldset } from "./networks-fieldset";
 import {
   Box,
@@ -13,12 +14,17 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { Abi } from "@thirdweb-dev/sdk";
 import { useEffect } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { Button, Heading, Link, Text } from "tw-components";
 
-export const FactoryFieldset = () => {
+interface FactoryFieldsetProps {
+  abi: Abi;
+}
+
+export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
   const form = useFormContext();
 
   const { fields, append, remove } = useFieldArray({
@@ -81,13 +87,38 @@ export const FactoryFieldset = () => {
                   </Text>
                 </Flex>
                 <FormControl isRequired>
-                  {/** TODO this should be a selector of ABI functions **/}
-                  <Input
-                    value={
-                      form.watch(
+                  <AbiSelector
+                    defaultValue="initialize"
+                    abi={abi}
+                    value={form.watch(
+                      `factoryDeploymentData.implementationInitializerFunction`,
+                    )}
+                    onChange={(selectedFn) =>
+                      form.setValue(
                         `factoryDeploymentData.implementationInitializerFunction`,
-                      )?.name
+                        selectedFn,
+                      )
                     }
+                  />
+                  {/*                   <Controller
+                    name={`factoryDeploymentData.implementationInitializerFunction`}
+                    control={form.control}
+                    render={({ field: _field }) => (
+                      <AbiSelector
+                        {..._field}
+                        defaultValue="initialize"
+                        abi={abi}
+                        value={_field.value}
+                        onChange={(value) => {
+                          _field.onChange(value);
+                        }}
+                      />
+                    )}
+                  /> */}
+                  {/*                   <Input
+                    value={form.watch(
+                      `factoryDeploymentData.implementationInitializerFunction`,
+                    )}
                     onChange={(e) =>
                       form.setValue(
                         `factoryDeploymentData.implementationInitializerFunction`,
@@ -96,7 +127,7 @@ export const FactoryFieldset = () => {
                     }
                     placeholder="Function name to invoke"
                     defaultValue="initialize"
-                  />
+                  /> */}
                 </FormControl>
               </Flex>
               <NetworksFieldset />
@@ -174,21 +205,18 @@ export const FactoryFieldset = () => {
                   </Text>
                 </Flex>
                 <FormControl isRequired>
-                  {/** TODO this should be a selector of ABI functions **/}
-                  <Input
-                    value={
-                      form.watch(
-                        `factoryDeploymentData.customFactoryInput.factoryFunction`,
-                      )?.name
-                    }
-                    onChange={(e) =>
+                  <AbiSelector
+                    defaultValue="deployProxyByImplementation"
+                    abi={abi}
+                    value={form.watch(
+                      `factoryDeploymentData.customFactoryInput.factoryFunction`,
+                    )}
+                    onChange={(selectedFn) =>
                       form.setValue(
                         `factoryDeploymentData.customFactoryInput.factoryFunction`,
-                        e.target.value,
+                        selectedFn,
                       )
                     }
-                    placeholder="Function name to invoke"
-                    defaultValue="deployProxyByImplementation"
                   />
                 </FormControl>
               </Flex>
