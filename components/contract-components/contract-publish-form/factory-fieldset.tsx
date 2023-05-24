@@ -33,10 +33,10 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
   });
 
   useEffect(() => {
-    if (fields.length === 0) {
+    if (fields.length === 0 && form.watch("deployType") === "customFactory") {
       append({ key: "", value: "" }, { shouldFocus: false });
     }
-  }, [fields, append]);
+  }, [fields, append, form]);
 
   return (
     <Flex gap={12} direction="column" as="fieldset">
