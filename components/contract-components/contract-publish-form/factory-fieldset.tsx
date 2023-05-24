@@ -167,6 +167,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
                       </Box>
                       <Box w="full">
                         <Input
+                          isRequired
                           {...form.register(
                             `factoryDeploymentData.customFactoryInput.customFactoryAddresses[${index}].value`,
                           )}
