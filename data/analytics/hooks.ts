@@ -10,13 +10,16 @@ export type AnalyticsQueryParams = {
   interval?: "minute" | "hour" | "day" | "week" | "month";
 };
 
-async function makeQuery(path: string, body: Record<string, any>) {
-  return fetch(`${THIRDWEB_ANALYTICS_API_HOSTNAME}${path}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
+async function makeQuery(
+  path: string,
+  query: Record<string, string | number | undefined>,
+) {
+  const queryString = `?${Object.entries(query)
+    .filter(([_, value]) => !!value)
+    .map(([key, value]) => `${key}=${value}`)
+    .join(`&`)}`;
+  return fetch(`${THIRDWEB_ANALYTICS_API_HOSTNAME}${path}${queryString}`, {
+    method: "GET",
   });
 }
 
