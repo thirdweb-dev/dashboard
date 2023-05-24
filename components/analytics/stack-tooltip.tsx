@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import { Heading, Text } from "tw-components";
 
 type CustomToolTipProps = {
@@ -12,10 +12,12 @@ const formattingOptions: Intl.DateTimeFormatOptions = {
   day: "numeric",
 };
 
-export const TableToolTip: React.FC<CustomToolTipProps> = ({
+export const StackToolTip: React.FC<CustomToolTipProps> = ({
   time,
   values,
 }) => {
+  const { colorMode } = useColorMode();
+
   return (
     <Flex
       py={1.5}
@@ -45,7 +47,11 @@ export const TableToolTip: React.FC<CustomToolTipProps> = ({
 
       <Flex direction="column" gap={0.5}>
         {Object.entries(values).map(([key, value]) => (
-          <Text key={key} fontSize="12px" color="white">
+          <Text
+            key={key}
+            fontSize="12px"
+            color={colorMode === "dark" ? "white" : "#333"}
+          >
             <strong>{key}: </strong>
             {value}
           </Text>

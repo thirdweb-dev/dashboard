@@ -1,6 +1,6 @@
-import { TableToolTip } from "./table-tooltip";
+import { StackToolTip } from "./stack-tooltip";
 import { Box, BoxProps } from "@chakra-ui/react";
-import { useId, useMemo } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   Bar,
   BarChart as RechartsBarChart,
@@ -31,33 +31,20 @@ export interface AutoBarChartProps<
 }
 
 const BAR_COLORS = [
-  // brick red
-  "#D62728",
-  // safety orange
-  "#FF7F0E",
-  // light yellow
-  "#DBDB8D",
-  // cooked asparagus green
-  "#2CA02C",
-  // slime green
-  "#BCBD22",
-  // muted blue
-  "#1F77B4",
-  // blue-teal
-  "#17BECF",
-  // muted purple
-  "#9467BD",
-  // light pink
-  "#F7B6D2",
-  // raspberry yogurt pink
-  "#E377C2",
-  // chestnut brown
-  "#8C564B",
-  // silver
-  "#C7C7C7",
-  // middle gray
-  "#7F7F7F",
-];
+  "#00876c",
+  "#3d9c73",
+  "#63b179",
+  "#88c580",
+  "#aed987",
+  "#d6ec91",
+  "#ffff9d",
+  "#fee17e",
+  "#fcc267",
+  "#f7a258",
+  "#ef8250",
+  "#e4604e",
+  "#d43d51",
+].reverse();
 
 export const AutoBarChart = <
   TData extends GenericDataType,
@@ -70,6 +57,8 @@ export const AutoBarChart = <
   startEndOnly,
   ...boxProps
 }: AutoBarChartProps<TData, TIndexKey>) => {
+  const [hoverKey, setHoverKey] = useState("");
+
   const id = useId();
 
   const categories = useMemo(() => {
@@ -110,7 +99,12 @@ export const AutoBarChart = <
   return (
     <Box {...boxProps}>
       <ResponsiveContainer width="100%" height="100%">
-        <RechartsBarChart data={data}>
+        <RechartsBarChart
+          data={data}
+          onMouseMove={(state) => {
+            console.log(state);
+          }}
+        >
           <defs>
             {categories.map((cat) => (
               <linearGradient
@@ -143,7 +137,14 @@ export const AutoBarChart = <
               stackId="a"
               stroke={cat.color || "#3385FF"}
               fill={`url(#bar_color_${id}_${cat.id as string})`}
+              opacity={cat.id === hoverKey || !hoverKey ? 1 : 0.5}
               strokeWidth={0}
+              onMouseOver={(item) => {
+                setHoverKey(item.tooltipPayload[0].dataKey);
+              }}
+              onMouseLeave={() => {
+                setHoverKey("");
+              }}
             />
           ))}
           <Tooltip
@@ -153,22 +154,30 @@ export const AutoBarChart = <
                 return null;
               }
 
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const { time, ...values } = payload[0].payload;
+              const hoverValues = !hoverKey
+                ? values
+                : { [hoverKey]: values[hoverKey] };
 
               return (
-                <TableToolTip
+                <StackToolTip
                   time={payload[0]?.payload?.time}
-                  values={values}
+                  values={hoverValues}
                 />
               );
             }}
-            cursor={{
-              stroke: "#3385FF",
-              fill: "#3385FF",
-              opacity: 0.2,
-              strokeDasharray: 2,
-              strokeWidth: 0,
-            }}
+            cursor={
+              !hoverKey
+                ? {
+                    stroke: "#EAEAEA",
+                    fill: "#EAEAEA",
+                    opacity: 0.3,
+                    strokeDasharray: 2,
+                    strokeWidth: 0,
+                  }
+                : false
+            }
           />
 
           <XAxis
