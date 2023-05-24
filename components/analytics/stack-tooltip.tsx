@@ -53,7 +53,7 @@ export const StackToolTip: React.FC<CustomToolTipProps> = ({
             color={colorMode === "dark" ? "white" : "#333"}
           >
             <strong>{key}: </strong>
-            {value}
+            {value.toLocaleString()}
           </Text>
         ))}
       </Flex>

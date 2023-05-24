@@ -59,7 +59,7 @@ export const CustomToolTip: React.FC<CustomToolTipProps> = ({
           <Text size="body.sm" fontFamily="mono">
             {valueFormatter
               ? valueFormatter(payload[0].value)
-              : payload[0].value}
+              : payload[0].value.toLocaleString()}
           </Text>
         </Flex>
       </Flex>
