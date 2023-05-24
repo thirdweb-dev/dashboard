@@ -42,12 +42,10 @@ import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { memo, useEffect, useMemo, useState } from "react";
 import {
   FiArrowRight,
-  FiExternalLink,
   FiFilePlus,
   FiMoreVertical,
   FiPlus,
@@ -395,28 +393,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         Header: "Contract Address",
         accessor: (row) => row.address,
         Cell: (cell: any) => {
-          const data =
-            configuredChains[cell.row.original.chainId] ||
-            chainIdToChainRecord[cell.row.original.chainId];
-
-          const blockExplorerUrl = data?.explorers?.find(
-            (explorer) => explorer.standard === "EIP3091",
-          )?.url;
-
-          return (
-            <Flex align="center" gap={2}>
-              <AddressCopyButton address={cell.row.original.address} />
-              {blockExplorerUrl && (
-                <Link
-                  href={`${blockExplorerUrl}/address/${cell.row.original.address}`}
-                  target="_blank"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Icon as={FiExternalLink} />
-                </Link>
-              )}
-            </Flex>
-          );
+          return <AddressCopyButton address={cell.row.original.address} />;
         },
       },
       {
