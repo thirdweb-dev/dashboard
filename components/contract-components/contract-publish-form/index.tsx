@@ -315,6 +315,9 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                   (form.watch("deployType") === "autoFactory" ||
                     form.watch("deployType") === "customFactory")
                     ? setFieldsetToShow("factory")
+                    : fieldsetToShow === "contractParams" &&
+                      form.watch("deployType") === "standard"
+                    ? setFieldsetToShow("networks")
                     : setFieldsetToShow("landing")
                 }
                 aria-label="Back"
