@@ -127,6 +127,7 @@ export const PrivacyNotice: React.FC = () => {
                   console.error("failed to login", err);
                 });
               }}
+              autoFocus
             >
               Accept & Sign
             </Button>
