@@ -7,48 +7,61 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
 import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { MaskedAvatar } from "tw-components/masked-avatar";
 import { ThirdwebNextPage } from "utils/types";
+
+const CATEGORY = "ambassadors_page";
 
 const ambassadors = [
   {
     name: "Danny Roberts",
     twitter: "danny_roberts",
+    profileImage: "/assets/ambassadors/danny.jpeg",
   },
   {
     name: "Frank Ramos",
     twitter: "frankramosdev",
+    profileImage: "/assets/ambassadors/frankramos.jpeg",
   },
   {
     name: "Matt Wong",
     twitter: "mattwong_ca",
+    profileImage: "/assets/ambassadors/matt.png",
   },
   {
     name: "Myk",
     twitter: "mykcryptodev",
+    profileImage: "/assets/ambassadors/myk.png",
   },
   {
     name: "Naman Garg",
     twitter: "namn_grg",
+    profileImage: "/assets/ambassadors/naman.jpeg",
   },
   {
-    name: "Paula Isabel Signo",
+    name: "Paula Signo",
     twitter: "codewithpau",
+    profileImage: "/assets/ambassadors/paula.png",
   },
   {
     name: "Tanay Patel",
     twitter: "tonydoteth",
+    profileImage: "/assets/ambassadors/tanay.png",
   },
   {
     name: "Samu ​​Sarmiento",
     twitter: "SamuSarmiento_",
+    profileImage: "/assets/ambassadors/samu.jpeg",
   },
   {
     name: "Yuki",
     twitter: "stand_english",
+    profileImage: "/assets/ambassadors/yuki.png",
   },
   {
     name: "Wolfmaximus",
     twitter: "NFTwolfmaximus",
+    profileImage: "/assets/ambassadors/wolf.jpeg",
   },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
@@ -86,50 +99,51 @@ const Ambassadors: ThirdwebNextPage = () => {
             },
           }}
         >
-          <HomepageSection pt="100px" bottomPattern>
+          <HomepageSection pt="80px" pb={16}>
             <Flex
               pt={24}
-              mb={{ base: 24, md: -24 }}
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               align={{ base: "initial", md: "center" }}
             >
-              <Heading
-                as="h1"
-                fontSize={{ base: "64px", md: "64px" }}
-                fontWeight={700}
-                letterSpacing="-0.04em"
-                mb={4}
-                textAlign="center"
-              >
-                Become a{" "}
+              <Flex flexDir="column" gap={0}>
+                <Heading as="h1" size="display.lg" mb={4} textAlign="center">
+                  Become a{" "}
+                  <Text
+                    size="display.lg"
+                    as="span"
+                    bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                    bgClip={"text"}
+                  >
+                    thirdweb <br /> Ambassador.
+                  </Text>
+                </Heading>
                 <Text
-                  fontSize={{ base: "64px", md: "64px" }}
-                  fontWeight={700}
-                  letterSpacing="-0.04em"
-                  as="span"
-                  bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
-                  bgClip={"text"}
+                  as="h3"
+                  size="subtitle.md"
+                  textAlign="center"
+                  maxW="container.sm"
                 >
-                  thirdweb <br /> Ambassador.
+                  Are you a builder, believer in decentralized technologies,
+                  want to empower the developer community, and build your own
+                  brand?
                 </Text>
-              </Heading>
-              <Heading
-                as="h3"
-                size="subtitle.md"
-                textAlign="center"
-                maxW="container.sm"
+              </Flex>
+              <Flex
+                flexDir={{ base: "column", md: "row" }}
+                gap={3}
+                minW={300}
+                maxW={{ base: 320, md: "unset" }}
+                justify="center"
+                align="center"
+                marginInline="auto"
               >
-                Are you a builder, believer in decentralized technologies, want
-                to empower the developer community, and build your own brand?
-              </Heading>
-              <Flex flexDir="row" gap={3} flexGrow={1} minW={300}>
                 <LinkButton
                   href="https://docs.google.com/forms/d/e/1FAIpQLSfuhnYtA-CMo5PT1jF4vzzPy0jVS_DNRMSOayV4FNxx7rpKKQ/viewform"
                   isExternal
                   onClick={() =>
                     trackEvent({
-                      category: "cta-button",
+                      category: CATEGORY,
                       action: "click",
                       label: "ambassador",
                       title: "Join the Community",
@@ -139,24 +153,25 @@ const Ambassadors: ThirdwebNextPage = () => {
                   py={7}
                   fontSize="20px"
                   color="black"
-                  flexShrink={0}
+                  flexGrow={1}
                   background="rgba(255,255,255,1)"
                   _hover={{
                     background: "rgba(255,255,255,0.9)!important",
                   }}
                   zIndex={12}
+                  noIcon
+                  minW={{ base: 300, md: "unset" }}
                 >
                   Apply now
                 </LinkButton>
                 <LinkButton
-                  href=""
+                  href="https://discord.gg/thirdweb"
                   isExternal
                   onClick={() =>
                     trackEvent({
-                      category: "cta-button",
+                      category: CATEGORY,
                       action: "click",
-                      label: "ambassador",
-                      title: "Join the community",
+                      label: "Join the community",
                     })
                   }
                   px={4}
@@ -164,12 +179,14 @@ const Ambassadors: ThirdwebNextPage = () => {
                   fontSize="20px"
                   color="white"
                   variant="outline"
-                  flexShrink={0}
+                  flexGrow={1}
                   background="rgba(0,0,0,1)"
                   _hover={{
                     background: "rgba(0,0,0,0.9)!important",
                   }}
                   zIndex={12}
+                  noIcon
+                  minW={{ base: 300, md: "unset" }}
                 >
                   Join the community
                 </LinkButton>
@@ -179,55 +196,51 @@ const Ambassadors: ThirdwebNextPage = () => {
           <HomepageSection pb={32}>
             <Flex
               pt={24}
-              mb={{ base: 24, md: -24 }}
+              // mb={{ base: 24, md: -24 }}
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               align={{ base: "initial", md: "center" }}
             >
-              <Text
-                fontSize={{ base: "24px", md: "24px" }}
-                fontWeight={700}
-                bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
-                bgClip={"text"}
-              >
-                Our goal
-              </Text>
-              <Heading
-                as="h2"
-                fontSize={{ base: "64px", md: "64px" }}
-                fontWeight={700}
-                letterSpacing="-0.04em"
-                mb={4}
-                textAlign="center"
-              >
-                We are{" "}
+              <Flex flexDir="column" justify="center" align="center">
                 <Text
-                  fontSize={{ base: "64px", md: "64px" }}
-                  fontWeight={700}
-                  letterSpacing="-0.04em"
-                  as="span"
+                  size="label.xl"
                   bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                   bgClip={"text"}
+                  mb={4}
                 >
-                  developer obsessed.
+                  Our Goal
                 </Text>
-              </Heading>
-              <Heading
-                as="h3"
-                size="subtitle.md"
-                textAlign={{ base: "center" }}
-                maxW="container.lg"
-              >
-                Providing incredible experiences for the developer community is
-                one of the most rewarding things we do. Join us in our mission
-                to grow web3 development.
-              </Heading>
+                <Heading as="h2" size="display.md" mb={4} textAlign="center">
+                  We are{" "}
+                  <Text
+                    size="display.md"
+                    as="span"
+                    bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                    bgClip={"text"}
+                  >
+                    developer obsessed.
+                  </Text>
+                </Heading>
+                <Text
+                  as="h3"
+                  size="subtitle.md"
+                  textAlign={{ base: "center" }}
+                  maxW={800}
+                >
+                  Providing incredible experiences for the developer community
+                  is one of the most rewarding things we do. Join us in our
+                  mission to grow web3 development.
+                </Text>
+              </Flex>
+
               <Flex flexDir="row" alignItems="center">
                 <SimpleGrid
-                  justifyContent="flex-start"
+                  // justifyContent="center"
+                  // justify="center"
                   w="100%"
                   columns={{ base: 1, md: 3 }}
-                  gap={{ base: 12, md: 3 }}
+                  gap={{ base: 6, md: 12 }}
+                  placeItems="center"
                 >
                   <AmbassadorCard
                     icon={require("/public/assets/ambassadors/card-1-icon.svg")}
@@ -252,46 +265,40 @@ const Ambassadors: ThirdwebNextPage = () => {
           <HomepageSection pb={32}>
             <Flex
               pt={24}
-              mb={{ base: 24, md: -24 }}
+              // mb={{ base: 24, md: -24 }}
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               align={{ base: "initial", md: "center" }}
             >
-              <Text
-                fontSize={{ base: "24px", md: "24px" }}
-                fontWeight={700}
-                bgGradient="linear-gradient(243.9deg, #3385FF
-                    21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
-                bgClip={"text"}
-              >
-                Benefits & Rewards
-              </Text>
-              <Heading
-                as="h2"
-                fontSize={{ base: "64px", md: "64px" }}
-                fontWeight={700}
-                letterSpacing="-0.04em"
-                mb={4}
-                textAlign="center"
-              >
+              <Flex flexDir="column" justify="center" align="center">
                 <Text
-                  fontSize={{ base: "64px", md: "64px" }}
-                  fontWeight={700}
-                  letterSpacing="-0.04em"
-                  as="span"
                   bgGradient="linear-gradient(243.9deg, #3385FF
                     21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
                   bgClip={"text"}
+                  size="label.xl"
+                  mb={4}
                 >
-                  Exclusive benefits <br />
+                  Benefits & Rewards
                 </Text>
-                for Ambassadors.
-              </Heading>
+                <Heading as="h2" size="display.md" mb={4} textAlign="center">
+                  <Text
+                    size="display.md"
+                    as="span"
+                    bgGradient="linear-gradient(243.9deg, #3385FF
+                    21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
+                    bgClip={"text"}
+                  >
+                    Exclusive benefits <br />
+                  </Text>
+                  for Ambassadors.
+                </Heading>
+              </Flex>
+
               <Flex flexDir="row" alignItems="center">
                 <SimpleGrid
                   justifyContent="flex-start"
                   w="100%"
-                  columns={{ base: 1, md: 5 }}
+                  columns={{ sm: 3, base: 1, md: 5 }}
                   gap={{ base: 12, md: 6 }}
                 >
                   <ProductCard
@@ -330,7 +337,7 @@ const Ambassadors: ThirdwebNextPage = () => {
               </Flex>
             </Flex>
           </HomepageSection>
-          <HomepageSection>
+          <HomepageSection pb={32}>
             <Flex
               pt={24}
               mb={{ base: 24, md: -24 }}
@@ -338,19 +345,10 @@ const Ambassadors: ThirdwebNextPage = () => {
               gap={{ base: 6, md: 8 }}
               align={{ base: "initial", md: "center" }}
             >
-              <Heading
-                as="h2"
-                fontSize={{ base: "64px", md: "64px" }}
-                fontWeight={700}
-                letterSpacing="-0.04em"
-                mb={4}
-                textAlign="center"
-              >
+              <Heading as="h2" size="display.md" mb={4} textAlign="center">
                 Meet the{" "}
                 <Text
-                  fontSize={{ base: "64px", md: "64px" }}
-                  fontWeight={700}
-                  letterSpacing="-0.04em"
+                  size="display.md"
                   as="span"
                   bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                   bgClip={"text"}
@@ -358,84 +356,86 @@ const Ambassadors: ThirdwebNextPage = () => {
                   Ambassadors.
                 </Text>
               </Heading>
-              <SimpleGrid
-                columns={{ base: 2, md: 5 }}
+              <Flex
+                flexDir="row"
+                flexWrap="wrap"
                 gap={8}
-                justifyContent="space-evenly"
+                justify="center"
+                // justifyContent="space-evenly"
               >
                 {ambassadors.map((ambassador) => (
-                  <Flex key={ambassador.name} flexDir="column" gap={1}>
-                    <Heading size="title.sm">{ambassador.name}</Heading>
-                    {ambassador.twitter ? (
-                      <TrackedLink
-                        href={`https://twitter.com/${ambassador.twitter}`}
-                        isExternal
-                        category="team"
-                        label={ambassador.name}
-                      >
-                        <Text size="label.md" color="gray.500">
-                          @{ambassador.twitter}
+                  <Flex flexDir="row" align="center" gap={4} w={228}>
+                    <MaskedAvatar
+                      src={ambassador.profileImage}
+                      alt=""
+                      boxSize={20}
+                    />
+                    <Flex key={ambassador.name} flexDir="column" gap={1}>
+                      <Heading size="title.sm">{ambassador.name}</Heading>
+                      {ambassador.twitter ? (
+                        <TrackedLink
+                          href={`https://twitter.com/${ambassador.twitter}`}
+                          isExternal
+                          category="ambassadors"
+                          label={ambassador.name}
+                        >
+                          <Text size="label.md" color="gray.500">
+                            @{ambassador.twitter}
+                          </Text>
+                        </TrackedLink>
+                      ) : (
+                        <Text
+                          size="label.md"
+                          color="gray.700"
+                          fontWeight={400}
+                          fontStyle="italic"
+                        >
+                          no twitter
                         </Text>
-                      </TrackedLink>
-                    ) : (
-                      <Text
-                        size="label.md"
-                        color="gray.700"
-                        fontWeight={400}
-                        fontStyle="italic"
-                      >
-                        no twitter
-                      </Text>
-                    )}
+                      )}
+                    </Flex>
                   </Flex>
                 ))}
-              </SimpleGrid>
+              </Flex>
             </Flex>
           </HomepageSection>
-          <HomepageSection pt="100px">
+          <HomepageSection pb={32}>
             <Flex
-              pt={24}
-              mb={{ base: 24, md: -24 }}
+              pt={{ base: "0", md: "32" }}
+              // mb={{ base: 24, md: -24 }}
               flexDir="column"
               gap={{ base: 6, md: 8 }}
               align={{ base: "initial", md: "center" }}
             >
-              <Heading
-                as="h2"
-                fontSize={{ base: "64px", md: "64px" }}
-                fontWeight={700}
-                letterSpacing="-0.04em"
-                mb={4}
-                textAlign="center"
-              >
-                Become an{" "}
+              <Flex flexDir="column" gap={0}>
+                <Heading as="h2" size="display.md" mb={4} textAlign="center">
+                  Become an{" "}
+                  <Text
+                    size="display.md"
+                    as="span"
+                    bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
+                    bgClip={"text"}
+                  >
+                    Ambassador today.
+                  </Text>
+                </Heading>
                 <Text
-                  fontSize={{ base: "64px", md: "64px" }}
-                  fontWeight={700}
-                  letterSpacing="-0.04em"
-                  as="span"
-                  bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
-                  bgClip={"text"}
+                  as="h3"
+                  size="subtitle.md"
+                  textAlign={{ base: "center" }}
+                  maxW="container.lg"
                 >
-                  Ambassador today.
+                  Tell us about yourself by filling out the form below and we’ll
+                  be in touch soon! <br /> We require ambassadors to be 18 years
+                  old or over.
                 </Text>
-              </Heading>
-              <Heading
-                as="h3"
-                size="subtitle.md"
-                textAlign={{ base: "center" }}
-                maxW="container.lg"
-              >
-                Tell us about yourself by filling out the form below and we’ll
-                be in touch soon! <br /> We require ambassadors to be 18 years
-                old or over.
-              </Heading>
+              </Flex>
               <LinkButton
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfuhnYtA-CMo5PT1jF4vzzPy0jVS_DNRMSOayV4FNxx7rpKKQ/viewform"
                 isExternal
                 onClick={() =>
                   trackEvent({
-                    category: "cta-button",
+                    category: CATEGORY,
                     action: "click",
                     label: "ambassador",
                     title: "Apply now",

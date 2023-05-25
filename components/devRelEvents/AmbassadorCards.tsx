@@ -1,4 +1,6 @@
 import { Flex } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
 import NextImage, { StaticImageData } from "next/image";
 import { Heading, TrackedLink } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -16,11 +18,15 @@ export const AmbassadorCard: ComponentWithChildren<AmbassadorProps> = ({
       direction="column"
       bg="rgba(255, 255, 255, 0.05)"
       border="1px solid rgba(255, 255, 255, 0.05)"
-      borderRadius="16px"
+      borderRadius={4}
       padding="24px"
-      alignItems="center"
+      justify="center"
+      align="center"
+      w="100%"
+      maxW={357}
+      height={280}
     >
-      <NextImage
+      <ChakraNextImage
         src={icon}
         alt=""
         priority
@@ -31,14 +37,12 @@ export const AmbassadorCard: ComponentWithChildren<AmbassadorProps> = ({
       />
       <Flex
         direction={"column"}
-        fontSize="body.lg"
         mt="16px"
         color="paragraph"
         lineHeight={1.6}
-        h="100%"
         textAlign="center"
       >
-        {children}
+        <Text fontSize="body.lg">{children}</Text>
       </Flex>
     </Flex>
   );
