@@ -335,7 +335,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
           />
           <SelectOption
             name="Factory deployment"
-            onClick={() => form.setValue("deployType", "autoFactory")}
+            onClick={() => form.setValue("deployType", "customFactory")}
             isActive={
               form.watch("deployType") === "autoFactory" ||
               form.watch("deployType") === "customFactory"

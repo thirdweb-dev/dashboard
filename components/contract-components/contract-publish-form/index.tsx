@@ -57,8 +57,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata
       .version;
 
-  const form = useForm<ExtraPublishMetadata>();
-
   const placeholderVersion = useMemo(() => {
     if (latestVersion) {
       const versplit = latestVersion.split(".");
@@ -66,6 +64,82 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     }
     return "1.0.0";
   }, [latestVersion]);
+
+  const transformedQueryData = useMemo(() => {
+    return {
+      ...prePublishMetadata.data?.latestPublishedContractMetadata
+        ?.publishedMetadata,
+      changelog: "",
+      version: placeholderVersion,
+      displayName:
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata.displayName ||
+        prePublishMetadata.data?.preDeployMetadata.info.title ||
+        publishMetadata.data?.name ||
+        "",
+      description:
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata.description ||
+        prePublishMetadata.data?.preDeployMetadata.info.notice ||
+        "",
+      factoryDeploymentData: prePublishMetadata.data
+        ?.latestPublishedContractMetadata?.publishedMetadata
+        ?.factoryDeploymentData || {
+        factoryAddresses: Object.fromEntries(
+          configuredChainsIds
+            .map((id) =>
+              id in CONTRACT_ADDRESSES
+                ? [
+                    id,
+                    CONTRACT_ADDRESSES[id as keyof typeof CONTRACT_ADDRESSES]
+                      .twFactory,
+                  ]
+                : null,
+            )
+            .filter(Boolean) as [number, string][],
+        ),
+        implementationAddresses: Object.fromEntries(
+          configuredChainsIds.map((id) => [id, ""]),
+        ),
+        implementationInitializerFunction: "initialize",
+      },
+      constructorParams:
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata?.constructorParams || {},
+      networksForDeployment: prePublishMetadata.data
+        ?.latestPublishedContractMetadata?.publishedMetadata
+        .networksForDeployment || {
+        allNetworks: true,
+      },
+      deployType:
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata?.deployType || "standard",
+      customFactoryInput: {
+        factoryFunction: "deployProxyByImplementation",
+        customFactoryAddresses: Object.entries(
+          prePublishMetadata.data?.latestPublishedContractMetadata
+            ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
+            ?.customFactoryAddresses || {},
+        ).map(([key, value]) => ({ key: Number(key), value })),
+      },
+    };
+  }, [
+    configuredChainsIds,
+    placeholderVersion,
+    prePublishMetadata.data?.latestPublishedContractMetadata?.publishedMetadata,
+    prePublishMetadata.data?.preDeployMetadata.info.notice,
+    prePublishMetadata.data?.preDeployMetadata.info.title,
+    publishMetadata.data?.name,
+  ]);
+
+  const form = useForm<ExtraPublishMetadata>({
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
+    resetOptions: {
+      keepDirty: true,
+      keepDirtyValues: true,
+    },
+  });
 
   const hasTrackedImpression = useRef<boolean>(false);
   useEffect(() => {
@@ -83,78 +157,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     !form.watch("version") ||
     !form.watch("displayName") ||
     !!form.getFieldState("version", form.formState).error;
-
-  useEffect(() => {
-    if (address) {
-      form.reset(
-        {
-          ...prePublishMetadata.data?.latestPublishedContractMetadata
-            ?.publishedMetadata,
-          changelog: "",
-          version: placeholderVersion,
-          displayName:
-            prePublishMetadata.data?.latestPublishedContractMetadata
-              ?.publishedMetadata.displayName ||
-            prePublishMetadata.data?.preDeployMetadata.info.title ||
-            publishMetadata.data?.name ||
-            "",
-          description:
-            prePublishMetadata.data?.latestPublishedContractMetadata
-              ?.publishedMetadata.description ||
-            prePublishMetadata.data?.preDeployMetadata.info.notice ||
-            "",
-          factoryDeploymentData: prePublishMetadata.data
-            ?.latestPublishedContractMetadata?.publishedMetadata
-            ?.factoryDeploymentData || {
-            factoryAddresses: Object.fromEntries(
-              configuredChainsIds
-                .map((id) =>
-                  id in CONTRACT_ADDRESSES
-                    ? [
-                        id,
-                        CONTRACT_ADDRESSES[
-                          id as keyof typeof CONTRACT_ADDRESSES
-                        ].twFactory,
-                      ]
-                    : null,
-                )
-                .filter(Boolean) as [number, string][],
-            ),
-            implementationAddresses: Object.fromEntries(
-              configuredChainsIds.map((id) => [id, ""]),
-            ),
-            implementationInitializerFunction: "initialize",
-          },
-          constructorParams:
-            prePublishMetadata.data?.latestPublishedContractMetadata
-              ?.publishedMetadata?.constructorParams || {},
-          networksForDeployment: prePublishMetadata.data
-            ?.latestPublishedContractMetadata?.publishedMetadata
-            .networksForDeployment || {
-            allNetworks: true,
-          },
-          deployType:
-            prePublishMetadata.data?.latestPublishedContractMetadata
-              ?.publishedMetadata?.deployType || "standard",
-          customFactoryInput: {
-            factoryFunction: "deployProxyByImplementation",
-            customFactoryAddresses: Object.entries(
-              prePublishMetadata.data?.latestPublishedContractMetadata
-                ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
-                ?.customFactoryAddresses || {},
-            ).map(([key, value]) => ({ key: Number(key), value })),
-          },
-        },
-        { keepDirtyValues: true },
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    prePublishMetadata.data,
-    address,
-    placeholderVersion,
-    form.formState.isDirty,
-  ]);
 
   const ensQuery = useEns(address);
 
