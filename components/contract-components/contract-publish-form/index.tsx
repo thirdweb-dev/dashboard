@@ -222,13 +222,12 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 key: number;
                 value: string;
               }[]) || [];
-            const addressObj = addressArray.reduce<Record<number, string>>(
-              (obj, item) => {
-                obj[item.key] = item.value;
-                return obj;
-              },
-              {},
-            );
+            const addressObj = (addressArray || []).reduce<
+              Record<number, string>
+            >((obj, item) => {
+              obj[item.key] = item.value;
+              return obj;
+            }, {});
 
             trackEvent({
               category: "publish",
