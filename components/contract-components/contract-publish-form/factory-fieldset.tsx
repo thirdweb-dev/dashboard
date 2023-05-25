@@ -38,6 +38,8 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
     }
   }, [fields, append, form]);
 
+  console.log(form.watch("deployType"));
+
   return (
     <Flex gap={12} direction="column" as="fieldset">
       <Flex gap={2} direction="column">

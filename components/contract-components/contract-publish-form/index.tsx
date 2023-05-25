@@ -217,17 +217,24 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           id="contract-release-form"
           onSubmit={form.handleSubmit((data) => {
             const addressArray =
-              (data?.factoryDeploymentData?.customFactoryInput
-                ?.customFactoryAddresses as unknown as {
-                key: number;
-                value: string;
-              }[]) || [];
-            const addressObj = (addressArray || []).reduce<
-              Record<number, string>
-            >((obj, item) => {
-              obj[item.key] = item.value;
-              return obj;
-            }, {});
+              Object.keys(
+                data?.factoryDeploymentData?.customFactoryInput
+                  ?.customFactoryAddresses || {},
+              ).length > 0
+                ? (data?.factoryDeploymentData?.customFactoryInput
+                    ?.customFactoryAddresses as unknown as {
+                    key: number;
+                    value: string;
+                  }[])
+                : [];
+
+            const addressObj = addressArray.reduce<Record<number, string>>(
+              (obj, item) => {
+                obj[item.key] = item.value;
+                return obj;
+              },
+              {},
+            );
 
             trackEvent({
               category: "publish",
