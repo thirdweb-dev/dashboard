@@ -12,8 +12,6 @@ interface FactoryFieldsetProps {
 export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
   const form = useFormContext();
 
-  console.log(form.watch("deployType"));
-
   return (
     <Flex gap={12} direction="column" as="fieldset">
       <Flex gap={6} direction="column">
@@ -27,9 +25,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
               color: "bgWhite",
             }}
             rounded="lg"
-            onClick={() => {
-              form.setValue("deployType", "autoFactory");
-            }}
+            onClick={() => form.setValue("deployType", "autoFactory")}
           >
             Auto Factory (Proxy Contracts)
           </Button>
@@ -41,10 +37,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
               color: "bgWhite",
             }}
             rounded="lg"
-            onClick={() => {
-              form.setValue("deployType", "customFactory");
-              form.setValue("networksForDeployment.allNetworks", false);
-            }}
+            onClick={() => form.setValue("deployType", "customFactory")}
           >
             Custom Factory (Advanced)
           </Button>

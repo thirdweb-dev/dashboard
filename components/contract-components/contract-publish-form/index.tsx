@@ -251,9 +251,10 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 extraMetadata: {
                   ...data,
                   networksForDeployment: {
-                    allNetworks: addressObj
-                      ? false
-                      : data.networksForDeployment?.allNetworks,
+                    allNetworks:
+                      data.deployType === "customFactory"
+                        ? false
+                        : data.networksForDeployment?.allNetworks,
                     networksEnabled:
                       addressArray.length > 0
                         ? Object.keys(addressObj).map((val) => Number(val))

@@ -28,7 +28,7 @@ export const CustomFactory: React.FC<CustomFactoryProps> = ({ abi }) => {
 
   useEffect(() => {
     if (fields.length === 0) {
-      append({ key: "", value: "" }, { shouldFocus: false });
+      append({ key: 1, value: "" }, { shouldFocus: false });
     }
   }, [fields, append, form]);
 
