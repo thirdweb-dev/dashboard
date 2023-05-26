@@ -117,13 +117,13 @@ const Gaming: ThirdwebNextPage = () => {
             assets represented as NFTs.
           </ImageCard>
           <ImageCard
-            title="Increase User Loyalty & Retention"
+            title="Increase user retention"
             image={require("/public/assets/solutions-pages/gaming/user-loyalty.png")}
           >
             Reward your players with in game currency and digital assets.
           </ImageCard>
           <ImageCard
-            title="Grow your gaming community"
+            title="Engage with your community"
             image={require("/public/assets/solutions-pages/gaming/grow-community.png")}
           >
             Enable access to other games within the studio seamlessly by
