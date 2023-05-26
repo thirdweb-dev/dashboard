@@ -180,10 +180,14 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
 
   const fullPublishMetadata = useContractFullPublishMetadata(contractId);
-  const constructorParams = useConstructorParamsFromABI(abi);
+  const constructorParams = useConstructorParamsFromABI(
+    publishMetadata.data?.abi,
+  );
 
   const initializerParams = useFunctionParamsFromABI(
-    abi,
+    form.watch("deployType") === "customFactory"
+      ? abi
+      : publishMetadata.data?.abi,
     form.watch("deployType") === "customFactory"
       ? form.watch(
           `factoryDeploymentData.customFactoryInput.factoryFunction`,
@@ -349,7 +353,10 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           )}
           {fieldsetToShow === "factory" && (
             <Flex flexDir="column" gap={24}>
-              <FactoryFieldset abi={abi} setAbi={setAbi} />
+              <FactoryFieldset
+                abi={publishMetadata.data?.abi || []}
+                setAbi={setAbi}
+              />
             </Flex>
           )}
           {fieldsetToShow === "networks" && (
