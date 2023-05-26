@@ -3,6 +3,7 @@ import {
   useContractFullPublishMetadata,
   useContractPublishMetadataFromURI,
   useCustomContractDeployMutation,
+  useCustomFactoryAbi,
   useEns,
   useFunctionParamsFromABI,
   useTransactionsForDeploy,
@@ -63,11 +64,29 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const constructorParams = useConstructorParamsFromABI(
     compilerMetadata.data?.abi,
   );
-  const initializerParams = useFunctionParamsFromABI(
-    compilerMetadata.data?.abi,
-    fullPublishMetadata.data?.factoryDeploymentData
-      ?.implementationInitializerFunction || "initialize",
+
+  const [customFactoryNetwork, customFactoryAddress] = Object.entries(
+    fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
+      ?.customFactoryAddresses || {},
+  )[0];
+
+  const customFactoryAbi = useCustomFactoryAbi(
+    customFactoryAddress,
+    Number(customFactoryNetwork),
   );
+
+  const initializerParams = useFunctionParamsFromABI(
+    fullPublishMetadata.data?.deployType === "customFactory" &&
+      customFactoryAbi?.data
+      ? customFactoryAbi.data
+      : compilerMetadata.data?.abi,
+    fullPublishMetadata.data?.deployType === "customFactory"
+      ? fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
+          ?.factoryFunction || "deployProxyByImplementation"
+      : fullPublishMetadata.data?.factoryDeploymentData
+          ?.implementationInitializerFunction || "initialize",
+  );
+
   const isFactoryDeployment =
     ((fullPublishMetadata.data?.isDeployableViaFactory ||
       fullPublishMetadata.data?.isDeployableViaProxy) &&
