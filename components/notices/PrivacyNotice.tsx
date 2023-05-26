@@ -18,9 +18,13 @@ import {
   useUser,
 } from "@thirdweb-dev/react";
 import { IconLogo } from "components/logo";
-import { Button, Heading, LinkButton, Text, TrackedLink } from "tw-components";
+import { useTrack } from "hooks/analytics/useTrack";
+import { Button, Heading, Text, TrackedLink } from "tw-components";
+
+const TRACKING_CATEGORY = "notice";
 
 export const PrivacyNotice: React.FC = () => {
+  const track = useTrack();
   const evmAddress = useAddress();
   const solAddress = useWallet().publicKey?.toBase58();
   const { isLoading, isLoggedIn } = useUser();
@@ -72,7 +76,7 @@ export const PrivacyNotice: React.FC = () => {
             <TrackedLink
               href="/tos"
               isExternal
-              category="notice"
+              category={TRACKING_CATEGORY}
               label="terms"
               textDecoration="underline"
               _hover={{
@@ -85,7 +89,7 @@ export const PrivacyNotice: React.FC = () => {
             <TrackedLink
               href="/privacy"
               isExternal
-              category="notice"
+              category={TRACKING_CATEGORY}
               label="privacy"
               textDecoration="underline"
               _hover={{
@@ -104,28 +108,50 @@ export const PrivacyNotice: React.FC = () => {
             gap={2}
             direction={{ base: "column-reverse", md: "row" }}
           >
-            <LinkButton
+            <Button
               isDisabled={loginLoading}
               w="100%"
-              href="/"
               variant="outline"
               onClick={() => {
+                track({
+                  category: TRACKING_CATEGORY,
+                  action: "cancel",
+                });
                 disconnect().catch((err) => {
                   console.error("failed to disconnect wallet", err);
                 });
               }}
             >
               Cancel
-            </LinkButton>
+            </Button>
             <Button
               isLoading={loginLoading}
               w="100%"
               borderRadius="md"
               colorScheme="primary"
               onClick={() => {
-                login().catch((err) => {
-                  console.error("failed to login", err);
+                track({
+                  category: TRACKING_CATEGORY,
+                  action: "accept_sign",
+                  label: "attempt",
                 });
+                login()
+                  .then(() => {
+                    track({
+                      category: TRACKING_CATEGORY,
+                      action: "accept_sign",
+                      label: "success",
+                    });
+                  })
+                  .catch((err) => {
+                    console.error("failed to login", err);
+                    track({
+                      category: TRACKING_CATEGORY,
+                      action: "accept_sign",
+                      label: "error",
+                      error: err,
+                    });
+                  });
               }}
               autoFocus
             >
