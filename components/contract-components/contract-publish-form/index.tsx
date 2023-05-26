@@ -142,11 +142,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     },
   });
 
-  const [abi, setAbi] = useState<Abi>(
-    (form.watch("deployType") !== "customFactory" &&
-      publishMetadata.data?.abi) ||
-      [],
-  );
+  const [abi, setAbi] = useState<Abi>(publishMetadata.data?.abi || []);
 
   const hasTrackedImpression = useRef<boolean>(false);
   useEffect(() => {
