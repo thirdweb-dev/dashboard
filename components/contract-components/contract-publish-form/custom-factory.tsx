@@ -1,3 +1,4 @@
+import { useCustomFactoryAbi } from "../hooks";
 import { NetworkDropdown } from "./NetworkDropdown";
 import { AbiSelector } from "./abi-selector";
 import {
@@ -9,17 +10,32 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { Abi } from "@thirdweb-dev/sdk";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { Button, Heading, Link, Text } from "tw-components";
 
 interface CustomFactoryProps {
-  abi: Abi;
+  setAbi: Dispatch<SetStateAction<Abi>>;
 }
 
-export const CustomFactory: React.FC<CustomFactoryProps> = ({ abi }) => {
+export const CustomFactory: React.FC<CustomFactoryProps> = ({ setAbi }) => {
   const form = useFormContext();
+
+  const customFactoryAbi = useCustomFactoryAbi(
+    form.watch(
+      "factoryDeploymentData.customFactoryInput.customFactoryAddresses[0].value",
+    ),
+    form.watch(
+      "factoryDeploymentData.customFactoryInput.customFactoryAddresses[0].key",
+    ),
+  );
+
+  useEffect(() => {
+    if (customFactoryAbi?.data) {
+      setAbi(customFactoryAbi.data);
+    }
+  }, [customFactoryAbi, setAbi]);
 
   const { fields, append, remove } = useFieldArray({
     name: "factoryDeploymentData.customFactoryInput.customFactoryAddresses",
@@ -102,19 +118,26 @@ export const CustomFactory: React.FC<CustomFactoryProps> = ({ abi }) => {
           <Text>Choose the factory function to deploy your contracts.</Text>
         </Flex>
         <FormControl isRequired>
-          <AbiSelector
-            defaultValue="deployProxyByImplementation"
-            abi={abi}
-            value={form.watch(
-              `factoryDeploymentData.customFactoryInput.factoryFunction`,
-            )}
-            onChange={(selectedFn) =>
-              form.setValue(
+          {customFactoryAbi.data ? (
+            <AbiSelector
+              defaultValue="deployProxyByImplementation"
+              abi={customFactoryAbi.data}
+              value={form.watch(
                 `factoryDeploymentData.customFactoryInput.factoryFunction`,
-                selectedFn,
-              )
-            }
-          />
+              )}
+              onChange={(selectedFn) =>
+                form.setValue(
+                  `factoryDeploymentData.customFactoryInput.factoryFunction`,
+                  selectedFn,
+                )
+              }
+            />
+          ) : (
+            <Text fontStyle="italic">
+              Custom factory ABI not found. Please provide a valid imported
+              contract on the previous step.
+            </Text>
+          )}
         </FormControl>
       </Flex>
     </Flex>

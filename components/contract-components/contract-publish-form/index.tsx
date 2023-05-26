@@ -17,6 +17,7 @@ import { Box, Divider, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
 import {
+  Abi,
   CONTRACT_ADDRESSES,
   ExtraPublishMetadata,
 } from "@thirdweb-dev/sdk/evm";
@@ -141,6 +142,12 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     },
   });
 
+  const [abi, setAbi] = useState<Abi>(
+    (form.watch("deployType") !== "customFactory" &&
+      publishMetadata.data?.abi) ||
+      [],
+  );
+
   const hasTrackedImpression = useRef<boolean>(false);
   useEffect(() => {
     if (publishMetadata.data && !hasTrackedImpression.current) {
@@ -177,12 +184,10 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   );
 
   const fullPublishMetadata = useContractFullPublishMetadata(contractId);
-  const constructorParams = useConstructorParamsFromABI(
-    publishMetadata.data?.abi,
-  );
+  const constructorParams = useConstructorParamsFromABI(abi);
 
   const initializerParams = useFunctionParamsFromABI(
-    publishMetadata.data?.abi,
+    abi,
     form.watch("deployType") === "customFactory"
       ? form.watch(
           `factoryDeploymentData.customFactoryInput.factoryFunction`,
@@ -348,7 +353,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           )}
           {fieldsetToShow === "factory" && (
             <Flex flexDir="column" gap={24}>
-              <FactoryFieldset abi={publishMetadata.data?.abi || []} />
+              <FactoryFieldset abi={abi} setAbi={setAbi} />
             </Flex>
           )}
           {fieldsetToShow === "networks" && (

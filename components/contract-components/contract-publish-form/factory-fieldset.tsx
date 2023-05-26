@@ -2,14 +2,19 @@ import { AutoFactory } from "./auto-factory";
 import { CustomFactory } from "./custom-factory";
 import { ButtonGroup, Flex } from "@chakra-ui/react";
 import { Abi } from "@thirdweb-dev/sdk";
+import { Dispatch, SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
 import { Button, Heading } from "tw-components";
 
 interface FactoryFieldsetProps {
   abi: Abi;
+  setAbi: Dispatch<SetStateAction<Abi>>;
 }
 
-export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
+export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({
+  abi,
+  setAbi,
+}) => {
   const form = useFormContext();
 
   return (
@@ -46,7 +51,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({ abi }) => {
           <AutoFactory abi={abi} />
         )}
         {form.watch("deployType") === "customFactory" && (
-          <CustomFactory abi={abi} />
+          <CustomFactory setAbi={setAbi} />
         )}
       </Flex>
     </Flex>
