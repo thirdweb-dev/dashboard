@@ -32,16 +32,14 @@ export const AbiSelector: React.FC<AbiSelectorProps> = ({
       <Select
         placeholder="Select function"
         options={options}
-        defaultValue={
-          options.find((o) => o.value === defaultValue) || options[0]
-        }
+        defaultValue={options.find((o) => o.value === defaultValue)}
         chakraStyles={{
           container: (provided) => ({
             ...provided,
             width: "full",
           }),
         }}
-        value={options.find((o) => o.value === value) || options[0]}
+        value={options.find((o) => o.value === value)}
         onChange={(selectedFn) => {
           if (selectedFn) {
             onChange((selectedFn as { label: string; value: string }).value);
