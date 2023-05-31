@@ -4364,6 +4364,11 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.18.tgz#deb081e33b91d402f2e86a72528a9f9803877fce"
   integrity sha512-SoWWDugdYNWl7bKMtw/OtO9IN461G+GktzOSWmpsI49wz2GBMdGLR1QznyR3oswoOngUeM8+vOyqlP7zC/fWLA==
 
+"@thirdweb-dev/chains@0.1.19-nightly-bdabbef7-20230530233656":
+  version "0.1.19-nightly-bdabbef7-20230530233656"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.19-nightly-bdabbef7-20230530233656.tgz#46e5c1db80522791cfff08225ea100241e6c7968"
+  integrity sha512-OBU9Sq+7SkhUcxcG+TnedyEjckbgLibDLO0F5NtVPLTqzNbCzYBgHqYhPeX6IzKJbtomBMB8kE76jclJPywzEw==
+
 "@thirdweb-dev/contracts-js@1.3.4":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.3.4.tgz#a50b572a5a8325d21d6ee6e4790c64782159bfa6"
@@ -4422,35 +4427,12 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@0.0.0-dev-75d138d-20230526000904":
-  version "0.0.0-dev-75d138d-20230526000904"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-0.0.0-dev-75d138d-20230526000904.tgz#66a11459fdfe2226645d7d8c0fc9a55ee25a2153"
-  integrity sha512-EifyL0t6boy47JVTIt2QI0SdVwBXXPuOM5RxWfD8xiPUI0LW20K6z2PFzvhtnCo+yaYI/lPE0td6LYU0V4KoPw==
+"@thirdweb-dev/sdk@0.0.0-dev-75d138d-20230526000904", "@thirdweb-dev/sdk@3.10.17", "@thirdweb-dev/sdk@3.10.18-nightly-bdabbef7-20230530233656":
+  version "3.10.18-nightly-bdabbef7-20230530233656"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.18-nightly-bdabbef7-20230530233656.tgz#5752fa39e2c6384b7bfe44aacee36ada0556478a"
+  integrity sha512-Sa5FiFBeUNHZxwgvdpcNmRE2JoSyH+EBU6HlpjFeyqLTEz16MuVsiU8K+FLt/lMhYQv4jGMedhwgBw2KTxM2jg==
   dependencies:
-    "@thirdweb-dev/chains" "0.0.0-dev-75d138d-20230526000904"
-    "@thirdweb-dev/contracts-js" "1.3.4"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "1.1.3"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.5"
-    eventemitter3 "^5.0.0"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.0"
-    yaml "^2.1.1"
-    zod "^3.20.2"
-
-"@thirdweb-dev/sdk@3.10.17":
-  version "3.10.17"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.17.tgz#9176c8dea83d45aca79241d62603f784ddc5eddf"
-  integrity sha512-DRWl+SJ7x918zhvsngFGLR3Eg+jZI0FPlntyIy55VDT4LHmb0Ix1zaO0eT/5yfKu8ZPsSZOKd2ArLopncRpJnA==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.18"
+    "@thirdweb-dev/chains" "0.1.19-nightly-bdabbef7-20230530233656"
     "@thirdweb-dev/contracts-js" "1.3.4"
     "@thirdweb-dev/generated-abis" "0.0.1"
     "@thirdweb-dev/storage" "1.1.3"
