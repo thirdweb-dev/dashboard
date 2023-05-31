@@ -13,6 +13,7 @@ import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Recipient, SplitFieldset } from "./split-fieldset";
 import { Divider, Flex, FormControl } from "@chakra-ui/react";
+import { LineaTestnet } from "@thirdweb-dev/chains";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
 import {
@@ -65,6 +66,8 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
 
   const networkInfo = useSupportedChain(selectedChain || -1);
+  const shouldDefaulCheckAddToDashboard =
+    selectedChain !== LineaTestnet.chainId;
   const ensQuery = useEns(walletAddress);
   const connectedWallet = ensQuery.data?.address || walletAddress;
   const trackEvent = useTrack();
@@ -389,7 +392,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         </Flex>
 
         <Flex alignItems="center" gap={3}>
-          <Checkbox {...form.register("addToDashboard")} defaultChecked />
+          <Checkbox
+            {...form.register("addToDashboard")}
+            defaultChecked={shouldDefaulCheckAddToDashboard}
+          />
 
           <Text mt={1}>
             Add to dashboard so I can find it in the list of my contracts at{" "}
