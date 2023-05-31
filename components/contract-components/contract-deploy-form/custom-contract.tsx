@@ -66,11 +66,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
 
   const networkInfo = useSupportedChain(selectedChain || -1);
-  const shouldDefaulCheckAddToDashboard =
-    selectedChain !== LineaTestnet.chainId;
   const ensQuery = useEns(walletAddress);
   const connectedWallet = ensQuery.data?.address || walletAddress;
   const trackEvent = useTrack();
+
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
   const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
   const constructorParams = useConstructorParamsFromABI(
@@ -125,6 +124,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     }, {} as Record<string, string>),
   };
 
+  // FIXME - temporaryly disabling add to dashboard by default on linea
+  const shouldDefaulCheckAddToDashboard = selectedChain
+    ? selectedChain !== LineaTestnet.chainId
+    : false;
+
   const form = useForm<{
     addToDashboard: boolean;
     deployParams: Record<string, string>;
@@ -137,11 +141,11 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     recipients?: Recipient[];
   }>({
     defaultValues: {
-      addToDashboard: true,
+      addToDashboard: shouldDefaulCheckAddToDashboard,
       deployParams: parseDeployParams,
     },
     values: {
-      addToDashboard: true,
+      addToDashboard: shouldDefaulCheckAddToDashboard,
       deployParams: parseDeployParams,
     },
     resetOptions: {
@@ -300,7 +304,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               {isSplit && <SplitFieldset form={form} />}
             </Flex>
             {Object.keys(formDeployParams).map((paramKey) => {
-              const deployParam = deployParams.find((p) => p.name === paramKey);
+              const deployParam = deployParams.find(
+                (p: any) => p.name === paramKey,
+              );
               const contructorParams =
                 fullPublishMetadata.data?.constructorParams || {};
               const extraMetadataParam = contructorParams[paramKey];
