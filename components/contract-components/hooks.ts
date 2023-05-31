@@ -38,7 +38,7 @@ import {
   extractEventsFromAbi,
   extractFunctionParamsFromAbi,
   extractFunctionsFromAbi,
-  fetchRawPredeployMetadata,
+  fetchPreDeployMetadata,
   getTrustedForwarders,
 } from "@thirdweb-dev/sdk/evm";
 import {
@@ -97,7 +97,7 @@ export async function fetchContractPublishMetadataFromURI(
   invariant(contractId !== "ipfs://undefined", "uri can't be undefined");
   let resolved;
   try {
-    resolved = await fetchRawPredeployMetadata(
+    resolved = await fetchPreDeployMetadata(
       contractIdIpfsHash,
       StorageSingleton,
     );
