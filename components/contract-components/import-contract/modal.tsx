@@ -5,10 +5,11 @@ import {
   ModalContent,
   ModalOverlay,
 } from "@chakra-ui/react";
+import { useChainId } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Heading, Text } from "tw-components";
 
@@ -19,7 +20,6 @@ type ImportModalProps = {
 
 const defaultValues = {
   contractAddress: "",
-  chainId: 1,
 };
 
 export const ImportModal: React.FC<ImportModalProps> = (props) => {
@@ -33,6 +33,9 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
   }, [form, props]);
 
   const router = useRouter();
+  const chainId = useChainId();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Modal isOpen={props.isOpen} onClose={onClose} isCentered size="lg">
@@ -41,8 +44,9 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
         as="form"
         onSubmit={form.handleSubmit((data) => {
           router.push(
-            `/${data.chainId}/${data.contractAddress}?import=true&add=true`,
+            `/${chainId || 1}/${data.contractAddress}?import=true&add=true`,
           );
+          setIsLoading(true);
         })}
         p={8}
         rounded="lg"
@@ -61,18 +65,14 @@ export const ImportModal: React.FC<ImportModalProps> = (props) => {
               {...form.register("contractAddress")}
             />
 
-            <NetworkSelectorButton
-              onSwitchChain={(chain) => {
-                form.setValue("chainId", chain.chainId);
-              }}
-            />
+            <NetworkSelectorButton />
           </Flex>
           <TransactionButton
             ml="auto"
             colorScheme="primary"
             type="submit"
             transactionCount={1}
-            isLoading={false}
+            isLoading={isLoading}
             isGasless
           >
             Import
