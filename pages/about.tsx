@@ -141,12 +141,12 @@ const employees = [
     twitter: "saminacodes",
   },
   {
-    name: "Sean Watase ",
-    twitter: "Sian_Morton",
+    name: "Sean Watase",
+    twitter: "watase_eth",
   },
   {
     name: "Sian Morton",
-    twitter: "watase_eth",
+    twitter: "Sian_Morton",
   },
   {
     name: "Tair Asim",
