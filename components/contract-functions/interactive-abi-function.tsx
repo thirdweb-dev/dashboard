@@ -13,7 +13,7 @@ import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
-import { BigNumber, CallOverrides, ethers, utils } from "ethers";
+import { BigNumber, CallOverrides, constants, utils } from "ethers";
 import { replaceIpfsUrl } from "lib/sdk";
 import { useEffect, useId, useMemo } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
@@ -169,7 +169,7 @@ export const InteractiveAbiFunction: React.FC<InteractiveAbiFunctionProps> = ({
 
   const error = isView ? readError : mutationError;
 
-  const connectedWalletAddress = useAddress() || ethers.constants.AddressZero;
+  const connectedWalletAddress = useAddress() || constants.AddressZero;
 
   useEffect(() => {
     if (
