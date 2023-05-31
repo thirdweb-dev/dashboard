@@ -8,19 +8,14 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import {
-  useAddress,
-  useContractWrite,
-  useSDK,
-  useSigner,
-} from "@thirdweb-dev/react";
+import { useAddress, useContractWrite } from "@thirdweb-dev/react";
 import { AbiFunction, SmartContract } from "@thirdweb-dev/sdk/evm";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { SolidityInput } from "contract-ui/components/solidity-inputs";
 import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { BigNumber, CallOverrides, ethers, utils } from "ethers";
 import { replaceIpfsUrl } from "lib/sdk";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { FiPlay } from "react-icons/fi";
 import invariant from "tiny-invariant";
