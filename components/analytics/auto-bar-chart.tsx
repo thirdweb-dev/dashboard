@@ -31,6 +31,19 @@ export interface AutoBarChartProps<
 }
 
 const BAR_COLORS = [
+  "#3385ff",
+  "#009eff",
+  "#00b5ff",
+  "#00c9ff",
+  "#00ddff",
+  "#00eeff",
+  "#37ffff",
+  "#1feddd",
+  "#1cdbba",
+  "#29c897",
+  "#36b575",
+  "#41a253",
+  "#488f31",
   "#00876c",
   "#3d9c73",
   "#63b179",
@@ -44,7 +57,7 @@ const BAR_COLORS = [
   "#ef8250",
   "#e4604e",
   "#d43d51",
-].reverse();
+];
 
 export const AutoBarChart = <
   TData extends GenericDataType,
