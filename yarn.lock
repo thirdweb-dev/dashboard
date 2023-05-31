@@ -4320,7 +4320,7 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.1.tgz#869410ca1748c45d4e19ccfd4db7e36452611674"
   integrity sha512-2+R83n8vMZND0q3W1lSiF7co9nFbeWbjAErFf27xwbeA9E0wtUu5ZDfgj+TZ6JzdAEQAgfxkk/QNFAKiS8E4MA==
 
-"@thirdweb-dev/auth@^3.0.23-nightly-e1846c44-20230531221159":
+"@thirdweb-dev/auth@3.0.23-nightly-e1846c44-20230531221159":
   version "3.0.23-nightly-e1846c44-20230531221159"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.0.23-nightly-e1846c44-20230531221159.tgz#27619a77aea9d5f131b29e4bccc207c2e8aec766"
   integrity sha512-2agwBsfcH5KDxtW9KFj8jrtKnzY8hk2h/vOj1gF7XFc6gd4JZougJebcPio+1ZhatXYLzZvseUTmRXf98x9xMQ==
@@ -4340,12 +4340,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.19.tgz#48dfd165eaa4667e635adaf78ad9be9278cf1478"
   integrity sha512-v4xxfpV/4hvvjupD7ZYH6bdEqFQXnJe0w3nt0OM/hS35tGYASd2MpbQ1NajF+/74fx74wnCpluy+sCEnumPX5g==
 
-"@thirdweb-dev/chains@0.1.19-nightly-bdabbef7-20230530233656":
-  version "0.1.19-nightly-bdabbef7-20230530233656"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.19-nightly-bdabbef7-20230530233656.tgz#46e5c1db80522791cfff08225ea100241e6c7968"
-  integrity sha512-OBU9Sq+7SkhUcxcG+TnedyEjckbgLibDLO0F5NtVPLTqzNbCzYBgHqYhPeX6IzKJbtomBMB8kE76jclJPywzEw==
-
-"@thirdweb-dev/chains@^0.1.19-nightly-217879ac-20230531180712":
+"@thirdweb-dev/chains@0.1.19-nightly-217879ac-20230531180712":
   version "0.1.19-nightly-217879ac-20230531180712"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.19-nightly-217879ac-20230531180712.tgz#b520fe493b816495df7d4e9af49669d3db62236f"
   integrity sha512-G0QHSmBmZCNvH9jAlyoxBoS58B8kBhucq/izgWA44PGy0ZeaMUSGBDUDUmPOg0ftwy3cVLDH2gIZdsMYp9FjaQ==
@@ -4381,7 +4376,7 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@^3.12.4-nightly-e1846c44-20230531221159":
+"@thirdweb-dev/react@3.12.4-nightly-e1846c44-20230531221159":
   version "3.12.4-nightly-e1846c44-20230531221159"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.12.4-nightly-e1846c44-20230531221159.tgz#988b8ae9f928e2d9699251baf45a600422ec7c3f"
   integrity sha512-5WOrCm6m2dwOH3ugohiFCyPDBU0xJElcLgl0aks/VYW735VV0DiDqNOQhZvOYBMbo/xsTixfzFvrqxmWn3fLYw==
@@ -4408,30 +4403,7 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@3.10.18-nightly-bdabbef7-20230530233656", "@thirdweb-dev/sdk@3.10.19-nightly-e1846c44-20230531221159":
-  version "3.10.18-nightly-bdabbef7-20230530233656"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.18-nightly-bdabbef7-20230530233656.tgz#5752fa39e2c6384b7bfe44aacee36ada0556478a"
-  integrity sha512-Sa5FiFBeUNHZxwgvdpcNmRE2JoSyH+EBU6HlpjFeyqLTEz16MuVsiU8K+FLt/lMhYQv4jGMedhwgBw2KTxM2jg==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.19-nightly-bdabbef7-20230530233656"
-    "@thirdweb-dev/contracts-js" "1.3.4"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "1.1.3"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.5"
-    eventemitter3 "^5.0.0"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.0"
-    yaml "^2.1.1"
-    zod "^3.20.2"
-
-"@thirdweb-dev/sdk@^3.10.19-nightly-e1846c44-20230531221159":
+"@thirdweb-dev/sdk@3.10.19-nightly-e1846c44-20230531221159":
   version "3.10.19-nightly-e1846c44-20230531221159"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.19-nightly-e1846c44-20230531221159.tgz#1f8b8473dd0adc706e751485879e4489eaf88cce"
   integrity sha512-31bOcGHcM92VEQtmP3qYRd/syl27Nq31fohLC92qUjcD9RJYYm/YjfWU7bnb217/bzgYrdMQ/KeMwEewOlNGNw==
@@ -4453,16 +4425,6 @@
     uuid "^9.0.0"
     yaml "^2.1.1"
     zod "^3.20.2"
-
-"@thirdweb-dev/storage@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.3.tgz#dab2692d393c19ba41931fae0dde91ad69c48015"
-  integrity sha512-V/hiJqf+zYY0Jfoc+jWx24hyRXtFIOt6yMAqz87Zv9ilIsaYyuBHRNOyFzvnmCQ8DMwj97Gt0lCFYyzXXo4HFw==
-  dependencies:
-    cross-fetch "^3.1.5"
-    form-data "^4.0.0"
-    ipfs-unixfs-importer "^7.0.1"
-    uuid "^9.0.0"
 
 "@thirdweb-dev/storage@1.1.4-nightly-e1846c44-20230531221159":
   version "1.1.4-nightly-e1846c44-20230531221159"
