@@ -10,7 +10,7 @@ import { Heading, LinkButton, Text, TrackedLink } from "tw-components";
 import { MaskedAvatar } from "tw-components/masked-avatar";
 import { ThirdwebNextPage } from "utils/types";
 
-const CATEGORY = "ambassadors_page";
+const TRACKING_CATEGORY = "ambassadors_page";
 
 const ambassadors = [
   {
@@ -87,16 +87,6 @@ const Ambassadors: ThirdwebNextPage = () => {
             title: "Ambassadors",
             description:
               "Join thirdweb's ambassador program to build decentralized technologies, empower developer communities, and build your own brand.",
-            openGraph: {
-              images: [
-                {
-                  url: `${getAbsoluteUrl()}/assets/og-image/sdk.png`,
-                  width: 2334,
-                  height: 1260,
-                  alt: "thirdweb ambassador program",
-                },
-              ],
-            },
           }}
         >
           <HomepageSection pt="80px" pb={16}>
@@ -143,10 +133,10 @@ const Ambassadors: ThirdwebNextPage = () => {
                   isExternal
                   onClick={() =>
                     trackEvent({
-                      category: CATEGORY,
+                      category: TRACKING_CATEGORY,
                       action: "click",
                       label: "ambassador",
-                      title: "Join the Community",
+                      title: "apply_now",
                     })
                   }
                   px={4}
@@ -169,9 +159,9 @@ const Ambassadors: ThirdwebNextPage = () => {
                   isExternal
                   onClick={() =>
                     trackEvent({
-                      category: CATEGORY,
+                      category: TRACKING_CATEGORY,
                       action: "click",
-                      label: "Join the community",
+                      label: "join_the_community",
                     })
                   }
                   px={4}
@@ -356,13 +346,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                   Ambassadors.
                 </Heading>
               </Heading>
-              <Flex
-                flexDir="row"
-                flexWrap="wrap"
-                gap={8}
-                justify="center"
-                // justifyContent="space-evenly"
-              >
+              <Flex flexDir="row" flexWrap="wrap" gap={8} justify="center">
                 {ambassadors.map((ambassador) => (
                   <Flex
                     key={ambassador.name}
@@ -382,7 +366,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                         <TrackedLink
                           href={`https://twitter.com/${ambassador.twitter}`}
                           isExternal
-                          category="ambassadors"
+                          category={TRACKING_CATEGORY}
                           label={ambassador.name}
                         >
                           <Text size="label.md" color="gray.500">
@@ -441,10 +425,9 @@ const Ambassadors: ThirdwebNextPage = () => {
                 isExternal
                 onClick={() =>
                   trackEvent({
-                    category: CATEGORY,
+                    category: TRACKING_CATEGORY,
                     action: "click",
-                    label: "ambassador",
-                    title: "Apply now",
+                    label: "apply_now",
                   })
                 }
                 px={4}

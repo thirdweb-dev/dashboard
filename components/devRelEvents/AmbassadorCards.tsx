@@ -41,7 +41,7 @@ export const AmbassadorCard: ComponentWithChildren<AmbassadorProps> = ({
         lineHeight={1.6}
         textAlign="center"
       >
-        <Text fontSize="body.lg">{children}</Text>
+        <Text size="body.lg">{children}</Text>
       </Flex>
     </Flex>
   );
