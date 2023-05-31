@@ -1,4 +1,4 @@
-import { DarkMode, Flex, Icon, LinkBox, SimpleGrid } from "@chakra-ui/react";
+import { DarkMode, Flex, SimpleGrid } from "@chakra-ui/react";
 import { AmbassadorCard } from "components/devRelEvents/AmbassadorCards";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
@@ -109,16 +109,16 @@ const Ambassadors: ThirdwebNextPage = () => {
               <Flex flexDir="column" gap={0}>
                 <Heading as="h1" size="display.lg" mb={4} textAlign="center">
                   Become a{" "}
-                  <Text
+                  <Heading
                     size="display.lg"
                     as="span"
                     bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                     bgClip={"text"}
                   >
                     thirdweb <br /> Ambassador.
-                  </Text>
+                  </Heading>
                 </Heading>
-                <Text
+                <Heading
                   as="h3"
                   size="subtitle.md"
                   textAlign="center"
@@ -127,7 +127,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                   Are you a builder, believer in decentralized technologies,
                   want to empower the developer community, and build your own
                   brand?
-                </Text>
+                </Heading>
               </Flex>
               <Flex
                 flexDir={{ base: "column", md: "row" }}
@@ -212,16 +212,16 @@ const Ambassadors: ThirdwebNextPage = () => {
                 </Text>
                 <Heading as="h2" size="display.md" mb={4} textAlign="center">
                   We are{" "}
-                  <Text
+                  <Heading
                     size="display.md"
                     as="span"
                     bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                     bgClip={"text"}
                   >
                     developer obsessed.
-                  </Text>
+                  </Heading>
                 </Heading>
-                <Text
+                <Heading
                   as="h3"
                   size="subtitle.md"
                   textAlign={{ base: "center" }}
@@ -230,7 +230,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                   Providing incredible experiences for the developer community
                   is one of the most rewarding things we do. Join us in our
                   mission to grow web3 development.
-                </Text>
+                </Heading>
               </Flex>
 
               <Flex flexDir="row" alignItems="center">
@@ -271,7 +271,7 @@ const Ambassadors: ThirdwebNextPage = () => {
               align={{ base: "initial", md: "center" }}
             >
               <Flex flexDir="column" justify="center" align="center">
-                <Text
+                <Heading
                   bgGradient="linear-gradient(243.9deg, #3385FF
                     21.81%, #91B7F0 48.81%, #95BBF2 86.61%);"
                   bgClip={"text"}
@@ -279,9 +279,9 @@ const Ambassadors: ThirdwebNextPage = () => {
                   mb={4}
                 >
                   Benefits & Rewards
-                </Text>
+                </Heading>
                 <Heading as="h2" size="display.md" mb={4} textAlign="center">
-                  <Text
+                  <Heading
                     size="display.md"
                     as="span"
                     bgGradient="linear-gradient(243.9deg, #3385FF
@@ -289,7 +289,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                     bgClip={"text"}
                   >
                     Exclusive benefits <br />
-                  </Text>
+                  </Heading>
                   for Ambassadors.
                 </Heading>
               </Flex>
@@ -347,14 +347,14 @@ const Ambassadors: ThirdwebNextPage = () => {
             >
               <Heading as="h2" size="display.md" mb={4} textAlign="center">
                 Meet the{" "}
-                <Text
+                <Heading
                   size="display.md"
                   as="span"
                   bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                   bgClip={"text"}
                 >
                   Ambassadors.
-                </Text>
+                </Heading>
               </Heading>
               <Flex
                 flexDir="row"
@@ -364,13 +364,19 @@ const Ambassadors: ThirdwebNextPage = () => {
                 // justifyContent="space-evenly"
               >
                 {ambassadors.map((ambassador) => (
-                  <Flex flexDir="row" align="center" gap={4} w={228}>
+                  <Flex
+                    key={ambassador.name}
+                    flexDir="row"
+                    align="center"
+                    gap={4}
+                    w={228}
+                  >
                     <MaskedAvatar
                       src={ambassador.profileImage}
                       alt=""
                       boxSize={20}
                     />
-                    <Flex key={ambassador.name} flexDir="column" gap={1}>
+                    <Flex flexDir="column" gap={1}>
                       <Heading size="title.sm">{ambassador.name}</Heading>
                       {ambassador.twitter ? (
                         <TrackedLink
@@ -410,16 +416,16 @@ const Ambassadors: ThirdwebNextPage = () => {
               <Flex flexDir="column" gap={0}>
                 <Heading as="h2" size="display.md" mb={4} textAlign="center">
                   Become an{" "}
-                  <Text
+                  <Heading
                     size="display.md"
                     as="span"
                     bgGradient="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%);"
                     bgClip={"text"}
                   >
                     Ambassador today.
-                  </Text>
+                  </Heading>
                 </Heading>
-                <Text
+                <Heading
                   as="h3"
                   size="subtitle.md"
                   textAlign={{ base: "center" }}
@@ -428,7 +434,7 @@ const Ambassadors: ThirdwebNextPage = () => {
                   Tell us about yourself by filling out the form below and we’ll
                   be in touch soon! <br /> We require ambassadors to be 18 years
                   old or over.
-                </Text>
+                </Heading>
               </Flex>
               <LinkButton
                 href="https://docs.google.com/forms/d/e/1FAIpQLSfuhnYtA-CMo5PT1jF4vzzPy0jVS_DNRMSOayV4FNxx7rpKKQ/viewform"

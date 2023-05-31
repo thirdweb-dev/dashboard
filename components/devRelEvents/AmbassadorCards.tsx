@@ -1,8 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import { Text } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import NextImage, { StaticImageData } from "next/image";
-import { Heading, TrackedLink } from "tw-components";
+import { StaticImageData } from "next/image";
+import { Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface AmbassadorProps {
