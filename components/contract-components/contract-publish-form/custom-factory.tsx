@@ -15,7 +15,7 @@ import { Abi } from "@thirdweb-dev/sdk";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import { Button, Heading, Link, Text } from "tw-components";
+import { Button, Heading, Text } from "tw-components";
 
 interface CustomFactoryProps {
   setCustomFactoryAbi: Dispatch<SetStateAction<Abi>>;
