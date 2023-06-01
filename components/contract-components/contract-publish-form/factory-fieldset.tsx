@@ -1,5 +1,5 @@
-import { AutoFactory } from "./auto-factory";
 import { CustomFactory } from "./custom-factory";
+import { DefaultFactory } from "./default-factory";
 import { ButtonGroup, Flex } from "@chakra-ui/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { Dispatch, SetStateAction } from "react";
@@ -48,7 +48,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({
           </Button>
         </ButtonGroup>
         {form.watch("deployType") === "autoFactory" && (
-          <AutoFactory abi={abi} />
+          <DefaultFactory abi={abi} />
         )}
         {form.watch("deployType") === "customFactory" && (
           <CustomFactory setCustomFactoryAbi={setCustomFactoryAbi} />

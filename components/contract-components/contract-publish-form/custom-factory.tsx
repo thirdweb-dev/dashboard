@@ -8,6 +8,8 @@ import {
   Icon,
   IconButton,
   Input,
+  ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { Abi } from "@thirdweb-dev/sdk";
 import { Dispatch, SetStateAction, useEffect } from "react";
@@ -48,19 +50,24 @@ export const CustomFactory: React.FC<CustomFactoryProps> = ({
 
   return (
     <Flex px={0} pb={0} flexDir="column" gap={12}>
-      <Text fontStyle="normal">
-        Custom factory lets you specify what function should be called when a
-        user attempts to deploy your contract. You need to deploy your factory
-        contract to every network that you want your contract to support.{" "}
-        <Link
-          href="https://portal.thirdweb.com/publish/factory-contracts"
-          color="blue.600"
-        >
-          Learn more
-        </Link>
-        .
-      </Text>
+      <UnorderedList>
+        <Text as={ListItem}>
+          Use this if you want to invoke your own function with custom logic
+          when users deploy your contract.
+        </Text>
+        <Text as={ListItem}>
+          You need to have factory contracts pre-deployed to all networks that
+          you want to support.
+        </Text>
+      </UnorderedList>
       <Flex flexDir="column" gap={4}>
+        <Flex flexDir="column" gap={2}>
+          <Heading size="title.md">Factory contract addresses</Heading>
+          <Text>
+            Paste the contract address of your factory contracts. Your contract
+            can be deployed only to networks with valid factory address.
+          </Text>
+        </Flex>
         {fields.map((field, index) => (
           <div key={field.id}>
             <FormControl isRequired as={Flex} gap={4}>

@@ -316,31 +316,27 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
       </Box>
       <Box>
         <Heading size="title.md" mb={2}>
-          Choose your contract deployment
+          Deployment options
         </Heading>
         <Text size="body.md" mb={4}>
-          Not sure which contract type to choose?{" "}
-          <Link href="https://portal.thirdweb.com/publish" color="primary.600">
-            Learn more
-          </Link>
-          .
+          Choose how users will deploy your published contract.
         </Text>
         <Flex flexDir="column" gap={2} width="full">
           <SelectOption
-            name="Standard deployment"
+            name="Direct deploy"
+            description="Users will directly deploy the full contract."
             onClick={() => form.setValue("deployType", "standard")}
             isActive={form.watch("deployType") === "standard"}
-            infoText="Use this for contracts meant to be deployed directly."
             width="full"
           />
           <SelectOption
-            name="Factory deployment"
+            name="Deploy via factory"
+            description="Users will deploy a factory contract, which will then deploy your contract."
             onClick={() => form.setValue("deployType", "autoFactory")}
             isActive={
               form.watch("deployType") === "autoFactory" ||
               form.watch("deployType") === "customFactory"
             }
-            infoText="Use this if your contract follows the factory contract pattern. This lets you call an initializer function when users deploy your contract."
             width="full"
           />
         </Flex>
