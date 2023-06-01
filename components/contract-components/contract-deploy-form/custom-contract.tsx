@@ -70,7 +70,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const [customFactoryNetwork, customFactoryAddress] = Object.entries(
     fullPublishMetadata.data?.factoryDeploymentData?.customFactoryInput
       ?.customFactoryAddresses || {},
-  )[0];
+  )[0] || ["", ""];
 
   const customFactoryAbi = useCustomFactoryAbi(
     customFactoryAddress,
