@@ -331,7 +331,7 @@ export const LandingFieldset: React.FC<LandingFieldsetProps> = ({
           />
           <SelectOption
             name="Deploy via factory"
-            description="Users will deploy a factory contract, which will then deploy your contract."
+            description="Users will deploy your contract through a default or custom factory contract."
             onClick={() => form.setValue("deployType", "autoFactory")}
             isActive={
               form.watch("deployType") === "autoFactory" ||
