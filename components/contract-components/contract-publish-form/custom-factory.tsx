@@ -16,29 +16,27 @@ import { FiPlus, FiTrash } from "react-icons/fi";
 import { Button, Heading, Link, Text } from "tw-components";
 
 interface CustomFactoryProps {
-  setAbi: Dispatch<SetStateAction<Abi>>;
+  setCustomFactoryAbi: Dispatch<SetStateAction<Abi>>;
 }
 
-export const CustomFactory: React.FC<CustomFactoryProps> = ({ setAbi }) => {
+export const CustomFactory: React.FC<CustomFactoryProps> = ({
+  setCustomFactoryAbi,
+}) => {
   const form = useFormContext();
 
   const customFactoryAbi = useCustomFactoryAbi(
-    form.watch(
-      "factoryDeploymentData.customFactoryInput.customFactoryAddresses[0].value",
-    ),
-    form.watch(
-      "factoryDeploymentData.customFactoryInput.customFactoryAddresses[0].key",
-    ),
+    form.watch("customFactoryAddresses[0].value"),
+    form.watch("customFactoryAddresses[0].key"),
   );
 
   useEffect(() => {
     if (customFactoryAbi?.data) {
-      setAbi(customFactoryAbi.data);
+      setCustomFactoryAbi(customFactoryAbi.data);
     }
-  }, [customFactoryAbi, setAbi]);
+  }, [customFactoryAbi, setCustomFactoryAbi]);
 
   const { fields, append, remove } = useFieldArray({
-    name: "factoryDeploymentData.customFactoryInput.customFactoryAddresses",
+    name: "customFactoryAddresses",
     control: form.control,
   });
 
@@ -68,7 +66,7 @@ export const CustomFactory: React.FC<CustomFactoryProps> = ({ setAbi }) => {
             <FormControl isRequired as={Flex} gap={4}>
               <Box w={{ base: "full", md: "30%" }}>
                 <Controller
-                  name={`factoryDeploymentData.customFactoryInput.customFactoryAddresses[${index}].key`}
+                  name={`customFactoryAddresses[${index}].key`}
                   control={form.control}
                   render={({ field: _field }) => (
                     <NetworkDropdown
@@ -84,9 +82,7 @@ export const CustomFactory: React.FC<CustomFactoryProps> = ({ setAbi }) => {
               <Box w="full">
                 <Input
                   isRequired
-                  {...form.register(
-                    `factoryDeploymentData.customFactoryInput.customFactoryAddresses[${index}].value`,
-                  )}
+                  {...form.register(`customFactoryAddresses[${index}].value`)}
                   placeholder="Factory contract address"
                 />
               </Box>
@@ -118,7 +114,7 @@ export const CustomFactory: React.FC<CustomFactoryProps> = ({ setAbi }) => {
           <Text>Choose the factory function to deploy your contracts.</Text>
         </Flex>
         <FormControl isRequired>
-          {customFactoryAbi.data ? (
+          {customFactoryAbi?.data ? (
             <AbiSelector
               defaultValue="deployProxyByImplementation"
               abi={customFactoryAbi.data}

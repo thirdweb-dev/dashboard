@@ -8,12 +8,12 @@ import { Button, Heading } from "tw-components";
 
 interface FactoryFieldsetProps {
   abi: Abi;
-  setAbi: Dispatch<SetStateAction<Abi>>;
+  setCustomFactoryAbi: Dispatch<SetStateAction<Abi>>;
 }
 
 export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({
   abi,
-  setAbi,
+  setCustomFactoryAbi,
 }) => {
   const form = useFormContext();
 
@@ -51,7 +51,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({
           <AutoFactory abi={abi} />
         )}
         {form.watch("deployType") === "customFactory" && (
-          <CustomFactory setAbi={setAbi} />
+          <CustomFactory setCustomFactoryAbi={setCustomFactoryAbi} />
         )}
       </Flex>
     </Flex>

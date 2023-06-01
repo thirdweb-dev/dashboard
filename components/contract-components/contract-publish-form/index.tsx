@@ -19,7 +19,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import {
   Abi,
   CONTRACT_ADDRESSES,
-  ExtraPublishMetadata,
+  ExtraPublishMetadataSchemaInput,
 } from "@thirdweb-dev/sdk/evm";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -28,6 +28,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { IoChevronBack } from "react-icons/io5";
 import { Button, Text } from "tw-components";
+import { z } from "zod";
+
+const ExtraPublishMetadataSchema = ExtraPublishMetadataSchemaInput.extend({
+  customFactoryAddresses: z.array(
+    z.object({
+      key: z.number(),
+      value: z.string(),
+    }),
+  ),
+});
 
 interface ContractPublishFormProps {
   contractId: ContractId;
@@ -36,6 +46,8 @@ interface ContractPublishFormProps {
 export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
   contractId,
 }) => {
+  const [customFactoryAbi, setCustomFactoryAbi] = useState<Abi>([]);
+
   const configuredChains = defaultChains;
   const configuredChainsIds = configuredChains.map((c) => c.chainId);
   const [fieldsetToShow, setFieldsetToShow] = useState<
@@ -103,6 +115,16 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           configuredChainsIds.map((id) => [id, ""]),
         ),
         implementationInitializerFunction: "initialize",
+        customFactoryInput: {
+          factoryFunction:
+            prePublishMetadata.data?.latestPublishedContractMetadata
+              ?.publishedMetadata.factoryDeploymentData?.customFactoryInput
+              ?.factoryFunction || "deployProxyByImplementation",
+          customFactoryAddresses:
+            prePublishMetadata.data?.latestPublishedContractMetadata
+              ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
+              ?.customFactoryAddresses || {},
+        },
       },
       constructorParams:
         prePublishMetadata.data?.latestPublishedContractMetadata
@@ -115,14 +137,11 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
       deployType:
         prePublishMetadata.data?.latestPublishedContractMetadata
           ?.publishedMetadata?.deployType || "standard",
-      customFactoryInput: {
-        factoryFunction: "deployProxyByImplementation",
-        customFactoryAddresses: Object.entries(
-          prePublishMetadata.data?.latestPublishedContractMetadata
-            ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
-            ?.customFactoryAddresses || {},
-        ).map(([key, value]) => ({ key: Number(key), value })),
-      },
+      customFactoryAddresses: Object.entries(
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
+          ?.customFactoryAddresses || {},
+      ).map(([key, value]) => ({ key: Number(key), value })),
     };
   }, [
     configuredChainsIds,
@@ -133,7 +152,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
     publishMetadata.data?.name,
   ]);
 
-  const form = useForm<ExtraPublishMetadata>({
+  const form = useForm<z.input<typeof ExtraPublishMetadataSchema>>({
     defaultValues: transformedQueryData,
     values: transformedQueryData,
     resetOptions: {
@@ -141,8 +160,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
       keepDirtyValues: true,
     },
   });
-
-  const [abi, setAbi] = useState<Abi>(publishMetadata.data?.abi || []);
 
   const hasTrackedImpression = useRef<boolean>(false);
   useEffect(() => {
@@ -186,7 +203,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
 
   const initializerParams = useFunctionParamsFromABI(
     form.watch("deployType") === "customFactory"
-      ? abi
+      ? customFactoryAbi
       : publishMetadata.data?.abi,
     form.watch("deployType") === "customFactory"
       ? form.watch(
@@ -224,12 +241,8 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           id="contract-release-form"
           onSubmit={form.handleSubmit((data) => {
             const addressArray =
-              Object.keys(
-                data?.factoryDeploymentData?.customFactoryInput
-                  ?.customFactoryAddresses || {},
-              ).length > 0
-                ? (data?.factoryDeploymentData?.customFactoryInput
-                    ?.customFactoryAddresses as unknown as {
+              Object.keys(data?.customFactoryAddresses || {}).length > 0
+                ? (data?.customFactoryAddresses as unknown as {
                     key: number;
                     value: string;
                   }[])
@@ -355,7 +368,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
             <Flex flexDir="column" gap={24}>
               <FactoryFieldset
                 abi={publishMetadata.data?.abi || []}
-                setAbi={setAbi}
+                setCustomFactoryAbi={setCustomFactoryAbi}
               />
             </Flex>
           )}
