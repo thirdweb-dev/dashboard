@@ -41,7 +41,7 @@ const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({ apiKey }) => {
         )
       }
     >
-      Revoke key
+      Revoke
     </MenuItem>
   );
 };
