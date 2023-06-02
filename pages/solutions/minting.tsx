@@ -24,9 +24,9 @@ const deployCode = `const txResult = await sdk.deployer.deployBuiltInContract(
     // Contract name
     name: "My ERC1155", 
     // Address that'll take the primary sale revenue
-    primary_sale_recipient: "{{wallet_address}}", 
+    primary_sale_recipient: "{{user_address}}", 
     // Optionally take a free of primary sale revenue
-    platform_fee_recipient: "{{wallet_address}}", 
+    platform_fee_recipient: "{{admin_address}}", 
     // 10% fee
     platform_fee_basis_points: 1000, 
   }
