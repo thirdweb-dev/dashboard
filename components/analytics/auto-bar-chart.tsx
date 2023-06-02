@@ -1,5 +1,5 @@
 import { StackToolTip } from "./stack-tooltip";
-import { Box, BoxProps } from "@chakra-ui/react";
+import { Box, BoxProps, useColorMode } from "@chakra-ui/react";
 import { useId, useMemo, useState } from "react";
 import {
   Bar,
@@ -30,17 +30,46 @@ export interface AutoBarChartProps<
   startEndOnly?: boolean;
 }
 
-const BAR_COLORS = [
-  "#3385ff",
-  "#00b5ff",
-  "#00eeff",
-  "#1cdbba",
-  "#41a253",
-  "#c5d275",
-  "#fcd983",
-  "#f49e5c",
-  "#e2604f",
-  "#d43d51",
+const BAR_COLORS_LIGHT = [
+  "#649CDD",
+  "#92BBE8",
+  "#407DCC",
+  "#94BD5D",
+  "#729544",
+  "#A48AC1",
+  "#C5B5D7",
+  "#8460AB",
+  "#E1918E",
+  "#D65E59",
+  "#F3D570",
+  "#F7E5A2",
+  "#EFC64A",
+  "#E7AB78",
+  "#F0CDAD",
+  "#DF8A47",
+  "#A6D7D8",
+  "#CEE9E9",
+];
+
+const BAR_COLORS_DARK = [
+  "#3682DA",
+  "#6AADF5",
+  "#1769D3",
+  "#84BF35",
+  "#629421",
+  "#8751C3",
+  "#AA85D3",
+  "#6E38A9",
+  "#DE6F6B",
+  "#D43932",
+  "#FACD38",
+  "#FFE689",
+  "#F0BF2A",
+  "#E4934E",
+  "#F4C294",
+  "#DE7929",
+  "#7CDEE0",
+  "#C8FFFF",
 ];
 
 export const AutoBarChart = <
@@ -54,9 +83,17 @@ export const AutoBarChart = <
   startEndOnly,
   ...boxProps
 }: AutoBarChartProps<TData, TIndexKey>) => {
+  const { colorMode } = useColorMode();
   const [hoverKey, setHoverKey] = useState("");
-
   const id = useId();
+
+  const barColors = useMemo(() => {
+    if (colorMode === "light") {
+      return BAR_COLORS_LIGHT;
+    }
+
+    return BAR_COLORS_DARK;
+  }, [colorMode]);
 
   const categories = useMemo(() => {
     const autoKeys: string[] = [];
@@ -75,9 +112,9 @@ export const AutoBarChart = <
     return autoKeys.map((key, idx) => ({
       id: key,
       label: key,
-      color: BAR_COLORS[idx % BAR_COLORS.length],
+      color: barColors[idx % barColors.length],
     }));
-  }, [data, index.id]);
+  }, [data, index.id, barColors]);
 
   if (!index.type) {
     index.type = "date";

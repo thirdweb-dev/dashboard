@@ -1,6 +1,6 @@
 import { CustomToolTip } from "./custom-tooltip";
-import { Box, BoxProps } from "@chakra-ui/react";
-import { useId } from "react";
+import { Box, BoxProps, useColorMode } from "@chakra-ui/react";
+import { useId, useMemo } from "react";
 import {
   Bar,
   BarChart as RechartsBarChart,
@@ -50,7 +50,16 @@ export const BarChart = <
   startEndOnly,
   ...boxProps
 }: BarChartProps<TData, TIndexKey>) => {
+  const { colorMode } = useColorMode();
   const id = useId();
+
+  const defaultBarColor = useMemo(() => {
+    if (colorMode === "light") {
+      return "#649CDD";
+    }
+
+    return "#3682DA";
+  }, [colorMode]);
 
   if (!data.length) {
     return null;
@@ -77,12 +86,12 @@ export const BarChart = <
               >
                 <stop
                   offset="0"
-                  stopColor={cat.color || "#3385FF"}
+                  stopColor={cat.color || defaultBarColor}
                   stopOpacity={1}
                 />
                 <stop
                   offset="1"
-                  stopColor={cat.color || "#3385FF"}
+                  stopColor={cat.color || defaultBarColor}
                   stopOpacity={0.75}
                 />
               </linearGradient>
@@ -94,7 +103,7 @@ export const BarChart = <
               key={`${cat.id as string}`}
               dataKey={cat.id as string}
               stackId="a"
-              stroke={cat.color || "#3385FF"}
+              stroke={cat.color || defaultBarColor}
               fill={`url(#bar_color_${id}_${cat.id as string})`}
               strokeWidth={0}
             />
@@ -114,8 +123,8 @@ export const BarChart = <
               );
             }}
             cursor={{
-              stroke: "#3385FF",
-              fill: "#3385FF",
+              stroke: defaultBarColor,
+              fill: defaultBarColor,
               opacity: 0.2,
               strokeDasharray: 2,
               strokeWidth: 0,
