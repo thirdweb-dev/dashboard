@@ -1,14 +1,16 @@
+import { THIRDWEB_API_HOST } from "../../../constants/urls";
 import { apiKeys } from "../cache-keys";
 import { useMutationWithInvalidate } from "./query/useQueryWithNetwork";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
-import {THIRDWEB_API_HOST} from "../../../constants/urls";
 
 export type ApiKeyInfo = {
   creatorWalletAddress: string;
   key: string;
+  name?: string;
   revoked: boolean;
+  createdAt?: string;
 };
 
 export function useApiKeys() {
@@ -61,7 +63,7 @@ export function useCreateApiKey() {
       return data;
     },
     {
-      onSuccess: (_data, _variables, _options) => {
+      onSuccess: () => {
         return queryClient.invalidateQueries(
           apiKeys.keys(user?.address as string),
         );
@@ -100,7 +102,7 @@ export function useRevokeApiKey() {
       return data;
     },
     {
-      onSuccess: (_data, _variables, _options) => {
+      onSuccess: () => {
         return queryClient.invalidateQueries(
           apiKeys.keys(user?.address as string),
         );
