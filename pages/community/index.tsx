@@ -32,7 +32,7 @@ const communitySections = [
     title1: "Learn",
     title2: "web3 development",
     description:
-      "Whether you're interested in web3 or thirdweb, our mission is to cultivate a community of like-minded individuals who share our passion for the future of decentralized technology.",
+      "Our mission is to foster a community of web3 enthusiasts to drive innovation together through learning and development efforts.",
     cards: [
       {
         image: "/assets/community/home/learn.svg",
@@ -48,7 +48,7 @@ const communitySections = [
       },
       {
         image: "/assets/community/home/office-hours.svg",
-        link: "https://lu.ma/0js9ms13",
+        link: "https://lu.ma/tw-office-hours",
         title: "Office Hours",
         description: "",
       },
@@ -94,7 +94,7 @@ const communitySections = [
       },
 
       {
-        image: "",
+        image: "/assets/community/home/discord.png",
         link: "https://discord.gg/thirdweb",
         title: "Join Discord",
         description: "",
@@ -176,7 +176,7 @@ const Community: ThirdwebNextPage = () => {
                   fontSize="larger"
                   leftIcon={<Icon as={BsLightningCharge} />}
                   isExternal
-                  rightIcon={<></>}
+                  noIcon
                 >
                   Join the community
                 </LinkButton>
@@ -255,7 +255,7 @@ const Community: ThirdwebNextPage = () => {
                   </Text>
 
                   <SimpleGrid
-                    columns={{ base: 2, sm: 3, md: 4 }}
+                    columns={{ base: 1, sm: 3, md: 4 }}
                     gap={{ base: 12, md: 6 }}
                     py={{ base: 12, md: 8 }}
                   >
@@ -305,7 +305,7 @@ const Community: ThirdwebNextPage = () => {
           </Heading>
 
           <SimpleGrid
-            columns={{ base: 1, md: 3 }}
+            columns={{ base: 1, sm: 2, md: 3 }}
             gap={{ base: 12, md: 6 }}
             py={{ base: 12, md: 8 }}
           >
@@ -339,7 +339,8 @@ const Community: ThirdwebNextPage = () => {
           </Heading>
 
           <Flex
-            my={8}
+            mt={8}
+            mb={12}
             justify="center"
             align="center"
             gap={4}
@@ -364,7 +365,7 @@ const Community: ThirdwebNextPage = () => {
               fontSize="larger"
               leftIcon={<Icon as={BsLightningCharge} />}
               isExternal
-              rightIcon={<></>}
+              noIcon
             >
               Join the community
             </LinkButton>
