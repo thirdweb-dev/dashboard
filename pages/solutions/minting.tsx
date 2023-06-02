@@ -35,34 +35,15 @@ const deployCode = `const txResult = await sdk.deployer.deployBuiltInContract(
 const mintAndAirdropCode = `// Get the contract
 const contract = await sdk.getContract("0x..."); 
 
-// Set the metadata for the NFT
-const metadata = {
-  name: "Cool NFT #1",
-  description: "This is a cool NFT",
-  image: "https://example.com/image.png", // URL, IPFS URI, or File object
-  // ... Any other metadata you want to include
-};
-
-// Mint the NFT
 const tx = await contract.erc1155.mint({
   metadata,
   // The number of this NFT you want to mint
   supply: 1000, 
 });
 
-// Airdrop the NFT to a list of addresses
 const tx = await contract.erc1155.airdrop(
-  // The token ID of the NFT you want to airdrop
-  "0", 
-  // The list of addresses to airdrop to
-  [{
-    address: "0x...",
-    quantity: 2,
-  },
-  {
-   address: "0x...",
-    quantity: 3,
-  }],
+  "0", // Token ID
+  ["0x...", "0x...", "0x..."], // List of addresses
 );`;
 
 const CASE_STUDIES = [
