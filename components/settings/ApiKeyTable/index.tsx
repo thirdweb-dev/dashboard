@@ -13,7 +13,7 @@ interface ApiKeyInfoColumn extends ApiKeyInfo {
 }
 
 interface ApiKeyTableProps {
-  keys: ApiKeyInfoColumn[];
+  keys: ApiKeyInfo[];
   isLoading: boolean;
   isFetched: boolean;
 }
@@ -66,7 +66,7 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
     <TWTable
       title="api key"
       columns={columns}
-      data={keys}
+      data={keys as ApiKeyInfoColumn[]}
       isLoading={isLoading}
       isFetched={isFetched}
     />
