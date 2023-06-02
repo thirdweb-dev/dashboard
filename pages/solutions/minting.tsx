@@ -6,7 +6,6 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { HomePageCodeBlock } from "components/homepage/CodeBlock";
-import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
@@ -46,7 +45,7 @@ const tx = await contract.erc1155.airdrop(
   ["0x...", "0x...", "0x..."], // List of addresses
 );`;
 
-const CASE_STUDIES = [
+/* const CASE_STUDIES = [
   {
     title: "Warner Brothers",
     description:
@@ -68,7 +67,7 @@ const CASE_STUDIES = [
     image: require("public/assets/solutions-pages/minting/polygon-0xmint.png"),
     link: "https://0xmint.io/",
   },
-];
+]; */
 
 const Minting: ThirdwebNextPage = () => {
   return (
