@@ -1,6 +1,6 @@
 import { Flex, LinkBox, LinkOverlay, Stack, VStack } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { Heading, Text } from "tw-components";
+import { Card, Heading, Text } from "tw-components";
 
 interface CommunityCardProps {
   image: string;
@@ -16,19 +16,20 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
   description,
 }) => {
   return (
-    <LinkBox
-      bg="transparent"
-      borderRadius="xl"
-      w="full"
-      border="1px solid"
-      borderColor="borderColor"
+    <Card
       maxW="80vw"
       mx={{
         base: "auto",
         md: "0",
       }}
+      p={0}
     >
-      <VStack bg="transparent" borderRadius="xl" _hover={{ textDecor: "none" }}>
+      <VStack
+        bg="transparent"
+        borderRadius="xl"
+        _hover={{ textDecor: "none" }}
+        as={LinkBox}
+      >
         <Stack
           align="center"
           justify="center"
@@ -67,6 +68,6 @@ export const CommunityCard: React.FC<CommunityCardProps> = ({
           {description && <Text color="#949494">{description}</Text>}
         </Flex>
       </VStack>
-    </LinkBox>
+    </Card>
   );
 };
