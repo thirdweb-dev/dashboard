@@ -12,19 +12,15 @@ const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({ apiKey }) => {
   const mutation = useRevokeApiKey();
   const { onSuccess, onError } = useTxNotifications(
     "API key revoked",
-    "Failed to revoke API key",
+    "Failed to revoke an API key",
   );
 
   const handleRevoke = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
 
     mutation.mutate(apiKey, {
-      onSuccess: () => {
-        onSuccess();
-      },
-      onError: (err) => {
-        onError(err);
-      },
+      onSuccess,
+      onError,
     });
   };
 

@@ -1,4 +1,4 @@
-import { ApiKeyInfo } from "@3rdweb-sdk/react/hooks/useApi";
+import { ApiKeyInfo, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   FormControl,
   Input,
@@ -10,6 +10,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import { useTxNotifications } from "hooks/useTxNotifications";
 import { useForm } from "react-hook-form";
 import { Button, FormErrorMessage, FormLabel } from "tw-components";
 
@@ -28,7 +29,13 @@ const EditApiKeyModal: React.FC<EditApiKeyModalProps> = ({
   open,
   onClose,
 }) => {
-  const initialName = apiKey?.name || "Unnamed";
+  const mutation = useUpdateApiKey();
+  const initialName = apiKey?.name as string;
+
+  const { onSuccess, onError } = useTxNotifications(
+    "API key updated",
+    "Failed to update an API key",
+  );
 
   const form = useForm<FormData>({
     values: {
@@ -36,9 +43,17 @@ const EditApiKeyModal: React.FC<EditApiKeyModalProps> = ({
     },
   });
 
-  const handleSubmit = form.handleSubmit(() => {
-    // FIXME: Submit api key update
-    // console.log("Submitting", data);
+  const handleSubmit = form.handleSubmit(({ name }) => {
+    mutation.mutate(
+      { key: apiKey?.key as string, name },
+      {
+        onSuccess: () => {
+          onClose();
+          onSuccess();
+        },
+        onError,
+      },
+    );
   });
 
   const handleClose = () => {

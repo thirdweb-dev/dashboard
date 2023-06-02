@@ -5,6 +5,7 @@ import { ApiKeyInfo } from "@3rdweb-sdk/react/hooks/useApi";
 import { Flex, Icon, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
+import { format } from "date-fns";
 import { useCallback, useMemo, useState } from "react";
 import { FiEdit2, FiMoreVertical } from "react-icons/fi";
 import { MenuItem, Text, TrackedIconButton } from "tw-components";
@@ -41,7 +42,7 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
     () => [
       columnHelper.accessor("name", {
         header: "Name",
-        cell: (cell) => <Text>{cell.getValue() || "Unnamed"}</Text>,
+        cell: (cell) => <Text>{cell.getValue()}</Text>,
       }),
 
       columnHelper.accessor("key", {
@@ -51,6 +52,15 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
 
       columnHelper.accessor("createdAt", {
         header: "Created",
+        cell: (cell) => {
+          const value = cell.getValue();
+
+          if (!value) {
+            return;
+          }
+          const createdDate = format(new Date(value), "MMM dd, yyyy");
+          return <Text>{createdDate}</Text>;
+        },
       }),
 
       columnHelper.accessor("key", {

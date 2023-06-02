@@ -8,9 +8,9 @@ import invariant from "tiny-invariant";
 export type ApiKeyInfo = {
   creatorWalletAddress: string;
   key: string;
-  name?: string;
+  name: string;
   revoked: boolean;
-  createdAt?: string;
+  createdAt: string;
 };
 
 export function useApiKeys() {
@@ -72,6 +72,48 @@ export function useCreateApiKey() {
   );
 }
 
+export interface IUpdateKeyInput {
+  key: string;
+  name: string;
+}
+
+export function useUpdateApiKey() {
+  const { user } = useUser();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: IUpdateKeyInput) => {
+      invariant(user, "No user is logged in");
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: input.key,
+          name: input.name,
+        }),
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        throw new Error(data.error?.message || data.error);
+      }
+
+      return data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          apiKeys.keys(user?.address as string),
+        );
+      },
+    },
+  );
+}
+
 export function useRevokeApiKey() {
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -80,19 +122,16 @@ export function useRevokeApiKey() {
     async (key: string) => {
       invariant(user, "No user is logged in");
 
-      const res = await fetch(
-        `${THIRDWEB_API_HOST}/v1/keys/revoke`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            key,
-          }),
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/revoke`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          key,
+        }),
+      });
       const data = await res.json();
 
       if (data.error) {
