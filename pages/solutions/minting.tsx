@@ -1,8 +1,6 @@
 import {
   Box,
   Flex,
-  Icon,
-  Image,
   ListItem,
   SimpleGrid,
   UnorderedList,
@@ -13,17 +11,8 @@ import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
-import { replaceIpfsUrl } from "lib/sdk";
 import { PageId } from "page-id";
-import { FiArrowRight } from "react-icons/fi";
-import {
-  Card,
-  Heading,
-  Link,
-  LinkButton,
-  Text,
-  TrackedLink,
-} from "tw-components";
+import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "minting_kit";
