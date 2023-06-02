@@ -9,6 +9,7 @@ import {
   useTransactionsForDeploy,
 } from "../hooks";
 import { ContractMetadataFieldset } from "./contract-metadata-fieldset";
+import { Param } from "./param";
 import { PlatformFeeFieldset } from "./platform-fee-fieldset";
 import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
@@ -21,13 +22,10 @@ import {
   AccordionPanel,
   Divider,
   Flex,
-  FormControl,
 } from "@chakra-ui/react";
 import { LineaTestnet } from "@thirdweb-dev/chains";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
-import { SolidityInput } from "contract-ui/components/solidity-inputs";
-import { camelToTitle } from "contract-ui/components/solidity-inputs/helpers";
 import { verifyContract } from "contract-ui/tabs/sources/page";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChain } from "hooks/chains/configureChains";
@@ -36,15 +34,7 @@ import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
 import { FormProvider, useForm } from "react-hook-form";
 import invariant from "tiny-invariant";
-import {
-  Checkbox,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-  Heading,
-  Text,
-  TrackedLink,
-} from "tw-components";
+import { Checkbox, Heading, Text, TrackedLink } from "tw-components";
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -160,6 +150,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 
   const formDeployParams = form.watch("deployParams");
 
+  const anyHiddenParams = Object.keys(formDeployParams).some((paramKey) => {
+    const contructorParams = fullPublishMetadata.data?.constructorParams || {};
+    const isHidden = contructorParams[paramKey]?.hidden;
+
+    return isHidden;
+  });
+
   const hasContractURI = "_contractURI" in formDeployParams;
   const hasRoyalty =
     "_royaltyBps" in formDeployParams &&
@@ -170,6 +167,28 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "_platformFeeRecipient" in formDeployParams;
   const isSplit =
     "_payees" in formDeployParams && "_shares" in formDeployParams;
+
+  const shouldHide = (paramKey: string) => {
+    if (
+      (hasContractURI &&
+        (paramKey === "_contractURI" ||
+          paramKey === "_name" ||
+          paramKey === "_symbol")) ||
+      (hasRoyalty &&
+        (paramKey === "_royaltyBps" || paramKey === "_royaltyRecipient")) ||
+      (hasPrimarySale && paramKey === "_saleRecipient") ||
+      (hasPlatformFee &&
+        (paramKey === "_platformFeeBps" ||
+          paramKey === "_platformFeeRecipient")) ||
+      paramKey === "_defaultAdmin" ||
+      paramKey === "_trustedForwarders" ||
+      (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
+    ) {
+      return true;
+    }
+
+    return false;
+  };
 
   const deploy = useCustomContractDeployMutation(
     ipfsHash,
@@ -304,96 +323,76 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               )}
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
-              <Accordion allowToggle defaultIndex={[0]}>
-                <AccordionItem borderColor="borderColor" borderBottom="none">
-                  <AccordionButton px={0}>
-                    <Heading size="subtitle.md" flex="1" textAlign="left">
-                      Advanced Configuration
-                    </Heading>
-
-                    <AccordionIcon />
-                  </AccordionButton>
-
-                  <AccordionPanel py={4} px={0}>
-                    {hasPlatformFee && <PlatformFeeFieldset form={form} />}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
               {isSplit && <SplitFieldset form={form} />}
+              {Object.keys(formDeployParams).map((paramKey) => {
+                const deployParam = deployParams.find(
+                  (p: any) => p.name === paramKey,
+                );
+                const contructorParams =
+                  fullPublishMetadata.data?.constructorParams || {};
+                const extraMetadataParam = contructorParams[paramKey];
+
+                if (shouldHide(paramKey) || extraMetadataParam.hidden) {
+                  return null;
+                }
+
+                return (
+                  <Param
+                    key={paramKey}
+                    paramKey={paramKey}
+                    deployParam={deployParam}
+                    extraMetadataParam={extraMetadataParam}
+                  />
+                );
+              })}
+              {(anyHiddenParams || hasPlatformFee) && (
+                <Accordion allowToggle>
+                  <AccordionItem borderColor="borderColor" borderBottom="none">
+                    <AccordionButton px={0}>
+                      <Heading size="subtitle.md" flex="1" textAlign="left">
+                        Advanced Configuration
+                      </Heading>
+
+                      <AccordionIcon />
+                    </AccordionButton>
+
+                    <AccordionPanel
+                      py={4}
+                      px={0}
+                      as={Flex}
+                      flexDir="column"
+                      gap={4}
+                    >
+                      {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+                      {Object.keys(formDeployParams).map((paramKey) => {
+                        const deployParam = deployParams.find(
+                          (p: any) => p.name === paramKey,
+                        );
+                        const contructorParams =
+                          fullPublishMetadata.data?.constructorParams || {};
+                        const extraMetadataParam = contructorParams[paramKey];
+
+                        if (
+                          shouldHide(paramKey) ||
+                          !extraMetadataParam.hidden
+                        ) {
+                          return null;
+                        }
+
+                        return (
+                          <Param
+                            key={paramKey}
+                            paramKey={paramKey}
+                            deployParam={deployParam}
+                            extraMetadataParam={extraMetadataParam}
+                          />
+                        );
+                      })}
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              )}
             </Flex>
-            {Object.keys(formDeployParams).map((paramKey) => {
-              const deployParam = deployParams.find(
-                (p: any) => p.name === paramKey,
-              );
-              const contructorParams =
-                fullPublishMetadata.data?.constructorParams || {};
-              const extraMetadataParam = contructorParams[paramKey];
-
-              if (
-                (hasContractURI &&
-                  (paramKey === "_contractURI" ||
-                    paramKey === "_name" ||
-                    paramKey === "_symbol")) ||
-                (hasRoyalty &&
-                  (paramKey === "_royaltyBps" ||
-                    paramKey === "_royaltyRecipient")) ||
-                (hasPrimarySale && paramKey === "_saleRecipient") ||
-                (hasPlatformFee &&
-                  (paramKey === "_platformFeeBps" ||
-                    paramKey === "_platformFeeRecipient")) ||
-                paramKey === "_defaultAdmin" ||
-                paramKey === "_trustedForwarders" ||
-                (isSplit && (paramKey === "_payees" || paramKey === "_shares"))
-              ) {
-                return null;
-              }
-
-              return (
-                <FormControl
-                  isRequired
-                  key={paramKey}
-                  isInvalid={
-                    !!form.getFieldState(
-                      `deployParams.${paramKey}`,
-                      form.formState,
-                    ).error
-                  }
-                >
-                  <Flex alignItems="center" my={1}>
-                    <FormLabel mb={0} flex="1" display="flex">
-                      <Flex alignItems="baseline" gap={1}>
-                        {extraMetadataParam?.displayName ||
-                          camelToTitle(paramKey)}
-                        <Text size="label.sm">({paramKey})</Text>
-                      </Flex>
-                    </FormLabel>
-                    {deployParam && (
-                      <FormHelperText mt={0}>{deployParam.type}</FormHelperText>
-                    )}
-                  </Flex>
-                  {deployParam && (
-                    <SolidityInput
-                      defaultValue={form.watch(`deployParams.${paramKey}`)}
-                      solidityType={deployParam.type}
-                      {...form.register(`deployParams.${paramKey}`)}
-                    />
-                  )}
-                  <FormErrorMessage>
-                    {
-                      form.getFieldState(
-                        `deployParams.${paramKey}`,
-                        form.formState,
-                      ).error?.message
-                    }
-                  </FormErrorMessage>
-                  {extraMetadataParam?.description && (
-                    <FormHelperText>
-                      {extraMetadataParam?.description}
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              );
-            })}
             <Divider mt="auto" />
           </>
         )}
