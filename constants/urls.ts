@@ -1,3 +1,3 @@
-export const THIRDWEB_DOMAIN = "localhost:3000";
+export const THIRDWEB_DOMAIN = "thirdweb.com";
 
-export const THIRDWEB_API_HOST = "http://localhost:3005";
+export const THIRDWEB_API_HOST = "https://api.thirdweb.com";
