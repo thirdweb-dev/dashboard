@@ -26,86 +26,29 @@ import {
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
-interface NFTContractInfo {
-  name: string;
-  description: string;
-  img: string;
-  link: string;
-}
-
 const TRACKING_CATEGORY = "minting_kit";
 
-const exploreNFTContracts: NFTContractInfo[] = [
+const CASE_STUDIES = [
   {
-    name: "Multiwrap",
+    title: "Warner Brothers",
     description:
-      "Bundle multiple ERC721/ERC1155/ERC20 tokens into a single ERC721.",
-    img: replaceIpfsUrl(
-      "ipfs://QmQm3UytP51wWMMwmDYdDHH4vCdokPqt52bUtBQoLsx5qy/edition.png",
-    ),
-    link: "/thirdweb.eth/Multiwrap",
+      "Launched a dynamic NFT based holiday greeting card using thirdweb's advanced signature based minting API.",
+    image: require("public/assets/solutions-pages/minting/warner-bros.png"),
+    link: "https://nft.coinbase.com/drops/crypto-cards",
   },
   {
-    name: "ERC4907",
-    description: "Rental NFT, ERC-721 User And Expires Extension.",
-    img: replaceIpfsUrl(
-      "ipfs://QmaKC631DSxDtjDcveAFVuGpSwM84icnXSGQgqrLpw3Lkh/yellow%E2%80%94360x360.png",
-    ),
-    link: "/doubledev.eth/ERC4907",
-  },
-  {
-    name: "NFT Collection",
-    description: "Create collection of unique NFTs.",
-    img: replaceIpfsUrl(
-      "ipfs://QmWARxASHf4UcWkwxTUDJxAXVDUG5STu5yBePJg35GzqjZ/nft-collection.png",
-    ),
-    link: "/thirdweb.eth/TokenERC721",
-  },
-  {
-    name: "Edition",
-    description: "Create editions of ERC1155 tokens.",
-    img: replaceIpfsUrl(
-      "ipfs://QmQm3UytP51wWMMwmDYdDHH4vCdokPqt52bUtBQoLsx5qy/edition.png",
-    ),
-    link: "/thirdweb.eth/TokenERC1155",
-  },
-  {
-    name: "ERC721CommunityStream",
-    description: "Equally distribute any token to community of NFT holders.",
-    img: replaceIpfsUrl(
-      "ipfs://QmbGjq5DY6gW1T7W7j3HEgYSAB2g4TnpzrNADTuniDXsqU/0.png",
-    ),
-    link: "/flairsdk.eth/ERC721CommunityStream",
-  },
-  {
-    name: "Pack",
+    title: "Paper",
     description:
-      "Pack multiple tokens into ERC1155 NFTs that act as randomized loot boxes.",
-    img: replaceIpfsUrl(
-      "ipfs://QmaLYhDh2oKxSjAS6iA434z8fvY43oAEug2AHHEMYMBU3K/pack.png",
-    ),
-    link: "/thirdweb.eth/Pack",
-  },
-];
-
-const GUIDES = [
-  {
-    title: "Release an NFT Drop with an Allowlist and Multiple Claim Phases",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-13.png",
-    link: "https://blog.thirdweb.com/guides/create-nft-drop-with-claim-phases/",
+      "Used thirdweb's embedded minting SDK to launch their Quickstart product allowing non-crypto customers to launch an NFT collection in two steps.",
+    image: require("public/assets/solutions-pages/minting/paper-minting.png"),
+    link: "https://blog.withpaper.com/deploy-thirdweb-nft-contracts-using-paper/",
   },
   {
-    title: "Create an ERC721A NFT Drop with Signature-Based Minting",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-39.png",
-    link: "https://blog.thirdweb.com/guides/signature-drop/",
-  },
-  {
-    title: "Create an Early Access NFT with TypeScript and React",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-22.png",
-    link: "https://blog.thirdweb.com/guides/early-access-nft-with-typescript/",
+    title: "Polygon 0xmint",
+    description:
+      "Integrated thirdweb's minting solution into the 0xmint minting API to allow developers to launch new NFT collections.",
+    image: require("public/assets/solutions-pages/minting/polygon-0xmint.png"),
+    link: "https://0xmint.io/",
   },
 ];
 
@@ -114,7 +57,8 @@ const Minting: ThirdwebNextPage = () => {
     <ProductPage
       seo={{
         title: "Minting | Solutions",
-        description: "Launch and mint NFTs at scale",
+        description:
+          "Enable your end users to mint, deploy, and distribute NFTs through your app. With flexible configuration options.",
         // @TODO
         // openGraph: {
         //   images: [
@@ -130,12 +74,12 @@ const Minting: ThirdwebNextPage = () => {
     >
       <Hero
         name="Minting"
-        title="Build complete digital asset experiences"
-        description="A simple all-in-one solution to build digital asset experiences, from choosing digital asset types and minting strategies to wallet creation and credit card checkout."
+        title="Mint and distribute NFTs easily"
+        description="Enable your end users to mint, deploy, and distribute NFTs through your app. Flexible  configuration options: build your own minting solution with embeddable SDKs, self-hosted minting API or use thirdweb managed service minting API."
         trackingCategory={TRACKING_CATEGORY}
         buttonText="Get started"
         type="Solutions"
-        buttonLink="https://portal.thirdweb.com/pre-built-contracts/choosing-the-right-pre-built-contract"
+        buttonLink="https://portal.thirdweb.com/minting"
         gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
         secondaryButton={{
@@ -372,86 +316,11 @@ const Minting: ThirdwebNextPage = () => {
         </Flex>
       </ProductSection>
 
-      {/* Explore NFT contracts */}
-      <ProductSection py={{ base: 12, md: 24 }}>
-        <Heading size="title.2xl" mb={4} as="h2" textAlign="center">
-          Get started with our NFT contracts
-        </Heading>
-
-        <Text fontSize="large" textAlign="center" mb={12}>
-          Go to{" "}
-          <Link color="white" href="https://thirdweb.com/explore" isExternal>
-            Explore
-          </Link>{" "}
-          to deploy in 1-click.
-        </Text>
-
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} mb={12}>
-          {exploreNFTContracts.map((contractInfo) => {
-            return (
-              <article key={contractInfo.name}>
-                <TrackedLink
-                  category={TRACKING_CATEGORY}
-                  label="contract"
-                  trackingProps={{
-                    contract: contractInfo.name
-                      .toLowerCase()
-                      .replaceAll(" ", "-"),
-                  }}
-                  href={contractInfo.link}
-                  isExternal
-                  textDecoration="none !important"
-                >
-                  <Card
-                    h="100%"
-                    bg="rgba(255, 255, 255, 0.05)"
-                    border="1px solid rgba(255, 255, 255, 0.05)"
-                    transition="border 200ms ease"
-                    _hover={{
-                      borderColor: "white",
-                    }}
-                  >
-                    <Image
-                      src={contractInfo.img}
-                      alt=""
-                      width={8}
-                      mb={4}
-                      borderRadius="full"
-                    />
-                    <Heading size="title.sm" mb={2}>
-                      {contractInfo.name}
-                    </Heading>
-                    <Text size="body.lg">{contractInfo.description}</Text>
-                  </Card>
-                </TrackedLink>
-              </article>
-            );
-          })}
-        </SimpleGrid>
-
-        <Flex justify="center" mb={8} gap={6}>
-          <LinkButton
-            flexShrink={0}
-            size="sm"
-            isExternal
-            rightIcon={<Icon as={FiArrowRight} />}
-            variant="link"
-            href={`/explore/nft`}
-            fontWeight={500}
-            fontSize="20px"
-          >
-            View all NFT Contracts
-          </LinkButton>
-        </Flex>
-      </ProductSection>
-
-      {/* Guides */}
       <GuidesShowcase
-        title="Start building NFT experiences"
+        title="Powering top web3 projects"
+        description="Learn how other web3 projects are using our minting solution."
         category={TRACKING_CATEGORY}
-        description="Check out our guides to start building NFT experiences with thirdweb."
-        solution="NFT-Drop"
-        guides={GUIDES}
+        guides={CASE_STUDIES}
       />
 
       <Box
