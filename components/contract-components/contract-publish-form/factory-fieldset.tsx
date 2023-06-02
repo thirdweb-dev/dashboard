@@ -32,7 +32,7 @@ export const FactoryFieldset: React.FC<FactoryFieldsetProps> = ({
             rounded="lg"
             onClick={() => form.setValue("deployType", "autoFactory")}
           >
-            Auto Factory (Proxy Contracts)
+            Default Factory
           </Button>
           <Button
             type="button"
