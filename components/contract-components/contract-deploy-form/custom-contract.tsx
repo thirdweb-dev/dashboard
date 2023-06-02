@@ -13,7 +13,16 @@ import { PlatformFeeFieldset } from "./platform-fee-fieldset";
 import { PrimarySaleFieldset } from "./primary-sale-fieldset";
 import { RoyaltyFieldset } from "./royalty-fieldset";
 import { Recipient, SplitFieldset } from "./split-fieldset";
-import { Divider, Flex, FormControl } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Divider,
+  Flex,
+  FormControl,
+} from "@chakra-ui/react";
 import { LineaTestnet } from "@thirdweb-dev/chains";
 import { TransactionButton } from "components/buttons/TransactionButton";
 import { NetworkSelectorButton } from "components/selects/NetworkSelectorButton";
@@ -295,7 +304,21 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
               )}
               {hasRoyalty && <RoyaltyFieldset form={form} />}
               {hasPrimarySale && <PrimarySaleFieldset form={form} />}
-              {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+              <Accordion allowToggle defaultIndex={[0]}>
+                <AccordionItem borderColor="borderColor" borderBottom="none">
+                  <AccordionButton px={0}>
+                    <Heading size="subtitle.md" flex="1" textAlign="left">
+                      Advanced Configuration
+                    </Heading>
+
+                    <AccordionIcon />
+                  </AccordionButton>
+
+                  <AccordionPanel py={4} px={0}>
+                    {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
               {isSplit && <SplitFieldset form={form} />}
             </Flex>
             {Object.keys(formDeployParams).map((paramKey) => {
