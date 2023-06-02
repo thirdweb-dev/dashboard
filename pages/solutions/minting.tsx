@@ -76,7 +76,7 @@ const Minting: ThirdwebNextPage = () => {
       seo={{
         title: "Minting | Solutions",
         description:
-          "Enable your end users to mint, deploy, and distribute NFTs through your app. With flexible configuration options.",
+          "Enable your users to mint, deploy and distribute NFTS through your app with only a few lines of code.",
         // @TODO
         // openGraph: {
         //   images: [
@@ -93,7 +93,7 @@ const Minting: ThirdwebNextPage = () => {
       <Hero
         name="Minting"
         title="Mint and distribute NFTs easily"
-        description="Enable your end users to mint, deploy, and distribute NFTs through your app. Flexible  configuration options: build your own minting solution with embeddable SDKs, self-hosted minting API or use thirdweb managed service minting API."
+        description="Enable your users to mint, deploy and distribute NFTS through your app with only a few lines of code."
         trackingCategory={TRACKING_CATEGORY}
         buttonText="Get started"
         type="Solutions"
@@ -123,25 +123,11 @@ const Minting: ThirdwebNextPage = () => {
             </Box>
           </ProductCard>
           <ProductCard
-            title="Extensive digital asset types"
+            title="Flexible configuration options"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
-            <Box as="span">
-              {`Discover a large collection of ready-to-deploy NFT types including
-              1-of-1 collections, editions, loot boxes, dynamic from thirdweb's
-              contract library (`}
-              <TrackedLink
-                href="https://portal.thirdweb.com/wallet"
-                isExternal
-                category={TRACKING_CATEGORY}
-                label="wallet_sdk"
-                color="primary.500"
-              >
-                Explore
-              </TrackedLink>
-              {`).`} Deploy different minting strategies including airdrops,
-              free/paid claims, on demand NFTs and loot boxes.
-            </Box>
+            Build your own minting solution with embeddable SDKs, self-hosted
+            minting API or use thirdweb managed service minting API.
           </ProductCard>
           <ProductCard
             title="Owned by you"
@@ -374,12 +360,12 @@ const Minting: ThirdwebNextPage = () => {
         </Flex>
       </ProductSection>
 
-      <GuidesShowcase
+      {/*       <GuidesShowcase
         title="Powering top web3 projects"
         description="Learn how other web3 projects are using our minting solution."
         category={TRACKING_CATEGORY}
         guides={CASE_STUDIES}
-      />
+      /> */}
 
       <Box
         h="1px"
