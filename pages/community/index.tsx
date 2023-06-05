@@ -75,7 +75,7 @@ const communitySections = [
       {
         image: "/assets/community/home/oss.svg",
         link: "/open-source",
-        title: "Open Source & Grants",
+        title: "Open Source",
         description: "",
       },
     ],
