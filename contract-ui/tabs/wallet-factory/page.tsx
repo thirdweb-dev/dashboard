@@ -14,6 +14,11 @@ export const SmartWalletFactoryPage: React.FC<
   const contractQuery = useContract(contractAddress);
   const smartWalletsQuery = useSmartWallets(contractQuery?.contract);
 
+  if (contractQuery.isLoading) {
+    // TODO build a skeleton for this
+    return <div>Loading...</div>;
+  }
+
   if (!contractQuery?.contract) {
     return (
       <Card as={Flex} flexDir="column" gap={3}>
