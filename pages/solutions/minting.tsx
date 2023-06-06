@@ -6,6 +6,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { HomePageCodeBlock } from "components/homepage/CodeBlock";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
@@ -45,14 +46,7 @@ const tx = await contract.erc1155.airdrop(
   ["0x...", "0x...", "0x..."], // List of addresses
 );`;
 
-/* const CASE_STUDIES = [
-  {
-    title: "Warner Brothers",
-    description:
-      "Launched a dynamic NFT based holiday greeting card using thirdweb's advanced signature based minting API.",
-    image: require("public/assets/solutions-pages/minting/warner-bros.png"),
-    link: "https://nft.coinbase.com/drops/crypto-cards",
-  },
+const CASE_STUDIES = [
   {
     title: "Paper",
     description:
@@ -67,7 +61,7 @@ const tx = await contract.erc1155.airdrop(
     image: require("public/assets/solutions-pages/minting/polygon-0xmint.png"),
     link: "https://0xmint.io/",
   },
-]; */
+];
 
 const Minting: ThirdwebNextPage = () => {
   return (
@@ -359,12 +353,12 @@ const Minting: ThirdwebNextPage = () => {
         </Flex>
       </ProductSection>
 
-      {/*       <GuidesShowcase
+      <GuidesShowcase
         title="Powering top web3 projects"
         description="Learn how other web3 projects are using our minting solution."
         category={TRACKING_CATEGORY}
         guides={CASE_STUDIES}
-      /> */}
+      />
 
       <Box
         h="1px"
