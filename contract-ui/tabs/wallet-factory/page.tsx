@@ -15,8 +15,7 @@ export const SmartWalletFactoryPage: React.FC<
   const smartWalletsQuery = useSmartWallets(contractQuery?.contract);
 
   if (contractQuery.isLoading) {
-    // TODO build a skeleton for this
-    return <div>Loading...</div>;
+    return null;
   }
 
   if (!contractQuery?.contract) {
