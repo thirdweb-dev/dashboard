@@ -1,11 +1,9 @@
-import { Icon } from "@chakra-ui/react";
 import {
   useAddress,
   useContract,
   useCreateSmartWallet,
 } from "@thirdweb-dev/react";
-import { FiPlus } from "react-icons/fi";
-import { Button } from "tw-components";
+import { TransactionButton } from "components/buttons/TransactionButton";
 
 interface CreateWalletButtonProps {
   contractQuery: ReturnType<typeof useContract>;
@@ -15,7 +13,7 @@ export const CreateWalletButton: React.FC<CreateWalletButtonProps> = ({
   contractQuery,
   ...restButtonProps
 }) => {
-  const { mutate: createWallet } = useCreateSmartWallet(
+  const { mutate: createWallet, isLoading } = useCreateSmartWallet(
     contractQuery?.contract,
   );
   const address = useAddress();
@@ -25,13 +23,14 @@ export const CreateWalletButton: React.FC<CreateWalletButtonProps> = ({
   }
 
   return (
-    <Button
+    <TransactionButton
       colorScheme="primary"
-      leftIcon={<Icon as={FiPlus} />}
-      {...restButtonProps}
       onClick={() => createWallet(address)}
+      isLoading={isLoading}
+      transactionCount={1}
+      {...restButtonProps}
     >
       Create Wallet
-    </Button>
+    </TransactionButton>
   );
 };

@@ -220,7 +220,7 @@ export function useContractRouteConfig(
         contractQuery,
         feature: ["SmartWalletFactory"],
       }),
-      component: LazyContractClaimConditionsPage,
+      component: LazyContractSmartWalletFactoryPage,
     },
     {
       title: "Permissions",

@@ -1,6 +1,7 @@
 import { CreateWalletButton } from "./components/create-wallet-button";
+import { SmartWalletsTable } from "./components/smart-wallets-table";
 import { Box, ButtonGroup, Flex } from "@chakra-ui/react";
-import { useContract } from "@thirdweb-dev/react";
+import { useContract, useSmartWallets } from "@thirdweb-dev/react";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface ContractSmartWalletFactoryProps {
@@ -11,6 +12,7 @@ export const SmartWalletFactoryPage: React.FC<
   ContractSmartWalletFactoryProps
 > = ({ contractAddress }) => {
   const contractQuery = useContract(contractAddress);
+  const smartWalletsQuery = useSmartWallets(contractQuery?.contract);
 
   if (!contractQuery?.contract) {
     return (
@@ -48,8 +50,7 @@ export const SmartWalletFactoryPage: React.FC<
           <CreateWalletButton contractQuery={contractQuery} />
         </ButtonGroup>
       </Flex>
-
-      {/* <TokenSupply contractQuery={contractQuery} /> */}
+      <SmartWalletsTable smartWalletsQuery={smartWalletsQuery} />
     </Flex>
   );
 };
