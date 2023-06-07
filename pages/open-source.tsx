@@ -113,7 +113,7 @@ const repositories = [
 const bounties = [
   {
     id: 0,
-    title: "Smart Contract Gas Optimizations: Known Optimizations",
+    title: "Gas Optimizations",
     description: (
       <>
         Provide a pull request that implements one of our{" "}
@@ -126,44 +126,23 @@ const bounties = [
         >
           known gas optimizations
         </TrackedLink>{" "}
-        to the thirdweb contracts repository.
+        , or provide a new optimization to the to the thirdweb contracts
+        repository.
       </>
     ),
     status: "open",
-    amount: "$1 per gwei saved",
+    amount: "$1 per 10 gas units saved",
     link: "https://github.com/thirdweb-dev/contracts",
     linkText: "Create a PR",
   },
-
   {
     id: 1,
-    title: "Smart Contract Gas Optimizations: Unknown Optimizations",
-    description: (
-      <>
-        Provide a pull request that is not listed in our{" "}
-        <TrackedLink
-          href="https://ipfs.thirdwebcdn.com/ipfs/QmXwEZDfS8PTWSqQj2xBod6XGPQjkykzX6tYqtU9zo6kcr/"
-          color="blue.500"
-          category="oss"
-          label="known-gas-optimizations"
-          isExternal
-        >
-          known gas optimizations
-        </TrackedLink>{" "}
-        to the thirdweb contracts repository.
-      </>
-    ),
-    status: "open",
-    amount: "$5 per gwei saved",
-    link: "https://github.com/thirdweb-dev/contracts",
-    linkText: "Create a PR",
-  },
-
-  {
-    id: 2,
     title: "Security Vulnerabilities",
     description: (
-      <>Raise security vulnerability to our team using the guidelines below.</>
+      <>
+        Raise security vulnerability to our team using the guidelines outlined
+        in our bug bounty document below.
+      </>
     ),
     status: "open",
     amount: "$100 - $20,000",
