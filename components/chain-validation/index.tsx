@@ -78,11 +78,7 @@ const ChainValidation: React.FC<{}> = () => {
               placeholder="https://rpc.yourchain.com/rpc"
               type="url"
             />
-            <Button
-              onClick={handleValidate}
-              isDisabled={!validationReport.urlValid}
-              colorScheme="primary"
-            >
+            <Button onClick={handleValidate} colorScheme="primary">
               Validate
             </Button>
           </InputGroup>
