@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import invariant from "tiny-invariant";
 
 interface EmailSignupPayload {
