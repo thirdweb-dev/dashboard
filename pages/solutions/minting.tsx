@@ -62,7 +62,7 @@ const Minting: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         buttonText="Get started"
         type="Solutions"
-        buttonLink="https://portal.thirdweb.com/minting"
+        buttonLink="https://portal.thirdweb.com/minting/getting-started/deploying-smart-contract"
         gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
         secondaryButton={{
