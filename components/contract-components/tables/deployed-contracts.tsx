@@ -6,7 +6,6 @@ import {
 } from "@3rdweb-sdk/react";
 import { useRemoveContractMutation } from "@3rdweb-sdk/react/hooks/useRegistry";
 import {
-  Box,
   ButtonGroup,
   Center,
   Flex,
@@ -71,6 +70,7 @@ import {
   TrackedIconButton,
 } from "tw-components";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
+import { TableContainer } from "tw-components/table-container";
 import { ComponentWithChildren } from "types/component-with-children";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
@@ -112,19 +112,6 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
             gap={4}
             direction={{ base: "column", lg: "row" }}
             py={{ base: 4, md: 8 }}
-            zIndex="docked"
-            backdropFilter="blur(4px)"
-            _after={{
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: -1,
-              opacity: 0.8,
-              bg: "linear-gradient(180deg, var(--chakra-colors-backgroundBody) 50%, transparent 100%)",
-            }}
           >
             <Flex gap={2} direction="column">
               <Heading size="title.md">Your contracts</Heading>
@@ -281,24 +268,21 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
   }
   return (
     <MenuItem
-      borderWidth={0}
       onClick={(e) => {
         e.stopPropagation();
         mutation.mutate({ chainId, contractAddress, registry });
       }}
       isDisabled={mutation.isLoading}
       closeOnSelect={false}
-    >
-      <Flex align="center" gap={2} w="full">
-        {mutation.isLoading ? (
+      icon={
+        mutation.isLoading ? (
           <Spinner size="sm" />
         ) : (
           <Icon as={FiX} color="red.500" />
-        )}
-        <Heading as="span" size="label.md">
-          Remove from dashboard
-        </Heading>
-      </Flex>
+        )
+      }
+    >
+      Remove from dashboard
     </MenuItem>
   );
 };
@@ -420,13 +404,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
                 variant="gost"
                 onClick={(e) => e.stopPropagation()}
               />
-              <MenuList
-                onClick={(e) => e.stopPropagation()}
-                borderWidth={1}
-                borderColor="borderColor"
-                borderRadius="lg"
-                overflow="hidden"
-              >
+              <MenuList onClick={(e) => e.stopPropagation()}>
                 <RemoveFromDashboardButton
                   contractAddress={cell.cell.row.original.address}
                   chainId={cell.cell.row.original.chainId}
@@ -478,10 +456,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
   }, [numRowsOnPage, pageSize, setPageSize]);
 
   return (
-    <Box
-      borderTopRadius="lg"
-      p={0}
-      position="relative"
+    <TableContainer
       overflowX={{ base: "auto", md: "initial" }}
       // to avoid clipping the network selector menu on mobile
       minH={{ base: "600px", md: "initial" }}
@@ -535,7 +510,7 @@ export const ContractTable: ComponentWithChildren<ContractTableProps> = ({
         />
       )}
       {children}
-    </Box>
+    </TableContainer>
   );
 };
 

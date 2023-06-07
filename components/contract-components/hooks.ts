@@ -1,6 +1,6 @@
 import {
+  getStepAddToRegistry,
   getStepDeploy,
-  stepAddToRegistry,
   useDeployContextModal,
 } from "./contract-deploy-form/deploy-context-modal";
 import { uploadContractMetadata } from "./contract-deploy-form/deploy-form-utils";
@@ -15,13 +15,19 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Polygon, ZksyncEra, ZksyncEraTestnet } from "@thirdweb-dev/chains";
+import {
+  Polygon,
+  ZksyncEra,
+  ZksyncEraTestnet,
+  getChainByChainId,
+} from "@thirdweb-dev/chains";
 import {
   useAddress,
   useChainId,
   useSDK,
   useSDKChainId,
   useSigner,
+  useWalletConfig,
 } from "@thirdweb-dev/react";
 import { FeatureWithEnabled } from "@thirdweb-dev/sdk/dist/declarations/src/evm/constants/contract-features";
 import { DeploymentTransaction } from "@thirdweb-dev/sdk/dist/declarations/src/evm/types/any-evm/deploy-data";
@@ -44,18 +50,24 @@ import {
   getZkTransactionsForDeploy,
   zkDeployContractFromUri,
 } from "@thirdweb-dev/sdk/evm/zksync";
+import { walletIds } from "@thirdweb-dev/wallets";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
 import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
-import { isEnsName } from "lib/ens";
+import { isEnsName, resolveEns } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
-import { getAbsoluteUrl } from "lib/vercel-utils";
 import { StaticImageData } from "next/image";
 import { useMemo } from "react";
 import invariant from "tiny-invariant";
 import { Web3Provider } from "zksync-web3";
 import { z } from "zod";
+
+const HEADLESS_WALLET_IDS = [
+  walletIds.localWallet,
+  walletIds.magicLink,
+  walletIds.paper,
+];
 
 export interface ContractPublishMetadata {
   image: string | StaticImageData;
@@ -471,6 +483,8 @@ export function useCustomContractDeployMutation(
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
 
+  const walletConfig = useWalletConfig();
+
   return useMutation(
     async (data: ContractDeployMutationParams) => {
       invariant(
@@ -478,7 +492,15 @@ export function useCustomContractDeployMutation(
         "sdk is not ready or does not support publishing",
       );
 
-      const stepDeploy = getStepDeploy(transactions?.length || 1);
+      const requiresSignature =
+        HEADLESS_WALLET_IDS.indexOf(walletConfig?.id || "") === -1;
+
+      const stepDeploy = getStepDeploy(
+        transactions?.length || 1,
+        requiresSignature,
+      );
+
+      const stepAddToRegistry = getStepAddToRegistry(requiresSignature);
 
       // open the modal with the appropriate steps
       deployContext.open(
@@ -752,13 +774,8 @@ export function ensQuery(addressOrEnsName?: string) {
       if (!utils.isAddress(addressOrEnsName) && !isEnsName(addressOrEnsName)) {
         throw new Error("Invalid address or ENS name.");
       }
-      const res = await fetch(
-        `${getAbsoluteUrl()}/api/ens/${addressOrEnsName}`,
-      );
-      const { address, ensName } = (await res.json()) as {
-        address: string | null;
-        ensName: string | null;
-      };
+
+      const { address, ensName } = await resolveEns(addressOrEnsName);
 
       if (isEnsName(addressOrEnsName) && !address) {
         throw new Error("Failed to resolve ENS name.");
@@ -813,4 +830,20 @@ export function useFeatureContractCodeSnippetQuery(language: string) {
     );
     return (await res.json()) as SnippetApiResponse;
   });
+}
+
+export function useCustomFactoryAbi(contractAddress: string, chainId: number) {
+  return useQuery(
+    ["custom-factory-abi", { contractAddress, chainId }],
+    async () => {
+      const chain = getChainByChainId(chainId);
+      const sdk = getEVMThirdwebSDK(chainId, getDashboardChainRpc(chain));
+      invariant(sdk, "sdk is not defined");
+
+      return (await sdk.getContract(contractAddress)).abi;
+    },
+    {
+      enabled: !!contractAddress && !!chainId,
+    },
+  );
 }
