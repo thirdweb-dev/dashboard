@@ -14,31 +14,49 @@ import {
 } from "@chakra-ui/react";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRpcValidation } from "hooks/chains/useRpcValidation";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { BiCheckCircle, BiErrorCircle } from "react-icons/bi";
-import { Button, Card, FormLabel, TableContainer } from "tw-components";
+import { RiErrorWarningLine } from "react-icons/ri";
+import { Button, Card, FormLabel, Link, TableContainer } from "tw-components";
 
-const StatusCheck = ({ valid }: { valid: boolean }) => {
+const StatusCheck = ({
+  status,
+}: {
+  status: "success" | "error" | "warning";
+}) => {
   return (
     <Icon
       fontSize={16}
-      color={valid ? "green.500" : "red.500"}
-      as={valid ? BiCheckCircle : BiErrorCircle}
+      color={
+        status === "warning"
+          ? "yellow.500"
+          : status === "success"
+          ? "green.500"
+          : "red.500"
+      }
+      as={
+        status === "warning"
+          ? RiErrorWarningLine
+          : status === "success"
+          ? BiCheckCircle
+          : BiErrorCircle
+      }
     />
   );
 };
 
 const ChainValidation: React.FC<{}> = () => {
   const [rpcUrl, setRpcUrl] = useState("");
-  const [validatedRpcUrl, setValidatedRpcUrl] = useState("");
-  const [validationReport, validate] = useRpcValidation(validatedRpcUrl);
+  const [validationReport, validate] = useRpcValidation(rpcUrl);
+  const [validated, setValidated] = useState(false);
+  const existingChain = validationReport?.existingChain;
 
   const trackEvent = useTrack();
 
   const handleValidate = () => {
     if (rpcUrl.length > 0) {
-      setValidatedRpcUrl(rpcUrl);
       validate();
+      setValidated(true);
 
       trackEvent({
         category: "validation",
@@ -46,8 +64,13 @@ const ChainValidation: React.FC<{}> = () => {
         label: "rpc",
         url: rpcUrl,
       });
-    } else {
-      setValidatedRpcUrl("");
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setRpcUrl(e.currentTarget.value);
+    if (validated) {
+      setValidated(false);
     }
   };
 
@@ -58,22 +81,24 @@ const ChainValidation: React.FC<{}> = () => {
           <FormLabel>RPC URL</FormLabel>
           <InputGroup gap={2}>
             <Input
-              isInvalid={
-                validatedRpcUrl.length > 0 && !validationReport.urlValid
-              }
+              isInvalid={rpcUrl.length > 0 && !validationReport.urlValid}
               value={rpcUrl}
               isDisabled={validationReport.urlLoading}
-              onChange={(e) => setRpcUrl(e.currentTarget.value)}
+              onChange={handleChange}
               placeholder="https://rpc.yourchain.com/rpc"
               type="url"
             />
-            <Button onClick={handleValidate} colorScheme="primary">
+            <Button
+              onClick={handleValidate}
+              isDisabled={!validationReport.urlValid}
+              colorScheme="primary"
+            >
               Validate
             </Button>
           </InputGroup>
         </FormControl>
 
-        {validatedRpcUrl.length > 0 && (
+        {validated && (
           <TableContainer>
             <Table variant="unstyled">
               <Thead>
@@ -85,7 +110,9 @@ const ChainValidation: React.FC<{}> = () => {
                 <Tr>
                   <Td>RPC URL valid</Td>
                   <Td textAlign="right">
-                    <StatusCheck valid={validationReport.urlValid} />
+                    <StatusCheck
+                      status={validationReport.urlValid ? "success" : "error"}
+                    />
                   </Td>
                 </Tr>
                 <Tr>
@@ -93,7 +120,11 @@ const ChainValidation: React.FC<{}> = () => {
                     RPC supports <Code>eth_chainId</Code> method
                   </Td>
                   <Td textAlign="right">
-                    <StatusCheck valid={validationReport.chainIdSupported} />
+                    <StatusCheck
+                      status={
+                        validationReport.chainIdSupported ? "success" : "error"
+                      }
+                    />
                   </Td>
                 </Tr>
                 <Tr>
@@ -102,10 +133,55 @@ const ChainValidation: React.FC<{}> = () => {
                   </Td>
                   <Td textAlign="right">
                     <StatusCheck
-                      valid={validationReport.blockNumberSupported}
+                      status={
+                        validationReport.blockNumberSupported
+                          ? "success"
+                          : "error"
+                      }
                     />
                   </Td>
                 </Tr>
+                {validationReport.urlValid &&
+                  validationReport.chainIdSupported && (
+                    <Tr>
+                      <Td>
+                        Chain ID{" "}
+                        {existingChain?.id ? (
+                          <Code mr={1}>{existingChain.id}</Code>
+                        ) : (
+                          ""
+                        )}
+                        {!existingChain
+                          ? "is available"
+                          : existingChain?.mainnet
+                          ? "is already on mainnet"
+                          : "is on testnet"}
+                        {existingChain?.infoURL && (
+                          <Link
+                            ml={1}
+                            textDecoration="underline"
+                            _hover={{ color: "blue.500" }}
+                            href={existingChain.infoURL}
+                            isExternal
+                          >
+                            visit site
+                          </Link>
+                        )}
+                      </Td>
+
+                      <Td textAlign="right">
+                        <StatusCheck
+                          status={
+                            existingChain
+                              ? existingChain.mainnet
+                                ? "error"
+                                : "warning"
+                              : "success"
+                          }
+                        />
+                      </Td>
+                    </Tr>
+                  )}
               </Tbody>
             </Table>
           </TableContainer>
