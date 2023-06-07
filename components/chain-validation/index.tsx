@@ -5,7 +5,6 @@ import {
   Icon,
   Input,
   InputGroup,
-  Spinner,
   Table,
   Tbody,
   Td,
@@ -76,46 +75,39 @@ const ChainValidation: React.FC<{}> = () => {
 
         {validatedRpcUrl.length > 0 && (
           <TableContainer>
-            {validationReport?.urlLoading && (
-              <Flex align="center" justifyContent="center" py={16}>
-                <Spinner size="sm" alignSelf="center" />
-              </Flex>
-            )}
-            {!validationReport?.urlLoading && (
-              <Table variant="unstyled">
-                <Thead>
-                  <Tr>
-                    <Th colSpan={2}>RPC validation report</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  <Tr>
-                    <Td>RPC URL valid</Td>
-                    <Td textAlign="right">
-                      <StatusCheck valid={validationReport.urlValid} />
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      RPC supports <Code>eth_chainId</Code> method
-                    </Td>
-                    <Td textAlign="right">
-                      <StatusCheck valid={validationReport.chainIdSupported} />
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      RPC supports <Code>eth_blockNumber</Code> method
-                    </Td>
-                    <Td textAlign="right">
-                      <StatusCheck
-                        valid={validationReport.blockNumberSupported}
-                      />
-                    </Td>
-                  </Tr>
-                </Tbody>
-              </Table>
-            )}
+            <Table variant="unstyled">
+              <Thead>
+                <Tr>
+                  <Th colSpan={2}>RPC validation report</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td>RPC URL valid</Td>
+                  <Td textAlign="right">
+                    <StatusCheck valid={validationReport.urlValid} />
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>
+                    RPC supports <Code>eth_chainId</Code> method
+                  </Td>
+                  <Td textAlign="right">
+                    <StatusCheck valid={validationReport.chainIdSupported} />
+                  </Td>
+                </Tr>
+                <Tr>
+                  <Td>
+                    RPC supports <Code>eth_blockNumber</Code> method
+                  </Td>
+                  <Td textAlign="right">
+                    <StatusCheck
+                      valid={validationReport.blockNumberSupported}
+                    />
+                  </Td>
+                </Tr>
+              </Tbody>
+            </Table>
           </TableContainer>
         )}
       </Flex>
