@@ -23,8 +23,19 @@ const handler = async (req: NextRequest) => {
     });
 
     const data = await result.json();
+
+    // if verified
     if (data.status === "1") {
-      return NextResponse.json({ result: data.result }, { status: 200 });
+      return NextResponse.json(
+        { result: data.result },
+        {
+          status: 200,
+          headers: [
+            // cache forever
+            ["Cache-Control", "public, max-age=31536000, immutable"],
+          ],
+        },
+      );
     } else {
       return NextResponse.json({ result: data.result }, { status: 200 });
     }
