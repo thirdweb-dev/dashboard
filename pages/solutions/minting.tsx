@@ -5,7 +5,7 @@ import {
   SimpleGrid,
   UnorderedList,
 } from "@chakra-ui/react";
-import { HomePageCodeBlock } from "components/homepage/CodeBlock";
+import { DeployAndAirdrop } from "components/homepage/DeployAndAirdrop";
 import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
@@ -17,34 +17,6 @@ import { Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "minting_kit";
-
-const deployCode = `const txResult = await sdk.deployer.deployBuiltInContract(
-  "edition-drop", 
-  {
-    // Contract name
-    name: "My ERC1155", 
-    // Address that'll take the primary sale revenue
-    primary_sale_recipient: "{{user_address}}", 
-    // Optionally take a free of primary sale revenue
-    platform_fee_recipient: "{{admin_address}}", 
-    // 10% fee
-    platform_fee_basis_points: 1000, 
-  }
-);`;
-
-const mintAndAirdropCode = `// Get the contract
-const contract = await sdk.getContract("0x..."); 
-
-const tx = await contract.erc1155.mint({
-  metadata,
-  // The number of this NFT you want to mint
-  supply: 1000, 
-});
-
-const tx = await contract.erc1155.airdrop(
-  "0", // Token ID
-  ["0x...", "0x...", "0x..."], // List of addresses
-);`;
 
 const CASE_STUDIES = [
   {
@@ -116,7 +88,7 @@ const Minting: ThirdwebNextPage = () => {
             </Box>
           </ProductCard>
           <ProductCard
-            title="Flexible configuration options"
+            title="Flexible Configuration"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
             Build your own minting solution with embeddable SDKs, self-hosted
@@ -138,39 +110,7 @@ const Minting: ThirdwebNextPage = () => {
           <Heading as="h2" size="display.sm" textAlign="center">
             Create and transfer NFTs easily
           </Heading>
-          <SimpleGrid
-            columns={{ base: 1, md: 2 }}
-            gap={{ base: 12, md: 6 }}
-            pb={{ base: 12, md: 24 }}
-            pt={12}
-          >
-            <HomePageCodeBlock
-              color="white"
-              fontSize={{ base: "12px", md: "14px" }}
-              borderWidth={0}
-              code={deployCode}
-              language="typescript"
-              overflow="auto"
-              autoType
-              typingSpeed={5}
-              title="Deploy a contract"
-              titleColor="white"
-              borderTopRadius={0}
-            />
-            <HomePageCodeBlock
-              color="white"
-              fontSize={{ base: "12px", md: "14px" }}
-              borderWidth={0}
-              code={mintAndAirdropCode}
-              language="typescript"
-              overflow="auto"
-              autoType
-              typingSpeed={5}
-              title="Mint and airdrop"
-              titleColor="white"
-              borderTopRadius={0}
-            />
-          </SimpleGrid>
+          <DeployAndAirdrop />
         </Flex>
       </ProductSection>
 
