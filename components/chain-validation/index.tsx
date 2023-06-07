@@ -84,95 +84,99 @@ const ChainValidation: React.FC<{}> = () => {
           </InputGroup>
         </FormControl>
 
-        <TableContainer>
-          <Table variant="unstyled">
-            <Thead>
-              <Tr>
-                <Th colSpan={2}>RPC validation report</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td>RPC URL valid</Td>
-                <Td textAlign="right">
-                  <StatusCheck
-                    status={validationReport.urlValid ? "success" : "error"}
-                  />
-                </Td>
-              </Tr>
-              {validated && validationReport.urlValid && (
-                <>
-                  <Tr>
-                    <Td>
-                      RPC supports <Code>eth_chainId</Code> method
-                    </Td>
-                    <Td textAlign="right">
-                      <StatusCheck
-                        status={
-                          validationReport.chainIdSupported
-                            ? "success"
-                            : "error"
-                        }
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      RPC supports <Code>eth_blockNumber</Code> method
-                    </Td>
-                    <Td textAlign="right">
-                      <StatusCheck
-                        status={
-                          validationReport.blockNumberSupported
-                            ? "success"
-                            : "error"
-                        }
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr>
-                    <Td>
-                      Chain ID{" "}
-                      {existingChain?.id ? (
-                        <Code mr={1}>{existingChain.id}</Code>
-                      ) : (
-                        ""
-                      )}
-                      {!existingChain
-                        ? "is available"
-                        : existingChain?.mainnet
-                        ? "is already on mainnet"
-                        : "is on testnet"}
-                      {existingChain?.infoURL && (
-                        <Link
-                          ml={1}
-                          textDecoration="underline"
-                          _hover={{ color: "blue.500" }}
-                          href={existingChain.infoURL}
-                          isExternal
-                        >
-                          visit site
-                        </Link>
-                      )}
-                    </Td>
+        {validated && (
+          <TableContainer>
+            <Table variant="unstyled">
+              <Thead>
+                <Tr>
+                  <Th colSpan={2}>RPC validation report</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr>
+                  <Td>RPC URL valid</Td>
+                  <Td textAlign="right">
+                    <StatusCheck
+                      status={validationReport.urlValid ? "success" : "error"}
+                    />
+                  </Td>
+                </Tr>
+                {validationReport.urlValid && (
+                  <>
+                    <Tr>
+                      <Td>
+                        RPC supports <Code>eth_chainId</Code> method
+                      </Td>
+                      <Td textAlign="right">
+                        <StatusCheck
+                          status={
+                            validationReport.chainIdSupported
+                              ? "success"
+                              : "error"
+                          }
+                        />
+                      </Td>
+                    </Tr>
+                    <Tr>
+                      <Td>
+                        RPC supports <Code>eth_blockNumber</Code> method
+                      </Td>
+                      <Td textAlign="right">
+                        <StatusCheck
+                          status={
+                            validationReport.blockNumberSupported
+                              ? "success"
+                              : "error"
+                          }
+                        />
+                      </Td>
+                    </Tr>
+                    {validationReport.chainIdSupported && (
+                      <Tr>
+                        <Td>
+                          Chain ID{" "}
+                          {existingChain?.id ? (
+                            <Code mr={1}>{existingChain.id}</Code>
+                          ) : (
+                            ""
+                          )}
+                          {!existingChain
+                            ? "is available"
+                            : existingChain?.mainnet
+                            ? "is already on mainnet"
+                            : "is on testnet"}
+                          {existingChain?.infoURL && (
+                            <Link
+                              ml={1}
+                              textDecoration="underline"
+                              _hover={{ color: "blue.500" }}
+                              href={existingChain.infoURL}
+                              isExternal
+                            >
+                              visit site
+                            </Link>
+                          )}
+                        </Td>
 
-                    <Td textAlign="right">
-                      <StatusCheck
-                        status={
-                          existingChain
-                            ? existingChain.mainnet
-                              ? "error"
-                              : "warning"
-                            : "success"
-                        }
-                      />
-                    </Td>
-                  </Tr>
-                </>
-              )}
-            </Tbody>
-          </Table>
-        </TableContainer>
+                        <Td textAlign="right">
+                          <StatusCheck
+                            status={
+                              existingChain
+                                ? existingChain.mainnet
+                                  ? "error"
+                                  : "warning"
+                                : "success"
+                            }
+                          />
+                        </Td>
+                      </Tr>
+                    )}
+                  </>
+                )}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        )}
       </Flex>
     </Card>
   );
