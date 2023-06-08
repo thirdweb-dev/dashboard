@@ -102,7 +102,9 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
                     ))
                   : null}
               </Flex>
-            ) : null}
+            ) : (
+              sections
+            )}
           </Box>
         </Box>
         <Box

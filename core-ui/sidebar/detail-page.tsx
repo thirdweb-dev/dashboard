@@ -29,6 +29,7 @@ export const ContractProgramSidebar: React.FC<ContractSidebarProps> = ({
   const openState = useDisclosure();
   return (
     <Nav
+      zIndex="banner"
       navLink={
         <DetailNavLink
           onClick={(e) => {
