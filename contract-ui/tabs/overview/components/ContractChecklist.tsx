@@ -7,6 +7,7 @@ import {
   useClaimConditions,
   useClaimedNFTSupply,
   useNFTs,
+  useSmartWallets,
   useTokenSupply,
 } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
@@ -31,13 +32,15 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
 }) => {
   const nftHref = useTabHref("nfts");
   const tokenHref = useTabHref("tokens");
+  const walletFactoryHref = useTabHref("wallet-factory");
   const claimConditionsHref = useTabHref("claim-conditions");
 
   const nfts = useNFTs(contract, { count: 1 });
   const erc721Claimed = useClaimedNFTSupply(contract);
-  const erc721ClaimConditions = useClaimConditions(contract);
+  const claimConditions = useClaimConditions(contract);
   const erc20Supply = useTokenSupply(contract);
   const batchesToReveal = useBatchesToReveal(contract);
+  const smartWallets = useSmartWallets(contract);
 
   const steps: Step[] = [
     {
@@ -82,7 +85,13 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     "ERC721ClaimConditionsV2",
     "ERC721ClaimCustom",
   ]);
-  if (erc721hasClaimConditions) {
+  const erc20HasClaimConditions = detectFeatures(contract, [
+    "ERC20ClaimPhasesV1",
+    "ERC20ClaimPhasesV2",
+    "ERC20ClaimConditionsV1",
+    "ERC20ClaimConditionsV2",
+  ]);
+  if (erc721hasClaimConditions || erc20HasClaimConditions) {
     steps.push({
       title: "Set Claim Conditions",
       children: (
@@ -96,8 +105,9 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
         </Text>
       ),
       completed:
-        (erc721ClaimConditions.data?.length || 0) > 0 ||
-        BigNumber.from(erc721Claimed?.data || 0).gt(0),
+        (claimConditions.data?.length || 0) > 0 ||
+        BigNumber.from(erc721Claimed?.data || 0).gt(0) ||
+        BigNumber.from(erc20Supply?.data?.value || 0).gt(0),
     });
   }
   if (erc721hasClaimConditions) {
@@ -108,12 +118,6 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     });
   }
 
-  const erc20HasClaimConditions = detectFeatures(contract, [
-    "ERC20ClaimPhasesV1",
-    "ERC20ClaimPhasesV2",
-    "ERC20ClaimConditionsV1",
-    "ERC20ClaimConditionsV2",
-  ]);
   if (erc20HasClaimConditions) {
     steps.push({
       title: "First token claimed",
@@ -158,6 +162,23 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
         </Text>
       ),
       completed: (nfts.data?.length || 0) > 0,
+    });
+  }
+
+  const isSmartWalletFactory = detectFeatures(contract, ["SmartWalletFactory"]);
+  if (isSmartWalletFactory) {
+    steps.push({
+      title: "First wallet created",
+      children: (
+        <Text size="label.sm">
+          Head to the{" "}
+          <Link href={walletFactoryHref} color="blue.500">
+            Wallet factory tab
+          </Link>{" "}
+          to create your first wallet.
+        </Text>
+      ),
+      completed: (smartWallets.data?.length || 0) > 0,
     });
   }
 

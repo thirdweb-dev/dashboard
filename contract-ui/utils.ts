@@ -36,6 +36,7 @@ export function useTabHref(
     | "nfts"
     | ""
     | "explorer"
+    | "analytics"
     | "events"
     | "claim-conditions"
     | "permissions"
@@ -47,7 +48,8 @@ export function useTabHref(
     | "listings"
     | "direct-listings"
     | "english-auctions"
-    | "app",
+    | "app"
+    | "wallet-factory",
 ) {
   const contractInfo = useEVMContractInfo();
   invariant(contractInfo, "can not use useTabHref() without a contractInfo");

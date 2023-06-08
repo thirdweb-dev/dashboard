@@ -16,6 +16,11 @@ const LazyContractEventsPage = dynamic(() =>
     ({ ContractEventsPage }) => ContractEventsPage,
   ),
 );
+const LazyContractAnalyticsPage = dynamic(() =>
+  import("../tabs/analytics/page").then(
+    ({ ContractAnalyticsPage }) => ContractAnalyticsPage,
+  ),
+);
 const LazyContractNFTPage = dynamic(() =>
   import("../tabs/nfts/page").then(({ ContractNFTPage }) => ContractNFTPage),
 );
@@ -52,6 +57,11 @@ const LazyContractProposalsPage = dynamic(() =>
 const LazyContractClaimConditionsPage = dynamic(() =>
   import("../tabs/claim-conditions/page").then(
     ({ ContractClaimConditionsPage }) => ContractClaimConditionsPage,
+  ),
+);
+const LazyContractSmartWalletFactoryPage = dynamic(() =>
+  import("../tabs/wallet-factory/page").then(
+    ({ SmartWalletFactoryPage }) => SmartWalletFactoryPage,
   ),
 );
 const LazyContractPermissionsPage = dynamic(() =>
@@ -128,6 +138,13 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
+      title: "Analytics",
+      path: "analytics",
+      component: LazyContractAnalyticsPage,
+      isDefault: true,
+      isBeta: true,
+    },
+    {
       title: "NFTs",
       path: "nfts",
       isEnabled: extensionDetectedState({
@@ -195,6 +212,15 @@ export function useContractRouteConfig(
       path: "claim-conditions",
       isEnabled: claimconditionExtensionDetection,
       component: LazyContractClaimConditionsPage,
+    },
+    {
+      title: "Wallet Factory",
+      path: "wallet-factory",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: ["SmartWalletFactory"],
+      }),
+      component: LazyContractSmartWalletFactoryPage,
     },
     {
       title: "Permissions",
