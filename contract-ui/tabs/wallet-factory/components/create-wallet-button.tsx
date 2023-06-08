@@ -2,6 +2,7 @@ import {
   useAddress,
   useContract,
   useCreateSmartWallet,
+  useIsSmartWalletDeployed,
 } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
 
@@ -16,7 +17,12 @@ export const CreateWalletButton: React.FC<CreateWalletButtonProps> = ({
   const { mutate: createWallet, isLoading } = useCreateSmartWallet(
     contractQuery?.contract,
   );
+
   const address = useAddress();
+  const { data: isSmartWalletDeployed } = useIsSmartWalletDeployed(
+    contractQuery.contract,
+    address,
+  );
 
   if (!contractQuery.contract || !address) {
     return null;
@@ -28,6 +34,7 @@ export const CreateWalletButton: React.FC<CreateWalletButtonProps> = ({
       onClick={() => createWallet(address)}
       isLoading={isLoading}
       transactionCount={1}
+      isDisabled={isSmartWalletDeployed}
       {...restButtonProps}
     >
       Create Wallet
