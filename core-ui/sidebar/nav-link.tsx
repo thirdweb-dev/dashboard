@@ -10,7 +10,7 @@ type NavLinkProps = {
   loading?: boolean;
 };
 
-const NavLink: ComponentWithChildren<NavLinkProps> = ({
+export const NavLink: ComponentWithChildren<NavLinkProps> = ({
   href,
   onClick,
   children,
@@ -69,5 +69,3 @@ const NavLink: ComponentWithChildren<NavLinkProps> = ({
     </Link>
   );
 };
-
-export default NavLink;

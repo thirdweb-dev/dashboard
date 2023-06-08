@@ -1,6 +1,6 @@
-import NavLink from "./nav-link";
+import { NavLink } from "./nav-link";
 import { SIDEBAR_WIDTH, SideBarTunnel } from "./tunnel";
-import { IRoute } from "./types";
+import { Route } from "./types";
 import {
   Box,
   Divider,
@@ -16,13 +16,13 @@ import { Text } from "tw-components";
 type SidebarNavProps = {
   title?: string;
   activePage?: string;
-  links?: IRoute[];
+  links?: Route[];
   zIndex?: string;
   navLink?: JSX.Element;
   sections?: JSX.Element;
 };
 
-const SidebarNav: React.FC<SidebarNavProps> = ({
+export const SidebarNav: React.FC<SidebarNavProps> = ({
   title,
   activePage,
   navLink,
@@ -35,7 +35,7 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
   const activeLink = useMemo(
     () => links.find((tab) => tab.name === activePage),
     [activePage, links],
-  ) as IRoute;
+  ) as Route;
 
   const handleMenuToggle = () => {
     if (openState.isOpen) {
@@ -121,5 +121,3 @@ const SidebarNav: React.FC<SidebarNavProps> = ({
     </SideBarTunnel>
   );
 };
-
-export default SidebarNav;

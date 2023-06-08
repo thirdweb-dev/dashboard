@@ -1,5 +1,5 @@
-import Nav from "./nav";
-import NavLink from "./nav-link";
+import { SidebarNav } from "./nav";
+import { NavLink } from "./nav-link";
 import { Box, Flex, Image, Skeleton, useDisclosure } from "@chakra-ui/react";
 import type { useContractMetadata } from "@thirdweb-dev/react/evm";
 import type { useProgramMetadata } from "@thirdweb-dev/react/solana";
@@ -28,7 +28,7 @@ export const ContractProgramSidebar: React.FC<ContractSidebarProps> = ({
 }) => {
   const openState = useDisclosure();
   return (
-    <Nav
+    <SidebarNav
       zIndex="banner"
       navLink={
         <DetailNavLink

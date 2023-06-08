@@ -1,16 +1,16 @@
-import Nav from "./nav";
-import { IRoute } from "./types";
+import { SidebarNav } from "./nav";
+import { Route } from "./types";
 
 type SettingsSidebarProps = {
   activePage: "apiKeys";
 };
 
-const links: IRoute[] = [
+const links: Route[] = [
   { path: "/settings/api-keys", title: "API Keys", name: "apiKeys" },
 ];
 
 export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   activePage,
 }) => {
-  return <Nav links={links} activePage={activePage} title="Settings" />;
+  return <SidebarNav links={links} activePage={activePage} title="Settings" />;
 };
