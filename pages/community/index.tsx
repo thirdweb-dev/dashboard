@@ -312,7 +312,9 @@ const Community: ThirdwebNextPage = () => {
             {Array.from({ length: 9 }).map((_, i) => (
               <ChakraNextImage
                 key={i}
-                src={`/assets/community/gallery/${i + 1}.png`}
+                src={require(`../../public/assets/community/gallery/${
+                  i + 1
+                }.png`)}
                 alt="thirdweb gallery image"
                 width="350"
                 height="350"
