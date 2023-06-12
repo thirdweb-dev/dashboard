@@ -153,7 +153,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     if (selectedChain) {
       form.setValue("addToDashboard", selectedChain !== LineaTestnet.chainId);
     }
-    console.log(selectedChain, form.watch("addToDashboard"));
   }, [form, selectedChain]);
 
   const formDeployParams = form.watch("deployParams");
