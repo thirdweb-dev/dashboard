@@ -124,7 +124,6 @@ const Minting: ThirdwebNextPage = () => {
           columns={{ base: 1, md: 3 }}
           gap={{ base: 12, md: 6 }}
           py={{ base: 12, md: 24 }}
-          w={{ base: "100%", md: "80%" }}
         >
           <ProductLearnMoreCard
             title="Build"
