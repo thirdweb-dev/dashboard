@@ -1,58 +1,19 @@
-import {
-  Box,
-  Flex,
-  ListItem,
-  SimpleGrid,
-  UnorderedList,
-} from "@chakra-ui/react";
-import { HomePageCodeBlock } from "components/homepage/CodeBlock";
+import { Box, Flex, SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { DeployAndAirdrop } from "components/homepage/DeployAndAirdrop";
+import { GuidesShowcase } from "components/product-pages/common/GuideShowcase";
 import { Hero } from "components/product-pages/common/Hero";
 import { ProductCard } from "components/product-pages/common/ProductCard";
 import { ProductLearnMoreCard } from "components/product-pages/common/ProductLearnMoreCard";
 import { ProductPage } from "components/product-pages/common/ProductPage";
 import { ProductSection } from "components/product-pages/common/ProductSection";
 import { PageId } from "page-id";
-import { Heading, Text, TrackedLink } from "tw-components";
+import { Heading, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "minting_kit";
 
-const deployCode = `const txResult = await sdk.deployer.deployBuiltInContract(
-  "edition-drop", 
-  {
-    // Contract name
-    name: "My ERC1155", 
-    // Address that'll take the primary sale revenue
-    primary_sale_recipient: "{{user_address}}", 
-    // Optionally take a free of primary sale revenue
-    platform_fee_recipient: "{{admin_address}}", 
-    // 10% fee
-    platform_fee_basis_points: 1000, 
-  }
-);`;
-
-const mintAndAirdropCode = `// Get the contract
-const contract = await sdk.getContract("0x..."); 
-
-const tx = await contract.erc1155.mint({
-  metadata,
-  // The number of this NFT you want to mint
-  supply: 1000, 
-});
-
-const tx = await contract.erc1155.airdrop(
-  "0", // Token ID
-  ["0x...", "0x...", "0x..."], // List of addresses
-);`;
-
-/* const CASE_STUDIES = [
-  {
-    title: "Warner Brothers",
-    description:
-      "Launched a dynamic NFT based holiday greeting card using thirdweb's advanced signature based minting API.",
-    image: require("public/assets/solutions-pages/minting/warner-bros.png"),
-    link: "https://nft.coinbase.com/drops/crypto-cards",
-  },
+const CASE_STUDIES = [
   {
     title: "Paper",
     description:
@@ -67,9 +28,10 @@ const tx = await contract.erc1155.airdrop(
     image: require("public/assets/solutions-pages/minting/polygon-0xmint.png"),
     link: "https://0xmint.io/",
   },
-]; */
+];
 
 const Minting: ThirdwebNextPage = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <ProductPage
       seo={{
@@ -96,7 +58,7 @@ const Minting: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         buttonText="Get started"
         type="Solutions"
-        buttonLink="https://portal.thirdweb.com/minting"
+        buttonLink="https://portal.thirdweb.com/minting/getting-started/deploying-smart-contract"
         gradient="linear-gradient(145.96deg, rgb(142 14 255) 5.07%, #16bdf0 100%)"
         image={require("public/assets/solutions-pages/minting/hero.png")}
         secondaryButton={{
@@ -122,7 +84,7 @@ const Minting: ThirdwebNextPage = () => {
             </Box>
           </ProductCard>
           <ProductCard
-            title="Flexible configuration options"
+            title="Flexible Configuration"
             icon={require("/public/assets/product-pages/extensions/hero-icon-2.png")}
           >
             Build your own minting solution with embeddable SDKs, self-hosted
@@ -144,39 +106,7 @@ const Minting: ThirdwebNextPage = () => {
           <Heading as="h2" size="display.sm" textAlign="center">
             Create and transfer NFTs easily
           </Heading>
-          <SimpleGrid
-            columns={{ base: 1, md: 2 }}
-            gap={{ base: 12, md: 6 }}
-            pb={{ base: 12, md: 24 }}
-            pt={12}
-          >
-            <HomePageCodeBlock
-              color="white"
-              fontSize={{ base: "12px", md: "14px" }}
-              borderWidth={0}
-              code={deployCode}
-              language="typescript"
-              overflow="auto"
-              autoType
-              typingSpeed={5}
-              title="Deploy a contract"
-              titleColor="white"
-              borderTopRadius={0}
-            />
-            <HomePageCodeBlock
-              color="white"
-              fontSize={{ base: "12px", md: "14px" }}
-              borderWidth={0}
-              code={mintAndAirdropCode}
-              language="typescript"
-              overflow="auto"
-              autoType
-              typingSpeed={5}
-              title="Mint and airdrop"
-              titleColor="white"
-              borderTopRadius={0}
-            />
-          </SimpleGrid>
+          <DeployAndAirdrop />
         </Flex>
       </ProductSection>
 
@@ -256,115 +186,27 @@ const Minting: ThirdwebNextPage = () => {
 
       {/* Use cases */}
       <ProductSection overflow="hidden">
-        <Flex flexDir="column" py={24} align="center" gap={12}>
-          <Heading as="h2" size="display.sm" textAlign="center" mb={12}>
+        <Flex flexDir="column" py={24} align="center" gap={{ base: 8, md: 4 }}>
+          <Heading as="h2" size="display.sm" textAlign="center">
             Build complete NFT experiences with our Minting solution
           </Heading>
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} gap={6}>
-            <ProductCard
-              title="For Cloud & Web Services"
-              icon={require("/public/assets/solutions-pages/commerce/hero-icon-1.png")}
-            >
-              <Text size="body.lg">
-                A minting API that is easily integrated into your existing web2
-                systems. Enable developers to quickly build and deploy web3
-                applications
-              </Text>
-              <UnorderedList>
-                <ListItem>
-                  <Text size="body.lg" my={4}>
-                    Launch minting and web3 API based managed services
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text size="body.lg">
-                    Enhance existing content and creator platforms with digital
-                    assets{" "}
-                  </Text>
-                </ListItem>
-              </UnorderedList>
-            </ProductCard>
-            <ProductCard
-              title="For Chains"
-              icon={require("/public/assets/solutions-pages/commerce/hero-icon-4.png")}
-            >
-              <Text size="body.lg">
-                Supercharge on-boarding for brands, apps and developers to your
-                chain
-              </Text>
-              <UnorderedList>
-                <ListItem>
-                  <Text size="body.lg" mt={4}>
-                    NFT Launchpad makes it easy for users to easily launch new
-                    smart contracts and incorporate minting to smart contracts
-                    using API call
-                  </Text>
-                </ListItem>
-              </UnorderedList>
-            </ProductCard>
-            <ProductCard
-              title="For Creators"
-              icon={require("/public/assets/solutions-pages/commerce/hero-icon-3.png")}
-            >
-              <Text size="body.lg">
-                Enable NFT minting for your users with familiar web2-like user
-                experience
-              </Text>
-              <UnorderedList>
-                <ListItem>
-                  <Text my={4} size="body.lg">
-                    Quests where users are rewarded with digital collectibles
-                    for engagement
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text size="body.lg">
-                    Music & video digital collectibles with royalty sharing
-                    mechanism.
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text mt={4} size="body.lg">
-                    Access-based digital collectibles for IRL ticketing &
-                    events.
-                  </Text>
-                </ListItem>
-              </UnorderedList>
-            </ProductCard>
-            <ProductCard
-              title="For Games"
-              icon={require("/public/assets/solutions-pages/commerce/hero-icon-2.png")}
-            >
-              <Text size="body.lg">
-                Easily connect game engines via an API to minting and blockchain
-                infrastructure
-              </Text>
-              <UnorderedList>
-                <ListItem>
-                  <Text my={4} size="body.lg">
-                    In-game asset digital collectibles
-                  </Text>
-                </ListItem>
-                <ListItem>
-                  <Text size="body.lg">Digital trading cards</Text>
-                </ListItem>
-                <ListItem>
-                  <Text mt={4} size="body.lg">
-                    White-label marketplaces to trade in-asset games
-                  </Text>
-                </ListItem>
-              </UnorderedList>
-            </ProductCard>
-          </SimpleGrid>
+          <ChakraNextImage
+            src={
+              isMobile
+                ? require("/public/assets/solutions-pages/minting/what-can-you-build-mobile.png")
+                : require("/public/assets/solutions-pages/minting/what-can-you-build.png")
+            }
+            alt="What can you build with our minting solution"
+          />
         </Flex>
       </ProductSection>
 
-      {/*       <GuidesShowcase
+      <GuidesShowcase
         title="Powering top web3 projects"
         description="Learn how other web3 projects are using our minting solution."
         category={TRACKING_CATEGORY}
         guides={CASE_STUDIES}
-      /> */}
+      />
 
       <Box
         h="1px"
