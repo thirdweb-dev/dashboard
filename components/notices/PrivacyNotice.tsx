@@ -29,10 +29,12 @@ export const PrivacyNotice: React.FC = () => {
   const evmAddress = useAddress();
   const walletId = useWalletConfig()?.id;
   const solAddress = useWallet().publicKey?.toBase58();
-  const { isLoading, isLoggedIn } = useUser();
+  const { isLoading, isLoggedIn, user } = useUser();
   const { login, isLoading: loginLoading } = useLogin();
   const disconnect = useDisconnect();
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  console.log(user);
 
   // if no wallet id or wallet id is safe then skip for now
   // TODO remove this once safe works
