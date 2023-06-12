@@ -80,9 +80,6 @@ export enum PageId {
   // thirdweb.com/dashboard/rpc
   DashboardRPC = "dashboard-rpc",
 
-  // thirdweb.com/dashboard/api-keys
-  DashboardApiKeys = "dashboard-api-keys",
-
   // thirdweb.com/dashboard/wallets
   DashboardWallets = "dashboard-wallets",
 
@@ -99,6 +96,15 @@ export enum PageId {
 
   // thirdweb.com/explore/[category]
   ExploreCategory = "explore-category",
+
+  // ---------------------------------------------------------------------------
+  //  settings pages
+  // ---------------------------------------------------------------------------
+  // thirdweb.com/settings
+  Settings = "settings",
+
+  // thirdweb.com/settings/api-keys
+  SettingsApiKeys = "settings-api-keys",
 
   // ---------------------------------------------------------------------------
   //  solutions pages
@@ -178,8 +184,8 @@ export enum PageId {
   BearMarketAirdrop = "bear-market-airdrop",
 
   // ---------------------------------------------------------------------------
-  //  learn pages
+  //  community pages
   // ---------------------------------------------------------------------------
-
   Learn = "learn",
+  Ambassadors = "ambassadors",
 }
