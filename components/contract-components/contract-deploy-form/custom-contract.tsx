@@ -121,7 +121,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   // FIXME - temporaryly disabling add to dashboard by default on linea
   const shouldDefaulCheckAddToDashboard = selectedChain
     ? selectedChain !== LineaTestnet.chainId
-    : false;
+    : true;
 
   const form = useForm<{
     addToDashboard: boolean;
