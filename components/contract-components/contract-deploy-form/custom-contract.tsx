@@ -32,6 +32,7 @@ import { useSupportedChain } from "hooks/chains/configureChains";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { replaceTemplateValues } from "lib/deployment/template-values";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import invariant from "tiny-invariant";
 import { Checkbox, Heading, Text, TrackedLink } from "tw-components";
@@ -147,6 +148,13 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
       keepDirtyValues: true,
     },
   });
+
+  useEffect(() => {
+    if (selectedChain) {
+      form.setValue("addToDashboard", selectedChain !== LineaTestnet.chainId);
+    }
+    console.log(selectedChain, form.watch("addToDashboard"));
+  }, [form, selectedChain]);
 
   const formDeployParams = form.watch("deployParams");
 
@@ -417,7 +425,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
         <Flex alignItems="center" gap={3}>
           <Checkbox
             {...form.register("addToDashboard")}
-            defaultChecked={shouldDefaulCheckAddToDashboard}
+            isChecked={form.watch("addToDashboard")}
           />
 
           <Text mt={1}>
