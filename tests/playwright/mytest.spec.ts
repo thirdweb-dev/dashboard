@@ -66,6 +66,7 @@ test("thirdweb", async ({ page }: { page: Page }) => {
   await createWalletButton.click();
 
   const acceptAndSignButton = page.locator(`[data-test="accept-sign-button"]`);
+  await acceptAndSignButton.isVisible();
   await acceptAndSignButton.click();
   await acceptAndSignButton.waitFor({ state: "detached" });
 
