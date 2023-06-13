@@ -162,6 +162,7 @@ export const PrivacyNotice: React.FC = () => {
                   });
               }}
               autoFocus
+              data-test="accept-sign-button"
             >
               Accept & Sign
             </Button>

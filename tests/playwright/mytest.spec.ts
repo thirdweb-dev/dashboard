@@ -1,4 +1,4 @@
-import { Page, test } from "@playwright/test";
+import { Page, expect, test } from "@playwright/test";
 
 /* jest.setTimeout(60000); */
 
@@ -24,7 +24,9 @@ afterEach(async () => {
 }); */
 
 test("thirdweb", async ({ page }: { page: Page }) => {
-  await page.goto("http://localhost:3000/thirdweb.eth/DropERC721");
+  await page.goto("http://localhost:3000/thirdweb.eth/DropERC721", {
+    timeout: 60000,
+  });
   const title = await page.title();
 
   expect(title).toBe("NFT Drop - ERC721 | Published Smart Contract | thirdweb");
@@ -41,20 +43,36 @@ test("thirdweb", async ({ page }: { page: Page }) => {
 
   const password = "1234";
 
-  const passwordInput = page.locator(`[data-test="new-password"]`);
+  /*   const passwordInput = page.locator(`[data-test="new-password"]`); */
+  const passwordInput = page.locator(`#new-password`);
+  await passwordInput.isVisible();
   await passwordInput.fill(password);
 
-  const confirmPasswordInput = page.locator(`[data-test="confirm-password"]`);
+  /*   const confirmPasswordInput = page.locator(`[data-test="confirm-password"]`); */
+  const confirmPasswordInput = page.locator(`#confirm-password`);
+  await confirmPasswordInput.isVisible();
   await confirmPasswordInput.fill(password);
+
+  /*   const currentPasswordInput = page.locator(`#current-password`);
+  await currentPasswordInput.isVisible();
+  await currentPasswordInput.fill(password);
+
+  const connectButton = page.locator(`text="Connect"`);
+  await connectButton.click(); */
 
   const createWalletButton = page.locator(
     `[data-test="create-new-wallet-button"]`,
   );
   await createWalletButton.click();
 
+  const acceptAndSignButton = page.locator(`[data-test="accept-sign-button"]`);
+  await acceptAndSignButton.click();
+  await acceptAndSignButton.waitFor({ state: "detached" });
+
   const connectedWallet = page.locator(
     `[data-test="connected-wallet-details"]`,
   );
+  await connectedWallet.isVisible();
   await connectedWallet.click();
 
   const connectedWalletAddressDiv = page.locator(
