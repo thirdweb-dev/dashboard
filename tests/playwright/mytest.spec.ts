@@ -79,18 +79,21 @@ test("thirdweb", async ({ page }: { page: Page }) => {
   );
   await networkSelectorButton.click();
 
+  // TODO: Add data-test attributes to the network selector options
   const mumbai = page.locator('text="Mumbai"').first();
   await mumbai.click();
   expect(await networkSelectorButton.innerText()).toBe("Mumbai");
 
-  const deployNowButton = page.locator('text="Deploy Now"');
+  const deployNowButton = page.locator(
+    `[data-test="custom-contract-form-deploy-button"]`,
+  );
   await Promise.all([
     deployNowButton.click(),
     page.waitForLoadState("networkidle"),
   ]);
 
-  const getMaticButton = page.locator('text="Get MATIC from faucet"');
-  const isButtonVisible = await getMaticButton.isVisible();
+  const getFundsButton = page.locator(`[data-test="get-funds-from-faucet"]`);
+  const isButtonVisible = await getFundsButton.isVisible();
 
   if (isButtonVisible) {
     throw new Error("Wallet has run out of funds.");

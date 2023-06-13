@@ -454,7 +454,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             }
           />
           <TransactionButton
-            id="custom-contract-form-deploy-button"
+            data-test="custom-contract-form-deploy-button"
             onChainSelect={onChainSelect}
             upsellTestnet
             flexShrink={0}

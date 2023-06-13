@@ -344,7 +344,12 @@ const NoFundsNotice: React.FC<NoFundsNoticeProps> = ({ symbol, ecosystem }) => {
       </Text>
 
       {sdk && hasFaucet && (
-        <Button size="sm" colorScheme="orange" onClick={requestFunds}>
+        <Button
+          size="sm"
+          colorScheme="orange"
+          onClick={requestFunds}
+          data-test="get-funds-from-faucet"
+        >
           Get {symbol} from faucet
         </Button>
       )}
