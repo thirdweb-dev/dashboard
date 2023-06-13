@@ -70,6 +70,7 @@ export const ContractMetadataFieldset: React.FC<
                 autoFocus
                 variant="filled"
                 {...form.register("contractMetadata.name")}
+                data-test="contract-name-input"
               />
               <FormErrorMessage>
                 {

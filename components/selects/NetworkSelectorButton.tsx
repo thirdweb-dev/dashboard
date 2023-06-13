@@ -90,6 +90,7 @@ export const NetworkSelectorButton: React.FC<NetworkSelectorButtonProps> = ({
   return (
     <>
       <Button
+        data-test="network-selector-button"
         isDisabled={isDisabled || !wallet}
         display="flex"
         bg="inputBg"

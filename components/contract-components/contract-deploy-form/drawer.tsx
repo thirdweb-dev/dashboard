@@ -41,6 +41,7 @@ export const DeployFormDrawer: React.FC<DeployFormDrawerProps> = ({
           onDrawerVisibilityChanged?.(true);
         }}
         rightIcon={onlyIcon ? undefined : <Icon as={FiChevronsRight} />}
+        data-test="deploy-button"
       >
         {onlyIcon ? (
           <Tooltip
