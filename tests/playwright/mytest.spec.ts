@@ -79,8 +79,7 @@ test("thirdweb", async ({ page }: { page: Page }) => {
   );
   await networkSelectorButton.click();
 
-  // TODO: Add data-test attributes to the network selector options
-  const mumbai = page.locator('text="Mumbai"').first();
+  const mumbai = page.locator(`[data-test="switch-network-to-80001"]`).first();
   await mumbai.click();
   expect(await networkSelectorButton.innerText()).toBe("Mumbai");
 

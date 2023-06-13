@@ -43,7 +43,13 @@ export const CustomChainRenderer: NetworkSelectorProps["renderChain"] = ({
           alignItems="center"
         >
           <ChainIcon ipfsSrc={chain.icon?.url} size={32} />
-          <Flex gap={2} flexDir="column" alignItems="start" py={3}>
+          <Flex
+            gap={2}
+            flexDir="column"
+            alignItems="start"
+            py={3}
+            data-test={`switch-network-to-${chain.chainId}`}
+          >
             {chain.name}
             {switching && (
               <Flex
