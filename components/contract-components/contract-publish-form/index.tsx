@@ -398,6 +398,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                     onClick={() => setFieldsetToShow("networks")}
                     colorScheme="primary"
                     isDisabled={disableNext}
+                        data-test="next-button"
                   >
                     Next
                   </Button>
@@ -448,6 +449,7 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                         : "Publishing contract"
                     }
                     type="submit"
+                            data-test="publish-contract-button"
                   >
                     Publish Contract
                   </Button>

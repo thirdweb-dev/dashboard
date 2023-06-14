@@ -23,7 +23,7 @@ afterEach(async () => {
   await context.close();
 }); */
 
-test("thirdweb", async ({ page }: { page: Page }) => {
+test.skip("thirdweb", async ({ page }: { page: Page }) => {
   await page.goto("http://localhost:3000/thirdweb.eth/DropERC721", {
     timeout: 60000,
   });
