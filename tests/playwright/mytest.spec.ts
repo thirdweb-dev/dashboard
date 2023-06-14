@@ -80,8 +80,10 @@ test("thirdweb", async ({ page }: { page: Page }) => {
     `[data-test="connected-wallet-address"]`,
   );
   const address = await connectedWalletAddressDiv.getAttribute("data-address");
-
   console.log({ address });
+
+  // Close the modal
+  await page.click("html");
 
   const deployButton = page.locator(`[data-test="deploy-button"]`);
   await deployButton.click();
