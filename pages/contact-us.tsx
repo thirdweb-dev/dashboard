@@ -204,7 +204,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     {...form.register("jobtitle", { required: true })}
                   />
                 </FormControl>
-                <FormControl gap={6} isRequired>
+                {/* <FormControl gap={6} isRequired>
                   <Select
                     h={14}
                     borderColor="gray.300"
@@ -269,7 +269,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="6-12 months">6-12 months</option>
                     <option value="1+ year">1+ year</option>
                   </Select>
-                </FormControl>
+                </FormControl> */}
                 <Box color="white" mx={{ base: "auto", lg: "inherit" }}>
                   <Button
                     type="submit"
