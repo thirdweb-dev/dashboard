@@ -173,7 +173,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     />
                   </FormControl>
                 </Flex>
-                {/* <FormControl gap={6} isRequired>
+                <FormControl gap={6} isRequired>
                   <Input
                     h={14}
                     borderColor="gray.300"
@@ -226,7 +226,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   <Select
                     h={14}
                     borderColor="gray.300"
-                    placeholder="What industry is your company most closely aligned with? *&nbsp;&nbsp;&nbsp;"
+                    placeholder="What industry is your company most closely aligned with? *"
                     color="black"
                     {...form.register("0-2/product_type", { required: true })}
                   >
@@ -269,7 +269,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="6-12 months">6-12 months</option>
                     <option value="1+ year">1+ year</option>
                   </Select>
-                </FormControl> */}
+                </FormControl>
                 <Box color="white" mx={{ base: "auto", lg: "inherit" }}>
                   <Button
                     type="submit"
