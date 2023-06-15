@@ -151,7 +151,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   }
                 })}
               >
-                {/* <Flex gap={4}>
+                <Flex gap={4}>
                   <FormControl gap={6} isRequired>
                     <Input
                       h={14}
@@ -173,7 +173,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     />
                   </FormControl>
                 </Flex>
-                <FormControl gap={6} isRequired>
+                {/* <FormControl gap={6} isRequired>
                   <Input
                     h={14}
                     borderColor="gray.300"
@@ -269,8 +269,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="6-12 months">6-12 months</option>
                     <option value="1+ year">1+ year</option>
                   </Select>
-                </FormControl>
-                */}
+                </FormControl> */}
                 <Box color="white" mx={{ base: "auto", lg: "inherit" }}>
                   <Button
                     type="submit"
