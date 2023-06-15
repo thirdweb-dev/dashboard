@@ -118,7 +118,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   </Flex>
                 </ListItem>
               </List>
-              <TrustedBy display={{ base: "none", lg: "flex" }} />
+              {/*               <TrustedBy display={{ base: "none", lg: "flex" }} /> */}
             </Flex>
             <Card bgColor="white" p={{ base: 6, lg: 12 }}>
               <Flex
