@@ -120,7 +120,7 @@ const ContactUs: ThirdwebNextPage = () => {
               </List>
               <TrustedBy display={{ base: "none", lg: "flex" }} />
             </Flex>
-            {/*             <Card bgColor="white" p={{ base: 6, lg: 12 }}>
+            <Card bgColor="white" p={{ base: 6, lg: 12 }}>
               <Flex
                 flexDir="column"
                 gap={4}
@@ -151,7 +151,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   }
                 })}
               >
-                <Flex gap={4}>
+                {/* <Flex gap={4}>
                   <FormControl gap={6} isRequired>
                     <Input
                       h={14}
@@ -270,6 +270,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="1+ year">1+ year</option>
                   </Select>
                 </FormControl>
+                */}
                 <Box color="white" mx={{ base: "auto", lg: "inherit" }}>
                   <Button
                     type="submit"
@@ -297,7 +298,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   </Text>
                 )}
               </Flex>
-            </Card> */}
+            </Card>
             <TrustedBy display={{ base: "flex", lg: "none" }} mt={0} />
           </Flex>
         </HomepageSection>
