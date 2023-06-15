@@ -204,7 +204,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     {...form.register("jobtitle", { required: true })}
                   />
                 </FormControl>
-                {/* <FormControl gap={6} isRequired>
+                <FormControl gap={6} isRequired>
                   <Select
                     h={14}
                     borderColor="gray.300"
@@ -222,6 +222,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="250+">250</option>
                   </Select>
                 </FormControl>
+                {/*
                 <FormControl gap={6} isRequired>
                   <Select
                     h={14}
