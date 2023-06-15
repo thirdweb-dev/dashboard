@@ -62,7 +62,7 @@ const ContactUs: ThirdwebNextPage = () => {
             justifyContent="space-between"
             gap={14}
           >
-            {/* <Flex flexDir="column" gap={8}>
+            <Flex flexDir="column" gap={8}>
               <Heading size="display.sm">
                 Discover how <br />
                 <Box
@@ -119,8 +119,8 @@ const ContactUs: ThirdwebNextPage = () => {
                 </ListItem>
               </List>
               <TrustedBy display={{ base: "none", lg: "flex" }} />
-            </Flex> */}
-            <Card bgColor="white" p={{ base: 6, lg: 12 }}>
+            </Flex>
+            {/*             <Card bgColor="white" p={{ base: 6, lg: 12 }}>
               <Flex
                 flexDir="column"
                 gap={4}
@@ -297,8 +297,8 @@ const ContactUs: ThirdwebNextPage = () => {
                   </Text>
                 )}
               </Flex>
-            </Card>
-            {/*             <TrustedBy display={{ base: "flex", lg: "none" }} mt={0} /> */}
+            </Card> */}
+            <TrustedBy display={{ base: "flex", lg: "none" }} mt={0} />
           </Flex>
         </HomepageSection>
         <HomepageFooter />
