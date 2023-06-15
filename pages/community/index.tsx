@@ -8,7 +8,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { CommunityCard } from "components/community/Card";
+import { CommunityCard } from "components/community/CommunityCard";
 import { HomepageFooter } from "components/footer/Footer";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
@@ -139,15 +139,13 @@ const Community: ThirdwebNextPage = () => {
               <Heading mt={8} textAlign="center" size="title.2xl">
                 A decentralized internet begins
                 <br /> with{" "}
-                <Heading
+                <Box
                   as="span"
-                  size="title.2xl"
-                  background="linear-gradient(243.9deg, #BFA3DA 21.81%, #84309C 48.81%, #C735B0 86.61%), #ECECEC"
-                  backgroundClip="text"
-                  color="transparent"
+                  bgGradient="linear(to-r, #BFA3DA, #C735B0)"
+                  bgClip="text"
                 >
                   decentralized talent.
-                </Heading>
+                </Box>
               </Heading>
 
               <Flex
@@ -182,7 +180,7 @@ const Community: ThirdwebNextPage = () => {
                 </LinkButton>
 
                 <LinkButton
-                  href="https://thirdweb.typeform.com/to/ZV3gUhiP"
+                  href="/contact-us"
                   size="lg"
                   onClick={() =>
                     trackEvent({
@@ -191,12 +189,11 @@ const Community: ThirdwebNextPage = () => {
                       title: "partner-with-us",
                     })
                   }
-                  isExternal
                   variant="outline"
                   fontSize="larger"
                   h={12}
                 >
-                  Partner with us
+                  Get In Touch
                 </LinkButton>
               </Flex>
             </Center>
@@ -232,15 +229,13 @@ const Community: ThirdwebNextPage = () => {
                     color="#ECECEC"
                   >
                     {title1}{" "}
-                    <Heading
+                    <Box
                       as="span"
-                      size="title.2xl"
-                      color="transparent"
-                      background="linear-gradient(249.19deg, #BFA3DA 53.72%, #84309C 78.01%, #C735B0 112.02%), #ECECEC"
-                      backgroundClip="text"
+                      bgGradient="linear(to-r, #BFA3DA, #C735B0)"
+                      bgClip="text"
                     >
                       {title2}
-                    </Heading>
+                    </Box>
                   </Heading>
 
                   <Text
@@ -255,9 +250,9 @@ const Community: ThirdwebNextPage = () => {
                   </Text>
 
                   <SimpleGrid
-                    columns={{ base: 1, sm: 3, md: 4 }}
-                    gap={{ base: 12, md: 6 }}
-                    py={{ base: 12, md: 8 }}
+                    columns={{ base: 1, sm: 2, md: 4 }}
+                    gap={{ base: 4, md: 6 }}
+                    py={{ base: 4, md: 8 }}
                   >
                     {cards.map(
                       ({
@@ -291,17 +286,15 @@ const Community: ThirdwebNextPage = () => {
         </Box>
 
         <Container maxW="container.page" position="relative" py={12}>
-          <Heading as="h2" size="title.2xl" textAlign="center">
+          <Heading as="h2" size="title.2xl" textAlign="center" mb={4}>
             and most importantly...{" "}
-            <Heading
+            <Box
               as="span"
-              size="title.2xl"
-              color="transparent"
-              background="linear-gradient(249.19deg, #BFA3DA 53.72%, #84309C 78.01%, #C735B0 112.02%), #ECECEC"
-              backgroundClip="text"
+              bgGradient="linear(to-r, #BFA3DA, #C735B0)"
+              bgClip="text"
             >
               have fun!
-            </Heading>
+            </Box>
           </Heading>
 
           <SimpleGrid
@@ -324,19 +317,21 @@ const Community: ThirdwebNextPage = () => {
           </SimpleGrid>
         </Container>
 
-        <Center px={{ base: 4, md: 8 }} flexDir="column" mb={10}>
+        <Center
+          px={{ base: 4, md: 8 }}
+          flexDir="column"
+          my={{ base: 12, md: 24 }}
+        >
           <Heading mt={8} size="display.md">
             Start
-            <Heading
+            <Box
               as="span"
-              size="display.md"
-              background="linear-gradient(248.71deg, #BFA3DA 53.44%, #84309C 72.94%, #C735B0 100.23%), #ECECEC"
-              backgroundClip="text"
-              color="transparent"
+              bgGradient="linear(to-r, #BFA3DA, #C735B0)"
+              bgClip="text"
             >
               {" "}
               building{" "}
-            </Heading>
+            </Box>
             today.
           </Heading>
 
@@ -373,7 +368,7 @@ const Community: ThirdwebNextPage = () => {
             </LinkButton>
 
             <LinkButton
-              href="https://thirdweb.typeform.com/to/ZV3gUhiP"
+              href="/contact-us"
               size="lg"
               onClick={() =>
                 trackEvent({
@@ -382,12 +377,11 @@ const Community: ThirdwebNextPage = () => {
                   title: "partner-with-us",
                 })
               }
-              isExternal
               variant="outline"
               fontSize="larger"
               h={12}
             >
-              Partner with us
+              Get In Touch
             </LinkButton>
           </Flex>
         </Center>
