@@ -16,6 +16,7 @@ import { PartnerLogo } from "components/partners/partner-logo";
 import { HomepageTopNav } from "components/product-pages/common/Topnav";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
 import { PageId } from "page-id";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { Button, Card, Heading, Text } from "tw-components";
@@ -27,21 +28,24 @@ interface FormSchema {
   email: string;
   company: string;
   jobtitle: string;
-  size_of_company: string;
-  product_type: string;
+  "0-2/size_of_company": string;
+  "0-2/product_type": string;
   products: string;
-  when_do_you_expect_to_launch_: string;
+  "0-2/when_do_you_expect_to_launch_": string;
 }
 
 const ContactUs: ThirdwebNextPage = () => {
   const form = useForm<FormSchema>();
+  const [formStatus, setFormStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
 
   return (
     <Flex justify="center" flexDir="column" as="main" bg="#000">
       <HomepageTopNav />
       <HomepageSection py={24} mx="auto">
         <Flex
-          flexDir={{ base: "column", md: "row" }}
+          flexDir={{ base: "column", lg: "row" }}
           justifyContent="space-between"
           gap={14}
         >
@@ -101,18 +105,37 @@ const ContactUs: ThirdwebNextPage = () => {
                 </Flex>
               </ListItem>
             </List>
-            <TrustedBy display={{ base: "none", md: "flex" }} />
+            <TrustedBy display={{ base: "none", lg: "flex" }} />
           </Flex>
-          <Card bgColor="white" p={{ base: 6, md: 12 }}>
+          <Card bgColor="white" p={{ base: 6, lg: 12 }}>
             <Flex
               flexDir="column"
               gap={4}
               as="form"
-              onSubmit={form.handleSubmit((data) => {
-                fetch("/api/hubspot", {
-                  method: "POST",
-                  body: JSON.stringify({ fields: data }),
-                });
+              onSubmit={form.handleSubmit(async (data) => {
+                const fields = Object.keys(data).map((key) => ({
+                  name: key,
+                  value: (data as any)[key],
+                }));
+
+                setFormStatus("submitting");
+
+                try {
+                  const response = await fetch("/api/hubspot", {
+                    method: "POST",
+                    body: JSON.stringify({ fields }),
+                  });
+
+                  if (!response.ok) {
+                    throw new Error("Form submission failed");
+                  }
+
+                  await response.json();
+                  setFormStatus("success");
+                  form.reset();
+                } catch (error) {
+                  setFormStatus("error");
+                }
               })}
             >
               <Flex gap={4}>
@@ -173,8 +196,10 @@ const ContactUs: ThirdwebNextPage = () => {
                   h={14}
                   borderColor="gray.300"
                   placeholder="Size of Company *"
-                  color={form.watch("size_of_company") ? "black" : "gray.700"}
-                  {...form.register("size_of_company", { required: true })}
+                  color={
+                    form.watch("0-2/size_of_company") ? "black" : "gray.700"
+                  }
+                  {...form.register("0-2/size_of_company", { required: true })}
                 >
                   <option value="solo">Solo</option>
                   <option value="2-10">2-10</option>
@@ -189,8 +214,8 @@ const ContactUs: ThirdwebNextPage = () => {
                   h={14}
                   borderColor="gray.300"
                   placeholder="What industry is your company most closely aligned with? *&nbsp;&nbsp;&nbsp;"
-                  color={form.watch("product_type") ? "black" : "gray.700"}
-                  {...form.register("product_type", { required: true })}
+                  color={form.watch("0-2/product_type") ? "black" : "gray.700"}
+                  {...form.register("0-2/product_type", { required: true })}
                 >
                   <option value="Brand / Commerce">Brand / Commerce</option>
                   <option value="Game">Game</option>
@@ -202,7 +227,7 @@ const ContactUs: ThirdwebNextPage = () => {
                 <Select
                   h={14}
                   borderColor="gray.300"
-                  placeholder="What solution are you most interested in?"
+                  placeholder="What solution are you most interested in? *"
                   color={form.watch("products") ? "black" : "gray.700"}
                   {...form.register("products")}
                 >
@@ -220,11 +245,11 @@ const ContactUs: ThirdwebNextPage = () => {
                   borderColor="gray.300"
                   placeholder="When do you expect to launch? *"
                   color={
-                    form.watch("when_do_you_expect_to_launch_")
+                    form.watch("0-2/when_do_you_expect_to_launch_")
                       ? "black"
                       : "gray.700"
                   }
-                  {...form.register("when_do_you_expect_to_launch_", {
+                  {...form.register("0-2/when_do_you_expect_to_launch_", {
                     required: true,
                   })}
                 >
@@ -234,7 +259,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   <option value="1+ year">1+ year</option>
                 </Select>
               </FormControl>
-              <Box color="white" mx={{ base: "auto", md: "inherit" }}>
+              <Box color="white" mx={{ base: "auto", lg: "inherit" }}>
                 <Button
                   type="submit"
                   bg="black"
@@ -242,15 +267,27 @@ const ContactUs: ThirdwebNextPage = () => {
                   px={8}
                   py={6}
                   leftIcon={<Icon as={BsFillLightningChargeFill} />}
+                  isDisabled={formStatus === "submitting"}
                 >
                   <Text color="white" size="label.lg">
-                    Submit
+                    {formStatus === "submitting" ? "Submitting..." : "Submit"}
                   </Text>
                 </Button>
               </Box>
+              {formStatus === "success" && (
+                <Text color="green.600">
+                  Thanks for submitting the form. Our team will respond within
+                  48 hours.
+                </Text>
+              )}
+              {formStatus === "error" && (
+                <Text color="red.500">
+                  Something went wrong. Please try again.
+                </Text>
+              )}
             </Flex>
           </Card>
-          <TrustedBy display={{ base: "flex", md: "none" }} mt={0} />
+          <TrustedBy display={{ base: "flex", lg: "none" }} mt={0} />
         </Flex>
       </HomepageSection>
       <HomepageFooter />
@@ -265,10 +302,10 @@ const TrustedBy: React.FC<FlexProps> = (flexProps) => {
         Trusted by leading companies
       </Heading>
       <SimpleGrid
-        columns={{ base: 2, md: 3 }}
+        columns={{ base: 2, lg: 3 }}
         mx="auto"
         gap={6}
-        px={{ base: 8, md: 0 }}
+        px={{ base: 8, lg: 0 }}
       >
         <PartnerLogo partner="shopify" />
         <PartnerLogo partner="animoca" />
