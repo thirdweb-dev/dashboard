@@ -158,7 +158,6 @@ const ContactUs: ThirdwebNextPage = () => {
                       borderColor="gray.300"
                       placeholder="First name *"
                       color="black"
-                      _placeholder={{ color: "gray.700" }}
                       {...form.register("firstname", { required: true })}
                     />
                   </FormControl>
@@ -168,7 +167,6 @@ const ContactUs: ThirdwebNextPage = () => {
                       borderColor="gray.300"
                       placeholder="Last name *"
                       color="black"
-                      _placeholder={{ color: "gray.700" }}
                       {...form.register("lastname", { required: true })}
                     />
                   </FormControl>
@@ -180,7 +178,6 @@ const ContactUs: ThirdwebNextPage = () => {
                     placeholder="Your email *"
                     type="email"
                     color="black"
-                    _placeholder={{ color: "gray.700" }}
                     {...form.register("email", { required: true })}
                   />
                 </FormControl>
@@ -190,7 +187,6 @@ const ContactUs: ThirdwebNextPage = () => {
                     borderColor="gray.300"
                     placeholder="Your Company *"
                     color="black"
-                    _placeholder={{ color: "gray.700" }}
                     {...form.register("0-2/name", { required: true })}
                   />
                 </FormControl>
@@ -200,7 +196,6 @@ const ContactUs: ThirdwebNextPage = () => {
                     borderColor="gray.300"
                     placeholder="Job Title *"
                     color="black"
-                    _placeholder={{ color: "gray.700" }}
                     {...form.register("jobtitle", { required: true })}
                   />
                 </FormControl>
@@ -209,9 +204,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     h={14}
                     borderColor="gray.300"
                     placeholder="Size of Company *"
-                    color={
-                      form.watch("0-2/size_of_company") ? "black" : "gray.700"
-                    }
+                    color="black"
                     {...form.register("0-2/size_of_company", {
                       required: true,
                     })}
@@ -229,9 +222,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     h={14}
                     borderColor="gray.300"
                     placeholder="What industry is your company most closely aligned with? *&nbsp;&nbsp;&nbsp;"
-                    color={
-                      form.watch("0-2/product_type") ? "black" : "gray.700"
-                    }
+                    color="black"
                     {...form.register("0-2/product_type", { required: true })}
                   >
                     <option value="Brand / Commerce">Brand / Commerce</option>
@@ -247,7 +238,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     h={14}
                     borderColor="gray.300"
                     placeholder="What solution are you most interested in? *"
-                    color={form.watch("products") ? "black" : "gray.700"}
+                    color="black"
                     {...form.register("products", { required: true })}
                   >
                     <option value="GamingKit">GamingKit</option>
