@@ -223,13 +223,13 @@ const ContactUs: ThirdwebNextPage = () => {
                   <option value="Protocols & Chains">Protocols & Chains</option>
                 </Select>
               </FormControl>
-              <FormControl gap={6}>
+              <FormControl gap={6} isRequired>
                 <Select
                   h={14}
                   borderColor="gray.300"
                   placeholder="What solution are you most interested in? *"
                   color={form.watch("products") ? "black" : "gray.700"}
-                  {...form.register("products")}
+                  {...form.register("products", { required: true })}
                 >
                   <option value="GamingKit">GamingKit</option>
                   <option value="CommerceKit">CommerceKit</option>
