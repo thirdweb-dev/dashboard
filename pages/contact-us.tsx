@@ -104,7 +104,17 @@ const ContactUs: ThirdwebNextPage = () => {
             <TrustedBy display={{ base: "none", md: "flex" }} />
           </Flex>
           <Card bgColor="white" p={{ base: 6, md: 12 }}>
-            <Flex flexDir="column" gap={4} as="form">
+            <Flex
+              flexDir="column"
+              gap={4}
+              as="form"
+              onSubmit={form.handleSubmit((data) => {
+                fetch("/api/hubspot", {
+                  method: "POST",
+                  body: JSON.stringify({ fields: data }),
+                });
+              })}
+            >
               <Flex gap={4}>
                 <FormControl gap={6} isRequired>
                   <Input
@@ -132,6 +142,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   h={14}
                   borderColor="gray.300"
                   placeholder="Your email *"
+                  type="email"
                   color="black"
                   _placeholder={{ color: "gray.700" }}
                   {...form.register("email", { required: true })}
@@ -225,6 +236,7 @@ const ContactUs: ThirdwebNextPage = () => {
               </FormControl>
               <Box color="white" mx={{ base: "auto", md: "inherit" }}>
                 <Button
+                  type="submit"
                   bg="black"
                   _hover={{ bg: "black", opacity: 0.8 }}
                   px={8}
