@@ -156,7 +156,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <Input
                       h={14}
                       borderColor="gray.300"
-                      placeholder="First name *"
+                      placeholder="First Name *"
                       color="black"
                       _placeholder={{ color: "black" }}
                       {...form.register("firstname", { required: true })}
@@ -166,7 +166,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <Input
                       h={14}
                       borderColor="gray.300"
-                      placeholder="Last name *"
+                      placeholder="Last Name *"
                       color="black"
                       _placeholder={{ color: "black" }}
                       {...form.register("lastname", { required: true })}
@@ -177,7 +177,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   <Input
                     h={14}
                     borderColor="gray.300"
-                    placeholder="Your email *"
+                    placeholder="Your Email *"
                     type="email"
                     color="black"
                     _placeholder={{ color: "black" }}
