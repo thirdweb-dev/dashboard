@@ -222,7 +222,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="250+">250</option>
                   </Select>
                 </FormControl>
-                {/*
+
                 <FormControl gap={6} isRequired>
                   <Select
                     h={14}
@@ -239,6 +239,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     </option>
                   </Select>
                 </FormControl>
+                {/*
                 <FormControl gap={6} isRequired>
                   <Select
                     h={14}
