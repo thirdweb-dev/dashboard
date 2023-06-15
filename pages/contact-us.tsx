@@ -158,6 +158,7 @@ const ContactUs: ThirdwebNextPage = () => {
                       borderColor="gray.300"
                       placeholder="First name *"
                       color="black"
+                      _placeholder={{ color: "black" }}
                       {...form.register("firstname", { required: true })}
                     />
                   </FormControl>
@@ -167,6 +168,7 @@ const ContactUs: ThirdwebNextPage = () => {
                       borderColor="gray.300"
                       placeholder="Last name *"
                       color="black"
+                      _placeholder={{ color: "black" }}
                       {...form.register("lastname", { required: true })}
                     />
                   </FormControl>
@@ -178,6 +180,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     placeholder="Your email *"
                     type="email"
                     color="black"
+                    _placeholder={{ color: "black" }}
                     {...form.register("email", { required: true })}
                   />
                 </FormControl>
@@ -187,6 +190,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     borderColor="gray.300"
                     placeholder="Your Company *"
                     color="black"
+                    _placeholder={{ color: "black" }}
                     {...form.register("0-2/name", { required: true })}
                   />
                 </FormControl>
@@ -196,6 +200,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     borderColor="gray.300"
                     placeholder="Job Title *"
                     color="black"
+                    _placeholder={{ color: "black" }}
                     {...form.register("jobtitle", { required: true })}
                   />
                 </FormControl>
@@ -254,11 +259,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     h={14}
                     borderColor="gray.300"
                     placeholder="When do you expect to launch? *"
-                    color={
-                      form.watch("0-2/when_do_you_expect_to_launch_")
-                        ? "black"
-                        : "gray.700"
-                    }
+                    color="black"
                     {...form.register("0-2/when_do_you_expect_to_launch_", {
                       required: true,
                     })}
