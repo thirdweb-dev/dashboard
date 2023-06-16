@@ -37,11 +37,11 @@
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-query-persist-client": "^4.29.7",
     "@tanstack/react-table": "8.9.1",
-    "@thirdweb-dev/auth": "^3.2.0-nightly-36f3191f-20230615235309",
+    "@thirdweb-dev/auth": "0.0.0-dev-08b2a68-20230616150357",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "^0.1.21-nightly-36f3191f-20230615235309",
-    "@thirdweb-dev/react": "^3.14.0-nightly-36f3191f-20230615235309",
-    "@thirdweb-dev/sdk": "^3.10.22-nightly-36f3191f-20230615235309",
+    "@thirdweb-dev/react": "0.0.0-dev-08b2a68-20230616150357",
+    "@thirdweb-dev/sdk": "0.0.0-dev-08b2a68-20230616150357",
     "@vercel/og": "^0.5.4",
     "airtable": "^0.11.6",
     "bn.js": "^5.2.1",
@@ -119,7 +119,8 @@
     "@types/react-dom": "^18",
     "bn.js": "^5.2.1",
     "@tanstack/react-query": "^4.19.1",
-    "zod": "^3.19.1"
+    "zod": "^3.19.1",
+    "@thirdweb-dev/sdk": "0.0.0-dev-08b2a68-20230616150357"
   },
   "peerDependencies": {},
   "next-unused": {
