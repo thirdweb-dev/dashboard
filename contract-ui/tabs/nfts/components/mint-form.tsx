@@ -175,7 +175,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     <>
       <DrawerHeader>
         <Heading>
-          {sharedMetadataMutation ? "Set Shared Metadata" : "Mint NFT"}
+          {sharedMetadataMutation ? "Set NFT Metadata" : "Mint NFT"}
         </Heading>
       </DrawerHeader>
       <DrawerBody>
