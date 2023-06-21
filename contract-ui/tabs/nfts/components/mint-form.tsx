@@ -436,7 +436,11 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
           colorScheme="primary"
           isDisabled={!isDirty}
         >
-          {lazyMintMutation && "Lazy "} Mint NFT
+          {sharedMetadataMutation
+            ? "Set NFT Metadata"
+            : lazyMintMutation
+            ? "Lazy Mint NFT"
+            : "Mint NFT"}
         </TransactionButton>
       </DrawerFooter>
     </>
