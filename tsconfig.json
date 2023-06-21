@@ -18,7 +18,8 @@
     "downlevelIteration": true,
     "paths": {
       "tw-components": ["tw-components"],
-      "tw-components/*": ["tw-components/*"]
+      "tw-components/*": ["tw-components/*"],
+      "ui/*": ["shared/ui/stories/components/*"]
     },
     "plugins": [
       {

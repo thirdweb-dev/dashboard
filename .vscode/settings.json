@@ -1,5 +1,15 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "cSpell.words": ["rdweb", "solana", "tanstack", "Thirdweb", "usedapp"]
+  "cSpell.words": [
+    "autodocs",
+    "clsx",
+    "nextjs",
+    "rdweb",
+    "solana",
+    "tailwindcss",
+    "tanstack",
+    "Thirdweb",
+    "usedapp"
+  ]
 }

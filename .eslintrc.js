@@ -7,6 +7,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:@next/next/recommended",
     "next/core-web-vitals",
+    "plugin:storybook/recommended",
   ],
   rules: {
     // typescript
@@ -40,7 +41,12 @@ module.exports = {
     "import/no-default-export": "off",
     "import/no-useless-path-segments": "error",
     // react
-    "react/forbid-dom-props": ["error", { forbid: ["className", "style"] }],
+    "react/forbid-dom-props": [
+      "error",
+      {
+        forbid: ["className", "style"],
+      },
+    ],
     "react/no-children-prop": "off",
     "react/prop-types": "off",
     // react-hooks
@@ -52,18 +58,38 @@ module.exports = {
     "getter-return": "off",
     "key-spacing": [
       "error",
-      { beforeColon: false, afterColon: true, mode: "strict" },
+      {
+        beforeColon: false,
+        afterColon: true,
+        mode: "strict",
+      },
     ],
-    "keyword-spacing": ["error", { before: true, after: true }],
+    "keyword-spacing": [
+      "error",
+      {
+        before: true,
+        after: true,
+      },
+    ],
     "line-comment-position": "error",
     "new-cap": "error",
     "no-alert": "error",
     "no-case-declarations": "off",
-    "no-console": ["warn", { allow: ["warn", "error", "info", "debug"] }],
+    "no-console": [
+      "warn",
+      {
+        allow: ["warn", "error", "info", "debug"],
+      },
+    ],
     "no-duplicate-imports": "error",
     "no-eval": "error",
     "no-floating-decimal": "error",
-    "no-implicit-coercion": ["error", { boolean: false }],
+    "no-implicit-coercion": [
+      "error",
+      {
+        boolean: false,
+      },
+    ],
     "no-implied-eval": "error",
     "no-irregular-whitespace": "error",
     "no-label-var": "error",
@@ -90,7 +116,13 @@ module.exports = {
     "quote-props": ["error", "as-needed"],
     // 'sort-imports': ['warn', { ignoreDeclarationSort: true }],
     // 'sort-keys': ['warn', 'asc', { natural: true }],
-    "spaced-comment": ["error", "always", { markers: ["/ <reference"] }],
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        markers: ["/ <reference"],
+      },
+    ],
     "symbol-description": "error",
     "template-curly-spacing": ["error", "never"],
     "use-isnan": "error",
@@ -216,14 +248,12 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": ["off"],
       },
     },
-
     // in test files, allow null assertions and anys and eslint is sometimes weird about the react-scope thing
     {
       files: ["*test.ts?(x)"],
       rules: {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-explicit-any": "off",
-
         "react/display-name": "off",
       },
     },
@@ -239,7 +269,6 @@ module.exports = {
       ],
       rules: {},
     },
-
     // setupTests can have separated imports for logical grouping
     {
       files: ["setupTests.ts"],
