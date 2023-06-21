@@ -45,7 +45,7 @@ export const NFTSharedMetadataButton: React.FC<
         {...restButtonProps}
         onClick={onOpen}
       >
-        Set Shared Metadata
+        Set NFT Metadata
       </Button>
     </MinterOnly>
   );
