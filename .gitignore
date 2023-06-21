@@ -60,6 +60,7 @@ license-report.txt
 # Local Build stuff
 .yalc/
 yalc.lock
+storybook-static
 
 # Remove sitemap stuff
 public/sitemap*.xml
