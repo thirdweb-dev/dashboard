@@ -75,8 +75,6 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
             noOfLines={4}
             size="body.md"
             fontStyle={!cell.value ? "italic" : "normal"}
-            isTruncated
-            display
           >
             {cell.value || "No description"}
           </Text>
