@@ -7,6 +7,7 @@ import {
   useClaimConditions,
   useClaimedNFTSupply,
   useNFTs,
+  useSharedMetadata,
   useSmartWallets,
   useTokenSupply,
 } from "@thirdweb-dev/react";
@@ -41,6 +42,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   const erc20Supply = useTokenSupply(contract);
   const batchesToReveal = useBatchesToReveal(contract);
   const smartWallets = useSmartWallets(contract);
+  const sharedMetadata = useSharedMetadata(contract);
 
   const steps: Step[] = [
     {
@@ -78,6 +80,25 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     });
   }
 
+  const isErc721SharedMetadadata = detectFeatures(contract, [
+    "ERC721SharedMetadata",
+  ]);
+  if (isErc721SharedMetadadata) {
+    steps.push({
+      title: "Set NFT Shared Metadata",
+      children: (
+        <Text size="label.sm">
+          Head to the{" "}
+          <Link href={nftHref} color="blue.500">
+            NFTs tab
+          </Link>{" "}
+          to set your NFT shared metadata.
+        </Text>
+      ),
+      completed: sharedMetadata.data?.every((val: string) => val !== ""),
+    });
+  }
+
   const erc721hasClaimConditions = detectFeatures(contract, [
     "ERC721ClaimPhasesV1",
     "ERC721ClaimPhasesV2",
@@ -106,7 +127,9 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
       ),
       completed:
         (claimConditions.data?.length || 0) > 0 ||
-        BigNumber.from(erc721Claimed?.data || 0).gt(0) ||
+        BigNumber.from(erc721Claimed?.data || 0).gt(
+          isErc721SharedMetadadata ? 1 : 0,
+        ) ||
         BigNumber.from(erc20Supply?.data?.value || 0).gt(0),
     });
   }
@@ -114,7 +137,9 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     steps.push({
       title: "First NFT claimed",
       children: <Text size="label.sm">No NFTs have been claimed so far.</Text>,
-      completed: BigNumber.from(erc721Claimed?.data || 0).gt(0),
+      completed: BigNumber.from(erc721Claimed?.data || 0).gt(
+        isErc721SharedMetadadata ? 1 : 0,
+      ),
     });
   }
 

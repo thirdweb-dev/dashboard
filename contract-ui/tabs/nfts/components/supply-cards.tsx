@@ -6,6 +6,7 @@ import {
   useClaimedNFTSupply,
   useUnclaimedNFTSupply,
 } from "@thirdweb-dev/react";
+import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
 import { Card } from "tw-components";
 
@@ -16,6 +17,13 @@ interface SupplyCardsProps {
 export const SupplyCards: React.FC<SupplyCardsProps> = ({ contract }) => {
   const claimedSupplyQuery = useClaimedNFTSupply(contract);
   const unclaimedSupplyQuery = useUnclaimedNFTSupply(contract);
+  const isErc721SharedMetadadata = detectFeatures(contract, [
+    "ERC721SharedMetadata",
+  ]);
+
+  if (isErc721SharedMetadadata) {
+    return null;
+  }
 
   return (
     <Stack spacing={{ base: 3, md: 6 }} direction="row">
