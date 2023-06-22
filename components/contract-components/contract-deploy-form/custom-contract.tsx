@@ -225,13 +225,6 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     (form.watch("addToDashboard") ? 1 : 0) +
     (isErc721SharedMetadadata ? 1 : 0);
 
-  console.log({
-    transactionCount,
-    transactions,
-    watch: form.watch("addToDashboard"),
-    isErc721SharedMetadadata,
-  });
-
   return (
     <FormProvider {...form}>
       <Flex
