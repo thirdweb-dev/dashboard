@@ -391,79 +391,75 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               />
             </>
           )}
-          {/* // TODO: Delete this conditional once the SDK handles string uploads for image/animation_url */}
-          {!sharedMetadataMutation && (
-            <Accordion
-              allowToggle={!(errors.background_color || errors.external_url)}
-              index={
-                errors.background_color || errors.external_url ? [0] : undefined
-              }
-            >
-              <AccordionItem>
-                <AccordionButton px={0} justifyContent="space-between">
-                  <Heading size="subtitle.md">Advanced Options</Heading>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel px={0} as={Stack} spacing={6}>
-                  {!sharedMetadataMutation && (
-                    <>
-                      <FormControl isInvalid={!!errors.background_color}>
+          <Accordion
+            allowToggle={!(errors.background_color || errors.external_url)}
+            index={
+              errors.background_color || errors.external_url ? [0] : undefined
+            }
+          >
+            <AccordionItem>
+              <AccordionButton px={0} justifyContent="space-between">
+                <Heading size="subtitle.md">Advanced Options</Heading>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel px={0} as={Stack} spacing={6}>
+                {!sharedMetadataMutation && (
+                  <>
+                    <FormControl isInvalid={!!errors.background_color}>
+                      <FormLabel>
+                        Background Color <OpenSeaPropertyBadge />
+                      </FormLabel>
+                      <Input max="6" {...register("background_color")} />
+                      <FormHelperText>
+                        Must be a six-character hexadecimal with a pre-pended #.
+                      </FormHelperText>
+                      <FormErrorMessage>
+                        <>{errors?.background_color?.message}</>
+                      </FormErrorMessage>
+                    </FormControl>
+                    {!externalIsTextFile && (
+                      <FormControl isInvalid={!!errors.external_url}>
                         <FormLabel>
-                          Background Color <OpenSeaPropertyBadge />
+                          External URL <OpenSeaPropertyBadge />
                         </FormLabel>
-                        <Input max="6" {...register("background_color")} />
+                        <Input {...register("external_url")} />
                         <FormHelperText>
-                          Must be a six-character hexadecimal with a pre-pended
-                          #.
+                          This is the URL that will appear below the
+                          asset&apos;s image on OpenSea and will allow users to
+                          leave OpenSea and view the item on your site.
                         </FormHelperText>
                         <FormErrorMessage>
-                          <>{errors?.background_color?.message}</>
+                          {errors?.external_url?.message as unknown as string}
                         </FormErrorMessage>
                       </FormControl>
-                      {!externalIsTextFile && (
-                        <FormControl isInvalid={!!errors.external_url}>
-                          <FormLabel>
-                            External URL <OpenSeaPropertyBadge />
-                          </FormLabel>
-                          <Input {...register("external_url")} />
-                          <FormHelperText>
-                            This is the URL that will appear below the
-                            asset&apos;s image on OpenSea and will allow users
-                            to leave OpenSea and view the item on your site.
-                          </FormHelperText>
-                          <FormErrorMessage>
-                            {errors?.external_url?.message as unknown as string}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </>
-                  )}
-                  <FormControl isInvalid={!!errors.customImage}>
-                    <FormLabel>Image</FormLabel>
-                    <Input max="6" {...register("customImage")} />
-                    <FormHelperText>
-                      If you already have your NFT image preuploaded, you can
-                      set the URL or URI here.
-                    </FormHelperText>
-                    <FormErrorMessage>
-                      <>{errors?.customImage?.message}</>
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl isInvalid={!!errors.customAnimationUrl}>
-                    <FormLabel>Animation URL</FormLabel>
-                    <Input max="6" {...register("customAnimationUrl")} />
-                    <FormHelperText>
-                      If you already have your NFT Animation URL preuploaded,
-                      you can set the URL or URI here.
-                    </FormHelperText>
-                    <FormErrorMessage>
-                      <>{errors?.customAnimationUrl?.message}</>
-                    </FormErrorMessage>
-                  </FormControl>
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          )}
+                    )}
+                  </>
+                )}
+                <FormControl isInvalid={!!errors.customImage}>
+                  <FormLabel>Image URL</FormLabel>
+                  <Input max="6" {...register("customImage")} />
+                  <FormHelperText>
+                    If you already have your NFT image preuploaded, you can set
+                    the URL or URI here.
+                  </FormHelperText>
+                  <FormErrorMessage>
+                    <>{errors?.customImage?.message}</>
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!errors.customAnimationUrl}>
+                  <FormLabel>Animation URL</FormLabel>
+                  <Input max="6" {...register("customAnimationUrl")} />
+                  <FormHelperText>
+                    If you already have your NFT Animation URL preuploaded, you
+                    can set the URL or URI here.
+                  </FormHelperText>
+                  <FormErrorMessage>
+                    <>{errors?.customAnimationUrl?.message}</>
+                  </FormErrorMessage>
+                </FormControl>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
         </Stack>
       </DrawerBody>
       <DrawerFooter>
