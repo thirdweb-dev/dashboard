@@ -96,13 +96,23 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
     watch,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<NFTMetadataInputLimited & { supply: number }>();
+  } = useForm<
+    NFTMetadataInputLimited & {
+      supply: number;
+      customImage: string;
+      customAnimationUrl: string;
+    }
+  >();
 
   const modalContext = useModalContext();
 
   const { onSuccess, onError } = useTxNotifications(
-    "NFT minted successfully",
-    "Failed to mint NFT",
+    sharedMetadataMutation
+      ? "NFT Metadata set successfully"
+      : "NFT minted successfully",
+    sharedMetadataMutation
+      ? "Failed to set NFT Metadata"
+      : "Failed to mint NFT",
   );
 
   const setFile = (file: File) => {
@@ -189,6 +199,16 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               return;
             }
 
+            const dataWithCustom = {
+              ...data,
+              ...(data.customImage && {
+                image: data.customImage,
+              }),
+              ...(data.customAnimationUrl && {
+                animation_url: data.customAnimationUrl,
+              }),
+            };
+
             if (lazyMintMutation) {
               trackEvent({
                 category: "nft",
@@ -197,7 +217,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               });
               lazyMintMutation.mutate(
                 {
-                  metadatas: [parseAttributes(data)],
+                  metadatas: [parseAttributes(dataWithCustom)],
                 },
                 {
                   onSuccess: () => {
@@ -231,7 +251,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
               mintMutation.mutate(
                 {
                   to: address,
-                  metadata: parseAttributes(data),
+                  metadata: parseAttributes(dataWithCustom),
                   supply: data.supply,
                 },
                 {
@@ -263,7 +283,7 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 action: "set-shared-metadata",
                 label: "attempt",
               });
-              sharedMetadataMutation.mutate(parseAttributes(data), {
+              sharedMetadataMutation.mutate(parseAttributes(dataWithCustom), {
                 onSuccess: () => {
                   trackEvent({
                     category: "nft",
@@ -369,52 +389,80 @@ export const NFTMintForm: React.FC<NFTMintForm> = ({
                 register={register}
                 setValue={setValue}
               />
-              <Accordion
-                allowToggle={!(errors.background_color || errors.external_url)}
-                index={
-                  errors.background_color || errors.external_url
-                    ? [0]
-                    : undefined
-                }
-              >
-                <AccordionItem>
-                  <AccordionButton px={0} justifyContent="space-between">
-                    <Heading size="subtitle.md">Advanced Metadata</Heading>
-                    <AccordionIcon />
-                  </AccordionButton>
-                  <AccordionPanel px={0} as={Stack} spacing={6}>
-                    <FormControl isInvalid={!!errors.background_color}>
-                      <FormLabel>
-                        Background Color <OpenSeaPropertyBadge />
-                      </FormLabel>
-                      <Input max="6" {...register("background_color")} />
-                      <FormHelperText>
-                        Must be a six-character hexadecimal with a pre-pended #.
-                      </FormHelperText>
-                      <FormErrorMessage>
-                        <>{errors?.background_color?.message}</>
-                      </FormErrorMessage>
-                    </FormControl>
-                    {!externalIsTextFile && (
-                      <FormControl isInvalid={!!errors.external_url}>
+            </>
+          )}
+          {/* // TODO: Delete this conditional once the SDK handles string uploads for image/animation_url */}
+          {!sharedMetadataMutation && (
+            <Accordion
+              allowToggle={!(errors.background_color || errors.external_url)}
+              index={
+                errors.background_color || errors.external_url ? [0] : undefined
+              }
+            >
+              <AccordionItem>
+                <AccordionButton px={0} justifyContent="space-between">
+                  <Heading size="subtitle.md">Advanced Options</Heading>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel px={0} as={Stack} spacing={6}>
+                  {!sharedMetadataMutation && (
+                    <>
+                      <FormControl isInvalid={!!errors.background_color}>
                         <FormLabel>
-                          External URL <OpenSeaPropertyBadge />
+                          Background Color <OpenSeaPropertyBadge />
                         </FormLabel>
-                        <Input {...register("external_url")} />
+                        <Input max="6" {...register("background_color")} />
                         <FormHelperText>
-                          This is the URL that will appear below the
-                          asset&apos;s image on OpenSea and will allow users to
-                          leave OpenSea and view the item on your site.
+                          Must be a six-character hexadecimal with a pre-pended
+                          #.
                         </FormHelperText>
                         <FormErrorMessage>
-                          {errors?.external_url?.message as unknown as string}
+                          <>{errors?.background_color?.message}</>
                         </FormErrorMessage>
                       </FormControl>
-                    )}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </>
+                      {!externalIsTextFile && (
+                        <FormControl isInvalid={!!errors.external_url}>
+                          <FormLabel>
+                            External URL <OpenSeaPropertyBadge />
+                          </FormLabel>
+                          <Input {...register("external_url")} />
+                          <FormHelperText>
+                            This is the URL that will appear below the
+                            asset&apos;s image on OpenSea and will allow users
+                            to leave OpenSea and view the item on your site.
+                          </FormHelperText>
+                          <FormErrorMessage>
+                            {errors?.external_url?.message as unknown as string}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </>
+                  )}
+                  <FormControl isInvalid={!!errors.customImage}>
+                    <FormLabel>Image</FormLabel>
+                    <Input max="6" {...register("customImage")} />
+                    <FormHelperText>
+                      If you already have your NFT image preuploaded, you can
+                      set the URL or URI here.
+                    </FormHelperText>
+                    <FormErrorMessage>
+                      <>{errors?.customImage?.message}</>
+                    </FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={!!errors.customAnimationUrl}>
+                    <FormLabel>Animation URL</FormLabel>
+                    <Input max="6" {...register("customAnimationUrl")} />
+                    <FormHelperText>
+                      If you already have your NFT Animation URL preuploaded,
+                      you can set the URL or URI here.
+                    </FormHelperText>
+                    <FormErrorMessage>
+                      <>{errors?.customAnimationUrl?.message}</>
+                    </FormErrorMessage>
+                  </FormControl>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
           )}
         </Stack>
       </DrawerBody>
