@@ -85,17 +85,17 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   ]);
   if (isErc721SharedMetadadata) {
     steps.push({
-      title: "Set NFT Shared Metadata",
+      title: "Set NFT Metadata",
       children: (
         <Text size="label.sm">
           Head to the{" "}
           <Link href={nftHref} color="blue.500">
             NFTs tab
           </Link>{" "}
-          to set your NFT shared metadata.
+          to set your NFT metadata.
         </Text>
       ),
-      completed: sharedMetadata.data?.every((val: string) => val !== ""),
+      completed: sharedMetadata.data?.some((val: string) => val !== ""),
     });
   }
 
@@ -127,9 +127,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
       ),
       completed:
         (claimConditions.data?.length || 0) > 0 ||
-        BigNumber.from(erc721Claimed?.data || 0).gt(
-          isErc721SharedMetadadata ? 1 : 0,
-        ) ||
+        BigNumber.from(erc721Claimed?.data || 0).gt(0) ||
         BigNumber.from(erc20Supply?.data?.value || 0).gt(0),
     });
   }
@@ -137,9 +135,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     steps.push({
       title: "First NFT claimed",
       children: <Text size="label.sm">No NFTs have been claimed so far.</Text>,
-      completed: BigNumber.from(erc721Claimed?.data || 0).gt(
-        isErc721SharedMetadadata ? 1 : 0,
-      ),
+      completed: BigNumber.from(erc721Claimed?.data || 0).gt(0),
     });
   }
 
