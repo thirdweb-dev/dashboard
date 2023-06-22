@@ -220,6 +220,18 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "Failed to deploy contract",
   );
 
+  const transactionCount =
+    (transactions?.length || 0) +
+    (form.watch("addToDashboard") ? 1 : 0) +
+    (isErc721SharedMetadadata ? 1 : 0);
+
+  console.log({
+    transactionCount,
+    transactions,
+    watch: form.watch("addToDashboard"),
+    isErc721SharedMetadadata,
+  });
+
   return (
     <FormProvider {...form}>
       <Flex
@@ -480,13 +492,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             isLoading={deploy.isLoading}
             isDisabled={!compilerMetadata.isSuccess || !selectedChain}
             colorScheme="blue"
-            transactionCount={
-              form.watch("addToDashboard")
-                ? transactions?.length
-                  ? transactions.length + 1
-                  : 2
-                : transactions?.length || 1
-            }
+            transactionCount={transactionCount}
           >
             Deploy Now
           </TransactionButton>
