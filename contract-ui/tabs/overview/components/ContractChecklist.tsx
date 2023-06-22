@@ -95,9 +95,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
           to set your NFT metadata.
         </Text>
       ),
-      completed: (sharedMetadata.data || ([] as any)).some(
-        (val: string) => val !== "",
-      ),
+      completed: !!sharedMetadata?.data,
     });
   }
 
