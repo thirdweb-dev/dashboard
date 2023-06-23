@@ -379,6 +379,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               flexDir="column"
               alignItems="start"
               gap={2}
+              mb={4}
             >
               <Flex justifyContent="start">
                 <AlertIcon />
