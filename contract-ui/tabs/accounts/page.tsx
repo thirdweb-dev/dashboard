@@ -22,7 +22,7 @@ export const AccountsPage: React.FC<AccountsPageProps> = ({
 
   const { data: smartWalletsForAddress } = useSmartWalletsForAddress(
     contractQuery.contract,
-    address || "",
+    address,
   );
 
   if (contractQuery.isLoading) {
