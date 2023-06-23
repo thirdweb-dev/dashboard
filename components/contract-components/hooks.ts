@@ -562,7 +562,6 @@ export function useCustomContractDeployMutation(
                 compilerMetadata.data?.name,
               );
 
-          console.log("trusted forwarders: ", trustedForwarders);
           data.deployParams._trustedForwarders =
             JSON.stringify(trustedForwarders);
         }
