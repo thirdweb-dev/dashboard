@@ -2660,10 +2660,10 @@
   resolved "https://registry.yarnpkg.com/@n8tb1t/use-scroll-position/-/use-scroll-position-2.0.3.tgz#207c54d584285cac0954d556964f83cf5774940b"
   integrity sha512-6GO4FHVJTMI4jbRHborzemuL6B319qh2cVLOLj8DApJhjyT71eLgANbQ4bNKSZ51zBm3uJ3WmqnyNF17eSsDyw==
 
-"@next/bundle-analyzer@^13.3.1":
-  version "13.4.3"
-  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-13.4.3.tgz#7e48a91eac582e32e4d235d8cf7503843f100000"
-  integrity sha512-jzWk6eaCFaIXfIswyQQWnR6FN22HpWoSWe3nLa3JCNkNd2ksriJgn86oQyZRxgAPaEbVKQXBp8GZi8e5DrhVJg==
+"@next/bundle-analyzer@^13.4.6":
+  version "13.4.6"
+  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-13.4.6.tgz#e32d2b3236e984829059791b773bb239970226d6"
+  integrity sha512-HqqQxZ4y71az1TYCKILmJXjjY/645/21q/EUVFCGIzKkST+DrvgcJcBpWwlnI0wAuMRbdxvN1FMi7jSlSUIByw==
   dependencies:
     webpack-bundle-analyzer "4.7.0"
 
@@ -4319,6 +4319,11 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.29.11.tgz#fa338f7d6897c6be5de6d8dabd603d9b78ee48c7"
   integrity sha512-8C+hF6SFAb/TlFZyS9FItgNwrw4PMa7YeX+KQYe2ZAiEz6uzg6yIr+QBzPkUwZ/L0bXvGd1sufTm3wotoz+GwQ==
 
+"@tanstack/query-core@4.29.14":
+  version "4.29.14"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.29.14.tgz#569de51719a0f4445fabff775012d5c09a173b96"
+  integrity sha512-ElEAahtLWA7Y7c2Haw10KdEf2tx+XZl/Z8dmyWxZehxWK3TPL5qtXtb7kUEhvt/8u2cSP62fLxgh2qqzMMGnDQ==
+
 "@tanstack/query-core@4.29.7":
   version "4.29.7"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.29.7.tgz#9fe4587e23cb9566b937c518ffa44226041d388d"
@@ -4345,12 +4350,12 @@
   dependencies:
     "@tanstack/query-persist-client-core" "4.29.7"
 
-"@tanstack/react-query@^4.0.10", "@tanstack/react-query@^4.19.1", "@tanstack/react-query@^4.29.7":
-  version "4.29.7"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.29.7.tgz#772996905a81ca64172582891c5a82e88dbafccd"
-  integrity sha512-ijBWEzAIo09fB1yd22slRZzprrZ5zMdWYzBnCg5qiXuFbH78uGN1qtGz8+Ed4MuhaPaYSD+hykn+QEKtQviEtg==
+"@tanstack/react-query@^4.0.10", "@tanstack/react-query@^4.19.1", "@tanstack/react-query@^4.29.14":
+  version "4.29.14"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.29.14.tgz#5e836d470c1c85d1aa3e53a6fc64f788dddb2ee5"
+  integrity sha512-wh4bd/QIy85YgTDBtj/7/9ZkpRX41QdZuUL8xKoSzuMCukXvAE1/oJ4p0F15lqQq9W3g2pgcbr2Aa+CNvqABhg==
   dependencies:
-    "@tanstack/query-core" "4.29.7"
+    "@tanstack/query-core" "4.29.14"
     use-sync-external-store "^1.2.0"
 
 "@tanstack/react-table@8.9.1":
@@ -4365,12 +4370,12 @@
   resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.9.1.tgz#869410ca1748c45d4e19ccfd4db7e36452611674"
   integrity sha512-2+R83n8vMZND0q3W1lSiF7co9nFbeWbjAErFf27xwbeA9E0wtUu5ZDfgj+TZ6JzdAEQAgfxkk/QNFAKiS8E4MA==
 
-"@thirdweb-dev/auth@0.0.0-dev-08b2a68-20230616150357":
-  version "0.0.0-dev-08b2a68-20230616150357"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-0.0.0-dev-08b2a68-20230616150357.tgz#1993c1372bdcc491b875066833b885ed96f0d667"
-  integrity sha512-nBrTvULNJLg5j6rInCWPpauBVi+gUa6m93M1zGZKHkZ7SIOBnFGVZ6E6miU3YTzwO6P1cyaLjzqknB0Uoeq4cg==
+"@thirdweb-dev/auth@^3.2.2-nightly-6aa6f7e0-20230622035028":
+  version "3.2.2-nightly-6aa6f7e0-20230622035028"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/auth/-/auth-3.2.2-nightly-6aa6f7e0-20230622035028.tgz#22d7af4c5dbc15e74fdcc64884d0b74156db1111"
+  integrity sha512-cR5INaSPwH0439xTLQXslanyfah8NDt9leElBC4r2ovc/y4x8MjIjIByvGbgOoq9w0/9kwTLbIFMJ7O3VRIoBA==
   dependencies:
-    "@thirdweb-dev/wallets" "0.0.0-dev-08b2a68-20230616150357"
+    "@thirdweb-dev/wallets" "0.3.2-nightly-6aa6f7e0-20230622035028"
     cookie "^0.5.0"
     uuid "^9.0.0"
     zod "^3.20.2"
@@ -4380,51 +4385,46 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/chains@0.1.21":
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.21.tgz#33246fd59d6034353c5f2e740f6316c1caef6694"
-  integrity sha512-IHB02Y/JdPuZpwQsf/cDOmpXPUyKWEbcfeLne7vPWxd4sfTDDNIY8fXIqQ7vq55/d1ygq4Nz+8AbkJIrGbxJTQ==
+"@thirdweb-dev/chains@0.1.22", "@thirdweb-dev/chains@^0.1.21-nightly-36f3191f-20230615235309":
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.22.tgz#ff715b8b66bf599026336271ac0c0f114c076cd9"
+  integrity sha512-q89HE5Lpw3QJilmVhUFdUB8zaK+4L6qnlCloGC/7g8gbX0RAdppCmHgt4KFKE94E8Jv5zn9DR9dEIvqIlenCjQ==
 
-"@thirdweb-dev/chains@^0.1.21-nightly-36f3191f-20230615235309":
-  version "0.1.21-nightly-36f3191f-20230615235309"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.21-nightly-36f3191f-20230615235309.tgz#8a1abd5dcfa5a57d942516f28b1b02e64f9c2041"
-  integrity sha512-j25mT9hzPOgWWYqcAFx1gV1smfyHw40s/Jp/saWgjEqEghHM8+wn39aliXIywA4NH5h3rTQOc9Mwiml/QI7Ytg==
-
-"@thirdweb-dev/contracts-js@1.3.5":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.3.5.tgz#49be4662c8e3a65439cc59a2c4415eb2d4f1a026"
-  integrity sha512-Nv1Ylms4ZVx+47YaoXA6TQxClk7IBJh4KPkKAVySXhiu5kNqefMEmM66cw1vJECZqOPykInvTbuMQ16e/BP2qQ==
+"@thirdweb-dev/contracts-js@1.3.6":
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts-js/-/contracts-js-1.3.6.tgz#b9775c198e2a7bcfcd9091481d7dfe70d004a588"
+  integrity sha512-YBVSJosZyRw8YB1uj4zHIKbmGCSegmFuywGpovS84a+QDfqLTc53N9tIkH7LtATkIwhBPlBKrZGT9FhZV++/5g==
   dependencies:
-    "@thirdweb-dev/contracts" "3.5.5"
+    "@thirdweb-dev/contracts" "3.5.7"
 
-"@thirdweb-dev/contracts@3.5.5":
-  version "3.5.5"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.5.5.tgz#85d3bb8f50845a81ce2ec5071096ea547c8f1884"
-  integrity sha512-rXbqptxsyTQQ2J9x4ZrxdLbUE8syN11/g5eGHhLQjAaUH1RzwULeAFOJmTYrCf1bg1VOxcqBbdV6tfu7FiOQEQ==
+"@thirdweb-dev/contracts@3.5.7":
+  version "3.5.7"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/contracts/-/contracts-3.5.7.tgz#54442c71413f63dc94685e98e68e42c0fde393a5"
+  integrity sha512-YbHmkogtX6vJBE48L6svE9J/nfdK9X0NQY1Kdn5MS2fWMA7Iem2kdzk/7NW0a9TKpdSfp0VfYYGPyXtrBEmKLA==
 
 "@thirdweb-dev/generated-abis@0.0.1", "@thirdweb-dev/generated-abis@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/generated-abis/-/generated-abis-0.0.1.tgz#0d788d6aff0ac08f11e9eeb9ae4c8321845272a8"
   integrity sha512-vO9/3lSLO8smyyH1QVeYravSTzFwV1nf1C/Im1NBDPdH8//YvcbhtETGGiNfHWpyCvSi0vRYwvf+/7FKdwpDGQ==
 
-"@thirdweb-dev/react-core@0.0.0-dev-08b2a68-20230616150357":
-  version "0.0.0-dev-08b2a68-20230616150357"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-08b2a68-20230616150357.tgz#6b5280d62bc1744c5b725a419c3adae0648e94cd"
-  integrity sha512-s5Wr5FW92+DrAQTJrOFtD4SWkw/hA0pYSAunZNDsE0q7ot/4F+PqcL3sxY/x0aFuzSxnz1IZXESkuZ5qLN6JXw==
+"@thirdweb-dev/react-core@3.14.2-nightly-48065bcd-20230622234727":
+  version "3.14.2-nightly-48065bcd-20230622234727"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-3.14.2-nightly-48065bcd-20230622234727.tgz#e11258150869dee2b56a00337ba4a3656df8fe05"
+  integrity sha512-tb9e5XpaLLpwZj9nfOWqV2gHZhUZyCMKcyJH5FeT2F8kj74wvcs1IaihDAiFgY94eSXu0lsru1n/5kMw4iqWDA==
   dependencies:
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/chains" "0.1.21"
+    "@thirdweb-dev/chains" "0.1.22"
     "@thirdweb-dev/generated-abis" "^0.0.1"
-    "@thirdweb-dev/sdk" "0.0.0-dev-08b2a68-20230616150357"
+    "@thirdweb-dev/sdk" "3.10.24-nightly-48065bcd-20230622234727"
     "@thirdweb-dev/storage" "1.1.4"
-    "@thirdweb-dev/wallets" "0.0.0-dev-08b2a68-20230616150357"
+    "@thirdweb-dev/wallets" "0.3.2-nightly-48065bcd-20230622234727"
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-08b2a68-20230616150357":
-  version "0.0.0-dev-08b2a68-20230616150357"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-08b2a68-20230616150357.tgz#d9db6939fe7dcba0165eaa69602603189c49a167"
-  integrity sha512-nztYqWvBFaHfH1w9G/6y9ZpKRFlcsAfMT9OWqAS/kTFw1swYq2msIQUlDfefb6MpP6UDuNt45+iHRdI34oNf3w==
+"@thirdweb-dev/react@3.14.2-nightly-48065bcd-20230622234727":
+  version "3.14.2-nightly-48065bcd-20230622234727"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-3.14.2-nightly-48065bcd-20230622234727.tgz#439463bcfa11825514362043ea26cddba3b76d08"
+  integrity sha512-nRsd5oWya6s94qgPUD+s+VgLByGNTKf7BRRLPqldOTCYzSc2pidm0ueLgnGPpWLwvyIxIKTQKdcTGn4KxmZu2g==
   dependencies:
     "@emotion/react" "^11.10.0"
     "@emotion/styled" "^11.10.0"
@@ -4438,9 +4438,9 @@
     "@radix-ui/react-tooltip" "^1.0.4"
     "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.0.10"
-    "@thirdweb-dev/chains" "0.1.21"
-    "@thirdweb-dev/react-core" "0.0.0-dev-08b2a68-20230616150357"
-    "@thirdweb-dev/wallets" "0.0.0-dev-08b2a68-20230616150357"
+    "@thirdweb-dev/chains" "0.1.22"
+    "@thirdweb-dev/react-core" "3.14.2-nightly-48065bcd-20230622234727"
+    "@thirdweb-dev/wallets" "0.3.2-nightly-48065bcd-20230622234727"
     buffer "^6.0.3"
     copy-to-clipboard "^3.3.2"
     detect-browser "^5.3.0"
@@ -4448,13 +4448,36 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@0.0.0-dev-08b2a68-20230616150357":
-  version "0.0.0-dev-08b2a68-20230616150357"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-0.0.0-dev-08b2a68-20230616150357.tgz#9b533f19c239a3999bc8d5f7bfbd3bb5fe4d6eef"
-  integrity sha512-B9o8kw23o/eu130CXUwrhBS4VhseUQtWXzDcrXqSrnFwZ43v0HtqEEMAk2G5Ft1avq6pHwsxAF4smayIkm7TEQ==
+"@thirdweb-dev/sdk@3.10.24-nightly-48065bcd-20230622234727":
+  version "3.10.24-nightly-48065bcd-20230622234727"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.24-nightly-48065bcd-20230622234727.tgz#37854d971e57cf9b4a2724782f0c556ea6be8541"
+  integrity sha512-ZcsfTEf8YhCykfGk59z41r6qV16Lcehntz7o7+svl06ZqdQq3TgA/D5LZ3EteTtfDoBhV7G1QeqjbmJnW4QfpA==
   dependencies:
-    "@thirdweb-dev/chains" "0.1.21"
-    "@thirdweb-dev/contracts-js" "1.3.5"
+    "@thirdweb-dev/chains" "0.1.22"
+    "@thirdweb-dev/contracts-js" "1.3.6"
+    "@thirdweb-dev/generated-abis" "0.0.1"
+    "@thirdweb-dev/storage" "1.1.4"
+    abitype "^0.2.5"
+    bn.js "^5.2.1"
+    bs58 "^5.0.0"
+    buffer "^6.0.3"
+    cross-fetch "^3.1.5"
+    eventemitter3 "^5.0.0"
+    fast-deep-equal "^3.1.3"
+    merkletreejs "^0.2.24"
+    tiny-invariant "^1.2.0"
+    tweetnacl "^1.0.3"
+    uuid "^9.0.0"
+    yaml "^2.1.1"
+    zod "^3.20.2"
+
+"@thirdweb-dev/sdk@3.10.24-nightly-6aa6f7e0-20230622035028":
+  version "3.10.24-nightly-6aa6f7e0-20230622035028"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.24-nightly-6aa6f7e0-20230622035028.tgz#ce0f0e3b16931d8905ca99d87742f0d3764d5b80"
+  integrity sha512-JpovhL+g6W+KdJkk9UFeIRAt3PzkUamB4GtgrntwJCXpOzakuSVNiV4OQFrJ67lgbqKolMZMah0ByhkPH6c4Ig==
+  dependencies:
+    "@thirdweb-dev/chains" "0.1.22"
+    "@thirdweb-dev/contracts-js" "1.3.6"
     "@thirdweb-dev/generated-abis" "0.0.1"
     "@thirdweb-dev/storage" "1.1.4"
     abitype "^0.2.5"
@@ -4481,10 +4504,10 @@
     ipfs-unixfs-importer "^7.0.1"
     uuid "^9.0.0"
 
-"@thirdweb-dev/wallets@0.0.0-dev-08b2a68-20230616150357":
-  version "0.0.0-dev-08b2a68-20230616150357"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.0.0-dev-08b2a68-20230616150357.tgz#cd55ba5ac894a5ba9d9e2544f3e8f8c3352edef9"
-  integrity sha512-jsPL/keAMacXD5rB46/LejCafTxntzReEGDEfAaAJf4p45meKc5unFsa2gRL9i87BZ5tusskRafgpZ/YEYl3hg==
+"@thirdweb-dev/wallets@0.3.2-nightly-48065bcd-20230622234727":
+  version "0.3.2-nightly-48065bcd-20230622234727"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.3.2-nightly-48065bcd-20230622234727.tgz#8571069231740fc95d2ff76016b0b23c1e6f1cab"
+  integrity sha512-cmlAQz5qh784v/Xx3vxWQEN+hgyzdeePpxg7kcA9i2CZJMq3LqTiCa5dw0d+pKVQYpxCo0vjT+1FWf7LLidZaQ==
   dependencies:
     "@account-abstraction/contracts" "^0.5.0"
     "@account-abstraction/sdk" "^0.5.0"
@@ -4497,8 +4520,50 @@
     "@safe-global/safe-core-sdk" "^3.3.2"
     "@safe-global/safe-ethers-adapters" "^0.1.0-alpha.16"
     "@safe-global/safe-ethers-lib" "^1.9.2"
-    "@thirdweb-dev/chains" "0.1.21"
-    "@thirdweb-dev/sdk" "0.0.0-dev-08b2a68-20230616150357"
+    "@thirdweb-dev/chains" "0.1.22"
+    "@thirdweb-dev/sdk" "3.10.24-nightly-48065bcd-20230622234727"
+    "@walletconnect/client" "^1.8.0"
+    "@walletconnect/core" "2.7.3"
+    "@walletconnect/ethereum-provider" "2.6.0"
+    "@walletconnect/jsonrpc-http-connection" "^1.0.0"
+    "@walletconnect/jsonrpc-provider" "^1.0.3"
+    "@walletconnect/jsonrpc-types" "^1.0.1"
+    "@walletconnect/jsonrpc-utils" "^1.0.3"
+    "@walletconnect/legacy-client" "^2.0.0-rc.0"
+    "@walletconnect/legacy-modal" "^2.0.0-rc.0"
+    "@walletconnect/legacy-types" "^2.0.0-rc.0"
+    "@walletconnect/legacy-utils" "^2.0.0-rc.0"
+    "@walletconnect/types" "2.7.3"
+    "@walletconnect/utils" "2.7.3"
+    "@walletconnect/web3wallet" "^1.7.1"
+    "@web3modal/standalone" "^2.4.1"
+    buffer "^6.0.3"
+    cross-fetch "^3.1.5"
+    crypto-js "^4.1.1"
+    eip1193-provider "^1.0.1"
+    eth-provider "^0.13.6"
+    eventemitter3 "^5.0.0"
+    magic-sdk "^13.6.2"
+    web3-core "1.5.2"
+
+"@thirdweb-dev/wallets@0.3.2-nightly-6aa6f7e0-20230622035028":
+  version "0.3.2-nightly-6aa6f7e0-20230622035028"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.3.2-nightly-6aa6f7e0-20230622035028.tgz#beb6c92a6d87444b8090fcf66c4a3d2db11b770d"
+  integrity sha512-YNg0bp6p3z4guZ68wOm5mwbwmUAgQPaOTtvuXFVhua/OtPQ37Gx0N+EEYb45tO2sBr7Owa704dVOXvRD4nGdcQ==
+  dependencies:
+    "@account-abstraction/contracts" "^0.5.0"
+    "@account-abstraction/sdk" "^0.5.0"
+    "@account-abstraction/utils" "^0.5.0"
+    "@coinbase/wallet-sdk" "^3.6.3"
+    "@magic-ext/connect" "^6.7.0"
+    "@magic-ext/oauth" "^7.6.2"
+    "@magic-sdk/provider" "^13.6.2"
+    "@paperxyz/embedded-wallet-service-sdk" "^1.0.0"
+    "@safe-global/safe-core-sdk" "^3.3.2"
+    "@safe-global/safe-ethers-adapters" "^0.1.0-alpha.16"
+    "@safe-global/safe-ethers-lib" "^1.9.2"
+    "@thirdweb-dev/chains" "0.1.22"
+    "@thirdweb-dev/sdk" "3.10.24-nightly-6aa6f7e0-20230622035028"
     "@walletconnect/client" "^1.8.0"
     "@walletconnect/core" "2.7.3"
     "@walletconnect/ethereum-provider" "2.6.0"
@@ -4999,14 +5064,14 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.42.0", "@typescript-eslint/parser@^5.59.8":
-  version "5.59.8"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.59.8.tgz#60cbb00671d86cf746044ab797900b1448188567"
-  integrity sha512-AnR19RjJcpjoeGojmwZtCwBX/RidqDZtzcbG3xHrmz0aHHoOcbWnpDllenRDmDvsV0RQ6+tbb09/kyc+UT9Orw==
+"@typescript-eslint/parser@^5.42.0", "@typescript-eslint/parser@^5.60.0":
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.60.0.tgz#08f4daf5fc6548784513524f4f2f359cebb4068a"
+  integrity sha512-jBONcBsDJ9UoTWrARkRRCgDz6wUggmH5RpQVlt7BimSwaTkTjwypGzKORXbR4/2Hqjk9hgwlon2rVQAjWNpkyQ==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.59.8"
-    "@typescript-eslint/types" "5.59.8"
-    "@typescript-eslint/typescript-estree" "5.59.8"
+    "@typescript-eslint/scope-manager" "5.60.0"
+    "@typescript-eslint/types" "5.60.0"
+    "@typescript-eslint/typescript-estree" "5.60.0"
     debug "^4.3.4"
 
 "@typescript-eslint/scope-manager@5.59.11":
@@ -5017,13 +5082,13 @@
     "@typescript-eslint/types" "5.59.11"
     "@typescript-eslint/visitor-keys" "5.59.11"
 
-"@typescript-eslint/scope-manager@5.59.8":
-  version "5.59.8"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.59.8.tgz#ff4ad4fec6433647b817c4a7d4b4165d18ea2fa8"
-  integrity sha512-/w08ndCYI8gxGf+9zKf1vtx/16y8MHrZs5/tnjHhMLNSixuNcJavSX4wAiPf4aS5x41Es9YPCn44MIe4cxIlig==
+"@typescript-eslint/scope-manager@5.60.0":
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.60.0.tgz#ae511967b4bd84f1d5e179bb2c82857334941c1c"
+  integrity sha512-hakuzcxPwXi2ihf9WQu1BbRj1e/Pd8ZZwVTG9kfbxAMZstKz8/9OoexIwnmLzShtsdap5U/CoQGRCWlSuPbYxQ==
   dependencies:
-    "@typescript-eslint/types" "5.59.8"
-    "@typescript-eslint/visitor-keys" "5.59.8"
+    "@typescript-eslint/types" "5.60.0"
+    "@typescript-eslint/visitor-keys" "5.60.0"
 
 "@typescript-eslint/type-utils@5.59.11":
   version "5.59.11"
@@ -5045,10 +5110,10 @@
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.59.11.tgz#1a9018fe3c565ba6969561f2a49f330cf1fe8db1"
   integrity sha512-epoN6R6tkvBYSc+cllrz+c2sOFWkbisJZWkOE+y3xHtvYaOE6Wk6B8e114McRJwFRjGvYdJwLXQH5c9osME/AA==
 
-"@typescript-eslint/types@5.59.8":
-  version "5.59.8"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.59.8.tgz#212e54414733618f5d0fd50b2da2717f630aebf8"
-  integrity sha512-+uWuOhBTj/L6awoWIg0BlWy0u9TyFpCHrAuQ5bNfxDaZ1Ppb3mx6tUigc74LHcbHpOHuOTOJrBoAnhdHdaea1w==
+"@typescript-eslint/types@5.60.0":
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.60.0.tgz#3179962b28b4790de70e2344465ec97582ce2558"
+  integrity sha512-ascOuoCpNZBccFVNJRSC6rPq4EmJ2NkuoKnd6LDNyAQmdDnziAtxbCGWCbefG1CNzmDvd05zO36AmB7H8RzKPA==
 
 "@typescript-eslint/typescript-estree@5.59.11":
   version "5.59.11"
@@ -5063,13 +5128,13 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/typescript-estree@5.59.8":
-  version "5.59.8"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.59.8.tgz#801a7b1766481629481b3b0878148bd7a1f345d7"
-  integrity sha512-Jy/lPSDJGNow14vYu6IrW790p7HIf/SOV1Bb6lZ7NUkLc2iB2Z9elESmsaUtLw8kVqogSbtLH9tut5GCX1RLDg==
+"@typescript-eslint/typescript-estree@5.60.0":
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.60.0.tgz#4ddf1a81d32a850de66642d9b3ad1e3254fb1600"
+  integrity sha512-R43thAuwarC99SnvrBmh26tc7F6sPa2B3evkXp/8q954kYL6Ro56AwASYWtEEi+4j09GbiNAHqYwNNZuNlARGQ==
   dependencies:
-    "@typescript-eslint/types" "5.59.8"
-    "@typescript-eslint/visitor-keys" "5.59.8"
+    "@typescript-eslint/types" "5.60.0"
+    "@typescript-eslint/visitor-keys" "5.60.0"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
@@ -5119,12 +5184,12 @@
     "@typescript-eslint/types" "5.59.11"
     eslint-visitor-keys "^3.3.0"
 
-"@typescript-eslint/visitor-keys@5.59.8":
-  version "5.59.8"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.59.8.tgz#aa6a7ef862add919401470c09e1609392ef3cc40"
-  integrity sha512-pJhi2ms0x0xgloT7xYabil3SGGlojNNKjK/q6dB3Ey0uJLMjK2UDGJvHieiyJVW/7C3KI+Z4Q3pEHkm4ejA+xQ==
+"@typescript-eslint/visitor-keys@5.60.0":
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.60.0.tgz#b48b29da3f5f31dd1656281727004589d2722a66"
+  integrity sha512-wm9Uz71SbCyhUKgcaPRauBdTegUyY/ZWl8gLwD/i/ybJqscrrdVSFImpvUz16BLPChIeKBK5Fa9s6KDQjsjyWw==
   dependencies:
-    "@typescript-eslint/types" "5.59.8"
+    "@typescript-eslint/types" "5.60.0"
     eslint-visitor-keys "^3.3.0"
 
 "@vercel/og@^0.5.4":
