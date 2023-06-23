@@ -5,13 +5,41 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@thirdweb-dev/react";
 import invariant from "tiny-invariant";
 
-export type ApiKeyInfo = {
-  creatorWalletAddress: string;
-  key: string;
+export type ApiKeyService = {
+  id: string;
   name: string;
-  revoked: boolean;
-  createdAt: string;
+  contractAddresses: string[];
 };
+
+export type ApiKey = {
+  id: string;
+  name: string;
+  key: string;
+  secret?: string;
+  secretMasked: string;
+  accountId: string;
+  creatorWalletAddress: string;
+  walletAddresses: string[];
+  domains: string[];
+  revokedAt: string;
+  lastAccessedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  services?: ApiKeyService[];
+};
+
+export interface UpdateKeyServiceInput {
+  name: string;
+  contractAddresses: string[];
+}
+
+export interface UpdateKeyInput {
+  id: string;
+  name: string;
+  domains: string[];
+  walletAddresses: string[];
+  services?: UpdateKeyServiceInput[];
+}
 
 export function useApiKeys() {
   const { user } = useUser();
@@ -26,13 +54,13 @@ export function useApiKeys() {
           "Content-Type": "application/json",
         },
       });
-      const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error?.message || data.error);
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
       }
 
-      const keys = (data.keys as ApiKeyInfo[]).filter((item) => !item.revoked);
-      return keys;
+      return json.data as ApiKey[];
     },
     { enabled: !!user?.address },
   );
@@ -54,13 +82,13 @@ export function useCreateApiKey() {
         },
         body: JSON.stringify({}),
       });
-      const data = await res.json();
+      const json = await res.json();
 
-      if (data.error) {
-        throw new Error(data.error?.message || data.error);
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
       }
 
-      return data;
+      return json.data;
     },
     {
       onSuccess: () => {
@@ -72,37 +100,36 @@ export function useCreateApiKey() {
   );
 }
 
-export interface IUpdateKeyInput {
-  key: string;
-  name: string;
-}
-
 export function useUpdateApiKey() {
   const { user } = useUser();
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (input: IUpdateKeyInput) => {
+    async (input: UpdateKeyInput) => {
       invariant(user, "No user is logged in");
 
-      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys`, {
+      const body = {
+        name: input.name,
+        domains: input.domains,
+        walletAddresses: input.walletAddresses,
+        services: input.services,
+      };
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${input.id}`, {
         method: "PUT",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          key: input.key,
-          name: input.name,
-        }),
+        body: JSON.stringify(body),
       });
-      const data = await res.json();
+      const json = await res.json();
 
-      if (data.error) {
-        throw new Error(data.error?.message || data.error);
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
       }
 
-      return data;
+      return json.data;
     },
     {
       onSuccess: () => {
@@ -119,26 +146,58 @@ export function useRevokeApiKey() {
   const queryClient = useQueryClient();
 
   return useMutationWithInvalidate(
-    async (key: string) => {
+    async (id: string) => {
       invariant(user, "No user is logged in");
 
-      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/revoke`, {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${id}/revoke`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          key,
-        }),
+        body: JSON.stringify({}),
       });
-      const data = await res.json();
+      const json = await res.json();
 
-      if (data.error) {
-        throw new Error(data.error?.message || data.error);
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
       }
 
-      return data;
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          apiKeys.keys(user?.address as string),
+        );
+      },
+    },
+  );
+}
+
+export function useGenerateApiKey() {
+  const { user } = useUser();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (id: string) => {
+      invariant(user, "No user is logged in");
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${id}/generate`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
+      }
+
+      return json.data;
     },
     {
       onSuccess: () => {
