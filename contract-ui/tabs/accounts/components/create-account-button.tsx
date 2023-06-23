@@ -29,7 +29,7 @@ export const CreateAccountButton: React.FC<CreateAccountButtonProps> = ({
   );
   const { data: smartWalletsForAddress } = useSmartWalletsForAddress(
     contractQuery.contract,
-    address,
+    address || "",
   );
 
   if (!contractQuery.contract || !address) {
