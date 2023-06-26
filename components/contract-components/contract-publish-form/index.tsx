@@ -95,6 +95,9 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           ?.publishedMetadata.description ||
         prePublishMetadata.data?.preDeployMetadata.info.notice ||
         "",
+      audit:
+        prePublishMetadata.data?.latestPublishedContractMetadata
+          ?.publishedMetadata.audit || "",
       factoryDeploymentData: prePublishMetadata.data
         ?.latestPublishedContractMetadata?.publishedMetadata
         ?.factoryDeploymentData || {
