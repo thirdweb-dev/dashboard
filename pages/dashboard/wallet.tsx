@@ -4,7 +4,7 @@ import {
   ThirdwebProvider,
   coinbaseWallet,
   metamaskWallet,
-  walletConnectV1,
+  walletConnect,
 } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
@@ -722,7 +722,7 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
               supportedWallets={[
                 metamaskWallet(),
                 coinbaseWallet(),
-                walletConnectV1(),
+                walletConnect(),
               ]}
             >
               <ConnectWallet

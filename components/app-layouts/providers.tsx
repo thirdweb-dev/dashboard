@@ -11,7 +11,7 @@ import {
   localWallet,
   metamaskWallet,
   safeWallet,
-  walletConnectV1,
+  walletConnect,
 } from "@thirdweb-dev/react";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { useSupportedChains } from "hooks/chains/configureChains";
@@ -66,7 +66,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       supportedWallets={[
         metamaskWallet(),
         coinbaseWallet(),
-        walletConnectV1(),
+        walletConnect(),
         safeWallet(),
         localWallet(),
       ]}
