@@ -57,7 +57,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         url: "https://thirdweb.com",
       }}
       activeChain={chain === null ? undefined : chain}
-      supportedChains={supportedChains}
+      // supportedChains={supportedChains}
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings,
