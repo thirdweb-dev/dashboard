@@ -7,6 +7,7 @@ import {
   useSmartWallets,
   useSmartWalletsForAddress,
 } from "@thirdweb-dev/react";
+import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface AccountsPageProps {
@@ -20,6 +21,10 @@ export const AccountsPage: React.FC<AccountsPageProps> = ({
   const accountsQuery = useSmartWallets(contractQuery?.contract);
   const address = useAddress();
 
+  const detectedFeature = detectFeatures(contractQuery?.contract, [
+    "SmartWalletFactory",
+  ]);
+
   const { data: smartWalletsForAddress } = useSmartWalletsForAddress(
     contractQuery.contract,
     address,
@@ -29,7 +34,7 @@ export const AccountsPage: React.FC<AccountsPageProps> = ({
     return null;
   }
 
-  if (!contractQuery?.contract) {
+  if (!detectedFeature) {
     return (
       <Card as={Flex} flexDir="column" gap={3}>
         {/* TODO  extract this out into it's own component and make it better */}
