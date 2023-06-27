@@ -1,6 +1,6 @@
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { AccountEvent, useSmartWallets } from "@thirdweb-dev/react";
+import { AccountEvent, useAddress, useSmartWallets } from "@thirdweb-dev/react";
 import { TWTable } from "components/shared/TWTable";
 import { useRouter } from "next/router";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -20,23 +20,33 @@ const columns = [
   }),
 ];
 
-interface SmartWalletsTableProps {
-  smartWalletsQuery: ReturnType<typeof useSmartWallets>;
+interface AccountsTableProps {
+  accountsQuery: ReturnType<typeof useSmartWallets>;
+  smartWalletsForAddress?: string[];
 }
 
-export const SmartWalletsTable: React.FC<SmartWalletsTableProps> = ({
-  smartWalletsQuery,
+export const AccountsTable: React.FC<AccountsTableProps> = ({
+  accountsQuery,
+  smartWalletsForAddress,
 }) => {
   const router = useRouter();
   const network = useDashboardEVMChainId();
+  const address = useAddress();
+
+  const defaultAccounts: AccountEvent[] = (smartWalletsForAddress || []).map(
+    (account: string) => ({
+      account,
+      admin: address || "",
+    }),
+  );
 
   return (
     <TWTable
-      title="smart wallet"
+      title="account"
       columns={columns}
-      data={smartWalletsQuery.data || []}
-      isLoading={smartWalletsQuery.isLoading}
-      isFetched={smartWalletsQuery.isFetched}
+      data={accountsQuery.data || defaultAccounts}
+      isLoading={accountsQuery.isLoading}
+      isFetched={accountsQuery.isFetched}
       onRowClick={(row) => {
         router.push(`/${network}/${row.account}`);
       }}
