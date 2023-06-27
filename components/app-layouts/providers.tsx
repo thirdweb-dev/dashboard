@@ -66,7 +66,13 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       supportedWallets={[
         metamaskWallet(),
         coinbaseWallet(),
-        walletConnect(),
+        walletConnect({
+          qrModalOptions: {
+            themeVariables: {
+              "--w3m-z-index": "10000",
+            },
+          },
+        }),
         safeWallet(),
         localWallet(),
       ]}
