@@ -30,7 +30,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
 > = ({ children }) => {
   useNativeColorMode();
   const queryClient = useQueryClient();
-  const supportedChains = useSupportedChains();
+  // const supportedChains = useSupportedChains();
   const contractInfo = useEVMContractInfo();
   const chain = contractInfo?.chain;
   const readonlySettings = useMemo(() => {
@@ -69,7 +69,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         walletConnect({
           qrModalOptions: {
             themeVariables: {
-              "--w3m-z-index": "10000",
+              "--wcm-z-index": "1000",
             },
           },
         }),
