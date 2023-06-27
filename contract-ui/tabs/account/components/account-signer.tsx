@@ -70,7 +70,7 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({ signer }) => {
                 Admin Key
               </Badge>
             ) : (
-              <Badge colorScheme="green" borderRadius="lg" p={1.5}>
+              <Badge borderRadius="lg" p={1.5}>
                 Scoped key
               </Badge>
             )}
