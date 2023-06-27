@@ -1,7 +1,7 @@
+import { AccountSigners } from "./components/account-signers";
 import { Box, Flex } from "@chakra-ui/react";
-import { useContract, useSmartWalletSigners } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface AccountPageProps {
@@ -12,11 +12,6 @@ export const AccountPage: React.FC<AccountPageProps> = ({
   contractAddress,
 }) => {
   const contractQuery = useContract(contractAddress);
-  const smartWalletSignersQuery = useSmartWalletSigners(
-    contractQuery?.contract,
-  );
-
-  console.log({ smartWalletSignersQuery });
 
   const detectedFeature = extensionDetectedState({
     contractQuery,
@@ -49,8 +44,9 @@ export const AccountPage: React.FC<AccountPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
-        <Heading size="title.sm">Account</Heading>
+        <Heading size="title.sm">Account Signers</Heading>
       </Flex>
+      <AccountSigners contractQuery={contractQuery} />
     </Flex>
   );
 };

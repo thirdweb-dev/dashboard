@@ -8,7 +8,6 @@ import {
   useSmartWalletsForAddress,
 } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
-import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
 interface AccountsPageProps {
