@@ -69,7 +69,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         walletConnect({
           qrModalOptions: {
             themeVariables: {
-              "--wcm-z-index": "1000",
+              "--wcm-z-index": "10000",
             },
           },
         }),
