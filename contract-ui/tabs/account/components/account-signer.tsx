@@ -4,6 +4,7 @@ import { SignerWithRestrictions } from "@thirdweb-dev/sdk";
 import { differenceInDays } from "date-fns";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
 import { Badge, Card, Heading, Text } from "tw-components";
+import { AddressCopyButton } from "tw-components/AddressCopyButton";
 
 interface AccountSignerProps {
   signer: SignerWithRestrictions;
@@ -58,7 +59,12 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({ signer }) => {
 
         <Flex flexDir="column" gap={2} mt={{ base: 4, md: 0 }}>
           <Flex gap={3} alignItems="center">
-            <Heading size="label.lg">{signer.signer}</Heading>
+            <Heading size="label.lg">
+              <AddressCopyButton
+                shortenAddress={false}
+                address={signer.signer}
+              />
+            </Heading>
             {signer.isAdmin ? (
               <Badge borderRadius="lg" p={1.5}>
                 Admin Key
