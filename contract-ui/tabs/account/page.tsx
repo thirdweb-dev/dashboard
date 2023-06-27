@@ -15,6 +15,8 @@ export const AccountPage: React.FC<AccountPageProps> = ({
     contractQuery?.contract,
   );
 
+  console.log({ smartWalletSignersQuery });
+
   const detectedFeature = detectFeatures(contractQuery?.contract, [
     "SmartWallet",
   ]);
