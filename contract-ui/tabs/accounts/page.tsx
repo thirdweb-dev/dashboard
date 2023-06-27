@@ -7,6 +7,7 @@ import {
   useSmartWallets,
   useSmartWalletsForAddress,
 } from "@thirdweb-dev/react";
+import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -21,9 +22,10 @@ export const AccountsPage: React.FC<AccountsPageProps> = ({
   const accountsQuery = useSmartWallets(contractQuery?.contract);
   const address = useAddress();
 
-  const detectedFeature = detectFeatures(contractQuery?.contract, [
-    "SmartWalletFactory",
-  ]);
+  const detectedFeature = extensionDetectedState({
+    contractQuery,
+    feature: ["SmartWalletFactory"],
+  });
 
   const { data: smartWalletsForAddress } = useSmartWalletsForAddress(
     contractQuery.contract,

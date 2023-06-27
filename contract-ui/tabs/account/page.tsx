@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useContract, useSmartWalletSigners } from "@thirdweb-dev/react";
+import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { detectFeatures } from "components/contract-components/utils";
 import { Card, Heading, LinkButton, Text } from "tw-components";
 
@@ -17,9 +18,10 @@ export const AccountPage: React.FC<AccountPageProps> = ({
 
   console.log({ smartWalletSignersQuery });
 
-  const detectedFeature = detectFeatures(contractQuery?.contract, [
-    "SmartWallet",
-  ]);
+  const detectedFeature = extensionDetectedState({
+    contractQuery,
+    feature: ["SmartWallet"],
+  });
 
   if (contractQuery.isLoading) {
     return null;
