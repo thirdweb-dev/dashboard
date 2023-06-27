@@ -44,8 +44,7 @@ const Gaming: ThirdwebNextPage = () => {
     <ProductPage
       accentColor="rgba(22,82,240,.75)"
       seo={{
-        title:
-          "GamingKit: The #1 Unity SDK for Web3 Gaming",
+        title: "GamingKit: The #1 Unity SDK for Web3 Gaming",
         description:
           "Build web3 games with thirdweb's Unity SDK, smart contracts, & dev tools for Browser, Native, Mobile, Console, & VR. Try GamingKit — it's free.",
         openGraph: {
