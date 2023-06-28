@@ -14,7 +14,7 @@ import type { Signer } from "ethers";
 import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
 // use env var to set IPFS gateway or fallback to ipfscdn.io
-const IPFS_GATEWAY_URL =
+export const IPFS_GATEWAY_URL =
   (process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL as string) ||
   "https://ipfs-3.thirdwebcdn.com/ipfs";
 
