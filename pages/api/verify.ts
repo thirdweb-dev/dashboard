@@ -105,7 +105,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         chainId,
         StorageSingleton,
       );
-    } catch (error) {}
+    } catch (error) {} // eslint-disable-line no-empty
 
     try {
       const guid = await verify(
