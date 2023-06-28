@@ -38,6 +38,9 @@ const personalWallets = [
   }),
   paperWallet({
     clientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
+    advancedOptions: {
+      recoveryShareManagement: "AWS_MANAGED",
+    },
   }),
   localWallet(),
 ];
