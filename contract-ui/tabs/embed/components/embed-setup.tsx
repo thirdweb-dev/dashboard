@@ -18,7 +18,6 @@ import {
 } from "constants/rpc";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
-import { IPFS_GATEWAY_URL } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FiCopy } from "react-icons/fi";
