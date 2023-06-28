@@ -107,27 +107,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     } catch (error) {} // eslint-disable-line no-empty
 
-    try {
-      const guid = await verify(
-        contractAddress,
-        chainId,
-        apiMap[chainId],
-        apiKeyMap[chainId],
-        StorageSingleton,
-        encodedArgs?.toString().replace("0x", ""),
-      );
+    const guid = await verify(
+      contractAddress,
+      chainId,
+      apiMap[chainId],
+      apiKeyMap[chainId],
+      StorageSingleton,
+      encodedArgs?.toString().replace("0x", ""),
+    );
 
-      return res.status(200).json({ guid });
-    } catch (error) {
-      // return res.status(200).json({ error });
-    }
-
-    // const data = await result.json();
-    // if (data.status === RequestStatus.OK) {
-    //   return res.status(200).json({ guid: data.result });
-    // } else {
-    //   return res.status(200).json({ error });
-    // }
+    return res.status(200).json({ guid });
   } catch (e) {
     console.error(e);
     return res.status(400).json({ error: (e as any).toString() });
