@@ -10,6 +10,7 @@ import {
   coinbaseWallet,
   localWallet,
   metamaskWallet,
+  paperWallet,
   safeWallet,
   walletConnect,
 } from "@thirdweb-dev/react";
@@ -72,6 +73,9 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
               "--wcm-z-index": "10000",
             },
           },
+        }),
+        paperWallet({
+          clientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
         }),
         safeWallet(),
         localWallet(),
