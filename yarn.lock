@@ -4164,7 +4164,7 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.25.tgz#a9b67083369397e6b765d2ae41dd87979001967e"
   integrity sha512-srtH0L6FpwY44SclrUbRlkjiLfRBnVIvnAGA+/jh3rGzOjdXVpSftABd/ROxLGtEDvoTD4bhPKCWus9x8EzgIw==
 
-"@thirdweb-dev/chains@0.1.25-nightly-3c5dc480-20230628001022", "@thirdweb-dev/chains@^0.1.25-nightly-3c5dc480-20230628001022":
+"@thirdweb-dev/chains@^0.1.25-nightly-3c5dc480-20230628001022":
   version "0.1.25-nightly-3c5dc480-20230628001022"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.25-nightly-3c5dc480-20230628001022.tgz#aeb32a7b5b324a016f7b8a1ff0dac7accfe02da3"
   integrity sha512-iIJGgLPpDpAk68K/J43gMcjaokEcacbNgikwRYyeq5XjFD9bI0T29iTWguGYmAOkHT8xIgii9kn9ZaDK84nRPQ==
@@ -4227,35 +4227,12 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@3.10.26":
+"@thirdweb-dev/sdk@3.10.26", "@thirdweb-dev/sdk@^3.10.26":
   version "3.10.26"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.26.tgz#de012f1d50ff4582250da8a4e5265477b1906099"
   integrity sha512-IAMBVQN07FqKPG9g1wWs2zG8wZVr7V8wDVUbtq6sJMIzz/KZB/tYFbWSRCmByw3liA5S+XPKAQWcwFoNJefyDA==
   dependencies:
     "@thirdweb-dev/chains" "0.1.25"
-    "@thirdweb-dev/contracts-js" "1.3.7"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "1.1.5"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.5"
-    eventemitter3 "^5.0.0"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.0"
-    yaml "^2.1.1"
-    zod "^3.20.2"
-
-"@thirdweb-dev/sdk@^3.10.26-nightly-3c5dc480-20230628001022":
-  version "3.10.26-nightly-3c5dc480-20230628001022"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.26-nightly-3c5dc480-20230628001022.tgz#dcc50563a71ea3509de08b98e54c6a056647dd24"
-  integrity sha512-Yf9RTp3y26TWLO3EDZgsXPf7pqZfczDLNGyaYx10j95ljVJ0YzN3qyJZ9FVlXsZhKJyQ4UVwkJBJtahp56nuZQ==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.25-nightly-3c5dc480-20230628001022"
     "@thirdweb-dev/contracts-js" "1.3.7"
     "@thirdweb-dev/generated-abis" "0.0.1"
     "@thirdweb-dev/storage" "1.1.5"

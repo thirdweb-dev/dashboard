@@ -40,7 +40,7 @@
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "^0.1.25-nightly-3c5dc480-20230628001022",
     "@thirdweb-dev/react": "^3.14.6-nightly-e78da6b3-20230628134143",
-    "@thirdweb-dev/sdk": "^3.10.26-nightly-3c5dc480-20230628001022",
+    "@thirdweb-dev/sdk": "^3.10.26",
     "@vercel/og": "^0.5.4",
     "airtable": "^0.11.6",
     "bn.js": "^5.2.1",
