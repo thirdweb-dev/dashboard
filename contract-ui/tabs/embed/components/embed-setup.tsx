@@ -36,8 +36,8 @@ interface EmbedSetupProps {
   ercOrMarketplace: string;
 }
 
-const IPFS_URI = "QmQPCbHnEppn7KoJA5VNJ9N9Xdw6dMk1cLb17tNQJ2ufpJ";
-const ERC721_IPFS_URI = `QmPvTEZKMiHfQ4AHnd8uvUy3yPxKL2MesWGi3KGGT5Ro2n`;
+const IPFS_URI = "bafybeia6l2k4sdewhklgmx7ls2agymvvvllxhr4addy27koxtypuecsgd4";
+const ERC721_IPFS_URI = "bafybeiaxqr22vtmr5eblmpqxhyi34j2ogygoljmd4cvj2xt4g33ogwlel4";
 
 interface IframeSrcOptions {
   chain: string;
@@ -106,7 +106,7 @@ const buildIframeSrc = (
     biconomyApiId,
   } = options;
 
-  const url = new URL(`https://${contractEmbedHash}.ipfs-3.thirdwebcdn.com/${contractPath}`);
+  const url = new URL(`https://${contractEmbedHash}.ipfs-public.thirdwebcdn.com/${contractPath}`);
 
   url.searchParams.append("contract", contract.getAddress());
   url.searchParams.append("chain", chain);
