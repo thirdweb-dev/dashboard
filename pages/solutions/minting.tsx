@@ -44,9 +44,9 @@ const Minting: ThirdwebNextPage = () => {
   return (
     <ProductPage
       seo={{
-        title: "Minting | Solutions",
+        title: "Minting API: The #1 Toolkit for NFTs",
         description:
-          "Enable your users to mint, deploy and distribute NFTS through your app with only a few lines of code.",
+          "Deploy NFT smart contracts for every use case, on any blockchain. Integrate into your app or site, in minutes. Try Minting API — it's free.",
         // @TODO
         // openGraph: {
         //   images: [
@@ -72,7 +72,7 @@ const Minting: ThirdwebNextPage = () => {
         image={require("public/assets/solutions-pages/minting/hero.png")}
         secondaryButton={{
           text: "Get In Touch",
-          link: "https://thirdweb.typeform.com/to/fMIj602T#hubspot_utk=xxxxx&hubspot_page_name=xxxxx&hubspot_page_url=xxxxx",
+          link: "/contact-us",
         }}
       >
         <SimpleGrid
