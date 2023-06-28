@@ -26,6 +26,22 @@ export interface DashboardThirdwebProviderProps {
   contractInfo?: EVMContractInfo;
 }
 
+const personalWallets = [
+  metamaskWallet(),
+  coinbaseWallet(),
+  walletConnect({
+    qrModalOptions: {
+      themeVariables: {
+        "--wcm-z-index": "10000",
+      },
+    },
+  }),
+  paperWallet({
+    clientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
+  }),
+  localWallet(),
+];
+
 export const DashboardThirdwebProvider: ComponentWithChildren<
   DashboardThirdwebProviderProps
 > = ({ children }) => {
@@ -65,20 +81,10 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       }}
       thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
       supportedWallets={[
-        metamaskWallet(),
-        coinbaseWallet(),
-        walletConnect({
-          qrModalOptions: {
-            themeVariables: {
-              "--wcm-z-index": "10000",
-            },
-          },
+        ...personalWallets,
+        safeWallet({
+          personalWallets,
         }),
-        paperWallet({
-          clientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
-        }),
-        safeWallet(),
-        localWallet(),
       ]}
       storageInterface={StorageSingleton}
       authConfig={{
