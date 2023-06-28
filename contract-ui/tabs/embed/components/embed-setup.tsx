@@ -18,7 +18,7 @@ import {
 } from "constants/rpc";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSupportedChainsRecord } from "hooks/chains/configureChains";
-import { replaceIpfsUrl } from "lib/sdk";
+import { IPFS_GATEWAY_URL } from "lib/sdk";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { FiCopy } from "react-icons/fi";
@@ -83,10 +83,10 @@ const buildIframeSrc = (
   ercOrMarketplace?: string,
   options?: IframeSrcOptions,
 ): string => {
+  const contractPath =
+    ercOrMarketplace === "erc721" ? "" : `${ercOrMarketplace}.html`;
   const contractEmbedHash =
-    ercOrMarketplace === "erc721"
-      ? ERC721_IPFS_URI
-      : `${IPFS_URI}/${ercOrMarketplace}.html`;
+    ercOrMarketplace === "erc721" ? ERC721_IPFS_URI : IPFS_URI;
 
   if (!contract || !options || !contractEmbedHash) {
     return "";
@@ -107,7 +107,9 @@ const buildIframeSrc = (
     biconomyApiId,
   } = options;
 
-  const url = new URL(replaceIpfsUrl(contractEmbedHash));
+  const url = new URL(
+    `https://${contractEmbedHash}.ipfs-public.thirdwebcdn.com/${contractPath}`,
+  );
 
   url.searchParams.append("contract", contract.getAddress());
   url.searchParams.append("chain", chain);
