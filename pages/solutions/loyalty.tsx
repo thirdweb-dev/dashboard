@@ -1,6 +1,9 @@
-import { useBreakpointValue } from "@chakra-ui/react";
+import { Container, useBreakpointValue } from "@chakra-ui/react";
 import { LandingHero } from "components/landing-pages/hero";
+import { LandingIconSection } from "components/landing-pages/icon-section";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingShowcaseImage } from "components/landing-pages/showcase-image";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 
@@ -43,6 +46,32 @@ const Loyalty: ThirdwebNextPage = () => {
         inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
         /*         image={require("public/assets/solutions-pages/minting/hero.png")} */
       />
+      <Container maxW="container.page">
+        <LandingIconSection
+          title={
+            <>
+              Web3 Loyalty Programs. <br />
+              Made easy.
+            </>
+          }
+        >
+          <LandingIconSectionItem
+            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            title="Grow your customer base"
+            description="Partner with other brands' loyalty programs to allow new customers to discover your brand. Enable your loyalty points to be ported and redeemed through other brands."
+          />
+          <LandingIconSectionItem
+            icon={require("public/assets/solutions-pages/loyalty/icon-2.png")}
+            title="Deepen customer relationships "
+            description="Foster more brand loyalty by giving customers ownership of unique branded digital rewards. Increase customer lifetime value by providing more flexibility with loyalty programs."
+          />
+          <LandingIconSectionItem
+            icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
+            title="Unlock new revenue streams"
+            description="Generate recurring revenue from membership subscriptions. Sell branded digital assets and collect royalty fees from points and memberships that are traded between customers."
+          />
+        </LandingIconSection>
+      </Container>
     </LandingLayout>
   );
 };
