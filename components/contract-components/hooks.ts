@@ -484,7 +484,7 @@ export function useCustomContractDeployMutation(
     hasContractURI?: boolean;
     hasRoyalty?: boolean;
     isSplit?: boolean;
-      isVote?: boolean;
+    isVote?: boolean;
     isErc721SharedMetadadata?: boolean;
   } = {},
 ) {
