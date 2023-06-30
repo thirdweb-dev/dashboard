@@ -74,7 +74,8 @@ const StorageLanding: ThirdwebNextPage = () => {
           >
             Save development time. We handle the complexities of decentralized
             file management for you. No need to worry about fetching from
-            multiple IPFS gateways, or handling file and metadata upload formats.
+            multiple IPFS gateways, or handling file and metadata upload
+            formats.
           </ProductCard>
           <ProductCard
             title="Fast and high availability"
