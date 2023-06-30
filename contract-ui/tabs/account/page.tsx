@@ -15,7 +15,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
 
   const detectedFeature = extensionDetectedState({
     contractQuery,
-    feature: ["SmartWallet"],
+    feature: ["Account"],
   });
 
   if (contractQuery.isLoading) {
