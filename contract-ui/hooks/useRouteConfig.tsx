@@ -228,7 +228,7 @@ export function useContractRouteConfig(
       path: "account",
       isEnabled: extensionDetectedState({
         contractQuery,
-        feature: ["SmartWallet"],
+        feature: ["Account"],
       }),
       component: LazyContractAccountPage,
     },
