@@ -47,6 +47,8 @@ import {
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { constants } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
+import { useSingleQueryParam } from "hooks/useQueryParam";
+import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 
@@ -305,15 +307,22 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
   chain,
   noSidebar = false,
 }) => {
-  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
+  const defaultEnvironment = useSingleQueryParam(
+    "environment",
+  ) as CodeEnvironment;
+  const [environment, setEnvironment] = useState<CodeEnvironment>(
+    defaultEnvironment || "javascript",
+  );
+  const router = useRouter();
+
   const [tab, setTab] = useState("write");
   const { data } = useFeatureContractCodeSnippetQuery(environment);
   const enabledExtensions = useContractEnabledExtensions(abi);
   const address = useAddress();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const isSmartWalletFactorry = enabledExtensions.some(
-    (extension) => extension.name === "SmartWalletFactory",
+  const isAccountFactory = enabledExtensions.some(
+    (extension) => extension.name === "AccountFactory",
   );
 
   const filteredData = useMemo(() => {
@@ -371,7 +380,7 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
         gap={12}
       >
         <Flex flexDirection="column" gap={4}>
-          {isSmartWalletFactorry && (
+          {isAccountFactory && (
             <Alert
               status="info"
               borderRadius="md"
@@ -753,9 +762,13 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
           <Flex flexDir="column" gap={2}>
             <Text>Choose a language:</Text>
             <Select
-              onChange={(e) =>
-                setEnvironment(e.target.value as CodeEnvironment)
-              }
+              onChange={(e) => {
+                router.push(
+                  `/${chainName}/${contractAddress}/code?environment=${e.target.value}`,
+                );
+                setEnvironment(e.target.value as CodeEnvironment);
+              }}
+              value={environment}
             >
               <option value="javascript">JavaScript</option>
               <option value="react">React</option>

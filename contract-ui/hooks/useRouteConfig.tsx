@@ -219,7 +219,7 @@ export function useContractRouteConfig(
       path: "accounts",
       isEnabled: extensionDetectedState({
         contractQuery,
-        feature: ["SmartWalletFactory"],
+        feature: ["AccountFactory"],
       }),
       component: LazyContractAccountsPage,
     },
