@@ -88,11 +88,6 @@ export const ConfigureNetworkForm: React.FC<NetworkConfigFormProps> = ({
       ? chainIdToChainRecord[editingChain.chainId]
       : undefined;
 
-  console.log({
-    editingChain,
-    from: editingChain ? chainIdToChainRecord[editingChain.chainId] : undefined,
-  });
-
   // setup prefills
   useEffect(() => {
     if (prefillSlug) {
