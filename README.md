@@ -23,6 +23,10 @@ yarn dev
 ```sh
 yarn build
 ```
+If you're getting this error: `The engine "node" is incompatible with this module. Expected version ">=1x.xx.x". Got "1x.xx.x"`, you can try:
+```sh
+yarn build --ignore-engines
+```
 
 ### Environment Variables
 
