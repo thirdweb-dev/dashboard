@@ -34,40 +34,51 @@ export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
     opacity: isVisible ? 1 : 0,
     zIndex: 9999999999,
   } as React.CSSProperties;
-
   useEffect(() => {
     // Declare timeout
-    let increment: NodeJS.Timeout;
+    let status: "in-progress" | "idle" = "idle";
+    let intervalId: NodeJS.Timeout;
 
     // Route change start function
     const onRouteChangeStart = () => {
+      status = "in-progress";
       setIsVisible(true);
       setProgress(props.incrementAmount);
-      increment = setInterval(() => {
-        setProgress((_progress) =>
-          Math.min(_progress + props.incrementAmount, 90),
-        );
+      // clear any existing interval
+      clearInterval(intervalId);
+
+      const newIntervalId = setInterval(() => {
+        if (status === "idle") {
+          clearInterval(newIntervalId);
+          return;
+        }
+        setProgress((_progress) => {
+          return Math.min(_progress + props.incrementAmount, 90);
+        });
       }, props.incrementInterval);
+
+      intervalId = newIntervalId;
     };
 
     // Route change complete function
     const onRouteChangeComplete = () => {
-      clearInterval(increment);
+      status = "idle";
+      clearInterval(intervalId);
       setProgress(100);
       setTimeout(() => {
-        setIsVisible(false);
-        setProgress(0);
+        if (status === "idle") {
+          setIsVisible(false);
+          setProgress(0);
+        }
       }, props.transitionDuration);
     };
 
     // Route change error function
     const onRouteChangeError = () => {
-      clearInterval(increment);
-      setProgress(100);
-      setTimeout(() => {
-        setIsVisible(false);
-        setProgress(0);
-      }, props.transitionDuration);
+      status = "idle";
+      clearInterval(intervalId);
+      setIsVisible(false);
+      setProgress(0);
     };
 
     // Router event listeners
@@ -75,12 +86,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
     router.events.on("routeChangeComplete", onRouteChangeComplete);
     router.events.on("routeChangeError", onRouteChangeError);
 
-    // Use effect return
     return () => {
       router.events.off("routeChangeStart", onRouteChangeStart);
       router.events.off("routeChangeComplete", onRouteChangeComplete);
       router.events.off("routeChangeError", onRouteChangeError);
-      clearInterval(increment);
+      clearInterval(intervalId);
     };
   }, [
     props.incrementAmount,
