@@ -43,7 +43,11 @@ const ContractsPublishPage: ThirdwebNextPage = () => {
 // );
 
 ContractsPublishPage.getLayout = function getLayout(page, props) {
-  return <AppLayout {...props}>{page}</AppLayout>;
+  return (
+    <AppLayout {...props} hasSidebar={true}>
+      {page}
+    </AppLayout>
+  );
 };
 
 ContractsPublishPage.pageId = PageId.PublishMultiple;

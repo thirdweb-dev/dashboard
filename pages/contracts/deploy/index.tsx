@@ -45,7 +45,11 @@ const ContractsDeployPage: ThirdwebNextPage = () => {
 // );
 
 ContractsDeployPage.getLayout = function getLayout(page, props) {
-  return <AppLayout {...props}>{page}</AppLayout>;
+  return (
+    <AppLayout {...props} hasSidebar={true}>
+      {page}
+    </AppLayout>
+  );
 };
 
 ContractsDeployPage.pageId = PageId.DeployMultiple;
