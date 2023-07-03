@@ -16,6 +16,8 @@ interface ProgressBarProps {
     | "ease-in-out";
 }
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
   // Declare states
   const router = useRouter();
@@ -28,7 +30,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
     top: 0,
     left: 0,
     width: `${progress}%`,
-    height: "3px",
+    height: "2px",
     backgroundColor: props.color,
     transition: `width ${props.transitionDuration}ms ${props.transitionTimingFunction}`,
     opacity: isVisible ? 1 : 0,
@@ -40,8 +42,16 @@ export const ProgressBar: React.FC<ProgressBarProps> = (props) => {
     let intervalId: NodeJS.Timeout;
 
     // Route change start function
-    const onRouteChangeStart = () => {
+    const onRouteChangeStart = async () => {
       status = "in-progress";
+
+      // only show progress bar if it takes longer than 200ms for the page to load
+      await wait(200);
+
+      if (status !== "in-progress") {
+        return;
+      }
+
       setIsVisible(true);
       setProgress(props.incrementAmount);
       // clear any existing interval
