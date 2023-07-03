@@ -195,10 +195,10 @@ const WALLETS = [
   },
   {
     name: "WalletConnect",
-    description: "Connect with WalletConnect (v1 & v2)",
+    description: "Connect with WalletConnect",
     iconUrl:
       "ipfs://QmX58KPRaTC9JYZ7KriuBzeoEaV2P9eZcA3qbFnTHZazKw/wallet-connect.svg",
-    link: "https://portal.thirdweb.com/wallet/wallet-connect-v1",
+    link: "https://portal.thirdweb.com/wallet/wallet-connect-v2",
   },
   {
     name: "Safe",
@@ -282,8 +282,8 @@ const WalletSDK: ThirdwebNextPage = () => {
         gradient="linear-gradient(147.15deg, #410AB6 30.17%, #B4F1FF 100.01%)"
         imageHeight="650px"
         secondaryButton={{
-          text: "Request Demo",
-          link: "https://thirdweb.typeform.com/to/Q93CVgUc",
+          text: "Get In Touch",
+          link: "/contact-us",
         }}
       >
         <SimpleGrid

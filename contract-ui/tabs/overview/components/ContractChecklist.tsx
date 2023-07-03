@@ -3,11 +3,12 @@ import {
   useIsMinter,
 } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import {
+  useAccounts,
   useBatchesToReveal,
   useClaimConditions,
   useClaimedNFTSupply,
   useNFTs,
-  useSmartWallets,
+  useSharedMetadata,
   useTokenSupply,
 } from "@thirdweb-dev/react";
 import { SmartContract } from "@thirdweb-dev/sdk";
@@ -32,7 +33,7 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
 }) => {
   const nftHref = useTabHref("nfts");
   const tokenHref = useTabHref("tokens");
-  const walletFactoryHref = useTabHref("wallet-factory");
+  const accountsHref = useTabHref("accounts");
   const claimConditionsHref = useTabHref("claim-conditions");
 
   const nfts = useNFTs(contract, { count: 1 });
@@ -40,7 +41,8 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
   const claimConditions = useClaimConditions(contract);
   const erc20Supply = useTokenSupply(contract);
   const batchesToReveal = useBatchesToReveal(contract);
-  const smartWallets = useSmartWallets(contract);
+  const accounts = useAccounts(contract);
+  const sharedMetadata = useSharedMetadata(contract);
 
   const steps: Step[] = [
     {
@@ -75,6 +77,25 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
         </Text>
       ),
       completed: (nfts.data?.length || 0) > 0,
+    });
+  }
+
+  const isErc721SharedMetadadata = detectFeatures(contract, [
+    "ERC721SharedMetadata",
+  ]);
+  if (isErc721SharedMetadadata) {
+    steps.push({
+      title: "Set NFT Metadata",
+      children: (
+        <Text size="label.sm">
+          Head to the{" "}
+          <Link href={nftHref} color="blue.500">
+            NFTs tab
+          </Link>{" "}
+          to set your NFT metadata.
+        </Text>
+      ),
+      completed: !!sharedMetadata?.data,
     });
   }
 
@@ -165,20 +186,20 @@ export const ContractChecklist: React.FC<ContractChecklistProps> = ({
     });
   }
 
-  const isSmartWalletFactory = detectFeatures(contract, ["SmartWalletFactory"]);
-  if (isSmartWalletFactory) {
+  const isAccountFactory = detectFeatures(contract, ["AccountFactory"]);
+  if (isAccountFactory) {
     steps.push({
-      title: "First wallet created",
+      title: "First account created",
       children: (
         <Text size="label.sm">
           Head to the{" "}
-          <Link href={walletFactoryHref} color="blue.500">
-            Wallet factory tab
+          <Link href={accountsHref} color="blue.500">
+            Accounts tab
           </Link>{" "}
-          to create your first wallet.
+          to create your first account.
         </Text>
       ),
-      completed: (smartWallets.data?.length || 0) > 0,
+      completed: (accounts.data?.length || 0) > 0,
     });
   }
 

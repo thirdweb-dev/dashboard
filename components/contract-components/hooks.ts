@@ -1,6 +1,7 @@
 import {
   getStepAddToRegistry,
   getStepDeploy,
+  getStepSetNFTMetadata,
   useDeployContextModal,
 } from "./contract-deploy-form/deploy-context-modal";
 import { uploadContractMetadata } from "./contract-deploy-form/deploy-form-utils";
@@ -49,6 +50,7 @@ import {
 import {
   getZkTransactionsForDeploy,
   zkDeployContractFromUri,
+  zkGetDefaultTrustedForwarders,
 } from "@thirdweb-dev/sdk/evm/zksync";
 import { walletIds } from "@thirdweb-dev/wallets";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
@@ -472,7 +474,19 @@ interface ContractDeployMutationParams {
 export function useCustomContractDeployMutation(
   ipfsHash: string,
   forceDirectDeploy?: boolean,
-  { hasContractURI, hasRoyalty, isSplit }: Record<string, boolean> = {},
+  {
+    hasContractURI,
+    hasRoyalty,
+    isSplit,
+    isVote,
+    isErc721SharedMetadadata,
+  }: {
+    hasContractURI?: boolean;
+    hasRoyalty?: boolean;
+    isSplit?: boolean;
+    isVote?: boolean;
+    isErc721SharedMetadadata?: boolean;
+  } = {},
 ) {
   const sdk = useSDK();
   const queryClient = useQueryClient();
@@ -502,10 +516,20 @@ export function useCustomContractDeployMutation(
 
       const stepAddToRegistry = getStepAddToRegistry(requiresSignature);
 
+      const stepSetNFTMetadata = getStepSetNFTMetadata(requiresSignature);
+
+      const steps = [stepDeploy];
+
+      if (isErc721SharedMetadadata) {
+        steps.push(stepSetNFTMetadata);
+      }
+
+      if (data.addToDashboard) {
+        steps.push(stepAddToRegistry);
+      }
+
       // open the modal with the appropriate steps
-      deployContext.open(
-        data.addToDashboard ? [stepDeploy, stepAddToRegistry] : [stepDeploy],
-      );
+      deployContext.open(steps);
 
       let contractAddress: string;
       try {
@@ -520,6 +544,23 @@ export function useCustomContractDeployMutation(
             }),
             ...(hasRoyalty && {
               fee_recipient: data.deployParams._royaltyRecipient,
+            }),
+            ...(isSplit && {
+              recipients: data.recipients,
+            }),
+            ...(isVote && {
+              voting_delay_in_blocks: Number(
+                data.deployParams._initialVotingDelay,
+              ),
+              voting_period_in_blocks: Number(
+                data.deployParams._initialVotingPeriod,
+              ),
+              voting_token_address: data.deployParams._token,
+              voting_quorum_fraction: Number(
+                data.deployParams._initialVoteQuorumFraction,
+              ),
+              proposal_token_threshold:
+                data.deployParams._initialProposalThreshold,
             }),
           });
           if ("_name" in data.deployParams) {
@@ -543,24 +584,29 @@ export function useCustomContractDeployMutation(
           data.deployParams._defaultAdmin = data.address || "";
         }
 
+        // Handle ZkSync deployments separately
+        const isZkSync =
+          chainId === ZksyncEraTestnet.chainId || chainId === ZksyncEra.chainId;
         if (
           data.deployParams?._trustedForwarders?.length === 0 ||
           data.deployParams?._trustedForwarders === "[]"
         ) {
-          const trustedForwarders = await getTrustedForwarders(
-            sdk.getProvider(),
-            sdk.storage,
-            compilerMetadata.data?.name,
-          );
+          const trustedForwarders = isZkSync
+            ? zkGetDefaultTrustedForwarders(
+                chainId,
+                compilerMetadata.data?.name,
+              )
+            : await getTrustedForwarders(
+                sdk.getProvider(),
+                sdk.storage,
+                compilerMetadata.data?.name,
+              );
 
           data.deployParams._trustedForwarders =
             JSON.stringify(trustedForwarders);
         }
 
         // deploy contract
-        // Handle ZkSync deployments separately
-        const isZkSync =
-          chainId === ZksyncEraTestnet.chainId || chainId === ZksyncEra.chainId;
         if (isZkSync) {
           // Get metamask signer using zksync-web3 library -- for custom fields in signature
           const zkSigner = new Web3Provider(
@@ -591,6 +637,25 @@ export function useCustomContractDeployMutation(
         // re-throw error
         throw e;
       }
+
+      const contract = await sdk.getContract(contractAddress);
+
+      if (isErc721SharedMetadadata) {
+        try {
+          await contract.erc721.sharedMetadata.set({
+            name: data.contractMetadata?.name || "",
+            description: data.contractMetadata?.description || "",
+            image: data.contractMetadata?.image || "",
+          });
+
+          deployContext.nextStep();
+        } catch (e) {
+          // failed to set metadata - for now just close the modal
+          deployContext.close();
+          // not re-throwing the error, this is not technically a failure to deploy, just to set metadata - the contract is deployed already at this stage
+        }
+      }
+
       try {
         // let user decide if they want this or not
         if (data.addToDashboard) {

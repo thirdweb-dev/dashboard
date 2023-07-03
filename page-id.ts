@@ -10,8 +10,11 @@ export enum PageId {
   // thirdweb.com
   Homepage = "homepage-landing",
 
-  // thirdweb.com
+  // thirdweb.com/about
   About = "about-page",
+
+  // thirdweb.com/contact-us
+  ContactUs = "contact-us-page",
 
   // thirdweb.com/templates
   Templates = "templates-page",
@@ -186,4 +189,5 @@ export enum PageId {
   // ---------------------------------------------------------------------------
   Learn = "learn",
   Ambassadors = "ambassadors",
+  Community = "community",
 }

@@ -4,7 +4,7 @@ import {
   ThirdwebProvider,
   coinbaseWallet,
   metamaskWallet,
-  walletConnectV1,
+  walletConnect,
 } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
@@ -322,10 +322,10 @@ const wallet = new AwsSecretsManagerWallet({
   {
     id: "wallet-connect",
     name: "WalletConnect",
-    description: "Connect with WalletConnect (v1 & v2)",
+    description: "Connect with WalletConnect",
     iconUrl:
       "ipfs://QmX58KPRaTC9JYZ7KriuBzeoEaV2P9eZcA3qbFnTHZazKw/wallet-connect.svg",
-    link: "https://portal.thirdweb.com/wallet/wallet-connect-v1",
+    link: "https://portal.thirdweb.com/wallet/wallet-connect-v2",
     supportedLanguages: {
       javascript: `import { WalletConnect } from "@thirdweb-dev/wallets";
 
@@ -630,7 +630,7 @@ const DashboardWallets: ThirdwebNextPage = () => {
           </Heading>
           <Flex flexDir="column">
             <Text>
-              1. Deploy a smart wallet factory contract, you can deploy one in
+              1. Deploy an account factory contract, you can deploy one in
               1-click via the{" "}
               <Link href="/explore/smart-wallet" isExternal color="blue.500">
                 explore page
@@ -722,7 +722,7 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
               supportedWallets={[
                 metamaskWallet(),
                 coinbaseWallet(),
-                walletConnectV1(),
+                walletConnect(),
               ]}
             >
               <ConnectWallet
