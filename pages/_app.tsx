@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Global, css } from "@emotion/react";
 import type { DehydratedState } from "@tanstack/react-query";
 import { AnnouncementBanner } from "components/notices/AnnouncementBanner";
+import { ProgressBar } from "components/shared/ProgressBar";
 import PlausibleProvider from "next-plausible";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
@@ -80,7 +81,7 @@ const ConsoleAppWrapper: React.FC<AppPropsWithLayout> = ({
     posthog.register({
       tw_dashboard_version: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA,
     });
-    // defere session recording start by 2 seconds because it synchronously loads JS
+    // defer session recording start by 2 seconds because it synchronously loads JS
     const t = setTimeout(() => {
       posthog.startSessionRecording();
     }, 2_000);
@@ -206,6 +207,14 @@ const ConsoleApp = memo(function ConsoleApp({
           cardType: "summary_large_image",
         }}
         canonical={isFallback ? undefined : seoCanonical}
+      />
+
+      <ProgressBar
+        color="#4a92fe"
+        incrementInterval={100}
+        incrementAmount={10}
+        transitionDuration={500}
+        transitionTimingFunction="ease"
       />
 
       <ChakraProvider theme={chakraThemeWithFonts}>
