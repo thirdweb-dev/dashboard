@@ -166,6 +166,14 @@ const DetailNavLink: ComponentWithChildren<DetailNavLinkProps> = ({
   if (extensionDetectedState === "disabled") {
     return null;
   }
+
+  console.log({
+    queryPaths: query.paths,
+    children,
+    computedBasePath,
+    href,
+  });
+
   return (
     <NavLink
       onClick={onClick}
