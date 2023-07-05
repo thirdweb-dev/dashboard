@@ -154,7 +154,9 @@ const DetailNavLink: ComponentWithChildren<DetailNavLinkProps> = ({
   extensionDetectedState,
   onClick,
 }) => {
-  const { query } = useRouter();
+  const router = useRouter();
+  const query = router.query;
+
   const [computedBasePath, tabHref] = useMemo(() => {
     const [network, address, tab = ""] = [
       ...new Set(((query.paths as string[]) || []).filter((c) => c !== "evm")),
@@ -168,10 +170,10 @@ const DetailNavLink: ComponentWithChildren<DetailNavLinkProps> = ({
   }
 
   console.log({
-    queryPaths: query.paths,
     children,
     computedBasePath,
     href,
+    router,
   });
 
   return (

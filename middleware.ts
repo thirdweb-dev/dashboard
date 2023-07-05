@@ -66,6 +66,7 @@ export function middleware(request: NextRequest) {
     if (!solNetwork) {
       return redirect(request, "/404");
     } else {
+      console.log("********\n", `/solana${pathname}`);
       return rewrite(request, `/solana${pathname}`);
     }
   }
