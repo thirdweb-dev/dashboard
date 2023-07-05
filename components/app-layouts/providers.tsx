@@ -1,9 +1,6 @@
 import { THIRDWEB_API_HOST, THIRDWEB_DOMAIN } from "../../constants/urls";
 import { SolanaProvider } from "./solana-provider";
-import {
-  EVMContractInfo,
-  useEVMContractInfo,
-} from "@3rdweb-sdk/react/hooks/useActiveChainId";
+import { useEVMContractInfo } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ThirdwebProvider,
@@ -21,10 +18,6 @@ import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
 import { useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
-
-export interface DashboardThirdwebProviderProps {
-  contractInfo?: EVMContractInfo;
-}
 
 const personalWallets = [
   metamaskWallet(),
@@ -45,9 +38,9 @@ const personalWallets = [
   localWallet(),
 ];
 
-export const DashboardThirdwebProvider: ComponentWithChildren<
-  DashboardThirdwebProviderProps
-> = ({ children }) => {
+export const DashboardThirdwebProvider: ComponentWithChildren = ({
+  children,
+}) => {
   useNativeColorMode();
   const queryClient = useQueryClient();
   const supportedChains = useSupportedChains();

@@ -1,8 +1,5 @@
-import {
-  DashboardThirdwebProvider,
-  DashboardThirdwebProviderProps,
-} from "./providers";
-import { EVMContractInfoProvider } from "@3rdweb-sdk/react";
+import { DashboardThirdwebProvider } from "./providers";
+import { EVMContractInfo, EVMContractInfoProvider } from "@3rdweb-sdk/react";
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { useWallet as useSolanaWallet } from "@solana/wallet-adapter-react";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
@@ -27,6 +24,10 @@ import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { AllChainsProvider } from "contexts/all-chains";
 import { ChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
+import {
+  SolanaProgramInfo,
+  SolanaProgramInfoProvider,
+} from "contexts/solana-program";
 import { isSanctionedAddress } from "data/eth-sanctioned-addresses";
 import { useAddRecentlyUsedChainId } from "hooks/chains/recentlyUsedChains";
 import {
@@ -94,10 +95,10 @@ const persister: Persister = createAsyncStoragePersister({
   key: `tw-query-cache`,
 });
 
-export interface AppLayoutProps
-  extends AppShellProps,
-    DashboardThirdwebProviderProps {
+export interface AppLayoutProps extends AppShellProps {
   dehydratedState?: DehydratedState;
+  contractInfo?: EVMContractInfo;
+  programInfo?: SolanaProgramInfo;
 }
 
 export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
@@ -132,14 +133,16 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
             <AllChainsProvider>
               <ChainsProvider>
                 <EVMContractInfoProvider value={props.contractInfo}>
-                  <DashboardThirdwebProvider>
-                    <SanctionedAddressesChecker>
-                      <PHIdentifier />
-                      <PrivacyNotice />
-                      <AppShell {...props} />
-                      <ConfigModal />
-                    </SanctionedAddressesChecker>
-                  </DashboardThirdwebProvider>
+                  <SolanaProgramInfoProvider value={props.programInfo}>
+                    <DashboardThirdwebProvider>
+                      <SanctionedAddressesChecker>
+                        <PHIdentifier />
+                        <PrivacyNotice />
+                        <AppShell {...props} />
+                        <ConfigModal />
+                      </SanctionedAddressesChecker>
+                    </DashboardThirdwebProvider>
+                  </SolanaProgramInfoProvider>
                 </EVMContractInfoProvider>
               </ChainsProvider>
             </AllChainsProvider>

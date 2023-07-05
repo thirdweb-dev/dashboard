@@ -2,10 +2,7 @@ import { Box, Container, Flex, Spinner } from "@chakra-ui/react";
 import { DehydratedState } from "@tanstack/react-query";
 import { useProgram, useProgramMetadata } from "@thirdweb-dev/react/solana";
 import { AppLayout } from "components/app-layouts/app";
-import {
-  SolanaProgramInfo,
-  SolanaProgramInfoProvider,
-} from "contexts/solana-program";
+import { SolanaProgramInfo } from "contexts/solana-program";
 import { DropNotReady } from "contract-ui/tabs/claim-conditions/components/drop-not-ready";
 import { ContractProgramSidebar } from "core-ui/sidebar/detail-page";
 import { isPossibleSolanaAddress } from "lib/address-utils";
@@ -66,10 +63,13 @@ SolanaProgramPage.pageId = PageId.DeployedProgram;
 SolanaProgramPage.getLayout = (page, pageProps: SolanaProgramProps) => {
   // app layout has to come first in both getLayout and fallback
   return (
-    <AppLayout layout={"custom-contract"} ecosystem="solana" hasSidebar={true}>
-      <SolanaProgramInfoProvider value={pageProps.programInfo}>
-        {page}
-      </SolanaProgramInfoProvider>
+    <AppLayout
+      layout={"custom-contract"}
+      ecosystem="solana"
+      hasSidebar={true}
+      programInfo={pageProps.programInfo}
+    >
+      {page}
     </AppLayout>
   );
 };
@@ -77,7 +77,7 @@ SolanaProgramPage.getLayout = (page, pageProps: SolanaProgramProps) => {
 // TODO better skeleton
 // app layout has to come first in both getLayout and fallback
 SolanaProgramPage.fallback = (
-  <AppLayout layout={"custom-contract"} hasSidebar={true}>
+  <AppLayout layout={"custom-contract"} ecosystem="solana" hasSidebar={true}>
     <Flex h="100%" justifyContent="center" alignItems="center">
       <Spinner size="xl" />
     </Flex>

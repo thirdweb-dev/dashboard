@@ -8,14 +8,14 @@ export type SolanaProgramInfo = {
   programAddress: string;
 };
 
-const SolanaProgramContext = createContext<SolanaProgramInfo | undefined>(
-  undefined,
-);
+export const SolanaProgramInfoContext = createContext<
+  SolanaProgramInfo | undefined
+>(undefined);
 
-export const SolanaProgramInfoProvider = SolanaProgramContext.Provider;
+export const SolanaProgramInfoProvider = SolanaProgramInfoContext.Provider;
 
 export function useSolanaProgramInfo() {
-  const data = useContext(SolanaProgramContext);
+  const data = useContext(SolanaProgramInfoContext);
   invariant(
     data,
     "useSolanaProgramInfo must be used inside SolanaProgramInfoProvider",
