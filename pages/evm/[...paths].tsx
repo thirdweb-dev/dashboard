@@ -55,7 +55,7 @@ type EVMContractProps = {
 };
 
 const EVMContractPage: ThirdwebNextPage = () => {
-  // show optimistic UI first - assume chain is conifgured until proven otherwise
+  // show optimistic UI first - assume chain is configured until proven otherwise
   const [chainNotFound, setChainNotFound] = useState(false);
   const isSupportedChainsReady = useContext(SupportedChainsReadyContext);
 
@@ -373,6 +373,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
       // has to be passed directly because the provider can not be above app layout in the tree
       contractInfo={props.contractInfo}
       noSEOOverride
+      hasSidebar={true}
     >
       <>
         <NextSeo
@@ -402,7 +403,7 @@ EVMContractPage.getLayout = (page, props: EVMContractProps) => {
 
 // app layout has to come first in both getLayout and fallback
 EVMContractPage.fallback = (
-  <AppLayout layout={"custom-contract"} noSEOOverride>
+  <AppLayout layout={"custom-contract"} noSEOOverride hasSidebar={true}>
     <Flex h="100%" justifyContent="center" alignItems="center">
       <Spinner size="xl" />
     </Flex>
