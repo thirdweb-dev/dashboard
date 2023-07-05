@@ -15,48 +15,10 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({ signer }) => {
   const chainId = useSDKChainId();
   const configuredChainsRecord = useSupportedChainsRecord();
   const chain = chainId ? configuredChainsRecord[chainId] : undefined;
-  /*   const toggleEditing = () => {
-    form.setValue(`phases.${phaseIndex}.isEditing`, !field.isEditing);
-  }; */
 
   return (
     <Card position="relative" p={8}>
       <Flex direction="column" gap={8}>
-        {/*         <Flex
-          align="flex-start"
-          justify="space-between"
-          position="absolute"
-          top="10px"
-          right="10px"
-          gap={1}
-        >
-          <Button
-            variant="ghost"
-            onClick={toggleEditing}
-            size="sm"
-            rightIcon={
-              <Icon
-                as={field.isEditing ? RxCaretUp : RxCaretDown}
-                boxSize={5}
-              />
-            }
-          >
-            {field.isEditing ? "Collapse" : isAdmin ? "Edit" : "See Phase"}
-          </Button>
-          <AdminOnly contract={contract as ValidContractInstance}>
-            <Button
-              variant="ghost"
-              onClick={onRemove}
-              isDisabled={isLoading}
-              colorScheme="red"
-              size="sm"
-              rightIcon={<Icon as={FiX} />}
-            >
-              Remove
-            </Button>
-          </AdminOnly>
-        </Flex> */}
-
         <Flex flexDir="column" gap={2} mt={{ base: 4, md: 0 }}>
           <Flex gap={3} alignItems="center">
             <Heading size="label.lg">
@@ -113,37 +75,3 @@ export const AccountSigner: React.FC<AccountSignerProps> = ({ signer }) => {
     </Card>
   );
 };
-
-/* /*  ) : (
-        <>
-          <CustomFormGroup>
-            {isMultiPhase ? <PhaseNameInput /> : null}
-            <PhaseStartTimeInput />
-          </CustomFormGroup>
-
-          <CreatorInput
-            creatorAddress={
-              (field.snapshot?.[0] as { address: string; })?.address
-            }
-          />
-
-          <CustomFormGroup>
-            <MaxClaimableSupplyInput />
-            <ClaimPriceInput />
-          </CustomFormGroup>
-
-          {claimConditionType === "specific" ||
-            claimConditionType === "creator" ? null : (
-            <CustomFormGroup>
-              <MaxClaimablePerWalletInput />
-              {isClaimPhaseV1 ? (
-                <WaitingTimeInput />
-              ) : (
-                <Box w="100%" display={{ base: "none", md: "block" }} />
-              )}
-            </CustomFormGroup>
-          )}
-
-          <ClaimerSelection />
-        </>
-        )} */
