@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "@vercel/og";
-import { replaceIpfsUrl } from "lib/sdk";
 import { NextRequest } from "next/server";
 import { getAllChainRecords } from "utils/allChainsRecords";
 
@@ -89,7 +88,10 @@ export default async function handler(req: NextRequest) {
     return new Response("Chain not found", { status: 400 });
   }
 
-  const iconUrl = chain.icon?.url ? replaceIpfsUrl(chain.icon?.url) : undefined;
+  const iconUrl = chain.icon?.url.replace(
+    "ipfs://",
+    "https://ipfs.thirdwebstorage.com/ipfs/",
+  );
 
   const [inter400, inter500, inter700, imageData] = await Promise.all([
     inter400_,
