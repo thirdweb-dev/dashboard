@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "@vercel/og";
+import { replaceIpfsUrl } from "lib/sdk";
 import { NextRequest } from "next/server";
 import { PublishedContractOG } from "og-lib/url-utils";
 
@@ -179,6 +180,10 @@ export default async function handler(req: NextRequest) {
     image,
   ]);
 
+  const contractLogo = publishedContractData?.logo
+    ? replaceIpfsUrl(publishedContractData?.logo)
+    : undefined;
+
   return new ImageResponse(
     (
       <div
@@ -206,10 +211,7 @@ export default async function handler(req: NextRequest) {
               <div tw="flex items-center">
                 {publishedContractData.logo && (
                   <img
-                    src={publishedContractData.logo.replace(
-                      "ipfs://",
-                      "https://ipfs-2.thirdwebcdn.com/ipfs/",
-                    )}
+                    src={contractLogo}
                     tw="w-16 h-16 rounded-xl mr-4"
                     alt=""
                   />
