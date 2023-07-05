@@ -88,7 +88,7 @@ const TemplateContents: React.FC<TemplateContentsProps> = (props) => {
 // Use the "id" fields from the templates array of objects to create a mapping of contents for each template id
 const templateContents: Record<(typeof templates)[number]["id"], JSX.Element> =
   {
-  erc721: (
+    erc721: (
       <TemplateContents
         overview={
           <>
