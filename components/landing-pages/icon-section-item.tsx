@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { Text } from "tw-components";
 
 interface LandingIconSectionItemProps {
@@ -23,7 +23,7 @@ export const LandingIconSectionItem: React.FC<LandingIconSectionItemProps> = ({
         borderRadius="lg"
         w={14}
       >
-        <ChakraNextImage src={icon} width="32px" alt="Shopify" />
+        <ChakraNextImage src={icon} width="32px" alt="" />
       </Flex>
       <Flex flexDir="column" gap={4}>
         <Text size="body.xl" color="white">

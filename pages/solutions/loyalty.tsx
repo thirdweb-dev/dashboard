@@ -1,11 +1,12 @@
 import { Container, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHero } from "components/landing-pages/hero";
-import { LandingIconSection } from "components/landing-pages/icon-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { LandingMainImage } from "components/landing-pages/main-image";
-import { LandingShowcaseImage } from "components/landing-pages/showcase-image";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PageId } from "page-id";
+import { Card, Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "loyalty";
@@ -53,12 +54,12 @@ const Loyalty: ThirdwebNextPage = () => {
         flexDir="column"
         gap={{ base: "80px", md: "120px" }}
       >
-        <LandingIconSection
+        <LandingGridSection
           title={
-            <>
+            <Heading size="label.2xl" color="white">
               Web3 Loyalty Programs. <br />
               Made easy.
-            </>
+            </Heading>
           }
         >
           <LandingIconSectionItem
@@ -76,12 +77,42 @@ const Loyalty: ThirdwebNextPage = () => {
             title="Unlock new revenue streams"
             description="Generate recurring revenue from membership subscriptions. Sell branded digital assets and collect royalty fees from points and memberships that are traded between customers."
           />
-        </LandingIconSection>
+        </LandingGridSection>
         <LandingMainImage
           blackToWhiteTitle="Products"
           title="Reimagine loyalty programs"
-          image={require("public/assets/solutions-pages/minting/hero.png")}
+          /* image={require("public/assets/solutions-pages/minting/hero.png")} */
         />
+        <LandingGridSection
+          title={
+            <LandingSectionHeading
+              title="CommerceKit."
+              blackToWhiteTitle="Features"
+            />
+          }
+        >
+          <Card p={8}>
+            <LandingIconSectionItem
+              icon={require("public/assets/solutions-pages/loyalty/icon-4.png")}
+              title="Commerce Web3 SDK"
+              description="Integrate loyalty contracts into your store with just a few lines of code."
+            />
+          </Card>
+          <Card p={8}>
+            <LandingIconSectionItem
+              icon={require("public/assets/solutions-pages/loyalty/icon-5.png")}
+              title="Email Wallet"
+              description="Enable familiar web2-like sign in flows to increase user onboarding rates."
+            />
+          </Card>
+          <Card p={8}>
+            <LandingIconSectionItem
+              icon={require("public/assets/solutions-pages/loyalty/icon-6.png")}
+              title="Contracts"
+              description="Loyalty contracts with metadata that stores specific membership details. Token-bound accounts."
+            />
+          </Card>
+        </LandingGridSection>
       </Container>
     </LandingLayout>
   );
