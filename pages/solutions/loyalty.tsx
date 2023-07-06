@@ -1,8 +1,9 @@
-import { Container, useBreakpointValue } from "@chakra-ui/react";
+import { Container, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { LandingHero } from "components/landing-pages/hero";
 import { LandingIconSection } from "components/landing-pages/icon-section";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingMainImage } from "components/landing-pages/main-image";
 import { LandingShowcaseImage } from "components/landing-pages/showcase-image";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -46,7 +47,12 @@ const Loyalty: ThirdwebNextPage = () => {
         inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
         /*         image={require("public/assets/solutions-pages/minting/hero.png")} */
       />
-      <Container maxW="container.page">
+      <Container
+        maxW="container.page"
+        as={Flex}
+        flexDir="column"
+        gap={{ base: "80px", md: "120px" }}
+      >
         <LandingIconSection
           title={
             <>
@@ -71,6 +77,11 @@ const Loyalty: ThirdwebNextPage = () => {
             description="Generate recurring revenue from membership subscriptions. Sell branded digital assets and collect royalty fees from points and memberships that are traded between customers."
           />
         </LandingIconSection>
+        <LandingMainImage
+          blackToWhiteTitle="Products"
+          title="Reimagine loyalty programs"
+          image={require("public/assets/solutions-pages/minting/hero.png")}
+        />
       </Container>
     </LandingLayout>
   );

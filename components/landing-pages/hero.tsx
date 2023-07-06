@@ -1,3 +1,4 @@
+import { LandingDesktopMobileImage } from "./desktop-mobile-image";
 import { Box, Container, Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
@@ -33,7 +34,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
     <Flex
       flexDir="column"
       padding={{ base: 0, md: "64px" }}
-      mt={{ base: "120px", md: "80px" }}
+      my={{ base: "120px", md: "80px" }}
       gap={{ base: 8, md: 20 }}
     >
       <Container maxW="container.sm">
@@ -97,32 +98,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
           </Flex>
         </Flex>
       </Container>
-      {(image || mobileImage) && (
-        <Container maxW="container.page">
-          {image && (
-            <ChakraNextImage
-              src={image}
-              w="full"
-              alt=""
-              display={{
-                base: mobileImage ? "hidden" : "inherit",
-                md: "inherit",
-              }}
-            />
-          )}
-          {mobileImage && (
-            <ChakraNextImage
-              src={mobileImage}
-              w="full"
-              alt=""
-              display={{
-                base: "inherit",
-                md: "hidden",
-              }}
-            />
-          )}
-        </Container>
-      )}
+      <LandingDesktopMobileImage image={image} mobileImage={mobileImage} />
     </Flex>
   );
 };
