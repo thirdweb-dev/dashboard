@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import React, { ReactNode } from "react";
@@ -16,7 +16,7 @@ export const LandingIconSectionItem: React.FC<LandingIconSectionItemProps> = ({
   description,
 }) => {
   return (
-    <Flex flexDir="column" gap={4}>
+    <Flex flexDir="column" gap={6}>
       <Flex
         bgGradient="linear(to-r, #3D3D3D, #4D4D4D)"
         p={3.5}
@@ -25,10 +25,12 @@ export const LandingIconSectionItem: React.FC<LandingIconSectionItemProps> = ({
       >
         <ChakraNextImage src={icon} width="32px" alt="Shopify" />
       </Flex>
-      <Text size="body.xl" color="white">
-        {title}
-      </Text>
-      <Text size="body.lg">{description}</Text>
+      <Flex flexDir="column" gap={4}>
+        <Text size="body.xl" color="white">
+          {title}
+        </Text>
+        <Text size="body.lg">{description}</Text>
+      </Flex>
     </Flex>
   );
 };
