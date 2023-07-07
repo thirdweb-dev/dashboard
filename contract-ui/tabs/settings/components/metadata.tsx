@@ -55,7 +55,7 @@ function extractDomain(url: string) {
     return domain;
   } catch (error) {
     console.error(`Invalid URL: ${url}`);
-    return url;
+    return null;
   }
 }
 
@@ -255,7 +255,11 @@ export const SettingsMetadata = <
                   isDisabled={metadata.isLoading || metadataMutation.isLoading}
                 >
                   <FormLabel textTransform="capitalize">
-                    {item.key || "New URL"}
+                    {item.key ||
+                      extractDomain(
+                        watch(`dashboard_social_urls.${index}.value`),
+                      ) ||
+                      "New URL"}
                   </FormLabel>
                   <Flex gap={2}>
                     <Input
