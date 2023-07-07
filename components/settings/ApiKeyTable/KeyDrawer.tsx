@@ -3,11 +3,10 @@ import { ApiKeyKeyForm } from "./KeyForm";
 import { RevokeApiKeyButton } from "./RevokeButton";
 import { ApiKeyFormValues, DrawerSection } from "./types";
 import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
-import { HStack, Icon } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FiEdit2, FiSave } from "react-icons/fi";
 import { Button, Drawer } from "tw-components";
 import { fromArrayToList, toArrFromList } from "utils/string";
 
@@ -72,12 +71,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
       return (
         <>
           <RevokeApiKeyButton id={id} name={name} onRevoke={onClose} />
-          <Button
-            leftIcon={<Icon as={FiEdit2} />}
-            colorScheme="primary"
-            onClick={() => setEditing(true)}
-            w={24}
-          >
+          <Button colorScheme="primary" onClick={() => setEditing(true)} w={24}>
             Edit
           </Button>
         </>
@@ -93,12 +87,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
           Cancel
         </Button>
 
-        <Button
-          leftIcon={<Icon as={FiSave} />}
-          colorScheme="green"
-          onClick={handleSubmit}
-          w={24}
-        >
+        <Button colorScheme="primary" onClick={handleSubmit} w={24}>
           Save
         </Button>
       </>

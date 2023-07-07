@@ -1,6 +1,6 @@
 import { format, isValid } from "date-fns";
 
-const DATE_TIME_LOCAL_FORMAT = "yyyy-MM-dd'T'HH:mm";
+const DATE_TIME_LOCAL_FORMAT = "yyyy-MM-dd HH:mm";
 
 export function toDateTimeLocal(date?: Date | number | string) {
   if (typeof date === "number") {
