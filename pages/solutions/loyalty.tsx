@@ -1,4 +1,6 @@
 import { Container, Flex } from "@chakra-ui/react";
+import { ChakraNextImage } from "components/Image";
+import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHero } from "components/landing-pages/hero";
@@ -68,10 +70,45 @@ const Loyalty: ThirdwebNextPage = () => {
           image={require("/public/assets/solutions-pages/loyalty/spider.png")}
           mobileImage={require("/public/assets/solutions-pages/loyalty/spider-mobile.png")}
         />
-        {/*         <LandingDynamicSelector
+        <LandingDynamicSelector
           title="What you can build."
           blackToWhiteTitle="Use-Cases"
-        /> */}
+          items={[
+            {
+              title: "Tiered Loyalty Program",
+              description:
+                "Increase customer engagement by distributing loyalty points so that they can earn their way to discounts, access to exclusive merch, and more.",
+              Component: (
+                <ChakraNextImage
+                  src={require("/public/assets/solutions-pages/loyalty/tiered.png")}
+                  alt=""
+                />
+              ),
+            },
+            {
+              title: "Multi-brand Loyalty Alliance",
+              description:
+                "Create a loyalty alliance with other brands. Increase customer engagement by allowing customers to earn and redeem loyalty points across multiple brands.",
+              Component: (
+                <ChakraNextImage
+                  src={require("/public/assets/solutions-pages/loyalty/brand.png")}
+                  alt=""
+                />
+              ),
+            },
+            {
+              title: "Flexible Loyalty",
+              description:
+                "Increase customer engagement by giving them more flexibility with loyalty programs. Allow loyalty points and membership accounts to be traded on marketplaces. Collect royalty fees on memberships sold.",
+              Component: (
+                <ChakraNextImage
+                  src={require("/public/assets/solutions-pages/loyalty/flexible.png")}
+                  alt=""
+                />
+              ),
+            },
+          ]}
+        />
         <LandingGridSection
           title={
             <LandingSectionHeading
