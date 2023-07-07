@@ -140,7 +140,7 @@ const bounties = [
     ),
     status: "open",
     amount: "$100 - $20,000",
-    link: "https://ipfs.thirdwebcdn.com/ipfs/QmPWH8RDRi1aaGkM29k6ygLJwvcwC6BDXMYvvMjD7QkyCX",
+    link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706?pvs=4",
     linkText: "Read Guidelines",
   },
 ];
