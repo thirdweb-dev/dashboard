@@ -33,10 +33,11 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
   return (
     <Flex
       flexDir="column"
-      padding={{ base: 0, md: "64px" }}
-      gap={{ base: 8, md: 20 }}
+      gap={{ base: 12, md: 20 }}
+      paddingY={{ base: 0, md: "64px" }}
+      mb={{ base: "80px", md: "120px" }}
     >
-      <Container maxW="container.sm">
+      <Container maxW="container.md" paddingX={{ base: 12, md: 16 }}>
         <Flex flexDir="column" gap={{ base: 6, md: 8 }}>
           <Flex flexDir="column" gap={4}>
             {inPartnershipWith && (
@@ -51,12 +52,7 @@ export const LandingHero: React.FC<LandingHeroProps> = ({
                 />
               </Flex>
             )}
-            <Heading
-              pt={{ base: 20, md: 0 }}
-              as="h1"
-              size="display.md"
-              textAlign="center"
-            >
+            <Heading as="h1" size="display.md" textAlign="center">
               {title}{" "}
               <Box as="span" bgGradient={gradient} bgClip="text">
                 {titleWithGradient}

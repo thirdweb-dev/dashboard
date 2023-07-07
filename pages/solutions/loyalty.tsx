@@ -1,4 +1,5 @@
 import { Container, Flex } from "@chakra-ui/react";
+import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHero } from "components/landing-pages/hero";
@@ -44,22 +45,23 @@ const Loyalty: ThirdwebNextPage = () => {
           "Activate new customer experiences that go beyond traditional tiered loyalty programs.",
       }}
     >
+      <LandingHero
+        title="Revitalize your"
+        titleWithGradient="loyalty programs."
+        subtitle="Activate new customer experiences that go beyond traditional tiered loyalty programs."
+        trackingCategory={TRACKING_CATEGORY}
+        ctaLink="https://thirdweb.com/explore"
+        gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+        inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
+        image={require("public/assets/solutions-pages/loyalty/hero.png")}
+        mobileImage={require("public/assets/solutions-pages/loyalty/hero-mobile.png")}
+      />
       <Container
         maxW="container.page"
         as={Flex}
         flexDir="column"
         gap={{ base: "80px", md: "120px" }}
       >
-        <LandingHero
-          title="Revitalize your"
-          titleWithGradient="loyalty programs."
-          subtitle="Activate new customer experiences that go beyond traditional tiered loyalty programs."
-          trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://thirdweb.com/explore"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
-          /*         image={require("public/assets/solutions-pages/minting/hero.png")} */
-        />
         <LandingGridSection
           title={
             <Heading size="label.2xl" color="white">
@@ -87,7 +89,12 @@ const Loyalty: ThirdwebNextPage = () => {
         <LandingMainImage
           blackToWhiteTitle="Products"
           title="Reimagine loyalty programs"
-          /* image={require("public/assets/solutions-pages/minting/hero.png")} */
+          image={require("/public/assets/solutions-pages/minting/what-can-you-build.png")}
+          mobileImage={require("/public/assets/solutions-pages/minting/what-can-you-build-mobile.png")}
+        />
+        <LandingDynamicSelector
+          title="What you can build."
+          blackToWhiteTitle="Use-Cases"
         />
         <LandingGridSection
           title={
