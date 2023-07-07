@@ -2,7 +2,7 @@ import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
 import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMetadata, useUpdateMetadata } from "@thirdweb-dev/react";
+import { useContractMetadata, useUpdateMetadata } from "@thirdweb-dev/react";
 import {
   CommonContractSchema,
   ValidContractInstance,
@@ -13,8 +13,8 @@ import { FileInput } from "components/shared/FileInput";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useMemo } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import {
   Card,
   FormErrorMessage,
@@ -23,6 +23,31 @@ import {
   Text,
 } from "tw-components";
 import { z } from "zod";
+
+const DashboardCommonContractSchema = CommonContractSchema.extend({
+  dashboard_social_urls: z.array(
+    z.object({
+      key: z.string(),
+      value: z.string(),
+    }),
+  ),
+});
+
+function extractDomain(url: string) {
+  try {
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname;
+    // Remove www. from hostname
+    const hostnameWithoutWww = hostname.replace(/^www\./, "");
+    const segments = hostnameWithoutWww.split(".");
+    const domain =
+      segments.length > 2 ? segments[segments.length - 2] : segments[0];
+    return domain;
+  } catch (error) {
+    console.error(`Invalid URL: ${url}`);
+    return url;
+  }
+}
 
 export const SettingsMetadata = <
   TContract extends ValidContractInstance | undefined,
@@ -34,25 +59,42 @@ export const SettingsMetadata = <
   detectedState: ExtensionDetectedState;
 }) => {
   const trackEvent = useTrack();
-  const metadata = useMetadata(contract);
+  const metadata = useContractMetadata(contract);
   const metadataMutation = useUpdateMetadata(contract);
+
+  const transformedQueryData = useMemo(() => {
+    return {
+      ...metadata.data,
+      dashboard_social_urls: Object.entries(
+        metadata.data.social_urls || { twitter: "", discord: "", website: "" },
+      ).map(([key, value]) => ({ key, value })),
+    };
+  }, [metadata.data]);
+
   const {
+    control,
     setValue,
     register,
     watch,
     handleSubmit,
     formState,
     getFieldState,
-    reset,
-  } = useForm<z.input<typeof CommonContractSchema>>({
-    resolver: zodResolver(CommonContractSchema),
+  } = useForm<z.input<typeof DashboardCommonContractSchema>>({
+    resolver: zodResolver(DashboardCommonContractSchema),
+    defaultValues: transformedQueryData,
+    values: transformedQueryData,
+    resetOptions: {
+      keepDirty: true,
+      keepDirtyValues: true,
+    },
   });
-  useEffect(() => {
-    if (metadata.data && !formState.isDirty) {
-      reset(metadata.data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formState.isDirty, metadata.data]);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "dashboard_social_urls",
+  });
+
+  console.log({ fields });
 
   const { onSuccess, onError } = useTxNotifications(
     "Successfully updated metadata",
@@ -65,30 +107,60 @@ export const SettingsMetadata = <
       <Flex
         as="form"
         onSubmit={handleSubmit((d) => {
-          trackEvent({
+          const socialUrlsArray =
+            Object.keys(d?.dashboard_social_urls || {}).length > 0
+              ? (d?.dashboard_social_urls as unknown as {
+                  key: string;
+                  value: string;
+                }[])
+              : [];
+
+          const socialUrlsObj = socialUrlsArray.reduce<Record<string, string>>(
+            (obj, item) => {
+              const domain = extractDomain(item.value);
+              if (domain && item.value.trim() !== "") {
+                obj[domain] = item.value;
+              }
+              return obj;
+            },
+            {},
+          );
+          console.log({ d, socialUrlsObj, socialUrlsArray });
+
+          /* trackEvent({
             category: "settings",
             action: "set-metadata",
             label: "attempt",
           });
-          metadataMutation.mutate(d, {
-            onSuccess: () => {
-              trackEvent({
-                category: "settings",
-                action: "set-metadata",
-                label: "success",
-              });
-              onSuccess();
+          metadataMutation.mutate(
+            {
+              name: d.name,
+              description: d.description,
+              image: d.image,
+              app_uri: d.app_uri,
+              external_link: d.external_link,
+              social_urls: socialUrlsObj,
             },
-            onError: (error) => {
-              trackEvent({
-                category: "settings",
-                action: "set-metadata",
-                label: "error",
-                error,
-              });
-              onError(error);
+            {
+              onSuccess: () => {
+                trackEvent({
+                  category: "settings",
+                  action: "set-metadata",
+                  label: "success",
+                });
+                onSuccess();
+              },
+              onError: (error) => {
+                trackEvent({
+                  category: "settings",
+                  action: "set-metadata",
+                  label: "error",
+                  error,
+                });
+                onError(error);
+              },
             },
-          });
+          );*/
         })}
         direction="column"
       >
@@ -164,6 +236,26 @@ export const SettingsMetadata = <
                 </FormErrorMessage>
               </FormControl>
             </Flex>
+          </Flex>
+          <Flex direction="column" gap={4}>
+            {fields.map((item, index) => (
+              <Flex key={item.id}>
+                <FormControl>
+                  <FormLabel textTransform="capitalize">
+                    {item.key || "New URL"}
+                  </FormLabel>
+                  <Input
+                    {...register(`dashboard_social_urls.${index}.value`)}
+                    type="url"
+                    placeholder="https://..."
+                  />
+                </FormControl>
+                <button onClick={() => remove(index)}>Remove</button>
+              </Flex>
+            ))}
+            <button onClick={() => append({ key: "", value: "" })}>
+              Add More
+            </button>
           </Flex>
         </Flex>
 
