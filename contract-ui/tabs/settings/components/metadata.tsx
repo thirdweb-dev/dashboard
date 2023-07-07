@@ -47,14 +47,12 @@ function extractDomain(url: string) {
   try {
     const parsedUrl = new URL(url);
     const hostname = parsedUrl.hostname;
-    // Remove www. from hostname
     const hostnameWithoutWww = hostname.replace(/^www\./, "");
     const segments = hostnameWithoutWww.split(".");
     const domain =
       segments.length > 2 ? segments[segments.length - 2] : segments[0];
     return domain;
   } catch (error) {
-    console.error(`Invalid URL: ${url}`);
     return null;
   }
 }
