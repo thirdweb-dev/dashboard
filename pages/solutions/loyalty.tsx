@@ -92,10 +92,10 @@ const Loyalty: ThirdwebNextPage = () => {
           image={require("/public/assets/solutions-pages/minting/what-can-you-build.png")}
           mobileImage={require("/public/assets/solutions-pages/minting/what-can-you-build-mobile.png")}
         />
-        <LandingDynamicSelector
+        {/*         <LandingDynamicSelector
           title="What you can build."
           blackToWhiteTitle="Use-Cases"
-        />
+        /> */}
         <LandingGridSection
           title={
             <LandingSectionHeading
