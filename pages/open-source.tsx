@@ -117,24 +117,17 @@ const bounties = [
     title: "Gas Optimizations",
     description: (
       <>
-        Provide a pull request that implements one of our{" "}
-        <TrackedLink
-          href="https://ipfs.thirdwebcdn.com/ipfs/QmXwEZDfS8PTWSqQj2xBod6XGPQjkykzX6tYqtU9zo6kcr/"
-          color="blue.500"
-          category="oss"
-          label="known-gas-optimizations"
-          isExternal
-        >
-          known gas optimizations
-        </TrackedLink>{" "}
-        , or provide a new optimization to the to the thirdweb contracts
-        repository.
+        Gas optimization is a critical aspect of developing efficient and
+        cost-effective smart contracts on blockchain platforms. This bounty aims
+        to support optimizing gas usage for thirdweb's published smart
+        contracts, enhancing their performance, scalability, and
+        cost-effectiveness.
       </>
     ),
     status: "open",
-    amount: "$1 per 10 gas units saved",
-    link: "https://github.com/thirdweb-dev/contracts",
-    linkText: "Create a PR",
+    amount: "Up to $25,000",
+    link: "https://thirdweb.notion.site/Gas-Optimization-for-thirdweb-published-contracts-85d811de893b4bb8814bd8bbbd488cff?pvs=4",
+    linkText: "Read Guidelines",
   },
   {
     id: 1,
@@ -363,7 +356,12 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                     <AccordionIcon />
                   </AccordionButton>
                   <AccordionPanel>
-                    <Text size="label.md" color="gray.500" mt={2}>
+                    <Text
+                      size="label.md"
+                      color="gray.500"
+                      mt={2}
+                      lineHeight={1.7}
+                    >
                       {bounty.description}
                     </Text>
                     <LinkButton
