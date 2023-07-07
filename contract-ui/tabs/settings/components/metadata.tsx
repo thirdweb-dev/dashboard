@@ -1,6 +1,14 @@
 import { SettingDetectedState } from "./detected-state";
 import { AdminOnly } from "@3rdweb-sdk/react/components/roles/admin-only";
-import { Flex, FormControl, Input, Textarea } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  FormControl,
+  Icon,
+  IconButton,
+  Input,
+  Textarea,
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContractMetadata, useUpdateMetadata } from "@thirdweb-dev/react";
 import {
@@ -15,7 +23,9 @@ import { useImageFileOrUrl } from "hooks/useImageFileOrUrl";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useMemo } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { FiPlus, FiTrash } from "react-icons/fi";
 import {
+  Button,
   Card,
   FormErrorMessage,
   FormLabel,
@@ -65,8 +75,9 @@ export const SettingsMetadata = <
   const transformedQueryData = useMemo(() => {
     return {
       ...metadata.data,
+      name: metadata.data?.name || "",
       dashboard_social_urls: Object.entries(
-        metadata.data.social_urls || { twitter: "", discord: "", website: "" },
+        metadata.data?.social_urls || { twitter: "", discord: "" },
       ).map(([key, value]) => ({ key, value })),
     };
   }, [metadata.data]);
@@ -94,8 +105,6 @@ export const SettingsMetadata = <
     name: "dashboard_social_urls",
   });
 
-  console.log({ fields });
-
   const { onSuccess, onError } = useTxNotifications(
     "Successfully updated metadata",
     "Error updating metadata",
@@ -107,9 +116,11 @@ export const SettingsMetadata = <
       <Flex
         as="form"
         onSubmit={handleSubmit((d) => {
+          const { dashboard_social_urls, ...data } = d;
+
           const socialUrlsArray =
-            Object.keys(d?.dashboard_social_urls || {}).length > 0
-              ? (d?.dashboard_social_urls as unknown as {
+            Object.keys(dashboard_social_urls || {}).length > 0
+              ? (dashboard_social_urls as unknown as {
                   key: string;
                   value: string;
                 }[])
@@ -125,20 +136,15 @@ export const SettingsMetadata = <
             },
             {},
           );
-          console.log({ d, socialUrlsObj, socialUrlsArray });
 
-          /* trackEvent({
+          trackEvent({
             category: "settings",
             action: "set-metadata",
             label: "attempt",
           });
           metadataMutation.mutate(
             {
-              name: d.name,
-              description: d.description,
-              image: d.image,
-              app_uri: d.app_uri,
-              external_link: d.external_link,
+              ...data,
               social_urls: socialUrlsObj,
             },
             {
@@ -160,7 +166,7 @@ export const SettingsMetadata = <
                 onError(error);
               },
             },
-          );*/
+          );
         })}
         direction="column"
       >
@@ -238,24 +244,53 @@ export const SettingsMetadata = <
             </Flex>
           </Flex>
           <Flex direction="column" gap={4}>
+            <FormControl
+              isDisabled={metadata.isLoading || metadataMutation.isLoading}
+            >
+              <FormLabel>Social URLs</FormLabel>
+            </FormControl>
             {fields.map((item, index) => (
               <Flex key={item.id}>
-                <FormControl>
+                <FormControl
+                  isDisabled={metadata.isLoading || metadataMutation.isLoading}
+                >
                   <FormLabel textTransform="capitalize">
                     {item.key || "New URL"}
                   </FormLabel>
-                  <Input
-                    {...register(`dashboard_social_urls.${index}.value`)}
-                    type="url"
-                    placeholder="https://..."
-                  />
+                  <Flex gap={2}>
+                    <Input
+                      isDisabled={
+                        metadata.isLoading || metadataMutation.isLoading
+                      }
+                      {...register(`dashboard_social_urls.${index}.value`)}
+                      type="url"
+                      placeholder="https://..."
+                    />
+                    <IconButton
+                      isDisabled={
+                        metadata.isLoading || metadataMutation.isLoading
+                      }
+                      icon={<Icon as={FiTrash} boxSize={5} />}
+                      aria-label="Remove row"
+                      onClick={() => remove(index)}
+                    />
+                  </Flex>
                 </FormControl>
-                <button onClick={() => remove(index)}>Remove</button>
               </Flex>
             ))}
-            <button onClick={() => append({ key: "", value: "" })}>
-              Add More
-            </button>
+            <Box>
+              <Button
+                isDisabled={metadata.isLoading || metadataMutation.isLoading}
+                type="button"
+                size="sm"
+                colorScheme="primary"
+                borderRadius="md"
+                leftIcon={<Icon as={FiPlus} />}
+                onClick={() => append({ key: "", value: "" })}
+              >
+                Add URL
+              </Button>
+            </Box>
           </Flex>
         </Flex>
 
