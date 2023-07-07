@@ -30,10 +30,9 @@ export const LandingLayout: ComponentWithChildren<LandingLayoutProps> = ({
       >
         <HomepageTopNav />
         {/* pull it up by as much as the topnav is tall */}
-        <Box mt="-80px" overflowX="hidden">
+        <Box mt="-80px" overflowX="hidden" py={{ base: "120px", md: "80px" }}>
           {children}
         </Box>
-        {/* <GetStartedSection /> */}
         <NewsletterSection />
         <HomepageFooter />
       </Flex>

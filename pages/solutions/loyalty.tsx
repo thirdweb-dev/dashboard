@@ -1,35 +1,41 @@
-import { Container, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
+import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHero } from "components/landing-pages/hero";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { LandingMainImage } from "components/landing-pages/main-image";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { Guide } from "components/landing-pages/types";
+import { GuideCard } from "components/product-pages/common/GuideCard";
 import { PageId } from "page-id";
 import { Card, Heading } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "loyalty";
 
-const CASE_STUDIES = [
+const GUIDES: Guide[] = [
   {
-    title: "Paper",
-    description:
-      "Used thirdweb's embedded minting SDK to launch their Quickstart product allowing non-crypto customers to launch an NFT collection in two steps.",
-    image: require("public/assets/solutions-pages/minting/paper-minting.png"),
-    link: "https://blog.withpaper.com/deploy-thirdweb-nft-contracts-using-paper/",
+    title: "Create a Shopify theme with thirdweb",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/03/Create-a-web3-Shopify-theme-with-thirdweb.png",
+    link: "https://blog.thirdweb.com/guides/create-a-shopify-theme-with-thirdweb/",
   },
   {
-    title: "Polygon 0xmint",
-    description:
-      "Integrated thirdweb's minting solution into the 0xmint minting API to allow developers to launch new NFT collections.",
-    image: require("public/assets/solutions-pages/minting/polygon-0xmint.png"),
-    link: "https://0xmint.io/",
+    title: "How to Create a Token Gated Website on Shopify using thirdweb",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/03/Create-a-token-gated-Shopify-store-2.png",
+    link: "https://blog.thirdweb.com/guides/token-nft-gated-shopify-website-thirdweb/",
+  },
+  {
+    title: "Generate Shopify Discount Codes For NFT Holders",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/03/Generate-Shopify-Discount-Codes-for-NFT-Holders.png",
+    link: "https://blog.thirdweb.com/guides/generate-shopify-discount-codes-for-nft-holders/",
   },
 ];
 
 const Loyalty: ThirdwebNextPage = () => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <LandingLayout
       seo={{
@@ -38,22 +44,22 @@ const Loyalty: ThirdwebNextPage = () => {
           "Activate new customer experiences that go beyond traditional tiered loyalty programs.",
       }}
     >
-      <LandingHero
-        title="Revitalize your"
-        titleWithGradient="loyalty programs."
-        subtitle="Activate new customer experiences that go beyond traditional tiered loyalty programs."
-        trackingCategory={TRACKING_CATEGORY}
-        ctaLink="https://portal.thirdweb.com/minting/getting-started/deploying-smart-contract"
-        gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-        inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
-        /*         image={require("public/assets/solutions-pages/minting/hero.png")} */
-      />
       <Container
         maxW="container.page"
         as={Flex}
         flexDir="column"
         gap={{ base: "80px", md: "120px" }}
       >
+        <LandingHero
+          title="Revitalize your"
+          titleWithGradient="loyalty programs."
+          subtitle="Activate new customer experiences that go beyond traditional tiered loyalty programs."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="https://thirdweb.com/explore"
+          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
+          /*         image={require("public/assets/solutions-pages/minting/hero.png")} */
+        />
         <LandingGridSection
           title={
             <Heading size="label.2xl" color="white">
@@ -113,6 +119,30 @@ const Loyalty: ThirdwebNextPage = () => {
             />
           </Card>
         </LandingGridSection>
+        <LandingGridSection
+          title={
+            <LandingSectionHeading
+              title="Let's get started."
+              blackToWhiteTitle="Guides"
+            />
+          }
+        >
+          {GUIDES.map((guide, idx) => (
+            <GuideCard
+              key={guide.title}
+              category={TRACKING_CATEGORY}
+              index={idx}
+              {...guide}
+            />
+          ))}
+        </LandingGridSection>
+        <LandingEndCTA
+          title="Kickstart your loyalty program"
+          titleWithGradient="today."
+          trackingCategory={TRACKING_CATEGORY}
+          ctaLink="https://thirdweb.com/explore"
+          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+        />
       </Container>
     </LandingLayout>
   );
