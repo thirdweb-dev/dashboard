@@ -30,7 +30,6 @@ const Loyalty: ThirdwebNextPage = () => {
         trackingCategory={TRACKING_CATEGORY}
         ctaLink="https://thirdweb.com/explore"
         gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-        inPartnershipWith={require("public/assets/solutions-pages/commerce/shopify.png")}
         image={require("public/assets/solutions-pages/loyalty/hero.png")}
         mobileImage={require("public/assets/solutions-pages/loyalty/hero-mobile.png")}
       />
@@ -112,7 +111,7 @@ const Loyalty: ThirdwebNextPage = () => {
         <LandingGridSection
           title={
             <LandingSectionHeading
-              title="CommerceKit."
+              title="Web3 Commerce."
               blackToWhiteTitle="Features"
             />
           }
@@ -120,7 +119,7 @@ const Loyalty: ThirdwebNextPage = () => {
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/loyalty/icon-4.png")}
-              title="Commerce Web3 SDK"
+              title="Commerce SDK"
               description="A few lines of code to enable web3 use cases, including: loyalty program, digital coupons, memberships, and certificate of authenticity."
             />
           </Card>
