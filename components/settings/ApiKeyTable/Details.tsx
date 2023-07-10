@@ -1,7 +1,7 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
 import { GenerateApiKeyButton } from "./GenerateButton";
 import { findByName } from "./services";
-import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
+import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
   Tab,
@@ -60,6 +60,16 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   //   }
   //   return <CodeBlock code={walletAddresses.join("\n")} />;
   // }, [walletAddresses]);
+
+  const renderServicesContent = (service: ApiKeyService) => {
+    if (service.targetAddresses.length === 0) {
+      return "None";
+    }
+    if (service.targetAddresses.includes("*")) {
+      return "Any";
+    }
+    return <CodeBlock code={service.targetAddresses.join("\n")} />;
+  };
 
   return (
     <Tabs defaultIndex={selectedSection} onChange={onSectionChange}>
@@ -151,13 +161,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
                   <ApiKeyDetailsRow
                     title="Allowed Target Addresses"
                     tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service via the configured Publishable Key.`}
-                    content={
-                      srv.targetAddresses.includes("*") ? (
-                        "Any"
-                      ) : (
-                        <CodeBlock code={srv.targetAddresses.join("\n")} />
-                      )
-                    }
+                    content={renderServicesContent(srv)}
                   />
                 </Card>
               ) : null;
