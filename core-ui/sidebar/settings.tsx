@@ -5,7 +5,7 @@ type SettingsSidebarProps = {
   activePage: string;
 };
 
-const links:Route[] = [
+const links: Route[] = [
   { path: "/settings/api-keys", title: "API Keys", name: "apiKeys" },
   {
     path: "/settings/ipfs-gateways",

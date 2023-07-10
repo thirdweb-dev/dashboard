@@ -1,33 +1,31 @@
 import { Flex } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/react";
 import { useUser } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
-import {
-  IpfsGatewayInfo,
-  IpfsGatewayTable,
-} from "components/settings/IpfsGatewayTable";
-import { AddIpfsGatewayButton } from "components/settings/IpfsGatewayTable/AddIpfsGatewayButton";
+import { IpfsGatewayModal } from "components/settings/IpfsGatewayTable/GatewayModal";
+import { IpfsGatewayTable } from "components/settings/IpfsGatewayTable/IpfsGatewayTable";
 import RequireAuth from "components/settings/RequireAuth";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
+import {
+  IpfsGatewayInfo,
+  useGetCustomIpfsGateways,
+} from "hooks/useGetCustomIpfsGateways";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { Heading, Link, Text } from "tw-components";
-import { isBrowser } from "utils/isBrowser";
+import { FiPlus } from "react-icons/fi";
+import { Button, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const SettingsIpfsGatewaysPage: ThirdwebNextPage = () => {
   const { user, isLoading } = useUser();
-  const [ipfsGateways, setIpfsGateways] = useState<IpfsGatewayInfo[]>([]);
-  
+  const [gatewayModalOpen, setEditModalOpen] = useState(false);
+  const [activeGateway, setActiveGateway] = useState<IpfsGatewayInfo>();
+  const _gateways = useGetCustomIpfsGateways();
+  const [gateways, setGateways] = useState<IpfsGatewayInfo[]>(_gateways);
+
   useEffect(() => {
-    if (!isBrowser()) return;
-    const item = window.localStorage.getItem('tw-settings-ipfs-gateways');
-    if (!item) return;
-    let gateways = JSON.parse(item);
-    if (!Array.isArray(gateways)) return;
-    gateways = gateways.filter(item => item.url);
-    console.log({gateways})
-    setIpfsGateways(gateways);
-  }, []);
+    setGateways(_gateways);
+  }, [_gateways]);
 
   if (isLoading) {
     return null;
@@ -36,30 +34,47 @@ const SettingsIpfsGatewaysPage: ThirdwebNextPage = () => {
   if (!user?.address) return <RequireAuth />;
 
   return (
-    <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
-      <Flex direction="column" gap={2}>
-        <Flex
-          justifyContent="space-between"
-          direction={{ base: "column", md: "row" }}
-          gap={4}
-        >
-          <Heading size="title.lg" as="h1">
-            IPFS Gateways
-          </Heading>
-          <AddIpfsGatewayButton />
+    <>
+      <IpfsGatewayModal
+        gateway={activeGateway}
+        setGateways={setGateways}
+        open={gatewayModalOpen}
+        onClose={() => {
+          setEditModalOpen(false);
+          setActiveGateway(undefined);
+        }}
+      />
+      <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }}>
+        <Flex direction="column" gap={2}>
+          <Flex
+            justifyContent="space-between"
+            direction={{ base: "column", md: "row" }}
+            gap={4}
+          >
+            <Heading size="title.lg" as="h1">
+              IPFS Gateways
+            </Heading>
+            <Button
+              onClick={() => setEditModalOpen(true)}
+              colorScheme="blue"
+              leftIcon={<Icon as={FiPlus} boxSize={4} />}
+            >
+              Add new gateway
+            </Button>
+          </Flex>
+          <Text>
+            Add your custom IPFS gateways to use it for the Dashboard. The keys
+            are stored in your browser and not collected by Thirdweb.
+          </Text>
         </Flex>
-        <Text>
-          Add your custom IPFS gateways to use it for the Dashboard. The keys
-          are stored in localStorage and not collected by Thirdweb.
-        </Text>
+        <IpfsGatewayTable
+          gateways={gateways}
+          setGateways={setGateways}
+          setEditModalOpen={setEditModalOpen}
+          setActiveGateway={setActiveGateway}
+        />
       </Flex>
-
-      <IpfsGatewayTable
-        gateways={ipfsGateways ? ipfsGateways : []}
-        isLoading={false}
-        isFetched={true}
-      />    
-    </Flex>
+    </>
   );
 };
 

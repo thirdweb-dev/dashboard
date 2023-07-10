@@ -16,6 +16,7 @@ import {
 } from "@thirdweb-dev/react";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { useSupportedChains } from "hooks/chains/configureChains";
+import { useGetCustomIpfsGateways } from "hooks/useGetCustomIpfsGateways";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
@@ -53,6 +54,10 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const supportedChains = useSupportedChains();
   const contractInfo = useEVMContractInfo();
   const chain = contractInfo?.chain;
+  const customIpfsGateways = useGetCustomIpfsGateways();
+  const gatewayUrls = customIpfsGateways.length
+    ? customIpfsGateways.map((item) => item.url)
+    : undefined;
   const readonlySettings = useMemo(() => {
     if (!chain) {
       return undefined;
@@ -81,6 +86,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
       sdkOptions={{
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings,
+        gatewayUrls,
       }}
       thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
       supportedWallets={[
