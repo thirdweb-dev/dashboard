@@ -1,6 +1,6 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
 import { GenerateApiKeyButton } from "./GenerateButton";
-import { findByName } from "./services";
+import { THIRDWEB_SERVICES, findByName } from "./services";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
@@ -72,6 +72,20 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     }
     return <CodeBlock code={service.targetAddresses.join("\n")} />;
   };
+
+  const sortedServices = useMemo(() => {
+    return (
+      services?.sort((a, b) => {
+        const keyA = THIRDWEB_SERVICES.findIndex(
+          (service) => service.name === a.name,
+        );
+        const keyB = THIRDWEB_SERVICES.findIndex(
+          (service) => service.name === b.name,
+        );
+        return keyA - keyB;
+      }) || []
+    );
+  }, [services]);
 
   return (
     <Tabs defaultIndex={selectedSection} onChange={onSectionChange}>
@@ -159,7 +173,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               </Text>
             )}
 
-            {(services || []).map((srv) => {
+            {sortedServices.map((srv) => {
               const service = findByName(srv.name);
 
               return service ? (
