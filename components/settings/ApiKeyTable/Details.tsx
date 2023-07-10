@@ -1,6 +1,6 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
 import { GenerateApiKeyButton } from "./GenerateButton";
-import { findActionByName, findByName } from "./services";
+import { findByName } from "./services";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
