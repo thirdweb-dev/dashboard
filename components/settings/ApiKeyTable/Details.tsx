@@ -11,6 +11,7 @@ import {
   Tabs,
   VStack,
 } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
 import { shortenString } from "utils/usedapp-external";
@@ -31,7 +32,6 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     key,
     secretMasked,
     domains,
-    walletAddresses,
     createdAt,
     updatedAt,
     lastAccessedAt,
@@ -39,6 +39,27 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   } = apiKey;
 
   const servicesCount = (services || []).length;
+
+  const domainsContent = useMemo(() => {
+    if (domains.length === 0) {
+      return "None";
+    }
+    if (domains.includes("*")) {
+      return "Any";
+    }
+    return <CodeBlock code={domains.join("\n")} />;
+  }, [domains]);
+
+  // FIXME: Enable when wallets restrictions is in use
+  // const walletsContent = useMemo(() => {
+  //   if (walletAddresses.length === 0) {
+  //     return "None";
+  //   }
+  //   if (walletAddresses.includes("*")) {
+  //     return "Any";
+  //   }
+  //   return <CodeBlock code={walletAddresses.join("\n")} />;
+  // }, [walletAddresses]);
 
   return (
     <Tabs defaultIndex={selectedSection} onChange={onSectionChange}>
@@ -51,8 +72,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
         <TabPanel>
           <VStack alignItems="flex-start" w="full" gap={4} pt={4}>
             <ApiKeyDetailsRow
-              title="Key"
-              tooltip="The Key is provided in x-api-key header and restricted by the access controls (domains, wallets, services, etc.) when accessing thirdweb services."
+              title="Publishable Key"
+              tooltip="Set the Publishable Key in x-api-key header to access configured thirdweb services."
               content={
                 <CodeBlock codeValue={key} code={shortenString(key, false)} />
               }
@@ -60,7 +81,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Secret"
-              tooltip="The Secret is provided in x-api-secret header and has full, unrestricted access to all thirdweb services."
+              tooltip="Set the Secret Key in x-api-secret header to have full, unrestricted access to all thirdweb services."
               content={
                 <Box position="relative" w="full">
                   <CodeBlock code={secretMasked} canCopy={false} />
@@ -71,27 +92,17 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Allowed Domains"
-              tooltip="The list of origin domains allowed to access thirdweb services via the configured Public API Key."
-              content={
-                domains.includes("*") ? (
-                  "Any"
-                ) : (
-                  <CodeBlock code={domains.join("\n")} />
-                )
-              }
+              tooltip="The list of origin domains allowed to access thirdweb services via the configured Publishable Key."
+              content={domainsContent}
             />
 
+            {/*
+            FIXME: Enable when wallets restrictions is in use
             <ApiKeyDetailsRow
               title="Allowed Wallet Addresses"
-              tooltip="The list of wallet address allowed to access thirdweb services via the configured Public API Key."
-              content={
-                walletAddresses.includes("*") ? (
-                  "Any"
-                ) : (
-                  <CodeBlock code={walletAddresses.join("\n")} />
-                )
-              }
-            />
+              tooltip="The list of wallet addresses allowed to access thirdweb services via the configured Publishable Key."
+              content={walletsContent}
+            /> */}
 
             <ApiKeyDetailsRow
               title="Created"
@@ -111,7 +122,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
         </TabPanel>
 
         <TabPanel>
-          <VStack alignItems="flex-start" w="full" gap={4} pt={3}>
+          <VStack alignItems="flex-start" w="full" gap={3} pt={3}>
             {servicesCount === 0 && (
               <Text>
                 There are no services linked to this API Key. It can be used to
@@ -138,13 +149,13 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
                   </Text>
 
                   <ApiKeyDetailsRow
-                    title="Allowed Contract Addresses"
-                    tooltip={`The list of contract address allowed to access thirdweb ${service.title} service via the configured Public API Key.`}
+                    title="Allowed Target Addresses"
+                    tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service via the configured Publishable Key.`}
                     content={
-                      srv.contractAddresses.includes("*") ? (
+                      srv.targetAddresses.includes("*") ? (
                         "Any"
                       ) : (
-                        <CodeBlock code={srv.contractAddresses.join("\n")} />
+                        <CodeBlock code={srv.targetAddresses.join("\n")} />
                       )
                     }
                   />

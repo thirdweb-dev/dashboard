@@ -1,4 +1,4 @@
-import { ApiKeysModal } from "./KeysModal";
+import { ApiKeysCreateModal } from "./CreateKeyModal";
 import { ApiKey, useGenerateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   AlertDialog,
@@ -71,7 +71,7 @@ export const GenerateApiKeyButton: React.FC<GenerateApiKeyButtonProps> = ({
       </Button>
 
       {generatedKey && (
-        <ApiKeysModal
+        <ApiKeysCreateModal
           open={keyModalOpen}
           apiKey={generatedKey}
           onClose={keyModalOnClose}

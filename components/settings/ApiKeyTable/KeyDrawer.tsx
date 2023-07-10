@@ -1,9 +1,11 @@
 import { ApiKeyDetails } from "./Details";
 import { ApiKeyKeyForm } from "./KeyForm";
 import { RevokeApiKeyButton } from "./RevokeButton";
+import { toastMessages } from "./messages";
+import { THIRDWEB_SERVICES } from "./services";
 import { ApiKeyFormValues, DrawerSection } from "./types";
 import { ApiKey, useUpdateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
-import { HStack } from "@chakra-ui/react";
+import { HStack, useToast } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -22,20 +24,30 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const { id, name, domains, walletAddresses, services } = apiKey;
+  const { id, name, domains, services } = apiKey;
   const [editing, setEditing] = useState(false);
   const mutation = useUpdateApiKey();
   const [selectedSection, setSelectedSection] = useState(DrawerSection.General);
+  const toast = useToast();
 
   const form = useForm<ApiKeyFormValues>({
     values: {
       name,
       domains: fromArrayToList(domains),
-      walletAddresses: fromArrayToList(walletAddresses),
-      services: (services || []).map((srv) => ({
-        ...srv,
-        contractAddresses: fromArrayToList(srv.contractAddresses),
-      })),
+      // FIXME: Enable when wallets restrictions is in use
+      // walletAddresses: fromArrayToList(walletAddresses),
+      services: THIRDWEB_SERVICES.map((srv) => {
+        const existingService = (services || []).find(
+          (s) => s.name === srv.name,
+        );
+        return {
+          name: srv.name,
+          targetAddresses: existingService
+            ? fromArrayToList(existingService.targetAddresses)
+            : "*",
+          enabled: !!existingService,
+        };
+      }),
     },
   });
 
@@ -45,25 +57,36 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
   );
 
   const handleSubmit = form.handleSubmit((values) => {
-    const formattedValues = {
-      id,
-      name: values.name,
-      domains: toArrFromList(values.domains),
-      walletAddresses: toArrFromList(values.walletAddresses),
-      services: (values.services || []).map((srv) => ({
-        ...srv,
-        contractAddresses: toArrFromList(srv.contractAddresses),
-      })),
-    };
+    const enabledServices = (values.services || []).filter(
+      (srv) => !!srv.enabled,
+    );
 
-    mutation.mutate(formattedValues, {
-      onSuccess: (data) => {
-        onSubmit(data);
-        onSuccess();
-        setEditing(false);
-      },
-      onError,
-    });
+    if (enabledServices.length > 0) {
+      const formattedValues = {
+        id,
+        name: values.name,
+        domains: toArrFromList(values.domains),
+        // FIXME: Enable when wallets restrictions is in use
+        // walletAddresses: toArrFromList(values.walletAddresses),
+        services: (values.services || [])
+          .filter((srv) => srv.enabled)
+          .map((srv) => ({
+            ...srv,
+            targetAddresses: toArrFromList(srv.targetAddresses),
+          })),
+      };
+
+      mutation.mutate(formattedValues, {
+        onSuccess: (data) => {
+          onSubmit(data);
+          onSuccess();
+          setEditing(false);
+        },
+        onError,
+      });
+    } else {
+      toast(toastMessages.updateServices);
+    }
   });
 
   const renderActions = () => {
@@ -79,11 +102,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
     }
     return (
       <>
-        <Button
-          colorScheme="secondary"
-          variant="link"
-          onClick={() => setEditing(false)}
-        >
+        <Button variant="outline" onClick={() => setEditing(false)}>
           Cancel
         </Button>
 

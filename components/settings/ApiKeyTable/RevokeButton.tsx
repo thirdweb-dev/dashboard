@@ -45,7 +45,7 @@ export const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({
 
   return (
     <>
-      <Button colorScheme="red" variant="link" onClick={onOpen}>
+      <Button colorScheme="red" onClick={onOpen}>
         Revoke
       </Button>
 
@@ -61,7 +61,7 @@ export const RevokeApiKeyButton: React.FC<RevokeApiKeyButtonProps> = ({
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to revoke <strong>{name}</strong> key? Any
+              Are you sure you want to revoke <strong>{name}</strong>? Any
               integrations using this key will no longer be able to access
               thirdweb services.
             </AlertDialogBody>

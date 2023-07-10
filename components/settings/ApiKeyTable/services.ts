@@ -4,7 +4,7 @@ import { ThirdwebService } from "./types";
 export const THIRDWEB_SERVICES: ThirdwebService[] = [
   {
     name: "bundler",
-    title: "Bundler",
+    title: "Smart Wallets",
     description: "Bundler & Paymaster services",
   },
 ];

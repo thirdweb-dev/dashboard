@@ -5,13 +5,14 @@ export enum DrawerSection {
 
 export interface ApiKeyFormServiceValues {
   name: string;
-  contractAddresses: string;
+  targetAddresses: string;
+  enabled?: boolean;
 }
 
 export interface ApiKeyFormValues {
   name: string;
   domains: string;
-  walletAddresses: string;
+  walletAddresses?: string;
   services?: ApiKeyFormServiceValues[];
 }
 

@@ -8,7 +8,7 @@ import invariant from "tiny-invariant";
 export type ApiKeyService = {
   id: string;
   name: string;
-  contractAddresses: string[];
+  targetAddresses: string[];
 };
 
 export type ApiKey = {
@@ -30,14 +30,21 @@ export type ApiKey = {
 
 export interface UpdateKeyServiceInput {
   name: string;
-  contractAddresses: string[];
+  targetAddresses: string[];
+}
+
+export interface CreateKeyInput {
+  name?: string;
+  domains?: string[];
+  walletAddresses?: string[];
+  services?: UpdateKeyServiceInput[];
 }
 
 export interface UpdateKeyInput {
   id: string;
   name: string;
   domains: string[];
-  walletAddresses: string[];
+  walletAddresses?: string[];
   services?: UpdateKeyServiceInput[];
 }
 
@@ -71,7 +78,7 @@ export function useCreateApiKey() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async () => {
+    async (input: CreateKeyInput) => {
       invariant(user, "No user is logged in");
 
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys`, {
@@ -80,7 +87,7 @@ export function useCreateApiKey() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify(input),
       });
       const json = await res.json();
 
@@ -108,20 +115,13 @@ export function useUpdateApiKey() {
     async (input: UpdateKeyInput) => {
       invariant(user, "No user is logged in");
 
-      const body = {
-        name: input.name,
-        domains: input.domains,
-        walletAddresses: input.walletAddresses,
-        services: input.services,
-      };
-
       const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/${input.id}`, {
         method: "PUT",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(input),
       });
       const json = await res.json();
 

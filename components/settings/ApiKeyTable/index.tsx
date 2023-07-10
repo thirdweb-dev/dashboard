@@ -1,12 +1,13 @@
 import { CopyApiKeyButton } from "./CopyButton";
 import { ApiKeyDrawer } from "./KeyDrawer";
+import { findByName } from "./services";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
-import { useDisclosure } from "@chakra-ui/react";
+import { VStack, useDisclosure } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
 import { format } from "date-fns";
 import { useState } from "react";
-import { Text } from "tw-components";
+import { Badge, Text } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
 interface ApiKeyTableProps {
@@ -38,11 +39,6 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
       ),
     }),
 
-    columnHelper.accessor("secretMasked", {
-      header: "Secret",
-      cell: (cell) => <Text fontFamily="mono">{cell.getValue()}</Text>,
-    }),
-
     columnHelper.accessor("createdAt", {
       header: "Created",
       cell: (cell) => {
@@ -60,11 +56,39 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
       header: "Last accessed",
       cell: (cell) => {
         const value = cell.getValue() as string;
-
         const accessedDate = value
           ? format(new Date(value), "MMM dd, yyyy")
           : "Unknown";
         return <Text>{accessedDate}</Text>;
+      },
+    }),
+
+    columnHelper.accessor("services", {
+      header: "Services",
+      cell: (cell) => {
+        const value = cell.getValue();
+        if (!value || value.length === 0) {
+          return <Text>None</Text>;
+        }
+
+        return (
+          <VStack alignItems="flex-start" w="full">
+            {value.map((srv) => {
+              const service = findByName(srv.name);
+              return (
+                <Badge
+                  key={srv.name}
+                  textTransform="capitalize"
+                  colorScheme="blue"
+                  px={2}
+                  rounded="md"
+                >
+                  {service?.title}
+                </Badge>
+              );
+            })}
+          </VStack>
+        );
       },
     }),
   ];
