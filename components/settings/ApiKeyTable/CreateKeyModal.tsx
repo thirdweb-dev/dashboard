@@ -38,20 +38,22 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
   const renderKeys = () => {
     return (
       <>
-        <Text>
-          Here is your API Publishable Key and how you can use it with thirdweb
-          SDK:
-        </Text>
         <VStack gap={4} pt={4}>
           <ApiKeyDetailsRow
-            title="Key"
+            title="Publishable Key"
             content={
-              <CodeBlock
-                language="ts"
-                code={`new ThirdwebSDK("goerli", {
+              <VStack gap={2} w="full" alignItems="flex-start">
+                <CodeBlock code={key as string} />
+                <Text>
+                  An example how to use Publishable key with thirdweb SDK:
+                </Text>
+                <CodeBlock
+                  language="ts"
+                  code={`new ThirdwebSDK("goerli", {
   thirdwebAPIKey: "${key}"
 }`}
-              />
+                />
+              </VStack>
             }
           />
           <Text fontWeight="bold">
