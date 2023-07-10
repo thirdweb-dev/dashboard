@@ -3,7 +3,6 @@ import { ApiKeyKeyForm } from "./KeyForm";
 import { ApiKeyFormValues } from "./types";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
-  Code,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -40,24 +39,25 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
     return (
       <>
         <Text>
-          Set the <em>Publishable Key</em> in <Code>x-api-key</Code> header to
-          access configured thirdweb services.
-          <br />
-          <br />
-          Set the <em>Secret</em> in <Code>x-api-secret</Code> header to have
-          full, unrestricted access to all thirdweb services.
-          <br />
-          <br />
-          <strong>
-            Store the API Secret in a secured place and never share it. You will
-            only see it once, but can always regenerate a new one later.
-          </strong>
+          Here is your API Publishable Key and how you can use it with thirdweb
+          SDK:
         </Text>
-        <VStack gap={4} pt={6}>
+        <VStack gap={4} pt={4}>
           <ApiKeyDetailsRow
             title="Key"
-            content={<CodeBlock codeValue={key} code={key as string} />}
+            content={
+              <CodeBlock
+                language="ts"
+                code={`new ThirdwebSDK("goerli", {
+  thirdwebAPIKey: "${key}"
+}`}
+              />
+            }
           />
+          <Text fontWeight="bold">
+            Store the API Secret in a secured place and never share it. You will
+            only see it once, but can always regenerate a new one later.
+          </Text>
           <ApiKeyDetailsRow
             title="Secret"
             content={<CodeBlock codeValue={secret} code={secret as string} />}

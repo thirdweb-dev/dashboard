@@ -83,15 +83,26 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
           <VStack alignItems="flex-start" w="full" gap={4} pt={4}>
             <ApiKeyDetailsRow
               title="Publishable Key"
-              tooltip="Set the Publishable Key in x-api-key header to access configured thirdweb services."
+              tooltip="Set the Publishable Key in Authorization Bearer header to access configured thirdweb services."
               content={
-                <CodeBlock codeValue={key} code={shortenString(key, false)} />
+                <VStack gap={2} w="full" alignItems="flex-start">
+                  <CodeBlock codeValue={key} code={shortenString(key, false)} />
+                  <Text>
+                    An example how to use Publishable key with thirdweb SDK:
+                  </Text>
+                  <CodeBlock
+                    language="ts"
+                    code={`new ThirdwebSDK("goerli", {
+  thirdwebAPIKey: "${key}"
+}`}
+                  />
+                </VStack>
               }
             />
 
             <ApiKeyDetailsRow
               title="Secret"
-              tooltip="Set the Secret Key in x-api-secret header to have full, unrestricted access to all thirdweb services."
+              tooltip="Set the Secret Key in Authorization Bearer header to have full, unrestricted access to all thirdweb services."
               content={
                 <Box position="relative" w="full">
                   <CodeBlock code={secretMasked} canCopy={false} />
