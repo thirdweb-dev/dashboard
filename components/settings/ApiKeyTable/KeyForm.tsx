@@ -12,11 +12,13 @@ import {
   TabPanels,
   Tabs,
   Textarea,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 import {
   Card,
+  Checkbox,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
@@ -62,6 +64,14 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
         </FormControl>
       </>
     );
+  };
+
+  const handleEnableAction = (
+    srvIdx: number,
+    actionName: string,
+    checked: boolean,
+  ) => {
+    console.log({ srvIdx, actionName, checked });
   };
 
   const renderGeneral = () => {
@@ -133,20 +143,61 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                   />
                 </HStack>
 
-                <FormControl>
-                  <FormLabel>Allowed Target addresses</FormLabel>
-                  <Textarea
-                    disabled={!srv.enabled}
-                    placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
-                    {...form.register(`services.${idx}.targetAddresses`)}
-                  />
-                  <FormHelperText>
-                    New line or comma-separated list of contract/wallet
-                    addresses.
-                    <br />
-                    To allow any target, set to <code>*</code>.
-                  </FormHelperText>
-                </FormControl>
+                {service.name === "bundler" && (
+                  <FormControl>
+                    <FormLabel>Allowed Target addresses</FormLabel>
+                    <Textarea
+                      disabled={!srv.enabled}
+                      placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
+                      {...form.register(`services.${idx}.targetAddresses`)}
+                    />
+                    <FormHelperText>
+                      New line or comma-separated list of contract/wallet
+                      addresses.
+                      <br />
+                      To allow any target, set to <code>*</code>.
+                    </FormHelperText>
+                  </FormControl>
+                )}
+
+                {service.actions.length > 0 && (
+                  <FormControl>
+                    <HStack gap={4}>
+                      {service.actions.map((sa) => (
+                        <Tooltip
+                          key={sa.name}
+                          label={
+                            <Card py={2} px={4} bgColor="backgroundHighlight">
+                              <Text fontSize="small" lineHeight={6}>
+                                {sa.description}
+                              </Text>
+                            </Card>
+                          }
+                          p={0}
+                          bg="transparent"
+                          boxShadow="none"
+                        >
+                          <HStack gap={1} cursor="help">
+                            <Checkbox
+                              isChecked={srv.actions.includes(sa.name)}
+                              onChange={({ target: { checked } }) =>
+                                update(idx, {
+                                  ...srv,
+                                  actions: checked
+                                    ? [...(srv.actions || []), sa.name]
+                                    : (srv.actions || []).filter(
+                                        (a) => a !== sa.name,
+                                      ),
+                                })
+                              }
+                            />
+                            <Text>{sa.title}</Text>
+                          </HStack>
+                        </Tooltip>
+                      ))}
+                    </HStack>
+                  </FormControl>
+                )}
               </Card>
             ) : null;
           })}

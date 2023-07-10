@@ -1,18 +1,20 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
 import { GenerateApiKeyButton } from "./GenerateButton";
-import { findByName } from "./services";
+import { findActionByName, findByName } from "./services";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
+  HStack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Tooltip,
   VStack,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { Card, CodeBlock, Heading, Text } from "tw-components";
+import { Badge, Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
 import { shortenString } from "utils/usedapp-external";
 
@@ -169,11 +171,49 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
                     {service.description}
                   </Text>
 
-                  <ApiKeyDetailsRow
-                    title="Allowed Target Addresses"
-                    tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service via the configured Publishable Key.`}
-                    content={renderServicesContent(srv)}
-                  />
+                  {service.name === "bundler" && (
+                    <ApiKeyDetailsRow
+                      title="Allowed Target Addresses"
+                      tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service via the configured Publishable Key.`}
+                      content={renderServicesContent(srv)}
+                    />
+                  )}
+
+                  {srv.actions.length > 0 && (
+                    <HStack>
+                      {srv.actions.map((actionName) => {
+                        const action = service.actions.find(
+                          (sa) => sa.name === actionName,
+                        );
+
+                        return action ? (
+                          <Tooltip
+                            p={0}
+                            bg="transparent"
+                            boxShadow={"none"}
+                            label={
+                              <Card py={2} px={4} bgColor="backgroundHighlight">
+                                <Text size="label.sm">
+                                  {action.description}
+                                </Text>
+                              </Card>
+                            }
+                          >
+                            <Badge
+                              key={action.name}
+                              textTransform="capitalize"
+                              colorScheme="blue"
+                              px={2}
+                              rounded="md"
+                              cursor="help"
+                            >
+                              {action.title}
+                            </Badge>
+                          </Tooltip>
+                        ) : null;
+                      })}
+                    </HStack>
+                  )}
                 </Card>
               ) : null;
             })}

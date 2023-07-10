@@ -7,6 +7,7 @@ export interface ApiKeyFormServiceValues {
   name: string;
   targetAddresses: string;
   enabled?: boolean;
+  actions: string[];
 }
 
 export interface ApiKeyFormValues {
@@ -17,8 +18,7 @@ export interface ApiKeyFormValues {
 }
 
 // FIXME: Extract these into lib
-// add more | 'ipfs' | 'etc'
-export type ThirdwebServiceName = "bundler";
+export type ThirdwebServiceName = "bundler" | "rpc" | "storage";
 
 export interface ThirdwebServiceAction {
   name: string;
@@ -30,5 +30,5 @@ export interface ThirdwebService {
   name: ThirdwebServiceName;
   title: string;
   description?: string;
-  actions?: ThirdwebServiceAction[];
+  actions: ThirdwebServiceAction[];
 }

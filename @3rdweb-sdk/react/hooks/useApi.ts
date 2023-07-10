@@ -9,6 +9,7 @@ export type ApiKeyService = {
   id: string;
   name: string;
   targetAddresses: string[];
+  actions: string[];
 };
 
 export type ApiKey = {

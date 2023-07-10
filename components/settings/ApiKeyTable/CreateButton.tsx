@@ -27,6 +27,7 @@ export const CreateApiKeyButton: React.FC = () => {
           name: srv.name,
           targetAddresses: "*",
           enabled: true,
+          actions: srv.actions.map((sa) => sa.name),
         };
       }),
     },
