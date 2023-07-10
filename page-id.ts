@@ -109,6 +109,9 @@ export enum PageId {
   // thirdweb.com/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
 
+  // thirdweb.com/settings/ipfs-gateways
+  SettingsIpfsGateways = "settings-ipfs-gateways",
+
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------

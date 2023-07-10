@@ -2,11 +2,16 @@ import { SidebarNav } from "./nav";
 import { Route } from "./types";
 
 type SettingsSidebarProps = {
-  activePage: "apiKeys";
+  activePage: string;
 };
 
-const links: Route[] = [
+const links = [
   { path: "/settings/api-keys", title: "API Keys", name: "apiKeys" },
+  {
+    path: "/settings/ipfs-gateways",
+    title: "IPFS Gateways",
+    name: "ipfsGateways",
+  },
 ];
 
 export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
