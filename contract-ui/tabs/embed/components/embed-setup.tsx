@@ -107,7 +107,9 @@ const buildIframeSrc = (
     biconomyApiId,
   } = options;
 
-  const url = new URL(`https://${contractEmbedHash}.dweb.link/${contractPath}`);
+  const url = new URL(
+    `https://${contractEmbedHash}.gateway.ipfscdn.io/${contractPath}`,
+  );
 
   url.searchParams.append("contract", contract.getAddress());
   url.searchParams.append("chain", chain);
