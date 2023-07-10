@@ -6,7 +6,6 @@ export function useLocalStorage<TType>(
   initialValue: TType,
   serverSideFallback: TType = initialValue,
 ) {
-  
   const [value, _setValue] = useState<TType>(serverSideFallback);
 
   useEffect(() => {
