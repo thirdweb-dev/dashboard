@@ -38,7 +38,7 @@ await personalWallet.connect();
 const config = {
   chain: Goerli, // the chain where your smart wallet will be or is deployed
   factoryAddress: "0x...", // your own deployed account factory address
-  thirdwebApiKey: "THIRDWEB_API_KEY", // obtained from the thirdweb dashboard
+  apiKey: "THIRDWEB_API_KEY", // obtained from the thirdweb dashboard
   gasless: true, // enable or disable gasless transactions
 };
 

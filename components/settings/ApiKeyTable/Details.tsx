@@ -13,7 +13,7 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Badge, Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
 import { shortenString } from "utils/usedapp-external";
@@ -28,6 +28,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   selectedSection,
   onSectionChange,
 }) => {
+  const [generatedKey, setGeneratedKey] = useState<ApiKey>(apiKey);
+
   const {
     id,
     name,
@@ -38,7 +40,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     updatedAt,
     lastAccessedAt,
     services,
-  } = apiKey;
+  } = generatedKey;
 
   const servicesCount = (services || []).length;
 
@@ -109,7 +111,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
                   <CodeBlock
                     language="ts"
                     code={`new ThirdwebSDK("goerli", {
-  thirdwebAPIKey: "${key}"
+  apiKey: "${key}"
 }`}
                   />
                 </VStack>
@@ -122,7 +124,12 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               content={
                 <Box position="relative" w="full">
                   <CodeBlock code={secretMasked} canCopy={false} />
-                  <GenerateApiKeyButton id={id} name={name} />
+                  <GenerateApiKeyButton
+                    id={id}
+                    name={name}
+                    generatedKey={generatedKey}
+                    setGeneratedKey={setGeneratedKey}
+                  />
                 </Box>
               }
             />

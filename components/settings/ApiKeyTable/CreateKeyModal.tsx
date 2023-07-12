@@ -50,20 +50,27 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
                 <CodeBlock
                   language="ts"
                   code={`new ThirdwebSDK("goerli", {
-  thirdwebAPIKey: "${key}"
+  apiKey: "${key}"
 }`}
                 />
               </VStack>
             }
           />
-          <Text fontWeight="bold">
-            Store the API Secret in a secured place and never share it. You will
-            only see it once, but can always regenerate a new one later.
-          </Text>
-          <ApiKeyDetailsRow
-            title="Secret"
-            content={<CodeBlock codeValue={secret} code={secret as string} />}
-          />
+          {secret && (
+            <>
+              <Text fontWeight="bold">
+                Store the API Secret in a secured place and never share it. You
+                will only see it once, but can always regenerate a new one
+                later.
+              </Text>
+              <ApiKeyDetailsRow
+                title="Secret"
+                content={
+                  <CodeBlock codeValue={secret} code={secret as string} />
+                }
+              />
+            </>
+          )}
         </VStack>
       </>
     );
@@ -91,7 +98,7 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
             isLoading={loading}
             disabled={loading}
           >
-            {apiKey ? "I've copied the Secret" : "Create"}
+            {apiKey ? "I've copied the Secret" : secret ? "Okay" : "Create"}
           </Button>
         </ModalFooter>
       </ModalContent>
