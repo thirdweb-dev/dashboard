@@ -123,7 +123,10 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               tooltip="Set the Secret Key in Authorization Bearer header to have full, unrestricted access to all thirdweb services."
               content={
                 <Box position="relative" w="full">
-                  <CodeBlock code={secretMasked} canCopy={false} />
+                  <CodeBlock
+                    code={secretMasked || "No secret created yet"}
+                    canCopy={false}
+                  />
                   <GenerateApiKeyButton
                     id={id}
                     name={name}

@@ -98,7 +98,7 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
             isLoading={loading}
             disabled={loading}
           >
-            {apiKey ? "I've copied the Secret" : secret ? "Okay" : "Create"}
+            {!secret ? "Okay" : apiKey ? "I've copied the Secret" : "Create"}
           </Button>
         </ModalFooter>
       </ModalContent>
