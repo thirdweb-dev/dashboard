@@ -48,6 +48,11 @@ const Polygon: CurrencyMetadata[] = [
     ...NATIVE_TOKENS[ChainId.Polygon].wrapped,
   },
   {
+    address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+    name: "Wrapped Ether",
+    symbol: "WETH",
+  },
+  {
     address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
     name: "USD Coin",
     symbol: "USDC",
