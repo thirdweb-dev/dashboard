@@ -6,9 +6,9 @@ type SettingsSidebarProps = {
 };
 
 const links: Route[] = [
-  { path: "/settings/api-keys", title: "API Keys", name: "apiKeys" },
+  { path: "/dashboard/settings/api-keys", title: "API Keys", name: "apiKeys" },
   {
-    path: "/settings/ipfs-gateways",
+    path: "/dashboard/settings/ipfs-gateways",
     title: "IPFS Gateways",
     name: "ipfsGateways",
   },

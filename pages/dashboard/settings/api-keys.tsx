@@ -4,7 +4,7 @@ import { Container, Divider, Flex } from "@chakra-ui/react";
 import { useUser } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ApiKeyTable } from "components/settings/ApiKeyTable";
-import { CreateApiKeyButton } from "components/settings/CreateApiKeyButton";
+import { CreateApiKeyButton } from "components/settings/ApiKeyTable/CreateButton";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { Card, Heading, Link, Text } from "tw-components";
@@ -50,16 +50,24 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
           <CreateApiKeyButton />
         </Flex>
         <Text>
-          API keys are required to work with thirdweb&apos;s smart wallet
-          infrastructure services. Find the full list of supported networks{" "}
+          An API key is required to use thirdweb&apos;s infrastructure services
+          such as{" "}
           <Link
             href="https://portal.thirdweb.com/wallet/smart-wallet"
             color="blue.500"
             isExternal
           >
-            here
+            Smart Wallet
           </Link>
-          .
+          ,{" "}
+          <Link
+            href="https://portal.thirdweb.com/storage"
+            color="blue.500"
+            isExternal
+          >
+            Storage
+          </Link>{" "}
+          and RPCs.
         </Text>
       </Flex>
 
