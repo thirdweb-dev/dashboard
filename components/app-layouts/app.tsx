@@ -35,6 +35,7 @@ import {
 } from "hooks/networkConfigModal";
 import { del, get, set } from "idb-keyval";
 import posthog from "posthog-js";
+import { DashboardApiKeyProvider } from "providers/dashboard-apikey-provider";
 import React, { useEffect, useMemo, useState } from "react";
 import { Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
@@ -133,14 +134,16 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
             <AllChainsProvider>
               <ChainsProvider>
                 <EVMContractInfoProvider value={props.contractInfo}>
-                  <DashboardThirdwebProvider>
-                    <SanctionedAddressesChecker>
-                      <PHIdentifier />
-                      <PrivacyNotice />
-                      <AppShell {...props} />
-                      <ConfigModal />
-                    </SanctionedAddressesChecker>
-                  </DashboardThirdwebProvider>
+                  <DashboardApiKeyProvider>
+                    <DashboardThirdwebProvider>
+                      <SanctionedAddressesChecker>
+                        <PHIdentifier />
+                        <PrivacyNotice />
+                        <AppShell {...props} />
+                        <ConfigModal />
+                      </SanctionedAddressesChecker>
+                    </DashboardThirdwebProvider>
+                  </DashboardApiKeyProvider>
                 </EVMContractInfoProvider>
               </ChainsProvider>
             </AllChainsProvider>

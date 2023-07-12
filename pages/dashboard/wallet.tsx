@@ -11,6 +11,7 @@ import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { ChainIcon } from "components/icons/ChainIcon";
 import { PageId } from "page-id";
+import { useDashboardApiKey } from "providers/dashboard-apikey-provider";
 import React, { useMemo, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { Card, CodeBlock, Heading, Link, Text } from "tw-components";
@@ -706,6 +707,7 @@ interface ConnectWalletWithPreviewProps {
 const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
   code,
 }) => {
+  const apiKey = useDashboardApiKey();
   const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("light");
   return (
     <SimpleGrid columns={{ base: 6, md: 12 }} gap={8} mt={8}>
@@ -728,6 +730,7 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
                 coinbaseWallet(),
                 walletConnect(),
               ]}
+              thirdwebApiKey={apiKey}
             >
               <ConnectWallet
                 theme={selectedTheme}

@@ -18,7 +18,10 @@ import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { getDashboardChainRpc } from "lib/rpc";
-import { StorageSingleton } from "lib/sdk";
+import {
+  DashboardApiKeySetter,
+  useDashboardApiKey,
+} from "providers/dashboard-apikey-provider";
 import { useMemo } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 
@@ -67,6 +70,8 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
     };
   }, [chain]);
 
+  const apiKey = useDashboardApiKey();
+
   return (
     <ThirdwebProvider
       queryClient={queryClient}
@@ -82,19 +87,20 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         gasSettings: { maxPriceInGwei: 650 },
         readonlySettings,
       }}
-      thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
+      thirdwebApiKey={apiKey || DASHBOARD_THIRDWEB_API_KEY}
       supportedWallets={[
         ...personalWallets,
         safeWallet({
           personalWallets,
         }),
       ]}
-      storageInterface={StorageSingleton}
       authConfig={{
         domain: THIRDWEB_DOMAIN,
         authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
       }}
     >
+      {/* DO NOT MOVE THIS */}
+      <DashboardApiKeySetter />
       <SolanaProvider>{children}</SolanaProvider>
     </ThirdwebProvider>
   );

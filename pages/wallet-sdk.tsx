@@ -344,6 +344,7 @@ const WalletSDK: ThirdwebNextPage = () => {
           >
             Connect Wallet Button
           </Heading>
+          {/* TODO fix this */}
           <ThirdwebProvider
             activeChain="goerli"
             supportedWallets={[

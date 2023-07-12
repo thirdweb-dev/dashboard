@@ -14,6 +14,8 @@ export const apiKeys = {
     [...apiKeys.wallet(walletAddress), "keys"] as const,
   key: (id: string, walletAddress: string) =>
     [...apiKeys.keys(walletAddress), id] as const,
+  dashboardApiKey: (walletAddress: string) =>
+    [...apiKeys.wallet(walletAddress), "special-dashboardApiKey"] as const,
 };
 
 export const contractKeys = {

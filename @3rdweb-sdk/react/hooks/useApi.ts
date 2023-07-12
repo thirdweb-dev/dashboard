@@ -49,6 +49,32 @@ export interface UpdateKeyInput {
   services?: UpdateKeyServiceInput[];
 }
 
+export function useSpecialDashboardApiKey() {
+  const { user } = useUser();
+
+  return useQuery({
+    queryKey: apiKeys.dashboardApiKey(user?.address || "_NOT_A_REAL_USER_"),
+    enabled: !!user?.address,
+    queryFn: async () => {
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/special`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
+      }
+
+      return json.data.key as string;
+    },
+  });
+}
+
 export function useApiKeys() {
   const { user } = useUser();
 
