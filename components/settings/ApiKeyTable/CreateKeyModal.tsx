@@ -3,6 +3,11 @@ import { ApiKeyKeyForm } from "./KeyForm";
 import { ApiKeyFormValues } from "./types";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -14,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { Button, CodeBlock, Text } from "tw-components";
+import { Button, CodeBlock, Heading, Text } from "tw-components";
 
 interface ApiKeysCreateModalProps {
   apiKey?: ApiKey | null;
@@ -33,42 +38,39 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const { name, key, secret } = apiKey || {};
+  const { name, secret } = apiKey || {};
 
   const renderKeys = () => {
     return (
       <>
-        <VStack gap={4} pt={4}>
-          <ApiKeyDetailsRow
-            title="Publishable Key"
-            content={
-              <VStack gap={2} w="full" alignItems="flex-start">
-                <CodeBlock code={key as string} />
-                <Text>
-                  An example how to use Publishable key with thirdweb SDK:
-                </Text>
-                <CodeBlock
-                  language="ts"
-                  code={`new ThirdwebSDK("goerli", {
-  apiKey: "${key}"
-}`}
-                />
-              </VStack>
-            }
-          />
+        <VStack gap={4}>
           {secret && (
             <>
-              <Text fontWeight="bold">
-                Store the API Secret in a secured place and never share it. You
-                will only see it once, but can always regenerate a new one
-                later.
-              </Text>
               <ApiKeyDetailsRow
-                title="Secret"
+                title="Secret Key"
                 content={
-                  <CodeBlock codeValue={secret} code={secret as string} />
+                  <CodeBlock
+                    codeValue={secret}
+                    code={secret}
+                    whiteSpace="pre"
+                  />
                 }
               />
+
+              <Alert status="warning" variant="left-accent">
+                <AlertIcon />
+                <Flex direction="column" gap={2}>
+                  <Heading as={AlertTitle} size="label.md">
+                    Secret Key Handling
+                  </Heading>
+                  <Text as={AlertDescription} size="body.md">
+                    Store the Secret Key in a secure place and{" "}
+                    <strong>never share it</strong>. You will not be able to
+                    retrieve it again. If you lose it, you will need to
+                    regenerate a new Secret Key.
+                  </Text>
+                </Flex>
+              </Alert>
             </>
           )}
         </VStack>
@@ -84,11 +86,13 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
   };
 
   return (
-    <Modal isOpen={open} onClose={onClose}>
+    <Modal isOpen={open} onClose={secret ? () => undefined : onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{name || "Create API Key"}</ModalHeader>
-        <ModalCloseButton />
+        <ModalHeader>
+          {secret ? "Your New Secret Key" : name || "Create API Key"}
+        </ModalHeader>
+        {!secret && <ModalCloseButton />}
         <ModalBody>{apiKey ? renderKeys() : renderCreateForm()}</ModalBody>
 
         <ModalFooter>
@@ -98,7 +102,11 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
             isLoading={loading}
             disabled={loading}
           >
-            {!secret ? "Okay" : apiKey ? "I've copied the Secret" : "Create"}
+            {!secret
+              ? "Okay"
+              : apiKey
+              ? "I have stored the Secret Key securely"
+              : "Create"}
           </Button>
         </ModalFooter>
       </ModalContent>

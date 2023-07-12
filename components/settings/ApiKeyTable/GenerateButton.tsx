@@ -88,13 +88,13 @@ export const GenerateApiKeyButton: React.FC<GenerateApiKeyButtonProps> = ({
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Re-generate {name} Secret?
+              Re-generate &quot;{name}&quot; Secret Key?
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to re-generate <strong>{name}</strong>{" "}
-              Secret? Any integrations using this Secret key will no longer be
-              able to access thirdweb services.
+              Are you sure you want to re-generate this Secret Key? Any
+              integrations using this Secret Key will no longer be able to
+              access thirdweb services.
             </AlertDialogBody>
 
             <AlertDialogFooter>

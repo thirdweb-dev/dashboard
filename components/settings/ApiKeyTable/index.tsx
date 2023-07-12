@@ -33,7 +33,7 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
     }),
 
     columnHelper.accessor("key", {
-      header: "Key",
+      header: "Publishable Key",
       cell: (cell) => (
         <CopyApiKeyButton apiKey={cell.getValue()} label="API Key" />
       ),
@@ -52,19 +52,19 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
       },
     }),
 
-    columnHelper.accessor("lastAccessedAt", {
-      header: "Last accessed",
-      cell: (cell) => {
-        const value = cell.getValue() as string;
-        const accessedDate = value
-          ? format(new Date(value), "MMM dd, yyyy")
-          : "Unknown";
-        return <Text>{accessedDate}</Text>;
-      },
-    }),
+    // columnHelper.accessor("lastAccessedAt", {
+    //   header: "Last accessed",
+    //   cell: (cell) => {
+    //     const value = cell.getValue() as string;
+    //     const accessedDate = value
+    //       ? format(new Date(value), "MMM dd, yyyy")
+    //       : "Unknown";
+    //     return <Text>{accessedDate}</Text>;
+    //   },
+    // }),
 
     columnHelper.accessor("services", {
-      header: "Services",
+      header: "Enabled Services",
       cell: (cell) => {
         const value = cell.getValue();
         if (!value || value.length === 0) {

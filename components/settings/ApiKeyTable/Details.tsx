@@ -3,8 +3,15 @@ import { GenerateApiKeyButton } from "./GenerateButton";
 import { THIRDWEB_SERVICES, findByName } from "./services";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
   Box,
+  Divider,
+  Flex,
   HStack,
+  Kbd,
+  SimpleGrid,
   Tab,
   TabList,
   TabPanel,
@@ -46,12 +53,37 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
   const domainsContent = useMemo(() => {
     if (domains.length === 0) {
-      return "None";
+      return (
+        <Alert status="error" variant="left-accent">
+          <Flex direction="column" gap={1.5}>
+            <Heading size="label.md" as={AlertTitle}>
+              No Domains Configured
+            </Heading>
+            <Text size="body.sm" as={AlertDescription}>
+              This Publishable Key cannot be used until at least one domain is
+              configured. To allow access from any domain, use the wildcard:{" "}
+              <Kbd>*</Kbd>
+            </Text>
+          </Flex>
+        </Alert>
+      );
     }
     if (domains.includes("*")) {
-      return "Any";
+      return (
+        <Alert status="warning" variant="left-accent">
+          <Flex direction="column" gap={1.5}>
+            <Heading size="label.md" as={AlertTitle}>
+              Unrestricted Access
+            </Heading>
+            <Text size="body.sm" as={AlertDescription}>
+              This Publishable Key can be used from any domain. Anyone with the
+              key can use it to access all the services enabled for this key.
+            </Text>
+          </Flex>
+        </Alert>
+      );
     }
-    return <CodeBlock code={domains.join("\n")} />;
+    return <CodeBlock code={domains.join("\n")} canCopy={false} />;
   }, [domains]);
 
   // FIXME: Enable when wallets restrictions is in use
@@ -90,37 +122,48 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   }, [services]);
 
   return (
-    <Tabs defaultIndex={selectedSection} onChange={onSectionChange}>
-      <TabList>
+    <Tabs defaultIndex={selectedSection} onChange={onSectionChange} h="full">
+      <TabList borderColor="borderColor">
         <Tab>General</Tab>
         <Tab>Services ({servicesCount})</Tab>
       </TabList>
 
       <TabPanels>
         <TabPanel>
-          <VStack alignItems="flex-start" w="full" gap={4} pt={4}>
+          <VStack align="flex-start" w="full" gap={6} py={4}>
             <ApiKeyDetailsRow
               title="Publishable Key"
-              tooltip="Set the Publishable Key in Authorization Bearer header to access configured thirdweb services."
+              description="The Publishable Key can be restricted to allowed domains and enabled services. Use the it to access thirdweb services from the browser."
               content={
                 <VStack gap={2} w="full" alignItems="flex-start">
                   <CodeBlock codeValue={key} code={shortenString(key, false)} />
                   <Text>
-                    An example how to use Publishable key with thirdweb SDK:
+                    Instantiate the thirdweb SDK with your Publishable Key:
                   </Text>
                   <CodeBlock
                     language="ts"
-                    code={`new ThirdwebSDK("goerli", {
-  apiKey: "${key}"
-}`}
+                    whiteSpace="pre"
+                    codeValue={`const sdk = new ThirdwebSDK("goerli", {
+                      apiKey: "${key}"
+                    });`}
+                    code={`const sdk = new ThirdwebSDK("goerli", {
+  apiKey: "${shortenString(key, false)}"
+});`}
                   />
                 </VStack>
               }
             />
+            <ApiKeyDetailsRow
+              title="Allowed Domains"
+              tooltip={`Prevent third-parties from using your Publishable Key on their websites by only allowing requests from your domains.`}
+              content={domainsContent}
+            />
+
+            <Divider />
 
             <ApiKeyDetailsRow
-              title="Secret"
-              tooltip="Set the Secret Key in Authorization Bearer header to have full, unrestricted access to all thirdweb services."
+              title="Secret Key"
+              description="The Secret Key does not adhere to restrictions you define. Anyone with the Secret Key can access all thirdweb services."
               content={
                 <Box position="relative" w="full">
                   <CodeBlock
@@ -137,12 +180,6 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               }
             />
 
-            <ApiKeyDetailsRow
-              title="Allowed Domains"
-              tooltip="The list of origin domains allowed to access thirdweb services via the configured Publishable Key."
-              content={domainsContent}
-            />
-
             {/*
             FIXME: Enable when wallets restrictions is in use
             <ApiKeyDetailsRow
@@ -151,20 +188,24 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               content={walletsContent}
             /> */}
 
-            <ApiKeyDetailsRow
-              title="Created"
-              content={toDateTimeLocal(createdAt)}
-            />
-            <ApiKeyDetailsRow
-              title="Last updated"
-              content={toDateTimeLocal(updatedAt)}
-            />
-            <ApiKeyDetailsRow
-              title="Last accessed"
-              content={
-                lastAccessedAt ? toDateTimeLocal(lastAccessedAt) : "Unknown"
-              }
-            />
+            <Divider mt="auto" />
+
+            <SimpleGrid columns={2} w="100%" gap={4}>
+              <ApiKeyDetailsRow
+                title="Created"
+                content={toDateTimeLocal(createdAt)}
+              />
+              <ApiKeyDetailsRow
+                title="Last updated"
+                content={toDateTimeLocal(updatedAt)}
+              />
+              <ApiKeyDetailsRow
+                title="Last accessed"
+                content={
+                  lastAccessedAt ? toDateTimeLocal(lastAccessedAt) : "Never"
+                }
+              />
+            </SimpleGrid>
           </VStack>
         </TabPanel>
 
