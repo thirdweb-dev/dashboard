@@ -38,7 +38,7 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const { name, secret } = apiKey || {};
+  const { secret } = apiKey || {};
 
   const renderKeys = () => {
     return (
@@ -90,7 +90,7 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {secret ? "Your New Secret Key" : name || "Create API Key"}
+          {secret ? "Your New Secret Key" : "Create API Key"}
         </ModalHeader>
         {!secret && <ModalCloseButton />}
         <ModalBody>{apiKey ? renderKeys() : renderCreateForm()}</ModalBody>
@@ -102,11 +102,7 @@ export const ApiKeysCreateModal: React.FC<ApiKeysCreateModalProps> = ({
             isLoading={loading}
             disabled={loading}
           >
-            {!secret
-              ? "Okay"
-              : apiKey
-              ? "I have stored the Secret Key securely"
-              : "Create"}
+            {secret ? "I have stored the Secret Key securely" : "Create"}
           </Button>
         </ModalFooter>
       </ModalContent>
