@@ -1,5 +1,5 @@
 import { useAllContractList } from "@3rdweb-sdk/react";
-import { Flex, Link } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
@@ -9,8 +9,7 @@ import { NoWallet } from "components/no-wallet";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
-import { FiExternalLink } from "react-icons/fi";
-import { Button, Card, CodeBlock, Heading, Text } from "tw-components";
+import { Card, CodeBlock, Heading, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const storage = new ThirdwebStorage();

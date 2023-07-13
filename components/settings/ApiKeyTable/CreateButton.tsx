@@ -1,3 +1,7 @@
+import { ApiKeysCreateModal } from "./CreateKeyModal";
+import { toastMessages } from "./messages";
+import { THIRDWEB_SERVICES } from "./services";
+import { ApiKeyFormValues } from "./types";
 import { ApiKey, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Icon, useDisclosure, useToast } from "@chakra-ui/react";
 import { useTxNotifications } from "hooks/useTxNotifications";
@@ -6,10 +10,6 @@ import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { Button } from "tw-components";
 import { toArrFromList } from "utils/string";
-import { ApiKeysCreateModal } from "./CreateKeyModal";
-import { toastMessages } from "./messages";
-import { THIRDWEB_SERVICES } from "./services";
-import { ApiKeyFormValues } from "./types";
 
 export const CreateApiKeyButton: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

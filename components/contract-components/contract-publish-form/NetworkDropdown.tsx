@@ -37,9 +37,8 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   }, [supportedChains, useCleanChainName]);
 
   const defaultValues = useMemo(() => {
-    return options.filter(
-      ({ value: val }) =>
-        form.watch("networksForDeployment.networksEnabled")?.includes(val),
+    return options.filter(({ value: val }) =>
+      form.watch("networksForDeployment.networksEnabled")?.includes(val),
     );
   }, [form, options]);
 
