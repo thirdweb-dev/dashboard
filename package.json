@@ -38,7 +38,7 @@
     "@tanstack/react-table": "8.9.1",
     "@thirdweb-dev/auth": "^3.2.10",
     "@thirdweb-dev/chain-icons": "^1.0.5",
-    "@thirdweb-dev/chains": "^0.1.29",
+    "@thirdweb-dev/chains": "^0.1.31",
     "@thirdweb-dev/react": "^3.14.10",
     "@thirdweb-dev/sdk": "^3.10.30",
     "@vercel/og": "^0.5.4",
