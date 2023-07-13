@@ -105,18 +105,28 @@ function redirects() {
     // temp until we have settings overview
     {
       source: "/settings",
-      destination: "/settings/api-keys",
+      destination: "/dashboard/settings",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/settings",
+      destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
     // backwards compat: page moved to pages/settings/api-key
     {
       source: "/dashboard/api-keys",
-      destination: "/settings/api-keys",
-      permanent: true,
+      destination: "/dashboard/settings/api-keys",
+      permanent: false,
     },
     {
       source: "/template/nft-drop",
       destination: "/template/erc721",
+      permanent: false,
+    },
+    {
+      source: "/abuse",
+      destination: "https://forms.gle/v9UJtHbVw8fXypcd7",
       permanent: false,
     },
   ];

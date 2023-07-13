@@ -25,7 +25,8 @@ require("prismjs/components/prism-solidity");
 
 export interface CodeBlockProps extends Omit<CodeProps, "size"> {
   code: string;
-  language: string;
+  codeValue?: string;
+  language?: string;
   canCopy?: boolean;
   previewLink?: string;
   wrap?: boolean;
@@ -35,7 +36,8 @@ export interface CodeBlockProps extends Omit<CodeProps, "size"> {
 }
 export const CodeBlock: React.FC<CodeBlockProps> = ({
   code,
-  language,
+  codeValue,
+  language = "sh",
   px = 4,
   py = 2,
   w = "full",
@@ -56,16 +58,16 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     lightTheme || lightThemeDefault,
     darkTheme || darkThemeDefault,
   );
-  const { onCopy, hasCopied, setValue } = useClipboard(code);
   const onClickIPFSLink = useCallback(() => {
     window.open(previewLink, "_blank");
   }, [previewLink]);
+  const { onCopy, hasCopied, setValue } = useClipboard(codeValue || code);
 
   useEffect(() => {
     if (code) {
-      setValue(code);
+      setValue(codeValue || code);
     }
-  }, [code, setValue]);
+  }, [code, codeValue, setValue]);
 
   return (
     <Highlight
@@ -115,7 +117,6 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             <IconButton
               mr={-2}
               onClick={onCopy}
-              position="relative"
               float="right"
               aria-label="Copy"
               borderRadius="md"
