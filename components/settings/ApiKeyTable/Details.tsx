@@ -47,7 +47,11 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   const servicesCount = (services || []).length;
 
   const domainsContent = useMemo(() => {
-    if (bundleIds.length > 0 && !bundleIds.includes("*")) {
+    if (
+      !domains.includes("*") &&
+      bundleIds.length > 0 &&
+      !bundleIds.includes("*")
+    ) {
       return "None";
     }
 
@@ -88,7 +92,11 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   }, [domains, bundleIds]);
 
   const bundleIdsContent = useMemo(() => {
-    if (domains.length > 0 && !domains.includes("*")) {
+    if (
+      !bundleIds.includes("*") &&
+      domains.length > 0 &&
+      !domains.includes("*")
+    ) {
       return "None";
     }
 
