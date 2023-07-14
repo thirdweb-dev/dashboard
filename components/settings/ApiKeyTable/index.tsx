@@ -3,7 +3,7 @@ import { ApiKeyDrawer } from "./KeyDrawer";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { HStack, useDisclosure } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { getServiceByName } from "@thirdweb-dev/service-utils";
+import { ServiceName, getServiceByName } from "@thirdweb-dev/service-utils";
 import { TWTable } from "components/shared/TWTable";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -74,9 +74,7 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
         return (
           <HStack alignItems="flex-start" w="full">
             {value.map((srv) => {
-              const service = getServiceByName(
-                srv.name as "storage" | "rpc" | "bundler" | "relayer",
-              );
+              const service = getServiceByName(srv.name as ServiceName);
               return (
                 <Badge
                   key={srv.name}

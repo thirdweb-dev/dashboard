@@ -17,7 +17,11 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
-import { SERVICES, getServiceByName } from "@thirdweb-dev/service-utils";
+import {
+  SERVICES,
+  ServiceName,
+  getServiceByName,
+} from "@thirdweb-dev/service-utils";
 import { useMemo } from "react";
 import { Badge, Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
@@ -258,9 +262,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
             )}
 
             {sortedServices.map((srv) => {
-              const service = getServiceByName(
-                srv.name as "storage" | "rpc" | "bundler" | "relayer",
-              );
+              const service = getServiceByName(srv.name as ServiceName);
 
               return service ? (
                 <Card w="full" key={srv.id}>
