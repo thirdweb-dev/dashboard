@@ -1,4 +1,4 @@
-import { ApiKeyFormValues } from "./types";
+import { ApiKeyFormValues, HIDDEN_SERVICES } from "./types";
 import {
   Box,
   FormControl,
@@ -143,7 +143,11 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
             const service = getServiceByName(srv.name as ServiceName);
 
             return service ? (
-              <Card w="full" key={srv.name}>
+              <Card
+                w="full"
+                key={srv.name}
+                display={HIDDEN_SERVICES.includes(srv.name) ? "none" : "block"}
+              >
                 <HStack
                   justifyContent="space-between"
                   alignItems="flex-start"

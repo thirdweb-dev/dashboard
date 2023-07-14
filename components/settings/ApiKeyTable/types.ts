@@ -17,3 +17,6 @@ export interface ApiKeyFormValues {
   walletAddresses?: string;
   services?: ApiKeyFormServiceValues[];
 }
+
+// FIXME: Remove
+export const HIDDEN_SERVICES = ["rpc", "relayer"];

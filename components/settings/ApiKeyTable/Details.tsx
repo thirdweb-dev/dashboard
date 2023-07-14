@@ -1,4 +1,5 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
+import { HIDDEN_SERVICES } from "./types";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Alert,
@@ -180,7 +181,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     >
       <TabList borderColor="borderColor">
         <Tab>General</Tab>
-        <Tab>Services ({servicesCount})</Tab>
+        <Tab>Services ({servicesCount - HIDDEN_SERVICES.length})</Tab>
       </TabList>
 
       <TabPanels>
@@ -265,7 +266,13 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               const service = getServiceByName(srv.name as ServiceName);
 
               return service ? (
-                <Card w="full" key={srv.id}>
+                <Card
+                  w="full"
+                  key={srv.id}
+                  display={
+                    HIDDEN_SERVICES.includes(srv.name) ? "none" : "block"
+                  }
+                >
                   <Heading size="label.lg" pb={1}>
                     {service.title}
                   </Heading>
