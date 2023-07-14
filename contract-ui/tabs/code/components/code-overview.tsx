@@ -105,7 +105,7 @@ function App() {
   return (
     <ThirdwebProvider 
       activeChain={{chainName}}
-      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
+      bundleId="YOUR_BUNDLE_ID" // You can get a bundle id from dashboard settings
     >
       <Component />
     </ThirdwebProvider>
