@@ -181,7 +181,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     >
       <TabList borderColor="borderColor">
         <Tab>General</Tab>
-        <Tab>Services ({servicesCount - HIDDEN_SERVICES.length})</Tab>
+        {/* FIXME: Remove with HIDDEN_SERVICES: <Tab>Services ({servicesCount - HIDDEN_SERVICES.length})</Tab> */}
+        <Tab>Services</Tab>
       </TabList>
 
       <TabPanels>
