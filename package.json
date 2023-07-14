@@ -41,7 +41,7 @@
     "@thirdweb-dev/chains": "^0.1.34",
     "@thirdweb-dev/react": "^3.14.15",
     "@thirdweb-dev/sdk": "^3.10.35",
-    "@thirdweb-dev/service-utils": "^0.1.0",
+    "@thirdweb-dev/service-utils": "nightly",
     "@vercel/og": "^0.5.4",
     "airtable": "^0.11.6",
     "bn.js": "^5.2.1",
