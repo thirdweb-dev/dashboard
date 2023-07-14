@@ -14,7 +14,7 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
-import { getServiceByName } from "@thirdweb-dev/service-utils";
+import { ServiceName, getServiceByName } from "@thirdweb-dev/service-utils";
 import {
   FieldArrayWithId,
   UseFormReturn,
@@ -127,7 +127,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
 
         <VStack alignItems="flex-start" w="full" gap={4}>
           {fields.map((srv, idx) => {
-            const service = getServiceByName(srv.name);
+            const service = getServiceByName(srv.name as ServiceName);
 
             return service ? (
               <Card w="full" key={srv.name}>
