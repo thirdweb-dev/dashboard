@@ -200,7 +200,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Allowed Bundle IDs"
-              tooltip={`Prevent third-parties from using your Client ID on their native apps by only allowing requests from your app bundles.`}
+              tooltip={`Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
               content={bundleIdsContent}
             />
 
