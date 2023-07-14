@@ -140,7 +140,9 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
 
         <VStack alignItems="flex-start" w="full" gap={4}>
           {fields.map((srv, idx) => {
-            const service = getServiceByName(srv.name);
+            const service = getServiceByName(
+              srv.name as "storage" | "rpc" | "bundler" | "relayer",
+            );
 
             return service ? (
               <Card w="full" key={srv.name}>

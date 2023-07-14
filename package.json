@@ -38,7 +38,7 @@
     "@tanstack/react-table": "8.9.1",
     "@thirdweb-dev/auth": "0.0.0-dev-b4ddcd1-20230714194904",
     "@thirdweb-dev/chain-icons": "^1.0.5",
-    "@thirdweb-dev/chains": "^0.0.0-dev-b4ddcd1-20230714194904",
+    "@thirdweb-dev/chains": "0.0.0-dev-b4ddcd1-20230714194904",
     "@thirdweb-dev/react": "0.0.0-dev-b4ddcd1-20230714194904",
     "@thirdweb-dev/sdk": "0.0.0-dev-b4ddcd1-20230714194904",
     "@thirdweb-dev/service-utils": "0.0.0-dev-b4ddcd1-20230714194904",

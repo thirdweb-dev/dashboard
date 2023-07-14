@@ -258,7 +258,9 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
             )}
 
             {sortedServices.map((srv) => {
-              const service = getServiceByName(srv.name);
+              const service = getServiceByName(
+                srv.name as "storage" | "rpc" | "bundler" | "relayer",
+              );
 
               return service ? (
                 <Card w="full" key={srv.id}>

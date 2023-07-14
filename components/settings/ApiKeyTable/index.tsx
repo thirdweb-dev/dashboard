@@ -74,7 +74,9 @@ export const ApiKeyTable: ComponentWithChildren<ApiKeyTableProps> = ({
         return (
           <HStack alignItems="flex-start" w="full">
             {value.map((srv) => {
-              const service = getServiceByName(srv.name);
+              const service = getServiceByName(
+                srv.name as "storage" | "rpc" | "bundler" | "relayer",
+              );
               return (
                 <Badge
                   key={srv.name}
