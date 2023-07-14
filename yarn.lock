@@ -4205,6 +4205,11 @@
     yaml "^2.3.1"
     zod "^3.20.2"
 
+"@thirdweb-dev/service-utils@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.1.0.tgz#f4a535e8477c5f5ebfa53fd2c61d3a0a2b4fef91"
+  integrity sha512-os8bbsPwnIZz8obOiWNc4ptmtjNVcjnTejK8QtF1c0hNCCeUixta1Fep6wKcI113iKMQM0dRIyqFqCcZXwBHzQ==
+
 "@thirdweb-dev/storage@1.1.8":
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.1.8.tgz#08e6a541344eb7aff7b844d0118a21fe83e4dfff"

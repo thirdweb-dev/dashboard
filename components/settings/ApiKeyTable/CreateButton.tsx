@@ -1,9 +1,9 @@
 import { ApiKeysCreateModal } from "./CreateKeyModal";
 import { toastMessages } from "./messages";
-import { THIRDWEB_SERVICES } from "./services";
 import { ApiKeyFormValues } from "./types";
 import { ApiKey, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Icon, useDisclosure, useToast } from "@chakra-ui/react";
+import { SERVICES } from "@thirdweb-dev/service-utils";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ export const CreateApiKeyButton: React.FC = () => {
       domains: "*",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
-      services: THIRDWEB_SERVICES.map((srv) => {
+      services: SERVICES.map((srv) => {
         return {
           name: srv.name,
           targetAddresses: "*",

@@ -1,5 +1,8 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
+<<<<<<< HEAD
 import { THIRDWEB_SERVICES, findByName } from "./services";
+=======
+>>>>>>> main
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Alert,
@@ -18,6 +21,7 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
+import { SERVICES, getServiceByName } from "@thirdweb-dev/service-utils";
 import { useMemo } from "react";
 import { Badge, Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
@@ -104,12 +108,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   const sortedServices = useMemo(() => {
     return (
       services?.sort((a, b) => {
-        const keyA = THIRDWEB_SERVICES.findIndex(
-          (service) => service.name === a.name,
-        );
-        const keyB = THIRDWEB_SERVICES.findIndex(
-          (service) => service.name === b.name,
-        );
+        const keyA = SERVICES.findIndex((service) => service.name === a.name);
+        const keyB = SERVICES.findIndex((service) => service.name === b.name);
         return keyA - keyB;
       }) || []
     );
@@ -199,7 +199,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
             )}
 
             {sortedServices.map((srv) => {
-              const service = findByName(srv.name);
+              const service = getServiceByName(srv.name);
 
               return service ? (
                 <Card w="full" key={srv.id}>
