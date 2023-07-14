@@ -1,10 +1,11 @@
 import { ApiKeysCreateModal } from "./CreateKeyModal";
 import { toastMessages } from "./messages";
-import { THIRDWEB_SERVICES } from "./services";
 import { ApiKeyFormValues } from "./types";
-import { useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
+import { ApiKey, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Icon, useDisclosure, useToast } from "@chakra-ui/react";
+import { SERVICES } from "@thirdweb-dev/service-utils";
 import { useTxNotifications } from "hooks/useTxNotifications";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { Button } from "tw-components";
@@ -15,13 +16,15 @@ export const CreateApiKeyButton: React.FC = () => {
 
   const toast = useToast();
 
+  const [apiKey, setApiKey] = useState<ApiKey | null>(null);
+
   const form = useForm<ApiKeyFormValues>({
     values: {
       name: "API Key",
       domains: "*",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
-      services: THIRDWEB_SERVICES.map((srv) => {
+      services: SERVICES.map((srv) => {
         return {
           name: srv.name,
           targetAddresses: "*",
@@ -58,9 +61,9 @@ export const CreateApiKeyButton: React.FC = () => {
       };
 
       createKeyMutation.mutate(formattedValues, {
-        onSuccess: () => {
+        onSuccess: (data) => {
           onSuccess();
-          onClose();
+          setApiKey(data);
         },
         onError: (err) => {
           onError(err);
@@ -72,12 +75,15 @@ export const CreateApiKeyButton: React.FC = () => {
   });
 
   const handleClose = () => {
+    setApiKey(null);
+    form.reset();
     onClose();
   };
 
   return (
     <>
       <ApiKeysCreateModal
+        apiKey={apiKey}
         form={form}
         open={isOpen}
         onClose={handleClose}
