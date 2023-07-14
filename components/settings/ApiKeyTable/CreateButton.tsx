@@ -22,6 +22,7 @@ export const CreateApiKeyButton: React.FC = () => {
     values: {
       name: "API Key",
       domains: "*",
+      bundleIds: "*",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
       services: SERVICES.map((srv) => {
@@ -49,7 +50,6 @@ export const CreateApiKeyButton: React.FC = () => {
     if (enabledServices.length > 0) {
       const formattedValues = {
         name: values.name,
-        domains: toArrFromList(values.domains),
         // FIXME: Enable when wallets restrictions is in use
         // walletAddresses: toArrFromList(values.walletAddresses),
         services: (values.services || [])

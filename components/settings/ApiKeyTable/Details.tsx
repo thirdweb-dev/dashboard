@@ -37,6 +37,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     key,
     secretMasked,
     domains,
+    bundleIds,
     createdAt,
     updatedAt,
     lastAccessedAt,
@@ -46,6 +47,10 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   const servicesCount = (services || []).length;
 
   const domainsContent = useMemo(() => {
+    if (bundleIds.length > 0 && !bundleIds.includes("*")) {
+      return "None";
+    }
+
     if (domains.length === 0) {
       return (
         <Alert status="error" variant="left-accent">
@@ -62,12 +67,13 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
         </Alert>
       );
     }
+
     if (domains.includes("*")) {
       return (
         <Alert status="warning" variant="left-accent">
           <Flex direction="column" gap={1.5}>
             <Heading size="label.md" as={AlertTitle}>
-              Unrestricted Access
+              Unrestricted Web Access
             </Heading>
             <Text size="body.sm" as={AlertDescription}>
               This Client ID can be used from any domain. Anyone with the key
@@ -77,8 +83,50 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
         </Alert>
       );
     }
+
     return <CodeBlock code={domains.join("\n")} canCopy={false} />;
-  }, [domains]);
+  }, [domains, bundleIds]);
+
+  const bundleIdsContent = useMemo(() => {
+    if (domains.length > 0 && !domains.includes("*")) {
+      return "None";
+    }
+
+    if (bundleIds.length === 0) {
+      return (
+        <Alert status="error" variant="left-accent">
+          <Flex direction="column" gap={1.5}>
+            <Heading size="label.md" as={AlertTitle}>
+              No Bundle IDs Configured
+            </Heading>
+            <Text size="body.sm" as={AlertDescription}>
+              This Client ID cannot be used from the native app until at least
+              one bundle ID is configured. To allow access from any app bundle,
+              use the wildcard: <Kbd>*</Kbd>
+            </Text>
+          </Flex>
+        </Alert>
+      );
+    }
+
+    if (bundleIds.includes("*")) {
+      return (
+        <Alert status="warning" variant="left-accent">
+          <Flex direction="column" gap={1.5}>
+            <Heading size="label.md" as={AlertTitle}>
+              Unrestricted App Access
+            </Heading>
+            <Text size="body.sm" as={AlertDescription}>
+              This Client ID can be used from any app bundle. Anyone with the
+              key can use it to access all the services enabled for this key.
+            </Text>
+          </Flex>
+        </Alert>
+      );
+    }
+
+    return <CodeBlock code={bundleIds.join("\n")} canCopy={false} />;
+  }, [bundleIds, domains]);
 
   // FIXME: Enable when wallets restrictions is in use
   // const walletsContent = useMemo(() => {
@@ -143,10 +191,17 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
                 </VStack>
               }
             />
+
             <ApiKeyDetailsRow
               title="Allowed Domains"
               tooltip={`Prevent third-parties from using your Client ID on their websites by only allowing requests from your domains.`}
               content={domainsContent}
+            />
+
+            <ApiKeyDetailsRow
+              title="Allowed Bundle IDs"
+              tooltip={`Prevent third-parties from using your Client ID on their native apps by only allowing requests from your app bundles.`}
+              content={bundleIdsContent}
             />
 
             <Divider />

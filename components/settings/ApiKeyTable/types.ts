@@ -13,6 +13,7 @@ export interface ApiKeyFormServiceValues {
 export interface ApiKeyFormValues {
   name: string;
   domains: string;
+  bundleIds: string;
   walletAddresses?: string;
   services?: ApiKeyFormServiceValues[];
 }

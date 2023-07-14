@@ -24,7 +24,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const { id, name, domains, services } = apiKey;
+  const { id, name, domains, bundleIds, services } = apiKey;
   const [editing, setEditing] = useState(false);
   const mutation = useUpdateApiKey();
   const [selectedSection, setSelectedSection] = useState(DrawerSection.General);
@@ -34,6 +34,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
     values: {
       name,
       domains: fromArrayToList(domains),
+      bundleIds: fromArrayToList(bundleIds),
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: fromArrayToList(walletAddresses),
       services: SERVICES.map((srv) => {
@@ -67,6 +68,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
         id,
         name: values.name,
         domains: toArrFromList(values.domains),
+        bundleIds: toArrFromList(values.bundleIds),
         // FIXME: Enable when wallets restrictions is in use
         // walletAddresses: toArrFromList(values.walletAddresses),
         services: (values.services || [])

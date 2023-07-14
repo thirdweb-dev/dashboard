@@ -102,6 +102,19 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           </FormHelperText>
         </FormControl>
 
+        <FormControl>
+          <FormLabel>Allowed Bundle IDs</FormLabel>
+          <Textarea
+            placeholder="com.thirdweb.app"
+            {...form.register("bundleIds")}
+          />
+          <FormHelperText>
+            New line or comma-separated list of bundle ids.
+            <br />
+            To allow any bundle id, set to <code>*</code>.
+          </FormHelperText>
+        </FormControl>
+
         {/* <FormControl>
           <FormLabel>Allowed Wallet addresses</FormLabel>
           <Textarea
