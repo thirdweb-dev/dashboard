@@ -18,7 +18,6 @@ import {
   ModalOverlay,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Button, CodeBlock, Heading, Text } from "tw-components";
 
