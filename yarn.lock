@@ -4147,10 +4147,10 @@
     yaml "^2.3.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/service-utils@^0.2.0-nightly-d5aee62b-20230714234037":
-  version "0.2.0-nightly-d5aee62b-20230714234037"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.2.0-nightly-d5aee62b-20230714234037.tgz#fd810ff4d023643e315fb822a97faa2d90acefc7"
-  integrity sha512-1j4WzocCJYSfPrsRKXeycYrVQafjdOzSWa3mLoZA/zm1A0yW1E98luJd+3AQrgd5Vboe3hCtDhVcQM5H8r3LOA==
+"@thirdweb-dev/service-utils@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.2.0.tgz#6985190af9e57a83792e967b71d897072dfb931c"
+  integrity sha512-X81p/iL9/b+EJq7G8rcL2MTUSOSzpH/2CR/gJomqQU7wrWRjhQndZjwhAUsLoA5ch5QgXLGx3vUHoVh4uNSnOA==
 
 "@thirdweb-dev/storage@0.0.0-dev-11d3fa6-20230714225821":
   version "0.0.0-dev-11d3fa6-20230714225821"
