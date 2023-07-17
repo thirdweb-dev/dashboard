@@ -68,6 +68,7 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
             category: "api-keys",
             action: "create",
             label: "success",
+            fromCli: true,
           });
           try {
             await fetch(`/api/cli-redirect?redirectUrl=${redirect}`, {
@@ -88,6 +89,7 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
             action: "create",
             label: "error",
             error: err,
+            fromCli: true,
           });
         },
       });
