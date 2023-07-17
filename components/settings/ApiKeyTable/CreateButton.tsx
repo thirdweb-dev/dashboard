@@ -23,14 +23,14 @@ export const CreateApiKeyButton: React.FC = () => {
   const form = useForm<ApiKeyFormValues>({
     values: {
       name: "API Key",
-      domains: "*",
-      bundleIds: "*",
+      domains: "",
+      bundleIds: "",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
       services: SERVICES.map((srv) => {
         return {
           name: srv.name,
-          targetAddresses: "*",
+          targetAddresses: "",
           enabled: true,
           actions: srv.actions.map((sa) => sa.name),
         };

@@ -262,7 +262,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
       {!tabbed && (
         <VStack alignItems="flex-start" w="full" gap={3} pt={3}>
           {renderName()}
-          {renderServices()}
+          {renderGeneral()}
         </VStack>
       )}
     </form>

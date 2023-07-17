@@ -47,7 +47,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
           name: srv.name,
           targetAddresses: existingService
             ? fromArrayToList(existingService.targetAddresses)
-            : "*",
+            : "",
           enabled: !!existingService,
           actions: existingService?.actions || [],
         };
