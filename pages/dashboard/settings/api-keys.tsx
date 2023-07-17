@@ -1,18 +1,109 @@
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
+import { useApiKeys, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Container, Divider, Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ApiKeyTable } from "components/settings/ApiKeyTable";
 import { CreateApiKeyButton } from "components/settings/ApiKeyTable/CreateButton";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
+import { useTrack } from "hooks/analytics/useTrack";
+import { useTxNotifications } from "hooks/useTxNotifications";
+import { useRouter } from "next/router";
 import { PageId } from "page-id";
+import { useEffect, useMemo, useRef } from "react";
 import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const SettingsApiKeysPage: ThirdwebNextPage = () => {
+  const { redirect, from } = useRouter().query;
   const address = useAddress();
   const keysQuery = useApiKeys();
+  const createKeyMutation = useCreateApiKey();
+  const trackEvent = useTrack();
+  const { onSuccess, onError } = useTxNotifications(
+    "API key created",
+    "Failed to create API key",
+  );
+  const hasCreatedKey = useRef<boolean>(false);
+  const allKeys = useMemo(() => {
+    if (!keysQuery?.data) {
+      return [];
+    }
+    return keysQuery.data;
+  }, [keysQuery?.data]);
+
+  useEffect(() => {
+    if (
+      !window ||
+      !allKeys ||
+      keysQuery.isFetching ||
+      keysQuery.isLoading ||
+      hasCreatedKey.current
+    ) {
+      return;
+    }
+    const cliKeyAlreadyExists =
+      allKeys.filter((k) => k.name === "CLI Auth Key").length > 0;
+
+    if (address && redirect && from === "cli" && !cliKeyAlreadyExists) {
+      hasCreatedKey.current = true;
+      const formattedValues = {
+        name: "CLI Auth Key",
+        domains: ["*"],
+        // FIXME: Enable when wallets restrictions is in use
+        // walletAddresses: toArrFromList(values.walletAddresses),
+        services: [
+          {
+            name: "storage",
+            targetAddresses: ["*"],
+            enabled: true,
+            actions: ["read", "write"],
+          },
+        ],
+      };
+      createKeyMutation.mutate(formattedValues, {
+        onSuccess: async (data) => {
+          onSuccess();
+          trackEvent({
+            category: "api-keys",
+            action: "create",
+            label: "success",
+          });
+          try {
+            await fetch(`/api/cli-redirect?redirectUrl=${redirect}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "x-secret-key": `${data.secret}`,
+              },
+            });
+          } catch (err) {
+            console.log("error", err);
+          }
+        },
+        onError: (err) => {
+          onError(err);
+          trackEvent({
+            category: "api-keys",
+            action: "create",
+            label: "error",
+            error: err,
+          });
+        },
+      });
+    }
+  }, [
+    address,
+    allKeys,
+    createKeyMutation,
+    keysQuery.isFetching,
+    keysQuery.isLoading,
+    from,
+    onError,
+    onSuccess,
+    redirect,
+    trackEvent,
+  ]);
 
   if (!address) {
     return (
