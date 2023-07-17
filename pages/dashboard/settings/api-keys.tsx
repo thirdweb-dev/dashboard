@@ -15,7 +15,7 @@ import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const SettingsApiKeysPage: ThirdwebNextPage = () => {
-  const { redirect, from } = useRouter().query;
+  const { from } = useRouter().query;
   const address = useAddress();
   const keysQuery = useApiKeys();
   const createKeyMutation = useCreateApiKey();
@@ -45,7 +45,7 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
     const cliKeyAlreadyExists =
       allKeys.filter((k) => k.name === "CLI Auth Key").length > 0;
 
-    if (address && redirect && from === "cli" && !cliKeyAlreadyExists) {
+    if (address && from === "cli" && !cliKeyAlreadyExists) {
       hasCreatedKey.current = true;
       const formattedValues = {
         name: "CLI Auth Key",
@@ -103,7 +103,6 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
     from,
     onError,
     onSuccess,
-    redirect,
     trackEvent,
   ]);
 
