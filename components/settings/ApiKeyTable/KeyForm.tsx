@@ -97,6 +97,10 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           isInvalid={!!form.getFieldState("domains", form.formState).error}
         >
           <FormLabel>Allowed Domains</FormLabel>
+          <FormHelperText mb={2}>
+            Prevent third-parties from using your Client ID on their websites by
+            only allowing requests from your domains.
+          </FormHelperText>
           <Textarea
             placeholder="thirdweb.com, rpc.example.com"
             {...form.register("domains")}
@@ -117,6 +121,10 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           isInvalid={!!form.getFieldState("bundleIds", form.formState).error}
         >
           <FormLabel>Allowed Bundle IDs</FormLabel>
+          <FormHelperText mb={2}>
+            Prevent third-parties from using your Client ID in their native apps
+            by only allowing requests from your app bundles.
+          </FormHelperText>
           <Textarea
             placeholder="com.thirdweb.app"
             {...form.register("bundleIds")}
