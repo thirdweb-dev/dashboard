@@ -1,5 +1,5 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
-import { HIDDEN_SERVICES } from "./types";
+import { HIDDEN_SERVICES } from "./validations";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Alert,
