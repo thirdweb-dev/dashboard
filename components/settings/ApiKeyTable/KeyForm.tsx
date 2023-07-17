@@ -1,4 +1,5 @@
-import { ApiKeyFormValues, HIDDEN_SERVICES } from "./types";
+import { HIDDEN_SERVICES, ApiKeyValidationSchema } from "./validations";
+
 import {
   Box,
   FormControl,
@@ -31,7 +32,7 @@ import {
 } from "tw-components";
 
 interface ApiKeyKeyFormProps {
-  form: UseFormReturn<ApiKeyFormValues, any>;
+  form: UseFormReturn<ApiKeyValidationSchema, any>;
   selectedSection?: number;
   onSubmit: () => void;
   onSectionChange?: (idx: number) => void;
@@ -55,12 +56,15 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
   const renderName = () => {
     return (
       <>
-        <FormControl>
+        <FormControl
+          isRequired
+          isInvalid={!!form.getFieldState("name", form.formState).error}
+        >
           <FormLabel>Key name</FormLabel>
           <Input
             placeholder="Descriptive name"
             type="text"
-            {...form.register("name", { minLength: 3 })}
+            {...form.register("name")}
           />
           <FormErrorMessage>
             {form.getFieldState("name", form.formState).error?.message}
@@ -72,7 +76,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
 
   const handleAction = (
     srvIdx: number,
-    srv: FieldArrayWithId<ApiKeyFormValues, "services", "id">,
+    srv: FieldArrayWithId<ApiKeyValidationSchema, "services", "id">,
     actionName: string,
     checked: boolean,
   ) => {
@@ -89,30 +93,44 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
   const renderGeneral = () => {
     return (
       <>
-        <FormControl>
+        <FormControl
+          isInvalid={!!form.getFieldState("domains", form.formState).error}
+        >
           <FormLabel>Allowed Domains</FormLabel>
           <Textarea
             placeholder="thirdweb.com, rpc.example.com"
             {...form.register("domains")}
           />
-          <FormHelperText>
-            New line or comma-separated list of domain names.
-            <br />
-            To allow any domain, set to <code>*</code>.
-          </FormHelperText>
+          {!form.getFieldState("domains", form.formState).error ? (
+            <FormHelperText>
+              Enter domains separated by commas or new lines. Leave blank to
+              deny all. Use <code>*</code> to allow any.
+            </FormHelperText>
+          ) : (
+            <FormErrorMessage>
+              {form.getFieldState("domains", form.formState).error?.message}
+            </FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl>
+        <FormControl
+          isInvalid={!!form.getFieldState("bundleIds", form.formState).error}
+        >
           <FormLabel>Allowed Bundle IDs</FormLabel>
           <Textarea
             placeholder="com.thirdweb.app"
             {...form.register("bundleIds")}
           />
-          <FormHelperText>
-            New line or comma-separated list of bundle ids.
-            <br />
-            To allow any bundle id, set to <code>*</code>.
-          </FormHelperText>
+          {!form.getFieldState("bundleIds", form.formState).error ? (
+            <FormHelperText>
+              Enter bundle ids separated by commas or new lines. Leave blank to
+              deny all. Use <code>*</code> to allow any.
+            </FormHelperText>
+          ) : (
+            <FormErrorMessage>
+              {form.getFieldState("bundleIds", form.formState).error?.message}
+            </FormErrorMessage>
+          )}
         </FormControl>
 
         {/* <FormControl>
@@ -173,19 +191,37 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </HStack>
 
                 {service.name === "bundler" && (
-                  <FormControl>
+                  <FormControl
+                    isInvalid={
+                      !!form.getFieldState(`services.${idx}`, form.formState)
+                        .error
+                    }
+                  >
                     <FormLabel>Allowed Target addresses</FormLabel>
                     <Textarea
                       disabled={!srv.enabled}
                       placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
                       {...form.register(`services.${idx}.targetAddresses`)}
                     />
-                    <FormHelperText>
-                      New line or comma-separated list of contract/wallet
-                      addresses.
-                      <br />
-                      To allow any target, set to <code>*</code>.
-                    </FormHelperText>
+                    {!form.getFieldState(
+                      `services.${idx}.targetAddresses`,
+                      form.formState,
+                    ).error ? (
+                      <FormHelperText>
+                        Enter contract/wallet addresses separated by commas or
+                        new lines. Leave blank to deny all. Use <code>*</code>{" "}
+                        to allow any.
+                      </FormHelperText>
+                    ) : (
+                      <FormErrorMessage>
+                        {
+                          form.getFieldState(
+                            `services.${idx}.targetAddresses`,
+                            form.formState,
+                          ).error?.message
+                        }
+                      </FormErrorMessage>
+                    )}
                   </FormControl>
                 )}
 

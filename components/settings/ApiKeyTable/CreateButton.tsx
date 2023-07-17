@@ -1,6 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ApiKeysCreateModal } from "./CreateKeyModal";
 import { toastMessages } from "./messages";
-import { ApiKeyFormValues } from "./types";
+import { apiKeyValidationSchema, ApiKeyValidationSchema } from "./validations";
 import { ApiKey, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Icon, useDisclosure, useToast } from "@chakra-ui/react";
 import { SERVICES } from "@thirdweb-dev/service-utils";
@@ -20,9 +21,10 @@ export const CreateApiKeyButton: React.FC = () => {
 
   const [apiKey, setApiKey] = useState<ApiKey | null>(null);
 
-  const form = useForm<ApiKeyFormValues>({
+  const form = useForm<ApiKeyValidationSchema>({
+    resolver: zodResolver(apiKeyValidationSchema),
     values: {
-      name: "API Key",
+      name: "",
       domains: "",
       bundleIds: "",
       // FIXME: Enable when wallets restrictions is in use

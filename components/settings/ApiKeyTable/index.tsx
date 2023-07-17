@@ -1,6 +1,6 @@
 import { CopyApiKeyButton } from "./CopyButton";
 import { ApiKeyDrawer } from "./KeyDrawer";
-import { HIDDEN_SERVICES } from "./types";
+import { HIDDEN_SERVICES } from "./validations";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { HStack, useDisclosure } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
