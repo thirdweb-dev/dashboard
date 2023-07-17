@@ -71,7 +71,7 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
             fromCli: true,
           });
           try {
-            await fetch(`/api/cli-redirect?redirectUrl=${redirect}`, {
+            await fetch(`/api/cli-redirect`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
