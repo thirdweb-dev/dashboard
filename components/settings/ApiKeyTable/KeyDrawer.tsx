@@ -76,8 +76,8 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
       const formattedValues = {
         id,
         name: values.name,
-        domains: toArrFromList(values.domains as string),
-        bundleIds: toArrFromList(values.bundleIds as string),
+        domains: toArrFromList(values.domains),
+        bundleIds: toArrFromList(values.bundleIds),
         // FIXME: Enable when wallets restrictions is in use
         // walletAddresses: toArrFromList(values.walletAddresses),
         services: (values.services || [])
