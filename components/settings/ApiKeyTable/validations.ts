@@ -8,18 +8,12 @@ export const apiKeyValidationSchema = z.object({
     .string()
     .min(3, { message: "Must be at least 3 chars" })
     .max(64, { message: "Must be max 64 chars" }),
-  domains: z
-    .string()
-    .refine((str) => validStrList(str, RE_DOMAIN), {
-      message: "Some of the domains are invalid",
-    })
-    .optional(),
-  bundleIds: z
-    .string()
-    .refine((str) => validStrList(str, RE_BUNDLE_ID), {
-      message: "Some of the bundle ids are invalid",
-    })
-    .optional(),
+  domains: z.string().refine((str) => validStrList(str, RE_DOMAIN), {
+    message: "Some of the domains are invalid",
+  }),
+  bundleIds: z.string().refine((str) => validStrList(str, RE_BUNDLE_ID), {
+    message: "Some of the bundle ids are invalid",
+  }),
   services: z.optional(
     z
       .array(
@@ -30,8 +24,7 @@ export const apiKeyValidationSchema = z.object({
             .string()
             .refine((str) => validStrList(str, isAddress), {
               message: "Some of the addresses are invalid",
-            })
-            .optional(),
+            }),
           actions: z.array(z.string()),
         }),
       )
