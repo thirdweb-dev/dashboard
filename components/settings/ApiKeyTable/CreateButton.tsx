@@ -52,6 +52,8 @@ export const CreateApiKeyButton: React.FC = () => {
     if (enabledServices.length > 0) {
       const formattedValues = {
         name: values.name,
+        domains: values.domains,
+        bundleIds: values.bundleIds,
         // FIXME: Enable when wallets restrictions is in use
         // walletAddresses: toArrFromList(values.walletAddresses),
         services: (values.services || [])
