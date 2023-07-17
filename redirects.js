@@ -131,7 +131,7 @@ function redirects() {
     },
     {
       source: "/create-api-key",
-      destination: "/dashboard/settings",
+      destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
   ];
