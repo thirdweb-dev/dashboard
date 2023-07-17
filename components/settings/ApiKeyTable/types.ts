@@ -19,4 +19,4 @@ export interface ApiKeyFormValues {
 }
 
 // FIXME: Remove
-export const HIDDEN_SERVICES = ["rpc", "relayer"];
+export const HIDDEN_SERVICES = ["relayer"];
