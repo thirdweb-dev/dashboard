@@ -52,14 +52,6 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   const servicesCount = (services || []).length;
 
   const domainsContent = useMemo(() => {
-    if (
-      !domains.includes("*") &&
-      bundleIds.length > 0 &&
-      !bundleIds.includes("*")
-    ) {
-      return "None";
-    }
-
     if (domains.length === 0) {
       return (
         <Alert status="error" variant="left-accent">
@@ -94,17 +86,9 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     }
 
     return <CodeBlock code={domains.join("\n")} canCopy={false} />;
-  }, [domains, bundleIds]);
+  }, [domains]);
 
   const bundleIdsContent = useMemo(() => {
-    if (
-      !bundleIds.includes("*") &&
-      domains.length > 0 &&
-      !domains.includes("*")
-    ) {
-      return "None";
-    }
-
     if (bundleIds.length === 0) {
       return (
         <Alert status="error" variant="left-accent">
@@ -139,7 +123,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
     }
 
     return <CodeBlock code={bundleIds.join("\n")} canCopy={false} />;
-  }, [bundleIds, domains]);
+  }, [bundleIds]);
 
   // FIXME: Enable when wallets restrictions is in use
   // const walletsContent = useMemo(() => {
