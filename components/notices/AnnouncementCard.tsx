@@ -1,54 +1,66 @@
-import { Box, Container, Flex, IconButton } from "@chakra-ui/react";
+import { Container, Flex, HStack } from "@chakra-ui/react";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { FiX } from "react-icons/fi";
-import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
+import {
+  Card,
+  Heading,
+  LinkButton,
+  Text,
+  TrackedLinkButton,
+} from "tw-components";
 
 export const AnnouncementCard = () => {
-  const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
-    useLocalStorage("dismissed-api-keys", false, true);
+  const [hasDismissedAnnouncement] = useLocalStorage(
+    "dismissed-api-keys",
+    false,
+    true,
+  );
 
   if (hasDismissedAnnouncement) {
     return null;
   }
 
   return (
-    <Card p={6} bg="bgBlack">
+    <Card
+      p={6}
+      bg="linear-gradient(147.15deg, #410AB6 30.17%, #D45CFF 100.01%)"
+    >
       <Flex w="full" justifyContent="space-between" gap={{ base: 1, md: 2 }}>
         <Container maxW="container.page" display="flex" px={0}>
           <Flex gap={4} color="white" flexDir="column">
             <Flex flexDir="column" gap={3}>
-              <Heading size="label.lg" as="p" color="bgWhite">
+              <Heading size="label.lg" as="p" color="white">
                 thirdweb services now require an API key
               </Heading>
-              <Text color="bgWhite">
+              <Text color="white">
                 Action <strong>required</strong> for all users: use of client
                 API keys <strong>mandatory</strong> by August 1st to continue
                 using thirdweb infrastructure services.
               </Text>
             </Flex>
-            <Box>
+            <HStack alignItems="center" gap={4}>
+              <LinkButton variant="solid" href="/settings/api-keys">
+                Create API Key
+              </LinkButton>
+
               <TrackedLinkButton
                 href="https://blog.thirdweb.com/changelog/api-keys-to-access-thirdweb-infra"
                 category="announcement"
                 label="api-keys"
-                colorScheme="blackAlpha"
-                bg="bgBlack"
-                color="bgWhite"
+                variant="link"
               >
                 Learn More
               </TrackedLinkButton>
-            </Box>
+            </HStack>
           </Flex>
         </Container>
 
-        <IconButton
+        {/* <IconButton
           size="xs"
           aria-label="Close announcement"
           icon={<FiX />}
           variant="ghost"
-          color="bgWhite"
           onClick={() => setHasDismissedAnnouncement(true)}
-        />
+        /> */}
       </Flex>
     </Card>
   );
