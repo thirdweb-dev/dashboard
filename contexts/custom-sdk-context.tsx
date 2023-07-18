@@ -11,17 +11,17 @@ import { StorageSingleton } from "lib/sdk";
 import { ComponentWithChildren } from "types/component-with-children";
 
 export const CustomSDKContext: ComponentWithChildren<{
-  desiredChainId?: number;
+  activeChain?: number;
   options?: SDKOptions;
-}> = ({ desiredChainId, options, children }) => {
+}> = ({ activeChain, options, children }) => {
   const signer = useSigner();
   const queryClient = useQueryClient();
-  const networkInfo = useSupportedChain(desiredChainId || -1);
+  const networkInfo = useSupportedChain(activeChain || -1);
   const configuredChains = useSupportedChains();
 
   return (
     <ThirdwebSDKProvider
-      activeChain={desiredChainId}
+      activeChain={activeChain}
       signer={signer}
       queryClient={queryClient}
       supportedChains={configuredChains}
@@ -31,7 +31,7 @@ export const CustomSDKContext: ComponentWithChildren<{
         },
         readonlySettings: networkInfo
           ? {
-              chainId: desiredChainId,
+            chainId: activeChain,
               rpcUrl: getDashboardChainRpc(networkInfo),
             }
           : undefined,
@@ -48,7 +48,7 @@ export const CustomSDKContext: ComponentWithChildren<{
 export const PublisherSDKContext: ComponentWithChildren = ({ children }) => (
   <CustomSDKContext
     // polygon = 137
-    desiredChainId={137}
+    activeChain={137}
     options={{
       gasless: {
         openzeppelin: {

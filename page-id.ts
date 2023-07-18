@@ -185,6 +185,10 @@ export enum PageId {
   // thirdweb.com/bear-market-airdrop
   BearMarketAirdrop = "bear-market-airdrop",
 
+  // thirdweb.com/blank-drop
+  BlankDrop = "blank-drop",
+  BlankDropMumbai = "blank-drop-mumbai",
+
   // ---------------------------------------------------------------------------
   //  community pages
   // ---------------------------------------------------------------------------

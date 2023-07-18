@@ -13,7 +13,7 @@ import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 
-const desiredChain = Polygon;
+const activeChain = Polygon;
 
 const BearMarketAirdropPage: ThirdwebNextPage = () => {
   const title = "Bear Market Builders Airdrop";
@@ -53,7 +53,7 @@ const BearMarketAirdropPage: ThirdwebNextPage = () => {
             size={{ width: "1400px", height: "1400px" }}
             color="hsl(289deg 78% 30% / 35%)"
           />
-          <Hero desiredChain={desiredChain} />
+          <Hero />
         </HomepageSection>
         <PrizesDisplay />
         <Why />
@@ -89,7 +89,7 @@ export const BearMarketBuilderSDK: React.FC<BearMarketBuilderSDKProps> = ({
 
   return (
     <CustomSDKContext
-      desiredChainId={desiredChain.chainId}
+      activeChain={activeChain.chainId}
       // TODO bring back gasless later
       // options={{
       //   gasless: {

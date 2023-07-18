@@ -243,7 +243,7 @@ const RemoveFromDashboardButton: React.FC<RemoveFromDashboardButtonProps> = ({
 
   if (registry === "old") {
     return (
-      <CustomSDKContext desiredChainId={chainId}>
+      <CustomSDKContext activeChain={chainId}>
         <MismatchButton
           borderWidth={0}
           onClick={(e) => {

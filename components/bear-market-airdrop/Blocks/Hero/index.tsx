@@ -5,7 +5,6 @@ import { OutOfPacks } from "./OutOfPacks";
 import { Supply } from "./Supply";
 import { Unboxed } from "./Unboxed";
 import { Box, Flex, SimpleGrid, Spinner, useToast } from "@chakra-ui/react";
-import { Chain } from "@thirdweb-dev/chains";
 import {
   ConnectWallet,
   useAddress,
@@ -28,10 +27,6 @@ import { getSearchQuery } from "lib/search";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Heading } from "tw-components";
 
-type HeroProps = {
-  desiredChain: Chain;
-};
-
 export type ContractSearchResult = {
   address: string;
   chainId: number;
@@ -50,7 +45,7 @@ export const BEAR_MARKET_TRACKING_CATEGORY = "bear-market-airdrop";
 // For gasless
 const IS_GASLESS_DISABLED = true;
 
-export const Hero: React.FC<HeroProps> = () => {
+export const Hero = () => {
   const address = useAddress();
   const chainId = useChainId();
   const toast = useToast();

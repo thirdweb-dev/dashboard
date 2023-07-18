@@ -48,7 +48,7 @@ export const ContractDeployForm: React.FC<ContractDeployFormProps> = ({
   }
 
   return (
-    <CustomSDKContext desiredChainId={selectedChain}>
+    <CustomSDKContext activeChain={selectedChain}>
       <CustomContractForm
         ipfsHash={contractId}
         selectedChain={selectedChain}
