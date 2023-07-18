@@ -24,7 +24,7 @@ const features: FeatureCardProps[] = [
         >
           open source
         </TrackedLink>{" "}
-        and available to everyone under a permissive license.
+        and available to everyone.
       </>
     ),
   },
