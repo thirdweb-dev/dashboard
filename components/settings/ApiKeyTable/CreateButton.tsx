@@ -1,9 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ApiKeysCreateModal } from "./CreateKeyModal";
 import { toastMessages } from "./messages";
-import { ApiKeyFormValues } from "./types";
+import { apiKeyValidationSchema, ApiKeyValidationSchema } from "./validations";
 import { ApiKey, useCreateApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import { Icon, useDisclosure, useToast } from "@chakra-ui/react";
 import { SERVICES } from "@thirdweb-dev/service-utils";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,22 +14,25 @@ import { Button } from "tw-components";
 import { toArrFromList } from "utils/string";
 
 export const CreateApiKeyButton: React.FC = () => {
+  const trackEvent = useTrack();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast();
 
   const [apiKey, setApiKey] = useState<ApiKey | null>(null);
 
-  const form = useForm<ApiKeyFormValues>({
+  const form = useForm<ApiKeyValidationSchema>({
+    resolver: zodResolver(apiKeyValidationSchema),
     values: {
-      name: "API Key",
-      domains: "*",
+      name: "",
+      domains: "",
+      bundleIds: "",
       // FIXME: Enable when wallets restrictions is in use
       // walletAddresses: "*",
       services: SERVICES.map((srv) => {
         return {
           name: srv.name,
-          targetAddresses: "*",
+          targetAddresses: "",
           enabled: true,
           actions: srv.actions.map((sa) => sa.name),
         };
@@ -50,6 +55,7 @@ export const CreateApiKeyButton: React.FC = () => {
       const formattedValues = {
         name: values.name,
         domains: toArrFromList(values.domains),
+        bundleIds: toArrFromList(values.bundleIds),
         // FIXME: Enable when wallets restrictions is in use
         // walletAddresses: toArrFromList(values.walletAddresses),
         services: (values.services || [])
@@ -60,13 +66,30 @@ export const CreateApiKeyButton: React.FC = () => {
           })),
       };
 
+      trackEvent({
+        category: "api-keys",
+        action: "create",
+        label: "attempt",
+      });
+
       createKeyMutation.mutate(formattedValues, {
         onSuccess: (data) => {
           onSuccess();
           setApiKey(data);
+          trackEvent({
+            category: "api-keys",
+            action: "create",
+            label: "success",
+          });
         },
         onError: (err) => {
           onError(err);
+          trackEvent({
+            category: "api-keys",
+            action: "create",
+            label: "error",
+            error: err,
+          });
         },
       });
     } else {
@@ -91,7 +114,7 @@ export const CreateApiKeyButton: React.FC = () => {
       />
 
       <Button
-        onClick={() => onOpen()}
+        onClick={onOpen}
         colorScheme="blue"
         leftIcon={<Icon as={FiPlus} boxSize={4} />}
         isLoading={createKeyMutation.isLoading}
