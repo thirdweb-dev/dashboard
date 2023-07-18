@@ -481,9 +481,9 @@ public async void ConnectWallet()
     
     // Configure the connection
     var connection = new WalletConnection(
-      provider: WalletProvider.Magic,         // The wallet provider you want to connect to (Required)
-      chainId: 1,                             // The chain you want to connect to (Required)
-      email: "email@email.com"                // The email you want to authenticate with (Required)
+      provider: WalletProvider.MagicLink,      // The wallet provider you want to connect to (Required)
+      chainId: 1,                              // The chain you want to connect to (Required)
+      email: "email@email.com"                 // The email you want to authenticate with (Required)
     );
 
     // Connect the wallet
