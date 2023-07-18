@@ -281,8 +281,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
                   {service.name === "bundler" && (
                     <ApiKeyDetailsRow
-                      title="Destination Contracts & Wallets"
-                      tooltip={`This list specifies the contract and wallet addresses that serve as the destinations when interacting with a Smart Wallet through the thirdweb ${service.title} service.`}
+                      title="Destination Contracts"
+                      tooltip={`Restrict the contracts the Smart Wallets can interact with through the thirdweb ${service.title} service.`}
                       content={renderServicesContent(srv)}
                     />
                   )}
