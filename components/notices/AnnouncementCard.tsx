@@ -21,11 +21,9 @@ export const AnnouncementCard = () => {
                 thirdweb services now require an API key
               </Heading>
               <Text>
-                If you are using thirdweb&apos;s IPFS, RPC, or smart wallet
-                services (bundler and paymaster) in your app, you will now need
-                to pass an API key. This applies only to CLI and SDK usage,
-                dashboard interactions will remain the same. Usage of these
-                services continues to be free.
+                Action <strong>required</strong> for all users: use of client
+                API keys <strong>mandatory</strong> by August 1st to continue
+                using thirdweb infrastructure services.
               </Text>
             </Flex>
             <Box>
