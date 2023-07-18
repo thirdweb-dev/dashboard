@@ -21,8 +21,6 @@ import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { BlankDropSelectNetwork } from "components/blank-drop/SelectNetwork";
 
-const allowedNetworks = [Mumbai, Polygon, Avalanche, Linea, Arbitrum];
-
 const title = "Blank Drop";
 const description = "Claim this conmemorative NFT.";
 

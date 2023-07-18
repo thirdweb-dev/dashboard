@@ -31,7 +31,7 @@ export const CustomSDKContext: ComponentWithChildren<{
         },
         readonlySettings: networkInfo
           ? {
-            chainId: activeChain,
+              chainId: activeChain,
               rpcUrl: getDashboardChainRpc(networkInfo),
             }
           : undefined,

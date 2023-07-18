@@ -1,15 +1,7 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
-import {
-  Polygon,
-  Mumbai,
-  Avalanche,
-  Linea,
-  Arbitrum,
-} from "@thirdweb-dev/chains";
 import { MediaRenderer } from "@thirdweb-dev/react";
 import { Card, Heading, Link } from "tw-components";
-
-const allowedNetworks = [Mumbai /* Polygon */, Avalanche, Linea, Arbitrum];
+import { allowedNetworks } from "./allowedNetworks";
 
 export const BlankDropSelectNetwork = () => {
   return (
