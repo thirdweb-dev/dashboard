@@ -28,7 +28,7 @@ export const AnnouncementCard = () => {
             </Flex>
             <Box>
               <TrackedLinkButton
-                href="/"
+                href="https://blog.thirdweb.com/changelog/api-keys-to-access-thirdweb-infra"
                 category="announcement"
                 label="api-keys"
                 colorScheme="blackAlpha"
