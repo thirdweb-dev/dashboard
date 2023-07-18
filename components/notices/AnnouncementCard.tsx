@@ -1,10 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  IconButton,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, IconButton } from "@chakra-ui/react";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { FiX } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
@@ -12,7 +6,6 @@ import { Card, Heading, Text, TrackedLinkButton } from "tw-components";
 export const AnnouncementCard = () => {
   const [hasDismissedAnnouncement, setHasDismissedAnnouncement] =
     useLocalStorage("dismissed-api-keys", false, true);
-  const { colorMode } = useColorMode();
 
   if (hasDismissedAnnouncement) {
     return null;
