@@ -109,6 +109,9 @@ export enum PageId {
   // thirdweb.com/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
 
+  // thirdweb.com/cli/login
+  CliLoginPage = "cli-login",
+
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------
