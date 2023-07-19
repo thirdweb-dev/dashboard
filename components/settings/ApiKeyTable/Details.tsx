@@ -222,7 +222,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Allowed Bundle IDs"
-              tooltip={`Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
+              tooltip={`(Unity Native/React Native users only) Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
               content={bundleIdsContent}
             />
 
@@ -281,8 +281,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
                   {service.name === "bundler" && (
                     <ApiKeyDetailsRow
-                      title="Allowed Target Addresses"
-                      tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service.`}
+                      title="Destination Contracts"
+                      tooltip={`Restrict the contracts the Smart Wallets can interact with through the thirdweb ${service.title} service.`}
                       content={renderServicesContent(srv)}
                     />
                   )}

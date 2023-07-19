@@ -5,7 +5,7 @@ import {
   useSigner,
 } from "@thirdweb-dev/react";
 import type { SDKOptions } from "@thirdweb-dev/sdk/evm";
-import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import {
   useSupportedChain,
@@ -42,7 +42,7 @@ export const CustomSDKContext: ComponentWithChildren<{
           : undefined,
         ...options,
       }}
-      clientId={DASHBOARD_THIRDWEB_API_KEY}
+      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
       storageInterface={StorageSingleton}
     >
       {children}
@@ -78,7 +78,7 @@ export const CustomProviderContext: ComponentWithChildren<{
           : undefined,
         ...options,
       }}
-      clientId={DASHBOARD_THIRDWEB_API_KEY}
+      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
       storageInterface={StorageSingleton}
       supportedWallets={supportedWallets}
       authConfig={{
