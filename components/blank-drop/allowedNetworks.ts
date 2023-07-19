@@ -3,11 +3,11 @@ import {
   Linea,
   Arbitrum,
   Polygon,
-  Mumbai,
+  /*   Mumbai, */
 } from "@thirdweb-dev/chains";
 
 export const blankDropAllowedNetworks = [
-  Mumbai,
+  /*   Mumbai, */
   Polygon,
   Avalanche,
   Linea,
@@ -18,10 +18,10 @@ export const blankDropNetworkMapping: Record<
   BlankDropAllowedNetworksSlugs,
   { contractAddress: string; image: string }
 > = {
-  [Mumbai.slug]: {
+  /*   [Mumbai.slug]: {
     contractAddress: "0x2602E80ce4e70A4A17afDe1C34fFA8A4D3901F72",
     image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",
-  },
+  }, */
   [Polygon.slug]: {
     contractAddress: "0x0",
     image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",

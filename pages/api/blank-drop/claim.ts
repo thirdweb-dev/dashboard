@@ -92,18 +92,10 @@ const handler = async (req: NextRequest) => {
       );
     }
 
-    // If all these checks pass, mint an NFT
-    const nftMetadata = {
-      name: "Conmemorative NFT",
-      description: "A conmemorative NFT",
-      image:
-        "ipfs://QmcZeCY9hmpdV4KMXfEAVsbSTnEb9MXmG9AhQCyQfvhXXK/Frame%20(3).png",
-    };
-
     // Mint NFT
     try {
       const mintNFTResponse = await fetch(
-        `${baseWeb3ApiUrl}/contract/${network}/${contractAddress}/erc721/mintTo`,
+        `${baseWeb3ApiUrl}/contract/${network}/${contractAddress}/erc721/claimTo`,
         {
           method: "POST",
           headers: {
@@ -111,7 +103,7 @@ const handler = async (req: NextRequest) => {
           },
           body: JSON.stringify({
             receiver: address,
-            metadata: nftMetadata,
+            quantity: "1",
           }),
         },
       );
