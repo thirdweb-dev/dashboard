@@ -14,7 +14,7 @@ import {
   safeWallet,
   walletConnect,
 } from "@thirdweb-dev/react";
-import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useGetCustomIpfsGateways } from "hooks/useGetCustomIpfsGateways";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
@@ -88,7 +88,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         readonlySettings,
         gatewayUrls,
       }}
-      clientId={DASHBOARD_THIRDWEB_API_KEY}
+      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
       supportedWallets={[
         ...personalWallets,
         safeWallet({

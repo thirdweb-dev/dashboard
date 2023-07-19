@@ -191,6 +191,26 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
             />
 
             <ApiKeyDetailsRow
+              title="Secret Key"
+              description="Identifies and authenticates your application from the backend. Using the secret key bypasses any allowed domains or bundle ids."
+              content={
+                <VStack gap={2} w="full" alignItems="flex-start">
+                  <CodeBlock code={secretMasked} canCopy={false} />
+                  <Text>
+                    Instantiate the thirdweb SDK with your secret key:
+                  </Text>
+                  <CodeBlock
+                    language="ts"
+                    whiteSpace="pre"
+                    code={`const sdk = new ThirdwebSDK("goerli", {
+  secretKey: "${secretMasked}"
+});`}
+                  />
+                </VStack>
+              }
+            />
+
+            <ApiKeyDetailsRow
               title="Allowed Domains"
               tooltip={`Prevent third-parties from using your Client ID on their websites by only allowing requests from your domains.`}
               content={domainsContent}
@@ -198,19 +218,9 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Allowed Bundle IDs"
-              tooltip={`Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
+              tooltip={`(Unity Native/React Native users only) Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
               content={bundleIdsContent}
             />
-
-            <Divider />
-
-            {secretMasked && (
-              <ApiKeyDetailsRow
-                title="Secret Key"
-                description="Identifies and authenticates your application from the backend."
-                content={<CodeBlock code={secretMasked} canCopy={false} />}
-              />
-            )}
 
             {/*
             FIXME: Enable when wallets restrictions is in use
@@ -219,8 +229,6 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               tooltip="The list of wallet addresses allowed to access thirdweb services via the configured Publishable Key."
               content={walletsContent}
             /> */}
-
-            <Divider mt="auto" />
 
             <SimpleGrid columns={2} w="100%" gap={4}>
               <ApiKeyDetailsRow
@@ -267,8 +275,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
                   {service.name === "bundler" && (
                     <ApiKeyDetailsRow
-                      title="Allowed Target Addresses"
-                      tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service.`}
+                      title="Destination Contracts"
+                      tooltip={`Restrict contracts your wallets can interact with through the thirdweb ${service.title} service.`}
                       content={renderServicesContent(srv)}
                     />
                   )}
