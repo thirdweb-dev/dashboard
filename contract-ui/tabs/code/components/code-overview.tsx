@@ -74,14 +74,14 @@ const COMMANDS = {
   },
   setup: {
     javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-// If used on the frontend pass your 'clientId'
+// If used on the FRONTEND pass your 'clientId'
 const sdk = new ThirdwebSDK({{chainName}}, {
   clientId: "YOUR_CLIENT_ID",
 });
-// -- OR --
-// If used on the backend pass your 'secretKey'
+// --- OR ---
+// If used on the BACKEND pass your 'secretKey'
 const sdk = new ThirdwebSDK({{chainName}}, {
   secretKey: "YOUR_SECRET_KEY",
 });
