@@ -76,10 +76,16 @@ const COMMANDS = {
     javascript: `import {{chainName}} from "@thirdweb-dev/chains";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 
+// If used on the frontend pass your 'clientId'
 const sdk = new ThirdwebSDK({{chainName}}, {
-  clientId: "YOUR_CLIENT_ID", // Use client id if using on the client side, get it from dashboard settings
-  secretKey: "YOUR_SECRET_KEY", // Use secret key if using on the server, get it from dashboard settings
+  clientId: "YOUR_CLIENT_ID",
 });
+// -- OR --
+// If used on the backend pass your 'secretKey'
+const sdk = new ThirdwebSDK({{chainName}}, {
+  secretKey: "YOUR_SECRET_KEY",
+});
+
 const contract = await sdk.getContract("{{contract_address}}");`,
     react: `import {{chainName}} from "@thirdweb-dev/chains";
 import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
