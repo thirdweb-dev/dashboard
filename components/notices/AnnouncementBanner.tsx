@@ -49,7 +49,12 @@ export const AnnouncementBanner = () => {
               gap={{ base: 0.5, md: 2 }}
               color="white"
             >
-              <SimpleGrid columns={3} placeItems="center" gap={0}>
+              <SimpleGrid
+                columns={3}
+                placeItems="center"
+                gap={0}
+                display={{ base: "none", md: "grid" }}
+              >
                 <IconLogo boxSize={6} />
                 <Icon as={FiX} boxSize={3} />
                 <Img src="/logos/paper-logo-icon.svg" boxSize={6} />
@@ -62,7 +67,7 @@ export const AnnouncementBanner = () => {
                 fontWeight={500}
               >
                 <strong>
-                  thirdweb acquires Paper, checkout and wallet solution.
+                  thirdweb acquires Paper, leading checkout and wallet solution.
                 </strong>{" "}
                 Learn more
               </Heading>
