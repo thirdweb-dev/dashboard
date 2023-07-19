@@ -124,11 +124,13 @@ function Component() {
     web3button: ``,
     python: `from thirdweb import ThirdwebSDK
 
-sdk = ThirdwebSDK("{{chainNameOrRpc}}")
+sdk = ThirdwebSDK("{{chainNameOrRpc}}", options=SDKOptions(secret_key="YOUR_SECRET_KEY"))
 contract = sdk.get_contract("{{contract_address}}")`,
     go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
 
-sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}")
+sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}", &thirdweb.SDKOptions{
+  SecretKey: "YOUR_SECRET_KEY",
+})
 contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
