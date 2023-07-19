@@ -1,3 +1,4 @@
+import { blankDropNetworkMapping } from "components/blank-drop/allowedNetworks";
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
@@ -22,7 +23,7 @@ const handler = async (req: NextRequest) => {
     // Check if the user is a valid "paper" wallet
     try {
       const paperWalletResponse = await fetch(
-        `https://withpaper.com/api/2022-08-12/embedded-wallet/user-details-by-wallet-address?walletAddress=$${address}&clientId=9a2f6238-c441-4bf4-895f-d13c2faf2ddb`,
+        `https://withpaper.com/api/2022-08-12/embedded-wallet/user-details-by-wallet-address?walletAddress=${address}&clientId=9a2f6238-c441-4bf4-895f-d13c2faf2ddb`,
         {
           method: "GET",
           headers: {
@@ -55,7 +56,9 @@ const handler = async (req: NextRequest) => {
 
     const baseWeb3ApiUrl = "https://web3api-7dqe.zeet-nftlabs.zeet.app";
 
-    const contractAddress = "0x2602E80ce4e70A4A17afDe1C34fFA8A4D3901F72";
+    const contractAddress =
+      blankDropNetworkMapping[network as keyof typeof blankDropNetworkMapping]
+        .contractAddress;
 
     // Check balance
     try {

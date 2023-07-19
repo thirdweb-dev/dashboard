@@ -1,7 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { ThirdwebSDKProvider, useSigner } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  ThirdwebSDKProvider,
+  useSigner,
+} from "@thirdweb-dev/react";
 import type { SDKOptions } from "@thirdweb-dev/sdk/evm";
 import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
+import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import {
   useSupportedChain,
   useSupportedChains,
@@ -42,6 +47,47 @@ export const CustomSDKContext: ComponentWithChildren<{
     >
       {children}
     </ThirdwebSDKProvider>
+  );
+};
+
+export const CustomProviderContext: ComponentWithChildren<{
+  activeChain?: number;
+  supportedWallets: any[];
+  options?: SDKOptions;
+}> = ({ activeChain, supportedWallets, options, children }) => {
+  const signer = useSigner();
+  const queryClient = useQueryClient();
+  const networkInfo = useSupportedChain(activeChain || -1);
+  const configuredChains = useSupportedChains();
+
+  return (
+    <ThirdwebProvider
+      activeChain={activeChain}
+      signer={signer}
+      queryClient={queryClient}
+      supportedChains={configuredChains}
+      sdkOptions={{
+        gasSettings: {
+          maxPriceInGwei: 650,
+        },
+        readonlySettings: networkInfo
+          ? {
+              chainId: activeChain,
+              rpcUrl: getDashboardChainRpc(networkInfo),
+            }
+          : undefined,
+        ...options,
+      }}
+      clientId={DASHBOARD_THIRDWEB_API_KEY}
+      storageInterface={StorageSingleton}
+      supportedWallets={supportedWallets}
+      authConfig={{
+        domain: THIRDWEB_DOMAIN,
+        authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
+      }}
+    >
+      {children}
+    </ThirdwebProvider>
   );
 };
 

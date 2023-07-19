@@ -187,7 +187,7 @@ export enum PageId {
 
   // thirdweb.com/blank-drop
   BlankDrop = "blank-drop",
-  BlankDropMumbai = "blank-drop-mumbai",
+  BlankDropNetwork = "blank-drop-network",
 
   // ---------------------------------------------------------------------------
   //  community pages

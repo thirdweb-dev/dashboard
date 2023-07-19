@@ -1,19 +1,7 @@
-import { Box, Flex, ListItem, UnorderedList } from "@chakra-ui/react";
-import {
-  Arbitrum,
-  Avalanche,
-  Linea,
-  Mumbai,
-  Polygon,
-} from "@thirdweb-dev/chains";
+import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { FAQ } from "components/bear-market-airdrop/Blocks/FAQ";
-import { Hero } from "components/bear-market-airdrop/Blocks/Hero";
-import { PrizesDisplay } from "components/bear-market-airdrop/Blocks/Prizes";
-import { Why } from "components/bear-market-airdrop/Blocks/Why";
 import { Aurora } from "components/homepage/Aurora";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";

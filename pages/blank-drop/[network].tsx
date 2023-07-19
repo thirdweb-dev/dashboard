@@ -1,30 +1,27 @@
-import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
-import { useClaimBlankDrop } from "@3rdweb-sdk/react/hooks/useClaimBlankDrop";
-import { Flex } from "@chakra-ui/react";
 import { getChainBySlug } from "@thirdweb-dev/chains";
-import { useAddress } from "@thirdweb-dev/react";
+import { paperWallet } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import {
-  AllowedNetworksSlugs,
-  allowedNetworksSlugs,
+  BlankDropAllowedNetworksSlugs,
+  blankDropAllowedNetworksSlugs,
 } from "components/blank-drop/allowedNetworks";
-import { Aurora } from "components/homepage/Aurora";
-import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { CustomProviderContext } from "contexts/custom-sdk-context";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { Button } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
+import { BlankDropNetworkLogic } from "components/blank-drop/NetworkLogic";
 
-const BlankDropMumbaiPage: ThirdwebNextPage = () => {
-  const address = useAddress();
-  const claimDrop = useClaimBlankDrop();
+const BlankDropNetworkPage: ThirdwebNextPage = () => {
   const slug = useSingleQueryParam("network");
 
-  console.log(claimDrop.error);
-
-  if (!allowedNetworksSlugs.includes(slug as AllowedNetworksSlugs)) {
+  if (
+    !slug ||
+    !blankDropAllowedNetworksSlugs.includes(
+      slug as BlankDropAllowedNetworksSlugs,
+    )
+  ) {
     return <></>;
   }
 
@@ -34,7 +31,14 @@ const BlankDropMumbaiPage: ThirdwebNextPage = () => {
   const description = `Claim this conmemorative NFT on ${network.name}.`;
 
   return (
-    <>
+    <CustomProviderContext
+      activeChain={network.chainId}
+      supportedWallets={[
+        paperWallet({
+          paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
+        }),
+      ]}
+    >
       <NextSeo
         title={title}
         description={description}
@@ -52,37 +56,15 @@ const BlankDropMumbaiPage: ThirdwebNextPage = () => {
           ],
         }}
       />
-      <Flex
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        mx="auto"
-        mt={-8}
-        pb={8}
-        overflowX="hidden"
-      >
-        <HomepageSection>
-          <Aurora
-            pos={{ top: "0%", left: "50%" }}
-            size={{ width: "1400px", height: "1400px" }}
-            color="hsl(289deg 78% 30% / 35%)"
-          />
-        </HomepageSection>
-        <ConnectWallet />
-        {address && slug && (
-          <Flex>
-            <Button onClick={() => claimDrop.mutate(slug)}>Claim</Button>
-          </Flex>
-        )}
-      </Flex>
-    </>
+      <BlankDropNetworkLogic slug={slug as BlankDropAllowedNetworksSlugs} />
+    </CustomProviderContext>
   );
 };
 
-BlankDropMumbaiPage.getLayout = function getLayout(page, props) {
+BlankDropNetworkPage.getLayout = function getLayout(page, props) {
   return <AppLayout {...props}>{page}</AppLayout>;
 };
 
-BlankDropMumbaiPage.pageId = PageId.BlankDropMumbai;
+BlankDropNetworkPage.pageId = PageId.BlankDropNetwork;
 
-export default BlankDropMumbaiPage;
+export default BlankDropNetworkPage;
