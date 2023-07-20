@@ -14,7 +14,7 @@ import {
   safeWallet,
   walletConnect,
 } from "@thirdweb-dev/react";
-import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useGetCustomIpfsGateways } from "hooks/useGetCustomIpfsGateways";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
@@ -38,7 +38,7 @@ const personalWallets = [
     },
   }),
   paperWallet({
-    clientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
+    paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
     advancedOptions: {
       recoveryShareManagement: "AWS_MANAGED",
     },
@@ -88,7 +88,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         readonlySettings,
         gatewayUrls,
       }}
-      thirdwebApiKey={DASHBOARD_THIRDWEB_API_KEY}
+      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
       supportedWallets={[
         ...personalWallets,
         safeWallet({

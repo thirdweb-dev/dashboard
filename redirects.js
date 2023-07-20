@@ -124,6 +124,16 @@ function redirects() {
       destination: "/template/erc721",
       permanent: false,
     },
+    {
+      source: "/abuse",
+      destination: "https://forms.gle/v9UJtHbVw8fXypcd7",
+      permanent: false,
+    },
+    {
+      source: "/create-api-key",
+      destination: "/dashboard/settings/api-keys",
+      permanent: false,
+    },
   ];
 }
 

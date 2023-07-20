@@ -22,6 +22,7 @@ export type ApiKey = {
   creatorWalletAddress: string;
   walletAddresses: string[];
   domains: string[];
+  bundleIds: string[];
   revokedAt: string;
   lastAccessedAt: string;
   createdAt: string;
@@ -37,6 +38,7 @@ export interface UpdateKeyServiceInput {
 export interface CreateKeyInput {
   name?: string;
   domains?: string[];
+  bundleIds?: string[];
   walletAddresses?: string[];
   services?: UpdateKeyServiceInput[];
 }
@@ -45,6 +47,7 @@ export interface UpdateKeyInput {
   id: string;
   name: string;
   domains: string[];
+  bundleIds: string[];
   walletAddresses?: string[];
   services?: UpdateKeyServiceInput[];
 }
@@ -96,7 +99,7 @@ export function useCreateApiKey() {
         throw new Error(json.error?.message || json.error);
       }
 
-      return json.data;
+      return json.data as ApiKey;
     },
     {
       onSuccess: () => {

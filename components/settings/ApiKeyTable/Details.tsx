@@ -1,13 +1,10 @@
 import { ApiKeyDetailsRow } from "./DetailsRow";
-import { GenerateApiKeyButton } from "./GenerateButton";
-import { THIRDWEB_SERVICES, findByName } from "./services";
+import { HIDDEN_SERVICES } from "./validations";
 import { ApiKey, ApiKeyService } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-  Box,
-  Divider,
   Flex,
   HStack,
   Kbd,
@@ -20,7 +17,12 @@ import {
   Tooltip,
   VStack,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import {
+  SERVICES,
+  ServiceName,
+  getServiceByName,
+} from "@thirdweb-dev/service-utils";
+import { useMemo } from "react";
 import { Badge, Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
 import { shortenString } from "utils/usedapp-external";
@@ -35,19 +37,16 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   selectedSection,
   onSectionChange,
 }) => {
-  const [generatedKey, setGeneratedKey] = useState<ApiKey>(apiKey);
-
   const {
-    id,
-    name,
     key,
     secretMasked,
     domains,
+    bundleIds,
     createdAt,
     updatedAt,
     lastAccessedAt,
     services,
-  } = generatedKey;
+  } = apiKey;
 
   const servicesCount = (services || []).length;
 
@@ -60,31 +59,70 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               No Domains Configured
             </Heading>
             <Text size="body.sm" as={AlertDescription}>
-              This Publishable Key cannot be used until at least one domain is
-              configured. To allow access from any domain, use the wildcard:{" "}
-              <Kbd>*</Kbd>
+              This Client ID cannot be used from the web until at least one
+              domain is configured. To allow access from any domain, use the
+              wildcard: <Kbd>*</Kbd>
             </Text>
           </Flex>
         </Alert>
       );
     }
+
     if (domains.includes("*")) {
       return (
         <Alert status="warning" variant="left-accent">
           <Flex direction="column" gap={1.5}>
             <Heading size="label.md" as={AlertTitle}>
-              Unrestricted Access
+              Unrestricted Web Access
             </Heading>
             <Text size="body.sm" as={AlertDescription}>
-              This Publishable Key can be used from any domain. Anyone with the
+              This Client ID can be used from any domain. Anyone with the key
+              can use it to access all the services enabled for this key.
+            </Text>
+          </Flex>
+        </Alert>
+      );
+    }
+
+    return <CodeBlock code={domains.join("\n")} canCopy={false} />;
+  }, [domains]);
+
+  const bundleIdsContent = useMemo(() => {
+    if (bundleIds.length === 0) {
+      return (
+        <Alert status="error" variant="left-accent">
+          <Flex direction="column" gap={1.5}>
+            <Heading size="label.md" as={AlertTitle}>
+              No Bundle IDs Configured
+            </Heading>
+            <Text size="body.sm" as={AlertDescription}>
+              This Client ID cannot be used from the native app until at least
+              one bundle ID is configured. To allow access from any app bundle,
+              use the wildcard: <Kbd>*</Kbd>
+            </Text>
+          </Flex>
+        </Alert>
+      );
+    }
+
+    if (bundleIds.includes("*")) {
+      return (
+        <Alert status="warning" variant="left-accent">
+          <Flex direction="column" gap={1.5}>
+            <Heading size="label.md" as={AlertTitle}>
+              Unrestricted App Access
+            </Heading>
+            <Text size="body.sm" as={AlertDescription}>
+              This Client ID can be used from any app bundle. Anyone with the
               key can use it to access all the services enabled for this key.
             </Text>
           </Flex>
         </Alert>
       );
     }
-    return <CodeBlock code={domains.join("\n")} canCopy={false} />;
-  }, [domains]);
+
+    return <CodeBlock code={bundleIds.join("\n")} canCopy={false} />;
+  }, [bundleIds]);
 
   // FIXME: Enable when wallets restrictions is in use
   // const walletsContent = useMemo(() => {
@@ -110,74 +148,80 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
   const sortedServices = useMemo(() => {
     return (
       services?.sort((a, b) => {
-        const keyA = THIRDWEB_SERVICES.findIndex(
-          (service) => service.name === a.name,
-        );
-        const keyB = THIRDWEB_SERVICES.findIndex(
-          (service) => service.name === b.name,
-        );
+        const keyA = SERVICES.findIndex((service) => service.name === a.name);
+        const keyB = SERVICES.findIndex((service) => service.name === b.name);
         return keyA - keyB;
       }) || []
     );
   }, [services]);
 
   return (
-    <Tabs defaultIndex={selectedSection} onChange={onSectionChange} h="full">
+    <Tabs
+      defaultIndex={selectedSection}
+      onChange={onSectionChange}
+      h="full"
+      mx={-6}
+    >
       <TabList borderColor="borderColor">
         <Tab>General</Tab>
-        <Tab>Services ({servicesCount})</Tab>
+        {/* FIXME: Remove with HIDDEN_SERVICES: <Tab>Services ({servicesCount - HIDDEN_SERVICES.length})</Tab> */}
+        <Tab>Services</Tab>
       </TabList>
 
       <TabPanels>
         <TabPanel>
           <VStack align="flex-start" w="full" gap={6} py={4}>
             <ApiKeyDetailsRow
-              title="Publishable Key"
-              description="The Publishable Key can be restricted to allowed domains and enabled services. Use the it to access thirdweb services from the browser."
+              title="Client Id"
+              description={`Identifies your application. It should generally be restricted to specific domains (web) and/or bundle-ids (native).`}
               content={
                 <VStack gap={2} w="full" alignItems="flex-start">
-                  <CodeBlock codeValue={key} code={shortenString(key, false)} />
-                  <Text>
-                    Instantiate the thirdweb SDK with your Publishable Key:
-                  </Text>
+                  <CodeBlock code={key} />
+                  <Text>Instantiate the thirdweb SDK with your Client ID:</Text>
                   <CodeBlock
                     language="ts"
                     whiteSpace="pre"
-                    codeValue={`const sdk = new ThirdwebSDK("goerli", {
-                      apiKey: "${key}"
-                    });`}
                     code={`const sdk = new ThirdwebSDK("goerli", {
-  apiKey: "${shortenString(key, false)}"
+  clientId: "${key.startsWith("pk") ? shortenString(key) : key}"
 });`}
                   />
                 </VStack>
               }
             />
+
+            {/* for very old api keys the secretmask might be `null`, if that's the case we skip it */}
+            {secretMasked && (
+              <ApiKeyDetailsRow
+                title="Secret Key"
+                description="Identifies and authenticates your application from the backend. Using the secret key bypasses any allowed domains or bundle ids."
+                content={
+                  <VStack gap={2} w="full" alignItems="flex-start">
+                    <CodeBlock code={secretMasked} canCopy={false} />
+                    <Text>
+                      Instantiate the thirdweb SDK with your secret key:
+                    </Text>
+                    <CodeBlock
+                      language="ts"
+                      whiteSpace="pre"
+                      code={`const sdk = new ThirdwebSDK("goerli", {
+  secretKey: "${secretMasked}"
+});`}
+                    />
+                  </VStack>
+                }
+              />
+            )}
+
             <ApiKeyDetailsRow
               title="Allowed Domains"
-              tooltip={`Prevent third-parties from using your Publishable Key on their websites by only allowing requests from your domains.`}
+              tooltip={`Prevent third-parties from using your Client ID on their websites by only allowing requests from your domains.`}
               content={domainsContent}
             />
 
-            <Divider />
-
             <ApiKeyDetailsRow
-              title="Secret Key"
-              description="The Secret Key does not adhere to restrictions you define. Anyone with the Secret Key can access all thirdweb services."
-              content={
-                <Box position="relative" w="full">
-                  <CodeBlock
-                    code={secretMasked || "No secret created yet"}
-                    canCopy={false}
-                  />
-                  <GenerateApiKeyButton
-                    id={id}
-                    name={name}
-                    generatedKey={generatedKey}
-                    setGeneratedKey={setGeneratedKey}
-                  />
-                </Box>
-              }
+              title="Allowed Bundle IDs"
+              tooltip={`(Unity Native/React Native users only) Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
+              content={bundleIdsContent}
             />
 
             {/*
@@ -187,8 +231,6 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
               tooltip="The list of wallet addresses allowed to access thirdweb services via the configured Publishable Key."
               content={walletsContent}
             /> */}
-
-            <Divider mt="auto" />
 
             <SimpleGrid columns={2} w="100%" gap={4}>
               <ApiKeyDetailsRow
@@ -212,23 +254,20 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
         <TabPanel>
           <VStack alignItems="flex-start" w="full" gap={3} pt={3}>
             {servicesCount === 0 && (
-              <Text>
-                There are no services linked to this API Key. It can be used to
-                access all thirdweb services.
-              </Text>
-            )}
-
-            {servicesCount > 0 && (
-              <Text size="body.md">
-                Here are thirdweb services this API Key can access.
-              </Text>
+              <Text>There are no services enabled for this API Key.</Text>
             )}
 
             {sortedServices.map((srv) => {
-              const service = findByName(srv.name);
+              const service = getServiceByName(srv.name as ServiceName);
 
               return service ? (
-                <Card w="full" key={srv.id}>
+                <Card
+                  w="full"
+                  key={srv.id}
+                  display={
+                    HIDDEN_SERVICES.includes(srv.name) ? "none" : "block"
+                  }
+                >
                   <Heading size="label.lg" pb={1}>
                     {service.title}
                   </Heading>
@@ -238,8 +277,8 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
                   {service.name === "bundler" && (
                     <ApiKeyDetailsRow
-                      title="Allowed Target Addresses"
-                      tooltip={`The list of contract/wallet addressed allowed to access thirdweb ${service.title} service via the configured Publishable Key.`}
+                      title="Destination Contracts"
+                      tooltip={`Restrict contracts your wallets can interact with through the thirdweb ${service.title} service.`}
                       content={renderServicesContent(srv)}
                     />
                   )}

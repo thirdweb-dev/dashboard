@@ -44,7 +44,7 @@ import {
   CodeEnvironment,
   SnippetApiResponse,
 } from "components/contract-tabs/code/types";
-import { DASHBOARD_THIRDWEB_API_KEY } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { constants } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
@@ -74,16 +74,28 @@ const COMMANDS = {
   },
   setup: {
     javascript: `import {{chainName}} from "@thirdweb-dev/chains";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
-const sdk = new ThirdwebSDK({{chainName}});
+// If used on the FRONTEND pass your 'clientId'
+const sdk = new ThirdwebSDK({{chainName}}, {
+  clientId: "YOUR_CLIENT_ID",
+});
+// --- OR ---
+// If used on the BACKEND pass your 'secretKey'
+const sdk = new ThirdwebSDK({{chainName}}, {
+  secretKey: "YOUR_SECRET_KEY",
+});
+
 const contract = await sdk.getContract("{{contract_address}}");`,
     react: `import {{chainName}} from "@thirdweb-dev/chains";
 import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
 
 function App() {
   return (
-    <ThirdwebProvider activeChain={{chainName}}>
+    <ThirdwebProvider 
+      activeChain={{chainName}} 
+      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
+    >
       <Component />
     </ThirdwebProvider>
   )
@@ -97,7 +109,10 @@ import { ThirdwebProvider, useContract } from "@thirdweb-dev/react-native";
 
 function App() {
   return (
-    <ThirdwebProvider activeChain={{chainName}}>
+    <ThirdwebProvider 
+      activeChain={{chainName}}
+      clientId="YOUR_CLIENT_ID" // You can get a client id from dashboard settings
+    >
       <Component />
     </ThirdwebProvider>
   )
@@ -109,17 +124,21 @@ function Component() {
     web3button: ``,
     python: `from thirdweb import ThirdwebSDK
 
-sdk = ThirdwebSDK("{{chainNameOrRpc}}")
+sdk = ThirdwebSDK("{{chainNameOrRpc}}", options=SDKOptions(secret_key="YOUR_SECRET_KEY"))
 contract = sdk.get_contract("{{contract_address}}")`,
     go: `import "github.com/thirdweb-dev/go-sdk/thirdweb"
 
-sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}")
+sdk, err := thirdweb.NewThirdwebSDK("{{chainNameOrRpc}}", &thirdweb.SDKOptions{
+  SecretKey: "YOUR_SECRET_KEY",
+})
 contract, err := sdk.GetContract("{{contract_address}}")
 `,
     unity: `using Thirdweb;
 
 private void Start() {
-    ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}");
+    ThirdwebSDK SDK = new ThirdwebSDK("{{chainNameOrRpc}}", chainId, new ThirdwebSDK.Options() { 
+      clientId = myClientId // you can get client id from dashboard settings
+    });
     Contract myContract = SDK.GetContract("{{contract_address}}");
 }`,
   },
@@ -284,7 +303,7 @@ function formatSnippet(
           : rpcUrl?.replace(
               // eslint-disable-next-line no-template-curly-in-string
               "${THIRDWEB_API_KEY}",
-              DASHBOARD_THIRDWEB_API_KEY,
+              DASHBOARD_THIRDWEB_CLIENT_ID,
             ) || "",
       );
 
@@ -470,6 +489,15 @@ export const CodeOverview: React.FC<CodeOverviewProps> = ({
               })}
               hideTabs
             />
+            <Text>
+              You will need to pass a client ID/secret key to use
+              thirdweb&apos;s infrastructure services. If you don&apos;t have
+              any API keys yet you can create one for free from the{" "}
+              <Link href="/dashboard/settings/api-keys" color="primary.500">
+                dashboard settings
+              </Link>
+              .
+            </Text>
           </Flex>
         </Flex>
         {!onlyInstall ? (
