@@ -10,7 +10,7 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
-import { Chain, configureChain, minimizeChain } from "@thirdweb-dev/chains";
+import { Chain, configureChain } from "@thirdweb-dev/chains";
 import { DropContract } from "@thirdweb-dev/react";
 import {
   DASHBOARD_THIRDWEB_CLIENT_ID,
@@ -29,6 +29,21 @@ import {
   FormLabel,
   Heading,
 } from "tw-components";
+
+export function minimizeChain(chain: Chain) {
+  const [firstRpc] = chain.rpc;
+  return {
+    name: chain.name,
+    chain: chain.chain,
+    rpc: [firstRpc],
+    nativeCurrency: chain.nativeCurrency,
+    shortName: chain.shortName,
+    chainId: chain.chainId,
+    testnet: chain.testnet,
+    slug: chain.slug,
+    icon: chain.icon,
+  };
+}
 
 interface EmbedSetupProps {
   contract: DropContract;
