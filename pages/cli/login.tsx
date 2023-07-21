@@ -7,14 +7,17 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Card, Heading, Text } from "tw-components";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const LoginPage: ThirdwebNextPage = () => {
   const { from } = useRouter().query;
   const [loading, setLoading] = useState<boolean>(true);
-  const [statusText, setStatusText] = useState<string>("Generating API key...");
+  const [statusText, setStatusText] = useState<string | ReactNode>(
+    "Checking for existing API key...",
+  );
+  const [loginStatus, setLoginStatus] = useState<string>("Logging in...");
   const address = useAddress();
   const keysQuery = useApiKeys();
   const createKeyMutation = useCreateApiKey();
@@ -24,6 +27,7 @@ const LoginPage: ThirdwebNextPage = () => {
     "Failed to create API key",
   );
   const hasCreatedKey = useRef<boolean>(false);
+  const hasFailedRequest = useRef<boolean>(false);
   const allKeys = useMemo(() => {
     if (!keysQuery?.data) {
       return [];
@@ -32,15 +36,41 @@ const LoginPage: ThirdwebNextPage = () => {
   }, [keysQuery?.data]);
 
   useEffect(() => {
+    const state = window.location.hash.replace("#", "");
+    const failRequest = async () => {
+      if (hasFailedRequest.current) {
+        // If the function has already been called, don't call it again.
+        return;
+      }
+
+      hasFailedRequest.current = true;
+
+      setLoginStatus("Login failed!");
+      setStatusText(
+        <>
+          CLI Auth Key already exists, you must delete it and try again if you
+          want to sign in to a new device:{" "}
+          <Link color="blue.200" href="/dashboard/settings/api-keys">
+            Delete your key here.
+          </Link>
+        </>,
+      );
+      try {
+        await fetch(`http://localhost:8976/auth/callback`, {
+          method: "POST",
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      setLoading(false);
+    };
+
     if (
-      !window ||
       !allKeys ||
       keysQuery.isFetching ||
       keysQuery.isLoading ||
       hasCreatedKey.current
     ) {
-      // setLoading(false);
-      // setStatusText("You can close this window now.");
       return;
     }
     const cliKeyAlreadyExists =
@@ -51,8 +81,6 @@ const LoginPage: ThirdwebNextPage = () => {
       const formattedValues = {
         name: "CLI Auth Key",
         domains: ["*"],
-        // FIXME: Enable when wallets restrictions is in use
-        // walletAddresses: toArrFromList(values.walletAddresses),
         services: [
           {
             name: "storage",
@@ -72,27 +100,38 @@ const LoginPage: ThirdwebNextPage = () => {
             fromCli: true,
           });
           try {
-            await fetch(
-              `http://localhost:8976/secretKey/callback?id=${data.secret}`,
+            const response = await fetch(
+              `http://localhost:8976/auth/callback?id=${data.secret}&state=${state}`,
               {
                 method: "POST",
               },
             );
-            setTimeout(() => {
+            if (response.ok) {
+              setLoginStatus("Login successful!");
+              setStatusText("You can close this window now.");
+              setLoading(false);
+            } else {
+              // This should never happen, but just in case
+              setLoginStatus("Login failed!");
               setStatusText(
-                "API key generated successfully, you can close this window now.",
+                <>
+                  Failed to authorize with CLI, please reach out to us on
+                  Discord:{" "}
+                  <Link color="blue.200" href="https://discord.gg/thirdweb">
+                    https://discord.gg/thirdweb
+                  </Link>
+                </>,
               );
               setLoading(false);
-            }, 2000);
-          } catch (err) {
-            console.log("error", err);
-            setTimeout(() => {
-              setStatusText("Failed to log in, please try again later.");
-              setLoading(false);
-            }, 2000);
+              console.error(
+                `Failed to authorize with CLI: ${response.statusText}, please reach out to us on Discord: discord.gg/thirdweb.`,
+              );
+            }
+          } catch (e) {
+            console.log(e);
           }
         },
-        onError: (err) => {
+        onError: async (err) => {
           onError(err);
           trackEvent({
             category: "api-keys",
@@ -101,18 +140,21 @@ const LoginPage: ThirdwebNextPage = () => {
             error: err,
             fromCli: true,
           });
-          setTimeout(() => {
-            setStatusText(
-              "Failed to generate API key, please try again later.",
-            );
-            setLoading(false);
-          }, 2000);
+          setStatusText(
+            <>
+              Failed to generate your API key, please reach out to us on
+              Discord:{" "}
+              <Link color="blue.200" href="https://discord.gg/thirdweb">
+                https://discord.gg/thirdweb
+              </Link>
+            </>,
+          );
+          setLoading(false);
+          console.error(err);
         },
       });
-    } else {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+    } else if (cliKeyAlreadyExists) {
+      failRequest();
     }
   }, [
     address,
@@ -145,22 +187,22 @@ const LoginPage: ThirdwebNextPage = () => {
   }
 
   return (
-    <Flex
-      justify="center"
-      flexDir="column"
-      justifyContent="center"
-      alignItems="center"
-      overflow="hidden"
-      h="full"
-    >
-      {loading && <Spinner />}
-      <Heading size="display.sm">
-        {loading ? "Logging in..." : "Login successful!"}
-      </Heading>
-      <Heading textAlign="center" size="label.2xl">
-        {statusText}
-      </Heading>
-    </Flex>
+    <Container maxW="container.lg" overflow="hidden" h="full">
+      <Flex
+        justify="center"
+        flexDir="column"
+        justifyContent="center"
+        alignItems="center"
+        h="full"
+        gap={4}
+      >
+        <Heading size="display.sm">{loginStatus}</Heading>
+        <Heading textAlign="center" size="label.2xl">
+          {statusText}
+        </Heading>
+        {loading && <Spinner />}
+      </Flex>
+    </Container>
   );
 };
 
