@@ -22,6 +22,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
   integrations: [new Sentry.Replay()],
 
+  beforeSend: sentryOptions.beforeSend,
   ignoreErrors: sentryOptions.ignoreErrors,
   denyUrls: sentryOptions.denyUrls,
 });

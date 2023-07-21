@@ -63,4 +63,11 @@ export const sentryOptions = {
     /webappstoolbarba\.texthelp\.com\//i,
     /metrics\.itunes\.apple\.com\.edgesuite\.net\//i,
   ],
+  beforeSend: (event, hint) => {
+    // TODO: Do smth from event/hint to decide if to filter out,
+    //       See: https://docs.sentry.io/platforms/javascript/configuration/filtering/
+    // FIXME: Remove
+    console.debug(event, hint);
+    return event;
+  },
 };
