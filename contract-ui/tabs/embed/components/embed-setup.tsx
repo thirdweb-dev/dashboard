@@ -228,10 +228,6 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   });
   const minimizedChain = minimizeChain(configuredChainWithNewRpc);
 
-  console.log({
-    minimizedChain,
-  });
-
   const iframeSrc = buildIframeSrc(contract, ercOrMarketplace, {
     chain: JSON.stringify(minimizedChain),
     ...watch(),
