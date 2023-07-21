@@ -1,11 +1,23 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize]
+  # trigger on merge group as well (merge queue)
+  merge_group:
+    types: [checks_requested]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     name: Build, Lint & Test
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node_version: [18]
