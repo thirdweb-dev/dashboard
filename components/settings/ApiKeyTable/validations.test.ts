@@ -22,7 +22,7 @@ describe("apiKeyValidationSchema", () => {
       expect(result.success).toBe(true);
     });
 
-    it("is valid with comma new-line and commad separated fqdns", () => {
+    it("is valid with comma and new-line separated fqdns", () => {
       const result = apiKeyValidationSchema.safeParse({
         ...validApiKey,
         domains: "example.com\nfoo.bar.com, thirdweb.com",
@@ -67,7 +67,7 @@ describe("apiKeyValidationSchema", () => {
       expect(result.success).toBe(true);
     });
 
-    it("is valid with comma new-line and commad separated fqdns", () => {
+    it("is valid with comma and new-line separated fqdns", () => {
       const result = apiKeyValidationSchema.safeParse({
         ...validApiKey,
         bundleIds: "com.thirdweb.ios, foo.bar.id-123\napp.bundle.id",
