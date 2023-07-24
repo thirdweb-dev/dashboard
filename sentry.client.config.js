@@ -19,25 +19,26 @@ if (!isBrowserSupported) {
   console.warn("Browser not supported. Sentry will not be initialized.");
 }
 
-Sentry.init({
-  dsn: SENTRY_DSN,
-  // Adjust this value in production, or use tracesSampler for greater control
-  tracesSampleRate: 0,
-  // ...
-  // Note: if you want to override the automatic release value, do not set a
-  // `release` value here - use the environment variable `SENTRY_RELEASE`, so
-  // that it will also get attached to your source maps
+if (isBrowserSupported) {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    // Adjust this value in production, or use tracesSampler for greater control
+    tracesSampleRate: 0,
+    // ...
+    // Note: if you want to override the automatic release value, do not set a
+    // `release` value here - use the environment variable `SENTRY_RELEASE`, so
+    // that it will also get attached to your source maps
 
-  // replays
-  // don't record replays for generic sessions
-  replaysSessionSampleRate: 0,
-  // record replays for errors
-  replaysOnErrorSampleRate: 0.1,
-  integrations: [new Sentry.Replay()],
+    // replays
+    // don't record replays for generic sessions
+    replaysSessionSampleRate: 0,
+    // record replays for errors
+    replaysOnErrorSampleRate: 0.1,
+    integrations: [new Sentry.Replay()],
 
-  ignoreErrors: sentryOptions.ignoreErrors,
-  denyUrls: sentryOptions.denyUrls,
-  // only allow thirdweb.com and thirdweb-preview.com domains
-  allowUrls: [/^(https:\/\/)((thirdweb\.com)|(.*\.thirdweb-preview\.com))/i],
-  enabled: isBrowserSupported,
-});
+    ignoreErrors: sentryOptions.ignoreErrors,
+    denyUrls: sentryOptions.denyUrls,
+    // only allow thirdweb.com and thirdweb-preview.com domains
+    allowUrls: [/^(https:\/\/)((thirdweb\.com)|(.*\.thirdweb-preview\.com))/i],
+  });
+}
