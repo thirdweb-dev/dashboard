@@ -37,7 +37,7 @@ Sentry.init({
 
   ignoreErrors: sentryOptions.ignoreErrors,
   denyUrls: sentryOptions.denyUrls,
-  // only allow thirdweb.com domains
-  allowUrls: ["https://thirdweb.com"],
+  // only allow thirdweb.com and thirdweb-preview.com domains
+  allowUrls: [/^(https:\/\/)((thirdweb\.com)|(.*\.thirdweb-preview\.com))$/i],
   enabled: isBrowserSupported,
 });
