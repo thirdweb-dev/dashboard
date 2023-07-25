@@ -54,9 +54,11 @@ export const StepsCard: React.FC<StepsCardProps> = ({
           gap={4}
           onClick={isComplete ? () => setIsOpen((prev) => !prev) : undefined}
         >
-          <Heading size="label.lg" textAlign="left">
-            {title}
-          </Heading>
+          {title && (
+            <Heading size="label.lg" textAlign="left" mb={6}>
+              {title}
+            </Heading>
+          )}
           {isComplete && (
             <Flex alignItems="center">
               <Heading size="subtitle.xs" mr="2">
@@ -111,7 +113,7 @@ export const StepsCard: React.FC<StepsCardProps> = ({
           direction="column"
         >
           {description && <Text mt={4}>{description}</Text>}
-          <Progress value={percentage} mt={8} mb={2} rounded="full" size="sm" />
+          <Progress value={percentage} mt={2} mb={2} rounded="full" size="sm" />
           <Text size="body.sm" color="gray.700">
             {lastStepCompleted + 1}/{steps.length} tasks completed
           </Text>
