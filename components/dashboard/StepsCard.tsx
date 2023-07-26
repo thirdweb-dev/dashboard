@@ -15,12 +15,14 @@ interface StepsCardProps {
   title: string;
   description?: string;
   steps: Step[];
+  delay?: number;
 }
 
 export const StepsCard: React.FC<StepsCardProps> = ({
   title,
   description,
   steps,
+  delay = 500,
 }) => {
   const firstIncomplete = steps.findIndex((step) => !step.completed);
   const lastStepCompleted =
@@ -34,7 +36,7 @@ export const StepsCard: React.FC<StepsCardProps> = ({
   }
 
   return (
-    <DelayedDisplay delay={500}>
+    <DelayedDisplay delay={delay}>
       <Card
         flexDir="column"
         py={6}
