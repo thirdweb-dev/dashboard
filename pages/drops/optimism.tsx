@@ -1,6 +1,5 @@
 import { Flex } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { FAQ } from "components/bear-market-airdrop/Blocks/FAQ";
 import { CustomSDKContext } from "contexts/custom-sdk-context";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { NextSeo } from "next-seo";
@@ -8,6 +7,7 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { ComponentWithChildren } from "types/component-with-children";
 import { OptimismHero } from "components/drops/OptimismHero";
+import { OptimismFaq } from "components/drops/OptimismFAQ";
 
 const DropsOptimismPage: ThirdwebNextPage = () => {
   const title = "Optimism Drop";
@@ -43,7 +43,7 @@ const DropsOptimismPage: ThirdwebNextPage = () => {
         overflowX="hidden"
       >
         <OptimismHero />
-        <FAQ />
+        <OptimismFaq />
       </Flex>
     </DropsOptimismSDK>
   );
