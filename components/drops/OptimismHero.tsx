@@ -75,7 +75,7 @@ export const OptimismHero = () => {
       description: "Deploy a smart contract on OP Goerli",
       completed: (optimismGoerliQuery?.data || [])?.length > 0,
       children: (
-        <Flex gap={4}>
+        <Flex gap={6}>
           <LinkButton
             href="/explore"
             isExternal
@@ -88,15 +88,7 @@ export const OptimismHero = () => {
           >
             Deploy with thirdweb
           </LinkButton>
-          <LinkButton
-            href=""
-            isExternal
-            color="bgBlack"
-            bgColor="bgWhite"
-            _hover={{
-              opacity: 0.8,
-            }}
-          >
+          <LinkButton href="" isExternal variant="link">
             View Guide
           </LinkButton>
         </Flex>
