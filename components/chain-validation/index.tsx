@@ -131,6 +131,20 @@ const ChainValidation: React.FC<{}> = () => {
                         />
                       </Td>
                     </Tr>
+                    <Tr>
+                      <Td>
+                        RPC supports <Code>eth_getBalance</Code> method
+                      </Td>
+                      <Td textAlign="right">
+                        <StatusCheck
+                          status={
+                            validationReport.getBalanceSupported
+                              ? "success"
+                              : "error"
+                          }
+                        />
+                      </Td>
+                    </Tr>
                     {validationReport.chainIdSupported && (
                       <Tr>
                         <Td>
