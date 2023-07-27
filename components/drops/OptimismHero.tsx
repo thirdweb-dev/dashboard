@@ -15,10 +15,12 @@ import { LinkButton, Heading } from "tw-components";
 import { DropsOptimismSDK } from "pages/drops/optimism";
 import { ClaimNFT } from "./ClaimNFT";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { DeployContractCheck } from "./DeployContractCheck";
 
 export const OptimismHero = () => {
   const step2CompletedRef = useRef(false);
+  const [hasDeployed, setHasDeployed] = useState(false);
   const address = useAddress();
   const balance = useBalance();
 
@@ -33,6 +35,19 @@ export const OptimismHero = () => {
   const step2Completed =
     chainId === OptimismGoerli.chainId &&
     BigNumber.from(balance.data?.value || 0).gt(0);
+
+  useEffect(() => {
+    if ((optimismGoerliQuery?.data || [])?.length > 0) {
+      setHasDeployed(true);
+    }
+  }, [optimismGoerliQuery.data]);
+
+  useEffect(() => {
+    if (address) {
+      step2CompletedRef.current = false;
+      setHasDeployed(false);
+    }
+  }, [address]);
 
   const steps = [
     {
@@ -73,26 +88,8 @@ export const OptimismHero = () => {
     {
       title: "Deploy a contract",
       description: "Deploy a smart contract on OP Goerli",
-      completed: (optimismGoerliQuery?.data || [])?.length > 0,
-      children: (
-        <Flex gap={6}>
-          <LinkButton
-            href="/explore"
-            isExternal
-            noIcon
-            color="bgWhite"
-            bgColor="bgBlack"
-            _hover={{
-              opacity: 0.8,
-            }}
-          >
-            Deploy with thirdweb
-          </LinkButton>
-          <LinkButton href="" isExternal variant="link">
-            View Guide
-          </LinkButton>
-        </Flex>
-      ),
+      completed: hasDeployed,
+      children: <DeployContractCheck setHasDeployed={setHasDeployed} />,
     },
     {
       title: "Mint your NFT on OP Mainnet",
