@@ -57,6 +57,7 @@ export const OptimismHero = () => {
         chainId === OptimismGoerli.chainId || step2CompletedRef.current,
       children: (
         <Web3Button
+          // This is just a random op goerli contract address to trigger the network switch
           contractAddress="0x514A85Bcf5ce1a3735Fdb7F2f30B9fC757bf295C"
           action={() => null}
         >
