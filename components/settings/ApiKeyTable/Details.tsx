@@ -25,7 +25,6 @@ import {
 import { useMemo } from "react";
 import { Badge, Card, CodeBlock, Heading, Text } from "tw-components";
 import { toDateTimeLocal } from "utils/date-utils";
-import { shortenString } from "utils/usedapp-external";
 
 interface ApiKeyDetailsProps {
   apiKey: ApiKey;

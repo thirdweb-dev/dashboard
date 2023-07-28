@@ -373,21 +373,52 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
   const action = () => {
     switch (formStep) {
       case "name":
-        form.trigger("name");
+        form.trigger();
         if (form.formState.isValid) {
           setFormStep("services");
         }
         break;
       case "services":
-        setFormStep("permissions");
+        form.trigger();
+        if (form.formState.isValid) {
+          setFormStep("permissions");
+        }
         break;
       case "permissions":
+        form.trigger();
+        if (form.formState.isValid) {
+          setFormStep("keys");
+        }
         onSubmit();
-        setFormStep("keys");
         break;
       case "keys":
         onClose();
         break;
+    }
+  };
+
+  const backAction = () => {
+    switch (formStep) {
+      case "name":
+        break;
+      case "services":
+        setFormStep("name");
+        break;
+      case "permissions":
+        setFormStep("services");
+        break;
+      case "keys":
+        break;
+    }
+  };
+  const shouldShowBack = () => {
+    switch (formStep) {
+      case "name":
+      case "keys":
+        return false;
+      case "services":
+      case "permissions":
+        return true;
     }
   };
 
@@ -447,7 +478,8 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           <ModalHeader>{titleLabel()}</ModalHeader>
           {!apiKey && <ModalCloseButton />}
           <ModalBody>{renderFormStep()}</ModalBody>
-          <ModalFooter>
+          <ModalFooter gap={4}>
+            {shouldShowBack() && <Button onClick={backAction}>Back</Button>}
             <Button colorScheme="blue" onClick={action}>
               {actionLabel()}
             </Button>
