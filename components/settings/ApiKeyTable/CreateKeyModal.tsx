@@ -1,10 +1,7 @@
 import { ApiKeyKeyForm } from "./KeyForm";
 import { ApiKeyValidationSchema } from "./validations";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
-import {
-  Modal,
-  ModalOverlay,
-} from "@chakra-ui/react";
+import { Modal, ModalOverlay } from "@chakra-ui/react";
 import { UseFormReturn } from "react-hook-form";
 
 interface ApiKeysCreateModalProps {
