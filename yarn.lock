@@ -4530,10 +4530,10 @@
     yaml "^2.3.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/service-utils@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.2.1.tgz#5598a5d45d378a031fd9b00f562f6db8236d0db2"
-  integrity sha512-xvmqOaeQvB3CJMG6qk0ULn7A/lMU0V46thODLWTnk89zn/tWQrMXfp1PmPUUUuMYkEhn9K2j9oGou8P7m2WDEQ==
+"@thirdweb-dev/service-utils@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.2.3.tgz#0aae36e7a7e1eb35d35f5023605f5abb74e7b8d6"
+  integrity sha512-g3TXvHMibW8SzuJr4dHQNf1bBb7K9NZoucevuV0cRhU4VLq1MUPVgrdaE5ueKud1e7VcrDCR1W49EnHq3YgcCA==
 
 "@thirdweb-dev/storage@1.2.0":
   version "1.2.0"
