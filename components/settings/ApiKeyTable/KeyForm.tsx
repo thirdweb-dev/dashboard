@@ -456,7 +456,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           h="full"
           mx={-6}
         >
-          <TabList>
+          <TabList borderColor="borderColor">
             <Tab>General</Tab>
             <Tab>Services ({enabledServices?.length || 0})</Tab>
           </TabList>
