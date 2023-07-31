@@ -1,4 +1,10 @@
-import { Base, BaseGoerli, Chain, Sepolia, allChains } from "@thirdweb-dev/chains";
+import {
+  Base,
+  BaseGoerli,
+  Chain,
+  Sepolia,
+  allChains,
+} from "@thirdweb-dev/chains";
 import {
   ChainId,
   fetchContractMetadataFromAddress,
@@ -55,9 +61,9 @@ export const blockExplorerMap: Record<number, { name: string; url: string }> = {
     name: "Mumbai Polygonscan",
     url: "https://mumbai.polygonscan.com/",
   },
-  [Base.chainId] : {
+  [Base.chainId]: {
     name: "Basescan",
-    url: "https://basescan.org/"
+    url: "https://basescan.org/",
   },
   [BaseGoerli.chainId]: {
     name: "Base Goerli Basescan",
