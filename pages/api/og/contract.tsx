@@ -63,11 +63,13 @@ const OgBrandIcon: React.FC = () => (
 const MAX_LENGTH = 50;
 
 function textShortener(text: string) {
-  let words = [];
+  const words = [];
   let currentLength = 0;
   let shortened = false;
 
   const allWords = text.split(" ");
+
+  // no shorting for one word
   if (allWords.length === 1) {
     return text;
   }
@@ -81,9 +83,7 @@ function textShortener(text: string) {
     words.push(word);
     currentLength += word.length + 1;
   }
-  if (words[words.length - 1].length < 4) {
-    words = words.slice(0, -1);
-  }
+
   if (words[words.length - 1]?.endsWith(".")) {
     return words.join(" ");
   }
