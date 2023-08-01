@@ -66,7 +66,13 @@ function textShortener(text: string) {
   let words = [];
   let currentLength = 0;
   let shortened = false;
-  for (const word of text.split(" ")) {
+
+  const allWords = text.split(" ");
+  if (allWords.length === 1) {
+    return text;
+  }
+
+  for (const word of allWords) {
     // +1 for the space
     if (currentLength + word.length + 1 > MAX_LENGTH) {
       shortened = true;
