@@ -61,7 +61,11 @@ export const DeployContractCheck: React.FC<DeployContractCheckProps> = ({
         >
           Deploy with thirdweb
         </LinkButton>
-        <LinkButton href="" isExternal variant="link">
+        <LinkButton
+          href="https://blog.thirdweb.com/optimism-superchain-faucet-nft"
+          isExternal
+          variant="link"
+        >
           View Guide
         </LinkButton>
       </Flex>

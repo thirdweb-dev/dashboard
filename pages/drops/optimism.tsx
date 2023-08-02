@@ -10,9 +10,9 @@ import { OptimismHero } from "components/drops/OptimismHero";
 import { OptimismFaq } from "components/drops/OptimismFAQ";
 
 const DropsOptimismPage: ThirdwebNextPage = () => {
-  const title = "Optimism Drop";
+  const title = "Mint your Superchain Builder NFT on Optimism";
   const description =
-    "thirdweb is giving back to brave builders that deploy contracts on Optimism Goerli.";
+    "Claim a free Superchain Builder NFT on OP Mainnet by deploying a contract on OP Goerli. Claim here.";
 
   return (
     <DropsOptimismSDK chainId={420}>
@@ -24,8 +24,7 @@ const DropsOptimismPage: ThirdwebNextPage = () => {
           description,
           images: [
             {
-              // TODO: Update og-image
-              url: `${getAbsoluteUrl()}/assets/og-image/bear-market-airdrop.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/drops-optimism.png`,
               width: 1200,
               height: 630,
               alt: title,
