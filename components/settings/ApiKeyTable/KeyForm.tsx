@@ -29,7 +29,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ServiceName, getServiceByName } from "@thirdweb-dev/service-utils";
-import React from "react";
+import React, { FormEventHandler } from "react";
 import {
   FieldArrayWithId,
   UseFormReturn,
@@ -91,6 +91,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
         >
           <FormLabel>Key name</FormLabel>
           <Input
+            autoFocus
             placeholder="Descriptive name"
             type="text"
             {...form.register("name")}
@@ -348,8 +349,8 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
             <Text as={AlertDescription} size="body.md">
               Store the Secret Key in a secure place and{" "}
               <strong>never share it</strong>. You will not be able to retrieve
-              it again. If you lose it, you will need to regenerate a new Secret
-              Key.
+              it again. If you lose it, you will need to create a new API Key
+              pair.
             </Text>
           </Flex>
         </Alert>
@@ -370,7 +371,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
     }
   };
 
-  const action = async () => {
+  const handleSubmit = async () => {
     switch (formStep) {
       case "name":
         await form.trigger();
@@ -437,7 +438,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
   const titleLabel = () => {
     switch (formStep) {
       case "name":
-        return "Name your API Keys";
+        return "Create an API Key";
       case "services":
         return "Enable Services";
       case "permissions":
@@ -448,7 +449,13 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
   };
 
   return (
-    <form onSubmit={action} autoComplete="off">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      autoComplete="off"
+    >
       {tabbed && (
         <Tabs
           defaultIndex={selectedSection}
@@ -485,7 +492,13 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           <ModalBody>{renderFormStep()}</ModalBody>
           <ModalFooter gap={4}>
             {shouldShowBack() && <Button onClick={backAction}>Back</Button>}
-            <Button colorScheme="blue" onClick={action}>
+            <Button
+              colorScheme="blue"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
               {actionLabel()}
             </Button>
           </ModalFooter>
