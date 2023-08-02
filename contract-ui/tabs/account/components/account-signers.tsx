@@ -1,10 +1,6 @@
 import { AccountSigner } from "./account-signer";
 import { Flex } from "@chakra-ui/react";
-import {
-  useAccountSigners,
-  useContract,
-  useAccountAdminsAndSigners,
-} from "@thirdweb-dev/react";
+import { useContract, useAccountAdminsAndSigners } from "@thirdweb-dev/react";
 import React from "react";
 
 interface AccountSignersProps {
@@ -24,7 +20,7 @@ export const AccountSigners: React.FC<AccountSignersProps> = ({
         <AccountSigner
           key={signer.signer}
           signer={signer}
-          isAdmin={signer.isAdmin}
+          isAdmin={signer.isAdmin || false}
         />
       ))}
     </Flex>

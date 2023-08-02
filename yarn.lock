@@ -4493,24 +4493,24 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/generated-abis/-/generated-abis-0.0.1.tgz#0d788d6aff0ac08f11e9eeb9ae4c8321845272a8"
   integrity sha512-vO9/3lSLO8smyyH1QVeYravSTzFwV1nf1C/Im1NBDPdH8//YvcbhtETGGiNfHWpyCvSi0vRYwvf+/7FKdwpDGQ==
 
-"@thirdweb-dev/react-core@0.0.0-dev-c567172-20230802073701":
-  version "0.0.0-dev-c567172-20230802073701"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-c567172-20230802073701.tgz#986f64b82233e9d031aa30d44106b3d5a0c563f8"
-  integrity sha512-8nGaQUieUzfNhDjrDQw6yyz/FBED8QuuYTLHF7Cd2Q2HGCLCCEvO6EFNx0cHJfM7hVK5157XxOB3sbOBjLb0GA==
+"@thirdweb-dev/react-core@0.0.0-dev-d630b16-20230802084453":
+  version "0.0.0-dev-d630b16-20230802084453"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-d630b16-20230802084453.tgz#a4925181bc184845ad85be5d242582f7b84e886f"
+  integrity sha512-mgV/bkg9oKF62dr9pODv7sDXuujid/GdnWyTTxC9BTbjVmckcv1yRZGC9vU+cuS4pDv5YAmW1iyzGJjwI7sqOA==
   dependencies:
     "@tanstack/react-query" "^4.32.0"
     "@thirdweb-dev/chains" "0.1.40"
     "@thirdweb-dev/generated-abis" "^0.0.1"
-    "@thirdweb-dev/sdk" "0.0.0-dev-c567172-20230802073701"
-    "@thirdweb-dev/storage" "0.0.0-dev-c567172-20230802073701"
-    "@thirdweb-dev/wallets" "0.0.0-dev-c567172-20230802073701"
+    "@thirdweb-dev/sdk" "0.0.0-dev-d630b16-20230802084453"
+    "@thirdweb-dev/storage" "0.0.0-dev-d630b16-20230802084453"
+    "@thirdweb-dev/wallets" "0.0.0-dev-d630b16-20230802084453"
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-c567172-20230802073701":
-  version "0.0.0-dev-c567172-20230802073701"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-c567172-20230802073701.tgz#e8499f38a11c0d8ef9280f8d42a38af378511d9e"
-  integrity sha512-H+4rm0W+50+wJVOHW/bGfQ60CS9B0zkmMGnszMs5fvkl1/F2iQkbK8QfwGCXYP5Aum3mY8BLFtcs+czzAgTMSA==
+"@thirdweb-dev/react@0.0.0-dev-d630b16-20230802084453":
+  version "0.0.0-dev-d630b16-20230802084453"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-d630b16-20230802084453.tgz#111375d22e1b83c2bfec621ebdff30946c7194e3"
+  integrity sha512-Xhsq9f8PWcS10zDx1VoNQ02glArl23DfrmlBwlaVQ2yQcqeSA2y/0PZjtwTvDmcgUoSqs1KuYaZZXqRb0ONKzA==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -4525,8 +4525,8 @@
     "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.32.0"
     "@thirdweb-dev/chains" "0.1.40"
-    "@thirdweb-dev/react-core" "0.0.0-dev-c567172-20230802073701"
-    "@thirdweb-dev/wallets" "0.0.0-dev-c567172-20230802073701"
+    "@thirdweb-dev/react-core" "0.0.0-dev-d630b16-20230802084453"
+    "@thirdweb-dev/wallets" "0.0.0-dev-d630b16-20230802084453"
     buffer "^6.0.3"
     copy-to-clipboard "^3.3.2"
     detect-browser "^5.3.0"
@@ -4534,15 +4534,15 @@
     react-qr-code "^2.0.11"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@0.0.0-dev-c567172-20230802073701":
-  version "0.0.0-dev-c567172-20230802073701"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-0.0.0-dev-c567172-20230802073701.tgz#e10078b44d98b0704afc027eb1e5f473823fe4cf"
-  integrity sha512-jki/7mogk/z4iF3GhQjwEUEAZbXDn739XW3sRGBOlHMWFaam4cn3EJkxPxUdtehVMHgpp9mwURT/rGCMglzvmw==
+"@thirdweb-dev/sdk@0.0.0-dev-d630b16-20230802084453":
+  version "0.0.0-dev-d630b16-20230802084453"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-0.0.0-dev-d630b16-20230802084453.tgz#ff279a37f9f8989866944812b7d7b5a1ba3bd5ef"
+  integrity sha512-aETF5IglzME7rdxPnxF6OPa4vCiey+FPMORo/JGE3Px/QTrRt8GuUY0Q+0EID+cy5m8SNhHSPnA+g2vQg5wgzw==
   dependencies:
     "@thirdweb-dev/chains" "0.1.40"
     "@thirdweb-dev/contracts-js" "1.3.10"
     "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "0.0.0-dev-c567172-20230802073701"
+    "@thirdweb-dev/storage" "0.0.0-dev-d630b16-20230802084453"
     abitype "^0.2.5"
     bn.js "^5.2.1"
     bs58 "^5.0.0"
@@ -4585,10 +4585,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.2.1.tgz#5598a5d45d378a031fd9b00f562f6db8236d0db2"
   integrity sha512-xvmqOaeQvB3CJMG6qk0ULn7A/lMU0V46thODLWTnk89zn/tWQrMXfp1PmPUUUuMYkEhn9K2j9oGou8P7m2WDEQ==
 
-"@thirdweb-dev/storage@0.0.0-dev-c567172-20230802073701":
-  version "0.0.0-dev-c567172-20230802073701"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.0.0-dev-c567172-20230802073701.tgz#f97ec1eb6da1fc9bffa224b35404264f7d608ee9"
-  integrity sha512-kCB3DJPmDK1qu+7bMmMwVer9uq5kVdJG5QrRc2x8hGEQqYGfN1X4vrH3t7lMVwc7dInfBYr0vxmR6SkmTydvzw==
+"@thirdweb-dev/storage@0.0.0-dev-d630b16-20230802084453":
+  version "0.0.0-dev-d630b16-20230802084453"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-0.0.0-dev-d630b16-20230802084453.tgz#9c51f25d530697b409cd6498077d0dfd7f26c7f8"
+  integrity sha512-ZLOxeF7kKE8WRThHdHu6ZgBRuxKr6kTcfMNwuwxE7o/p68mhpDlD/WeKu6U8V6lF+fnVUOyJ1lFoCCWAtaofbg==
   dependencies:
     cid-tool "^3.0.0"
     cross-fetch "^3.1.8"
@@ -4605,10 +4605,10 @@
     form-data "^4.0.0"
     uuid "^9.0.0"
 
-"@thirdweb-dev/wallets@0.0.0-dev-c567172-20230802073701":
-  version "0.0.0-dev-c567172-20230802073701"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.0.0-dev-c567172-20230802073701.tgz#d715c465b2af04f81fbb6f936ce12b503605b993"
-  integrity sha512-+FcvqMB5T35e3un0+sMxLRNK1r6e5nkIcEBKwstToFTM/6T2N2Ch1oDArRrPvJrV5DST0kbqBJLwyoY4bPOG/g==
+"@thirdweb-dev/wallets@0.0.0-dev-d630b16-20230802084453":
+  version "0.0.0-dev-d630b16-20230802084453"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/wallets/-/wallets-0.0.0-dev-d630b16-20230802084453.tgz#8eeba7748481804f2d78b67f5dabe070b29bd387"
+  integrity sha512-VNsvi9FKum53nHKL2U6GrCYpLBpbrHbAprl7PgpUFViZuXy9XVwwDzP7KXinhamDH5Kko7BmVvb+13scw4KxRA==
   dependencies:
     "@account-abstraction/contracts" "^0.5.0"
     "@account-abstraction/sdk" "^0.5.0"
@@ -4624,7 +4624,7 @@
     "@safe-global/safe-ethers-lib" "^1.9.4"
     "@thirdweb-dev/chains" "0.1.40"
     "@thirdweb-dev/contracts-js" "1.3.10"
-    "@thirdweb-dev/sdk" "0.0.0-dev-c567172-20230802073701"
+    "@thirdweb-dev/sdk" "0.0.0-dev-d630b16-20230802084453"
     "@walletconnect/core" "^2.9.1"
     "@walletconnect/ethereum-provider" "^2.9.1"
     "@walletconnect/jsonrpc-utils" "^1.0.8"
