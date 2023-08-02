@@ -82,6 +82,7 @@ const moduleExports = {
   compiler: {
     emotion: true,
   },
+  productionBrowserSourceMaps: true,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -107,7 +108,7 @@ module.exports = withPlausibleProxy({
     wSentry(
       moduleExports,
       { silent: true, debug: false },
-      { hideSourceMaps: true, widenClientFileUpload: true },
+      { hideSourceMaps: false, widenClientFileUpload: true },
     ),
   ),
 );
