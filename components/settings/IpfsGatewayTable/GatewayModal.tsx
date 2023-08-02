@@ -9,10 +9,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import {
-  IpfsGatewayInfo,
-  useGetCustomIpfsGateways,
-} from "hooks/useGetCustomIpfsGateways";
+import { CustomIpfsGateway, customIpfsStorage, useCustomIpfsGateways } from "hooks/useCustomIpfsGateways";
 import { useTxNotifications } from "hooks/useTxNotifications";
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
@@ -42,8 +39,8 @@ const validateUniqueURL = (urls: string[]) => (value: string) => {
 
 type IpfsGatewayModalProps = {
   open: boolean;
-  gateway?: IpfsGatewayInfo;
-  setGateways: Dispatch<SetStateAction<IpfsGatewayInfo[]>>;
+  gateway?: CustomIpfsGateway;
+  setGateways: Dispatch<SetStateAction<CustomIpfsGateway[]>>;
   onClose: () => void;
 };
 
@@ -55,7 +52,7 @@ export const IpfsGatewayModal: React.FC<IpfsGatewayModalProps> = ({
 }) => {
   const initialLabel = gateway?.label ?? "New IPFS gateway";
   const initialUrl = gateway?.url ?? "";
-  const currentIpfsGateways = useGetCustomIpfsGateways();
+  const currentIpfsGateways = useCustomIpfsGateways();
   const filteredIpfsGateways = currentIpfsGateways.filter((item) => {
     // When adding new gateway, we compare the new item against all items in `currentIpfsGateways`
     // Otherwise in case of updating gateway, first we need to remove the old one
@@ -67,7 +64,7 @@ export const IpfsGatewayModal: React.FC<IpfsGatewayModalProps> = ({
     "Failed to update the custom gateway",
   );
 
-  const form = useForm<IpfsGatewayInfo>({
+  const form = useForm<CustomIpfsGateway>({
     values: {
       label: initialLabel,
       url: initialUrl,
@@ -77,10 +74,7 @@ export const IpfsGatewayModal: React.FC<IpfsGatewayModalProps> = ({
   const handleSubmit = form.handleSubmit(({ label, url }) => {
     if (!url.endsWith("/")) url += "/"; // Add trailing slash (for consistency)
     const newCustomGateways = filteredIpfsGateways.concat({ label, url });
-    window.localStorage.setItem(
-      "tw-settings-ipfs-gateways",
-      JSON.stringify(newCustomGateways),
-    );
+    customIpfsStorage.set(newCustomGateways);
     setGateways(newCustomGateways);
     onSuccess();
     handleClose();

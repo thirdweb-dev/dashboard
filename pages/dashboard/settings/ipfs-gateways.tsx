@@ -7,9 +7,9 @@ import { IpfsGatewayTable } from "components/settings/IpfsGatewayTable/IpfsGatew
 import RequireAuth from "components/settings/RequireAuth";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import {
-  IpfsGatewayInfo,
-  useGetCustomIpfsGateways,
-} from "hooks/useGetCustomIpfsGateways";
+  CustomIpfsGateway,
+  useCustomIpfsGateways,
+} from "hooks/useCustomIpfsGateways";
 import { PageId } from "page-id";
 import { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
@@ -19,9 +19,9 @@ import { ThirdwebNextPage } from "utils/types";
 const SettingsIpfsGatewaysPage: ThirdwebNextPage = () => {
   const { user, isLoading } = useUser();
   const [gatewayModalOpen, setEditModalOpen] = useState(false);
-  const [activeGateway, setActiveGateway] = useState<IpfsGatewayInfo>();
-  const _gateways = useGetCustomIpfsGateways();
-  const [gateways, setGateways] = useState<IpfsGatewayInfo[]>(_gateways);
+  const [activeGateway, setActiveGateway] = useState<CustomIpfsGateway>();
+  const _gateways = useCustomIpfsGateways();
+  const [gateways, setGateways] = useState<CustomIpfsGateway[]>(_gateways);
 
   useEffect(() => {
     setGateways(_gateways);

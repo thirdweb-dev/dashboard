@@ -16,7 +16,7 @@ import {
 } from "@thirdweb-dev/react";
 import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { useSupportedChains } from "hooks/chains/configureChains";
-import { useGetCustomIpfsGateways } from "hooks/useGetCustomIpfsGateways";
+import { useCustomIpfsGateways } from "hooks/useCustomIpfsGateways";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
@@ -54,7 +54,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const supportedChains = useSupportedChains();
   const contractInfo = useEVMContractInfo();
   const chain = contractInfo?.chain;
-  const customIpfsGateways = useGetCustomIpfsGateways();
+  const customIpfsGateways = useCustomIpfsGateways();
   const gatewayUrls = customIpfsGateways.length
     ? customIpfsGateways.map((item) => item.url)
     : undefined;

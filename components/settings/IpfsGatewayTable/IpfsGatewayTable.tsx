@@ -3,19 +3,19 @@ import { DeleteGatewayButton } from "./DeleteGatewayButton";
 import { Flex, Icon, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { TWTable } from "components/shared/TWTable";
-import { IpfsGatewayInfo } from "hooks/useGetCustomIpfsGateways";
+import { CustomIpfsGateway } from "hooks/useCustomIpfsGateways";
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { FiEdit2, FiMoreVertical } from "react-icons/fi";
 import { MenuItem, Text, TrackedIconButton } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
 
-const columnHelper = createColumnHelper<IpfsGatewayInfo>();
+const columnHelper = createColumnHelper<CustomIpfsGateway>();
 
 type IpfsGatewayTableProps = {
-  gateways: IpfsGatewayInfo[];
-  setGateways: Dispatch<SetStateAction<IpfsGatewayInfo[]>>;
+  gateways: CustomIpfsGateway[];
+  setGateways: Dispatch<SetStateAction<CustomIpfsGateway[]>>;
   setEditModalOpen: Dispatch<SetStateAction<boolean>>;
-  setActiveGateway: Dispatch<SetStateAction<IpfsGatewayInfo | undefined>>;
+  setActiveGateway: Dispatch<SetStateAction<CustomIpfsGateway | undefined>>;
 };
 
 export const IpfsGatewayTable: ComponentWithChildren<IpfsGatewayTableProps> = ({
