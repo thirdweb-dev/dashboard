@@ -78,7 +78,7 @@ export const DropsOptimismSDK: ComponentWithChildren<DropsOptimismSDKProps> = ({
         gasless: {
           openzeppelin: {
             relayerUrl:
-              "https://api.defender.openzeppelin.com/autotasks/6938e426-037f-4e79-b603-d94d04459a19/runs/webhook/27f09cf3-a007-4674-b3e9-25e4de196562/DQyoG2hpDWpTe1rFufV6Vu",
+              "https://optimism.relayer.thirdweb.com/47460e34d71381d25840b41ec35b5f9b?format=oz",
           },
         },
       }}

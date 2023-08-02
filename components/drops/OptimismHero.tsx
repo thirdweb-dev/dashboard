@@ -52,7 +52,7 @@ export const OptimismHero = () => {
   const steps = [
     {
       title: "Connect your wallet to OP Goerli",
-      description: "Connect your wallet to see your eligibility",
+      description: "Connect your wallet to see your eligibility.",
       completed:
         chainId === OptimismGoerli.chainId || step2CompletedRef.current,
       children: (
@@ -67,7 +67,7 @@ export const OptimismHero = () => {
     },
     {
       title: "Get funds",
-      description: "Claim testnet funds from the Superchain faucet",
+      description: "Claim testnet funds from the Superchain faucet.",
       completed:
         (chainId === OptimismGoerli.chainId &&
           BigNumber.from(balance.data?.value || 0).gt(0)) ||
@@ -94,10 +94,10 @@ export const OptimismHero = () => {
     },
     {
       title: "Mint your NFT on OP Mainnet",
-      description: "This action is free and gasless",
+      description: "This action is free.",
       completed: false,
       children: (
-        <DropsOptimismSDK chainId={80001}>
+        <DropsOptimismSDK chainId={10}>
           <ClaimNFT />
         </DropsOptimismSDK>
       ),

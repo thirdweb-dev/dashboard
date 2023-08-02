@@ -1,25 +1,30 @@
 import { Flex, Box } from "@chakra-ui/react";
+import { NFT, ThirdwebNftMedia } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
-import { useMemo } from "react";
-import { TrackedLinkButton, Heading, Card } from "tw-components";
+import React, { useMemo } from "react";
+import { TrackedLinkButton, Heading, Card, Text } from "tw-components";
 
 const TRACKING_CATEGORY = "drops-optimism";
 
-export const NFTShowcase = () => {
+interface NFTShowcaseProps {
+  nft: NFT | undefined;
+}
+
+export const NFTShowcase: React.FC<NFTShowcaseProps> = ({ nft }) => {
   const twitterIntentUrl = useMemo(() => {
     const textVariations = [
       `I'm excited to be building on the Superchain. 🔴
       
-Check out this free NFT I minted for deploying a contract on OP Goerli!`,
+Check out this free NFT I claimed for deploying a contract on OP Goerli!`,
       `Proud to be a builder on the Superchain. 💪
 
-Check out this free NFT I minted for deploying a contract on OP Goerli!`,
+Check out this free NFT I claimed for deploying a contract on OP Goerli!`,
       `Honored to be a developer on Superchain. 🔥
 
-Check out this free NFT I minted for deploying a contract on OP Goerli!`,
+Check out this free NFT I claimed for deploying a contract on OP Goerli!`,
       `Building the future with @thirdweb and @Optimism. 🚀
 
-Check out this free NFT I minted for deploying a contract on OP Goerli!`,
+Check out this free NFT I claimed for deploying a contract on OP Goerli!`,
     ];
 
     const url = new URL("https://twitter.com/intent/tweet");
@@ -66,7 +71,12 @@ Check out this free NFT I minted for deploying a contract on OP Goerli!`,
           }}
           width="30%"
         />
-        <Flex direction="column" justifyContent="center" alignItems="center">
+        <Flex
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          gap={6}
+        >
           <Heading size="title.xl" textAlign="center">
             Tasks successfully{" "}
             <Box
@@ -77,6 +87,14 @@ Check out this free NFT I minted for deploying a contract on OP Goerli!`,
               completed
             </Box>
           </Heading>
+          {nft?.metadata && (
+            <ThirdwebNftMedia
+              metadata={nft.metadata}
+              width="160px"
+              height="160px"
+            />
+          )}
+          <Text>The NFT has been transferred to your wallet.</Text>
         </Flex>
       </Box>
       <Flex
