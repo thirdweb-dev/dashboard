@@ -370,22 +370,22 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
     }
   };
 
-  const action = () => {
+  const action = async () => {
     switch (formStep) {
       case "name":
-        form.trigger();
+        await form.trigger();
         if (form.formState.isValid) {
           setFormStep("services");
         }
         break;
       case "services":
-        form.trigger();
+        await form.trigger();
         if (form.formState.isValid) {
           setFormStep("permissions");
         }
         break;
       case "permissions":
-        form.trigger();
+        await form.trigger();
         if (form.formState.isValid) {
           setFormStep("keys");
         }
@@ -450,8 +450,13 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
   return (
     <form onSubmit={action} autoComplete="off">
       {tabbed && (
-        <Tabs defaultIndex={selectedSection} onChange={onSectionChange}>
-          <TabList>
+        <Tabs
+          defaultIndex={selectedSection}
+          onChange={onSectionChange}
+          h="full"
+          mx={-6}
+        >
+          <TabList borderColor="borderColor">
             <Tab>General</Tab>
             <Tab>Services ({enabledServices?.length || 0})</Tab>
           </TabList>
