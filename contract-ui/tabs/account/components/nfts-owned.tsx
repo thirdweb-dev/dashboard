@@ -1,5 +1,5 @@
 import { useWalletNFTs } from "@3rdweb-sdk/react";
-import { Box, Flex, Icon, Link, Stack, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Icon, Stack, Tooltip } from "@chakra-ui/react";
 import { ListLabel } from "contract-ui/tabs/listings/components/list-label";
 import { FiInfo } from "react-icons/fi";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
@@ -61,16 +61,7 @@ export const NftsOwned: React.FC<NftsOwnedProps> = ({ address }) => {
         boxSize={6}
       />
       <Text color="orange.800" _dark={{ color: "orange.900" }}>
-        There are no NFTs owned by this wallet. You need NFTs to create a
-        listing. You can create NFTs with thirdweb.{" "}
-        <Link
-          href="https://thirdweb.com/explore/nft"
-          color="blue.600"
-          isExternal
-        >
-          Explore NFT contracts
-        </Link>
-        .
+        There are no NFTs owned by this wallet.
       </Text>
     </Stack>
   );
