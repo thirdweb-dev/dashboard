@@ -54,6 +54,7 @@ import {
   AnyDomainAlert,
   NoBundleIdsAlert,
   NoDomainsAlert,
+  NoTargetAddressesAlert,
 } from "./Alerts";
 
 interface ApiKeyKeyFormProps {
@@ -348,39 +349,75 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                   />
                 </HStack>
 
-                {service.name === "bundler" && (
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(`services.${idx}`, form.formState)
-                        .error
-                    }
-                  >
-                    <FormLabel>Allowed Target addresses</FormLabel>
-                    <Textarea
-                      disabled={!srv.enabled}
-                      placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
-                      {...form.register(`services.${idx}.targetAddresses`)}
-                    />
-                    {!form.getFieldState(
-                      `services.${idx}.targetAddresses`,
-                      form.formState,
-                    ).error ? (
-                      <FormHelperText>
-                        Enter contract/wallet addresses separated by commas or
-                        new lines. Leave blank to deny all. Use <code>*</code>{" "}
-                        to allow any.
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
+                {service.name === "bundler" && srv.enabled && (
+                  <VStack spacing={4}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(`services.${idx}`, form.formState)
+                          .error
+                      }
+                    >
+                      <HStack
+                        alignItems="center"
+                        justifyContent="space-between"
+                        pb={2}
+                      >
+                        <FormLabel size="label.sm" mb={0}>
+                          Allowed Contract addresses
+                        </FormLabel>
+                        <HStack alignItems="center">
+                          <Checkbox
+                            onChange={(e) => {
+                              form.setValue(
+                                `services.${idx}.targetAddresses`,
+                                e.target.checked ? "*" : "",
+                              );
+                            }}
+                          />
+                          <Text>Unrestricted access</Text>
+                        </HStack>
+                      </HStack>
+
+                      {form.watch(`services.${idx}.targetAddresses`) !==
+                        "*" && (
+                        <>
+                          <Textarea
+                            disabled={!srv.enabled}
+                            placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
+                            {...form.register(
+                              `services.${idx}.targetAddresses`,
+                            )}
+                          />
+                          {!form.getFieldState(
                             `services.${idx}.targetAddresses`,
                             form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
+                          ).error ? (
+                            <FormHelperText>
+                              Enter contract addresses separated by commas or
+                              new lines.
+                            </FormHelperText>
+                          ) : (
+                            <FormErrorMessage>
+                              {
+                                form.getFieldState(
+                                  `services.${idx}.targetAddresses`,
+                                  form.formState,
+                                ).error?.message
+                              }
+                            </FormErrorMessage>
+                          )}
+                        </>
+                      )}
+                    </FormControl>
+
+                    {form.getValues(`services.${idx}.targetAddresses`)
+                      .length === 0 && (
+                      <NoTargetAddressesAlert
+                        serviceName={service.title}
+                        serviceDesc={service.description}
+                      />
                     )}
-                  </FormControl>
+                  </VStack>
                 )}
 
                 {service.actions.length > 0 && (

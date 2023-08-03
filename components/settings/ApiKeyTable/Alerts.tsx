@@ -67,3 +67,25 @@ export const AnyBundleIdAlert = () => {
     </Alert>
   );
 };
+
+export const NoTargetAddressesAlert = ({
+  serviceName,
+  serviceDesc,
+}: {
+  serviceName: string;
+  serviceDesc: string;
+}) => {
+  return (
+    <Alert status="warning" variant="left-accent">
+      <Flex direction="column" gap={1.5}>
+        <Heading size="label.md" as={AlertTitle}>
+          No Contract Addresses Configured
+        </Heading>
+        <Text size="body.sm" as={AlertDescription}>
+          Your key will not be able to use {serviceName} - {serviceDesc}. Either
+          disable a service or specify allowed contract addresses.
+        </Text>
+      </Flex>
+    </Alert>
+  );
+};
