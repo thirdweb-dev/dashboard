@@ -21,6 +21,7 @@ import { MediaCell } from "components/contract-pages/table/table-columns/cells/m
 import { NFTDrawer } from "core-ui/nft-drawer/nft-drawer";
 import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 import { BigNumber } from "ethers";
+import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
@@ -41,6 +42,7 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
 }) => {
   const isErc721 = detectFeatures(contract, ["ERC721"]);
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
+  const router = useRouter();
 
   const tableColumns = useMemo(() => {
     const cols: Column<NFT>[] = [
@@ -201,7 +203,15 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
                   _hover={{ bg: "accent.100" }}
                   // this is a hack to get around the fact that safari does not handle position: relative on table rows
                   style={{ cursor: "pointer" }}
-                  onClick={() => setTokenRow(row.original)}
+                  onClick={() => {
+                    router.push(
+                      `${router.asPath}/${row.original.metadata.id}`,
+                      undefined,
+                      {
+                        scroll: true,
+                      },
+                    );
+                  }}
                   // end hack
                   borderBottomWidth={1}
                   _last={{ borderBottomWidth: 0 }}
