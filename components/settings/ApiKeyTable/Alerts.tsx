@@ -16,9 +16,10 @@ export const NoDomainsAlert = () => {
           No Domains Configured
         </Heading>
         <Text size="body.sm" as={AlertDescription}>
-          This Client ID cannot be used from the web until at least one domain
-          is configured. To allow access from any domain, use the wildcard:{" "}
-          <Kbd>*</Kbd>
+          Do not leave the allowed domains field blank if you intend to use this
+          key in frontend applications (websites). Doing so will deny requests
+          from all origins, rendering the key unusable. Proceed only if you will
+          be using this key in server environments.
         </Text>
       </Flex>
     </Alert>
@@ -33,8 +34,8 @@ export const AnyDomainAlert = () => {
           Unrestricted Web Access
         </Heading>
         <Text size="body.sm" as={AlertDescription}>
-          This Client ID can be used from any domain. Anyone with the key can
-          use it to access all the services enabled for this key.
+          You have unrestricted access enabled. Requests from all origins will
+          be authorized. If your key is leaked it could be misused.
         </Text>
       </Flex>
     </Alert>
@@ -49,9 +50,10 @@ export const NoBundleIdsAlert = () => {
           No Bundle IDs Configured
         </Heading>
         <Text size="body.sm" as={AlertDescription}>
-          This Client ID cannot be used from the native app until at least one
-          bundle ID is configured. To allow access from any app bundle, use the
-          wildcard: <Kbd>*</Kbd>
+          Do not leave the allowed bundle IDs field blank if you intend to use
+          this in mobile apps or games. Doing so will deny requests from all
+          applications, rendering the key unusable. Proceed only if you will be
+          using this key in server environments.
         </Text>
       </Flex>
     </Alert>
@@ -66,8 +68,8 @@ export const AnyBundleIdAlert = () => {
           Unrestricted App Access
         </Heading>
         <Text size="body.sm" as={AlertDescription}>
-          This Client ID can be used from any app bundle. Anyone with the key
-          can use it to access all the services enabled for this key.
+          You have unrestricted access enabled. Requests from all applications
+          will be authorized. If your key is leaked it could be misused.
         </Text>
       </Flex>
     </Alert>

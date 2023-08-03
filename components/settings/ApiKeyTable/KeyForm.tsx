@@ -178,21 +178,17 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
               <FormHelperText pb={4} size="body.md">
                 <Text fontWeight="medium">
                   Prevent third-parties from using your Client ID by restricting
-                  access to allowlisted domains.
+                  access to allowed domains.
                 </Text>
 
                 <UnorderedList pt={2} spacing={1}>
                   <Text as={ListItem}>
-                    Use <code>*</code> to allow access from any domain or a
-                    wildcard domain. eg: *.thirdweb.com accepts all sites ending
-                    in .thirdweb.com.
+                    Use <code>*</code> to authorize all subdomains. eg:
+                    *.thirdweb.com accepts all sites ending in .thirdweb.com.
                   </Text>
                   <Text as={ListItem}>
                     Enter <code>localhost:&lt;port&gt;</code> to authorize local
                     URLs.
-                  </Text>
-                  <Text as={ListItem}>
-                    Or leave blank to deny access from any domain.
                   </Text>
                 </UnorderedList>
               </FormHelperText>
@@ -229,18 +225,10 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
               <FormHelperText pb={4} size="body.md">
                 <Text fontWeight="medium">
                   Prevent third-parties from using your Client ID by restricting
-                  access to allowlisted Bundle IDs. This is applicable only if
-                  you want to use your key with native games or native mobile
+                  access to allowed Bundle IDs. This is applicable only if you
+                  want to use your key with native games or native mobile
                   applications.
                 </Text>
-                <UnorderedList pt={2} spacing={1}>
-                  <Text as={ListItem}>
-                    Use <code>*</code> to authorize all bundle IDs.
-                  </Text>
-                  <Text as={ListItem}>
-                    Or leave blank to deny access from any application.
-                  </Text>
-                </UnorderedList>
               </FormHelperText>
 
               <FormLabel size="label.sm">Allowed Bundle IDs</FormLabel>

@@ -138,13 +138,14 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Allowed Domains"
-              tooltip={`Prevent third-parties from using your Client ID on their websites by only allowing requests from your domains.`}
+              tooltip={`Prevent third-parties from using your Client ID by restricting access to allowed domains.`}
               content={domainsContent}
             />
 
             <ApiKeyDetailsRow
               title="Allowed Bundle IDs"
-              tooltip={`(Unity Native/React Native users only) Prevent third-parties from using your Client ID in their native apps by only allowing requests from your app bundles.`}
+              tooltip={`Prevent third-parties from using your Client ID by restricting access to allowed Bundle IDs. This is applicable only if you want to use your key with native games or native mobile
+              applications.`}
               content={bundleIdsContent}
             />
 
