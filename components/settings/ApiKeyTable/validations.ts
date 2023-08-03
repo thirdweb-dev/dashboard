@@ -1,24 +1,13 @@
-import { fetchApiKeyAvailability } from "@3rdweb-sdk/react/hooks/useApi";
 import { isAddress } from "ethers/lib/utils";
 import { RE_DOMAIN, RE_BUNDLE_ID } from "utils/regex";
 import { validStrList } from "utils/validations";
 import { z } from "zod";
 
-const nameAvailabilityFn =
-  process.env.NODE_ENV === "test"
-    ? () => true
-    : async (name: string) => {
-        return await fetchApiKeyAvailability(name);
-      };
-
 export const apiKeyValidationSchema = z.object({
   name: z
     .string()
     .min(3, { message: "Must be at least 3 chars" })
-    .max(64, { message: "Must be max 64 chars" })
-    .refine(nameAvailabilityFn, {
-      message: "An API Key with the same name already exists",
-    }),
+    .max(64, { message: "Must be max 64 chars" }),
   domains: z.string().refine(
     (str) =>
       validStrList(str, (domain) => {

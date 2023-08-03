@@ -1,10 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-  Flex,
-  Kbd,
-} from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertTitle, Flex } from "@chakra-ui/react";
 
 import { Heading, Text } from "tw-components";
 
