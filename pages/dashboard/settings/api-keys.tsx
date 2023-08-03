@@ -7,7 +7,7 @@ import { ApiKeyTable } from "components/settings/ApiKeyTable";
 import { CreateApiKeyButton } from "components/settings/ApiKeyTable/CreateButton";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
-import { Card, Heading, Text } from "tw-components";
+import { Card, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const SettingsApiKeysPage: ThirdwebNextPage = () => {
@@ -46,8 +46,16 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
           <CreateApiKeyButton />
         </Flex>
         <Text>
-          An API key is required to use thirdweb’s services through the SDK and
-          CLI.
+          An API key is required to use thirdweb&apos;s services through the SDK
+          and CLI. {` `}
+          <Link
+            target="_blank"
+            color="blue.500"
+            href="https://portal.thirdweb.com/api-keys"
+            isExternal
+          >
+            Learn more
+          </Link>
         </Text>
       </Flex>
 
