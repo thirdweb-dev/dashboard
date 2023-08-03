@@ -144,8 +144,7 @@ export const ApiKeyDetails: React.FC<ApiKeyDetailsProps> = ({
 
             <ApiKeyDetailsRow
               title="Allowed Bundle IDs"
-              tooltip={`Prevent third-parties from using your Client ID by restricting access to allowed Bundle IDs. This is applicable only if you want to use your key with native games or native mobile
-              applications.`}
+              tooltip={`Prevent third-parties from using your Client ID by restricting access to allowed Bundle IDs. This is applicable only if you want to use your key with native games or native mobile applications.`}
               content={bundleIdsContent}
             />
 

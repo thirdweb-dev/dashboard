@@ -193,20 +193,39 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </UnorderedList>
               </FormHelperText>
 
-              <FormLabel size="label.sm">Allowed Domains</FormLabel>
-              <Textarea
-                placeholder="thirdweb.com, rpc.example.com, localhost:3000"
-                {...form.register("domains")}
-              />
+              <HStack alignItems="center" justifyContent="space-between" pb={2}>
+                <FormLabel size="label.sm" mb={0}>
+                  Allowed Domains
+                </FormLabel>
+                <HStack alignItems="center">
+                  <Checkbox
+                    onChange={(e) => {
+                      form.setValue("domains", e.target.checked ? "*" : "");
+                    }}
+                  />
+                  <Text>Unrestricted access</Text>
+                </HStack>
+              </HStack>
 
-              {!form.getFieldState("domains", form.formState).error ? (
-                <FormHelperText>
-                  Enter domains separated by commas or new lines.
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  {form.getFieldState("domains", form.formState).error?.message}
-                </FormErrorMessage>
+              {form.watch("domains") !== "*" && (
+                <>
+                  <Textarea
+                    placeholder="thirdweb.com, rpc.example.com, localhost:3000"
+                    {...form.register("domains")}
+                  />
+                  {!form.getFieldState("domains", form.formState).error ? (
+                    <FormHelperText>
+                      Enter domains separated by commas or new lines.
+                    </FormHelperText>
+                  ) : (
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState("domains", form.formState).error
+                          ?.message
+                      }
+                    </FormErrorMessage>
+                  )}
+                </>
               )}
             </FormControl>
 
@@ -231,23 +250,40 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </Text>
               </FormHelperText>
 
-              <FormLabel size="label.sm">Allowed Bundle IDs</FormLabel>
-              <Textarea
-                placeholder="com.thirdweb.app"
-                {...form.register("bundleIds")}
-              />
+              <HStack alignItems="center" justifyContent="space-between" pb={2}>
+                <FormLabel size="label.sm" mb={0}>
+                  Allowed Bundle IDs
+                </FormLabel>
+                <HStack alignItems="center">
+                  <Checkbox
+                    onChange={(e) => {
+                      form.setValue("bundleIds", e.target.checked ? "*" : "");
+                    }}
+                  />
+                  <Text>Unrestricted access</Text>
+                </HStack>
+              </HStack>
 
-              {!form.getFieldState("bundleIds", form.formState).error ? (
-                <FormHelperText>
-                  Enter bundle ids separated by commas or new lines.
-                </FormHelperText>
-              ) : (
-                <FormErrorMessage>
-                  {
-                    form.getFieldState("bundleIds", form.formState).error
-                      ?.message
-                  }
-                </FormErrorMessage>
+              {form.watch("bundleIds") !== "*" && (
+                <>
+                  <Textarea
+                    placeholder="com.thirdweb.app"
+                    {...form.register("bundleIds")}
+                  />
+
+                  {!form.getFieldState("bundleIds", form.formState).error ? (
+                    <FormHelperText>
+                      Enter bundle ids separated by commas or new lines.
+                    </FormHelperText>
+                  ) : (
+                    <FormErrorMessage>
+                      {
+                        form.getFieldState("bundleIds", form.formState).error
+                          ?.message
+                      }
+                    </FormErrorMessage>
+                  )}
+                </>
               )}
             </FormControl>
 
