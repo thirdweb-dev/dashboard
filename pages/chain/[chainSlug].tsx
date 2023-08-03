@@ -1,26 +1,11 @@
-import {
-  Box,
-  Center,
-  Container,
-  DarkMode,
-  Divider,
-  Flex,
-  GridItem,
-  GridItemProps,
-  Icon,
-  LinkBox,
-  LinkOverlay,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
+import { Box, Center, Container, DarkMode, Flex } from "@chakra-ui/react";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { Chain } from "@thirdweb-dev/chains";
-import { useAddress } from "@thirdweb-dev/react";
+import { ChainUiTabs__Page } from "chain-ui/tabs/ChainUiTabs__Page";
 import color from "color";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
-import { ContractCard } from "components/explore/contract-card";
 import { ChainIcon } from "components/icons/ChainIcon";
-import { CodeOverview } from "contract-ui/tabs/code/components/code-overview";
 import { ExploreCategory, prefetchCategory } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton } from "lib/sdk";
@@ -30,94 +15,23 @@ import { NextSeo } from "next-seo";
 import Vibrant from "node-vibrant";
 import { PageId } from "page-id";
 import { useMemo } from "react";
-import {
-  FiAlertCircle,
-  FiCheckCircle,
-  FiExternalLink,
-  FiXCircle,
-} from "react-icons/fi";
-import {
-  Card,
-  Heading,
-  LinkButton,
-  Text,
-  TrackedCopyButton,
-  TrackedLink,
-} from "tw-components";
-import { ComponentWithChildren } from "types/component-with-children";
+import { Heading, LinkButton, TrackedLink } from "tw-components";
 import { getAllChainRecords } from "utils/allChainsRecords";
 import { ThirdwebNextPage } from "utils/types";
 
 type EVMContractProps = {
   chain: Chain;
-  category: ExploreCategory | null;
+  category: ExploreCategory;
   gradientColors: [string, string] | null;
 };
 
-const CHAIN_CATEGORY = "chain_page";
-
-type ChainStats = {
-  latency: number;
-  blockNumber: number;
-};
-
-function lastElementOfArray<T>(arr: T[]): T {
-  return arr[arr.length - 1];
-}
-
-function useChainStats(
-  chain: Chain,
-  placeholderData: ChainStats = { latency: 0, blockNumber: 0 },
-) {
-  const rpcUrl = getDashboardChainRpc(chain);
-
-  return useQuery({
-    queryKey: ["chain_stats", { chainId: chain.chainId, rpcUrl }],
-    queryFn: async () => {
-      // we'll just ... manually fetch?
-      const startTimeStamp = performance.now();
-      const res = await fetch(rpcUrl, {
-        method: "POST",
-        body: JSON.stringify({
-          jsonrpc: "2.0",
-          method: "eth_blockNumber",
-          params: [],
-          id: 1,
-        }),
-      });
-
-      const json = await res.json();
-      const latency = performance.now() - startTimeStamp;
-
-      return {
-        latency,
-        blockNumber: parseInt(json.result, 16),
-      };
-    },
-    refetchInterval: 5 * 1000,
-    enabled: !!rpcUrl,
-    placeholderData,
-  });
-}
-
-const lineaTestnetPopularContracts = [
-  "thirdweb.eth/DropERC721",
-  "thirdweb.eth/Marketplace",
-  "thirdweb.eth/TokenERC721",
-  "thirdweb.eth/DropERC1155",
-  "thirdweb.eth/DropERC20",
-  "thirdweb.eth/TokenERC1155",
-];
+export const CHAIN_CATEGORY = "chain_page";
 
 const ChainPage: ThirdwebNextPage = ({
   chain,
   category,
   gradientColors,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const rpcStats = useChainStats(chain);
-
-  const address = useAddress();
-
   const sanitizedChainName = chain.name.replace("Mainnet", "").trim();
 
   const title = `${sanitizedChainName}: RPC and Chain Settings`;
@@ -131,8 +45,6 @@ const ChainPage: ThirdwebNextPage = ({
     }
     return `linear-gradient(180deg, ${gradientColors[0]} 0%, ${gradientColors[1]} 100%)`;
   }, [gradientColors]);
-
-  const isLineaTestnet = chain?.chainId === 59140;
 
   return (
     <>
@@ -262,286 +174,9 @@ const ChainPage: ThirdwebNextPage = ({
         flexDirection="column"
         gap={10}
       >
-        {category && (
-          <>
-            <ChainSectionElement
-              colSpan={12}
-              label="Popular Contracts"
-              moreElem={
-                <TrackedLink
-                  category={CHAIN_CATEGORY}
-                  href="/explore"
-                  color="blue.500"
-                  label="explore_more"
-                >
-                  Explore more {"->"}
-                </TrackedLink>
-              }
-            >
-              <SimpleGrid columns={{ base: 6, md: 12 }} gap={6} mt={2}>
-                {(isLineaTestnet
-                  ? lineaTestnetPopularContracts
-                  : category.contracts
-                ).map((publishedContractId, idx) => {
-                  const [publisher, contractId] =
-                    publishedContractId.split("/");
-                  return (
-                    <GridItem
-                      key={contractId}
-                      colSpan={{ base: 6, md: 4 }}
-                      display="grid"
-                    >
-                      <ContractCard
-                        key={publishedContractId}
-                        publisher={publisher}
-                        contractId={contractId}
-                        tracking={{
-                          source: `chain_${chain.slug}`,
-                          itemIndex: `${idx}`,
-                        }}
-                      />
-                    </GridItem>
-                  );
-                })}
-              </SimpleGrid>
-            </ChainSectionElement>
-            <Divider />
-          </>
-        )}
-        <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
-          {chain.infoURL && (
-            <ChainSectionElement colSpan={6} label="Info">
-              <TrackedLink
-                isExternal
-                category={CHAIN_CATEGORY}
-                label="info_url"
-                href={chain.infoURL}
-              >
-                <Heading maxW="full" noOfLines={1} size="label.lg">
-                  {lastElementOfArray(chain.infoURL.split("//"))}
-                </Heading>
-              </TrackedLink>
-            </ChainSectionElement>
-          )}
-
-          <ChainSectionElement colSpan={3} label="Chain ID">
-            <Heading maxW="full" noOfLines={1} size="label.lg">
-              {chain.chainId}
-            </Heading>
-          </ChainSectionElement>
-          <ChainSectionElement colSpan={3} label="Native Token">
-            <Heading maxW="full" noOfLines={1} size="label.lg">
-              {chain.nativeCurrency.name} ({chain.nativeCurrency.symbol})
-            </Heading>
-          </ChainSectionElement>
-        </SimpleGrid>
-        {/* only render rpc section if we have an rpc for this chain */}
-        {chain.rpc?.[0] ? (
-          <SimpleGrid columns={{ base: 6, md: 12 }} rowGap={12}>
-            <ChainSectionElement
-              colSpan={6}
-              label="RPC"
-              status={
-                rpcStats.isSuccess
-                  ? "good"
-                  : rpcStats.isError
-                  ? "bad"
-                  : "neutral"
-              }
-            >
-              <Flex gap={2}>
-                <Heading maxW="full" noOfLines={2} size="label.lg">
-                  {chain.rpc[0].split(".com/")[0]}.com
-                </Heading>
-                <TrackedCopyButton
-                  category={CHAIN_CATEGORY}
-                  label="copy-rpc-url"
-                  mt={-2}
-                  aria-label="Copy RPC url"
-                  variant="ghost"
-                  size="sm"
-                  value={`${chain.rpc[0].split(".com/")[0]}.com`}
-                />
-              </Flex>
-            </ChainSectionElement>
-            <ChainSectionElement colSpan={3} label="Block Height">
-              <Heading
-                fontFamily="mono"
-                maxW="full"
-                noOfLines={1}
-                size="label.lg"
-              >
-                {rpcStats.data?.blockNumber || 0}
-              </Heading>
-            </ChainSectionElement>
-            <ChainSectionElement colSpan={3} label="Latency">
-              <Heading
-                fontFamily="mono"
-                maxW="full"
-                noOfLines={1}
-                size="label.lg"
-              >
-                {(rpcStats.data?.latency || 0).toFixed(0)}
-                <Text as="span" color="accent.700">
-                  {" "}
-                  ms
-                </Text>
-              </Heading>
-            </ChainSectionElement>
-          </SimpleGrid>
-        ) : null}
-        {chain.faucets?.length ? (
-          <ChainSectionElement colSpan={12} label="Faucets">
-            <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
-              {chain.faucets.map((faucet) => {
-                const url = new URL(faucet);
-                const hostnameSplit = url.hostname.split(".");
-                const tld = hostnameSplit.pop();
-                const domain = hostnameSplit.pop();
-                const displayTitle = `${domain}.${tld}`;
-                // eslint-disable-next-line no-template-curly-in-string
-                if (url.search.includes("${ADDRESS}")) {
-                  if (address) {
-                    // eslint-disable-next-line no-template-curly-in-string
-                    url.search = url.search.replace("${ADDRESS}", address);
-                  } else {
-                    url.search = "";
-                  }
-                }
-                return (
-                  <GridItem colSpan={{ base: 6, md: 3 }} key={url.toString()}>
-                    <Card
-                      as={LinkBox}
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      gap={4}
-                    >
-                      <Flex gap={2} direction="column" maxW="75%">
-                        <Heading as="h5" size="label.md" noOfLines={1}>
-                          {displayTitle}
-                        </Heading>
-                        <LinkOverlay
-                          as={TrackedLink}
-                          category={CHAIN_CATEGORY}
-                          href={url.toString()}
-                          label="faucet"
-                          trackingProps={{
-                            faucet: url.toString(),
-                          }}
-                          isExternal
-                        >
-                          <Text size="body.sm" noOfLines={1}>
-                            {url.toString().split("://")[1]}
-                          </Text>
-                        </LinkOverlay>
-                      </Flex>
-                      <Icon flexShrink={0} as={FiExternalLink} />
-                    </Card>
-                  </GridItem>
-                );
-              })}
-            </SimpleGrid>
-          </ChainSectionElement>
-        ) : null}
-        {chain.explorers?.length ? (
-          <ChainSectionElement colSpan={12} label="Explorers">
-            <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
-              {chain.explorers.map((explorer) => {
-                return (
-                  <GridItem colSpan={{ base: 6, md: 3 }} key={explorer.url}>
-                    <Card
-                      as={LinkBox}
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Flex direction="column" gap={2} maxW="75%">
-                        <Heading as="h5" size="label.md">
-                          {explorer.name}
-                        </Heading>
-                        <LinkOverlay
-                          as={TrackedLink}
-                          category={CHAIN_CATEGORY}
-                          href={explorer.url}
-                          label="explorer"
-                          trackingProps={{
-                            explorerName: explorer.name,
-                            explorerUrl: explorer.url,
-                          }}
-                          noOfLines={1}
-                          isExternal
-                        >
-                          <Text size="body.sm">
-                            {explorer.url.split("://")[1]}
-                          </Text>
-                        </LinkOverlay>
-                      </Flex>
-                      <Icon as={FiExternalLink} />
-                    </Card>
-                  </GridItem>
-                );
-              })}
-            </SimpleGrid>
-          </ChainSectionElement>
-        ) : null}
-        <Divider />
-        <CodeOverview onlyInstall chain={chain} noSidebar />
+        <ChainUiTabs__Page chain={chain} category={category} />
       </Container>
     </>
-  );
-};
-
-interface ChainSectionElementProps extends Pick<GridItemProps, "colSpan"> {
-  label: string;
-  status?: "good" | "bad" | "neutral";
-  moreElem?: JSX.Element;
-}
-
-const statusIcons = {
-  good: FiCheckCircle,
-  bad: FiXCircle,
-  neutral: FiAlertCircle,
-};
-
-const statusColors = {
-  good: "green",
-  bad: "red",
-  neutral: "yellow",
-};
-
-const ChainSectionElement: ComponentWithChildren<ChainSectionElementProps> = ({
-  colSpan,
-  label,
-  status,
-  moreElem,
-  children,
-}) => {
-  return (
-    <GridItem colSpan={colSpan} as={Flex} flexDir="column" gap={2}>
-      <Flex align="center" gap={4} justify="space-between">
-        <Flex gap={1} align="center">
-          <Heading as="h3" size="label.lg" opacity={0.6} fontWeight={400}>
-            {label}
-          </Heading>
-          {status && (
-            <Icon
-              boxSize={3.5}
-              as={statusIcons[status]}
-              _light={{
-                color: `${statusColors[status]}.600`,
-              }}
-              _dark={{
-                color: `${statusColors[status]}.400`,
-              }}
-            />
-          )}
-        </Flex>
-        {moreElem}
-      </Flex>
-
-      {children}
-    </GridItem>
   );
 };
 
@@ -558,6 +193,7 @@ ChainPage.getLayout = (page, props) => {
     </AppLayout>
   );
 };
+
 // server side ---------------------------------------------------------------
 
 const CHAIN_PAGE_CONTRACTS_CATEGORY = {
