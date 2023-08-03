@@ -18,9 +18,19 @@ const Loyalty: ThirdwebNextPage = () => {
   return (
     <LandingLayout
       seo={{
-        title: "Loyalty",
+        title: "Web3 Loyalty Program: Engage, Reward, & Delight Customers",
         description:
-          "Activate new customer experiences that go beyond traditional tiered loyalty programs.",
+          "Build brand loyalty programs that turn customers into champions — with digital collectibles, tradable points, & more. Try thirdweb, it's free.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/loyalty-solutions.png`,
+              width: 1200,
+              height: 630,
+              alt: "Web3 Loyalty Programs",
+            },
+          ],
+        },
       }}
     >
       <LandingHero
