@@ -214,15 +214,17 @@ export function useGenerateApiKey() {
   );
 }
 
-export async function fetchApiKeyNameAvailability(name: string) {
-  const res = await fetch(`${THIRDWEB_API_HOST}/v1/keys/availability/name`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
+export async function fetchApiKeyAvailability(name: string) {
+  const res = await fetch(
+    `${THIRDWEB_API_HOST}/v1/keys/availability?name=${name}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-    body: JSON.stringify({ name }),
-  });
+  );
   const json = await res.json();
 
   if (json.error) {
