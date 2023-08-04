@@ -121,7 +121,7 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
-      title: "SDK Docs",
+      title: "Code Snippets",
       path: "code",
       component: LazyContractCodePage,
       isDefault: true,
