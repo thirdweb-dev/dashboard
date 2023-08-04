@@ -18,8 +18,6 @@ import { NFTContract, useNFTs, useTotalCount } from "@thirdweb-dev/react";
 import { NFT } from "@thirdweb-dev/sdk";
 import { detectFeatures } from "components/contract-components/utils";
 import { MediaCell } from "components/contract-pages/table/table-columns/cells/media-cell";
-import { NFTDrawer } from "core-ui/nft-drawer/nft-drawer";
-import { useNFTDrawerTabs } from "core-ui/nft-drawer/useNftDrawerTabs";
 import { BigNumber } from "ethers";
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
@@ -151,9 +149,6 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
   useEffect(() => {
     setQueryParams({ start: pageIndex * pageSize, count: pageSize });
   }, [pageIndex, pageSize]);
-  const [tokenRow, setTokenRow] = useState<NFT | null>(null);
-
-  const drawerTabs = useNFTDrawerTabs("evm", contract, tokenRow);
 
   return (
     <Flex gap={4} direction="column">
@@ -167,12 +162,6 @@ export const NFTGetAllTable: React.FC<ContractOverviewNFTGetAllProps> = ({
             right={4}
           />
         )}
-        <NFTDrawer
-          data={tokenRow}
-          isOpen={!!tokenRow}
-          onClose={() => setTokenRow(null)}
-          tabs={drawerTabs}
-        />
         <Table {...getTableProps()}>
           <Thead>
             {headerGroups.map((headerGroup) => (
