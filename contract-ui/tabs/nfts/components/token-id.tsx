@@ -44,10 +44,11 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({ nft, tabs }) => {
       <Flex flexDir="column" gap={6} w="full">
         <Flex flexDir="column" gap={2}>
           <Heading size="title.lg">{nft.metadata.name}</Heading>
-          <Text></Text>
-          <Text size="label.md" noOfLines={6}>
-            {nft.metadata.description}
-          </Text>
+          {nft.metadata?.description && (
+            <Text size="label.md" noOfLines={6}>
+              {nft.metadata.description}
+            </Text>
+          )}
         </Flex>
 
         <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
