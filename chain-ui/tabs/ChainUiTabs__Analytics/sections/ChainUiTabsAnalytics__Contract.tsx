@@ -5,6 +5,7 @@ import { useChainUiHooks__AnalyticsContractsByGasUsage } from "chain-ui/hooks/us
 import { useChainUiHooks__AnalyticsContractsByTransactionsCount } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByTransactionsCount";
 import { useChainUiHooks__AnalyticsContractsByUniqueWalletsCount } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByUniqueWalletsCount";
 import { useChainUiHooks__AnalyticsContractsByValueMoved } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByValueMoved";
+import { ethers } from "ethers";
 import { Heading } from "tw-components";
 
 export const ChainUiTabsAnalytics__ContractsByGasUsage: React.FC<{
@@ -31,7 +32,13 @@ export const ChainUiTabsAnalytics__ContractsByGasUsage: React.FC<{
           }
           case "total_gas_spent_wei": {
             store[`Total Gas Spent (${chain.nativeCurrency.symbol})`] =
-              row["total_gas_spent_wei"];
+              ethers.utils
+                .formatEther(
+                  ethers.BigNumber.from(
+                    expToDec(row["total_gas_spent_wei"].toString()),
+                  ).toString(),
+                )
+                .toString();
             break;
           }
         }
@@ -159,8 +166,13 @@ export const ChainUiTabsAnalytics__ContractsByValueMoved: React.FC<{
             break;
           }
           case "value_moved_wei": {
-            store[`${chain.nativeCurrency.symbol} Moved`] =
-              row["value_moved_wei"];
+            store[`${chain.nativeCurrency.symbol} Moved`] = ethers.utils
+              .formatEther(
+                ethers.BigNumber.from(
+                  expToDec(row["value_moved_wei"].toString()),
+                ).toString(),
+              )
+              .toString();
             break;
           }
         }
@@ -180,3 +192,10 @@ export const ChainUiTabsAnalytics__ContractsByValueMoved: React.FC<{
     </Stack>
   );
 };
+
+function expToDec(expString: string | number) {
+  const [lead, decimal, pow] = expString.toString().split(/e|\./);
+  const final =
+    lead + (decimal || "") + "0".repeat(parseInt(pow) - (decimal || "").length);
+  return final;
+}

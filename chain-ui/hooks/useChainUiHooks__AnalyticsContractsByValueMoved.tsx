@@ -10,7 +10,7 @@ export const useChainUiHooks__AnalyticsContractsByValueMoved = (body: {
   rowIndexEnd?: number;
 }) => {
   // Contracts by value moved endpoint.
-  const endpoint = `http://localhost:8000/api/v1/contracts/transactions-count`;
+  const endpoint = `http://localhost:8000/api/v1/contracts/value-moved`;
 
   return useQuery(
     ["analytics", body.chainId, "contracts", "value-moved"],
