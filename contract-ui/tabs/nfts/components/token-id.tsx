@@ -8,6 +8,7 @@ import {
   Box,
   ButtonGroup,
   Divider,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BigNumber } from "ethers";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -78,7 +79,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
             </Text>
           )}
         </Flex>
-        <Flex flexDir="column" gap={3}>
+        <Flex flexDir="column" gap={4}>
           <ButtonGroup
             size="sm"
             variant="ghost"
@@ -98,20 +99,35 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
               Details
             </Button>
             {tabs.map((tb) => (
-              <Button
+              <Tooltip
                 key={tb.title}
-                isDisabled={tb.isDisabled}
-                type="button"
-                isActive={tab === tb.title}
-                _active={{
-                  bg: "bgBlack",
-                  color: "bgWhite",
-                }}
-                rounded="lg"
-                onClick={() => setTab(tb.title)}
+                p={0}
+                bg="transparent"
+                boxShadow={"none"}
+                label={
+                  tb.isDisabled ? (
+                    <Card py={2} px={4} bgColor="backgroundHighlight">
+                      <Text size="label.sm">{tb.disabledText}</Text>
+                    </Card>
+                  ) : (
+                    ""
+                  )
+                }
               >
-                {tb.title}
-              </Button>
+                <Button
+                  isDisabled={tb.isDisabled}
+                  type="button"
+                  isActive={tab === tb.title}
+                  _active={{
+                    bg: "bgBlack",
+                    color: "bgWhite",
+                  }}
+                  rounded="lg"
+                  onClick={() => setTab(tb.title)}
+                >
+                  {tb.title}
+                </Button>
+              </Tooltip>
             ))}
           </ButtonGroup>
           <Divider my={0} />

@@ -40,7 +40,7 @@ const BurnTab: React.FC<BurnTabProps> = ({ contract, tokenId }) => {
   const isErc1155 = detectFeatures(contract, ["ERC1155"]);
 
   return (
-    <Stack>
+    <Stack w="full">
       <form
         onSubmit={handleSubmit((data) => {
           trackEvent({
