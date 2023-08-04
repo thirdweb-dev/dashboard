@@ -1,27 +1,25 @@
 import {
   Flex,
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
   SimpleGrid,
   GridItem,
   useBreakpointValue,
   Icon,
   IconButton,
   Box,
+  ButtonGroup,
+  Divider,
 } from "@chakra-ui/react";
 import { BigNumber } from "ethers";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
-import { Heading, Badge, Card, CodeBlock, Text } from "tw-components";
+import { Heading, Badge, Card, CodeBlock, Text, Button } from "tw-components";
 import { NFT } from "@thirdweb-dev/sdk";
 import { NFTDrawerTab } from "core-ui/nft-drawer/types";
 import { NftProperty } from "./nft-property";
 import { useRouter } from "next/router";
 import { IoChevronBack } from "react-icons/io5";
 import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
+import { useState } from "react";
 
 interface TokenIdPageProps {
   nft: NFT | undefined;
@@ -34,6 +32,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   tabs,
   contractAddress,
 }) => {
+  const [tab, setTab] = useState("Details");
   const isMobile = useBreakpointValue({ base: true, md: false });
   const router = useRouter();
 
@@ -79,102 +78,124 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
             </Text>
           )}
         </Flex>
-
-        <Tabs isLazy lazyBehavior="keepMounted" colorScheme="gray">
-          <TabList
-            px={0}
-            borderBottomColor="borderColor"
-            borderBottomWidth="1px"
-            overflowX={{ base: "auto", md: "inherit" }}
+        <Flex flexDir="column" gap={3}>
+          <ButtonGroup
+            size="sm"
+            variant="ghost"
+            spacing={{ base: 0.5, md: 2 }}
+            w="full"
           >
-            <Tab gap={2}>Details</Tab>
-            {tabs.map((tab) => (
-              <Tab key={tab.title} gap={2} isDisabled={tab.isDisabled}>
-                {tab.title}
-              </Tab>
+            <Button
+              type="button"
+              isActive={tab === "Details"}
+              _active={{
+                bg: "bgBlack",
+                color: "bgWhite",
+              }}
+              rounded="lg"
+              onClick={() => setTab("Details")}
+            >
+              Details
+            </Button>
+            {tabs.map((tb) => (
+              <Button
+                key={tb.title}
+                isDisabled={tb.isDisabled}
+                type="button"
+                isActive={tab === tb.title}
+                _active={{
+                  bg: "bgBlack",
+                  color: "bgWhite",
+                }}
+                rounded="lg"
+                onClick={() => setTab(tb.title)}
+              >
+                {tb.title}
+              </Button>
             ))}
-          </TabList>
-          <TabPanels px={0} py={2}>
-            {/* details tab always exists! */}
-            <TabPanel px={0}>
-              <Flex flexDir="column" gap={4}>
-                <Card as={Flex} flexDir="column" gap={3}>
-                  <SimpleGrid rowGap={3} columns={12} placeItems="center left">
-                    <GridItem colSpan={3}>
-                      <Heading size="label.md">Token ID</Heading>
-                    </GridItem>
-                    <GridItem colSpan={9}>
-                      <AddressCopyButton
-                        size="xs"
-                        address={nft.metadata.id}
-                        tokenId
-                      />
-                    </GridItem>
+          </ButtonGroup>
+          <Divider my={0} />
+        </Flex>
 
-                    {nft.type !== "ERC1155" &&
-                      BigNumber.from(nft.supply).lt(2) && (
-                        <>
-                          <GridItem colSpan={3}>
-                            <Heading size="label.md">Owner</Heading>
-                          </GridItem>
-                          <GridItem colSpan={9}>
-                            <AddressCopyButton size="xs" address={nft.owner} />
-                          </GridItem>
-                        </>
-                      )}
-                    <GridItem colSpan={3}>
-                      <Heading size="label.md">Token Standard</Heading>
+        {tab === "Details" && (
+          <Flex flexDir="column" gap={4}>
+            <Card as={Flex} flexDir="column" gap={3}>
+              <SimpleGrid rowGap={3} columns={12} placeItems="center left">
+                <GridItem colSpan={4}>
+                  <Heading size="label.md">Token ID</Heading>
+                </GridItem>
+                <GridItem colSpan={8}>
+                  <AddressCopyButton
+                    size="xs"
+                    address={nft.metadata.id}
+                    tokenId
+                  />
+                </GridItem>
+
+                {nft.type !== "ERC1155" && BigNumber.from(nft.supply).lt(2) && (
+                  <>
+                    <GridItem colSpan={4}>
+                      <Heading size="label.md">Owner</Heading>
                     </GridItem>
-                    <GridItem colSpan={9}>
-                      <Badge size="label.sm" variant="subtle">
-                        {nft.type}
-                      </Badge>
+                    <GridItem colSpan={8}>
+                      <AddressCopyButton size="xs" address={nft.owner} />
                     </GridItem>
-                    {nft.type !== "ERC721" && (
-                      <>
-                        <GridItem colSpan={3}>
-                          <Heading size="label.md">Supply</Heading>
-                        </GridItem>
-                        <GridItem colSpan={9}>
-                          <Text fontFamily="mono" size="body.md">
-                            {nft.supply}
-                          </Text>
-                        </GridItem>
-                      </>
-                    )}
+                  </>
+                )}
+                <GridItem colSpan={4}>
+                  <Heading size="label.md">Token Standard</Heading>
+                </GridItem>
+                <GridItem colSpan={8}>
+                  <Badge size="label.sm" variant="subtle">
+                    {nft.type}
+                  </Badge>
+                </GridItem>
+                {nft.type !== "ERC721" && (
+                  <>
+                    <GridItem colSpan={4}>
+                      <Heading size="label.md">Supply</Heading>
+                    </GridItem>
+                    <GridItem colSpan={8}>
+                      <Text fontFamily="mono" size="body.md">
+                        {nft.supply}
+                      </Text>
+                    </GridItem>
+                  </>
+                )}
+              </SimpleGrid>
+            </Card>
+            {properties ? (
+              <Card as={Flex} flexDir="column" gap={4}>
+                <Heading size="label.md">Properties</Heading>
+                {Array.isArray(properties) &&
+                String(properties[0]?.value) !== "undefined" ? (
+                  <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
+                    {properties.map((property: any, idx) => (
+                      <NftProperty key={idx} property={property} />
+                    ))}
                   </SimpleGrid>
-                </Card>
-                {properties ? (
-                  <Card as={Flex} flexDir="column" gap={4}>
-                    <Heading size="label.md">Properties</Heading>
-                    {Array.isArray(properties) && properties[0]?.value ? (
-                      <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
-                        {properties.map((property: any, idx) => (
-                          <NftProperty key={idx} property={property} />
-                        ))}
-                      </SimpleGrid>
-                    ) : (
-                      <CodeBlock
-                        code={JSON.stringify(properties, null, 2) || ""}
-                        language="json"
-                        canCopy={false}
-                        wrap={false}
-                        overflow="auto"
-                      />
-                    )}
-                  </Card>
-                ) : null}
+                ) : (
+                  <CodeBlock
+                    code={JSON.stringify(properties, null, 2) || ""}
+                    language="json"
+                    canCopy={false}
+                    wrap={false}
+                    overflow="auto"
+                  />
+                )}
+              </Card>
+            ) : null}
+          </Flex>
+        )}
+        {tabs.map((tb) => {
+          return (
+            tb.title === tab && (
+              <Flex key={tb.title} px={0} w="full">
+                {tb.children}
               </Flex>
-            </TabPanel>
-            {tabs.map((tab) => {
-              return (
-                <TabPanel key={tab.title} px={0}>
-                  {tab.children}
-                </TabPanel>
-              );
-            })}
-          </TabPanels>
-        </Tabs>
+            )
+          );
+        })}
       </Flex>
     </Flex>
   );

@@ -32,7 +32,7 @@ const MintSupplyTab: React.FC<MintSupplyTabProps> = ({ contract, tokenId }) => {
   );
 
   return (
-    <Stack pt={3}>
+    <Stack>
       <form
         onSubmit={handleSubmit((data) => {
           if (address) {
