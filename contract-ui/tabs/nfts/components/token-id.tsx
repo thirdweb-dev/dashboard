@@ -8,6 +8,8 @@ import {
   SimpleGrid,
   GridItem,
   useBreakpointValue,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
 import { BigNumber } from "ethers";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -16,14 +18,26 @@ import { Heading, Badge, Card, CodeBlock, Text } from "tw-components";
 import { NFT } from "@thirdweb-dev/sdk";
 import { NFTDrawerTab } from "core-ui/nft-drawer/types";
 import { NftProperty } from "./nft-property";
+import { useRouter } from "next/router";
+import { IoChevronBack } from "react-icons/io5";
+import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
 
 interface TokenIdPageProps {
   nft: NFT | undefined;
   tabs: NFTDrawerTab[];
+  contractAddress: string | undefined;
 }
 
-export const TokenIdPage: React.FC<TokenIdPageProps> = ({ nft, tabs }) => {
+export const TokenIdPage: React.FC<TokenIdPageProps> = ({
+  nft,
+  tabs,
+  contractAddress,
+}) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const router = useRouter();
+
+  const chainId = useDashboardEVMChainId();
+  const url = `/${chainId}/${contractAddress}/nfts`;
 
   if (!nft) {
     return null;
@@ -32,15 +46,27 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({ nft, tabs }) => {
   const properties = nft.metadata.attributes || nft.metadata.properties;
 
   return (
-    <Flex py={6} px={2} flexDir={{ base: "column", md: "row" }} gap={8}>
-      <Flex gap={6}>
+    <Flex py={6} px={2} flexDir={{ base: "column", md: "row" }} gap={4}>
+      <Card p={1} h="full">
+        <IconButton
+          w="inherit"
+          variant="ghost"
+          onClick={() =>
+            router.asPath !== "/" ? router.push(url) : router.back()
+          }
+          aria-label="Back"
+          icon={<Icon as={IoChevronBack} boxSize={6} />}
+        >
+          Back
+        </IconButton>
+      </Card>
+      <Card h="full" mr={2}>
         <NFTMediaWithEmptyState
           metadata={nft.metadata}
           width={isMobile ? "100%" : "350px"}
           height={isMobile ? "100%" : "350px"}
         />
-      </Flex>
-
+      </Card>
       <Flex flexDir="column" gap={6} w="full">
         <Flex flexDir="column" gap={2}>
           <Heading size="title.lg">{nft.metadata.name}</Heading>

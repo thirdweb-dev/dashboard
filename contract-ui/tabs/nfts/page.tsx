@@ -58,7 +58,9 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   }
 
   if (tokenId) {
-    return <TokenIdPage nft={nft} tabs={tabs} />;
+    return (
+      <TokenIdPage nft={nft} tabs={tabs} contractAddress={contractAddress} />
+    );
   }
 
   return (
