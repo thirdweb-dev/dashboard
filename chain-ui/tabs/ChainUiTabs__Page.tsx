@@ -76,7 +76,7 @@ export const ChainUiTabs__Page: React.FC<{
           case ChainUiTab.Overview:
             return <ChainUiTabs__Overview chain={chain} category={category} />;
           case ChainUiTab.Analytics:
-            return <ChainUiTabs__Analytics chain={chain} category={category} />;
+            return <ChainUiTabs__Analytics chain={chain} />;
         }
       })()}
     </>
