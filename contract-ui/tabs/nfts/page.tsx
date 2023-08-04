@@ -32,8 +32,6 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
     nft || null,
   );
 
-  console.log({ tabs });
-
   const detectedState = detectFeatures(contractQuery?.contract, [
     "ERC721Enumerable",
     "ERC1155Enumerable",
@@ -58,8 +56,6 @@ export const ContractNFTPage: React.FC<NftOverviewPageProps> = ({
   if (!contractQuery?.contract) {
     return null;
   }
-
-  console.log({ tokenId, nft });
 
   if (tokenId) {
     return <TokenIdPage nft={nft} tabs={tabs} />;

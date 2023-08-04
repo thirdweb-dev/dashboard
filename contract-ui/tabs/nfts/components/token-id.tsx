@@ -15,6 +15,7 @@ import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { Heading, Badge, Card, CodeBlock, Text } from "tw-components";
 import { NFT } from "@thirdweb-dev/sdk";
 import { NFTDrawerTab } from "core-ui/nft-drawer/types";
+import { NftProperty } from "./nft-property";
 
 interface TokenIdPageProps {
   nft: NFT | undefined;
@@ -27,6 +28,8 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({ nft, tabs }) => {
   if (!nft) {
     return null;
   }
+
+  const properties = nft.metadata.attributes || nft.metadata.properties;
 
   return (
     <Flex py={6} px={2} flexDir={{ base: "column", md: "row" }} gap={8}>
@@ -41,6 +44,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({ nft, tabs }) => {
       <Flex flexDir="column" gap={6} w="full">
         <Flex flexDir="column" gap={2}>
           <Heading size="title.lg">{nft.metadata.name}</Heading>
+          <Text></Text>
           <Text size="label.md" noOfLines={6}>
             {nft.metadata.description}
           </Text>
@@ -110,22 +114,24 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({ nft, tabs }) => {
                     )}
                   </SimpleGrid>
                 </Card>
-                {nft.metadata.attributes || nft.metadata.properties ? (
+                {properties ? (
                   <Card as={Flex} flexDir="column" gap={4}>
                     <Heading size="label.md">Properties</Heading>
-                    <CodeBlock
-                      code={
-                        JSON.stringify(
-                          nft.metadata.attributes || nft.metadata.properties,
-                          null,
-                          2,
-                        ) || ""
-                      }
-                      language="json"
-                      canCopy={false}
-                      wrap={false}
-                      overflow="auto"
-                    />
+                    {Array.isArray(properties) && properties[0]?.value ? (
+                      <SimpleGrid columns={{ base: 2, md: 4 }} gap={2}>
+                        {properties.map((property: any, idx) => (
+                          <NftProperty key={idx} property={property} />
+                        ))}
+                      </SimpleGrid>
+                    ) : (
+                      <CodeBlock
+                        code={JSON.stringify(properties, null, 2) || ""}
+                        language="json"
+                        canCopy={false}
+                        wrap={false}
+                        overflow="auto"
+                      />
+                    )}
                   </Card>
                 ) : null}
               </Flex>
