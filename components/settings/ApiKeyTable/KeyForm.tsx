@@ -2,14 +2,9 @@ import { ApiKeyDetailsRow } from "./DetailsRow";
 import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "./validations";
 import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   ButtonGroup,
   Divider,
-  Flex,
   FormControl,
   HStack,
   Input,
@@ -32,7 +27,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ServiceName, getServiceByName } from "@thirdweb-dev/service-utils";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FieldArrayWithId,
   UseFormReturn,
@@ -50,6 +45,7 @@ import {
   Text,
 } from "tw-components";
 import {
+  SecretHandlingAlert,
   AnyBundleIdAlert,
   AnyDomainAlert,
   NoBundleIdsAlert,
@@ -86,6 +82,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
     isEditing ? "keys" : "name",
   );
   const [domainsFieldActive, setDomainsFieldActive] = useState(true);
+
   const enabledServices =
     form.getValues("services")?.filter((srv) => !!srv.enabled) || [];
 
@@ -200,6 +197,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </FormLabel>
                 <HStack alignItems="center">
                   <Checkbox
+                    isChecked={form.watch("domains") === "*"}
                     onChange={(e) => {
                       form.setValue("domains", e.target.checked ? "*" : "");
                     }}
@@ -208,30 +206,23 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </HStack>
               </HStack>
 
-              {form.watch("domains") !== "*" && (
-                <>
-                  <Textarea
-                    placeholder="thirdweb.com, rpc.example.com, localhost:3000"
-                    {...form.register("domains")}
-                  />
-                  {!form.getFieldState("domains", form.formState).error ? (
-                    <FormHelperText>
-                      Enter domains separated by commas or new lines.
-                    </FormHelperText>
-                  ) : (
-                    <FormErrorMessage>
-                      {
-                        form.getFieldState("domains", form.formState).error
-                          ?.message
-                      }
-                    </FormErrorMessage>
-                  )}
-                </>
+              <Textarea
+                placeholder="thirdweb.com, rpc.example.com, localhost:3000"
+                {...form.register("domains")}
+              />
+              {!form.getFieldState("domains", form.formState).error ? (
+                <FormHelperText>
+                  Enter domains separated by commas or new lines.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  {form.getFieldState("domains", form.formState).error?.message}
+                </FormErrorMessage>
               )}
             </FormControl>
 
-            {form.getValues("domains").length === 0 && <NoDomainsAlert />}
-            {form.getValues("domains").includes("*") && <AnyDomainAlert />}
+            {!form.watch("domains") && <NoDomainsAlert />}
+            {form.watch("domains") === "*" && <AnyDomainAlert />}
           </VStack>
         )}
 
@@ -257,6 +248,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </FormLabel>
                 <HStack alignItems="center">
                   <Checkbox
+                    isChecked={form.watch("bundleIds") === "*"}
                     onChange={(e) => {
                       form.setValue("bundleIds", e.target.checked ? "*" : "");
                     }}
@@ -265,31 +257,27 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                 </HStack>
               </HStack>
 
-              {form.watch("bundleIds") !== "*" && (
-                <>
-                  <Textarea
-                    placeholder="com.thirdweb.app"
-                    {...form.register("bundleIds")}
-                  />
+              <Textarea
+                placeholder="com.thirdweb.app"
+                {...form.register("bundleIds")}
+              />
 
-                  {!form.getFieldState("bundleIds", form.formState).error ? (
-                    <FormHelperText>
-                      Enter bundle ids separated by commas or new lines.
-                    </FormHelperText>
-                  ) : (
-                    <FormErrorMessage>
-                      {
-                        form.getFieldState("bundleIds", form.formState).error
-                          ?.message
-                      }
-                    </FormErrorMessage>
-                  )}
-                </>
+              {!form.getFieldState("bundleIds", form.formState).error ? (
+                <FormHelperText>
+                  Enter bundle ids separated by commas or new lines.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  {
+                    form.getFieldState("bundleIds", form.formState).error
+                      ?.message
+                  }
+                </FormErrorMessage>
               )}
             </FormControl>
 
-            {form.getValues("bundleIds").length === 0 && <NoBundleIdsAlert />}
-            {form.getValues("bundleIds").includes("*") && <AnyBundleIdAlert />}
+            {!form.watch("bundleIds") && <NoBundleIdsAlert />}
+            {form.watch("bundleIds") === "*" && <AnyBundleIdAlert />}
           </VStack>
         )}
 
@@ -367,6 +355,10 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                         </FormLabel>
                         <HStack alignItems="center">
                           <Checkbox
+                            isChecked={
+                              form.watch(`services.${idx}.targetAddresses`) ===
+                              "*"
+                            }
                             onChange={(e) => {
                               form.setValue(
                                 `services.${idx}.targetAddresses`,
@@ -378,40 +370,32 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                         </HStack>
                       </HStack>
 
-                      {form.watch(`services.${idx}.targetAddresses`) !==
-                        "*" && (
-                        <>
-                          <Textarea
-                            disabled={!srv.enabled}
-                            placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
-                            {...form.register(
+                      <Textarea
+                        disabled={!srv.enabled}
+                        placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
+                        {...form.register(`services.${idx}.targetAddresses`)}
+                      />
+                      {!form.getFieldState(
+                        `services.${idx}.targetAddresses`,
+                        form.formState,
+                      ).error ? (
+                        <FormHelperText>
+                          Enter contract addresses separated by commas or new
+                          lines.
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(
                               `services.${idx}.targetAddresses`,
-                            )}
-                          />
-                          {!form.getFieldState(
-                            `services.${idx}.targetAddresses`,
-                            form.formState,
-                          ).error ? (
-                            <FormHelperText>
-                              Enter contract addresses separated by commas or
-                              new lines.
-                            </FormHelperText>
-                          ) : (
-                            <FormErrorMessage>
-                              {
-                                form.getFieldState(
-                                  `services.${idx}.targetAddresses`,
-                                  form.formState,
-                                ).error?.message
-                              }
-                            </FormErrorMessage>
-                          )}
-                        </>
+                              form.formState,
+                            ).error?.message
+                          }
+                        </FormErrorMessage>
                       )}
                     </FormControl>
 
-                    {form.getValues(`services.${idx}.targetAddresses`)
-                      .length === 0 && (
+                    {!form.watch(`services.${idx}.targetAddresses`) && (
                       <NoTargetAddressesAlert
                         serviceName={service.title}
                         serviceDesc={service.description}
@@ -497,20 +481,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
           description="Identifies and authenticates your application from the backend."
         />
 
-        <Alert status="warning" variant="left-accent">
-          <AlertIcon />
-          <Flex direction="column" gap={2}>
-            <Heading as={AlertTitle} size="label.md">
-              Secret Key Handling
-            </Heading>
-            <Text as={AlertDescription} size="body.md">
-              Store the Secret Key in a secure place and{" "}
-              <strong>never share it</strong>. You will not be able to retrieve
-              it again. If you lose it, you will need to create a new API Key
-              pair.
-            </Text>
-          </Flex>
-        </Alert>
+        <SecretHandlingAlert />
       </VStack>
     );
   };
