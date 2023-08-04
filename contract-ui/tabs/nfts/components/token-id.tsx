@@ -48,7 +48,7 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
 
   return (
     <Flex flexDir={{ base: "column", md: "row" }} gap={6}>
-      <Card h="full" position="relative">
+      <Card h="full" position="relative" minH="100px">
         <Box w="50px" position="absolute" zIndex={1000} top={6} left={6}>
           <Card p={1} bgColor="backgroundCardHighlight">
             <IconButton
@@ -79,58 +79,64 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
             </Text>
           )}
         </Flex>
-        <Flex flexDir="column" gap={4}>
-          <ButtonGroup
-            size="sm"
-            variant="ghost"
-            spacing={{ base: 0.5, md: 2 }}
+        <Flex flexDir="column" gap={{ base: 0, md: 4 }}>
+          <Box
             w="full"
+            overflow={{ base: "auto", md: "hidden" }}
+            pb={{ base: 4, md: 0 }}
           >
-            <Button
-              type="button"
-              isActive={tab === "Details"}
-              _active={{
-                bg: "bgBlack",
-                color: "bgWhite",
-              }}
-              rounded="lg"
-              onClick={() => setTab("Details")}
+            <ButtonGroup
+              size="sm"
+              variant="ghost"
+              spacing={2}
+              w={(tabs.length + 1) * 95}
             >
-              Details
-            </Button>
-            {tabs.map((tb) => (
-              <Tooltip
-                key={tb.title}
-                p={0}
-                bg="transparent"
-                boxShadow={"none"}
-                label={
-                  tb.isDisabled ? (
-                    <Card py={2} px={4} bgColor="backgroundHighlight">
-                      <Text size="label.sm">{tb.disabledText}</Text>
-                    </Card>
-                  ) : (
-                    ""
-                  )
-                }
+              <Button
+                type="button"
+                isActive={tab === "Details"}
+                _active={{
+                  bg: "bgBlack",
+                  color: "bgWhite",
+                }}
+                rounded="lg"
+                onClick={() => setTab("Details")}
               >
-                <Button
-                  isDisabled={tb.isDisabled}
-                  type="button"
-                  isActive={tab === tb.title}
-                  _active={{
-                    bg: "bgBlack",
-                    color: "bgWhite",
-                  }}
-                  rounded="lg"
-                  onClick={() => setTab(tb.title)}
+                Details
+              </Button>
+              {tabs.map((tb) => (
+                <Tooltip
+                  key={tb.title}
+                  p={0}
+                  bg="transparent"
+                  boxShadow={"none"}
+                  label={
+                    tb.isDisabled ? (
+                      <Card py={2} px={4} bgColor="backgroundHighlight">
+                        <Text size="label.sm">{tb.disabledText}</Text>
+                      </Card>
+                    ) : (
+                      ""
+                    )
+                  }
                 >
-                  {tb.title}
-                </Button>
-              </Tooltip>
-            ))}
-          </ButtonGroup>
-          <Divider my={0} />
+                  <Button
+                    isDisabled={tb.isDisabled}
+                    type="button"
+                    isActive={tab === tb.title}
+                    _active={{
+                      bg: "bgBlack",
+                      color: "bgWhite",
+                    }}
+                    rounded="lg"
+                    onClick={() => setTab(tb.title)}
+                  >
+                    {tb.title}
+                  </Button>
+                </Tooltip>
+              ))}
+            </ButtonGroup>
+          </Box>
+          <Divider />
         </Flex>
 
         {tab === "Details" && (
