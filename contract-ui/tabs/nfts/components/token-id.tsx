@@ -10,6 +10,7 @@ import {
   useBreakpointValue,
   Icon,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
 import { BigNumber } from "ethers";
 import { AddressCopyButton } from "tw-components/AddressCopyButton";
@@ -46,28 +47,30 @@ export const TokenIdPage: React.FC<TokenIdPageProps> = ({
   const properties = nft.metadata.attributes || nft.metadata.properties;
 
   return (
-    <Flex py={6} px={2} flexDir={{ base: "column", md: "row" }} gap={4}>
-      <Card p={1} h="full">
-        <IconButton
-          w="inherit"
-          variant="ghost"
-          onClick={() =>
-            router.asPath !== "/" ? router.push(url) : router.back()
-          }
-          aria-label="Back"
-          icon={<Icon as={IoChevronBack} boxSize={6} />}
-        >
-          Back
-        </IconButton>
-      </Card>
-      <Card h="full" mr={2}>
+    <Flex flexDir={{ base: "column", md: "row" }} gap={6}>
+      <Card h="full" position="relative">
+        <Box w="50px" position="absolute" zIndex={1000} top={6} left={6}>
+          <Card p={1} bgColor="backgroundCardHighlight">
+            <IconButton
+              w="inherit"
+              variant="ghost"
+              onClick={() =>
+                router.asPath !== "/" ? router.push(url) : router.back()
+              }
+              aria-label="Back"
+              icon={<Icon as={IoChevronBack} boxSize={6} />}
+            >
+              Back
+            </IconButton>
+          </Card>
+        </Box>
         <NFTMediaWithEmptyState
           metadata={nft.metadata}
           width={isMobile ? "100%" : "350px"}
           height={isMobile ? "100%" : "350px"}
         />
       </Card>
-      <Flex flexDir="column" gap={6} w="full">
+      <Flex flexDir="column" gap={6} w="full" px={2}>
         <Flex flexDir="column" gap={2}>
           <Heading size="title.lg">{nft.metadata.name}</Heading>
           {nft.metadata?.description && (
