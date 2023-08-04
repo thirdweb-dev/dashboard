@@ -7,12 +7,7 @@ interface IChainUiComponents__AnalyticsTable {
 export const ChainUiComponents__AnalyticsTable: React.FC<
   IChainUiComponents__AnalyticsTable
 > = ({ data }) => {
-  const headers = Object.keys(data[0] ?? {}).map((head) =>
-    head
-      .split("_")
-      .map((v) => v[0].toUpperCase() + v.slice(1).toLowerCase())
-      .join(" "),
-  );
+  const headers = Object.keys(data[0] ?? {});
 
   return (
     <Box maxH="400px" overflowY="scroll">

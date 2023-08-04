@@ -1,63 +1,13 @@
 import { Stack } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { ChainUiComponents__AnalyticsTable } from "chain-ui/components/ChainUiComponents__Analytics";
-import { useChainUiHooks__AnalyticsBlocksByGasPrice } from "chain-ui/hooks/useChainUiHooks__AnalyticsBlocksByGasPrice";
 import { useChainUiHooks__AnalyticsContractsByGasUsage } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByGasUsage";
 import { useChainUiHooks__AnalyticsContractsByTransactionsCount } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByTransactionsCount";
 import { useChainUiHooks__AnalyticsContractsByUniqueWalletsCount } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByUniqueWalletsCount";
 import { useChainUiHooks__AnalyticsContractsByValueMoved } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByValueMoved";
-import { ethers } from "ethers";
 import { Heading } from "tw-components";
 
-export const ChainUiTabsAnalytics__MetricsBlocksByGasPrice: React.FC<{
-  chain: Chain;
-}> = ({ chain }) => {
-  const { data } = useChainUiHooks__AnalyticsBlocksByGasPrice({
-    chainId: chain.chainId,
-  });
-  if (!data) {
-    return null;
-  }
-
-  const restructuredData = data.results.map((row) => {
-    const headers = Object.keys(row);
-    const restructuredRow = headers.reduce(
-      (store, header) => {
-        switch (header) {
-          case "chain_id": {
-            return store;
-          }
-          case "block_number": {
-            store["block_number"] = row["block_number"];
-            break;
-          }
-          case "block_time": {
-            store["block_time"] = new Date(row["block_time"]).toLocaleString();
-            break;
-          }
-          case "median_gas_price": {
-            store["median_gas_price_(gwei)"] = ethers.utils
-              .formatUnits(row["median_gas_price"], "gwei")
-              .slice(0, 5);
-            break;
-          }
-        }
-        return store;
-      },
-      {} as Record<string, any>,
-    );
-    return restructuredRow;
-  });
-
-  return (
-    <Stack>
-      <Heading fontSize="x-large">Historical Gas Prices</Heading>
-      <ChainUiComponents__AnalyticsTable data={restructuredData} />
-    </Stack>
-  );
-};
-
-export const ChainUiTabsAnalytics__MetricsContractsByGasUsage: React.FC<{
+export const ChainUiTabsAnalytics__ContractsByGasUsage: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
   const { data } = useChainUiHooks__AnalyticsContractsByGasUsage({
@@ -72,14 +22,16 @@ export const ChainUiTabsAnalytics__MetricsContractsByGasUsage: React.FC<{
     const restructuredRow = headers.reduce(
       (store, header) => {
         switch (header) {
-          case "to_address":
           case "chain_id": {
-            return store;
+            break;
+          }
+          case "to_address": {
+            store["Contract Address"] = row["to_address"];
+            break;
           }
           case "total_gas_spent_wei": {
-            store["total_gas_spent_wei_(gwei)"] = ethers.utils
-              .formatUnits(row["total_gas_spent_wei"], "gwei")
-              .slice(0, 5);
+            store[`Total Gas Spent (${chain.nativeCurrency.symbol})`] =
+              row["total_gas_spent_wei"];
             break;
           }
         }
@@ -98,7 +50,7 @@ export const ChainUiTabsAnalytics__MetricsContractsByGasUsage: React.FC<{
   );
 };
 
-export const ChainUiTabsAnalytics__MetricsContractsByTransactionsCount: React.FC<{
+export const ChainUiTabsAnalytics__ContractsByTransactionsCount: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
   const { data } = useChainUiHooks__AnalyticsContractsByTransactionsCount({
@@ -114,20 +66,14 @@ export const ChainUiTabsAnalytics__MetricsContractsByTransactionsCount: React.FC
       (store, header) => {
         switch (header) {
           case "chain_id": {
-            return store;
-          }
-          case "block_number": {
-            store["block_number"] = row["block_number"];
             break;
           }
-          case "block_time": {
-            store["block_time"] = new Date(row["block_time"]).toLocaleString();
+          case "to_address": {
+            store["Contract Address"] = row["to_address"];
             break;
           }
-          case "median_gas_price": {
-            store["median_gas_price_(gwei)"] = ethers.utils
-              .formatUnits(row["median_gas_price"], "gwei")
-              .slice(0, 5);
+          case "num_transactions": {
+            store[`Number of Transactions`] = row["num_transactions"];
             break;
           }
         }
@@ -146,7 +92,7 @@ export const ChainUiTabsAnalytics__MetricsContractsByTransactionsCount: React.FC
   );
 };
 
-export const ChainUiTabsAnalytics__MetricsContractsByUniqueWalletsCount: React.FC<{
+export const ChainUiTabsAnalytics__ContractsByUniqueWalletsCount: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
   const { data } = useChainUiHooks__AnalyticsContractsByUniqueWalletsCount({
@@ -162,20 +108,14 @@ export const ChainUiTabsAnalytics__MetricsContractsByUniqueWalletsCount: React.F
       (store, header) => {
         switch (header) {
           case "chain_id": {
-            return store;
-          }
-          case "block_number": {
-            store["block_number"] = row["block_number"];
             break;
           }
-          case "block_time": {
-            store["block_time"] = new Date(row["block_time"]).toLocaleString();
+          case "to_address": {
+            store["Contract Address"] = row["to_address"];
             break;
           }
-          case "median_gas_price": {
-            store["median_gas_price_(gwei)"] = ethers.utils
-              .formatUnits(row["median_gas_price"], "gwei")
-              .slice(0, 5);
+          case "num_unique_wallets": {
+            store[`Number of Unique Wallets`] = row["num_unique_wallets"];
             break;
           }
         }
@@ -196,7 +136,7 @@ export const ChainUiTabsAnalytics__MetricsContractsByUniqueWalletsCount: React.F
   );
 };
 
-export const ChainUiTabsAnalytics__MetricsContractsByValueMoved: React.FC<{
+export const ChainUiTabsAnalytics__ContractsByValueMoved: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
   const { data } = useChainUiHooks__AnalyticsContractsByValueMoved({
@@ -212,20 +152,15 @@ export const ChainUiTabsAnalytics__MetricsContractsByValueMoved: React.FC<{
       (store, header) => {
         switch (header) {
           case "chain_id": {
-            return store;
-          }
-          case "block_number": {
-            store["block_number"] = row["block_number"];
             break;
           }
-          case "block_time": {
-            store["block_time"] = new Date(row["block_time"]).toLocaleString();
+          case "to_address": {
+            store["Contract Address"] = row["to_address"];
             break;
           }
-          case "median_gas_price": {
-            store["median_gas_price_(gwei)"] = ethers.utils
-              .formatUnits(row["median_gas_price"], "gwei")
-              .slice(0, 5);
+          case "value_moved_wei": {
+            store[`${chain.nativeCurrency.symbol} Moved`] =
+              row["value_moved_wei"];
             break;
           }
         }

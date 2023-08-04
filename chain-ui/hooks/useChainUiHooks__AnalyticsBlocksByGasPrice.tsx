@@ -40,7 +40,7 @@ export const useChainUiHooks__AnalyticsBlocksByGasPrice = (body: {
       return res.data;
     },
     {
-      refetchInterval: 60_000,
+      refetchInterval: 5_000,
     },
   );
 };
