@@ -166,13 +166,15 @@ export const ChainUiTabsAnalytics__ContractsByValueMoved: React.FC<{
             break;
           }
           case "value_moved_wei": {
-            store[`${chain.nativeCurrency.symbol} Moved`] = ethers.utils
-              .formatEther(
-                ethers.BigNumber.from(
-                  expToDec(row["value_moved_wei"].toString()),
-                ).toString(),
-              )
-              .toString();
+            store[`${chain.nativeCurrency.symbol} Moved`] = parseFloat(
+              ethers.utils
+                .formatEther(
+                  ethers.BigNumber.from(
+                    expToDec(row["value_moved_wei"].toString()),
+                  ).toString(),
+                )
+                .toString(),
+            ).toFixed(2);
             break;
           }
         }
