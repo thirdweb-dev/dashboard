@@ -1,4 +1,3 @@
-import { useIsMinter } from "@3rdweb-sdk/react/hooks/useContractRoles";
 import { NFTDrawerTab } from "./types";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
@@ -8,7 +7,7 @@ import {
   useAddress,
   useNFTBalance,
 } from "@thirdweb-dev/react/evm";
-import type { NFT, ValidContractInstance } from "@thirdweb-dev/sdk";
+import type { NFT } from "@thirdweb-dev/sdk";
 import type { NFTCollection, NFTDrop } from "@thirdweb-dev/sdk/solana";
 import { detectFeatures } from "components/contract-components/utils";
 import { BigNumber } from "ethers";
