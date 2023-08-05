@@ -54,8 +54,6 @@ export function useNFTDrawerTabs(
 
   const tokenId = token?.metadata.id || "";
 
-  const isMinter = useIsMinter(contractOrProgram as ValidContractInstance);
-
   if (ecosystem === "solana") {
     // solana land
     // this is ok because ecosystem can never change!
@@ -202,7 +200,7 @@ export function useNFTDrawerTabs(
         tabs = tabs.concat([
           {
             title: "Mint",
-            isDisabled: !isMinter,
+            isDisabled: false,
             disabledText: "You don't have minter permissions",
             children: <EVMMintSupplyTab contract={erc1155} tokenId={tokenId} />,
           },
@@ -221,14 +219,7 @@ export function useNFTDrawerTabs(
       }
 
       return tabs;
-    }, [
-      address,
-      balanceOf?.data,
-      contractOrProgram,
-      isMinter,
-      token?.owner,
-      tokenId,
-    ]);
+    }, [address, balanceOf?.data, contractOrProgram, token?.owner, tokenId]);
   }
 
   return [];
