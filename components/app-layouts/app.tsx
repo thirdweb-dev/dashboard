@@ -27,6 +27,7 @@ import { PrivacyNotice } from "components/notices/PrivacyNotice";
 import { AllChainsProvider } from "contexts/all-chains";
 import { ChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
+import EvmWalletProvider from "contexts/evm-wallets";
 import { isSanctionedAddress } from "data/eth-sanctioned-addresses";
 import { useAddRecentlyUsedChainId } from "hooks/chains/recentlyUsedChains";
 import {
@@ -133,14 +134,16 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
             <AllChainsProvider>
               <ChainsProvider>
                 <EVMContractInfoProvider value={props.contractInfo}>
-                  <DashboardThirdwebProvider>
-                    <SanctionedAddressesChecker>
-                      <PHIdentifier />
-                      <PrivacyNotice />
-                      <AppShell {...props} />
-                      <ConfigModal />
-                    </SanctionedAddressesChecker>
-                  </DashboardThirdwebProvider>
+                  <EvmWalletProvider>
+                    <DashboardThirdwebProvider>
+                      <SanctionedAddressesChecker>
+                        <PHIdentifier />
+                        <PrivacyNotice />
+                        <AppShell {...props} />
+                        <ConfigModal />
+                      </SanctionedAddressesChecker>
+                    </DashboardThirdwebProvider>
+                  </EvmWalletProvider>
                 </EVMContractInfoProvider>
               </ChainsProvider>
             </AllChainsProvider>

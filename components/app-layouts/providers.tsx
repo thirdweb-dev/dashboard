@@ -6,18 +6,10 @@ import {
 } from "@3rdweb-sdk/react/hooks/useActiveChainId";
 import { fetchAuthToken } from "@3rdweb-sdk/react/hooks/useApi";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  ThirdwebProvider,
-  coinbaseWallet,
-  localWallet,
-  metamaskWallet,
-  paperWallet,
-  safeWallet,
-  useUser,
-  walletConnect,
-} from "@thirdweb-dev/react";
+import { ThirdwebProvider, useUser } from "@thirdweb-dev/react";
 import { GLOBAL_AUTH_TOKEN_KEY } from "constants/app";
 import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
+import { useEvmWallets } from "contexts/evm-wallets";
 import { useSupportedChains } from "hooks/chains/configureChains";
 import { useNativeColorMode } from "hooks/useNativeColorMode";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -29,25 +21,6 @@ export interface DashboardThirdwebProviderProps {
   contractInfo?: EVMContractInfo;
 }
 
-const personalWallets = [
-  metamaskWallet(),
-  coinbaseWallet(),
-  walletConnect({
-    qrModalOptions: {
-      themeVariables: {
-        "--wcm-z-index": "10000",
-      },
-    },
-  }),
-  paperWallet({
-    paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
-    advancedOptions: {
-      recoveryShareManagement: "AWS_MANAGED",
-    },
-  }),
-  localWallet(),
-];
-
 export const DashboardThirdwebProvider: ComponentWithChildren<
   DashboardThirdwebProviderProps
 > = ({ children }) => {
@@ -56,6 +29,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
   const supportedChains = useSupportedChains();
   const contractInfo = useEVMContractInfo();
   const chain = contractInfo?.chain;
+  const { supportedWallets } = useEvmWallets();
   const readonlySettings = useMemo(() => {
     if (!chain) {
       return undefined;
@@ -86,12 +60,7 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
         readonlySettings,
       }}
       clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
-      supportedWallets={[
-        ...personalWallets,
-        safeWallet({
-          personalWallets,
-        }),
-      ]}
+      supportedWallets={supportedWallets}
       storageInterface={StorageSingleton}
       authConfig={{
         domain: THIRDWEB_DOMAIN,
