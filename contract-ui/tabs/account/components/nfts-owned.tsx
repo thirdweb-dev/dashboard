@@ -1,7 +1,6 @@
 import { useWalletNFTs } from "@3rdweb-sdk/react";
-import { Box, Flex, Icon, Stack, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Tooltip } from "@chakra-ui/react";
 import { ListLabel } from "contract-ui/tabs/listings/components/list-label";
-import { FiInfo } from "react-icons/fi";
 import { NFTMediaWithEmptyState } from "tw-components/nft-media";
 import { Text } from "tw-components";
 
