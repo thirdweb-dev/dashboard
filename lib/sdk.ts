@@ -16,7 +16,11 @@ import { DashboardSolanaNetwork } from "utils/solanaUtils";
 // use env var to set IPFS gateway or fallback to ipfscdn.io
 export const IPFS_GATEWAY_URL =
   (process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL as string) ||
-  "https://{cid}.gateway.ipfscdn.io/{path}";
+  DASHBOARD_THIRDWEB_CLIENT_ID
+    ? `https://${DASHBOARD_THIRDWEB_CLIENT_ID}.ipfscdn.io/ipfs/{cid}`
+    : "";
+
+const UPLOAD_SERVER_URL = process.env.NEXT_PUBLIC_UPLOAD_SERVER_URL as string;
 
 export function replaceIpfsUrl(url: string) {
   try {
@@ -72,6 +76,7 @@ export const StorageSingleton = new ThirdwebStorage({
   gatewayUrls: [IPFS_GATEWAY_URL],
   clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
   downloader: new SpecialDownloader(),
+  uploadServerUrl: UPLOAD_SERVER_URL,
 });
 
 // EVM SDK
