@@ -20,7 +20,9 @@ export const IPFS_GATEWAY_URL =
     ? `https://${DASHBOARD_THIRDWEB_CLIENT_ID}.ipfscdn.io/ipfs/{cid}`
     : "";
 
-const UPLOAD_SERVER_URL = process.env.NEXT_PUBLIC_UPLOAD_SERVER_URL as string;
+const UPLOAD_SERVER_URL =
+  (process.env.NEXT_PUBLIC_UPLOAD_SERVER_URL as string) ||
+  "https://storage.thirdweb.com";
 
 export function replaceIpfsUrl(url: string) {
   try {

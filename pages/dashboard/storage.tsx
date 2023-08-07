@@ -256,7 +256,7 @@ console.info(uri);
 
 // Here we a URL with a gateway that we can look at in the browser
 const url = await storage.resolveScheme(uri);
-// This will log a URL like https://ipfs.thirdwebstorage.com/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
+// This will log a URL like https://{client-id}.ipfscdn.io/ipfs/QmWgbcjKWCXhaLzMz4gNBxQpAHktQK6MkLvBkKXbsoWEEy/0
 console.info(url);
 
 // You can also download the data from the uri
