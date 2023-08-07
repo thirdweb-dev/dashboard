@@ -37,7 +37,7 @@
     "@tanstack/react-query": "^4.19.1",
     "@tanstack/react-query-persist-client": "^4.29.19",
     "@tanstack/react-table": "8.9.3",
-    "@thirdweb-dev/auth": "^3.2.27-nightly-262edc6a-20230804194150",
+    "@thirdweb-dev/auth": "^3.2.27",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "^0.1.42-nightly-262edc6a-20230804194150",
     "@thirdweb-dev/react": "^3.14.27-nightly-262edc6a-20230804194150",
