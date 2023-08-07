@@ -9,7 +9,11 @@ import {
   IpfsUploader,
   ThirdwebStorage,
 } from "@thirdweb-dev/storage";
-import { DASHBOARD_THIRDWEB_CLIENT_ID, getSOLRPC } from "constants/rpc";
+import {
+  DASHBOARD_SECRET_KEY,
+  DASHBOARD_THIRDWEB_CLIENT_ID,
+  getSOLRPC,
+} from "constants/rpc";
 import type { Signer } from "ethers";
 import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
@@ -99,6 +103,7 @@ export function getEVMThirdwebSDK(
           chainId,
         },
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+        secretKey: DASHBOARD_SECRET_KEY,
         ...sdkOptions,
       },
       StorageSingleton,
