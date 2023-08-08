@@ -197,6 +197,7 @@ async function queryFn(
       secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
     },
   );
+  console.log("*** GETTING CHAIN RPC URL: ", getDashboardChainRpc(Polygon));
 
   const publisherEns = await queryClient.fetchQuery(ensQuery(publisher));
   // START prefill both publisher ens variations
