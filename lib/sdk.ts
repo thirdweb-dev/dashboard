@@ -9,7 +9,11 @@ import {
   IpfsUploader,
   ThirdwebStorage,
 } from "@thirdweb-dev/storage";
-import { DASHBOARD_THIRDWEB_CLIENT_ID, getSOLRPC } from "constants/rpc";
+import {
+  DASHBOARD_THIRDWEB_CLIENT_ID,
+  DASHBOARD_THIRDWEB_SECRET_KEY,
+  getSOLRPC,
+} from "constants/rpc";
 import type { Signer } from "ethers";
 import { DashboardSolanaNetwork } from "utils/solanaUtils";
 
@@ -68,9 +72,15 @@ class SpecialDownloader implements IStorageDownloader {
   }
 }
 
+const DASHBOARD_UPLOAD_URL =
+  process.env.NEXT_PUBLIC_DASHBOARD_UPLOAD_SERVER ||
+  "https://storage.thirdweb.com";
+
 export const StorageSingleton = new ThirdwebStorage({
   gatewayUrls: [IPFS_GATEWAY_URL],
   clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+  secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+  uploadServerUrl: DASHBOARD_UPLOAD_URL,
   downloader: new SpecialDownloader(),
 });
 
@@ -99,6 +109,7 @@ export function getEVMThirdwebSDK(
           chainId,
         },
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
         ...sdkOptions,
       },
       StorageSingleton,
@@ -128,9 +139,13 @@ export function getSOLThirdwebSDK(
     rpcUrl,
     new ThirdwebStorage({
       clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+      uploadServerUrl: DASHBOARD_UPLOAD_URL,
+      gatewayUrls: [IPFS_GATEWAY_URL],
       uploader: new IpfsUploader({
         uploadWithGatewayUrl: true,
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
       }),
     }),
   );
