@@ -54,7 +54,10 @@ import {
 } from "@thirdweb-dev/sdk/evm/zksync";
 import { walletIds } from "@thirdweb-dev/wallets";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
+import {
+  DASHBOARD_THIRDWEB_CLIENT_ID,
+  DASHBOARD_THIRDWEB_SECRET_KEY,
+} from "constants/rpc";
 import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { isEnsName, resolveEns } from "lib/ens";
@@ -286,7 +289,7 @@ export function useAllVersions(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
     {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
     },
   );
   return useQuery(

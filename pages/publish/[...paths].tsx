@@ -13,7 +13,7 @@ import {
   PublishWithVersionPage,
   PublishWithVersionPageProps,
 } from "components/pages/publish";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishedContracts } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -68,7 +68,7 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
     {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
     },
   );
 
