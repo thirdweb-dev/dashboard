@@ -16,7 +16,7 @@ function getMainnetProvider(): Provider {
     Ethereum.chainId,
     getDashboardChainRpc(Ethereum),
     {
-      clientId: DASHBOARD_THIRDWEB_SECRET_KEY,
+      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
     },
   ).getProvider();
   return THIRDWEB_PROVIDER;
