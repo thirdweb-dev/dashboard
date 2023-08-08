@@ -216,6 +216,9 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const polygonSdk = getEVMThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
+    {
+      secretKey: process.env.DASHBOARD_SECRET_KEY as string,
+    },
   );
 
   const profileAddress = getSingleQueryValue(ctx.params, "profileAddress");

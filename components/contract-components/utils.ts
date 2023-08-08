@@ -6,6 +6,7 @@ import {
   ValidContractInstance,
   isFeatureEnabled,
 } from "@thirdweb-dev/sdk/evm";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { Signer } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -46,6 +47,7 @@ export function getGaslessPolygonSDK(signer?: Signer) {
         },
         experimentalChainlessSupport: true,
       },
+      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
     },
     signer,
   );
