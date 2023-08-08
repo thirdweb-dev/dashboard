@@ -11,7 +11,6 @@ import {
   getEncodedConstructorParamsForThirdwebContract,
   verify,
 } from "@thirdweb-dev/sdk/evm";
-import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { apiKeyMap, apiMap } from "lib/maps";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";

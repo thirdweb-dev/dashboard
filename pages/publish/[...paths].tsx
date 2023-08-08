@@ -13,7 +13,6 @@ import {
   PublishWithVersionPage,
   PublishWithVersionPageProps,
 } from "components/pages/publish";
-import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishedContracts } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";

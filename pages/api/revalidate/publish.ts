@@ -4,7 +4,6 @@ import {
   ensQuery,
   fetchPublishedContracts,
 } from "components/contract-components/hooks";
-import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { ENSResolveResult } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";

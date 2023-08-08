@@ -1,7 +1,6 @@
 import { getEVMThirdwebSDK } from "./sdk";
 import { Provider } from "@ethersproject/abstract-provider";
 import { Ethereum } from "@thirdweb-dev/chains";
-import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { utils } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
 import invariant from "tiny-invariant";

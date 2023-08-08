@@ -11,7 +11,6 @@ import { QueryClient } from "@tanstack/query-core";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ensQuery } from "components/contract-components/hooks";
-import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";

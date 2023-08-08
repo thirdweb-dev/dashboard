@@ -21,7 +21,6 @@ import { ensQuery } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
 import { ContractMetadata } from "components/custom-contract/contract-header/contract-metadata";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
-import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { SupportedChainsReadyContext } from "contexts/configured-chains";
 import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
