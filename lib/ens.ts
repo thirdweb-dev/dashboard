@@ -1,6 +1,7 @@
 import { getEVMThirdwebSDK } from "./sdk";
 import { Provider } from "@ethersproject/abstract-provider";
 import { Ethereum } from "@thirdweb-dev/chains";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { utils } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
 import invariant from "tiny-invariant";
@@ -14,6 +15,9 @@ function getMainnetProvider(): Provider {
   THIRDWEB_PROVIDER = getEVMThirdwebSDK(
     Ethereum.chainId,
     getDashboardChainRpc(Ethereum),
+    {
+      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+    },
   ).getProvider();
   return THIRDWEB_PROVIDER;
 }

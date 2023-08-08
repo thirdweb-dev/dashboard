@@ -11,6 +11,7 @@ import {
   getEncodedConstructorParamsForThirdwebContract,
   verify,
 } from "@thirdweb-dev/sdk/evm";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { apiKeyMap, apiMap } from "lib/maps";
 import { getDashboardChainRpc } from "lib/rpc";
 import { StorageSingleton, getEVMThirdwebSDK } from "lib/sdk";
@@ -101,7 +102,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     }
 
-    const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+    const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain), {
+      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+    });
 
     let encodedArgs;
     try {

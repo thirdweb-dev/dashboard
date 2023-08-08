@@ -13,6 +13,7 @@ import {
   PublishWithVersionPage,
   PublishWithVersionPageProps,
 } from "components/pages/publish";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishedContracts } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -66,6 +67,9 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
   const polygonSdk = getEVMThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
+    {
+      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+    },
   );
 
   const queryClient = new QueryClient();

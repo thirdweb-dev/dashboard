@@ -4,6 +4,7 @@ import {
   ensQuery,
   fetchPublishedContracts,
 } from "components/contract-components/hooks";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { ENSResolveResult } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -46,6 +47,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const polygonSdk = getEVMThirdwebSDK(
       Polygon.chainId,
       getDashboardChainRpc(Polygon),
+      {
+        clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+      },
     );
     const publishedContracts = await fetchPublishedContracts(
       polygonSdk,

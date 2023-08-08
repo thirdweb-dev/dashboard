@@ -21,6 +21,7 @@ import { ensQuery } from "components/contract-components/hooks";
 import { ImportContract } from "components/contract-components/import-contract";
 import { ContractMetadata } from "components/custom-contract/contract-header/contract-metadata";
 import { HomepageSection } from "components/product-pages/homepage/HomepageSection";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { SupportedChainsReadyContext } from "contexts/configured-chains";
 import { PrimaryDashboardButton } from "contract-ui/components/primary-dashboard-button";
 import { useContractRouteConfig } from "contract-ui/hooks/useRouteConfig";
@@ -432,7 +433,13 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   if (chain) {
     try {
       // create the SDK on the chain
-      const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
+      const sdk = getEVMThirdwebSDK(
+        chain.chainId,
+        getDashboardChainRpc(chain),
+        {
+          clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+        },
+      );
       // get the contract
       const contract = await sdk.getContract(address);
       // extract the abi to detect extensions
