@@ -102,9 +102,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
     }
 
-    const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain), {
-      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-    });
+    const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
 
     let encodedArgs;
     try {

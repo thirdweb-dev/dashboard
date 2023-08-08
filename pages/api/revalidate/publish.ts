@@ -47,9 +47,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const polygonSdk = getEVMThirdwebSDK(
       Polygon.chainId,
       getDashboardChainRpc(Polygon),
-      {
-        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-      },
     );
     const publishedContracts = await fetchPublishedContracts(
       polygonSdk,

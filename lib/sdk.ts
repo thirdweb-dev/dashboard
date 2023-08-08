@@ -103,7 +103,6 @@ export function getEVMThirdwebSDK(
           chainId,
         },
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
         ...sdkOptions,
       },
       StorageSingleton,

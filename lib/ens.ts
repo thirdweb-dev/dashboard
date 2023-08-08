@@ -15,11 +15,7 @@ function getMainnetProvider(): Provider {
   THIRDWEB_PROVIDER = getEVMThirdwebSDK(
     Ethereum.chainId,
     getDashboardChainRpc(Ethereum),
-    {
-      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-    },
   ).getProvider();
-  console.log("*** GETTING CHAIN RPC URL: ", getDashboardChainRpc(Ethereum));
   return THIRDWEB_PROVIDER;
 }
 

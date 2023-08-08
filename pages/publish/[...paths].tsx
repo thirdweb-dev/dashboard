@@ -67,9 +67,6 @@ export const getStaticProps: GetStaticProps<PublishPageProps> = async (ctx) => {
   const polygonSdk = getEVMThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
-    {
-      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
-    },
   );
 
   const queryClient = new QueryClient();
