@@ -4,6 +4,7 @@ import {
   addContractToMultiChainRegistry,
   getGaslessPolygonSDK,
 } from "components/contract-components/utils";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -43,7 +44,9 @@ export function useRemoveContractMutation() {
         const sdk = getEVMThirdwebSDK(
           chainId,
           getDashboardChainRpc(chain),
-          undefined,
+          {
+            clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+          },
           signer,
         );
 

@@ -11,6 +11,7 @@ import { QueryClient } from "@tanstack/query-core";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Polygon } from "@thirdweb-dev/chains";
 import { ensQuery } from "components/contract-components/hooks";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK, replaceIpfsUrl } from "lib/sdk";
 import { useMemo } from "react";
@@ -192,6 +193,9 @@ async function queryFn(
   const polygonSdk = getEVMThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
+    {
+      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+    },
   );
 
   const publisherEns = await queryClient.fetchQuery(ensQuery(publisher));

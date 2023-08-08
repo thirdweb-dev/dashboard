@@ -17,6 +17,7 @@ import { EditProfile } from "components/contract-components/publisher/edit-profi
 import { PublisherAvatar } from "components/contract-components/publisher/masked-avatar";
 import { DeployedContracts } from "components/contract-components/tables/deployed-contracts";
 import { PublishedContracts } from "components/contract-components/tables/published-contracts";
+import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { PublisherSDKContext } from "contexts/custom-sdk-context";
 import { getAllExplorePublishers } from "data/explore";
 import { getDashboardChainRpc } from "lib/rpc";
@@ -216,6 +217,9 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   const polygonSdk = getEVMThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
+    {
+      secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+    },
   );
 
   const profileAddress = getSingleQueryValue(ctx.params, "profileAddress");

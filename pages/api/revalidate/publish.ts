@@ -4,6 +4,7 @@ import {
   ensQuery,
   fetchPublishedContracts,
 } from "components/contract-components/hooks";
+import { DASHBOARD_THIRDWEB_SECRET_KEY } from "constants/rpc";
 import { ENSResolveResult } from "lib/ens";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
@@ -46,6 +47,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const polygonSdk = getEVMThirdwebSDK(
       Polygon.chainId,
       getDashboardChainRpc(Polygon),
+      {
+        secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+      },
     );
     const publishedContracts = await fetchPublishedContracts(
       polygonSdk,
