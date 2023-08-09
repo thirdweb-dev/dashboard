@@ -3,14 +3,14 @@ import { Chain } from "@thirdweb-dev/chains";
 import { ExploreCategory } from "data/explore";
 import { useRouter } from "next/router";
 import { Button } from "tw-components";
-import { ChainUiTabs__Analytics } from "./ChainUiTabs__Analytics/page";
-import { ChainUiTabs__Overview } from "./ChainUiTabs__Overview/page";
+import { ChainUiTabsAnalytics } from "./ChainUiTabsAnalytics/page";
+import { ChainUiTabsOverview } from "./ChainUiTabsOverview/page";
 
 enum ChainUiTab {
   Overview = "overview",
   Analytics = "analytics",
 }
-export const ChainUiTabs__Page: React.FC<{
+export const ChainUiTabsPage: React.FC<{
   chain: Chain;
   category: ExploreCategory;
 }> = ({ chain, category }) => {
@@ -74,9 +74,9 @@ export const ChainUiTabs__Page: React.FC<{
       {(() => {
         switch (activeTab) {
           case ChainUiTab.Overview:
-            return <ChainUiTabs__Overview chain={chain} category={category} />;
+            return <ChainUiTabsOverview chain={chain} category={category} />;
           case ChainUiTab.Analytics:
-            return <ChainUiTabs__Analytics chain={chain} />;
+            return <ChainUiTabsAnalytics chain={chain} />;
         }
       })()}
     </>

@@ -8,12 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
-import { ChainUiComponents__SectionElement } from "chain-ui/components/ChainUiComponents__SectionElement";
+import { ChainUiComponentsSectionElement } from "chain-ui/components/ChainUiComponentsSectionElement";
 import { CHAIN_CATEGORY } from "pages/chain/[chainSlug]";
 import { FiExternalLink } from "react-icons/fi";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
 
-export const ChainUiTabsOverview__ChainReferences: React.FC<{
+export const ChainUiTabsOverviewChainReferences: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
   const address = useAddress();
@@ -21,7 +21,7 @@ export const ChainUiTabsOverview__ChainReferences: React.FC<{
   return (
     <>
       {chain.faucets?.length ? (
-        <ChainUiComponents__SectionElement colSpan={12} label="Faucets">
+        <ChainUiComponentsSectionElement colSpan={12} label="Faucets">
           <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
             {chain.faucets.map((faucet) => {
               const url = new URL(faucet);
@@ -72,10 +72,10 @@ export const ChainUiTabsOverview__ChainReferences: React.FC<{
               );
             })}
           </SimpleGrid>
-        </ChainUiComponents__SectionElement>
+        </ChainUiComponentsSectionElement>
       ) : null}
       {chain.explorers?.length ? (
-        <ChainUiComponents__SectionElement colSpan={12} label="Explorers">
+        <ChainUiComponentsSectionElement colSpan={12} label="Explorers">
           <SimpleGrid columns={{ base: 6, md: 12 }} gridGap={6}>
             {chain.explorers.map((explorer) => {
               return (
@@ -113,7 +113,7 @@ export const ChainUiTabsOverview__ChainReferences: React.FC<{
               );
             })}
           </SimpleGrid>
-        </ChainUiComponents__SectionElement>
+        </ChainUiComponentsSectionElement>
       ) : null}
     </>
   );

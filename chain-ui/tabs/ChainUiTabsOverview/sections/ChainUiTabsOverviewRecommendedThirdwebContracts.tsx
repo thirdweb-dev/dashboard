@@ -1,6 +1,6 @@
 import { Divider, GridItem, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { ChainUiComponents__SectionElement } from "chain-ui/components/ChainUiComponents__SectionElement";
+import { ChainUiComponentsSectionElement } from "chain-ui/components/ChainUiComponentsSectionElement";
 import { ContractCard } from "components/explore/contract-card";
 import { ExploreCategory } from "data/explore";
 import { CHAIN_CATEGORY } from "pages/chain/[chainSlug]";
@@ -15,14 +15,14 @@ const LineaTestnetPopularContracts = [
   "thirdweb.eth/TokenERC1155",
 ];
 
-export const ChainUiTabsOverview__RecommendedThirdwebContracts: React.FC<{
+export const ChainUiTabsOverviewRecommendedThirdwebContracts: React.FC<{
   chain: Chain;
   category: ExploreCategory;
 }> = ({ chain, category }) => {
   const isLineaTestnet = chain?.chainId === 59140;
   return (
     <>
-      <ChainUiComponents__SectionElement
+      <ChainUiComponentsSectionElement
         colSpan={12}
         label="Popular Contracts"
         moreElem={
@@ -61,7 +61,7 @@ export const ChainUiTabsOverview__RecommendedThirdwebContracts: React.FC<{
             );
           })}
         </SimpleGrid>
-      </ChainUiComponents__SectionElement>
+      </ChainUiComponentsSectionElement>
       <Divider />
     </>
   );

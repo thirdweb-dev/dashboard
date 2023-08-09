@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export type GasEstimate = { gasPrice: number; ethPrice: number };
 
-export const useChainUiHooks__AnalyticsContractsByValueMoved = (body: {
+export const useChainUiHooksAnalyticsContractsByValueMoved = (body: {
   chainId: number;
   startDate?: string;
   endDate?: string;

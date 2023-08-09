@@ -1,17 +1,17 @@
 import { Stack } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { ChainUiComponents__AnalyticsTable } from "chain-ui/components/ChainUiComponents__Analytics";
-import { useChainUiHooks__AnalyticsContractsByGasUsage } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByGasUsage";
-import { useChainUiHooks__AnalyticsContractsByTransactionsCount } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByTransactionsCount";
-import { useChainUiHooks__AnalyticsContractsByUniqueWalletsCount } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByUniqueWalletsCount";
-import { useChainUiHooks__AnalyticsContractsByValueMoved } from "chain-ui/hooks/useChainUiHooks__AnalyticsContractsByValueMoved";
+import { ChainUiComponentsAnalyticsTable } from "chain-ui/components/ChainUiComponentsAnalytics";
+import { useChainUiHooksAnalyticsContractsByGasUsage } from "chain-ui/hooks/useChainUiHooksAnalyticsContractsByGasUsage";
+import { useChainUiHooksAnalyticsContractsByTransactionsCount } from "chain-ui/hooks/useChainUiHooksAnalyticsContractsByTransactionsCount";
+import { useChainUiHooksAnalyticsContractsByUniqueWalletsCount } from "chain-ui/hooks/useChainUiHooksAnalyticsContractsByUniqueWalletsCount";
+import { useChainUiHooksAnalyticsContractsByValueMoved } from "chain-ui/hooks/useChainUiHooksAnalyticsContractsByValueMoved";
 import { ethers } from "ethers";
 import { Heading } from "tw-components";
 
-export const ChainUiTabsAnalytics__ContractsByGasUsage: React.FC<{
+export const ChainUiTabsAnalyticsContractsByGasUsage: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
-  const { data } = useChainUiHooks__AnalyticsContractsByGasUsage({
+  const { data } = useChainUiHooksAnalyticsContractsByGasUsage({
     chainId: chain.chainId,
   });
   if (!data) {
@@ -52,15 +52,15 @@ export const ChainUiTabsAnalytics__ContractsByGasUsage: React.FC<{
   return (
     <Stack>
       <Heading fontSize="x-large">Contracts that Spent the Most Gas</Heading>
-      <ChainUiComponents__AnalyticsTable data={restructuredData} />
+      <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
 };
 
-export const ChainUiTabsAnalytics__ContractsByTransactionsCount: React.FC<{
+export const ChainUiTabsAnalyticsContractsByTransactionsCount: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
-  const { data } = useChainUiHooks__AnalyticsContractsByTransactionsCount({
+  const { data } = useChainUiHooksAnalyticsContractsByTransactionsCount({
     chainId: chain.chainId,
   });
   if (!data) {
@@ -94,15 +94,15 @@ export const ChainUiTabsAnalytics__ContractsByTransactionsCount: React.FC<{
   return (
     <Stack>
       <Heading fontSize="x-large">Most Interacted Contracts</Heading>
-      <ChainUiComponents__AnalyticsTable data={restructuredData} />
+      <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
 };
 
-export const ChainUiTabsAnalytics__ContractsByUniqueWalletsCount: React.FC<{
+export const ChainUiTabsAnalyticsContractsByUniqueWalletsCount: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
-  const { data } = useChainUiHooks__AnalyticsContractsByUniqueWalletsCount({
+  const { data } = useChainUiHooksAnalyticsContractsByUniqueWalletsCount({
     chainId: chain.chainId,
   });
   if (!data) {
@@ -138,15 +138,15 @@ export const ChainUiTabsAnalytics__ContractsByUniqueWalletsCount: React.FC<{
       <Heading fontSize="x-large">
         Contracts with the Most Unique Wallet Interactions
       </Heading>
-      <ChainUiComponents__AnalyticsTable data={restructuredData} />
+      <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
 };
 
-export const ChainUiTabsAnalytics__ContractsByValueMoved: React.FC<{
+export const ChainUiTabsAnalyticsContractsByValueMoved: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
-  const { data } = useChainUiHooks__AnalyticsContractsByValueMoved({
+  const { data } = useChainUiHooksAnalyticsContractsByValueMoved({
     chainId: chain.chainId,
   });
   if (!data) {
@@ -190,7 +190,7 @@ export const ChainUiTabsAnalytics__ContractsByValueMoved: React.FC<{
       <Heading fontSize="x-large">
         Contracts that Moved the most {chain.nativeCurrency.symbol}
       </Heading>
-      <ChainUiComponents__AnalyticsTable data={restructuredData} />
+      <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
 };

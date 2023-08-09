@@ -7,7 +7,7 @@ interface IChainStats {
   blockNumber: number;
 }
 
-export const useChainUiHooks__ChainStats = (
+export const useChainUiHooksChainStats = (
   chain: Chain,
   placeholderData: IChainStats = { latency: 0, blockNumber: 0 },
 ) => {

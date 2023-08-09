@@ -1,11 +1,11 @@
 import { Box, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import React from "react";
 
-interface IChainUiComponents__AnalyticsTable {
+interface IChainUiComponentsAnalyticsTable {
   data: Record<string, string | number>[];
 }
-export const ChainUiComponents__AnalyticsTable: React.FC<
-  IChainUiComponents__AnalyticsTable
+export const ChainUiComponentsAnalyticsTable: React.FC<
+  IChainUiComponentsAnalyticsTable
 > = ({ data }) => {
   const headers = Object.keys(data[0] ?? {});
 

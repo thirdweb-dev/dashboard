@@ -1,7 +1,7 @@
 import { Box, Center, Container, DarkMode, Flex } from "@chakra-ui/react";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { Chain } from "@thirdweb-dev/chains";
-import { ChainUiTabs__Page } from "chain-ui/tabs/ChainUiTabs__Page";
+import { ChainUiTabsPage } from "chain-ui/tabs/ChainUiTabsPage";
 import color from "color";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import { AppLayout } from "components/app-layouts/app";
@@ -174,7 +174,7 @@ const ChainPage: ThirdwebNextPage = ({
         flexDirection="column"
         gap={10}
       >
-        <ChainUiTabs__Page chain={chain} category={category} />
+        <ChainUiTabsPage chain={chain} category={category} />
       </Container>
     </>
   );

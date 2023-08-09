@@ -1,20 +1,20 @@
 import { Flex, SimpleGrid } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { ChainUiComponents__SectionElement } from "chain-ui/components/ChainUiComponents__SectionElement";
-import { useChainUiHooks__ChainStats } from "chain-ui/hooks/useChainUiHooks__ChainStats";
+import { ChainUiComponentsSectionElement } from "chain-ui/components/ChainUiComponentsSectionElement";
+import { useChainUiHooksChainStats } from "chain-ui/hooks/useChainUiHooksChainStats";
 import { CHAIN_CATEGORY } from "pages/chain/[chainSlug]";
 import { Heading, Text, TrackedCopyButton, TrackedLink } from "tw-components";
 
-export const ChainUiTabsOverview__ChainInfo: React.FC<{ chain: Chain }> = ({
+export const ChainUiTabsOverviewChainInfo: React.FC<{ chain: Chain }> = ({
   chain,
 }) => {
-  const rpcStats = useChainUiHooks__ChainStats(chain);
+  const rpcStats = useChainUiHooksChainStats(chain);
 
   return (
     <>
       <SimpleGrid as="section" columns={{ base: 6, md: 12 }} rowGap={12}>
         {chain.infoURL && (
-          <ChainUiComponents__SectionElement colSpan={6} label="Info">
+          <ChainUiComponentsSectionElement colSpan={6} label="Info">
             <TrackedLink
               isExternal
               category={CHAIN_CATEGORY}
@@ -25,24 +25,24 @@ export const ChainUiTabsOverview__ChainInfo: React.FC<{ chain: Chain }> = ({
                 {chain.infoURL.split("//").pop()}
               </Heading>
             </TrackedLink>
-          </ChainUiComponents__SectionElement>
+          </ChainUiComponentsSectionElement>
         )}
 
-        <ChainUiComponents__SectionElement colSpan={3} label="Chain ID">
+        <ChainUiComponentsSectionElement colSpan={3} label="Chain ID">
           <Heading maxW="full" noOfLines={1} size="label.lg">
             {chain.chainId}
           </Heading>
-        </ChainUiComponents__SectionElement>
-        <ChainUiComponents__SectionElement colSpan={3} label="Native Token">
+        </ChainUiComponentsSectionElement>
+        <ChainUiComponentsSectionElement colSpan={3} label="Native Token">
           <Heading maxW="full" noOfLines={1} size="label.lg">
             {chain.nativeCurrency.name} ({chain.nativeCurrency.symbol})
           </Heading>
-        </ChainUiComponents__SectionElement>
+        </ChainUiComponentsSectionElement>
       </SimpleGrid>
       {/* only render rpc section if we have an rpc for this chain */}
       {chain.rpc?.[0] ? (
         <SimpleGrid columns={{ base: 6, md: 12 }} rowGap={12}>
-          <ChainUiComponents__SectionElement
+          <ChainUiComponentsSectionElement
             colSpan={6}
             label="RPC"
             status={
@@ -63,8 +63,8 @@ export const ChainUiTabsOverview__ChainInfo: React.FC<{ chain: Chain }> = ({
                 value={`${chain.rpc[0].split(".com/")[0]}.com`}
               />
             </Flex>
-          </ChainUiComponents__SectionElement>
-          <ChainUiComponents__SectionElement colSpan={3} label="Block Height">
+          </ChainUiComponentsSectionElement>
+          <ChainUiComponentsSectionElement colSpan={3} label="Block Height">
             <Heading
               fontFamily="mono"
               maxW="full"
@@ -73,8 +73,8 @@ export const ChainUiTabsOverview__ChainInfo: React.FC<{ chain: Chain }> = ({
             >
               {rpcStats.data?.blockNumber || 0}
             </Heading>
-          </ChainUiComponents__SectionElement>
-          <ChainUiComponents__SectionElement colSpan={3} label="Latency">
+          </ChainUiComponentsSectionElement>
+          <ChainUiComponentsSectionElement colSpan={3} label="Latency">
             <Heading
               fontFamily="mono"
               maxW="full"
@@ -87,7 +87,7 @@ export const ChainUiTabsOverview__ChainInfo: React.FC<{ chain: Chain }> = ({
                 ms
               </Text>
             </Heading>
-          </ChainUiComponents__SectionElement>
+          </ChainUiComponentsSectionElement>
         </SimpleGrid>
       ) : null}
     </>

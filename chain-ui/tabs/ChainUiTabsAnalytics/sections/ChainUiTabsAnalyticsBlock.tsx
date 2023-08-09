@@ -1,14 +1,14 @@
 import { Stack } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
-import { ChainUiComponents__AnalyticsTable } from "chain-ui/components/ChainUiComponents__Analytics";
-import { useChainUiHooks__AnalyticsBlocksByGasPrice } from "chain-ui/hooks/useChainUiHooks__AnalyticsBlocksByGasPrice";
+import { ChainUiComponentsAnalyticsTable } from "chain-ui/components/ChainUiComponentsAnalytics";
+import { useChainUiHooksAnalyticsBlocksByGasPrice } from "chain-ui/hooks/useChainUiHooksAnalyticsBlocksByGasPrice";
 import { ethers } from "ethers";
 import { Heading } from "tw-components";
 
-export const ChainUiTabsAnalytics__BlocksByGasPrice: React.FC<{
+export const ChainUiTabsAnalyticsBlocksByGasPrice: React.FC<{
   chain: Chain;
 }> = ({ chain }) => {
-  const { data } = useChainUiHooks__AnalyticsBlocksByGasPrice({
+  const { data } = useChainUiHooksAnalyticsBlocksByGasPrice({
     chainId: chain.chainId,
   });
   if (!data) {
@@ -48,7 +48,7 @@ export const ChainUiTabsAnalytics__BlocksByGasPrice: React.FC<{
   return (
     <Stack>
       <Heading fontSize="x-large">Historical Gas Prices</Heading>
-      <ChainUiComponents__AnalyticsTable data={restructuredData} />
+      <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
 };

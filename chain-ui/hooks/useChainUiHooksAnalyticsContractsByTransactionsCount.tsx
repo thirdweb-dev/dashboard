@@ -2,18 +2,18 @@ import { useQuery } from "@tanstack/react-query";
 
 export type GasEstimate = { gasPrice: number; ethPrice: number };
 
-export const useChainUiHooks__AnalyticsContractsByGasUsage = (body: {
+export const useChainUiHooksAnalyticsContractsByTransactionsCount = (body: {
   chainId: number;
   startDate?: string;
   endDate?: string;
   rowIndexStart?: number;
   rowIndexEnd?: number;
 }) => {
-  // Contracts by gas usage endpoint.
-  const endpoint = `http://localhost:8000/api/v1/contracts/gas-usage`;
+  // Contracts by transaction count endpoint.
+  const endpoint = `http://localhost:8000/api/v1/contracts/transactions-count`;
 
   return useQuery(
-    ["analytics", body.chainId, "contracts", "gas-usage"],
+    ["analytics", body.chainId, "contracts", "transactions-count"],
     async () => {
       const resp = await fetch(endpoint, {
         method: "POST",
@@ -29,7 +29,7 @@ export const useChainUiHooks__AnalyticsContractsByGasUsage = (body: {
           results: {
             chain_id: number;
             to_address: string;
-            total_gas_spent_wei: number;
+            num_transactions: number;
           }[];
         };
       };

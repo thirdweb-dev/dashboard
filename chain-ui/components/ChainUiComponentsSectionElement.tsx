@@ -1,17 +1,17 @@
 import { Flex, GridItem, GridItemProps, Icon } from "@chakra-ui/react";
 import { Heading } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
-import { ChainUiComponents__StatusIcons } from "./ChainUiComponents__StatusIcons";
+import { ChainUiComponentsStatusIcons } from "./ChainUiComponentsStatusIcons";
 
-interface ChainUiComponents__SectionElementProps
+interface ChainUiComponentsSectionElementProps
   extends Pick<GridItemProps, "colSpan"> {
   label: string;
   status?: "good" | "bad" | "neutral";
   moreElem?: JSX.Element;
 }
 
-export const ChainUiComponents__SectionElement: ComponentWithChildren<
-  ChainUiComponents__SectionElementProps
+export const ChainUiComponentsSectionElement: ComponentWithChildren<
+  ChainUiComponentsSectionElementProps
 > = ({ colSpan, label, status, moreElem, children }) => {
   return (
     <GridItem colSpan={colSpan} as={Flex} flexDir="column" gap={2}>
@@ -23,12 +23,12 @@ export const ChainUiComponents__SectionElement: ComponentWithChildren<
           {status && (
             <Icon
               boxSize={3.5}
-              as={ChainUiComponents__StatusIcons[status]}
+              as={ChainUiComponentsStatusIcons[status]}
               _light={{
-                color: `${ChainUiComponents__StatusIcons[status]}.600`,
+                color: `${ChainUiComponentsStatusIcons[status]}.600`,
               }}
               _dark={{
-                color: `${ChainUiComponents__StatusIcons[status]}.400`,
+                color: `${ChainUiComponentsStatusIcons[status]}.400`,
               }}
             />
           )}
