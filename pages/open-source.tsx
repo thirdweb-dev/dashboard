@@ -121,7 +121,7 @@ const bounties = [
       <>
         Gas optimization is a critical aspect of developing efficient and
         cost-effective smart contracts on blockchain platforms. This bounty aims
-        to support optimizing gas usage for thirdweb's published smart
+        to support optimizing gas usage for thirdweb&apos;s published smart
         contracts, enhancing their performance, scalability, and
         cost-effectiveness.
       </>
