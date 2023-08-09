@@ -5,6 +5,7 @@
   "scripts": {
     "dev:no-cache": "rm -rf .next/cache && yarn dev",
     "dev": "next dev",
+    "fresh": "rm -rf ./node_modules && yarn",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

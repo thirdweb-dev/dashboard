@@ -39,7 +39,7 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
           </Card>
         )
       }
-      bg="transparent"
+      bg="backgroundBody"
       boxShadow="none"
       p={0}
       shouldWrapChildren
@@ -86,7 +86,7 @@ export const SelectOption: React.FC<SelectOptionProps> = ({
           {infoText && (
             <Flex>
               <Tooltip
-                bg="transparent"
+                bg="backgroundBody"
                 boxShadow="none"
                 p={0}
                 shouldWrapChildren

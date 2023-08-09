@@ -98,7 +98,9 @@ const { withPlausibleProxy } = require("next-plausible");
 
 // we only want sentry on production environments
 const wSentry =
-  process.env.NODE_ENV === "production" ? withSentryConfig : (x) => x;
+  process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_SENTRY_DSN
+    ? withSentryConfig
+    : (x) => x;
 
 module.exports = withPlausibleProxy({
   customDomain: "https://pl.thirdweb.com",

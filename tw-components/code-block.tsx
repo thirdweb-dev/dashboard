@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark";
 import { Highlight, Prism, themes } from "prism-react-renderer";
-import { useEffect } from "react";
-import { FiCopy } from "react-icons/fi";
+import { useCallback, useEffect } from "react";
+import { FiCopy, FiLink } from "react-icons/fi";
 
 const darkThemeDefault = themes.vsDark;
 const lightThemeDefault = themes.vsLight;
@@ -28,6 +28,7 @@ export interface CodeBlockProps extends Omit<CodeProps, "size"> {
   codeValue?: string;
   language?: string;
   canCopy?: boolean;
+  previewLink?: string;
   wrap?: boolean;
   prefix?: string;
   darkTheme?: PrismTheme;
@@ -47,6 +48,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
   backgroundColor,
   prefix,
   canCopy = true,
+  previewLink = undefined,
   wrap = true,
   darkTheme,
   lightTheme,
@@ -56,6 +58,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     lightTheme || lightThemeDefault,
     darkTheme || darkThemeDefault,
   );
+  const onClickIPFSLink = useCallback(() => {
+    window.open(previewLink, "_blank");
+  }, [previewLink]);
   const { onCopy, hasCopied, setValue } = useClipboard(codeValue || code);
 
   useEffect(() => {
@@ -93,6 +98,21 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
           {...restCodeProps}
           as={Code}
         >
+          {previewLink && (
+            <IconButton
+              mr={-2}
+              onClick={onClickIPFSLink}
+              position="relative"
+              float="right"
+              aria-label="Preview"
+              borderRadius="md"
+              variant="ghost"
+              colorScheme="gray"
+              size="sm"
+              icon={<Icon as={FiLink} />}
+            />
+          )}
+
           {canCopy && code && (
             <IconButton
               mr={-2}

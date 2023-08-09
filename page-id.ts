@@ -182,6 +182,8 @@ export enum PageId {
   // example: thirdweb.com/ethereum
   ChainLanding = "chain-landing",
 
+  // thirdweb.com/app/deploy/:uri
+  DeployAppUri = "deploy-app-uri",
   // thirdweb.com/bear-market-airdrop
   BearMarketAirdrop = "bear-market-airdrop",
 

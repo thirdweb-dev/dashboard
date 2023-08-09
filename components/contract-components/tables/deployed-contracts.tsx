@@ -24,7 +24,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  ChainId,
   CommonContractOutputSchema,
   ContractType,
   ContractWithMetadata,
@@ -321,13 +320,7 @@ function SelectNetworkFilter({
 }
 
 interface ContractTableProps {
-  combinedList: {
-    chainId: ChainId;
-    address: string;
-    contractType: () => Promise<ContractType>;
-    metadata: () => Promise<z.output<typeof CommonContractOutputSchema>>;
-    extensions: () => Promise<string[]>;
-  }[];
+  combinedList: ContractWithMetadata[];
   isFetching?: boolean;
   limit: number;
   chainIdsWithDeployments: number[];
@@ -597,14 +590,7 @@ const AsyncContractTypeCell = memo(({ cell }: AsyncContractTypeCellProps) => {
 AsyncContractTypeCell.displayName = "AsyncContractTypeCell";
 
 interface AsyncContractNameCellProps {
-  cell: {
-    address: string;
-    chainId: number;
-    contractType: ContractType;
-    metadata: () => Promise<
-      z.infer<SchemaForPrebuiltContractType<PrebuiltContractType>["output"]>
-    >;
-  };
+  cell: ContractWithMetadata;
 }
 
 const AsyncContractNameCell = memo(({ cell }: AsyncContractNameCellProps) => {
