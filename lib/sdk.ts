@@ -6,6 +6,7 @@ import {
 import { ThirdwebSDK as SOLThirdwebSDK } from "@thirdweb-dev/sdk/solana";
 import {
   IStorageDownloader,
+  StorageDownloader,
   IpfsUploader,
   ThirdwebStorage,
 } from "@thirdweb-dev/storage";
@@ -20,7 +21,7 @@ import { DashboardSolanaNetwork } from "utils/solanaUtils";
 // use env var to set IPFS gateway or fallback to ipfscdn.io
 export const IPFS_GATEWAY_URL =
   (process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL as string) ||
-  "https://{cid}.gateway.ipfscdn.io/{path}";
+  "https://{clientId}.ipfscdn.io/ipfs/{cid}/{path}";
 
 export function replaceIpfsUrl(url: string) {
   try {
@@ -33,10 +34,15 @@ export function replaceIpfsUrl(url: string) {
 
 const ProxyHostNames = new Set<string>();
 
+const defaultDownloader = new StorageDownloader({
+  clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
+  secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
+});
+
 class SpecialDownloader implements IStorageDownloader {
   async download(url: string): Promise<Response> {
     if (url.startsWith("ipfs://")) {
-      return fetch(replaceIpfsUrl(url));
+      return defaultDownloader.download(url, { "ipfs://": [IPFS_GATEWAY_URL] });
     }
 
     // data urls we always want to just fetch directly
