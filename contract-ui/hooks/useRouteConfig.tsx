@@ -123,7 +123,7 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
-      title: "Build",
+      title: "Code Snippets",
       path: "code",
       component: LazyContractCodePage,
       isDefault: true,
