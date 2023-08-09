@@ -183,7 +183,7 @@ export type PublishedContractId =
   | `${string}/${string}`
   | `${string}/${string}/${string}`;
 
-async function queryFn(
+async function publishedContractQueryFn(
   publisher: string,
   contractId: string,
   version = "latest",
@@ -235,7 +235,8 @@ export function publishedContractQuery(
   const [publisher, contractId, version] = publishedContractId.split("/");
   return {
     queryKey: ["published-contract", { publisher, contractId, version }],
-    queryFn: () => queryFn(publisher, contractId, version, queryClient),
+    queryFn: () =>
+      publishedContractQueryFn(publisher, contractId, version, queryClient),
     enabled: !!publisher || !!contractId,
     placeholderData: {
       publishedContractId,
@@ -254,7 +255,9 @@ export function publishedContractQuery(
   };
 }
 
-export type PublishedContract = Awaited<ReturnType<typeof queryFn>>;
+export type PublishedContract = Awaited<
+  ReturnType<typeof publishedContractQueryFn>
+>;
 
 export function usePublishedContract(publishedContractId: PublishedContractId) {
   const queryClient = useQueryClient();
