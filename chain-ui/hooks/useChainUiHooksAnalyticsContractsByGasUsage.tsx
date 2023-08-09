@@ -10,7 +10,7 @@ export const useChainUiHooksAnalyticsContractsByGasUsage = (body: {
   rowIndexEnd?: number;
 }) => {
   // Contracts by gas usage endpoint.
-  const endpoint = `http://localhost:8000/api/v1/contracts/gas-usage`;
+  const endpoint = `https://chainsaw.thirdweb.com/api/v1/contracts/gas-usage`;
 
   return useQuery(
     ["analytics", body.chainId, "contracts", "gas-usage"],

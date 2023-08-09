@@ -10,7 +10,7 @@ export const useChainUiHooksAnalyticsBlocksByGasPrice = (body: {
   rowIndexEnd?: number;
 }) => {
   // Historical gas prices endpoint.
-  const endpoint = `http://localhost:8000/api/v1/blocks/avg-gas-price`;
+  const endpoint = `https://chainsaw.thirdweb.com/api/v1/blocks/avg-gas-price`;
 
   return useQuery(
     ["analytics", body.chainId, "blocks", "gas-price"],

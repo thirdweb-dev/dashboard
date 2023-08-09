@@ -10,7 +10,7 @@ export const useChainUiHooksAnalyticsContractsByValueMoved = (body: {
   rowIndexEnd?: number;
 }) => {
   // Contracts by value moved endpoint.
-  const endpoint = `http://localhost:8000/api/v1/contracts/value-moved`;
+  const endpoint = `https://chainsaw.thirdweb.com/api/v1/contracts/value-moved`;
 
   return useQuery(
     ["analytics", body.chainId, "contracts", "value-moved"],

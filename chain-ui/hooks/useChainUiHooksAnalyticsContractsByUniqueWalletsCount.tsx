@@ -10,7 +10,7 @@ export const useChainUiHooksAnalyticsContractsByUniqueWalletsCount = (body: {
   rowIndexEnd?: number;
 }) => {
   // Contracts by unique wallets count endpoint.
-  const endpoint = `http://localhost:8000/api/v1/contracts/unique-wallets-count`;
+  const endpoint = `https://chainsaw.thirdweb.com/api/v1/contracts/unique-wallets-count`;
 
   return useQuery(
     ["analytics", body.chainId, "contracts", "unique-wallets-count"],

@@ -10,7 +10,7 @@ export const useChainUiHooksAnalyticsContractsByTransactionsCount = (body: {
   rowIndexEnd?: number;
 }) => {
   // Contracts by transaction count endpoint.
-  const endpoint = `http://localhost:8000/api/v1/contracts/transactions-count`;
+  const endpoint = `https://chainsaw.thirdweb.com/api/v1/contracts/transactions-count`;
 
   return useQuery(
     ["analytics", body.chainId, "contracts", "transactions-count"],
