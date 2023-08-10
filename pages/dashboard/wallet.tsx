@@ -762,7 +762,7 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
   const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("dark");
   return (
     <SimpleGrid columns={{ base: 6, md: 12 }} gap={8} mt={8}>
-      <GridItem colSpan={7}>
+      <GridItem colSpan={6}>
         <Flex direction="column" gap={2}>
           <Heading size="label.md">Code</Heading>
           <CodeBlock
@@ -771,16 +771,10 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
           />
         </Flex>
       </GridItem>
-      <GridItem colSpan={5} gap={2}>
+      <GridItem colSpan={6} gap={2}>
         <Flex gap={2} direction="column" align="flex-start" h="full">
           <Heading size="label.md">Preview</Heading>
-          <Box
-            w="full"
-            my="auto"
-            display="grid"
-            placeItems="center"
-            mt={{ base: 6, md: 0 }}
-          >
+          <Box w="full" my="auto" display="grid" placeItems="center">
             <ThirdwebProvider supportedWallets={dashboardSupportedWallets}>
               <ConnectWallet
                 theme={selectedTheme}
@@ -789,17 +783,15 @@ const ConnectWalletWithPreview: React.FC<ConnectWalletWithPreviewProps> = ({
               />
             </ThirdwebProvider>
           </Box>
-          <Flex>
-            <IconButton
-              size="sm"
-              onClick={() => {
-                setSelectedTheme(selectedTheme === "light" ? "dark" : "light");
-              }}
-              icon={selectedTheme === "light" ? <FiMoon /> : <FiSun />}
-              aria-label="Toggle button theme"
-              variant="ghost"
-            />
-          </Flex>
+          <IconButton
+            size="sm"
+            onClick={() => {
+              setSelectedTheme(selectedTheme === "light" ? "dark" : "light");
+            }}
+            icon={selectedTheme === "light" ? <FiMoon /> : <FiSun />}
+            aria-label="Toggle button theme"
+            variant="ghost"
+          />
         </Flex>
       </GridItem>
     </SimpleGrid>
