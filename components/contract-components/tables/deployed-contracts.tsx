@@ -73,10 +73,7 @@ import { TableContainer } from "tw-components/table-container";
 import { ComponentWithChildren } from "types/component-with-children";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { z } from "zod";
-import {
-  useContractFullPublishMetadata,
-  usePublishedContractsFromDeploy,
-} from "../hooks";
+import { usePublishedContractsFromDeploy } from "../hooks";
 
 interface DeployedContractsProps {
   noHeader?: boolean;
@@ -571,8 +568,8 @@ const AsyncContractTypeCell = memo(({ cell }: AsyncContractTypeCellProps) => {
   );
 
   const contractType =
-    publishedContractsFromDeployQuery.data?.[0].displayName ||
-    publishedContractsFromDeployQuery.data?.[0].name;
+    publishedContractsFromDeployQuery.data?.[0]?.displayName ||
+    publishedContractsFromDeployQuery.data?.[0]?.name;
 
   return (
     <Skeleton
