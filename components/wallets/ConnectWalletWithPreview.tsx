@@ -62,10 +62,12 @@ type WalletInfo = Record<
     code: string;
     component: WalletConfig<any>;
     link: string;
+    import: string;
   }
 >;
 
 type WalletSetupOptions = {
+  imports: string[];
   thirdwebProvider: {
     supportedWallets?: string;
     authConfig?: string;
@@ -84,16 +86,19 @@ const wallets: WalletInfo = {
     code: "metamaskWallet()",
     component: metamaskWallet(),
     link: "https://portal.thirdweb.com/react/react.metamaskwallet",
+    import: "metamaskWallet",
   },
   Coinbase: {
     code: "coinbaseWallet()",
     component: coinbaseWallet(),
     link: "https://portal.thirdweb.com/react/react.coinbasewallet",
+    import: "coinbaseWallet",
   },
   WalletConnect: {
     code: "walletConnect()",
     component: walletConnect(),
     link: "https://portal.thirdweb.com/react/react.walletconnect",
+    import: "walletConnect",
   },
   Safe: {
     code: `safeWallet({ personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
@@ -101,6 +106,7 @@ const wallets: WalletInfo = {
       personalWallets: [metamaskWallet(), coinbaseWallet(), walletConnect()],
     }),
     link: "https://portal.thirdweb.com/react/react.safewallet",
+    import: "safeWallet",
   },
   "Smart Wallet": {
     code: `smartWallet({ factoryAddress: "<FACTORY_ADDRESS>", gasless: true, personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
@@ -109,11 +115,13 @@ const wallets: WalletInfo = {
       gasless: true,
     }),
     link: "https://portal.thirdweb.com/react/react.smartwallet",
+    import: "smartWallet",
   },
   "Local Wallet ( Continue as Guest )": {
     code: `localWallet()`,
     component: localWallet(),
     link: "https://portal.thirdweb.com/react/react.localwallet",
+    import: "localWallet",
   },
   "Paper Wallet ( Email Wallet )": {
     code: `paperWallet({ paperClientId: "<YOUR_PAPER_CLIENT_ID>" })`,
@@ -121,6 +129,7 @@ const wallets: WalletInfo = {
       paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
     }),
     link: "https://portal.thirdweb.com/react/react.paperwallet",
+    import: "paperWallet",
   },
   "Magic Link": {
     code: `magicLink({ apiKey: "YOUR_MAGIC_API_KEY", oauthOptions: { providers: ["google", "facebook", "twitter", "apple"] }})`,
@@ -131,31 +140,37 @@ const wallets: WalletInfo = {
       },
     }),
     link: "https://portal.thirdweb.com/react/react.magiclink",
+    import: "magicLink",
   },
   "Rainbow Wallet": {
     code: `rainbowWallet()`,
     component: rainbowWallet(),
     link: "https://portal.thirdweb.com/react/react.rainbowWallet",
+    import: "rainbowWallet",
   },
   "Trust Wallet": {
     code: `trustWallet()`,
     component: trustWallet(),
     link: "https://portal.thirdweb.com/react/react.trustWallet",
+    import: "trustWallet",
   },
   "Zerion Wallet": {
     code: "zerionWallet()",
     component: zerionWallet(),
     link: "https://portal.thirdweb.com/react/react.zerion",
+    import: "zerionWallet",
   },
   "Blocto Wallet": {
     code: "bloctoWallet()",
     component: bloctoWallet(),
     link: "https://portal.thirdweb.com/react/react.blocto",
+    import: "bloctoWallet",
   },
   "Frame Wallet": {
     code: "frameWallet()",
     component: frameWallet(),
     link: "https://portal.thirdweb.com/react/react.frame",
+    import: "frameWallet",
   },
 };
 
@@ -191,6 +206,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   useEffect(() => {
     const _code = getWalletSetupCode({
+      imports: enabledWallets.map((walletId) => wallets[walletId].import),
       thirdwebProvider: {
         supportedWallets:
           enabledWallets.length > 0
@@ -471,6 +487,7 @@ function getWalletSetupCode(options: WalletSetupOptions) {
 import {
   ThirdwebProvider,
   ConnectWallet
+  ${options.imports.length > 0 ? `, ${options.imports.join(",")}` : ""}
 } from "@thirdweb-dev/react";
 
 export default function App() {
