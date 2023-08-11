@@ -30,10 +30,6 @@ import React, { useEffect, useState } from "react";
 import { CodeBlock, FormLabel, Heading, Link } from "tw-components";
 import { replaceIpfsUrl } from "lib/sdk";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import {
-  DASHBOARD_THIRDWEB_CLIENT_ID,
-  DASHBOARD_THIRDWEB_SECRET_KEY,
-} from "constants/rpc";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
@@ -254,8 +250,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   const previewCode = (
     <ThirdwebProvider
-      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
-      secretKey={DASHBOARD_THIRDWEB_SECRET_KEY}
       supportedWallets={
         supportedWallets.length > 0 ? supportedWallets : undefined
       }
