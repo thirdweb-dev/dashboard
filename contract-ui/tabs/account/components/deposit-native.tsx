@@ -27,6 +27,7 @@ export const DepositNative: React.FC<DepositNativeProps> = ({
         gap: 16,
         alignItems: "center",
       }}
+      maxW={{ base: "100%", md: "49%" }}
     >
       <Input
         placeholder={`Amount in ${symbol}. ex: 0.001`}

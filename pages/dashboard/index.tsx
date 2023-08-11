@@ -24,38 +24,35 @@ const TRACKING_CATEGORY = "dashboard";
 
 const GET_STARTED_SECTIONS = [
   {
-    title: "View contracts",
+    title: "Wallets",
     description:
-      "View smart contracts that you deployed or added to your dashboard.",
+      "Let users connect their wallet or create a new one for them easily.",
     image: require("public/assets/dashboard/home-view.png"),
     lightImage: require("public/assets/dashboard/home-view-light.png"),
+    href: "/dashboard/wallet",
+  },
+  {
+    title: "Contracts",
+    description:
+      "View your contracts or deploy from world-class web3 protocols & engineers- all with 1-click.",
+    image: require("public/assets/dashboard/home-browse.png"),
+    lightImage: require("public/assets/dashboard/home-browse-light.png"),
     href: "/dashboard/contracts",
   },
   {
-    title: "Browse contracts",
+    title: "Storage",
     description:
-      "Explore contracts from world-class web3 protocols & engineers- all deployable with 1-click.",
-    image: require("public/assets/dashboard/home-browse.png"),
-    lightImage: require("public/assets/dashboard/home-browse-light.png"),
-    href: "/explore",
-  },
-  {
-    title: "Browse templates",
-    description:
-      "Get inspired and start building your own web3 apps on top of our templates.",
+      "Upload and download files easily from IPFS by using our SDK, available in multiple languages.",
     image: require("public/assets/dashboard/home-templates.png"),
     lightImage: require("public/assets/dashboard/home-templates-light.png"),
-    href: "https://portal.thirdweb.com/templates",
-    isExternal: true,
+    href: "/dashboard/storage",
   },
   {
-    title: "Visit the docs",
-    description:
-      "Find guides, references and resources that will help you build with thirdweb.",
+    title: "RPC",
+    description: "Access the thirdweb RPCs to build your own web3 apps easily.",
     image: require("public/assets/dashboard/home-docs.png"),
     lightImage: require("public/assets/dashboard/home-docs-light.png"),
-    href: "https://portal.thirdweb.com",
-    isExternal: true,
+    href: "/dashboard/rpc",
   },
 ];
 
@@ -84,14 +81,7 @@ const Dashboard: ThirdwebNextPage = (
                 {(address || publicKey) && (
                   <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
                     {GET_STARTED_SECTIONS.map(
-                      ({
-                        title,
-                        description,
-                        lightImage,
-                        image,
-                        href,
-                        isExternal,
-                      }) => (
+                      ({ title, description, lightImage, image, href }) => (
                         <LinkBox
                           key={title}
                           role="group"
@@ -113,7 +103,6 @@ const Dashboard: ThirdwebNextPage = (
                                 category={TRACKING_CATEGORY}
                                 label={title}
                                 href={href}
-                                isExternal={isExternal}
                                 _hover={{ textDecor: "none" }}
                               >
                                 <Heading
