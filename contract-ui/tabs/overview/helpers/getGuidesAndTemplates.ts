@@ -270,6 +270,7 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Offers: [],
   Account: [],
   AccountFactory: [ALL_GUIDES.deploySmartWallet, ALL_GUIDES.customSmartWallet],
+  AccountPermissions: [],
 };
 
 const ALL_TEMPLATES: Record<string, Item> = {
@@ -415,6 +416,7 @@ const TEMPLATES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Offers: [],
   Account: [],
   AccountFactory: [],
+  AccountPermissions: [],
 };
 
 export function getGuidesAndTemplates(
