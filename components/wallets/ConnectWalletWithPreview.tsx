@@ -44,8 +44,8 @@ type WalletId =
   | "WalletConnect"
   | "Safe"
   | "Smart Wallet"
-  | "Local Wallet ( Continue as Guest )"
-  | "Paper Wallet ( Email Wallet )"
+  | "Guest Mode"
+  | "Email Wallet"
   | "Trust Wallet"
   | "Zerion Wallet"
   | "Magic Link"
@@ -57,7 +57,6 @@ type WalletInfo = Record<
   {
     code: string;
     component: WalletConfig<any>;
-    link: string;
     import: string;
   }
 >;
@@ -81,19 +80,16 @@ const wallets: WalletInfo = {
   MetaMask: {
     code: "metamaskWallet()",
     component: metamaskWallet(),
-    link: "https://portal.thirdweb.com/react/react.metamaskwallet",
     import: "metamaskWallet",
   },
   Coinbase: {
     code: "coinbaseWallet()",
     component: coinbaseWallet(),
-    link: "https://portal.thirdweb.com/react/react.coinbasewallet",
     import: "coinbaseWallet",
   },
   WalletConnect: {
     code: "walletConnect()",
     component: walletConnect(),
-    link: "https://portal.thirdweb.com/react/react.walletconnect",
     import: "walletConnect",
   },
   Safe: {
@@ -101,30 +97,26 @@ const wallets: WalletInfo = {
     component: safeWallet({
       personalWallets: [metamaskWallet(), coinbaseWallet(), walletConnect()],
     }),
-    link: "https://portal.thirdweb.com/react/react.safewallet",
     import: "safeWallet",
   },
   "Smart Wallet": {
-    code: `smartWallet({ factoryAddress: "<FACTORY_ADDRESS>", gasless: true, personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
+    code: `smartWallet({ factoryAddress: "YOUR_FACTORY_ADDRESS", gasless: true, personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
     component: smartWallet({
       factoryAddress: "FACTORY_ADDRESS",
       gasless: true,
     }),
-    link: "https://portal.thirdweb.com/react/react.smartwallet",
     import: "smartWallet",
   },
-  "Local Wallet ( Continue as Guest )": {
+  "Guest Mode": {
     code: `localWallet()`,
     component: localWallet(),
-    link: "https://portal.thirdweb.com/react/react.localwallet",
     import: "localWallet",
   },
-  "Paper Wallet ( Email Wallet )": {
-    code: `paperWallet({ paperClientId: "<YOUR_PAPER_CLIENT_ID>" })`,
+  "Email Wallet": {
+    code: `paperWallet({ paperClientId: "YOUR_PAPER_CLIENT_ID" })`,
     component: paperWallet({
       paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
     }),
-    link: "https://portal.thirdweb.com/react/react.paperwallet",
     import: "paperWallet",
   },
   "Magic Link": {
@@ -135,37 +127,31 @@ const wallets: WalletInfo = {
         providers: ["google", "facebook", "twitter", "apple"],
       },
     }),
-    link: "https://portal.thirdweb.com/react/react.magiclink",
     import: "magicLink",
   },
   "Rainbow Wallet": {
     code: `rainbowWallet()`,
     component: rainbowWallet(),
-    link: "https://portal.thirdweb.com/react/react.rainbowWallet",
     import: "rainbowWallet",
   },
   "Trust Wallet": {
     code: `trustWallet()`,
     component: trustWallet(),
-    link: "https://portal.thirdweb.com/react/react.trustWallet",
     import: "trustWallet",
   },
   "Zerion Wallet": {
     code: "zerionWallet()",
     component: zerionWallet(),
-    link: "https://portal.thirdweb.com/react/react.zerion",
     import: "zerionWallet",
   },
   "Blocto Wallet": {
     code: "bloctoWallet()",
     component: bloctoWallet(),
-    link: "https://portal.thirdweb.com/react/react.blocto",
     import: "bloctoWallet",
   },
   "Frame Wallet": {
     code: "frameWallet()",
     component: frameWallet(),
-    link: "https://portal.thirdweb.com/react/react.frame",
     import: "frameWallet",
   },
 };
@@ -185,8 +171,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
     WalletConnect: true,
     Safe: false,
     "Smart Wallet": false,
-    "Local Wallet ( Continue as Guest )": true,
-    "Paper Wallet ( Email Wallet )": true,
+    "Guest Mode": true,
+    "Email Wallet": true,
     "Trust Wallet": false,
     "Zerion Wallet": false,
     "Blocto Wallet": false,
@@ -250,6 +236,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   const previewCode = (
     <ThirdwebProvider
+      key={enabledWallets.join(",")}
       supportedWallets={
         supportedWallets.length > 0 ? supportedWallets : undefined
       }
@@ -304,6 +291,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                       gap={3}
                       bg={isChecked ? "heading" : "none"}
                       color={isChecked ? "backgroundBody" : "none"}
+                      cursor="pointer"
                       _hover={
                         !isChecked
                           ? {
@@ -334,9 +322,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
                         src={replaceIpfsUrl(walletInfo.component.meta.iconURL)}
                       />{" "}
                       {walletId}
-                      <Link href={walletInfo.link} isExternal>
-                        <AiOutlineInfoCircle color="gray.700" />
-                      </Link>
                     </Flex>
                   );
                 })}
@@ -486,8 +471,10 @@ import {
 
 export default function App() {
   return (
-    <ThirdwebProvider ${renderProps(options.thirdwebProvider)} >
-      <ConnectWallet ${renderProps(options.connectWallet)}  />
+    <ThirdwebProvider clientId="YOUR_CLIENT_ID" ${renderProps(
+      options.thirdwebProvider,
+    )} >
+      <ConnectWallet ${renderProps(options.connectWallet)}   />
     </ThirdwebProvider>
   );
 }`;
