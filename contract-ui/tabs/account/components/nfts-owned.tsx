@@ -23,6 +23,6 @@ export const NftsOwned: React.FC<NftsOwnedProps> = ({ address }) => {
   ) : isWalletNFTsLoading ? null : error ? (
     <Text>Failed to fetch NFTs for this account: {error}</Text>
   ) : (
-    <Text>This account doesn&apos;t own any NFT.</Text>
+    <Text>This account doesn&apos;t own any NFTs.</Text>
   );
 };
