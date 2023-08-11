@@ -37,6 +37,7 @@ import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import invariant from "tiny-invariant";
 import { Checkbox, Heading, Text, TrackedLink } from "tw-components";
+import { TrustedForwardersFieldset } from "./trusted-forwarders-fieldset";
 
 interface CustomContractFormProps {
   ipfsHash: string;
@@ -185,6 +186,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
     "_initialProposalThreshold" in formDeployParams &&
     "_initialVoteQuorumFraction" in formDeployParams &&
     "_token" in formDeployParams;
+  const hasTrustedForwarders = "_trustedForwarders" in formDeployParams;
 
   const shouldHide = (paramKey: string) => {
     if (
@@ -379,7 +381,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                   />
                 );
               })}
-              {(anyHiddenParams || hasPlatformFee) && (
+              {(anyHiddenParams || hasPlatformFee || hasTrustedForwarders) && (
                 <Accordion allowToggle>
                   <AccordionItem borderColor="borderColor" borderBottom="none">
                     <AccordionButton px={0}>
@@ -398,6 +400,9 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                       gap={4}
                     >
                       {hasPlatformFee && <PlatformFeeFieldset form={form} />}
+                      {hasTrustedForwarders && (
+                        <TrustedForwardersFieldset form={form} />
+                      )}
                       {Object.keys(formDeployParams).map((paramKey) => {
                         const deployParam = deployParams.find(
                           (p: any) => p.name === paramKey,
