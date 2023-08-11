@@ -7,6 +7,7 @@ import {
   Select,
   SimpleGrid,
   Image,
+  Tooltip,
 } from "@chakra-ui/react";
 import {
   ConnectWallet,
@@ -27,7 +28,7 @@ import {
   rainbowWallet,
 } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
-import { CodeBlock, FormLabel, Heading, Link } from "tw-components";
+import { CodeBlock, FormLabel, Heading, Link, Text, Card } from "tw-components";
 import { replaceIpfsUrl } from "lib/sdk";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
@@ -276,7 +277,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
             {/* supportedWallets */}
             <FormItem
               label="Wallets"
-              link="https://portal.thirdweb.com/react/react.thirdwebprovider#supportedwallets-optional"
+              description="Wallets to show in ConnectWallet modal"
             >
               <Flex flexWrap={"wrap"} gap={3}>
                 {Object.keys(wallets).map((key) => {
@@ -332,7 +333,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
           {/* theme */}
           <FormItem
             label="Theme"
-            link="https://portal.thirdweb.com/react/react.connectwallet#theme-optional"
+            description="Theme to use for ConnectWallet button and modal"
           >
             <Select
               variant="filled"
@@ -350,7 +351,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
           {/* Button Title */}
           <FormItem
             label="Button Title"
-            link="https://portal.thirdweb.com/react/react.connectwallet#btntitle-optional"
+            description="Title of ConnectWallet button"
           >
             <Input
               placeholder="Connect Wallet"
@@ -364,7 +365,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
           {/* Modal Title */}
           <FormItem
             label="Modal Title"
-            link="https://portal.thirdweb.com/react/react.connectwallet#modaltitle-optional"
+            description="Title of ConnectWallet Modal"
           >
             <Input
               placeholder="Choose your wallet"
@@ -378,7 +379,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
           {/* auth */}
           <FormItem
             label="Auth"
-            link="https://portal.thirdweb.com/react/react.connectwallet#auth-optional"
+            description="Enforce that users must sign in with their wallet using auth after connecting their wallet."
           >
             <Select
               variant="filled"
@@ -395,7 +396,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
           {/* dropdownPosition */}
           <FormItem
             label="dropdownPosition"
-            link="https://portal.thirdweb.com/react/react.connectwallet#dropdownposition-optional"
+            description="Specify where should the details dropdown menu open relative to the ConnectWallet Button."
           >
             <Select
               variant="filled"
@@ -444,16 +445,28 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
 const FormItem: React.FC<{
   label: string;
-  link: string;
   children: React.ReactNode;
+  description: React.ReactNode;
 }> = (props) => {
   return (
     <FormControl>
       <Flex gap={2} mb={2} alignItems="center">
         <FormLabel m={0}>{props.label}</FormLabel>
-        <Link href={props.link} isExternal>
-          <AiOutlineInfoCircle color="gray.700" />
-        </Link>
+        <Tooltip
+          hasArrow
+          shouldWrapChildren
+          border="1px solid"
+          borderColor="backgroundCardHighlight"
+          placement="top-start"
+          borderRadius="md"
+          px={3}
+          py={2}
+          label={<Box>{props.description}</Box>}
+        >
+          <div>
+            <AiOutlineInfoCircle color="gray.700" />
+          </div>
+        </Tooltip>
       </Flex>
 
       {props.children}
