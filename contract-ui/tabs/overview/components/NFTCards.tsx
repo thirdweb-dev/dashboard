@@ -58,11 +58,13 @@ export const NFTCards: React.FC<NFTCardsProps> = ({
   return (
     <SimpleGrid
       gap={{ base: 3, md: 6 }}
-      columns={allNfts ? { base: 3, md: 4 } : { base: 2, md: 3 }}
+      columns={allNfts ? { base: 2, md: 4 } : { base: 2, md: 3 }}
     >
       {nfts.map((token) => (
         <GridItem
-          key={`${chainId}-${contractAddress}-${token.metadata.id}}`}
+          key={`${chainId}-${
+            (token as WalletNFT)?.contractAddress || contractAddress
+          }-${(token as WalletNFT).tokenId || token.metadata.id}}`}
           as={TrackedLink}
           category={trackingCategory}
           href={`/${chainId}/${
