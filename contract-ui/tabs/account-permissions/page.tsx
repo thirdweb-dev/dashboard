@@ -1,15 +1,14 @@
+import { AccountSigners } from "./components/account-signers";
 import { Box, Flex } from "@chakra-ui/react";
 import { useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { Card, Heading, LinkButton, Text } from "tw-components";
-import { NftsOwned } from "./components/nfts-owned";
-import { AccountBalance } from "./components/account-balance";
 
-interface AccountPageProps {
+interface AccountPermissionsPageProps {
   contractAddress?: string;
 }
 
-export const AccountPage: React.FC<AccountPageProps> = ({
+export const AccountPermissionsPage: React.FC<AccountPermissionsPageProps> = ({
   contractAddress,
 }) => {
   const contractQuery = useContract(contractAddress);
@@ -45,13 +44,9 @@ export const AccountPage: React.FC<AccountPageProps> = ({
   return (
     <Flex direction="column" gap={6}>
       <Flex direction="row" justify="space-between" align="center">
-        <Heading size="title.sm">Balance</Heading>
+        <Heading size="title.sm">Account Signers</Heading>
       </Flex>
-      <AccountBalance address={contractAddress || ""} />
-      <Flex direction="row" justify="space-between" align="center">
-        <Heading size="title.sm">NFTs owned</Heading>
-      </Flex>
-      <NftsOwned address={contractAddress || ""} />
+      <AccountSigners contractQuery={contractQuery} />
     </Flex>
   );
 };
