@@ -35,8 +35,11 @@ const filterOut = [
   "ayshptk",
   "ciaranightingale",
   "eabdelmoneim",
+  "edwardysun",
+  "ElasticBottle",
   "farhanW3",
   "furqanrydhan",
+  "gerrysaporito",
   "iketw",
   "jakeloo",
   "jarrodwatts",
@@ -57,6 +60,7 @@ const filterOut = [
   "razacodespython",
   "saminacodes",
   "shift4id",
+  "thleo",
   "warengonzaga",
 ];
 
@@ -366,19 +370,33 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                     >
                       {bounty.description}
                     </Text>
-                    <LinkButton
-                      href={bounty.link}
-                      isExternal
-                      color="black"
-                      flexShrink={0}
-                      background="rgba(255,255,255,1)"
-                      _hover={{
-                        background: "rgba(255,255,255,0.9)!important",
-                      }}
-                      mt={6}
-                    >
-                      {bounty.linkText}
-                    </LinkButton>
+                    <Flex gap={2}>
+                      <LinkButton
+                        href="https://forms.gle/q2od1chdaXPf8YEw8"
+                        color="black"
+                        flexShrink={0}
+                        background="rgba(255,255,255,1)"
+                        _hover={{
+                          background: "rgba(255,255,255,0.9)!important",
+                        }}
+                        mt={6}
+                      >
+                        Submit
+                      </LinkButton>
+                      <LinkButton
+                        href={bounty.link}
+                        isExternal
+                        color="black"
+                        flexShrink={0}
+                        background="rgba(255,255,255,1)"
+                        _hover={{
+                          background: "rgba(255,255,255,0.9)!important",
+                        }}
+                        mt={6}
+                      >
+                        {bounty.linkText}
+                      </LinkButton>
+                    </Flex>
                   </AccordionPanel>
                 </AccordionItem>
               ))}
