@@ -26,32 +26,33 @@ const GET_STARTED_SECTIONS = [
   {
     title: "Wallets",
     description:
-      "Let users connect their wallet or create a new one for them easily.",
-    image: require("public/assets/dashboard/home-view.png"),
-    lightImage: require("public/assets/dashboard/home-view-light.png"),
+      "Onboard, authenticate, and manage users. Connect any wallets to your app and games.",
+    image: require("public/assets/dashboard/home-wallets.png"),
+    lightImage: require("public/assets/dashboard/home-wallets.png"),
     href: "/dashboard/wallet",
   },
   {
     title: "Contracts",
     description:
-      "View your contracts or deploy from world-class web3 protocols & engineers- all with 1-click.",
-    image: require("public/assets/dashboard/home-browse.png"),
-    lightImage: require("public/assets/dashboard/home-browse-light.png"),
+      "Create, deploy, and manage smart contracts on any EVM network.",
+    image: require("public/assets/dashboard/home-contracts.png"),
+    lightImage: require("public/assets/dashboard/home-contracts.png"),
     href: "/dashboard/contracts",
   },
   {
     title: "Storage",
     description:
-      "Upload and download files easily from IPFS by using our SDK, available in multiple languages.",
-    image: require("public/assets/dashboard/home-templates.png"),
-    lightImage: require("public/assets/dashboard/home-templates-light.png"),
+      "Store and retrieve files from decentralized storage at high speed.",
+    image: require("public/assets/dashboard/home-storage.png"),
+    lightImage: require("public/assets/dashboard/home-storage.png"),
     href: "/dashboard/storage",
   },
   {
-    title: "RPC",
-    description: "Access the thirdweb RPCs to build your own web3 apps easily.",
-    image: require("public/assets/dashboard/home-docs.png"),
-    lightImage: require("public/assets/dashboard/home-docs-light.png"),
+    title: "RPC Edge",
+    description:
+      "Connect to over 900 networks with a fast and reliable RPC Edge service.",
+    image: require("public/assets/dashboard/home-rpc.png"),
+    lightImage: require("public/assets/dashboard/home-rpc.png"),
     href: "/dashboard/rpc",
   },
 ];
@@ -96,8 +97,25 @@ const Dashboard: ThirdwebNextPage = (
                               borderColor: "blue.500",
                             }}
                             transitionDuration="200ms"
+                            as={Flex}
+                            flexDir="column"
+                            padding={0}
                           >
-                            <Flex direction="column" gap={3} p={6}>
+                            <ChakraNextImage
+                              pointerEvents="none"
+                              sizes="(max-width: 768px) 100vw,
+                            (max-width: 1200px) 50vw,
+                            33vw"
+                              src={colorMode === "light" ? lightImage : image}
+                              alt=""
+                            />
+                            <Flex
+                              flexDir="column"
+                              gap={6}
+                              p={7}
+                              justifyContent="space-between"
+                              h="full"
+                            >
                               <LinkOverlay
                                 as={TrackedLink}
                                 category={TRACKING_CATEGORY}
@@ -106,7 +124,7 @@ const Dashboard: ThirdwebNextPage = (
                                 _hover={{ textDecor: "none" }}
                               >
                                 <Heading
-                                  size="title.xs"
+                                  size="title.md"
                                   _groupHover={{ color: "blue.500" }}
                                   transitionDuration="200ms"
                                   display="flex"
@@ -117,16 +135,6 @@ const Dashboard: ThirdwebNextPage = (
                                 </Heading>
                               </LinkOverlay>
                               <Text>{description}</Text>
-                            </Flex>
-                            <Flex justifyContent="center" px={6}>
-                              <ChakraNextImage
-                                pointerEvents="none"
-                                sizes="(max-width: 768px) 100vw,
-                            (max-width: 1200px) 50vw,
-                            33vw"
-                                src={colorMode === "light" ? lightImage : image}
-                                alt=""
-                              />
                             </Flex>
                           </Card>
                         </LinkBox>
