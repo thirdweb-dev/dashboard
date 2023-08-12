@@ -53,7 +53,6 @@ export const ContractSplitPage: React.FC<SplitPageProps> = ({
     }
 
     return [
-      ...(balanceQuery.data || []).filter((bl) => bl.name !== "Native Token"),
       {
         name: "Native Token",
         token_address: constants.AddressZero,
@@ -61,6 +60,7 @@ export const ContractSplitPage: React.FC<SplitPageProps> = ({
         display_balance: nativeBalanceQuery?.data?.displayValue || "0.0",
         decimals: nativeBalanceQuery?.data?.decimals || 18,
       },
+      ...(balanceQuery.data || []).filter((bl) => bl.name !== "Native Token"),
     ];
   }, [balanceQuery.data, nativeBalanceQuery.data]);
 
