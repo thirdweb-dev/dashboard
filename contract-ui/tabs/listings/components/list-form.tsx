@@ -23,7 +23,6 @@ import {
   useOwnedNFTs,
 } from "@thirdweb-dev/react";
 import {
-  ChainId,
   Marketplace,
   MarketplaceV3,
   NATIVE_TOKEN_ADDRESS,
@@ -95,8 +94,7 @@ export const CreateListingsForm: React.FC<NFTMintForm> = ({
   const chainId = useDashboardEVMChainId();
 
   const isSupportedChain =
-    isAlchemySupported(chainId as ChainId) ||
-    isMoralisSupported(chainId as ChainId);
+    chainId && (isAlchemySupported(chainId) || isMoralisSupported(chainId));
 
   const { data: contractType } = useContractType(
     contractQuery?.contract?.getAddress(),
