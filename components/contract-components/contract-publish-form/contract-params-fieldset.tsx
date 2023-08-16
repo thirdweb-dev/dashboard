@@ -56,7 +56,13 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
           return (
             <Flex flexDir="column" gap={6} key={`implementation_${param.name}`}>
               <Flex justify="space-between" align="center">
-                <Heading size="title.sm">{param.name}</Heading>
+                {param.name ? (
+                  <Heading size="title.sm">{param.name}</Heading>
+                ) : (
+                  <Heading size="title.sm" fontStyle="italic">
+                    Unnamed param (will not be used)
+                  </Heading>
+                )}
                 <Text size="body.sm">{param.type}</Text>
               </Flex>
               <Flex gap={6} flexDir="column">
@@ -65,7 +71,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     isInvalid={
                       !!form.getFieldState(
                         `constructorParams.${
-                          param.name ? param.name : "_undefined"
+                          param.name ? param.name : "_unnamed"
                         }.displayName`,
                         form.formState,
                       ).error
@@ -77,26 +83,26 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <Input
                       value={form.watch(
                         `constructorParams.${
-                          param.name ? param.name : "_undefined"
+                          param.name ? param.name : "_unnamed"
                         }.displayName`,
                       )}
                       onChange={(e) =>
                         form.setValue(
                           `constructorParams.${
-                            param.name ? param.name : "_undefined"
+                            param.name ? param.name : "_unnamed"
                           }.displayName`,
                           e.target.value,
                         )
                       }
                       placeholder={camelToTitle(
-                        param.name ? param.name : "_undefined",
+                        param.name ? param.name : "_unnamed",
                       )}
                     />
                     <FormErrorMessage>
                       {
                         form.getFieldState(
                           `constructorParams.${
-                            param.name ? param.name : "_undefined"
+                            param.name ? param.name : "_unnamed"
                           }.displayName`,
                           form.formState,
                         ).error?.message
@@ -107,7 +113,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     isInvalid={
                       !!form.getFieldState(
                         `constructorParams.${
-                          param.name ? param.name : "_undefined"
+                          param.name ? param.name : "_unnamed"
                         }.defaultValue`,
                         form.formState,
                       ).error
@@ -129,7 +135,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                           }
                           {...form.register(
                             `constructorParams.${
-                              param.name ? param.name : "_undefined"
+                              param.name ? param.name : "_unnamed"
                             }.defaultValue`,
                           )}
                         />
@@ -161,7 +167,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               onClick={() => {
                                 form.setValue(
                                   `constructorParams.${
-                                    param.name ? param.name : "_undefined"
+                                    param.name ? param.name : "_unnamed"
                                   }.defaultValue`,
                                   paramTemplateValues[0].value,
                                   {
@@ -182,7 +188,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       {
                         form.getFieldState(
                           `constructorParams.${
-                            param.name ? param.name : "_undefined"
+                            param.name ? param.name : "_unnamed"
                           }.defaultValue`,
                           form.formState,
                         ).error?.message
@@ -195,7 +201,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     isInvalid={
                       !!form.getFieldState(
                         `constructorParams.${
-                          param.name ? param.name : "_undefined"
+                          param.name ? param.name : "_unnamed"
                         }.description`,
                         form.formState,
                       ).error
@@ -205,13 +211,13 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <Textarea
                       value={form.watch(
                         `constructorParams.${
-                          param.name ? param.name : "_undefined"
+                          param.name ? param.name : "_unnamed"
                         }.description`,
                       )}
                       onChange={(e) =>
                         form.setValue(
                           `constructorParams.${
-                            param.name ? param.name : "_undefined"
+                            param.name ? param.name : "_unnamed"
                           }.description`,
                           e.target.value,
                         )
@@ -223,7 +229,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <FormHelperText>
                       {form.watch(
                         `constructorParams.${
-                          param.name ? param.name : "_undefined"
+                          param.name ? param.name : "_unnamed"
                         }.description`,
                       )?.length ?? 0}
                       /400 characters
@@ -232,7 +238,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                 </Flex>
                 {form.watch(
                   `constructorParams.${
-                    param.name ? param.name : "_undefined"
+                    param.name ? param.name : "_unnamed"
                   }.defaultValue`,
                 ) && (
                   <Flex flexDir="column" w="full">
@@ -240,7 +246,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       isInvalid={
                         !!form.getFieldState(
                           `constructorParams.${
-                            param.name ? param.name : "_undefined"
+                            param.name ? param.name : "_unnamed"
                           }.description`,
                           form.formState,
                         ).error
@@ -251,7 +257,7 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                           placeSelf="start"
                           {...form.register(
                             `constructorParams.${
-                              param.name ? param.name : "_undefined"
+                              param.name ? param.name : "_unnamed"
                             }.hidden`,
                           )}
                         />
