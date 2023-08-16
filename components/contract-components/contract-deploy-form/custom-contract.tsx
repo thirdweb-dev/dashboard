@@ -104,6 +104,10 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   const parseDeployParams = {
     ...deployParams.reduce(
       (acc, param) => {
+        if (!param.name) {
+          param.name = "_undefined";
+        }
+
         acc[param.name] = replaceTemplateValues(
           fullPublishMetadata.data?.constructorParams?.[param.name]
             ?.defaultValue
