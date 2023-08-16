@@ -56,6 +56,18 @@ export const templates: TemplateCardProps[] = [
     author: "thirdweb",
   },
   {
+    id: "nft-gated-website",
+    title: "NFT Gated Website",
+    homepage: "https://nft-gated-website.thirdweb-example.com/",
+    repo: "https://github.com/thirdweb-example/nft-gated-website",
+    description:
+      "Allow users to access your website only if they own a specific NFT.",
+    img: "/assets/templates/nft-gated-site.png",
+    hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
+    tags: ["NFT", "React", "Loyalty"],
+    author: "thirdweb",
+  },
+  {
     id: "nft-gallery",
     title: "NFT Gallery",
     homepage: "https://nft-gallery.thirdweb-preview.com/",
