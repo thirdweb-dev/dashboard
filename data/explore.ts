@@ -45,6 +45,7 @@ const NFTS = {
     "thirdweb.eth/DropERC1155",
     "thirdweb.eth/SignatureDrop",
     "nach.eth/DynamicFreeMint",
+    "thirdweb.eth/Multiwrap",
   ],
 } as const;
 
