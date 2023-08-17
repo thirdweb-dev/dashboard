@@ -296,6 +296,11 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 predeployUri: contractId,
                 extraMetadata: {
                   ...data,
+                  routerType: isPluginRouter
+                    ? "plugin"
+                    : isDynamicContract
+                    ? "dynamic"
+                    : "none",
                   networksForDeployment: {
                     allNetworks:
                       data.deployType === "customFactory"
