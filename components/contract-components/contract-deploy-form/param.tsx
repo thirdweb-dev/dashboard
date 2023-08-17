@@ -22,8 +22,6 @@ export const Param: React.FC<ParamProps> = ({
 }) => {
   const form = useFormContext();
 
-  console.log({ extraMetadataParam });
-
   return (
     <FormControl
       isRequired
