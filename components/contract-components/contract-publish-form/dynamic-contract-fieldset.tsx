@@ -1,16 +1,9 @@
-import {
-  Box,
-  Divider,
-  Flex,
-  FormControl,
-  Icon,
-  IconButton,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Flex, Icon } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { FiPlus, FiTrash } from "react-icons/fi";
-import { Heading, Text, Button, FormLabel } from "tw-components";
+import { FiPlus } from "react-icons/fi";
+import { Heading, Text, Button } from "tw-components";
+import { ExtensionInput } from "./extension-input";
 
 export const DynamicContractsFieldset = () => {
   const form = useFormContext();
@@ -41,45 +34,7 @@ export const DynamicContractsFieldset = () => {
       </Flex>
       <Flex flexDir="column" gap={4}>
         {fields.map((item, index) => (
-          <Flex key={item.id} flexDir="column" gap={2}>
-            <Flex w="full" gap={2}>
-              <FormControl as={Flex} flexDir="column" gap={1}>
-                <FormLabel textTransform="capitalize">Extension Name</FormLabel>
-                <Input
-                  placeholder="Name"
-                  {...form.register(`defaultExtensions.${index}.extensionName`)}
-                />
-              </FormControl>
-              <FormControl as={Flex} flexDir="column" gap={1}>
-                <FormLabel textTransform="capitalize">
-                  Extension Version
-                </FormLabel>
-                <Input
-                  placeholder="Name"
-                  {...form.register(
-                    `defaultExtensions.${index}.extensionVersion`,
-                  )}
-                />
-              </FormControl>
-              <FormControl as={Flex} flexDir="column" gap={1}>
-                <FormLabel textTransform="capitalize">Publisher</FormLabel>
-                <Input
-                  placeholder="Name"
-                  {...form.register(
-                    `defaultExtensions.${index}.publisherAddress`,
-                  )}
-                />
-              </FormControl>
-              <IconButton
-                isDisabled={fields.length === 1 || form.formState.isSubmitting}
-                icon={<Icon as={FiTrash} boxSize={5} />}
-                aria-label="Remove row"
-                onClick={() => remove(index)}
-                alignSelf="end"
-              />
-            </Flex>
-            <Divider />
-          </Flex>
+          <ExtensionInput key={item.id} remove={remove} index={index} />
         ))}
         <Box>
           <Button
