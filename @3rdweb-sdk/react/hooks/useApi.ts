@@ -250,3 +250,28 @@ export async function fetchAuthToken() {
 
   return json.data.jwt;
 }
+
+export function useAuthorizeWalletWithAccount() {
+  const { user } = useUser();
+
+  return useMutationWithInvalidate(async (token: string) => {
+    invariant(user, "No user is logged in");
+
+    const res = await fetch(`${THIRDWEB_API_HOST}/v1/jwt/authorize-wallet`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({}),
+    });
+    const json = await res.json();
+
+    if (json.error) {
+      throw new Error(json.error?.message || json.error);
+    }
+
+    return json.data;
+  });
+}

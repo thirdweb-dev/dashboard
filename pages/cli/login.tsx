@@ -1,4 +1,5 @@
 import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
+import { useAuthorizeWalletWithAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { Container, Divider, Flex, Spinner } from "@chakra-ui/react";
 import { useAddress, useAuth } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
@@ -12,6 +13,7 @@ import { ThirdwebNextPage } from "utils/types";
 const LoginPage: ThirdwebNextPage = () => {
   // Get state and payload from URL.
   const { payload } = useRouter().query;
+  const { mutateAsync: authorizeWallet } = useAuthorizeWalletWithAccount();
 
   const address = useAddress();
   const trackEvent = useTrack();
@@ -38,7 +40,17 @@ const LoginPage: ThirdwebNextPage = () => {
 
     const generateToken = async () => {
       const token = await auth?.generate(parsedPayload);
+      if (!token) {
+        return undefined;
+      }
       hasCreatedToken.current = true;
+      try {
+        await authorizeWallet(token);
+      } catch (e) {
+        console.error(e);
+        setStatusTitle("Login failed!");
+        return undefined;
+      }
       return token;
     };
 
@@ -50,6 +62,22 @@ const LoginPage: ThirdwebNextPage = () => {
       if (address) {
         try {
           const token = await generateToken();
+          if (!token) {
+            setStatusTitle("Login failed!");
+            setStatusText(
+              <>
+                Failed to authorize with CLI, please reach out to us on Discord:{" "}
+                <Link color="blue.200" href="https://discord.gg/thirdweb">
+                  https://discord.gg/thirdweb
+                </Link>
+              </>,
+            );
+            setLoading(false);
+            console.error(
+              `Failed to authorize with CLI, please reach out to us on Discord: discord.gg/thirdweb.`,
+            );
+            return undefined;
+          }
           try {
             const response = await fetch(
               `http://localhost:8976/auth/callback?token=${token}&state=${state}`,
@@ -87,7 +115,7 @@ const LoginPage: ThirdwebNextPage = () => {
       }
     };
     main();
-  }, [address, trackEvent, auth, payload]);
+  }, [address, trackEvent, auth, payload, authorizeWallet]);
 
   if (!address) {
     return (
