@@ -56,7 +56,13 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
           return (
             <Flex flexDir="column" gap={6} key={`implementation_${param.name}`}>
               <Flex justify="space-between" align="center">
-                <Heading size="title.sm">{param.name}</Heading>
+                {param.name ? (
+                  <Heading size="title.sm">{param.name}</Heading>
+                ) : (
+                  <Heading size="title.sm" fontStyle="italic">
+                    Unnamed param (will not be used)
+                  </Heading>
+                )}
                 <Text size="body.sm">{param.type}</Text>
               </Flex>
               <Flex gap={6} flexDir="column">
@@ -64,7 +70,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   <FormControl
                     isInvalid={
                       !!form.getFieldState(
-                        `constructorParams.${param.name}.displayName`,
+                        `constructorParams.${
+                          param.name ? param.name : "*"
+                        }.displayName`,
                         form.formState,
                       ).error
                     }
@@ -74,20 +82,26 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     </FormLabel>
                     <Input
                       value={form.watch(
-                        `constructorParams.${param.name}.displayName`,
+                        `constructorParams.${
+                          param.name ? param.name : "*"
+                        }.displayName`,
                       )}
                       onChange={(e) =>
                         form.setValue(
-                          `constructorParams.${param.name}.displayName`,
+                          `constructorParams.${
+                            param.name ? param.name : "*"
+                          }.displayName`,
                           e.target.value,
                         )
                       }
-                      placeholder={camelToTitle(param.name)}
+                      placeholder={camelToTitle(param.name ? param.name : "*")}
                     />
                     <FormErrorMessage>
                       {
                         form.getFieldState(
-                          `constructorParams.${param.name}.displayName`,
+                          `constructorParams.${
+                            param.name ? param.name : "*"
+                          }.displayName`,
                           form.formState,
                         ).error?.message
                       }
@@ -96,7 +110,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   <FormControl
                     isInvalid={
                       !!form.getFieldState(
-                        `constructorParams.${param.name}.defaultValue`,
+                        `constructorParams.${
+                          param.name ? param.name : "*"
+                        }.defaultValue`,
                         form.formState,
                       ).error
                     }
@@ -116,7 +132,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               : "This value will be pre-filled in the deploy form."
                           }
                           {...form.register(
-                            `constructorParams.${param.name}.defaultValue`,
+                            `constructorParams.${
+                              param.name ? param.name : "*"
+                            }.defaultValue`,
                           )}
                         />
                       </Flex>
@@ -146,7 +164,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                               paddingY="3.5"
                               onClick={() => {
                                 form.setValue(
-                                  `constructorParams.${param.name}.defaultValue`,
+                                  `constructorParams.${
+                                    param.name ? param.name : "*"
+                                  }.defaultValue`,
                                   paramTemplateValues[0].value,
                                   {
                                     shouldDirty: true,
@@ -165,7 +185,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <FormErrorMessage>
                       {
                         form.getFieldState(
-                          `constructorParams.${param.name}.defaultValue`,
+                          `constructorParams.${
+                            param.name ? param.name : "*"
+                          }.defaultValue`,
                           form.formState,
                         ).error?.message
                       }
@@ -176,7 +198,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                   <FormControl
                     isInvalid={
                       !!form.getFieldState(
-                        `constructorParams.${param.name}.description`,
+                        `constructorParams.${
+                          param.name ? param.name : "*"
+                        }.description`,
                         form.formState,
                       ).error
                     }
@@ -184,11 +208,15 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                     <FormLabel as={Text}>Description</FormLabel>
                     <Textarea
                       value={form.watch(
-                        `constructorParams.${param.name}.description`,
+                        `constructorParams.${
+                          param.name ? param.name : "*"
+                        }.description`,
                       )}
                       onChange={(e) =>
                         form.setValue(
-                          `constructorParams.${param.name}.description`,
+                          `constructorParams.${
+                            param.name ? param.name : "*"
+                          }.description`,
                           e.target.value,
                         )
                       }
@@ -197,18 +225,27 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                       placeholder="Enter a description for this parameter."
                     />
                     <FormHelperText>
-                      {form.watch(`constructorParams.${param.name}.description`)
-                        ?.length ?? 0}
+                      {form.watch(
+                        `constructorParams.${
+                          param.name ? param.name : "*"
+                        }.description`,
+                      )?.length ?? 0}
                       /400 characters
                     </FormHelperText>
                   </FormControl>
                 </Flex>
-                {form.watch(`constructorParams.${param.name}.defaultValue`) && (
+                {form.watch(
+                  `constructorParams.${
+                    param.name ? param.name : "*"
+                  }.defaultValue`,
+                ) && (
                   <Flex flexDir="column" w="full">
                     <FormControl
                       isInvalid={
                         !!form.getFieldState(
-                          `constructorParams.${param.name}.description`,
+                          `constructorParams.${
+                            param.name ? param.name : "*"
+                          }.description`,
                           form.formState,
                         ).error
                       }
@@ -217,7 +254,9 @@ export const ContractParamsFieldset: React.FC<ContractParamsFieldsetProps> = ({
                         <Checkbox
                           placeSelf="start"
                           {...form.register(
-                            `constructorParams.${param.name}.hidden`,
+                            `constructorParams.${
+                              param.name ? param.name : "*"
+                            }.hidden`,
                           )}
                         />
                         <Flex flexDir="column">
