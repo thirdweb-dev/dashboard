@@ -6,7 +6,7 @@ import { useChainUiHooksAnalyticsContractsByTransactionsCount } from "chain-ui/h
 import { useChainUiHooksAnalyticsContractsByUniqueWalletsCount } from "chain-ui/hooks/useChainUiHooksAnalyticsContractsByUniqueWalletsCount";
 import { useChainUiHooksAnalyticsContractsByValueMoved } from "chain-ui/hooks/useChainUiHooksAnalyticsContractsByValueMoved";
 import { ethers } from "ethers";
-import { Heading } from "tw-components";
+import { Heading, Text } from "tw-components";
 
 export const ChainUiTabsAnalyticsContractsByGasUsage: React.FC<{
   chain: Chain;
@@ -51,7 +51,10 @@ export const ChainUiTabsAnalyticsContractsByGasUsage: React.FC<{
 
   return (
     <Stack>
-      <Heading fontSize="x-large">Contracts that Spent the Most Gas</Heading>
+      <Text letterSpacing="1px" opacity={0.8}>
+        CONTRACTS
+      </Text>
+      <Heading fontSize="x-large">Most Gas Spent (7 Days)</Heading>
       <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
@@ -93,7 +96,10 @@ export const ChainUiTabsAnalyticsContractsByTransactionsCount: React.FC<{
 
   return (
     <Stack>
-      <Heading fontSize="x-large">Most Interacted Contracts</Heading>
+      <Text letterSpacing="1px" opacity={0.8}>
+        CONTRACTS
+      </Text>
+      <Heading fontSize="x-large">Most Interactions (7 Days)</Heading>
       <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
@@ -135,9 +141,10 @@ export const ChainUiTabsAnalyticsContractsByUniqueWalletsCount: React.FC<{
 
   return (
     <Stack>
-      <Heading fontSize="x-large">
-        Contracts with the Most Unique Wallet Interactions
-      </Heading>
+      <Text letterSpacing="1px" opacity={0.8}>
+        CONTRACTS
+      </Text>
+      <Heading fontSize="x-large">Most Unique Wallet Interactions (7 Days)</Heading>
       <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>
   );
@@ -187,8 +194,11 @@ export const ChainUiTabsAnalyticsContractsByValueMoved: React.FC<{
 
   return (
     <Stack>
+      <Text letterSpacing="1px" opacity={0.8}>
+        CONTRACTS
+      </Text>
       <Heading fontSize="x-large">
-        Contracts that Moved the most {chain.nativeCurrency.symbol}
+      Moved the most {chain.nativeCurrency.symbol} (7 Days)
       </Heading>
       <ChainUiComponentsAnalyticsTable data={restructuredData} />
     </Stack>

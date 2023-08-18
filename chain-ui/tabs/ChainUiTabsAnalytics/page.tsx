@@ -1,6 +1,5 @@
 import { Chain } from "@thirdweb-dev/chains";
 import { CodeOverview } from "contract-ui/tabs/code/components/code-overview";
-import { ChainUiTabsAnalyticsBlocksByGasPrice } from "./sections/ChainUiTabsAnalyticsBlock";
 import {
   ChainUiTabsAnalyticsContractsByGasUsage,
   ChainUiTabsAnalyticsContractsByTransactionsCount,
@@ -21,7 +20,7 @@ export const ChainUiTabsAnalytics: React.FC<{
 }> = ({ chain }) => {
   return (
     <>
-      <ChainUiTabsAnalyticsBlocksByGasPrice chain={chain} />
+      {/* <ChainUiTabsAnalyticsBlocksByGasPrice chain={chain} /> */}
       <ChainUiTabsAnalyticsContractsByGasUsage chain={chain} />
       <ChainUiTabsAnalyticsContractsByTransactionsCount chain={chain} />
       <ChainUiTabsAnalyticsContractsByUniqueWalletsCount chain={chain} />

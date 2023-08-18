@@ -2,6 +2,7 @@ import { Stack } from "@chakra-ui/react";
 import { Chain } from "@thirdweb-dev/chains";
 import { ChainUiComponentsAnalyticsTable } from "chain-ui/components/ChainUiComponentsAnalytics";
 import { useChainUiHooksAnalyticsBlocksByGasPrice } from "chain-ui/hooks/useChainUiHooksAnalyticsBlocksByGasPrice";
+import { format } from "date-fns";
 import { ethers } from "ethers";
 import { Heading } from "tw-components";
 
@@ -28,7 +29,10 @@ export const ChainUiTabsAnalyticsBlocksByGasPrice: React.FC<{
             break;
           }
           case "block_time": {
-            store["Block Time"] = new Date(row["block_time"]).toLocaleString();
+            store["Block Time"] =
+              typeof row["block_time"] === "string"
+                ? format(new Date(row["block_time"]), "yyyy-MM-dd HH:mm:ss")
+                : row["block_time"];
             break;
           }
           case "median_gas_price": {
