@@ -33,7 +33,7 @@ const NFTS = {
   description:
     "NFT Collections, Editions, Drops and everything else NFT-related.",
   contracts: [
-    "thirdweb.eth/Multiwrap",
+    "thirdweb.eth/LoyaltyCard",
     "doubledev.eth/ERC4907",
     "thirdweb.eth/TokenERC721",
     "thirdweb.eth/TokenERC1155",
@@ -45,6 +45,7 @@ const NFTS = {
     "thirdweb.eth/DropERC1155",
     "thirdweb.eth/SignatureDrop",
     "nach.eth/DynamicFreeMint",
+    "thirdweb.eth/Multiwrap",
   ],
 } as const;
 
@@ -94,6 +95,9 @@ const AIRDROP = {
     "thirdweb.eth/AirdropERC20",
     "thirdweb.eth/AirdropERC721",
     "thirdweb.eth/AirdropERC1155",
+    "thirdweb.eth/AirdropERC20Claimable",
+    "thirdweb.eth/AirdropERC721Claimable",
+    "thirdweb.eth/AirdropERC1155Claimable",
   ],
 } as const;
 
