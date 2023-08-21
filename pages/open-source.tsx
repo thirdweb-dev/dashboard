@@ -128,8 +128,11 @@ const bounties = [
     ),
     status: "open",
     amount: "Up to $25,000",
-    link: "https://thirdweb.notion.site/Gas-Optimization-for-thirdweb-published-contracts-85d811de893b4bb8814bd8bbbd488cff?pvs=4",
-    linkText: "Read Guidelines",
+    link1:
+      "https://thirdweb.notion.site/Gas-Optimization-for-thirdweb-published-contracts-85d811de893b4bb8814bd8bbbd488cff?pvs=4",
+    link1Text: "Read Guidelines",
+    link2: "https://forms.gle/1GgRoMGqnCAZKZL29",
+    link2Text: "Submission Form",
   },
   {
     id: 1,
@@ -142,8 +145,9 @@ const bounties = [
     ),
     status: "open",
     amount: "Up to $50,000",
-    link: "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706?pvs=4",
-    linkText: "Read Guidelines",
+    link1:
+      "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706?pvs=4",
+    link1Text: "Read Guidelines",
   },
 ];
 
@@ -367,7 +371,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                       {bounty.description}
                     </Text>
                     <LinkButton
-                      href={bounty.link}
+                      href={bounty.link1}
                       isExternal
                       color="black"
                       flexShrink={0}
@@ -377,8 +381,20 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                       }}
                       mt={6}
                     >
-                      {bounty.linkText}
+                      {bounty.link1Text}
                     </LinkButton>
+                    {bounty.link2 && (
+                      <LinkButton
+                        href={bounty.link2}
+                        isExternal
+                        flexShrink={0}
+                        variant="outline"
+                        mt={{ base: 4, md: 6 }}
+                        ml={{ md: 6 }}
+                      >
+                        {bounty.link2Text}
+                      </LinkButton>
+                    )}
                   </AccordionPanel>
                 </AccordionItem>
               ))}
