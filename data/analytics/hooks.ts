@@ -10,6 +10,12 @@ export type AnalyticsQueryParams = {
   interval?: "minute" | "hour" | "day" | "week" | "month";
 };
 
+// TODO: Keep updated with actual ClickHouse data
+export const SUPPORTED_ANALYTICS_CHAINS = [
+  1, 5, 10, 97, 137, 250, 1442, 8453, 42161, 43113, 43114, 80001, 84531, 421613,
+  534353, 11155111,
+];
+
 async function makeQuery(
   path: string,
   query: Record<string, string | number | undefined>,

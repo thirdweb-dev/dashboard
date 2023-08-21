@@ -5,6 +5,7 @@ import {
   AvalancheFuji,
   BaseGoerli,
   Binance,
+  Base,
   Ethereum,
   Fantom,
   FantomTestnet,
