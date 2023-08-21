@@ -213,9 +213,9 @@ const EVMContractPage: ThirdwebNextPage = () => {
     importContract.mutate(
       { contractAddress, chain },
       {
-        onSuccess: () => {
-          compilerMetadataQuery.refetch();
-          contractQuery.refetch();
+        onSuccess: async () => {
+          await compilerMetadataQuery.refetch();
+          await contractQuery.refetch();
         },
       },
     );

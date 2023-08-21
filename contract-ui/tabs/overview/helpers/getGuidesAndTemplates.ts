@@ -245,6 +245,7 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   ERC1155BatchMintable: [],
   ERC1155Mintable: [],
   ERC1155Enumerable: [ALL_GUIDES.createAnNftGalleryUsingThirdwebAndNextJs],
+  ERC1155UpdatableMetadata: [],
   ERC1155: [ALL_GUIDES.airdropFreeToOwnNftsForAWeb3Game],
   Royalty: [],
   PrimarySale: [],
@@ -417,6 +418,7 @@ const TEMPLATES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Account: [],
   AccountFactory: [],
   AccountPermissions: [],
+  ERC1155UpdatableMetadata: [],
 };
 
 export function getGuidesAndTemplates(
