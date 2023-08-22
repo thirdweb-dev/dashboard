@@ -15,8 +15,14 @@ import {
   Flex,
   Spinner,
 } from "@chakra-ui/react";
-import { DehydratedState, QueryClient, dehydrate } from "@tanstack/react-query";
 import {
+  DehydratedState,
+  QueryClient,
+  dehydrate,
+  useQueryClient,
+} from "@tanstack/react-query";
+import {
+  invalidateContractAndBalances,
   useCompilerMetadata,
   useContract,
   useContractMetadata,
@@ -205,6 +211,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
   ]);
 
   const importContract = useImportContract();
+  const client = useQueryClient();
   const handleImportContract = useCallback(() => {
     if (!chain) {
       return;
@@ -214,6 +221,11 @@ const EVMContractPage: ThirdwebNextPage = () => {
       { contractAddress, chain },
       {
         onSuccess: async () => {
+          await invalidateContractAndBalances(
+            client,
+            contractAddress,
+            chain.chainId,
+          );
           await compilerMetadataQuery.refetch();
           await contractQuery.refetch();
         },
@@ -225,6 +237,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
     importContract,
     contractQuery,
     compilerMetadataQuery,
+    client,
   ]);
 
   if (chainNotFound) {
