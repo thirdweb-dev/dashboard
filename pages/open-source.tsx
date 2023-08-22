@@ -128,11 +128,11 @@ const bounties = [
     ),
     status: "open",
     amount: "Up to $25,000",
-    link1:
+    primaryButtonLink: "https://forms.gle/1GgRoMGqnCAZKZL29",
+    primaryButtonText: "Submit Bounty",
+    secondaryButtonLink:
       "https://thirdweb.notion.site/Gas-Optimization-for-thirdweb-published-contracts-85d811de893b4bb8814bd8bbbd488cff?pvs=4",
-    link1Text: "Read Guidelines",
-    link2: "https://forms.gle/1GgRoMGqnCAZKZL29",
-    link2Text: "Submission Form",
+    secondaryButtonText: "Read Guidelines",
   },
   {
     id: 1,
@@ -145,11 +145,11 @@ const bounties = [
     ),
     status: "open",
     amount: "Up to $50,000",
-    link1:
+    primaryButtonLink: "https://forms.gle/1GgRoMGqnCAZKZL29",
+    primaryButtonText: "Submit Bounty",
+    secondaryButtonLink:
       "https://thirdweb.notion.site/thirdweb-Bug-Bounty-Program-f78d1db776ab4f0e974c9da176fcf706?pvs=4",
-    link1Text: "Read Guidelines",
-    link2: "https://forms.gle/1GgRoMGqnCAZKZL29",
-    link2Text: "Submission Form",
+    secondaryButtonText: "Read Guidelines",
   },
 ];
 
@@ -363,7 +363,7 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                     </Flex>
                     <AccordionIcon />
                   </AccordionButton>
-                  <AccordionPanel>
+                  <AccordionPanel as={Flex} flexDir="column" gap={6}>
                     <Text
                       size="label.md"
                       color="gray.500"
@@ -372,31 +372,24 @@ const OSS: ThirdwebNextPage = ({ contributors }: PageProps) => {
                     >
                       {bounty.description}
                     </Text>
-                    <LinkButton
-                      href={bounty.link1}
-                      isExternal
-                      color="black"
-                      flexShrink={0}
-                      background="rgba(255,255,255,1)"
-                      _hover={{
-                        background: "rgba(255,255,255,0.9)!important",
-                      }}
-                      mt={6}
-                    >
-                      {bounty.link1Text}
-                    </LinkButton>
-                    {bounty.link2 && (
+                    <Flex gap={4} flexDir={{ base: "column", md: "row" }}>
                       <LinkButton
-                        href={bounty.link2}
+                        href={bounty.primaryButtonLink}
                         isExternal
-                        flexShrink={0}
-                        variant="outline"
-                        mt={{ base: 4, md: 6 }}
-                        ml={{ md: 6 }}
+                        color="bgWhite"
+                        bgColor="bgBlack"
+                        _hover={{ opacity: 0.8 }}
                       >
-                        {bounty.link2Text}
+                        {bounty.primaryButtonText}
                       </LinkButton>
-                    )}
+                      <LinkButton
+                        href={bounty.secondaryButtonLink}
+                        isExternal
+                        variant="outline"
+                      >
+                        {bounty.secondaryButtonText}
+                      </LinkButton>
+                    </Flex>
                   </AccordionPanel>
                 </AccordionItem>
               ))}
