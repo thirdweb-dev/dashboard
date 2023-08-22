@@ -143,9 +143,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
           ?.publishedMetadata?.factoryDeploymentData?.customFactoryInput
           ?.customFactoryAddresses || {},
       ).map(([key, value]) => ({ key: Number(key), value })),
-      routerType:
-        prePublishMetadata.data?.latestPublishedContractMetadata
-          ?.publishedMetadata?.routerType || "none",
       defaultExtensions:
         prePublishMetadata.data?.latestPublishedContractMetadata
           ?.publishedMetadata?.defaultExtensions || [],
@@ -296,11 +293,6 @@ export const ContractPublishForm: React.FC<ContractPublishFormProps> = ({
                 predeployUri: contractId,
                 extraMetadata: {
                   ...data,
-                  routerType: isPluginRouter
-                    ? "plugin"
-                    : isDynamicContract
-                    ? "dynamic"
-                    : "none",
                   networksForDeployment: {
                     allNetworks:
                       data.deployType === "customFactory"

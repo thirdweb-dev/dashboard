@@ -1,17 +1,18 @@
 import {
   Flex,
   FormControl,
-  Input,
   IconButton,
   Icon,
   Divider,
   Select,
+  Skeleton,
 } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { FiTrash } from "react-icons/fi";
-import { FormLabel } from "tw-components";
+import { FormErrorMessage, FormLabel } from "tw-components";
 import { useAllVersions, usePublishedContractsQuery } from "../hooks";
+import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 interface ExtensionInputProps {
   index: number;
@@ -28,6 +29,8 @@ export const ExtensionInput: React.FC<ExtensionInputProps> = ({
     form.watch(`defaultExtensions.${index}.publisherAddress`),
   );
 
+  console.log({ publishedContractsQuery });
+
   const allVersions = useAllVersions(
     form.watch(`defaultExtensions.${index}.publisherAddress`),
     form.watch(`defaultExtensions.${index}.extensionName`),
@@ -35,45 +38,85 @@ export const ExtensionInput: React.FC<ExtensionInputProps> = ({
 
   return (
     <Flex flexDir="column" gap={2}>
-      <Flex w="full" gap={2}>
-        <FormControl as={Flex} flexDir="column" gap={1}>
+      <Flex
+        w="full"
+        gap={{ base: 4, md: 2 }}
+        flexDir={{ base: "column", md: "row" }}
+      >
+        <FormControl
+          as={Flex}
+          flexDir="column"
+          gap={1}
+          isInvalid={
+            !!form.getFieldState(
+              `defaultExtensions.${index}.publisherAddress`,
+              form.formState,
+            ).error
+          }
+        >
           <FormLabel textTransform="capitalize">Publisher</FormLabel>
-          <Input
-            placeholder="Name"
+          <SolidityInput
+            solidityType="address"
+            placeholder="Address or ENS"
             {...form.register(`defaultExtensions.${index}.publisherAddress`)}
           />
+          <FormErrorMessage>
+            {
+              form.getFieldState(
+                `defaultExtensions.${index}.publisherAddress`,
+                form.formState,
+              ).error?.message
+            }
+          </FormErrorMessage>
         </FormControl>
         <FormControl as={Flex} flexDir="column" gap={1}>
           <FormLabel textTransform="capitalize">Extension Name</FormLabel>
-          <Select
-            isDisabled={!publishedContractsQuery.data}
-            {...form.register(`defaultExtensions.${index}.extensionName`)}
+          <Skeleton
+            isLoaded={
+              !!publishedContractsQuery.data ||
+              !publishedContractsQuery.isFetching
+            }
+            borderRadius="lg"
           >
-            {publishedContractsQuery?.data?.map(({ id }) => (
-              <option key={id} value={id}>
-                {id}
-              </option>
-            ))}
-          </Select>
+            <Select
+              isDisabled={(publishedContractsQuery?.data || []).length === 0}
+              {...form.register(`defaultExtensions.${index}.extensionName`)}
+              placeholder={
+                publishedContractsQuery.isFetched &&
+                (publishedContractsQuery?.data || []).length === 0
+                  ? "No entensions found"
+                  : "Select extension"
+              }
+            >
+              {publishedContractsQuery?.data?.map(({ id }) => (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              ))}
+            </Select>
+          </Skeleton>
         </FormControl>
 
         <FormControl as={Flex} flexDir="column" gap={1}>
           <FormLabel textTransform="capitalize">Extension Version</FormLabel>
-          <Select
-            isDisabled={!allVersions.data}
-            {...form.register(`defaultExtensions.${index}.extensionVersion`)}
+          <Skeleton
+            isLoaded={!!allVersions.data || !allVersions.isFetching}
+            borderRadius="lg"
           >
-            <option value="">Always latest</option>
-            {allVersions?.data?.map(({ version }) => (
-              <option key={version} value={version}>
-                {version}
-              </option>
-            ))}
-          </Select>
-          {/*           <Input
-            placeholder="Name"
-            {...form.register(`defaultExtensions.${index}.extensionVersion`)}
-          /> */}
+            <Select
+              w="full"
+              isDisabled={!allVersions.data}
+              {...form.register(`defaultExtensions.${index}.extensionVersion`)}
+              borderRadius="lg"
+            >
+              <option value="">Always latest</option>
+              {allVersions?.data?.map(({ version }) => (
+                <option key={version} value={version}>
+                  {version}
+                </option>
+              ))}
+            </Select>
+          </Skeleton>
         </FormControl>
         <IconButton
           icon={<Icon as={FiTrash} boxSize={5} />}
