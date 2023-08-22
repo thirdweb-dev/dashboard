@@ -271,6 +271,9 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Account: [],
   AccountFactory: [ALL_GUIDES.deploySmartWallet, ALL_GUIDES.customSmartWallet],
   AccountPermissions: [],
+  AirdropERC1155: [],
+  AirdropERC721: [],
+  AirdropERC20: [],
 };
 
 const ALL_TEMPLATES: Record<string, Item> = {
@@ -417,6 +420,9 @@ const TEMPLATES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Account: [],
   AccountFactory: [],
   AccountPermissions: [],
+  AirdropERC1155: [],
+  AirdropERC721: [],
+  AirdropERC20: [],
 };
 
 export function getGuidesAndTemplates(
