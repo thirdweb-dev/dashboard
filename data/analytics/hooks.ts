@@ -29,7 +29,7 @@ export type AnalyticsQueryParams = {
 };
 
 // TODO: Keep updated with actual ClickHouse data
-export const SUPPORTED_ANALYTICS_CHAINS = [
+export const SUPPORTED_ANALYTICS_CHAINS: number[] = [
   Ethereum.chainId,
   Goerli.chainId,
   Optimism.chainId,
