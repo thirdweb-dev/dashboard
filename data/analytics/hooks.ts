@@ -1,5 +1,23 @@
 import { THIRDWEB_ANALYTICS_API_HOSTNAME } from "./constants";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Arbitrum,
+  ArbitrumGoerli,
+  Avalanche,
+  AvalancheFuji,
+  Base,
+  BaseGoerli,
+  BinanceTestnet,
+  Ethereum,
+  Fantom,
+  Goerli,
+  Mumbai,
+  Optimism,
+  Polygon,
+  PolygonZkevmTestnet,
+  ScrollAlphaTestnet,
+  Sepolia,
+} from "@thirdweb-dev/chains";
 import { ethers } from "ethers";
 
 export type AnalyticsQueryParams = {
@@ -12,8 +30,22 @@ export type AnalyticsQueryParams = {
 
 // TODO: Keep updated with actual ClickHouse data
 export const SUPPORTED_ANALYTICS_CHAINS = [
-  1, 5, 10, 97, 137, 250, 1442, 8453, 42161, 43113, 43114, 80001, 84531, 421613,
-  534353, 11155111,
+  Ethereum.chainId,
+  Goerli.chainId,
+  Optimism.chainId,
+  BinanceTestnet.chainId,
+  Polygon.chainId,
+  Fantom.chainId,
+  PolygonZkevmTestnet.chainId,
+  Base.chainId,
+  Arbitrum.chainId,
+  AvalancheFuji.chainId,
+  Avalanche.chainId,
+  Mumbai.chainId,
+  BaseGoerli.chainId,
+  ArbitrumGoerli.chainId,
+  ScrollAlphaTestnet.chainId,
+  Sepolia.chainId,
 ];
 
 async function makeQuery(
