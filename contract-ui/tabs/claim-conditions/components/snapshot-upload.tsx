@@ -114,20 +114,12 @@ export const SnapshotUpload: React.FC<SnapshotUploadProps> = ({
             }))
             .filter(({ address }) => address !== "");
 
-          // Filter out address duplicates
-          const seen = new Set();
-          const filteredData = data.filter((el) => {
-            const duplicate = seen.has(el.address);
-            seen.add(el.address);
-            return !duplicate;
-          });
-
           if (!data[0]?.address) {
             setNoCsv(true);
             return;
           }
 
-          setValidSnapshot(filteredData);
+          setValidSnapshot(data);
         },
       });
     },
