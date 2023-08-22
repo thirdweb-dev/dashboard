@@ -127,7 +127,7 @@ const bounties = [
       </>
     ),
     status: "open",
-    amount: "Up to $25,000",
+    amount: "Up to $20,000",
     primaryButtonLink: "https://forms.gle/1GgRoMGqnCAZKZL29",
     primaryButtonText: "Submit Bounty",
     secondaryButtonLink:
@@ -144,7 +144,7 @@ const bounties = [
       </>
     ),
     status: "open",
-    amount: "Up to $50,000",
+    amount: "Up to $25,000",
     primaryButtonLink: "https://forms.gle/1GgRoMGqnCAZKZL29",
     primaryButtonText: "Submit Bounty",
     secondaryButtonLink:
