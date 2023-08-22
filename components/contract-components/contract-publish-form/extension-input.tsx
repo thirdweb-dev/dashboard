@@ -29,8 +29,6 @@ export const ExtensionInput: React.FC<ExtensionInputProps> = ({
     form.watch(`defaultExtensions.${index}.publisherAddress`),
   );
 
-  console.log({ publishedContractsQuery });
-
   const allVersions = useAllVersions(
     form.watch(`defaultExtensions.${index}.publisherAddress`),
     form.watch(`defaultExtensions.${index}.extensionName`),
