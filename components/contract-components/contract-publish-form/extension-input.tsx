@@ -6,13 +6,13 @@ import {
   Divider,
   Select,
   Skeleton,
+  Input,
 } from "@chakra-ui/react";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { FiTrash } from "react-icons/fi";
-import { FormErrorMessage, FormLabel } from "tw-components";
+import { FormLabel } from "tw-components";
 import { useAllVersions, usePublishedContractsQuery } from "../hooks";
-import { SolidityInput } from "contract-ui/components/solidity-inputs";
 
 interface ExtensionInputProps {
   index: number;
@@ -53,19 +53,10 @@ export const ExtensionInput: React.FC<ExtensionInputProps> = ({
           }
         >
           <FormLabel textTransform="capitalize">Publisher</FormLabel>
-          <SolidityInput
-            solidityType="address"
+          <Input
             placeholder="Address or ENS"
             {...form.register(`defaultExtensions.${index}.publisherAddress`)}
           />
-          <FormErrorMessage>
-            {
-              form.getFieldState(
-                `defaultExtensions.${index}.publisherAddress`,
-                form.formState,
-              ).error?.message
-            }
-          </FormErrorMessage>
         </FormControl>
         <FormControl as={Flex} flexDir="column" gap={1}>
           <FormLabel textTransform="capitalize">Extension Name</FormLabel>
@@ -82,7 +73,7 @@ export const ExtensionInput: React.FC<ExtensionInputProps> = ({
               placeholder={
                 publishedContractsQuery.isFetched &&
                 (publishedContractsQuery?.data || []).length === 0
-                  ? "No entensions found"
+                  ? "No extensions found"
                   : "Select extension"
               }
             >
