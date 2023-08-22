@@ -257,7 +257,7 @@ export function useAuthorizeWalletWithAccount() {
   return useMutationWithInvalidate(async (token: string) => {
     invariant(user, "No user is logged in");
     const tempApiHost =
-      "https://api-server-wodm-mariano-verify-au-2704b9.zeet-nftlabs.zeet.app" ||
+      "https://api-server-staging-d4el-mariano-v-2bf5ea.chainsaw-dev.zeet.app" ||
       THIRDWEB_API_HOST;
 
     const res = await fetch(`${tempApiHost}/v1/jwt/authorize-wallet`, {
