@@ -108,7 +108,7 @@ const LoginPage: ThirdwebNextPage = () => {
     }
   };
 
-  if (success) {
+  if (!success) {
     return (
       <Container maxW="container.lg" overflow="hidden" h="full">
         <Flex
@@ -121,7 +121,7 @@ const LoginPage: ThirdwebNextPage = () => {
         >
           <VStack>
             <Heading>Your device is now linked to your account.</Heading>
-            <Text>You may close this tab now.</Text>
+            <Text fontSize="3xl">You may close this tab now.</Text>
           </VStack>
         </Flex>
       </Container>
