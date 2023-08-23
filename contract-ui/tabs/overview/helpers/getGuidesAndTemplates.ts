@@ -245,6 +245,7 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   ERC1155BatchMintable: [],
   ERC1155Mintable: [],
   ERC1155Enumerable: [ALL_GUIDES.createAnNftGalleryUsingThirdwebAndNextJs],
+  ERC1155UpdatableMetadata: [],
   ERC1155: [ALL_GUIDES.airdropFreeToOwnNftsForAWeb3Game],
   Royalty: [],
   PrimarySale: [],
@@ -271,9 +272,9 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Account: [],
   AccountFactory: [ALL_GUIDES.deploySmartWallet, ALL_GUIDES.customSmartWallet],
   AccountPermissions: [],
-  AirdropERC1155: [],
-  AirdropERC721: [],
   AirdropERC20: [],
+  AirdropERC721: [],
+  AirdropERC1155: [],
 };
 
 const ALL_TEMPLATES: Record<string, Item> = {
@@ -420,9 +421,10 @@ const TEMPLATES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Account: [],
   AccountFactory: [],
   AccountPermissions: [],
-  AirdropERC1155: [],
-  AirdropERC721: [],
+  ERC1155UpdatableMetadata: [],
   AirdropERC20: [],
+  AirdropERC721: [],
+  AirdropERC1155: [],
 };
 
 export function getGuidesAndTemplates(
