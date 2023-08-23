@@ -14,6 +14,7 @@ import {
   Container,
   Flex,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import {
   DehydratedState,
@@ -212,6 +213,8 @@ const EVMContractPage: ThirdwebNextPage = () => {
 
   const importContract = useImportContract();
   const client = useQueryClient();
+  const [refetchLoading, setRefetchLoading] = useState(false);
+  const toast = useToast();
   const handleImportContract = useCallback(() => {
     if (!chain) {
       return;
@@ -221,13 +224,36 @@ const EVMContractPage: ThirdwebNextPage = () => {
       { contractAddress, chain },
       {
         onSuccess: async () => {
+          setRefetchLoading(true);
+          toast({
+            position: "bottom",
+            variant: "solid",
+            title: `Success`,
+            description: `Import Successful`,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
           await invalidateContractAndBalances(
             client,
             contractAddress,
             chain.chainId,
           );
+          // reload
           await compilerMetadataQuery.refetch();
           await contractQuery.refetch();
+          setRefetchLoading(false);
+        },
+        onError: (error) => {
+          toast({
+            position: "bottom",
+            variant: "solid",
+            title: `Error`,
+            description: `Import Failed: ${(error as any).message}`,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
         },
       },
     );
@@ -238,6 +264,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
     contractQuery,
     compilerMetadataQuery,
     client,
+    toast,
   ]);
 
   if (chainNotFound) {
@@ -353,7 +380,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
         <Button
           onClick={handleImportContract}
           minW={150}
-          isLoading={importContract.isLoading}
+          isLoading={importContract.isLoading || refetchLoading}
         >
           Import Contract
         </Button>
@@ -403,7 +430,6 @@ const EVMContractPage: ThirdwebNextPage = () => {
 };
 
 export default EVMContractPage;
-EVMContractPage.pageId = PageId.DeployedContract;
 EVMContractPage.getLayout = (page, props: EVMContractProps) => {
   const displayName = `${
     props.contractMetadata?.name ||
