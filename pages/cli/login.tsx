@@ -20,6 +20,7 @@ const LoginPage: ThirdwebNextPage = () => {
   const [errorText, setErrorText] = useState<string | ReactNode | undefined>(
     undefined,
   );
+  const [success, setSuccess] = useState<boolean>(false);
 
   const generateToken = async () => {
     if (!payload) {
@@ -75,6 +76,7 @@ const LoginPage: ThirdwebNextPage = () => {
         },
       );
       if (response.ok) {
+        setSuccess(true);
         setErrorText(undefined);
         setLoading(false);
       } else {
@@ -105,6 +107,24 @@ const LoginPage: ThirdwebNextPage = () => {
       );
     }
   };
+
+  if (success) {
+    <Container maxW="container.lg" overflow="hidden" h="full">
+      <Flex
+        justify="center"
+        flexDir="column"
+        justifyContent="center"
+        alignItems="center"
+        h="full"
+        gap={8}
+      >
+        <VStack>
+          <Heading>Your device is now linked to your account.</Heading>
+          <Text>You may close this tab now.</Text>
+        </VStack>
+      </Flex>
+    </Container>;
+  }
 
   return (
     <Container maxW="container.lg" overflow="hidden" h="full">
