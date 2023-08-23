@@ -430,6 +430,7 @@ const EVMContractPage: ThirdwebNextPage = () => {
 };
 
 export default EVMContractPage;
+EVMContractPage.pageId = PageId.DeployedContract;
 EVMContractPage.getLayout = (page, props: EVMContractProps) => {
   const displayName = `${
     props.contractMetadata?.name ||
