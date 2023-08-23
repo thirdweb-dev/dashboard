@@ -108,7 +108,7 @@ const LoginPage: ThirdwebNextPage = () => {
     }
   };
 
-  if (!success) {
+  if (success) {
     return (
       <Container maxW="container.lg" overflow="hidden" h="full">
         <Flex
