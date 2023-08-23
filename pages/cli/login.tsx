@@ -33,7 +33,7 @@ const LoginPage: ThirdwebNextPage = () => {
     try {
       token = await auth?.generate(parsedPayload);
     } catch (e) {
-      console.error("Failed at generate", e);
+      console.error("**** Failed to generate the token! ****\n", e);
     }
     if (!token) {
       return null;
@@ -43,7 +43,7 @@ const LoginPage: ThirdwebNextPage = () => {
       return token;
     } catch (e) {
       setLoading(false);
-      console.error(e);
+      console.error("**** Failed to authorize! ****\n", e);
       return null;
     }
   };
@@ -57,7 +57,7 @@ const LoginPage: ThirdwebNextPage = () => {
       if (!token) {
         setErrorText(
           <Text color="red" fontSize="lg">
-            Failed to authorize with CLI, please reach out to us on Discord:{" "}
+            Something went wrong, please reach out to us on Discord:{" "}
             <Link color="blue.200" href="https://discord.gg/thirdweb">
               https://discord.gg/thirdweb
             </Link>
@@ -65,8 +65,12 @@ const LoginPage: ThirdwebNextPage = () => {
         );
         setLoading(false);
         console.error(
-          `Failed to authorize with CLI, please reach out to us on Discord: discord.gg/thirdweb.`,
+          `Something went wrong, please reach out to us on Discord: discord.gg/thirdweb.`,
         );
+        // Tell the CLI that something went wrong.
+        await fetch(`http://localhost:8976/auth/callback?failed=true`, {
+          method: "POST",
+        });
         return null;
       }
       const response = await fetch(
@@ -83,7 +87,7 @@ const LoginPage: ThirdwebNextPage = () => {
         // This should never happen, but just in case
         setErrorText(
           <Text color="red" fontSize="lg">
-            Failed to authorize with CLI, please reach out to us on Discord:{" "}
+            Something went wrong, please reach out to us on Discord:{" "}
             <Link color="blue.200" href="https://discord.gg/thirdweb">
               https://discord.gg/thirdweb
             </Link>
@@ -91,20 +95,28 @@ const LoginPage: ThirdwebNextPage = () => {
         );
         setLoading(false);
         console.error(
-          `Failed to authorize with CLI: ${response.statusText}, please reach out to us on Discord: discord.gg/thirdweb.`,
+          `Something went wrong: ${response.statusText}, please reach out to us on Discord: discord.gg/thirdweb.`,
         );
+        // Tell the CLI that something went wrong.
+        await fetch(`http://localhost:8976/auth/callback?failed=true`, {
+          method: "POST",
+        });
       }
     } catch (e) {
       console.error(e);
       setLoading(false);
       setErrorText(
         <Text color="red" fontSize="lg">
-          Failed to authorize with CLI, please reach out to us on Discord:{" "}
+          Something went wrong, please reach out to us on Discord:{" "}
           <Link color="blue.200" href="https://discord.gg/thirdweb">
             https://discord.gg/thirdweb
           </Link>
         </Text>,
       );
+      // Tell the CLI that something went wrong.
+      await fetch(`http://localhost:8976/auth/callback?failed=true`, {
+        method: "POST",
+      });
     }
   };
 
