@@ -86,7 +86,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           </Heading>
 
           <Skeleton
-            isLoaded={!!factories.data || !factories.isFetching}
+            isLoaded={factories.isSuccess || factories.isFetched}
             borderRadius="lg"
           >
             <Select
@@ -110,7 +110,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           </Heading>
 
           <Skeleton
-            isLoaded={!!keysQuery.data || !keysQuery.isFetching}
+            isLoaded={keysQuery.isSuccess || !keysQuery.isFetching}
             borderRadius="lg"
           >
             <Select
