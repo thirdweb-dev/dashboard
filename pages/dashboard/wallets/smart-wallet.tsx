@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSupportedChain } from "hooks/chains/configureChains";
+import invariant from "tiny-invariant";
 
 const useFactories = () => {
   const walletAddress = useAddress();
@@ -28,10 +29,7 @@ const useFactories = () => {
       "factories",
     ],
     async () => {
-      if (!walletAddress || !contracts.data || contracts.data.length === 0) {
-        return [];
-      }
-
+      invariant(contracts.data, "contracts.data should be defined");
       const contractWithExtensions = await Promise.all(
         contracts.data.map(async (c) => {
           const extensions =
@@ -50,7 +48,7 @@ const useFactories = () => {
       return factories;
     },
     {
-      enabled: !!walletAddress && !!contracts.data,
+      enabled: !!walletAddress && !!contracts.data && contracts.data.length > 0,
     },
   );
 };
@@ -61,6 +59,7 @@ export type SmartWalletFormData = {
 };
 
 const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
+  const address = useAddress();
   const factories = useFactories();
   const keysQuery = useApiKeys();
   const form = useForm<SmartWalletFormData>();
@@ -86,14 +85,16 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           </Heading>
 
           <Skeleton
-            isLoaded={factories.isSuccess || factories.isFetched}
+            isLoaded={!address || factories.isSuccess || factories.isFetched}
             borderRadius="lg"
           >
             <Select
-              isDisabled={(factories?.data || []).length === 0}
+              isDisabled={!address || (factories?.data || []).length === 0}
               {...form.register("chainAndFactoryAddress")}
               placeholder={
-                factories.isFetched && (factories?.data || []).length === 0
+                !address
+                  ? "Not connected"
+                  : factories.isSuccess && (factories?.data || []).length === 0
                   ? "No factories found"
                   : "Select factory"
               }
@@ -110,14 +111,16 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           </Heading>
 
           <Skeleton
-            isLoaded={keysQuery.isSuccess || !keysQuery.isFetching}
+            isLoaded={!address || keysQuery.isSuccess || keysQuery.isFetched}
             borderRadius="lg"
           >
             <Select
-              isDisabled={(keysQuery?.data || []).length === 0}
+              isDisabled={!address || (keysQuery?.data || []).length === 0}
               {...form.register("clientId")}
               placeholder={
-                keysQuery.isFetched && (keysQuery?.data || []).length === 0
+                !address
+                  ? "Not connected"
+                  : keysQuery.isFetched && (keysQuery?.data || []).length === 0
                   ? "No client IDs found"
                   : "Select client ID"
               }

@@ -48,7 +48,7 @@ const DashboardWallets: ThirdwebNextPage = () => {
       flexDir="column"
       gap={12}
       mt={{ base: 2, md: 6 }}
-      w={{ base: "100%", md: "70%" }}
+      w={{ base: "100%", xl: "70%" }}
     >
       <Flex flexDir="column" gap={4}>
         <Heading size="title.lg">Connect</Heading>
