@@ -33,7 +33,7 @@ await personalWallet.generate();
 const config = {
   chain: {{chainName}}, // the chain where your smart wallet will be or is deployed
   factoryAddress: "{{factory_address}}", // your own deployed account factory address
-  clientId: "YOUR_CLIENT_ID", // or use secretKey for no backend/node scripts
+  clientId: "YOUR_CLIENT_ID", // or use secretKey for backend/node scripts
   gasless: true, // enable or disable gasless transactions
 };
 
