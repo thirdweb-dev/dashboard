@@ -134,6 +134,11 @@ function redirects() {
       destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
+    {
+      source: "/dashboard/wallet",
+      destination: "/dashboard/wallets",
+      permanent: false,
+    },
   ];
 }
 

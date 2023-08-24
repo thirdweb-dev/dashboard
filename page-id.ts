@@ -85,6 +85,12 @@ export enum PageId {
 
   // thirdweb.com/dashboard/wallets
   DashboardWallets = "dashboard-wallets",
+  // thirdweb.com/dashboard/wallets/wallet-sdk
+  DashboardWalletsWalletSDK = "dashboard-wallets-wallet-sdk",
+  // thirdweb.com/dashboard/wallets/connect-wallet
+  DashboardWalletsConnectWallet = "dashboard-wallets-connect-wallet",
+  // thirdweb.com/dashboard/wallets/smart-wallet
+  DashboardWalletsSmartWallet = "dashboard-wallets-smart-wallet",
 
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
