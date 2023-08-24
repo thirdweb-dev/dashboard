@@ -115,7 +115,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           >
             <Select
               isDisabled={(keysQuery?.data || []).length === 0}
-              {...form.register("chainAndFactoryAddress")}
+              {...form.register("clientId")}
               placeholder={
                 keysQuery.isFetched && (keysQuery?.data || []).length === 0
                   ? "No client IDs found"
