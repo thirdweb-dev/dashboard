@@ -1,4 +1,4 @@
-import { Flex, FormControl, Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { Flex, FormControl, Select, Skeleton } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
@@ -12,9 +12,10 @@ import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { formatSnippet } from "contract-ui/tabs/code/components/code-overview";
 import { WALLETS_SNIPPETS } from "./wallet-sdk";
-import { useState } from "react";
+import React, { useState } from "react";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { useChainSlug } from "hooks/chains/chainSlug";
+import { useSupportedChain } from "hooks/chains/configureChains";
 
 const useFactories = () => {
   const walletAddress = useAddress();
@@ -66,9 +67,9 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
   const [selectedLanguage, setSelectedLanguage] =
     useState<CodeEnvironment>("javascript");
   const snippet = WALLETS_SNIPPETS.find((s) => s.id === "smart-wallet");
-  const chainSlug = useChainSlug(
-    form.watch("chainAndFactoryAddress")?.split("-")[0],
-  );
+
+  const chainId = form.watch("chainAndFactoryAddress")?.split("-")[0];
+  const chainSlug = useChainSlug(chainId);
 
   return (
     <Flex flexDir="column" gap={16} mt={{ base: 2, md: 6 }}>
@@ -78,57 +79,58 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         </Heading>
         <Text>Easily add a smart wallet to your app.</Text>
       </Flex>
-      <FormControl as={Flex} flexDir={"column"} gap={12}>
-        <Flex flexDir="column" gap={4}>
+      <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
+        <FormControl as={Flex} flexDir="column" gap={4}>
           <Heading size="title.md" as="h1">
             Account Factories
           </Heading>
-          {/* Probably needs to be a dropdown instead */}
-          <RadioGroup
-            onChange={(value: "testnet" | "mainnet") => {
-              form.setValue("chainAndFactoryAddress", value, {
-                shouldValidate: true,
-                shouldDirty: true,
-              });
-            }}
-            value={form.watch("chainAndFactoryAddress")}
+
+          <Skeleton
+            isLoaded={!!factories.data || !factories.isFetching}
+            borderRadius="lg"
           >
-            <Stack direction="column" gap={4} mt={3}>
-              {factories.data?.map((f) => (
-                <Radio
-                  key={f.contract.address}
-                  value={`${f.contract.chainId}-${f.contract.address}`}
-                >
-                  {f.contract.chainId} - {f.contract.address}
-                </Radio>
+            <Select
+              isDisabled={(factories?.data || []).length === 0}
+              {...form.register("chainAndFactoryAddress")}
+              placeholder={
+                factories.isFetched && (factories?.data || []).length === 0
+                  ? "No factories found"
+                  : "Select factory"
+              }
+            >
+              {factories?.data?.map((f) => (
+                <FactoryOption key={f.contract.address} contract={f.contract} />
               ))}
-            </Stack>
-          </RadioGroup>
-        </Flex>
-        <Flex flexDir="column" gap={4}>
+            </Select>
+          </Skeleton>
+        </FormControl>
+        <FormControl as={Flex} flexDir="column" gap={4}>
           <Heading size="title.md" as="h1">
             Client IDs
           </Heading>
-          {/* Probably needs to be a dropdown instead */}
-          <RadioGroup
-            onChange={(value: "testnet" | "mainnet") => {
-              form.setValue("clientId", value, {
-                shouldValidate: true,
-                shouldDirty: true,
-              });
-            }}
-            value={form.watch("clientId")}
+
+          <Skeleton
+            isLoaded={!!keysQuery.data || !keysQuery.isFetching}
+            borderRadius="lg"
           >
-            <Stack direction="column" gap={4} mt={3}>
-              {keysQuery.data?.map((f) => (
-                <Radio key={f.key} value={f.key}>
+            <Select
+              isDisabled={(keysQuery?.data || []).length === 0}
+              {...form.register("chainAndFactoryAddress")}
+              placeholder={
+                keysQuery.isFetched && (keysQuery?.data || []).length === 0
+                  ? "No client IDs found"
+                  : "Select client ID"
+              }
+            >
+              {keysQuery?.data?.map((f) => (
+                <option key={f.key} value={f.key}>
                   {f.name} - {f.key}
-                </Radio>
+                </option>
               ))}
-            </Stack>
-          </RadioGroup>
-        </Flex>
-      </FormControl>
+            </Select>
+          </Skeleton>
+        </FormControl>
+      </Flex>
       <CodeSegment
         snippet={formatSnippet(snippet?.supportedLanguages as any, {
           contractAddress: form.watch("chainAndFactoryAddress")?.split("-")[1],
@@ -140,6 +142,27 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         hideTabs
       />
     </Flex>
+  );
+};
+
+interface FactoryOptionProps {
+  contract: {
+    address: string;
+    chainId: number;
+  };
+}
+
+const FactoryOption: React.FC<FactoryOptionProps> = ({ contract }) => {
+  const chainInfo = useSupportedChain(contract.chainId || -1);
+  const chainName = chainInfo?.name || "Unknown";
+
+  return (
+    <option
+      key={contract.address}
+      value={`${contract.chainId}-${contract.address}`}
+    >
+      {chainName} - {contract.address}
+    </option>
   );
 };
 
