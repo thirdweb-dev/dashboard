@@ -17,18 +17,19 @@ const DashboardWalletsConnectWallet: ThirdwebNextPage = () => {
       >
         <Flex flexDir="column" gap={4}>
           <Heading size="title.lg" as="h1">
-            ConnectWallet component
+            Connect Wallet
           </Heading>
           <Text>
-            One line of code to add a{" "}
+            Fully customizable
             <Link
               href="https://portal.thirdweb.com/react/react.connectwallet"
               color="blue.400"
               isExternal
             >
-              Connect Wallet UI component
+              Connect Wallet
             </Link>{" "}
-            to React, React Native and Unity apps.
+            to enable wallets in your app. React, React Native and Unity
+            supported.. iOS/Android coming soon!
           </Text>
           <ConnectWalletWithPreview />
         </Flex>
