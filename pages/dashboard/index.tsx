@@ -34,14 +34,14 @@ const GET_STARTED_SECTIONS = [
     description:
       "Store and retrieve files from decentralized storage at high speed.",
     image: require("public/assets/dashboard/home-storage.png"),
-    href: "/dashboard/storage",
+    href: "/dashboard/infrastructure/storage",
   },
   {
     title: "RPC Edge",
     description:
       "Connect to over 900 networks with a fast and reliable RPC Edge service.",
     image: require("public/assets/dashboard/home-rpc.png"),
-    href: "/dashboard/rpc",
+    href: "/dashboard/infrastructure/rpc-edge",
   },
 ];
 

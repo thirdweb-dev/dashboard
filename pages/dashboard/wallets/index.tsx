@@ -6,7 +6,7 @@ import { ThirdwebNextPage } from "utils/types";
 import { Heading } from "tw-components";
 import { NavigationCard } from "components/dashboard/NavigationCard";
 
-const TRACKING_CATEGORY = "dashboard";
+const TRACKING_CATEGORY = "dashboard-wallets";
 
 const CONNECT_SECTION = [
   {

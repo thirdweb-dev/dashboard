@@ -77,10 +77,11 @@ export enum PageId {
   // thirdweb.com/dashboard
   Dashboard = "dashboard",
 
-  // thirdweb.com/dashboard/storage
+  // thirdweb.com/dashboard/infrastructure
+  DashboardInfrastructure = "dashboard-infrastructure",
+  // thirdweb.com/dashboard/infrastructure/storage
   DashboardStorage = "dashboard-storage",
-
-  // thirdweb.com/dashboard/rpc
+  // thirdweb.com/dashboard/infastucture/rpc-edge
   DashboardRPC = "dashboard-rpc",
 
   // thirdweb.com/dashboard/wallets
