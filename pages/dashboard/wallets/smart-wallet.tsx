@@ -31,6 +31,7 @@ import { TWTable } from "components/shared/TWTable";
 import { getChainByChainId } from "@thirdweb-dev/chains";
 import { shortenIfAddress } from "utils/usedapp-external";
 import { useRouter } from "next/router";
+import { ContractCard } from "components/explore/contract-card";
 
 type ContractWithExtensions = {
   contract: ContractWithMetadata;
@@ -77,6 +78,12 @@ export type SmartWalletFormData = {
   clientId: string;
 };
 
+const accountFactories = [
+  "thirdweb.eth/AccountFactory",
+  "thirdweb.eth/DynamicAccountFactory",
+  "thirdweb.eth/ManagedAccountFactory",
+];
+
 const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
   const address = useAddress();
   const factories = useFactories();
@@ -121,16 +128,57 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           />
         </SimpleGrid>
       </Flex>
+      <Flex flexDir={"column"} gap={4}>
+        <Heading size="title.md" as="h1">
+          Deploy Account Factories
+        </Heading>
+        <Text>
+          Account Factory contracts do the heavy lifting of deploying individual
+          accounts for your users when needed.
+        </Text>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
+          {accountFactories.map((publishedContractId, idx) => {
+            const [publisher, contractId] = publishedContractId.split("/");
+            return (
+              <ContractCard
+                key={publishedContractId}
+                publisher={publisher}
+                contractId={contractId}
+                tracking={{
+                  source: "smart-wallet",
+                  itemIndex: `${idx}`,
+                }}
+              />
+            );
+          })}
+        </SimpleGrid>
+      </Flex>
       <FactoriesTable walletAddress={address} factoriesQuery={factories} />
       <Flex flexDir={"column"} gap={4}>
         <Heading size="title.md" as="h1">
-          Integrating Smart Wallets into your apps
+          Integrate Smart Wallets into your apps
         </Heading>
         <Text>
-          Use the following code to integrate smart wallets into your apps.
-          Connecting to a smart wallet from the app will only deploy the
-          individual account contracts for your users when they do their first
-          onchain transaction.
+          Use the following code to integrate smart wallets into your apps. This
+          will handle: from the app will only deploy the individual account
+          contracts for your users when they do their first onchain transaction.
+        </Text>
+        <UnorderedList>
+          <Text as={ListItem}>
+            Connecting your users to their smart wallet based of their personal
+            wallet (can be any wallet, including email or local wallets).
+          </Text>
+          <Text as={ListItem}>
+            Automatically deploy the individual account contracts for your users
+            when they do their first onchain transaction.
+          </Text>
+          <Text as={ListItem}>
+            Handle all gas costs via the thirdweb paymaster
+          </Text>
+        </UnorderedList>
+        <Text>
+          Select your deployed account factory and client ID to get a fully
+          funcitonal code snippet.
         </Text>
         <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
           <FormControl as={Flex} flexDir="column" gap={4}>
@@ -274,29 +322,36 @@ const FactoriesTable: React.FC<FactoryTableProps> = ({
       header: "Name",
       cell: (cell) => <Text>{cell.getValue()}</Text>,
     }),
-    columnHelper.accessor("address", {
-      header: "Address",
-      cell: (cell) => <Text>{shortenIfAddress(cell.getValue())}</Text>,
-    }),
     columnHelper.accessor("chainName", {
       header: "Chain",
       cell: (cell) => <Text>{cell.getValue()}</Text>,
+    }),
+    columnHelper.accessor("address", {
+      header: "Address",
+      cell: (cell) => <Text>{shortenIfAddress(cell.getValue())}</Text>,
     }),
   ];
 
   return (
     <Flex flexDir={"column"} gap={4}>
       <Heading size="title.md" as="h1">
-        Your Smart Wallet Factories
+        Your Account Factories
       </Heading>
-      <TWTable
-        title="deployed factories"
-        columns={columns}
-        data={data.data || []}
-        isLoading={factoriesQuery.isLoading}
-        isFetched={factoriesQuery.isFetched}
-        onRowClick={(row) => router.push(`/${row.chainId}/${row.address}`)}
-      />
+      <Text>Quickly access your deployed account factories.</Text>
+      {walletAddress ? (
+        <TWTable
+          title="deployed factories"
+          columns={columns}
+          data={data.data || []}
+          isLoading={!!walletAddress && factoriesQuery.isLoading}
+          isFetched={!!walletAddress && factoriesQuery.isFetched}
+          onRowClick={(row) => router.push(`/${row.chainId}/${row.address}`)}
+        />
+      ) : (
+        <Text color="inherit" fontStyle={"italic"}>
+          Connect your wallet to view your deployed factories.
+        </Text>
+      )}
     </Flex>
   );
 };
