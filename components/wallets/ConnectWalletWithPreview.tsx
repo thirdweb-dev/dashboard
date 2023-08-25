@@ -14,6 +14,7 @@ import {
   Tab,
   Grid,
   useBreakpointValue,
+  Switch,
 } from "@chakra-ui/react";
 import {
   ConnectWallet,
@@ -37,7 +38,7 @@ import {
   useConnectionStatus,
 } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
-import { CodeBlock, FormLabel, Text } from "tw-components";
+import { Button, CodeBlock, FormLabel, Text } from "tw-components";
 import { replaceIpfsUrl } from "lib/sdk";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
@@ -45,9 +46,9 @@ import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
 import estree from "prettier/plugins/estree";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
+import styles from "./styles.module.css";
 
-type Theme = "light" | "dark" | "default";
-type EnabledOrDisabled = "enabled" | "disabled";
+type Theme = "light" | "dark";
 type DefaultOrCustom = "default" | "custom";
 type WalletId =
   | "MetaMask"
@@ -197,10 +198,9 @@ export const ConnectWalletWithPreview: React.FC = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [dropdownPosition, setdropdownPosition] =
     useState<DefaultOrCustom>("default");
-  const [selectedTheme, setSelectedTheme] = useState<Theme>("default");
-  const [authEnabled, setAuthEnabled] = useState<EnabledOrDisabled>("disabled");
-  const [switchToActiveChain, setSwitchToActiveChain] =
-    useState<EnabledOrDisabled>("disabled");
+  const [selectedTheme, setSelectedTheme] = useState<Theme>("dark");
+  const [authEnabled, setAuthEnabled] = useState(false);
+  const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
   const [walletSelection, setWalletSelection] = useState<
     Record<WalletId, boolean>
   >({
@@ -234,23 +234,20 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 .map((walletId) => wallets[walletId].code)
                 .join(",")}]`
             : undefined,
-        authConfig:
-          authEnabled === "enabled"
-            ? `{ authUrl: "/api/auth", domain: "https://example.com" }`
-            : undefined,
+        authConfig: authEnabled
+          ? `{ authUrl: "/api/auth", domain: "https://example.com" }`
+          : undefined,
       },
       connectWallet: {
-        theme: selectedTheme === "default" ? undefined : `"${selectedTheme}"`,
+        theme: `"${selectedTheme}"`,
         btnTitle: btnTitle ? `"${btnTitle}"` : undefined,
         modalTitle: modalTitle ? `"${modalTitle}"` : undefined,
-        auth:
-          authEnabled === "enabled" ? "{ loginOptional: false }" : undefined,
+        auth: authEnabled ? "{ loginOptional: false }" : undefined,
         dropdownPosition:
           dropdownPosition === "custom"
             ? `{ align: "center", side: "bottom" }`
             : undefined,
-        switchToActiveChain:
-          switchToActiveChain === "enabled" ? "true" : undefined,
+        switchToActiveChain: switchToActiveChain ? "true" : undefined,
       },
     });
 
@@ -282,7 +279,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
         supportedWallets.length > 0 ? supportedWallets : undefined
       }
       authConfig={
-        authEnabled === "enabled"
+        authEnabled
           ? {
               domain: THIRDWEB_DOMAIN,
               authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
@@ -305,11 +302,11 @@ export const ConnectWalletWithPreview: React.FC = () => {
             }
           : undefined
       }
-      theme={selectedTheme === "default" ? undefined : selectedTheme}
+      theme={selectedTheme}
       btnTitle={btnTitle || undefined}
       // overrides
-      auth={{ loginOptional: authEnabled === "disabled" }}
-      switchToActiveChain={switchToActiveChain === "enabled"}
+      auth={{ loginOptional: !authEnabled }}
+      switchToActiveChain={switchToActiveChain}
     />
   );
 
@@ -320,15 +317,11 @@ export const ConnectWalletWithPreview: React.FC = () => {
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        pointerEvents: "none",
       }}
     >
       <ConnectModalInlinePreview
         walletIds={supportedWallets.map((x) => x.id)}
         modalTitle={modalTitle}
-        authEnabled={authEnabled}
-        btnTitle={btnTitle}
-        dropdownPosition={dropdownPosition}
         selectedTheme={selectedTheme}
         connectWalletButton={connectWalletButton}
       />
@@ -418,17 +411,43 @@ export const ConnectWalletWithPreview: React.FC = () => {
                   label="Theme"
                   description="Theme to use for ConnectWallet button and modal"
                 >
-                  <Select
-                    variant="filled"
-                    value={selectedTheme}
-                    onChange={(event) => {
-                      setSelectedTheme(event.target.value as Theme);
-                    }}
-                  >
-                    <option value="default">default (Dark)</option>
-                    <option value="dark">Dark</option>
-                    <option value="light">Light</option>
-                  </Select>
+                  <Flex gap={2}>
+                    <Button
+                      w={10}
+                      h={10}
+                      borderRadius="50%"
+                      aria-label="dark"
+                      border="3px solid"
+                      bg="black"
+                      _hover={{
+                        bg: "black",
+                      }}
+                      borderColor={
+                        selectedTheme === "dark" ? "blue.500" : "gray.800"
+                      }
+                      onClick={() => {
+                        setSelectedTheme("dark");
+                      }}
+                    ></Button>
+
+                    <Button
+                      w={10}
+                      h={10}
+                      bg="white"
+                      _hover={{
+                        bg: "white",
+                      }}
+                      borderRadius="50%"
+                      aria-label="light"
+                      border="3px solid"
+                      borderColor={
+                        selectedTheme === "light" ? "blue.500" : "gray.200"
+                      }
+                      onClick={() => {
+                        setSelectedTheme("light");
+                      }}
+                    ></Button>
+                  </Flex>
                 </FormItem>
 
                 {/* Button Title */}
@@ -488,16 +507,13 @@ export const ConnectWalletWithPreview: React.FC = () => {
                   label="Auth"
                   description="Enforce that users must sign in with their wallet using auth after connecting their wallet."
                 >
-                  <Select
-                    variant="filled"
-                    value={authEnabled}
-                    onChange={(event) => {
-                      setAuthEnabled(event.target.value as EnabledOrDisabled);
+                  <Switch
+                    size="lg"
+                    isChecked={authEnabled}
+                    onChange={() => {
+                      setAuthEnabled(!authEnabled);
                     }}
-                  >
-                    <option value="disabled">disabled</option>
-                    <option value="enabled">enabled</option>
-                  </Select>
+                  />
                 </FormItem>
 
                 {/* switch to active chain */}
@@ -505,18 +521,13 @@ export const ConnectWalletWithPreview: React.FC = () => {
                   label="Switch to activeChain"
                   description={`Specify whether to show a "Switch Network" button after the wallet is connected but it is not connected to the activeChain set in ThirdwebProvider`}
                 >
-                  <Select
-                    variant="filled"
-                    value={switchToActiveChain}
-                    onChange={(event) => {
-                      setSwitchToActiveChain(
-                        event.target.value as EnabledOrDisabled,
-                      );
+                  <Switch
+                    size="lg"
+                    isChecked={switchToActiveChain}
+                    onChange={() => {
+                      setSwitchToActiveChain(!switchToActiveChain);
                     }}
-                  >
-                    <option value="disabled">false</option>
-                    <option value="enabled">true</option>
-                  </Select>
+                  />
                 </FormItem>
               </Flex>
             </TabPanel>
@@ -583,10 +594,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
 const ConnectModalInlinePreview = (props: {
   walletIds: string[];
   modalTitle: string;
-  dropdownPosition: DefaultOrCustom;
   selectedTheme: Theme;
-  btnTitle: string;
-  authEnabled: EnabledOrDisabled;
   connectWalletButton: React.ReactNode;
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -626,12 +634,9 @@ const ConnectModalInlinePreview = (props: {
 
       {showInlineModal && (
         <ConnectModalInline
+          className={styles.ConnectModalInline}
           title={props.modalTitle}
-          theme={
-            (props.selectedTheme === "default"
-              ? undefined
-              : props.selectedTheme) || "dark"
-          }
+          theme={props.selectedTheme}
         />
       )}
 
@@ -643,8 +648,13 @@ const ConnectModalInlinePreview = (props: {
           border="1px solid"
           borderColor="backgroundHighlight"
           borderRadius="md"
+          maxW="400px"
         >
-          <Text> Can not show Modal UI for selected configuration</Text>
+          <Text mb={2}>
+            {" "}
+            Can not show Modal UI for selected configuration because the it
+            triggers wallet connection{" "}
+          </Text>
           <Text> See Live Preview instead </Text>
         </Box>
       )}
