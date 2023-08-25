@@ -25,11 +25,17 @@ export const ProductHoverMenu: React.FC<ProductHoverMenuProps> = ({
   const [hoveredSection, setHoveredSection] = useState<string>("contracts");
 
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = (label: string) => {
-    // Set a timer to call onOpen after 500ms
+    // Clear any pending close actions
+    if (closeTimeout.current) {
+      clearTimeout(closeTimeout.current);
+    }
+
     hoverTimeout.current = setTimeout(() => {
       setHoveredSection(label);
+      onOpen();
     }, 100);
   };
 
@@ -40,8 +46,13 @@ export const ProductHoverMenu: React.FC<ProductHoverMenuProps> = ({
   };
 
   const handleBoxLeave = () => {
-    onClose();
-    setHoveredSection("contracts");
+    closeTimeout.current = setTimeout(() => {
+      // We just check if the menu is open, and if so, close it.
+      if (isOpen) {
+        onClose();
+        setHoveredSection("contracts");
+      }
+    }, 100);
   };
 
   return (
@@ -64,7 +75,7 @@ export const ProductHoverMenu: React.FC<ProductHoverMenuProps> = ({
             p={0}
             position="absolute"
             top={0}
-            left={"-280px"}
+            left="-480px"
             borderColor="whiteAlpha.100"
             bg="black"
             borderWidth="2px"
@@ -94,7 +105,7 @@ export const ProductHoverMenu: React.FC<ProductHoverMenuProps> = ({
                 ))}
               </Flex>
               <Flex p={6}>
-                <Stack width={"660px"}>
+                <Stack width="660px">
                   <SimpleGrid columns={2} gap={4}>
                     {items
                       .filter((item) => item.section === hoveredSection)
