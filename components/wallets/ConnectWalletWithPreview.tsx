@@ -84,6 +84,7 @@ type WalletSetupOptions = {
     auth?: string;
     modalTitle?: string;
     dropdownPosition?: string;
+    switchToActiveChain?: string;
   };
 };
 
@@ -198,6 +199,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
     useState<DefaultOrCustom>("default");
   const [selectedTheme, setSelectedTheme] = useState<Theme>("default");
   const [authEnabled, setAuthEnabled] = useState<EnabledOrDisabled>("disabled");
+  const [switchToActiveChain, setSwitchToActiveChain] =
+    useState<EnabledOrDisabled>("disabled");
   const [walletSelection, setWalletSelection] = useState<
     Record<WalletId, boolean>
   >({
@@ -246,6 +249,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
           dropdownPosition === "custom"
             ? `{ align: "center", side: "bottom" }`
             : undefined,
+        switchToActiveChain:
+          switchToActiveChain === "enabled" ? "true" : undefined,
       },
     });
 
@@ -263,6 +268,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
     enabledWallets,
     modalTitle,
     selectedTheme,
+    switchToActiveChain,
   ]);
 
   const supportedWallets = enabledWallets.map(
@@ -270,6 +276,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
   );
   const withThirdwebProvider = (content: React.ReactNode) => (
     <ThirdwebProvider
+      activeChain="polygon"
       key={enabledWallets.join(",")}
       supportedWallets={
         supportedWallets.length > 0 ? supportedWallets : undefined
@@ -302,6 +309,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
       btnTitle={btnTitle || undefined}
       // overrides
       auth={{ loginOptional: authEnabled === "disabled" }}
+      switchToActiveChain={switchToActiveChain === "enabled"}
     />
   );
 
@@ -491,6 +499,25 @@ export const ConnectWalletWithPreview: React.FC = () => {
                     <option value="enabled">enabled</option>
                   </Select>
                 </FormItem>
+
+                {/* switch to active chain */}
+                <FormItem
+                  label="Switch to activeChain"
+                  description={`Specify whether to show a "Switch Network" button after the wallet is connected but it is not connected to the activeChain set in ThirdwebProvider`}
+                >
+                  <Select
+                    variant="filled"
+                    value={switchToActiveChain}
+                    onChange={(event) => {
+                      setSwitchToActiveChain(
+                        event.target.value as EnabledOrDisabled,
+                      );
+                    }}
+                  >
+                    <option value="disabled">false</option>
+                    <option value="enabled">true</option>
+                  </Select>
+                </FormItem>
               </Flex>
             </TabPanel>
           </TabPanels>
@@ -666,7 +693,7 @@ import {
 
 export default function App() {
   return (
-    <ThirdwebProvider clientId="YOUR_CLIENT_ID" ${renderProps(
+    <ThirdwebProvider activeChain="polygon" clientId="YOUR_CLIENT_ID" ${renderProps(
       options.thirdwebProvider,
     )} >
       <ConnectWallet ${renderProps(options.connectWallet)}   />
