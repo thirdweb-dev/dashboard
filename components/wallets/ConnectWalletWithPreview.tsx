@@ -5,9 +5,14 @@ import {
   GridItem,
   Input,
   Select,
-  SimpleGrid,
   Image,
   Tooltip,
+  Tabs,
+  TabList,
+  TabPanels,
+  TabPanel,
+  Tab,
+  Grid,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import {
@@ -27,15 +32,19 @@ import {
   bloctoWallet,
   frameWallet,
   rainbowWallet,
+  ConnectModalInline,
+  useDisconnect,
+  useConnectionStatus,
 } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
-import { CodeBlock, FormLabel, Heading } from "tw-components";
+import { CodeBlock, FormLabel, Text } from "tw-components";
 import { replaceIpfsUrl } from "lib/sdk";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
 import estree from "prettier/plugins/estree";
+import { ClientOnly } from "components/ClientOnly/ClientOnly";
 
 type Theme = "light" | "dark" | "default";
 type EnabledOrDisabled = "enabled" | "disabled";
@@ -78,21 +87,50 @@ type WalletSetupOptions = {
   };
 };
 
+const metamaskWalletConfig = metamaskWallet();
+const walletConnectConfig = walletConnect();
+const coinbaseWalletConfig = coinbaseWallet();
+const bloctoWalletConfig = bloctoWallet();
+const frameWalletConfig = frameWallet();
+const trustWalletConfig = trustWallet();
+const rainbowWalletConfig = rainbowWallet();
+
+const zerionWalletConfig = zerionWallet();
+
+const hideUIForWalletIds = new Set([
+  metamaskWalletConfig.id,
+  coinbaseWalletConfig.id,
+  walletConnectConfig.id,
+  bloctoWalletConfig.id,
+  frameWalletConfig.id,
+]);
+
+const hideUIForWalletIdsMobile = new Set([
+  zerionWalletConfig.id,
+  rainbowWalletConfig.id,
+  trustWalletConfig.id,
+]);
+
 const wallets: WalletInfo = {
   MetaMask: {
     code: "metamaskWallet()",
-    component: metamaskWallet(),
+    component: metamaskWalletConfig,
     import: "metamaskWallet",
   },
   Coinbase: {
     code: "coinbaseWallet()",
-    component: coinbaseWallet(),
+    component: coinbaseWalletConfig,
     import: "coinbaseWallet",
   },
   WalletConnect: {
     code: "walletConnect()",
-    component: walletConnect(),
+    component: walletConnectConfig,
     import: "walletConnect",
+  },
+  "Guest Mode": {
+    code: `localWallet()`,
+    component: localWallet(),
+    import: "localWallet",
   },
   "Email Wallet": {
     code: `paperWallet({ paperClientId: "YOUR_PAPER_CLIENT_ID" })`,
@@ -101,10 +139,12 @@ const wallets: WalletInfo = {
     }),
     import: "paperWallet",
   },
-  "Guest Mode": {
-    code: `localWallet()`,
-    component: localWallet(),
-    import: "localWallet",
+  Safe: {
+    code: `safeWallet({ personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
+    component: safeWallet({
+      personalWallets: [metamaskWallet(), coinbaseWallet(), walletConnect()],
+    }),
+    import: "safeWallet",
   },
   "Smart Wallet": {
     code: `smartWallet({ factoryAddress: "YOUR_FACTORY_ADDRESS", gasless: true, personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
@@ -113,13 +153,6 @@ const wallets: WalletInfo = {
       gasless: true,
     }),
     import: "smartWallet",
-  },
-  Safe: {
-    code: `safeWallet({ personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
-    component: safeWallet({
-      personalWallets: [metamaskWallet(), coinbaseWallet(), walletConnect()],
-    }),
-    import: "safeWallet",
   },
   "Magic Link": {
     code: `magicLink({ apiKey: "YOUR_MAGIC_API_KEY", oauthOptions: { providers: ["google", "facebook", "twitter", "apple"] }})`,
@@ -133,27 +166,27 @@ const wallets: WalletInfo = {
   },
   "Rainbow Wallet": {
     code: `rainbowWallet()`,
-    component: rainbowWallet(),
+    component: rainbowWalletConfig,
     import: "rainbowWallet",
   },
   "Trust Wallet": {
     code: `trustWallet()`,
-    component: trustWallet(),
+    component: trustWalletConfig,
     import: "trustWallet",
   },
   "Zerion Wallet": {
     code: "zerionWallet()",
-    component: zerionWallet(),
+    component: zerionWalletConfig,
     import: "zerionWallet",
   },
   "Blocto Wallet": {
     code: "bloctoWallet()",
-    component: bloctoWallet(),
+    component: bloctoWalletConfig,
     import: "bloctoWallet",
   },
   "Frame Wallet": {
     code: "frameWallet()",
-    component: frameWallet(),
+    component: frameWalletConfig,
     import: "frameWallet",
   },
 };
@@ -235,10 +268,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
   const supportedWallets = enabledWallets.map(
     (walletId) => wallets[walletId].component,
   );
-
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
-  const previewCode = (
+  const withThirdwebProvider = (content: React.ReactNode) => (
     <ThirdwebProvider
       key={enabledWallets.join(",")}
       supportedWallets={
@@ -253,36 +283,77 @@ export const ConnectWalletWithPreview: React.FC = () => {
           : undefined
       }
     >
-      <ConnectWallet
-        modalTitle={modalTitle}
-        dropdownPosition={
-          dropdownPosition === "custom"
-            ? {
-                align: "center",
-                side: "bottom",
-              }
-            : undefined
-        }
-        theme={selectedTheme === "default" ? undefined : selectedTheme}
-        btnTitle={btnTitle || undefined}
-        // overrides
-        auth={{ loginOptional: authEnabled === "disabled" }}
-      />
+      {content}
     </ThirdwebProvider>
   );
 
+  const connectWalletButton = (
+    <ConnectWallet
+      modalTitle={modalTitle}
+      dropdownPosition={
+        dropdownPosition === "custom"
+          ? {
+              align: "center",
+              side: "bottom",
+            }
+          : undefined
+      }
+      theme={selectedTheme === "default" ? undefined : selectedTheme}
+      btnTitle={btnTitle || undefined}
+      // overrides
+      auth={{ loginOptional: authEnabled === "disabled" }}
+    />
+  );
+
+  const componentPreview = withThirdwebProvider(
+    <ClientOnly
+      ssr={null}
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        pointerEvents: "none",
+      }}
+    >
+      <ConnectModalInlinePreview
+        walletIds={supportedWallets.map((x) => x.id)}
+        modalTitle={modalTitle}
+        authEnabled={authEnabled}
+        btnTitle={btnTitle}
+        dropdownPosition={dropdownPosition}
+        selectedTheme={selectedTheme}
+        connectWalletButton={connectWalletButton}
+      />
+    </ClientOnly>,
+  );
+  const connectWalletButtonPreview = withThirdwebProvider(connectWalletButton);
+
   return (
-    <SimpleGrid columns={{ base: 6, md: 12 }} gap={8} mt={8}>
+    <Grid
+      templateColumns={{
+        base: "1fr",
+        md: "1fr 1.5fr",
+      }}
+      gap={8}
+      mt={8}
+    >
       {/* left */}
-      <GridItem colSpan={6}>
-        <Flex direction="column" gap={5}>
-          <Box mb={4}>
+      <GridItem>
+        <Tabs isLazy>
+          <TabList>
+            <Tab> Wallets </Tab>
+            <Tab> Appearance </Tab>
+            <Tab> Features </Tab>
+          </TabList>
+
+          <TabPanels>
             {/* supportedWallets */}
-            <FormItem
-              label="Wallets"
-              description="Wallets to show in ConnectWallet modal"
-            >
-              <SimpleGrid columns={{ base: 6, md: 2 }} gap={2}>
+            <TabPanel p={0} pt={6}>
+              <Grid
+                flexWrap={"wrap"}
+                gap={[3, 4]}
+                templateColumns="1fr 1fr 1fr"
+              >
                 {Object.keys(wallets).map((key) => {
                   const walletId = key as WalletId;
                   const walletInfo = wallets[walletId];
@@ -290,11 +361,12 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
                   return (
                     <Flex
+                      direction="column"
+                      justifyContent="center"
                       key={walletId}
-                      borderRadius="lg"
+                      borderRadius="xl"
                       gap={3}
-                      bg={isChecked ? "heading" : "none"}
-                      color={isChecked ? "backgroundBody" : "none"}
+                      bg={isChecked ? "hsl(215.88deg 100% 60% / 15%)" : "none"}
                       cursor="pointer"
                       _hover={
                         !isChecked
@@ -302,14 +374,12 @@ export const ConnectWalletWithPreview: React.FC = () => {
                               bg: "inputBg",
                               borderColor: "heading",
                             }
-                          : undefined
+                          : {}
                       }
+                      transition="background 200ms ease"
                       border={"2px solid"}
-                      borderColor={
-                        isChecked ? "backgroundBody" : "inputBgHover"
-                      }
-                      px={3}
-                      py={2}
+                      borderColor={isChecked ? "blue.500" : "inputBgHover"}
+                      py={4}
                       alignItems="center"
                       onClick={() => {
                         setWalletSelection({
@@ -320,129 +390,238 @@ export const ConnectWalletWithPreview: React.FC = () => {
                       userSelect={"none"}
                     >
                       <Image
-                        width={7}
-                        height={7}
+                        width={12}
+                        height={12}
                         alt={walletInfo.component.meta.name}
                         src={replaceIpfsUrl(walletInfo.component.meta.iconURL)}
                       />{" "}
-                      {!isMobile && walletId}
+                      <Text color="inherit">{walletId}</Text>
                     </Flex>
                   );
                 })}
-              </SimpleGrid>
-            </FormItem>
-          </Box>
+              </Grid>
+            </TabPanel>
 
-          {/* theme */}
-          <FormItem
-            label="Theme"
-            description="Theme to use for ConnectWallet button and modal"
-          >
-            <Select
-              variant="filled"
-              value={selectedTheme}
-              onChange={(event) => {
-                setSelectedTheme(event.target.value as Theme);
-              }}
-            >
-              <option value="default">Default (Dark)</option>
-              <option value="dark">Dark</option>
-              <option value="light">Light</option>
-            </Select>
-          </FormItem>
+            {/* Appearance */}
+            <TabPanel p={0} pt={6}>
+              <Flex direction="column" gap={5}>
+                {/* theme */}
+                <FormItem
+                  label="Theme"
+                  description="Theme to use for ConnectWallet button and modal"
+                >
+                  <Select
+                    variant="filled"
+                    value={selectedTheme}
+                    onChange={(event) => {
+                      setSelectedTheme(event.target.value as Theme);
+                    }}
+                  >
+                    <option value="default">default (Dark)</option>
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                  </Select>
+                </FormItem>
 
-          {/* Button Title */}
-          <FormItem
-            label="Button Title"
-            description="Title of ConnectWallet button"
-          >
-            <Input
-              placeholder="Connect Wallet"
-              value={btnTitle}
-              onChange={(e) => {
-                setBtnTitle(e.target.value);
-              }}
-            />
-          </FormItem>
+                {/* Button Title */}
+                <FormItem
+                  label="Button Title"
+                  description="Title of ConnectWallet button"
+                >
+                  <Input
+                    placeholder="Connect Wallet"
+                    value={btnTitle}
+                    onChange={(e) => {
+                      setBtnTitle(e.target.value);
+                    }}
+                  />
+                </FormItem>
 
-          {/* Modal Title */}
-          <FormItem
-            label="Modal Title"
-            description="Title of ConnectWallet Modal"
-          >
-            <Input
-              placeholder="Choose your wallet"
-              value={modalTitle}
-              onChange={(e) => {
-                setModalTitle(e.target.value);
-              }}
-            />
-          </FormItem>
+                {/* Modal Title */}
+                <FormItem
+                  label="Modal Title"
+                  description="Title of ConnectWallet Modal"
+                >
+                  <Input
+                    placeholder="Choose your wallet"
+                    value={modalTitle}
+                    onChange={(e) => {
+                      setModalTitle(e.target.value);
+                    }}
+                  />
+                </FormItem>
 
-          {/* auth */}
-          <FormItem
-            label="Auth"
-            description="Enforce that users must sign in with their wallet using auth after connecting their wallet."
-          >
-            <Select
-              variant="filled"
-              value={authEnabled}
-              onChange={(event) => {
-                setAuthEnabled(event.target.value as EnabledOrDisabled);
-              }}
-            >
-              <option value="disabled">Disabled</option>
-              <option value="enabled">Enabled</option>
-            </Select>
-          </FormItem>
+                {/* dropdownPosition */}
+                <FormItem
+                  label="Dropdown Position"
+                  description="Specify where should the details dropdown menu open relative to the ConnectWallet details Button. The details button is rendered when wallet is connected."
+                >
+                  <Select
+                    variant="filled"
+                    value={dropdownPosition}
+                    onChange={(event) => {
+                      setdropdownPosition(
+                        event.target.value as DefaultOrCustom,
+                      );
+                    }}
+                  >
+                    <option value="default">default</option>
+                    <option value="custom">custom</option>
+                  </Select>
+                </FormItem>
+              </Flex>
+            </TabPanel>
 
-          {/* dropdownPosition */}
-          <FormItem
-            label="Dropdown Position"
-            description="Specify where should the details dropdown menu open relative to the ConnectWallet Button."
-          >
-            <Select
-              variant="filled"
-              value={dropdownPosition}
-              onChange={(event) => {
-                setdropdownPosition(event.target.value as DefaultOrCustom);
-              }}
-            >
-              <option value="default">Default</option>
-              <option value="custom">Custom</option>
-            </Select>
-          </FormItem>
-        </Flex>
+            {/* Features */}
+            <TabPanel p={0} pt={6}>
+              <Flex direction="column" gap={5}>
+                {/* auth */}
+                <FormItem
+                  label="Auth"
+                  description="Enforce that users must sign in with their wallet using auth after connecting their wallet."
+                >
+                  <Select
+                    variant="filled"
+                    value={authEnabled}
+                    onChange={(event) => {
+                      setAuthEnabled(event.target.value as EnabledOrDisabled);
+                    }}
+                  >
+                    <option value="disabled">disabled</option>
+                    <option value="enabled">enabled</option>
+                  </Select>
+                </FormItem>
+              </Flex>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </GridItem>
 
       {/* right */}
-      <GridItem colSpan={6} gap={4}>
-        {/* preview */}
-        <Flex gap={6} direction="column" align="flex-start">
-          <Flex direction="column" gap={2} w={"full"}>
-            <Heading size="label.md">Preview</Heading>
-            <Box
-              borderRadius="md"
-              w="full"
-              my="auto"
-              display="grid"
-              placeItems="center"
-              h="100px"
-              bg={selectedTheme === "light" ? "gray.300" : "black"}
-              border="1px solid"
-              borderColor={"backgroundHighlight"}
-            >
-              {previewCode}
-            </Box>
-          </Flex>
+      <GridItem>
+        <Tabs>
+          <TabList>
+            <Tab> UI </Tab>
+            <Tab> Live Preview </Tab>
+            <Tab> Code </Tab>
+          </TabList>
 
-          <Flex direction="column" gap={2} w={"full"}>
-            <Heading size="label.md">Code</Heading>
-            <CodeBlock language="jsx" code={code} />
-          </Flex>
-        </Flex>
+          <TabPanels>
+            <TabPanel p={0} pt={6}>
+              <Box
+                borderRadius="md"
+                w="full"
+                my="auto"
+                display="grid"
+                placeItems="center"
+                minH="700px"
+                py={8}
+                bg={selectedTheme === "light" ? "gray.300" : "black"}
+                border="1px solid"
+                borderColor={"backgroundHighlight"}
+                cursor="not-allowed"
+              >
+                {componentPreview}
+              </Box>
+            </TabPanel>
+
+            <TabPanel p={0} pt={6}>
+              <Box
+                borderRadius="md"
+                w="full"
+                my="auto"
+                display="grid"
+                placeItems="center"
+                minH="700px"
+                py={8}
+                bg={selectedTheme === "light" ? "gray.300" : "black"}
+                border="1px solid"
+                borderColor={"backgroundHighlight"}
+                cursor="not-allowed"
+              >
+                {connectWalletButtonPreview}
+              </Box>
+            </TabPanel>
+
+            <TabPanel p={0} pt={6}>
+              <CodeBlock language="jsx" code={code} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </GridItem>
-    </SimpleGrid>
+    </Grid>
+  );
+};
+
+const ConnectModalInlinePreview = (props: {
+  walletIds: string[];
+  modalTitle: string;
+  dropdownPosition: DefaultOrCustom;
+  selectedTheme: Theme;
+  btnTitle: string;
+  authEnabled: EnabledOrDisabled;
+  connectWalletButton: React.ReactNode;
+}) => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const disconnect = useDisconnect();
+  const walletIdsJoin = props.walletIds.join(",");
+  const connectionStatus = useConnectionStatus();
+
+  // if somehow the wallet is connected, disconnect it
+  useEffect(() => {
+    if (connectionStatus === "connected") {
+      disconnect();
+    }
+  }, [walletIdsJoin, disconnect, connectionStatus]);
+
+  let showInlineModal = true;
+
+  if (props.walletIds.length === 1) {
+    const walletId = props.walletIds[0];
+
+    if (hideUIForWalletIds.has(walletId)) {
+      showInlineModal = false;
+    }
+    if (isMobile && hideUIForWalletIdsMobile.has(walletId)) {
+      showInlineModal = false;
+    }
+  }
+
+  return (
+    <Flex
+      width="full"
+      justifyContent="flex-start"
+      alignItems="center"
+      flexDir="column"
+      gap={12}
+    >
+      {props.connectWalletButton}
+
+      {showInlineModal && (
+        <ConnectModalInline
+          title={props.modalTitle}
+          theme={
+            (props.selectedTheme === "default"
+              ? undefined
+              : props.selectedTheme) || "dark"
+          }
+        />
+      )}
+
+      {!showInlineModal && (
+        <Box
+          textAlign="center"
+          bg="backgroundBody"
+          p={3}
+          border="1px solid"
+          borderColor="backgroundHighlight"
+          borderRadius="md"
+        >
+          <Text> Can not show Modal UI for selected configuration</Text>
+          <Text> See Live Preview instead </Text>
+        </Box>
+      )}
+    </Flex>
   );
 };
 
