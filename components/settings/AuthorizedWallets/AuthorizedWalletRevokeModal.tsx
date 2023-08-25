@@ -4,10 +4,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
-  ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { Button, Text } from "tw-components";
+import { Button } from "tw-components";
 
 type AuthorizedWalletRevokeModalProps = {
   isOpen: boolean;
