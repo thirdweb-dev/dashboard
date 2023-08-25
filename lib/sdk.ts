@@ -9,6 +9,8 @@ import {
   StorageDownloader,
   IpfsUploader,
   ThirdwebStorage,
+  GatewayUrls,
+  SingleDownloadOptions,
 } from "@thirdweb-dev/storage";
 import {
   DASHBOARD_THIRDWEB_CLIENT_ID,
@@ -40,9 +42,17 @@ const defaultDownloader = new StorageDownloader({
 });
 
 class SpecialDownloader implements IStorageDownloader {
-  async download(url: string): Promise<Response> {
+  async download(
+    url: string,
+    gatewayUrls?: GatewayUrls,
+    options?: SingleDownloadOptions,
+  ): Promise<Response> {
     if (url.startsWith("ipfs://")) {
-      return defaultDownloader.download(url, { "ipfs://": [IPFS_GATEWAY_URL] });
+      return defaultDownloader.download(
+        url,
+        { "ipfs://": [IPFS_GATEWAY_URL] },
+        options,
+      );
     }
 
     // data urls we always want to just fetch directly
@@ -147,7 +157,8 @@ export function getSOLThirdwebSDK(
       clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
       secretKey: DASHBOARD_THIRDWEB_SECRET_KEY,
       uploadServerUrl: DASHBOARD_UPLOAD_URL,
-      gatewayUrls: [IPFS_GATEWAY_URL],
+      // purposefully using the ipfs.io gateway here because when we upload with gateway url we want to use the public gateway
+      gatewayUrls: ["https://ipfs.io/ipfs/{cid}/{path}"],
       uploader: new IpfsUploader({
         uploadWithGatewayUrl: true,
         clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
