@@ -630,7 +630,7 @@ const ConnectModalInlinePreview = (props: {
       flexDir="column"
       gap={12}
     >
-      {props.connectWalletButton}
+      <Box pointerEvents="none">{props.connectWalletButton}</Box>
 
       {showInlineModal && (
         <ConnectModalInline
