@@ -40,7 +40,7 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
 
 DashboardWalletsConnect.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="connect-wallet" />
+    <WalletsSidebar activePage="connect" />
     {page}
   </AppLayout>
 );

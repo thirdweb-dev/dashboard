@@ -14,7 +14,7 @@ const CONNECT_SECTION = [
     description:
       "Powerful UI component that enables you to integrate wallets into your app.",
     image: require("public/assets/dashboard/wallets/connect-wallet.png"),
-    href: "/dashboard/wallets/connect-wallet",
+    href: "/dashboard/wallets/connect",
   },
   {
     title: "Wallet SDK",
