@@ -345,9 +345,9 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 setSelectedTheme(event.target.value as Theme);
               }}
             >
-              <option value="default">default (dark)</option>
-              <option value="dark">dark</option>
-              <option value="light">light</option>
+              <option value="default">Default (Dark)</option>
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
             </Select>
           </FormItem>
 
@@ -391,8 +391,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 setAuthEnabled(event.target.value as EnabledOrDisabled);
               }}
             >
-              <option value="disabled">disabled</option>
-              <option value="enabled">enabled</option>
+              <option value="disabled">Disabled</option>
+              <option value="enabled">Enabled</option>
             </Select>
           </FormItem>
 
@@ -408,8 +408,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 setdropdownPosition(event.target.value as DefaultOrCustom);
               }}
             >
-              <option value="default">default</option>
-              <option value="custom">custom</option>
+              <option value="default">Default</option>
+              <option value="custom">Custom</option>
             </Select>
           </FormItem>
         </Flex>
