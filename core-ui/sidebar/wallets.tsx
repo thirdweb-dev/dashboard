@@ -8,19 +8,19 @@ type WalletsSidebarProps = {
 const links: Route[] = [
   { path: "/dashboard/wallets", title: "Overview", name: "overview" },
   {
-    path: "/dashboard/wallets/connect-wallet",
-    title: "Connect Wallet",
-    name: "connect-wallet",
-  },
-  {
-    path: "/dashboard/wallets/smart-wallet",
-    title: "Smart Wallet",
-    name: "smart-wallet",
+    path: "/dashboard/wallets/connect",
+    title: "Connect",
+    name: "connect",
   },
   {
     path: "/dashboard/wallets/wallet-sdk",
     title: "Wallet SDK",
     name: "wallet-sdk",
+  },
+  {
+    path: "/dashboard/wallets/smart-wallet",
+    title: "Smart Wallet",
+    name: "smart-wallet",
   },
 ];
 

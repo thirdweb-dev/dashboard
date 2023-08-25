@@ -8,7 +8,7 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text, Link } from "tw-components";
 
-const DashboardWalletsConnectWallet: ThirdwebNextPage = () => {
+const DashboardWalletsConnect: ThirdwebNextPage = () => {
   return (
     <Flex flexDir="column" gap={16} mt={{ base: 2, md: 6 }}>
       <ThirdwebProvider
@@ -38,13 +38,13 @@ const DashboardWalletsConnectWallet: ThirdwebNextPage = () => {
   );
 };
 
-DashboardWalletsConnectWallet.getLayout = (page, props) => (
+DashboardWalletsConnect.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
     <WalletsSidebar activePage="connect-wallet" />
     {page}
   </AppLayout>
 );
 
-DashboardWalletsConnectWallet.pageId = PageId.DashboardWalletsConnectWallet;
+DashboardWalletsConnect.pageId = PageId.DashboardWalletsConnect;
 
-export default DashboardWalletsConnectWallet;
+export default DashboardWalletsConnect;
