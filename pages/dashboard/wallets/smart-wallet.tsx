@@ -1,4 +1,12 @@
-import { Flex, FormControl, Select, Skeleton } from "@chakra-ui/react";
+import {
+  Flex,
+  FormControl,
+  ListItem,
+  Select,
+  SimpleGrid,
+  Skeleton,
+  UnorderedList,
+} from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
@@ -16,6 +24,7 @@ import React, { useState } from "react";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSupportedChain } from "hooks/chains/configureChains";
+import { ChakraNextImage } from "components/Image";
 
 const useFactories = () => {
   const walletAddress = useAddress();
@@ -74,10 +83,34 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
   return (
     <Flex flexDir="column" gap={16} mt={{ base: 2, md: 6 }}>
       <Flex flexDir="column" gap={4}>
-        <Heading size="title.lg" as="h1">
-          Smart Wallet
-        </Heading>
-        <Text>Easily add a smart wallet to your app.</Text>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={12}>
+          <Flex flexDir="column" gap={4}>
+            <Heading size="title.lg" as="h1">
+              Smart Wallet
+            </Heading>
+            <Text>
+              Easily integrate Account abstraction (ERC-4337) compliant smart
+              accounts into your apps.
+            </Text>
+            <Flex flexDir="column" gap={2}>
+              <Text>Once setup, your application will:</Text>
+              <UnorderedList>
+                <Text as={ListItem}>
+                  Let users connect to their smart wallet.
+                </Text>
+                <Text as={ListItem}>
+                  Automatically deploy the individual account contracts for your
+                  users when they do their first onchain transaction.
+                </Text>
+              </UnorderedList>
+            </Flex>
+          </Flex>
+          <ChakraNextImage
+            borderRadius="xl"
+            src={require("public/assets/dashboard/wallets/smart-wallet.png")}
+            alt=""
+          />
+        </SimpleGrid>
       </Flex>
       <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
         <FormControl as={Flex} flexDir="column" gap={4}>
