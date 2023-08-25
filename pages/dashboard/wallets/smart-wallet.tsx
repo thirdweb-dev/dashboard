@@ -12,9 +12,9 @@ import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
-import { useAddress } from "@thirdweb-dev/react";
+import { ContractWithMetadata, useAddress } from "@thirdweb-dev/react";
 import { useMultiChainRegContractList } from "@3rdweb-sdk/react";
-import { useQuery } from "@tanstack/react-query";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
@@ -26,6 +26,16 @@ import { useChainSlug } from "hooks/chains/chainSlug";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { ChakraNextImage } from "components/Image";
 import invariant from "tiny-invariant";
+import { createColumnHelper } from "@tanstack/react-table";
+import { TWTable } from "components/shared/TWTable";
+import { getChainByChainId } from "@thirdweb-dev/chains";
+import { shortenIfAddress } from "utils/usedapp-external";
+import { useRouter } from "next/router";
+
+type ContractWithExtensions = {
+  contract: ContractWithMetadata;
+  extensions: string[];
+};
 
 const useFactories = () => {
   const walletAddress = useAddress();
@@ -111,6 +121,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           />
         </SimpleGrid>
       </Flex>
+      <FactoriesTable walletAddress={address} factoriesQuery={factories} />
       <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
         <FormControl as={Flex} flexDir="column" gap={4}>
           <Heading size="title.md" as="h1">
@@ -176,6 +187,103 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         environment={selectedLanguage}
         setEnvironment={setSelectedLanguage}
         hideTabs
+      />
+    </Flex>
+  );
+};
+
+interface FactoryTableProps {
+  walletAddress: string | undefined;
+  factoriesQuery: UseQueryResult<ContractWithExtensions[], unknown>;
+}
+
+type FactoryTableRow = {
+  name: string;
+  address: string;
+  chainId: number;
+  chainName: string;
+  walletsDeployed: number;
+};
+const columnHelper = createColumnHelper<FactoryTableRow>();
+
+const useFactoryTableData = (
+  walletAddress: string | undefined,
+  factoriesQuery: FactoryTableProps["factoriesQuery"],
+) => {
+  return useQuery(
+    [
+      "dashboard-registry",
+      walletAddress,
+      "multichain-contract-list",
+      "factories",
+      "table",
+    ],
+    async () => {
+      const factories = factoriesQuery.data;
+      invariant(factories, "factories should be defined");
+
+      const rows = await Promise.all(
+        factories.map(async (f) => {
+          const chainInfo = getChainByChainId(f.contract.chainId || -1);
+          const chainName = chainInfo?.name || "Unknown";
+          return {
+            name:
+              "metadata" in f.contract
+                ? (await f.contract.metadata()).name
+                : "Unknown",
+            address: f.contract.address,
+            chainId: f.contract.chainId,
+            chainName,
+            walletsDeployed: 0,
+          };
+        }),
+      );
+      return rows;
+    },
+    {
+      enabled:
+        !!walletAddress &&
+        !!factoriesQuery.data &&
+        factoriesQuery.data.length > 0,
+    },
+  );
+};
+
+const FactoriesTable: React.FC<FactoryTableProps> = ({
+  walletAddress,
+  factoriesQuery,
+}) => {
+  const data = useFactoryTableData(walletAddress, factoriesQuery);
+  const router = useRouter();
+
+  const columns = [
+    columnHelper.accessor("name", {
+      header: "Name",
+      cell: (cell) => <Text>{cell.getValue()}</Text>,
+    }),
+
+    columnHelper.accessor("address", {
+      header: "Address",
+      cell: (cell) => <Text>{shortenIfAddress(cell.getValue())}</Text>,
+    }),
+    columnHelper.accessor("chainName", {
+      header: "Chain",
+      cell: (cell) => <Text>{cell.getValue()}</Text>,
+    }),
+  ];
+
+  return (
+    <Flex flexDir={"column"} gap={4}>
+      <Heading size="title.md" as="h1">
+        Your Smart Wallet Factories
+      </Heading>
+      <TWTable
+        title="deployed factories"
+        columns={columns}
+        data={data.data || []}
+        isLoading={factoriesQuery.isLoading}
+        isFetched={factoriesQuery.isFetched}
+        onRowClick={(row) => router.push(`/${row.chainId}/${row.address}`)}
       />
     </Flex>
   );
