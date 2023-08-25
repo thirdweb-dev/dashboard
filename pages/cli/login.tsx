@@ -1,17 +1,26 @@
-import { ConnectWallet } from "@3rdweb-sdk/react/components/connect-wallet";
 import { useAuthorizeWalletWithAccount } from "@3rdweb-sdk/react/hooks/useApi";
-import { Container, Flex, VStack } from "@chakra-ui/react";
+import {
+  Container,
+  Flex,
+  FormControl,
+  HStack,
+  Icon,
+  Input,
+  VStack,
+} from "@chakra-ui/react";
 import { useAddress, useAuth } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ReactNode, useState } from "react";
-import { Button, Heading, Link, Text } from "tw-components";
+import { PiWarningFill } from "react-icons/pi";
+import { Button, Card, FormLabel, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const LoginPage: ThirdwebNextPage = () => {
   const { payload } = useRouter().query;
   const { mutateAsync: authorizeWallet } = useAuthorizeWalletWithAccount();
+  const [deviceName, setDeviceName] = useState<string>("");
 
   const address = useAddress();
   const auth = useAuth();
@@ -39,7 +48,11 @@ const LoginPage: ThirdwebNextPage = () => {
       return null;
     }
     try {
-      await authorizeWallet(token);
+      const decodedToken = auth?.parseToken(token);
+      await authorizeWallet({
+        token,
+        deviceName: deviceName || decodedToken?.payload.sub,
+      });
       return token;
     } catch (e) {
       setLoading(false);
@@ -145,30 +158,57 @@ const LoginPage: ThirdwebNextPage = () => {
       <Flex
         justify="center"
         flexDir="column"
-        justifyContent="center"
-        alignItems="center"
         h="full"
-        gap={8}
+        alignItems="start"
+        textAlign="start"
       >
-        <VStack>
-          <Heading>
-            Select the account you want to authorize the CLI with
-          </Heading>
-          <small>
-            Note: By doing this, you are authorizing the CLI to bill you for
-            usage on the selected account.
-          </small>
-        </VStack>
-        <ConnectWallet ecosystem="evm" />
+        <Heading mb={4}>Link this device to your thirdweb account</Heading>
+        <Text mb={8}>
+          By clicking the button below you are authorizing this device to take
+          actions that will be linked to your thirdweb account. You will need to
+          sign a transaction with the wallet that you use with thirdweb. This
+          needs to be done only once per device. You can revoke device access
+          through the settings page.
+        </Text>
+        <FormControl mb={8}>
+          <FormLabel>
+            Device name{" "}
+            <Text fontWeight="thin" as="i">
+              (optional)
+            </Text>
+          </FormLabel>
+          <Text mb={2}>
+            This is useful to identify which devices have access to your account
+          </Text>
+          <Input
+            placeholder="Eg. work laptop"
+            value={deviceName}
+            onChange={(e) => setDeviceName(e.target.value)}
+            isDisabled={loading}
+            maxWidth={600}
+          />
+        </FormControl>
         <Button
+          variant="outline"
           isDisabled={!address}
           isLoading={loading}
           onClick={createToken}
-          colorScheme="green"
         >
-          Link CLI to Account
+          Authorize device
         </Button>
+        <Text as="i" my={2} mb={8} size="label.sm" fontWeight="thin">
+          Signing the transaction is gasless
+        </Text>
         {errorText}
+        <Card>
+          <HStack>
+            <Icon as={PiWarningFill} mr={2} fontSize={24} />
+            <Text fontSize="md" fontWeight="medium">
+              Do not authorize access if this link was sent to you, it could be
+              used to perform actions on your account without your knowledge.
+            </Text>
+          </HStack>
+        </Card>
       </Flex>
     </Container>
   );

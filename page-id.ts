@@ -112,6 +112,9 @@ export enum PageId {
   // thirdweb.com/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
 
+  // thirdweb.com/settings/account
+  SettingsAccount = "settings-account",
+
   // ---------------------------------------------------------------------------
   //  solutions pages
   // ---------------------------------------------------------------------------
