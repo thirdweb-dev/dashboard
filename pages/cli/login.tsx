@@ -1,6 +1,7 @@
 import { useAuthorizeWalletWithAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Container,
+  Divider,
   Flex,
   FormControl,
   HStack,
@@ -8,7 +9,7 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import { useAddress, useAuth } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress, useAuth } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
@@ -21,6 +22,7 @@ const LoginPage: ThirdwebNextPage = () => {
   const { payload } = useRouter().query;
   const { mutateAsync: authorizeWallet } = useAuthorizeWalletWithAccount();
   const [deviceName, setDeviceName] = useState<string>("");
+  const [rejected, setRejected] = useState<boolean>(false);
 
   const address = useAddress();
   const auth = useAuth();
@@ -42,6 +44,8 @@ const LoginPage: ThirdwebNextPage = () => {
     try {
       token = await auth?.generate(parsedPayload);
     } catch (e) {
+      setLoading(false);
+      setRejected(true);
       console.error("**** Failed to generate the token! ****\n", e);
     }
     if (!token) {
@@ -81,9 +85,13 @@ const LoginPage: ThirdwebNextPage = () => {
           `Something went wrong, please reach out to us on Discord: discord.gg/thirdweb.`,
         );
         // Tell the CLI that something went wrong.
-        await fetch(`http://localhost:8976/auth/callback?failed=true`, {
-          method: "POST",
-        });
+        try {
+          await fetch(`http://localhost:8976/auth/callback?failed=true`, {
+            method: "POST",
+          });
+        } catch (err) {
+          console.error(err);
+        }
         return null;
       }
       const response = await fetch(
@@ -111,9 +119,13 @@ const LoginPage: ThirdwebNextPage = () => {
           `Something went wrong: ${response.statusText}, please reach out to us on Discord: discord.gg/thirdweb.`,
         );
         // Tell the CLI that something went wrong.
-        await fetch(`http://localhost:8976/auth/callback?failed=true`, {
-          method: "POST",
-        });
+        try {
+          await fetch(`http://localhost:8976/auth/callback?failed=true`, {
+            method: "POST",
+          });
+        } catch (err) {
+          console.error(err);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -127,11 +139,30 @@ const LoginPage: ThirdwebNextPage = () => {
         </Text>,
       );
       // Tell the CLI that something went wrong.
-      await fetch(`http://localhost:8976/auth/callback?failed=true`, {
-        method: "POST",
-      });
+      try {
+        await fetch(`http://localhost:8976/auth/callback?failed=true`, {
+          method: "POST",
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
+
+  if (!address) {
+    return (
+      <Container maxW="lg">
+        <Card p={6} as={Flex} flexDir="column" gap={2}>
+          <Heading as="h2" size="title.sm">
+            Connect your wallet to get started
+          </Heading>
+          <Text>In order to continue, you need to sign-in with a wallet.</Text>
+          <Divider my={4} />
+          <ConnectWallet />
+        </Card>
+      </Container>
+    );
+  }
 
   if (success) {
     return (
@@ -146,6 +177,28 @@ const LoginPage: ThirdwebNextPage = () => {
         >
           <VStack>
             <Heading>Your device is now linked to your account.</Heading>
+            <Text fontSize="3xl">You may close this tab now.</Text>
+          </VStack>
+        </Flex>
+      </Container>
+    );
+  }
+
+  if (rejected) {
+    return (
+      <Container maxW="container.lg" overflow="hidden" h="full">
+        <Flex
+          justify="center"
+          flexDir="column"
+          justifyContent="center"
+          alignItems="center"
+          h="full"
+          gap={8}
+        >
+          <VStack>
+            <Heading>
+              You rejected the signature, your device was not linked.
+            </Heading>
             <Text fontSize="3xl">You may close this tab now.</Text>
           </VStack>
         </Flex>

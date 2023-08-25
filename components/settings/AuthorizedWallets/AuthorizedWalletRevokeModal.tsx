@@ -25,12 +25,6 @@ export const AuthorizedWalletRevokeModal: React.FC<
       <ModalContent>
         <ModalHeader>Are you sure you want to revoke this device?</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <Text>
-            If you want to grant access to this device again, you will have to
-            contact us.
-          </Text>
-        </ModalBody>
 
         <ModalFooter>
           <Button mr={3} onClick={onClose} variant="ghost">
