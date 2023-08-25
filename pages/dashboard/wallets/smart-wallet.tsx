@@ -191,7 +191,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
             <Heading size="label.lg">Account Factories</Heading>
 
             <Skeleton
-              isLoaded={!address || factories.isSuccess || factories.isFetched}
+              isLoaded={!address || factories.isFetched}
               borderRadius="lg"
             >
               <Select
@@ -200,7 +200,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
                 placeholder={
                   !address
                     ? "Not connected"
-                    : factories.isSuccess &&
+                    : factories.isFetched &&
                       (factories?.data || []).length === 0
                     ? "No factories found"
                     : "Select factory"
@@ -218,7 +218,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           <FormControl as={Flex} flexDir="column" gap={4}>
             <Heading size="label.lg">Client IDs</Heading>
             <Skeleton
-              isLoaded={!address || keysQuery.isSuccess || keysQuery.isFetched}
+              isLoaded={!address || keysQuery.isFetched}
               borderRadius="lg"
             >
               <Select
