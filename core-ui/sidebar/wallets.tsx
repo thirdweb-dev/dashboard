@@ -2,7 +2,7 @@ import { SidebarNav } from "./nav";
 import { Route } from "./types";
 
 type WalletsSidebarProps = {
-  activePage: "overview" | "connect-wallet" | "wallet-sdk" | "smart-wallet";
+  activePage: "overview" | "connect" | "wallet-sdk" | "smart-wallet";
 };
 
 const links: Route[] = [
