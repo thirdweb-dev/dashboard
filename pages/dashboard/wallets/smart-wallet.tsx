@@ -122,72 +122,85 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         </SimpleGrid>
       </Flex>
       <FactoriesTable walletAddress={address} factoriesQuery={factories} />
-      <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
-        <FormControl as={Flex} flexDir="column" gap={4}>
-          <Heading size="title.md" as="h1">
-            Account Factories
-          </Heading>
+      <Flex flexDir={"column"} gap={4}>
+        <Heading size="title.md" as="h1">
+          Integrating Smart Wallets into your apps
+        </Heading>
+        <Text>
+          Use the following code to integrate smart wallets into your apps.
+          Connecting to a smart wallet from the app will only deploy the
+          individual account contracts for your users when they do their first
+          onchain transaction.
+        </Text>
+        <Flex flexDir={{ base: "column", md: "row" }} gap={4}>
+          <FormControl as={Flex} flexDir="column" gap={4}>
+            <Heading size="label.lg">Account Factories</Heading>
 
-          <Skeleton
-            isLoaded={!address || factories.isSuccess || factories.isFetched}
-            borderRadius="lg"
-          >
-            <Select
-              isDisabled={!address || (factories?.data || []).length === 0}
-              {...form.register("chainAndFactoryAddress")}
-              placeholder={
-                !address
-                  ? "Not connected"
-                  : factories.isSuccess && (factories?.data || []).length === 0
-                  ? "No factories found"
-                  : "Select factory"
-              }
+            <Skeleton
+              isLoaded={!address || factories.isSuccess || factories.isFetched}
+              borderRadius="lg"
             >
-              {factories?.data?.map((f) => (
-                <FactoryOption key={f.contract.address} contract={f.contract} />
-              ))}
-            </Select>
-          </Skeleton>
-        </FormControl>
-        <FormControl as={Flex} flexDir="column" gap={4}>
-          <Heading size="title.md" as="h1">
-            Client IDs
-          </Heading>
-
-          <Skeleton
-            isLoaded={!address || keysQuery.isSuccess || keysQuery.isFetched}
-            borderRadius="lg"
-          >
-            <Select
-              isDisabled={!address || (keysQuery?.data || []).length === 0}
-              {...form.register("clientId")}
-              placeholder={
-                !address
-                  ? "Not connected"
-                  : keysQuery.isFetched && (keysQuery?.data || []).length === 0
-                  ? "No client IDs found"
-                  : "Select client ID"
-              }
+              <Select
+                isDisabled={!address || (factories?.data || []).length === 0}
+                {...form.register("chainAndFactoryAddress")}
+                placeholder={
+                  !address
+                    ? "Not connected"
+                    : factories.isSuccess &&
+                      (factories?.data || []).length === 0
+                    ? "No factories found"
+                    : "Select factory"
+                }
+              >
+                {factories?.data?.map((f) => (
+                  <FactoryOption
+                    key={f.contract.address}
+                    contract={f.contract}
+                  />
+                ))}
+              </Select>
+            </Skeleton>
+          </FormControl>
+          <FormControl as={Flex} flexDir="column" gap={4}>
+            <Heading size="label.lg">Client IDs</Heading>
+            <Skeleton
+              isLoaded={!address || keysQuery.isSuccess || keysQuery.isFetched}
+              borderRadius="lg"
             >
-              {keysQuery?.data?.map((f) => (
-                <option key={f.key} value={f.key}>
-                  {f.name} - {f.key}
-                </option>
-              ))}
-            </Select>
-          </Skeleton>
-        </FormControl>
+              <Select
+                isDisabled={!address || (keysQuery?.data || []).length === 0}
+                {...form.register("clientId")}
+                placeholder={
+                  !address
+                    ? "Not connected"
+                    : keysQuery.isFetched &&
+                      (keysQuery?.data || []).length === 0
+                    ? "No client IDs found"
+                    : "Select client ID"
+                }
+              >
+                {keysQuery?.data?.map((f) => (
+                  <option key={f.key} value={f.key}>
+                    {f.name} - {f.key}
+                  </option>
+                ))}
+              </Select>
+            </Skeleton>
+          </FormControl>
+        </Flex>
+        <CodeSegment
+          snippet={formatSnippet(snippet?.supportedLanguages as any, {
+            contractAddress: form
+              .watch("chainAndFactoryAddress")
+              ?.split("-")[1],
+            clientId: form.watch("clientId"),
+            chainName: chainSlug?.toString() || "ethereum",
+          })}
+          environment={selectedLanguage}
+          setEnvironment={setSelectedLanguage}
+          hideTabs
+        />
       </Flex>
-      <CodeSegment
-        snippet={formatSnippet(snippet?.supportedLanguages as any, {
-          contractAddress: form.watch("chainAndFactoryAddress")?.split("-")[1],
-          clientId: form.watch("clientId"),
-          chainName: chainSlug?.toString() || "ethereum",
-        })}
-        environment={selectedLanguage}
-        setEnvironment={setSelectedLanguage}
-        hideTabs
-      />
     </Flex>
   );
 };
@@ -261,7 +274,6 @@ const FactoriesTable: React.FC<FactoryTableProps> = ({
       header: "Name",
       cell: (cell) => <Text>{cell.getValue()}</Text>,
     }),
-
     columnHelper.accessor("address", {
       header: "Address",
       cell: (cell) => <Text>{shortenIfAddress(cell.getValue())}</Text>,
