@@ -112,11 +112,17 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
               <Text>Once setup, your application will:</Text>
               <UnorderedList>
                 <Text as={ListItem}>
-                  Let users connect to their smart wallet.
+                  Let users <b>connect to their smart wallet</b> using any
+                  personal wallet, including email and local wallets for easy
+                  onboarding.
                 </Text>
                 <Text as={ListItem}>
-                  Automatically deploy the individual account contracts for your
-                  users when they do their first onchain transaction.
+                  Automatically <b>deploy individual account contracts</b> for
+                  your users when they do their first onchain transaction.
+                </Text>
+                <Text as={ListItem}>
+                  <b>Handle all transaction gas costs</b> via the thirdweb
+                  paymaster.
                 </Text>
               </UnorderedList>
             </Flex>
@@ -173,7 +179,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
             when they do their first onchain transaction.
           </Text>
           <Text as={ListItem}>
-            Handle all gas costs via the thirdweb paymaster
+            Handle all transaction gas costs via the thirdweb paymaster.
           </Text>
         </UnorderedList>
         <Text>
@@ -246,7 +252,6 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           })}
           environment={selectedLanguage}
           setEnvironment={setSelectedLanguage}
-          hideTabs
         />
       </Flex>
     </Flex>
