@@ -192,9 +192,6 @@ async function publishedContractQueryFn(
   const polygonSdk = getEVMThirdwebSDK(
     Polygon.chainId,
     getDashboardChainRpc(Polygon),
-    {
-      secretKey: process.env.DASHBOARD_SECRET_KEY as string,
-    },
   );
 
   const publisherEns = await queryClient.fetchQuery(ensQuery(publisher));

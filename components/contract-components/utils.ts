@@ -47,7 +47,6 @@ export function getGaslessPolygonSDK(signer?: Signer) {
         },
         experimentalChainlessSupport: true,
       },
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
     },
     signer,
   );

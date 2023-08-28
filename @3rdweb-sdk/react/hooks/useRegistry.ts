@@ -44,9 +44,7 @@ export function useRemoveContractMutation() {
         const sdk = getEVMThirdwebSDK(
           chainId,
           getDashboardChainRpc(chain),
-          {
-            clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-          },
+          undefined,
           signer,
         );
 

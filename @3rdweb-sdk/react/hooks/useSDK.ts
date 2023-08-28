@@ -16,7 +16,6 @@ import {
   Polygon,
 } from "@thirdweb-dev/chains";
 import { ChainId, ContractWithMetadata } from "@thirdweb-dev/sdk/evm";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import {
   useSupportedChains,
   useSupportedChainsRecord,
@@ -38,9 +37,7 @@ export function useContractList(
       if (!walletAddress) {
         return;
       }
-      const sdk = getEVMThirdwebSDK(chainId, rpcUrl, {
-        clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-      });
+      const sdk = getEVMThirdwebSDK(chainId, rpcUrl);
       const contractList = await sdk.getContractList(walletAddress);
       return [...contractList].reverse();
     },
@@ -59,9 +56,6 @@ export function useMultiChainRegContractList(walletAddress?: string) {
       const polygonSDK = getEVMThirdwebSDK(
         Polygon.chainId,
         getDashboardChainRpc(Polygon),
-        {
-          secretKey: process.env.DASHBOARD_SECRET_KEY as string,
-        },
       );
       const contractList = await polygonSDK.getMultichainContractList(
         walletAddress,

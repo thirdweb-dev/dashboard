@@ -555,13 +555,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   if (chain) {
     try {
       // create the SDK on the chain
-      const sdk = getEVMThirdwebSDK(
-        chain.chainId,
-        getDashboardChainRpc(chain),
-        {
-          secretKey: process.env.DASHBOARD_SECRET_KEY as string,
-        },
-      );
+      const sdk = getEVMThirdwebSDK(chain.chainId, getDashboardChainRpc(chain));
       // get the contract
       const contract = await sdk.getContract(address);
       // extract the abi to detect extensions

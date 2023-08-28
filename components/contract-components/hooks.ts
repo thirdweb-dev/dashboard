@@ -54,7 +54,6 @@ import {
 } from "@thirdweb-dev/sdk/evm/zksync";
 import { walletIds } from "@thirdweb-dev/wallets";
 import { SnippetApiResponse } from "components/contract-tabs/code/types";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { providers, utils } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { isEnsName, resolveEns } from "lib/ens";
@@ -155,9 +154,6 @@ export function useContractPrePublishMetadata(uri: string, address?: string) {
       const sdk = getEVMThirdwebSDK(
         Polygon.chainId,
         getDashboardChainRpc(Polygon),
-        {
-          clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-        },
       );
       return await sdk
         ?.getPublisher()
@@ -192,13 +188,7 @@ async function fetchFullPublishMetadata(
 // Metadata POST publish, contains all the extra information filled in by the user
 export function useContractFullPublishMetadata(uri: string) {
   const contractIdIpfsHash = toContractIdIpfsHash(uri);
-  const sdk = getEVMThirdwebSDK(
-    Polygon.chainId,
-    getDashboardChainRpc(Polygon),
-    {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-    },
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, getDashboardChainRpc(Polygon));
   const queryClient = useQueryClient();
 
   return useQuery(
@@ -220,13 +210,7 @@ export function useContractFullPublishMetadata(uri: string) {
 }
 
 async function fetchPublisherProfile(publisherAddress?: string | null) {
-  const sdk = getEVMThirdwebSDK(
-    Polygon.chainId,
-    getDashboardChainRpc(Polygon),
-    {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-    },
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, getDashboardChainRpc(Polygon));
   invariant(publisherAddress, "address is not defined");
   return await sdk.getPublisher().getPublisherProfile(publisherAddress);
 }
@@ -286,13 +270,7 @@ export function useAllVersions(
   publisherAddress?: string,
   contractName?: string,
 ) {
-  const sdk = getEVMThirdwebSDK(
-    Polygon.chainId,
-    getDashboardChainRpc(Polygon),
-    {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-    },
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, getDashboardChainRpc(Polygon));
   return useQuery(
     ["all-releases", publisherAddress, contractName],
     () => fetchAllVersions(sdk, publisherAddress, contractName),
@@ -322,9 +300,7 @@ export function usePublishedContractsFromDeploy(
       const rpcUrl = chainInfo ? getDashboardChainRpc(chainInfo) : undefined;
 
       invariant(rpcUrl, "rpcUrl not defined");
-      const sdk = getEVMThirdwebSDK(cId, rpcUrl, {
-        clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-      });
+      const sdk = getEVMThirdwebSDK(cId, rpcUrl);
 
       const contractUri = await sdk
         .getPublisher()
@@ -333,9 +309,6 @@ export function usePublishedContractsFromDeploy(
       const polygonSdk = getEVMThirdwebSDK(
         Polygon.chainId,
         getDashboardChainRpc(Polygon),
-        {
-          clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-        },
       );
 
       return await polygonSdk
@@ -359,13 +332,7 @@ export async function fetchPublishedContractInfo(
 }
 
 export function usePublishedContractInfo(contract: PublishedContract) {
-  const sdk = getEVMThirdwebSDK(
-    Polygon.chainId,
-    getDashboardChainRpc(Polygon),
-    {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-    },
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, getDashboardChainRpc(Polygon));
   return useQuery(
     ["released-contract", contract],
     () => fetchPublishedContractInfo(sdk, contract),
@@ -627,14 +594,14 @@ export function useCustomContractDeployMutation(
         ) {
           const trustedForwarders = isZkSync
             ? zkGetDefaultTrustedForwarders(
-                chainId,
-                compilerMetadata.data?.name,
-              )
+              chainId,
+              compilerMetadata.data?.name,
+            )
             : await getTrustedForwarders(
-                sdk.getProvider(),
-                sdk.storage,
-                compilerMetadata.data?.name,
-              );
+              sdk.getProvider(),
+              sdk.storage,
+              compilerMetadata.data?.name,
+            );
 
           data.deployParams._trustedForwarders =
             JSON.stringify(trustedForwarders);
@@ -781,13 +748,7 @@ export type PublishedContractDetails = Awaited<
 >[number];
 
 export function usePublishedContractsQuery(address?: string) {
-  const sdk = getEVMThirdwebSDK(
-    Polygon.chainId,
-    getDashboardChainRpc(Polygon),
-    {
-      clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-    },
-  );
+  const sdk = getEVMThirdwebSDK(Polygon.chainId, getDashboardChainRpc(Polygon));
   const queryClient = useQueryClient();
   return useQuery<PublishedContractDetails[]>(
     ["published-contracts", address],
@@ -942,9 +903,7 @@ export function useCustomFactoryAbi(contractAddress: string, chainId: number) {
     ["custom-factory-abi", { contractAddress, chainId }],
     async () => {
       const chain = getChainByChainId(chainId);
-      const sdk = getEVMThirdwebSDK(chainId, getDashboardChainRpc(chain), {
-        clientId: DASHBOARD_THIRDWEB_CLIENT_ID,
-      });
+      const sdk = getEVMThirdwebSDK(chainId, getDashboardChainRpc(chain));
       invariant(sdk, "sdk is not defined");
 
       return (await sdk.getContract(contractAddress)).abi;
