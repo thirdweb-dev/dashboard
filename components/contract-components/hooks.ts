@@ -594,14 +594,14 @@ export function useCustomContractDeployMutation(
         ) {
           const trustedForwarders = isZkSync
             ? zkGetDefaultTrustedForwarders(
-              chainId,
-              compilerMetadata.data?.name,
-            )
+                chainId,
+                compilerMetadata.data?.name,
+              )
             : await getTrustedForwarders(
-              sdk.getProvider(),
-              sdk.storage,
-              compilerMetadata.data?.name,
-            );
+                sdk.getProvider(),
+                sdk.storage,
+                compilerMetadata.data?.name,
+              );
 
           data.deployParams._trustedForwarders =
             JSON.stringify(trustedForwarders);
