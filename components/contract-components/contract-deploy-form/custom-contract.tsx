@@ -135,6 +135,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
 
   const form = useForm<{
     addToDashboard: boolean;
+    deployDeterministic: boolean;
     deployParams: Record<string, string>;
     contractMetadata?: {
       name: string;
@@ -146,10 +147,12 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
   }>({
     defaultValues: {
       addToDashboard: shouldDefaulCheckAddToDashboard,
+      deployDeterministic: false,
       deployParams: parseDeployParams,
     },
     values: {
       addToDashboard: shouldDefaulCheckAddToDashboard,
+      deployDeterministic: false,
       deployParams: parseDeployParams,
     },
     resetOptions: {
@@ -472,6 +475,16 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
             .
           </Text>
         </Flex>
+        {fullPublishMetadata.data?.deployType === "standard" && (
+          <Flex alignItems="center" gap={3}>
+            <Checkbox
+              {...form.register("deployDeterministic")}
+              isChecked={form.watch("deployDeterministic")}
+            />
+
+            <Text mt={1}>Deploy deterministically via Create2</Text>
+          </Flex>
+        )}
 
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <NetworkSelectorButton

@@ -470,6 +470,7 @@ interface ContractDeployMutationParams {
   };
   address?: string;
   addToDashboard?: boolean;
+  deployDeterministic?: boolean;
 }
 
 export function useCustomContractDeployMutation(
@@ -497,6 +498,7 @@ export function useCustomContractDeployMutation(
   const deployContext = useDeployContextModal();
   const { data: transactions } = useTransactionsForDeploy(ipfsHash);
   const compilerMetadata = useContractPublishMetadataFromURI(ipfsHash);
+  const fullPublishMetadata = useContractFullPublishMetadata(ipfsHash);
 
   const walletConfig = useWalletConfig();
 
@@ -622,13 +624,22 @@ export function useCustomContractDeployMutation(
             chainId,
           );
         } else {
-          contractAddress = await sdk.deployer.deployContractFromUri(
-            ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
-            Object.values(data.deployParams),
-            {
-              forceDirectDeploy,
-            },
-          );
+          if (data.deployDeterministic) {
+            contractAddress =
+              await sdk.deployer.deployPublishedContractDeterministic(
+                fullPublishMetadata.data.name as string,
+                Object.values(data.deployParams),
+                fullPublishMetadata.data?.publisher as string,
+              );
+          } else {
+            contractAddress = await sdk.deployer.deployContractFromUri(
+              ipfsHash.startsWith("ipfs://") ? ipfsHash : `ipfs://${ipfsHash}`,
+              Object.values(data.deployParams),
+              {
+                forceDirectDeploy,
+              },
+            );
+          }
         }
 
         deployContext.nextStep();
