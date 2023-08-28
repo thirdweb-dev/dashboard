@@ -4,7 +4,6 @@ import {
   addContractToMultiChainRegistry,
   getGaslessPolygonSDK,
 } from "components/contract-components/utils";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { useAllChainsData } from "hooks/chains/allChains";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";

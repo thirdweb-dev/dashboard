@@ -6,7 +6,6 @@ import {
   ValidContractInstance,
   isExtensionEnabled,
 } from "@thirdweb-dev/sdk/evm";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 import { Signer } from "ethers";
 import { getDashboardChainRpc } from "lib/rpc";
 import { getEVMThirdwebSDK } from "lib/sdk";
