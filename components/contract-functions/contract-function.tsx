@@ -165,7 +165,7 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
   const isFunction = "stateMutability" in fnsOrEvents[0];
   const functionsWithExtension = useMemo(() => {
     let allFunctions = fnsOrEvents as AbiFunction[];
-    const results2: ExtensionFunctions[] = [];
+    const results: ExtensionFunctions[] = [];
     const processedFunctions: string[] = [];
     extensions.forEach((ext) => {
       let functions = extractFunctionsFromAbi(joinABIs(ext.abis as any));
@@ -176,16 +176,16 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
         (fn) => !processedFunctions.includes(fn.name),
       );
       processedFunctions.push(...functions.map((fn) => fn.name));
-      results2.push({
+      results.push({
         extension: ext.name as string,
         functions,
       });
     });
-    results2.push({
+    results.push({
       extension: "",
       functions: allFunctions,
     });
-    return results2;
+    return results;
   }, [fnsOrEvents, extensions]);
 
   const writeFunctions: ExtensionFunctions[] = useMemo(() => {
