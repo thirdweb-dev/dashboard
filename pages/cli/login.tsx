@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { ConnectWallet, useAddress, useAuth } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
 import { ReactNode, useState } from "react";
@@ -23,6 +24,7 @@ const LoginPage: ThirdwebNextPage = () => {
   const { mutateAsync: authorizeWallet } = useAuthorizeWalletWithAccount();
   const [deviceName, setDeviceName] = useState<string>("");
   const [rejected, setRejected] = useState<boolean>(false);
+  const trackEvent = useTrack();
 
   const address = useAddress();
   const auth = useAuth();
@@ -35,6 +37,12 @@ const LoginPage: ThirdwebNextPage = () => {
 
   const generateToken = async () => {
     if (!payload) {
+      trackEvent({
+        category: "cli-login",
+        action: "generate-token",
+        label: "error",
+        error: "payload not detected",
+      });
       console.error("**** Payload not detected from the url! ****");
       return null;
     }
@@ -46,6 +54,13 @@ const LoginPage: ThirdwebNextPage = () => {
     } catch (e) {
       setLoading(false);
       setRejected(true);
+      trackEvent({
+        category: "cli-login",
+        action: "generate-token",
+        label: "error",
+        reason: "failed to generate token",
+        error: e,
+      });
       console.error("**** Failed to generate the token! ****\n", e);
     }
     if (!token) {
@@ -57,15 +72,28 @@ const LoginPage: ThirdwebNextPage = () => {
         token,
         deviceName: deviceName || decodedToken?.payload.sub,
       });
+      trackEvent({
+        category: "cli-login",
+        action: "authorize-device",
+        label: "success",
+        deviceName,
+      });
       return token;
     } catch (e) {
       setLoading(false);
+      trackEvent({
+        category: "cli-login",
+        action: "authorize-device",
+        label: "error",
+        reason: "failed to authorize device",
+        error: e,
+      });
       console.error("**** Failed to authorize! ****\n", e);
       return null;
     }
   };
 
-  const createToken = async () => {
+  const authorizeDevice = async () => {
     const state = window.location.hash.replace("#", "");
     setLoading(true);
 
@@ -101,6 +129,11 @@ const LoginPage: ThirdwebNextPage = () => {
         },
       );
       if (response.ok) {
+        trackEvent({
+          category: "cli-login",
+          action: "return-token-to-CLI",
+          label: "success",
+        });
         setSuccess(true);
         setErrorText(undefined);
         setLoading(false);
@@ -118,6 +151,12 @@ const LoginPage: ThirdwebNextPage = () => {
         console.error(
           `Something went wrong: ${response.statusText}, please reach out to us on Discord: discord.gg/thirdweb.`,
         );
+        trackEvent({
+          category: "cli-login",
+          action: "generate-token",
+          label: "error",
+          reason: "Error talking to CLI server",
+        });
         // Tell the CLI that something went wrong.
         try {
           await fetch(`http://localhost:8976/auth/callback?failed=true`, {
@@ -245,7 +284,7 @@ const LoginPage: ThirdwebNextPage = () => {
           variant="outline"
           isDisabled={!address}
           isLoading={loading}
-          onClick={createToken}
+          onClick={authorizeDevice}
         >
           Authorize device
         </Button>

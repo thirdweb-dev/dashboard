@@ -12,6 +12,7 @@ import { ComponentWithChildren } from "types/component-with-children";
 import { AuthorizedWalletRevokeModal } from "./AuthorizedWalletRevokeModal";
 import { isAddress } from "ethers/lib/utils";
 import { shortenString } from "utils/usedapp-external";
+import { useTrack } from "hooks/analytics/useTrack";
 
 interface AuthorizedWalletsTableProps {
   authorizedWallets: AuthorizedWallet[];
@@ -25,6 +26,7 @@ export const AuthorizedWalletsTable: ComponentWithChildren<
   AuthorizedWalletsTableProps
 > = ({ authorizedWallets, isLoading, isFetched }) => {
   const toast = useToast();
+  const trackEvent = useTrack();
   const { mutateAsync: revokeAccess } = useRevokeAuthorizedWallet();
   const [revokeAuthorizedWalletId, setRevokeAuthorizedWalletId] = useState<
     string | undefined
@@ -94,9 +96,19 @@ export const AuthorizedWalletsTable: ComponentWithChildren<
     if (!revokeAuthorizedWalletId) {
       return;
     }
+    trackEvent({
+      category: "account-settings",
+      action: "revoke-access-to-device",
+      label: "attempt",
+    });
     try {
       await revokeAccess({
         authorizedWalletId: revokeAuthorizedWalletId,
+      });
+      trackEvent({
+        category: "account-settings",
+        action: "revoke-access-to-device",
+        label: "success",
       });
       toast({
         title: "Device revoked",
@@ -107,6 +119,12 @@ export const AuthorizedWalletsTable: ComponentWithChildren<
       });
     } catch (error) {
       console.error(error);
+      trackEvent({
+        category: "account-settings",
+        action: "revoke-access-to-device",
+        label: "error",
+        error,
+      });
       toast({
         title: "Something went wrong while revoking the device",
         description: "Please contact us at https://discord.gg/thirdweb",
