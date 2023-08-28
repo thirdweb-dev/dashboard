@@ -627,7 +627,7 @@ export function useCustomContractDeployMutation(
           if (data.deployDeterministic) {
             contractAddress =
               await sdk.deployer.deployPublishedContractDeterministic(
-                fullPublishMetadata.data.name as string,
+                fullPublishMetadata.data?.name as string,
                 Object.values(data.deployParams),
                 fullPublishMetadata.data?.publisher as string,
               );
