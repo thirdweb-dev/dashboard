@@ -4516,10 +4516,10 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/generated-abis/-/generated-abis-0.0.1.tgz#0d788d6aff0ac08f11e9eeb9ae4c8321845272a8"
   integrity sha512-vO9/3lSLO8smyyH1QVeYravSTzFwV1nf1C/Im1NBDPdH8//YvcbhtETGGiNfHWpyCvSi0vRYwvf+/7FKdwpDGQ==
 
-"@thirdweb-dev/react-core@0.0.0-dev-772acdb-20230829195437":
-  version "0.0.0-dev-772acdb-20230829195437"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-772acdb-20230829195437.tgz#4fb0a8fb7dab454be1119998526caaf76c6d617b"
-  integrity sha512-UDOuVo6UWhhOjyY3s0MMi9ncw/Fn2ZRz9NKYBSgn/1Nw6vfyiGkXMElExTvrKEjAPe3T8RcoPbNR82zc9QyWMA==
+"@thirdweb-dev/react-core@0.0.0-dev-772acdb-20230829200835":
+  version "0.0.0-dev-772acdb-20230829200835"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react-core/-/react-core-0.0.0-dev-772acdb-20230829200835.tgz#27ed2c099bc6bac5745329c693526930fa8ea7e3"
+  integrity sha512-t947zVP9yIvpemNfKbH0VYvKVGMLypMgNxCv3cRBclY1DENBj2mpFx+VYwNdkBC4tRgv/d8ynh/4crGOd69lFQ==
   dependencies:
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/auth" "3.2.39"
@@ -4531,10 +4531,10 @@
     mime "3.0.0"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/react@0.0.0-dev-772acdb-20230829195437":
-  version "0.0.0-dev-772acdb-20230829195437"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-772acdb-20230829195437.tgz#383fe3e827afbe642d834544a57697f33bfebc31"
-  integrity sha512-LD3/OslHFFGns62OM5qWGtcvQAzc1BXW9k+5c9CnDNgFzrc98GyOv2vlFqoRqbiwplroSYYEz7ZVQ8tOKvkGEg==
+"@thirdweb-dev/react@0.0.0-dev-772acdb-20230829200835":
+  version "0.0.0-dev-772acdb-20230829200835"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/react/-/react-0.0.0-dev-772acdb-20230829200835.tgz#9ffd571832e0d4bf7ffb6319f1a3231da0d10a58"
+  integrity sha512-OxZlxiFqJ3fYcDIRB0Gf3tivjzXN3bExlVIeCRYlVxhHuUYJoP7aGcsFsQ6yAXNIPKnQeCLrACbuABh4MHnpLg==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -4549,7 +4549,7 @@
     "@react-icons/all-files" "^4.1.0"
     "@tanstack/react-query" "^4.33.0"
     "@thirdweb-dev/chains" "0.1.50"
-    "@thirdweb-dev/react-core" "0.0.0-dev-772acdb-20230829195437"
+    "@thirdweb-dev/react-core" "0.0.0-dev-772acdb-20230829200835"
     "@thirdweb-dev/wallets" "1.1.22"
     buffer "^6.0.3"
     copy-to-clipboard "^3.3.2"
@@ -4581,10 +4581,10 @@
     yaml "^2.3.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/service-utils@0.5.0-nightly-0f027069-20230828164852":
-  version "0.5.0-nightly-0f027069-20230828164852"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.5.0-nightly-0f027069-20230828164852.tgz#54c724c4d3edfdc1bcc6c3efe73349f0556ca394"
-  integrity sha512-HshqgXxxMcoz4buHkAPJ5gSMk2qz4HvxXLval9VZLhu3pR2GoevBPAXhAz8837QF/MdEW0hQ1uJWezOKuTVehQ==
+"@thirdweb-dev/service-utils@0.0.0-dev-772acdb-20230829200835":
+  version "0.0.0-dev-772acdb-20230829200835"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.0.0-dev-772acdb-20230829200835.tgz#0c99c408ea35e8ec5b50cc14960738761fb0405a"
+  integrity sha512-wQEecyHec5eC4FMpTI4dwaSjBx+0sNPF1awCLFBn2YE4Ak3QL+07M9zjoEj2dEJKdmVwIMjBDpF8YsbV1YEIyw==
   dependencies:
     aws4fetch "^1.0.17"
     zod "^3.20.2"
