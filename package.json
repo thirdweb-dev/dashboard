@@ -40,7 +40,7 @@
     "@thirdweb-dev/auth": "0.0.0-dev-275d57d-20230828223937",
     "@thirdweb-dev/chain-icons": "^1.0.5",
     "@thirdweb-dev/chains": "^0.1.49-nightly-adec589e-20230828033808",
-    "@thirdweb-dev/react": "0.0.0-dev-275d57d-20230828223937",
+    "@thirdweb-dev/react": "0.0.0-dev-772acdb-20230829195437",
     "@thirdweb-dev/sdk": "0.0.0-dev-275d57d-20230828223937",
     "@thirdweb-dev/service-utils": "0.5.0-nightly-0f027069-20230828164852",
     "@vercel/og": "^0.5.4",
