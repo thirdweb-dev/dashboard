@@ -868,7 +868,7 @@ const DashboardWalletsWalletSDK: ThirdwebNextPage = () => {
 
 DashboardWalletsWalletSDK.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="wallet-sdk" />
+    <WalletsSidebar activePage="create" />
     {page}
   </AppLayout>
 );

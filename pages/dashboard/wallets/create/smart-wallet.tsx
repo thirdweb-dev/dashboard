@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
 import { formatSnippet } from "contract-ui/tabs/code/components/code-overview";
-import { WALLETS_SNIPPETS } from "./wallet-sdk";
+import { WALLETS_SNIPPETS } from ".";
 import React, { useState } from "react";
 import { CodeEnvironment } from "components/contract-tabs/code/types";
 import { useChainSlug } from "hooks/chains/chainSlug";
@@ -384,7 +384,7 @@ const FactoryOption: React.FC<FactoryOptionProps> = ({ contract }) => {
 
 DashboardWalletsSmartWallet.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="smart-wallet" />
+    <WalletsSidebar activePage="create" />
     {page}
   </AppLayout>
 );

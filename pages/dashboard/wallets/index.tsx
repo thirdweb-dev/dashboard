@@ -42,6 +42,15 @@ const CREATE_SECTION = [
   },
 ];
 
+const AUTH_SECTION = [
+  {
+    title: "Auth SDK",
+    description: "Prove wallet ownership to off-chain system.",
+    image: require("public/assets/dashboard/wallets/email-wallet.png"),
+    href: "https://portal.thirdweb.com/auth",
+  },
+];
+
 const DashboardWallets: ThirdwebNextPage = () => {
   return (
     <Flex
@@ -51,7 +60,7 @@ const DashboardWallets: ThirdwebNextPage = () => {
       w={{ base: "100%", xl: "70%" }}
     >
       <Flex flexDir="column" gap={4}>
-        <Heading size="title.md">Connect</Heading>
+        <Heading size="title.md">Connect Wallet</Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
           {CONNECT_SECTION.map(({ title, description, image, href }) => (
             <NavigationCard
@@ -69,6 +78,21 @@ const DashboardWallets: ThirdwebNextPage = () => {
         <Heading size="title.md">Create</Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
           {CREATE_SECTION.map(({ title, description, image, href }) => (
+            <NavigationCard
+              key={title}
+              title={title}
+              description={description}
+              image={image}
+              href={href}
+              TRACKING_CATEGORY={TRACKING_CATEGORY}
+            />
+          ))}
+        </SimpleGrid>
+      </Flex>
+      <Flex flexDir="column" gap={4}>
+        <Heading size="title.md">Auth</Heading>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
+          {AUTH_SECTION.map(({ title, description, image, href }) => (
             <NavigationCard
               key={title}
               title={title}

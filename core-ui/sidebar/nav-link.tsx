@@ -8,6 +8,7 @@ type NavLinkProps = {
   href: string;
   active?: boolean | undefined;
   loading?: boolean;
+  ml?: number | string;
 };
 
 export const NavLink: ComponentWithChildren<NavLinkProps> = ({
@@ -16,6 +17,7 @@ export const NavLink: ComponentWithChildren<NavLinkProps> = ({
   children,
   active,
   loading = false,
+  ml,
 }) => {
   const router = useRouter();
 
@@ -28,6 +30,7 @@ export const NavLink: ComponentWithChildren<NavLinkProps> = ({
       href={href}
       position="relative"
       pl={3}
+      ml={ml}
       borderLeftWidth="2px"
       _dark={{
         borderColor: isActive ? "primary.500" : "rgba(255,255,255,.07)",
