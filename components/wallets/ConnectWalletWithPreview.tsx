@@ -323,7 +323,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
         walletIds={supportedWallets.map((x) => x.id)}
         modalTitle={modalTitle}
         selectedTheme={selectedTheme}
-        connectWalletButton={connectWalletButton}
       />
     </ClientOnly>,
   );
@@ -539,8 +538,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
       <GridItem>
         <Tabs>
           <TabList>
-            <Tab> UI </Tab>
-            <Tab> Live Preview </Tab>
+            <Tab> Preview </Tab>
+
             <Tab> Code </Tab>
           </TabList>
 
@@ -557,27 +556,16 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 bg={selectedTheme === "light" ? "gray.300" : "gray.900"}
                 border="1px solid"
                 borderColor={"backgroundHighlight"}
-                cursor="not-allowed"
               >
-                {componentPreview}
-              </Box>
-            </TabPanel>
+                <Text color={"gray.700"}>Live Preview</Text>
+                <Box height={2} />
+                <Box>{connectWalletButtonPreview}</Box>
 
-            <TabPanel p={0} pt={6}>
-              <Box
-                borderRadius="md"
-                w="full"
-                my="auto"
-                display="grid"
-                placeItems="center"
-                minH="700px"
-                py={8}
-                bg={selectedTheme === "light" ? "gray.300" : "gray.900"}
-                border="1px solid"
-                borderColor={"backgroundHighlight"}
-                cursor="not-allowed"
-              >
-                {connectWalletButtonPreview}{" "}
+                <Box height={12} />
+
+                <Text color={"gray.700"}>Modal UI</Text>
+                <Box height={2} />
+                {componentPreview}
               </Box>
             </TabPanel>
 
@@ -595,7 +583,6 @@ const ConnectModalInlinePreview = (props: {
   walletIds: string[];
   modalTitle: string;
   selectedTheme: Theme;
-  connectWalletButton: React.ReactNode;
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const disconnect = useDisconnect();
@@ -629,9 +616,8 @@ const ConnectModalInlinePreview = (props: {
       alignItems="center"
       flexDir="column"
       gap={12}
+      cursor="not-allowed"
     >
-      <Box pointerEvents="none">{props.connectWalletButton}</Box>
-
       {showInlineModal && (
         <ConnectModalInline
           className={styles.ConnectModalInline}
