@@ -1,5 +1,7 @@
 import { useAuthorizeWalletWithAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import {
+  Alert,
+  AlertIcon,
   Container,
   Divider,
   Flex,
@@ -7,14 +9,17 @@ import {
   HStack,
   Icon,
   Input,
+  Switch,
+  Tooltip,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { ConnectWallet, useAddress, useAuth } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import { PageId } from "page-id";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { PiWarningFill } from "react-icons/pi";
 import { Button, Card, FormLabel, Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
@@ -25,6 +30,14 @@ const LoginPage: ThirdwebNextPage = () => {
   const [deviceName, setDeviceName] = useState<string>("");
   const [rejected, setRejected] = useState<boolean>(false);
   const trackEvent = useTrack();
+  const [isBrave, setIsBrave] = useState<boolean>(false);
+  const [hasRemovedShield, setHasRemovedShield] = useState<boolean>(false);
+
+  const detectBrave = async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - brave is not in the types
+    return (navigator?.brave && (await navigator?.brave.isBrave())) || false;
+  };
 
   const address = useAddress();
   const auth = useAuth();
@@ -34,6 +47,12 @@ const LoginPage: ThirdwebNextPage = () => {
     undefined,
   );
   const [success, setSuccess] = useState<boolean>(false);
+
+  useEffect(() => {
+    detectBrave().then((res) => {
+      setIsBrave(res);
+    });
+  }, []);
 
   const generateToken = async () => {
     if (!payload) {
@@ -254,13 +273,49 @@ const LoginPage: ThirdwebNextPage = () => {
         alignItems="start"
         textAlign="start"
       >
+        {isBrave && (
+          <Alert status="error" mb={4} rounded="lg">
+            <AlertIcon />
+            <Flex
+              direction="column"
+              alignContent="start"
+              textAlign="start"
+              alignItems="start"
+              ml={4}
+            >
+              <Text fontSize="2xs" fontWeight="bold">
+                We detected you&apos;re on Brave. Please make sure to turn off
+                the Brave shields otherwise the authorization will fail.
+              </Text>
+              <Text mb={2} color="blue.200" cursor="pointer">
+                <Tooltip
+                  placement="top"
+                  label={`Click on the Brave icon in the top address bar => Click on the toggle to disable the shields.`}
+                >
+                  How to remove the shield
+                </Tooltip>
+              </Text>
+              <HStack>
+                <FormLabel htmlFor="email-alerts" mb="0">
+                  I have disabled the Brave shields
+                </FormLabel>
+                <Switch
+                  id="email-alerts"
+                  isChecked={hasRemovedShield}
+                  onChange={() => {
+                    setHasRemovedShield(!hasRemovedShield);
+                  }}
+                />
+              </HStack>
+            </Flex>
+          </Alert>
+        )}
         <Heading mb={4}>Link this device to your thirdweb account</Heading>
         <Text mb={8}>
           By clicking the button below you are authorizing this device to take
           actions that will be linked to your thirdweb account. You will need to
           sign a transaction with the wallet that you use with thirdweb. This
-          needs to be done only once per device. You can revoke device access
-          through the settings page.
+          needs to be done only once per device.
         </Text>
         <FormControl mb={8}>
           <FormLabel>
@@ -270,7 +325,8 @@ const LoginPage: ThirdwebNextPage = () => {
             </Text>
           </FormLabel>
           <Text mb={2}>
-            This is useful to identify which devices have access to your account
+            This is useful to identify which devices have access to your
+            account, you can revoke device access through the settings page.
           </Text>
           <Input
             placeholder="Eg. work laptop"
@@ -282,12 +338,17 @@ const LoginPage: ThirdwebNextPage = () => {
         </FormControl>
         <Button
           variant="outline"
-          isDisabled={!address}
+          isDisabled={!address || (isBrave && !hasRemovedShield)}
           isLoading={loading}
           onClick={authorizeDevice}
         >
           Authorize device
         </Button>
+        {isBrave && !hasRemovedShield && (
+          <Text color="red" size="label.md" mt={4}>
+            Please acknowledge that you have disabled the Brave shields above.
+          </Text>
+        )}
         <Text as="i" my={2} mb={8} size="label.sm" fontWeight="thin">
           Signing the transaction is gasless
         </Text>
