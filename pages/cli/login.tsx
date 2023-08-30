@@ -9,6 +9,9 @@ import {
   HStack,
   Icon,
   Input,
+  List,
+  ListItem,
+  OrderedList,
   Switch,
   Tooltip,
   VStack,
@@ -273,8 +276,8 @@ const LoginPage: ThirdwebNextPage = () => {
         textAlign="start"
       >
         {isBrave && (
-          <Alert status="error" mb={4} rounded="lg">
-            <AlertIcon />
+          <Alert status="error" mb={4} rounded="lg" fontWeight="bold">
+            <AlertIcon alignSelf="start" />
             <Flex
               direction="column"
               alignContent="start"
@@ -282,18 +285,16 @@ const LoginPage: ThirdwebNextPage = () => {
               alignItems="start"
               ml={4}
             >
-              <Text fontSize="2xs" fontWeight="bold">
+              <Text fontSize="2xs" fontWeight="bold" color="-moz-initial">
                 We detected you&apos;re on Brave. Please make sure to turn off
                 the Brave shields otherwise the authorization will fail.
               </Text>
-              <Text mb={2} color="blue.200" cursor="pointer">
-                <Tooltip
-                  placement="top"
-                  label={`Click on the Brave icon in the top address bar => Click on the toggle to disable the shields.`}
-                >
-                  How to remove the shield
-                </Tooltip>
-              </Text>
+              <OrderedList ml={4} my={2}>
+                <ListItem>
+                  Click on the Brave icon in the top address bar.
+                </ListItem>
+                <ListItem>Click on the toggle to disable the shields.</ListItem>
+              </OrderedList>
               <HStack>
                 <FormLabel htmlFor="email-alerts" mb="0">
                   I have disabled the Brave shields
