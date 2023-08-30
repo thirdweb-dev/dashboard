@@ -562,7 +562,7 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                         isChecked={form.watch("signerAsSalt")}
                       />
 
-                      <Text mt={1}>Add Signer Address To Salt</Text>
+                      <Text mt={1}>Add signer address to salt</Text>
                     </Flex>
                   </FormControl>
                 )}
