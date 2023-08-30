@@ -554,7 +554,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 placeItems="center"
                 minH="700px"
                 py={8}
-                bg={selectedTheme === "light" ? "gray.300" : "black"}
+                bg={selectedTheme === "light" ? "gray.300" : "gray.900"}
                 border="1px solid"
                 borderColor={"backgroundHighlight"}
                 cursor="not-allowed"
@@ -572,7 +572,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 placeItems="center"
                 minH="700px"
                 py={8}
-                bg={selectedTheme === "light" ? "gray.300" : "black"}
+                bg={selectedTheme === "light" ? "gray.300" : "gray.900"}
                 border="1px solid"
                 borderColor={"backgroundHighlight"}
                 cursor="not-allowed"
