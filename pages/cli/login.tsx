@@ -12,7 +12,6 @@ import {
   Switch,
   Tooltip,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import { ConnectWallet, useAddress, useAuth } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
