@@ -289,16 +289,16 @@ const LoginPage: ThirdwebNextPage = () => {
                 We detected you&apos;re on Brave. Please make sure to turn off
                 the Brave shields otherwise the authorization will fail.
               </Text>
-              <OrderedList ml={4} my={2}>
+              <OrderedList ml={4} my={2} fontWeight="bold">
                 <ListItem>
                   Click on the Brave icon in the top address bar.
                 </ListItem>
                 <ListItem>Click on the toggle to disable the shields.</ListItem>
               </OrderedList>
               <HStack>
-                <FormLabel htmlFor="email-alerts" mb="0">
-                  I have disabled the Brave shields
-                </FormLabel>
+                <Text fontWeight="bold" color="-moz-initial">
+                  I have disabled the Brave shields:
+                </Text>
                 <Switch
                   id="email-alerts"
                   isChecked={hasRemovedShield}
