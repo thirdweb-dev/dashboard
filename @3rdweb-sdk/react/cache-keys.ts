@@ -7,6 +7,16 @@ export const networkKeys = {
   multiChainRegistry: ["multi-chain-registry"] as const,
 };
 
+export const accountKeys = {
+  all: ["account"] as const,
+  wallet: (walletAddress: string) =>
+    [...accountKeys.all, walletAddress] as const,
+  me: (walletAddress: string) =>
+    [...accountKeys.wallet(walletAddress), "me"] as const,
+  usage: (walletAddress: string) =>
+    [...accountKeys.wallet(walletAddress), "usage"] as const,
+};
+
 export const apiKeys = {
   all: ["api"] as const,
   wallet: (walletAddress: string) => [...apiKeys.all, walletAddress] as const,
@@ -14,6 +24,14 @@ export const apiKeys = {
     [...apiKeys.wallet(walletAddress), "keys"] as const,
   key: (id: string, walletAddress: string) =>
     [...apiKeys.keys(walletAddress), id] as const,
+};
+
+export const authorizedWallets = {
+  all: ["authorizedWallets"] as const,
+  wallet: (walletAddress: string) =>
+    [...authorizedWallets.all, walletAddress] as const,
+  authorizedWallets: (walletAddress: string) =>
+    [...authorizedWallets.wallet(walletAddress), "authorizedWallets"] as const,
 };
 
 export const contractKeys = {
