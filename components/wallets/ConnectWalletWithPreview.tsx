@@ -577,7 +577,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 borderColor={"backgroundHighlight"}
                 cursor="not-allowed"
               >
-                {connectWalletButtonPreview}
+                {connectWalletButtonPreview}{" "}
               </Box>
             </TabPanel>
 
