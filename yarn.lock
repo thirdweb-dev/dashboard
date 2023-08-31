@@ -4599,10 +4599,10 @@
     yaml "^2.3.1"
     zod "^3.20.2"
 
-"@thirdweb-dev/service-utils@0.5.0-nightly-0f027069-20230828164852":
-  version "0.5.0-nightly-0f027069-20230828164852"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.5.0-nightly-0f027069-20230828164852.tgz#54c724c4d3edfdc1bcc6c3efe73349f0556ca394"
-  integrity sha512-HshqgXxxMcoz4buHkAPJ5gSMk2qz4HvxXLval9VZLhu3pR2GoevBPAXhAz8837QF/MdEW0hQ1uJWezOKuTVehQ==
+"@thirdweb-dev/service-utils@0.4.4-nightly-a00cbaf7-20230830231713":
+  version "0.4.4-nightly-a00cbaf7-20230830231713"
+  resolved "https://registry.yarnpkg.com/@thirdweb-dev/service-utils/-/service-utils-0.4.4-nightly-a00cbaf7-20230830231713.tgz#b57d921de79ef5994f4acd983ff3fc406060ab33"
+  integrity sha512-78ytH1QCA1RYA8MtB/gNy+0zHivfyQ5TIVGxVxYrYZfwQ3f3tIrUB86rpa0xCKE0jyGvjQ+C/bOnu+o0XZKreg==
   dependencies:
     aws4fetch "^1.0.17"
     zod "^3.20.2"
