@@ -45,15 +45,6 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
     }
   };
 
-  const renderLinks = (linkList: Route[], level = 0) => {
-    return linkList.map(({ path, title: linkTitle, children }) => (
-      <Flex direction="column" key={path} ml={`${level * 20}px`}>
-        <NavLink href={path}>{linkTitle}</NavLink>
-        {children && children.length > 0 && renderLinks(children, level + 1)}
-      </Flex>
-    ));
-  };
-
   return (
     <SideBarTunnel>
       <>
@@ -103,7 +94,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                     {title}
                   </Text>
                 </Flex>
-                {!navLink ? renderLinks(links) : null}
+                {!navLink
+                  ? links.map(({ path, title: linkTitle }) => (
+                      <NavLink key={path} href={path}>
+                        {linkTitle}
+                      </NavLink>
+                    ))
+                  : null}
               </Flex>
             ) : (
               sections
