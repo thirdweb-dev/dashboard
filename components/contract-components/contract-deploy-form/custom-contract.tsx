@@ -498,18 +498,24 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
           </Text>
         </Flex>
 
-        <Flex gap={4} flexDir="column">
-          <Accordion allowToggle>
-            <AccordionItem borderColor="borderColor" borderBottom="none">
-              <AccordionButton px={0}>
-                <Text flex="1" textAlign="left">
-                  Advanced deployment options
-                </Text>
-                <AccordionIcon />
-              </AccordionButton>
+        {fullPublishMetadata.data?.deployType === "standard" && (
+          <Flex gap={4} flexDir="column">
+            <Accordion allowToggle>
+              <AccordionItem borderColor="borderColor" borderBottom="none">
+                <AccordionButton px={0}>
+                  <Text flex="1" textAlign="left">
+                    Advanced deployment options
+                  </Text>
+                  <AccordionIcon />
+                </AccordionButton>
 
-              <AccordionPanel py={4} px={0} as={Flex} flexDir="column" gap={4}>
-                {fullPublishMetadata.data?.deployType === "standard" && (
+                <AccordionPanel
+                  py={4}
+                  px={0}
+                  as={Flex}
+                  flexDir="column"
+                  gap={4}
+                >
                   <Flex alignItems="center" gap={3}>
                     <Checkbox
                       {...form.register("deployDeterministic")}
@@ -539,39 +545,40 @@ const CustomContractForm: React.FC<CustomContractFormProps> = ({
                     </Tooltip>
                     {/* <Text mt={1}></Text> */}
                   </Flex>
-                )}
-                {isCreate2Deployment && (
-                  <FormControl>
-                    <Flex alignItems="center" my={1}>
-                      <FormLabel mb={0} flex="1" display="flex">
-                        <Flex alignItems="baseline" gap={1}>
-                          Optional Salt Input
-                          <Text size="label.sm">(saltForCreate2)</Text>
-                        </Flex>
-                      </FormLabel>
-                      <FormHelperText mt={0}>string</FormHelperText>
-                    </Flex>
-                    <SolidityInput
-                      defaultValue={""}
-                      solidityType={"string"}
-                      {...form.register(`saltForCreate2`)}
-                    />
-                    <Flex alignItems="center" gap={3}>
-                      <Checkbox
-                        {...form.register("signerAsSalt")}
-                        isChecked={form.watch("signerAsSalt")}
-                      />
 
-                      <Text mt={1}>
-                        Include deployer wallet address in salt (recommended)
-                      </Text>
-                    </Flex>
-                  </FormControl>
-                )}
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        </Flex>
+                  {isCreate2Deployment && (
+                    <FormControl>
+                      <Flex alignItems="center" my={1}>
+                        <FormLabel mb={0} flex="1" display="flex">
+                          <Flex alignItems="baseline" gap={1}>
+                            Optional Salt Input
+                            <Text size="label.sm">(saltForCreate2)</Text>
+                          </Flex>
+                        </FormLabel>
+                        <FormHelperText mt={0}>string</FormHelperText>
+                      </Flex>
+                      <SolidityInput
+                        defaultValue={""}
+                        solidityType={"string"}
+                        {...form.register(`saltForCreate2`)}
+                      />
+                      <Flex alignItems="center" gap={3}>
+                        <Checkbox
+                          {...form.register("signerAsSalt")}
+                          isChecked={form.watch("signerAsSalt")}
+                        />
+
+                        <Text mt={1}>
+                          Include deployer wallet address in salt (recommended)
+                        </Text>
+                      </Flex>
+                    </FormControl>
+                  )}
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </Flex>
+        )}
 
         <Flex gap={4} direction={{ base: "column", md: "row" }}>
           <NetworkSelectorButton
