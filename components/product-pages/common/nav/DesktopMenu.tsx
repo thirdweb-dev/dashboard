@@ -169,6 +169,14 @@ export const PRODUCTS: NavCardProps[] = [
     icon: require("public/assets/product-icons/payments.png"),
     section: "payments",
   },
+  {
+    name: "Connect Wallet",
+    label: "connect-wallet",
+    description: "Connect any wallet to your app",
+    link: "/connect-wallet",
+    icon: require("public/assets/product-icons/wallet-sdk.png"),
+    section: "wallets",
+  },
 ];
 
 export const SOLUTIONS: NavCardProps[] = [

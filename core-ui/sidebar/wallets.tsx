@@ -2,27 +2,25 @@ import { SidebarNav } from "./nav";
 import { Route } from "./types";
 
 type WalletsSidebarProps = {
-  activePage: "overview" | "connect" | "create" | "smart-wallet";
+  activePage: "overview" | "connect-wallet" | "wallet-sdk" | "smart-wallet";
 };
 
 const links: Route[] = [
   { path: "/dashboard/wallets", title: "Overview", name: "overview" },
   {
-    path: "/dashboard/wallets/connect",
-    title: "Connect",
-    name: "connect",
+    path: "/dashboard/wallets/connect-wallet",
+    title: "Connect Wallet",
+    name: "connect-wallet",
   },
   {
-    path: "/dashboard/wallets/create",
-    title: "Create",
-    name: "create",
-    children: [
-      {
-        path: "/dashboard/wallets/create/smart-wallet",
-        title: "Smart Wallet",
-        name: "smart-wallet",
-      },
-    ],
+    path: "/dashboard/wallets/smart-wallet",
+    title: "Smart Wallet",
+    name: "smart-wallet",
+  },
+  {
+    path: "/dashboard/wallets/wallet-sdk",
+    title: "Wallet SDK",
+    name: "wallet-sdk",
   },
 ];
 

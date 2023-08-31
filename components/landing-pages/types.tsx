@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import React from "react";
 
 export type Guide = {
   title: string;
@@ -14,5 +15,5 @@ export interface LandingDesktopMobileImageProps {
 
 export interface LandingSectionHeadingProps {
   blackToWhiteTitle: string;
-  title: string;
+  title: string | React.ReactNode;
 }

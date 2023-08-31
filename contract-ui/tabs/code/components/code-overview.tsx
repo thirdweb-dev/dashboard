@@ -49,7 +49,7 @@ import { constants } from "ethers";
 import { useSupportedChain } from "hooks/chains/configureChains";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { useRouter } from "next/router";
-import { WALLETS_SNIPPETS } from "pages/dashboard/wallets/create";
+import { WALLETS_SNIPPETS } from "pages/dashboard/wallets/wallet-sdk";
 import { useMemo, useState } from "react";
 import { Button, Card, Heading, Link, Text, TrackedLink } from "tw-components";
 

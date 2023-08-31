@@ -28,6 +28,9 @@ export enum PageId {
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
+  // thirdweb.com/wallets/connect-wallet
+  ConnectWalletLanding = "connect-wallet-landing",
+
   // thirdweb.com/cli/login
   CliLoginPage = "cli-login-page",
 

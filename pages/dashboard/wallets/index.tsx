@@ -10,11 +10,11 @@ const TRACKING_CATEGORY = "dashboard-wallets";
 
 const CONNECT_SECTION = [
   {
-    title: "Connect Wallet Button",
+    title: "Connect Wallet",
     description:
       "Powerful UI component that enables you to integrate wallets into your app.",
     image: require("public/assets/dashboard/wallets/connect-wallet.png"),
-    href: "/dashboard/wallets/connect",
+    href: "/dashboard/wallets/connect-wallet",
   },
   {
     title: "Wallet SDK",
@@ -46,7 +46,7 @@ const AUTH_SECTION = [
   {
     title: "Auth SDK",
     description: "Prove wallet ownership to off-chain system.",
-    image: require("public/assets/dashboard/wallets/email-wallet.png"),
+    image: require("public/assets/dashboard/auth/auth.png"),
     href: "https://portal.thirdweb.com/auth",
   },
 ];
@@ -110,7 +110,7 @@ const DashboardWallets: ThirdwebNextPage = () => {
 
 DashboardWallets.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="smart-wallet" />
+    <WalletsSidebar activePage="overview" />
     {page}
   </AppLayout>
 );
