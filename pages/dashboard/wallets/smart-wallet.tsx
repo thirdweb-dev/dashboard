@@ -11,7 +11,15 @@ import { AppLayout } from "components/app-layouts/app";
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Card, Heading, Link, LinkButton, Text } from "tw-components";
+import {
+  Card,
+  Heading,
+  Link,
+  LinkButton,
+  Text,
+  TrackedLink,
+  TrackedLinkButton,
+} from "tw-components";
 import { ContractWithMetadata, useAddress } from "@thirdweb-dev/react";
 import { useMultiChainRegContractList } from "@3rdweb-sdk/react";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
@@ -252,13 +260,15 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         <UnorderedList>
           <Text as={ListItem}>
             On testnets, the only requirement is to obtain a{" "}
-            <Link
+            <TrackedLink
               color={"blue.500"}
               href="/dashboard/settings/api-keys"
+              category="smart-wallet"
+              label="api-key"
               isExternal
             >
               free client id
-            </Link>{" "}
+            </TrackedLink>{" "}
             to get started.
           </Text>
           <Text as={ListItem}>
@@ -278,15 +288,17 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         <Text>
           We continuously add support for new chains. Looking for a chain not
           listed below?{" "}
-          <Link
+          <TrackedLink
             color={"blue.500"}
+            category="smart-wallet"
+            label="chain-request"
             href={`https://docs.google.com/forms/d/e/1FAIpQLSffFeEw7rPGYA8id7LwL22-W3irT6siXE5EHgD3xrxmxpLKCw/viewform?entry.948574526=${
               address || ""
             }`}
             isExternal
           >
             Contact us.
-          </Link>
+          </TrackedLink>
         </Text>
         <Flex flexDir="row" gap={12}>
           <Flex flexDir="column" gap={2}>
@@ -319,13 +331,15 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           accounts gas-efficiently and provide on chain data about your user
           base.
           <br />
-          <Link
+          <TrackedLink
             color={"blue.500"}
+            category="smart-wallet"
+            label="account-factory-blog"
             isExternal
             href="https://blog.thirdweb.com/smart-contract-deep-dive-building-smart-wallets-for-individuals-and-teams/"
           >
             Read about our different account factory contracts.
-          </Link>
+          </TrackedLink>
         </Text>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={5}>
           {accountFactories.map((publishedContractId, idx) => {
@@ -336,7 +350,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
                 publisher={publisher}
                 contractId={contractId}
                 tracking={{
-                  source: "smart-wallet",
+                  source: "smart-wallet-tab",
                   itemIndex: `${idx}`,
                 }}
               />
@@ -351,7 +365,9 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         </Heading>
         <Text>Get started quickly by cloning one of the starter templates</Text>
         <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-          <Link
+          <TrackedLink
+            category="smart-wallet"
+            label="node-template"
             href="https://github.com/thirdweb-example/smart-wallet-script"
             isExternal
             _hover={{ textDecor: "none" }}
@@ -384,8 +400,10 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
                 </Text>
               </Flex>
             </Card>
-          </Link>
-          <Link
+          </TrackedLink>
+          <TrackedLink
+            category="smart-wallet"
+            label="react-template"
             href="https://github.com/thirdweb-example/smart-wallet-react"
             isExternal
             _hover={{ textDecor: "none" }}
@@ -418,7 +436,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
                 </Text>
               </Flex>
             </Card>
-          </Link>
+          </TrackedLink>
         </SimpleGrid>
         <Text>
           Or use the following code to integrate smart wallets into your apps.
@@ -508,7 +526,9 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           environment={selectedLanguage}
           setEnvironment={setSelectedLanguage}
         />
-        <LinkButton
+        <TrackedLinkButton
+          category="smart-wallet"
+          label="docs-wallets"
           href="https://portal.thirdweb.com/wallet/smart-wallet"
           colorScheme="primary"
           variant={"ghost"}
@@ -517,7 +537,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           isExternal
         >
           View Smart Wallet documentation
-        </LinkButton>
+        </TrackedLinkButton>
       </Flex>
       <Flex flexDir={"column"} gap={4}>
         <Heading size="title.md" as="h1">
@@ -525,37 +545,45 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
         </Heading>
         <Text>
           Once setup, you can use the thirdweb{" "}
-          <Link
+          <TrackedLink
+            category="smart-wallet"
+            label="docs-typescript"
             href="https://portal.thirdweb.com/typescript"
             color={"blue.500"}
             isExternal
           >
             TypeScript
-          </Link>
+          </TrackedLink>
           ,{" "}
-          <Link
+          <TrackedLink
+            category="smart-wallet"
+            label="docs-react"
             href="https://portal.thirdweb.com/react"
             color={"blue.500"}
             isExternal
           >
             React
-          </Link>
+          </TrackedLink>
           ,{" "}
-          <Link
+          <TrackedLink
+            category="smart-wallet"
+            label="docs-react-native"
             href="https://portal.thirdweb.com/react-native"
             color={"blue.500"}
             isExternal
           >
             React Native
-          </Link>{" "}
+          </TrackedLink>{" "}
           and{" "}
-          <Link
+          <TrackedLink
+            category="smart-wallet"
+            label="docs-unity"
             href="https://portal.thirdweb.com/unity"
             color={"blue.500"}
             isExternal
           >
             Unity
-          </Link>{" "}
+          </TrackedLink>{" "}
           SDKs to deploy contracts, perform transactions, and manipulate wallets
           just like you would with any other wallet.
         </Text>
