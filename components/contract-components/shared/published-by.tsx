@@ -26,8 +26,9 @@ export const PublishedBy: React.FC<PublishedByProps> = ({
   const address = useAddress();
 
   const publishedContractToShow = useMemo(() => {
-    const reversedPublishedContractsFromDeploy =
-      [...(publishedContractsFromDeploy.data || [])]?.reverse() || [];
+    const reversedPublishedContractsFromDeploy = [
+      ...(publishedContractsFromDeploy.data || []),
+    ].reverse();
 
     return (
       reversedPublishedContractsFromDeploy.find(
