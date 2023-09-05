@@ -120,6 +120,7 @@ export const NetworkSelectorButton: React.FC<NetworkSelectorButtonProps> = ({
 
       {showNetworkSelector && (
         <NetworkSelector
+          modalSize="compact"
           theme={colorMode}
           chains={chains}
           recentChains={filteredRecentlyUsedChains}
