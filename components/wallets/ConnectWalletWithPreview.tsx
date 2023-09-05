@@ -86,6 +86,7 @@ type WalletSetupOptions = {
     modalTitle?: string;
     dropdownPosition?: string;
     switchToActiveChain?: string;
+    modalSize?: string;
   };
 };
 
@@ -195,6 +196,7 @@ const wallets: WalletInfo = {
 
 export const ConnectWalletWithPreview: React.FC = () => {
   const [btnTitle, setBtnTitle] = useState("");
+  const [modalSize, setModalSize] = useState<"compact" | "wide">("wide");
   const [modalTitle, setModalTitle] = useState("");
   const [dropdownPosition, setdropdownPosition] =
     useState<DefaultOrCustom>("default");
@@ -248,6 +250,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
             ? `{ align: "center", side: "bottom" }`
             : undefined,
         switchToActiveChain: switchToActiveChain ? "true" : undefined,
+        modalSize: `"${modalSize}"`,
       },
     });
 
@@ -266,15 +269,17 @@ export const ConnectWalletWithPreview: React.FC = () => {
     modalTitle,
     selectedTheme,
     switchToActiveChain,
+    modalSize,
   ]);
 
   const supportedWallets = enabledWallets.map(
     (walletId) => wallets[walletId].component,
   );
+
   const withThirdwebProvider = (content: React.ReactNode) => (
     <ThirdwebProvider
       activeChain="polygon"
-      key={enabledWallets.join(",")}
+      key={enabledWallets.join(",") + modalSize}
       supportedWallets={
         supportedWallets.length > 0 ? supportedWallets : undefined
       }
@@ -293,6 +298,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   const connectWalletButton = (
     <ConnectWallet
+      modalSize={modalSize}
       modalTitle={modalTitle}
       dropdownPosition={
         dropdownPosition === "custom"
@@ -320,21 +326,24 @@ export const ConnectWalletWithPreview: React.FC = () => {
       }}
     >
       <ConnectModalInlinePreview
+        modalSize={modalSize}
         walletIds={supportedWallets.map((x) => x.id)}
         modalTitle={modalTitle}
         selectedTheme={selectedTheme}
       />
     </ClientOnly>,
   );
+
   const connectWalletButtonPreview = withThirdwebProvider(connectWalletButton);
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   return (
     <Grid
       templateColumns={{
         base: "1fr",
-        md: "1fr 1.5fr",
       }}
-      gap={8}
+      gap={10}
       mt={8}
     >
       {/* left */}
@@ -352,7 +361,11 @@ export const ConnectWalletWithPreview: React.FC = () => {
               <Grid
                 flexWrap={"wrap"}
                 gap={[3, 4]}
-                templateColumns="1fr 1fr 1fr"
+                templateColumns={{
+                  base: "1fr 1fr",
+                  sm: "1fr 1fr 1fr",
+                  md: "1fr 1fr 1fr 1fr 1fr",
+                }}
               >
                 {Object.keys(wallets).map((key) => {
                   const walletId = key as WalletId;
@@ -361,8 +374,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
                   return (
                     <Flex
-                      direction="column"
-                      justifyContent="center"
                       key={walletId}
                       borderRadius="xl"
                       gap={3}
@@ -379,7 +390,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                       transition="background 200ms ease"
                       border={"2px solid"}
                       borderColor={isChecked ? "blue.500" : "inputBgHover"}
-                      py={4}
+                      p={3}
                       alignItems="center"
                       onClick={() => {
                         setWalletSelection({
@@ -390,8 +401,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
                       userSelect={"none"}
                     >
                       <Image
-                        width={12}
-                        height={12}
+                        width={8}
+                        height={8}
                         alt={walletInfo.component.meta.name}
                         src={replaceIpfsUrl(walletInfo.component.meta.iconURL)}
                       />{" "}
@@ -448,6 +459,25 @@ export const ConnectWalletWithPreview: React.FC = () => {
                     ></Button>
                   </Flex>
                 </FormItem>
+
+                {/* modal size */}
+                {!isMobile && (
+                  <FormItem
+                    label="Modal Size"
+                    description="Specify the size of ConnectWallet modal. Modal is always compact on mobile device."
+                  >
+                    <Select
+                      variant="filled"
+                      value={modalSize}
+                      onChange={(event) => {
+                        setModalSize(event.target.value as "wide" | "compact");
+                      }}
+                    >
+                      <option value="wide">wide</option>
+                      <option value="compact">compact</option>
+                    </Select>
+                  </FormItem>
+                )}
 
                 {/* Button Title */}
                 <FormItem
@@ -549,23 +579,33 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 borderRadius="md"
                 w="full"
                 my="auto"
-                display="grid"
-                placeItems="center"
+                display="flex"
+                flexDir="column"
+                justifyContent="center"
+                alignItems="center"
                 minH="700px"
                 py={8}
                 bg={selectedTheme === "light" ? "gray.300" : "gray.900"}
                 border="1px solid"
                 borderColor={"backgroundHighlight"}
               >
-                <Text color={"gray.700"}>Live Preview</Text>
-                <Box height={2} />
-                <Box>{connectWalletButtonPreview}</Box>
+                <Box>
+                  <Text color={"gray.700"} textAlign="center">
+                    Live Preview
+                  </Text>
+                  <Box height={2} />
+                  <Box>{connectWalletButtonPreview}</Box>
+                </Box>
 
                 <Box height={12} />
 
-                <Text color={"gray.700"}>Modal UI</Text>
-                <Box height={2} />
-                {componentPreview}
+                <Box>
+                  <Text color={"gray.700"} textAlign="center">
+                    Modal UI
+                  </Text>
+                  <Box height={2} />
+                  {componentPreview}
+                </Box>
               </Box>
             </TabPanel>
 
@@ -582,9 +622,13 @@ export const ConnectWalletWithPreview: React.FC = () => {
 const ConnectModalInlinePreview = (props: {
   walletIds: string[];
   modalTitle: string;
+  modalSize: "compact" | "wide";
   selectedTheme: Theme;
 }) => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const isMobile = useBreakpointValue(
+    { base: true, md: false },
+    { ssr: false },
+  );
   const disconnect = useDisconnect();
   const walletIdsJoin = props.walletIds.join(",");
   const connectionStatus = useConnectionStatus();
@@ -620,6 +664,7 @@ const ConnectModalInlinePreview = (props: {
     >
       {showInlineModal && (
         <ConnectModalInline
+          modalSize={isMobile ? "compact" : props.modalSize}
           className={styles.ConnectModalInline}
           title={props.modalTitle}
           theme={props.selectedTheme}

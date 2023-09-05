@@ -106,12 +106,16 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     );
   }
 
+  // TODO - remove modalSize from networkSelector in sdk
+
   if (ecosystem === "evm" || ecosystem === "either") {
     return (
       <ConnectWalletNew
         theme={colorMode}
+        modalSize="wide"
         networkSelector={{
           popularChains,
+          modalSize: "compact",
           recentChains,
           onSwitch(chain) {
             addRecentlyUsedChainId(chain.chainId);
