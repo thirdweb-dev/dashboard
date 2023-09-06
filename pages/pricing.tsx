@@ -37,13 +37,9 @@ const SECTIONS = [
       },
       {
         title: "Storage Pinning",
-        starter: "Free up to 50 GB ($0.10 per GB after)",
-        pro: "Free up to 50 GB ($0.10 per GB after)",
-      },
-      {
-        title: "Storage Pinning File Size",
-        starter: "5GB (per file size)",
-        pro: "25 GB (per file size)",
+        starter:
+          "Free up to 50 GB ($0.10 per GB after). 5 GB per file size rate limit",
+        pro: "Free up to 50 GB ($0.10 per GB after). 25 GB per file size rate limit",
       },
     ],
   },
@@ -79,24 +75,16 @@ const SECTIONS = [
     icon: require("public/assets/product-icons/payments.png"),
     items: [
       {
-        title: "NFT Checkout Sellers",
-        starter: "Free",
-        pro: "Free",
+        title: "Checkout (by Fiat):",
+        starter:
+          "4.9% + $0.30 fee per transaction (Paid by NFT buyer, no charge for NFT seller)",
+        pro: "4.9% + $0.30 fee per transaction (Paid by NFT buyer, no charge for NFT seller)",
       },
       {
-        title: "NFT Checkout Purchasers (By Fiat)",
-        starter: "4.9% + $0.30 fee per transaction",
-        pro: "4.9% + $0.30 fee per transaction",
-      },
-      {
-        title: "NFT Checkout Purchasers (By Crypto)",
-        starter: "1% for crypto payments",
-        pro: "1% for crypto payments",
-      },
-      {
-        title: "NFT Checkout Transaction limit",
-        starter: "$2,500 Per Transaction Limit",
-        pro: "$15,000 Per Transaction Limit",
+        title: "Checkout (by Crypto):",
+        starter:
+          "1% for crypto payments per transaction (Paid by NFT buyer, no charge for NFT seller)",
+        pro: "1% for crypto payments per transaction (Paid by NFT buyer, no charge for NFT seller)",
       },
       {
         title: "Smart Wallet - Paymaster",
@@ -105,8 +93,8 @@ const SECTIONS = [
       },
       {
         title: "Smart Wallet - Bundler",
-        starter: "10% premium on top of network fee",
-        pro: "10% premium on top of network fee",
+        starter: "Free",
+        pro: "Free",
       },
       {
         title: "Sponsored transactions",
@@ -121,11 +109,7 @@ const SECTIONS = [
     items: [
       {
         title: "Custom RPC / IPFS Domains",
-        starter: "--",
-        pro: "checkmark",
-      },
-      {
-        title: "Sponsored transactions",
+        comingSoon: true,
         starter: "--",
         pro: "checkmark",
       },
@@ -148,7 +132,7 @@ const SECTIONS = [
         pro: "checkmark",
       },
       {
-        title: "Sign Sign-on",
+        title: "Single Sign-on",
         comingSoon: true,
         starter: "--",
         pro: "checkmark",
@@ -246,7 +230,7 @@ const pricingFaqs = [
     description: (
       <Text>
         RPC usage is calculated by requests per second. For the starter plan,
-        users are allowed 25 requests per second rate limit for free. For the
+        users are allowed 100 requests per second rate limit for free. For the
         pro plan, this rate limit increases 5,000 requests per second rate
         limit. Contact sales to upgrade to thirdweb pro plan.
       </Text>
@@ -404,10 +388,10 @@ const Pricing: ThirdwebNextPage = () => {
                 </Flex>
                 <Flex alignItems="flex-end" gap={2}>
                   <Heading size="title.2xl" color="white">
-                    Free
+                    $0
                   </Heading>
                   <Heading size="title.sm" color="gray.800" mb={1}>
-                    / $0 monthly
+                    / monthly
                   </Heading>
                 </Flex>
               </Flex>
@@ -459,8 +443,8 @@ const Pricing: ThirdwebNextPage = () => {
                         Pro
                       </Heading>
                       <Text>
-                        deal for teams that require more <br />
-                        customization, SLA&apos;s, and support.
+                        Ideal for teams that require more <br />
+                        customization, SLAs, and support.
                       </Text>
                     </Flex>
                     <Flex alignItems="flex-end" gap={2}>
@@ -474,15 +458,15 @@ const Pricing: ThirdwebNextPage = () => {
                   </Flex>
                   <Flex flexDir="column" gap={2}>
                     <Text color="white">
-                      Everything in Free Plan Bundle plus:
+                      Everything in Free Plan Bundle, plus:
                     </Text>
                     <CheckmarkItem text="Higher rate limits for RPC" />
                     <CheckmarkItem text="Higher rate limits for Storage Gateway" />
                     <CheckmarkItem text="Higher storage pinning file size for IPFS" />
                     <CheckmarkItem text="Higher transaction limit for checkout" />
-                    <CheckmarkItem text="99.9% Infrastructure uptime SLA's" />
-                    <CheckmarkItem text="24 hour customer support SLA's" />
-                    <CheckmarkItem text="Dedicated support channels" />
+                    <CheckmarkItem text="99.9% Infrastructure uptime SLAs" />
+                    <CheckmarkItem text="24 hour customer support SLAs" />
+                    <CheckmarkItem text="Dedicated Slack support channel" />
                   </Flex>
                   <TrackedLinkButton
                     bgColor="white"
@@ -518,7 +502,13 @@ const Pricing: ThirdwebNextPage = () => {
                     <Text size="body.xl" color="gray.700" textAlign="center">
                       Starter
                     </Text>
-                    <Text size="body.xl" color="gray.700" textAlign="center">
+                    <Text
+                      size="body.xl"
+                      color="gray.700"
+                      textAlign="center"
+                      bgGradient="linear(to-r, #4830A4, #9786DF)"
+                      bgClip="text"
+                    >
                       Pro
                     </Text>
                   </>
@@ -535,10 +525,20 @@ const Pricing: ThirdwebNextPage = () => {
                       borderRadius="none"
                       borderColor={{ base: "transparent", md: "gray.900" }}
                       borderLeft="none"
+                      h="full"
+                      as={Flex}
+                      alignItems="center"
                     >
-                      <Text color="white" size="body.lg">
-                        {item.title}
-                      </Text>
+                      <Flex gap={2}>
+                        <Text color="white" size="body.lg">
+                          {item.title}
+                        </Text>
+                        {(item as any)?.comingSoon && (
+                          <Text color="gray.800" size="body.lg">
+                            Coming Soon
+                          </Text>
+                        )}
+                      </Flex>
                     </Card>
                     {item.starter === item.pro ? (
                       <GridItem colSpan={2}>
