@@ -519,7 +519,6 @@ const Pricing: ThirdwebNextPage = () => {
                       borderRadius="none"
                       borderColor={{ base: "transparent", md: "gray.900" }}
                       borderLeft="none"
-                      h="full"
                       as={Flex}
                       alignItems="center"
                     >
