@@ -8,6 +8,7 @@ import {
   ListItem,
   SimpleGrid,
   UnorderedList,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
@@ -333,6 +334,8 @@ const pricingFaqs = [
 ];
 
 const Pricing: ThirdwebNextPage = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   return (
     <LandingLayout
       seo={{
@@ -389,7 +392,7 @@ const Pricing: ThirdwebNextPage = () => {
               gap={10}
               flexDir="column"
               borderColor="gray.900"
-              p={10}
+              p={{ base: 6, md: 10 }}
               h="full"
             >
               <Flex flexDir="column" gap={8}>
@@ -430,7 +433,7 @@ const Pricing: ThirdwebNextPage = () => {
               gap={10}
               flexDir="column"
               borderColor="gray.900"
-              p={10}
+              p={{ base: 6, md: 10 }}
             >
               <Flex flexDir="column" gap={8}>
                 <Flex flexDir="column" gap={4}>
@@ -483,20 +486,29 @@ const Pricing: ThirdwebNextPage = () => {
                     {section.title}
                   </Text>
                 </Flex>
-                <Text size="body.xl" color="gray.700" textAlign="center">
-                  Starter
-                </Text>
-                <Text size="body.xl" color="gray.700" textAlign="center">
-                  Pro
-                </Text>
+                {!isMobile && (
+                  <>
+                    <Text size="body.xl" color="gray.700" textAlign="center">
+                      Starter
+                    </Text>
+                    <Text size="body.xl" color="gray.700" textAlign="center">
+                      Pro
+                    </Text>
+                  </>
+                )}
               </SimpleGrid>
               <Flex flexDir="column">
                 {section.items.map((item) => (
-                  <SimpleGrid columns={3} key={item.title} alignItems="center">
+                  <SimpleGrid
+                    columns={{ base: 1, md: 3 }}
+                    key={item.title}
+                    alignItems="center"
+                  >
                     <Card
                       borderRadius="none"
                       borderColor="gray.900"
                       borderLeft="none"
+                      border={{ base: "none", md: "inherit" }}
                     >
                       <Text color="white" size="body.lg">
                         {item.title}
@@ -508,6 +520,7 @@ const Pricing: ThirdwebNextPage = () => {
                           borderRadius="none"
                           borderColor="gray.900"
                           borderRight="none"
+                          border={{ base: "none", md: "inherit" }}
                         >
                           <Text
                             color="gray.700"
@@ -528,43 +541,64 @@ const Pricing: ThirdwebNextPage = () => {
                       </GridItem>
                     ) : (
                       <>
-                        <Card borderRadius="none" borderColor="gray.900">
-                          <Text
-                            color="gray.700"
-                            size="body.lg"
-                            textAlign="center"
+                          <Card
+                            borderRadius="none"
+                            borderColor="gray.900"
+                            border={{ base: "none", md: "inherit" }}
                           >
-                            {item.starter === "checkmark" ? (
-                              <Icon
-                                as={IoCheckmarkCircle}
-                                boxSize={4}
-                                color="blue.500"
-                              />
-                            ) : (
-                              item.starter
-                            )}
-                          </Text>
+                            <Flex
+                              justifyContent={{
+                                base: "space-between",
+                                md: "inherit",
+                              }}
+                            >
+                              {isMobile && <Text size="body.lg">Starter</Text>}
+                              <Text
+                                color="gray.700"
+                                size="body.lg"
+                                textAlign="center"
+                              >
+                                {item.starter === "checkmark" ? (
+                                  <Icon
+                                    as={IoCheckmarkCircle}
+                                    boxSize={4}
+                                    color="blue.500"
+                                  />
+                                ) : (
+                                  item.starter
+                                )}
+                              </Text>
+                            </Flex>
                         </Card>
                         <Card
                           borderRadius="none"
                           borderColor="gray.900"
                           borderRight="none"
+                            border={{ base: "none", md: "inherit" }}
                         >
-                          <Text
-                            color="gray.700"
-                            size="body.lg"
-                            textAlign="center"
-                          >
-                            {item.pro === "checkmark" ? (
-                              <Icon
-                                as={IoCheckmarkCircle}
-                                boxSize={4}
-                                color="blue.500"
-                              />
-                            ) : (
-                              item.pro
-                            )}
-                          </Text>
+                            <Flex
+                              justifyContent={{
+                                base: "space-between",
+                                md: "inherit",
+                              }}
+                            >
+                              {isMobile && <Text size="body.lg">Pro</Text>}
+                              <Text
+                                color="gray.700"
+                                size="body.lg"
+                                textAlign="center"
+                              >
+                                {item.pro === "checkmark" ? (
+                                  <Icon
+                                    as={IoCheckmarkCircle}
+                                    boxSize={4}
+                                    color="blue.500"
+                                  />
+                                ) : (
+                                  item.pro
+                                )}
+                              </Text>
+                            </Flex>
                         </Card>
                       </>
                     )}
