@@ -161,7 +161,15 @@ export const ContractFunctionsPanel: React.FC<ContractFunctionsPanelProps> = ({
   fnsOrEvents,
   contract,
 }) => {
-  const extensions = useContractEnabledExtensions(contract?.abi);
+  const allExtensions = useContractEnabledExtensions(contract?.abi);
+
+  // Filter airdrop, to avoid using sdk feature detection temporarily
+  const extensions = allExtensions.filter(
+    (ext) =>
+      ext.name !== "AirdropERC1155" &&
+      ext.name !== "AirdropERC20" &&
+      ext.name !== "AirdropERC721",
+  );
   const isFunction = "stateMutability" in fnsOrEvents[0];
   const functionsWithExtension = useMemo(() => {
     let allFunctions = fnsOrEvents as AbiFunction[];
