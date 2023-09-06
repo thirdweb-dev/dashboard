@@ -87,12 +87,37 @@ export interface UsageBundler {
   chainId: number;
   sumTransactionFee: number;
 }
+
+export interface UsageStorage {
+  sumFileSizeBytes: number;
+}
+
+export interface UsageEmbeddedWallets {
+  countWalletAddresses: number;
+}
+
 export interface UsageBillableByService {
   usage: {
     bundler: UsageBundler[];
+    storage: UsageStorage;
+    embeddedWallets: UsageEmbeddedWallets;
+  };
+  peakRate: {
+    rpc: number | undefined;
+    storage: number | undefined;
   };
   billableUsd: {
     bundler: number;
+    storage: number;
+    embeddedWallets: number;
+  };
+  limits: {
+    storage: number;
+    embeddedWallets: number;
+  };
+  rateLimits: {
+    storage: number;
+    rpc: number;
   };
 }
 
