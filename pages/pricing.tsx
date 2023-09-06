@@ -25,20 +25,29 @@ const SECTIONS = [
     icon: require("public/assets/product-icons/infrastructure.png"),
     items: [
       {
-        title: "RPCs",
+        title: "RPC Requests",
+        starter: "Unlimited",
+        pro: "Unlimited",
+      },
+      {
+        title: "RPC Rate Limit",
         starter: "100 Requests Per Second",
         pro: "2000 Requests Per Second",
       },
       {
-        title: "Storage Gateway",
-        starter: "100 Requests Per Second",
-        pro: "2000 Requests Per Second",
+        title: "Storage Gateway Requests",
+        starter: "Unlimited",
+        pro: "Unlimited",
       },
       {
         title: "Storage Pinning",
-        starter:
-          "Free up to 50 GB ($0.10 per GB after). 5 GB per file size rate limit",
-        pro: "Free up to 50 GB ($0.10 per GB after). 25 GB per file size rate limit",
+        starter: "Free up to 50 GB +$0.10 per GB after",
+        pro: "Free up to 50 GB +$0.10 per GB after",
+      },
+      {
+        title: "Storage Pinning File Size",
+        starter: "5GB (per file size)",
+        pro: "25GB (per file size)",
       },
     ],
   },
@@ -58,14 +67,14 @@ const SECTIONS = [
         pro: "Free up to 10,000 Monthly Active Wallets ($0.02 per Wallet after)",
       },
       {
-        title: "Device Wallets",
-        starter: "checkmark",
-        pro: "checkmark",
+        title: "Device Wallet",
+        starter: "Unlimited",
+        pro: "Unlimited",
       },
       {
-        title: "Smart Wallets",
-        starter: "checkmark",
-        pro: "checkmark",
+        title: "Smart Wallet",
+        starter: "Unlimited",
+        pro: "Unlimited",
       },
     ],
   },
@@ -74,35 +83,43 @@ const SECTIONS = [
     icon: require("public/assets/product-icons/payments.png"),
     items: [
       {
-        title: "Checkout (by Fiat):",
-        starter:
-          "4.9% + $0.30 fee per transaction (Paid by NFT buyer, no charge for NFT seller)",
-        pro: "4.9% + $0.30 fee per transaction (Paid by NFT buyer, no charge for NFT seller)",
-      },
-      {
-        title: "Checkout (by Crypto):",
-        starter:
-          "1% for crypto payments per transaction (Paid by NFT buyer, no charge for NFT seller)",
-        pro: "1% for crypto payments per transaction (Paid by NFT buyer, no charge for NFT seller)",
-      },
-      {
-        title: "Smart Wallet - Paymaster",
-        starter: "10% premium on top of network fee",
-        pro: "10% premium on top of network fee",
-      },
-      {
-        title: "Smart Wallet - Bundler",
+        title: "Checkout - Seller Fee",
         starter: "Free",
         pro: "Free",
       },
       {
-        title: "Sponsored transactions",
+        title: "Checkout - Buyer Fee (By Fiat)",
+        starter: "4.9% + $0.30",
+        pro: "4.9% + $0.30",
+      },
+      {
+        title: "Checkout - Buyer Fee (By Crypto)",
+        starter: "1%",
+        pro: "1%",
+      },
+      {
+        title: "Checkout - Transaction Limit",
+        starter: "$2,500 Per Transaction Limit",
+        pro: "$15,000 Per Transaction Limit ",
+      },
+      {
+        title: "Sponsored transactons - Bundler",
+        starter: "Free",
+        pro: "Free",
+      },
+      {
+        title: "Sponsored transactons - Paymaster",
+        starter: "10% premium on top of network fee",
+        pro: "10% premium on top of network fee",
+      },
+      {
+        title: "Sponsored transactions - Gasless Relayer",
         starter: "10% premium on top of network fee",
         pro: "10% premium on top of network fee",
       },
     ],
   },
-  {
+  /* {
     title: "Platform",
     icon: require("public/assets/product-icons/dashboards.png"),
     items: [
@@ -143,7 +160,7 @@ const SECTIONS = [
         pro: "checkmark",
       },
     ],
-  },
+  }, */
   {
     title: "Support",
     icon: require("public/assets/product-icons/support.png"),
