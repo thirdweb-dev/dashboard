@@ -16,6 +16,7 @@ import { ThirdwebNextPage } from "utils/types";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { LandingFAQ } from "components/landing-pages/faq";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 
 const TRACKING_CATEGORY = "pricing-page";
 
@@ -327,6 +328,16 @@ const Pricing: ThirdwebNextPage = () => {
         title: "Build production-grade web3 apps at scale | thirdweb Pro",
         description:
           "Build brand loyalty programs that turn customeThe best way to build web3 apps for millions of users — with a robust infrastructure stack that scales as you grow. Learn more.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/thirdweb-pro.png`,
+              width: 1200,
+              height: 630,
+              alt: "thirdweb Pro",
+            },
+          ],
+        },
       }}
     >
       <Container
