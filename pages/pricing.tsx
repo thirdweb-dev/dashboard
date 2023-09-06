@@ -572,7 +572,7 @@ const Pricing: ThirdwebNextPage = () => {
                             {isMobile && <Text size="body.lg">Starter</Text>}
                             <Text
                               w="full"
-                                color="gray.600"
+                              color="gray.600"
                               size="body.lg"
                               textAlign={{ base: "right", md: "center" }}
                             >
@@ -601,7 +601,7 @@ const Pricing: ThirdwebNextPage = () => {
                           >
                             {isMobile && <Text size="body.lg">Pro</Text>}
                             <Text
-                                color="gray.600"
+                              color="gray.600"
                               size="body.lg"
                               textAlign={{ base: "right", md: "center" }}
                               w="full"
