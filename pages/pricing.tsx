@@ -402,9 +402,14 @@ const Pricing: ThirdwebNextPage = () => {
                     basic features.
                   </Text>
                 </Flex>
-                <Heading size="title.2xl" color="white">
-                  Free
-                </Heading>
+                <Flex alignItems="flex-end" gap={2}>
+                  <Heading size="title.2xl" color="white">
+                    Free
+                  </Heading>
+                  <Heading size="title.sm" color="gray.800" mb={1}>
+                    / $0 monthly
+                  </Heading>
+                </Flex>
               </Flex>
               <Flex flexDir="column" gap={2}>
                 <CheckmarkItem text="RPCs & Storage Gateway" />
@@ -458,9 +463,14 @@ const Pricing: ThirdwebNextPage = () => {
                         customization, SLA&apos;s, and support.
                       </Text>
                     </Flex>
-                    <Heading size="title.2xl" color="white">
-                      $999+
-                    </Heading>
+                    <Flex alignItems="flex-end" gap={2}>
+                      <Heading size="title.2xl" color="white">
+                        $999+
+                      </Heading>
+                      <Heading size="title.sm" color="gray.800" mb={1}>
+                        / monthly
+                      </Heading>
+                    </Flex>
                   </Flex>
                   <Flex flexDir="column" gap={2}>
                     <Text color="white">
