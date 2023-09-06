@@ -194,7 +194,7 @@ const generalFaqs = [
     description: (
       <Text>
         thirdweb Starter plan is open and completely self-serve. We&apos;ve made
-        it easy for you to get started— simply connect your wallet to start
+        it easy for you to get started — simply connect your wallet to start
         using thirdweb platform. You only need to create an account with your
         email address and add payment method when you&apos;re approaching your
         monthly free usage limits (so that we can send you billing updates if
@@ -206,7 +206,7 @@ const generalFaqs = [
     title: "How do I sign up for thirdweb pro plan?",
     description: (
       <Text>
-        To sign for thirdweb pro plan,{" "}
+        To sign for a thirdweb pro plan,{" "}
         <Link href="/contact-us" color="blue.500">
           Contact Sales
         </Link>{" "}
