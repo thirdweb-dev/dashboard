@@ -5,28 +5,13 @@ import {
   Flex,
   GridItem,
   Icon,
-  ListItem,
   SimpleGrid,
-  UnorderedList,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
-import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
-import { LandingEndCTA } from "components/landing-pages/end-cta";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
-import { LandingMainImage } from "components/landing-pages/main-image";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PageId } from "page-id";
-import {
-  Button,
-  Card,
-  Heading,
-  Link,
-  Text,
-  TrackedLinkButton,
-} from "tw-components";
+import { Card, Heading, Link, Text, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
 import { IoCheckmarkCircle } from "react-icons/io5";
@@ -394,6 +379,7 @@ const Pricing: ThirdwebNextPage = () => {
               borderColor="gray.900"
               p={{ base: 6, md: 10 }}
               h="full"
+              maxH={{ base: "100%", md: "85%" }}
             >
               <Flex flexDir="column" gap={8}>
                 <Flex flexDir="column" gap={4}>
@@ -428,52 +414,72 @@ const Pricing: ThirdwebNextPage = () => {
                 Get Started
               </TrackedLinkButton>
             </Card>
-            <Card
-              as={Flex}
-              gap={10}
-              flexDir="column"
-              borderColor="gray.900"
-              p={{ base: 6, md: 10 }}
-            >
-              <Flex flexDir="column" gap={8}>
-                <Flex flexDir="column" gap={4}>
-                  <Heading as="h3" size="title.lg">
-                    Pro
-                  </Heading>
-                  <Text>
-                    deal for teams that require more <br />
-                    customization, SLA&apos;s, and support.
-                  </Text>
-                </Flex>
-                <Heading size="title.2xl" color="white">
-                  $999+
-                </Heading>
-              </Flex>
-              <Flex flexDir="column" gap={2}>
-                <Text color="white">Everything in Free Plan Bundle plus:</Text>
-                <CheckmarkItem text="Higher rate limits for RPC" />
-                <CheckmarkItem text="Higher rate limits for Storage Gateway" />
-                <CheckmarkItem text="Higher storage pinning file size for IPFS" />
-                <CheckmarkItem text="Higher transaction limit for checkout" />
-                <CheckmarkItem text="99.9% Infrastructure uptime SLA's" />
-                <CheckmarkItem text="24 hour customer support SLA's" />
-                <CheckmarkItem text="Dedicated support channels" />
-              </Flex>
-              <TrackedLinkButton
-                bgColor="white"
-                _hover={{
-                  bgColor: "white",
-                  opacity: 0.8,
-                }}
-                color="black"
-                py={6}
-                category={TRACKING_CATEGORY}
-                label="pro"
-                href="/contact-us"
-              >
-                Contact Sales
-              </TrackedLinkButton>
-            </Card>
+            <Center mt={-2}>
+              <Center p={2} position="relative" mb={6}>
+                <Box
+                  position="absolute"
+                  bgGradient="linear(to-b, #4DABEE, #692AC1)"
+                  top={0}
+                  left={0}
+                  bottom={0}
+                  right={0}
+                  borderRadius="3xl"
+                  overflow="visible"
+                  filter="blur(8px)"
+                />
+
+                <Card
+                  zIndex={999}
+                  background="black"
+                  as={Flex}
+                  gap={10}
+                  flexDir="column"
+                  borderColor="gray.900"
+                  p={{ base: 6, md: 10 }}
+                >
+                  <Flex flexDir="column" gap={8}>
+                    <Flex flexDir="column" gap={4}>
+                      <Heading as="h3" size="title.lg">
+                        Pro
+                      </Heading>
+                      <Text>
+                        deal for teams that require more <br />
+                        customization, SLA&apos;s, and support.
+                      </Text>
+                    </Flex>
+                    <Heading size="title.2xl" color="white">
+                      $999+
+                    </Heading>
+                  </Flex>
+                  <Flex flexDir="column" gap={2}>
+                    <Text color="white">
+                      Everything in Free Plan Bundle plus:
+                    </Text>
+                    <CheckmarkItem text="Higher rate limits for RPC" />
+                    <CheckmarkItem text="Higher rate limits for Storage Gateway" />
+                    <CheckmarkItem text="Higher storage pinning file size for IPFS" />
+                    <CheckmarkItem text="Higher transaction limit for checkout" />
+                    <CheckmarkItem text="99.9% Infrastructure uptime SLA's" />
+                    <CheckmarkItem text="24 hour customer support SLA's" />
+                    <CheckmarkItem text="Dedicated support channels" />
+                  </Flex>
+                  <TrackedLinkButton
+                    bgColor="white"
+                    _hover={{
+                      bgColor: "white",
+                      opacity: 0.8,
+                    }}
+                    color="black"
+                    py={6}
+                    category={TRACKING_CATEGORY}
+                    label="pro"
+                    href="/contact-us"
+                  >
+                    Contact Sales
+                  </TrackedLinkButton>
+                </Card>
+              </Center>
+            </Center>
           </SimpleGrid>
         </Container>
         <Flex flexDir="column" gap={20}>
@@ -554,7 +560,7 @@ const Pricing: ThirdwebNextPage = () => {
                               w="full"
                               color="gray.700"
                               size="body.lg"
-                              textAlign="center"
+                              textAlign={{ base: "right", md: "center" }}
                             >
                               {item.starter === "checkmark" ? (
                                 <Icon
@@ -583,7 +589,7 @@ const Pricing: ThirdwebNextPage = () => {
                             <Text
                               color="gray.700"
                               size="body.lg"
-                              textAlign="center"
+                              textAlign={{ base: "right", md: "center" }}
                               w="full"
                             >
                               {item.pro === "checkmark" ? (
