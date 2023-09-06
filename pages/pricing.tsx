@@ -506,9 +506,8 @@ const Pricing: ThirdwebNextPage = () => {
                   >
                     <Card
                       borderRadius="none"
-                      borderColor="gray.900"
+                      borderColor={{ base: "transparent", md: "gray.900" }}
                       borderLeft="none"
-                      border={{ base: "none", md: "inherit" }}
                     >
                       <Text color="white" size="body.lg">
                         {item.title}
@@ -517,10 +516,9 @@ const Pricing: ThirdwebNextPage = () => {
                     {item.starter === item.pro ? (
                       <GridItem colSpan={2}>
                         <Card
+                          borderColor={{ base: "transparent", md: "gray.900" }}
                           borderRadius="none"
-                          borderColor="gray.900"
                           borderRight="none"
-                          border={{ base: "none", md: "inherit" }}
                         >
                           <Text
                             color="gray.700"
@@ -541,64 +539,64 @@ const Pricing: ThirdwebNextPage = () => {
                       </GridItem>
                     ) : (
                       <>
-                          <Card
-                            borderRadius="none"
-                            borderColor="gray.900"
-                            border={{ base: "none", md: "inherit" }}
+                        <Card
+                          borderColor={{ base: "transparent", md: "gray.900" }}
+                          borderRadius="none"
+                        >
+                          <Flex
+                            justifyContent={{
+                              base: "space-between",
+                              md: "inherit",
+                            }}
                           >
-                            <Flex
-                              justifyContent={{
-                                base: "space-between",
-                                md: "inherit",
-                              }}
+                            {isMobile && <Text size="body.lg">Starter</Text>}
+                            <Text
+                              w="full"
+                              color="gray.700"
+                              size="body.lg"
+                              textAlign="center"
                             >
-                              {isMobile && <Text size="body.lg">Starter</Text>}
-                              <Text
-                                color="gray.700"
-                                size="body.lg"
-                                textAlign="center"
-                              >
-                                {item.starter === "checkmark" ? (
-                                  <Icon
-                                    as={IoCheckmarkCircle}
-                                    boxSize={4}
-                                    color="blue.500"
-                                  />
-                                ) : (
-                                  item.starter
-                                )}
-                              </Text>
-                            </Flex>
+                              {item.starter === "checkmark" ? (
+                                <Icon
+                                  as={IoCheckmarkCircle}
+                                  boxSize={4}
+                                  color="blue.500"
+                                />
+                              ) : (
+                                item.starter
+                              )}
+                            </Text>
+                          </Flex>
                         </Card>
                         <Card
+                          borderColor={{ base: "transparent", md: "gray.900" }}
                           borderRadius="none"
-                          borderColor="gray.900"
                           borderRight="none"
-                            border={{ base: "none", md: "inherit" }}
                         >
-                            <Flex
-                              justifyContent={{
-                                base: "space-between",
-                                md: "inherit",
-                              }}
+                          <Flex
+                            justifyContent={{
+                              base: "space-between",
+                              md: "inherit",
+                            }}
+                          >
+                            {isMobile && <Text size="body.lg">Pro</Text>}
+                            <Text
+                              color="gray.700"
+                              size="body.lg"
+                              textAlign="center"
+                              w="full"
                             >
-                              {isMobile && <Text size="body.lg">Pro</Text>}
-                              <Text
-                                color="gray.700"
-                                size="body.lg"
-                                textAlign="center"
-                              >
-                                {item.pro === "checkmark" ? (
-                                  <Icon
-                                    as={IoCheckmarkCircle}
-                                    boxSize={4}
-                                    color="blue.500"
-                                  />
-                                ) : (
-                                  item.pro
-                                )}
-                              </Text>
-                            </Flex>
+                              {item.pro === "checkmark" ? (
+                                <Icon
+                                  as={IoCheckmarkCircle}
+                                  boxSize={4}
+                                  color="blue.500"
+                                />
+                              ) : (
+                                item.pro
+                              )}
+                            </Text>
+                          </Flex>
                         </Card>
                       </>
                     )}
