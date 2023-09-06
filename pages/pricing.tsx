@@ -13,7 +13,6 @@ import { LandingLayout } from "components/landing-pages/layout";
 import { PageId } from "page-id";
 import { Card, Heading, Link, Text, TrackedLinkButton } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import WhiteLogo from "public/assets/landingpage/white-logo.png";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { LandingFAQ } from "components/landing-pages/faq";
 import { getAbsoluteUrl } from "lib/vercel-utils";
@@ -330,29 +329,7 @@ const Pricing: ThirdwebNextPage = () => {
         flexDir="column"
         gap={{ base: "80px", md: "120px" }}
       >
-        <Flex flexDir="column">
-          <Center mb={6} pt={{ base: 8, lg: 24 }}>
-            <Center p={2} position="relative" mb={6}>
-              <Box
-                position="absolute"
-                bgGradient="linear(to-r, #F213A4, #040BBF)"
-                top={0}
-                left={0}
-                bottom={0}
-                right={0}
-                borderRadius="3xl"
-                overflow="visible"
-                filter="blur(15px)"
-              />
-
-              <ChakraNextImage
-                alt=""
-                boxSize={{ base: 24, md: 32 }}
-                placeholder="empty"
-                src={WhiteLogo}
-              />
-            </Center>
-          </Center>
+        <Flex flexDir="column" pt={{ base: 8, lg: 24 }}>
           <Heading
             as="h1"
             size="display.md"
