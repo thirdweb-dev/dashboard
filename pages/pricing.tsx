@@ -28,12 +28,12 @@ const SECTIONS = [
       {
         title: "RPCs",
         starter: "100 Requests Per Second",
-        pro: "5000 Requests Per Second",
+        pro: "2000 Requests Per Second",
       },
       {
         title: "Storage Gateway",
         starter: "100 Requests Per Second",
-        pro: "5000 Requests Per Second",
+        pro: "2000 Requests Per Second",
       },
       {
         title: "Storage Pinning",
@@ -253,7 +253,7 @@ const pricingFaqs = [
       <Text>
         Storage gateway usage is calculated by GB per file size. For the starter
         plan, users get 100 requests per second rate limit for free. For the pro
-        plan, this rate limit increases to 5000 requests per second rate limit.
+        plan, this rate limit increases to 2000 requests per second rate limit.
         Contact sales to upgrade to thirdweb pro plan.
       </Text>
     ),
