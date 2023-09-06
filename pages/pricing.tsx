@@ -18,10 +18,18 @@ import { LandingLayout } from "components/landing-pages/layout";
 import { LandingMainImage } from "components/landing-pages/main-image";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { PageId } from "page-id";
-import { Button, Card, Heading, Text, TrackedLinkButton } from "tw-components";
+import {
+  Button,
+  Card,
+  Heading,
+  Link,
+  Text,
+  TrackedLinkButton,
+} from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 import WhiteLogo from "public/assets/landingpage/white-logo.png";
 import { IoCheckmarkCircle } from "react-icons/io5";
+import { LandingFAQ } from "components/landing-pages/faq";
 
 const TRACKING_CATEGORY = "pricing-page";
 
@@ -191,6 +199,136 @@ const SECTIONS = [
         pro: "checkmark",
       },
     ],
+  },
+];
+
+const generalFaqs = [
+  {
+    title: "How do I get started?",
+    description: (
+      <Text>
+        thirdweb Starter plan is open and completely self-serve. We&apos;ve made
+        it easy for you to get started— simply connect your wallet to start
+        using thirdweb platform. You only need to create an account with your
+        email address and add payment method when you&apos;re approaching your
+        monthly free usage limits (so that we can send you billing updates if
+        you go over).
+      </Text>
+    ),
+  },
+  {
+    title: "How do I sign up for thirdweb pro plan?",
+    description: (
+      <Text>
+        To sign for thirdweb pro plan,{" "}
+        <Link href="/contact-us" color="blue.500">
+          Contact Sales
+        </Link>{" "}
+        team to learn about thirdweb pro features and get a quote for monthly
+        subscription fee.
+      </Text>
+    ),
+  },
+  {
+    title: "How do I update my payment method?",
+    description: (
+      <Text>
+        Go to thirdweb Settings &gt; Billing in{" "}
+        <Link href="/dashboard/settings/billing" color="blue.500">
+          Dashboard
+        </Link>
+      </Text>
+    ),
+  },
+  {
+    title: "Where can I see my usage history?",
+    description: (
+      <Text>
+        Go to thirdweb Settings &gt; Billing in{" "}
+        <Link href="/dashboard/settings/billing" color="blue.500">
+          Dashboard
+        </Link>
+      </Text>
+    ),
+  },
+];
+
+const pricingFaqs = [
+  {
+    title: "How are RPCs calculated?",
+    description: (
+      <Text>
+        RPC usage is calculated by requests per second. For the starter plan,
+        users are allowed 25 requests per second rate limit for free. For the
+        pro plan, this rate limit increases 5,000 requests per second rate
+        limit. Contact sales to upgrade to thirdweb pro plan.
+      </Text>
+    ),
+  },
+  {
+    title: "How is Storage Pinning calculated?",
+    description: (
+      <Text>
+        Storage pinning usage is calculated by GB per file size. For the starter
+        plan, users receive 50GB monthly free limit + 5GB per file size rate
+        limit. For the pro plan, this rate limit increases to 25GB per file size
+        rate limit. Contact sales to upgrade to thirdweb pro plan.
+      </Text>
+    ),
+  },
+  {
+    title: "How is Storage Gateway calculated?",
+    description: (
+      <Text>
+        Storage gateway usage is calculated by GB per file size. For the starter
+        plan, users get 100 requests per second rate limit for free. For the pro
+        plan, this rate limit increases to 5000 requests per second rate limit.
+        Contact sales to upgrade to thirdweb pro plan.
+      </Text>
+    ),
+  },
+  {
+    title: "How is Email Wallet (managed recovery code) calculated?",
+    description: (
+      <Text>
+        Email wallet (with managed recovery code) usage is calculated by monthly
+        active wallets (i.e. active as defined by at least 1 user log-in via
+        email or social within the billing period month). For both the starter
+        and pro plan, users receive 10,000 free monthly active wallets + charged
+        $0.02 per incremental monthly active wallet after. Note that wallets
+        with self recovery code is completely free to use.
+      </Text>
+    ),
+  },
+  {
+    title: "How is Payments Gasless calculated?",
+    description: (
+      <Text>
+        Gasless is calculated by sponsored network fees. For both the starter
+        and pro plan, users are charged 10% premium on top of sponsored network
+        fees.
+      </Text>
+    ),
+  },
+  {
+    title: "How is Payments Paymaster calculated?",
+    description: (
+      <Text>
+        Paymaster usage is calculated by sponsored network fees. For both the
+        starter and pro plan, users are charged 10% premium on top of sponsored
+        network fees.
+      </Text>
+    ),
+  },
+  {
+    title: "How is Payments Bundler calculated?",
+    description: (
+      <Text>
+        Bundler usage is calculated by sponsored network fees. For both the
+        starter and pro plan, users are charged 10% premium on top of sponsored
+        network fees.
+      </Text>
+    ),
   },
 ];
 
@@ -435,6 +573,21 @@ const Pricing: ThirdwebNextPage = () => {
               </Flex>
             </Flex>
           ))}
+        </Flex>
+        <Flex gap={4} flexDir="column" alignItems="center">
+          <Heading size="title.xl" color="white">
+            FAQ
+          </Heading>
+          <LandingFAQ
+            title="General"
+            faqs={generalFaqs}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+          />
+          <LandingFAQ
+            title="Pricing"
+            faqs={pricingFaqs}
+            TRACKING_CATEGORY={TRACKING_CATEGORY}
+          />
         </Flex>
       </Container>
     </LandingLayout>
