@@ -423,7 +423,7 @@ const Pricing: ThirdwebNextPage = () => {
                 py={6}
                 category={TRACKING_CATEGORY}
                 label="starter"
-                href=""
+                href="/dashboard/settings/billing"
               >
                 Get Started
               </TrackedLinkButton>
@@ -605,6 +605,37 @@ const Pricing: ThirdwebNextPage = () => {
               </Flex>
             </Flex>
           ))}
+          {!isMobile && (
+            <SimpleGrid columns={3} mt={-14}>
+              <Box>&nbsp;</Box>
+              <TrackedLinkButton
+                mx={6}
+                variant="outline"
+                borderColor="gray.900"
+                py={6}
+                category={TRACKING_CATEGORY}
+                label="starter"
+                href="/dashboard/settings/billing"
+              >
+                Get Started
+              </TrackedLinkButton>
+              <TrackedLinkButton
+                mx={6}
+                bgColor="white"
+                _hover={{
+                  bgColor: "white",
+                  opacity: 0.8,
+                }}
+                color="black"
+                py={6}
+                category={TRACKING_CATEGORY}
+                label="pro"
+                href="/contact-us"
+              >
+                Contact Sales
+              </TrackedLinkButton>
+            </SimpleGrid>
+          )}
         </Flex>
         <Flex gap={4} flexDir="column" alignItems="center">
           <Heading size="title.xl" color="white">
