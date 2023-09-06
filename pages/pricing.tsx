@@ -391,7 +391,7 @@ const Pricing: ThirdwebNextPage = () => {
                     $0
                   </Heading>
                   <Heading size="title.sm" color="gray.800" mb={1}>
-                    / monthly
+                    / month
                   </Heading>
                 </Flex>
               </Flex>
@@ -452,7 +452,7 @@ const Pricing: ThirdwebNextPage = () => {
                         $999+
                       </Heading>
                       <Heading size="title.sm" color="gray.800" mb={1}>
-                        / monthly
+                        / month
                       </Heading>
                     </Flex>
                   </Flex>
