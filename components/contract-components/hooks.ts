@@ -861,6 +861,7 @@ export function ensQuery(addressOrEnsName?: string) {
 
       const { address, ensName } = await resolveEns(addressOrEnsName);
 
+      // Disabling this for now, as it's not working properly and it's breaking the build
       /*       if (isEnsName(addressOrEnsName) && !address) {
         throw new Error("Failed to resolve ENS name.");
       } */
