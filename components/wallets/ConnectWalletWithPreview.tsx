@@ -585,7 +585,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 alignItems="center"
                 minH="700px"
                 py={8}
-                bg={selectedTheme === "light" ? "gray.300" : "gray.900"}
+                bg={selectedTheme === "light" ? "gray.300" : "black"}
                 border="1px solid"
                 borderColor={"backgroundHighlight"}
               >
