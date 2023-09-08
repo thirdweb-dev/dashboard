@@ -168,7 +168,18 @@ export const slides: Slide[] = [
     content: (
       <Text size="body.lg">
         <UnorderedList>
-          <ListItem>Credit card and cross-chain checkouts for NFTs.</ListItem>
+          <ListItem>
+            <TrackedLink
+              category={TRACK_CATEGORY}
+              href="https://withpaper.com/product/checkouts"
+              isExternal
+              label="checkout"
+              color="blue.500"
+            >
+              Credit card and cross-chain checkouts for NFTs
+            </TrackedLink>
+            .
+          </ListItem>
           <ListItem>Enable gasless transactions.</ListItem>
           <ListItem>Fiat on-ramp.</ListItem>
         </UnorderedList>
