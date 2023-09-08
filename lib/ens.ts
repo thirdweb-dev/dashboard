@@ -1,22 +1,6 @@
-import { getEVMThirdwebSDK } from "./sdk";
-import { Provider } from "@ethersproject/abstract-provider";
-import { Ethereum } from "@thirdweb-dev/chains";
+import { resolveAddress, resolveEns as resolveEnsSdk } from "@thirdweb-dev/sdk";
 import { utils } from "ethers";
-import { getDashboardChainRpc } from "lib/rpc";
 import invariant from "tiny-invariant";
-
-let THIRDWEB_PROVIDER: Provider | null = null;
-
-function getMainnetProvider(): Provider {
-  if (THIRDWEB_PROVIDER) {
-    return THIRDWEB_PROVIDER;
-  }
-  THIRDWEB_PROVIDER = getEVMThirdwebSDK(
-    Ethereum.chainId,
-    getDashboardChainRpc(Ethereum),
-  ).getProvider();
-  return THIRDWEB_PROVIDER;
-}
 
 export interface ENSResolveResult {
   ensName: string | null;
@@ -32,10 +16,22 @@ export async function resolveAddressToEnsName(
 ): Promise<ENSResolveResult> {
   invariant(utils.isAddress(address), "address must be a valid address");
 
-  return {
-    ensName: await getMainnetProvider().lookupAddress(address),
-    address,
-  };
+  try {
+    const ensName = await resolveAddress(address);
+
+    return {
+      ensName,
+      address,
+    };
+  } catch (e) {
+    // if the name is not registered, resolveName throws an error
+    // we can ignore this error and return the address
+
+    return {
+      ensName: null,
+      address,
+    };
+  }
 }
 
 export async function resolveEnsNameToAddress(
@@ -43,10 +39,22 @@ export async function resolveEnsNameToAddress(
 ): Promise<ENSResolveResult> {
   invariant(isEnsName(ensName), "ensName must be a valid ens name");
 
-  return {
-    ensName,
-    address: await getMainnetProvider().resolveName(ensName),
-  };
+  try {
+    const address = await resolveEnsSdk(ensName);
+
+    return {
+      ensName,
+      address,
+    };
+  } catch (e) {
+    // if the name is not registered, resolveName throws an error
+    // we can ignore this error and return the ensName
+
+    return {
+      ensName,
+      address: null,
+    };
+  }
 }
 
 export async function resolveEns(
