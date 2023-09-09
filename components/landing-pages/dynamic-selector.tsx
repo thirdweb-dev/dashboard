@@ -41,6 +41,7 @@ export const LandingDynamicSelector: React.FC<LandingDynamicSelectorProps> = ({
                 pointerEvents={{ base: "none", md: "all" }}
                 flexDir="column"
                 gap={6}
+                w="full"
               >
                 <Flex
                   borderBottom="2px solid"
@@ -50,7 +51,6 @@ export const LandingDynamicSelector: React.FC<LandingDynamicSelectorProps> = ({
                       : "gray.800"
                   }
                   py={6}
-                  w="full"
                 >
                   <Text size="label.lg">{item.title}</Text>
                 </Flex>

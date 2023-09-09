@@ -10,6 +10,7 @@ interface LandingShowcaseImageProps {
   gradient?: string;
   description: string;
   image: StaticImageData;
+  imagePosition?: "left" | "right";
 }
 
 export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
@@ -19,10 +20,14 @@ export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
   gradient,
   description,
   image,
+  imagePosition = "right",
 }) => {
   return (
     <SimpleGrid columns={12} gap={12}>
-      <GridItem colSpan={{ base: 12, md: 7 }}>
+      <GridItem
+        colSpan={{ base: 12, md: 6 }}
+        order={imagePosition === "left" ? 2 : 1}
+      >
         <Flex flexDir="column" justifyContent="center">
           {miniTitle && (
             <Heading
@@ -35,23 +40,20 @@ export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
             </Heading>
           )}
           <Heading pb={4} size="display.sm">
-            {title}{" "}
             <Box as="span" bgGradient={gradient} bgClip="text">
-              {titleWithGradient}
+              {titleWithGradient}{" "}
             </Box>
+            {title}
           </Heading>
           {description && <Text size="body.lg">{description}</Text>}
         </Flex>
       </GridItem>
-      {image && (
-        <GridItem colSpan={{ base: 12, md: 5 }}>
-          <ChakraNextImage
-            src={require("public/assets/solutions-pages/commerce/shopify.png")}
-            width="80px"
-            alt="Shopify"
-          />
-        </GridItem>
-      )}
+      <GridItem
+        colSpan={{ base: 12, md: 6 }}
+        order={imagePosition === "left" ? 1 : 2}
+      >
+        <ChakraNextImage src={image} width="full" alt="" borderRadius="xl" />
+      </GridItem>
     </SimpleGrid>
   );
 };
