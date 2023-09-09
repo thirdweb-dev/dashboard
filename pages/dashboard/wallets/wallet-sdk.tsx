@@ -295,7 +295,7 @@ import { Ethereum } from "@thirdweb-dev/chains";
 
 const wallet = new PaperWallet({
   chain: Ethereum, //  chain to connect to
-  clientId: "YOUR_CLIENT_ID", // Paper SDK client ID
+  clientId: "YOUR_CLIENT_ID", // Your thirdweb client ID
 });
 
 wallet.connect();`,
