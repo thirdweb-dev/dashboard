@@ -1,4 +1,10 @@
-import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  GridItem,
+  SimpleGrid,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { StaticImageData } from "next/image";
 import { Heading, Text } from "tw-components";
@@ -22,12 +28,10 @@ export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
   image,
   imagePosition = "right",
 }) => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
-    <SimpleGrid columns={12} gap={12}>
-      <GridItem
-        colSpan={{ base: 12, md: 6 }}
-        order={imagePosition === "left" ? 2 : 1}
-      >
+    <SimpleGrid gap={8} columns={{ base: 1, md: 2 }}>
+      <GridItem order={imagePosition === "left" && !isMobile ? 2 : 1}>
         <Flex flexDir="column" justifyContent="center">
           {miniTitle && (
             <Heading
@@ -48,11 +52,8 @@ export const LandingShowcaseImage: React.FC<LandingShowcaseImageProps> = ({
           {description && <Text size="body.lg">{description}</Text>}
         </Flex>
       </GridItem>
-      <GridItem
-        colSpan={{ base: 12, md: 6 }}
-        order={imagePosition === "left" ? 1 : 2}
-      >
-        <ChakraNextImage src={image} width="full" alt="" borderRadius="xl" />
+      <GridItem order={imagePosition === "left" && !isMobile ? 1 : 2}>
+        <ChakraNextImage src={image} alt="" borderRadius="xl" />
       </GridItem>
     </SimpleGrid>
   );

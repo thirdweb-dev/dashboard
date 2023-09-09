@@ -42,7 +42,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           miniTitle="Powered by Account Abstraction (ERC-4337)"
           title="Transform UX with"
           titleWithGradient="Account Abstraction"
-          subtitle="Transform your app’s user experience with signless transactions, multi-signature security, account recovery, and more."
+          subtitle="Transform your app's user experience with signless transactions, multi-signature security, account recovery, and more."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://thirdweb.com/dashboard/wallets/smart-wallet"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
