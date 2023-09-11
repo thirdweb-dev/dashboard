@@ -5960,21 +5960,10 @@ agentkeepalive@^4.2.1:
     depd "^2.0.0"
     humanize-ms "^1.2.1"
 
-airtable@*:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.12.1.tgz#c2cf30ce4ae98a98c8e69acd33b40420e31306b4"
-  integrity sha512-wS49QIO46YjSUbRIslX6pJaAGsdzOFPtYfaARYsBifsev10TDsyXc5IBYX6b3JQs4SZ8A5+g/vbQ5IfPvbnc+w==
-  dependencies:
-    "@types/node" ">=8.0.0 <15"
-    abort-controller "^3.0.0"
-    abortcontroller-polyfill "^1.4.0"
-    lodash "^4.17.21"
-    node-fetch "^2.6.7"
-
-airtable@^0.11.6:
-  version "0.11.6"
-  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.6.tgz#3b90f9c671ee93c4ad647eb131d630dea9f1f84a"
-  integrity sha512-Na67L2TO1DflIJ1yOGhQG5ilMfL2beHpsR+NW/jhaYOa4QcoxZOtDFs08cpSd1tBMsLpz5/rrz/VMX/pGL/now==
+airtable@*, airtable@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.12.2.tgz#e53e66db86744f9bc684faa58881d6c9c12f0e6f"
+  integrity sha512-HS3VytUBTKj8A0vPl7DDr5p/w3IOGv6RXL0fv7eczOWAtj9Xe8ri4TAiZRXoOyo+Z/COADCj+oARFenbxhmkIg==
   dependencies:
     "@types/node" ">=8.0.0 <15"
     abort-controller "^3.0.0"
