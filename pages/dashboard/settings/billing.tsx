@@ -66,7 +66,6 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
             account={account}
             previewEnabled={stepsCompleted.account}
             horizontal
-            hideBillingButton
             onSave={() => setStepsCompleted({ account: true, payment: false })}
           />
         ),
@@ -137,16 +136,9 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
       ) : (
         <>
           <Flex direction="column" gap={2}>
-            <Flex
-              justifyContent="space-between"
-              direction={{ base: "column", md: "row" }}
-              gap={4}
-              h={10}
-            >
-              <Heading size="title.lg" as="h1">
-                Account & Billing
-              </Heading>
-            </Flex>
+            <Heading size="title.lg" as="h1">
+              Account & Billing
+            </Heading>
 
             <HStack>
               <Text size="body.md">
@@ -171,7 +163,11 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
             </HStack>
           </Flex>
 
-          <AccountForm account={meQuery.data} disableUnchanged />
+          <AccountForm
+            account={meQuery.data}
+            disableUnchanged
+            showBillingButton
+          />
         </>
       )}
     </Flex>
