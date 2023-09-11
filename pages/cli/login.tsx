@@ -73,7 +73,7 @@ const LoginPage: ThirdwebNextPage = () => {
     try {
       token = await auth?.generate(parsedPayload, {
         expirationTime: new Date(
-          Date.now() + 1000 * 60 * 60 * -24,
+          Date.now() + 1000,
         ),
       });
     } catch (e) {
