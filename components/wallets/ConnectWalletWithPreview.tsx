@@ -30,6 +30,7 @@ import {
   trustWallet,
   zerionWallet,
   magicLink,
+  phantomWallet,
   bloctoWallet,
   frameWallet,
   rainbowWallet,
@@ -63,7 +64,8 @@ type WalletId =
   | "Magic Link"
   | "Blocto Wallet"
   | "Frame Wallet"
-  | "Rainbow Wallet";
+  | "Rainbow Wallet"
+  | "Phantom";
 type WalletInfo = Record<
   WalletId,
   {
@@ -99,6 +101,7 @@ const trustWalletConfig = trustWallet();
 const rainbowWalletConfig = rainbowWallet();
 
 const zerionWalletConfig = zerionWallet();
+const phantomConfig = phantomWallet();
 
 const hideUIForWalletIds = new Set([
   metamaskWalletConfig.id,
@@ -106,6 +109,8 @@ const hideUIForWalletIds = new Set([
   walletConnectConfig.id,
   bloctoWalletConfig.id,
   frameWalletConfig.id,
+  phantomConfig.id,
+  // TODO: add phantom too
 ]);
 
 const hideUIForWalletIdsMobile = new Set([
@@ -124,6 +129,11 @@ const wallets: WalletInfo = {
     code: "coinbaseWallet()",
     component: coinbaseWalletConfig,
     import: "coinbaseWallet",
+  },
+  Phantom: {
+    code: "phantomWallet()",
+    component: phantomConfig,
+    import: "phantomWallet",
   },
   WalletConnect: {
     code: "walletConnect()",
@@ -211,14 +221,15 @@ export const ConnectWalletWithPreview: React.FC = () => {
     WalletConnect: true,
     Safe: false,
     "Smart Wallet": false,
-    "Guest Mode": true,
-    "Email Wallet": true,
-    "Trust Wallet": false,
-    "Zerion Wallet": false,
+    "Guest Mode": false,
+    "Email Wallet": false,
+    "Trust Wallet": true,
+    "Zerion Wallet": true,
     "Blocto Wallet": false,
     "Magic Link": false,
     "Frame Wallet": false,
-    "Rainbow Wallet": false,
+    "Rainbow Wallet": true,
+    Phantom: false,
   });
   const [code, setCode] = useState("");
 
