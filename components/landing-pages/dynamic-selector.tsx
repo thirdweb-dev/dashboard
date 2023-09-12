@@ -54,28 +54,25 @@ export const LandingDynamicSelector: React.FC<LandingDynamicSelectorProps> = ({
               borderLeft="none"
               _last={{ borderBottom: "none" }}
               _first={{ borderTop: "none" }}
+              onClick={() => setSelectedItemTitle(item.title)}
+              cursor={{ base: "default", md: "pointer" }}
+              pointerEvents={{ base: "none", md: "all" }}
+              flexDir="column"
+              w="full"
             >
-              <Flex
-                onClick={() => setSelectedItemTitle(item.title)}
-                cursor={{ base: "default", md: "pointer" }}
-                pointerEvents={{ base: "none", md: "all" }}
-                flexDir="column"
-                w="full"
+              <Text
+                size="label.lg"
+                bgClip="text"
+                bgGradient={
+                  selectedItemTitle === item.title
+                    ? gradient
+                    : "linear(to-r, #fff, #fff)"
+                }
+                pb={4}
               >
-                <Text
-                  size="label.lg"
-                  bgClip="text"
-                  bgGradient={
-                    selectedItemTitle === item.title
-                      ? gradient
-                      : "linear(to-r, #fff, #fff)"
-                  }
-                  pb={4}
-                >
-                  {item.title}
-                </Text>
-                <Text size="body.md">{item.description}</Text>
-              </Flex>
+                {item.title}
+              </Text>
+              <Text size="body.md">{item.description}</Text>
             </Flex>
           ))}
         </GridItem>
