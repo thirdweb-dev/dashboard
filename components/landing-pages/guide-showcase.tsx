@@ -29,7 +29,7 @@ export const LandingGuidesShowcase: React.FC<LandingGuidesShowcaseProps> = ({
 }) => {
   return (
     <Flex flexDir="column" py={16} align="center" gap={{ base: 6, lg: 8 }}>
-      <Flex flexDir="column" gap={2} justifyContent="start">
+      <Flex flexDir="column" gap={2} alignItems="center">
         <Heading as="h2" size="display.sm" fontWeight={700} textAlign="center">
           {title}
         </Heading>
