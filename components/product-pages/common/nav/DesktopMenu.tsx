@@ -180,7 +180,7 @@ export const PRODUCTS: NavCardProps[] = [
     label: "smart-wallet",
     description: "Transform UX with Account Abstraction",
     link: "/smart-wallet",
-    icon: require("public/assets/product-icons/wallet-sdk.png"),
+    icon: require("public/assets/product-icons/smart-wallet.svg"),
     section: "wallets",
   },
   {
