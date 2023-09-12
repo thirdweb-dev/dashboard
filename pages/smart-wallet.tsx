@@ -162,7 +162,7 @@ const SmartWallet: ThirdwebNextPage = () => {
         <LandingShowcaseImage
           miniTitle="Managed Infrastructure"
           titleWithGradient="Support millions"
-          title="of users"
+          title="of users."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           description="Managed infrastructure with everything you need to scale to millions of users — handling bundlers, paymasters, & all of the complexity so you can focus on building your app."
           image={require("public/assets/product-pages/smart-wallet/managed-infrastructure.png")}
