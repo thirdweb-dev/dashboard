@@ -61,7 +61,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           miniTitle="Powered by ERC-4337"
           title="The complete toolkit for"
           titleWithGradient="Account Abstraction"
-          subtitle="Transform your app's user experience with signless transactions, multi-signature security, account recovery, and more."
+          subtitle="Transform your app's user experience with signless transactions, multi-signature security, account recovery and more."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://thirdweb.com/dashboard/wallets/smart-wallet"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
@@ -69,7 +69,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
         />
         <LandingDynamicSelector
-          title="What can you build with Smart Wallets?"
+          title="What can you build with smart wallets?"
           blackToWhiteTitle=""
           items={[
             {
@@ -117,7 +117,7 @@ const SmartWallet: ThirdwebNextPage = () => {
             textAlign="center"
             px={{ base: 2, md: 0 }}
           >
-            An all-in-one platform for
+            An all-in-one solution for
             <Box
               bgGradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
               bgClip="text"
@@ -136,8 +136,8 @@ const SmartWallet: ThirdwebNextPage = () => {
         </Flex>
         <LandingShowcaseImage
           miniTitle="Smart Contracts"
-          titleWithGradient="Fast Smart Wallet"
-          title="Factory Deployment."
+          titleWithGradient="Fast smart wallet"
+          title="factory deployment."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           description="Pre-built, audited, & customizable factory contracts with options for simple, managed, or dynamic permissions — deployable to any EVM network."
           image={require("public/assets/product-pages/smart-wallet/smart-contracts.png")}
