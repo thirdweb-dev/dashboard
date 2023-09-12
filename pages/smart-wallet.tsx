@@ -39,13 +39,13 @@ const SmartWallet: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "Web3 Loyalty Program: Engage, Reward, & Delight Customers",
+        title: "The complete Account Abstraction toolkit",
         description:
-          "Build brand loyalty programs that turn customers into champions — with digital collectibles, tradable points, & more. Try thirdweb, it's free.",
+          "Add smart wallets to your web3 app & unlock powerful features for seamless onboarding, customizable transactions, & maximum security. Learn more.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/loyalty-solutions.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/smart-wallet.png`,
               width: 1200,
               height: 630,
               alt: "Web3 Loyalty Programs",
