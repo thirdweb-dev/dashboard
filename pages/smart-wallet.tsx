@@ -69,8 +69,8 @@ const SmartWallet: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
         />
         <LandingDynamicSelector
-          title="What can build with Smart Wallets?"
-          blackToWhiteTitle="Use-Cases"
+          title="What can you build with Smart Wallets?"
+          blackToWhiteTitle=""
           items={[
             {
               title: "Transform your apps UX",
