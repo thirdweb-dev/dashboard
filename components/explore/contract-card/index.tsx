@@ -130,8 +130,14 @@ export const ContractCard: React.FC<ContractCardProps> = ({
           </Flex>
           {isNewContract && (
             <Flex>
-              <Badge alignSelf="center" borderRadius="md">
-                NEW
+              <Badge
+                alignSelf="center"
+                borderRadius="xl"
+                px={2}
+                py={1.5}
+                textTransform="capitalize"
+              >
+                New
               </Badge>
             </Flex>
           )}
