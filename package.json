@@ -55,7 +55,7 @@
     "emotion-theming": "^11.0.0",
     "ethers": "^5.4.6",
     "flat": "^5.0.2",
-    "framer-motion": "^10.16.1",
+    "framer-motion": "^10.16.4",
     "fuse.js": "^6.6.2",
     "idb-keyval": "^6.2.0",
     "next": "^13.4.19",
@@ -92,7 +92,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/airtable": "^0.10.1",
     "@types/color": "^3.0.2",
-    "@types/cors": "^2.8.13",
+    "@types/cors": "^2.8.14",
     "@types/flat": "^5.0.2",
     "@types/nprogress": "^0.2.0",
     "@types/papaparse": "^5.3.1",
@@ -116,7 +116,7 @@
     "next-sitemap": "^4.0.0",
     "next-unused": "^0.0.6",
     "tailwindcss": "^3.3.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.2.2"
   },
   "resolutions": {
     "@types/react": "^18.0.26",
