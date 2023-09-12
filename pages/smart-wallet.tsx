@@ -170,8 +170,8 @@ const SmartWallet: ThirdwebNextPage = () => {
         />
         <LandingShowcaseImage
           miniTitle="Dashboard & Analytics"
-          titleWithGradient="Manage Smart Wallets"
-          title="and view onchain analytics."
+          titleWithGradient="Manage smart wallets"
+          title="& view onchain analytics."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           description="A single source of truth to view smart wallets, manage signers, and view balances for your web3 app — complete with onchain analytics."
           image={require("public/assets/product-pages/smart-wallet/dashboard.png")}
