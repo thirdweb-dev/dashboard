@@ -71,6 +71,7 @@ const SmartWallet: ThirdwebNextPage = () => {
         <LandingDynamicSelector
           title="What can you build with smart wallets?"
           blackToWhiteTitle=""
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
           items={[
             {
               title: "Transform your apps UX",

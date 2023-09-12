@@ -1,6 +1,7 @@
 import { LandingSectionHeading } from "./section-heading";
 import { LandingSectionHeadingProps } from "./types";
 import { Box, Flex, GridItem, SimpleGrid } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import { ReactElement, useState } from "react";
 import { Text } from "tw-components";
 
@@ -13,15 +14,18 @@ interface SelectorItem {
 interface LandingDynamicSelectorProps extends LandingSectionHeadingProps {
   items: SelectorItem[];
   gradient?: string;
+  TRACKING_CATEGORY: string;
 }
 
 export const LandingDynamicSelector: React.FC<LandingDynamicSelectorProps> = ({
   items,
   title,
   gradient = "linear(to-r, #BFA3DA, #84309C, #C735B0)",
+  TRACKING_CATEGORY,
   blackToWhiteTitle,
 }) => {
   const [selectedItemTitle, setSelectedItemTitle] = useState(items[0].title);
+  const trackEvent = useTrack();
 
   const selectedItem =
     items.find((item) => item.title === selectedItemTitle) || items[0];
@@ -54,7 +58,14 @@ export const LandingDynamicSelector: React.FC<LandingDynamicSelectorProps> = ({
               borderLeft="none"
               _last={{ borderBottom: "none" }}
               _first={{ borderTop: "none" }}
-              onClick={() => setSelectedItemTitle(item.title)}
+              onClick={() => {
+                trackEvent({
+                  category: TRACKING_CATEGORY,
+                  action: "select",
+                  label: item.title,
+                });
+                setSelectedItemTitle(item.title);
+              }}
               cursor={{ base: "default", md: "pointer" }}
               pointerEvents={{ base: "none", md: "all" }}
               flexDir="column"
