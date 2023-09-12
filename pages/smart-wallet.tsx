@@ -16,20 +16,17 @@ const TRACKING_CATEGORY = "smart-wallet-landing";
 const GUIDES = [
   {
     title: "The Quick-Start Guide to Account Abstraction",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/09/web3-creator-platform-bg.png",
+    image: require("/public/assets/product-pages/smart-wallet/get-started.png"),
     link: "https://portal.thirdweb.com/smart-wallet/getting%20started",
   },
   {
     title: "Choosing Between Simple, Managed, & Dynamic Smart Wallets",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-31.png",
+    image: require("/public/assets/product-pages/smart-wallet/which-contract.png"),
     link: "https://blog.thirdweb.com/smart-contract-deep-dive-building-smart-wallets-for-individuals-and-teams/",
   },
   {
     title: "How to Enable Batch Transactions in Smart Wallets",
-    image:
-      "https://blog.thirdweb.com/content/images/size/w1000/2022/09/This-is-the-one-3.png",
+    image: require("/public/assets/product-pages/smart-wallet/batch-txns.png"),
     link: "https://blog.thirdweb.com/guides/how-to-batch-transactions-with-the-thirdweb-sdk/",
   },
 ];
