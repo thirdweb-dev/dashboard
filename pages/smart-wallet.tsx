@@ -9,8 +9,30 @@ import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Heading, Text } from "tw-components";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
 
 const TRACKING_CATEGORY = "smart-wallet-landing";
+
+const GUIDES = [
+  {
+    title: "The Quick-Start Guide to Account Abstraction",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w1000/2022/09/web3-creator-platform-bg.png",
+    link: "https://portal.thirdweb.com/smart-wallet/getting%20started",
+  },
+  {
+    title: "Choosing Between Simple, Managed, & Dynamic Smart Wallets",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w1000/2022/08/thumbnail-31.png",
+    link: "https://blog.thirdweb.com/smart-contract-deep-dive-building-smart-wallets-for-individuals-and-teams/",
+  },
+  {
+    title: "How to Enable Batch Transactions in Smart Wallets",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w1000/2022/09/This-is-the-one-3.png",
+    link: "https://blog.thirdweb.com/guides/how-to-batch-transactions-with-the-thirdweb-sdk/",
+  },
+];
 
 const SmartWallet: ThirdwebNextPage = () => {
   return (
@@ -39,8 +61,8 @@ const SmartWallet: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          miniTitle="Powered by Account Abstraction (ERC-4337)"
-          title="Transform UX with"
+          miniTitle="Powered by ERC-4337"
+          title="The complete toolkit for"
           titleWithGradient="Account Abstraction"
           subtitle="Transform your app's user experience with signless transactions, multi-signature security, account recovery, and more."
           trackingCategory={TRACKING_CATEGORY}
@@ -54,9 +76,9 @@ const SmartWallet: ThirdwebNextPage = () => {
           blackToWhiteTitle="Use-Cases"
           items={[
             {
-              title: "Invisible Wallet Experience",
+              title: "Transform your apps UX",
               description:
-                "Enable signless transactions, set spend limits, & cover users fees with gasless for the smoothest app UX.",
+                "Infinitely-customizable wallet transactions — with spend limits, batch transactions, and a signless & gasless combo for web2 users.",
               Component: (
                 <ChakraNextImage
                   src={require("/public/assets/product-pages/smart-wallet/invisible-wallet.png")}
@@ -66,9 +88,9 @@ const SmartWallet: ThirdwebNextPage = () => {
               ),
             },
             {
-              title: "Pair with any Wallet",
+              title: "Instant onboarding for every user",
               description:
-                "Use any wallet as the signer. Build a custom experience for your app using Email, Social or Web3 Wallet sign-in.",
+                "Auth for the most popular web3 wallets and web2 login flows — with just an email, phone number, social account, or passkeys.",
               Component: (
                 <ChakraNextImage
                   src={require("/public/assets/product-pages/smart-wallet/pair-any-wallet.png")}
@@ -78,9 +100,9 @@ const SmartWallet: ThirdwebNextPage = () => {
               ),
             },
             {
-              title: "Fully Programmable",
+              title: "Enterprise-grade security",
               description:
-                "Batch transactions together, create multi-sig wallets and build wallet recovery flows for non-technical users.",
+                "Wallet recovery, 2FA, and multi-signature support for ultimate peace of mind — for users & teams.",
               Component: (
                 <ChakraNextImage
                   src={require("/public/assets/product-pages/smart-wallet/fully-programmable.png")}
@@ -98,9 +120,8 @@ const SmartWallet: ThirdwebNextPage = () => {
             textAlign="center"
             px={{ base: 2, md: 0 }}
           >
-            An all-in-one platform for{" "}
+            An all-in-one platform for
             <Box
-              as="span"
               bgGradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
               bgClip="text"
             >
@@ -118,27 +139,27 @@ const SmartWallet: ThirdwebNextPage = () => {
         </Flex>
         <LandingShowcaseImage
           miniTitle="Smart Contracts"
-          titleWithGradient="Easy Smart Wallet"
+          titleWithGradient="Fast Smart Wallet"
           title="Factory Deployment."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          description="Pre-built, audited, & customizable smart contracts with extensions for advanced functionality. Compatible with ERC-4337 & deployable to any EVM network."
+          description="Pre-built, audited, & customizable factory contracts with options for simple, managed, or dynamic permissions — deployable to any EVM network."
           image={require("public/assets/product-pages/smart-wallet/smart-contracts.png")}
         />
         <LandingShowcaseImage
-          miniTitle="Account Abstraction SDK"
+          miniTitle="SDK"
           titleWithGradient="Integrate smart wallets"
           title="into your web3 apps."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          description="Everything you need to build apps powered by account abstraction — with contracts, UI components, infrastructure, & more."
+          description="A best-in-class SDK with everything you need to build apps powered by account abstraction & generate smart wallets for your users — with full ERC-4337 compatibility."
           image={require("public/assets/product-pages/smart-wallet/account-abstraction.png")}
           imagePosition="left"
         />
         <LandingShowcaseImage
           miniTitle="UI Components"
-          titleWithGradient="Let users connect"
-          title="to your app."
+          titleWithGradient="Drag and drop"
+          title="UI Components."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          description="Drag-and-drop components that let users connect their smart wallets to your app, easily."
+          description="The easiest way to give smart wallets to your users — with UI components that are purpose-built for account abstraction & compatible with any existing ERC-4337 smart wallet, out of the box."
           image={require("public/assets/product-pages/smart-wallet/ui-components.png")}
         />
         <LandingShowcaseImage
@@ -146,22 +167,29 @@ const SmartWallet: ThirdwebNextPage = () => {
           titleWithGradient="Support millions"
           title="of users"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          description="Infrastructure that scales as you grow — with full bundler & paymaster support, out of the box."
+          description="Managed infrastructure with everything you need to scale to millions of users — handling bundlers, paymasters, & all of the complexity so you can focus on building your app."
           image={require("public/assets/product-pages/smart-wallet/managed-infrastructure.png")}
           imagePosition="left"
         />
         <LandingShowcaseImage
-          miniTitle="Dashboard & Analytics "
+          miniTitle="Dashboard & Analytics"
           titleWithGradient="Manage Smart Wallets"
           title="and view onchain analytics."
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          description="Manage smart wallet deployments & view analytics of your app's usage."
+          description="A single source of truth to view smart wallets, manage signers, and view balances for your web3 app — complete with onchain analytics."
           image={require("public/assets/product-pages/smart-wallet/dashboard.png")}
+        />
+        <LandingGuidesShowcase
+          title="Get started with Account Abstraction"
+          category={TRACKING_CATEGORY}
+          description="See our quick-start guides to implement smart wallets into your web3 app"
+          solution="Smart Wallet"
+          guides={GUIDES}
         />
 
         <LandingEndCTA
-          title="Easily implement smart wallets"
-          titleWithGradient="for your web3 app."
+          title="Add smart wallets"
+          titleWithGradient="to your web3 app."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/smart-wallet"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"

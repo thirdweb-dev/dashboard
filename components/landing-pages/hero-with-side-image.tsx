@@ -44,14 +44,16 @@ export const LandingHeroWithSideImage: React.FC<
               {miniTitle}
             </Heading>
           </Flex>
-          <Heading as="h1" size="display.md" px={{ base: 2, md: 0 }}>
+          <Heading as="h1" size="display.sm" px={{ base: 2, md: 0 }} mr={6}>
             {title}{" "}
             <Box as="span" bgGradient={gradient} bgClip="text">
               {titleWithGradient}
             </Box>
           </Heading>
         </Flex>
-        <Text size="body.xl">{subtitle}</Text>
+        <Text size="body.xl" mr={6}>
+          {subtitle}
+        </Text>
         <LandingCTAButtons
           ctaText={ctaText}
           ctaLink={ctaLink}
