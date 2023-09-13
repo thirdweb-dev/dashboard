@@ -410,66 +410,6 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           View Smart Wallet documentation
         </TrackedLinkButton>
       </Flex>
-      <Flex flexDir={"column"} gap={4}>
-        <Heading size="title.md" as="h1">
-          Executing gas free transactions with Smart Wallets
-        </Heading>
-        <Text>
-          Once setup, you can use the thirdweb{" "}
-          <TrackedLink
-            category={TRACKING_CATEGORY}
-            label="docs-typescript"
-            href="https://portal.thirdweb.com/typescript"
-            color={"blue.500"}
-            isExternal
-          >
-            TypeScript
-          </TrackedLink>
-          ,{" "}
-          <TrackedLink
-            category={TRACKING_CATEGORY}
-            label="docs-react"
-            href="https://portal.thirdweb.com/react"
-            color={"blue.500"}
-            isExternal
-          >
-            React
-          </TrackedLink>
-          ,{" "}
-          <TrackedLink
-            category={TRACKING_CATEGORY}
-            label="docs-react-native"
-            href="https://portal.thirdweb.com/react-native"
-            color={"blue.500"}
-            isExternal
-          >
-            React Native
-          </TrackedLink>{" "}
-          and{" "}
-          <TrackedLink
-            category={TRACKING_CATEGORY}
-            label="docs-unity"
-            href="https://portal.thirdweb.com/unity"
-            color={"blue.500"}
-            isExternal
-          >
-            Unity
-          </TrackedLink>{" "}
-          SDKs to deploy contracts, perform transactions, and manipulate wallets
-          just like you would with any other wallet.
-        </Text>
-        <CodeSegment
-          snippet={formatSnippet(INTERACT_SNIPPET as any, {
-            contractAddress: form
-              .watch("chainAndFactoryAddress")
-              ?.split("-")[1],
-            clientId: form.watch("clientId"),
-            chainName: chainSlug?.toString() || "goerli",
-          })}
-          environment={selectedLanguage}
-          setEnvironment={setSelectedLanguage}
-        />
-      </Flex>
       <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
         <Card
           as={Flex}
