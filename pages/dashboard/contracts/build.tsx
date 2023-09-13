@@ -1,31 +1,12 @@
-import {
-  Divider,
-  Flex,
-  GridItem,
-  ListItem,
-  SimpleGrid,
-  Tooltip,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Flex, ListItem, UnorderedList } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
-import { CodeEnvironment } from "components/contract-tabs/code/types";
-import { RelevantDataSection } from "components/dashboard/RelevantDataSection";
-import { IpfsUploadDropzone } from "components/ipfs-upload/dropzone";
 import { ContractsSidebar } from "core-ui/sidebar/contracts";
-import { InfrastructureSidebar } from "core-ui/sidebar/infrastructure";
-import { NextSeo } from "next-seo";
 import { PageId } from "page-id";
-import { useState } from "react";
 import {
-  Card,
   Heading,
   Text,
-  TrackedCopyButton,
-  Link,
   TrackedLink,
   CodeBlock,
-  LinkButton,
   TrackedLinkButton,
 } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
