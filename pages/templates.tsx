@@ -34,7 +34,7 @@ export const templates: TemplateCardProps[] = [
   {
     id: "erc721",
     title: "NFT Drop",
-    homepage: "https://nft-drop.thirdweb-preview.com/",
+    homepage: "https://nft-drop.thirdweb-example.com/",
     repo: "https://github.com/thirdweb-example/nft-drop",
     description:
       "Allow users to claim tokens under the criteria of claim conditions to receive ERC721 NFT(s).",
@@ -43,18 +43,18 @@ export const templates: TemplateCardProps[] = [
     tags: ["ERC721", "Custom Claim Conditions"],
     author: "thirdweb",
   },
-  {
-    id: "marketplace-v3",
-    title: "Marketplace",
-    homepage: "https://marketplace-v3.thirdweb-preview.com/",
-    repo: "https://github.com/thirdweb-example/marketplace-v3",
-    description:
-      "Allow holders of your NFTs to trade in a marketplace with a built-in escrow and auctioning system.",
-    img: "/assets/templates/marketplace.png",
-    hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
-    tags: ["Multi-currency", "Buy & Sell"],
-    author: "thirdweb",
-  },
+  // {
+  //   id: "marketplace-v3",
+  //   title: "Marketplace",
+  //   homepage: "https://marketplace-v3.thirdweb-example.com/",
+  //   repo: "https://github.com/thirdweb-example/marketplace-v3",
+  //   description:
+  //     "Allow holders of your NFTs to trade in a marketplace with a built-in escrow and auctioning system.",
+  //   img: "/assets/templates/marketplace.png",
+  //   hoverBorderColor: "hsl(309deg 54% 81% / 15%)",
+  //   tags: ["Multi-currency", "Buy & Sell"],
+  //   author: "thirdweb",
+  // },
   {
     id: "nft-gated-website",
     title: "NFT Gated Website",
@@ -70,7 +70,7 @@ export const templates: TemplateCardProps[] = [
   {
     id: "nft-gallery",
     title: "NFT Gallery",
-    homepage: "https://nft-gallery.thirdweb-preview.com/",
+    homepage: "https://nft-gallery.thirdweb-example.com/",
     repo: "https://github.com/thirdweb-example/nft-gallery",
     description:
       "View the metadata of all NFTs in your collection, where you can filter and sort by traits & properties.",

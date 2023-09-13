@@ -119,6 +119,12 @@ function redirects() {
       destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
+    // backwards compat: page moved to pages/settings/devices
+    {
+      source: "/dashboard/settings/account",
+      destination: "/dashboard/settings/devices",
+      permanent: false,
+    },
     {
       source: "/template/nft-drop",
       destination: "/template/erc721",
@@ -132,6 +138,21 @@ function redirects() {
     {
       source: "/create-api-key",
       destination: "/dashboard/settings/api-keys",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallet",
+      destination: "/dashboard/wallets",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/rpc",
+      destination: "/dashboard/infrastructure/rpc-edge",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/storage",
+      destination: "/dashboard/infrastructure/storage",
       permanent: false,
     },
   ];

@@ -11,6 +11,7 @@ import {
 import { CmdKSearch } from "components/cmd-k-search";
 import { ColorModeToggle } from "components/color-mode/color-mode-toggle";
 import { Logo } from "components/logo";
+import { BillingAlert } from "components/settings/Account/BillingAlert";
 import { SIDEBAR_TUNNEL_ID, SIDEBAR_WIDTH } from "core-ui/sidebar/tunnel";
 import { useRouter } from "next/router";
 import { FiFile, FiGlobe, FiHelpCircle } from "react-icons/fi";
@@ -68,6 +69,10 @@ export const AppShell: ComponentWithChildren<AppShellProps> = ({
         rowSpan={1}
         overflowX="auto"
       >
+        <Container maxW="container.page">
+          <BillingAlert />
+        </Container>
+
         {layout === "custom-contract" ? (
           children
         ) : (
@@ -211,8 +216,8 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Home
           </LinkButton>
           <LinkButton
-            href="/dashboard/wallet"
-            isActive={pathname === "/dashboard/wallet"}
+            href="/dashboard/wallets"
+            isActive={pathname.startsWith("/dashboard/wallets")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
@@ -236,26 +241,23 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Contracts
           </LinkButton>
           <LinkButton
-            href="/dashboard/storage"
-            isActive={pathname === "/dashboard/storage"}
-            _active={{
-              bg: "bgBlack",
-              color: "bgWhite",
-            }}
+            href="https://withpaper.com/product/checkouts"
             rounded="lg"
+            isExternal
+            noIcon
           >
-            Storage
+            Payments
           </LinkButton>
           <LinkButton
-            href="/dashboard/rpc"
-            isActive={pathname === "/dashboard/rpc"}
+            href="/dashboard/infrastructure"
+            isActive={pathname.startsWith("/dashboard/infrastructure")}
             _active={{
               bg: "bgBlack",
               color: "bgWhite",
             }}
             rounded="lg"
           >
-            RPC
+            Infrastructure
           </LinkButton>
           <LinkButton
             href="/dashboard/settings"
