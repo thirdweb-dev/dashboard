@@ -259,7 +259,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           />
         </SimpleGrid>
       </Flex>
-      {accountFactories.length === 0 ? (
+      {(factories?.data || []).length === 0 ? (
         <Flex flexDir={"column"} gap={4}>
           <Heading size="title.md" as="h1">
             Deploy Account Factories
