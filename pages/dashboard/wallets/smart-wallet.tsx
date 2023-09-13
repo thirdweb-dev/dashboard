@@ -594,7 +594,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
               <TrackedLink
                 as={ListItem}
                 category={TRACKING_CATEGORY}
-                label="react-template"
+                label="node-template"
                 href="https://github.com/thirdweb-example/smart-wallet-react"
                 isExternal
                 _hover={{ opacity: 0.8 }}
