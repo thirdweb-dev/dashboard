@@ -160,6 +160,11 @@ function redirects() {
       destination: "/account-abstraction",
       permanent: false,
     },
+    {
+      source: "/dashboard/published",
+      destination: "/dashboard/publish",
+      permanent: false,
+    },
   ];
 }
 

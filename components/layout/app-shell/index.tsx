@@ -123,14 +123,15 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
           <Button
             as={TrackedLink}
             variant="link"
-            href="/explore"
+            href="/pricing"
             category="header"
-            label="docs"
+            label="pricing"
             flexDir="row"
             gap={1.5}
             mx={1}
             alignItems="center"
             display={{ base: "none", md: "flex" }}
+            isExternal
           >
             <Icon as={FiGlobe} />
             <Heading
@@ -138,7 +139,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
               as="h4"
               size="label.md"
             >
-              Explore
+              Pricing
             </Heading>
           </Button>
           <Button
