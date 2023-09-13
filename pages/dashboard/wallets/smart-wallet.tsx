@@ -368,7 +368,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
           >
             Wallet SDK
           </Button>
-          {form.watch("chainAndFactoryAddress") && (
+          {!!form.watch("chainAndFactoryAddress") && (
             <LinkButton
               isActive={false}
               _active={{
@@ -380,7 +380,7 @@ const DashboardWalletsSmartWallet: ThirdwebNextPage = () => {
                 .watch("chainAndFactoryAddress")
                 ?.split("-")[0]}/${form
                 .watch("chainAndFactoryAddress")
-                ?.split("-")[1]}"`}
+                ?.split("-")[1]}/code`}
             >
               Direct contract interaction (advanced)
             </LinkButton>
