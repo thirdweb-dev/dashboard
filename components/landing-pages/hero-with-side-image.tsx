@@ -13,6 +13,7 @@ interface LandingHeroWithSideImageProps {
   ctaText?: string;
   ctaLink: string;
   contactUsTitle?: string;
+  noContactUs?: boolean;
   gradient: string;
   image?: StaticImageData;
   mobileImage?: StaticImageData;
@@ -29,6 +30,7 @@ export const LandingHeroWithSideImage: React.FC<
   ctaText,
   ctaLink,
   contactUsTitle,
+  noContactUs,
   gradient,
   image,
   mobileImage,
@@ -60,6 +62,7 @@ export const LandingHeroWithSideImage: React.FC<
           ctaText={ctaText}
           ctaLink={ctaLink}
           contactUsTitle={contactUsTitle}
+          noContactUs={noContactUs}
           trackingCategory={trackingCategory}
           alignLeft
         />
