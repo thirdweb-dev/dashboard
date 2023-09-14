@@ -217,7 +217,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Home
           </LinkButton>
           <LinkButton
-            href="/dashboard/wallets"
+            href="/dashboard/wallets/connect"
             isActive={pathname.startsWith("/dashboard/wallets")}
             _active={{
               bg: "bgBlack",
@@ -228,7 +228,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Wallets
           </LinkButton>
           <LinkButton
-            href="/dashboard/contracts"
+            href="/dashboard/contracts/deploy"
             isActive={
               pathname.startsWith("/dashboard/contracts") ||
               route === "/[networkOrAddress]/[...catchAll]"
@@ -250,7 +250,7 @@ const AppHeader: React.FC<Pick<AppShellProps, "ecosystem">> = ({
             Payments
           </LinkButton>
           <LinkButton
-            href="/dashboard/infrastructure"
+            href="/dashboard/infrastructure/storage"
             isActive={pathname.startsWith("/dashboard/infrastructure")}
             _active={{
               bg: "bgBlack",
