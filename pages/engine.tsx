@@ -112,7 +112,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               />
             </Card>
           </LandingGridSection>
-          <SimpleGrid columns={2} gap={6}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
             <Card p={8}>
               <LandingIconSectionItem
                 icon={require("public/assets/product-pages/engine/web3-auth.png")}
