@@ -247,7 +247,7 @@ const pricingFaqs = [
       <Text>
         RPC usage is calculated by requests per second. For the starter plan,
         users are allowed 100 requests per second rate limit for free. For the
-        pro plan, this rate limit increases 5,000 requests per second rate
+        pro plan, this rate limit increases 2,000 requests per second rate
         limit. Contact sales to upgrade to thirdweb pro plan.
       </Text>
     ),
