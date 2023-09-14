@@ -82,7 +82,8 @@ export const DashboardThirdwebProvider: ComponentWithChildren<
 
   return (
     <ThirdwebProvider
-      queryClient={queryClient}
+      // handle the discrepancy in the type of queryClient in the short term
+      queryClient={queryClient as any}
       dAppMeta={{
         name: "thirdweb",
         logoUrl: "https://thirdweb.com/favicon.ico",
