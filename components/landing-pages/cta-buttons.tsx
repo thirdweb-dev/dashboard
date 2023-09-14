@@ -5,16 +5,20 @@ import { TrackedLinkButton } from "tw-components";
 interface LandingCTAButtonsProps {
   ctaLink: string;
   ctaText?: string;
+  contactUsTitle?: string;
   trackingCategory: string;
+  alignLeft?: boolean;
 }
 
 export const LandingCTAButtons: React.FC<LandingCTAButtonsProps> = ({
   ctaLink,
   ctaText = "Get Started",
+  contactUsTitle = "Contact Us",
   trackingCategory,
+  alignLeft,
 }) => {
   return (
-    <Flex gap={{ base: 4, md: 6 }} mx="auto">
+    <Flex gap={{ base: 4, md: 6 }} mx={alignLeft ? "inherit" : "auto"}>
       <TrackedLinkButton
         leftIcon={<Icon as={BsFillLightningChargeFill} boxSize={4} />}
         py={6}
@@ -27,7 +31,7 @@ export const LandingCTAButtons: React.FC<LandingCTAButtonsProps> = ({
         color="black"
         href={ctaLink}
         category={trackingCategory}
-        label="contact-us"
+        label={ctaText.replaceAll(" ", "-").toLowerCase()}
         fontWeight="bold"
       >
         {ctaText}
@@ -40,7 +44,7 @@ export const LandingCTAButtons: React.FC<LandingCTAButtonsProps> = ({
         category={trackingCategory}
         label="contact-us"
       >
-        Contact Us
+        {contactUsTitle}
       </TrackedLinkButton>
     </Flex>
   );
