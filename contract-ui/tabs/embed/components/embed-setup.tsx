@@ -222,7 +222,7 @@ export const EmbedSetup: React.FC<EmbedSetupProps> = ({
   const minimizedChain = minimizeChain(configuredChainWithNewRpc);
 
   const iframeSrc = buildIframeSrc(contract, ercOrMarketplace, {
-    chain: JSON.stringify(minimizedChain),
+    chain: encodeURIComponent(JSON.stringify(minimizedChain)),
     clientId: validApiKey?.key || "",
     ...watch(),
   });
