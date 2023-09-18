@@ -119,6 +119,12 @@ function redirects() {
       destination: "/dashboard/settings/api-keys",
       permanent: false,
     },
+    // backwards compat: page moved to pages/settings/devices
+    {
+      source: "/dashboard/settings/account",
+      destination: "/dashboard/settings/devices",
+      permanent: false,
+    },
     {
       source: "/template/nft-drop",
       destination: "/template/erc721",
@@ -147,6 +153,31 @@ function redirects() {
     {
       source: "/dashboard/storage",
       destination: "/dashboard/infrastructure/storage",
+      permanent: false,
+    },
+    {
+      source: "/smart-wallet",
+      destination: "/account-abstraction",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/published",
+      destination: "/dashboard/publish",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/wallets",
+      destination: "/dashboard/wallets/connect",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/infrastructure",
+      destination: "/dashboard/infrastructure/storage",
+      permanent: false,
+    },
+    {
+      source: "/dashboard/contracts",
+      destination: "/dashboard/contracts/deploy",
       permanent: false,
     },
   ];
