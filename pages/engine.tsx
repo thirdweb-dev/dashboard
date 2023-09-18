@@ -77,14 +77,14 @@ const EngineLanding: ThirdwebNextPage = () => {
             description="Launch your web3 app on any (or many) chains. Don't lock your users into one network — unlock ultimate cross-chain flexibility with support for any EVM."
           />
           <LandingIconSectionItem
+            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            title="Scale to billions"
+            description="Nonce, key and fund management handled for you. Scale your app without sacrificing performance or security."
+          />
+          <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
             title="Secure and reliable"
             description="Best-in-class security for your users and 99.9% infrastructure uptime."
-          />
-          <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
-            title="Scale to billions"
-            description="Nonce, key and fund management handled for you. Scale your app without sacrificing performance or security."
           />
         </LandingGridSection>
 
