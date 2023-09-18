@@ -87,7 +87,6 @@ type WalletSetupOptions = {
     btnTitle?: string;
     auth?: string;
     modalTitle?: string;
-    dropdownPosition?: string;
     switchToActiveChain?: string;
     modalSize?: string;
   };
@@ -111,7 +110,6 @@ const hideUIForWalletIds = new Set([
   bloctoWalletConfig.id,
   frameWalletConfig.id,
   phantomConfig.id,
-  // TODO: add phantom too
 ]);
 
 const hideUIForWalletIdsMobile = new Set([
@@ -210,8 +208,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
   const [btnTitle, setBtnTitle] = useState("");
   const [modalSize, setModalSize] = useState<"compact" | "wide">("wide");
   const [modalTitle, setModalTitle] = useState("");
-  const [dropdownPosition, setdropdownPosition] =
-    useState<DefaultOrCustom>("default");
   const { colorMode, toggleColorMode } = useColorMode();
 
   const selectedTheme = colorMode === "light" ? "light" : "dark";
@@ -261,10 +257,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
         btnTitle: btnTitle ? `"${btnTitle}"` : undefined,
         modalTitle: modalTitle ? `"${modalTitle}"` : undefined,
         auth: authEnabled ? "{ loginOptional: false }" : undefined,
-        dropdownPosition:
-          dropdownPosition === "custom"
-            ? `{ align: "center", side: "bottom" }`
-            : undefined,
         switchToActiveChain: switchToActiveChain ? "true" : undefined,
         modalSize: `"${modalSize}"`,
       },
@@ -280,7 +272,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
   }, [
     authEnabled,
     btnTitle,
-    dropdownPosition,
     enabledWallets,
     modalTitle,
     selectedTheme,
@@ -316,14 +307,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
     <ConnectWallet
       modalSize={modalSize}
       modalTitle={modalTitle}
-      dropdownPosition={
-        dropdownPosition === "custom"
-          ? {
-              align: "center",
-              side: "bottom",
-            }
-          : undefined
-      }
       theme={selectedTheme}
       btnTitle={btnTitle || undefined}
       // overrides
@@ -542,25 +525,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
                     }}
                   />
                 </FormItem>
-
-                {/* dropdownPosition */}
-                {/* <FormItem
-                  label="Dropdown Position"
-                  description="Specify where should the details dropdown menu open relative to the ConnectWallet details Button. The details button is rendered when wallet is connected."
-                >
-                  <Select
-                    variant="filled"
-                    value={dropdownPosition}
-                    onChange={(event) => {
-                      setdropdownPosition(
-                        event.target.value as DefaultOrCustom,
-                      );
-                    }}
-                  >
-                    <option value="default">default</option>
-                    <option value="custom">custom</option>
-                  </Select>
-                </FormItem> */}
               </Flex>
             </TabPanel>
 
