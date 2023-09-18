@@ -41,9 +41,9 @@ const EngineLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="thirdweb Engine"
-          title="The all-in-one API"
-          titleWithGradient="for enterprise-grade web3 apps"
-          subtitle="Power your web3 app with the all-in-one blockchain API — with auth, smart contracts, backend wallets, gasless transactions, and managed infrastructure."
+          title="All-in-one API"
+          titleWithGradient="for enterprise-grade Web3 apps"
+          subtitle="Power your Web3 app with production-grade APIs, including auth, smart contracts, backend wallets, gasless transactions, and managed infrastructure."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/web3-api"
           ctaText="Get beta access"
@@ -68,7 +68,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
             title="Go to market faster"
-            description="Save months of development time with solutions that work out-of-the-box that abstract away all of the blockchain complexity for you."
+            description="Save months of development time with solutions that work out-of-the-box and abstract away all of the blockchain complexity for you."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.png")}
@@ -78,7 +78,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
             title="Secure and reliable"
-            description="Best-in-class security for your users and 99.9% infrastructure uptime so you can focus on building production-grade web3 apps."
+            description="Best-in-class security for your users and 99.9% infrastructure uptime."
           />
         </LandingGridSection>
 
