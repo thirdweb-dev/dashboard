@@ -15,6 +15,7 @@ import {
   Grid,
   useBreakpointValue,
   Switch,
+  useColorMode,
 } from "@chakra-ui/react";
 import {
   ConnectWallet,
@@ -130,15 +131,31 @@ const wallets: WalletInfo = {
     component: coinbaseWalletConfig,
     import: "coinbaseWallet",
   },
-  Phantom: {
-    code: "phantomWallet()",
-    component: phantomConfig,
-    import: "phantomWallet",
-  },
   WalletConnect: {
     code: "walletConnect()",
     component: walletConnectConfig,
     import: "walletConnect",
+  },
+  "Trust Wallet": {
+    code: `trustWallet()`,
+    component: trustWalletConfig,
+    import: "trustWallet",
+  },
+  "Rainbow Wallet": {
+    code: `rainbowWallet()`,
+    component: rainbowWalletConfig,
+    import: "rainbowWallet",
+  },
+
+  "Zerion Wallet": {
+    code: "zerionWallet()",
+    component: zerionWalletConfig,
+    import: "zerionWallet",
+  },
+  Phantom: {
+    code: "phantomWallet()",
+    component: phantomConfig,
+    import: "phantomWallet",
   },
   "Guest Mode": {
     code: `localWallet()`,
@@ -177,21 +194,6 @@ const wallets: WalletInfo = {
     }),
     import: "magicLink",
   },
-  "Rainbow Wallet": {
-    code: `rainbowWallet()`,
-    component: rainbowWalletConfig,
-    import: "rainbowWallet",
-  },
-  "Trust Wallet": {
-    code: `trustWallet()`,
-    component: trustWalletConfig,
-    import: "trustWallet",
-  },
-  "Zerion Wallet": {
-    code: "zerionWallet()",
-    component: zerionWalletConfig,
-    import: "zerionWallet",
-  },
   "Blocto Wallet": {
     code: "bloctoWallet()",
     component: bloctoWalletConfig,
@@ -210,7 +212,10 @@ export const ConnectWalletWithPreview: React.FC = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [dropdownPosition, setdropdownPosition] =
     useState<DefaultOrCustom>("default");
-  const [selectedTheme, setSelectedTheme] = useState<Theme>("dark");
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  const selectedTheme = colorMode === "light" ? "light" : "dark";
+
   const [authEnabled, setAuthEnabled] = useState(false);
   const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
   const [walletSelection, setWalletSelection] = useState<
@@ -229,7 +234,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
     "Magic Link": false,
     "Frame Wallet": false,
     "Rainbow Wallet": true,
-    Phantom: false,
+    Phantom: true,
   });
   const [code, setCode] = useState("");
 
@@ -352,15 +357,19 @@ export const ConnectWalletWithPreview: React.FC = () => {
   return (
     <Grid
       templateColumns={{
-        base: "1fr",
+        md: "300px 1fr",
+        sm: "1fr",
       }}
-      gap={10}
+      gap={{
+        base: 14,
+        md: 4,
+      }}
       mt={8}
     >
       {/* left */}
       <GridItem>
         <Tabs isLazy>
-          <TabList>
+          <TabList fontSize={14}>
             <Tab> Wallets </Tab>
             <Tab> Appearance </Tab>
             <Tab> Features </Tab>
@@ -371,11 +380,9 @@ export const ConnectWalletWithPreview: React.FC = () => {
             <TabPanel p={0} pt={6}>
               <Grid
                 flexWrap={"wrap"}
-                gap={[3, 4]}
+                gap={3}
                 templateColumns={{
-                  base: "1fr 1fr",
-                  sm: "1fr 1fr 1fr",
-                  md: "1fr 1fr 1fr 1fr 1fr",
+                  base: "1fr",
                 }}
               >
                 {Object.keys(wallets).map((key) => {
@@ -387,7 +394,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
                     <Flex
                       key={walletId}
                       borderRadius="xl"
-                      gap={3}
                       bg={isChecked ? "hsl(215.88deg 100% 60% / 15%)" : "none"}
                       cursor="pointer"
                       _hover={
@@ -399,9 +405,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                           : {}
                       }
                       transition="background 200ms ease"
-                      border={"2px solid"}
-                      borderColor={isChecked ? "blue.500" : "inputBgHover"}
-                      p={3}
+                      p={2}
                       alignItems="center"
                       onClick={() => {
                         setWalletSelection({
@@ -410,14 +414,29 @@ export const ConnectWalletWithPreview: React.FC = () => {
                         });
                       }}
                       userSelect={"none"}
+                      gap={3}
                     >
                       <Image
-                        width={8}
-                        height={8}
+                        width={10}
+                        height={10}
                         alt={walletInfo.component.meta.name}
                         src={replaceIpfsUrl(walletInfo.component.meta.iconURL)}
-                      />{" "}
-                      <Text color="inherit">{walletId}</Text>
+                      />
+
+                      <Flex
+                        gap={3}
+                        alignItems="center"
+                        justifyContent="space-between"
+                        flex={1}
+                      >
+                        <Text
+                          fontWeight={600}
+                          fontSize={16}
+                          color={isChecked ? "heading" : "paragraph"}
+                        >
+                          {walletId}
+                        </Text>
+                      </Flex>
                     </Flex>
                   );
                 })}
@@ -447,7 +466,10 @@ export const ConnectWalletWithPreview: React.FC = () => {
                         selectedTheme === "dark" ? "blue.500" : "gray.800"
                       }
                       onClick={() => {
-                        setSelectedTheme("dark");
+                        if (selectedTheme === "dark") {
+                          return;
+                        }
+                        toggleColorMode();
                       }}
                     ></Button>
 
@@ -465,7 +487,10 @@ export const ConnectWalletWithPreview: React.FC = () => {
                         selectedTheme === "light" ? "blue.500" : "gray.200"
                       }
                       onClick={() => {
-                        setSelectedTheme("light");
+                        if (selectedTheme === "light") {
+                          return;
+                        }
+                        toggleColorMode();
                       }}
                     ></Button>
                   </Flex>
@@ -519,7 +544,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 </FormItem>
 
                 {/* dropdownPosition */}
-                <FormItem
+                {/* <FormItem
                   label="Dropdown Position"
                   description="Specify where should the details dropdown menu open relative to the ConnectWallet details Button. The details button is rendered when wallet is connected."
                 >
@@ -535,7 +560,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                     <option value="default">default</option>
                     <option value="custom">custom</option>
                   </Select>
-                </FormItem>
+                </FormItem> */}
               </Flex>
             </TabPanel>
 
@@ -578,9 +603,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
       {/* right */}
       <GridItem>
         <Tabs>
-          <TabList>
+          <TabList fontSize={14}>
             <Tab> Preview </Tab>
-
             <Tab> Code </Tab>
           </TabList>
 
@@ -594,11 +618,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 flexDir="column"
                 justifyContent="center"
                 alignItems="center"
-                minH="700px"
+                minH="800px"
                 py={8}
-                bg={selectedTheme === "light" ? "gray.300" : "black"}
-                border="1px solid"
-                borderColor={"backgroundHighlight"}
               >
                 <Box>
                   <Text color={"gray.700"} textAlign="center">
