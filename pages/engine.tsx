@@ -17,16 +17,17 @@ const EngineLanding: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "The complete Account Abstraction toolkit",
+        title:
+          "The Blockchain API for Production-Grade Web3 Apps | thirdweb Engine",
         description:
-          "Add smart wallets to your web3 app & unlock powerful features for seamless onboarding, customizable transactions, & maximum security. Learn more.",
+          "Connect any app to the blockchain via API — with auth, smart contracts, wallets, gasless transactions, & managed infrastructure. Learn more.",
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/smart-wallet.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/engine.png`,
               width: 1200,
               height: 630,
-              alt: "Web3 Loyalty Programs",
+              alt: "thirdweb Engine",
             },
           ],
         },
@@ -48,8 +49,8 @@ const EngineLanding: ThirdwebNextPage = () => {
           ctaText="Get beta access"
           noContactUs={true}
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}
-          mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
+          image={require("public/assets/product-pages/engine/desktop-hero.png")}
+          mobileImage={require("public/assets/product-pages/engine/desktop-hero.png")}
         />
         <LandingGridSection
           title={
@@ -72,7 +73,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.png")}
             title="Cross-chain EVM support"
-            description="This is a copy section to help highlight this value. Use this to describe the value above. The copy should not exceed 5 lines of this framed box."
+            description="Launch your web3 app on any (or many) chains. Don't lock your users into one network — unlock ultimate cross-chain flexibility with support for any EVM."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
@@ -94,7 +95,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               <LandingIconSectionItem
                 icon={require("public/assets/product-pages/engine/wallet-management.png")}
                 title="Wallet Management"
-                description="Create backend wallets, store keys securely, sign & send transactions, & move funds at scale with nonce management."
+                description="Create backend wallets, store keys securely, sign & send transactions, and move funds at scale with nonce management."
               />
             </Card>
             <Card p={8}>
@@ -117,7 +118,7 @@ const EngineLanding: ThirdwebNextPage = () => {
               <LandingIconSectionItem
                 icon={require("public/assets/product-pages/engine/web3-auth.png")}
                 title="Web3 Auth"
-                description="Create permissions to enable users' wallets to directly interact with certain endpoints on the Web3 Engine."
+                description="Create permissions to enable users' wallets to directly interact with certain endpoints on the thirdweb Engine."
               />
             </Card>
             <Card p={8}>

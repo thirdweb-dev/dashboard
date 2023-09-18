@@ -67,7 +67,7 @@ export const LandingHeroWithSideImage: React.FC<
           alignLeft
         />
       </Flex>
-      <Flex>
+      <Flex maxH="500px">
         <LandingDesktopMobileImage image={image} mobileImage={mobileImage} />
       </Flex>
     </SimpleGrid>
