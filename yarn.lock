@@ -4627,30 +4627,7 @@
     qrcode "^1.5.3"
     tiny-invariant "^1.2.0"
 
-"@thirdweb-dev/sdk@3.10.59-nightly-1e6f9dcc-20230831023648":
-  version "3.10.59-nightly-1e6f9dcc-20230831023648"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.59-nightly-1e6f9dcc-20230831023648.tgz#26f77d1dadff5516c9ecfa6e7d1fe71e46a9f863"
-  integrity sha512-0i4VHGQXQln/bor4iVBTdDGkaMkQqIap1Qp+PtUUh4zJArPZY3x/H9C4QBh+Q579DvYIAprtztMhPjTkOf3xdA==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.50"
-    "@thirdweb-dev/contracts-js" "1.3.12"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "1.2.10-nightly-1e6f9dcc-20230831023648"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.8"
-    eventemitter3 "^5.0.1"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.0"
-    yaml "^2.3.1"
-    zod "^3.20.2"
-
-"@thirdweb-dev/sdk@3.10.61-nightly-3fd39cea-20230915203435", "@thirdweb-dev/sdk@^3.10.61-nightly-3fd39cea-20230915203435":
+"@thirdweb-dev/sdk@3.10.59-nightly-1e6f9dcc-20230831023648", "@thirdweb-dev/sdk@3.10.61-nightly-3fd39cea-20230915203435", "@thirdweb-dev/sdk@^3.10.61-nightly-3fd39cea-20230915203435":
   version "3.10.61-nightly-3fd39cea-20230915203435"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.61-nightly-3fd39cea-20230915203435.tgz#2d754af2310b8e9d26be27d350bf1a409bc21860"
   integrity sha512-FznryGcpDhXNpBKAhNQj9fefkbOz8jvhTs2p6/1RiBmnR5Le2l4VWFCvcFnrhCDUCqfiz36649k6hzh2JLh2Qw==
@@ -4685,16 +4662,6 @@
   version "1.2.10"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.2.10.tgz#04f25211c8a2d23b9a2171aac798211fe49c9de7"
   integrity sha512-tUqUfkCfrZfmYcNVxR7j9CLMrIx0C4w/2QkNNo27AlbKGq4x73UCKRBTPZI2ggTKGfq6pyayOfFuVLoN7W/AqA==
-  dependencies:
-    cid-tool "^3.0.0"
-    cross-fetch "^3.1.8"
-    form-data "^4.0.0"
-    uuid "^9.0.0"
-
-"@thirdweb-dev/storage@1.2.10-nightly-1e6f9dcc-20230831023648":
-  version "1.2.10-nightly-1e6f9dcc-20230831023648"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/storage/-/storage-1.2.10-nightly-1e6f9dcc-20230831023648.tgz#a56a230be0d58a564124d5df2296eed956827161"
-  integrity sha512-VNKQ9F4U12R9ZKA728JTDOdw+GE5FBiYkB2PfxXbW5YykLV8Zn/xaT/rnXUBC8u64v+oS+LXwCrfXDkjjrcP2A==
   dependencies:
     cid-tool "^3.0.0"
     cross-fetch "^3.1.8"
