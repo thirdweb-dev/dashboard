@@ -54,7 +54,7 @@
     "date-fns": "^2.28.0",
     "emotion-theming": "^11.0.0",
     "ethers": "^5.4.6",
-    "flat": "^5.0.2",
+    "flat": "^6.0.0",
     "framer-motion": "^10.16.4",
     "fuse.js": "^6.6.2",
     "idb-keyval": "^6.2.0",

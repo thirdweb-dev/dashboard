@@ -4645,11 +4645,6 @@
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chain-icons/-/chain-icons-1.0.5.tgz#8a351024337d26a2ceee394f927513d72e1d31a0"
   integrity sha512-NsDboaLji7IOOjgoz/A/qf7A5EDfZN3qgyqt+GOxr5/YXzzyH2Obk8grwv2gDwP2mF5T5RjNex0I8kwA+tyKrw==
 
-"@thirdweb-dev/chains@0.1.51":
-  version "0.1.51"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.51.tgz#daa8d7374a150fc2a62db4d410748ddb5c15e03b"
-  integrity sha512-kjz1suMgHAlLJAEcvY/1pJgeB4lI4Ngxa0G87MOj1dmU9bSZkl4cFdMGaPN7abBf3l/IVVvkPNl3nb9Dc0DfBA==
-
 "@thirdweb-dev/chains@0.1.52":
   version "0.1.52"
   resolved "https://registry.yarnpkg.com/@thirdweb-dev/chains/-/chains-0.1.52.tgz#f909d7106d575d6bbd9c0c5438079fa5f3d48382"
@@ -4736,29 +4731,6 @@
   integrity sha512-lMGBt4YpDxybWIBuUawrk4tyTMt30oOegNvP4D2UXSFGKp06MiO19Hr0FBtOREmEdjLx9ow3dPAmLKjmbDEOlw==
   dependencies:
     "@thirdweb-dev/chains" "0.1.52"
-    "@thirdweb-dev/contracts-js" "1.3.13"
-    "@thirdweb-dev/generated-abis" "0.0.1"
-    "@thirdweb-dev/storage" "1.2.10"
-    abitype "^0.2.5"
-    bn.js "^5.2.1"
-    bs58 "^5.0.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.8"
-    eventemitter3 "^5.0.1"
-    fast-deep-equal "^3.1.3"
-    merkletreejs "^0.2.24"
-    tiny-invariant "^1.2.0"
-    tweetnacl "^1.0.3"
-    uuid "^9.0.0"
-    yaml "^2.3.1"
-    zod "^3.20.2"
-
-"@thirdweb-dev/sdk@3.10.61-nightly-3fd39cea-20230915203435":
-  version "3.10.61-nightly-3fd39cea-20230915203435"
-  resolved "https://registry.yarnpkg.com/@thirdweb-dev/sdk/-/sdk-3.10.61-nightly-3fd39cea-20230915203435.tgz#2d754af2310b8e9d26be27d350bf1a409bc21860"
-  integrity sha512-FznryGcpDhXNpBKAhNQj9fefkbOz8jvhTs2p6/1RiBmnR5Le2l4VWFCvcFnrhCDUCqfiz36649k6hzh2JLh2Qw==
-  dependencies:
-    "@thirdweb-dev/chains" "0.1.51"
     "@thirdweb-dev/contracts-js" "1.3.13"
     "@thirdweb-dev/generated-abis" "0.0.1"
     "@thirdweb-dev/storage" "1.2.10"
@@ -9223,10 +9195,10 @@ flat-cache@^3.0.4:
     flatted "^3.1.0"
     rimraf "^3.0.2"
 
-flat@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
-  integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
+flat@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/flat/-/flat-6.0.0.tgz#91dc171d2a361cf353e40afdaa3c40655cd10bb3"
+  integrity sha512-/aYW7n5yD9HyW9ZHCzW2LGSpyTmbXEdRWdH5ded6K/a2ETgowOripjBqJorQ4/PBa3VPFub28fNruWp+onmIUg==
 
 flatted@^3.1.0:
   version "3.2.7"
