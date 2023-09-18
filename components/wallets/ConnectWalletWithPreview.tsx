@@ -634,6 +634,7 @@ const ConnectModalInlinePreview = (props: {
 
       {showInlineModal && (
         <ConnectModalInline
+          modalSize="wide"
           className={styles.ConnectModalInline}
           title={props.modalTitle}
           theme={props.selectedTheme}
