@@ -53,6 +53,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           mobileImage={require("public/assets/product-pages/engine/desktop-hero.png")}
         />
         <LandingGridSection
+          desktopColumns={4}
           title={
             <Heading size="label.2xl" color="white">
               <Box
@@ -79,6 +80,11 @@ const EngineLanding: ThirdwebNextPage = () => {
             icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
             title="Secure and reliable"
             description="Best-in-class security for your users and 99.9% infrastructure uptime."
+          />
+          <LandingIconSectionItem
+            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            title="Scale to billions"
+            description="Nonce, key and fund management handled for you. Scale your app without sacrificing performance or security."
           />
         </LandingGridSection>
 
