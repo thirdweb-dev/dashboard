@@ -142,7 +142,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           titleWithGradient="thirdweb Engine."
           trackingCategory={TRACKING_CATEGORY}
           ctaText="Get beta access"
-          ctaLink=""
+          ctaLink="https://share.hsforms.com/1b5uu_0bSQ3GX5NCQyrIeGAea58c"
           noContactUs={true}
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         />
