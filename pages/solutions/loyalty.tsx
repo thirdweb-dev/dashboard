@@ -65,7 +65,7 @@ const Loyalty: ThirdwebNextPage = () => {
             description="Allow new customers to discover your brand by enabling customers to earn and redeem points from any company within your loyalty alliance ecosystem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
             title="Increase customer lifetime value"
             description="Create communities and turn your customers into your biggest advocates by sending digital collectibles that they can own, trade, and redeem."
           />
