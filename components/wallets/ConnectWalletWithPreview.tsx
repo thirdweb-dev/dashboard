@@ -51,7 +51,6 @@ import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import styles from "./styles.module.css";
 
 type Theme = "light" | "dark";
-type DefaultOrCustom = "default" | "custom";
 type WalletId =
   | "MetaMask"
   | "Coinbase"
@@ -161,7 +160,7 @@ const wallets: WalletInfo = {
     import: "localWallet",
   },
   "Email Wallet": {
-    code: `paperWallet({ paperClientId: "YOUR_PAPER_CLIENT_ID" })`,
+    code: `paperWallet()`,
     component: paperWallet({
       paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
     }),
