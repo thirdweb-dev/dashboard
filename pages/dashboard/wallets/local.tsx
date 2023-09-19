@@ -8,19 +8,20 @@ import React from "react";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 
-const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
+const DashboardWalletsLocal: ThirdwebNextPage = () => {
   return (
     <Flex flexDir="column" gap={10} mt={{ base: 2, md: 6 }}>
       <Flex flexDir="column" gap={4}>
         <SimpleGrid columns={{ base: 1, lg: 2 }} gap={12}>
           <Flex flexDir="column" gap={8}>
             <Heading size="title.lg" as="h1">
-              Embedded Wallet
+              Local Wallet
             </Heading>
             <Text>
-              A wallet infrastructure that enables apps to create, manage, and
-              control their users&apos; wallets. Email login, social login, and
-              bring-your-own auth supported.
+              A local wallet is a low-level wallet that allows you to create
+              wallets within your application or project. It is a non-custodial
+              solution that simplifies the onboarding process and improves the
+              user experience for web3 apps in two ways:
             </Text>
             <Text>
               Add specific Wallet SDK reference used to integrate embedded
@@ -39,11 +40,11 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
             <TrackedLink
               category={TRACKING_CATEGORY}
               label="learn-more"
-              href="https://portal.thirdweb.com/wallet/paper"
+              href="https://portal.thirdweb.com/wallet/local-wallet"
               color="blue.500"
               isExternal
             >
-              Learn more about Embedded Wallets
+              Learn more about Local Wallets
             </TrackedLink>
           </Flex>
           {/*  <ChakraNextImage
@@ -72,25 +73,12 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
                   category={TRACKING_CATEGORY}
                   label="docs"
                   trackingProps={{ breakdown: "full-docs" }}
-                  href="https://docs.withpaper.com/reference/embedded-wallet-service-overview"
+                  href="https://portal.thirdweb.com/wallet/local-wallet"
                   isExternal
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
                   Full Docs
-                </TrackedLink>
-              </Text>
-              <Text as={ListItem} color="blue.500">
-                <TrackedLink
-                  category={TRACKING_CATEGORY}
-                  label="docs"
-                  trackingProps={{ breakdown: "integration-guide" }}
-                  href="https://docs.withpaper.com/reference/embedded-wallet-service-integration"
-                  isExternal
-                  _hover={{ opacity: 0.8 }}
-                  color="blue.500"
-                >
-                  Integration guide
                 </TrackedLink>
               </Text>
             </UnorderedList>
@@ -107,20 +95,20 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
         >
           <Flex flexDir={"column"} gap={2}>
             <Heading size="title.sm" as="h1">
-              Embedded Wallet Guides
+              Local Wallet Guides
             </Heading>
             <UnorderedList>
               <Text as={ListItem} color="blue.500">
                 <TrackedLink
                   category={TRACKING_CATEGORY}
                   label="guides"
-                  trackingProps={{ breakdown: "how-to-user-paper" }}
-                  href="https://blog.thirdweb.com/guides/how-to-use-paper-wallet/"
+                  trackingProps={{ breakdown: "getting-started" }}
+                  href="https://blog.thirdweb.com/guides/how-to-use-local-wallets/"
                   isExternal
                   _hover={{ opacity: 0.8 }}
                   color="blue.500"
                 >
-                  How to use Paper Wallet
+                  Getting started with Local Wallets
                 </TrackedLink>
               </Text>
             </UnorderedList>
@@ -131,13 +119,13 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
   );
 };
 
-DashboardWalletsEmbedded.getLayout = (page, props) => (
+DashboardWalletsLocal.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true}>
-    <WalletsSidebar activePage="embedded" />
+    <WalletsSidebar activePage="local" />
     {page}
   </AppLayout>
 );
 
-DashboardWalletsEmbedded.pageId = PageId.DashboardWalletsEmbedded;
+DashboardWalletsLocal.pageId = PageId.DashboardWalletsLocal;
 
-export default DashboardWalletsEmbedded;
+export default DashboardWalletsLocal;
