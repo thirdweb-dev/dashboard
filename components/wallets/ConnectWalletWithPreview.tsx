@@ -51,7 +51,6 @@ import { ClientOnly } from "components/ClientOnly/ClientOnly";
 import styles from "./styles.module.css";
 
 type Theme = "light" | "dark";
-type DefaultOrCustom = "default" | "custom";
 type WalletId =
   | "MetaMask"
   | "Coinbase"
@@ -245,8 +244,8 @@ export const ConnectWalletWithPreview: React.FC = () => {
         supportedWallets:
           enabledWallets.length > 0
             ? `[${enabledWallets
-              .map((walletId) => wallets[walletId].code)
-              .join(",")}]`
+                .map((walletId) => wallets[walletId].code)
+                .join(",")}]`
             : undefined,
         authConfig: authEnabled
           ? `{ authUrl: "/api/auth", domain: "https://example.com" }`
@@ -293,9 +292,9 @@ export const ConnectWalletWithPreview: React.FC = () => {
       authConfig={
         authEnabled
           ? {
-            domain: THIRDWEB_DOMAIN,
-            authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
-          }
+              domain: THIRDWEB_DOMAIN,
+              authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
+            }
           : undefined
       }
     >
@@ -382,9 +381,9 @@ export const ConnectWalletWithPreview: React.FC = () => {
                       _hover={
                         !isChecked
                           ? {
-                            bg: "inputBg",
-                            borderColor: "heading",
-                          }
+                              bg: "inputBg",
+                              borderColor: "heading",
+                            }
                           : {}
                       }
                       transition="background 200ms ease"
@@ -731,8 +730,8 @@ import {
 export default function App() {
   return (
     <ThirdwebProvider activeChain="polygon" clientId="YOUR_CLIENT_ID" ${renderProps(
-    options.thirdwebProvider,
-  )} >
+      options.thirdwebProvider,
+    )} >
       <ConnectWallet ${renderProps(options.connectWallet)}   />
     </ThirdwebProvider>
   );
