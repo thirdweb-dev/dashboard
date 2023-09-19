@@ -70,7 +70,7 @@ const Loyalty: ThirdwebNextPage = () => {
             description="Create communities and turn your customers into your biggest advocates by sending digital collectibles that they can own, trade, and redeem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-3.svg")}
             title="Unlock new revenue streams"
             description="Generate recurring revenue from membership subscriptions, sell digital assets from your storefront, and collect royalty fees from traded loyalty points."
           />
