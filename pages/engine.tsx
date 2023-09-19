@@ -45,7 +45,7 @@ const EngineLanding: ThirdwebNextPage = () => {
           titleWithGradient="for enterprise-grade Web3 apps"
           subtitle="Power your Web3 app with production-grade APIs, including auth, smart contracts, backend wallets, gasless transactions, and managed infrastructure."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://portal.thirdweb.com/web3-api"
+          ctaLink="https://share.hsforms.com/1b5uu_0bSQ3GX5NCQyrIeGAea58c"
           ctaText="Get beta access"
           noContactUs={true}
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
