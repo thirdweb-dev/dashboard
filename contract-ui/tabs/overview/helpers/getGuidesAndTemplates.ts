@@ -246,6 +246,7 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   ERC1155Mintable: [],
   ERC1155Enumerable: [ALL_GUIDES.createAnNftGalleryUsingThirdwebAndNextJs],
   ERC1155UpdatableMetadata: [],
+  ERC1155Supply: [],
   ERC1155: [ALL_GUIDES.airdropFreeToOwnNftsForAWeb3Game],
   Royalty: [],
   PrimarySale: [],
@@ -265,7 +266,7 @@ const GUIDES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Gasless: [],
   PackVRF: [],
   PluginRouter: [],
-  ExtensionRouter: [],
+  DynamicContract: [],
   DirectListings: [],
   EnglishAuctions: [],
   Offers: [],
@@ -325,6 +326,14 @@ const ALL_TEMPLATES: Record<string, Item> = {
   multiwrap: {
     title: "Multiwrap",
     url: "https://github.com/thirdweb-example/multiwrap",
+  },
+  smartWalletScript: {
+    title: "Smart Wallet Demo Script",
+    url: "https://github.com/thirdweb-example/smart-wallet-script",
+  },
+  smartWalletReact: {
+    title: "Smart Wallet React Demo",
+    url: "https://github.com/thirdweb-example/smart-wallet-react",
   },
 };
 
@@ -395,6 +404,7 @@ const TEMPLATES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   ERC1155BatchMintable: [],
   ERC1155Mintable: [],
   ERC1155Enumerable: [],
+  ERC1155Supply: [],
   ERC1155: [],
   Royalty: [],
   PrimarySale: [],
@@ -414,12 +424,15 @@ const TEMPLATES_FOR_EXTENSION: Record<FeatureName, Item[]> = {
   Gasless: [],
   PackVRF: [],
   PluginRouter: [],
-  ExtensionRouter: [],
+  DynamicContract: [],
   DirectListings: [],
   EnglishAuctions: [],
   Offers: [],
   Account: [],
-  AccountFactory: [],
+  AccountFactory: [
+    ALL_TEMPLATES.smartWalletScript,
+    ALL_TEMPLATES.smartWalletReact,
+  ],
   AccountPermissions: [],
   ERC1155UpdatableMetadata: [],
   AirdropERC20: [],
