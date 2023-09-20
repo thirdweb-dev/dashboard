@@ -12,6 +12,8 @@ interface LandingHeroWithSideImageProps {
   trackingCategory: string;
   ctaText?: string;
   ctaLink: string;
+  contactUsTitle?: string;
+  noContactUs?: boolean;
   gradient: string;
   image?: StaticImageData;
   mobileImage?: StaticImageData;
@@ -27,6 +29,8 @@ export const LandingHeroWithSideImage: React.FC<
   trackingCategory,
   ctaText,
   ctaLink,
+  contactUsTitle,
+  noContactUs,
   gradient,
   image,
   mobileImage,
@@ -57,11 +61,13 @@ export const LandingHeroWithSideImage: React.FC<
         <LandingCTAButtons
           ctaText={ctaText}
           ctaLink={ctaLink}
+          contactUsTitle={contactUsTitle}
+          noContactUs={noContactUs}
           trackingCategory={trackingCategory}
           alignLeft
         />
       </Flex>
-      <Flex>
+      <Flex maxH="500px">
         <LandingDesktopMobileImage image={image} mobileImage={mobileImage} />
       </Flex>
     </SimpleGrid>

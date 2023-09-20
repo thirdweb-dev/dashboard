@@ -36,7 +36,7 @@ const SmartWallet: ThirdwebNextPage = () => {
     <LandingLayout
       bgColor="#0F0F0F"
       seo={{
-        title: "The complete Account Abstraction toolkit",
+        title: "The Complete Account Abstraction Toolkit",
         description:
           "Add smart wallets to your web3 app & unlock powerful features for seamless onboarding, customizable transactions, & maximum security. Learn more.",
         openGraph: {
@@ -45,7 +45,7 @@ const SmartWallet: ThirdwebNextPage = () => {
               url: `${getAbsoluteUrl()}/assets/og-image/smart-wallet.png`,
               width: 1200,
               height: 630,
-              alt: "Web3 Loyalty Programs",
+              alt: "Account Abstraction ERC-4337",
             },
           ],
         },
@@ -64,6 +64,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           subtitle="Transform your app's user experience with signless transactions, multi-signature security, account recovery and more."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://thirdweb.com/dashboard/wallets/smart-wallet"
+          contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}
           mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
@@ -103,7 +104,7 @@ const SmartWallet: ThirdwebNextPage = () => {
                 "Wallet recovery, 2FA, and multi-signature support for ultimate peace of mind — for users & teams.",
               Component: (
                 <ChakraNextImage
-                  src={require("/public/assets/product-pages/smart-wallet/fully-programmable.png")}
+                  src={require("/public/assets/product-pages/smart-wallet/full-programmability.png")}
                   alt=""
                   borderRadius="lg"
                 />
