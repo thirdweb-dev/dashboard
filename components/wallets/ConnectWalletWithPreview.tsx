@@ -25,7 +25,7 @@ import {
   walletConnect,
   safeWallet,
   WalletConfig,
-  smartWallet,
+  // smartWallet,
   localWallet,
   paperWallet,
   trustWallet,
@@ -56,7 +56,7 @@ type WalletId =
   | "Coinbase"
   | "WalletConnect"
   | "Safe"
-  | "Smart Wallet"
+  // | "Smart Wallet"
   | "Guest Mode"
   | "Email Wallet"
   | "Trust Wallet"
@@ -173,14 +173,14 @@ const wallets: WalletInfo = {
     }),
     import: "safeWallet",
   },
-  "Smart Wallet": {
-    code: `smartWallet({ factoryAddress: "YOUR_FACTORY_ADDRESS", gasless: true, personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
-    component: smartWallet({
-      factoryAddress: "FACTORY_ADDRESS",
-      gasless: true,
-    }),
-    import: "smartWallet",
-  },
+  // "Smart Wallet": {
+  //   code: `smartWallet({ factoryAddress: "YOUR_FACTORY_ADDRESS", gasless: true, personalWallets: [ metamaskWallet(), coinbaseWallet(), walletConnect() ] })`,
+  //   component: smartWallet({
+  //     factoryAddress: "FACTORY_ADDRESS",
+  //     gasless: true,
+  //   }),
+  //   import: "smartWallet",
+  // },
   "Magic Link": {
     code: `magicLink({ apiKey: "YOUR_MAGIC_API_KEY", oauthOptions: { providers: ["google", "facebook", "twitter", "apple"] }})`,
     component: magicLink({
@@ -220,7 +220,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
     Coinbase: true,
     WalletConnect: true,
     Safe: false,
-    "Smart Wallet": false,
+    // "Smart Wallet": false,
     "Guest Mode": false,
     "Email Wallet": false,
     "Trust Wallet": true,
