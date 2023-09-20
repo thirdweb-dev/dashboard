@@ -17,13 +17,13 @@ bun install
 ### Starting local dev server.
 
 ```sh
-yarn run dev
+bun run dev
 ```
 
 ### Building for production
 
 ```sh
-yarn run build
+bun run build
 ```
 
 ### Environment Variables
