@@ -7,7 +7,6 @@ import { PageId } from "page-id";
 import { TemplateCardProps, templates } from "pages/templates";
 import React from "react";
 import {
-  Button,
   Heading,
   Link,
   LinkButton,

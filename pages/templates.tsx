@@ -44,7 +44,8 @@ export const templates: TemplateCardProps[] = [
     img: "/assets/templates/loyalty-card.png",
     hoverBorderColor: "hsl(248deg 89% 79% / 15%)",
     tags: ["Signature minting", "Loyalty Card"],
-    author: "thirdweb",
+    authorENS: "thirdweb.eth",
+    authorIcon: "/assets/templates/thirdweb-eth.png",
   },
   {
     id: "erc721",
@@ -225,7 +226,6 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
             <TrackedLink
               as={LinkOverlay}
               href={`/template/${id}`}
-              isExternal
               category="templates"
               label={title.toLowerCase()}
               color="white"
