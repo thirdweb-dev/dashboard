@@ -1,4 +1,4 @@
-import { useDashboardEVMChainId } from "@3rdweb-sdk/react";
+import { Tooltip } from "@chakra-ui/react";
 import {
   useAccountsForAddress,
   useAddress,
@@ -7,7 +7,7 @@ import {
   useIsAccountDeployed,
 } from "@thirdweb-dev/react";
 import { TransactionButton } from "components/buttons/TransactionButton";
-import { LinkButton } from "tw-components";
+import { Button, Card, Text } from "tw-components";
 
 interface CreateAccountButtonProps {
   contractQuery: ReturnType<typeof useContract>;
@@ -21,7 +21,6 @@ export const CreateAccountButton: React.FC<CreateAccountButtonProps> = ({
     contractQuery?.contract,
   );
 
-  const network = useDashboardEVMChainId();
   const address = useAddress();
   const { data: isAccountDeployed } = useIsAccountDeployed(
     contractQuery.contract,
@@ -38,12 +37,23 @@ export const CreateAccountButton: React.FC<CreateAccountButtonProps> = ({
 
   if (isAccountDeployed && accountsForAddress?.length) {
     return (
-      <LinkButton
-        href={`/${network}/${accountsForAddress[0]}`}
-        colorScheme="primary"
+      <Tooltip
+        label={
+          <Card py={2} px={4} bgColor="backgroundHighlight">
+            <Text>You can only initialize one account per EOA.</Text>
+          </Card>
+        }
+        bg="transparent"
+        boxShadow="none"
+        bgColor="backgroundHighlight"
+        borderRadius="lg"
+        placement="right"
+        shouldWrapChildren
       >
-        Go to Account
-      </LinkButton>
+        <Button colorScheme="primary" isDisabled>
+          Account Created
+        </Button>
+      </Tooltip>
     );
   }
 

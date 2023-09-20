@@ -18,29 +18,27 @@ const GET_STARTED_SECTIONS = [
     title: "Wallets",
     description:
       "Onboard, authenticate, and manage users. Connect any wallets to your app and games.",
-    image: require("public/assets/dashboard/wallets/connect-wallet.png"),
-    href: "/dashboard/wallets",
+    image: require("public/assets/dashboard/home-wallets.png"),
+    href: "/dashboard/wallets/connect",
   },
   {
     title: "Contracts",
     description:
       "Create, deploy, and manage smart contracts on any EVM network.",
     image: require("public/assets/dashboard/home-contracts.png"),
-    href: "/dashboard/contracts",
+    href: "/dashboard/contracts/deploy",
   },
   {
-    title: "Storage",
-    description:
-      "Store and retrieve files from decentralized storage at high speed.",
-    image: require("public/assets/dashboard/home-storage.png"),
+    title: "Payments",
+    description: "Facilitate financial transactions on the blockchain.",
+    image: require("public/assets/dashboard/home-payments.png"),
+    href: "https://withpaper.com/product/checkouts",
+  },
+  {
+    title: "Infrastructure",
+    description: "Connect your application to decentralized networks.",
+    image: require("public/assets/dashboard/home-infrastructure.png"),
     href: "/dashboard/infrastructure/storage",
-  },
-  {
-    title: "RPC Edge",
-    description:
-      "Connect to over 900 networks with a fast and reliable RPC Edge service.",
-    image: require("public/assets/dashboard/home-rpc.png"),
-    href: "/dashboard/infrastructure/rpc-edge",
   },
 ];
 

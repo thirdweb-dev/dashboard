@@ -27,11 +27,21 @@ export type Account = {
   currentBillingPeriodStartsAt: string;
   currentBillingPeriodEndsAt: string;
   onboardedAt?: string;
+  notificationPreferences?: {
+    billing: "email" | "none";
+    updates: "email" | "none";
+  };
 };
 
 export interface UpdateAccountInput {
   name?: string;
   email?: string;
+  subscribeToUpdates?: boolean;
+}
+
+export interface UpdateAccountNotificationsInput {
+  billing: "email" | "none";
+  updates: "email" | "none";
 }
 
 export type ApiKeyService = {
@@ -102,10 +112,6 @@ export interface UsageBillableByService {
     storage: UsageStorage;
     embeddedWallets: UsageEmbeddedWallets;
   };
-  peakRate: {
-    rpc: number | undefined;
-    storage: number | undefined;
-  };
   billableUsd: {
     bundler: number;
     storage: number;
@@ -118,6 +124,10 @@ export interface UsageBillableByService {
   rateLimits: {
     storage: number;
     rpc: number;
+  };
+  rateLimitedAt: {
+    storage?: string;
+    rpc?: string;
   };
 }
 
@@ -186,6 +196,40 @@ export function useUpdateAccount() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(input),
+      });
+      const json = await res.json();
+
+      if (json.error) {
+        throw new Error(json.error?.message || json.error);
+      }
+
+      return json.data;
+    },
+    {
+      onSuccess: () => {
+        return queryClient.invalidateQueries(
+          accountKeys.me(user?.address as string),
+        );
+      },
+    },
+  );
+}
+
+export function useUpdateNotifications() {
+  const { user } = useUser();
+  const queryClient = useQueryClient();
+
+  return useMutationWithInvalidate(
+    async (input: UpdateAccountNotificationsInput) => {
+      invariant(user, "No user is logged in");
+
+      const res = await fetch(`${THIRDWEB_API_HOST}/v1/account/notifications`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ preferences: input }),
       });
       const json = await res.json();
 

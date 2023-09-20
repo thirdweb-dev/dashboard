@@ -28,6 +28,9 @@ export enum PageId {
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
+  // thirdweb..com/pricing
+  Pricing = "pricing-page",
+
   // thirdweb.com/cli/login
   CliLoginPage = "cli-login-page",
 
@@ -42,6 +45,12 @@ export enum PageId {
 
   // thirdweb.com/web3-sdk
   Web3SDKLanding = "web3-sdk-landing",
+
+  // thirdweb.com/account-abstraction
+  SmartWalletLanding = "smart-wallet-landing",
+
+  // thirdweb.com/engine
+  EngineLanding = "engine-landing",
 
   // thirdweb.com/pre-built-contracts
   PreBuiltContractsLanding = "pre-built-contracts-landing",
@@ -95,6 +104,13 @@ export enum PageId {
   DashboardWalletsConnect = "dashboard-wallets-connect",
   // thirdweb.com/dashboard/wallets/smart-wallet
   DashboardWalletsSmartWallet = "dashboard-wallets-smart-wallet",
+  // thirdweb.com/dashboard/wallets/embedded
+  DashboardWalletsEmbedded = "dashboard-wallets-embedded",
+  // thirdweb.com/dashboard/wallets/local
+  DashboardWalletsLocal = "dashboard-wallets-local",
+
+  // thirdweb.com/dashboard/contracts/build
+  DashboardContractsBuild = "dashboard-contracts-build",
 
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
@@ -127,6 +143,9 @@ export enum PageId {
 
   // thirdweb.com/dashboard/settings/usage
   SettingsUsage = "settings-usage",
+
+  // thirdweb.com/dashboard/settings/notifications
+  SettingsNotifications = "settings-notifications",
 
   // ---------------------------------------------------------------------------
   //  solutions pages

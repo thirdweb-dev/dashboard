@@ -5,13 +5,14 @@ import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
-import { Button, Heading, Text, Badge } from "tw-components";
+import { Button, Heading, Text, Badge, Card } from "tw-components";
 import { AccountForm } from "components/settings/Account/AccountForm";
 import { useAccount } from "@3rdweb-sdk/react/hooks/useApi";
 import { ManageBillingButton } from "components/settings/Account/ManageBillingButton";
 import { StepsCard } from "components/dashboard/StepsCard";
 import { useEffect, useMemo, useState } from "react";
 import { FiCheckCircle, FiAlertCircle } from "react-icons/fi";
+import { BillingPlan } from "components/settings/Account/BillingPlan";
 
 const SettingsBillingPage: ThirdwebNextPage = () => {
   const address = useAddress();
@@ -65,7 +66,6 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
             account={account}
             previewEnabled={stepsCompleted.account}
             horizontal
-            hideBillingButton
             onSave={() => setStepsCompleted({ account: true, payment: false })}
           />
         ),
@@ -121,21 +121,24 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
 
   return (
     <Flex flexDir="column" gap={8} mt={{ base: 2, md: 6 }} maxW="3xl">
+      <Card>
+        <BillingPlan
+          account={account}
+          direction="column"
+          description="Free of charge with pay as you-go pricing"
+          titleSize="label.lg"
+          titleColor="bgBlack"
+        />
+      </Card>
+
       {showSteps ? (
         <StepsCard title="Get started with billing" steps={steps} />
       ) : (
         <>
           <Flex direction="column" gap={2}>
-            <Flex
-              justifyContent="space-between"
-              direction={{ base: "column", md: "row" }}
-              gap={4}
-              h={10}
-            >
-              <Heading size="title.lg" as="h1">
-                Account & Billing
-              </Heading>
-            </Flex>
+            <Heading size="title.lg" as="h1">
+              Account & Billing
+            </Heading>
 
             <HStack>
               <Text size="body.md">
@@ -154,13 +157,21 @@ const SettingsBillingPage: ThirdwebNextPage = () => {
                     as={validPayment ? FiCheckCircle : FiAlertCircle}
                     color={validPayment ? "green.500" : "red.500"}
                   />
-                  <Text size="label.sm">Valid payment</Text>
+                  <Text size="label.sm">
+                    {validPayment ? "Valid payment" : "Invalid payment"}
+                  </Text>
                 </HStack>
               </Badge>
             </HStack>
           </Flex>
 
-          <AccountForm account={meQuery.data} disableUnchanged />
+          {meQuery.data && (
+            <AccountForm
+              account={meQuery.data}
+              disableUnchanged
+              showBillingButton
+            />
+          )}
         </>
       )}
     </Flex>

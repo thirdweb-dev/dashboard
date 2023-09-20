@@ -20,10 +20,11 @@ const POPULAR = {
   contracts: [
     "thirdweb.eth/DropERC721",
     "thirdweb.eth/MarketplaceV3",
-    "unlock-protocol.eth/PublicLock",
+    "thirdweb.eth/AccountFactory",
     "thirdweb.eth/DropERC1155",
     "thirdweb.eth/TokenERC20",
     "thirdweb.eth/NFTStake",
+    "unlock-protocol.eth/PublicLock",
   ],
 } as const;
 const NFTS = {
@@ -46,6 +47,7 @@ const NFTS = {
     "thirdweb.eth/SignatureDrop",
     "nach.eth/DynamicFreeMint",
     "thirdweb.eth/Multiwrap",
+    "kronickatz.eth/ERC721NESDrop",
   ],
 } as const;
 
@@ -119,6 +121,21 @@ const GAMING = {
   showInExplore: false,
 } as const;
 
+const LOYALTY = {
+  id: "loyalty",
+  name: "Loyalty",
+  displayName: "Loyalty",
+  description:
+    "A collection of contracts that are popular for building loyalty programs.",
+  contracts: [
+    "thirdweb.eth/LoyaltyCard",
+    "unlock-protocol.eth/PublicLock",
+    "thirdweb.eth/Marketplace",
+    "thirdweb.eth/TokenERC20",
+  ],
+  showInExplore: false,
+} as const;
+
 const COMMERCE = {
   id: "commerce",
   name: "Commerce",
@@ -150,9 +167,11 @@ const STAKING = {
 const SMART_WALLET = {
   id: "smart-wallet",
   name: "Smart Wallet",
-  displayName: "Smart Wallet (Beta)",
+  displayName: "Smart Wallet",
   description:
-    "Smart wallet factories that let you spin up Account Abstraction (ERC-4337) wallets for your users.",
+    "Smart wallet factories that let you spin up Account Abstraction (ERC-4337) wallets for your users. Not sure which factory is right for you?",
+  learnMore:
+    "https://portal.thirdweb.com/smart-wallet/getting%20started#1-smart-wallet-factory-contract",
   contracts: [
     "thirdweb.eth/AccountFactory",
     "thirdweb.eth/DynamicAccountFactory",
@@ -169,6 +188,7 @@ const CATEGORIES = {
   [SMART_WALLET.id]: SMART_WALLET,
   [AIRDROP.id]: AIRDROP,
   [GAMING.id]: GAMING,
+  [LOYALTY.id]: LOYALTY,
   [COMMERCE.id]: COMMERCE,
   [STAKING.id]: STAKING,
   [GOVERNANCE.id]: GOVERNANCE,

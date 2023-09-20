@@ -1,20 +1,37 @@
-import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
+import { useAccount, useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { Flex } from "@chakra-ui/react";
 import { useAddress } from "@thirdweb-dev/react";
 import { AppLayout } from "components/app-layouts/app";
 import { ApiKeyTable } from "components/settings/ApiKeyTable";
+import { SmartWalletsBillingAlert } from "components/settings/ApiKeyTable/Alerts";
 import { CreateApiKeyButton } from "components/settings/ApiKeyTable/CreateButton";
 import { ConnectWalletPrompt } from "components/settings/ConnectWalletPrompt";
 import { SettingsSidebar } from "core-ui/sidebar/settings";
 import { PageId } from "page-id";
+import { useMemo } from "react";
 import { Heading, Link, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const SettingsApiKeysPage: ThirdwebNextPage = () => {
   const address = useAddress();
   const keysQuery = useApiKeys();
+  const meQuery = useAccount();
 
+  const account = meQuery?.data;
   const apiKeys = keysQuery?.data;
+
+  const hasSmartWalletsWithoutBilling = useMemo(() => {
+    if (!account || !apiKeys) {
+      return;
+    }
+
+    return apiKeys.find(
+      (k) =>
+        k.services?.find(
+          (s) => account.status !== "validPayment" && s.name === "bundler",
+        ),
+    );
+  }, [apiKeys, account]);
 
   if (!address) {
     return <ConnectWalletPrompt />;
@@ -48,6 +65,10 @@ const SettingsApiKeysPage: ThirdwebNextPage = () => {
           </Link>
         </Text>
       </Flex>
+
+      {hasSmartWalletsWithoutBilling && (
+        <SmartWalletsBillingAlert dismissable />
+      )}
 
       <ApiKeyTable
         keys={apiKeys || []}
