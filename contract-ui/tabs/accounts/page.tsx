@@ -1,14 +1,11 @@
 import { AccountsTable } from "./components/accounts-table";
 import { CreateAccountButton } from "./components/create-account-button";
 import { Box, ButtonGroup, Flex } from "@chakra-ui/react";
-import {
-  useAccounts,
-  useAccountsForAddress,
-  useAddress,
-  useContract,
-} from "@thirdweb-dev/react";
+import { useAccounts, useContract } from "@thirdweb-dev/react";
 import { extensionDetectedState } from "components/buttons/ExtensionDetectButton";
 import { Card, Heading, LinkButton, Text } from "tw-components";
+import { AccountsCount } from "./components/accounts-count";
+import { AccountsNotice } from "./components/accounts-notice";
 
 interface AccountsPageProps {
   contractAddress?: string;
@@ -19,17 +16,11 @@ export const AccountsPage: React.FC<AccountsPageProps> = ({
 }) => {
   const contractQuery = useContract(contractAddress);
   const accountsQuery = useAccounts(contractQuery?.contract);
-  const address = useAddress();
 
   const detectedFeature = extensionDetectedState({
     contractQuery,
     feature: ["AccountFactory"],
   });
-
-  const { data: accountsForAddress } = useAccountsForAddress(
-    contractQuery.contract,
-    address,
-  );
 
   if (contractQuery.isLoading) {
     return null;
@@ -69,10 +60,9 @@ export const AccountsPage: React.FC<AccountsPageProps> = ({
           <CreateAccountButton contractQuery={contractQuery} />
         </ButtonGroup>
       </Flex>
-      <AccountsTable
-        accountsQuery={accountsQuery}
-        accountsForAddress={accountsForAddress}
-      />
+      <AccountsCount accountsQuery={accountsQuery} />
+      <AccountsTable accountsQuery={accountsQuery} />
+      <AccountsNotice />
     </Flex>
   );
 };

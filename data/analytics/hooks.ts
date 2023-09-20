@@ -1,5 +1,23 @@
 import { THIRDWEB_ANALYTICS_API_HOSTNAME } from "./constants";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Arbitrum,
+  ArbitrumGoerli,
+  Avalanche,
+  AvalancheFuji,
+  Base,
+  BaseGoerli,
+  BinanceTestnet,
+  Ethereum,
+  Fantom,
+  Goerli,
+  Mumbai,
+  Optimism,
+  Polygon,
+  PolygonZkevmTestnet,
+  ScrollAlphaTestnet,
+  Sepolia,
+} from "@thirdweb-dev/chains";
 import { ethers } from "ethers";
 
 export type AnalyticsQueryParams = {
@@ -9,6 +27,26 @@ export type AnalyticsQueryParams = {
   endDate?: Date;
   interval?: "minute" | "hour" | "day" | "week" | "month";
 };
+
+// TODO: Keep updated with actual ClickHouse data
+export const SUPPORTED_ANALYTICS_CHAINS: number[] = [
+  Ethereum.chainId,
+  Goerli.chainId,
+  Optimism.chainId,
+  BinanceTestnet.chainId,
+  Polygon.chainId,
+  Fantom.chainId,
+  PolygonZkevmTestnet.chainId,
+  Base.chainId,
+  Arbitrum.chainId,
+  AvalancheFuji.chainId,
+  Avalanche.chainId,
+  Mumbai.chainId,
+  BaseGoerli.chainId,
+  ArbitrumGoerli.chainId,
+  ScrollAlphaTestnet.chainId,
+  Sepolia.chainId,
+];
 
 async function makeQuery(
   path: string,
@@ -62,7 +100,6 @@ export function useTransactionAnalytics(params: AnalyticsQueryParams) {
       return await getTransactionAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -99,7 +136,6 @@ export function useTotalTransactionAnalytics(params: AnalyticsQueryParams) {
       return await getTotalTransactionAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -137,7 +173,6 @@ export function useLogsAnalytics(params: AnalyticsQueryParams) {
       return await getLogsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -170,7 +205,6 @@ export function useTotalLogsAnalytics(params: AnalyticsQueryParams) {
       return await getTotalLogsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -233,7 +267,6 @@ export function useFunctionsAnalytics(params: AnalyticsQueryParams) {
       return getFunctionsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -296,7 +329,6 @@ export function useEventsAnalytics(params: AnalyticsQueryParams) {
       return getEventsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -339,7 +371,6 @@ export function useValueAnalytics(params: AnalyticsQueryParams) {
       return getValueAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -382,7 +413,6 @@ export function useUniqueWalletsAnalytics(params: AnalyticsQueryParams) {
       return getUniqueWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -420,7 +450,6 @@ export function useCumulativeWalletsAnalytics(params: AnalyticsQueryParams) {
       return getCumulativeWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }
 
@@ -453,6 +482,5 @@ export function useTotalWalletsAnalytics(params: AnalyticsQueryParams) {
       return getTotalWalletsAnalytics(params);
     },
     enabled: !!params.contractAddress && !!params.chainId,
-    suspense: true,
   });
 }

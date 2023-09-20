@@ -1,4 +1,4 @@
-import { Container, Flex } from "@chakra-ui/react";
+import { Container, Flex, Icon } from "@chakra-ui/react";
 import { ChakraNextImage } from "components/Image";
 import { LandingDynamicSelector } from "components/landing-pages/dynamic-selector";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
@@ -8,8 +8,10 @@ import { LandingIconSectionItem } from "components/landing-pages/icon-section-it
 import { LandingLayout } from "components/landing-pages/layout";
 import { LandingMainImage } from "components/landing-pages/main-image";
 import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading } from "tw-components";
+import { FiArrowRight } from "react-icons/fi";
+import { Card, Heading, Text, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "loyalty";
@@ -18,9 +20,19 @@ const Loyalty: ThirdwebNextPage = () => {
   return (
     <LandingLayout
       seo={{
-        title: "Loyalty",
+        title: "Web3 Loyalty Program: Engage, Reward, & Delight Customers",
         description:
-          "Activate new customer experiences that go beyond traditional tiered loyalty programs.",
+          "Build brand loyalty programs that turn customers into champions — with digital collectibles, tradable points, & more. Try thirdweb, it's free.",
+        openGraph: {
+          images: [
+            {
+              url: `${getAbsoluteUrl()}/assets/og-image/loyalty-solutions.png`,
+              width: 1200,
+              height: 630,
+              alt: "Web3 Loyalty Programs",
+            },
+          ],
+        },
       }}
     >
       <LandingHero
@@ -28,7 +40,7 @@ const Loyalty: ThirdwebNextPage = () => {
         titleWithGradient="loyalty programs."
         subtitle="Activate new customer experiences that go beyond traditional tiered loyalty programs."
         trackingCategory={TRACKING_CATEGORY}
-        ctaLink="https://thirdweb.com/explore"
+        ctaLink="https://blog.thirdweb.com/guides/loyalty-card-contract"
         gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         image={require("public/assets/solutions-pages/loyalty/hero.png")}
         mobileImage={require("public/assets/solutions-pages/loyalty/hero-mobile.png")}
@@ -53,12 +65,12 @@ const Loyalty: ThirdwebNextPage = () => {
             description="Allow new customers to discover your brand by enabling customers to earn and redeem points from any company within your loyalty alliance ecosystem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
             title="Increase customer lifetime value"
             description="Create communities and turn your customers into your biggest advocates by sending digital collectibles that they can own, trade, and redeem."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-3.png")}
+            icon={require("public/assets/solutions-pages/loyalty/icon-3.svg")}
             title="Unlock new revenue streams"
             description="Generate recurring revenue from membership subscriptions, sell digital assets from your storefront, and collect royalty fees from traded loyalty points."
           />
@@ -72,6 +84,7 @@ const Loyalty: ThirdwebNextPage = () => {
         <LandingDynamicSelector
           title="What you can build."
           blackToWhiteTitle="Use-Cases"
+          TRACKING_CATEGORY={TRACKING_CATEGORY}
           items={[
             {
               title: "Tiered Loyalty Program",
@@ -134,7 +147,32 @@ const Loyalty: ThirdwebNextPage = () => {
             <LandingIconSectionItem
               icon={require("public/assets/solutions-pages/loyalty/icon-6.png")}
               title="Contracts"
-              description="Loyalty contracts with metadata that stores specific membership details. Token-bound accounts."
+              description={
+                <Flex flexDir="column" gap={2}>
+                  <Text>
+                    Loyalty contracts with metadata that stores specific
+                    membership details. Token-bound accounts.
+                  </Text>
+                  <TrackedLink
+                    category={TRACKING_CATEGORY}
+                    href="/explore/loyalty"
+                    label="link"
+                    color="blue.400"
+                    _hover={{ textDecor: "underline" }}
+                    role="group"
+                  >
+                    <span>Explore loyalty contracts</span>{" "}
+                    <Icon
+                      as={FiArrowRight}
+                      transform="rotate(-45deg)"
+                      transition="transform 0.2s"
+                      _groupHover={{
+                        transform: "rotate(-45deg) translateX(2px)",
+                      }}
+                    />
+                  </TrackedLink>
+                </Flex>
+              }
             />
           </Card>
         </LandingGridSection>
@@ -142,7 +180,7 @@ const Loyalty: ThirdwebNextPage = () => {
           title="Build the future of loyalty programs"
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://thirdweb.com/explore"
+          ctaLink="https://thirdweb.com/thirdweb.eth/LoyaltyCard"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
         />
       </Container>

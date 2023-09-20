@@ -65,6 +65,11 @@ const LazyContractAccountsPage = dynamic(() =>
 const LazyContractAccountPage = dynamic(() =>
   import("../tabs/account/page").then(({ AccountPage }) => AccountPage),
 );
+const LazyContractAccountPermissionsPage = dynamic(() =>
+  import("../tabs/account-permissions/page").then(
+    ({ AccountPermissionsPage }) => AccountPermissionsPage,
+  ),
+);
 const LazyContractPermissionsPage = dynamic(() =>
   import("../tabs/permissions/page").then(
     ({ ContractPermissionsPage }) => ContractPermissionsPage,
@@ -121,7 +126,7 @@ export function useContractRouteConfig(
       isDefault: true,
     },
     {
-      title: "Build",
+      title: "Code Snippets",
       path: "code",
       component: LazyContractCodePage,
       isDefault: true,
@@ -224,13 +229,22 @@ export function useContractRouteConfig(
       component: LazyContractAccountsPage,
     },
     {
-      title: "Account",
+      title: "Balance",
       path: "account",
       isEnabled: extensionDetectedState({
         contractQuery,
         feature: ["Account"],
       }),
       component: LazyContractAccountPage,
+    },
+    {
+      title: "Account Permissions",
+      path: "account-permissions",
+      isEnabled: extensionDetectedState({
+        contractQuery,
+        feature: ["AccountPermissions"],
+      }),
+      component: LazyContractAccountPermissionsPage,
     },
     {
       title: "Permissions",

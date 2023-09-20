@@ -5,6 +5,7 @@ import {
   usePublishedContractsFromDeploy,
 } from "components/contract-components/hooks";
 import { ContractCard } from "components/explore/contract-card";
+import { THIRDWEB_DEPLOYER_ADDRESS } from "constants/addresses";
 import { useMemo } from "react";
 
 interface PublishedByProps {
@@ -25,12 +26,20 @@ export const PublishedBy: React.FC<PublishedByProps> = ({
   const address = useAddress();
 
   const publishedContractToShow = useMemo(() => {
+    const reversedPublishedContractsFromDeploy = [
+      ...(publishedContractsFromDeploy.data || []),
+    ].reverse();
+
     return (
-      publishedContractsFromDeploy.data?.find(
+      reversedPublishedContractsFromDeploy.find(
         (publishedContract) => publishedContract.publisher === address,
       ) ||
-      publishedContractsFromDeploy.data?.[
-        publishedContractsFromDeploy.data.length - 1
+      reversedPublishedContractsFromDeploy.find(
+        (publishedContract) =>
+          publishedContract.publisher === THIRDWEB_DEPLOYER_ADDRESS,
+      ) ||
+      reversedPublishedContractsFromDeploy[
+        reversedPublishedContractsFromDeploy.length - 1
       ] ||
       undefined
     );

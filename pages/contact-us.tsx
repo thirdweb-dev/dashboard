@@ -28,11 +28,13 @@ interface FormSchema {
   lastname: string;
   email: string;
   "0-2/name": string;
+  "0-2/website": string;
   jobtitle: string;
   "0-2/size_of_company": string;
   "0-2/product_type": string;
   products: string;
   "0-2/when_do_you_expect_to_launch_": string;
+  how_did_you_hear_about_us_: string;
 }
 
 const ContactUs: ThirdwebNextPage = () => {
@@ -177,7 +179,7 @@ const ContactUs: ThirdwebNextPage = () => {
                   <Input
                     h={14}
                     borderColor="gray.300"
-                    placeholder="Your Email *"
+                    placeholder="Your Company Email *"
                     type="email"
                     color="black"
                     _placeholder={{ color: "black" }}
@@ -192,6 +194,16 @@ const ContactUs: ThirdwebNextPage = () => {
                     color="black"
                     _placeholder={{ color: "black" }}
                     {...form.register("0-2/name", { required: true })}
+                  />
+                </FormControl>
+                <FormControl gap={6} isRequired>
+                  <Input
+                    h={14}
+                    borderColor="gray.300"
+                    placeholder="Your Company Website URL *"
+                    color="black"
+                    _placeholder={{ color: "black" }}
+                    {...form.register("0-2/website", { required: true })}
                   />
                 </FormControl>
                 <FormControl gap={6} isRequired>
@@ -217,7 +229,7 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="solo">Solo</option>
                     <option value="2-10">2-10</option>
                     <option value="11-49">11-49</option>
-                    <option value="500-99">500-99</option>
+                    <option value="50-99">50-99</option>
                     <option value="100-249">100-249</option>
                     <option value="250+">250</option>
                   </Select>
@@ -251,6 +263,9 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="MintingAPI">Minting API</option>
                     <option value="Wallets">Wallets</option>
                     <option value="Marketplaces">Marketplaces</option>
+                    <option value="Account Abstraction">
+                      Account Abstraction
+                    </option>
                     <option value="Other">Other</option>
                   </Select>
                 </FormControl>
@@ -268,6 +283,26 @@ const ContactUs: ThirdwebNextPage = () => {
                     <option value="3-6 months">3-6 months</option>
                     <option value="6-12 months">6-12 months</option>
                     <option value="1+ year">1+ year</option>
+                  </Select>
+                </FormControl>
+                <FormControl gap={6} isRequired>
+                  <Select
+                    h={14}
+                    borderColor="gray.300"
+                    placeholder="How did you hear about us? *"
+                    color="black"
+                    {...form.register("how_did_you_hear_about_us_", {
+                      required: true,
+                    })}
+                  >
+                    <option value="Socials (Twitter, LinkedIn)">
+                      Socials (Twitter, LinkedIn)
+                    </option>
+                    <option value="thirdweb Website">thirdweb Website</option>
+                    <option value="Newsletter">Newsletter</option>
+                    <option value="Referral">Referral</option>
+                    <option value="Other">Other</option>
+                    <option value="Event">Event</option>
                   </Select>
                 </FormControl>
                 <Box color="white" mx={{ base: "auto", lg: "inherit" }}>

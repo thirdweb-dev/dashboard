@@ -1,5 +1,5 @@
 import { ApiKeyDetails } from "./Details";
-import { ApiKeyKeyForm } from "./KeyForm";
+import { ApiKeyForm } from "./KeyForm";
 import { RevokeApiKeyButton } from "./RevokeButton";
 import { toastMessages } from "./messages";
 import { ApiKeyValidationSchema, apiKeyValidationSchema } from "./validations";
@@ -150,6 +150,7 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
 
   return (
     <Drawer
+      closeOnOverlayClick={false}
       allowPinchZoom
       preserveScrollBarGap
       onClose={onClose}
@@ -171,8 +172,9 @@ export const ApiKeyDrawer: React.FC<ApiKeyDrawerProps> = ({
           onSectionChange={setSelectedSection}
         />
       ) : (
-        <ApiKeyKeyForm
+        <ApiKeyForm
           form={form}
+          onClose={onClose}
           onSubmit={handleSubmit}
           selectedSection={selectedSection}
           onSectionChange={setSelectedSection}

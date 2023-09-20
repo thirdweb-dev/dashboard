@@ -1,3 +1,4 @@
+import { useApiKeys } from "@3rdweb-sdk/react/hooks/useApi";
 import { Container, Flex, HStack } from "@chakra-ui/react";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import {
@@ -14,8 +15,16 @@ export const AnnouncementCard = () => {
     false,
     true,
   );
+  const { data: apiKeys, isLoading, error } = useApiKeys();
+  const hasApiKeys = (apiKeys || []).length > 0;
 
-  if (hasDismissedAnnouncement) {
+  // Should never happen, but just in case.
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  if (hasDismissedAnnouncement || isLoading || hasApiKeys) {
     return null;
   }
 
@@ -33,8 +42,8 @@ export const AnnouncementCard = () => {
               </Heading>
               <Text color="white">
                 Action <strong>required</strong> for all users: use of client
-                API keys <strong>mandatory</strong> by August 1st to continue
-                using thirdweb infrastructure services.
+                API keys is now <strong>mandatory</strong> to continue using
+                thirdweb infrastructure services.
               </Text>
             </Flex>
             <HStack alignItems="center" gap={4}>

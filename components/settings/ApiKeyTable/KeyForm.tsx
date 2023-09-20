@@ -1,10 +1,20 @@
-import { HIDDEN_SERVICES, ApiKeyValidationSchema } from "./validations";
-
+import { ApiKeyDetailsRow } from "./DetailsRow";
+import { ApiKeyValidationSchema, HIDDEN_SERVICES } from "./validations";
+import { ApiKey } from "@3rdweb-sdk/react/hooks/useApi";
 import {
   Box,
+  ButtonGroup,
+  Divider,
   FormControl,
   HStack,
   Input,
+  ListItem,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Spinner,
   Switch,
   Tab,
   TabList,
@@ -13,38 +23,66 @@ import {
   Tabs,
   Textarea,
   Tooltip,
+  UnorderedList,
   VStack,
 } from "@chakra-ui/react";
 import { ServiceName, getServiceByName } from "@thirdweb-dev/service-utils";
+import { useState } from "react";
 import {
   FieldArrayWithId,
   UseFormReturn,
   useFieldArray,
 } from "react-hook-form";
 import {
+  Button,
   Card,
   Checkbox,
+  CodeBlock,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Heading,
   Text,
 } from "tw-components";
+import {
+  SecretHandlingAlert,
+  AnyBundleIdAlert,
+  AnyDomainAlert,
+  NoBundleIdsAlert,
+  NoDomainsAlert,
+  NoTargetAddressesAlert,
+} from "./Alerts";
 
-interface ApiKeyKeyFormProps {
+interface ApiKeyFormProps {
   form: UseFormReturn<ApiKeyValidationSchema, any>;
   selectedSection?: number;
+  apiKey?: ApiKey | null;
+  isLoading?: boolean;
+  onClose: () => void;
   onSubmit: () => void;
   onSectionChange?: (idx: number) => void;
   tabbed?: boolean;
 }
-export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
+
+type FormStep = "name" | "services" | "permissions" | "keys";
+
+export const ApiKeyForm: React.FC<ApiKeyFormProps> = ({
   form,
   selectedSection,
+  apiKey,
+  onClose,
   onSubmit,
   onSectionChange,
   tabbed = true,
+  isLoading,
 }) => {
+  const isEditing = !!apiKey;
+  const { secret, key } = apiKey || {};
+  const [formStep, setFormStep] = useState<FormStep>(
+    isEditing ? "keys" : "name",
+  );
+  const [domainsFieldActive, setDomainsFieldActive] = useState(true);
+
   const enabledServices =
     form.getValues("services")?.filter((srv) => !!srv.enabled) || [];
 
@@ -62,6 +100,7 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
         >
           <FormLabel>Key name</FormLabel>
           <Input
+            autoFocus
             placeholder="Descriptive name"
             type="text"
             {...form.register("name")}
@@ -92,55 +131,155 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
 
   const renderGeneral = () => {
     return (
-      <>
-        <FormControl
-          isInvalid={!!form.getFieldState("domains", form.formState).error}
-        >
-          <FormLabel>Allowed Domains</FormLabel>
-          <FormHelperText pb={2} size="body.md">
-            Prevent third-parties from using your Client ID on their websites by
-            only allowing requests from your domains.
-          </FormHelperText>
-          <Textarea
-            placeholder="thirdweb.com, rpc.example.com, localhost:3000"
-            {...form.register("domains")}
-          />
-          {!form.getFieldState("domains", form.formState).error ? (
-            <FormHelperText>
-              Enter domains separated by commas or new lines. Leave blank to
-              deny all. Use <code>*</code> to allow any.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>
-              {form.getFieldState("domains", form.formState).error?.message}
-            </FormErrorMessage>
-          )}
-        </FormControl>
+      <VStack gap={2} alignItems="flex-start">
+        {isEditing && <FormLabel>Access Restrictions</FormLabel>}
 
-        <FormControl
-          isInvalid={!!form.getFieldState("bundleIds", form.formState).error}
+        <ButtonGroup
+          size="sm"
+          variant="ghost"
+          spacing={{ base: 0.5, md: 2 }}
+          w="full"
         >
-          <FormLabel>Allowed Bundle IDs</FormLabel>
-          <FormHelperText pb={2} size="body.md">
-            (Unity Native/React Native users only) Prevent third-parties from
-            using your Client ID in their native apps by only allowing requests
-            from your app bundles.
-          </FormHelperText>
-          <Textarea
-            placeholder="com.thirdweb.app"
-            {...form.register("bundleIds")}
-          />
-          {!form.getFieldState("bundleIds", form.formState).error ? (
-            <FormHelperText>
-              Enter bundle ids separated by commas or new lines. Leave blank to
-              deny all. Use <code>*</code> to allow any.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>
-              {form.getFieldState("bundleIds", form.formState).error?.message}
-            </FormErrorMessage>
-          )}
-        </FormControl>
+          <Button
+            type="button"
+            isActive={domainsFieldActive}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+            variant="outline"
+            onClick={() => setDomainsFieldActive(true)}
+          >
+            Domains (Web apps)
+          </Button>
+          <Button
+            type="button"
+            isActive={!domainsFieldActive}
+            _active={{
+              bg: "bgBlack",
+              color: "bgWhite",
+            }}
+            rounded="lg"
+            variant="outline"
+            onClick={() => setDomainsFieldActive(false)}
+          >
+            Bundle IDs (iOS, Android, Games)
+          </Button>
+        </ButtonGroup>
+
+        {domainsFieldActive && (
+          <VStack spacing={4}>
+            <FormControl
+              isInvalid={!!form.getFieldState("domains", form.formState).error}
+            >
+              <FormHelperText pb={4} size="body.md">
+                <Text fontWeight="medium">
+                  Prevent third-parties from using your Client ID by restricting
+                  access to allowed domains.
+                </Text>
+
+                <UnorderedList pt={2} spacing={1}>
+                  <Text as={ListItem}>
+                    Use <code>*</code> to authorize all subdomains. eg:
+                    *.thirdweb.com accepts all sites ending in .thirdweb.com.
+                  </Text>
+                  <Text as={ListItem}>
+                    Enter <code>localhost:&lt;port&gt;</code> to authorize local
+                    URLs.
+                  </Text>
+                </UnorderedList>
+              </FormHelperText>
+
+              <HStack alignItems="center" justifyContent="space-between" pb={2}>
+                <FormLabel size="label.sm" mb={0}>
+                  Allowed Domains
+                </FormLabel>
+                <HStack alignItems="center">
+                  <Checkbox
+                    isChecked={form.watch("domains") === "*"}
+                    onChange={(e) => {
+                      form.setValue("domains", e.target.checked ? "*" : "");
+                    }}
+                  />
+                  <Text>Unrestricted access</Text>
+                </HStack>
+              </HStack>
+
+              <Textarea
+                placeholder="thirdweb.com, rpc.example.com, localhost:3000"
+                {...form.register("domains")}
+              />
+              {!form.getFieldState("domains", form.formState).error ? (
+                <FormHelperText>
+                  Enter domains separated by commas or new lines.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  {form.getFieldState("domains", form.formState).error?.message}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+
+            {!form.watch("domains") && <NoDomainsAlert />}
+            {form.watch("domains") === "*" && <AnyDomainAlert />}
+          </VStack>
+        )}
+
+        {!domainsFieldActive && (
+          <VStack spacing={4}>
+            <FormControl
+              isInvalid={
+                !!form.getFieldState("bundleIds", form.formState).error
+              }
+            >
+              <FormHelperText pb={4} size="body.md">
+                <Text fontWeight="medium">
+                  Prevent third-parties from using your Client ID by restricting
+                  access to allowed Bundle IDs. This is applicable only if you
+                  want to use your key with native games or native mobile
+                  applications.
+                </Text>
+              </FormHelperText>
+
+              <HStack alignItems="center" justifyContent="space-between" pb={2}>
+                <FormLabel size="label.sm" mb={0}>
+                  Allowed Bundle IDs
+                </FormLabel>
+                <HStack alignItems="center">
+                  <Checkbox
+                    isChecked={form.watch("bundleIds") === "*"}
+                    onChange={(e) => {
+                      form.setValue("bundleIds", e.target.checked ? "*" : "");
+                    }}
+                  />
+                  <Text>Unrestricted access</Text>
+                </HStack>
+              </HStack>
+
+              <Textarea
+                placeholder="com.thirdweb.app"
+                {...form.register("bundleIds")}
+              />
+
+              {!form.getFieldState("bundleIds", form.formState).error ? (
+                <FormHelperText>
+                  Enter bundle ids separated by commas or new lines.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  {
+                    form.getFieldState("bundleIds", form.formState).error
+                      ?.message
+                  }
+                </FormErrorMessage>
+              )}
+            </FormControl>
+
+            {!form.watch("bundleIds") && <NoBundleIdsAlert />}
+            {form.watch("bundleIds") === "*" && <AnyBundleIdAlert />}
+          </VStack>
+        )}
 
         {/* <FormControl>
           <FormLabel>Allowed Wallet addresses</FormLabel>
@@ -154,18 +293,17 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
             To allow any wallet, set to <code>*</code>.
           </FormHelperText>
         </FormControl> */}
-      </>
+      </VStack>
     );
   };
 
   const renderServices = () => {
     return (
       <>
-        <Text size="body.md">
-          Choose thirdweb services this API Key is allowed to access.
-        </Text>
-
         <VStack alignItems="flex-start" w="full" gap={4}>
+          <Text size="body.md">
+            Choose thirdweb services this API Key is allowed to access.
+          </Text>
           {fields.map((srv, idx) => {
             const service = getServiceByName(srv.name as ServiceName);
 
@@ -199,39 +337,71 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
                   />
                 </HStack>
 
-                {service.name === "bundler" && (
-                  <FormControl
-                    isInvalid={
-                      !!form.getFieldState(`services.${idx}`, form.formState)
-                        .error
-                    }
-                  >
-                    <FormLabel>Allowed Target addresses</FormLabel>
-                    <Textarea
-                      disabled={!srv.enabled}
-                      placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
-                      {...form.register(`services.${idx}.targetAddresses`)}
-                    />
-                    {!form.getFieldState(
-                      `services.${idx}.targetAddresses`,
-                      form.formState,
-                    ).error ? (
-                      <FormHelperText>
-                        Enter contract/wallet addresses separated by commas or
-                        new lines. Leave blank to deny all. Use <code>*</code>{" "}
-                        to allow any.
-                      </FormHelperText>
-                    ) : (
-                      <FormErrorMessage>
-                        {
-                          form.getFieldState(
-                            `services.${idx}.targetAddresses`,
-                            form.formState,
-                          ).error?.message
-                        }
-                      </FormErrorMessage>
+                {service.name === "bundler" && srv.enabled && (
+                  <VStack spacing={4}>
+                    <FormControl
+                      isInvalid={
+                        !!form.getFieldState(`services.${idx}`, form.formState)
+                          .error
+                      }
+                    >
+                      <HStack
+                        alignItems="center"
+                        justifyContent="space-between"
+                        pb={2}
+                      >
+                        <FormLabel size="label.sm" mb={0}>
+                          Allowed Contract addresses
+                        </FormLabel>
+                        <HStack alignItems="center">
+                          <Checkbox
+                            isChecked={
+                              form.watch(`services.${idx}.targetAddresses`) ===
+                              "*"
+                            }
+                            onChange={(e) => {
+                              form.setValue(
+                                `services.${idx}.targetAddresses`,
+                                e.target.checked ? "*" : "",
+                              );
+                            }}
+                          />
+                          <Text>Unrestricted access</Text>
+                        </HStack>
+                      </HStack>
+
+                      <Textarea
+                        disabled={!srv.enabled}
+                        placeholder="0xa1234567890AbcC1234567Bb1bDa6c885b2886b6"
+                        {...form.register(`services.${idx}.targetAddresses`)}
+                      />
+                      {!form.getFieldState(
+                        `services.${idx}.targetAddresses`,
+                        form.formState,
+                      ).error ? (
+                        <FormHelperText>
+                          Enter contract addresses separated by commas or new
+                          lines.
+                        </FormHelperText>
+                      ) : (
+                        <FormErrorMessage>
+                          {
+                            form.getFieldState(
+                              `services.${idx}.targetAddresses`,
+                              form.formState,
+                            ).error?.message
+                          }
+                        </FormErrorMessage>
+                      )}
+                    </FormControl>
+
+                    {!form.watch(`services.${idx}.targetAddresses`) && (
+                      <NoTargetAddressesAlert
+                        serviceName={service.title}
+                        serviceDesc={service.description}
+                      />
                     )}
-                  </FormControl>
+                  </VStack>
                 )}
 
                 {service.actions.length > 0 && (
@@ -278,11 +448,150 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
     );
   };
 
+  const renderKeys = () => {
+    return (
+      <VStack gap={4}>
+        <ApiKeyDetailsRow
+          title="Client ID"
+          content={
+            isLoading ? (
+              <Spinner size="sm" />
+            ) : key ? (
+              <CodeBlock codeValue={key} code={key} />
+            ) : (
+              <Text>Error generating keys</Text>
+            )
+          }
+          description="Identifies your application. It should generally be restricted to specific domains (web) and/or bundle-ids (native)."
+        />
+
+        <Divider />
+
+        <ApiKeyDetailsRow
+          title="Secret Key"
+          content={
+            isLoading ? (
+              <Spinner size="sm" />
+            ) : secret ? (
+              <CodeBlock codeValue={secret} code={secret} />
+            ) : (
+              <Text>Error generating keys</Text>
+            )
+          }
+          description="Identifies and authenticates your application from the backend."
+        />
+
+        <SecretHandlingAlert />
+      </VStack>
+    );
+  };
+
+  const renderFormStep = () => {
+    switch (formStep) {
+      case "name":
+        return renderName();
+      case "services":
+        return renderServices();
+      case "permissions":
+        return renderGeneral();
+      case "keys":
+        return renderKeys();
+    }
+  };
+
+  const handleSubmit = async () => {
+    switch (formStep) {
+      case "name":
+        await form.trigger();
+        if (form.formState.isValid) {
+          setFormStep("services");
+        }
+        break;
+      case "services":
+        await form.trigger();
+        if (form.formState.isValid) {
+          setFormStep("permissions");
+        }
+        break;
+      case "permissions":
+        await form.trigger();
+        if (form.formState.isValid) {
+          setFormStep("keys");
+        }
+        onSubmit();
+        break;
+      case "keys":
+        onClose();
+        break;
+    }
+  };
+
+  const backAction = () => {
+    switch (formStep) {
+      case "name":
+        break;
+      case "services":
+        setFormStep("name");
+        break;
+      case "permissions":
+        setFormStep("services");
+        break;
+      case "keys":
+        break;
+    }
+  };
+  const shouldShowBack = () => {
+    switch (formStep) {
+      case "name":
+      case "keys":
+        return false;
+      case "services":
+      case "permissions":
+        return true;
+    }
+  };
+
+  const actionLabel = () => {
+    switch (formStep) {
+      case "name":
+      case "services":
+        return "Next";
+      case "permissions":
+        return "Create";
+      case "keys":
+        return "I have stored the Secret Key securely";
+    }
+  };
+
+  const titleLabel = () => {
+    switch (formStep) {
+      case "name":
+        return "Create an API Key";
+      case "services":
+        return "Enable Services";
+      case "permissions":
+        return "Set Access Restrictions";
+      case "keys":
+        return "Your API Keys";
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit} autoComplete="off">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      autoComplete="off"
+    >
       {tabbed && (
-        <Tabs defaultIndex={selectedSection} onChange={onSectionChange}>
-          <TabList>
+        <Tabs
+          defaultIndex={selectedSection}
+          onChange={onSectionChange}
+          h="full"
+          mx={-6}
+        >
+          <TabList borderColor="borderColor">
             <Tab>General</Tab>
             <Tab>Services ({enabledServices?.length || 0})</Tab>
           </TabList>
@@ -305,10 +614,23 @@ export const ApiKeyKeyForm: React.FC<ApiKeyKeyFormProps> = ({
       )}
 
       {!tabbed && (
-        <VStack alignItems="flex-start" w="full" gap={6} pt={3}>
-          {renderName()}
-          {renderGeneral()}
-        </VStack>
+        <ModalContent minHeight={250}>
+          <ModalHeader>{titleLabel()}</ModalHeader>
+          {!isEditing && <ModalCloseButton />}
+          <ModalBody>{renderFormStep()}</ModalBody>
+          <ModalFooter gap={4}>
+            {shouldShowBack() && <Button onClick={backAction}>Back</Button>}
+            <Button
+              colorScheme="blue"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
+              {actionLabel()}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
       )}
     </form>
   );

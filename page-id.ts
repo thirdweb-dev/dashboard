@@ -28,6 +28,12 @@ export enum PageId {
   // thirdweb.com/auth
   AuthenticationLanding = "auth-landing",
 
+  // thirdweb..com/pricing
+  Pricing = "pricing-page",
+
+  // thirdweb.com/cli/login
+  CliLoginPage = "cli-login-page",
+
   // thirdweb.com/publish
   PublishLanding = "publish-landing",
 
@@ -39,6 +45,12 @@ export enum PageId {
 
   // thirdweb.com/web3-sdk
   Web3SDKLanding = "web3-sdk-landing",
+
+  // thirdweb.com/account-abstraction
+  SmartWalletLanding = "smart-wallet-landing",
+
+  // thirdweb.com/engine
+  EngineLanding = "engine-landing",
 
   // thirdweb.com/pre-built-contracts
   PreBuiltContractsLanding = "pre-built-contracts-landing",
@@ -77,14 +89,28 @@ export enum PageId {
   // thirdweb.com/dashboard
   Dashboard = "dashboard",
 
-  // thirdweb.com/dashboard/storage
+  // thirdweb.com/dashboard/infrastructure
+  DashboardInfrastructure = "dashboard-infrastructure",
+  // thirdweb.com/dashboard/infrastructure/storage
   DashboardStorage = "dashboard-storage",
-
-  // thirdweb.com/dashboard/rpc
+  // thirdweb.com/dashboard/infastucture/rpc-edge
   DashboardRPC = "dashboard-rpc",
 
   // thirdweb.com/dashboard/wallets
   DashboardWallets = "dashboard-wallets",
+  // thirdweb.com/dashboard/wallets/wallet-sdk
+  DashboardWalletsWalletSDK = "dashboard-wallets-wallet-sdk",
+  // thirdweb.com/dashboard/wallets/connect
+  DashboardWalletsConnect = "dashboard-wallets-connect",
+  // thirdweb.com/dashboard/wallets/smart-wallet
+  DashboardWalletsSmartWallet = "dashboard-wallets-smart-wallet",
+  // thirdweb.com/dashboard/wallets/embedded
+  DashboardWalletsEmbedded = "dashboard-wallets-embedded",
+  // thirdweb.com/dashboard/wallets/local
+  DashboardWalletsLocal = "dashboard-wallets-local",
+
+  // thirdweb.com/dashboard/contracts/build
+  DashboardContractsBuild = "dashboard-contracts-build",
 
   // thirdweb.com/dashboard/contracts
   Contracts = "contracts",
@@ -103,11 +129,23 @@ export enum PageId {
   // ---------------------------------------------------------------------------
   //  settings pages
   // ---------------------------------------------------------------------------
-  // thirdweb.com/settings
+  // thirdweb.com/dashboard/settings
   Settings = "settings",
 
-  // thirdweb.com/settings/api-keys
+  // thirdweb.com/dashboard/settings/api-keys
   SettingsApiKeys = "settings-api-keys",
+
+  // thirdweb.com/dashboard/settings/devices
+  SettingsDevices = "settings-devices",
+
+  // thirdweb.com/dashboard/settings/billing
+  SettingsBilling = "settings-billing",
+
+  // thirdweb.com/dashboard/settings/usage
+  SettingsUsage = "settings-usage",
+
+  // thirdweb.com/dashboard/settings/notifications
+  SettingsNotifications = "settings-notifications",
 
   // ---------------------------------------------------------------------------
   //  solutions pages
@@ -184,6 +222,9 @@ export enum PageId {
 
   // thirdweb.com/bear-market-airdrop
   BearMarketAirdrop = "bear-market-airdrop",
+
+  // drops
+  DropsOptimism = "drops-optimism",
 
   // ---------------------------------------------------------------------------
   //  community pages
