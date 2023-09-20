@@ -5,7 +5,7 @@
   "scripts": {
     "dev:no-cache": "rm -rf .next/cache && yarn dev",
     "dev": "next dev",
-    "build": "next build",
+    "build": "node /vercel/path0/node_modules/@sentry/cli/scripts/install.js && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
