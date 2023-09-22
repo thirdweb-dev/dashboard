@@ -5,7 +5,7 @@ const ContentSecurityPolicy = `
   object-src 'none';
   style-src 'self' 'unsafe-inline';
   font-src 'self';
-  frame-src * data:;
+  frame-src * data: withpaper.com;
   script-src 'self' 'unsafe-eval' 'unsafe-inline' *.thirdweb.com vercel.live;
   connect-src * data: blob:;
   worker-src 'self' blob:;
