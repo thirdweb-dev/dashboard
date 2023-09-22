@@ -91,7 +91,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           miniTitle="Build"
           title="The complete toolkit to"
           titleWithGradient="build smart contracts"
-          subtitle="Build web3 apps with a library of pre-built audited smart contracts — or write your own with our Solidity SDK. Deploy to any EVM chain."
+          subtitle="Deploy pre-built audited smart contracts — or write your own with our Solidity SDK. Available on any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/solidity"
           contactUsTitle="Book Demo"
@@ -177,7 +177,7 @@ const BuildLanding: ThirdwebNextPage = () => {
                   dynamic pricing, delayed artwork reveal, and more custom
                   features. (
                   <TrackedLink
-                    href="/dashboard/contracts/explore/nft"
+                    href="/explore/nft"
                     category={TRACKING_CATEGORY}
                     label="nft-contracts"
                     color="blue.500"
@@ -200,7 +200,7 @@ const BuildLanding: ThirdwebNextPage = () => {
                   sell directly to your audiences, create auctions that users
                   can bid on, and enable anyone to trade digital assets. (
                   <TrackedLink
-                    href="/dashboard/contracts/explore/marketplace"
+                    href="/explore/marketplace"
                     category={TRACKING_CATEGORY}
                     label="marketplace-contracts"
                     color="blue.500"

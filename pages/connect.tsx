@@ -38,10 +38,10 @@ const ConnectWalletLanding: ThirdwebNextPage = () => {
         gap={{ base: "80px", md: "120px" }}
       >
         <LandingHeroWithSideImage
-          miniTitle="Connect Wallet"
+          miniTitle="Connect"
           title="Web3 onboarding,"
-          titleWithGradient="built for the next billion users"
-          subtitle="Onboard all of your users to web3 with a beautiful Connect Wallet modal, fully-customizable auth flows, and flexible login options for web2 & web3 — all in a few lines of code."
+          titleWithGradient="for the next billion users"
+          subtitle="Onboard everyone to web3 with a customizable Connect Wallet modal, built-in auth, and sign-in for web2 & web3 — in a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/connect"
           contactUsTitle="Book Demo"
@@ -53,8 +53,8 @@ const ConnectWalletLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
-            title="A Connect Wallet experience that's truly yours"
-            description="Create intuitive onboarding flows for your users with an infinitely-customizable UI component — with your own branding, different button styles, and recommended wallets for your users."
+            title="Your Connect Wallet experience"
+            description="Create custom onboarding flows with a drag-and-drop UI component. Add any sign-in option, your own branding, & button styles to make it truly yours."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}

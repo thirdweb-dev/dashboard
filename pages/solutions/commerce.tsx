@@ -136,7 +136,7 @@ const Commerce: ThirdwebNextPage = () => {
             description="Prebuilt contracts or build your own with the Solidity SDK to
                 distribute NFTs through your commerce app."
             icon={require("/public/assets/product-pages/dashboard/hero-icon-1.png")}
-            href="/dashboard/contracts/explore/commerce"
+            href="/explore/commerce"
           />
           <ProductLearnMoreCard
             title="Launch"

@@ -13,7 +13,7 @@ const links: Route[] = [
     name: "publish",
   },
   {
-    path: "/dashboard/contracts/explore",
+    path: "/explore",
     title: "Explore",
     name: "explore",
   },

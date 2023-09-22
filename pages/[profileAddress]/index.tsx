@@ -223,7 +223,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   if (!profileAddress) {
     return {
       redirect: {
-        destination: "/dashboard/contracts/explore",
+        destination: "/explore",
         permanent: false,
       },
     };
@@ -245,7 +245,7 @@ export const getStaticProps: GetStaticProps<UserPageProps> = async (ctx) => {
   if (!address) {
     return {
       redirect: {
-        destination: "/dashboard/contracts/explore",
+        destination: "/explore",
         permanent: false,
       },
       props: {},

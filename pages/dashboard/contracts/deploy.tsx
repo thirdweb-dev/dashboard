@@ -77,7 +77,7 @@ const DeployOptions = () => {
         title: "Ready-to-deploy",
         description:
           "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
-        href: "/dashboard/contracts/explore",
+        href: "/explore",
       },
       import: {
         title: "Import",

@@ -49,7 +49,7 @@ export const DeployContractCheck: React.FC<DeployContractCheckProps> = ({
     <Flex flexDir="column" gap={4}>
       <Flex gap={6}>
         <LinkButton
-          href="/dashboard/contracts/explore"
+          href="/explore"
           isExternal
           noIcon
           color="bgWhite"

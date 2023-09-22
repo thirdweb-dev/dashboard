@@ -13,7 +13,7 @@ export const ContractRow: React.FC<ContractRowProps> = ({ category }) => {
     <Flex gap={5} direction="column" as="section">
       <Flex align="center" justify="space-between" gap={4}>
         <Flex gap={2} direction="column" as="header">
-          <Link href={`/dashboard/contracts/explore/${category.id}`}>
+          <Link href={`/explore/${category.id}`}>
             <Heading as="h2" size="label.xl">
               {category.displayName || category.name}
             </Heading>
@@ -43,7 +43,7 @@ export const ContractRow: React.FC<ContractRowProps> = ({ category }) => {
             size="sm"
             rightIcon={<Icon as={FiArrowRight} />}
             variant="link"
-            href={`/dashboard/contracts/explore/${category.id}`}
+            href={`/explore/${category.id}`}
             fontWeight={500}
             _dark={{
               color: "blue.400",

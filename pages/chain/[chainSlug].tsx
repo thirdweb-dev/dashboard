@@ -246,7 +246,7 @@ const ChainPage: ThirdwebNextPage = ({
                   _hover={{
                     opacity: 0.8,
                   }}
-                  href="/dashboard/contracts/explore"
+                  href="/explore"
                 >
                   Deploy to {chain.name}
                 </LinkButton>
@@ -271,7 +271,7 @@ const ChainPage: ThirdwebNextPage = ({
               moreElem={
                 <TrackedLink
                   category={CHAIN_CATEGORY}
-                  href="/dashboard/contracts/explore"
+                  href="/explore"
                   color="blue.500"
                   label="explore_more"
                   display="flex"

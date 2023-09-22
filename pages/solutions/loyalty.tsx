@@ -155,7 +155,7 @@ const Loyalty: ThirdwebNextPage = () => {
                   </Text>
                   <TrackedLink
                     category={TRACKING_CATEGORY}
-                    href="/dashboard/contracts/explore/loyalty"
+                    href="/explore/loyalty"
                     label="link"
                     color="blue.400"
                     _hover={{ textDecor: "underline" }}

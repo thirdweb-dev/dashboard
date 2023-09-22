@@ -186,13 +186,8 @@ function redirects() {
       permanent: false,
     },
     {
-      source: "/explore/:path*",
-      destination: "/dashboard/contracts/explore/:path*",
-      permanent: false,
-    },
-    {
-      source: "/smart-contracts",
-      destination: "/explore",
+      source: "/connect-wallet",
+      destination: "/connect",
       permanent: false,
     },
   ];

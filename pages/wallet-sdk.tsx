@@ -564,9 +564,7 @@ const WalletSDK: ThirdwebNextPage = () => {
           <ChakraNextImage
             mx="auto"
             alt="invisible-wallet-experience"
-            src={require(
-              `/public/assets/product-pages/wallet-sdk/${selectedTab}.svg`,
-            )}
+            src={require(`/public/assets/product-pages/wallet-sdk/${selectedTab}.svg`)}
           />
           {GRIDS[selectedTab]}
         </ProductSection>

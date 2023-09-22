@@ -61,7 +61,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         <LandingHeroWithSideImage
           miniTitle="Embedded Wallets"
           title="The power of web3, with the"
-          titleWithGradient="user experience of web2"
+          titleWithGradient="with web2 UX"
           subtitle="Give any user the keys to web3 with familiar web2 login flows. Choose from non-custodial or custodial solutions & enable users to sign in with an email, phone number, or social account."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/embedded"
