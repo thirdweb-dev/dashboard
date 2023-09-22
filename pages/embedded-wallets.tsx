@@ -143,7 +143,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/wallet-management.png")}
               title="Web2 login flows"
-              description="Enable your users to sign in with just an email, social login, or phone number — even if they've never created a wallet or purchase crypto before."
+              description="Enable your users to sign in with just an email, social login, or phone number — even if they've never created a wallet or purchased crypto before."
             />
           </Card>
           <Card p={8}>
