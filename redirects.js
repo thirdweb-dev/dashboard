@@ -190,6 +190,11 @@ function redirects() {
       destination: "/connect",
       permanent: false,
     },
+    {
+      source: "/wallet-sdk",
+      destination: "https://portal.thirdweb.com/wallet",
+      permanent: false,
+    },
   ];
 }
 

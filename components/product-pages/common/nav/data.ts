@@ -73,14 +73,6 @@ export const PRODUCTS: SectionItemProps[] = [
     section: "wallets",
   },
   {
-    name: "Wallet SDK",
-    label: "wallet-sdk",
-    description: "Connect any wallet",
-    link: "/wallet-sdk",
-    icon: require("public/assets/product-icons/wallet-sdk.png"),
-    section: "wallets",
-  },
-  {
     name: "Smart Wallet",
     label: "smart-wallet",
     description: "Transform UX with Account Abstraction",
@@ -266,5 +258,13 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     link: "https://portal.thirdweb.com/cli",
     icon: require("public/assets/product-icons/support.png"),
     section: "tools",
+  },
+  {
+    name: "Wallet SDK",
+    label: "wallet-sdk",
+    description: "Connect any wallet",
+    link: "https://portal.thirdweb.com/wallet",
+    icon: require("public/assets/product-icons/wallet-sdk.png"),
+    section: "sdks",
   },
 ];
