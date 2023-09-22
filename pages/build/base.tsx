@@ -480,7 +480,7 @@ const Base: ThirdwebNextPage = () => {
                       ],
                       children: (
                         <LinkButton
-                          href="/explore"
+                          href="/dashboard/contracts/explore"
                           bg="white"
                           _hover={{ bg: "whiteAlpha.800" }}
                         >

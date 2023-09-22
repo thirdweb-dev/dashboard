@@ -77,7 +77,7 @@ const DeployOptions = () => {
         title: "Ready-to-deploy",
         description:
           "Pick from our library of ready-to-deploy contracts and deploy to any EVM chain in just 1-click.",
-        href: "/explore",
+        href: "/dashboard/contracts/explore",
       },
       import: {
         title: "Import",
@@ -89,7 +89,7 @@ const DeployOptions = () => {
         title: "Build your own",
         description:
           "Get started with the Solidity SDK to create custom contracts specific to your use case.",
-        href: "/solidity-sdk",
+        href: "/build",
       },
       deploy: {
         title: "Deploy from source",

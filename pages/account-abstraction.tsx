@@ -63,7 +63,7 @@ const SmartWallet: ThirdwebNextPage = () => {
           titleWithGradient="Account Abstraction"
           subtitle="Transform your app's user experience with signless transactions, multi-signature security, account recovery and more."
           trackingCategory={TRACKING_CATEGORY}
-          ctaLink="https://thirdweb.com/dashboard/wallets/smart-wallet"
+          ctaLink="/dashboard/wallets/smart-wallet"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
           image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}

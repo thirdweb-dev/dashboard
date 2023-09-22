@@ -127,7 +127,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
               <LinkButton
                 leftIcon={<FiPlus />}
                 colorScheme="primary"
-                href="/explore"
+                href="/dashboard/contracts/explore"
               >
                 Deploy contract
               </LinkButton>
@@ -167,7 +167,7 @@ export const DeployedContracts: React.FC<DeployedContractsProps> = ({
                     linkProps={{
                       category: "getting-started",
                       label: "browse-contracts",
-                      href: "/explore",
+                      href: "/dashboard/contracts/explore",
                       children: (
                         <>
                           Get Started <Icon as={FiArrowRight} />

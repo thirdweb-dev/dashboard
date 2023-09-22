@@ -40,7 +40,7 @@ const ExploreCategoryPage: ThirdwebNextPage = (
           <Flex direction="column" gap={0}>
             <Breadcrumb fontWeight={400}>
               <BreadcrumbItem>
-                <Link as={BreadcrumbLink} href="/explore">
+                <Link as={BreadcrumbLink} href="/dashboard/contracts/explore">
                   <Flex
                     gap={1}
                     as={Heading}
@@ -56,7 +56,7 @@ const ExploreCategoryPage: ThirdwebNextPage = (
               <BreadcrumbItem isCurrentPage>
                 <Link
                   as={BreadcrumbLink}
-                  href={`/explore/${props.category.id}`}
+                  href={`/dashboard/contracts/explore/${props.category.id}`}
                   aria-current="page"
                 >
                   <Heading size="label.md">

@@ -53,12 +53,12 @@ function redirects() {
     },
     {
       source: "/extensions",
-      destination: "/solidity-sdk",
+      destination: "/build",
       permanent: false,
     },
     {
       source: "/contractkit",
-      destination: "/solidity-sdk",
+      destination: "/build",
       permanent: true,
     },
     //  old (deprecated) routes
@@ -181,8 +181,18 @@ function redirects() {
       permanent: false,
     },
     {
-      source: "/connect-wallet",
-      destination: "/dashboard/wallets/connect",
+      source: "/solidity-sdk",
+      destination: "/build",
+      permanent: false,
+    },
+    {
+      source: "/explore/:path*",
+      destination: "/dashboard/contracts/explore/:path*",
+      permanent: false,
+    },
+    {
+      source: "/smart-contracts",
+      destination: "/explore",
       permanent: false,
     },
   ];

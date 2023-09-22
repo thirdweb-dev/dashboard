@@ -49,6 +49,18 @@ export enum PageId {
   // thirdweb.com/account-abstraction
   SmartWalletLanding = "smart-wallet-landing",
 
+  // thirdweb.com/build
+  BuildLanding = "build-landing",
+
+  // thirdweb.com/explore
+  ExploreLanding = "explore-landing",
+
+  // thirdweb.com/embedded-wallets
+  EmbeddedWalletsLanding = "embedded-wallets-landing",
+
+  // thirdweb.com/connect-wallet
+  ConnectWalletLanding = "connect-wallet-landing",
+
   // thirdweb.com/engine
   EngineLanding = "engine-landing",
 

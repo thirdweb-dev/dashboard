@@ -8,7 +8,7 @@ export default function page() {
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
-      destination: "/explore",
+      destination: "/dashboard/contracts/explore",
       permanent: false,
     },
   };

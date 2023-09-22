@@ -121,7 +121,7 @@ export const slides: Slide[] = [
             Discover{" "}
             <TrackedLink
               category={TRACK_CATEGORY}
-              href="/explore"
+              href="/dashboard/contracts/explore"
               label="explore"
               color="blue.500"
             >
