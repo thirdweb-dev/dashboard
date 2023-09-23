@@ -49,6 +49,9 @@ export enum PageId {
   // thirdweb.com/account-abstraction
   SmartWalletLanding = "smart-wallet-landing",
 
+  // thirdweb.com/engine
+  EngineLanding = "engine-landing",
+
   // thirdweb.com/pre-built-contracts
   PreBuiltContractsLanding = "pre-built-contracts-landing",
 
@@ -101,6 +104,10 @@ export enum PageId {
   DashboardWalletsConnect = "dashboard-wallets-connect",
   // thirdweb.com/dashboard/wallets/smart-wallet
   DashboardWalletsSmartWallet = "dashboard-wallets-smart-wallet",
+  // thirdweb.com/dashboard/wallets/embedded
+  DashboardWalletsEmbedded = "dashboard-wallets-embedded",
+  // thirdweb.com/dashboard/wallets/local
+  DashboardWalletsLocal = "dashboard-wallets-local",
 
   // thirdweb.com/dashboard/contracts/build
   DashboardContractsBuild = "dashboard-contracts-build",

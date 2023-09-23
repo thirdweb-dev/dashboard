@@ -104,8 +104,8 @@ const SmartWallet: ThirdwebNextPage = () => {
                 "Wallet recovery, 2FA, and multi-signature support for ultimate peace of mind — for users & teams.",
               Component: (
                 <ChakraNextImage
-                  src={require("/public/assets/product-pages/smart-wallet/fully-programmable.png")}
-                  alt="Multisignature account abstraction"
+                  src={require("/public/assets/product-pages/smart-wallet/full-programmability.png")}
+                  alt=""
                   borderRadius="lg"
                 />
               ),
@@ -114,7 +114,7 @@ const SmartWallet: ThirdwebNextPage = () => {
         />
         <Flex flexDir="column" gap={6} alignItems="center">
           <Heading
-            as="h1"
+            as="h2"
             size="display.md"
             textAlign="center"
             px={{ base: 2, md: 0 }}

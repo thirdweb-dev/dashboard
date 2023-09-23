@@ -104,6 +104,14 @@ export const PRODUCTS: SectionItemProps[] = [
     icon: require("public/assets/product-icons/payments.png"),
     section: "payments",
   },
+  {
+    name: "Engine",
+    label: "engine",
+    description: "All-in-one API for enterprise-grade Web3 apps",
+    link: "/engine",
+    icon: require("public/assets/product-icons/engine.png"),
+    section: "infrastructure",
+  },
 ];
 
 export const SOLUTIONS: SectionItemProps[] = [
@@ -156,14 +164,6 @@ export const COMPANY: SectionItemProps[] = [
     description: "Our latest news and updates",
     link: "https://blog.thirdweb.com",
     icon: require("public/assets/tw-icons/datastore.png"),
-    section: "company",
-  },
-  {
-    name: "Events",
-    label: "events",
-    description: "Our latest events",
-    link: "/events",
-    icon: require("public/assets/tw-icons/events.png"),
     section: "company",
   },
 ];
