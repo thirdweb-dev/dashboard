@@ -85,7 +85,7 @@ const InteractLanding: ThirdwebNextPage = () => {
           ctaLink="/dashboard/infrastructure/storage"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          image={require("public/assets/product-pages/hero/mobile-hero-storage.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-storage.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-storage.png")}
         />
 
