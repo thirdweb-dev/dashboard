@@ -5,9 +5,9 @@ import { ChakraNextImage } from "components/Image";
 export const LandingDesktopMobileImage: React.FC<
   LandingDesktopMobileImageProps
 > = ({ image, mobileImage }) => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
-  const imageToShow = isMobile && mobileImage ? mobileImage : image;
+  const imageToShow = !isDesktop && mobileImage ? mobileImage : image;
 
   if (!imageToShow) {
     return null;
