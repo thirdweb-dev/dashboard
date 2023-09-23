@@ -68,7 +68,7 @@ const DeployLanding: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/interact.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/deploy.png`,
               width: 1200,
               height: 630,
               alt: "Deploy Smart Contracts on Any EVM Chain",
@@ -92,8 +92,8 @@ const DeployLanding: ThirdwebNextPage = () => {
           ctaLink="https://portal.thirdweb.com/deploy"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          image={require("public/assets/product-pages/hero/desktop-hero-interact.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-interact.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-deploy.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-deploy.png")}
         />
 
         <LandingGridSection title={<></>}>
