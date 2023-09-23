@@ -11,7 +11,7 @@ import { LandingGridSection } from "components/landing-pages/grid-section";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
-const ConnectWalletLanding: ThirdwebNextPage = () => {
+const ConnectLanding: ThirdwebNextPage = () => {
   return (
     <LandingLayout
       bgColor="#0F0F0F"
@@ -124,6 +124,6 @@ const ConnectWalletLanding: ThirdwebNextPage = () => {
   );
 };
 
-ConnectWalletLanding.pageId = PageId.ConnectWalletLanding;
+ConnectLanding.pageId = PageId.ConnectLanding;
 
-export default ConnectWalletLanding;
+export default ConnectLanding;

@@ -72,6 +72,10 @@ const moduleExports = {
         protocol: "https",
         hostname: "**.thirdweb.com",
       },
+      {
+        protocol: "https",
+        hostname: "**.withpaper.com",
+      },
     ],
   },
   reactStrictMode: true,

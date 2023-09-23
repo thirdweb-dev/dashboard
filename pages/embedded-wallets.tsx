@@ -67,8 +67,8 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           ctaLink="/dashboard/wallets/embedded"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          image={require("public/assets/product-pages/hero/mobile-hero-embedded-wallet.png")}
-          mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallet.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-embedded-wallet.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
         />
 
         <LandingGridSection title={<></>}>
@@ -170,7 +170,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         </LandingGridSection>
 
         <LandingGuidesShowcase
-          title=" Learn to build with in-app embedded wallets"
+          title="Learn to build with in-app embedded wallets"
           category={TRACKING_CATEGORY}
           description="Tailor your app's onboarding & experience to your users"
           guides={GUIDES}

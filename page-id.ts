@@ -25,20 +25,11 @@ export enum PageId {
   // thirdweb.com
   OSS = "oss-page",
 
-  // thirdweb.com/auth
-  AuthenticationLanding = "auth-landing",
-
   // thirdweb..com/pricing
   Pricing = "pricing-page",
 
   // thirdweb.com/cli/login
   CliLoginPage = "cli-login-page",
-
-  // thirdweb.com/publish
-  PublishLanding = "publish-landing",
-
-  // thirdweb.com/deploy
-  DeployLanding = "deploy-landing",
 
   // thirdweb.com/contract-extensions
   ContractExtensionsLanding = "contract-extensions-landing",
@@ -58,8 +49,29 @@ export enum PageId {
   // thirdweb.com/embedded-wallets
   EmbeddedWalletsLanding = "embedded-wallets-landing",
 
-  // thirdweb.com/connect-wallet
-  ConnectWalletLanding = "connect-wallet-landing",
+  // thirdweb.com/connec
+  ConnectLanding = "connect-landing",
+
+  // thirdweb.com/interact
+  InteractLanding = "interact-landing",
+
+  // thirdweb.com/checkout
+  CheckoutLanding = "checkout-landing",
+
+  // thirdweb.com/sponsored-transactions
+  SponsoredTransactionsLanding = "sponsored-transactions-landing",
+
+  // thirdweb.com/auth
+  AuthLanding = "auth-landing",
+
+  // thirdweb.com/publish
+  PublishLanding = "publish-landing",
+
+  // thirdweb.com/deploy
+  DeployLanding = "deploy-landing",
+
+  // thirdweb.com/rpc-edge
+  RPCEdgeLanding = "rpc-edge-landing",
 
   // thirdweb.com/engine
   EngineLanding = "engine-landing",

@@ -69,8 +69,8 @@ const ExploreLanding: ThirdwebNextPage = () => {
           ctaLink="/explore"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          image={require("public/assets/product-pages/smart-wallet/desktop-hero.png")}
-          mobileImage={require("public/assets/product-pages/smart-wallet/mobile-hero.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-explore.png")}
+          mobileImage={require("public/assets/product-pages/hero/mobile-hero-explore.png")}
         />
 
         <LandingGridSection title={<></>}>
