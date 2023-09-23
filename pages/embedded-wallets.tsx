@@ -67,7 +67,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           ctaLink="/dashboard/wallets/embedded"
           contactUsTitle="Book Demo"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
-          image={require("public/assets/product-pages/hero/desktop-hero-embedded-wallet.png")}
+          image={require("public/assets/product-pages/hero/desktop-hero-embedded-wallets.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
         />
 
