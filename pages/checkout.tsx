@@ -18,16 +18,14 @@ const CASE_STUDIES = [
     title: "Balmain x Space Runners",
     description:
       "Pushed the boundaries of fashion and the Metaverse with a collection of limited-edition sneakers linked to a unique Balmain x Space Runners Unicorn NFT.",
-    image:
-      "https://blog.withpaper.com/content/images/size/w2000/2023/04/Group-101--1--2.png",
+    image: require("public/assets/product-pages/checkout/case-study-1.png"),
     link: "https://blog.withpaper.com/how-space-runners-and-balmain-are-shaping-the-future-of-fashion-with-nfts/",
   },
   {
     title: "Ostrich",
     description:
       "Used NFTs to crowdfund their new fintech startup, raising more money with a fiat checkout solution.",
-    image:
-      "https://blog.withpaper.com/content/images/size/w2000/2022/10/Frame-17--1-.png",
+    image: require("public/assets/product-pages/checkout/case-study-2.png"),
     link: "https://blog.withpaper.com/how-ostrich-crowdfunded-their-startup-with-the-help-of-paper/",
   },
 ];
