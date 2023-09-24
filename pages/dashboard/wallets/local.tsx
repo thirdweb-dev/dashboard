@@ -4,11 +4,16 @@ import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
-import React from "react";
+import React, { useState } from "react";
+import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
+import { CodeEnvironment } from "components/contract-tabs/code/types";
+import { WALLETS_SNIPPETS } from "./wallet-sdk";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 
 const DashboardWalletsLocal: ThirdwebNextPage = () => {
+  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
+
   return (
     <Flex flexDir="column" gap={10} mt={{ base: 2, md: 6 }}>
       <Flex flexDir="column" gap={4}>
@@ -22,19 +27,6 @@ const DashboardWalletsLocal: ThirdwebNextPage = () => {
               wallets within your application or project. It is a non-custodial
               solution that simplifies the onboarding process and improves the
               user experience for web3 apps in two ways:
-            </Text>
-            <Text>
-              Add specific Wallet SDK reference used to integrate embedded
-              wallets similar to what we have for current{" "}
-              <TrackedLink
-                href="/dashboard/wallets/wallet-sdk"
-                category={TRACKING_CATEGORY}
-                label="wallet-sdk"
-                color="primary.500"
-              >
-                Wallet SDK
-              </TrackedLink>{" "}
-              page.
             </Text>
 
             <TrackedLink
@@ -53,6 +45,21 @@ const DashboardWalletsLocal: ThirdwebNextPage = () => {
             alt=""
           /> */}
         </SimpleGrid>
+      </Flex>
+
+      <Flex flexDir="column" gap={4}>
+        <Heading size="title.sm" as="h2">
+          Integrate into your app
+        </Heading>
+
+        <CodeSegment
+          environment={environment}
+          setEnvironment={setEnvironment}
+          snippet={
+            WALLETS_SNIPPETS.find((w) => w.id === "local-wallet")
+              ?.supportedLanguages || {}
+          }
+        />
       </Flex>
 
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>

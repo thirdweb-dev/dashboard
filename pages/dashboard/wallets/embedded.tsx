@@ -4,11 +4,16 @@ import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
 import { Card, Heading, Text, TrackedLink } from "tw-components";
-import React from "react";
+import React, { useState } from "react";
+import { CodeSegment } from "components/contract-tabs/code/CodeSegment";
+import { CodeEnvironment } from "components/contract-tabs/code/types";
+import { WALLETS_SNIPPETS } from "./wallet-sdk";
 
 const TRACKING_CATEGORY = "embedded-wallet";
 
 const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
+  const [environment, setEnvironment] = useState<CodeEnvironment>("javascript");
+
   return (
     <Flex flexDir="column" gap={10} mt={{ base: 2, md: 6 }}>
       <Flex flexDir="column" gap={4}>
@@ -21,19 +26,6 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
               A wallet infrastructure that enables apps to create, manage, and
               control their users&apos; wallets. Email login, social login, and
               bring-your-own auth supported.
-            </Text>
-            <Text>
-              Add specific Wallet SDK reference used to integrate embedded
-              wallets similar to what we have for current{" "}
-              <TrackedLink
-                href="/dashboard/wallets/wallet-sdk"
-                category={TRACKING_CATEGORY}
-                label="wallet-sdk"
-                color="primary.500"
-              >
-                Wallet SDK
-              </TrackedLink>{" "}
-              page.
             </Text>
 
             <TrackedLink
@@ -52,6 +44,21 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
             alt=""
           /> */}
         </SimpleGrid>
+      </Flex>
+
+      <Flex flexDir="column" gap={4}>
+        <Heading size="title.sm" as="h2">
+          Integrate into your app
+        </Heading>
+
+        <CodeSegment
+          environment={environment}
+          setEnvironment={setEnvironment}
+          snippet={
+            WALLETS_SNIPPETS.find((w) => w.id === "paper")
+              ?.supportedLanguages || {}
+          }
+        />
       </Flex>
 
       <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>
