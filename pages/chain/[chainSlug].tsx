@@ -13,7 +13,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
-import { Chain } from "@thirdweb-dev/chains";
+import { type Chain, getChainFromApi } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
 import color from "color";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
@@ -46,8 +46,8 @@ import {
   TrackedLink,
 } from "tw-components";
 import { ComponentWithChildren } from "types/component-with-children";
-import { getAllChainRecords } from "utils/allChainsRecords";
 import { ThirdwebNextPage } from "utils/types";
+import { THIRDWEB_API_HOST } from "constants/urls";
 
 type EVMContractProps = {
   chain: Chain;
@@ -581,8 +581,6 @@ const CHAIN_PAGE_CONTRACTS_CATEGORY = {
     "thirdweb.eth/TokenERC1155",
   ],
 } as const;
-
-const { slugToChain, chainIdToChain } = getAllChainRecords();
 export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   let chainSlug = ctx.params?.chainSlug;
 
@@ -600,18 +598,29 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
       notFound: true,
     };
   }
-
-  // if the chain slug is a chain id, redirect to the chain slug
-  if (chainSlug in chainIdToChain) {
+  // determine if the chainSlug is a chainId
+  if (!isNaN(parseInt(chainSlug))) {
+    const chain = await getChainFromApi(parseInt(chainSlug), {
+      host: THIRDWEB_API_HOST,
+    });
+    if (!chain.data) {
+      return {
+        notFound: true,
+      };
+    }
     return {
       redirect: {
-        destination: `/${chainIdToChain[parseInt(chainSlug)].slug}`,
+        destination: `/${chain.data.slug}`,
         permanent: false,
       },
     };
   }
 
-  const chain = chainSlug in slugToChain ? slugToChain[chainSlug] : null;
+  const chainResponse = await getChainFromApi(chainSlug, {
+    host: THIRDWEB_API_HOST,
+  });
+  const chain = chainResponse.data;
+
   if (!chain) {
     return {
       notFound: true,

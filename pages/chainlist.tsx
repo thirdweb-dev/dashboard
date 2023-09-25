@@ -11,9 +11,10 @@ import {
   SimpleGrid,
   Spinner,
 } from "@chakra-ui/react";
-import { Chain, allChains } from "@thirdweb-dev/chains";
+import { Chain, allChains, getChainList } from "@thirdweb-dev/chains";
 import { AppLayout } from "components/app-layouts/app";
 import { ChainIcon } from "components/icons/ChainIcon";
+import { THIRDWEB_API_HOST } from "constants/urls";
 import Fuse from "fuse.js";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
@@ -243,7 +244,13 @@ interface DashboardRPCProps {
 // server side ----------------
 
 export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
-  const chains = allChains
+  const chains: Chain[] = (
+    await getChainList(
+      { limit: 250, filter: "mainnet" },
+      { host: THIRDWEB_API_HOST },
+    )
+  ).data;
+  const minimalChains = chains
     .filter((c) => c.chainId !== 1337)
     .map((chain) => ({
       slug: chain.slug,
@@ -256,8 +263,9 @@ export const getStaticProps: GetStaticProps<DashboardRPCProps> = async () => {
         chain.rpc.findIndex((c) => c.indexOf("thirdweb.com") > -1) > -1,
     }));
   return {
+    revalidate: 60,
     props: {
-      chains,
+      chains: minimalChains,
     },
   };
 };
