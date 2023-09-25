@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "publish-landing";
 
@@ -71,7 +71,7 @@ const PublishLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
             title="Grow your protocol"
-            description="Accelerate your smart contract's adoption by making it easily discoverable and deployable — and get it in front of 100k+ web3 developers via thirdweb Explore."
+            description="Accelerate your smart contract's adoption by making it easily discoverable and deployable — and get it in front of 100k+ web3 developers."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
@@ -89,7 +89,7 @@ const PublishLanding: ThirdwebNextPage = () => {
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/wallet-management.png")}
               title="Shareable landing page"
-              description="Publish your smart contract & have a personalized landing page generated for it — so that others can explore your contract's functions & events, view its source code, and deploy it in a few clicks."
+              description="Publish your smart contract & get a personalized landing page — so that others can explore your contract, view its source code, and deploy it in clicks."
             />
           </Card>
           <Card p={8}>
