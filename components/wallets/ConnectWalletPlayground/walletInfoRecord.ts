@@ -4,7 +4,7 @@ import {
   walletConnect,
   safeWallet,
   localWallet,
-  paperWallet,
+  embeddedWallet,
   trustWallet,
   zerionWallet,
   magicLink,
@@ -115,11 +115,9 @@ export const walletInfoRecord: WalletInfoRecord = {
     type: "guest",
   },
   "Email Wallet": {
-    code: `paperWallet()`,
-    component: paperWallet({
-      paperClientId: "9a2f6238-c441-4bf4-895f-d13c2faf2ddb",
-    }),
-    import: "paperWallet",
+    code: `embeddedWallet()`,
+    component: embeddedWallet(),
+    import: "embeddedWallet",
     type: "social",
   },
   Safe: {

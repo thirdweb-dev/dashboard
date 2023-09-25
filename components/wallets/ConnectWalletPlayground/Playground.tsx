@@ -40,8 +40,10 @@ import { FormItem } from "./FormItem";
 import { SwitchFormItem } from "./SwitchFormItem";
 import { FaRectangleList } from "react-icons/fa6";
 import { RiFileListFill } from "react-icons/ri";
+import { AiOutlineStar } from "react-icons/ai";
+import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
 
-export const ConnectWalletWithPreview: React.FC = () => {
+export const ConnectWalletPlayground: React.FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [btnTitle, setBtnTitle] = useState("");
   const [modalSize, setModalSize] = useState<"compact" | "wide">("wide");
@@ -166,6 +168,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
       supportedWallets={
         supportedWallets.length > 0 ? supportedWallets : undefined
       }
+      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
       authConfig={
         authEnabled
           ? {
@@ -181,7 +184,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   const welcomeScreenContent = (
     <Flex direction="column" gap={5}>
-      <Heading size="label.lg" as="h2" color="faded">
+      <Heading size="label.lg" as="h3" color="faded">
         Welcome Screen
       </Heading>
 
@@ -306,7 +309,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   const socialLogins = (
     <>
-      <Heading size="label.md" color="faded">
+      <Heading size="label.md" color="heading">
         Email & Social Logins
       </Heading>
       <Spacer height={3} />
@@ -370,9 +373,17 @@ export const ConnectWalletWithPreview: React.FC = () => {
 
   const eoalWallets = (
     <>
-      <Heading size="label.md" color="faded">
+      <Heading size="label.md" color="heading">
         Web3 Wallets
       </Heading>
+
+      <Spacer height={2} />
+
+      <Flex color="faded" alignItems="center" gap={1} fontSize={14}>
+        Click on <Icon as={AiOutlineStar} w={4} h={4} color="faded" /> to tag
+        wallet as recommended
+      </Flex>
+
       <Spacer height={3} />
       <Grid gap={2} flexDir="column" templateColumns="1fr 1fr">
         {(Object.keys(walletInfoRecord) as WalletId[])
@@ -566,7 +577,7 @@ export const ConnectWalletWithPreview: React.FC = () => {
                 <Spacer height={10} />
 
                 <Flex direction="column" gap={5}>
-                  <Heading size="label.lg" as="h2" color="faded">
+                  <Heading size="label.lg" as="h3" color="faded">
                     Modal
                   </Heading>
 

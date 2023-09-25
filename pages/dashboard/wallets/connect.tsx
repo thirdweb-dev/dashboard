@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Icon, Spacer } from "@chakra-ui/react";
 import { AppLayout } from "components/app-layouts/app";
-import { ConnectWalletWithPreview } from "components/wallets/ConnectWalletWithPreview/ConnectWalletWithPreview";
+import { ConnectWalletPlayground } from "components/wallets/ConnectWalletPlayground/Playground";
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
@@ -82,7 +82,7 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
 
       <Spacer height={12} />
 
-      <ConnectWalletWithPreview />
+      <ConnectWalletPlayground />
 
       <Spacer height={40} />
     </Box>
