@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "checkout-landing";
 
@@ -58,7 +58,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Checkout"
-          title="One-click NFT checkout flows"
+          title="One-click NFT checkout"
           titleWithGradient="with just a credit card"
           subtitle="Let users buy digital assets with a credit card, via a one-click checkout flow. Onboard anyone, even if they've never create a wallet or bought crypto before."
           trackingCategory={TRACKING_CATEGORY}
