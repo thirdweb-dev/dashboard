@@ -1,14 +1,14 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "storage-landing";
 
@@ -110,19 +110,22 @@ const InteractLanding: ThirdwebNextPage = () => {
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/wallet-management.png")}
-              title="All file types supported (3D images, video, music, HTML etc.)"
+              title="All file types supported"
+              description="Includes 3D images, video, music, HTML, text, etc."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/account-abstraction.png")}
-              title="Automatic file uploading"
+              title="Faster file uploads"
+              description="Optimized upload latency to increase speed of file uploads."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/smart-contracts.png")}
-              title="Manage all of your pinned files (pin and unpin files)"
+              title="Manage pinned files"
+              description="Pin and unpin files from IPFS."
             />
           </Card>
         </LandingGridSection>
