@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "sponsored-transactions-landing";
 
@@ -62,7 +62,7 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Sponsored Transactions"
-          title="Remove all user friction with"
+          title="Remove all friction with"
           titleWithGradient="invisible transactions"
           subtitle="Create seamless web3 UX by sponsoring users' gas fees — for any & all transactions. No more disruptive transaction popups or bridging & swapping funds."
           trackingCategory={TRACKING_CATEGORY}
