@@ -1,15 +1,15 @@
 import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "embedded-wallets-landing";
 
@@ -60,7 +60,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Embedded Wallets"
-          title="The power of web3, with the"
+          title="The power of web3, "
           titleWithGradient="with web2 UX"
           subtitle="Give any user the keys to web3 with familiar web2 login flows. Choose from non-custodial or custodial solutions & enable users to sign in with an email, phone number, or social account."
           trackingCategory={TRACKING_CATEGORY}
@@ -112,15 +112,15 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
               />
             </Card>
           </LandingGridSection>
-          <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-            <Card p={8}>
+          <SimpleGrid columns={{ base: 1, md: 6 }} gap={6}>
+            <Card p={8} gridColumnStart={2} gridColumnEnd={4}>
               <LandingIconSectionItem
                 icon={require("public/assets/product-pages/engine/smart-contracts.png")}
                 title="Gasless transactions"
                 description="Users can interact with your app without paying for gas fees."
               />
             </Card>
-            <Card p={8}>
+            <Card p={8} gridColumnStart={4} gridColumnEnd={6}>
               <LandingIconSectionItem
                 icon={require("public/assets/product-pages/engine/smart-contracts.png")}
                 title="Non-custodial"
