@@ -41,7 +41,8 @@ import { SwitchFormItem } from "./SwitchFormItem";
 import { FaRectangleList } from "react-icons/fa6";
 import { RiFileListFill } from "react-icons/ri";
 import { AiOutlineStar } from "react-icons/ai";
-import { DASHBOARD_THIRDWEB_CLIENT_ID } from "constants/rpc";
+import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
+import { defaultChains } from "@thirdweb-dev/chains";
 
 export const ConnectWalletPlayground: React.FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -54,7 +55,7 @@ export const ConnectWalletPlayground: React.FC = () => {
   const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen>({});
 
   const [smartWalletOptions, setSmartWalletOptions] = useState({
-    factoryAddress: "0x219312a1c180B82abEE14FbDB4C9EE04E90c1809",
+    factoryAddress: "0x549BceA1590B6239b967fB46E5487b8177B7cf4D",
     enabled: false,
     gasless: true,
   });
@@ -93,7 +94,7 @@ export const ConnectWalletPlayground: React.FC = () => {
       ),
       smartWalletOptions: smartWalletOptions.enabled
         ? {
-            factoryAddress: smartWalletOptions.factoryAddress,
+            factoryAddress: "YOUR_FACTORY_ADDRESS",
             gasless: smartWalletOptions.gasless,
           }
         : undefined,
@@ -167,6 +168,18 @@ export const ConnectWalletPlayground: React.FC = () => {
       activeChain="mumbai"
       supportedWallets={
         supportedWallets.length > 0 ? supportedWallets : undefined
+      }
+      supportedChains={
+        isProd
+          ? defaultChains
+          : defaultChains.map((chain) => {
+              return {
+                ...chain,
+                rpc: chain.rpc.map((rpc) =>
+                  rpc.replace("rpc.thirdweb.com", "rpc-staging.thirdweb.com"),
+                ),
+              };
+            })
       }
       clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
       authConfig={
@@ -436,8 +449,8 @@ export const ConnectWalletPlayground: React.FC = () => {
       <GridItem>
         <Tabs isLazy>
           <TabList fontSize={14} gap={2}>
-            <CustomTab title="Options" />
-            <CustomTab title="Customize" />
+            <CustomTab title="General" />
+            <CustomTab title="Appearance" />
           </TabList>
 
           <TabPanels>
