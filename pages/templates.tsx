@@ -93,7 +93,7 @@ export const templates: TemplateCardProps[] = [
   {
     id: "nft-gallery",
     title: "NFT Gallery",
-    homepage: "https://nft-gallery.thirdweb-example.com/",
+    homepage: "https://nft-gallery.thirdweb-preview.com/",
     repo: "https://github.com/thirdweb-example/nft-gallery",
     description:
       "View the metadata of all NFTs in your collection, where you can filter and sort by traits & properties.",
