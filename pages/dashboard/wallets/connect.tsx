@@ -4,7 +4,7 @@ import { ConnectWalletWithPreview } from "components/wallets/ConnectWalletWithPr
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Heading, Text } from "tw-components";
+import { Heading, Link, Text } from "tw-components";
 
 import { IconType } from "react-icons/lib";
 import { BiCrop, BiSolidCustomize } from "react-icons/bi";
@@ -41,9 +41,21 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
             <Text mr={2} display={["none", "block"]} fontSize={12}>
               Supports
             </Text>
-            <LanguageBadge title="React" icon={SiReact} />
-            <LanguageBadge title="React Native" icon={SiReact} />
-            <LanguageBadge title="Unity" icon={SiUnity} />
+            <LanguageBadge
+              title="React"
+              icon={SiReact}
+              href="https://portal.thirdweb.com/react/react.connectwallet"
+            />
+            <LanguageBadge
+              title="React Native"
+              icon={SiReact}
+              href="https://portal.thirdweb.com/react-native"
+            />
+            <LanguageBadge
+              title="Unity"
+              icon={SiUnity}
+              href="https://portal.thirdweb.com/unity/connectwallet"
+            />
           </Flex>
         </Box>
 
@@ -97,22 +109,53 @@ function Feature({ title, icon }: { title: string; icon: IconType }) {
   );
 }
 
-function LanguageBadge(props: { icon: IconType; title: string }) {
+function LanguageBadge(props: { icon: IconType; title: string; href: string }) {
   return (
-    <Flex
-      gap={2}
-      alignItems="center"
-      border="1px solid"
-      borderColor="borderColor"
-      px={2}
-      py={1}
-      borderRadius="md"
+    <Link
+      href={props.href}
+      isExternal
+      _hover={{
+        textDecor: "none",
+        color: "blue.500",
+      }}
+      role="group"
     >
-      <Icon as={props.icon} w={4} h={4} color="faded" />
-      <Text fontWeight={500} color="heading" fontSize={12}>
-        {props.title}
-      </Text>
-    </Flex>
+      <Flex
+        gap={2}
+        alignItems="center"
+        border="1px solid"
+        borderColor="borderColor"
+        px={2}
+        py={1}
+        borderRadius="md"
+        _groupHover={{
+          borderColor: "blue.500",
+        }}
+        transition="border-color 200ms ease"
+      >
+        <Icon
+          as={props.icon}
+          w={4}
+          h={4}
+          color="faded"
+          _groupHover={{
+            color: "blue.500",
+          }}
+          transition="color 200ms ease"
+        />
+        <Text
+          fontWeight={500}
+          color="heading"
+          _groupHover={{
+            color: "blue.500",
+          }}
+          fontSize={12}
+          transition="color 200ms ease"
+        >
+          {props.title}
+        </Text>
+      </Flex>
+    </Link>
   );
 }
 

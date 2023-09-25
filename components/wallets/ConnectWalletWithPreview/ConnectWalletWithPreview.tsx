@@ -3,7 +3,6 @@ import {
   Flex,
   GridItem,
   Input,
-  Select,
   Tabs,
   TabList,
   TabPanels,
@@ -14,6 +13,9 @@ import {
   useColorMode,
   Spacer,
   Switch,
+  IconButton,
+  Icon,
+  Tooltip,
 } from "@chakra-ui/react";
 import {
   ConnectWallet,
@@ -36,6 +38,8 @@ import {
 } from "./ConnectModalInlinePreview";
 import { FormItem } from "./FormItem";
 import { SwitchFormItem } from "./SwitchFormItem";
+import { FaRectangleList } from "react-icons/fa6";
+import { RiFileListFill } from "react-icons/ri";
 
 export const ConnectWalletWithPreview: React.FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -421,13 +425,65 @@ export const ConnectWalletWithPreview: React.FC = () => {
       <GridItem>
         <Tabs isLazy>
           <TabList fontSize={14} gap={2}>
-            <CustomTab title="Functionality" />
-            <CustomTab title="Design" />
+            <CustomTab title="Options" />
+            <CustomTab title="Customize" />
           </TabList>
 
           <TabPanels>
             {/* supportedWallets */}
             <TabPanel p={0} pt={8}>
+              {/* theme */}
+              <Grid templateColumns="1fr 1fr">
+                <FormItem label="Theme">
+                  <Flex gap={2}>
+                    <ThemeButton
+                      theme="dark"
+                      isSelected={selectedTheme === "dark"}
+                      onClick={() => {
+                        if (selectedTheme !== "dark") {
+                          toggleColorMode();
+                        }
+                      }}
+                    />
+
+                    <ThemeButton
+                      theme="light"
+                      isSelected={selectedTheme === "light"}
+                      onClick={() => {
+                        if (selectedTheme !== "light") {
+                          toggleColorMode();
+                        }
+                      }}
+                    />
+                  </Flex>
+                </FormItem>
+
+                {/* modal size */}
+                {!isMobile && (
+                  <FormItem label="Modal Size">
+                    <Flex gap={2}>
+                      <ModalSizeButton
+                        modalSize="wide"
+                        isSelected={modalSize === "wide"}
+                        onClick={() => {
+                          setModalSize("wide");
+                        }}
+                      />
+
+                      <ModalSizeButton
+                        modalSize="compact"
+                        isSelected={modalSize === "compact"}
+                        onClick={() => {
+                          setModalSize("compact");
+                        }}
+                      />
+                    </Flex>
+                  </FormItem>
+                )}
+              </Grid>
+
+              <Spacer height={8} />
+
               {eoalWallets}
               <Spacer height={8} />
               {socialLogins}
@@ -493,53 +549,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
             {/* Design */}
             <TabPanel p={0} pt={6}>
               <Flex direction="column" gap={5}>
-                {/* theme */}
-                <FormItem label="Theme">
-                  <Flex gap={2}>
-                    <Button
-                      w={10}
-                      h={10}
-                      borderRadius="50%"
-                      aria-label="dark"
-                      border="3px solid"
-                      bg="black"
-                      _hover={{
-                        bg: "black",
-                      }}
-                      borderColor={
-                        selectedTheme === "dark" ? "blue.500" : "gray.800"
-                      }
-                      onClick={() => {
-                        if (selectedTheme === "dark") {
-                          return;
-                        }
-                        toggleColorMode();
-                      }}
-                    ></Button>
-
-                    <Button
-                      w={10}
-                      h={10}
-                      bg="white"
-                      _hover={{
-                        bg: "white",
-                      }}
-                      borderRadius="50%"
-                      aria-label="light"
-                      border="3px solid"
-                      borderColor={
-                        selectedTheme === "light" ? "blue.500" : "gray.200"
-                      }
-                      onClick={() => {
-                        if (selectedTheme === "light") {
-                          return;
-                        }
-                        toggleColorMode();
-                      }}
-                    ></Button>
-                  </Flex>
-                </FormItem>
-
                 {/* Button Title */}
                 <FormItem
                   label="Button Title"
@@ -560,24 +569,6 @@ export const ConnectWalletWithPreview: React.FC = () => {
                   <Heading size="label.lg" as="h2" color="faded">
                     Modal
                   </Heading>
-
-                  {/* modal size */}
-                  {!isMobile && (
-                    <FormItem label="Modal Size">
-                      <Select
-                        variant="filled"
-                        value={modalSize}
-                        onChange={(event) => {
-                          setModalSize(
-                            event.target.value as "wide" | "compact",
-                          );
-                        }}
-                      >
-                        <option value="wide">wide</option>
-                        <option value="compact">compact</option>
-                      </Select>
-                    </FormItem>
-                  )}
 
                   {/* Modal Title */}
                   <FormItem label="Modal Title">
@@ -735,3 +726,58 @@ type ModalTitleIconUrl =
   | {
       custom: string;
     };
+
+function ModalSizeButton(props: {
+  modalSize: "compact" | "wide";
+  isSelected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <Tooltip label={props.modalSize}>
+      <IconButton
+        w={10}
+        h={10}
+        color={props.isSelected ? "bgWhite" : "heading"}
+        bg={props.isSelected ? "blue.500" : "borderColor"}
+        _hover={{
+          bg: props.isSelected ? "blue.500" : "borderColor",
+        }}
+        borderRadius="50%"
+        aria-label="compact"
+        icon={
+          <Icon
+            as={props.modalSize === "wide" ? FaRectangleList : RiFileListFill}
+            width={5}
+            height={5}
+          />
+        }
+        onClick={props.onClick}
+      />
+    </Tooltip>
+  );
+}
+export function ThemeButton(props: {
+  theme: "light" | "dark";
+  isSelected: boolean;
+  onClick: () => void;
+}) {
+  const bg = props.theme === "dark" ? "black" : "white";
+  const borderColor = props.theme === "dark" ? "gray.800" : "gray.200";
+  return (
+    <Tooltip label={props.theme}>
+      <Button
+        w={10}
+        h={10}
+        borderRadius="50%"
+        aria-label={props.theme}
+        border="3px solid"
+        bg={bg}
+        _hover={{
+          bg,
+        }}
+        borderColor={props.isSelected ? "blue.500" : borderColor}
+        onClick={props.onClick}
+      ></Button>
+    </Tooltip>
+  );
+}
