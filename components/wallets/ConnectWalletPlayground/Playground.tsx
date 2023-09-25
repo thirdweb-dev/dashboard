@@ -44,14 +44,23 @@ import { AiOutlineStar } from "react-icons/ai";
 import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
 import { defaultChains } from "@thirdweb-dev/chains";
 
+type OptionalUrl = { url: string; enabled: boolean };
+
 export const ConnectWalletPlayground: React.FC = () => {
+  const defaultOptionalUrl: OptionalUrl = {
+    enabled: false,
+    url: "",
+  };
+
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [btnTitle, setBtnTitle] = useState("");
   const [modalSize, setModalSize] = useState<"compact" | "wide">("wide");
   const [modalTitle, setModalTitle] = useState("");
-  const [modalTitleIconUrl, setModalTitleIconUrl] = useState<ModalTitleIconUrl>(
-    { default: true },
-  );
+  const [tosUrl, setTosUrl] = useState<OptionalUrl>(defaultOptionalUrl);
+  const [privacyPolicyUrl, setPrivacyPolicyUrl] =
+    useState<OptionalUrl>(defaultOptionalUrl);
+  const [modalTitleIconUrl, setModalTitleIconUrl] =
+    useState<OptionalUrl>(defaultOptionalUrl);
   const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen>({});
 
   const [smartWalletOptions, setSmartWalletOptions] = useState({
@@ -120,10 +129,9 @@ export const ConnectWalletPlayground: React.FC = () => {
           Object.keys(welcomeScreen).length > 0
             ? JSON.stringify(welcomeScreen)
             : undefined,
-        modalTitleIconUrl:
-          "default" in modalTitleIconUrl
-            ? undefined
-            : `"${modalTitleIconUrl.custom}"`,
+        modalTitleIconUrl: modalTitleIconUrl.enabled
+          ? `"${modalTitleIconUrl.url}"`
+          : undefined,
       },
     });
 
@@ -615,15 +623,10 @@ export const ConnectWalletPlayground: React.FC = () => {
                         size="lg"
                         isChecked={"custom" in modalTitleIconUrl}
                         onChange={() => {
-                          setModalTitleIconUrl(
-                            "custom" in modalTitleIconUrl
-                              ? {
-                                  default: true,
-                                }
-                              : {
-                                  custom: "",
-                                },
-                          );
+                          setModalTitleIconUrl({
+                            ...modalTitleIconUrl,
+                            enabled: !modalTitleIconUrl,
+                          });
                         }}
                       ></Switch>
                       <Text>
@@ -634,10 +637,11 @@ export const ConnectWalletPlayground: React.FC = () => {
                     {"custom" in modalTitleIconUrl && (
                       <Input
                         placeholder="https://..."
-                        value={modalTitleIconUrl.custom}
+                        value={modalTitleIconUrl.url}
                         onChange={(e) => {
                           setModalTitleIconUrl({
-                            custom: e.target.value,
+                            ...modalTitleIconUrl,
+                            url: e.target.value,
                           });
                         }}
                       />
@@ -645,10 +649,78 @@ export const ConnectWalletPlayground: React.FC = () => {
                   </FormItem>
                 </Flex>
 
-                <Spacer height={10} />
+                <Box borderTop="1px solid" borderColor="borderColor" />
 
                 {/* Welcome Screen */}
                 {welcomeScreenContent}
+
+                <Box borderTop="1px solid" borderColor="borderColor" />
+
+                {/* Terms of Service */}
+                <Box>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <FormLabel m={0}> Terms of Service </FormLabel>
+                    <Switch
+                      isChecked={tosUrl.enabled}
+                      size="lg"
+                      onChange={() => {
+                        setTosUrl({
+                          url: tosUrl.url,
+                          enabled: !tosUrl.enabled,
+                        });
+                      }}
+                    />
+                  </Flex>
+
+                  {tosUrl.enabled && (
+                    <>
+                      <Spacer height={2} />
+                      <Input
+                        value={tosUrl.url}
+                        placeholder="https://.."
+                        onChange={(e) =>
+                          setTosUrl({
+                            url: e.target.value,
+                            enabled: tosUrl.enabled,
+                          })
+                        }
+                      />
+                    </>
+                  )}
+                </Box>
+
+                {/* Privacy Policy */}
+                <Box>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <FormLabel m={0}> Privacy Policy </FormLabel>
+                    <Switch
+                      isChecked={privacyPolicyUrl.enabled}
+                      size="lg"
+                      onChange={() => {
+                        setPrivacyPolicyUrl({
+                          url: privacyPolicyUrl.url,
+                          enabled: !privacyPolicyUrl.enabled,
+                        });
+                      }}
+                    />
+                  </Flex>
+
+                  {privacyPolicyUrl.enabled && (
+                    <>
+                      <Spacer height={2} />
+                      <Input
+                        value={privacyPolicyUrl.url}
+                        placeholder="https://.."
+                        onChange={(e) =>
+                          setPrivacyPolicyUrl({
+                            url: e.target.value,
+                            enabled: privacyPolicyUrl.enabled,
+                          })
+                        }
+                      />
+                    </>
+                  )}
+                </Box>
               </Flex>
             </TabPanel>
           </TabPanels>
@@ -679,13 +751,21 @@ export const ConnectWalletPlayground: React.FC = () => {
                       theme={selectedTheme}
                       btnTitle={btnTitle || undefined}
                       modalTitleIconUrl={
-                        "default" in modalTitleIconUrl
-                          ? undefined
-                          : modalTitleIconUrl.custom
+                        modalTitleIconUrl.enabled
+                          ? modalTitleIconUrl.url
+                          : undefined
                       }
                       auth={{ loginOptional: !authEnabled }}
                       switchToActiveChain={switchToActiveChain}
                       welcomeScreen={welcomeScreen}
+                      termsOfServiceUrl={
+                        tosUrl.enabled ? tosUrl.url : undefined
+                      }
+                      privacyPolicyUrl={
+                        privacyPolicyUrl.enabled
+                          ? privacyPolicyUrl.url
+                          : undefined
+                      }
                     />,
                   )}
                 </Box>
@@ -715,9 +795,17 @@ export const ConnectWalletPlayground: React.FC = () => {
                       selectedTheme={selectedTheme}
                       welcomeScreen={welcomeScreen}
                       modalTitleIconUrl={
-                        "default" in modalTitleIconUrl
-                          ? undefined
-                          : modalTitleIconUrl.custom
+                        modalTitleIconUrl.enabled
+                          ? modalTitleIconUrl.url
+                          : undefined
+                      }
+                      termsOfServiceUrl={
+                        tosUrl.enabled ? tosUrl.url : undefined
+                      }
+                      privacyPolicyUrl={
+                        privacyPolicyUrl.enabled
+                          ? privacyPolicyUrl.url
+                          : undefined
                       }
                     />
                   </ClientOnly>,
@@ -742,14 +830,6 @@ function CustomTab(props: { title: string }) {
     </Tab>
   );
 }
-
-type ModalTitleIconUrl =
-  | {
-      default: true;
-    }
-  | {
-      custom: string;
-    };
 
 function ModalSizeButton(props: {
   modalSize: "compact" | "wide";

@@ -29,7 +29,6 @@ const phantomConfig = phantomWallet();
 export const hideUIForWalletIds = new Set([
   metamaskWalletConfig.id,
   coinbaseWalletConfig.id,
-  walletConnectConfig.id,
   bloctoWalletConfig.id,
   frameWalletConfig.id,
   phantomConfig.id,

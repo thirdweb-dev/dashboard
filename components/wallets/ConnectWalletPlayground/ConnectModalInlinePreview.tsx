@@ -21,6 +21,8 @@ export const ConnectModalInlinePreview = (props: {
   selectedTheme: Theme;
   modalTitleIconUrl?: string;
   welcomeScreen?: WelcomeScreen;
+  termsOfServiceUrl?: string;
+  privacyPolicyUrl?: string;
 }) => {
   const isMobile = useBreakpointValue(
     { base: true, md: false },
@@ -67,6 +69,8 @@ export const ConnectModalInlinePreview = (props: {
           theme={props.selectedTheme}
           modalTitleIconUrl={props.modalTitleIconUrl}
           welcomeScreen={props.welcomeScreen}
+          termsOfServiceUrl={props.termsOfServiceUrl}
+          privacyPolicyUrl={props.privacyPolicyUrl}
         />
       )}
 
