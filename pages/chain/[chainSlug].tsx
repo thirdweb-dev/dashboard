@@ -648,6 +648,7 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
   }
 
   return {
+    revalidate: 60,
     props: {
       chain,
       category,
