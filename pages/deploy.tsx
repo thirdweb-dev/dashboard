@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "deploy-landing";
 
@@ -117,8 +117,8 @@ const DeployLanding: ThirdwebNextPage = () => {
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/wallet-management.png")}
-              title="CLI command line"
-              description="For deploying contracts"
+              title="CLI"
+              description="1-line command for deploying contracts."
             />
           </Card>
           <Card p={8}>
@@ -132,14 +132,14 @@ const DeployLanding: ThirdwebNextPage = () => {
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/smart-contracts.png")}
               title="Managed infrastructure"
-              description="No need to set RPC URL and automatically upload and pin contract metadata to IPFS"
+              description="No need to set RPC URL and automatically upload and pin contract metadata to IPFS."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/wallet-management.png")}
               title="Automatic verification"
-              description="Of contracts on Sourcify"
+              description="Contracts are automatically verified on Sourcify."
             />
           </Card>
         </LandingGridSection>
