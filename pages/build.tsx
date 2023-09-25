@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
+import { Card, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { TrackedLink, Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
 
 const TRACKING_CATEGORY = "build-landing";
 
@@ -89,8 +89,8 @@ const BuildLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Build"
-          title="The complete toolkit to"
-          titleWithGradient="build smart contracts"
+          title="Build smart contracts with Solidity, "
+          titleWithGradient="fast"
           subtitle="Deploy pre-built audited smart contracts — or write your own with our Solidity SDK. Available on any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/solidity"
@@ -193,7 +193,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           <Card p={8}>
             <LandingIconSectionItem
               icon={require("public/assets/product-pages/engine/wallet-management.png")}
-              title="Digital Collectibles"
+              title="Marketplace"
               description={
                 <>
                   Build your own fully-customizable marketplace — where you can
