@@ -56,19 +56,18 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
               md: direction === "vertical" ? "column" : "row",
             }}
             justifyContent="space-between"
+            alignItems="end"
           >
-            <Flex gap={4} p={10} flexDir="column">
+            <Flex gap={4} p={10} flexDir="column" alignSelf="start">
               <Text size="body.xl" color="white" fontWeight="bold">
                 {title}
               </Text>
               {description && <Text size="body.lg">{description}</Text>}
             </Flex>
-            <Flex flexDir="column">
-              <LandingDesktopMobileImage
-                image={image}
-                mobileImage={mobileImage}
-              />
-            </Flex>
+            <LandingDesktopMobileImage
+              image={image}
+              mobileImage={mobileImage}
+            />
           </Card>
         </TrackedLink>
       </LinkBox>
