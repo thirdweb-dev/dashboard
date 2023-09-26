@@ -43,6 +43,7 @@ import { RiFileListFill } from "react-icons/ri";
 import { AiOutlineStar } from "react-icons/ai";
 import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
 import { defaultChains } from "@thirdweb-dev/chains";
+import { StorageSingleton } from "lib/sdk";
 
 type OptionalUrl = { url: string; enabled: boolean };
 
@@ -190,6 +191,7 @@ export const ConnectWalletPlayground: React.FC = () => {
             })
       }
       clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
+      storageInterface={StorageSingleton}
       authConfig={
         authEnabled
           ? {
