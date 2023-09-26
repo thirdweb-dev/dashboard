@@ -1,13 +1,13 @@
 import { Container, Flex, SimpleGrid } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
@@ -52,17 +52,17 @@ const ConnectLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-custom.svg")}
             title="Your Connect Wallet experience"
             description="Create custom onboarding flows with a drag-and-drop UI component. Add any sign-in option, your own branding, & button styles to make it truly yours."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
             title="Instant onboarding for all"
             description="Easily authenticate & onboard any user with just an email, phone number, social login, or passkeys and automatically generate a wallet for them after they sign up — or empower them to create their first web3 wallet with an easy step-by-step beginner flow."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-simple-click.svg")}
             title="Best-in-class DX"
             description="Integrate thirdweb Connect with just a few lines of code — using it out of the box to save development time, or leveraging its composability to integrate it with your providers of choice — with an interactive builder for easy implementation, powerful hooks for fine-grained control, and wallet analytics & user management."
           />
@@ -70,42 +70,42 @@ const ConnectLanding: ThirdwebNextPage = () => {
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-custom.svg")}
               title="An intuitive onboarding experience"
               description="Add the power of web3 to any app with our Connect Wallet UI component — with cross-platform support (Web, Mobile, Unity) and the smoothest user experience for every type of wallet."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/account-abstraction.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
               title="Web2 login flows"
               description="Instantly onboard any user with just an email, phone number, social login, or passkeys — and automatically generate a wallet for them after they sign up."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-evm.svg")}
               title="Cross-chain compatibility"
               description="Build web3 apps on any (or many) chains with native EVM-compatibility — and the smoothest UX with automatic network switching."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-personalize.svg")}
               title="Personalized user experience"
               description="The Connect Wallet component automatically detects which wallets a user has installed on their browser, recommending them to select the wallet that they can get started with the most easily."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-secure.svg")}
               title="Reliable connectors"
               description="Use our connectors to integrate 170+ wallet providers into any app — including non-custodial wallets (MetaMask, Coinbase Wallet, Wallet Connect), email wallets, local wallets, & native Safe integration."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-guest.svg")}
               title="Guest mode"
               description="Onboard new users to any dApp in seconds, allowing them to 'Continue as guest' — at the press of a button or through a username-and-password flow — and automatically creating a wallet for them under the hood."
             />
