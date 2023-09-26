@@ -75,17 +75,17 @@ const ExploreLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/explore/icon-idea.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-idea.svg")}
             title="Discover your next idea"
             description="Browse our extensive collection of the most popular and unique smart contracts being built with today. Uncover cutting-edge Web3 use-cases before anyone else."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/explore/icon-ship.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-ship.svg")}
             title="Accelerate development"
             description="Easily deploy any contract to any EVM chain with a single click. No need for private keys or scripts. Start building instantly by unlocking our full product suite."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/explore/icon-simple-click.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-simple-click.svg")}
             title="Cheaper to deploy"
             description="thirdweb is up to 10x cheaper to deploy new contracts, when leveraging proxy contracts."
           />
@@ -93,21 +93,21 @@ const ExploreLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/explore/icon-contract.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-contract.svg")}
               title="Smart contracts for every use case"
               description="Pre-built & audited smart contracts for the most popular Ethereum standards (ERC-721, ERC-1155, ERC-20)."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/explore/icon-evm.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-evm.svg")}
               title="Deployable on any EVM chain"
               description="Use thirdweb's smart contract tools with native EVM-compatibility — so you can build web3 apps on any of 900+ blockchains."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/explore/icon-simple-click.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-simple-click.svg")}
               title="Ready-to-ship in a few clicks"
               description="No need to copy-paste ABIs or use private keys when deploying smart contracts — simply configure your smart contract's metadata & hit “Deploy”."
             />
@@ -124,21 +124,21 @@ const ExploreLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/explore/icon-digital-collectible.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
               title="NFT Drops and Marketplaces"
               description="Use popular contracts to quickly build common Web3 apps."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/explore/icon-game.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-game.svg")}
               title="Web3 Games"
               description="Every contract you need to build blockchain based games with in-game assets powered by NFTs, and an in-game economy powered by a native token. "
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/explore/icon-smart-wallet.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-smart-wallet.svg")}
               title="Smart Wallets"
               description="Deploy smart wallet factories for your app — using account abstraction to give your users powerful features such as wallet recovery, multi-signature security, & batch transactions."
             />

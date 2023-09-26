@@ -98,17 +98,17 @@ const DeployLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/deploy/icon-simple-click.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-simple-click.svg")}
             title="Simplify your workflow"
             description="Decrease your go-to-market time by deploying smart contracts with one command line or with a few clicks on our dashboard. A simplified workflow for developers, with no more copying ABIs or generating bindings."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/deploy/icon-secure.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-secure.svg")}
             title="Deploy securely"
             description="Eliminate any risk from your workflow. No need to share private keys as deployment is managed via our dashboard. No need to deal with insecure and unfunded private keys required with local deploys."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/deploy/icon-build.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-build.svg")}
             title="Build on any contract"
             description="Unlock a full Web3 development stack for any smart contract. Access powerful tooling that allows you to easily build apps on top of your contracts, including Wallets, SDKs, Payments and Infrastructure. "
           />
@@ -116,28 +116,28 @@ const DeployLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>} desktopColumns={4}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-share.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-share.svg")}
               title="CLI"
               description="1-line command for deploying contracts."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-dashboard.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-dashboard.svg")}
               title="Dashboard user interface"
               description="For deploying contracts, no need to share private keys."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-storage-management.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-storage-management.svg")}
               title="Managed infrastructure"
               description="No need to set RPC URL and automatically upload and pin contract metadata to IPFS."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-verified.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-verified.svg")}
               title="Automatic verification"
               description="Contracts are automatically verified on Sourcify."
             />
@@ -155,28 +155,28 @@ const DeployLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-digital-collectible.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
               title="Digital Collectibles"
               description="Deploy ERC-721 or ERC-1155 NFT smart contracts with lazy minting to let your audience claim or purchase digital collectibles."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-marketplace.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace.svg")}
               title="Marketplaces"
               description="Build your own fully-customizable marketplace — where you can sell directly to your audiences, create auctions that users can bid on, and enable anyone to trade digital assets."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-smart-wallet.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-smart-wallet.svg")}
               title="Smart Wallets"
               description="Deploy smart wallet factories for your app — using account abstraction to give your users powerful features such as wallet recovery, multi-signature security, & batch transactions."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/deploy/icon-game.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-game.svg")}
               title="Web3 Games"
               description="Build blockchain-based games with collectible in-game items and in-game economies using NFTs, native tokens and more. "
             />

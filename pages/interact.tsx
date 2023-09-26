@@ -78,17 +78,17 @@ const InteractLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/interact/icon-contract-action.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-contract-action.svg")}
             title="An intuitive DX"
             description="Integrate smart contracts into any app with SDKs that detect contract extensions and handle any kind of onchain interaction."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/interact/icon-monitor-contract.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
             title="Fine-grained control"
             description="Manage, read & write, and monitor any smart contract — with quick access to custom contract configurations like royalty fees, signature-based minting, & more."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/interact/icon-analytics.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-analytics.svg")}
             title="Onchain insights"
             description="Get onchain data & understand activity on your smart contracts with an easy-to-use analytics dashboard."
           />
@@ -96,21 +96,21 @@ const InteractLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/interact/icon-contract-action.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-contract-action.svg")}
               title="Manage contracts"
               description="Manage all of your smart contracts from the dashboard. Configure your contract settings, view contract events, and check source code of your contract — all tailored to the contract's detected extensions & industry standards."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/interact/icon-marketplace-1.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace-1.svg")}
               title="Read & write to contracts"
               description="Integrate smart contracts into your app, call any & all functions, and have code snippets auto-generated based on your contract's supported extensions — for React, React Native, TypeScript, Python, Unity, and Go — on any chain."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/interact/icon-monitor-contract.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-monitor-contract.svg")}
               title="Monitor contracts"
               description="View historical and real-time contract activity, including: unique wallet addresses that have sent transactions, total transaction count, total events, function breakdown, and events breakdown by contract."
             />
@@ -127,21 +127,21 @@ const InteractLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/interact/icon-digital-collectible.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
               title="NFT & token mints"
               description="Deploy any smart contract, add custom extensions for advanced functionality, & instantly add it to any app — with an auto-generated mint embed so that your users can claim & mint NFTs directly from within it."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/interact/icon-analytics.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-analytics.svg")}
               title="App clients & analytics"
               description="Plug any existing smart contract into your app via our SDK to read from & write to it — so that you can build anything from app clients to insights aggregators, complete with intuitive data feeds for onchain analytics."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/interact/icon-marketplace.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace.svg")}
               title="Web3 apps, games & marketplaces"
               description="Build blockchain-powered games & marketplaces using all of the smart contracts you need —  with functions for token minting & redemption, buying & selling, burning, and everything else you need to build full-stack web3 apps."
             />

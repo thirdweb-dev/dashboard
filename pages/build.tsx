@@ -102,17 +102,17 @@ const BuildLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/build/icon-ship.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-ship.svg")}
             title="Ship onchain faster"
             description="Reduce development time with pre-built contracts which work out-of-the box, or use our SDK to build custom contracts with advanced functionality from scratch."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/build/icon-tool.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-tool.svg")}
             title="Built for developers"
             description="Bespoke tools for your contracts, based on the extensions you choose - including higher level functionality in our SDK, tailored data feeds and intuitive error messages."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages/build/icon-secure.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-secure.svg")}
             title="Complete security"
             description={
               <>
@@ -136,21 +136,21 @@ const BuildLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/build/icon-contract.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-contract.svg")}
               title="Base contracts"
               description="Pre-built smart contracts for the most popular Ethereum standards (ERC-721, ERC-1155, ERC-20) to build on top of or modify — that you can deploy in clicks, work out-of-the-box, and do not require any functions to be implemented."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/build/icon-extension.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-extension.svg")}
               title="Extensions"
               description="Solidity interfaces and industry standards that are recognizable by the Dashboard and unlock functionality in the SDKs. They are composable pieces of logic that can be added to base contracts easily."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/build/icon-evm.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-evm.svg")}
               title="Any Chain"
               description="Smart contracts that work with any EVM-compatible chain out of the box — so you can build any web3 app on Ethereum mainnet, a layer 2 networks, or your own custom appchain."
             />
@@ -167,7 +167,7 @@ const BuildLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/build/icon-digital-collectible.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
               title="Digital Collectibles"
               description={
                 <>
@@ -192,7 +192,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/build/icon-marketplace.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace.svg")}
               title="Marketplace"
               description={
                 <>
@@ -215,7 +215,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/build/icon-game.svg")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-game.svg")}
               title="Web3 Games"
               description="Build blockchain powered games where users can collect digital assets as NFTs — creating thriving in-game economies, increasing retention, and generating more revenue."
             />
