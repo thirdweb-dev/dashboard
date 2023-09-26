@@ -3,6 +3,7 @@ import {
   ConnectModalInline,
   useDisconnect,
   useConnectionStatus,
+  Theme,
 } from "@thirdweb-dev/react";
 import React, { useEffect } from "react";
 import { Text } from "tw-components";
@@ -12,13 +13,11 @@ import {
   hideUIForWalletIdsMobile,
 } from "./walletInfoRecord";
 
-type Theme = "light" | "dark";
-
 export const ConnectModalInlinePreview = (props: {
   walletIds: string[];
   modalTitle: string;
   modalSize: "compact" | "wide";
-  selectedTheme: Theme;
+  theme: Theme;
   modalTitleIconUrl?: string;
   welcomeScreen?: WelcomeScreen;
   termsOfServiceUrl?: string;
@@ -66,7 +65,7 @@ export const ConnectModalInlinePreview = (props: {
           modalSize={isMobile ? "compact" : props.modalSize}
           className={styles.ConnectModalInline}
           modalTitle={props.modalTitle}
-          theme={props.selectedTheme}
+          theme={props.theme}
           modalTitleIconUrl={props.modalTitleIconUrl}
           welcomeScreen={props.welcomeScreen}
           termsOfServiceUrl={props.termsOfServiceUrl}

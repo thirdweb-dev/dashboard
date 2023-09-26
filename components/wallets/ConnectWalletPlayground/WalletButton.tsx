@@ -30,44 +30,42 @@ export function WalletButton(props: {
             }
       }
       transition="background 100ms ease, border-color 100ms ease"
-      p={2}
       alignItems="center"
       userSelect={"none"}
-      gap={3}
+      pr={1}
+      gap={1}
     >
-      <Image
-        width={7}
-        height={7}
-        alt={name}
-        src={replaceIpfsUrl(icon)}
-        cursor="pointer"
-        onClick={() => {
-          onSelect();
-        }}
-      />
-
       <Flex
-        flexDir="column"
-        justifyContent="center"
+        gap={3}
+        alignItems="center"
         flexGrow={1}
-        alignSelf="stretch"
-        cursor="pointer"
+        p={2}
         onClick={() => {
           onSelect();
         }}
+        cursor="pointer"
       >
-        <Text
-          fontWeight={500}
-          fontSize={14}
-          color={isChecked || subtitle ? "heading" : "paragraph"}
+        <Image width={7} height={7} alt={name} src={replaceIpfsUrl(icon)} />
+
+        <Flex
+          flexDir="column"
+          justifyContent="center"
+          flexGrow={1}
+          alignSelf="stretch"
         >
-          {name}
-        </Text>
-        {subtitle && (
-          <Text fontSize={12} color="faded">
-            {subtitle}
+          <Text
+            fontWeight={500}
+            fontSize={14}
+            color={isChecked || subtitle ? "heading" : "paragraph"}
+          >
+            {name}
           </Text>
-        )}
+          {subtitle && (
+            <Text fontSize={12} color="faded">
+              {subtitle}
+            </Text>
+          )}
+        </Flex>
       </Flex>
 
       <Tooltip

@@ -18,6 +18,8 @@ type WalletSetupOptions = {
     modalTitleIconUrl?: string;
     welcomeScreen?: string;
   };
+  baseTheme: "light" | "dark";
+  colorOverrides: Record<string, string>;
 };
 
 export function getCode(options: WalletSetupOptions) {
@@ -31,11 +33,22 @@ export function getCode(options: WalletSetupOptions) {
     options.thirdwebProvider.supportedWallets = `${supportedWallets}.map(wallet => smartWallet(wallet, { factoryAddress: "${options.smartWalletOptions.factoryAddress}", gasless: ${options.smartWalletOptions.gasless} }))`;
   }
 
+  const hasThemeOverrides = Object.keys(options.colorOverrides).length > 0;
+  let themeFn = "";
+  if (hasThemeOverrides) {
+    themeFn = options.baseTheme === "dark" ? "darkTheme" : "lightTheme";
+
+    options.connectWallet.theme = `${themeFn}(${JSON.stringify(
+      options.colorOverrides,
+    )})`;
+  }
+
   return `\
 import {
   ThirdwebProvider,
   ConnectWallet
-  ${options.imports.length > 0 ? `, ${options.imports.join(",")}` : ""}
+  ${options.imports.length > 0 ? `, ${options.imports.join(",")}` : ""},
+${themeFn}
 } from "@thirdweb-dev/react";
 
 

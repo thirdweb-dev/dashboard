@@ -3,11 +3,6 @@ import {
   Flex,
   GridItem,
   Input,
-  Tabs,
-  TabList,
-  TabPanels,
-  TabPanel,
-  Tab,
   Grid,
   useBreakpointValue,
   useColorMode,
@@ -19,7 +14,10 @@ import {
 } from "@chakra-ui/react";
 import {
   ConnectWallet,
+  ThemeOverrides,
   ThirdwebProvider,
+  darkTheme,
+  lightTheme,
   smartWallet,
 } from "@thirdweb-dev/react";
 import React, { useEffect, useState } from "react";
@@ -44,15 +42,17 @@ import { AiOutlineStar } from "react-icons/ai";
 import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { StorageSingleton } from "lib/sdk";
+import { ColorInput } from "./ColorInput";
+import { BsStars } from "react-icons/bs";
 
 type OptionalUrl = { url: string; enabled: boolean };
-
 export const ConnectWalletPlayground: React.FC = () => {
   const defaultOptionalUrl: OptionalUrl = {
     enabled: false,
     url: "",
   };
 
+  const [tabToShow, setTabToShow] = useState<1 | 2 | 3>(1);
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [btnTitle, setBtnTitle] = useState("");
   const [modalSize, setModalSize] = useState<"compact" | "wide">("wide");
@@ -74,6 +74,9 @@ export const ConnectWalletPlayground: React.FC = () => {
   const [authEnabled, setAuthEnabled] = useState(false);
   const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
   const [code, setCode] = useState("");
+  const [colorOverrides, setColorOverrides] = useState<
+    NonNullable<ThemeOverrides["colors"]>
+  >({});
 
   const [walletSelection, setWalletSelection] = useState<
     Record<WalletId, boolean | "recommended">
@@ -99,6 +102,8 @@ export const ConnectWalletPlayground: React.FC = () => {
 
   useEffect(() => {
     const _code = getCode({
+      baseTheme: selectedTheme,
+      colorOverrides,
       imports: enabledWallets.map(
         (walletId) => walletInfoRecord[walletId].import,
       ),
@@ -154,6 +159,7 @@ export const ConnectWalletPlayground: React.FC = () => {
     smartWalletOptions,
     modalTitleIconUrl,
     welcomeScreen,
+    colorOverrides,
   ]);
 
   const supportedWallets = enabledWallets.map((walletId) => {
@@ -171,6 +177,15 @@ export const ConnectWalletPlayground: React.FC = () => {
         })
       : walletConfig;
   });
+
+  const themeObj =
+    selectedTheme === "light"
+      ? lightTheme({
+          colors: colorOverrides,
+        })
+      : darkTheme({
+          colors: colorOverrides,
+        });
 
   const withThirdwebProvider = (content: React.ReactNode) => (
     <ThirdwebProvider
@@ -444,392 +459,568 @@ export const ConnectWalletPlayground: React.FC = () => {
     </>
   );
 
-  return (
-    <Grid
-      templateColumns={{
-        md: "1fr 732px",
-        sm: "1fr",
-      }}
-      gap={{
-        base: 14,
-        md: 4,
-      }}
-    >
-      {/* left */}
-      <GridItem>
-        <Tabs isLazy>
-          <TabList fontSize={14} gap={2}>
-            <CustomTab title="General" />
-            <CustomTab title="Appearance" />
-          </TabList>
+  const previewSection = (
+    <Box>
+      <Text color="faded">Live Preview</Text>
+      <Spacer height={2} />
+      <Box
+        border="1px solid"
+        borderColor="borderColor"
+        minH="120px"
+        borderRadius="md"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Box>
+          {withThirdwebProvider(
+            <ConnectWallet
+              modalSize={modalSize}
+              modalTitle={modalTitle}
+              theme={themeObj}
+              btnTitle={btnTitle || undefined}
+              modalTitleIconUrl={
+                modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
+              }
+              auth={{ loginOptional: !authEnabled }}
+              switchToActiveChain={switchToActiveChain}
+              welcomeScreen={welcomeScreen}
+              termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
+              privacyPolicyUrl={
+                privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
+              }
+            />,
+          )}
+        </Box>
+      </Box>
 
-          <TabPanels>
-            {/* supportedWallets */}
-            <TabPanel p={0} pt={8}>
-              {/* theme */}
-              <Grid templateColumns="1fr 1fr">
-                <FormItem label="Theme">
-                  <Flex gap={2}>
-                    <ThemeButton
-                      theme="dark"
-                      isSelected={selectedTheme === "dark"}
-                      onClick={() => {
-                        if (selectedTheme !== "dark") {
-                          toggleColorMode();
-                        }
-                      }}
-                    />
+      <Spacer height={10} flexGrow={0} flexShrink={0} />
 
-                    <ThemeButton
-                      theme="light"
-                      isSelected={selectedTheme === "light"}
-                      onClick={() => {
-                        if (selectedTheme !== "light") {
-                          toggleColorMode();
-                        }
-                      }}
-                    />
-                  </Flex>
-                </FormItem>
+      {/* Modal UI */}
+      <Box>
+        <Text color="faded">Modal UI</Text>
+        <Box height={2} />
+        {withThirdwebProvider(
+          <ClientOnly
+            ssr={null}
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <ConnectModalInlinePreview
+              modalSize={modalSize}
+              walletIds={supportedWallets.map((x) => x.id)}
+              modalTitle={modalTitle}
+              theme={themeObj}
+              welcomeScreen={welcomeScreen}
+              modalTitleIconUrl={
+                modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
+              }
+              termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
+              privacyPolicyUrl={
+                privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
+              }
+            />
+          </ClientOnly>,
+        )}
+      </Box>
+    </Box>
+  );
 
-                {/* modal size */}
-                {!isMobile && (
-                  <FormItem label="Modal Size">
-                    <Flex gap={2}>
-                      <ModalSizeButton
-                        modalSize="wide"
-                        isSelected={modalSize === "wide"}
-                        onClick={() => {
-                          setModalSize("wide");
-                        }}
-                      />
+  const tab1 = (
+    <Box>
+      <Grid templateColumns="1fr 1fr">
+        {/* modal size */}
+        {!isMobile && (
+          <FormItem label="Modal Size">
+            <Flex gap={2}>
+              <ModalSizeButton
+                modalSize="wide"
+                isSelected={modalSize === "wide"}
+                onClick={() => {
+                  setModalSize("wide");
+                }}
+              />
 
-                      <ModalSizeButton
-                        modalSize="compact"
-                        isSelected={modalSize === "compact"}
-                        onClick={() => {
-                          setModalSize("compact");
-                        }}
-                      />
-                    </Flex>
-                  </FormItem>
-                )}
-              </Grid>
+              <ModalSizeButton
+                modalSize="compact"
+                isSelected={modalSize === "compact"}
+                onClick={() => {
+                  setModalSize("compact");
+                }}
+              />
+            </Flex>
+          </FormItem>
+        )}
+      </Grid>
 
-              <Spacer height={8} />
+      <Spacer height={8} />
 
-              {eoalWallets}
-              <Spacer height={8} />
-              {socialLogins}
-              <Spacer height={10} />
+      {eoalWallets}
+      <Spacer height={8} />
+      {socialLogins}
+      <Spacer height={10} />
 
-              {/* Guest Mode */}
-              <SwitchFormItem
-                label="Continue as Guest"
-                description="Access your app with a guest account"
-                onCheck={(_isChecked) => {
-                  setWalletSelection({
-                    ...walletSelection,
-                    "Guest Mode": _isChecked,
+      {/* Guest Mode */}
+      <SwitchFormItem
+        label="Continue as Guest"
+        description="Access your app with a guest account"
+        onCheck={(_isChecked) => {
+          setWalletSelection({
+            ...walletSelection,
+            "Guest Mode": _isChecked,
+          });
+        }}
+        isChecked={!!walletSelection["Guest Mode"]}
+      />
+
+      <Spacer height={5} />
+      <Box borderTop="1px solid" borderColor="borderColor" />
+      <Spacer height={5} />
+
+      {/* Smart wallet */}
+      <SwitchFormItem
+        label="Smart Wallets"
+        description="Use ERC-4337 (Account Abstraction) compatible smart wallets"
+        onCheck={(_isChecked) => {
+          setSmartWalletOptions({
+            ...smartWalletOptions,
+            enabled: _isChecked,
+          });
+        }}
+        isChecked={smartWalletOptions.enabled}
+      />
+
+      <Spacer height={5} />
+      <Box borderTop="1px solid" borderColor="borderColor" />
+      <Spacer height={5} />
+
+      <SwitchFormItem
+        label="Auth"
+        description="Enforce signatures (SIWE) after wallet connection"
+        onCheck={(_isChecked) => {
+          setAuthEnabled(_isChecked);
+        }}
+        isChecked={authEnabled}
+      />
+
+      <Spacer height={5} />
+      <Box borderTop="1px solid" borderColor="borderColor" />
+      <Spacer height={5} />
+
+      <SwitchFormItem
+        label="Switch to Active Chain"
+        description="Prompt user to switch to activeChain set in ThirdwebProvider after wallet connection"
+        onCheck={(_isChecked) => {
+          setSwitchToActiveChain(_isChecked);
+        }}
+        isChecked={switchToActiveChain}
+      />
+    </Box>
+  );
+
+  const tab2 = (
+    <Box>
+      <Flex direction="column" gap={5}>
+        {/* Button Title */}
+        <FormItem
+          label="Button Title"
+          description="Title of ConnectWallet button"
+        >
+          <Input
+            placeholder="Connect Wallet"
+            value={btnTitle}
+            onChange={(e) => {
+              setBtnTitle(e.target.value);
+            }}
+          />
+        </FormItem>
+
+        <Spacer height={10} />
+
+        <Flex direction="column" gap={5}>
+          <Heading size="label.lg" as="h3" color="faded">
+            Modal
+          </Heading>
+
+          {/* Modal Title */}
+          <FormItem label="Modal Title">
+            <Input
+              placeholder="Choose your wallet"
+              value={modalTitle}
+              onChange={(e) => {
+                setModalTitle(e.target.value);
+              }}
+            />
+          </FormItem>
+
+          {/* Modal Title Icon */}
+          <FormItem
+            label="Modal Title Icon"
+            description="Icon to shown next to the modal title"
+          >
+            <Flex gap={3} alignItems="center">
+              <Switch
+                size="lg"
+                isChecked={"custom" in modalTitleIconUrl}
+                onChange={() => {
+                  setModalTitleIconUrl({
+                    ...modalTitleIconUrl,
+                    enabled: !modalTitleIconUrl,
                   });
                 }}
-                isChecked={!!walletSelection["Guest Mode"]}
-              />
-
-              <Spacer height={5} />
-              <Box borderTop="1px solid" borderColor="borderColor" />
-              <Spacer height={5} />
-
-              {/* Smart wallet */}
-              <SwitchFormItem
-                label="Smart Wallets"
-                description="Use ERC-4337 (Account Abstraction) compatible smart wallets"
-                onCheck={(_isChecked) => {
-                  setSmartWalletOptions({
-                    ...smartWalletOptions,
-                    enabled: _isChecked,
-                  });
-                }}
-                isChecked={smartWalletOptions.enabled}
-              />
-
-              <Spacer height={5} />
-              <Box borderTop="1px solid" borderColor="borderColor" />
-              <Spacer height={5} />
-
-              <SwitchFormItem
-                label="Auth"
-                description="Enforce signatures (SIWE) after wallet connection"
-                onCheck={(_isChecked) => {
-                  setAuthEnabled(_isChecked);
-                }}
-                isChecked={authEnabled}
-              />
-
-              <Spacer height={5} />
-              <Box borderTop="1px solid" borderColor="borderColor" />
-              <Spacer height={5} />
-
-              <SwitchFormItem
-                label="Switch to Active Chain"
-                description="Prompt user to switch to activeChain set in ThirdwebProvider after wallet connection"
-                onCheck={(_isChecked) => {
-                  setSwitchToActiveChain(_isChecked);
-                }}
-                isChecked={switchToActiveChain}
-              />
-            </TabPanel>
-
-            {/* Design */}
-            <TabPanel p={0} pt={6}>
-              <Flex direction="column" gap={5}>
-                {/* Button Title */}
-                <FormItem
-                  label="Button Title"
-                  description="Title of ConnectWallet button"
-                >
-                  <Input
-                    placeholder="Connect Wallet"
-                    value={btnTitle}
-                    onChange={(e) => {
-                      setBtnTitle(e.target.value);
-                    }}
-                  />
-                </FormItem>
-
-                <Spacer height={10} />
-
-                <Flex direction="column" gap={5}>
-                  <Heading size="label.lg" as="h3" color="faded">
-                    Modal
-                  </Heading>
-
-                  {/* Modal Title */}
-                  <FormItem label="Modal Title">
-                    <Input
-                      placeholder="Choose your wallet"
-                      value={modalTitle}
-                      onChange={(e) => {
-                        setModalTitle(e.target.value);
-                      }}
-                    />
-                  </FormItem>
-
-                  {/* Modal Title Icon */}
-                  <FormItem
-                    label="Modal Title Icon"
-                    description="Icon to shown next to the modal title"
-                  >
-                    <Flex gap={3} alignItems="center">
-                      <Switch
-                        size="lg"
-                        isChecked={"custom" in modalTitleIconUrl}
-                        onChange={() => {
-                          setModalTitleIconUrl({
-                            ...modalTitleIconUrl,
-                            enabled: !modalTitleIconUrl,
-                          });
-                        }}
-                      ></Switch>
-                      <Text>
-                        {"custom" in modalTitleIconUrl ? "Custom" : "Default"}
-                      </Text>
-                    </Flex>
-                    <Spacer height={2} />
-                    {"custom" in modalTitleIconUrl && (
-                      <Input
-                        placeholder="https://..."
-                        value={modalTitleIconUrl.url}
-                        onChange={(e) => {
-                          setModalTitleIconUrl({
-                            ...modalTitleIconUrl,
-                            url: e.target.value,
-                          });
-                        }}
-                      />
-                    )}
-                  </FormItem>
-                </Flex>
-
-                <Box borderTop="1px solid" borderColor="borderColor" />
-
-                {/* Welcome Screen */}
-                {welcomeScreenContent}
-
-                <Box borderTop="1px solid" borderColor="borderColor" />
-
-                {/* Terms of Service */}
-                <Box>
-                  <Flex justifyContent="space-between" alignItems="center">
-                    <FormLabel m={0}> Terms of Service </FormLabel>
-                    <Switch
-                      isChecked={tosUrl.enabled}
-                      size="lg"
-                      onChange={() => {
-                        setTosUrl({
-                          url: tosUrl.url,
-                          enabled: !tosUrl.enabled,
-                        });
-                      }}
-                    />
-                  </Flex>
-
-                  {tosUrl.enabled && (
-                    <>
-                      <Spacer height={2} />
-                      <Input
-                        value={tosUrl.url}
-                        placeholder="https://.."
-                        onChange={(e) =>
-                          setTosUrl({
-                            url: e.target.value,
-                            enabled: tosUrl.enabled,
-                          })
-                        }
-                      />
-                    </>
-                  )}
-                </Box>
-
-                {/* Privacy Policy */}
-                <Box>
-                  <Flex justifyContent="space-between" alignItems="center">
-                    <FormLabel m={0}> Privacy Policy </FormLabel>
-                    <Switch
-                      isChecked={privacyPolicyUrl.enabled}
-                      size="lg"
-                      onChange={() => {
-                        setPrivacyPolicyUrl({
-                          url: privacyPolicyUrl.url,
-                          enabled: !privacyPolicyUrl.enabled,
-                        });
-                      }}
-                    />
-                  </Flex>
-
-                  {privacyPolicyUrl.enabled && (
-                    <>
-                      <Spacer height={2} />
-                      <Input
-                        value={privacyPolicyUrl.url}
-                        placeholder="https://.."
-                        onChange={(e) =>
-                          setPrivacyPolicyUrl({
-                            url: e.target.value,
-                            enabled: privacyPolicyUrl.enabled,
-                          })
-                        }
-                      />
-                    </>
-                  )}
-                </Box>
-              </Flex>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </GridItem>
-
-      {/* right */}
-      <GridItem>
-        <Tabs>
-          <TabList fontSize={14} gap={2}>
-            <CustomTab title="Preview" />
-            <CustomTab title="Code" />
-          </TabList>
-
-          <TabPanels>
-            <TabPanel p={0} pt={6}>
-              {/* Live Preivew */}
-              <Text color={"gray.700"} textAlign="center">
-                Live Preview
+              ></Switch>
+              <Text>
+                {"custom" in modalTitleIconUrl ? "Custom" : "Default"}
               </Text>
+            </Flex>
+            <Spacer height={2} />
+            {"custom" in modalTitleIconUrl && (
+              <Input
+                placeholder="https://..."
+                value={modalTitleIconUrl.url}
+                onChange={(e) => {
+                  setModalTitleIconUrl({
+                    ...modalTitleIconUrl,
+                    url: e.target.value,
+                  });
+                }}
+              />
+            )}
+          </FormItem>
+        </Flex>
+
+        <Box borderTop="1px solid" borderColor="borderColor" />
+
+        {/* Welcome Screen */}
+        {welcomeScreenContent}
+
+        <Box borderTop="1px solid" borderColor="borderColor" />
+
+        {/* Terms of Service */}
+        <Box>
+          <Flex justifyContent="space-between" alignItems="center">
+            <FormLabel m={0}> Terms of Service </FormLabel>
+            <Switch
+              isChecked={tosUrl.enabled}
+              size="lg"
+              onChange={() => {
+                setTosUrl({
+                  url: tosUrl.url,
+                  enabled: !tosUrl.enabled,
+                });
+              }}
+            />
+          </Flex>
+
+          {tosUrl.enabled && (
+            <>
               <Spacer height={2} />
-              <Flex justifyContent="center">
-                <Box>
-                  {withThirdwebProvider(
-                    <ConnectWallet
-                      modalSize={modalSize}
-                      modalTitle={modalTitle}
-                      theme={selectedTheme}
-                      btnTitle={btnTitle || undefined}
-                      modalTitleIconUrl={
-                        modalTitleIconUrl.enabled
-                          ? modalTitleIconUrl.url
-                          : undefined
-                      }
-                      auth={{ loginOptional: !authEnabled }}
-                      switchToActiveChain={switchToActiveChain}
-                      welcomeScreen={welcomeScreen}
-                      termsOfServiceUrl={
-                        tosUrl.enabled ? tosUrl.url : undefined
-                      }
-                      privacyPolicyUrl={
-                        privacyPolicyUrl.enabled
-                          ? privacyPolicyUrl.url
-                          : undefined
-                      }
-                    />,
-                  )}
-                </Box>
-              </Flex>
+              <Input
+                value={tosUrl.url}
+                placeholder="https://.."
+                onChange={(e) =>
+                  setTosUrl({
+                    url: e.target.value,
+                    enabled: tosUrl.enabled,
+                  })
+                }
+              />
+            </>
+          )}
+        </Box>
 
-              <Spacer height={10} flexGrow={0} flexShrink={0} />
+        {/* Privacy Policy */}
+        <Box>
+          <Flex justifyContent="space-between" alignItems="center">
+            <FormLabel m={0}> Privacy Policy </FormLabel>
+            <Switch
+              isChecked={privacyPolicyUrl.enabled}
+              size="lg"
+              onChange={() => {
+                setPrivacyPolicyUrl({
+                  url: privacyPolicyUrl.url,
+                  enabled: !privacyPolicyUrl.enabled,
+                });
+              }}
+            />
+          </Flex>
 
-              {/* Modal UI */}
-              <Box>
-                <Text color={"gray.700"} textAlign="center">
-                  Modal UI
-                </Text>
-                <Box height={2} />
-                {withThirdwebProvider(
-                  <ClientOnly
-                    ssr={null}
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ConnectModalInlinePreview
-                      modalSize={modalSize}
-                      walletIds={supportedWallets.map((x) => x.id)}
-                      modalTitle={modalTitle}
-                      selectedTheme={selectedTheme}
-                      welcomeScreen={welcomeScreen}
-                      modalTitleIconUrl={
-                        modalTitleIconUrl.enabled
-                          ? modalTitleIconUrl.url
-                          : undefined
-                      }
-                      termsOfServiceUrl={
-                        tosUrl.enabled ? tosUrl.url : undefined
-                      }
-                      privacyPolicyUrl={
-                        privacyPolicyUrl.enabled
-                          ? privacyPolicyUrl.url
-                          : undefined
-                      }
-                    />
-                  </ClientOnly>,
-                )}
-              </Box>
-            </TabPanel>
+          {privacyPolicyUrl.enabled && (
+            <>
+              <Spacer height={2} />
+              <Input
+                value={privacyPolicyUrl.url}
+                placeholder="https://.."
+                onChange={(e) =>
+                  setPrivacyPolicyUrl({
+                    url: e.target.value,
+                    enabled: privacyPolicyUrl.enabled,
+                  })
+                }
+              />
+            </>
+          )}
+        </Box>
+      </Flex>
+    </Box>
+  );
 
-            <TabPanel p={0} pt={6}>
-              <CodeBlock language="jsx" code={code} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </GridItem>
-    </Grid>
+  type ColorMeta = { key: keyof (typeof themeObj)["colors"]; name: string };
+
+  const renderColorList = (sectionName: string, _colorList: ColorMeta[]) => (
+    <Box>
+      <Heading as="h3" fontSize={16} color="faded">
+        {sectionName}
+      </Heading>
+      <Spacer height={5} />
+      <Flex gap={6} flexDir="column">
+        {_colorList.map((colorInfo) => {
+          return (
+            <ColorInput
+              key={colorInfo.key}
+              value={themeObj.colors[colorInfo.key]}
+              name={colorInfo.name}
+              onChange={(value) => {
+                setColorOverrides((c) => ({ ...c, [colorInfo.key]: value }));
+              }}
+            />
+          );
+        })}
+      </Flex>
+    </Box>
+  );
+
+  const tab3 = (
+    <Box>
+      <FormItem label="Theme">
+        <Flex gap={2}>
+          <ThemeButton
+            theme="dark"
+            isSelected={selectedTheme === "dark"}
+            onClick={() => {
+              if (selectedTheme !== "dark") {
+                toggleColorMode();
+              }
+            }}
+          />
+
+          <ThemeButton
+            theme="light"
+            isSelected={selectedTheme === "light"}
+            onClick={() => {
+              if (selectedTheme !== "light") {
+                toggleColorMode();
+              }
+            }}
+          />
+        </Flex>
+      </FormItem>
+
+      <Spacer height={10} />
+
+      <Flex flexDir="column" gap={10}>
+        {renderColorList("Basic", [
+          {
+            name: "Modal Background",
+            key: "modalBg",
+          },
+          {
+            name: "Dropdown Background",
+            key: "dropdownBg",
+          },
+          {
+            name: "Border Color",
+            key: "borderColor",
+          },
+          {
+            name: "Separator Line",
+            key: "separatorLine",
+          },
+          {
+            name: "Danger",
+            key: "danger",
+          },
+          {
+            name: "Success",
+            key: "success",
+          },
+        ])}
+
+        {renderColorList("Texts", [
+          {
+            name: "Primary Text",
+            key: "primaryText",
+          },
+          {
+            name: "Secondary Text",
+            key: "secondaryText",
+          },
+          {
+            name: "Accent Text",
+            key: "accentText",
+          },
+        ])}
+
+        {renderColorList("Buttons", [
+          {
+            name: "Accent Button Background",
+            key: "accentButtonBg",
+          },
+          {
+            name: "Accent Button Text",
+            key: "accentButtonText",
+          },
+          {
+            name: "Primary Button Background",
+            key: "primaryButtonBg",
+          },
+          {
+            name: "Primary Button Text",
+            key: "primaryButtonText",
+          },
+          {
+            name: "Secondary Button Background",
+            key: "secondaryButtonBg",
+          },
+          {
+            name: "Secondary Button Hover Background",
+            key: "secondaryButtonHoverBg",
+          },
+          {
+            name: "Secondary Button Text",
+            key: "secondaryButtonText",
+          },
+          {
+            name: "Connected Button Background",
+            key: "connectedButtonBg",
+          },
+          {
+            name: "Connected Button Hover Background",
+            key: "connectedButtonBgHover",
+          },
+          {
+            name: "Wallet Selector Button Hover Background",
+            key: "walletSelectorButtonHoverBg",
+          },
+        ])}
+
+        {renderColorList("Icons", [
+          {
+            name: "Secondary Icon Color",
+            key: "secondaryIconColor",
+          },
+          {
+            name: "Secondary Icon Hover Color",
+            key: "secondaryIconHoverColor",
+          },
+          {
+            name: "Secondary Icon Hover Background",
+            key: "secondaryIconHoverBg",
+          },
+        ])}
+
+        {renderColorList("Others", [
+          {
+            name: "Loading Skeleton Color",
+            key: "skeletonBg",
+          },
+          {
+            name: "User Selected Text Color",
+            key: "selectedTextColor",
+          },
+          {
+            name: "User Selected Text Background",
+            key: "selectedTextBg",
+          },
+        ])}
+      </Flex>
+    </Box>
+  );
+
+  return (
+    <Box>
+      <Flex gap={2} alignItems="center">
+        <Icon as={BsStars} width={6} height={6} color="faded" />
+        <Heading fontSize={20}>Customize</Heading>
+      </Flex>
+
+      <Spacer height={6} />
+      <Grid
+        templateColumns={{
+          md: "1fr 732px",
+          sm: "1fr",
+        }}
+        gap={{
+          base: 14,
+          md: 4,
+        }}
+      >
+        {/* left */}
+        <GridItem>
+          {/* Tabs */}
+          <Flex gap={2}>
+            <CustomTab
+              label="General"
+              isActive={tabToShow === 1}
+              onClick={() => setTabToShow(1)}
+            />
+            <CustomTab
+              label="Appearance"
+              isActive={tabToShow === 2}
+              onClick={() => setTabToShow(2)}
+            />
+            <CustomTab
+              label="Theming"
+              isActive={tabToShow === 3}
+              onClick={() => setTabToShow(3)}
+            />
+          </Flex>
+
+          <Spacer height={8} />
+
+          {tabToShow === 1 && tab1}
+          {tabToShow === 2 && tab2}
+          {tabToShow === 3 && tab3}
+        </GridItem>
+
+        {/* right */}
+        <GridItem>
+          {previewSection}
+          <Spacer height={8} />
+          <Text color="faded"> Code </Text>
+          <Spacer height={2} />
+          <CodeBlock language="jsx" code={code} maxH="700px" overflowY="auto" />
+        </GridItem>
+      </Grid>
+    </Box>
   );
 };
 
-function CustomTab(props: { title: string }) {
+function CustomTab(props: {
+  label: string;
+  onClick: () => void;
+  isActive: boolean;
+}) {
   return (
-    <Tab fontWeight={600} fontSize={14}>
-      {props.title}
-    </Tab>
+    <Button
+      fontWeight={600}
+      fontSize={14}
+      onClick={props.onClick}
+      border="2px solid"
+      borderRadius="lg"
+      borderColor={props.isActive ? "blue.500" : "borderColor"}
+      bg="none"
+      color={props.isActive ? "heading" : "faded"}
+      _hover={{
+        bg: "inputBg",
+        borderColor: "heading",
+      }}
+    >
+      {props.label}
+    </Button>
   );
 }
 
