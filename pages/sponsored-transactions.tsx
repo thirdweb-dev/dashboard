@@ -75,17 +75,17 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/payments/icon-efficient.svg")}
             title="Abstract away the blockchain"
             description="Remove disruptive transaction popups, the need to bridge & swap funds, and other obstacles that prevent users from using your dApp."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/payments/icon-gasless.svg")}
             title="Flexible relayer options"
             description="Choose Biconomy or OpenZeppelin Defender as your gasless transaction provider — giving you maximum scalability & ultimate peace of mind."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/payments/icon-simple-click.svg")}
             title="Seamless web3 UX"
             description="Combine gasless & signless transactions to give your users the best user experience — for apps & games that require frequent transactions, on any EVM chain."
           />
@@ -93,14 +93,14 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>} desktopColumns={2}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-gasless.svg")}
               title="Gasless Relayer"
               description="Our SDK integrates seamlessly with Biconomy and OpenZeppelin Defender, two popular gasless transaction providers."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/account-abstraction.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-private.svg")}
               title="Paymaster"
               description="thirdweb Smart Wallet paymaster allows gasless transactions to happen in a non-custodial way."
             />
@@ -117,21 +117,21 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-email-signin.svg")}
               title="Web2 user login flows"
               description="Onboard anyone in an instant with an embedded & smart wallet combo — enabling signless transactions and covering gas fees so that users can start using your dApp in seconds & get the smoothest experience without needing to bridge or swap funds."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-marketplace.svg")}
               title="Brand activations"
               description="Launch mass-scale digital marketing campaigns where any user can claim exclusive digital assets (even if they've never created a wallet or purchased crypto before) and turn your customers into loyal brand advocates by bringing them closer with low-cost digital goods."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-smart-wallet.svg")}
               title="Custom in-app experiences"
               description="Pair gasless transactions with smart wallets to enable anyone to use your app or game without getting transaction popups, signature requests, or switching back & forth with their wallet apps."
             />
