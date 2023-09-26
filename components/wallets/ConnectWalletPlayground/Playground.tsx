@@ -357,7 +357,7 @@ export const ConnectWalletPlayground: React.FC = () => {
       <Grid gap={2} flexDir="column" templateColumns="1fr">
         {/* Email Wallet */}
         <WalletButton
-          name="Embeded Wallet"
+          name="Embedded Wallet"
           subtitle="Email and Google sign in"
           icon={walletInfoRecord["Email Wallet"].component.meta.iconURL}
           onRecommendedClick={() => {
