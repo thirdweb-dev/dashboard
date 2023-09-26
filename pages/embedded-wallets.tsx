@@ -73,17 +73,17 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-personalize.svg")}
             title="Every way to login"
             description="Choose from the largest selection of embedded wallet solutions & tailor it to your app — with support for email, smart, local, and server wallets."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
             title="Login flows for every user"
             description="Auth for the most common web2 login flows — enabling users to onboard with just an email, phone number, social account, or passkeys."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-secure.svg")}
             title="Complete key management"
             description="Determine how your users should manage their private keys, with non-custodial or custodial wallets. Build the most secure solution for your use case."
           />
@@ -92,21 +92,21 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           <LandingGridSection title={<></>}>
             <Card p={8}>
               <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/wallet-management.png")}
+                icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
                 title="Email and social authentication"
                 description="Email log-in, social log-in, and bring your own auth."
               />
             </Card>
             <Card p={8}>
               <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/account-abstraction.png")}
+                icon={require("public/assets/product-pages-icons/wallets/icon-custom.svg")}
                 title="Customizable branding"
                 description="Fully customizable, choose your fonts, colors, and logos to make users' wallets indistinguishable from your app."
               />
             </Card>
             <Card p={8}>
               <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+                icon={require("public/assets/product-pages-icons/wallets/icon-verified.svg")}
                 title="Account recovery"
                 description="Users can access their accounts on authenticated devices."
               />
@@ -115,14 +115,14 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           <SimpleGrid columns={{ base: 1, md: 6 }} gap={6}>
             <Card p={8} gridColumnStart={2} gridColumnEnd={4}>
               <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+                icon={require("public/assets/product-pages-icons/wallets/icon-save.svg")}
                 title="Gasless transactions"
                 description="Users can interact with your app without paying for gas fees."
               />
             </Card>
             <Card p={8} gridColumnStart={4} gridColumnEnd={6}>
               <LandingIconSectionItem
-                icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+                icon={require("public/assets/product-pages-icons/wallets/icon-private.svg")}
                 title="Non-custodial"
                 description="Using Multi-Party Computation (MPC), private key shard across (1) device, (2) emailed recovery password, and (3) login authentication."
               />
@@ -141,28 +141,28 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
               title="Web2 login flows"
               description="Enable your users to sign in with just an email, social login, or phone number — even if they've never created a wallet or purchased crypto before."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-efficient.svg")}
               title="Invisible wallet experiences"
               description="Enable gasless and signless transactions with in-app smart wallets (powered by ERC-4337) and remove any friction from your web3 app."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-guest.svg")}
               title="Continue as guest"
               description="Instantly onboard any user onto your app without a login process. Spin up wallets tied to your users' devices, which they can export at a later date or access using the same device."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-smart-wallet.svg")}
               title="Build your own wallet experiences"
               description="Low-level tools with everything you need to build your own fully-featured wallets, from generating wallets on the backend to managing users' wallets including importing & exporting keys, saving keys to secure storage, and private key recovery."
             />
