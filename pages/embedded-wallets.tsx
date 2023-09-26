@@ -66,7 +66,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/embedded"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #3385FF, #7BB0FF)"
           image={require("public/assets/product-pages/hero/desktop-hero-embedded-wallets.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-embedded-wallets.png")}
         />
@@ -181,7 +181,7 @@ const EmbeddedWalletsLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/embedded"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #3385FF, #7BB0FF)"
         />
       </Container>
     </LandingLayout>

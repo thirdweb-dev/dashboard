@@ -45,7 +45,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/connect"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #3385FF, #7BB0FF)"
           image={require("public/assets/product-pages/hero/desktop-hero-connect-wallet.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
         />
@@ -117,7 +117,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/connect"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #3385FF, #7BB0FF)"
         />
       </Container>
     </LandingLayout>
