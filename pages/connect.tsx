@@ -41,7 +41,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           miniTitle="Connect"
           title="Web3 onboarding,"
           titleWithGradient="for the next billion users"
-          subtitle="Onboard everyone to web3 with a customizable Connect Wallet modal, built-in auth, and sign-in for web2 & web3 — in a few lines of code."
+          subtitle="Onboard everyone to web3 with a customizable Connect Wallet modal, built-in auth, and sign-in options for web2 & web3 — in a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/connect"
           contactUsTitle="Book Demo"
@@ -54,17 +54,17 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
             title="Your Connect Wallet experience"
-            description="Create custom onboarding flows with a drag-and-drop UI component. Add any sign-in option, your own branding, & button styles to make it truly yours."
+            description="Build custom onboarding flows with a powerful UI component — with web3 & web2 login options, personalized branding & themes, and everything you need to tailor it to your app."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
             title="Instant onboarding for all"
-            description="Easily authenticate & onboard any user with just an email, phone number, social login, or passkeys and automatically generate a wallet for them after they sign up — or empower them to create their first web3 wallet with an easy step-by-step beginner flow."
+            description="Authenticate & onboard users easily — with just an email, phone, or social account. Generate wallets for your users under the hood, or empower them to create their first self-custodial wallet."
           />
           <LandingIconSectionItem
             icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
             title="Best-in-class DX"
-            description="Integrate thirdweb Connect with just a few lines of code — using it out of the box to save development time, or leveraging its composability to integrate it with your providers of choice — with an interactive builder for easy implementation, powerful hooks for fine-grained control, and wallet analytics & user management."
+            description="Integrate with just a few lines of code — with an interactive builder, powerful hooks for full customization, and onchain analytics."
           />
         </LandingGridSection>
         <SimpleGrid columns={{ base: 1, md: 3 }} gap={6}>
@@ -113,8 +113,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
         </SimpleGrid>
 
         <LandingEndCTA
-          title="Start building"
-          titleWithGradient="today."
+          title="Integrate in"
+          titleWithGradient="a few lines of code."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/connect"
           gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
