@@ -1,3 +1,4 @@
+/* eslint-disable inclusive-language/use-inclusive-words */
 import {
   Box,
   Flex,
@@ -666,11 +667,11 @@ export const ConnectWalletPlayground: React.FC = () => {
             <Flex gap={3} alignItems="center">
               <Switch
                 size="lg"
-                isChecked={"custom" in modalTitleIconUrl}
+                isChecked={modalTitleIconUrl.enabled}
                 onChange={() => {
                   setModalTitleIconUrl({
                     ...modalTitleIconUrl,
-                    enabled: !modalTitleIconUrl,
+                    enabled: !modalTitleIconUrl.enabled,
                   });
                 }}
               ></Switch>
@@ -679,7 +680,7 @@ export const ConnectWalletPlayground: React.FC = () => {
               </Text>
             </Flex>
             <Spacer height={2} />
-            {"custom" in modalTitleIconUrl && (
+            {modalTitleIconUrl.enabled && (
               <Input
                 placeholder="https://..."
                 value={modalTitleIconUrl.url}
