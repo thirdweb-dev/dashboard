@@ -81,7 +81,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
             description="Customers don't need wallets to buy your NFTs: we'll create non-custodial wallets for them to store their NFTs securely."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/product-pages-icons/payments/icon-private.svg")}
+            icon={require("public/assets/product-pages-icons/payments/icon-secure.svg")}
             title="Enterprise-grade security"
             description="Fully compliant & enterprise-ready for ultimate peace of mind — with built-in fraud & AML detection and 90%+ authorization rates, out of the box."
           />
