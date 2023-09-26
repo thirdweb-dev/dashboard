@@ -289,7 +289,7 @@ function LanguageBadge(props: {
 }
 
 DashboardWalletsConnect.getLayout = (page, props) => (
-  <AppLayout {...props} hasSidebar={true}>
+  <AppLayout {...props} hasSidebar={true} noOverflowX={true}>
     <WalletsSidebar activePage="connect" />
     {page}
   </AppLayout>

@@ -21,8 +21,8 @@ import {
   lightTheme,
   smartWallet,
 } from "@thirdweb-dev/react";
-import React, { useEffect, useState } from "react";
-import { Button, CodeBlock, Heading, Text, FormLabel } from "tw-components";
+import React, { useDeferredValue, useEffect, useState } from "react";
+import { Button, Heading, Text, FormLabel, CodeBlock } from "tw-components";
 import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
@@ -75,9 +75,11 @@ export const ConnectWalletPlayground: React.FC = () => {
   const [authEnabled, setAuthEnabled] = useState(false);
   const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
   const [code, setCode] = useState("");
-  const [colorOverrides, setColorOverrides] = useState<
+  const [colorOverridesOrignal, setColorOverrides] = useState<
     NonNullable<ThemeOverrides["colors"]>
   >({});
+
+  const colorOverrides = useDeferredValue(colorOverridesOrignal);
 
   const [walletSelection, setWalletSelection] = useState<
     Record<WalletId, boolean | "recommended">
@@ -991,11 +993,18 @@ export const ConnectWalletPlayground: React.FC = () => {
 
         {/* right */}
         <GridItem>
-          {previewSection}
-          <Spacer height={8} />
-          <Text color="faded"> Code </Text>
-          <Spacer height={2} />
-          <CodeBlock language="jsx" code={code} maxH="700px" overflowY="auto" />
+          <Box position="sticky" top={0}>
+            {previewSection}
+            <Spacer height={8} />
+            <Text color="faded"> Code </Text>
+            <Spacer height={2} />
+            <CodeBlock
+              language="jsx"
+              code={code}
+              maxH="400px"
+              overflowY="auto"
+            />
+          </Box>
         </GridItem>
       </Grid>
     </Box>
