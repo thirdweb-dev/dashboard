@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card, TrackedLink } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "auth-landing";
 
@@ -75,17 +75,17 @@ const AuthLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-simple-click.svg")}
             title="Instant onboarding"
             description="Enable any user to verify their identity using web2 sign-in flows such as an email, phone number, or social account — and auto-generate a wallet for them."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-secure.svg")}
             title="Web3-first auth"
             description="Build web3 apps with secure, self-custodied, web3-first authentication for your users."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/wallets/icon-build.svg")}
             title="Seamless DX"
             description="Powerful SDKs to integrate web3-compatible auth into your app — working with any backend, framework, or service."
           />
@@ -93,7 +93,7 @@ const AuthLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-verified.svg")}
               title="Onchain identity verification"
               description={
                 <>
@@ -116,14 +116,14 @@ const AuthLanding: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-wallet-management.svg")}
               title="Comprehensive wallet management"
               description="Auth includes a wide range of key management infrastructure for wallets. "
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-private.svg")}
               title="Secure token authentication"
               description={
                 <>
@@ -155,21 +155,21 @@ const AuthLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-efficient.svg")}
               title="Passwordless auth"
               description="Enable users to seamlessly log into any app with just a web3 wallet or web2 login."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-verified.svg")}
               title="Identity verification systems"
               description="Securely verify a user's onchain identity & grant them access to gated resources, interaction with your app, and the ability to receive payments with ETH or ERC-20 tokens."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/wallets/icon-data-check.svg")}
               title="Onchain & offchain data"
               description="Understand your users better by merging their web2 and web3 identities — with rich on-chain data."
             />
