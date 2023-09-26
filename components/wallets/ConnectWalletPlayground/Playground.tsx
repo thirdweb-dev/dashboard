@@ -997,7 +997,7 @@ export const ConnectWalletPlayground: React.FC = () => {
 
         {/* right */}
         <GridItem>
-          <Box position="sticky" top={0}>
+          <Box position="sticky" top={3}>
             {previewSection}
             <Spacer height={8} />
             <Text color="faded"> Code </Text>
