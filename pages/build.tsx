@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
+import { Card, TrackedLink } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
-import { TrackedLink, Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
 
 const TRACKING_CATEGORY = "build-landing";
 
@@ -89,30 +89,30 @@ const BuildLanding: ThirdwebNextPage = () => {
       >
         <LandingHeroWithSideImage
           miniTitle="Build"
-          title="The complete toolkit to"
-          titleWithGradient="build smart contracts"
+          title="Build smart contracts with Solidity, "
+          titleWithGradient="fast"
           subtitle="Deploy pre-built audited smart contracts — or write your own with our Solidity SDK. Available on any EVM chain."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/solidity"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r,  #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-build.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-build.png")}
         />
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-ship.svg")}
             title="Ship onchain faster"
             description="Reduce development time with pre-built contracts which work out-of-the box, or use our SDK to build custom contracts with advanced functionality from scratch."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-tool.svg")}
             title="Built for developers"
             description="Bespoke tools for your contracts, based on the extensions you choose - including higher level functionality in our SDK, tailored data feeds and intuitive error messages."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-secure.svg")}
             title="Complete security"
             description={
               <>
@@ -136,21 +136,21 @@ const BuildLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-contract.svg")}
               title="Base contracts"
               description="Pre-built smart contracts for the most popular Ethereum standards (ERC-721, ERC-1155, ERC-20) to build on top of or modify — that you can deploy in clicks, work out-of-the-box, and do not require any functions to be implemented."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/account-abstraction.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-extension.svg")}
               title="Extensions"
               description="Solidity interfaces and industry standards that are recognizable by the Dashboard and unlock functionality in the SDKs. They are composable pieces of logic that can be added to base contracts easily."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-evm.svg")}
               title="Any Chain"
               description="Smart contracts that work with any EVM-compatible chain out of the box — so you can build any web3 app on Ethereum mainnet, a layer 2 networks, or your own custom appchain."
             />
@@ -167,7 +167,7 @@ const BuildLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
               title="Digital Collectibles"
               description={
                 <>
@@ -192,8 +192,8 @@ const BuildLanding: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
-              title="Digital Collectibles"
+              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace.svg")}
+              title="Marketplace"
               description={
                 <>
                   Build your own fully-customizable marketplace — where you can
@@ -215,7 +215,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-game.svg")}
               title="Web3 Games"
               description="Build blockchain powered games where users can collect digital assets as NFTs — creating thriving in-game economies, increasing retention, and generating more revenue."
             />
@@ -243,7 +243,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/solidity"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r,  #F213A4, #F97CCE)"
         />
       </Container>
     </LandingLayout>

@@ -1,15 +1,15 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { LandingSectionHeading } from "components/landing-pages/section-heading";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
-import { LandingSectionHeading } from "components/landing-pages/section-heading";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "deploy-landing";
 
@@ -91,24 +91,24 @@ const DeployLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/deploy"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-deploy.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-deploy.png")}
         />
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-simple-click.svg")}
             title="Simplify your workflow"
             description="Decrease your go-to-market time by deploying smart contracts with one command line or with a few clicks on our dashboard. A simplified workflow for developers, with no more copying ABIs or generating bindings."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-secure.svg")}
             title="Deploy securely"
             description="Eliminate any risk from your workflow. No need to share private keys as deployment is managed via our dashboard. No need to deal with insecure and unfunded private keys required with local deploys."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/contracts/icon-build.svg")}
             title="Build on any contract"
             description="Unlock a full Web3 development stack for any smart contract. Access powerful tooling that allows you to easily build apps on top of your contracts, including Wallets, SDKs, Payments and Infrastructure. "
           />
@@ -116,30 +116,30 @@ const DeployLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>} desktopColumns={4}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
-              title="CLI command line"
-              description="For deploying contracts"
+              icon={require("public/assets/product-pages-icons/contracts/icon-share.svg")}
+              title="CLI"
+              description="1-line command for deploying contracts."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/account-abstraction.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-dashboard.svg")}
               title="Dashboard user interface"
               description="For deploying contracts, no need to share private keys."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-storage-management.svg")}
               title="Managed infrastructure"
-              description="No need to set RPC URL and automatically upload and pin contract metadata to IPFS"
+              description="No need to set RPC URL and automatically upload and pin contract metadata to IPFS."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-verified.svg")}
               title="Automatic verification"
-              description="Of contracts on Sourcify"
+              description="Contracts are automatically verified on Sourcify."
             />
           </Card>
         </LandingGridSection>
@@ -155,28 +155,28 @@ const DeployLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-digital-collectible.svg")}
               title="Digital Collectibles"
               description="Deploy ERC-721 or ERC-1155 NFT smart contracts with lazy minting to let your audience claim or purchase digital collectibles."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-marketplace.svg")}
               title="Marketplaces"
               description="Build your own fully-customizable marketplace — where you can sell directly to your audiences, create auctions that users can bid on, and enable anyone to trade digital assets."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-smart-wallet.svg")}
               title="Smart Wallets"
               description="Deploy smart wallet factories for your app — using account abstraction to give your users powerful features such as wallet recovery, multi-signature security, & batch transactions."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/contracts/icon-game.svg")}
               title="Web3 Games"
               description="Build blockchain-based games with collectible in-game items and in-game economies using NFTs, native tokens and more. "
             />
@@ -204,7 +204,7 @@ const DeployLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/deploy"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
         />
       </Container>
     </LandingLayout>
