@@ -64,7 +64,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://withpaper.com/sign-up"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r,  #00A876, #75FFD6)"
           image={require("public/assets/product-pages/hero/desktop-hero-checkout.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-checkout.png")}
         />
@@ -147,7 +147,7 @@ const CheckoutLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://withpaper.com/sign-up"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #00A876, #75FFD6)"
         />
       </Container>
     </LandingLayout>

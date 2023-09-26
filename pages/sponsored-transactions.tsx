@@ -68,7 +68,7 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/glossary/gasless-transactions"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #00A876, #75FFD6)"
           image={require("public/assets/product-pages/hero/desktop-hero-sponsored-transactions.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-sponsored-transactions.png")}
         />
@@ -150,7 +150,7 @@ const SponsoredTransactionsLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/glossary/gasless-transactions"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #00A876, #75FFD6)"
         />
       </Container>
     </LandingLayout>
