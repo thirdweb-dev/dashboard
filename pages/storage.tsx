@@ -1,14 +1,14 @@
 import { Container, Flex } from "@chakra-ui/react";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
+import { LandingGridSection } from "components/landing-pages/grid-section";
+import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
+import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
+import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { ThirdwebNextPage } from "utils/types";
 import { Card } from "tw-components";
-import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
-import { LandingGuidesShowcase } from "components/landing-pages/guide-showcase";
-import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
-import { LandingGridSection } from "components/landing-pages/grid-section";
+import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "storage-landing";
 
@@ -91,17 +91,17 @@ const InteractLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/infra/icon-ship.svg")}
             title="Go-to-market faster"
             description="Save development time by uploading files without fetching from multiple IPFS gateways or worrying about file and metadata upload formats."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/infra/icon-efficient.svg")}
             title="Fast, high availability"
             description="Get fast upload and download speeds enabled by industry leading infrastructure. Upload and forget — we ensure that your files are always accessible."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/infra/icon-dashboard.svg")}
             title="Full flexibility"
             description="Choose how to upload your files. Upload directly through the dashboard, with your CLI or using our SDKs."
           />
@@ -109,20 +109,23 @@ const InteractLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
-              title="All file types supported (3D images, video, music, HTML etc.)"
+              icon={require("public/assets/product-pages-icons/infra/icon-image.svg")}
+              title="All file types supported"
+              description="Includes 3D images, video, music, HTML, text, etc."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/account-abstraction.png")}
-              title="Automatic file uploading"
+              icon={require("public/assets/product-pages-icons/infra/icon-automatic-file-upload.svg")}
+              title="Faster file uploads"
+              description="Optimized upload latency to increase speed of file uploads."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
-              title="Manage all of your pinned files (pin and unpin files)"
+              icon={require("public/assets/product-pages-icons/infra/icon-manage.svg")}
+              title="Manage pinned files"
+              description="Pin and unpin files from IPFS."
             />
           </Card>
         </LandingGridSection>
