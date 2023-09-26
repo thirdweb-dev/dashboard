@@ -120,7 +120,11 @@ export const ConnectWalletPlayground: React.FC = () => {
         supportedWallets:
           enabledWallets.length > 0
             ? `[${enabledWallets
-                .map((walletId) => walletInfoRecord[walletId].code)
+                .map((walletId) =>
+                  walletInfoRecord[walletId].code(
+                    walletInfoRecord[walletId].component.recommended,
+                  ),
+                )
                 .join(",")}]`
             : undefined,
         authConfig: authEnabled
