@@ -2,7 +2,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { MdOutlineLoyalty } from "react-icons/md";
 import { TfiStamp } from "react-icons/tfi";
-import { SectionProps, SectionItemProps } from "./types";
+import { SectionItemProps, SectionProps } from "./types";
 
 export const PRODUCT_SECTIONS: SectionProps[] = [
   {
@@ -69,7 +69,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "interact",
     description: "Seamlessly integrate smart contracts into your apps",
     link: "/interact",
-    icon: require("public/assets/product-icons/contracts.png"),
+    icon: require("public/assets/product-icons/interact.svg"),
     section: "contracts",
   },
   {
@@ -93,7 +93,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "embedded-wallets",
     description: "The power of web3, with the user experience of web2",
     link: "/embedded-wallets",
-    icon: require("public/assets/product-icons/wallet-sdk.png"),
+    icon: require("public/assets/product-icons/embedded-wallet.svg"),
     section: "wallets",
   },
   {
@@ -117,7 +117,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "rpc-edge",
     description: "Enterprise-grade RPCs, for free",
     link: "/rpc-edge",
-    icon: require("public/assets/product-icons/storage.png"),
+    icon: require("public/assets/product-icons/rpc-edge.svg"),
     section: "infrastructure",
   },
   {
@@ -125,7 +125,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "nft-checkout",
     description: "One-click NFT checkout flows with just a credit card",
     link: "/checkout",
-    icon: require("public/assets/product-icons/payments.png"),
+    icon: require("public/assets/product-icons/payments.svg"),
     section: "payments",
   },
   {
@@ -133,7 +133,7 @@ export const PRODUCTS: SectionItemProps[] = [
     label: "sponsored-transactions",
     description: "Remove all user friction with invisible transactions",
     link: "/checkout",
-    icon: require("public/assets/product-icons/payments.png"),
+    icon: require("public/assets/product-icons/sponsored-transactions.svg"),
     section: "payments",
   },
   {
@@ -288,7 +288,7 @@ export const DEVELOPER_RESOURCES: SectionItemProps[] = [
     label: "wallet-sdk",
     description: "Connect any wallet",
     link: "https://portal.thirdweb.com/wallet",
-    icon: require("public/assets/product-icons/wallet-sdk.png"),
+    icon: require("public/assets/product-icons/wallet-sdk.svg"),
     section: "sdks",
   },
 ];
