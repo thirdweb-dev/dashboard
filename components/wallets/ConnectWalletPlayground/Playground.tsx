@@ -174,6 +174,8 @@ export const ConnectWalletPlayground: React.FC = () => {
       ? smartWallet(walletConfig, {
           factoryAddress: smartWalletOptions.factoryAddress,
           gasless: smartWalletOptions.gasless,
+          bundlerUrl: "https://mumbai.bundler-staging.thirdweb.com",
+          paymasterUrl: "https://mumbai.bundler-staging.thirdweb.com",
         })
       : walletConfig;
   });
