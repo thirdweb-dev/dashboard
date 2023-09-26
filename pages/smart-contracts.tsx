@@ -68,7 +68,7 @@ const ExploreLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/explore"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r,  #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-explore.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-explore.png")}
         />
@@ -157,7 +157,7 @@ const ExploreLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/smart-wallet"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
         />
       </Container>
     </LandingLayout>

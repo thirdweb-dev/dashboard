@@ -95,7 +95,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/solidity"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r,  #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-build.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-build.png")}
         />
@@ -243,7 +243,7 @@ const BuildLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/solidity"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r,  #F213A4, #F97CCE)"
         />
       </Container>
     </LandingLayout>

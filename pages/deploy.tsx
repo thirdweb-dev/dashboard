@@ -91,7 +91,7 @@ const DeployLanding: ThirdwebNextPage = () => {
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/deploy"
           contactUsTitle="Book Demo"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
           image={require("public/assets/product-pages/hero/desktop-hero-deploy.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-deploy.png")}
         />
@@ -204,7 +204,7 @@ const DeployLanding: ThirdwebNextPage = () => {
           titleWithGradient="today."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="https://portal.thirdweb.com/deploy"
-          gradient="linear(to-r, #BFA3DA, #84309C, #C735B0)"
+          gradient="linear(to-r, #F213A4, #F97CCE)"
         />
       </Container>
     </LandingLayout>
