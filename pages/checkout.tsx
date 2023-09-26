@@ -71,17 +71,17 @@ const CheckoutLanding: ThirdwebNextPage = () => {
 
         <LandingGridSection title={<></>}>
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-2.svg")}
+            icon={require("public/assets/product-pages-icons/payments/icon-global.svg")}
             title="Available worldwide & for all payment methods"
             description="Accept credit and debit cards, Apple Pay, Google Pay, iDEAL, and cross-chain crypto (with built-in bridging & swapping). Plus, the option to bring your own payment processor. Available in 190+ countries, all 50 U.S. states, with 10+ currencies and languages supported."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-7.png")}
+            icon={require("public/assets/product-pages-icons/payments/icon-smart-wallet.svg")}
             title="Wallets for those without them"
             description="Customers don't need wallets to buy your NFTs: we'll create non-custodial wallets for them to store their NFTs securely."
           />
           <LandingIconSectionItem
-            icon={require("public/assets/solutions-pages/loyalty/icon-1.png")}
+            icon={require("public/assets/product-pages-icons/payments/icon-private.svg")}
             title="Enterprise-grade security"
             description="Fully compliant & enterprise-ready for ultimate peace of mind — with built-in fraud & AML detection and 90%+ authorization rates, out of the box."
           />
@@ -89,14 +89,14 @@ const CheckoutLanding: ThirdwebNextPage = () => {
         <LandingGridSection title={<></>} desktopColumns={2}>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-share.svg")}
               title="Shareable Checkout Links"
               description="Public, reusable URLs that allows buyers to complete a purchase with Paper's prebuilt checkout experience."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/account-abstraction.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-custom.svg")}
               title="Checkout Elements"
               description="Portions of the checkout experience broken down into components for complete customizability. You can embed Checkout Elements onto any page and create a fully white-labelled experience for your customers."
             />
@@ -113,21 +113,21 @@ const CheckoutLanding: ThirdwebNextPage = () => {
         >
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-credit-card.svg")}
               title="Digital Collectibles"
               description="Onboard mainstream users onto Web3 by building an NFT drop which you can purchase using your credit card."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/wallet-management.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-marketplace.svg")}
               title="Marketplaces"
               description="Build a marketplace where users can buy and sell digital assets using traditional payment methods."
             />
           </Card>
           <Card p={8}>
             <LandingIconSectionItem
-              icon={require("public/assets/product-pages/engine/smart-contracts.png")}
+              icon={require("public/assets/product-pages-icons/payments/icon-fundraise.svg")}
               title="Fundraising"
               description="Make it easy for your users to donate to charitable causes, or fund your business idea with digital collectibles which they can purchase using their credit cards."
             />
