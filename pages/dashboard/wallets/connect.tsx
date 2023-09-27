@@ -155,19 +155,31 @@ function RelevantGuides() {
         </Heading>
         <Icon as={AiOutlineArrowRight} width={5} height={5} />
       </Flex>
-      <Spacer height={6} />
-      TODO
-      {/*
+
+      <Spacer height={5} />
       <Link
-        href="TODO"
+        href="https://blog.thirdweb.com/web3-wallet/"
         color="paragraph"
         isExternal
         _hover={{
           color: "blue.500",
         }}
       >
-        Customizing your connect wallet button
-      </Link> */}
+        What is a web3 wallet?
+      </Link>
+
+      <Spacer height={3} />
+
+      <Link
+        href="https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/"
+        color="paragraph"
+        isExternal
+        _hover={{
+          color: "blue.500",
+        }}
+      >
+        How to Add a Connect Wallet Button to Your Website
+      </Link>
     </Card>
   );
 }
