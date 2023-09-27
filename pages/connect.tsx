@@ -44,7 +44,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           miniTitle="Connect"
           title="Web3 onboarding,"
           titleWithGradient="built for the next billion users"
-          subtitle="Onboard all of your users with a powerful Connect Wallet modal, flexible sign-in options for web2 & web3, and hooks for full customizability."
+          subtitle="Onboard all of your users with a beautiful Connect Wallet modal, flexible sign-in options for web2 & web3, and powerful hooks for full customizability."
           trackingCategory={TRACKING_CATEGORY}
           ctaLink="/dashboard/wallets/connect"
           contactUsTitle="Book Demo"
@@ -62,8 +62,8 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <Spacer h={6} />
           <Text fontSize={20} textAlign="center" maxW="800px" m="0 auto">
             Create a login experience that{`'s`} tailor-made for your app. Add
-            your wallets of choice, enable web2 sign-in options, and create a
-            modal that fits your brand
+            your wallets of choice, enable web2 sign-in options and create a
+            modal that fits your brand.
           </Text>
 
           <Spacer h={8} />
