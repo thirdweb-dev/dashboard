@@ -9,7 +9,6 @@ export function ModalSizeButton(props: {
   onClick: () => void;
   theme: "light" | "dark";
 }) {
-  const bg = props.theme === "dark" ? "black" : "white";
   const borderColor = props.theme === "dark" ? "gray.800" : "gray.200";
   return (
     <Tooltip label={props.modalSize}>
@@ -17,9 +16,9 @@ export function ModalSizeButton(props: {
         w={10}
         h={10}
         border="2px solid"
-        bg={bg}
+        bg="none"
         _hover={{
-          bg,
+          bg: "none",
         }}
         borderRadius="50%"
         aria-label="compact"
