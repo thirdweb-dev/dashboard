@@ -54,13 +54,13 @@ const ConnectLanding: ThirdwebNextPage = () => {
         />
 
         <Box>
-          <Spacer h={20} />
+          <Spacer h={[10, 20]} />
           {/* Title and Description */}
-          <Heading fontSize={40} color="white" textAlign="center">
+          <Heading fontSize={[30, 40]} color="white" textAlign="center">
             A fully customizable Connect Wallet component
           </Heading>
           <Spacer h={6} />
-          <Text fontSize={20} textAlign="center" maxW="800px" m="0 auto">
+          <Text fontSize={[16, 20]} textAlign="center" maxW="800px" m="0 auto">
             Create a login experience that{`'s`} tailor-made for your app. Add
             your wallets of choice, enable web2 sign-in options and create a
             modal that fits your brand.
@@ -74,16 +74,19 @@ const ConnectLanding: ThirdwebNextPage = () => {
               Supports
             </Text>
             <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="React"
               href="https://portal.thirdweb.com/react/react.connectwallet"
             />
             <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="React Native"
               href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
             />
             <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="Unity"
               href="https://portal.thirdweb.com/unity/connectwallet"
@@ -92,7 +95,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
 
           <Spacer h={12} />
 
-          <MiniPlayground />
+          <MiniPlayground trackingCategory={TRACKING_CATEGORY} />
         </Box>
 
         <Flex flexDir="column" gap={6}>

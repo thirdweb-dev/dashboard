@@ -20,6 +20,7 @@ export function ColorInput(props: {
   value: string;
   name: string;
   onChange: (value: string) => void;
+  onClick?: () => void;
 }) {
   let hexColor = props.value;
   if (props.value.startsWith("hsl(") && props.value.endsWith(")")) {
@@ -42,7 +43,7 @@ export function ColorInput(props: {
     <Box>
       <FormLabel>{props.name}</FormLabel>
       <Spacer height={2} />
-      <Flex alignItems="center" gap={3}>
+      <Flex alignItems="center" gap={3} onClick={props.onClick}>
         <input
           onChange={(e) => {
             props.onChange(e.target.value);

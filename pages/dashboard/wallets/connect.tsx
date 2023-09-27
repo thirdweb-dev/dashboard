@@ -4,7 +4,7 @@ import { ConnectWalletPlayground } from "components/wallets/ConnectWalletPlaygro
 import { WalletsSidebar } from "core-ui/sidebar/wallets";
 import { PageId } from "page-id";
 import { ThirdwebNextPage } from "utils/types";
-import { Card, Heading, Link, Text } from "tw-components";
+import { Card, Heading, Text, TrackedLink } from "tw-components";
 
 import { IconType } from "react-icons/lib";
 import { BiCrop, BiSolidCustomize } from "react-icons/bi";
@@ -15,6 +15,8 @@ import { HiOutlineTerminal } from "react-icons/hi";
 
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
+
+const TRACKING_CATEGORY = "connect-playground";
 
 const DashboardWalletsConnect: ThirdwebNextPage = () => {
   return (
@@ -42,16 +44,19 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
               Supports
             </Text>
             <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="React"
               href="https://portal.thirdweb.com/react/react.connectwallet"
             />
             <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="React Native"
               href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
             />
             <SupportedPlatformLink
+              trackingCategory={TRACKING_CATEGORY}
               size="sm"
               platform="Unity"
               href="https://portal.thirdweb.com/unity/connectwallet"
@@ -82,7 +87,7 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
 
       <Spacer height={12} />
 
-      <ConnectWalletPlayground />
+      <ConnectWalletPlayground trackingCategory={TRACKING_CATEGORY} />
 
       <Spacer height={20} />
 
@@ -117,6 +122,7 @@ function ViewDocs() {
 
       <Grid templateColumns={"1fr 1fr"} gap={3} maxW="400px">
         <SupportedPlatformLink
+          trackingCategory={TRACKING_CATEGORY}
           size="md"
           noBorder
           platform="React"
@@ -124,18 +130,21 @@ function ViewDocs() {
         />
 
         <SupportedPlatformLink
+          trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="Unity"
           href="https://portal.thirdweb.com/unity/connectwallet"
         />
         <SupportedPlatformLink
+          trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="React Native"
           href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
         />
         <SupportedPlatformLink
+          trackingCategory={TRACKING_CATEGORY}
           noBorder
           size="md"
           platform="TypeScript"
@@ -157,36 +166,66 @@ function RelevantGuides() {
       </Flex>
 
       <Spacer height={5} />
-      <Link
-        href="https://blog.thirdweb.com/web3-wallet/"
-        color="paragraph"
-        isExternal
-        _hover={{
-          color: "blue.500",
-        }}
-      >
-        What is a web3 wallet?
-      </Link>
 
-      <Spacer height={3} />
+      <Flex gap={3} flexDirection="column">
+        <GuideLink
+          href="https://blog.thirdweb.com/web3-wallet/"
+          label="what-is-web3-wallet"
+        >
+          what is a web3 wallet?
+        </GuideLink>
 
-      <Link
-        href="https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/"
-        color="paragraph"
-        isExternal
-        _hover={{
-          color: "blue.500",
-        }}
-      >
-        How to Add a Connect Wallet Button to Your Website
-      </Link>
+        <GuideLink
+          href="https://portal.thirdweb.com/connect/usage-with-react-sdk"
+          label="react-sdk-get-started"
+        >
+          Get started with React SDK
+        </GuideLink>
+
+        <GuideLink
+          href="https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/"
+          label="add-connect-wallet"
+        >
+          How to Add a Connect Wallet Button to Your Website
+        </GuideLink>
+
+        <GuideLink
+          href="https://portal.thirdweb.com/embedded-wallet/smart-wallet-and-embedded-wallet"
+          label="gasless-tx"
+        >
+          Enable Gasless Transactions
+        </GuideLink>
+      </Flex>
     </Card>
+  );
+}
+
+function GuideLink(props: {
+  label: string;
+  children: React.ReactNode;
+  href: string;
+}) {
+  return (
+    <TrackedLink
+      category={TRACKING_CATEGORY}
+      label={`guide-${props.label}`}
+      href={props.href}
+      color="paragraph"
+      isExternal
+      _hover={{
+        color: "blue.500",
+      }}
+    >
+      {props.children}
+    </TrackedLink>
   );
 }
 
 function ShareYourFeedback() {
   return (
-    <Link
+    <TrackedLink
+      category={TRACKING_CATEGORY}
+      label="feedback"
       href="https://docs.google.com/forms/d/e/1FAIpQLSdL6H8rscuWpKkwlRvwxsCN0u4sSSL4qh6KiBFmZwn19PGGIw/viewform"
       isExternal
       _hover={{
@@ -211,7 +250,7 @@ function ShareYourFeedback() {
           Report bugs, echo your thoughts and suggest improvements.
         </Text>
       </Card>
-    </Link>
+    </TrackedLink>
   );
 }
 

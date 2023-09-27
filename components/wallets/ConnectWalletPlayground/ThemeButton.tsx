@@ -1,4 +1,5 @@
 import { Tooltip } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import React from "react";
 import { Button } from "tw-components";
 
@@ -7,7 +8,9 @@ export function ThemeButton(props: {
   isSelected: boolean;
   onClick: () => void;
   disabled?: boolean;
+  trackingCategory: string;
 }) {
+  const trackEvent = useTrack();
   const bg = props.theme === "dark" ? "black" : "white";
   const borderColor = props.theme === "dark" ? "gray.800" : "gray.200";
   return (
@@ -25,7 +28,18 @@ export function ThemeButton(props: {
           bg,
         }}
         borderColor={props.isSelected ? "blue.500" : borderColor}
-        onClick={props.disabled ? undefined : props.onClick}
+        onClick={
+          props.disabled
+            ? undefined
+            : () => {
+                props.onClick();
+                trackEvent({
+                  category: props.trackingCategory,
+                  label: "theme",
+                  action: "click",
+                });
+              }
+        }
       ></Button>
     </Tooltip>
   );

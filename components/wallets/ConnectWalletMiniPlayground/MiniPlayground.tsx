@@ -20,7 +20,7 @@ import {
 import { PreviewThirdwebProvider } from "../ConnectWalletPlayground/PreviewThirdwebProvider";
 import { usePlaygroundWallets } from "../ConnectWalletPlayground/usePlaygroundWallets";
 import { usePlaygroundTheme } from "../ConnectWalletPlayground/usePlaygroundTheme";
-import { Text, Button, Link, Heading } from "tw-components";
+import { Text, Button, Link, Heading, TrackedLink } from "tw-components";
 import { MdOutlineElectricBolt } from "react-icons/md";
 import {
   walletInfoRecord,
@@ -31,6 +31,7 @@ import { replaceIpfsUrl } from "lib/sdk";
 import { Londrina_Solid, Source_Serif_4 } from "next/font/google";
 import { ChakraNextImage } from "components/Image";
 import { FiChevronRight } from "react-icons/fi";
+import { useTrack } from "hooks/analytics/useTrack";
 
 // If loading a variable font, you don't need to specify the font weight
 // eslint-disable-next-line new-cap
@@ -45,7 +46,9 @@ const web3WarriorsFont = Source_Serif_4({
   weight: ["400", "500", "600", "700"],
 });
 
-export const MiniPlayground: React.FC = () => {
+export const MiniPlayground: React.FC<{
+  trackingCategory: string;
+}> = ({ trackingCategory }) => {
   const [selectedTheme, setSelectedTheme] = useState<"light" | "dark">("dark");
   const { themeObj, setColorOverrides } = usePlaygroundTheme(selectedTheme);
 
@@ -112,15 +115,18 @@ export const MiniPlayground: React.FC = () => {
     fontClassName = web3WarriorsFont.className;
   }
 
+  const trackEvent = useTrack();
+
   return (
     <Box>
       <Grid templateColumns={["1fr", "300px 1fr"]} gap={5}>
         {/* Left */}
-        <Flex flexDir="column" gap={10}>
+        <Flex flexDir="column" gap={10} order={[1, 0]}>
           {/* Theme */}
           <FormItem label="Theme">
             <Flex gap={2}>
               <ThemeButton
+                trackingCategory={trackingCategory}
                 disabled={selectedBrand !== "default"}
                 theme="dark"
                 isSelected={selectedTheme === "dark"}
@@ -130,6 +136,7 @@ export const MiniPlayground: React.FC = () => {
               />
 
               <ThemeButton
+                trackingCategory={trackingCategory}
                 disabled={selectedBrand !== "default"}
                 theme="light"
                 isSelected={selectedTheme === "light"}
@@ -145,6 +152,7 @@ export const MiniPlayground: React.FC = () => {
             <FormItem label="Modal Size">
               <Flex gap={2}>
                 <ModalSizeButton
+                  trackingCategory={trackingCategory}
                   theme={selectedTheme}
                   modalSize="wide"
                   isSelected={modalSize === "wide"}
@@ -154,6 +162,7 @@ export const MiniPlayground: React.FC = () => {
                 />
 
                 <ModalSizeButton
+                  trackingCategory={trackingCategory}
                   theme={selectedTheme}
                   modalSize="compact"
                   isSelected={modalSize === "compact"}
@@ -194,6 +203,12 @@ export const MiniPlayground: React.FC = () => {
                         isSelected={!!selection}
                         key={walletInfo.component.id}
                         onClick={() => {
+                          trackEvent({
+                            action: "click",
+                            category: trackingCategory,
+                            label: "wallet",
+                            walletName: walletInfo.component.meta.name,
+                          });
                           setWalletSelection({
                             ...walletSelection,
                             [walletId]: !selection,
@@ -207,9 +222,14 @@ export const MiniPlayground: React.FC = () => {
             <Spacer h={3} />
 
             <Flex alignItems="center" gap={1}>
-              <Link href="/dashboard/wallets/connect" color="blue.500">
+              <TrackedLink
+                href="/dashboard/wallets/connect"
+                color="blue.500"
+                category={trackingCategory}
+                label="see-all-wallets"
+              >
                 See all wallets
-              </Link>
+              </TrackedLink>
               <Icon as={FiChevronRight} w={4} h={4} color="blue.500" />
             </Flex>
           </Box>
@@ -247,6 +267,13 @@ export const MiniPlayground: React.FC = () => {
                       isSelected={!!selection}
                       key={walletInfo.component.id}
                       onClick={() => {
+                        trackEvent({
+                          action: "click",
+                          category: trackingCategory,
+                          label: "wallet",
+                          walletName: walletInfo.component.meta.name,
+                        });
+
                         setWalletSelection({
                           ...walletSelection,
                           [walletId]: !selection,
@@ -275,6 +302,13 @@ export const MiniPlayground: React.FC = () => {
                   setModalTitleIconUrl(undefined);
                   setColorOverrides({});
                   setModalSize("wide");
+
+                  trackEvent({
+                    action: "click",
+                    category: trackingCategory,
+                    label: "brand",
+                    brand: "default",
+                  });
                 }}
               />
 
@@ -289,8 +323,17 @@ export const MiniPlayground: React.FC = () => {
                   setModalTitleIconUrl(
                     "/assets/wallet-playground/nouns-dao-tiny-icon.svg",
                   );
-                  setColorOverrides({});
+                  setColorOverrides({
+                    borderColor: "#E9C80B",
+                  });
                   setModalSize("wide");
+
+                  trackEvent({
+                    action: "click",
+                    category: trackingCategory,
+                    label: "brand",
+                    brand: "nouns-dao",
+                  });
                 }}
               />
 
@@ -305,6 +348,13 @@ export const MiniPlayground: React.FC = () => {
                   setModalTitleIconUrl("/assets/wallet-playground/w3w.svg");
                   setColorOverrides({});
                   setModalSize("wide");
+
+                  trackEvent({
+                    action: "click",
+                    category: trackingCategory,
+                    label: "brand",
+                    brand: "web3-warriors",
+                  });
                 }}
               />
             </Flex>
@@ -409,7 +459,9 @@ export const MiniPlayground: React.FC = () => {
                   </Text>
                   <Spacer h={10} />
                   <Button
-                    as={Link}
+                    as={TrackedLink}
+                    category={trackingCategory}
+                    label="build-your-own"
                     href="/dashboard/wallets/connect"
                     fontSize={20}
                     leftIcon={<Icon as={MdOutlineElectricBolt} />}

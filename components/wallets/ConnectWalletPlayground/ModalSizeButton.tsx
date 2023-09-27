@@ -1,4 +1,5 @@
 import { IconButton, Icon, Tooltip } from "@chakra-ui/react";
+import { useTrack } from "hooks/analytics/useTrack";
 import React from "react";
 import { FaRectangleList } from "react-icons/fa6";
 import { RiFileListFill } from "react-icons/ri";
@@ -8,7 +9,9 @@ export function ModalSizeButton(props: {
   isSelected: boolean;
   onClick: () => void;
   theme: "light" | "dark";
+  trackingCategory: string;
 }) {
+  const trackEvent = useTrack();
   return (
     <Tooltip label={props.modalSize === "wide" ? "Wide" : "Compact"}>
       <IconButton
@@ -30,7 +33,14 @@ export function ModalSizeButton(props: {
             height={5}
           />
         }
-        onClick={props.onClick}
+        onClick={() => {
+          props.onClick();
+          trackEvent({
+            action: "click",
+            category: props.trackingCategory,
+            label: "modalSize",
+          });
+        }}
       />
     </Tooltip>
   );

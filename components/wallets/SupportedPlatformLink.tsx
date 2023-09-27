@@ -1,5 +1,5 @@
 import { Flex, Icon } from "@chakra-ui/react";
-import { Link, Text } from "tw-components";
+import { Link, Text, TrackedLink } from "tw-components";
 
 import { IconType } from "react-icons/lib";
 
@@ -12,6 +12,7 @@ export function SupportedPlatformLink(props: {
   href: string;
   noBorder?: boolean;
   size: "sm" | "md";
+  trackingCategory: string;
 }) {
   let icon: IconType = SiReact;
   if (props.platform === "Unity") {
@@ -21,7 +22,9 @@ export function SupportedPlatformLink(props: {
   }
 
   return (
-    <Link
+    <TrackedLink
+      category={props.trackingCategory}
+      label={`platform-${props.platform.replace(" ", "-").toLowerCase()}`}
       href={props.href}
       isExternal
       _hover={{
@@ -65,6 +68,6 @@ export function SupportedPlatformLink(props: {
           {props.platform}
         </Text>
       </Flex>
-    </Link>
+    </TrackedLink>
   );
 }
