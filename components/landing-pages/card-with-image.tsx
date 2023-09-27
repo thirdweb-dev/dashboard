@@ -47,7 +47,15 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
           justifyContent="space-between"
           alignItems="end"
         >
-          <Flex gap={4} p={10} flexDir="column" alignSelf="start">
+          <Flex
+            gap={4}
+            px={10}
+            pt={10}
+            flexDir="column"
+            alignSelf="start"
+            minW="200px"
+            h="full"
+          >
             <Text size="body.xl" color="white" fontWeight="bold">
               <TrackedLink
                 as={LinkOverlay}
@@ -67,7 +75,11 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
             </Text>
             {description && <Text size="body.lg">{description}</Text>}
           </Flex>
-          <LandingDesktopMobileImage image={image} mobileImage={mobileImage} />
+          <LandingDesktopMobileImage
+            image={image}
+            mobileImage={mobileImage}
+            w={{ base: "100%", md: direction === "vertical" ? "100%" : "50%" }}
+          />
         </Card>
       </LinkBox>
     </GridItem>

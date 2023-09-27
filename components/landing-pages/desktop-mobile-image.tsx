@@ -3,7 +3,7 @@ import { ChakraNextImage } from "components/Image";
 
 export const LandingDesktopMobileImage: React.FC<
   LandingDesktopMobileImageProps
-> = ({ image, mobileImage }) => {
+  > = ({ image, mobileImage, ...props }) => {
   return (
     <>
       {mobileImage && (
@@ -11,6 +11,7 @@ export const LandingDesktopMobileImage: React.FC<
           src={mobileImage}
           alt=""
           display={{ base: "block", md: "none" }}
+          {...props}
         />
       )}
       {image && (
@@ -18,6 +19,7 @@ export const LandingDesktopMobileImage: React.FC<
           src={image}
           alt=""
           display={{ base: mobileImage ? "none" : "block", md: "block" }}
+          {...props}
         />
       )}
     </>
