@@ -27,49 +27,48 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
 }) => {
   return (
     <GridItem colSpan={{ base: 2, md: colSpan }} h="full" cursor="pointer">
-      <LinkBox
-        _hover={{
-          opacity: 0.8,
-        }}
-        h="full"
-      >
-        <TrackedLink
-          as={LinkOverlay}
-          href={href}
-          category={TRACKING_CATEGORY}
-          label="cards-with-images"
-          color="white"
+      <LinkBox h="full">
+        <Card
+          as={Flex}
+          gap={6}
+          p={0}
+          h="full"
+          flexDir={{
+            base: "column",
+            md: direction === "vertical" ? "column" : "row",
+          }}
+          overflow="hidden"
+          transition="border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease"
           _hover={{
-            textDecoration: "none",
+            borderColor: "blue.500",
+            boxShadow: "0 0 16px hsl(215deg 100% 60% / 30%)",
+            transform: "scale(1.01)",
           }}
-          trackingProps={{
-            title: title.toLowerCase().replaceAll(" ", "-"),
-          }}
+          justifyContent="space-between"
+          alignItems="end"
         >
-          <Card
-            as={Flex}
-            gap={6}
-            p={0}
-            h="full"
-            flexDir={{
-              base: "column",
-              md: direction === "vertical" ? "column" : "row",
-            }}
-            justifyContent="space-between"
-            alignItems="end"
-          >
-            <Flex gap={4} p={10} flexDir="column" alignSelf="start">
-              <Text size="body.xl" color="white" fontWeight="bold">
+          <Flex gap={4} p={10} flexDir="column" alignSelf="start">
+            <Text size="body.xl" color="white" fontWeight="bold">
+              <TrackedLink
+                as={LinkOverlay}
+                href={href}
+                category={TRACKING_CATEGORY}
+                label="cards-with-images"
+                color="white"
+                _hover={{
+                  textDecoration: "none",
+                }}
+                trackingProps={{
+                  title: title.toLowerCase().replaceAll(" ", "-"),
+                }}
+              >
                 {title}
-              </Text>
-              {description && <Text size="body.lg">{description}</Text>}
-            </Flex>
-            <LandingDesktopMobileImage
-              image={image}
-              mobileImage={mobileImage}
-            />
-          </Card>
-        </TrackedLink>
+              </TrackedLink>
+            </Text>
+            {description && <Text size="body.lg">{description}</Text>}
+          </Flex>
+          <LandingDesktopMobileImage image={image} mobileImage={mobileImage} />
+        </Card>
       </LinkBox>
     </GridItem>
   );
