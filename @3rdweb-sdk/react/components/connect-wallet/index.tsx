@@ -110,7 +110,6 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     return (
       <ConnectWalletNew
         theme={colorMode}
-        modalTitleIconUrl="ipfs://"
         networkSelector={{
           popularChains,
           recentChains,
