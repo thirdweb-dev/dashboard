@@ -38,7 +38,9 @@ export function ModalSizeButton(props: {
           trackEvent({
             action: "click",
             category: props.trackingCategory,
-            label: "modalSize",
+            label: "cutomize",
+            input: "modalSize",
+            modalSize: props.modalSize,
           });
         }}
       />

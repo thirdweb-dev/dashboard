@@ -35,8 +35,10 @@ export function ThemeButton(props: {
                 props.onClick();
                 trackEvent({
                   category: props.trackingCategory,
-                  label: "theme",
+                  label: "customize",
+                  input: "theme",
                   action: "click",
+                  theme: props.theme,
                 });
               }
         }

@@ -44,11 +44,12 @@ export const ConnectWalletPlayground: React.FC<{
 }> = ({ trackingCategory }) => {
   const _trackEvent = useTrack();
 
-  const trackClick = (label: string, data: Record<string, string> = {}) => {
+  const trackCustomize = (input: string, data: Record<string, string> = {}) => {
     _trackEvent({
       action: "click",
       category: trackingCategory,
-      label,
+      label: "customize",
+      input,
       ...data,
     });
   };
@@ -167,7 +168,7 @@ export const ConnectWalletPlayground: React.FC<{
       <FormItem label="Title">
         <Input
           onClick={() => {
-            trackClick("welcome-screen-title");
+            trackCustomize("welcome-screen-title");
           }}
           placeholder="Your gateway to the decentralized world"
           value={welcomeScreen.title}
@@ -184,7 +185,7 @@ export const ConnectWalletPlayground: React.FC<{
       <FormItem label="Subtitle">
         <Input
           onClick={() => {
-            trackClick("welcome-screen-subtitle");
+            trackCustomize("welcome-screen-subtitle");
           }}
           placeholder="Connect a wallet to get started"
           value={welcomeScreen.subtitle}
@@ -204,7 +205,7 @@ export const ConnectWalletPlayground: React.FC<{
             size="lg"
             isChecked={!!welcomeScreen.img}
             onChange={() => {
-              trackClick("splash-image-switch");
+              trackCustomize("splash-image-switch");
               setWelcomeScreen({
                 ...welcomeScreen,
                 img: welcomeScreen.img
@@ -229,7 +230,7 @@ export const ConnectWalletPlayground: React.FC<{
               </FormLabel>
               <Input
                 onClick={() => {
-                  trackClick("splash-image-url");
+                  trackCustomize("splash-image-url");
                 }}
                 placeholder="https://..."
                 value={welcomeScreen.img.src || ""}
@@ -252,7 +253,7 @@ export const ConnectWalletPlayground: React.FC<{
                 </FormLabel>
                 <Input
                   onClick={() => {
-                    trackClick("splash-image-width");
+                    trackCustomize("splash-image-width");
                   }}
                   placeholder="150"
                   value={welcomeScreen.img.width}
@@ -275,7 +276,7 @@ export const ConnectWalletPlayground: React.FC<{
                 </FormLabel>
                 <Input
                   onClick={() => {
-                    trackClick("splash-image-height");
+                    trackCustomize("splash-image-height");
                   }}
                   placeholder="150"
                   value={welcomeScreen.img.height}
@@ -311,10 +312,15 @@ export const ConnectWalletPlayground: React.FC<{
           subtitle="Email and Google sign in"
           icon={walletInfoRecord["Email Wallet"].component.meta.iconURL}
           onRecommendedClick={() => {
-            trackClick("recommend-wallet", {
-              walletName: "Embedded Wallet",
-            });
             const current = walletSelection["Email Wallet"];
+            const newState = current === "recommended" ? true : "recommended";
+
+            if (newState === "recommended") {
+              trackCustomize("recommend-wallet", {
+                walletName: "Embedded Wallet",
+              });
+            }
+
             setWalletSelection({
               ...walletSelection,
               "Email Wallet": current === "recommended" ? true : "recommended",
@@ -326,7 +332,7 @@ export const ConnectWalletPlayground: React.FC<{
           onSelect={() => {
             const selected = !walletSelection["Email Wallet"];
 
-            trackClick("wallet", {
+            trackCustomize("wallet", {
               walletName: "Embedded Wallet",
             });
 
@@ -347,10 +353,13 @@ export const ConnectWalletPlayground: React.FC<{
           icon={walletInfoRecord["Magic Link"].component.meta.iconURL}
           onRecommendedClick={() => {
             const current = walletSelection["Magic Link"];
+            const newState = current === "recommended" ? true : "recommended";
 
-            trackClick("recommend-wallet", {
-              walletName: "Magic Link",
-            });
+            if (newState === "recommended") {
+              trackCustomize("recommend-wallet", {
+                walletName: "Magic Link",
+              });
+            }
 
             setWalletSelection({
               ...walletSelection,
@@ -361,7 +370,7 @@ export const ConnectWalletPlayground: React.FC<{
           recommended={walletSelection["Magic Link"] === "recommended"}
           isChecked={!!walletSelection["Magic Link"]}
           onSelect={() => {
-            trackClick("wallet", {
+            trackCustomize("wallet", {
               walletName: "Magic Link",
             });
 
@@ -407,7 +416,7 @@ export const ConnectWalletPlayground: React.FC<{
                 key={walletId}
                 icon={walletInfo.component.meta.iconURL}
                 onRecommendedClick={() => {
-                  trackClick("recommend-wallet", {
+                  trackCustomize("recommend-wallet", {
                     walletName: walletId,
                   });
 
@@ -421,7 +430,7 @@ export const ConnectWalletPlayground: React.FC<{
                 recommended={selection === "recommended"}
                 isChecked={!!selection}
                 onSelect={() => {
-                  trackClick("wallet", {
+                  trackCustomize("wallet", {
                     walletName: walletId,
                   });
 
@@ -453,7 +462,7 @@ export const ConnectWalletPlayground: React.FC<{
         justifyContent="center"
         alignItems="center"
         onClick={() => {
-          trackClick("live-preview");
+          trackCustomize("live-preview");
         }}
       >
         <Box>
@@ -585,7 +594,9 @@ export const ConnectWalletPlayground: React.FC<{
         label="Continue as Guest"
         description="Access your app with a guest account"
         onCheck={(_isChecked) => {
-          trackClick("continue-as-guest");
+          if (_isChecked) {
+            trackCustomize("continue-as-guest");
+          }
           setWalletSelection({
             ...walletSelection,
             "Guest Mode": _isChecked,
@@ -603,7 +614,9 @@ export const ConnectWalletPlayground: React.FC<{
         label="Smart Wallets"
         description="Use ERC-4337 (Account Abstraction) compatible smart wallets"
         onCheck={(_isChecked) => {
-          trackClick("smart-wallet");
+          if (_isChecked) {
+            trackCustomize("smart-wallet");
+          }
           setSmartWalletOptions({
             ...smartWalletOptions,
             enabled: _isChecked,
@@ -632,7 +645,9 @@ export const ConnectWalletPlayground: React.FC<{
         label="Auth"
         description="Enforce signatures (SIWE) after wallet connection"
         onCheck={(_isChecked) => {
-          trackClick("auth");
+          if (_isChecked) {
+            trackCustomize("auth");
+          }
           setAuthEnabled(_isChecked);
         }}
         isChecked={authEnabled}
@@ -646,7 +661,9 @@ export const ConnectWalletPlayground: React.FC<{
         label="Switch to Active Chain"
         description="Prompt user to switch to activeChain set in ThirdwebProvider after wallet connection"
         onCheck={(_isChecked) => {
-          trackClick("switch-to-active-chain");
+          if (_isChecked) {
+            trackCustomize("switch-to-active-chain");
+          }
           setSwitchToActiveChain(_isChecked);
         }}
         isChecked={switchToActiveChain}
@@ -664,7 +681,7 @@ export const ConnectWalletPlayground: React.FC<{
         >
           <Input
             onClick={() => {
-              trackClick("button-title-input");
+              trackCustomize("button-title-input");
             }}
             placeholder="Connect Wallet"
             value={btnTitle}
@@ -687,7 +704,7 @@ export const ConnectWalletPlayground: React.FC<{
               placeholder="Choose your wallet"
               value={modalTitle}
               onClick={() => {
-                trackClick("modal-title-input");
+                trackCustomize("modal-title-input");
               }}
               onChange={(e) => {
                 setModalTitle(e.target.value);
@@ -705,7 +722,10 @@ export const ConnectWalletPlayground: React.FC<{
                 size="lg"
                 isChecked={modalTitleIconUrl.enabled}
                 onChange={() => {
-                  trackClick("modal-title-icon-switch");
+                  if (!modalTitleIconUrl.enabled) {
+                    trackCustomize("modal-title-icon-switch");
+                  }
+
                   setModalTitleIconUrl({
                     ...modalTitleIconUrl,
                     enabled: !modalTitleIconUrl.enabled,
@@ -722,7 +742,7 @@ export const ConnectWalletPlayground: React.FC<{
                 placeholder="https://..."
                 value={modalTitleIconUrl.url}
                 onClick={() => {
-                  trackClick("modal-title-icon-input");
+                  trackCustomize("modal-title-icon-input");
                 }}
                 onChange={(e) => {
                   setModalTitleIconUrl({
@@ -750,7 +770,9 @@ export const ConnectWalletPlayground: React.FC<{
               isChecked={tosUrl.enabled}
               size="lg"
               onChange={() => {
-                trackClick("terms-of-service-switch");
+                if (!tosUrl.enabled) {
+                  trackCustomize("terms-of-service-switch");
+                }
                 setTosUrl({
                   url: tosUrl.url,
                   enabled: !tosUrl.enabled,
@@ -766,7 +788,7 @@ export const ConnectWalletPlayground: React.FC<{
                 value={tosUrl.url}
                 placeholder="https://.."
                 onClick={() => {
-                  trackClick("terms-of-service-input");
+                  trackCustomize("terms-of-service-input");
                 }}
                 onChange={(e) =>
                   setTosUrl({
@@ -787,7 +809,9 @@ export const ConnectWalletPlayground: React.FC<{
               isChecked={privacyPolicyUrl.enabled}
               size="lg"
               onChange={() => {
-                trackClick("privacy-policy-switch");
+                if (!privacyPolicyUrl.enabled) {
+                  trackCustomize("privacy-policy-switch");
+                }
                 setPrivacyPolicyUrl({
                   url: privacyPolicyUrl.url,
                   enabled: !privacyPolicyUrl.enabled,
@@ -801,7 +825,7 @@ export const ConnectWalletPlayground: React.FC<{
               <Spacer height={2} />
               <Input
                 onClick={() => {
-                  trackClick("privacy-policy");
+                  trackCustomize("privacy-policy");
                 }}
                 value={privacyPolicyUrl.url}
                 placeholder="https://.."
@@ -832,7 +856,7 @@ export const ConnectWalletPlayground: React.FC<{
           return (
             <ColorInput
               onClick={() => {
-                trackClick("color", { colorCode: colorInfo.key });
+                trackCustomize("color", { colorKey: colorInfo.key });
               }}
               key={colorInfo.key}
               value={themeObj.colors[colorInfo.key]}
@@ -1022,7 +1046,7 @@ export const ConnectWalletPlayground: React.FC<{
               label="General"
               isActive={tabToShow === 1}
               onClick={() => {
-                trackClick("tab-general");
+                trackCustomize("tab", { tabName: "general" });
                 setTabToShow(1);
               }}
             />
@@ -1030,7 +1054,7 @@ export const ConnectWalletPlayground: React.FC<{
               label="Appearance"
               isActive={tabToShow === 2}
               onClick={() => {
-                trackClick("tab-appearance");
+                trackCustomize("tab", { tabName: "appearance" });
                 setTabToShow(2);
               }}
             />
@@ -1038,7 +1062,7 @@ export const ConnectWalletPlayground: React.FC<{
               label="Theming"
               isActive={tabToShow === 3}
               onClick={() => {
-                trackClick("tab-theming");
+                trackCustomize("tab", { tabName: "theming" });
                 setTabToShow(3);
               }}
             />
@@ -1064,7 +1088,7 @@ export const ConnectWalletPlayground: React.FC<{
               maxH="400px"
               overflowY="auto"
               onClick={() => {
-                trackClick("code");
+                trackCustomize("code");
               }}
             />
           </Box>
