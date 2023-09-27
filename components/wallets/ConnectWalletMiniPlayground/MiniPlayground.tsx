@@ -313,7 +313,6 @@ export const MiniPlayground: React.FC = () => {
 
         {/* right */}
         <Box
-          className={fontClassName}
           background={["none", gradientBg]}
           p={10}
           minH={["auto", "700px"]}
@@ -431,30 +430,32 @@ export const MiniPlayground: React.FC = () => {
             </Box>
           )}
 
-          {canShowInlineModal && (
-            <PreviewThirdwebProvider
-              authEnabled={false}
-              supportedWallets={supportedWallets}
-            >
-              <ClientOnly
-                ssr={null}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
+          <Box className={fontClassName}>
+            {canShowInlineModal && (
+              <PreviewThirdwebProvider
+                authEnabled={false}
+                supportedWallets={supportedWallets}
               >
-                <ConnectModalInlinePreview
-                  modalSize={modalSize}
-                  walletIds={supportedWallets.map((x) => x.id) as WalletId[]}
-                  theme={themeObj}
-                  welcomeScreen={customWelcomeScreen}
-                  modalTitle={modalTitle}
-                  modalTitleIconUrl={modalTitleIconUrl}
-                />
-              </ClientOnly>
-            </PreviewThirdwebProvider>
-          )}
+                <ClientOnly
+                  ssr={null}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <ConnectModalInlinePreview
+                    modalSize={modalSize}
+                    walletIds={supportedWallets.map((x) => x.id) as WalletId[]}
+                    theme={themeObj}
+                    welcomeScreen={customWelcomeScreen}
+                    modalTitle={modalTitle}
+                    modalTitleIconUrl={modalTitleIconUrl}
+                  />
+                </ClientOnly>
+              </PreviewThirdwebProvider>
+            )}
+          </Box>
         </Box>
       </Grid>
     </Box>
@@ -475,8 +476,8 @@ function ImageIconButton(props: {
         cursor="pointer"
         aria-label={props.name}
         onClick={props.onClick}
-        opacity={props.isSelected ? 1 : 0.3}
-        filter={props.isSelected ? "none" : "grayscale(0.3)"}
+        opacity={props.isSelected ? 1 : 0.2}
+        filter={props.isSelected ? "none" : "grayscale(0.5)"}
         transition="opacity 200ms ease"
       >
         <Image
