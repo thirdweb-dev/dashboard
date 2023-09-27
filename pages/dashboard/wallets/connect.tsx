@@ -26,7 +26,7 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
         gap={10}
         alignItems={"center"}
       >
-        {/* left */}
+        {/* left   */}
         <Box>
           <Heading size="title.xl" as="h1">
             Connect
