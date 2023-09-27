@@ -68,7 +68,7 @@ export const MiniPlayground: React.FC = () => {
   let customWelcomeScreen: (() => React.ReactNode) | undefined = undefined;
   if (selectedBrand === "nouns-dao") {
     customWelcomeScreen = () => (
-      <Box bg="yellow" h="full" px={3} pt={3}>
+      <Box bg="#E9C80B" h="full" px={3} pt={3}>
         <ChakraNextImage
           width={614}
           height={857}
