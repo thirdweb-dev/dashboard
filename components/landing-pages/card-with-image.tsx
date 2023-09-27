@@ -53,7 +53,6 @@ export const LandingCardWithImage: React.FC<LandingCardWithImageProps> = ({
             pt={10}
             flexDir="column"
             alignSelf="start"
-            minW="200px"
             h="full"
           >
             <Text size="body.xl" color="white" fontWeight="bold">
