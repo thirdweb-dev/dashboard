@@ -208,7 +208,10 @@ function GuideLink(props: {
   return (
     <TrackedLink
       category={TRACKING_CATEGORY}
-      label={`guide-${props.label}`}
+      label={`guide`}
+      trackingProps={{
+        guide: props.label,
+      }}
       href={props.href}
       color="paragraph"
       isExternal
