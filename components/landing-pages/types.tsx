@@ -8,7 +8,7 @@ export type Guide = {
   link: string;
 };
 
-export type LandingCardWithImageProps = ChakraNextImageProps & {
+export type LandingDesktopMobileImageProps = ChakraNextImageProps & {
   image?: StaticImageData;
   mobileImage?: StaticImageData;
 };
