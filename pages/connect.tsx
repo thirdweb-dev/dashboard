@@ -9,7 +9,7 @@ import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/M
 import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading, TrackedLink, Text } from "tw-components";
+import { Heading, TrackedLink, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
@@ -232,51 +232,6 @@ const ConnectLanding: ThirdwebNextPage = () => {
             description="Integrate with just a few lines of code — with an interactive builder, powerful hooks for full customization, and onchain analytics."
           />
         </LandingGridSection>
-        <LandingGridSection>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-custom.svg")}
-              title="An intuitive onboarding experience"
-              description="Add the power of web3 to any app with our Connect Wallet UI component — with cross-platform support (Web, Mobile, Unity) and the smoothest user experience for every type of wallet."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
-              title="Web2 login flows"
-              description="Instantly onboard any user with just an email, phone number, social login, or passkeys — and automatically generate a wallet for them after they sign up."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-evm.svg")}
-              title="Cross-chain compatibility"
-              description="Build web3 apps on any (or many) chains with native EVM-compatibility — and the smoothest UX with automatic network switching."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-personalize.svg")}
-              title="Personalized user experience"
-              description="The Connect Wallet component automatically detects which wallets a user has installed on their browser, recommending them to select the wallet that they can get started with the most easily."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-secure.svg")}
-              title="Reliable connectors"
-              description="Use our connectors to integrate 170+ wallet providers into any app — including non-custodial wallets (MetaMask, Coinbase Wallet, Wallet Connect), email wallets, local wallets, & native Safe integration."
-            />
-          </Card>
-          <Card p={8}>
-            <LandingIconSectionItem
-              icon={require("public/assets/product-pages-icons/wallets/icon-guest.svg")}
-              title="Guest mode"
-              description="Onboard new users to any dApp in seconds, allowing them to 'Continue as guest' — at the press of a button or through a username-and-password flow — and automatically creating a wallet for them under the hood."
-            />
-          </Card>
-        </LandingGridSection>
-
         <LandingEndCTA
           title="Integrate in"
           titleWithGradient="a few lines of code."
