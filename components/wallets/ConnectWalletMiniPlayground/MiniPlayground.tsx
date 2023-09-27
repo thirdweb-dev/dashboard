@@ -20,7 +20,7 @@ import {
 import { PreviewThirdwebProvider } from "../ConnectWalletPlayground/PreviewThirdwebProvider";
 import { usePlaygroundWallets } from "../ConnectWalletPlayground/usePlaygroundWallets";
 import { usePlaygroundTheme } from "../ConnectWalletPlayground/usePlaygroundTheme";
-import { Text, Button, Link } from "tw-components";
+import { Text, Button, Link, Heading } from "tw-components";
 import { MdOutlineElectricBolt } from "react-icons/md";
 import {
   walletInfoRecord,
@@ -251,7 +251,7 @@ export const MiniPlayground: React.FC = () => {
               {/* Default */}
               <ImageIconButton
                 iconUrl="/assets/wallet-playground/tw-app-icon.png"
-                name="default"
+                name="Default"
                 isSelected={selectedBrand === "default"}
                 onClick={() => {
                   setSelectedBrand("default");
@@ -361,7 +361,7 @@ export const MiniPlayground: React.FC = () => {
           )}
 
           {/* Hover overlay */}
-          {/* {canShowInlineModal && (
+          {canShowInlineModal && (
             <Box
               position="absolute"
               top={0}
@@ -419,7 +419,7 @@ export const MiniPlayground: React.FC = () => {
                 </Box>
               </Flex>
             </Box>
-          )} */}
+          )}
 
           {canShowInlineModal && (
             <PreviewThirdwebProvider
