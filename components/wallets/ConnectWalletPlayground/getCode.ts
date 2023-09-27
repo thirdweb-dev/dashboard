@@ -5,7 +5,6 @@ type WalletSetupOptions = {
     authConfig?: string;
   };
   smartWalletOptions?: {
-    factoryAddress: string;
     gasless: boolean;
   };
   connectWallet: {
@@ -23,16 +22,6 @@ type WalletSetupOptions = {
 };
 
 export function getCode(options: WalletSetupOptions) {
-  let supportedWallets = options.thirdwebProvider.supportedWallets;
-
-  if (options.smartWalletOptions && !supportedWallets) {
-    supportedWallets = `[metamaskWallet(), coinbaseWallet(), walletConnect(), rainbowWallet(), trustWallet(), zerionWallet()]`;
-  }
-
-  if (options.smartWalletOptions) {
-    options.thirdwebProvider.supportedWallets = `${supportedWallets}.map(wallet => smartWallet(wallet, { factoryAddress: "${options.smartWalletOptions.factoryAddress}", gasless: ${options.smartWalletOptions.gasless} }))`;
-  }
-
   const hasThemeOverrides = Object.keys(options.colorOverrides).length > 0;
   let themeFn = "";
   if (hasThemeOverrides) {
@@ -50,6 +39,16 @@ import {
   ${options.imports.length > 0 ? `, ${options.imports.join(",")}` : ""},
 ${themeFn}
 } from "@thirdweb-dev/react";
+
+${
+  options.smartWalletOptions
+    ? `const smartWalletOptions = {
+  factoryAddress: 'YOUR_FACTORY_ADDRESS',
+  gasless: ${options.smartWalletOptions.gasless},
+}`
+    : ""
+}
+
 
 
 export default function App() {

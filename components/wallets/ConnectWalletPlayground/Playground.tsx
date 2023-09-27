@@ -39,7 +39,7 @@ import { FormItem } from "./FormItem";
 import { SwitchFormItem } from "./SwitchFormItem";
 import { FaRectangleList } from "react-icons/fa6";
 import { RiFileListFill } from "react-icons/ri";
-import { AiOutlineStar } from "react-icons/ai";
+import { AiOutlineStar, AiOutlineWarning } from "react-icons/ai";
 import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
 import { defaultChains } from "@thirdweb-dev/chains";
 import { StorageSingleton } from "lib/sdk";
@@ -112,7 +112,6 @@ export const ConnectWalletPlayground: React.FC = () => {
       ),
       smartWalletOptions: smartWalletOptions.enabled
         ? {
-            factoryAddress: "YOUR_FACTORY_ADDRESS",
             gasless: smartWalletOptions.gasless,
           }
         : undefined,
@@ -120,11 +119,15 @@ export const ConnectWalletPlayground: React.FC = () => {
         supportedWallets:
           enabledWallets.length > 0
             ? `[${enabledWallets
-                .map((walletId) =>
-                  walletInfoRecord[walletId].code(
+                .map((walletId) => {
+                  const walletCode = walletInfoRecord[walletId].code(
                     walletInfoRecord[walletId].component.recommended,
-                  ),
-                )
+                  );
+
+                  return smartWalletOptions.enabled
+                    ? `smartWallet(${walletCode}, smartWalletOptions)`
+                    : walletCode;
+                })
                 .join(",")}]`
             : undefined,
         authConfig: authEnabled
@@ -599,8 +602,20 @@ export const ConnectWalletPlayground: React.FC = () => {
             enabled: _isChecked,
           });
         }}
-        isChecked={smartWalletOptions.enabled}
+        isChecked={enabledWallets.length > 0 && smartWalletOptions.enabled}
       />
+
+      {enabledWallets.length === 0 && (
+        <>
+          <Spacer h={3} fontWeight={500} />
+          <Flex alignItems="center" gap={2}>
+            <Icon as={AiOutlineWarning} color="orange.500" />
+            <Text color="orange.500">
+              Enable at least one wallet to use smart wallet
+            </Text>
+          </Flex>
+        </>
+      )}
 
       <Spacer height={5} />
       <Box borderTop="1px solid" borderColor="borderColor" />
