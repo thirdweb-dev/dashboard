@@ -224,7 +224,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
           <LandingIconSectionItem
             icon={require("public/assets/product-pages-icons/wallets/icon-email-signin.svg")}
             title="Instant onboarding for all"
-            description="Authenticate & onboard users easily — with just an email, phone, or social account. Generate wallets for your users under the hood, or empower them to create their first self-custodial wallet."
+            description="Onboard users with just an email, phone, or social account. Generate wallets for your users under the hood, or empower them to create their first self-custodial wallet."
           />
           <LandingIconSectionItem
             icon={require("public/assets/product-pages-icons/wallets/icon-simple-click.svg")}
