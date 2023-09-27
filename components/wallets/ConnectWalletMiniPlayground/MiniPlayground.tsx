@@ -402,7 +402,7 @@ export const MiniPlayground: React.FC = () => {
               >
                 <Box textAlign="center">
                   <Heading fontSize={32} color={"white"}>
-                    See thirdweb connect in action
+                    See thirdweb Connect in action
                   </Heading>
                   <Spacer h={4} />
                   <Text color={"white"} fontSize={16}>
