@@ -492,6 +492,7 @@ export const ConnectWalletPlayground: React.FC = () => {
           <FormItem label="Modal Size">
             <Flex gap={2}>
               <ModalSizeButton
+                theme={selectedTheme}
                 modalSize="wide"
                 isSelected={modalSize === "wide"}
                 onClick={() => {
@@ -500,6 +501,7 @@ export const ConnectWalletPlayground: React.FC = () => {
               />
 
               <ModalSizeButton
+                theme={selectedTheme}
                 modalSize="compact"
                 isSelected={modalSize === "compact"}
                 onClick={() => {
@@ -752,6 +754,10 @@ export const ConnectWalletPlayground: React.FC = () => {
               name={colorInfo.name}
               onChange={(value) => {
                 setColorOverrides((c) => ({ ...c, [colorInfo.key]: value }));
+                // also change dropdownBg
+                if (colorInfo.key === "modalBg") {
+                  setColorOverrides((c) => ({ ...c, dropdownBg: value }));
+                }
               }}
             />
           );
@@ -791,12 +797,12 @@ export const ConnectWalletPlayground: React.FC = () => {
       <Flex flexDir="column" gap={10}>
         {renderColorList("Basic", [
           {
-            name: "Modal Background",
-            key: "modalBg",
+            name: "Accent",
+            key: "accentText",
           },
           {
-            name: "Dropdown Background",
-            key: "dropdownBg",
+            name: "Background",
+            key: "modalBg",
           },
           {
             name: "Border Color",
@@ -824,10 +830,6 @@ export const ConnectWalletPlayground: React.FC = () => {
           {
             name: "Secondary Text",
             key: "secondaryText",
-          },
-          {
-            name: "Accent Text",
-            key: "accentText",
           },
         ])}
 

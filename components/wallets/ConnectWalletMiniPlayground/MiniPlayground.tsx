@@ -144,6 +144,7 @@ export const MiniPlayground: React.FC = () => {
             <FormItem label="Modal Size">
               <Flex gap={2}>
                 <ModalSizeButton
+                  theme={selectedTheme}
                   modalSize="wide"
                   isSelected={modalSize === "wide"}
                   onClick={() => {
@@ -152,6 +153,7 @@ export const MiniPlayground: React.FC = () => {
                 />
 
                 <ModalSizeButton
+                  theme={selectedTheme}
                   modalSize="compact"
                   isSelected={modalSize === "compact"}
                   onClick={() => {
