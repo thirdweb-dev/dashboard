@@ -25,7 +25,7 @@ const ConnectLanding: ThirdwebNextPage = () => {
         openGraph: {
           images: [
             {
-              url: `${getAbsoluteUrl()}/assets/og-image/embedded-wallets.png`,
+              url: `${getAbsoluteUrl()}/assets/og-image/thirdweb-connect.png`,
               width: 1200,
               height: 630,
               alt: "Web3 Onboarding, Built for the Next Billion Users",
