@@ -9,9 +9,8 @@ export function ModalSizeButton(props: {
   onClick: () => void;
   theme: "light" | "dark";
 }) {
-  const borderColor = props.theme === "dark" ? "gray.800" : "gray.200";
   return (
-    <Tooltip label={props.modalSize}>
+    <Tooltip label={props.modalSize === "wide" ? "Wide" : "Compact"}>
       <IconButton
         w={10}
         h={10}
@@ -23,7 +22,7 @@ export function ModalSizeButton(props: {
         borderRadius="50%"
         aria-label="compact"
         color={props.isSelected ? "blue.500" : "heading"}
-        borderColor={props.isSelected ? "blue.500" : borderColor}
+        borderColor={props.isSelected ? "blue.500" : "gray.800"}
         icon={
           <Icon
             as={props.modalSize === "wide" ? FaRectangleList : RiFileListFill}

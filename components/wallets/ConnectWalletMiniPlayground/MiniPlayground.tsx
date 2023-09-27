@@ -30,6 +30,7 @@ import { replaceIpfsUrl } from "lib/sdk";
 
 import { Londrina_Solid, Source_Serif_4 } from "next/font/google";
 import { ChakraNextImage } from "components/Image";
+import { FiChevronRight } from "react-icons/fi";
 
 // If loading a variable font, you don't need to specify the font weight
 // eslint-disable-next-line new-cap
@@ -165,40 +166,53 @@ export const MiniPlayground: React.FC = () => {
           )}
 
           {/* Web3 Wallets */}
-          <FormItem label="Web3 Wallets">
-            <Flex flexWrap="wrap" gap={3}>
-              {(Object.keys(walletInfoRecord) as WalletId[])
-                .filter((key) => walletInfoRecord[key].type === "eoa")
-                .map((key) => {
-                  const walletId = key as WalletId;
-                  const walletInfo = walletInfoRecord[walletId];
-                  const selection = walletSelection[walletId];
+          <Box>
+            <FormItem label="Web3 Wallets">
+              <Flex flexWrap="wrap" gap={3}>
+                {(Object.keys(walletInfoRecord) as WalletId[])
+                  .filter((key) => walletInfoRecord[key].type === "eoa")
+                  .slice(0, 8)
+                  .map((key) => {
+                    const walletId = key as WalletId;
+                    const walletInfo = walletInfoRecord[walletId];
+                    const selection = walletSelection[walletId];
 
-                  const getUrl = () => {
-                    try {
-                      return replaceIpfsUrl(walletInfo.component.meta.iconURL);
-                    } catch {
-                      return walletInfo.component.meta.iconURL;
-                    }
-                  };
+                    const getUrl = () => {
+                      try {
+                        return replaceIpfsUrl(
+                          walletInfo.component.meta.iconURL,
+                        );
+                      } catch {
+                        return walletInfo.component.meta.iconURL;
+                      }
+                    };
 
-                  return (
-                    <ImageIconButton
-                      name={walletInfo.component.meta.name}
-                      iconUrl={getUrl()}
-                      isSelected={!!selection}
-                      key={walletInfo.component.id}
-                      onClick={() => {
-                        setWalletSelection({
-                          ...walletSelection,
-                          [walletId]: !selection,
-                        });
-                      }}
-                    />
-                  );
-                })}
+                    return (
+                      <ImageIconButton
+                        name={walletInfo.component.meta.name}
+                        iconUrl={getUrl()}
+                        isSelected={!!selection}
+                        key={walletInfo.component.id}
+                        onClick={() => {
+                          setWalletSelection({
+                            ...walletSelection,
+                            [walletId]: !selection,
+                          });
+                        }}
+                      />
+                    );
+                  })}
+              </Flex>
+            </FormItem>
+            <Spacer h={3} />
+
+            <Flex alignItems="center" gap={1}>
+              <Link href="/dashboard/wallets/connect" color="blue.500">
+                See all wallets
+              </Link>
+              <Icon as={FiChevronRight} w={4} h={4} color="blue.500" />
             </Flex>
-          </FormItem>
+          </Box>
 
           {/* Social Logins */}
           <FormItem label="Email & Social Logins">
@@ -288,7 +302,7 @@ export const MiniPlayground: React.FC = () => {
                   setSelectedBrand("web3-warriors");
                   setSelectedTheme("dark");
                   setModalTitle("WEB3 WARRIORS");
-                  setModalTitleIconUrl("");
+                  setModalTitleIconUrl("/assets/wallet-playground/w3w.svg");
                   setColorOverrides({});
                   setModalSize("wide");
                 }}
@@ -370,7 +384,7 @@ export const MiniPlayground: React.FC = () => {
               left={0}
               right={0}
               bottom={0}
-              bg={`hsl(267deg 100% 64% / 40%)`}
+              bg={`hsl(0deg 0% 0% / 70%)`}
               zIndex={100}
               opacity={0}
               transition="opacity 200ms ease"
@@ -387,17 +401,11 @@ export const MiniPlayground: React.FC = () => {
                 p={3}
               >
                 <Box textAlign="center">
-                  <Heading
-                    fontSize={32}
-                    color={selectedTheme === "light" ? "black" : "white"}
-                  >
+                  <Heading fontSize={32} color={"white"}>
                     See thirdweb connect in action
                   </Heading>
                   <Spacer h={4} />
-                  <Text
-                    color={selectedTheme === "light" ? "black" : "white"}
-                    fontSize={16}
-                  >
+                  <Text color={"white"} fontSize={16}>
                     Create a powerful Connect Wallet experience for your app.
                   </Text>
                   <Spacer h={10} />

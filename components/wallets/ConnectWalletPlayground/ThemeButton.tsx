@@ -11,7 +11,7 @@ export function ThemeButton(props: {
   const bg = props.theme === "dark" ? "black" : "white";
   const borderColor = props.theme === "dark" ? "gray.800" : "gray.200";
   return (
-    <Tooltip label={props.theme}>
+    <Tooltip label={props.theme === "dark" ? "Dark" : "Light"}>
       <Button
         disabled={props.disabled}
         cursor={props.disabled ? "not-allowed" : "pointer"}
