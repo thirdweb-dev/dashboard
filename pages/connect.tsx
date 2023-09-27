@@ -1,13 +1,15 @@
-import { Center, Container, Flex } from "@chakra-ui/react";
+import { Box, Center, Container, Flex, Spacer } from "@chakra-ui/react";
 import { LandingCardWithImage } from "components/landing-pages/card-with-image";
 import { LandingEndCTA } from "components/landing-pages/end-cta";
 import { LandingGridSection } from "components/landing-pages/grid-section";
 import { LandingHeroWithSideImage } from "components/landing-pages/hero-with-side-image";
 import { LandingIconSectionItem } from "components/landing-pages/icon-section-item";
 import { LandingLayout } from "components/landing-pages/layout";
+import { MiniPlayground } from "components/wallets/ConnectWalletMiniPlayground/MiniPlayground";
+import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 import { getAbsoluteUrl } from "lib/vercel-utils";
 import { PageId } from "page-id";
-import { Card, Heading, TrackedLink } from "tw-components";
+import { Card, Heading, TrackedLink, Text } from "tw-components";
 import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
@@ -50,6 +52,48 @@ const ConnectLanding: ThirdwebNextPage = () => {
           image={require("public/assets/product-pages/hero/desktop-hero-connect-wallet.png")}
           mobileImage={require("public/assets/product-pages/hero/mobile-hero-connect-wallet.png")}
         />
+
+        <Box>
+          <Spacer h={20} />
+          {/* Title and Description */}
+          <Heading fontSize={40} color="white" textAlign="center">
+            A fully customizable Connect Wallet component
+          </Heading>
+          <Spacer h={6} />
+          <Text fontSize={20} textAlign="center" maxW="800px" m="0 auto">
+            Create a login experience that{`'s`} tailor-made for your app. Add
+            your wallets of choice, enable web2 sign-in options, and create a
+            modal that fits your brand.
+          </Text>
+
+          <Spacer h={8} />
+
+          {/* Supported platforms */}
+          <Flex alignItems="center" gap={2} justifyContent={"center"}>
+            <Text mr={2} display={["none", "block"]} fontSize={12}>
+              Supports
+            </Text>
+            <SupportedPlatformLink
+              size="sm"
+              platform="React"
+              href="https://portal.thirdweb.com/react/react.connectwallet"
+            />
+            <SupportedPlatformLink
+              size="sm"
+              platform="React Native"
+              href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
+            />
+            <SupportedPlatformLink
+              size="sm"
+              platform="Unity"
+              href="https://portal.thirdweb.com/unity/connectwallet"
+            />
+          </Flex>
+
+          <Spacer h={12} />
+
+          <MiniPlayground />
+        </Box>
 
         <Flex flexDir="column" gap={6}>
           <LandingGridSection

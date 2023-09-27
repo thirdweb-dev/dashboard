@@ -1,4 +1,4 @@
-import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, useBreakpointValue } from "@chakra-ui/react";
 import {
   ConnectModalInline,
   useDisconnect,
@@ -6,20 +6,39 @@ import {
   Theme,
 } from "@thirdweb-dev/react";
 import React, { useEffect } from "react";
-import { Text } from "tw-components";
 import styles from "./ConnectModalInline.module.css";
 import {
+  WalletId,
   hideUIForWalletIds,
   hideUIForWalletIdsMobile,
 } from "./walletInfoRecord";
 
+export function useCanShowInlineModal(walletIds: WalletId[]) {
+  const isMobile = useBreakpointValue({ base: true, md: false }, { ssr: true });
+
+  let showInlineModal = true;
+
+  if (walletIds.length === 1) {
+    const walletId = walletIds[0];
+
+    if (hideUIForWalletIds.has(walletId)) {
+      showInlineModal = false;
+    }
+    if (isMobile && hideUIForWalletIdsMobile.has(walletId)) {
+      showInlineModal = false;
+    }
+  }
+
+  return showInlineModal;
+}
+
 export const ConnectModalInlinePreview = (props: {
-  walletIds: string[];
-  modalTitle: string;
+  walletIds: WalletId[];
+  modalTitle?: string;
   modalSize: "compact" | "wide";
   theme: Theme;
   modalTitleIconUrl?: string;
-  welcomeScreen?: WelcomeScreen;
+  welcomeScreen?: WelcomeScreen | (() => React.ReactNode);
   termsOfServiceUrl?: string;
   privacyPolicyUrl?: string;
 }) => {
@@ -38,19 +57,6 @@ export const ConnectModalInlinePreview = (props: {
     }
   }, [walletIdsJoin, disconnect, connectionStatus]);
 
-  let showInlineModal = true;
-
-  if (props.walletIds.length === 1) {
-    const walletId = props.walletIds[0];
-
-    if (hideUIForWalletIds.has(walletId)) {
-      showInlineModal = false;
-    }
-    if (isMobile && hideUIForWalletIdsMobile.has(walletId)) {
-      showInlineModal = false;
-    }
-  }
-
   return (
     <Flex
       width="full"
@@ -60,37 +66,16 @@ export const ConnectModalInlinePreview = (props: {
       gap={12}
       cursor="not-allowed"
     >
-      {showInlineModal && (
-        <ConnectModalInline
-          modalSize={isMobile ? "compact" : props.modalSize}
-          className={styles.ConnectModalInline}
-          modalTitle={props.modalTitle}
-          theme={props.theme}
-          modalTitleIconUrl={props.modalTitleIconUrl}
-          welcomeScreen={props.welcomeScreen}
-          termsOfServiceUrl={props.termsOfServiceUrl}
-          privacyPolicyUrl={props.privacyPolicyUrl}
-        />
-      )}
-
-      {!showInlineModal && (
-        <Box
-          textAlign="center"
-          bg="backgroundBody"
-          p={3}
-          border="1px solid"
-          borderColor="backgroundHighlight"
-          borderRadius="md"
-          maxW="400px"
-        >
-          <Text mb={2}>
-            {" "}
-            Can not show Modal UI for selected configuration because it triggers
-            wallet connection{" "}
-          </Text>
-          <Text> See Live Preview instead </Text>
-        </Box>
-      )}
+      <ConnectModalInline
+        modalSize={isMobile ? "compact" : props.modalSize}
+        className={styles.ConnectModalInline}
+        modalTitle={props.modalTitle}
+        theme={props.theme}
+        modalTitleIconUrl={props.modalTitleIconUrl}
+        welcomeScreen={props.welcomeScreen}
+        termsOfServiceUrl={props.termsOfServiceUrl}
+        privacyPolicyUrl={props.privacyPolicyUrl}
+      />
     </Flex>
   );
 };

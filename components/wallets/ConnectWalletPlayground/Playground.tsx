@@ -9,21 +9,11 @@ import {
   useColorMode,
   Spacer,
   Switch,
-  IconButton,
   Icon,
-  Tooltip,
 } from "@chakra-ui/react";
-import {
-  ConnectWallet,
-  ThemeOverrides,
-  ThirdwebProvider,
-  darkTheme,
-  lightTheme,
-  smartWallet,
-} from "@thirdweb-dev/react";
-import React, { useDeferredValue, useEffect, useState } from "react";
+import { ConnectWallet } from "@thirdweb-dev/react";
+import React, { useEffect, useState } from "react";
 import { Button, Heading, Text, FormLabel, CodeBlock } from "tw-components";
-import { THIRDWEB_DOMAIN, THIRDWEB_API_HOST } from "constants/urls";
 import { format } from "prettier/standalone";
 import parserBabel from "prettier/plugins/babel";
 import estree from "prettier/plugins/estree";
@@ -34,17 +24,18 @@ import { WalletButton } from "./WalletButton";
 import {
   ConnectModalInlinePreview,
   WelcomeScreen,
+  useCanShowInlineModal,
 } from "./ConnectModalInlinePreview";
 import { FormItem } from "./FormItem";
 import { SwitchFormItem } from "./SwitchFormItem";
-import { FaRectangleList } from "react-icons/fa6";
-import { RiFileListFill } from "react-icons/ri";
 import { AiOutlineStar, AiOutlineWarning } from "react-icons/ai";
-import { DASHBOARD_THIRDWEB_CLIENT_ID, isProd } from "constants/rpc";
-import { defaultChains } from "@thirdweb-dev/chains";
-import { StorageSingleton } from "lib/sdk";
 import { ColorInput } from "./ColorInput";
 import { BsStars } from "react-icons/bs";
+import { ThemeButton } from "./ThemeButton";
+import { ModalSizeButton } from "./ModalSizeButton";
+import { PreviewThirdwebProvider } from "./PreviewThirdwebProvider";
+import { usePlaygroundWallets } from "./usePlaygroundWallets";
+import { usePlaygroundTheme } from "./usePlaygroundTheme";
 
 type OptionalUrl = { url: string; enabled: boolean };
 export const ConnectWalletPlayground: React.FC = () => {
@@ -65,43 +56,23 @@ export const ConnectWalletPlayground: React.FC = () => {
     useState<OptionalUrl>(defaultOptionalUrl);
   const [welcomeScreen, setWelcomeScreen] = useState<WelcomeScreen>({});
 
-  const [smartWalletOptions, setSmartWalletOptions] = useState({
-    factoryAddress: "0x549BceA1590B6239b967fB46E5487b8177B7cf4D",
-    enabled: false,
-    gasless: true,
-  });
   const { colorMode, toggleColorMode } = useColorMode();
   const selectedTheme = colorMode === "light" ? "light" : "dark";
   const [authEnabled, setAuthEnabled] = useState(false);
   const [switchToActiveChain, setSwitchToActiveChain] = useState(false);
   const [code, setCode] = useState("");
-  const [colorOverridesOrignal, setColorOverrides] = useState<
-    NonNullable<ThemeOverrides["colors"]>
-  >({});
 
-  const colorOverrides = useDeferredValue(colorOverridesOrignal);
+  const { colorOverrides, themeObj, setColorOverrides } =
+    usePlaygroundTheme(selectedTheme);
 
-  const [walletSelection, setWalletSelection] = useState<
-    Record<WalletId, boolean | "recommended">
-  >({
-    MetaMask: "recommended",
-    Coinbase: true,
-    WalletConnect: true,
-    Safe: false,
-    "Guest Mode": false,
-    "Email Wallet": false,
-    Trust: true,
-    Zerion: true,
-    Blocto: false,
-    "Magic Link": false,
-    Frame: false,
-    Rainbow: true,
-    Phantom: true,
-  });
-
-  const enabledWallets = Object.entries(walletSelection)
-    .filter((x) => x[1])
-    .map((x) => x[0] as WalletId);
+  const {
+    walletSelection,
+    setWalletSelection,
+    enabledWallets,
+    smartWalletOptions,
+    setSmartWalletOptions,
+    supportedWallets,
+  } = usePlaygroundWallets();
 
   useEffect(() => {
     const _code = getCode({
@@ -171,66 +142,6 @@ export const ConnectWalletPlayground: React.FC = () => {
     welcomeScreen,
     colorOverrides,
   ]);
-
-  const supportedWallets = enabledWallets.map((walletId) => {
-    // set recommended
-    walletInfoRecord[walletId].component.recommended =
-      walletSelection[walletId] === "recommended";
-
-    // wrap with smart wallet
-    const walletConfig = walletInfoRecord[walletId].component;
-
-    return smartWalletOptions.enabled
-      ? smartWallet(walletConfig, {
-          factoryAddress: smartWalletOptions.factoryAddress,
-          gasless: smartWalletOptions.gasless,
-          bundlerUrl: "https://mumbai.bundler-staging.thirdweb.com",
-          paymasterUrl: "https://mumbai.bundler-staging.thirdweb.com",
-        })
-      : walletConfig;
-  });
-
-  const themeObj =
-    selectedTheme === "light"
-      ? lightTheme({
-          colors: colorOverrides,
-        })
-      : darkTheme({
-          colors: colorOverrides,
-        });
-
-  const withThirdwebProvider = (content: React.ReactNode) => (
-    <ThirdwebProvider
-      activeChain="mumbai"
-      supportedWallets={
-        supportedWallets.length > 0 ? supportedWallets : undefined
-      }
-      supportedChains={
-        isProd
-          ? defaultChains
-          : defaultChains.map((chain) => {
-              return {
-                ...chain,
-                rpc: chain.rpc.map((rpc) =>
-                  rpc.replace("rpc.thirdweb.com", "rpc-staging.thirdweb.com"),
-                ),
-              };
-            })
-      }
-      clientId={DASHBOARD_THIRDWEB_CLIENT_ID}
-      storageInterface={StorageSingleton}
-      authConfig={
-        authEnabled
-          ? {
-              domain: THIRDWEB_DOMAIN,
-              authUrl: `${THIRDWEB_API_HOST}/v1/auth`,
-            }
-          : undefined
-      }
-    >
-      {content}
-    </ThirdwebProvider>
-  );
 
   const welcomeScreenContent = (
     <Flex direction="column" gap={5}>
@@ -471,6 +382,9 @@ export const ConnectWalletPlayground: React.FC = () => {
     </>
   );
 
+  const walletIds = supportedWallets.map((x) => x.id) as WalletId[];
+  const showInlineModal = useCanShowInlineModal(walletIds);
+
   const previewSection = (
     <Box>
       <Text color="faded">Live Preview</Text>
@@ -485,7 +399,10 @@ export const ConnectWalletPlayground: React.FC = () => {
         alignItems="center"
       >
         <Box>
-          {withThirdwebProvider(
+          <PreviewThirdwebProvider
+            authEnabled={authEnabled}
+            supportedWallets={supportedWallets}
+          >
             <ConnectWallet
               modalSize={modalSize}
               modalTitle={modalTitle}
@@ -501,8 +418,8 @@ export const ConnectWalletPlayground: React.FC = () => {
               privacyPolicyUrl={
                 privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
               }
-            />,
-          )}
+            />
+          </PreviewThirdwebProvider>
         </Box>
       </Box>
 
@@ -512,7 +429,10 @@ export const ConnectWalletPlayground: React.FC = () => {
       <Box>
         <Text color="faded">Modal UI</Text>
         <Box height={2} />
-        {withThirdwebProvider(
+        <PreviewThirdwebProvider
+          authEnabled={authEnabled}
+          supportedWallets={supportedWallets}
+        >
           <ClientOnly
             ssr={null}
             style={{
@@ -521,22 +441,45 @@ export const ConnectWalletPlayground: React.FC = () => {
               justifyContent: "center",
             }}
           >
-            <ConnectModalInlinePreview
-              modalSize={modalSize}
-              walletIds={supportedWallets.map((x) => x.id)}
-              modalTitle={modalTitle}
-              theme={themeObj}
-              welcomeScreen={welcomeScreen}
-              modalTitleIconUrl={
-                modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
-              }
-              termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
-              privacyPolicyUrl={
-                privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
-              }
-            />
-          </ClientOnly>,
-        )}
+            {showInlineModal && (
+              <ConnectModalInlinePreview
+                modalSize={modalSize}
+                walletIds={supportedWallets.map((x) => x.id) as WalletId[]}
+                modalTitle={modalTitle}
+                theme={themeObj}
+                welcomeScreen={welcomeScreen}
+                modalTitleIconUrl={
+                  modalTitleIconUrl.enabled ? modalTitleIconUrl.url : undefined
+                }
+                termsOfServiceUrl={tosUrl.enabled ? tosUrl.url : undefined}
+                privacyPolicyUrl={
+                  privacyPolicyUrl.enabled ? privacyPolicyUrl.url : undefined
+                }
+              />
+            )}
+
+            {!showInlineModal && (
+              <Flex justifyContent="center" p={4}>
+                <Box
+                  textAlign="center"
+                  bg="backgroundBody"
+                  p={3}
+                  border="1px solid"
+                  borderColor="borderColor"
+                  borderRadius="md"
+                  maxW="400px"
+                >
+                  <Text mb={2}>
+                    {" "}
+                    Can not show Modal UI for selected configuration because it
+                    triggers wallet connection{" "}
+                  </Text>
+                  <Text> See Live Preview instead </Text>
+                </Box>
+              </Flex>
+            )}
+          </ClientOnly>
+        </PreviewThirdwebProvider>
       </Box>
     </Box>
   );
@@ -1052,60 +995,5 @@ function CustomTab(props: {
     >
       {props.label}
     </Button>
-  );
-}
-
-function ModalSizeButton(props: {
-  modalSize: "compact" | "wide";
-  isSelected: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <Tooltip label={props.modalSize}>
-      <IconButton
-        w={10}
-        h={10}
-        color={props.isSelected ? "bgWhite" : "heading"}
-        bg={props.isSelected ? "blue.500" : "borderColor"}
-        _hover={{
-          bg: props.isSelected ? "blue.500" : "borderColor",
-        }}
-        borderRadius="50%"
-        aria-label="compact"
-        icon={
-          <Icon
-            as={props.modalSize === "wide" ? FaRectangleList : RiFileListFill}
-            width={5}
-            height={5}
-          />
-        }
-        onClick={props.onClick}
-      />
-    </Tooltip>
-  );
-}
-export function ThemeButton(props: {
-  theme: "light" | "dark";
-  isSelected: boolean;
-  onClick: () => void;
-}) {
-  const bg = props.theme === "dark" ? "black" : "white";
-  const borderColor = props.theme === "dark" ? "gray.800" : "gray.200";
-  return (
-    <Tooltip label={props.theme}>
-      <Button
-        w={10}
-        h={10}
-        borderRadius="50%"
-        aria-label={props.theme}
-        border="3px solid"
-        bg={bg}
-        _hover={{
-          bg,
-        }}
-        borderColor={props.isSelected ? "blue.500" : borderColor}
-        onClick={props.onClick}
-      ></Button>
-    </Tooltip>
   );
 }

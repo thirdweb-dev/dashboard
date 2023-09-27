@@ -13,10 +13,8 @@ import { PiWrench } from "react-icons/pi";
 import { BsTextParagraph } from "react-icons/bs";
 import { HiOutlineTerminal } from "react-icons/hi";
 
-import { SiReact } from "@react-icons/all-files/si/SiReact";
-import { SiUnity } from "@react-icons/all-files/si/SiUnity";
-import { SiTypescript } from "@react-icons/all-files/si/SiTypescript";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { SupportedPlatformLink } from "components/wallets/SupportedPlatformLink";
 
 const DashboardWalletsConnect: ThirdwebNextPage = () => {
   return (
@@ -43,22 +41,19 @@ const DashboardWalletsConnect: ThirdwebNextPage = () => {
             <Text mr={2} display={["none", "block"]} fontSize={12}>
               Supports
             </Text>
-            <LanguageBadge
+            <SupportedPlatformLink
               size="sm"
-              title="React"
-              icon={SiReact}
+              platform="React"
               href="https://portal.thirdweb.com/react/react.connectwallet"
             />
-            <LanguageBadge
+            <SupportedPlatformLink
               size="sm"
-              title="React Native"
-              icon={SiReact}
+              platform="React Native"
               href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
             />
-            <LanguageBadge
+            <SupportedPlatformLink
               size="sm"
-              title="Unity"
-              icon={SiUnity}
+              platform="Unity"
               href="https://portal.thirdweb.com/unity/connectwallet"
             />
           </Flex>
@@ -121,33 +116,29 @@ function ViewDocs() {
       <Spacer height={6} />
 
       <Grid templateColumns={"1fr 1fr"} gap={3} maxW="400px">
-        <LanguageBadge
+        <SupportedPlatformLink
           size="md"
           noBorder
-          title="React"
-          icon={SiReact}
+          platform="React"
           href="https://portal.thirdweb.com/react/react.connectwallet"
         />
 
-        <LanguageBadge
+        <SupportedPlatformLink
           noBorder
           size="md"
-          title="Unity"
-          icon={SiUnity}
+          platform="Unity"
           href="https://portal.thirdweb.com/unity/connectwallet"
         />
-        <LanguageBadge
+        <SupportedPlatformLink
           noBorder
           size="md"
-          title="React Native"
-          icon={SiReact}
+          platform="React Native"
           href="https://portal.thirdweb.com/react-native/react-native.connectwallet"
         />
-        <LanguageBadge
+        <SupportedPlatformLink
           noBorder
           size="md"
-          title="TypeScript"
-          icon={SiTypescript}
+          platform="TypeScript"
           href="https://portal.thirdweb.com/wallet/usage-with-typescript-sdk"
         />
       </Grid>
@@ -231,63 +222,6 @@ function Feature({ title, icon }: { title: string; icon: IconType }) {
     </Flex>
   );
 }
-
-function LanguageBadge(props: {
-  icon: IconType;
-  title: string;
-  href: string;
-  noBorder?: boolean;
-  size: "sm" | "md";
-}) {
-  return (
-    <Link
-      href={props.href}
-      isExternal
-      _hover={{
-        textDecor: "none",
-        color: "blue.500",
-      }}
-      role="group"
-    >
-      <Flex
-        gap={props.size === "sm" ? 2 : 3}
-        alignItems="center"
-        border={props.noBorder ? undefined : "1px solid"}
-        borderColor="borderColor"
-        px={props.noBorder ? 0 : 2}
-        py={1}
-        borderRadius="md"
-        _groupHover={{
-          borderColor: "blue.500",
-        }}
-        transition="border-color 200ms ease"
-      >
-        <Icon
-          as={props.icon}
-          w={props.size === "sm" ? 4 : 5}
-          h={props.size === "sm" ? 4 : 5}
-          color="faded"
-          _groupHover={{
-            color: "blue.500",
-          }}
-          transition="color 200ms ease"
-        />
-        <Text
-          fontWeight={500}
-          color="heading"
-          _groupHover={{
-            color: "blue.500",
-          }}
-          fontSize={props.size === "sm" ? 12 : 14}
-          transition="color 200ms ease"
-        >
-          {props.title}
-        </Text>
-      </Flex>
-    </Link>
-  );
-}
-
 DashboardWalletsConnect.getLayout = (page, props) => (
   <AppLayout {...props} hasSidebar={true} noOverflowX={true}>
     <WalletsSidebar activePage="connect" />
