@@ -1,5 +1,5 @@
 import { Flex, Icon } from "@chakra-ui/react";
-import { Link, Text, TrackedLink } from "tw-components";
+import { Text, TrackedLink } from "tw-components";
 
 import { IconType } from "react-icons/lib";
 
@@ -17,7 +17,7 @@ export function SupportedPlatformLink(props: {
   let icon: IconType = SiReact;
   if (props.platform === "Unity") {
     icon = SiUnity;
-  } else {
+  } else if (props.platform === "TypeScript") {
     icon = SiTypescript;
   }
 

@@ -172,7 +172,7 @@ function RelevantGuides() {
           href="https://blog.thirdweb.com/web3-wallet/"
           label="what-is-web3-wallet"
         >
-          what is a web3 wallet?
+          What is a web3 wallet?
         </GuideLink>
 
         <GuideLink
@@ -250,7 +250,7 @@ function ShareYourFeedback() {
         </Flex>
         <Spacer height={3} />
         <Text color="paragraph">
-          Report bugs, echo your thoughts and suggest improvements.
+          Report bugs, echo your thoughts, and suggest improvements.
         </Text>
       </Card>
     </TrackedLink>
