@@ -3,7 +3,6 @@ import {
   ListItem,
   SimpleGrid,
   UnorderedList,
-  HStack,
   Switch,
   Divider,
   VStack,
@@ -135,12 +134,21 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
 
           <Divider />
 
-          <HStack justifyContent="space-between">
+          <Flex
+            justifyContent="space-between"
+            flexDir={{ base: "column", lg: "row" }}
+            gap={4}
+          >
             <Menu>
               {({ isOpen }) => (
                 <>
-                  <Flex w="full" alignItems="center" gap={4}>
-                    <Text>Select an API Key:</Text>
+                  <Flex
+                    w="full"
+                    alignItems={{ base: "flex-start", lg: "center" }}
+                    gap={1}
+                    flexDir={{ base: "column", lg: "row" }}
+                  >
+                    <Text minW={32}>Select an API Key:</Text>
                     <MenuButton
                       isActive={isOpen}
                       as={Button}
@@ -177,7 +185,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
               gap={2}
               alignItems="center"
               w="full"
-              justifyContent="flex-end"
+              justifyContent={{ base: "flex-start", lg: "flex-end" }}
             >
               <Text>Active last {ACTIVE_THRESHOLD_DAYS} days</Text>
               <Switch
@@ -186,7 +194,7 @@ const DashboardWalletsEmbedded: ThirdwebNextPage = () => {
                 disabled={!hasWallets}
               />
             </Flex>
-          </HStack>
+          </Flex>
 
           {!hasWallets ? (
             <Card p={6}>
