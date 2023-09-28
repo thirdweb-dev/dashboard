@@ -1,6 +1,6 @@
+/* eslint-disable react/forbid-dom-props */
 import { popularChains } from "../popularChains";
 import {
-  Flex,
   Icon,
   Image,
   Menu,
@@ -8,6 +8,9 @@ import {
   MenuList,
   useClipboard,
   useColorMode,
+  Flex,
+  Spacer,
+  Box,
 } from "@chakra-ui/react";
 import { AiOutlineDisconnect } from "@react-icons/all-files/ai/AiOutlineDisconnect";
 import {
@@ -15,10 +18,7 @@ import {
   useWallet as useSolWallet,
 } from "@solana/wallet-adapter-react";
 import Solana from "@thirdweb-dev/chain-icons/dist/solana";
-import {
-  ConnectWallet as ConnectWalletNew,
-  useConnectionStatus,
-} from "@thirdweb-dev/react";
+import { ConnectWallet, useConnectionStatus } from "@thirdweb-dev/react";
 import { ChakraNextImage } from "components/Image";
 import { CustomChainRenderer } from "components/selects/CustomChainRenderer";
 import {
@@ -26,9 +26,9 @@ import {
   useRecentlyUsedChains,
 } from "hooks/chains/recentlyUsedChains";
 import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
-import { useEffect } from "react";
+import { ComponentProps, useEffect } from "react";
 import { FiCheck, FiChevronDown, FiCopy } from "react-icons/fi";
-import { Button, ButtonProps, MenuItem, Text } from "tw-components";
+import { Button, ButtonProps, MenuItem, Text, Heading } from "tw-components";
 import { shortenString } from "utils/usedapp-external";
 
 export interface ConnectWalletProps extends ButtonProps {
@@ -36,10 +36,12 @@ export interface ConnectWalletProps extends ButtonProps {
   shrinkMobile?: boolean;
   upsellTestnet?: boolean;
   onChainSelect?: (chainId: number) => void;
+  auth?: ComponentProps<typeof ConnectWallet>["auth"];
 }
 
-export const ConnectWallet: React.FC<ConnectWalletProps> = ({
+export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({
   ecosystem = "either",
+  auth,
   ...buttonProps
 }) => {
   const { colorMode } = useColorMode();
@@ -108,8 +110,10 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
 
   if (ecosystem === "evm" || ecosystem === "either") {
     return (
-      <ConnectWalletNew
+      <ConnectWallet
+        auth={auth}
         theme={colorMode}
+        welcomeScreen={ConnectWalletWelcomeScreen}
         networkSelector={{
           popularChains,
           recentChains,
@@ -209,3 +213,41 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </>
   );
 };
+
+function ConnectWalletWelcomeScreen() {
+  return (
+    <Flex
+      h="full"
+      backgroundImage={`url("/assets/connect-wallet/welcome-gradient.png")`}
+      backgroundSize="cover"
+      backgroundPosition="center"
+      backgroundRepeat="no-repeat"
+      p={6}
+      flexDirection="column"
+      justifyContent="center"
+    >
+      <Box>
+        <Flex justifyContent={"center"}>
+          <ChakraNextImage
+            userSelect="none"
+            draggable={false}
+            width={200}
+            height={150}
+            alt=""
+            src={require("public/assets/connect-wallet/tw-welcome-icon.svg")}
+            mixBlendMode={"soft-light"}
+          />
+        </Flex>
+
+        <Spacer h={10} />
+        <Heading size="title.sm" color="white" textAlign="center">
+          Welcome to thirdweb
+        </Heading>
+        <Spacer h={4} />
+        <Text color="white" fontSize={16} opacity={0.7} textAlign="center">
+          Connect your wallet to get started
+        </Text>
+      </Box>
+    </Flex>
+  );
+}
