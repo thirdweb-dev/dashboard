@@ -28,7 +28,14 @@ import {
 import { useSetIsNetworkConfigModalOpen } from "hooks/networkConfigModal";
 import { ComponentProps, useEffect } from "react";
 import { FiCheck, FiChevronDown, FiCopy } from "react-icons/fi";
-import { Button, ButtonProps, MenuItem, Text, Heading } from "tw-components";
+import {
+  Button,
+  ButtonProps,
+  MenuItem,
+  Text,
+  Heading,
+  TrackedLink,
+} from "tw-components";
 import { shortenString } from "utils/usedapp-external";
 
 export interface ConnectWalletProps extends ButtonProps {
@@ -113,7 +120,9 @@ export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({
       <ConnectWallet
         auth={auth}
         theme={colorMode}
-        welcomeScreen={ConnectWalletWelcomeScreen}
+        welcomeScreen={() => {
+          return <ConnectWalletWelcomeScreen theme={colorMode} />;
+        }}
         networkSelector={{
           popularChains,
           recentChains,
@@ -214,40 +223,66 @@ export const CustomConnectWallet: React.FC<ConnectWalletProps> = ({
   );
 };
 
-function ConnectWalletWelcomeScreen() {
+function ConnectWalletWelcomeScreen(props: { theme: "light" | "dark" }) {
+  const fontColor = props.theme === "light" ? "black" : "white";
   return (
     <Flex
       h="full"
-      backgroundImage={`url("/assets/connect-wallet/welcome-gradient.png")`}
+      backgroundImage={`url("/assets/connect-wallet/welcome-gradient-${props.theme}.png")`}
       backgroundSize="cover"
       backgroundPosition="center"
       backgroundRepeat="no-repeat"
-      p={6}
       flexDirection="column"
-      justifyContent="center"
+      p={6}
     >
-      <Box>
-        <Flex justifyContent={"center"}>
-          <ChakraNextImage
-            userSelect="none"
-            draggable={false}
-            width={200}
-            height={150}
-            alt=""
-            src={require("public/assets/connect-wallet/tw-welcome-icon.svg")}
-            mixBlendMode={"soft-light"}
-          />
-        </Flex>
+      <Flex flexGrow={1} flexDirection="column" justifyContent="center">
+        <Box>
+          <Flex justifyContent={"center"}>
+            <ChakraNextImage
+              userSelect="none"
+              draggable={false}
+              width={200}
+              height={150}
+              alt=""
+              src={require("public/assets/connect-wallet/tw-welcome-icon.svg")}
+              mixBlendMode={props.theme === "dark" ? "soft-light" : "initial"}
+            />
+          </Flex>
 
-        <Spacer h={10} />
-        <Heading size="title.sm" color="white" textAlign="center">
-          Welcome to thirdweb
-        </Heading>
-        <Spacer h={4} />
-        <Text color="white" fontSize={16} opacity={0.7} textAlign="center">
-          Connect your wallet to get started
-        </Text>
-      </Box>
+          <Spacer h={10} />
+          <Heading size="title.sm" color={fontColor} textAlign="center">
+            Welcome to thirdweb
+          </Heading>
+          <Spacer h={4} />
+          <Text
+            color={fontColor}
+            fontSize={16}
+            opacity={0.8}
+            fontWeight={500}
+            textAlign="center"
+          >
+            Connect your wallet to get started
+          </Text>
+        </Box>
+      </Flex>
+
+      <TrackedLink
+        textAlign="center"
+        category="custom-connect-wallet"
+        label="new-to-wallets"
+        href="https://blog.thirdweb.com/web3-wallet/"
+        isExternal
+        fontWeight={500}
+        fontSize={16}
+        color={fontColor}
+        opacity={0.7}
+        _hover={{
+          opacity: 1,
+          textDecoration: "none",
+        }}
+      >
+        New to Wallets?
+      </TrackedLink>
     </Flex>
   );
 }
