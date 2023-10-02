@@ -35,11 +35,7 @@ import {
 } from "./ConnectModalInlinePreview";
 import { FormItem } from "./FormItem";
 import { SwitchFormItem } from "./SwitchFormItem";
-import {
-  AiOutlineAppstoreAdd,
-  AiOutlineStar,
-  AiOutlineWarning,
-} from "react-icons/ai";
+import { AiOutlineStar, AiOutlineWarning } from "react-icons/ai";
 import { ColorInput } from "./ColorInput";
 import { BsStars } from "react-icons/bs";
 import { ThemeButton } from "./ThemeButton";
