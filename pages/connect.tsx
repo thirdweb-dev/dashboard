@@ -14,6 +14,26 @@ import { ThirdwebNextPage } from "utils/types";
 
 const TRACKING_CATEGORY = "connect-wallet-landing";
 
+const GUIDES = [
+  {
+    title: "The Quick-Start Guide to thirdweb Connect",
+    image: require("/public/assets/product-pages/connect/get-started.png"),
+    link: "https://portal.thirdweb.com/react/react.connectwallet",
+  },
+  {
+    title: "Add a Connect Wallet Button to Your App or Website",
+    image:
+      "https://blog.thirdweb.com/content/images/size/w2000/2023/10/How-to-Add-a-Connect-Wallet-Button-to-your-App-or-Website.png",
+    link: "https://blog.thirdweb.com/guides/add-connectwallet-to-your-website/",
+  },
+  {
+    title: "Create Your Own Custom Connect Wallet Button",
+    image:
+      "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
+    link: "https://blog.thirdweb.com/guides/create-a-custom-connect-wallet-button/",
+  },
+];
+
 const ConnectLanding: ThirdwebNextPage = () => {
   return (
     <LandingLayout
@@ -236,6 +256,13 @@ const ConnectLanding: ThirdwebNextPage = () => {
             description="Integrate with just a few lines of code — with an interactive builder, powerful hooks for full customization, and onchain analytics."
           />
         </LandingGridSection>
+        <LandingGuidesShowcase
+          title="Get started with thirdweb Connect"
+          category={TRACKING_CATEGORY}
+          description="See our quick-start guides to add powerful login experiences into your web3 app.
+          solution="Connect"
+          guides={GUIDES}
+        />
         <LandingEndCTA
           title="Integrate in"
           titleWithGradient="a few lines of code."
