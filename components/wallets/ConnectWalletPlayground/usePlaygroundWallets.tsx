@@ -6,7 +6,7 @@ type WalletSelection = Record<WalletId, boolean | "recommended">;
 
 export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
   const [smartWalletOptions, setSmartWalletOptions] = useState({
-    factoryAddress: "0x549BceA1590B6239b967fB46E5487b8177B7cf4D",
+    factoryAddress: "0x2e9f5A20c8A7270085F4ed716d58e72dFF8D098f",
     enabled: false,
     gasless: true,
   });
@@ -31,9 +31,9 @@ export function usePlaygroundWallets(defaultWalletSelection: WalletSelection) {
         ? smartWallet(walletConfig, {
             factoryAddress: smartWalletOptions.factoryAddress,
             gasless: smartWalletOptions.gasless,
-            bundlerUrl: "https://mumbai.bundler-staging.thirdweb.com",
+            bundlerUrl: "https://goerli.bundler-staging.thirdweb.com",
             // eslint-disable-next-line inclusive-language/use-inclusive-words
-            paymasterUrl: "https://mumbai.bundler-staging.thirdweb.com",
+            paymasterUrl: "https://goerli.bundler-staging.thirdweb.com",
           })
         : walletConfig;
     },
