@@ -13,7 +13,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
-import { type Chain, getChainFromApi } from "@thirdweb-dev/chains";
+import { type Chain } from "@thirdweb-dev/chains";
 import { useAddress } from "@thirdweb-dev/react";
 import color from "color";
 import { ClientOnly } from "components/ClientOnly/ClientOnly";
@@ -598,28 +598,19 @@ export const getStaticProps: GetStaticProps<EVMContractProps> = async (ctx) => {
       notFound: true,
     };
   }
-  // determine if the chainSlug is a chainId
-  if (!isNaN(parseInt(chainSlug))) {
-    const chain = await getChainFromApi(parseInt(chainSlug), {
-      host: THIRDWEB_API_HOST,
-    });
-    if (!chain.data) {
-      return {
-        notFound: true,
-      };
-    }
+
+  const res = await fetch(`${THIRDWEB_API_HOST}/v1/chains/${chainSlug}`);
+  const chain = (await res.json()).data as Chain;
+
+  // determine if the chainSlug is a chainId and not a slug
+  if (chain.slug !== chainSlug) {
     return {
       redirect: {
-        destination: `/${chain.data.slug}`,
+        destination: `/${chain.slug}`,
         permanent: false,
       },
     };
   }
-
-  const chainResponse = await getChainFromApi(chainSlug, {
-    host: THIRDWEB_API_HOST,
-  });
-  const chain = chainResponse.data;
 
   if (!chain) {
     return {
