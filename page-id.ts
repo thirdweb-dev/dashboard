@@ -153,6 +153,15 @@ export enum PageId {
   ExploreCategory = "explore-category",
 
   // ---------------------------------------------------------------------------
+  //  engine pages
+  // ---------------------------------------------------------------------------
+  // thirdweb.com/dashboard/engine
+  Engine = "engine",
+
+  // thirdweb.com/dashboard/engine/config
+  EngineConfig = "engine-config",
+
+  // ---------------------------------------------------------------------------
   //  settings pages
   // ---------------------------------------------------------------------------
   // thirdweb.com/dashboard/settings

@@ -102,6 +102,11 @@ function redirects() {
       destination: "/explore",
       permanent: false,
     },
+    {
+      source: "/dashboard/engine",
+      destination: "/dashboard/engine/config",
+      permanent: false,
+    },
     // temp until we have settings overview
     {
       source: "/settings",
